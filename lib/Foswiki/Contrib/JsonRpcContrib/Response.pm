@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2014 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use JSON ();
-use constant DEBUG => 0;    # toggle me
+use constant TRACE => 0;    # toggle me
 
 ################################################################################
 sub new {

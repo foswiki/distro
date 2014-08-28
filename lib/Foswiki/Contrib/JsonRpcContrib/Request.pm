@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2014 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw( :try );
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
-use constant DEBUG => 0;    # toggle me
+use constant TRACE => 0;    # toggle me
 
 ###############################################################################
 sub new {
@@ -149,6 +149,8 @@ sub id {
 sub param {
     my ( $this, $key, $value ) = @_;
 
+    return unless $key;
+
     $this->{data}{params}{$key} = $value if defined $value;
     return $this->{data}{params}{$key};
 }
@@ -188,7 +190,7 @@ sub parser {
 ################################################################################
 # static
 sub writeDebug {
-    print STDERR '- JsonRpcContrib::Request - ' . $_[0] . "\n" if DEBUG;
+    print STDERR '- JsonRpcContrib::Request - ' . $_[0] . "\n" if TRACE;
 }
 
 ###############################################################################

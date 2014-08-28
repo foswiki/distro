@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2014 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,8 +25,7 @@ use Foswiki::Contrib::JsonRpcContrib::Error    ();
 use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
-# SMELL: constant DEBUG blocks use of ASSERT
-use constant DEBUG => 0;    # toggle me
+use constant TRACE => 0;    # toggle me
 
 # Error codes for json-rpc response
 # -32700: Parse error - Invalid JSON was received by the server.
@@ -43,7 +42,7 @@ use constant DEBUG => 0;    # toggle me
 ################################################################################
 # static
 sub writeDebug {
-    print STDERR '- JsonRpcContrib::Server - ' . $_[0] . "\n" if DEBUG;
+    print STDERR '- JsonRpcContrib::Server - ' . $_[0] . "\n" if TRACE;
 }
 
 ################################################################################

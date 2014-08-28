@@ -219,11 +219,12 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 -->
 
 |  Author(s): | Michael Daum |
-|  Copyright: | &copy; 2011-2013 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | &copy; 2011-2014 Michael Daum http://michaeldaumconsulting.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Aug 2014: | don't use DEBUG constant to toggle local debug messages as it conflicts with Assert.pm |
 |  11 Dec 2013: | removed dependency on JSON::XS |
 |  30 May 2013: | added support for serialising objects, and rewrote some of the documentation (Foswiki:Main/CrawfordCurrie) |
 |  20 Mar 2013: | added feature to define handlers in !LocalSite.cfg (Config.spec) so that pure contribs can implement backends now |
