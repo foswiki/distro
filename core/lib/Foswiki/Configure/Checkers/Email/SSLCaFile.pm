@@ -9,60 +9,24 @@ require Foswiki::Configure::Checker;
 our @ISA = qw/Foswiki::Configure::Checker/;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
-    my $value = $this->getCfg;
-
-    unless ( $value || $Foswiki::cfg{Email}{SSLCaPath} ) {
-
-        # See if we can use LWP or Crypt::SSLEay's defaults
-
-        my ( $file, $path ) =
-          @ENV{qw/PERL_LWP_SSL_CA_FILE PERL_LWP_SSL_CA_PATH/};
-        my $guessed = 0;
-        if ( $file || $path ) {
-            $reporter->NOTE("Guessed from LWP settings");
-            $guessed = 1;
-        }
-        else {
-            ( $file, $path ) = @ENV{qw/HTTPS_CA_FILE HTTPS_CA_DIR/};
-            if ( $file || $path ) {
-                $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
-                $guessed = 1;
-            }
-            else {
-                if ( eval 'require Mozilla::CA;' ) {
-                    $file = Mozilla::CA::SSL_ca_file();
-                    if ($file) {
-                        $reporter->NOTE("Obtained from Mozilla::CA");
-                        $guessed = 1;
-                    }
-                    else {
-                        $reporter->ERROR(
-                            "Mozilla::CA is installed but has no file");
-                    }
-                }
-            }
-        }
-        if ($guessed) {
-            $reporter->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
-            $file = '' unless ( defined $file );
-            $path = '' unless ( defined $path );
-            $this->setItemValue($file);
-            $this->setItemValue( $path, '{Email}{SSLCaPath}' );
-        }
-    }
-
-    my $file = $this->getCfg;
+    my $file = $this->getCfg();
 
     if ($file) {
+        unless ( $file =~ m,^([\w_./]+)$, ) {
+            return $this->ERROR("Invalid characters in $file");
+        }
+        $file = $1;
+
         if ( -r $file ) {
             $reporter->NOTE( "File was last modified "
                   . ( scalar localtime( ( stat _ )[9] ) ) );
+            _checkCaFile( $file, $reporter );
         }
         else {
             $reporter->ERROR("Unable to read $file");
@@ -71,16 +35,59 @@ sub check_current_value {
             $reporter->ERROR("$file is world-writable");
         }
     }
+
     my $path = $this->getCfg('{Email}{SSLCaPath}');
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );
     }
 
-    if (!( $file || $path ) ) {
+    if ( !( $file || $path ) ) {
         $reporter->ERROR(
 "Either or both {Email}{SSLCaFile} and {Email}{SSLCaPath} must be set for server verification.  The CPAN module Mozilla::CA provides a convenient way to get a default file, but you should ensure that that it satisfies your site's security policies and that the sever that you use has a certificate issued by a Certificate Authority in the trust list.  Alternatively, your OS distribution may also provide a file or directory."
         );
+    }
+}
+
+sub _checkCaFile {
+    my ( $path, $reporter ) = @_;
+
+    my $certs = 0;
+    my $crls  = 0;
+
+    open( my $fh, '<', $path )
+      or return $reporter->ERROR("Unable to open $path: $!");
+    while (<$fh>) {
+        if (/^-----BEGIN (.*)-----/) {
+            my $hdr = $1;
+            if ( $hdr =~ /^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+                $certs++;
+            }
+            elsif ( $hdr eq 'X509 CRL' ) {
+                $crls++;
+            }
+        }
+    }
+    close($fh);
+
+    if ($certs) {
+        my $m = "File contains $certs certificate";
+        $m .= 's' if ( $certs != 1 );
+        $reporter->NOTE($m);
+    }
+    elsif ( $Foswiki::cfg{Email}{SSLCaPath} ) {
+        $reporter->NOTE(
+            "File contains no certificates, but {Email}{SSLCaPath} may.");
+    }
+    else {
+        $reporter->ERROR("File contains no certificates");
+    }
+    if ($crls) {
+        my $m = "File ";
+        $m .= 'also ' if ($certs);
+        $m .= "contains $crls CRL";
+        $m .= 's'     if ( $crls != 1 );
+        $reporter->NOTE($m);
     }
 }
 
