@@ -28,6 +28,7 @@ var $TRUE = 1;
 
 (function($) {
     var auth_action = function() {};
+    var confirm_action = function() {};
 
     function requestID(s) {
         var rid = _id_ify(s) + '_' + reqnum++;
@@ -160,6 +161,7 @@ var $TRUE = 1;
             })
         });
         $div.dialog({
+            width: '60%',
             modal: true,
             buttons: {
                 Ok: function() {
@@ -299,9 +301,10 @@ var $TRUE = 1;
                                 auth_action = function() {
                                     call_wizard($key, fb);
                                 };
+                                $('#auth_note').html(spec.title);
                                 $('#auth_prompt').dialog(
                                     'option', 'title',
-                                    spec.title + ' requires authentication');
+                                    fb.label + ' requires authentication');
                                 $('#auth_prompt').dialog("open");
                             } else
                                 call_wizard($key, fb);
@@ -542,7 +545,7 @@ var $TRUE = 1;
     $(document).ready(function() {
         $('#auth_prompt').dialog({
             autoOpen: false,
-            height: 400,
+            height: 300,
             width: 400,
             modal: true,
             buttons: {
@@ -556,15 +559,48 @@ var $TRUE = 1;
             }
         });
 
+        $('#confirm_prompt').dialog({
+            autoOpen: false,
+            height: 300,
+            width: 400,
+            modal: true,
+            buttons: {
+                "Confirm": function () {
+                    $('#confirm_prompt').dialog( "close" );
+                    confirm_action();
+                },
+                Cancel: function() {
+                    $('#confirm_prompt').dialog( "close" );
+                }
+            }
+        });
+
+        $('#webCheckButton').button().click(function() {
+             auth_action = function() {
+                 var params = {
+                     wizard: 'StudyWebserver',
+                     method: 'report' };
+                 RPC('wizard',
+                     'wsreport',
+                     params,
+                     function(results) {
+                         wizard_reports(results);
+                     },
+                     createWhirly($('#root'), 'load'));
+             };
+            $('#auth_note').html($("#webCheckAuthMessage").html());
+            $('#auth_prompt').dialog(
+                'option', 'title', 'Webserver authentication');
+            $('#auth_prompt').dialog("open");
+        });
+
         $('#saveButton').button({disabled: true}).click(function() {
             // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
-            auth_action = function() {
+            confirm_action = function() {
                 var params = {
                     wizard: 'Save',
                     method: 'save',
-                    set: {},
-                    cfgusername: $('#username').val(),
-                    cfgpassword: $('#password').val()
+                    set: {}
                 };
                 $('.value_modified').each(function() {
                     var handler = $(this).data('value_handler');
@@ -592,12 +628,28 @@ var $TRUE = 1;
                     },
                     createWhirly($('#root'), 'load'));
             };
-            $('#auth_prompt').dialog(
-                'option', 'title', 'Save requires authentication');
-            $('#auth_prompt').dialog("open");
+            var changed = '';
+            $('.value_modified').each(function() {
+                var handler = $(this).data('value_handler');
+                changed += handler.spec.keys + ' ';
+            });
+ 
+            $('#confirm_note').html($('#saveMessage').html());
+            $('#confirm_note').append(changed);
+            $('#confirm_prompt').dialog(
+                'option', 'title', 'Confirm save');
+            $('#confirm_prompt').dialog("open");
         });
 
         $(document).tooltip();
+        $('.help_button').each(function() {
+            $(this).button({
+                icons: {
+                    primary: $(this).attr("name")
+                },
+                text: false
+            });
+        });
 
         // Get all root entries
         RPC('getspec',

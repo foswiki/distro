@@ -81,7 +81,11 @@ Types.BaseType = Class.extend({
     },
 
     isDefault: function() {
-        return this.currentValue() == eval(this.spec.default);
+        try {
+            return this.currentValue() == eval(this.spec.default);
+        } catch(err) {
+            debugger;
+        }
     }
 
 });

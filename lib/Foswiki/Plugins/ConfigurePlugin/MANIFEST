@@ -19,5 +19,4 @@ pub/System/ConfigurePlugin/types.js 0444
 pub/System/ConfigurePlugin/undo-modified-icon.png 0444
 pub/System/ConfigurePlugin/warningsAndErrorsIcon.png 0444
 pub/System/ConfigurePlugin/warningsIcon.png 0444
-templates/configure.tmpl
-
+templates/configure.tmpl 0444

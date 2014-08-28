@@ -35,15 +35,33 @@ configure.js script.
  </head>
  <body>
   <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png" alt="Foswiki configure"/>
-  <div class="top_level_button"><input id="showExpert" disabled="disabled" type="checkbox">Show expert options</input><button id="saveButton">Save</button></div>
+  <div class="top_level_buttons"><button id="webCheckButton">Study Web Server</button> <input id="showExpert" disabled="disabled" type="checkbox">Show expert options</input> <button id="saveButton">Save</button></div>
+  <div style="width:60%">
+   This is Foswiki <tt>configure</tt>. From this interface you can access all the setup for your Foswiki. Use
+<button class="help_button" name="info-icon"></button> to get help on an item.
+<button class="help_button" name="undo-icon"></button> will undo any changes to the item.
+<button class="help_button" name="default-icon"></button> will reset the item to the default - hover over it to see what that is.
+When you are ready to save your changes, click the 'Save' button at the top right.
+  </div>
   <br style="clear:both" />
   <div id="root">
   </div>
  </body>
- <div id="auth_prompt" title="Wizard requires authentication">
+ <!-- Dialogs -->
+ <div id="auth_prompt" title="Requires authentication">
+  <div id="auth_note"></div>
   <label for="username">Username</label>
   <input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"><br />
   <label for="password">Password</label>
   <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br />
+ </div>
+ <div id="webCheckAuthMessage" style="display:none">
+  The web server <i>may</i> need authentication to check access to resources.
+ </div>
+ <div id="confirm_prompt" title="Confirm">
+  <div id="confirm_note"></div>
+ </div>
+ <div id="saveMessage" style="display:none">
+  Save Changes to:
  </div>
 </html>

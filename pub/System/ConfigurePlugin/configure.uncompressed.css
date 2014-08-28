@@ -9,7 +9,7 @@ html body {
     height: 20px;
 }
 
-.top_level_button {
+.top_level_buttons {
     float: right;
     margin:1em;
 }
@@ -118,6 +118,12 @@ div.information {
 
 /* Button shown if value differs from default */
 .default_button {
+    display: inline;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.help_button {
     display: inline;
     width: 20px !important;
     height: 20px !important;

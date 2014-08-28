@@ -25,14 +25,13 @@ use warnings;
 use version; our $VERSION = version->declare("v1.0.0_001");
 use Assert;
 
-use Foswiki::Contrib::JsonRpcContrib             ();
-use Foswiki::Plugins::ConfigurePlugin::SpecEntry ();
-use Foswiki::Configure::LoadSpec                 ();
-use Foswiki::Configure::Load                     ();
-use Foswiki::Configure::Root                     ();
-use Foswiki::Configure::Reporter                 ();
-use Foswiki::Configure::Checker                  ();
-use Foswiki::Configure::Wizard                   ();
+use Foswiki::Contrib::JsonRpcContrib ();
+use Foswiki::Configure::LoadSpec     ();
+use Foswiki::Configure::Load         ();
+use Foswiki::Configure::Root         ();
+use Foswiki::Configure::Reporter     ();
+use Foswiki::Configure::Checker      ();
+use Foswiki::Configure::Wizard       ();
 
 our $RELEASE          = '29 May 2013';
 our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
@@ -52,6 +51,18 @@ BEGIN {
     $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
     $Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} =
       'Foswiki::Plugins::ConfigurePlugin';
+}
+
+{
+    # Required for JSON to serialise Regexp types. Simply
+    # converts them to strings.
+    package Regexp;
+
+    sub TO_JSON {
+        my $regex = shift;
+        $regex = "$regex";
+        return $regex;
+    }
 }
 
 sub initPlugin {
@@ -884,6 +895,44 @@ sub wizard {
 
     return { changes => $reporter->{changes}, report => \@report };
 }
+
+=pod
+
+---++ Invocation examples
+
+Call using a URL of the format:
+
+=%SCRIPTURL{"jsonrpc"}%/configure=
+
+while POSTing a request encoded according to the JSON-RPC 2.0 specification:
+
+<verbatim>
+{
+  jsonrpc: "2.0", 
+  method: "getspec", 
+  params: {
+     get : { keys: [ "{DataDir}", "Store" ] },
+     depth : 0
+  }, 
+  id: "caller's id"
+}
+</verbatim>
+
+---++ .spec format
+The format of .spec files is documented in detail in
+There are two node types in the .spec tree:
+
+SECTIONs have:
+   * =headline= (default =UNKNOWN=, the root is usually '')
+   * =typename= (always =SECTION=)
+   * =children= - array of child nodes (sections and keys)
+ 
+Key entries (such as ={DataDir}=) have:
+   * =keys= e.g. ={Store}{Cupboard}=
+   * =typename= (from the .spec)
+   * Other keys from the .spec e.g. =SIZE=, =FEEDBACK=, =CHECK=
+
+=cut
 
 1;
 

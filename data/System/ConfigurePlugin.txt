@@ -7,43 +7,29 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
-This plugin provides access to all Foswiki configuration data, supports running
-server-side checkers, and allows you to save modifications.
+This plugin provides access to all Foswiki configuration data through
+the webserver, supports running server-side checkers and wizards, and
+allows you to save modifications.
+
+You do not have to have this plugin installed to run Foswiki. Checkers
+and wizards can be run from the command-line using the =tools/configure_test=
+script, and !LocalSite.cfg can be manually edited to add your required settings.
+However this UI provides a simple way to access the configuration.
+
+If your system has an existing !LocalSite.cfg, then you *must* be
+logged in to Foswiki as an administrator before attempting to use
+this interface. If no !LocalSite.cfg exists, then you will automatically
+treated as an admin for the purposes of =configure=.
+
+Users of the =configure= interface access it through the CGI script in
+=bin/configure=. The UI is self-explanatory and needs no further introduction
+here.
+
+Of interest to developers may be the JSON RPC interface provided by the
+plugin, which gives access to the Foswiki configuration to web clients
+(who must, of course, be authenticated as admins to make RPC calls).
 
 %$POD%
-
----++ Invocation examples
-
-Call using a URL of the format:
-
-=%SCRIPTURL{"jsonrpc"}%/configure=
-
-while POSTing a request encoded according to the JSON-RPC 2.0 specification:
-
-<verbatim>
-{
-  jsonrpc: "2.0", 
-  method: "getspec", 
-  params: {
-     get : { keys: [ "{DataDir}", "Store" ] },
-     depth : 0
-  }, 
-  id: "caller's id"
-}
-</verbatim>
-
----++ .spec format
-There are two node types in the .spec tree:
-
-SECTIONs have:
-   * =headline= (default =UNKNOWN=, the root is usually '')
-   * =typename= (always =SECTION=)
-   * =children= - array of child nodes (sections and keys)
- 
-Key entries (such as ={DataDir}=) have:
-   * =keys= e.g. ={Store}{Cupboard}=
-   * =typename= (from the .spec)
-   * Other keys from the .spec e.g. =SIZE=, =AUDIT=, =FEEDBACK=, =CHECK=
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
