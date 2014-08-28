@@ -142,7 +142,17 @@ sub _addSpecDefaultsToCfg {
         if ( exists( $spec->{default} )
             && eval("!exists(\$cfg->$spec->{keys})") )
         {
-            eval("\$cfg->$spec->{keys}=\$spec->{default}");
+            if ( $spec->{typename} eq 'REGEX' ) {
+                my $value = qr/$spec->{default}/;
+                eval("\$cfg->$spec->{keys}=\$value");
+            }
+            elsif ( $spec->{typename} eq 'PERL' ) {
+                my $value = eval $spec->{default};
+                eval("\$cfg->$spec->{keys}=\$value");
+            }
+            else {
+                eval("\$cfg->$spec->{keys}=\$spec->{default}");
+            }
         }
     }
 }
@@ -162,7 +172,21 @@ sub _addCfgValuesToSpec {
         if (   eval("exists(\$cfg->$spec->{keys})")
             && eval("\$cfg->$spec->{keys}") ne "NOT SET" )
         {
-            eval("\$spec->{current_value}=\$cfg->$spec->{keys}");
+            # REGEX and PERL get special treatment as strings
+            if ( $spec->{typename} eq 'REGEX' ) {
+                my $value = eval "\$cfg->$spec->{keys}";
+                $spec->{current_value} = "$value";
+            }
+            elsif ( $spec->{typename} eq 'PERL' ) {
+                my $value = eval "\$cfg->$spec->{keys}";
+                my $var1 = Data::Dumper->Dump( [$value] );
+                $var1 =~ s/^.*=\s*//;
+                $spec->{current_value} = $var1;
+            }
+            else {
+                # Otherwise it's a type the UI can handle
+                $spec->{current_value} = eval "\$cfg->$spec->{keys}";
+            }
         }
 
         # Don't do this; it's not the case that the default value
@@ -486,6 +510,7 @@ sub check_current_value {
     }
 
     foreach my $k ( keys %check ) {
+        next unless $k;
         my $spec = $root->getValueObject($k);
         ASSERT( $spec, $k ) if DEBUG;
         my $checker = Foswiki::Configure::Checker::loadChecker($spec);
