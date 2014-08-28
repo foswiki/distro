@@ -19,6 +19,8 @@ package Foswiki::Contrib::JsonRpcContrib::Response;
 use strict;
 use warnings;
 
+use Assert;
+
 use JSON ();
 use constant TRACE => 0;    # toggle me
 
