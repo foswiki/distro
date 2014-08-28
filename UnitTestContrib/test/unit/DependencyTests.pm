@@ -27,7 +27,7 @@ sub test_check_dep_not_perl {
         module  => "libpcap",
         version => "1.0.0"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok );
     $this->assert_matches( qr/cannot be automatically checked/, $message );
 }
@@ -41,7 +41,7 @@ sub test_check_dep_last_resort1 {
         type   => "perl",
         module => "Foswiki::Contrib::UnitTestContrib::LastResortWontLoad",
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches(
 qr/Foswiki::Contrib::UnitTestContrib::LastResortWontLoad version v1.2.3_100 installed/,
@@ -58,7 +58,7 @@ sub test_check_dep_not_module {
         type   => "perl",
         module => "Non::Existing::Module"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
 qr/Non::Existing::Module version >=0 required\s*--\s*perl module is not installed/,
@@ -75,7 +75,7 @@ sub test_check_foswiki_rev {
         module  => 'Foswiki',
         version => '1.1.3'
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/^Foswiki version Foswiki-(.*) installed$/,
         $message );
@@ -89,7 +89,7 @@ sub test_check_dep_carp {
     # 1, Carp v1.03 installed
     my $dep =
       new Foswiki::Configure::Dependency( type => "cpan", module => "Carp" );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Carp version .* installed/, $message );
 
@@ -105,7 +105,7 @@ sub test_check_dep_carp_with_version {
         module  => "Carp",
         version => 0.1
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Carp version .* installed/, $message );
 
@@ -121,7 +121,7 @@ sub test_check_dep_version_too_high {
         module  => "HTML::Parser",
         version => "21.1"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
 qr/HTML::Parser version >= 21.1 required\s*--\s*installed version is [\d.]+/,
@@ -140,7 +140,7 @@ sub test_check_dep_version_with_superior {
         module  => "HTML::Parser",
         version => ">=0.9"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/HTML::Parser version \d+\.\d+ installed/,
         $message );
@@ -157,7 +157,7 @@ sub test_check_dep_version_with_inferior {
         module  => "HTML::Parser",
         version => "<21.1"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $HTML::Parser::VERSION );
     $this->assert_matches( qr/HTML::Parser version \d+\.\d+ installed/,
         $message );
@@ -174,7 +174,7 @@ sub test_check_dep_version_with_inferior_failed {
         module  => "HTML::Parser",
         version => "<1"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
 qr/HTML::Parser version < 1 required\s*--\s*installed version is [\d.]+/,
@@ -193,7 +193,7 @@ sub test_check_dep_version_with_rev {
         module  => "Foswiki::Contrib::UnitTestContrib::DateBasedRelease",
         version => ">=20 Sep 2009"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
         qr/Foswiki::Contrib::UnitTestContrib::DateBasedRelease .* installed/,
@@ -213,7 +213,7 @@ sub test_check_dep_version_with_implied_svn {
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
         version => ">1000"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
         qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
@@ -234,7 +234,7 @@ sub test_check_dep_version_with_explicit_svn {
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
         version => ">r1000"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
         qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
@@ -255,7 +255,7 @@ sub test_check_dep_version_with_unsatisfied_explicit_svn {
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
         version => "<r23"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok, $message );
     $this->assert_matches(
 qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version < r23 required/,
@@ -276,7 +276,7 @@ sub test_check_dep_version_with_unsatisfied_svn {
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
         version => ">2000"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 0, $ok, $message );
     $this->assert_matches(
 qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version > 2000 required/,
@@ -297,7 +297,7 @@ sub test_check_dep_version_with_multi_part_number {
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
         version => ">=1.5.6"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
 qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version 1\.23\.4 installed/,
@@ -315,7 +315,7 @@ sub test_check_dep_with_missing_dependency {
         module  => "Foswiki::Contrib::UnitTestContrib::MissingDependency",
         version => ">=1.23.4"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_equals(
         '1.23.4',
@@ -339,7 +339,7 @@ sub test_check_dep_version_with_underscore {
         module  => "Algorithm::Diff",
         version => ">=1.18_45"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches(
         qr/Algorithm::Diff version \d+\.\d+(?:_\d+)? installed/, $message );

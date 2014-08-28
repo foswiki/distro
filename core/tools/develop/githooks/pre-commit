@@ -232,6 +232,7 @@ sub check_perltidy {
 
     my @tidyed;
     Perl::Tidy::perltidy(
+        perltidyrc => '/dev/null', # SMELL: use the extension's TIDY file if present
         source      => $input,
         destination => \@tidyed,
         argv        => $tidyOptions,

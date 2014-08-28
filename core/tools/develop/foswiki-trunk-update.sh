@@ -3,10 +3,21 @@
 ROOT=/usr/home/trunk.foswiki.org
 PROD=/home/foswiki.org/public_html
 
-#ROOT=/var/www/github/foswiki
-#PROD=/var/www/foswiki/trunk/core
-
 cd $ROOT
+
+ls -la $ROOT/core/working/work_areas/FoswikiOrgPlugin/distro
+ls -la $ROOT/core/lib/Foswiki.pm
+
+# Whenever anyone commits to distro,  the webhook should update the distro workarea file.
+# This script updates Foswiki.pm.   So if distro is older than Foswiki.pm, we can
+# skip the trunk rebuild.  Could also check FoswikiOrgPlugin and FoswikirefsPlugin.
+
+if [ $ROOT/core/working/work_areas/FoswikiOrgPlugin/distro -ot $ROOT/core/lib/Foswiki.pm ];
+then
+   echo Skipping trunk update.  core/lib/Foswiki.pm is newer than core/working/work_areas/FoswikiOrgPlugin/distro
+   exit
+fi
+
 git checkout core/lib/Foswiki.pm
 git status -uno
 git stash save --quiet

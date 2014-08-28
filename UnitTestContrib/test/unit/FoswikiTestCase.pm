@@ -314,7 +314,7 @@ sub _check_using {
 
 Checks to see if a given dependency is present, optionally of a specified version
 
-This is a wrapper to =Foswiki::Configure::Dependency->check()=
+This is a wrapper to =Foswiki::Configure::Dependency->checkDependency()=
 
    * =$what= - a string (or arrayref of strings) specifying module(s) to check
      for, optionally of specific version(s). The string(s) should be compatible
@@ -381,7 +381,7 @@ sub _check_dependency {
             module => $module
           );
 
-        ($result) = $dep->check();
+        ($result) = $dep->checkDependency();
     }
     else {
         $this->assert( 0, "Don't know how to check for module '$what'" );

@@ -73,6 +73,8 @@ sub view {
 
     my $cache    = $session->{cache};
     my $response = $session->{response};
+    my $method   = $session->{request}->method || '';
+
     my $cachedPage;
     $cachedPage = $cache->getPage( $web, $topic ) if $cache;
     if ($cachedPage) {
@@ -285,9 +287,13 @@ sub view {
             level    => 'info',
             action   => 'view',
             webTopic => $topicObject->web . '.' . $topicObject->topic,
-            extra    => $logEntry,
+            extra    => $logEntry . " ($method)"
         }
     );
+
+    if ( $method && $method eq 'HEAD' ) {
+        return $session->writeCompletePage( '', 'view', 'text/plain' );
+    }
 
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(

@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1408949368" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ <nop>%WIKITOOLNAME% Sitemap
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
 
-%STARTINCLUDE%<noautolink><div class="siteToolsSitemap"><table class="foswikiTable" width="100%" border="0" cellspacing="2" cellpadding="3">
+%STARTINCLUDE%<noautolink><div class="siteToolsSitemap"><table class="foswikiTable" width="100%">
 <tr>
 <th>Web</th>
 <th>Go to</th>

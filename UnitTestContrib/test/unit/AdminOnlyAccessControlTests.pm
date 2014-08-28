@@ -25,7 +25,7 @@ sub new {
         module  => "Foswiki",
         version => ">=1.2"
     );
-    my ( $ok, $message ) = $dep->check();
+    my ( $ok, $message ) = $dep->checkDependency();
     $post11 = $ok;
 
     return $self;

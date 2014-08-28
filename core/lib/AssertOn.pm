@@ -10,7 +10,8 @@ our $DIRTY = lc('x');    # Used in TAINT
 our $soft  = 0;
 
 sub import {
-    $soft = 1 if $ENV{FOSWIKI_ASSERTS} eq 'soft';
+    $soft = 1
+      if defined( $ENV{FOSWIKI_ASSERTS} ) && $ENV{FOSWIKI_ASSERTS} eq 'soft';
     $SIG{'__WARN__'} = sub { die @_ };
     Assert->export_to_level( 1, @_ );
 }

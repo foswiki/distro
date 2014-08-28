@@ -45,6 +45,11 @@ $topic2rawON =~ s/>/&gt;/g;
 $topic2rawON =~ s/"/&quot;/g;
 $topic2rawON .= '</textarea>';
 
+my $topic3 = <<'HERE';
+CONTENT
+   * Set ALLOWTOPICVIEW = NotAUser
+HERE
+
 my $templateTopicContent1 = <<'HERE';
 pretemplate%STARTTEXT%pre%TEXT%post%ENDTEXT%posttemplate
 HERE
@@ -94,6 +99,12 @@ sub set_up {
     $topic = 'TestTopic2';
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic2' );
     $meta->text($topic2);
+    $meta->save();
+    $meta->finish();
+
+    $topic = 'TestTopic3';
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic3' );
+    $meta->text($topic3);
     $meta->save();
     $meta->finish();
 
@@ -188,7 +199,7 @@ sub set_up {
 }
 
 sub setup_view {
-    my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
+    my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
     my $query = Unit::Request->new(
         {
             webName     => [$web],
@@ -200,7 +211,8 @@ sub setup_view {
         }
     );
     $query->path_info("/$web/$topic");
-    $query->method('POST');
+    $method ||= 'POST';
+    $query->method($method);
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ($text) = $this->capture(
         sub {
@@ -298,6 +310,59 @@ HERE
         "autolink or nop found in text skin" );
     $this->assert_equals( "$topic2plain", $text,
         "Unexpected output from contentype=text/plain skin=text" );
+
+    return;
+}
+
+# This test verifies the rendering of the HEAD
+sub test_render_HEAD {
+    my $this = shift;
+    my $text;
+    my $hdr;
+    my $editUrl;
+
+  # setup_view( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
+
+    ( $text, $hdr, $editUrl ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '',
+        'text/plain', 'text', 'HEAD' );
+
+    $this->assert_matches(
+        qr#^Content-Type: text/plain#ms,
+        $hdr,
+        "HEAD test: contenttype=text/plain should return text/plain - got $hdr"
+    );
+    $this->assert_equals( "", $text,
+"Unexpected output from HEAD Request, Text should not be returned, got: $text"
+    );
+
+    # Verify for a no-found topic
+    ( $text, $hdr, $editUrl ) =
+      $this->setup_view( $this->{test_web}, 'AsdftTopic2', 'viewfour', '',
+        'text/plain', 'text', 'HEAD' );
+
+    $this->assert_equals( "", $text,
+"Unexpected output from HEAD Request, Text should not be returned, got: $text"
+    );
+    $this->assert_matches( qr#^Status: 404#ms,
+        $hdr, "HEAD test: Not found should return 404 - got $hdr" );
+
+    # Verify for a not-authorized topic
+    $hdr = '';
+    try {
+        ( $text, $hdr, $editUrl ) =
+          $this->setup_view( $this->{test_web}, 'TestTopic3', 'viewfour', '',
+            'text/plain', 'text', 'HEAD' );
+    }
+    catch Foswiki::AccessControlException with {
+        $this->assert( 1, "Successful ACL" );
+    };
+
+    $this->assert_equals( "", $text,
+"Unexpected output from HEAD Request, Text should not be returned, got: $text"
+    );
+    $this->assert_equals( '',
+        $hdr, "HEAD test: Not found should throw an exception,  got $hdr" );
 
     return;
 }

@@ -1,8 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1408948651" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
-<div style="float:right">
-<a href="http://wikiring.com"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
-</div>
+<a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
 
 %SHORTDESCRIPTION%
 
@@ -89,8 +88,10 @@ installation tree. Every plugin has some _key files_:
          * <code><i>name</i>/</code> - directory where all your images, css, and Javascript files should go
 Contribs are held in the =lib/Foswiki/Contrib= directory instead of =lib/Foswiki/Plugins= but otherwise in exactly work the same way.
 
-<blockquote class="foswikiHelp">%X% Foswiki configure now requires a perl module in either the =Plugins= or =Contrib= directory with the same name as the
-extension.   This module should have two global variables - =$VERSION= and =$RELEASE= which are used to determine the installed version of the extension.</blockquote>
+<div class="foswikiHelp">
+%X% Foswiki configure now requires a perl module in either the =Plugins= or =Contrib= directory with the same name as the
+extension. This module should have two global variables - =$VERSION= and =$RELEASE= which are used to determine the installed version of the extension.
+</div>
 
 Other directories normally found in a Foswiki installation may also exist under
 a root directory e.g. =bin=, =templates= etc.
@@ -116,9 +117,9 @@ only_, so it won't mask problems during testing.
 
 The approach we _recommend_ is to set =FOSWIKI_LIBS= in your login script (e.g. =.login=, =.csh=, =.profile= depending on what shell you prefer).
 
-<blockquote style="background-color: #ddf">
-*EXPERTS* =build.pl= does *not* read =bin/setlib.cfg=. It uses =$FOSWIKI_LIBS= only to find the modules for the !BuildContrib.
-</blockquote>
+<div class="foswikiHelp">
+%X% *EXPERTS*: =build.pl= does *not* read =bin/setlib.cfg=. It uses =$FOSWIKI_LIBS= only to find the modules for the !BuildContrib.
+</div>
 
 ---++ Build script
 Each individual extension has its own build script, called =build.pl=, in its
@@ -137,7 +138,7 @@ in control files to build the various targets. Perl is used rather than
 
 The targets you will normally use are:
 | =build= | perform basic build steps |
-| =compress= | Generate compressed versions of JavaScript and CSS files |
+| =compress= | Generate compressed versions of !JavaScript and CSS files |
 | =tidy= | Run Perl::Tidy on all perl modules listed in the MANIFEST |
 | =test= | run [[#UnitTesting][unit tests]] |
 | =release= | =build=, =pod= and package a release zip |
@@ -164,7 +165,7 @@ download. It will search for an avaliable minifier:
 To make the recommended compressor avaliable on your system, first install
 [[http://nodejs.org/][Node.js]],   and then use "npm" to install the
 compressors:  =npm install -g uglifyjs=  and =npm install -g cssmin=
-This will install both uglify and MinCSS.
+This will install both uglify and !MinCSS.
 
 The compression can work with a number of different naming schemes, depending
 on what files you refer to in your MANIFEST. For example, the name mappings
@@ -185,6 +186,7 @@ installation and testing. However they are *not* checked in.
 The easiest way to use compressed sources is to select the version your code is
 to use based on a switch when you include the headers. For example, you can
 use the =DEBUG= global from the =Assert= module:
+
 <verbatim class="perl">
 use Assert; # Standard Foswiki ASSERT module
 ...
@@ -195,6 +197,7 @@ Foswiki::Func::addToHEAD(<<SCRIPT);
 </script>
 SCRIPT
 </verbatim>
+
 When =DEBUG= is defined (i.e. when ASSERT is enabled), this will include
 =my.uncompressed.js= and =my.uncompressed.css=, which makes debugging easier.
 If =DEBUG= is not defined, it will include =my.compressed.js= and
@@ -266,6 +269,7 @@ extensions will work in TWiki after this transformation, and for others it
 can be used as a launchpad for further manual mapping steps.
 
 Example,
+
 <verbatim class="bash">
 $ cd EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 $ perl build.pl twiki
@@ -298,6 +302,7 @@ MD5 checksums in EditRowPlugin/TWiki_EditRowPlugin.md5
 WARNING: no .txt was generated
 WARNING: no _installer was generated
 </verbatim>
+
 There is no TWiki-specific topic generated. The Foswiki topic should suffice.
 Installer generation is also disabled using =!option installers none= in
 the tranformed MANIFEST. Users must install the generated TWiki packages
@@ -320,10 +325,12 @@ If the path contains spaces it must be enclosed in double-quotes.
 
 Each file path has an optional octal permissions mask and a description.
 For example,
+
 <verbatim>
 data/System/BathPlugin.txt 0664 Plugin description topic
 lib/Foswiki/Plugins/BathPlugin.pm 0444 Plugin code module
 </verbatim>
+
 If no permissions are given, permissions are guessed from the permissions on
 the file in the source tree. These permissions are used by the installer
 script to set file permissions in the installation.
@@ -366,9 +373,11 @@ to Foswiki 1.0.1 or later
 ---+++++ =!include= _&lt;path to extension directory&gt;_
 MANIFESTs can also include other extensions that have been packaged using
 !BuildContrib. For example,
+
 <verbatim>
 !include WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin
 </verbatim>
+
 This will include the !WysiwygPlugin in the release package.
 
 Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
@@ -376,10 +385,11 @@ Note that there is a script in the Foswiki =tools= directory called =check_manif
 ---+++++ =!include= _&lt;path to extension MANIFEST* file &gt;_
 When the target is a file, and not a directory, !BuildContrib will recursively
 process the MANIFEST file inline.  This is useful when an extension packages a
-complex 3rd party tool, for example, the TinyMCE Editor, and includes multiple
+complex 3rd party tool, for example, the !TinyMCE Editor, and includes multiple
 versions.  Each copy of the tool can be included with it's own MANIFEST:
 
 Primary MANFIEST
+
 <verbatim>
 ...
 pub/System/TinyMCEPlugin/screenshot.png 0644
@@ -391,6 +401,7 @@ pub/System/TinyMCEPlugin/tinymce.gif 0644
 </verbatim>
 
 Manifest for !TinyMCE version 3.4.9
+
 <verbatim>
 !noci
 pub/System/TinyMCEPlugin/tinymce-3.4.9/LICENSE.TXT 0644
@@ -410,9 +421,11 @@ supported options are:
 ---++ DEPENDENCIES
 The =DEPENDENCIES= file specifies dependencies on other extensions and
 perl modules. Each line of the file is a single dependency:
+
 <verbatim>
 name, version, type, description
 </verbatim>
+
 where
    * name is the name of the module,
       * For Foswiki/TWiki/and CPAN modules, write the full module path, =Foswiki::Plugins::MyPlugin=
@@ -426,7 +439,9 @@ where
       * =external= or any other value is reported but ignored.
    * description is a short description of the module and where to get it. If it begins with the word =Optional= then the dependency will not be automatically resolved.
 
-<blockquote class="foswikiHelp">%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  </blockquote>
+<div class="foswikiHelp">
+%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  
+</div>
 
 The installer script written by the build process uses the dependency type to decide how to install dependant modules. 'cpan' means 'get the module from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES= or =$PLUGINS_URL=).
 
@@ -453,18 +468,20 @@ where the dependency applies. The condition is specified using a line that
 contains <code>ONLYIF ( _condition_ )</code>, where _condition_ is a Perl
 conditional. This is most useful for enabling dependencies only for certain
 versions of other modules. For example,
+
 <verbatim>
 File::Munge,>0,cpan,...
 ONLYIF ( $Foswiki::Plugins::VERSION < 1.025)
 MyPackage::FixOldFileFind, >=1.000, perl, Optional, only required if we have an old version of Foswiki API.
 </verbatim>
+
 The =ONLYIF= only applies to the next dependency in the file.
 
 ---++ Writing a build script
 The easiest way to write a new build script is to use the
 =create_new_extension.pl= script, which is part of the !BuildContrib.
    1 Create your plugin source tree
-      * =perl create_new_extension.pl BathPlugin=
+      * =perl create_new_extension.pl !BathPlugin=
       * if you are working in a Subversion checkout, move the directory just created up one level to be at the same level as =core=.
    1 Edit =lib/Foswiki/Plugins/BathPlugin.pm= as required to create your
      plugin functionality
@@ -504,11 +521,13 @@ If the script needs to report to the installer, it should return the message
 as a simple string ending with a newline.  It will be presented as a verbatim block to the web
 install, or as inline text for the shell installation.
 
-<blockquote class="foswikiHelp">%X% Caution:  The pre/post scripts should not assume the standard installation
+<div class="foswikiHelp">
+%X% Caution:  The pre/post scripts should not assume the standard installation
 directories or topics when used to remove or otherwise manipulate files in the
 installation.   You can use the Utility function =mapTarget= to find the
 correct file location for the current install.  See
-[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]] (link requires BuildContrib to be installed)</blockquote>
+[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]] (link requires BuildContrib to be installed)
+</div>
 
 Also, as the file to be removed is most likely not listed in the manifest,
 it will not be backed up during the install.  So use caution removing files
@@ -546,14 +565,14 @@ Tests are run using
 ---++ Building a release
 When you are almost ready to release, you should
    1 Build a release package and installer
-      * =cd BathPlugin/lib/Foswiki/Plugins/BathPlugin=
+      * =cd !BathPlugin/lib/Foswiki/Plugins/BathPlugin=
       * =perl build.pl release=
    1 Remove the softlinked version from your dev install
       * =cd= _dev install_
-      * =perl pseudo-install.pl -uninstall BathPlugin=
+      * =perl pseudo-install.pl -uninstall !BathPlugin=
    1 Install the release package you just built:
       * =cd= _dev install_
-      * =perl BathPlugin/BathPlugin_installer=
+      * =perl !BathPlugin/BathPlugin_installer=
    1 Test.
 
 ---+++ Token expansion
@@ -578,7 +597,7 @@ and in the installer script. The following tokens are supported:
 ---++ Upload
 When you are happy the release package is built correctly, you can
 upload it.
-   * =cd BathPlugin/lib/Foswiki/Plugins/BathPlugin=
+   * =cd !BathPlugin/lib/Foswiki/Plugins/BathPlugin=
    * =perl build.pl upload=
 By default the =upload= target will upload to Foswiki.org. You will be prompted
 to enter an alternate upload target, should you require it (e.g. to upload to
@@ -648,5 +667,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0.1 (31 Jan 2009) | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  1.0.0 (03 Dec 2008) | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
-%META:FILEATTACHMENT{name="logo.gif" comment="logo" attr="h" path="logo.gif"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1408948651"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1408948651"}%

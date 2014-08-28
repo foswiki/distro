@@ -1,11 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398376373" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1408949368" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
-
 ---+!! Installation Guide
 
-<div style="float: right; background: #F1F1F1; border: 1px solid #DADADA; -webkit-border-radius: 3px; padding:4px; font-size: 85%; max-width: 40%;">
 %TOC{title="Contents"}%
-</div>
 
 *This guide describes the steps for manually installing Foswiki, with specific steps for installations on Linux with the Apache web server.*
    * If you are using one of the automated installers or operating system-specific packages at Foswiki:Download.OtherFoswikiInstallers, refer to the instructions specific to those installers/packages in the first instance;
@@ -253,7 +250,6 @@ If you cannot unpack the Foswiki distribution directly in your installation dire
    | =foswiki/templates= | web templates | dir secure from public access | =/home/smith/public_html/foswiki/templates= |
    | =foswiki/tools= | Foswiki utlilities | dir secure from public access | =/home/smith/public_html/foswiki/tools= |
    | =foswiki/working= | Temporary and internal files | dir secure from public access | =/home/smith/public_html/foswiki/working= |</sticky>
-
 
 ---++ TWiki Compatibility
 

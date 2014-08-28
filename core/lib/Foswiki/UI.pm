@@ -439,7 +439,7 @@ sub _execute {
         $res = $session->{response} if $session;
         $res ||= new Foswiki::Response();
 
-        $res->header( -type => 'text/plain' )
+        $res->header( -type => 'text/plain', -status => '500' )
           unless $res->outputHasStarted();
         if (DEBUG) {
 

@@ -375,7 +375,7 @@ sub _parse {
                 ASSERT($open) if DEBUG;
             }
             unless ( $keys =~ /^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
-                error( @context, 'Invalid item specifier $keys' );
+                error( @context, "Invalid item specifier $keys" );
                 $open = undef;
                 next;
             }

@@ -279,7 +279,8 @@ sub cachePage {
     }
 
     # store page variation
-    $this->setPageVariation( $web, $topic, $variationKey, $variation );
+    return undef
+      unless $this->setPageVariation( $web, $topic, $variationKey, $variation );
 
     # assert newly autotetected dependencies
     $this->setDependencies( $web, $topic, $variationKey );
@@ -337,7 +338,7 @@ sub getPage {
 
 =begin TML 
 
----++ ObjectMethod setPageVariation($web, $topici, $variationKey, $variation)
+---++ ObjectMethod setPageVariation($web, $topici, $variationKey, $variation) -> $bool
 
 stores a rendered page
 
@@ -386,9 +387,9 @@ sub isCacheable {
 
     my $session = $Foswiki::Plugins::SESSION;
 
-    # POSTs aren't cacheable
+    # POSTs and HEADs aren't cacheable
     my $method = $session->{request}->method;
-    $isCacheable = 0 if $method && $method eq 'POST';
+    $isCacheable = 0 if $method && $method =~ /^(?:POST|HEAD)$/;
 
     if ($isCacheable) {
 
