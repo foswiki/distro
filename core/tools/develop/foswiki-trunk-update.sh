@@ -57,6 +57,8 @@ cd $ROOT
 git stash pop --quiet
 cd $ROOT/core
 perl -T pseudo-install.pl -link default
+perl -T pseudo-install.pl -link JsonRpcContrib
+perl -T pseudo-install.pl -link ConfigurePlugin
 perl -T pseudo-install.pl -link FoswikiOrgPlugin
 perl -T pseudo-install.pl -link FoswikirefsPlugin
 
