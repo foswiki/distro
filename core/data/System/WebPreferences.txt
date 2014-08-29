@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1409300041" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 <!-- Don't change the TOPICINFO date otherwise it will break SemiAutomaticTestCaseTests::test_TestCaseAutoFormattedSearchDetails -->
 ---+!! <nop>%WEB% Web Preferences
@@ -30,7 +30,7 @@
 
 ---++ Copyright notice 
 
-   * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
+   * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png" height="42" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
 
 
 ---++ Access control
