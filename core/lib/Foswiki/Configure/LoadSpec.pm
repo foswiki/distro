@@ -423,21 +423,10 @@ sub _parse {
             $open->{defined_at} = [@context];
 
             # Record the value *string*, internal formatting et al.
+            # This is the best way to retain perl formatting while
+            # being sensitive to changes.
             ASSERT( UNTAINTED($value), $value ) if DEBUG;
-            if ( $open->{typename} eq 'REGEX' ) {
-
-                # regexp; convert to string
-                $value = eval $value;
-                $value = "$value";
-            }
-            elsif ( $open->{typename} eq 'PERL' ) {
-
-                # PERL - convert to string
-                my $var1 = Data::Dumper->Dump( [$value] );
-                $var1 =~ s/^.*=\s*//;
-                $value = $var1;
-            }
-            $open->{default} = $value;
+            $open->{default} = $open->encodeValue( eval $value );
 
             $open->{keys} = $keys;
             unless ($isEnhancing) {

@@ -13,15 +13,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Assert;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my $keys = $this->{item}->{keys};
+
     # NOTE: this checker is also invoked from the PLUGIN_ENABLED
     # checker, hence the /{Enabled}$/
     $keys =~ /^{Plugins}{(.*)}{(Module|Enabled)}$/;
     ASSERT($1) if DEBUG;
     my $plug = $1;
-    my $mod = $Foswiki::cfg{Plugins}{$plug}{Module};
+    my $mod  = $Foswiki::cfg{Plugins}{$plug}{Module};
 
     unless ($mod) {
         $reporter->WARN("$plug has no {Plugins}{$plug}{Module}");
@@ -36,30 +37,31 @@ sub check_current_value {
 
     my $altmod = ( $enabled eq 'Foswiki' ) ? 'TWiki' : 'Foswiki';
 
-    my @found;
+    my %found;
 
-    foreach my $dir ( @INC ) {
+    foreach my $dir (@INC) {
         if ( -e "$dir/$enabled/$plugpath.pm" ) {
-            push(@found, "$dir/$enabled/$plugpath.pm");
+            $found{"$dir/$enabled/$plugpath.pm"} = 1;
         }
         if ( -e "$dir/$altmod/$plugpath.pm" ) {
-            push(@found, "$dir/$altmod/$plugpath.pm" );
+            $found{"$dir/$altmod/$plugpath.pm"} = 1;
         }
     }
-    if ( !scalar(@found) ) {
+    if ( !scalar( keys %found ) ) {
         $reporter->ERROR(
-            "$mod is enabled in LocalSite.cfg but was not found in the \@INC path"
-            ) ;
+"$mod is enabled in LocalSite.cfg but was not found in the \@INC path"
+        );
     }
-    elsif ( scalar(@found) > 1 ) {
+    elsif ( scalar( keys %found ) > 1 ) {
         if ( $enabled eq 'TWiki' ) {
             $reporter->WARN(
-                "$mod module is enabled - be sure this is what you want. Multiple versions are possibly installed."
+"$mod module is enabled - be sure this is what you want. Multiple versions are possibly installed."
             );
-        } else {
+        }
+        else {
             $reporter->WARN(
-                "$mod found in multiple locations in the library path. Possible obsolete extensions should be removed. Duplicates: ".join(' ', @found)
-            );
+"$mod found in multiple locations in the library path. Possible obsolete extensions should be removed. Duplicates: "
+                  . join( ' ', keys %found ) );
         }
     }
 }

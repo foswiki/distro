@@ -32,7 +32,8 @@ use File::Spec   ();
 
 use Assert;
 
-use Foswiki::Configure::Load ();
+use Foswiki::Configure::Load       ();
+use Foswiki::Configure::Dependency ();
 
 use constant GUESSED_MESSAGE => <<'HERE';
 I had to guess this setting in order to continue checking. You must

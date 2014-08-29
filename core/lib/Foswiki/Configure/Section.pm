@@ -136,7 +136,7 @@ sub getValueObject {
 
 sub getAllValueKeys {
     my $this = shift;
-    return keys $this->{_vobCache};
+    return keys %{ $this->{_vobCache} };
 }
 
 1;

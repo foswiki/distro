@@ -53,7 +53,10 @@ package Foswiki::Configure::Value;
 
 use strict;
 use warnings;
+
 use Data::Dumper ();
+
+use Assert;
 
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
@@ -298,6 +301,62 @@ sub stringify {
 
         $value = Data::Dumper::Dumper($value);
     }
+    return $value;
+}
+
+=begin TML
+
+---++ ObjectMethod encodeValue($true_value) -> $encoded_value
+
+Encode a "real" cfg value as a string (if necessary) for passing
+to other tools, such as UIs, in a type-sensitive way.
+
+=cut
+
+sub encodeValue {
+    my ( $this, $value ) = @_;
+
+    # Empty string always interpreted as undef
+    return '' if ( !defined $value );
+
+    if ( $this->{typename} eq 'REGEX' ) {
+        return "$value";
+    }
+    elsif ( $this->{typename} eq 'PERL' ) {
+        my $var1 = Data::Dumper->Dump( [$value] );
+        $var1 =~ s/^.*=\s*//;
+        return $var1;
+    }
+    else {
+        # Otherwise it's a type the UI can handle
+        return $value;
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod decodeValue($encoded_value) -> $true_value
+
+Decode a string that represents the value (e.g a serialsed perl structure)
+and return the 'true' value by applying type rules
+
+=cut
+
+sub decodeValue {
+    my ( $this, $value ) = @_;
+
+    # Empty string always interpreted as undef
+    return undef if ( !defined $value || $value eq '' );
+    if ( $this->{typename} eq 'REGEX' ) {
+        return qr/$value/;
+    }
+    elsif ( $this->{typename} eq 'PERL' ) {
+        my $value = eval $value;
+        ASSERT( !$@, $@ ) if DEBUG;
+        return $value;
+    }
+
+    # String or number or boolean, just sling it back
     return $value;
 }
 
