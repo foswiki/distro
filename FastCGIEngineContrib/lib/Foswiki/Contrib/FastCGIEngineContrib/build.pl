@@ -11,7 +11,7 @@ $build = new Foswiki::Contrib::Build('FastCGIEngineContrib');
 # files, but be warned, they can be overridden at upload time!
 
 # name of web to upload to
-$build->{UPLOADTARGETWEB} = 'Extensions';
+$build->{UPLOADTARGETWEB} = 'Extensions/Testing';
 
 # Full URL of pub directory
 $build->{UPLOADTARGETPUB} = 'http://foswiki.org/pub';
