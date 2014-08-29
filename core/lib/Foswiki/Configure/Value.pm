@@ -67,6 +67,7 @@ use Foswiki::Configure::FileUtil ();
 use constant ATTRSPEC => {
     FEEDBACK    => { parse_val => '_FEEDBACK' },
     CHECK       => { parse_val => '_CHECK' },
+    CHECKER     => {},
     MANDATORY   => {},
     MULTIPLE    => {},         # Allow multiple select
     HIDDEN      => {},

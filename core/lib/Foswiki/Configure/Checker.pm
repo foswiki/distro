@@ -79,18 +79,26 @@ $item is passed on to the checker's constructor.
 
 sub loadChecker {
     my ($item) = @_;
+    my $id;
 
-    ASSERT( $item && $item->{keys} ) if DEBUG;
+    if ( $item->{CHECKER} ) {
 
-    # Convert {key}{s} to key::s, removing illegal characters
-    # [-_\w] are legal. - => _.
-    my $id = $item->{keys};
+        # Checker override
+        $id = $item->{CHECKER};
+    }
+    else {
+        ASSERT( $item && $item->{keys} ) if DEBUG;
 
-    $id =~ s{\{([^\}]*)\}}{
-        my $lbl = $1;
-        $lbl =~ tr,-_a-zA-Z0-9\x00-\xff,__a-zA-Z0-9,d;
-        $lbl . '::'}ge
-      and substr( $id, -2 ) = '';
+        # Convert {key}{s} to key::s, removing illegal characters
+        # [-_\w] are legal. - => _.
+        $id = $item->{keys};
+
+        $id =~ s{\{([^\}]*)\}}{
+            my $lbl = $1;
+            $lbl =~ tr,-_a-zA-Z0-9\x00-\xff,__a-zA-Z0-9,d;
+            $lbl . '::'}ge
+          and substr( $id, -2 ) = '';
+    }
 
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
     my @packages   = Foswiki::Configure::FileUtil::findPackages($checkClass);

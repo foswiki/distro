@@ -5,14 +5,16 @@ use strict;
 use warnings;
 
 require Foswiki::Configure::Checker;
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
+
+use Foswiki::Configure::Checkers::URL ();
 
 # Checks the Extensions repository list.
 # Syntax:
 #   list := repospec[;repospec...]
 #   repospec := name=(listurl,puburl[,username,password])
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my $keys = $this->{item}->{keys};
 
@@ -30,16 +32,16 @@ sub check_current_value {
     while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
         my ( $name, $value ) = ( $1, $2 );
         if ( $value =~
-             /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
+            /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
         {
             push @list,
-            {
+              {
                 name => $name,
                 data => $1,
                 pub  => $2,
                 user => $3,
                 pass => $4
-            };
+              };
         }
         else {
             $reporter->ERROR("Syntax error in list at $value)$replist");

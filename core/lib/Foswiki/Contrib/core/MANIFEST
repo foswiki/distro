@@ -475,7 +475,6 @@ lib/Foswiki/Configure/Checkers/OS.pm 0444
 lib/Foswiki/Configure/Checkers/PasswordManager.pm 0444
 lib/Foswiki/Configure/Checkers/PATH.pm 0444
 lib/Foswiki/Configure/Checkers/PERL.pm 0444
-lib/Foswiki/Configure/Checkers/PLUGIN_ENABLED.pm 0444
 lib/Foswiki/Configure/Checkers/PLUGIN_MODULE.pm 0444
 lib/Foswiki/Configure/Checkers/PluginsOrder.pm 0444
 lib/Foswiki/Configure/Checkers/REGEX.pm 0444
