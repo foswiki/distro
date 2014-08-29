@@ -229,14 +229,14 @@ See Foswiki:Development/ExtensionDeveloperGuide
 For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 
 <verbatim class="tml"><a href="http://foswiki.org/">
-     <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif"\
-          alt="Powered by Foswiki" width="88" height="31"\
+     <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png"\
+          alt="Powered by Foswiki" height="42"\
           title="Powered by Foswiki" />
 </a></verbatim>
 
 Generating:
 
-<a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="Powered by Foswiki" width="88" height="31" title="Powered by Foswiki" /></a>
+<a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png" alt="Powered by Foswiki" height="42" title="Powered by Foswiki" /></a>
 
 The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 

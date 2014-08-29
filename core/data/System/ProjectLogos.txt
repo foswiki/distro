@@ -11,7 +11,7 @@ The official Foswiki logo and derivatives are attached to this page.
 
 <img src="%ATTACHURLPATH%/foswiki-logo-icon.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
-<img src="%ATTACHURLPATH%/foswiki-badge.gif" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img src="%ATTACHURLPATH%/foswiki-badge.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
 %STOPINCLUDE%
 
@@ -23,7 +23,7 @@ If you use the official artwork on your own site you must link back to Foswiki.o
 
 <verbatim class="tml">
 <a href="http://foswiki.org/">
-<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif"\
+<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png"\
     alt="This site is powered by Foswiki"\
     title="This site is powered by Foswiki" />
 </a></verbatim>
@@ -39,7 +39,7 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
 <!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="favicon-logo.ico" attr="" comment="" date="1348614818" path="favicon-logo.ico" size="1150" version=""}%
-%META:FILEATTACHMENT{name="foswiki-badge.gif" attr="" comment="" date="1348665285" path="foswiki-badge.gif" size="2765" version=""}%
+%META:FILEATTACHMENT{name="foswiki-badge.png" attr="" comment="" date="1348665285" path="foswiki-badge.png" size="2765" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="" date="1348932826" path="foswiki-logo-large.png" size="76105" version=""}%
 %META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1348665612" path="favicon.ico" size="1150" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-icon.png" attr="" comment="" date="1350071745" path="foswiki-logo-icon.png" size="2417" version=""}%
