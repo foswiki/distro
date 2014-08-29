@@ -94,6 +94,8 @@ Types.BOOLEAN = Types.BaseType.extend({
                     + '" />');
         if (change_handler != undefined)
             this.ui.change(change_handler);
+        if (typeof(this.spec.current_value) == 'undefined')
+            this.spec.current_value = 0;
         if (this.spec.current_value != 0) {
             this.ui.attr('checked', 'checked');
         }
