@@ -131,7 +131,7 @@ sub verify {
 
         my $info = JSON->new->decode($data);
 
-        unless ( ref($info) && $info->{ENV}->{SCRIPT_NAME} ) {
+        unless ( ref($info) && defined $info->{ENV}->{SCRIPT_NAME} ) {
             $reporter->ERROR(
                 "Server returned incorrect diagnostic data: =$data= ");
         }
