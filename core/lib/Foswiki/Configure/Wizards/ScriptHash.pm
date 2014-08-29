@@ -6,6 +6,8 @@ use warnings;
 
 use Assert;
 
+use JSON ();
+
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::Load       ();
 
@@ -50,8 +52,6 @@ sub verify {
 
     my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
     my $target = eval "\$Foswiki::cfg$keys";
-    $target = '' unless defined $target;
-    Foswiki::Configure::Load::expandValue($target);
 
     my $script = 'view';
     my ( $root, $view, $viewtarget );
@@ -74,7 +74,7 @@ sub verify {
     }
     $target =
       '$Foswiki::cfg{ScriptUrlPath}/' . $script . '$Foswiki::cfg{ScriptSuffix}'
-      if ( !defined $target );
+      unless ( defined $target );
     Foswiki::Configure::Load::expandValue($target);
     my $data;
 
@@ -97,7 +97,7 @@ sub verify {
         if ( $response->is_error ) {
             my $content = $response->content || '';
             $content =~ s/<([^>]*)>/&lt;$1&gt;/g;
-            $reporter->ERROR( "Failed to access \"=$url=\"<pre>"
+            $reporter->ERROR( "Failed to access =$url="
                   . $response->code . ' '
                   . $response->message . "\n\n"
                   . $content
@@ -113,62 +113,60 @@ sub verify {
                 last;
             }
             $reporter->NOTE(
-                "Redirected (" . $response->code . ") " . "to \"=$url=\"" );
+                "Redirected (" . $response->code . ") " . "to =$url=" );
             next;
         }
         $data = $response->content;
         unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
-            $reporter->ERROR("\"=$url=\" does not match request");
+            $reporter->ERROR("=$url= does not match request");
             last;
         }
         my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
         if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
             $reporter->WARN(
-"\"=$host=\" does not match {DefaultUrlHost} (=$Foswiki::cfg{DefaultUrlHost}=)"
+"=$host= does not match {DefaultUrlHost} (=$Foswiki::cfg{DefaultUrlHost}=)"
             );
         }
         $path ||= '';
-        my @server = split( /\|/, $data, 3 );
-        if ( @server != 3 ) {
-            my $ddat = ( split( /\r?\n/, $data, 2 ) )[0] || '';
+
+        my $info = JSON->new->decode($data);
+
+        unless ( ref($info) && $info->{ENV}->{SCRIPT_NAME} ) {
             $reporter->ERROR(
-                "Server returned incorrect diagnostic data:<pre>$ddat</pre>");
+                "Server returned incorrect diagnostic data: =$data= ");
         }
         else {
-            if ( $server[0] eq $target ) {
+            if ( $info->{ENV}->{SCRIPT_NAME} eq $target ) {
                 $reporter->NOTE(
                     "Server received the expected path (=$target=)");
             }
             elsif ($root) {
-                if ( $server[0] eq $view ) {
+                if ( $info->{ENV}->{SCRIPT_NAME} eq $view ) {
                     $reporter->NOTE(
-"Server received \"=$server[0]=\", which is the value of {ScriptUrlPaths}{view}.  This indicates that short(er) URLs are active and functioning correctly."
+"Server received =$view=, which is the value of {ScriptUrlPaths}{view}.  This indicates that short(er) URLs are active and functioning correctly."
                     );
                 }
                 else {
                     $reporter->ERROR(
-"Server received \"=$server[0]=\", but the expected path is \"=$viewtarget=\"<br />
-Changing {ScriptUrlPaths}{view} to \"=$server[0]=\" will probably correct this error. (Server may be configured for Shorter URLs.) <br />
-<a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+"Server received =$info->{ENV}->{SCRIPT_NAME}=, but the expected path is =$viewtarget=.
+Changing {ScriptUrlPaths}{view} to =$info->{ENV}->{SCRIPT_NAME}= will probably correct this error. (Server may be configured for Shorter URLs.)"
                     );
                 }
             }
             else {
                 $reporter->ERROR(
-"Server received \"=$server[0]=\", but the expected path is \"=$target=\"<br />
-The correct setting for $keys is probably \"=$server[0]=\".  (Server may be configured for Shorter URLs.) <br />
-<a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+"Server received =$info->{ENV}->{SCRIPT_NAME}=, but the expected path is =$target=.
+The correct setting for $keys is probably =$info->{ENV}->{SCRIPT_NAME}=.  (Server may be configured for Shorter URLs.)"
                 );
             }
         }
         if ( $path eq $target ) {
-            $reporter->NOTE_OK("Path \"=$path=\" is correct");
+            $reporter->NOTE("Path =$path= is correct");
         }
         elsif ($root) {
             if ( $path eq $view ) {
-                $reporter->NOTE_OK(
-                    "Path \"=$path=\" is correct for =view= with short(er) URLs"
-                );
+                $reporter->NOTE(
+                    "Path =$path= is correct for =view= with short(er) URLs");
             }
             else {
                 $reporter->ERROR( "Path used by "

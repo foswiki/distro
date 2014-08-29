@@ -230,15 +230,6 @@ sub NOTE {
 
 # Provided for use by check() implementations *only* new checkers
 # *must not* call this.
-sub NOTE_OK {
-    my $this = shift;
-    ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->CONFIRM(@_);
-    return join( ' ', @_ );
-}
-
-# Provided for use by check() implementations *only* new checkers
-# *must not* call this.
 sub WARN {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;

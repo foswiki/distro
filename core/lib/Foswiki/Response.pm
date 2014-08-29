@@ -376,7 +376,7 @@ sub body {
         # The output may be crap, but at least it won't trigger a
         # "Wide character in print" error.
         if ( utf8::is_utf8($body)
-            and ( $Foswiki::cfg{Site}{CharSet} ne 'utf-8' ) )
+            and ( $Foswiki::cfg{Site}{CharSet} || '' ) ne 'utf-8' )
         {
             require Encode;
 

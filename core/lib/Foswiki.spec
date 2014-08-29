@@ -103,7 +103,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='expand nullok notrail' MANDATORY**
+# **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
 # You should leave this as it is, unless your web server is configured for short URLs

@@ -317,8 +317,7 @@ to other tools, such as UIs, in a type-sensitive way.
 sub encodeValue {
     my ( $this, $value ) = @_;
 
-    # Empty string always interpreted as undef
-    return '' if ( !defined $value );
+    return undef unless defined $value;
 
     if ( $this->{typename} eq 'REGEX' ) {
         return "$value";
@@ -347,7 +346,8 @@ sub decodeValue {
     my ( $this, $value ) = @_;
 
     # Empty string always interpreted as undef
-    return undef if ( !defined $value || $value eq '' );
+    return undef unless defined $value;
+
     if ( $this->{typename} eq 'REGEX' ) {
         return qr/$value/;
     }
