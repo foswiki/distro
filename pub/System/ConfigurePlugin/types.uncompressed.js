@@ -9,10 +9,14 @@ function _id_ify(id) {
     id = id.replace(/[}{]/g, '-');
     id = id.replace(/['"]/g, '');
     id = id.replace(/[^A-Za-z0-9_]/g, '-');
-    return 'cfg' + id;
+    return 'i' + id;
 }
 
 Types.BaseType = Class.extend({
+    // Set to a function that returns true if the current value
+    // is to be null
+    null_if: null,
+
     init: function(spec) {
         this.spec = spec;
     },
@@ -57,6 +61,8 @@ Types.BaseType = Class.extend({
     },
 
     currentValue: function() {
+        if (this.null_if != null && this.null_if())
+            return null;
         return this.ui.val();
     },
 
@@ -75,7 +81,7 @@ Types.BaseType = Class.extend({
     isModified: function() {
         var cv = this.spec.current_value;
         if (typeof(cv) == 'undefined')
-            cv = '';
+            cv = null;
         return this.currentValue() != cv;
     },
 

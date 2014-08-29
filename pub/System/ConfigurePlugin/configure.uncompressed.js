@@ -46,6 +46,16 @@ var $TRUE = 1;
         return $image;
     }
 
+    // Find all modified values, and return key-values
+    function modified_values() {
+        var set = {};
+        $('.value_modified').each(function() {
+            var handler = $(this).data('value_handler');
+            set[handler.spec.keys] = handler.currentValue();
+        });
+        return set;
+    }
+
     // Make an RPC call
     function RPC(method, rid, params, report, $whirly) {
         $.jsonRpc(
@@ -87,7 +97,7 @@ var $TRUE = 1;
             // Update the key block report
             var has = { errors: 0, warnings: 0 };
             if (r.reports) {
-                var $reports = $('#' + id + '_reports');
+                var $reports = $('#REP' + id);
                 $.each(r.reports, function(index, rep) {
                     // An empty information message can be ignored
                     if (!(rep.level == 'notes' && rep.message == '')) {
@@ -110,7 +120,7 @@ var $TRUE = 1;
                     var sid = _id_ify(pel);
                     refresh_tabs[sid] = {};
                     $.each(has, function (index, level) {
-                        $('#' + sid + '_reports').first(
+                        $('#REP' + sid).first(
                             function() {
                                 var $whine = $('<div>' + path + ' > '
                                                + r.keys
@@ -129,7 +139,7 @@ var $TRUE = 1;
 
         // Refresh the tab element
         $.each(refresh_tabs, function(id, has) {
-            var $tab = $('#' + id + '_tab');
+            var $tab = $('#TAB' + id);
             if ($tab) {
                 $tab.removeClass('warnings').removeClass('errors');
                 if (has['warnings'])
@@ -202,12 +212,10 @@ var $TRUE = 1;
         update_modified_default($node);
 
         var handler = $node.data('value_handler');
-        var params = { keys: [ handler.spec.keys ], set: {} };
-        // Find and set *all* modified values
-        $('.value_modified').each(function() {
-            var handler = $(this).data('value_handler');
-            params.set[handler.spec.keys] = handler.currentValue();
-        });
+        var params = {
+            keys: [ handler.spec.keys ],
+            set: modified_values()
+        };
 
         RPC('check_current_value',
             'ccv' + handler.spec.keys,
@@ -223,15 +231,10 @@ var $TRUE = 1;
             wizard: fb.wizard,
             keys: handler.spec.keys,
             method: fb.method,
-            set: {},
+            set: modified_values(),
             cfgusername: $('#username').val(),
             cfgpassword: $('#password').val()
         };
-
-        $('.value_modified').each(function() {
-            var handler = $(this).data('value_handler');
-            params.set[handler.spec.keys] = handler.currentValue();
-        });
 
         RPC('wizard',
             'cw' + handler.spec.keys,
@@ -258,6 +261,40 @@ var $TRUE = 1;
                     check_current_value($key);
                 });
             $key.append($ui);
+
+            if (spec.UNDEFINEDOK == 1) {
+                // If undefined is OK, then we add a checkbox that
+                // needs to be clicked to see the value input.
+                // if it isn't checked, the value is undefined; if it
+                // is checked, then the value is at least ''. This
+                // works for all types, but only really makes sense on
+                // string types.
+                $node.addClass('undefinedOK');
+                var id = _id_ify('UOK' + spec.keys);
+                $key.append("<label for='"+id+"'></label>");
+                var $butt = $('<input type="checkbox" id="' + id
+                              + '">');
+                $butt.attr("title", "Enable this option to take a value");
+                $butt.click(function() {
+                    if ( $(this).attr("checked") )
+                        $ui.show();
+                    else
+                        $ui.hide();
+                    update_modified_default( $key );
+                }).show();
+                // Add a null_if handler to intercent the currentValue
+                // of the keys (see types.js)
+                handler.null_if = function () {
+                    return !$butt.attr("checked");
+                }
+                if (typeof(spec.current_value) == 'undefined'
+                    || spec.current_value == null) {
+                    $ui.hide();
+                } else {
+                    $butt.attr("checked", "checked");
+                }
+                $ui.before($butt);
+            }
 
             var $button = $('<button class="undo_button control_button"></button>');
             $button.attr('title', 'Reset to configured value: '
@@ -352,7 +389,7 @@ var $TRUE = 1;
             },
             function(response) {
                 var $report = $('<div class="reports"></div>');
-                $report.attr('id', _id_ify(spec.headline) + '_reports');
+                $report.attr('id', _id_ify('REP-' + spec.headline));
                 $node.append($report);
 
                 if (spec.desc) {
@@ -465,7 +502,8 @@ var $TRUE = 1;
                                 }
                             }));
 
-                var id = "NO_ID";
+                var id;
+
                 if (entry.keys != null) {
                     id = _id_ify(entry.keys);
                     $node.addClass("keyed");
@@ -491,7 +529,7 @@ var $TRUE = 1;
                 }
                 $node.attr('id', id + '_block');
                 var $report = $('<div class="reports"></div>');
-                $report.attr('id', id + '_reports');
+                $report.attr('id', 'REP' + id);
                 $node.append($report);
                 if (entry.desc) {
                     $node.append('<div class="description">'
@@ -513,7 +551,7 @@ var $TRUE = 1;
                            // cancel it in the beforeLoad, below.
                            + json_rpc_url
                            + '"><span class="tab" id="'
-                           + _id_ify(entry.headline) + '_tab">'
+                           + _id_ify('TAB' + entry.headline) + '">'
                            + entry.headline + '</span></a></li>');
                 $li.data('spec.entry', entry);
                 if ($children == null) {
@@ -601,18 +639,17 @@ var $TRUE = 1;
             $('#auth_prompt').dialog("open");
         });
 
+        $('#showExpert').button();
+
         $('#saveButton').button({disabled: true}).click(function() {
             // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
             confirm_action = function() {
                 var params = {
                     wizard: 'Save',
                     method: 'save',
-                    set: {}
+                    set: modified_values()
                 };
-                $('.value_modified').each(function() {
-                    var handler = $(this).data('value_handler');
-                    params.set[handler.spec.keys] = handler.currentValue();
-                });
+
                 RPC('wizard',
                     'save',
                     params,
