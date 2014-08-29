@@ -118,20 +118,29 @@ var $TRUE = 1;
 
                 $.each(r.path, function(index, pel) {
                     var sid = _id_ify(pel);
-                    refresh_tabs[sid] = {};
-                    $.each(has, function (index, level) {
-                        $('#REP' + sid).first(
-                            function() {
-                                var $whine = $('<div>' + path + ' > '
-                                               + r.keys
-                                               + ' has '
-                                               + level
-                                               + '</div>');
-                                $whine.addClass(level);
-                                $whine.addClass(id + '_report');
-                                $(this).append($whine);
-                                refresh_tabs[sid][level] = true;
-                            });
+                    if (!refresh_tabs[sid])
+                        refresh_tabs[sid] = {};
+                    $.each(has, function (level, count) {
+                        if (count > 0) {
+                            $('#REP' + sid)
+                                .first()
+                                .each(
+                                    function() {
+                                        var $whine = $('<div>' + path + ' > '
+                                                       + r.keys
+                                                       + ' has '
+                                                       + count + ' '
+                                                       + level
+                                                       + '</div>');
+                                        $whine.addClass(level);
+                                        $whine.addClass(id + '_report');
+                                        $(this).append($whine);
+                                        if (!refresh_tabs[sid][level])
+                                            refresh_tabs[sid][level] = count;
+                                        else
+                                            refresh_tabs[sid][level] += count;
+                                    });
+                        }
                     });
                 });
             }
@@ -142,9 +151,9 @@ var $TRUE = 1;
             var $tab = $('#TAB' + id);
             if ($tab) {
                 $tab.removeClass('warnings').removeClass('errors');
-                if (has['warnings'])
+                if (has['warnings'] > 0)
                     $tab.addClass('warnings');
-                if (has['errors'])
+                if (has['errors'] > 0)
                     $tab.addClass('errors');
             }
         });
@@ -270,7 +279,7 @@ var $TRUE = 1;
                 // works for all types, but only really makes sense on
                 // string types.
                 $node.addClass('undefinedOK');
-                var id = _id_ify('UOK' + spec.keys);
+                var id = 'UOK' + _id_ify(spec.keys);
                 $key.append("<label for='"+id+"'></label>");
                 var $butt = $('<input type="checkbox" id="' + id
                               + '">');
@@ -389,7 +398,7 @@ var $TRUE = 1;
             },
             function(response) {
                 var $report = $('<div class="reports"></div>');
-                $report.attr('id', _id_ify('REP-' + spec.headline));
+                $report.attr('id', 'REP' + _id_ify(spec.headline));
                 $node.append($report);
 
                 if (spec.desc) {
@@ -551,7 +560,7 @@ var $TRUE = 1;
                            // cancel it in the beforeLoad, below.
                            + json_rpc_url
                            + '"><span class="tab" id="'
-                           + _id_ify('TAB' + entry.headline) + '">'
+                           + 'TAB' + _id_ify(entry.headline) + '">'
                            + entry.headline + '</span></a></li>');
                 $li.data('spec.entry', entry);
                 if ($children == null) {
