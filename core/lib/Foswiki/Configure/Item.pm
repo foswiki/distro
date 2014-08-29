@@ -309,10 +309,10 @@ sub getSectionPath {
     my $this = shift;
     my @path = ();
 
-    if ( $this->{parent} ) {
-        @path = $this->{parent}->getSectionPath();
-        push( @path, $this->{parent}->{headline} )
-          if $this->{parent}->{headline};
+    if ( $this->{_parent} ) {
+        @path = $this->{_parent}->getSectionPath();
+        push( @path, $this->{_parent}->{headline} )
+          if $this->{_parent}->{headline};
     }
     return @path;
 }

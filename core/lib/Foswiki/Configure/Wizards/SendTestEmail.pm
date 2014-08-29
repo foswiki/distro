@@ -26,7 +26,7 @@ sub send {
     return 1 unless ( $Foswiki::cfg{EnableEmail} );
 
     # A non-null value is required for this to make sense
-    return unless $this->getCfg();
+    return unless $Foswiki::cfg{WebMasterEmail};
 
     # Expand a couple of required config settings for
     # Foswiki::Net::sendEmail after making sure we can restore them.
