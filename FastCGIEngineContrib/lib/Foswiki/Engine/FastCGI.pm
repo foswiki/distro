@@ -50,7 +50,7 @@ threads and fcgi backend processes that are allowed to be spawned by the web ser
 
 =cut
 
-our $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
+
 our $sock = 0;
 
 sub run {
@@ -75,13 +75,27 @@ sub run {
         $this->fork() if $args->{detach};
         eval "use " . $args->{manager} . "; 1";
         unless ($@) {
+            my $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
+            my $maxSize = $Foswiki::cfg{FastCGIContrib}{MaxSize} || 0;
+            my $checkSize = $Foswiki::cfg{FastCGIContrib}{CheckSize} || 10;
+
             $manager = $args->{manager}->new(
                 {
                     n_processes => $args->{nproc},
                     pid_fname   => $args->{pidfile},
-                    quiet       => $args->{quiet}
+                    quiet       => $args->{quiet},
+
+                    max_requests =>
+                      ( defined $args->{max} ? $args->{max} : $maxRequests ),
+
+                    max_size =>
+                      ( defined $args->{size} ? $args->{size} : $maxSize ),
+
+                    sizecheck_num_requests =>
+                      ( defined $args->{check} ? $args->{check} : $checkSize ),
                 }
             );
+
             $manager->pm_manage();
         }
         else {    # No ProcManager
@@ -114,8 +128,7 @@ sub run {
         }
 
         my $mtime = ( stat $localSiteCfg )[9];
-        $maxRequests--;
-        if ( $mtime > $lastMTime || $hupRecieved || $maxRequests == 0 ) {
+        if ( $mtime > $lastMTime || $hupRecieved ) {
             $r->LastCall();
             if ($manager) {
                 kill SIGHUP, $manager->pm_parameter('MANAGER_PID');
@@ -126,7 +139,7 @@ sub run {
         }
         $manager && $manager->pm_post_dispatch();
     }
-    reExec() if $hupRecieved || $maxRequests == 0;
+    reExec() if $hupRecieved;
     closeSocket($sock);
 }
 
@@ -149,6 +162,7 @@ sub preparePath {
 
     $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#
       if $ENV{PATH_INFO};
+
     $this->SUPER::preparePath(@_);
 }
 
@@ -172,7 +186,8 @@ sub reExec {
     chdir $main::dir
       or die
       "Foswiki::Engine::FastCGI::reExec(): Could not restore directory: $!";
-    exec $perl, '-wT', $main::script, map { /^(.*)$/; $1 } @ARGV
+
+    exec $perl, $main::script, map { /^(.*)$/; $1 } @ARGV
       or die "Foswiki::Engine::FastCGI::reExec(): Could not exec(): $!";
 }
 

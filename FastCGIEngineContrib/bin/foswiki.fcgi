@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
@@ -24,6 +24,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
+use warnings;
 
 BEGIN {
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::FastCGI';
@@ -36,25 +37,25 @@ use Getopt::Long;
 use Pod::Usage;
 use Foswiki;
 use Foswiki::UI;
-require Cwd;
+use Cwd;
 
 our ($script) = $0         =~ /^(.*)$/;
 our ($dir)    = Cwd::cwd() =~ /^(.*)$/;
 
-eval { eval substr( $0, 0, 0 ) };
-Foswiki::Engine::FastCGI::reExec() unless $@ =~ /^Insecure dependency in eval/;
-
 my @argv = @ARGV;
 
-my ( $listen, $nproc, $pidfile, $manager, $detach, $help, $quiet );
+my ( $listen, $nproc, $max, $size, $check, $pidfile, $manager, $detach, $help, $quiet );
 GetOptions(
     'listen|l=s'  => \$listen,
     'nproc|n=i'   => \$nproc,
+    'max|x=i'     => \$max,
+    'check|c=i'   => \$check,
+    'size|s=i'    => \$size,
     'pidfile|p=s' => \$pidfile,
     'manager|M=s' => \$manager,
     'daemon|d'    => \$detach,
     'help|?'      => \$help,
-    'quiet|q'       => \$quiet
+    'quiet|q'     => \$quiet,
 );
 
 pod2usage(1) if $help;
@@ -74,7 +75,10 @@ $Foswiki::engine->run(
         pidfile => $pidfile,
         manager => $manager,
         detach  => $detach,
-        quiet   => $quiet
+        quiet   => $quiet,
+        max     => $max,
+        size    => $size,
+        check   => $check,
     }
 );
 
@@ -89,6 +93,9 @@ foswiki.fcgi [options]
     -n --nproc      Number of backends to use, defaults to 1
     -p --pidfile    File used to write pid to
     -M --manager    FCGI manager class
+    -x --max        Maximum requests served per server instance
+    -c --check      Number of requests when to check the size of the server
+    -s --size       Maximum memory size of a server before being recycled
     -d --daemon     Detach from terminal and keeps running as a daemon
     -q --quiet      Disable notification messages
     -? --help       Display this help and exits

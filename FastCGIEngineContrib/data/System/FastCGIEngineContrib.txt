@@ -312,7 +312,7 @@ $HTTP["url"] =~ "^%URL%/" {
 }
 </pre>
 
----++ Nginx
+---+++ Nginx
 
 In contrast to Apache or Lighttpd Nginx does not control the life time of the =foswiki.fcgi= backend process. Instead you will
 have to start it yourself using the system's init process. The FCGI::ProcManager class will then take care of (re-)spawning 
@@ -401,6 +401,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 | Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
+|  29 Aug 2014 | (0.97) Foswikitask:Item13010 - fixed instability running under FCGI::ProcManager |
 |  20 Feb 2014 | (0.96) Foswikitask:Item12755 - fixed socket not being closed properly on a reExec; work around error in FCGI.pm; added =quiet= parameter to suppress normal messages; fixed tainted pid filename; | 
 |  08 Sep 2011 | (0.95) Foswikitask:Item9957 - remove uninitialised value log message |
 |  26 Oct 2010 | (0.94) Foswikitask:Item9902 - Adding more resources about how to get and install CPAN lib and mod_fcgid or mod_fastcgi. Also includes temporary fix from Foswikitask:Item1515: added maxRequests to ease memory leaks and fix for Foswikitask:Item9456: Taint error with foswiki.fcgi  |
