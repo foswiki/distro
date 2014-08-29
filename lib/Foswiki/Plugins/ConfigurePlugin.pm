@@ -632,7 +632,7 @@ sub changecfg {
     my $root = _loadSpec();
     _addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
 
-    _getSetParams($params);
+    _getSetParams( $params, $root );
 
     if ($purge) {
         $purged = _purgecfg($root);
@@ -884,14 +884,14 @@ sub wizard {
     my $params = shift;
 
     my $target;
+    my $root = _loadSpec();
     if ( defined $params->{wizard} ) {
         die unless $params->{wizard} =~ /^(\w+)$/;    # untaint
         $target = Foswiki::Configure::Wizard::loadWizard( $1, $params );
     }
     else {
         die unless $params->{keys};
-        my $root = _loadSpec();
-        my $vob  = $root->getValueObject( $params->{keys} );
+        my $vob = $root->getValueObject( $params->{keys} );
         $target = Foswiki::Configure::Checker::loadChecker($vob);
     }
     die unless $target;
@@ -900,7 +900,7 @@ sub wizard {
     $method = $1;                                     # untaint
     my $reporter = Foswiki::Configure::Reporter->new();
 
-    _getSetParams($params);
+    _getSetParams( $params, $root );
 
     $target->$method($reporter);
 
