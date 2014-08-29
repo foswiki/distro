@@ -142,16 +142,14 @@ sub _addSpecDefaultsToCfg {
         if ( exists( $spec->{default} )
             && eval("!exists(\$cfg->$spec->{keys})") )
         {
-            if ( $spec->{typename} eq 'REGEX' ) {
-                my $value = qr/$spec->{default}/;
-                eval("\$cfg->$spec->{keys}=\$value");
-            }
-            elsif ( $spec->{typename} eq 'PERL' ) {
-                my $value = eval $spec->{default};
+            # {default} stores a value string. Convert it to the
+            # value suitable for storing in cfg
+            my $value = $spec->decodeValue( $spec->{default} );
+            if ( defined $value ) {
                 eval("\$cfg->$spec->{keys}=\$value");
             }
             else {
-                eval("\$cfg->$spec->{keys}=\$spec->{default}");
+                eval("undef \$cfg->$spec->{keys}");
             }
         }
     }
@@ -172,21 +170,11 @@ sub _addCfgValuesToSpec {
         if (   eval("exists(\$cfg->$spec->{keys})")
             && eval("\$cfg->$spec->{keys}") ne "NOT SET" )
         {
-            # REGEX and PERL get special treatment as strings
-            if ( $spec->{typename} eq 'REGEX' ) {
-                my $value = eval "\$cfg->$spec->{keys}";
-                $spec->{current_value} = "$value";
-            }
-            elsif ( $spec->{typename} eq 'PERL' ) {
-                my $value = eval "\$cfg->$spec->{keys}";
-                my $var1 = Data::Dumper->Dump( [$value] );
-                $var1 =~ s/^.*=\s*//;
-                $spec->{current_value} = $var1;
-            }
-            else {
-                # Otherwise it's a type the UI can handle
-                $spec->{current_value} = eval "\$cfg->$spec->{keys}";
-            }
+            # Encode the value as something that can be handled by
+            # UIs
+            my $value = eval "\$cfg->$spec->{keys}";
+            ASSERT( !$@ ) if DEBUG;
+            $spec->{current_value} = $spec->encodeValue($value);
         }
 
         # Don't do this; it's not the case that the default value
@@ -407,12 +395,22 @@ each being a hash with keys =level= (e.g. =warnings=, =errors=), and
 =cut
 
 sub _getSetParams {
-    my $params = shift;
+    my ( $params, $root ) = @_;
 
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
-            if ( defined $v && $v =~ /(.*)/ ) {
-                eval "\$Foswiki::cfg$k=\$1";
+            if ( defined $v && $v ne '' ) {
+                my $spec  = $root->getValueObject($k);
+                my $value = $v;
+                if ($spec) {
+                    $value = $spec->decodeValue($value);
+                }
+                if ( defined $value ) {
+                    eval "\$Foswiki::cfg$k=\$value";
+                }
+                else {
+                    eval "undef \$Foswiki::cfg$k";
+                }
             }
             else {
                 eval "undef \$Foswiki::cfg$k";
@@ -482,7 +480,7 @@ sub check_current_value {
     my %deps;
 
     # Apply "set" values to $Foswiki::cfg
-    _getSetParams($params);
+    _getSetParams( $params, $root );
 
     if ( $params->{check_dependencies} ) {
 
@@ -615,6 +613,7 @@ Result is a string reporting the outcome.
 
 =cut
 
+# SMELL: decide whether to use this, of the Save wizard
 sub changecfg {
     my $params    = shift;
     my $changes   = $params->{set};      # expect a hash

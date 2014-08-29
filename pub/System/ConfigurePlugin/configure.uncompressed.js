@@ -177,9 +177,11 @@ var $TRUE = 1;
         var handler = $node.data('value_handler');
         if (handler.isModified()) {
             $node.addClass("value_modified");
+            $node.find('.undo_button').show();
             $('#saveButton').button("enable");
         } else {
             $node.removeClass("value_modified");
+            $node.find('.undo_button').hide();
             if (!$('#saveButton').button("option", "disabled")) {
                 $('#saveButton').button('disable');
                 $('.value_modified').first().each(function() {
@@ -188,10 +190,11 @@ var $TRUE = 1;
             }
         }
 
-        if (handler.isDefault())
-            $node.addClass("value_default");
-        else
-            $node.removeClass("value_default");
+        if (handler.isDefault()) {
+            $node.find('.default_button').hide();
+        } else {
+            $node.find('.default_button').show();
+        }
     }
 
     // Performs a check on a key
@@ -256,7 +259,7 @@ var $TRUE = 1;
                 });
             $key.append($ui);
 
-            var $button = $('<button class="undo_button"></button>');
+            var $button = $('<button class="undo_button control_button"></button>');
             $button.attr('title', 'Reset to configured value: '
                          + spec.current_value);
             $button.click(function() {
@@ -267,10 +270,10 @@ var $TRUE = 1;
                     primary: "undo-icon"
                 },
                 text: false
-            });
+            }).hide();
             $key.append($button);
 
-            $button = $('<button class="default_button"></button>');
+            $button = $('<button class="default_button control_button"></button>');
             $button.attr('title', 'Reset to default value: ' + spec.default);
             $button.click(function() {
                 handler.restoreDefaultValue();
@@ -280,7 +283,7 @@ var $TRUE = 1;
                     primary: "default-icon"
                 },
                 text: false
-            });
+            }).hide();
             $key.append($button);
 
             if (spec.FEEDBACK)
@@ -436,24 +439,28 @@ var $TRUE = 1;
                 var $node = $('<div class="node valued closed"></div>');
                 $node.data('spec.entry', entry);
                 if (entry.EXPERT && entry.EXPERT == 1) {
-                    // Set inexpert to suppress display
-                    $node.addClass('inexpert');
+                    $node.addClass('expert');
+                    $node.addClass('hidden_expert');
                 }
                 var label = entry.LABEL;
                 if (entry.DISPLAY_IF != null)
                     on_ready.push(
                         add_dependency(
-                            entry.DISPLAY_IF, $node, function ($el, tf) {
-                                $el.toggle(tf);
+                            entry.DISPLAY_IF, $node, function ($n, tf) {
+                                if (tf) {
+                                    // Display if not expert
+                                    $n.removeClass('hidden_di');
+                                } else
+                                    $n.addClass('hidden_di');
                             }));
                 if (entry.ENABLE_IF != null)
                     on_ready.push(
                         add_dependency(
-                            entry.ENABLE_IF, $node, function($el, tf) {
+                            entry.ENABLE_IF, $node, function($n, tf) {
                                 if (tf) {
-	                            $el.find("input,textarea").removeAttr('disabled');
+	                            $n.find("input,textarea").removeAttr('disabled');
                                 } else {
-	                            $el.find("input,textarea")
+	                            $n.find("input,textarea")
                                         .attr('disabled', 'disabled');
                                 }
                             }));
@@ -467,7 +474,7 @@ var $TRUE = 1;
                     var $head = $('<div class="keys">' + label + '</div>');
                     $node.append($head);
                     if (entry.desc) {
-                        var $infob = $('<button class="info_button"></button>');
+                        var $infob = $('<button class="control_button"></button>');
                         $head.prepend($infob);
                         $infob.click(function() {
                             toggle_description($(this).closest('.keyed'));
@@ -622,7 +629,7 @@ var $TRUE = 1;
                             $('.value_modified').each(function() {
                                 var handler = $(this).data('value_handler');
                                 handler.commitVal();
-                                $(this).removeClass('value_modified');
+                                update_modified_default($(this));
                             });
                         }
                     },
@@ -660,12 +667,12 @@ var $TRUE = 1;
 
                 $('#showExpert').change(function() {
                     if (this.checked) {
-                        $('.inexpert').each(function() {
-                            $(this).removeClass('inexpert').addClass('expert');
+                        $('.expert').each(function() {
+                            $(this).removeClass('hidden_expert');
                         });
                     } else {
                         $('.expert').each(function() {
-                            $(this).removeClass('expert').addClass('inexpert');
+                            $(this).addClass('hidden_expert');
                         });
                     }
                 }).removeAttr('disabled');

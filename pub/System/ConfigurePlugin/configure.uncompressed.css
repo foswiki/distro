@@ -99,7 +99,6 @@ div.information {
 
 /* Shown if value has been modified in this session */
 .undo_button {
-    display: none;
     width: 20px !important;
     height: 20px !important;
 }
@@ -108,35 +107,14 @@ div.information {
     background-image: url("undo-modified-icon.png") !important;
 }
 
-.value_modified > .undo_button {
-    display: inline;
-}
-
-.value_default > .default_button {
-    display: none;
-}
-
 /* Button shown if value differs from default */
-.default_button {
-    display: inline;
-    width: 20px !important;
-    height: 20px !important;
-}
-
-.help_button {
-    display: inline;
+.control_button {
     width: 20px !important;
     height: 20px !important;
 }
 
 .default-icon {
     background-image: url("reset-icon.png") !important;
-}
-
-.info_button {
-    margin-left: 1em;
-    width: 20px !important;
-    height: 20px !important;
 }
 
 .info-icon {
@@ -151,16 +129,12 @@ div.information {
     background-repeat: no-repeat;
 }
 
-.inexpert {
+.hidden_expert {
     display: none;
 }
 
-.inexpert .warnings {
-    display: block;
-}
-
-.inexpert .errors {
-    display: block;
+.hidden_di {
+    display: none;
 }
 
 .closed_dialog {

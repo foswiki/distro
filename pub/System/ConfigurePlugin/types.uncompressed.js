@@ -69,7 +69,7 @@ Types.BaseType = Class.extend({
     },
 
     restoreDefaultValue: function() {
-        this.useVal(eval(this.spec.default));
+        this.useVal(this.spec.default);
     },
 
     isModified: function() {
@@ -82,13 +82,8 @@ Types.BaseType = Class.extend({
     isDefault: function() {
         // Implementation appropriate for number and string types
         // which can be compared as their base type in JS. More
-        // complex types need conversion to string first.
-        try {
-            return this.currentValue() == eval(this.spec.default);
-        } catch(err) {
-            // Catch types giving problems
-            debugger;
-        }
+        // complex types may need conversion to string first.
+        return this.currentValue() == this.spec.default;
     }
 
 });
@@ -298,10 +293,11 @@ Types.SELECT = Types.BaseType.extend({
 
     useVal: function(val) {
         var sel = this._getSel(val);
-        if (this.spec.select_from != undefined) {
+        var sf = this.spec.select_from;
+        if (sf != undefined) {
             var i = 0;
             this.ui.find('option').each(function() {
-                var opt = this.spec.select_from[i++];
+                var opt = sf[i++];
                 if (sel[opt])
                     $(this).attr('selected', 'selected');
                 else
