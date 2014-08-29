@@ -46,6 +46,10 @@ cd $ROOT/FoswikiOrgPlugin
 git pull --force
 cd $ROOT/FoswikirefsPlugin
 git pull --force
+cd $ROOT/JsonRpcContirb
+git pull --force
+cd $ROOT/ConfigurePlugin
+git pull --force
 
 # Remove broken links.
 echo Removing broken links
