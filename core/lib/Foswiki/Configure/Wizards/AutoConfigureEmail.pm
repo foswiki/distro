@@ -254,6 +254,15 @@ sub _setMailProgram {
 Identified $cfg->{name} ( =$path/$cfg->{file}= ) as your mail program
 ID
 
+    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
+    _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
+    _setConfig( $reporter,
+        '{MailProgram}', "$path/$cfg->{file} $cfg->{flags}" );
+    _setConfig( $reporter, '{SMTP}{DebugFlags}', $cfg->{debug} );
+    _setConfig( $reporter, '{EnableEmail}',      1 );
+    _setConfig( $reporter, '{SMTP}{MAILHOST}',
+        ' ---- Unused when MailProgram selected ---' );
+
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
     _sniffSELinux($reporter), $reporter->NOTE(ACCEPTMSG);
