@@ -54,7 +54,7 @@ sub save {
 
     # Sort keys so it's possible to diff LSC files.
     local $Data::Dumper::Sortkeys = 1;
-    die "FUCK" if $Foswiki::cfg{DataDir} eq 'NOT SET';
+
     my ( @backups, $backup );
 
     my $old_content;
@@ -136,9 +136,8 @@ sub save {
         last;
     }
 
-    if ( defined $old_content ) {
+    if ( defined $old_content && $old_content =~ /^(.*)$/s ) {
         local %Foswiki::cfg;
-        $old_content =~ /^(.*)$/;
         eval $1;
         if ($@) {
             $reporter->ERROR("Error reading existing LocalSite.cfg: $@");
