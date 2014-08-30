@@ -588,7 +588,7 @@ sub _autoconfigPerl {
     close $fd2;
     open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
     close $stderr;
-    $reporter->NOTE("PREFORMAT:$tlog");
+    $reporter->NOTE($tlog);
 
     unless (@use) {
         _diagnoseFailure( $noconnect, $allconnect, $reporter );
@@ -606,7 +606,7 @@ sub _autoconfigPerl {
     if ( $use[2] == 1 || $use[2] == 4 ) {    # OK, Not required
         $reporter->NOTE( $use[3], ACCEPTMSG );
     }
-    if ( $use[2] == 2 ) {                    # Bad credentials
+    elsif ( $use[2] == 2 ) {                 # Bad credentials
             # Authentication failed, perl is OK, don't try program.
         $reporter->ERROR( $use[3] );
     }
