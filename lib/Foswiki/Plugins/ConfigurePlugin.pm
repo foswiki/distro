@@ -94,10 +94,21 @@ sub _JSONwrap {
 
         if ( $Foswiki::cfg{isVALID} ) {
 
-            # Check rights to use this interface - admins only
-            die
-              "You must be logged in as an administrator to use this interface."
-              unless Foswiki::Func::isAnAdmin();
+            if ( defined $Foswiki::cfg{ConfigureFilter}
+                && length( $Foswiki::cfg{ConfigureFilter} ) )
+            {
+                unless ( $session->{user} =~ m/$Foswiki::cfg{ConfigureFilter}/ )
+                {
+                    die
+                      "You must have special permission to use this interface.";
+                }
+            }
+            else {
+                # Check rights to use this interface - admins only
+                die
+"You must be logged in as an administrator to use this interface."
+                  unless Foswiki::Func::isAnAdmin();
+            }
         }
         else {
             # Otherwise we must be bootstrapping - an inherently dangerous
