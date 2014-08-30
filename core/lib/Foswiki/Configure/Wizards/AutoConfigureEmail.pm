@@ -273,6 +273,15 @@ sub _setMailProgram {
 Identified $cfg->{name} ( =$path/$cfg->{file}= ) as your mail program
 ID
 
+    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
+    _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
+    _setConfig( $reporter,
+        '{MailProgram}', "$path/$cfg->{file} $cfg->{flags}" );
+    _setConfig( $reporter, '{SMTP}{DebugFlags}', $cfg->{debug} );
+    _setConfig( $reporter, '{EnableEmail}',      1 );
+    _setConfig( $reporter, '{SMTP}{MAILHOST}',
+        ' ---- Unused when MailProgram selected ---' );
+
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
     _sniffSELinux($reporter);
@@ -609,7 +618,7 @@ sub _autoconfigPerl {
     close $fd2;
     open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
     close $stderr;
-    $reporter->NOTE("PREFORMAT:$tlog");
+    $reporter->NOTE($tlog);
 
     unless (@use) {
         _diagnoseFailure( $noconnect, $allconnect, $reporter );
@@ -627,7 +636,7 @@ sub _autoconfigPerl {
     if ( $use[2] == 1 || $use[2] == 4 ) {    # OK, Not required
         $reporter->NOTE( $use[3], ACCEPTMSG );
     }
-    if ( $use[2] == 2 ) {                    # Bad credentials
+    elsif ( $use[2] == 2 ) {                 # Bad credentials
             # Authentication failed, perl is OK, don't try program.
         $reporter->NOTE( $use[3] );
     }
@@ -638,7 +647,30 @@ sub _autoconfigPerl {
         );
         return 0;
     }
+
+    $use[1] =~ s/^.*\((\d+)\)$/$1/;
+    $host = "[$host]" if ( $hInfo->{ipv6addr} );
+    my $cfg = $use[0];
+
+    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
+    _setConfig( $reporter, '{Email}{MailMethod}', $cfg->{method} );
+    _setConfig( $reporter, '{SMTP}{SENDERHOST}',  $hello );
+    _setConfig( $reporter, '{SMTP}{Username}',    $username );
+    _setConfig( $reporter, '{SMTP}{Password}',    $password );
+    _setConfig( $reporter, '{SMTP}{MAILHOST}',    $host . ':' . $use[1] );
+    _setConfig( $reporter, '{Email}{SSLVerifyServer}', ( $cfg->{verify} || 0 ) )
+      if ( $cfg->{ssl} );
+
     return 1;
+}
+
+sub _setConfig {
+
+    #my ($reporter, $setting, $value) = @_;
+
+    eval( '$Foswiki::cfg' . $_[1] . ' = ' . '"' . $_[2] . '"' );
+    $_[0]->CHANGED( $_[1] );
+    return;
 }
 
 # Support routines

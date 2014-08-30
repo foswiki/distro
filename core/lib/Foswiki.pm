@@ -44,6 +44,7 @@ with CGI accelerators such as mod_perl.
 use strict;
 use warnings;
 use Assert;
+use Cwd qw( abs_path );
 use Error qw( :try );
 use File::Spec               ();
 use Monitor                  ();
@@ -352,6 +353,8 @@ BEGIN {
     }
     else {
 
+        use constant TRAUTO => 1;
+
         # Failed to read LocalSite.cfg
         # Clear out $Foswiki::cfg to allow variable expansion to work
         # when reloading Foswiki.spec et al.
@@ -373,32 +376,79 @@ BEGIN {
         my $bin = $1;
         $FindBin::Script =~ /^(.*)$/;
         my $script = $1;
+        print STDERR
+"AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
+          if (TRAUTO);
 
         my $protocol = $ENV{HTTPS} ? 'https' : 'http';
         if ( $ENV{HTTP_HOST} ) {
             $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
+            print STDERR
+"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from HTTP_HOST $ENV{HTTP_HOST} \n"
+              if (TRAUTO);
         }
         elsif ( $ENV{SERVER_NAME} ) {
             $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{SERVER_NAME}";
+            print STDERR
+"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from SERVER_NAME $ENV{SERVER_NAME} \n"
+              if (TRAUTO);
         }
         else {
             # OK, so this is barfilicious. Think of something better.
             $Foswiki::cfg{DefaultUrlHost} = "$protocol://localhost";
+            print STDERR
+"AUTOCONFIG: barfilicious: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} \n"
+              if (TRAUTO);
         }
 
         # Examine the CGI path
         if ( $ENV{SCRIPT_NAME} ) {
+            print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME} \n"
+              if (TRAUTO);
             if ( $ENV{SCRIPT_NAME} =~ m{^(.*?)/$script(\b|$)} ) {
+
+                # Conventional URLs   with path and script
                 $Foswiki::cfg{ScriptUrlPath} = $1;
 
                 # This might not work, depending on the websrver config,
                 # but it's the best we can do
                 $Foswiki::cfg{PubUrlPath} = "$1/../pub";
             }
+            else {
+                # Short URLs but with a path
+                print STDERR
+                  "AUTOCONFIG: Found path, but no script. short URLs \n"
+                  if (TRAUTO);
+                $Foswiki::cfg{ScriptUrlPath} = $ENV{SCRIPT_NAME} . '/bin';
+                $Foswiki::cfg{'ScriptUrlPaths'}{'view'} = '';
+                $Foswiki::cfg{PubUrlPath} = $ENV{SCRIPT_NAME} . '/pub';
+            }
         }
         else {
-            $Foswiki::cfg{ScriptUrlPath} = '/';
+            #  No script, no path,  shortest URLs
+            print STDERR
+              "AUTOCONFIG: No path, No script, probably shorter URLs \n"
+              if (TRAUTO);
+            $Foswiki::cfg{ScriptUrlPaths}{view} = '';
+            $Foswiki::cfg{ScriptUrlPath}        = '/bin';
+            $Foswiki::cfg{PubUrlPath}           = '/pub';
         }
+
+        print STDERR
+          "AUTOCONFIG: Using ScriptUrlPath $Foswiki::cfg{ScriptUrlPath} \n"
+          if (TRAUTO);
+        print STDERR "AUTOCONFIG: Using {ScriptUrlPaths}{view} "
+          . (
+            ( defined $Foswiki::cfg{ScriptUrlPaths}{view} )
+            ? $Foswiki::cfg{ScriptUrlPaths}{view}
+            : 'undef'
+          )
+          . "\n"
+          if (TRAUTO);
+        print STDERR
+          "AUTOCONFIG: Using PubUrlPath: $Foswiki::cfg{PubUrlPath} \n"
+          if (TRAUTO);
+
         my %rel_to_root = (
             DataDir    => { dir => 'data',   required => 0 },
             LocalesDir => { dir => 'locale', required => 0 },
@@ -428,7 +478,14 @@ BEGIN {
         my $fatal = '';
         my $warn  = '';
         while ( my ( $key, $def ) = each %rel_to_root ) {
-            $Foswiki::cfg{$key} = "$root/$def->{dir}";
+            $Foswiki::cfg{$key} = File::Spec->rel2abs( $def->{dir}, $root );
+            $Foswiki::cfg{$key} = abs_path( $Foswiki::cfg{$key} );
+            ( $Foswiki::cfg{$key} ) =
+              $Foswiki::cfg{$key} =~ m/^(.*)$/;    # untaint
+
+            print STDERR "AUTOCONFIG: $key = $Foswiki::cfg{$key} \n"
+              if (TRAUTO);
+
             if ( -d $Foswiki::cfg{$key} ) {
                 if ( $def->{validate_file}
                     && !-e "$Foswiki::cfg{$key}/$def->{validate_file}" )

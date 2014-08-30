@@ -113,8 +113,8 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # (so you'll have to leave this field empty if your wiki lives at the top level).
 # <p></p>
 # More information: <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
-$Foswiki::cfg{ScriptUrlPaths}{view} =
-  '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
+#$Foswiki::cfg{ScriptUrlPaths}{view} =
+#  '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
@@ -1408,7 +1408,8 @@ $Foswiki::cfg{Store}{EgrepCmd} =
 $Foswiki::cfg{Store}{FgrepCmd} =
   '$Foswiki::cfg{_grepProgram} -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
-# **BOOLEAN EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation})"**
+#---++ File system settings
+# **BOOLEAN EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
 # Some systems will override the default umask to a highly restricted setting,
 # which will block the application of the file and directory permissions.
 # If mod_suexec is enabled, the Apache umask directive will also be ignored.
@@ -1417,7 +1418,7 @@ $Foswiki::cfg{Store}{FgrepCmd} =
 # {Store}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 
-# **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation})"**
+# **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
 # File security for new directories created by stores, only used by store
 # implementations that create plain files. You may have
 # to adjust these permissions to allow (or deny) users other than the
@@ -1426,7 +1427,7 @@ $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{Store}{dirPermission} = 0755;
 
-# **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation})"**
+# **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
 # File security for new directories created by stores, only used by store
 # implementations that create plain files. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
