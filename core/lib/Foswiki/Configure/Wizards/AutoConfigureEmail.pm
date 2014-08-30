@@ -617,7 +617,30 @@ sub _autoconfigPerl {
         );
         return 0;
     }
+
+    $use[1] =~ s/^.*\((\d+)\)$/$1/;
+    $host = "[$host]" if ( $hInfo->{ipv6addr} );
+    my $cfg = $use[0];
+
+    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
+    _setConfig( $reporter, '{Email}{MailMethod}', $cfg->{method} );
+    _setConfig( $reporter, '{SMTP}{SENDERHOST}',  $hello );
+    _setConfig( $reporter, '{SMTP}{Username}',    $username );
+    _setConfig( $reporter, '{SMTP}{Password}',    $password );
+    _setConfig( $reporter, '{SMTP}{MAILHOST}',    $host . ':' . $use[1] );
+    _setConfig( $reporter, '{Email}{SSLVerifyServer}', ( $cfg->{verify} || 0 ) )
+      if ( $cfg->{ssl} );
+
     return 1;
+}
+
+sub _setConfig {
+
+    #my ($reporter, $setting, $value) = @_;
+
+    eval( '$Foswiki::cfg' . $_[1] . ' = ' . '"' . $_[2] . '"' );
+    $_[0]->CHANGED( $_[1] );
+    return;
 }
 
 # Support routines
