@@ -160,7 +160,7 @@ var $TRUE = 1;
         $('body').css('cursor','auto');
     }
 
-    // Create a popup with reports
+    // Create a popup with reports, and apply changes
     function wizard_reports(results) {
         $('body').css('cursor','wait');
         // Generate reports
@@ -170,14 +170,19 @@ var $TRUE = 1;
             $whine.addClass(rep.level);
             $div.append($whine);
         });
-        // Reflect changed values back to the input elements
+        // Reflect changed values back to the input elements and
+        // run the checker on them
         $.each(results.changes, function(keys, value) {
             // Get the input for the keys, if it's there
-            var $input = $('#' + _id_ify(keys));
-            $input.each(function() {
-                $(this).attr('value', value);
-                update_modified_default($(this).closest('div.node'));
-            })
+            $('#' + _id_ify(keys))
+                .closest('.node')
+                .each(function() {
+                    var $node = $(this);
+                    var handler = $node.data('value_handler');
+                    handler.useVal(value);
+                    // Fire off checker
+                    check_current_value($node);
+                })
         });
         $div.dialog({
             width: '60%',

@@ -33,7 +33,7 @@ Types.BaseType = Class.extend({
             var cols = m[1];
             var rows = m[2];
             var value = val == undefined ? '' : val;
-            this.ui = $('<textarea id="' + _id_ify(this.spec.keys)
+            this.$ui = $('<textarea id="' + _id_ify(this.spec.keys)
                         + '" rows="' + rows
                         + '" cols="' + cols
                         + '" class="foswikiTextArea">' + value + '</textarea>');
@@ -44,26 +44,26 @@ Types.BaseType = Class.extend({
                 && (m = this.spec.SIZE.match(/^\s*(\d+)(\s|$)/))) {
                 size = m[1];
             }
-            this.ui = $('<input id="' + _id_ify(this.spec.keys)
+            this.$ui = $('<input id="' + _id_ify(this.spec.keys)
                         + '" size="' + size + '"/>');
-            this.ui.attr('value', val);
+            this.$ui.val(val);
         }
         if (this.spec.SPELLCHECK) {
-            this.ui.attr('spellcheck', "true");
+            this.$ui.attr('spellcheck', 'true');
         }
         if (change_handler != undefined)
-            this.ui.change(change_handler);
-        return this.ui;
+            this.$ui.change(change_handler);
+        return this.$ui;
     },
 
     useVal: function(val) {
-        this.ui.val(val);
+        this.$ui.val(val);
     },
 
     currentValue: function() {
         if (this.null_if != null && this.null_if())
             return null;
-        return this.ui.val();
+        return this.$ui.val();
     },
 
     commitVal: function() {
@@ -96,23 +96,23 @@ Types.BaseType = Class.extend({
 
 Types.BOOLEAN = Types.BaseType.extend({
     createUI: function(change_handler) {
-        this.ui = $('<input type="checkbox" id="' + _id_ify(this.spec.keys)
+        this.$ui = $('<input type="checkbox" id="' + _id_ify(this.spec.keys)
                     + '" />');
         if (change_handler != undefined)
-            this.ui.change(change_handler);
+            this.$ui.change(change_handler);
         if (typeof(this.spec.current_value) == 'undefined')
             this.spec.current_value = 0;
         if (this.spec.current_value != 0) {
-            this.ui.attr('checked', 'checked');
+            this.$ui.attr('checked', 'checked');
         }
         if (this.spec.extraClass) {
-            this.ui.addClass(this.spec.extraClass);
+            this.$ui.addClass(this.spec.extraClass);
         }
-        return this.ui;
+        return this.$ui;
     },
 
     currentValue: function() {
-        return this.ui[0].checked ? 1 : 0;
+        return this.$ui[0].checked ? 1 : 0;
     },
 
     isModified: function() {
@@ -128,7 +128,7 @@ Types.BOOLEAN = Types.BaseType.extend({
     },
 
     useVal: function(val) {
-        this.ui[0].attr(checked, val ? 'checked' : '');
+        this.$ui.attr('checked', val ? 'checked' : '');
     }
 });
 
@@ -140,16 +140,16 @@ Types.BOOLGROUP = Types.BaseType.extend({
         for (var i = 0; i < values.length; i++) {
             sets[values[i]] = true;
         }
-        this.ui = $('<div class="checkbox_group"></div>');
+        this.$ui = $('<div class="checkbox_group"></div>');
         for (var i = 0; i < options.length; i++) {
             var cb = $('<input type="checkbox" name="' + options[i]
                        + ' id="' + _id_ify(this.spec.keys) + '"/>');
             if (sets[options[i]])
                 cb.attr('checked', 'checked');
             cb.change(change_handler);
-            this.ui.append(cb);
+            this.$ui.append(cb);
         }
-        return this.ui;
+        return this.$ui;
     },
 
     currentValue: function() {
@@ -168,7 +168,7 @@ Types.BOOLGROUP = Types.BaseType.extend({
             sets[values[i]] = true;
         }
         var i = 0;
-        this.ui.find('input[type="checkbox"]').each(function() {
+        this.$ui.find('input[type="checkbox"]').each(function() {
             if (sets[options[i++]])
                 cb.attr('checked', 'checked');
         });
@@ -178,9 +178,9 @@ Types.BOOLGROUP = Types.BaseType.extend({
 Types.PASSWORD = Types.BaseType.extend({
     createUI: function(change_handler) {
         this._super(change_handler);
-        this.ui.attr('type', 'password');
-        this.ui.attr('autocomplete', 'off');
-        return this.ui;
+        this.$ui.attr('type', 'password');
+        this.$ui.attr('autocomplete', 'off');
+        return this.$ui;
     }
 });
 
@@ -214,7 +214,7 @@ Types.OCTAL = Types.BaseType.extend({
     },
 
     currentValue: function() {
-        var newval = this.ui.val();
+        var newval = this.$ui.val();
         return newval.toString(8);
     }
 });
@@ -222,8 +222,8 @@ Types.OCTAL = Types.BaseType.extend({
 Types.PATHINFO = Types.BaseType.extend({
     createUI: function(change_handler) {
         this._super(change_handler);
-        this.ui.attr('readonly', 'readonly');
-        return this.ui;
+        this.$ui.attr('readonly', 'readonly');
+        return this.$ui;
     }
 });
 
@@ -233,19 +233,19 @@ Types.PATHINFO = Types.BaseType.extend({
 Types.NULL = Types.BaseType.extend({
     createUI: function(change_handler) {
         this._super(change_handler);
-        this.ui.attr('readonly', 'readonly');
-        this.ui.attr('disabled', 'disabled');
-        this.ui.attr('size', '1');
-        return this.ui;
+        this.$ui.attr('readonly', 'readonly');
+        this.$ui.attr('disabled', 'disabled');
+        this.$ui.attr('size', '1');
+        return this.$ui;
     }
 });
 
 Types.BUTTON = Types.BaseType.extend({
     createUI: function() {
-        this.ui = $('<a href="' + this.spec.uri + '">'
+        this.$ui = $('<a href="' + this.spec.uri + '">'
                     + this.spec.title + '</a>');
-        this.ui.button();
-        return this.ui;
+        this.$ui.button();
+        return this.$ui;
     },
 
     useVal: function() {
@@ -277,12 +277,12 @@ Types.SELECT = Types.BaseType.extend({
         if (this.spec.SIZE && (m = this.spec.SIZE.match(/\b(\d+)\b/)))
             size = m[0];
 
-        this.ui = $('<select id="' + _id_ify(this.spec.keys) + '" size="' + size
+        this.$ui = $('<select id="' + _id_ify(this.spec.keys) + '" size="' + size
                     + '" class="foswikiSelect" />');
         if (change_handler != undefined)
-            this.ui.change(change_handler);
+            this.$ui.change(change_handler);
         if (this.spec.MULTIPLE) {
-            this.ui.attr('multiple', 'multiple');
+            this.$ui.attr('multiple', 'multiple');
         }
 
         if (this.spec.select_from != undefined) {
@@ -293,10 +293,10 @@ Types.SELECT = Types.BaseType.extend({
                 if (sel[opt]) {
                     option.attr('selected', 'selected');
                 }
-                this.ui.append(option);
+                this.$ui.append(option);
             }
         }
-        return this.ui;
+        return this.$ui;
     },
 
     useVal: function(val) {
@@ -304,7 +304,7 @@ Types.SELECT = Types.BaseType.extend({
         var sf = this.spec.select_from;
         if (sf != undefined) {
             var i = 0;
-            this.ui.find('option').each(function() {
+            this.$ui.find('option').each(function() {
                 var opt = sf[i++];
                 if (sel[opt])
                     $(this).attr('selected', 'selected');
