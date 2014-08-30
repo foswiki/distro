@@ -621,6 +621,18 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 # Note that this setting also controls access to the <tt>rdiff</tt> and <tt>compare</tt> scripts.
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
+# **REGEX 80 **
+# FilterIn regex.  If this is configured, then users attempting to access configure
+# are validated using this regex.  If configured, it is applied as a replacement for
+# the isAdmin status of the user.  This can be used to:
+# <ul><li>Allow configure to be used only by a subset of Admins</li>
+# <li>Allow configure to be used by non-admin users.</li></ul>
+# Because users with access to configure can install software on the server and make
+# changes that are potentially difficult to recover from, it is recommended that configure
+# access be limited.   Example:  Limit Restrict configure to "JoeAdmin" and "BobAdmin":
+#   <tt>^(JoeAdmin|BobAdmin)$</tt>
+$Foswiki::cfg{ConfigureFilter} = '';
+
 #---++ Passwords
 # <p>The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of
@@ -741,6 +753,12 @@ $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 #
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
+# **PASSWORD EXPERT**
+# SuperAdmin password. (Legacy configuration).  If set, this password permits use of the
+# "sudo" facility.  As it is a "shared password", this is no longer recommended per good
+# security practices.
+$Foswiki::cfg{Password} = '';
+
 #---++ Registration
 # <p>Registration is the process by which new users register themselves with
 # Foswiki.</p>
@@ -826,10 +844,6 @@ $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 # To block all domains and list only the permitted domains, use an expression of the format:<br/>
 # <code>@(?!(example\.com|example\.net)$)</code>
 $Foswiki::cfg{Register}{EmailFilter} = '';
-
-# **PASSWORD H**
-# Configuration password (not prompted)
-$Foswiki::cfg{Password} = '';
 
 #---++ Environment
 # **PERL**

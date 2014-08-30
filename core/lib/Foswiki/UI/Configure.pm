@@ -39,6 +39,32 @@ sub configure {
     my $tmplData =
       $session->templates->readTemplate( 'configure', no_oops => 1 );
 
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'configure',
+            webTopic => $web . '.' . $topic,
+        }
+    );
+
+    if ( defined $Foswiki::cfg{ConfigureFilter}
+        && length( $Foswiki::cfg{ConfigureFilter} ) )
+    {
+        my $filter = eval { $Foswiki::cfg{ConfigureFilter} };
+        unless ( $session->{user} =~ m/$filter/ ) {
+            throw Foswiki::AccessControlException( 'VIEW',
+                $session->{user}, 'System', 'Configuration',
+                $Foswiki::Meta::reason );
+        }
+    }
+    else {
+        unless ( Foswiki::Func::isAnAdmin() ) {
+            throw Foswiki::AccessControlException( 'VIEW',
+                $session->{user}, 'System', 'Configuration',
+                $Foswiki::Meta::reason );
+        }
+    }
+
     if ( !defined($tmplData) ) {
 
         $tmplData =
