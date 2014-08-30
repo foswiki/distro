@@ -23,26 +23,26 @@ use constant NOREDIRECT => 0;
 sub send {
     my ( $this, $reporter ) = @_;
 
-    return 1 unless ( $Foswiki::cfg{EnableEmail} );
+    unless ( $Foswiki::cfg{EnableEmail} ) {
+        $reporter->ERROR("Cannot send mail - {EnableEmail} is false");
+        return;
+    }
 
     # A non-null value is required for this to make sense
-    return unless $Foswiki::cfg{WebMasterEmail};
+    unless ( $Foswiki::cfg{WebMasterEmail} ) {
+        $reporter->ERROR("Cannot send mail - {WebMasterEmail} is blank");
+        return;
+    }
 
     # Expand a couple of required config settings for
     # Foswiki::Net::sendEmail after making sure we can restore them.
-    my $safe_smcf = $Foswiki::cfg{Email}{SmimeCertificateFile};
     Foswiki::Configure::Load::expandValue(
         $Foswiki::cfg{Email}{SmimeCertificateFile} );
 
-    my $safe_smkf = $Foswiki::cfg{Email}{SmimeKeyFile};
     Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
     eval { _sendTestEmail( $Foswiki::cfg{WebMasterEmail}, $reporter ); };
     die $@ if $@;
-
-    # Don't report these as changed - they are simply expansions
-    $Foswiki::cfg{Email}{SmimeCertificateFile} = $safe_smcf;
-    $Foswiki::cfg{Email}{SmimeKeyFile}         = $safe_smkf;
 }
 
 # Send a test email to the address in the value
@@ -400,12 +400,11 @@ MAILTEST
 
     if ( $neterrors || $Foswiki::cfg{SMTP}{Debug} ) {
         if ($stdout) {
-            $reporter->NOTE( "Mailer output", "PREFORMAT:$stdout" );
+            $reporter->NOTE( "Mailer output", $stdout );
         }
         if ($stderr) {
             $stderr =~ s/<a\s+/<a target="_blank" /gms;
-            $reporter->NOTE( 'Transcript of e-mail server dialog',
-                "PREFORMAT:$stderr" );
+            $reporter->NOTE( 'Transcript of e-mail server dialog', $stderr );
         }
 
         return if $neterrors;

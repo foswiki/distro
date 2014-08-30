@@ -281,7 +281,7 @@ s/${S}\{(\S+?|\S[^\n]*?\S)\}$E/<strong><code>{$1}<\/code><\/strong>/g;
                 $_ =~ s/&/&amp;/g;
                 $_ =~ s/</&lt;/g;
                 $_ =~ s/>/&gt;/g;
-                $_ = "<textarea>$_</textarea>";
+                $_ = "<textarea class=\"report\">$_</textarea>";
             }
             elsif (
                 $_ =~ s/^---(\++) (.*)$/

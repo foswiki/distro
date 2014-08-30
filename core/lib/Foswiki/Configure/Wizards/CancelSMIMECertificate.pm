@@ -1,9 +1,9 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Wizards::GenerateSMIMECertificate;
+package Foswiki::Configure::Wizards::CancelSMIMECertificate;
 
 =begin TML
 
----++ package Foswiki::Configure::Wizards::GenerateSMIMECertificate
+---++ package Foswiki::Configure::Wizards::CancelSMIMECertificate
 
 Wizard to generate a self-signed SMIME certificate.
 
@@ -20,6 +20,7 @@ use MIME::Base64;
 # WIZARD
 sub cancel_cert {
     my ( $this, $reporter ) = @_;
+    my $ok = 1;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
@@ -39,11 +40,11 @@ sub cancel_cert {
             $reporter->NOTE("Request cancelled");
         }
         else {
-            $this->ERROR("Cancel failed.");
+            $reporter->ERROR("Cancel failed.");
         }
     }
     else {
-        $e .= $this->NOTE("No request pending");
+        $reporter->NOTE("No request pending");
     }
 }
 

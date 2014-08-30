@@ -83,14 +83,6 @@ use constant ACCEPTMSG =>
 sub autoconfigure {
     my ( $this, $reporter ) = @_;
 
-    if ( $Foswiki::cfg{EnableEmail} ) {
-        _autoconfig($reporter);
-    }
-}
-
-sub _autoconfig {
-    my $reporter = shift;
-
     if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
         my ( $certFile, $keyFile ) = (
             $Foswiki::cfg{Email}{SmimeCertificateFile},
@@ -106,30 +98,55 @@ sub _autoconfig {
         Foswiki::Configure::Load::expandValue($keyFile);
 
         unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
-            $reporter->ERROR( <<NOCERT );
-We recommend configuring Foswiki to send S/MIME signed e-mail.
+            $reporter->WARN( <<NOCERT );
+You nave configured Foswiki to send S/MIME signed e-mail.
 To do this, either Certificate and Key files must be provided, or a self-signed certificate can be generated.
-To generate a self-signed certificate or generate a signing request, use the respective WebmasterName action button.
+To generate a self-signed certificate or generate a signing request, use the button next to the {WebmasterName} setting.
 Because no certificate is present, S/MIME has been disabled to allow basic autoconfiguration to continue.
 NOCERT
             $Foswiki::cfg{Email}{EnableSMIME} = 0;
-            $reporter->change( '{Email}{EnableSMIME}' => 0 );
+            $reporter->CHANGED('{Email}{EnableSMIME}');
         }
     }
 
-    my $perlAvail = eval "require Net::SMTP";
-
-    if ($perlAvail) {
-        return if _autoconfigPerl($reporter);
-        $reporter->WARN(
-'Net::SMTP is available, but configuration failed. Falling back to mail program.'
-        );
+    my $ok = 0;
+    unless ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
+        my $perlAvail = eval "require Net::SMTP";
+        if ($perlAvail) {
+            $ok = _autoconfigPerl($reporter);
+            unless ($ok) {
+                $reporter->NOTE(
+"$Foswiki::cfg{Email}{MailMethod} configuration failed. Falling back to mail program."
+                );
+            }
+        }
+        else {
+            $ok = 0;
+            $reporter->NOTE("Net::SMTP is not available: $@");
+        }
     }
-    return if _autoconfigProgram($reporter);
 
-    $reporter->ERROR(<<FAILED);
-Mail program configuration failed. Foswiki will not be able to send mail.
-FAILED
+    if ( !$ok && _autoconfigProgram($reporter) ) {
+        $ok = 1;
+        if ( $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' ) {
+            $Foswiki::cfg{Email}{MailMethod} = 'MailProgram';
+            $reporter->CHANGED('{Email}{MailMethod}');
+        }
+    }
+
+    if ( !$ok ) {
+        $reporter->ERROR(
+            'Mail configuration failed. Foswiki will not be able to send mail.'
+        );
+        if ( $Foswiki::cfg{EnableEmail} ) {
+            $Foswiki::cfg{EnableEmail} = 0;
+            $reporter->CHANGED('{EnableEmail}');
+        }
+    }
+    elsif ( !$Foswiki::cfg{EnableEmail} ) {
+        $Foswiki::cfg{EnableEmail} = 1;
+        $reporter->CHANGED('{EnableEmail}');
+    }
 }
 
 # Return 0 on failure
@@ -180,9 +197,10 @@ sub _autoconfigProgram {
         }
 
         # Not found, must map /usr/sbin/sendmail to the tool
+        $reporter->NOTE(
+            'Unable to locate a known external mail program, trying sendmail');
 
         $mailp = 'sendmail';
-        $reporter->ERROR('Unable to locate a known external mail program');
     }
 
     foreach my $p ( '/usr/sbin', split( /:/, $path ) ) {
@@ -195,14 +213,15 @@ sub _autoconfigProgram {
                     $cfg->{flags} = '' unless ( defined $cfg->{flags} );
                     $cfg->{flags} = "$mailargs $cfg->{flags}"
                       if ( defined $mailargs );
-                    return _setMailProgram( $cfg, $p, $reporter );
+                    _setMailProgram( $cfg, $p, $reporter );
+                    return 1;    # OK
                 }
             }
             $reporter->NOTE("Unable to identify $p/$mailp.");
         }
     }
 
-    return 0;    # failed
+    return 0;                    # failed
 }
 
 # mailwrapper uses a config file
@@ -256,7 +275,9 @@ ID
 
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
-    _sniffSELinux($reporter), $reporter->NOTE(ACCEPTMSG);
+    _sniffSELinux($reporter);
+
+    $reporter->NOTE(ACCEPTMSG);
 }
 
 # autoconfig loosely parallels Net.pm
@@ -288,7 +309,7 @@ sub _autoconfigPerl {
 
     my $IOHandleAvail = eval "require IO::Handle";
     if ($@) {
-        $reporter->ERROR(
+        $reporter->NOTE(
             "IO::Handle is required to auto configure Net::SMTP mail");
         return 0;
     }
@@ -321,13 +342,13 @@ sub _autoconfigPerl {
 
     $host = $Foswiki::cfg{SMTP}{MAILHOST};
     unless ( $host && $host !~ /^ ---/ ) {
-        $reporter->ERROR("{SMTP}{MAILHOST} must be specified to use Net::SMTP");
+        $reporter->NOTE("{SMTP}{MAILHOST} must be specified to use Net::SMTP");
         return 0;
     }
 
     $hInfo = hostInfo($host);
     if ( $hInfo->{error} ) {
-        $reporter->ERROR( "{SMTP}{MAILHOST} is not valid: " . $hInfo->{error} );
+        $reporter->( "{SMTP}{MAILHOST} is not valid " . $hInfo->{error} );
         return 0;
     }
     $host = $hInfo->{name};
@@ -344,13 +365,13 @@ sub _autoconfigPerl {
         # Net::SMTP will iterate
         @addrs = @{ $hInfo->{v4addrs} };
         if ( @{ $hInfo->{v6addrs} } ) {
-            $reporter->WARN(
+            $reporter->NOTE(
 "$host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."
             );
         }
     }
     unless (@addrs) {
-        $reporter->ERROR(
+        $reporter->NOTE(
             "{SMTP}{MAILHOST} $host is invalid: server has no IP address");
         return 0;
     }
@@ -600,7 +621,7 @@ sub _autoconfigPerl {
         $reporter->NOTE(
 "This configuration appears to be acceptable, but testing is incomplete."
         );
-        $reporter->ERROR( $use[3] );
+        $reporter->NOTE( $use[3] );
         return 0;
     }
     if ( $use[2] == 1 || $use[2] == 4 ) {    # OK, Not required
@@ -608,11 +629,11 @@ sub _autoconfigPerl {
     }
     if ( $use[2] == 2 ) {                    # Bad credentials
             # Authentication failed, perl is OK, don't try program.
-        $reporter->ERROR( $use[3] );
+        $reporter->NOTE( $use[3] );
     }
     else {    # Other failure
-        $reporter->ERROR( $use[3] );
-        $reporter->ERROR(
+        $reporter->NOTE( $use[3] );
+        $reporter->NOTE(
 "Although a connection was established with $host on port $use[1], it did not accept mail."
         );
         return 0;
@@ -634,7 +655,7 @@ sub _diagnoseFailure {
         $mess .= "and/or SELINUX" if ($isSELinux);
         $mess .= " is blocking TCP connections to e-mail submission ports.";
 
-        $reporter->ERROR($mess);
+        $reporter->NOTE($mess);
         return;
     }
 
@@ -648,13 +669,13 @@ sub _diagnoseFailure {
 However, only one connection type needs to work, so you should focus on the\
 issues logged on the ports where connections succeeded.";
 
-        $reporter->WARN($mess);
+        $reporter->NOTE($mess);
         return;
     }
 
     # All connections worked, but the protocol didn't.
 
-    $reporter->ERROR(<<"SMTP");
+    $reporter->NOTE(<<"SMTP");
 Although all connections were successful, the service is not speaking SMTP.
 The most likely causes are that the server uses a non-standard port for SMTP,
 or your configuration erroneously specifies a non-SMTP port.  Check your

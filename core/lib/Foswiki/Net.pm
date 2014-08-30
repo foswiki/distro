@@ -496,7 +496,7 @@ sub sendEmail {
     #_logMailError('debug', "sendEmail Entered");
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
-        return 'Can not send mail: Foswiki email is disabled';
+        return 'Cannot send mail: Foswiki email is disabled';
     }
 
     unless ( defined $this->{mailHandler} ) {
@@ -1446,7 +1446,7 @@ sub startTLS {
     }
     if ( $verified == 0 ) {
         $smtp->close;
-        $this->_logMailError( 'die', "Can not use this server" );
+        $this->_logMailError( 'die', "Cannot use this server" );
     }
 
     unless ( $smtp->hello( $this->{HELLO_HOST} ) ) {

@@ -27,39 +27,44 @@ my @required        = (
 );
 
 if ( $] >= 5.008 ) {
-    push(@required,
-    {
-        name            => 'Encode',
-        usage           => "I18N conversions (core module in Perl 5.8)",
-        minimumVersion => 1,
-    });
-} else {
-    push(@required,
-    {
-        name            => 'Unicode::String',
-        usage           => 'I18N conversions',
-        minimumVersion => 1,
-    },
-    {
-        name            => 'Unicode::MapUTF8',
-        usage           => "I18N conversions",
-        minimumVersion => 1,
-    },
-    {
-        name            => 'Unicode::Map',
-        usage           => "I18N conversions",
-        minimumVersion => 1,
-    },
-    {
-        name            => 'Unicode::Map8',
-        usage           => "I18N conversions",
-        minimumVersion => 1,
-    },
-    {
-        name            => 'Jcode',
-        usage           => "I18N conversions",
-        minimumVersion => 1,
-    });
+    push(
+        @required,
+        {
+            name           => 'Encode',
+            usage          => "I18N conversions (core module in Perl 5.8)",
+            minimumVersion => 1,
+        }
+    );
+}
+else {
+    push(
+        @required,
+        {
+            name           => 'Unicode::String',
+            usage          => 'I18N conversions',
+            minimumVersion => 1,
+        },
+        {
+            name           => 'Unicode::MapUTF8',
+            usage          => "I18N conversions",
+            minimumVersion => 1,
+        },
+        {
+            name           => 'Unicode::Map',
+            usage          => "I18N conversions",
+            minimumVersion => 1,
+        },
+        {
+            name           => 'Unicode::Map8',
+            usage          => "I18N conversions",
+            minimumVersion => 1,
+        },
+        {
+            name           => 'Jcode',
+            usage          => "I18N conversions",
+            minimumVersion => 1,
+        }
+    );
 }
 
 # Item12285
@@ -82,7 +87,7 @@ HERE
 }
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     my $vuln_msg = $this->_have_vulnerable_maketext();
 
     if ($vuln_msg) {
@@ -94,12 +99,18 @@ sub check_current_value {
         }
     }
 
-    Foswiki::Configure::Dependency::checkPerlModules( @required );
+    Foswiki::Configure::Dependency::checkPerlModules(@required);
     foreach my $mod (@required) {
-        if (!$mod->{ok} && !$mod->{optional}) {
-            $reporter->ERROR($mod->{check_result});
-        } else {
-            $reporter->NOTE($mod->{check_result});
+        if ( !$mod->{ok} && !$mod->{optional} ) {
+            if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
+                $reporter->ERROR( $mod->{check_result} );
+            }
+            else {
+                $reporter->WARN( $mod->{check_result} );
+            }
+        }
+        else {
+            $reporter->NOTE( $mod->{check_result} );
         }
     }
 }

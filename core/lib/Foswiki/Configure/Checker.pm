@@ -417,10 +417,9 @@ sub guessDirectory {
 
 =begin TML
 
----++ PROTECTED ObjectMethod showExpandedValue($field, $reporter)
+---++ PROTECTED ObjectMethod showExpandedValue($reporter)
 
 Return the expanded value of a parameter as a note for display.
-$field is the value of the field (not it's keys)
 
 =cut
 
@@ -429,18 +428,25 @@ sub showExpandedValue {
 
     my $field = eval "\$Foswiki::cfg$this->{item}->{keys}";
     if ( defined $field ) {
+        Foswiki::Configure::Load::expandValue($field);
         if ( ref($field) ) {
             local $Data::Dumper::Indent = 2;
             $field = Data::Dumper->Dump( [$field] );
             $field =~ s/\$.*?= //;
             $reporter->NOTE( "Expands to: ", "PREFORMAT:$field" );
         }
-        else {
+        elsif ($field) {
             $reporter->NOTE("Expands to: =$field=");
+        }
+        elsif ( defined $field ) {
+            $reporter->NOTE("Expands to ''");
+        }
+        else {
+            $reporter->NOTE("Is undefined after expansion");
         }
     }
     elsif ( !$this->{item}->{UNDEFINEDOK} ) {
-        $reporter->ERROR("$this->{item}->{keys} is undefined");
+        $reporter->NOTE("$this->{item}->{keys} is undefined");
     }
 }
 

@@ -20,7 +20,7 @@ use Foswiki::Configure::Wizards::GenerateSMIMECertificate ();
 # WIZARD
 sub request_cert {
     my ( $this, $reporter ) = @_;
-    return Foswiki::Configure::Wizards::GenerateSMIMECertificate(
+    return Foswiki::Configure::Wizards::GenerateSMIMECertificate::generate(
         $reporter,
         {
             C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],

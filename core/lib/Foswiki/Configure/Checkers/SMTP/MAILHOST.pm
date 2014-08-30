@@ -10,7 +10,9 @@ require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
+
+    return unless $Foswiki::cfg{EnableEmail};
 
     my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
     my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
@@ -19,7 +21,8 @@ sub check_current_value {
             my $hi = hostInfo( $host, {} );
             if ( $hi->{error} ) {
                 $reporter->ERROR( $hi->{error} );
-            } else {
+            }
+            else {
                 if ( !$IPv6Avail && @{ $hi->{v6addrs} } ) {
                     $reporter->WARN(
 "$host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."

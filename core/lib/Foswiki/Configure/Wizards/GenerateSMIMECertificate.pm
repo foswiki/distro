@@ -19,7 +19,7 @@ our @ISA = ('Foswiki::Configure::Wizard');
 sub generate_cert {
     my ( $this, $reporter ) = @_;
 
-    return _generate( $reporter, {} );
+    return generate( $reporter, {} );
 }
 
 sub generate {
@@ -73,13 +73,15 @@ sub generate {
     }
 
     ( $ok, my $msg, my $keypass ) = _generate(
+        $reporter,
         $Foswiki::cfg{WebMasterName},
         $Foswiki::cfg{WebMasterEmail},
         $certfile, $keyfile, $checks
     );
     if ($ok) {
         $reporter->NOTE($msg);
-        $reporter->JSON( { '{Email}{SmimeKeyPassword}' => $keypass } );
+        $Foswiki::cfg{Email}{SmimeKeyPassword} = $keypass;
+        $reporter->CHANGED('{Email}{SmimeKeyPassword}');
     }
     else {
         $reporter->ERROR($msg);
@@ -87,8 +89,7 @@ sub generate {
 }
 
 sub _generate {
-    my $this = shift;
-    my ( $name, $email, $certfile, $keyfile, $options ) = @_;
+    my ( $reporter, $name, $email, $certfile, $keyfile, $options ) = @_;
 
     require File::Temp;
 
@@ -188,15 +189,16 @@ CONFIG
     my ( $output, $keyoutput );
     {
         no warnings 'exec';
-
-        $output =
-`openssl req -config $tmpfile -newkey rsa:2048 -keyout $keyfile $cmd -batch 2>&1`;
+        my $command =
+"openssl req -config $tmpfile -newkey rsa:2048 -keyout $keyfile $cmd -batch";
+        $output = `$command 2>&1`;
         if ($?) {
             umask($um);
             return ( 0,
                     "Unable to create certificate"
                   . ( $self ? '' : ' request' )
-                  . ( $? == -1 ? " (No openssl: $!)" : '' )
+                  . ( $? == -1 ? " (No openssl: $!)" : $? )
+                  . " with '$command' "
                   . ": <pre>$output</pre>" );
         }
 
@@ -234,9 +236,9 @@ $keypass
     }
 
     open( my $f, '>', "$certfile.csr" )
-      or return ( 0, $this->ERROR("Can't save CSR: $!") );
+      or return ( 0, $reporter->ERROR("Can't save CSR: $!") );
     print $f $output;
-    close $f or return ( 0, $this->ERROR("Close failed saving CSR: $!") );
+    close $f or return ( 0, $reporter->ERROR("Close failed saving CSR: $!") );
 
     return (
         1,
