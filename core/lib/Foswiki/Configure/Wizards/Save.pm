@@ -58,6 +58,7 @@ sub save {
     my ( @backups, $backup );
 
     my $old_content;
+    my $orig_content;    # used so diff detects remapping of keys
 
     my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
@@ -137,6 +138,7 @@ sub save {
     }
 
     if ( defined $old_content && $old_content =~ /^(.*)$/s ) {
+        $orig_content = $old_content;
         local %Foswiki::cfg;
         eval $1;
         if ($@) {
@@ -215,11 +217,93 @@ sub save {
             $reporter->NOTE("Previous configuration saved in $backup");
         }
         $reporter->NOTE("New configuration saved in $lsc");
+        $orig_content = $old_content unless defined $orig_content;
+        _compareConfigs( $orig_content, $new_content );
     }
     else {
         unlink $backup if ($backup);
         $reporter->NOTE("No change made to $lsc");
     }
+}
+
+sub _compareConfigs {
+    local %Foswiki::cfg = ();
+    eval $_[0];
+    my %oldcfg = %Foswiki::cfg;
+
+    %Foswiki::cfg = ();
+    eval $_[1];
+    my %newcfg = %Foswiki::cfg;
+
+    my (@oldkeys) = $_[0] =~ m/^\$Foswiki::cfg(.*?)\s=.*?$/msg;
+    my (@newkeys) = $_[1] =~ m/^\$Foswiki::cfg(.*?)\s=.*?$/msg;
+
+    @oldkeys = sort(@oldkeys);
+    @newkeys = sort(@newkeys);
+
+    #print STDERR "===OLD===\n" . Data::Dumper::Dumper( \%oldcfg );
+    #print STDERR "===NEW===\n" . Data::Dumper::Dumper( \%newcfg );
+    require Algorithm::Diff;
+    Algorithm::Diff::traverse_sequences(
+        \@oldkeys,
+        \@newkeys,
+        {
+            MATCH     => \&_match,
+            DISCARD_A => \&_dropA,
+            DISCARD_B => \&_dropB,
+        },
+        undef,
+        \@oldkeys,
+        \@newkeys,
+        \%oldcfg,
+        \%newcfg,
+    );
+
+    #print STDERR "OLD: " . Data::Dumper::Dumper( \@oldkeys );
+    #print STDERR "NEW: " . Data::Dumper::Dumper( \@newkeys );
+    return;
+}
+
+sub _match {
+    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+
+    my $keys = $ai->[$a];
+    my $oval = eval "\$oc->$keys";
+    my $nval = eval "\$nc->$keys";
+    my $type = ref($oval) || ref($nval);
+
+    if ($type) {
+        require Data::Dumper;
+
+        local $Data::Dumper::Sortkeys = 1;
+        local $Data::Dumper::Terse    = 1;
+
+        my $value1 = Data::Dumper::Dumper($oval);
+        my $value2 = Data::Dumper::Dumper($nval);
+
+        if ( $value1 ne $value2 ) {
+            print STDERR "CHANGE:  $ai->[$a]: $value1 => $value2 \n";
+        }
+    }
+    else {
+        unless ( $oval eq $nval ) {
+            print STDERR "CHANGE:  $ai->[$a]: $oval => $nval \n";
+        }
+    }
+}
+
+sub _dropA {
+    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+    my $keys = $ai->[$a];
+    my $oval = eval "\$oc->$keys";
+    print STDERR "REMOVE:  $ai->[$a] value $oval\n";
+}
+
+sub _dropB {
+    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+    my $keys = $bi->[$b];
+    my $nval = eval "\$nc->$keys";
+    print STDERR "ADD:     $bi->[$b] value $nval\n";
 }
 
 sub _wordy_dump {
