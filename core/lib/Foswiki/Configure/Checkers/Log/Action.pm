@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checkers::PERL');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->getCfg();
+    my $val = $Foswiki::cfg{Log}{Action};
     unless ( ref($val) eq 'HASH' ) {
         $reporter->ERROR("Was expecting this to be an hash");
         return;
@@ -19,7 +19,7 @@ sub check_current_value {
         if ( $k !~ /^[a-zA-Z]+$/ ) {
             $reporter->ERROR("Was expecting entry $k to be a script name");
         }
-        if ( ref($v) ne 'SCALAR' ) {
+        if ( ref($v) ) {
             $reporter->ERROR("Was expecting $k to be a scalar");
         }
     }
