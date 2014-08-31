@@ -236,6 +236,8 @@ sub _wordy_dump {
         my $d = Data::Dumper->Dump( [$hash] );
         my $sk = _perlKeys($keys);
         $d =~ s/^\$VAR1/\$Foswiki::cfg$sk/;
+        while ( $d =~ s#qr/\(\?-xism:(.*)\)/;$#qr/$1/;# ) { }
+        while ( $d =~ s#qr/\(\?\^:(.*)\)/;$#qr/$1/;# )    { }
         push( @dump, $d );
     }
 
