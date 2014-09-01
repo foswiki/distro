@@ -38,7 +38,7 @@ our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;
 
-use constant TRACE => 0;
+use constant TRACE => 1;
 
 BEGIN {
     # Note: if Foswiki is in bootstrap mode, Foswiki.pm will try
@@ -459,12 +459,13 @@ sub check_current_value {
     # that config is wishful thinking, but hey, can't have everything.
 
     # Determine the set of value keys being checked
-    my %check;
+
     my $keys = $params->{keys};
     if ( !$keys || scalar @$keys == 0 ) {
-        $check{''} = 1;
+        push( @$keys, '' );
     }
 
+    my %check;
     foreach my $k (@$keys) {
 
         # $k='' is the root section
@@ -525,6 +526,7 @@ sub check_current_value {
         my $checker = Foswiki::Configure::Checker::loadChecker($spec);
         if ($checker) {
             $reporter->clear();
+            print STDERR "Checking $k\n" if TRACE;
             $checker->check_current_value($reporter);
             my @reps;
             foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes' )

@@ -5,8 +5,12 @@ html body {
 
 .whirly {
     display:inline-block;
-    width: 20px;
+    width: 100%;
     height: 20px;
+    background-repeat: no-repeat;
+    padding-left: 23px;
+    padding-top: 2px;
+    color: lightgray;
 }
 
 .top_level_buttons {
@@ -42,8 +46,10 @@ div.node {
     
 }
 
-/* Used to record that a leaf node has been populated with a value */
-.valued {
+/* Used to record that a leaf node has been populated with a value
+   and needs a UI to be loaded */
+.load_ui {
+    background-color: lavender; /* find something better */
 }
 
 /* Classes added to elements that have been checked. All of these
