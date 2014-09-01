@@ -3,7 +3,6 @@
 data/System/TopicUserMappingContrib.txt 0644 Documentation
 lib/Foswiki/Contrib/TopicUserMappingContrib.pm 0444 Perl module
 lib/Foswiki/Users/TopicUserMapping.pm 0444 Perl module
-lib/Foswiki/Contrib/TopicUserMappingContrib/Config.spec
 
 data/Main/RegistrationAgent.txt 0644
 data/Main/UserListHeader.txt 0644

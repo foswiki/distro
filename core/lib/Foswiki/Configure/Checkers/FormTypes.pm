@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checkers::PERL');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->getCfg();
+    my $val = $Foswiki::cfg{FormTypes};
     unless ( ref($val) eq 'ARRAY' ) {
         $reporter->ERROR("Was expecting this to be an array");
         return;

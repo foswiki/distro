@@ -322,7 +322,8 @@ sub getSectionPath {
 ---++ ObjectMethod getSectionObject($head, $depth) -> $item
 
 This gets the section object that has the heading $head and
-getDepth() == $depth below this item.
+getDepth() == $depth below this item. If $depth is not given,
+will return the first headline that matches.
 
 Subclasses must provide an implementation.
 
