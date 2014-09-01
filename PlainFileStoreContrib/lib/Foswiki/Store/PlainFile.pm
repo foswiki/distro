@@ -446,9 +446,10 @@ sub saveTopic {
 
     # Fix TOPICINFO
     my $ti = $meta->get('TOPICINFO');
-    $ti->{version} = $rn;
-    $ti->{date}    = $options->{forcedate} || time;
-    $ti->{author}  = $cUID;
+    $ti->{version}  = $rn;
+    $ti->{date}     = $options->{forcedate} || time;
+    $ti->{author}   = $cUID;
+    $ti->{encoding} = $Foswiki::cfg{Site}{CharSet};
 
     # Create new latest
     my $latest = _latestFile($meta);
@@ -480,6 +481,9 @@ sub saveTopic {
         verb     => $verb,
         newmeta  => $meta
     );
+
+    # Remove encoding information
+    delete $ti->{encoding};
 
     return $rn;
 }
