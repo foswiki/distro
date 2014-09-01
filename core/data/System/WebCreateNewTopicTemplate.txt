@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1409564927" format="1.1" version="1"}%
 %{<verbatim class="tml">
 ===================================================
 	Create new topic template
@@ -36,7 +36,8 @@
 %TMPL:P{"topicparentstep"}%
 %TMPL:P{"topictemplatestep"}%
 %TMPL:P{"submitstep"}%
-%TMPL:P{"formendstep"}%%TMPL:END%%{
+%TMPL:P{"formendstep"}%
+%TMPL:P{"script:topictemplate"}%%TMPL:END%%{
 ---------------------------------------------------
 	formstartstep
 ---------------------------------------------------
