@@ -26,6 +26,16 @@ var jsonRpc_reqnum = 0;
 var $FALSE = 0;
 var $TRUE = 1;
 
+// Convert key string to valid HTML id. Not guaranteed to generate a unique
+// id, but close enough for our purposes.
+function _id_ify(id) {
+    if (id == undefined) debugger;
+    id = id.replace(/[}{]/g, '-');
+    id = id.replace(/['"]/g, '');
+    id = id.replace(/[^A-Za-z0-9_]/g, '-');
+    return 'i' + id;
+}
+
 (function($) {
     var auth_action = function() {};
     var confirm_action = function() {};
@@ -865,10 +875,3 @@ var $TRUE = 1;
     });
 
 })(jQuery);
-
-
-
-
-
-
-
