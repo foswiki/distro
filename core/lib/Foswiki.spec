@@ -174,12 +174,12 @@ $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki
 # </ul>
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH EXPERT**
+# **PATH UNDEFINEDOK EXPERT**
 # This is used to override the default system temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It substitutes as the environment <tt>TempfileDir</tt> setting which
 # will not be used by perl for security reasons.
-#$Foswiki::cfg{TempfileDir} = '/tmp';
+#$Foswiki::cfg{TempfileDir} = '';
 
 # **PATH EXPERT UNDEFINEDOK MANDATORY**
 # You can override the default PATH setting to control
@@ -238,12 +238,12 @@ $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki
 # </ol>
 #$Foswiki::cfg{SafeEnvPath} = '';
 
-# **STRING 20 EXPERT**
+# **STRING 20 UNDEFINEDOK EXPERT**
 # {OS} and {DetailedOS} are calculated in the Foswiki code. <b>You
 # should only need to override if there is something badly wrong with
 # those calculations.</b><br />
 # {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
-$Foswiki::cfg{OS} = '';
+#$Foswiki::cfg{OS} = '';
 
 # **STRING 20 EXPERT**
 # The value of Perl $OS
