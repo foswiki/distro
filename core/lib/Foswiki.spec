@@ -103,7 +103,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" MANDATORY**
+# **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" UNDEFINEDOK MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
 # You should leave this as it is, unless your web server is configured for short URLs
@@ -113,8 +113,7 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # (so you'll have to leave this field empty if your wiki lives at the top level).
 # <p></p>
 # More information: <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
-#$Foswiki::cfg{ScriptUrlPaths}{view} =
-#  '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
+$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
@@ -182,7 +181,7 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # will not be used by perl for security reasons.
 #$Foswiki::cfg{TempfileDir} = '/tmp';
 
-# **PATH EXPERT MANDATORY**
+# **PATH EXPERT UNDEFINEDOK MANDATORY**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key

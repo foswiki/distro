@@ -36,6 +36,7 @@ sub configure {
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
     my $query   = $session->{request};
+
     my $tmplData =
       $session->templates->readTemplate( 'configure', no_oops => 1 );
 
@@ -65,19 +66,31 @@ sub configure {
         }
     }
 
-    if ( !defined($tmplData) ) {
+    unless ( $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} ) {
+        $tmplData =
+            CGI::start_html()
+          . CGI::h1( {}, 'Error' )
+          . <<MESSAGE . CGI::end_html();
+ConfigurePlugin is not enabled (or may not be installed)
+<p />
+This system cannot be successfully configured via the web unless the
+ConfigurePlugin is installed and enabled.
+MESSAGE
+    }
+    elsif ( !defined($tmplData) ) {
 
         $tmplData =
             CGI::start_html()
           . CGI::h1( {}, 'Foswiki Installation Error' )
           . <<MESSAGE . CGI::end_html();
-Template "bootstrap" not found.
+Template "configure" not found.
 <p />
-this system cannot be successfully configured unless the
+This system cannot be successfully configured via the web unless the
 templates/ directory (containing configure.tmpl) is located
 next to the bin/ directory (where the scripts are run from).
 MESSAGE
     }
+
     my $meta = Foswiki::Meta->new(
         $session,
         $Foswiki::cfg{SystemWebName},
@@ -85,6 +98,10 @@ MESSAGE
     );
 
     $tmplData = $meta->expandMacros($tmplData);
+
+    # Expand JS bootsrap flag
+    my $bs = $Foswiki::cfg{isBOOTSTRAPPING} ? 'true' : 'false';
+    $tmplData =~ s/%BOOTSTRAPPED%/$bs/gs;
 
     $session->writeCompletePage($tmplData);
 }

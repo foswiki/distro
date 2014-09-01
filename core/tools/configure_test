@@ -178,7 +178,9 @@ else {
 }
 
 if ($ok) {
-    if ( $params->{checker} ) {
+    if ( exists $params->{checker} ) {
+
+        $params->{checker} ||= '';
 
         _addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
 
