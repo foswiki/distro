@@ -15,6 +15,7 @@ configure.js script.
   <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="foswiki.is_bootstrapped" content="%BOOTSTRAPPED%" />
   <meta name="description" content="Foswiki Configuration" />
   <link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
   <title>Foswiki Configuration</title>
@@ -38,16 +39,24 @@ configure.js script.
   <div class="top_level_buttons"><button id="webCheckButton">Study Web Server</button> <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> <button id="saveButton">Save</button></div>
   <div style="width:60%">
    This is Foswiki <tt>configure</tt>. From this interface you can access all the setup for your Foswiki. Use
-<button class="help_button control_button" name="info-icon"></button> to get help on an item.
-<button class="help_button control_button" name="undo-icon"></button> will undo any changes to the item.
-<button class="help_button control_button" name="default-icon"></button> will reset the item to the default - hover over it to see what that is.
+   <button class="help_button control_button" name="info-icon"></button> to get help on an item.
+   <button class="help_button control_button" name="undo-icon"></button> will undo any changes to the item.
+   <button class="help_button control_button" name="default-icon"></button> will reset the item to the default - hover over it to see what that is.
 When you are ready to save your changes, click the 'Save' button at the top right.
+  <div id="bootstrap_warning" class="foswikiAlert">
+<strong>Warning</strong> Foswiki is running in 'bootstrap' mode, which means
+that there is no existing configuration (LocalSite.cfg is missing or is
+unreadable). Before you save, you
+<strong>must</strong> make sure you have configured some way to log in as
+an admin (see 'Security and Authentication'), or you might lock yourself out
+from this interface.
+  </div>
   </div>
   <br style="clear:both" />
   <div id="root">
   </div>
  </body>
- <!-- Dialogs -->
+ <!-- Dialogs and messages -->
  <div id="auth_prompt" title="Requires authentication">
   <div id="auth_note"></div>
   <label for="username">Username</label>

@@ -98,9 +98,13 @@ var Types = {};
           if (typeof(change_handler) !== "undefined") {
               this.$ui.change(change_handler);
           }
-          if (typeof(this.spec.current_value) === 'undefined') {
+          if (typeof(this.spec.current_value) === 'undefined')
               this.spec.current_value = 0;
-          }
+          else if (this.spec.current_value === '0')
+              this.spec.current_value = 0;
+          else if (this.spec.current_value === '1')
+              this.spec.current_value = 1;
+
           if (this.spec.current_value !== 0) {
               this.$ui.attr('checked', 'checked');
           }
@@ -128,56 +132,6 @@ var Types = {};
 
       useVal: function(val) {
           this.$ui.attr('checked', val ? 'checked' : '');
-      }
-  });
-
-  Types.BOOLGROUP = Types.BaseType.extend({
-      createUI: function(change_handler) {
-          var options = this.spec.select_from,
-              sets = [],
-              values = this.spec.current_value.split(/,\s*/),
-              i, cb;
-
-          for (i = 0; i < values.length; i++) {
-              sets[values[i]] = true;
-          }
-          this.$ui = $('<div class="checkbox_group"></div>');
-          for (i = 0; i < options.length; i++) {
-              cb = $('<input type="checkbox" name="' + options[i] + 
-                    ' id="' + _id_ify(this.spec.keys) + '"/>');
-              if (sets[options[i]]) {
-                  cb.attr('checked', 'checked');
-              }
-              cb.change(change_handler);
-              this.$ui.append(cb);
-          }
-          return this.$ui;
-      },
-
-      currentValue: function() {
-          var newval = [];
-          $('#' + _id_ify(this.spec.keys)).each(function() {
-              if (this.attr('checked')) {
-                  newval.push(this.attr('name'));
-              }
-          });
-          return newval.join(',');
-      },
-
-      useVal: function(val) {
-          var sets = [],
-              values = val.split(/,\s*/),
-              i;
-
-          for (i = 0; i < values.length; i++) {
-              sets[values[i]] = true;
-          }
-          i = 0;
-          this.$ui.find('input[type="checkbox"]').each(function() {
-              if (sets[options[i++]]) {
-                  cb.attr('checked', 'checked');
-              }
-          });
       }
   });
 
@@ -298,11 +252,11 @@ var Types = {};
               sel = this._getSel(this.spec.current_value, this.spec.MULTIPLE);
               for (i = 0; i < this.spec.select_from.length; i++) {
                   opt = this.spec.select_from[i];
-                  option = $('<option>' + opt + '</option>');
+                  var $option = $('<option>' + opt + '</option>');
                   if (sel[opt]) {
-                      option.attr('selected', 'selected');
+                      $option.attr('selected', 'selected');
                   }
-                  this.$ui.append(option);
+                  this.$ui.append($option);
               }
           }
           return this.$ui;

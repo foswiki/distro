@@ -79,7 +79,8 @@ function _id_ify(id) {
         } else {
             $node.removeClass("value_modified");
             $node.find('.undo_button').hide();
-            if (!$('#saveButton').button("option", "disabled")) {
+            if (!$('#saveButton').button("option", "disabled")
+                && $('#bootstrap_warning').length == 0) {
                 $('#saveButton').button('disable');
                 $('.value_modified').first().each(function() {
                     $('#saveButton').button('enable');
@@ -749,6 +750,11 @@ function _id_ify(id) {
     $(document).ready(function() {
         var $root = $('#root');
 
+        var bs = foswiki.getPreference('is_bootstrapped') === 'true';
+
+        if (!bs)
+            $('#bootstrap_warning').remove();
+
         $('#auth_prompt').dialog({
             autoOpen: false,
             height: 300,
@@ -802,7 +808,7 @@ function _id_ify(id) {
 
         $('#showExpert').button();
 
-        $('#saveButton').button({disabled: true}).click(function() {
+        $('#saveButton').button({disabled: !bs}).click(function() {
             // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
             confirm_action = function() {
                 var params = {
@@ -824,11 +830,15 @@ function _id_ify(id) {
                         });
                         // No errors, commit the UI value to the spec
                         if (erc === 0) {
+                            // Save was good, no longer in BS mode
+                            $('#bootstrap_warning').remove();
+                            // Commit the saved values to the UI
                             $('.value_modified').each(function() {
                                 var handler = $(this).data('value_handler');
                                 handler.commitVal();
                                 update_modified_default($(this));
                             });
+                            $('#saveButton').button('disable');
                         }
                     },
                     $root, 'load');
