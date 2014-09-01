@@ -82,8 +82,8 @@ $.tabpane = {
             $.tabpane.switchTab($thisPane, thisOpts, newTabId);
             
             // set hash
-            var newHash = $("#"+newTabId).data("hash"), oldHash = window.location.hash.replace(/^.*#/, "");
 /* DISABLED for performance reasons: see http://foswiki.org/Tasks/Item13018
+            var newHash = $("#"+newTabId).data("hash"), oldHash = window.location.hash.replace(/^.*#/, "");
             if (newHash != oldHash) {
               window.location.hash = newHash;
             }
