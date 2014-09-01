@@ -116,7 +116,9 @@ sub visit {
 # See Foswiki::Configure::Item
 sub getSectionObject {
     my ( $this, $head, $depth ) = @_;
-    if ( $this->{headline} eq $head && $this->getDepth() == $depth ) {
+    if ( $this->{headline} eq $head
+        && ( !defined $depth || $this->getDepth() == $depth ) )
+    {
         return $this;
     }
     foreach my $child ( @{ $this->{children} } ) {
