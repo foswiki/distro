@@ -23,8 +23,8 @@ sub check_current_value {
         else {
 
             # Validate the keys
-            while ( my ( $k, $v ) = %$e ) {
-                unless ( ref($v) eq 'SCALAR' ) {
+            while ( my ( $k, $v ) = each %$e ) {
+                if ( ref($v) ) {
                     $reporter->ERROR(
 "Was expecting entry $ec to be a hash containing only scalars, but $k is not a scalar."
                     );

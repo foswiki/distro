@@ -4,35 +4,43 @@ package Foswiki::Configure::Checkers::URLPATH;
 use strict;
 use warnings;
 
-require Foswiki::Configure::Checkers::URL;
-our @ISA = ('Foswiki::Configure::Checkers::URL');
+require Foswiki::Configure::Checker;
+our @ISA = ('Foswiki::Configure::Checker');
+
+use Foswiki::Configure::Checkers::URL ();
 
 # CHECK= options
 #  expand
 #  parts, partsreq = query, fragment (path is required)
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    my ($check) = $this->{item}->getChecks();
+    $this->showExpandedValue($reporter);
+
+    my %check = ();
+
+    my @checks = $this->{item}->getChecks();
+    %check = %{ $checks[0] } if scalar(@checks);
 
     # Force the following 'options' to specialize URL to URLPATH.
-    $check->{parts} = [
+    $check{parts} = [
         'path',
-        $check->{parts}
-        ? ( grep $_ =~ /^(?:query|fragment)$/, @{ $check->{parts} } )
+        $check{parts}
+        ? ( grep /^(?:query|fragment)$/, @{ $check{parts} } )
         : ()
-        ];
-    $check->{partsreq} = [
+    ];
+    $check{partsreq} = [
         'path',
-        $check->{partsreq}
-        ? ( $_ =~ /^(?:query|fragment)$/, @{ $check->{partsreq} } )
+        $check{partsreq}
+        ? ( grep /^(?:query|fragment)$/, @{ $check{partsreq} } )
         : ()
-        ];
-    $check->{schemes}  = [];
-    $check->{authtype} = [];
+    ];
+    $check{schemes}  = [];
+    $check{authtype} = [];
 
-    $this->SUPER::check_current_value( $reporter );
+    Foswiki::Configure::Checkers::URL::checkURI( $reporter, $this->getCfg(),
+        %check );
 }
 
 1;

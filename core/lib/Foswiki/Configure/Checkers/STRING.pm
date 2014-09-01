@@ -21,48 +21,48 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my $value = $this->getCfg() || '';
-    my $len   = length($value);
+    my $len = length($value);
 
     my ($check) = $this->{item}->getChecks();
 
-    if ($check) {
-        my $min = $check->{min}[0];
-        my $max = $check->{max}[0];
+    return unless ($check);
 
-        my $accept = $check->{accept};
-        my $filter = $check->{filter};
+    my $min = $check->{min}[0];
+    my $max = $check->{max}[0];
 
-        if ( defined $min && $len < $min ) {
-            $reporter->ERROR("Length must be at least $min");
-        }
-        elsif ( defined $max && $len > $max ) {
-            $reporter->ERROR("Length must be no greater than $max");
-        }
-        else {
-            my $ok     = 1;
-            if ( defined $accept ) {
-                $ok = 0;
-                foreach my $are (@$accept) {
-                    if ( $value =~ $are ) {
-                        $ok = 1;
-                        last;
-                    }
+    my $accept = $check->{accept};
+    my $filter = $check->{filter};
+
+    if ( defined $min && $len < $min ) {
+        $reporter->ERROR("Length must be at least $min");
+    }
+    elsif ( defined $max && $len > $max ) {
+        $reporter->ERROR("Length must be no greater than $max");
+    }
+    else {
+        my $ok = 1;
+        if ( defined $accept ) {
+            $ok = 0;
+            foreach my $are (@$accept) {
+                if ( $value =~ $are ) {
+                    $ok = 1;
+                    last;
                 }
             }
-            if ( $ok && defined $filter ) {
-                foreach my $fre (@$filter) {
-                    if ( $value =~ $fre ) {
-                        $ok = 0;
-                        last;
-                    }
+        }
+        if ( $ok && defined $filter ) {
+            foreach my $fre (@$filter) {
+                if ( $value =~ $fre ) {
+                    $ok = 0;
+                    last;
                 }
             }
-            $reporter->ERROR("This value is not acceptable")
-                unless ($ok);
         }
+        $reporter->ERROR("This value is not acceptable")
+          unless ($ok);
     }
 }
 

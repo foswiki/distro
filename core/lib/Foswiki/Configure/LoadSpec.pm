@@ -89,17 +89,6 @@ Default behaviour is to parse the strings.
 
 our $RAW_VALS = 0;
 
-=begin TML
-
----++ Global $FIRST_SECTION_ONLY
-Set true to skip reading all except the first section.
-This is useful if we have no LocalSite.cfg yet.
-Default behaviour is to read all sections.
-
-=cut
-
-our $FIRST_SECTION_ONLY = 0;
-
 sub _debugItem {
     my $item = shift;
     return ( $item->{typename} || 'Section' ) . ' '
@@ -129,18 +118,16 @@ sub readSpec {
     if ($file) {
         _parse( $file, $root );
     }
-    unless ($FIRST_SECTION_ONLY) {
 
-        my %read;
-        foreach my $dir (@INC) {
-            foreach my $subdir (
-                'Foswiki/Plugins', 'Foswiki/Contrib',
-                'TWiki/Plugins',   'TWiki/Contrib'
-              )
-            {
+    my %read;
+    foreach my $dir (@INC) {
+        foreach my $subdir (
+            'Foswiki/Plugins', 'Foswiki/Contrib',
+            'TWiki/Plugins',   'TWiki/Contrib'
+          )
+        {
 
-                _loadSpecsFrom( "$dir/$subdir", $root, \%read );
-            }
+            _loadSpecsFrom( "$dir/$subdir", $root, \%read );
         }
     }
 }
@@ -230,7 +217,7 @@ sub _extractSections {
                 $opts = $2;
             }
             my $ns =
-              $root->getSectionObject( $item->{Headline}, $item->{Depth} + 1 );
+              $root->getSectionObject( $item->{Headline}, $item->{Depth} );
             if ($ns) {
                 $depth = $item->{Depth};
             }
@@ -491,9 +478,6 @@ sub _parse {
         elsif ( $l =~ /^#\s*---\+(\+*) *(.*?)$/ ) {
 
             # ---++ Section
-            # Only load the first section if we don't have a LocalSite.cfg
-            # yet
-            last if ( $sectionNum && $FIRST_SECTION_ONLY );
             $sectionNum++;
             if ( $open && !$isEnhancing ) {
 

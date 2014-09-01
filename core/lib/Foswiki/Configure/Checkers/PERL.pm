@@ -10,10 +10,13 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
+    #$this->showExpandedValue($reporter);
 
     my $value = $this->getCfgUndefOk();
-    return '' if ( defined $value );
+
+    return if ( defined $value );
+
+    return if $this->{item}->{UNDEFINEDOK};
 
     return $reporter->ERROR("Unexpected undefined PERL value");
 }

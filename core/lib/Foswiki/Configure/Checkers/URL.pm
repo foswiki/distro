@@ -50,10 +50,10 @@ sub check_current_value {
     checkURI( $reporter, $this->getCfgUndefOk(), %$check );
 }
 
-sub _vlist {
-    my ( $options, $item ) = @_;
+sub _list2hash {
+    my ($item) = @_;
 
-    return { map { $_ => 1 } @{ $options->{$item} || [] } };
+    return map { $_ => 1 } @{ $item || [] };
 }
 
 sub checkURI {
@@ -64,6 +64,7 @@ sub checkURI {
         return;
     }
 
+    # Apply defaults
     $check{expand}   ||= [0];
     $check{parts}    ||= [qw/scheme authority path/];
     $check{partsreq} ||= [qw/scheme authority/];
@@ -91,26 +92,26 @@ sub checkURI {
     undef $authority if ( defined $authority && !length $authority );
     undef $path      if ( defined $path      && !length $path );
 
-    my $parts    = _vlist( \%check, 'parts' );
-    my $partsReq = _vlist( \%check, 'partsreq' );
+    my %parts    = _list2hash( $check{parts} );
+    my %partsreq = _list2hash( $check{partsreq} );
 
-    if ( $parts->{scheme} ) {
-        if ( defined $scheme ) {
-            my $s = _vlist( \%check, 'schemes' );
-            $reporter->ERROR("Scheme $scheme is not permitted in $uri")
-              unless ( $s->{ lc $scheme } );
+    if ( $parts{scheme} ) {
+        if ( defined $scheme && scalar @{ $check{schemes} } ) {
+            my %s = _list2hash( $check{schemes} );
+            $reporter->ERROR("Scheme '$scheme' is not permitted in $uri")
+              unless ( $s{ lc $scheme } );
         }
-        elsif ( $partsReq->{scheme} ) {
-            $reporter->ERROR("Scheme is required in $uri");
+        elsif ( $partsreq{scheme} ) {
+            $reporter->ERROR("Scheme (e.g. http:) is required in $uri");
         }
     }
     else {
-        $reporter->ERROR("Scheme ($scheme) is not permitted in $uri")
+        $reporter->ERROR("Scheme '$scheme' is not permitted in $uri")
           if ( defined $scheme );
     }
     $scheme = '' unless ( defined $scheme );
 
-    if ( $parts->{authority} ) {
+    if ( $parts{authority} ) {
         if ( defined $authority ) {
             my $auth = $authority;
             if ( $auth =~ s/^([^:\@]+)(?::[^\@]+)?\@// ) {
@@ -167,7 +168,7 @@ sub checkURI {
                 }
             }
         }
-        elsif ( $partsReq->{authority} ) {
+        elsif ( $partsreq{authority} ) {
             $reporter->ERROR(
                 "Authority ($check{authtype}[0]) is required in $uri");
         }
@@ -178,9 +179,9 @@ sub checkURI {
     }
     $authority = '' unless ( defined $authority );
 
-    if ( $parts->{path} ) {
+    if ( $parts{path} ) {
         if ( defined $path ) {
-            if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
+            if ( $scheme =~ /^https?$/i || !$parts{scheme} ) {
                 unless ( $path =~
 m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                   )
@@ -192,7 +193,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 }
             }    # Checks for other schemes?
         }
-        elsif ( $partsReq->{path} ) {
+        elsif ( $partsreq{path} ) {
             $reporter->ERROR("Path is required in $uri");
         }
     }
@@ -202,7 +203,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
     }
     $path = '' unless ( defined $path );
 
-    if ( $parts->{query} ) {
+    if ( $parts{query} ) {
         if ( defined $query ) {
             unless ( $query =~
                 m{^\?(?:[a-zA-Z0-9\$_\@.&!*"'(),=&;-]|%[[:xdigit:]]{2})*$} )
@@ -210,7 +211,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 $reporter->ERROR("Query ($query) is not valid");
             }
         }
-        elsif ( $partsReq->{query} ) {
+        elsif ( $partsreq{query} ) {
             $reporter->ERROR("Query is required in $uri");
         }
     }
@@ -220,7 +221,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
     }
     $query = '' unless ( defined $query );
 
-    if ( $parts->{fragment} ) {
+    if ( $parts{fragment} ) {
         if ( defined $fragment ) {
             if ( $scheme =~ /^https?$/i ) {
                 unless ( $fragment =~
@@ -230,7 +231,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 }
             }    # Checks for other schemes?
         }
-        elsif ( $partsReq->{fragment} ) {
+        elsif ( $partsreq{fragment} ) {
             $reporter->ERROR("Fragment is required in $uri");
         }
     }
@@ -247,12 +248,12 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
             my $canon = '';
             my $p     = $can->scheme;
             $canon .= $p . ':'
-              if ( defined $p && $parts->{scheme} );
+              if ( defined $p && $parts{scheme} );
             $p = $can->authority;
             $canon .= '//' . $p
-              if ( defined $p && $parts->{authority} );
+              if ( defined $p && $parts{authority} );
             $p = $can->path;
-            if ( defined $p && $parts->{path} ) {
+            if ( defined $p && $parts{path} ) {
                 $canon .= $p;
                 if ( $check{notrail}[0] ) {
                     $canon =~ s,/$,,;
@@ -260,10 +261,10 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
             }
             $p = $can->query;
             $canon .= '?' . $p
-              if ( defined $p && $parts->{query} );
+              if ( defined $p && $parts{query} );
             $p = $can->fragment;
             $canon .= '#' . $p
-              if ( defined $p && $parts->{fragment} );
+              if ( defined $p && $parts{fragment} );
             $uri = $canon;
         }
         else {

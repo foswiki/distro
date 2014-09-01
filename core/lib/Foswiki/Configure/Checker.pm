@@ -109,7 +109,7 @@ sub loadChecker {
         my $checkClass = 'Foswiki::Configure::Checkers::' . $item->{typename};
         @packages = Foswiki::Configure::FileUtil::findPackages($checkClass);
     }
-    return undef unless ( scalar(@packages) );
+    return undef unless scalar(@packages);
 
     $checkClass = $packages[0];
 

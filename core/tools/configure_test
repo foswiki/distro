@@ -7,33 +7,42 @@
 # Reads the .spec (including configured plugins) and, if it is error free,
 # LocalSite.cfg, do other stuff.
 #
-# *THIS IS NOT A FINISHED WORK* is is a test framework; edit it and
-# add the functions you want to call. As it is checked in, it will
-# simply call the checkers and report.
 
-# usage:
-# configure_test <action>[=<value]?
-# Examples:
-#
-# configure_test checker={PubDir} method=validate_permissions
-#
-# will call validate_permissions() for the {PubDir} checker.
-#
-# configure_test method=check_current_value
-#
-# will call the check_current_value() method for all leaf items
-# in the .spec.
-#
-# configure_test wizard=GuessSSLCaLocations
-#
-# will call execute() from Foswiki::Configure::Wizards::ClomClomp
-# and report the results.
-#
-# configure_test wizard=Email method=send_test_email
-#
-# will call send_test_email() from Foswiki::Configure::Wizards::Email
-# and report the results.
-#
+use constant USAGE => <<USAGE;
+Usage:
+    configure_test
+Options:
+    checker= - keys (or section) to check. No value means "check all keys"
+    wizard= - wizard to call
+    method= - method to call (checkers default co check_current_value(),
+              wixards to execute())
+
+Examples:
+
+$ configure_test checker={PubDir} method=validate_permissions
+
+will call validate_permissions() for the {PubDir} checker.
+
+$ configure_test checker=Extensions
+
+will call check_current_value() for all keys under the Extensions section.
+
+$ configure_test method=check_current_value
+
+will call the check_current_value() method for all leaf items
+in the .spec.
+
+$ configure_test wizard=GuessSSLCaLocations
+
+will call execute() from Foswiki::Configure::Wizards::ClomClomp
+and report the results.
+
+$ configure_test wizard=Email method=send_test_email
+
+will call send_test_email() from Foswiki::Configure::Wizards::Email
+and report the results.
+USAGE
+
 use strict;
 
 use lib '../lib';
@@ -51,7 +60,38 @@ require Foswiki::Configure::Reporter;
 require Foswiki::Configure::Checker;
 require Foswiki::Configure::Wizard;
 
+# For each key in the spec missing from the %cfg passed, add the
+# default (unexpanded) from the spec to the %cfg, if it exists.
+sub _addSpecDefaultsToCfg {
+    my ( $spec, $cfg ) = @_;
+    if ( $spec->{children} ) {
+        foreach my $child ( @{ $spec->{children} } ) {
+            _addSpecDefaultsToCfg( $child, $cfg );
+        }
+    }
+    else {
+        if ( exists( $spec->{default} )
+            && eval("!exists(\$cfg->$spec->{keys})") )
+        {
+            # {default} stores a value string. Convert it to the
+            # value suitable for storing in cfg
+            my $value = $spec->decodeValue( $spec->{default} );
+            if ( defined $value ) {
+                eval("\$cfg->$spec->{keys}=\$value");
+            }
+            else {
+                eval("undef \$cfg->$spec->{keys}");
+            }
+        }
+    }
+}
+
 my $params = {};
+unless (@ARGV) {
+    print STDERR USAGE;
+    exit 1;
+}
+
 foreach my $p (@ARGV) {
     if ( $p =~ /^([^=]+?)=(.*)$/ ) {
         $params->{$1} = $2;
@@ -63,47 +103,6 @@ foreach my $p (@ARGV) {
 
 unless ( scalar( keys %$params ) ) {
     $params->{method} = 'check_current_value';
-}
-
-{
-
-    package CheckVisitor;
-
-    sub new {
-        my ( $class, $method, $reporter ) = @_;
-        return bless( { method => $method }, $class );
-    }
-
-    sub startVisit {
-        my ( $this, $visitee ) = @_;
-
-        return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
-
-        my $checker  = Foswiki::Configure::Checker::loadChecker($visitee);
-        my $reporter = Foswiki::Configure::Reporter->new();
-
-        if ($checker) {
-            my $x = eval "\$Foswiki::cfg$visitee->{keys}";
-            if ( ref($x) ) {
-                $x = Data::Dumper->Dump( [$x] );
-                $x =~ s/\$.*?= //;
-                $x =~ s/;\s*$//s;
-            }
-
-            my $meth = $this->{method};
-            $reporter->NOTE("---++ $visitee->{keys}");
-            $checker->$meth( $reporter, "$x" );
-            print $reporter->text() . "\n";
-        }
-
-        return 1;
-    }
-
-    sub endVisit {
-        my ( $this, $visitee ) = @_;
-
-        return 1;
-    }
 }
 
 sub _prompt {
@@ -150,6 +149,10 @@ if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
 }
 else {
     %Foswiki::cfg = ();
+    eval 'require Foswiki::Plugins::ConfigurePlugin';
+    die
+      "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
+      if $@;
     eval "require FindBin";
     die "Could not load FindBin to support configuration recovery: $@"
       if $@;
@@ -177,28 +180,47 @@ else {
 if ($ok) {
     if ( $params->{checker} ) {
 
-        # Call checker method
+        _addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
+
+        my %check = ();
 
         my $vob = $root->getValueObject( $params->{checker} );
-        die "Checker $params->{checker} not found" unless $vob;
-        my $checker = Foswiki::Configure::Checker::loadChecker($vob);
 
-        my $x = eval "\$Foswiki::cfg$checker";
-        if ( ref($x) ) {
-            $x = Data::Dumper->Dump( [$x] );
-            $x =~ s/\$.*?= //;
-            $x =~ s/;\s*$//s;
+        if ($vob) {
+            $check{ $params->{checker} } = 1;
+        }
+        else {
+            $vob = $root->getSectionObject( $params->{checker} );
+            if ($vob) {
+                map { $check{$_} = 1 } $vob->getAllValueKeys();
+            }
+            else {
+                die "$params->{checker} was not found";
+            }
         }
 
-        my $meth = $params->{method} || 'check_current_value';
-        die "Checker for $vob->{keys} does not define $meth"
-          unless $checker->can($meth);
-        my $val = eval("\$Foswiki::cfg$vob->{keys}");
-        $val = 'undef' unless defined $val;
-        print "--- Running $meth on $vob->{keys} = $val\n";
+        foreach my $k ( keys %check ) {
+            my $vob     = $root->getValueObject($k);
+            my $checker = Foswiki::Configure::Checker::loadChecker($vob);
+            next unless $checker;
 
-        $checker->$meth($reporter);
+            my $x = eval "\$Foswiki::cfg$checker";
+            if ( ref($x) ) {
+                $x = Data::Dumper->Dump( [$x] );
+                $x =~ s/\$.*?= //;
+                $x =~ s/;\s*$//s;
+            }
 
+            my $meth = $params->{method} || 'check_current_value';
+            die "Checker for $vob->{keys} does not define $meth"
+              unless $checker->can($meth);
+
+            my $reporter = Foswiki::Configure::Reporter->new();
+            $checker->$meth($reporter);
+            foreach my $line ( split /\n/, $reporter->text() ) {
+                print "$meth $vob->{keys}: $line\n";
+            }
+        }
     }
     elsif ( $params->{wizard} ) {
 
@@ -208,19 +230,16 @@ if ($ok) {
           Foswiki::Configure::Wizard::loadWizard( $params->{wizard}, $params );
         my $meth = $params->{method} || 'execute';
         print "--- Running $params->{wizard}\::$meth\n";
+
+        my $reporter = Foswiki::Configure::Reporter->new();
         print $wiz->$meth($reporter);
+        print $reporter->text() . "\n";
 
     }
     else {
-        # Call method on all items in .spec
-
-        my $meth = $params->{method} || 'check_current_value';
-        print "--- Running $meth on all keys in .spec\n";
-        my $check_visitor = CheckVisitor->new($meth);
-        $root->visit($check_visitor);
+        print STDERR "Nothing to do\n" . USAGE;
+        exit 1;
     }
 }
-
-print $reporter->text() . "\n";
 
 1;
