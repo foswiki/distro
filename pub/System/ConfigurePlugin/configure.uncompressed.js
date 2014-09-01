@@ -20,16 +20,17 @@ As per the GPL, removal of this notice is prohibited.
 User interface for Foswiki configuration. Uses the JsonRpc interface
 to interact with Foswiki.
 */
-var json_rpc_url = "jsonrpc";
-var jsonRpc_reqnum = 0;
-// Required for eval()ing values from FW
-var $FALSE = 0;
-var $TRUE = 1;
+var json_rpc_url = "jsonrpc",
+    jsonRpc_reqnum = 0,
+    $FALSE = 0, // Required for eval()ing values from FW
+    $TRUE = 1;
 
 // Convert key string to valid HTML id. Not guaranteed to generate a unique
 // id, but close enough for our purposes.
 function _id_ify(id) {
-    if (id == undefined) debugger;
+    if (typeof(id) === "undefined") {
+      debugger;
+    }
     id = id.replace(/[}{]/g, '-');
     id = id.replace(/['"]/g, '');
     id = id.replace(/[^A-Za-z0-9_]/g, '-');
@@ -37,12 +38,14 @@ function _id_ify(id) {
 }
 
 (function($) {
-    var auth_action = function() {};
-    var confirm_action = function() {};
+    "use strict";
+
+    var auth_action = function() {},
+        confirm_action = function() {};
 
     // Load a whirling wait image
     function create_whirly($node, loadType, message) {
-        return $image;
+        return $image; /* SMELL: $image not defined */
     }
 
     // Handler to open the documentation on a configuration item
@@ -58,9 +61,10 @@ function _id_ify(id) {
 
     // Find all modified values, and return key-values
     function modified_values() {
-        var set = {};
+        var set = {}, handler;
+
         $('.value_modified').each(function() {
-            var handler = $(this).data('value_handler');
+            handler = $(this).data('value_handler');
             set[handler.spec.keys] = handler.currentValue();
         });
         return set;
@@ -92,11 +96,9 @@ function _id_ify(id) {
 
     // Make an RPC call
     function RPC(method, message, params, report, $node, whirly_type) {
-        // Get an id to uniquely identify the request
-        var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++;
+        var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++, // Get an id to uniquely identify the request
+            $whirly = $('<div class="whirly">' + message + '</div>'); // Add an activity whirly
 
-        // Add an activity whirly
-        var $whirly = $('<div class="whirly">' + message + '</div>');
         $whirly.attr('id', rpcid);
         $whirly.addClass(whirly_type);
         $node.append($whirly);
@@ -142,10 +144,12 @@ function _id_ify(id) {
         $tab.removeClass(level + id);
         var report_data = $tab.data('reports');
         report_data[level][id]--;
-        if (report_data[level][id])
+        if (report_data[level][id]) {
             delete report_data[level][id];
-        if (report_data[level].length == 0)
+        }
+        if (report_data[level].length === 0) {
             $tab.removeClass(level);
+        }
     }
 
     // Record the existance of reports for the given level and
@@ -165,17 +169,20 @@ function _id_ify(id) {
     // actual tab containing the erroneous item hasn't been opened
     // yet, this will annotate the tab that ultimately leads to it.
     function bubble_checker_reports(r, has) {
-        var path = r.path.join(' > ');
-        var id = _id_ify(r.keys);
+        var path = r.path.join(' > '),
+            id = _id_ify(r.keys),
+            sid, $whine;
            
         $.each(r.path, function(index, pel) {
-            var sid = _id_ify(pel);
+            sid = _id_ify(pel);
             $.each(has, function (level, count) {
-                if (count == 0)
+                if (count === 0) {
                     return;
+                }
 
-                if (level != 'errors' && level != 'warnings')
+                if (level != 'errors' && level != 'warnings') {
                     return;
+                }
 
                 // Annotate the tab with the existance of the report(s)
                 // The count is irrelevant to the tab, as we don't show
@@ -187,13 +194,7 @@ function _id_ify(id) {
                     .first()
                     .each(
                         function() {
-                            var $whine = $('<div>' + path
-                                           + ' > '
-                                           + r.keys
-                                           + ' has '
-                                           + count + ' '
-                                           + level
-                                           + '</div>');
+                            $whine = $('<div>' + path + ' > ' + r.keys + ' has ' + count + ' ' + level + '</div>');
                             $whine.addClass(level);
                             $whine.addClass(id + '_report');
                             $(this).append($whine);
@@ -212,7 +213,8 @@ function _id_ify(id) {
 
         $.each(results, function (index, r) {
 
-            var id = _id_ify(r.keys);
+            var id = _id_ify(r.keys),
+                has, $reports, $whine;
 
             // Remove all existing reports related to these keys
             $('.' + id + '_report').remove();
@@ -224,19 +226,20 @@ function _id_ify(id) {
             });
 
             // Update the key block report (if it's there)
-            var has = { errors: 0, warnings: 0 };
+            has = { errors: 0, warnings: 0 };
             if (r.reports) {
-                var $reports = $('#REP' + id); // if it's there
+                $reports = $('#REP' + id); // if it's there
                 $.each(r.reports, function(index, rep) {
                     // An empty information message can be ignored
                     if (!(rep.level == 'notes' && rep.message == '')) {
-                        if (rep.level == 'errors' || rep.level == 'warnings')
+                        if (rep.level == 'errors' || rep.level == 'warnings') {
                             has[rep.level]++;
+                        }
                         if ($reports.length > 0) {
                             // If the key block isn't loaded,
                             // bubble_checker_reports will annotate
                             // the path leading to it
-                            var $whine = $('<div>' + rep.message + '</div>');
+                            $whine = $('<div>' + rep.message + '</div>');
                             $whine.addClass(rep.level);
                             $whine.addClass(id + '_report');
                             $reports.append($whine);
@@ -259,11 +262,11 @@ function _id_ify(id) {
     function check_current_value($node) {
         update_modified_default($node);
 
-        var handler = $node.data('value_handler');
-        var params = {
-            keys: [ handler.spec.keys ],
-            set: modified_values()
-        };
+        var handler = $node.data('value_handler'),
+            params = {
+              keys: [ handler.spec.keys ],
+              set: modified_values()
+            };
 
         RPC('check_current_value',
             'Check: '+ handler.spec.keys,
@@ -297,12 +300,13 @@ function _id_ify(id) {
             $('#' + _id_ify(keys))
                 .closest('.node')
                 .each(function() {
-                    var $node = $(this);
-                    var handler = $node.data('value_handler');
+                    var $node = $(this),
+                        handler = $node.data('value_handler');
+
                     handler.useVal(value);
                     // Fire off checker
                     check_current_value($node);
-                })
+                });
         });
         $div.dialog({
             width: '60%',
@@ -319,15 +323,15 @@ function _id_ify(id) {
 
     // Delegate for calling wizards once auth info is available
     function call_wizard($node, fb) {
-        var handler = $node.data('value_handler');
-        var params = {
-            wizard: fb.wizard,
-            keys: handler.spec.keys,
-            method: fb.method,
-            set: modified_values(),
-            cfgusername: $('#username').val(),
-            cfgpassword: $('#password').val()
-        };
+        var handler = $node.data('value_handler'), 
+            params = {
+              wizard: fb.wizard,
+              keys: handler.spec.keys,
+              method: fb.method,
+              set: modified_values(),
+              cfgusername: $('#username').val(),
+              cfgpassword: $('#password').val()
+          };
 
         RPC('wizard',
             'Call ' + fb.method,
@@ -375,15 +379,19 @@ function _id_ify(id) {
 
     // Create FEEDBACK controls for a key node
     function create_feedback(spec, fb, $node) {
+        var $button;
+
         if (fb.method) {
-            if (!fb.label)
+            if (!fb.label) {
                 fb.label = fb.method;
-            if (!fb.label)
+            }
+            if (!fb.label) {
                 fb.label = fb.wizard;
-            $button = $('<button class="feedback_button">'
-                        + fb.label + '</button>');
-            if (spec.title == null)
+            }
+            $button = $('<button class="feedback_button">' + fb.label + '</button>'); 
+            if (spec.title === null) {
                 spec.title = fb.label;
+            }
             $button.attr('title', spec.title);
             $button.click(function() {
                 if (fb.auth == 1) {
@@ -395,8 +403,9 @@ function _id_ify(id) {
                         'option', 'title',
                         fb.label + ' requires authentication');
                     $('#auth_prompt').dialog("open");
-                } else
+                } else {
                     call_wizard($node, fb);
+                }
             }).button();
             $node.append($button);
         }
@@ -407,15 +416,17 @@ function _id_ify(id) {
 
     // Load a key node UI
     function load_ui($node) {
-        var spec = $node.data('spec.entry');
-        // Create the handler
-        var handler_class = spec.typename;
-        if (!(typeof(window['Types'][handler_class]) === "function"))
+        var spec = $node.data('spec.entry'),
+            handler_class = spec.typename, // Create the handler
+            handler, $ui, id, $butt, $button;
+
+        if (typeof(window.Types[handler_class]) !== "function") {
             handler_class = "BaseType";
-        var handler = new window['Types'][handler_class](spec);
+        }
+        handler = new window.Types[handler_class](spec);
         $node.data('value_handler', handler);
 
-        var $ui = handler.createUI(
+        $ui = handler.createUI(
             function() {
                 update_modified_default($node);
                 check_current_value($node);
@@ -430,25 +441,24 @@ function _id_ify(id) {
             // works for all types, but only really makes sense on
             // string types.
             $node.addClass('undefinedOK');
-            var id = 'UOK' + _id_ify(spec.keys);
+            id = 'UOK' + _id_ify(spec.keys);
             $node.append("<label for='"+id+"'></label>");
-            var $butt = $('<input type="checkbox" id="' + id
-                          + '">');
+            $butt = $('<input type="checkbox" id="' + id + '">');
             $butt.attr("title", "Enable this option to take a value");
             $butt.click(function() {
-                if ( $(this).attr("checked") )
+                if ( $(this).attr("checked") ) {
                     $ui.show();
-                else
+                } else {
                     $ui.hide();
+                }
                 update_modified_default( $node );
             }).show();
             // Add a null_if handler to intercent the currentValue
             // of the keys (see types.js)
             handler.null_if = function () {
                 return !$butt.attr("checked");
-            }
-            if (typeof(spec.current_value) == 'undefined'
-                || spec.current_value == null) {
+            };
+            if (typeof(spec.current_value) == 'undefined' || spec.current_value === null) {
                 $ui.hide();
             } else {
                 $butt.attr("checked", "checked");
@@ -456,9 +466,8 @@ function _id_ify(id) {
             $ui.before($butt);
         }
 
-        var $button = $('<button class="undo_button control_button"></button>');
-        $button.attr('title', 'Reset to configured value: '
-                     + spec.current_value);
+        $button = $('<button class="undo_button control_button"></button>');
+        $button.attr('title', 'Reset to configured value: ' + spec.current_value);
         $button.click(function() {
             handler.restoreCurrentValue();
             check_current_value($node);
@@ -471,7 +480,7 @@ function _id_ify(id) {
         $node.append($button);
 
         $button = $('<button class="default_button control_button"></button>');
-        $button.attr('title', 'Reset to default value: ' + spec.default);
+        $button.attr('title', 'Reset to default value: ' + spec['default']);
         $button.click(function() {
             handler.restoreDefaultValue();
             check_current_value($node);
@@ -483,10 +492,11 @@ function _id_ify(id) {
         }).hide();
         $node.append($button);
 
-        if (spec.FEEDBACK)
+        if (spec.FEEDBACK) {
             $.each(spec.FEEDBACK, function(index, fb) {
                 create_feedback(spec, fb, $node);
             });
+        }
 
         update_modified_default($node);
     }
@@ -505,28 +515,29 @@ function _id_ify(id) {
                 depth : 0
             },
             function(response) {
-                var $node = $('<div class="node"></div>');
+                var $node = $('<div class="node"></div>'),
+                    $tab, $report;
+
                 $panel.append($node);
 
                 // Clean off errors and warnings that were bubbled
                 // up to here from higher level deep checks. We will
                 // perform a deep check on this tab once it's open.
-                var $tab = $('#TAB' + _id_ify(spec.headline));
+                $tab = $('#TAB' + _id_ify(spec.headline));
                 $tab .removeClass('errors')
                     .removeClass('warnings');
                  // Duplicate the spec.entry here; it's the only way
                 // to handle tab loading cleanly
                 $node.data('spec.entry', spec);
 
-                var $report = $('<div class="reports"></div>');
+                $report = $('<div class="reports"></div>');
                 $report.attr('id', 'REP' + _id_ify(spec.headline));
                 $node.append($report);
 
                 if (spec.desc) {
-                    $node.append('<div class="description">'
-                                 + spec.desc + '</div>');
+                    $node.append('<div class="description">' + spec.desc + '</div>');
                 }
-                load_section_specs(response, $node);
+                load_section_specs(response, $node); /*SMELL load_section_specs is not defined */
                 // Call to check all the *known* keys under this node. Keys
                 // that are currently missing from the UI (because they have
                 // not been loaded yet) will not be checked.
@@ -550,13 +561,14 @@ function _id_ify(id) {
     // Used to support DISPLAY_IF and ENABLE_IF
     function value_of(selector) {
         var $el = $(selector);
-        if ($el.length == 0) {
+        if ($el.length === 0) {
             // Dependencies between elements in different panes are
             // generally a bad idea.
             throw selector + " has not been loaded yet";
         }
-        if ($el.attr("type") == "checkbox")
+        if ($el.attr("type") == "checkbox") {
 	    return $el.is(":checked");
+        }
         return $el.val();
     }
 
@@ -567,25 +579,27 @@ function _id_ify(id) {
     // we can set up initial conditions when all specs have been loaded.
     // Used to support DISPLAY_IF and ENABLE_IF
     function add_dependency(test, $el, cb) {
-        var name;
+        var name,
+            keys = [],
+            selector, handler;
+
         test = test.replace(/^(\w+)\s+/, function(str, p1, offset) {
             name = p1;
             return '';
         });
-        var keys = [];
         // Replace each occurrence of a key string in the condition,
- 	test = test.replace(/((?:{\w+})+)/g, function(str, p1, offset) {
+        test = test.replace(/((?:\{\w+\})+)/g, function(str, p1, offset) {
             // Identify the input for these keys
-            var selector = '#' + _id_ify(p1);
+            selector = '#' + _id_ify(p1);
             keys.push(selector);
             // replace it with a JS call that will get the value of
             // the key. If the key has not bee loaded yet this will
             // throw an exception.
             return "value_of('" + selector + "')";
         });
-        var handler = function(event) {
+        handler = function(event) {
             try {
-                cb($el, eval('(' + test + ')') ? true : false);
+                cb($el, eval('(' + test + ')') ? true : false); /* SMELL eval is evil */
             } catch (err) {
                 console.debug(err);
             }
@@ -597,36 +611,43 @@ function _id_ify(id) {
             $(document).on("change", k, null, handler);
         });
         return handler;
-    };
+    }
 
     // Create the DOM for a section from getspec entries
     function load_section_specs(entries, $section) {
         // Construct a value field for each key
-        var on_ready = [];
+        var on_ready = [],
+            $children = null,
+            $lis = null,
+            created = {};
+
         $.each(entries, function(index, entry) {
-            var label;
+            var label, $node, id, $head, $infob, $report;
+
             if (entry.typename != "SECTION") {
                 // It's a key
 
                 // the load_ui class will trigger load_ui() later
-                var $node = $('<div class="node load_ui closed"></div>');
+                $node = $('<div class="node load_ui closed"></div>');
                 $node.data('spec.entry', entry);
                 if (entry.EXPERT && entry.EXPERT == 1) {
                     $node.addClass('expert');
                     $node.addClass('hidden_expert');
                 }
-                var label = entry.LABEL;
-                if (entry.DISPLAY_IF != null)
+                label = entry.LABEL;
+                if (typeof(entry.DISPLAY_IF) !== "undefined") {
                     on_ready.push(
                         add_dependency(
                             entry.DISPLAY_IF, $node, function ($n, tf) {
                                 if (tf) {
                                     // Display if not expert
                                     $n.removeClass('hidden_di');
-                                } else
+                                } else {
                                     $n.addClass('hidden_di');
+                                }
                             }));
-                if (entry.ENABLE_IF != null)
+                }
+                if (typeof(entry.ENABLE_IF) !== "undefined") {
                     on_ready.push(
                         add_dependency(
                             entry.ENABLE_IF, $node, function($n, tf) {
@@ -637,18 +658,18 @@ function _id_ify(id) {
                                         .attr('disabled', 'disabled');
                                 }
                             }));
+                }
 
-                var id;
-
-                if (entry.keys != null) {
+                if (typeof(entry.keys) !== "undefined") {
                     id = _id_ify(entry.keys);
                     $node.addClass("keyed");
-                    if (!label)
+                    if (!label) {
                         label = entry.keys;
-                    var $head = $('<div class="keys">' + label + '</div>');
+                    }
+                    $head = $('<div class="keys">' + label + '</div>');
                     $node.append($head);
                     if (entry.desc) {
-                        var $infob = $('<button class="control_button"></button>');
+                        $infob = $('<button class="control_button"></button>');
                         $head.prepend($infob);
                         $infob.click(function() {
                             toggle_description($(this).closest('.keyed'));
@@ -659,38 +680,34 @@ function _id_ify(id) {
                             text: false
                         });
                     }
-                } else if (entry.headline != null) {
+                } else if (entry.headline !== null) {
                     // unkeyed type e.g. BUTTON
                     id = _id_ify(entry.headline);
                 }
                 $node.attr('id', id + '_block');
-                var $report = $('<div class="reports"></div>');
+                $report = $('<div class="reports"></div>');
                 $report.attr('id', 'REP' + id);
                 $node.append($report);
                 if (entry.desc) {
-                    $node.append('<div class="description">'
-                                  + entry.desc + '</div>');
+                    $node.append('<div class="description">' + entry.desc + '</div>');
                 }
                 $section.append($node);
             }
         });
 
         // Construct tab entry for each (unique) child
-        var $children = null;
-        var $lis = null;
-        var created = {};
         $.each(entries, function(index, entry) {
             if (entry.typename == "SECTION" && !created[entry.headline]) {
                 created[entry.headline] = true;
-                var $li = $('<li><a href="'
+                var $li = $('<li><a href="' +
                            // This URL could be anything; we're going to
                            // cancel it in the beforeLoad, below.
-                           + json_rpc_url
-                           + '"><span class="tab" id="'
-                           + 'TAB' + _id_ify(entry.headline) + '">'
-                           + entry.headline + '</span></a></li>');
+                           json_rpc_url +
+                           '"><span class="tab" id="' +
+                           'TAB' + _id_ify(entry.headline) + '">' +
+                           entry.headline + '</span></a></li>');
                 $li.data('spec.entry', entry);
-                if ($children == null) {
+                if ($children === null) {
                     $children = $('<div></div>');
                     $section.append($children);
                     $lis = $('<ul></ul>');
@@ -700,7 +717,7 @@ function _id_ify(id) {
             }
         });
 
-        if ($children != null) {
+        if ($children !== null) {
             // Construct the child tabs for the section
             $children.tabs({
                 // Because we can't control the request sent by ui.tabs, we
@@ -806,7 +823,7 @@ function _id_ify(id) {
                             }
                         });
                         // No errors, commit the UI value to the spec
-                        if (erc == 0) {
+                        if (erc === 0) {
                             $('.value_modified').each(function() {
                                 var handler = $(this).data('value_handler');
                                 handler.commitVal();
@@ -869,8 +886,9 @@ function _id_ify(id) {
     });
 
     $(window).on('beforeunload', function() {
-        if ($('.value_modified').length > 0)
+        if ($('.value_modified').length > 0) {
             return "You have unsaved changes";
+        }
         return 'Are you really sure?';
     });
 
