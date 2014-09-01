@@ -529,6 +529,7 @@ lib/Foswiki/Configure/Visitor.pm 0444
 lib/Foswiki/Configure/Wizard.pm 0444
 lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm 0444
 lib/Foswiki/Configure/Wizards/CancelSMIMECertificate.pm 0444
+lib/Foswiki/Configure/Wizards/ExploreExtensions.pm 0444
 lib/Foswiki/Configure/Wizards/GenerateCSR.pm 0444
 lib/Foswiki/Configure/Wizards/GenerateSMIMECertificate.pm 0444
 lib/Foswiki/Configure/Wizards/GuessSSLCaLocations.pm 0444
