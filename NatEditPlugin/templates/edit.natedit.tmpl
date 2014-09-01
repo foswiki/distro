@@ -76,7 +76,9 @@
 %TMPL:END%
 
 %TMPL:DEF{"tabpane"}%%TABPANE{automaxexpand="on" minheight="330" animate="on" select="%URLPARAM{"natedittab"}%"}%
-%TMPL:P{"firsttab"}%%TMPL:P{"formfields"}%%TMPL:P{"settingstab"}%%TMPL:P{"permissionstab"}%%TMPL:P{"moretabs"}%%TMPL:P{"helptab"}%%ENDTABPANE%%TMPL:END%
+%TMPL:P{"tabs"}%%ENDTABPANE%%TMPL:END%
+
+%TMPL:DEF{"tabs"}%%TMPL:P{"firsttab"}%%TMPL:P{"formfields"}%%TMPL:P{"settingstab"}%%TMPL:P{"permissionstab"}%%TMPL:P{"helptab"}%%TMPL:END%
 
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
@@ -91,25 +93,6 @@
 
 %TMPL:DEF{"firsttab"}%%TAB{"%MAKETEXT{"Text"}%" id="text"}%
 %TMPL:P{"topicmeta"}%%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
-
-%TMPL:DEF{"settingstab"}%%TAB{"%MAKETEXT{"Settings"}%" id="settings"}%%TMPL:P{"settings"}%%ENDTAB%%TMPL:END%
-
-%TMPL:DEF{"settings"}%%TMPL:P{"topicsettings"}%%TMPL:P{"moresettings"}%%TMPL:END%
-
-%TMPL:DEF{"topicsettings"}%<h2>%MAKETEXT{"Topic settings"}%</h2>
-<div class="foswikiFormSteps">
-  <div class="foswikiFormStep">
-    <table class="foswikiLayoutTable">
-      <tr>
-        <th>%MAKETEXT{"Parent topic"}%</th>
-        <td>
-          <input class="foswikiInputField jqUIAutocomplete" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%"  />
-        </td>
-      </tr>
-      %TMPL:P{"moretopicsettings"}%<!-- -->
-    </table>
-  </div>
-</div>%TMPL:END%
 
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" 
   id="help"

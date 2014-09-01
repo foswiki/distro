@@ -1,0 +1,10 @@
+*.gz
+pub/System/NatEditPlugin/jquery.natedit.js
+pub/System/NatEditPlugin/styles.css
+NatEditPlugin.md5
+NatEditPlugin.sha1
+NatEditPlugin.tgz
+NatEditPlugin.txt
+NatEditPlugin.zip
+NatEditPlugin_installer
+NatEditPlugin_installer.pl
