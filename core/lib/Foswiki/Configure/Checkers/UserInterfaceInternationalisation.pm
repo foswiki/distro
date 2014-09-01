@@ -90,6 +90,8 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
     my $vuln_msg = $this->_have_vulnerable_maketext();
 
+    return unless $Foswiki::cfg{UserInterfaceInternationalisation};
+
     if ($vuln_msg) {
         if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
             $reporter->ERROR($vuln_msg);

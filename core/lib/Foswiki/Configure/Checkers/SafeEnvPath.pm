@@ -27,12 +27,15 @@ sub check_current_value {
     my $pathSep = ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
 
     unless ( $Foswiki::cfg{SafeEnvPath} ) {
-        $reporter->WARN("You should set a value for this path.");
+        $reporter->NOTE(
+"Without a setting of {SafeEnvPath}, the PATH used will be taken from the PATH environment variable: $ENV{PATH}"
+        );
         return;
     }
 
     # First, get the proposed path
-    my @dirs = ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} ) );
+    my @dirs =
+      ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} || $ENV{PATH} ) );
 
     # Check they exist
     my $found = 0;

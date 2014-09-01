@@ -16,6 +16,8 @@ use Foswiki::Configure::Checkers::URL ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    return if ( $this->{item}->{UNDEFINEDOK} && !$this->getCfgUndefOk() );
+
     $this->showExpandedValue($reporter);
 
     my %check = ();

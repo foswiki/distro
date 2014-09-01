@@ -21,9 +21,8 @@ sub check_current_value {
 
     my $lsc = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
     unless ($lsc) {
-        $reporter->ERROR(
-'LocalSite.cfg could not be found on the path. Don\'t know where to look for backups.'
-        );
+
+        # Still in bootstrap mode - nothing to back up
         return;
     }
     my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
