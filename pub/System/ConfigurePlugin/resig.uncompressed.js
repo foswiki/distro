@@ -5,9 +5,8 @@
 /*global Class */
 // Inspired by base2 and Prototype
 (function(){
-    "use strict";
 
-    var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/; /* SMELL: xyz is not defined */
+    var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
 
     // The base Class implementation (does nothing)
     this.Class = function(){};
