@@ -51,6 +51,7 @@ sub _perlKey {
 
 sub save {
     my ( $this, $reporter ) = @_;
+    my $session = $Foswiki::Plugins::SESSION;
 
     # Sort keys so it's possible to diff LSC files.
     local $Data::Dumper::Sortkeys = 1;
@@ -59,6 +60,7 @@ sub save {
 
     my $old_content;
     my $orig_content;    # used so diff detects remapping of keys
+    my %changeLog;
 
     my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
@@ -218,7 +220,8 @@ sub save {
         }
         $reporter->NOTE("New configuration saved in $lsc");
         $orig_content = $old_content unless defined $orig_content;
-        _compareConfigs( $orig_content, $new_content );
+        _compareConfigs( $orig_content, $new_content, \%changeLog );
+        $reporter->NOTE( _printChanges( \%changeLog ) );
     }
     else {
         unlink $backup if ($backup);
@@ -226,7 +229,30 @@ sub save {
     }
 }
 
+sub _printChanges {
+
+    # my $changeLog = shift;
+
+    my $results =
+      '<table><tr><th>Key</th><th>Change</th><th>Old</th><th>New</th></tr>';
+
+    foreach my $key ( sort keys %{ $_[0] } ) {
+        print STDERR
+"@{ $_[0]->{$key} }[0]: $key @{$_[0]->{$key}}[1] => @{$_[0]->{$key}}[2]\n";
+
+        $results .= "<tr><td>$key</td>";
+        $results .= "<td>" . substr( @{ $_[0]->{$key} }[0], 0, 1 ) . "</td>";
+        $results .= "<td>@{$_[0]->{$key}}[1]</td>";
+        $results .= "<td>@{$_[0]->{$key}}[2]</td></tr>";
+    }
+    $results .= '</table>';
+    return $results;
+}
+
 sub _compareConfigs {
+
+    # my ( $oldstring, $newstring, $changeLog ) = @_;
+
     local %Foswiki::cfg = ();
     eval $_[0];
     my %oldcfg = %Foswiki::cfg;
@@ -241,8 +267,6 @@ sub _compareConfigs {
     @oldkeys = sort(@oldkeys);
     @newkeys = sort(@newkeys);
 
-    #print STDERR "===OLD===\n" . Data::Dumper::Dumper( \%oldcfg );
-    #print STDERR "===NEW===\n" . Data::Dumper::Dumper( \%newcfg );
     require Algorithm::Diff;
     Algorithm::Diff::traverse_sequences(
         \@oldkeys,
@@ -257,53 +281,53 @@ sub _compareConfigs {
         \@newkeys,
         \%oldcfg,
         \%newcfg,
+        $_[2],
     );
 
-    #print STDERR "OLD: " . Data::Dumper::Dumper( \@oldkeys );
-    #print STDERR "NEW: " . Data::Dumper::Dumper( \@newkeys );
     return;
 }
 
 sub _match {
-    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
 
     my $keys = $ai->[$a];
     my $oval = eval "\$oc->$keys";
     my $nval = eval "\$nc->$keys";
     my $type = ref($oval) || ref($nval);
 
-    if ($type) {
-        require Data::Dumper;
+    $oval = _dumpVal( \$oval ) if ( ref($oval) );
+    $nval = _dumpVal( \$nval ) if ( ref($nval) );
 
-        local $Data::Dumper::Sortkeys = 1;
-        local $Data::Dumper::Terse    = 1;
-
-        my $value1 = Data::Dumper::Dumper($oval);
-        my $value2 = Data::Dumper::Dumper($nval);
-
-        if ( $value1 ne $value2 ) {
-            print STDERR "CHANGE:  $ai->[$a]: $value1 => $value2 \n";
-        }
-    }
-    else {
-        unless ( $oval eq $nval ) {
-            print STDERR "CHANGE:  $ai->[$a]: $oval => $nval \n";
-        }
+    if ( $oval ne $nval ) {
+        push @{ $log->{"'$ai->[$a]'"} }, ( 'CHANGE', $oval, $nval );
     }
 }
 
 sub _dropA {
-    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
     my $keys = $ai->[$a];
     my $oval = eval "\$oc->$keys";
-    print STDERR "REMOVE:  $ai->[$a] value $oval\n";
+    $oval = _dumpVal( \$oval ) if ( ref($oval) );
+    push @{ $log->{"'$ai->[$a]'"} }, ( 'REMOVE', $oval, '' );
 }
 
 sub _dropB {
-    my ( $a, $b, $ai, $bi, $oc, $nc ) = @_;
+    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
     my $keys = $bi->[$b];
     my $nval = eval "\$nc->$keys";
-    print STDERR "ADD:     $bi->[$b] value $nval\n";
+    $nval = _dumpVal( \$nval ) if ( ref($nval) );
+    push @{ $log->{"'$bi->[$b]'"} }, ( 'INSERT', '', $nval );
+}
+
+sub _dumpVal {
+
+    # $elementRef = shift;
+
+    require Data::Dumper;
+    local $Data::Dumper::Sortkeys = 1;
+    local $Data::Dumper::Terse    = 1;
+
+    return Data::Dumper::Dumper( $_[0] );
 }
 
 sub _wordy_dump {
