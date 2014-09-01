@@ -843,12 +843,15 @@ function _id_ify(id) {
                     },
                     $root, 'load');
             };
-            var changed = '';
+            var changed = ':<ul>';
+            if ($('#bootstrap_warning').length)
+                changed = " complete basic configuration" + changed;
             $('.value_modified').each(function() {
                 var handler = $(this).data('value_handler');
-                changed += handler.spec.keys + ' ';
+                changed += '<li>' + handler.spec.keys + '</li>';
             });
- 
+            changed += '</ul>';
+
             $('#confirm_note').html($('#saveMessage').html());
             $('#confirm_note').append(changed);
             $('#confirm_prompt').dialog(
