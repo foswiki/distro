@@ -9,7 +9,7 @@ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username} = '';
 # **PASSWORD 30**
 # The password for the Selenium RC user
 $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password} = '';
-# **PERL 40x10**
+# **PERL 40x10 UNDEFINEDOK**
 # List the browsers accessible via Selenium RC.
 # It is keyed by browser identifier - you choose the identifiers as seems sensible. Browser identifiers may only consist of alphanumeric characters.
 # Examples: <code>FF3 FF2dot1OnWindows IE6_1_345 w3m</code>
