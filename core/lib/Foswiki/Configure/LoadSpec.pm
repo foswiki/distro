@@ -171,7 +171,7 @@ sub _loadSpecsFrom {
 
     # note we ignore specs from any extension where the name starts
     # with "Empty" e.g. EmptyPlugin, EmptyContrib
-    foreach my $extension ( grep { !/^\./ && !/^Empty/ } readdir D ) {
+    foreach my $extension ( sort grep { !/^\./ && !/^Empty/ } readdir D ) {
 
         next if $read->{$extension};
 
