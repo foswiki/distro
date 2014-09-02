@@ -62,6 +62,9 @@ sub save {
     my $orig_content;    # used so diff detects remapping of keys
     my %changeLog;
 
+    my $root = Foswiki::Configure::Root->new();
+    Foswiki::Configure::LoadSpec::readSpec($root);
+
     my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
     # while loop used just so it can use 'last' :-(
@@ -161,8 +164,10 @@ sub save {
         # Pull in a new LocalSite.cfg from the spec
         local %Foswiki::cfg = ();
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+        delete $Foswiki::cfg{ConfigurationFinished};
         $old_content =
-          STD_HEADER . join( '', _wordy_dump( \%Foswiki::cfg ) ) . "1;\n";
+          STD_HEADER
+          . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
     }
 
     # In bootstrap mode, we want to keep the essential settings that
@@ -201,9 +206,11 @@ sub save {
         }
     }
 
+    delete $Foswiki::cfg{ConfigurationFinished};
     my $new_content =
-      STD_HEADER . join( '', _wordy_dump( \%Foswiki::cfg ) ) . "1;\n";
-
+      STD_HEADER . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
+    print $new_content;
+    exit 1;
     if ( $new_content ne $old_content ) {
         my $um = umask(007);   # Contains passwords, no world access to new file
         open( F, '>', $lsc )
@@ -332,22 +339,29 @@ sub _dumpVal {
     return Data::Dumper::Dumper( $_[0] );
 }
 
-sub _wordy_dump {
-    my ( $hash, $keys ) = @_;
+sub _spec_dump {
+    my ( $spec, $hash, $keys ) = @_;
 
     my @dump;
-    if ( ref($hash) eq 'HASH' ) {
-        $keys ||= '';
+    if ( $spec->getValueObject($keys) ) {
+        my $d = Data::Dumper->Dump( [$hash] );
+        $d =~ s/^\$VAR1/\$Foswiki::cfg$keys/;
+        while ( $d =~ s#qr/\(\?-xism:(.*?)\)/;$#qr/$1/;#s ) { }
+        while ( $d =~ s#qr/\(\?\^:(.*?)\)/;$#qr/$1/;#s )    { }
+        push( @dump, $d );
+    }
+    elsif ( ref($hash) eq 'HASH' ) {
         foreach my $k ( sort keys %$hash ) {
-            push( @dump, _wordy_dump( $hash->{$k}, $keys . "{$k}" ) );
+            my $v  = $hash->{$k};
+            my $sk = _perlKeys("{$k}");
+            push( @dump, _spec_dump( $spec, $v, "${keys}$sk" ) );
         }
     }
     else {
         my $d = Data::Dumper->Dump( [$hash] );
         my $sk = _perlKeys($keys);
         $d =~ s/^\$VAR1/\$Foswiki::cfg$sk/;
-        while ( $d =~ s#qr/\(\?-xism:(.*)\)/;$#qr/$1/;# ) { }
-        while ( $d =~ s#qr/\(\?\^:(.*)\)/;$#qr/$1/;# )    { }
+        push( @dump, "# Not found in .spec\n" );
         push( @dump, $d );
     }
 
