@@ -516,6 +516,7 @@ lib/Foswiki/Configure/ImageTest.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/LoadSpec.pm 0444
+lib/Foswiki/Configure/Package.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/Pluggables/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/Pluggables/LANGUAGES.pm 0444
@@ -534,6 +535,7 @@ lib/Foswiki/Configure/Wizards/GenerateCSR.pm 0444
 lib/Foswiki/Configure/Wizards/GenerateSMIMECertificate.pm 0444
 lib/Foswiki/Configure/Wizards/GuessSSLCaLocations.pm 0444
 lib/Foswiki/Configure/Wizards/InstallCertificate.pm 0444
+lib/Foswiki/Configure/Wizards/InstallExtensions.pm 0444
 lib/Foswiki/Configure/Wizards/Save.pm 0444
 lib/Foswiki/Configure/Wizards/ScriptHash.pm 0444
 lib/Foswiki/Configure/Wizards/SendTestEmail.pm 0444

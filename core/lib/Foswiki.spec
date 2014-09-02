@@ -2175,7 +2175,7 @@ $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 
 #---+++ Install, Update or Remove extensions
-# **STRING 80 EXPERT**
+# **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'" FEEDBACK="label='Search for extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
 # <b>Extensions Repositories Search List</b><br />
 # Foswiki extension repositories are just Foswiki webs that are organised in the
 # same way as the Extensions web on Foswiki.org. The 'Find more extensions' link
