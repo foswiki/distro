@@ -41,7 +41,7 @@ var Types = {};
               }
               this.$ui = $('<input id="' + _id_ify(this.spec.keys) + 
                            '" size="' + size + '"/>');
-              this.$ui.val(val);
+              this.useVal(val);
           }
           if (this.spec.SPELLCHECK) {
               this.$ui.attr('spellcheck', 'true');
@@ -161,16 +161,15 @@ var Types = {};
   });
 
   Types.OCTAL = Types.BaseType.extend({
-      createUI: function(change_handler) {
-          if (typeof(this.spec.current_value) !== "undefined" && typeof this.spec.current_value != 'string') {
-              this.spec.current_value = "" + this.spec.current_value.toString(8);
-          }
-          return this._super(change_handler);
+      // UI thinks in octal; everyone else in decimal
+      useVal: function(val) {
+          if (typeof(val) === 'string')
+              val = parseInt(val);
+          this.$ui.val(val.toString(8));
       },
 
       currentValue: function() {
-          var newval = this.$ui.val();
-          return newval.toString(8);
+          return parseInt(this.$ui.val(), 8);
       }
   });
 
