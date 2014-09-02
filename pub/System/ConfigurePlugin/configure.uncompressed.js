@@ -751,6 +751,7 @@ function _id_ify(id) {
         var $root = $('#root');
 
         var bs = foswiki.getPreference('is_bootstrapped') === 'true';
+        json_rpc_url = json_rpc_url + foswiki.getPreference('scriptsuffix');
 
         if (!bs)
             $('#bootstrap_warning').remove();
