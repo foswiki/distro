@@ -22,7 +22,7 @@ to interact with Foswiki.
 */
 var json_rpc_url = "jsonrpc",
     jsonRpc_reqnum = 0,
-    $FALSE = 0, // Required for eval()ing values from FW
+    $FALSE = 0, // (May be) required for eval()ing values from FW
     $TRUE = 1;
 
 // Convert key string to valid HTML id. Not guaranteed to generate a unique
@@ -77,7 +77,7 @@ function _id_ify(id) {
     }
 
     // Find all modified values, and return key-values
-    function modified_values() {
+    function find_modified_values() {
         var set = {}, handler;
 
         $('.value_modified').each(function() {
@@ -87,21 +87,27 @@ function _id_ify(id) {
         return set;
     }
 
+    function update_save_button() {
+        var count = $('.value_modified').length;
+        var mess = (count == 1) ? "1 change"
+            : (count > 0) ? count + " changes" : '';
+        $('#saveButton').button('option', 'label', 'Save ' + mess);
+        if ( $('#bootstrap_warning').length > 0 )
+            count++;
+        $('#saveButton').button(count > 0 ? 'enable' : 'disable');
+        
+    }
+
     function update_modified_default($node) {
         var handler = $node.data('value_handler');
         if (handler.isModified()) {
             $node.addClass("value_modified");
             $node.find('.undo_button').show();
-            $('#saveButton').button("enable");
+            update_save_button();
         } else {
             $node.removeClass("value_modified");
+            update_save_button();
             $node.find('.undo_button').hide();
-            if (!$('#saveButton').button("option", "disabled") && $('#bootstrap_warning').length === 0) {
-                $('#saveButton').button('disable');
-                $('.value_modified').first().each(function() {
-                    $('#saveButton').button('enable');
-                });
-            }
         }
 
         if (handler.isDefault()) {
@@ -282,7 +288,7 @@ function _id_ify(id) {
         var handler = $node.data('value_handler'),
             params = {
               keys: [ handler.spec.keys ],
-              set: modified_values()
+              set: find_modified_values()
             };
 
         RPC('check_current_value',
@@ -321,6 +327,7 @@ function _id_ify(id) {
         // run the checker on them
         $.each(results.changes, function(keys, value) {
             // Get the input for the keys, if it's there
+            var spotted = false;
             $('#' + _id_ify(keys))
                 .closest('.node')
                 .each(function() {
@@ -328,9 +335,33 @@ function _id_ify(id) {
                         handler = $node.data('value_handler');
 
                     handler.useVal(value);
+                    spotted = true;
                     // Fire off checker
                     check_current_value($node);
                 });
+            if (!spotted) {
+                // It's not loaded yet, so record it for when it is
+                var pendid = 'pending' + _id_ify(keys);
+                var $pending = $('#' + pendid);
+                if ($pending.length === 0) {
+                    $pending = $('<div class="hidden_pending value_modified" id="'
+                                 + pendid + '"></div>');
+                    $('#root').append($pending);
+                }
+                var handler = {
+                    spec: { keys: keys },
+                    currentValue: function() {
+                        return value;
+                    },
+                    isDefault: function() { return true; },
+                    isModified: function() { return true; },
+                    commitVal: function() {
+                        $pending.removeClass('value_modified');
+                    }
+                };
+                $pending.data('value_handler', handler);
+                update_save_button();
+            }
         });
         $div.dialog({
             width: '60%',
@@ -339,8 +370,10 @@ function _id_ify(id) {
                 Ok: function() {
                     $div.dialog("close");
                     $div.remove();
-                    $('body').css('cursor','auto');
                 }
+            },
+            close: function() {
+                $('body').css('cursor','auto');
             }
         });
     }
@@ -352,7 +385,7 @@ function _id_ify(id) {
               wizard: fb.wizard,
               method: fb.method,
               keys: handler ? handler.spec.keys : '',
-              set: modified_values(),
+              set: find_modified_values(),
               cfgusername: $('#username').val(),
               cfgpassword: $('#password').val()
           };
@@ -399,6 +432,9 @@ function _id_ify(id) {
       for the description. The rest of the div is filled with the key nodes
       and/or sub-tabs (sub-tabs always follow keys, if both are present).
 
+      Where a wizard call has modified a value of an item that has not
+      been loaded yet, a pending div is created to hold the value (search
+      for 'pending')
     */
 
     // Create FEEDBACK controls for a key node
@@ -456,6 +492,14 @@ function _id_ify(id) {
                 check_current_value($node);
             });
         $node.append($ui);
+
+        // Check for a pending value change from a wizard
+        var pendid = 'pending' + _id_ify(spec.keys);
+        var $pending = $('#' + pendid);
+        if ($pending.length) {
+            handler.useVal($pending.data('value_handler').currentValue());
+            $pending.remove();
+        }
 
         if (spec.UNDEFINEDOK == 1) {
             // If undefined is OK, then we add a checkbox that
@@ -833,12 +877,11 @@ function _id_ify(id) {
         $('#showExpert').button({disabled: true});
 
         $('#saveButton').button({disabled: !bs}).click(function() {
-            // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
             confirm_action = function() {
                 var params = {
                     wizard: 'Save',
                     method: 'save',
-                    set: modified_values()
+                    set: find_modified_values()
                 };
 
                 RPC('wizard',

@@ -140,15 +140,18 @@ div.information {
     background-repeat: no-repeat;
 }
 
+/* Hidden because it's *always* hidden */
+.hidden_pending {
+    display: none;
+}
+
+/* Hidden because it's EXPERT */
 .hidden_expert {
     display: none;
 }
 
+/* Hidden because it failed a DISPLAY_IF */
 .hidden_di {
-    display: none;
-}
-
-.closed_dialog {
     display: none;
 }
 
