@@ -38,7 +38,7 @@ function _id_ify(id) {
 }
 
 (function($) {
-    "use strict";
+"use strict";
 
     var auth_action = function() {},
         confirm_action = function() {};

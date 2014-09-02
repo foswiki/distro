@@ -4,7 +4,7 @@
 var Types = {};
 
 (function($) {
-  "use strict";
+"use strict";
 
   Types.BaseType = Class.extend({
       // Set to a function that returns true if the current value
