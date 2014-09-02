@@ -61,7 +61,7 @@ sub save {
     my $old_content;
     my $orig_content;    # used so diff detects remapping of keys
     my %changeLog;
-    die unless $Foswiki::cfg{SMTP}{MAILHOST};
+
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec($root);
 
