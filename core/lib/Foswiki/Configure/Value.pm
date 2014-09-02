@@ -356,6 +356,12 @@ sub decodeValue {
         ASSERT( !$@, $@ ) if DEBUG;
         return $value;
     }
+    elsif ( $this->{typename} eq 'BOOLEAN' ) {
+        my $def = ( defined $this->{default} && $this->{default} ) ? 1 : 0;
+        my $val = ( defined $value           && $value )           ? 1 : 0;
+        return undef if ( $val == $def );
+        return $val;
+    }
 
     # String or number or boolean, just sling it back
     return $value;

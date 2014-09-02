@@ -44,7 +44,8 @@ sub _perlKeys {
 # Make a single key safe for use in perl
 sub _perlKey {
     my $k = shift;
-    return $k if $k =~ /^[a-zA-Z_]\w+$/;
+    return $k if $k =~ /^[a-zA-Z_]\w*$/;
+    return $k if $k =~ /^(['"]).*\1$/;     # Already encoded
     $k =~ s/'/\\'/g;
     return "'$k'";
 }
@@ -143,13 +144,13 @@ sub save {
     }
 
     if ( defined $old_content && $old_content =~ /^(.*)$/s ) {
-        $orig_content = $old_content;
         local %Foswiki::cfg;
         eval $1;
         if ($@) {
-            $reporter->ERROR("Error reading existing LocalSite.cfg: $@");
+            die "Error reading existing LocalSite.cfg: $@";
         }
         else {
+            $orig_content = \%Foswiki::cfg;
 
             # Clean out deprecated settings, so they don't occlude the
             # replacements
@@ -225,9 +226,9 @@ sub save {
             $reporter->NOTE("Previous configuration saved in $backup");
         }
         $reporter->NOTE("New configuration saved in $lsc");
-        $orig_content = $old_content unless defined $orig_content;
-        _compareConfigs( $orig_content, $new_content, \%changeLog );
-        $reporter->NOTE( _printChanges( \%changeLog ) );
+
+        _compareConfigs( $orig_content, \%Foswiki::cfg, $reporter )
+          if $orig_content;
     }
     else {
         unlink $backup if ($backup);
@@ -235,129 +236,114 @@ sub save {
     }
 }
 
-sub _printChanges {
-
-    # my $changeLog = shift;
-
-    my $results =
-      '<table><tr><th>Key</th><th>Change</th><th>Old</th><th>New</th></tr>';
-
-    foreach my $key ( sort keys %{ $_[0] } ) {
-        print STDERR
-"@{ $_[0]->{$key} }[0]: $key @{$_[0]->{$key}}[1] => @{$_[0]->{$key}}[2]\n";
-
-        $results .= "<tr><td>$key</td>";
-        $results .= "<td>" . substr( @{ $_[0]->{$key} }[0], 0, 1 ) . "</td>";
-        $results .= "<td>@{$_[0]->{$key}}[1]</td>";
-        $results .= "<td>@{$_[0]->{$key}}[2]</td></tr>";
-    }
-    $results .= '</table>';
-    return $results;
-}
-
 sub _compareConfigs {
 
-    # my ( $oldstring, $newstring, $changeLog ) = @_;
+    my ( $oldcfg, $newcfg, $reporter ) = @_;
 
-    local %Foswiki::cfg = ();
-    eval $_[0];
-    my %oldcfg = %Foswiki::cfg;
-
-    %Foswiki::cfg = ();
-    eval $_[1];
-    my %newcfg = %Foswiki::cfg;
-
-    my (@oldkeys) = $_[0] =~ m/^\$Foswiki::cfg(.*?)\s=.*?$/msg;
-    my (@newkeys) = $_[1] =~ m/^\$Foswiki::cfg(.*?)\s=.*?$/msg;
-
-    @oldkeys = sort(@oldkeys);
-    @newkeys = sort(@newkeys);
-
-    require Algorithm::Diff;
-    Algorithm::Diff::traverse_sequences(
-        \@oldkeys,
-        \@newkeys,
-        {
-            MATCH     => \&_match,
-            DISCARD_A => \&_dropA,
-            DISCARD_B => \&_dropB,
-        },
-        undef,
-        \@oldkeys,
-        \@newkeys,
-        \%oldcfg,
-        \%newcfg,
-        $_[2],
-    );
-
-    return;
-}
-
-sub _match {
-    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
-
-    my $keys = $ai->[$a];
-    my $oval = eval "\$oc->$keys";
-    my $nval = eval "\$nc->$keys";
-    my $type = ref($oval) || ref($nval);
-
-    $oval = _dumpVal( \$oval ) if ( ref($oval) );
-    $nval = _dumpVal( \$nval ) if ( ref($nval) );
-    $oval = 'undef' unless defined $oval;
-    $nval = 'undef' unless defined $nval;
-
-    if ( $oval ne $nval ) {
-        push @{ $log->{"'$ai->[$a]'"} }, ( 'CHANGE', $oval, $nval );
-    }
-}
-
-sub _dropA {
-    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
-    my $keys = $ai->[$a];
-    my $oval = eval "\$oc->$keys";
-    $oval = _dumpVal( \$oval ) if ( ref($oval) );
-    push @{ $log->{"'$ai->[$a]'"} }, ( 'REMOVE', $oval, '' );
-}
-
-sub _dropB {
-    my ( $a, $b, $ai, $bi, $oc, $nc, $log ) = @_;
-    my $keys = $bi->[$b];
-    my $nval = eval "\$nc->$keys";
-    $nval = _dumpVal( \$nval ) if ( ref($nval) );
-    push @{ $log->{"'$bi->[$b]'"} }, ( 'INSERT', '', $nval );
-}
-
-sub _dumpVal {
-
-    # $elementRef = shift;
-
-    require Data::Dumper;
-    local $Data::Dumper::Sortkeys = 1;
+    $reporter->NOTE('| *Key* | *Old* | *New* |');
     local $Data::Dumper::Terse    = 1;
+    local $Data::Dumper::Indent   = 0;
+    local $Data::Dumper::SortKeys = 1;
 
-    return Data::Dumper::Dumper( $_[0] );
+    _same( $oldcfg, $newcfg, '', $reporter );
+}
+
+sub _same {
+    my ( $o, $n, $keypath, $reporter ) = @_;
+    print STDERR "SNIFFING $keypath $o $n\n" if $keypath =~ /zh/;
+    my ( $old, $new );
+
+    if ( ref($o) ne ref($n) ) {
+        $old = ref($o) || ( defined $o ? $o : 'undef' );
+        $new = ref($n) || ( defined $n ? $n : 'undef' );
+        $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
+        return 0;
+    }
+
+    # We know they are the same type
+    if ( ref($o) eq 'HASH' ) {
+        my %keys = map { $_ => 1 } ( keys %$o, keys %$n );
+        my $ok = 1;
+        foreach my $k ( sort keys %keys ) {
+            unless (
+                _same(
+                    $o->{$k},                            $n->{$k},
+                    $keypath . '{' . _perlKey($k) . '}', $reporter
+                )
+              )
+            {
+                $ok = 0;
+            }
+        }
+        return $ok;
+    }
+
+    if ( ref($o) eq 'ARRAY' ) {
+        if ( scalar(@$o) != scalar(@$n) ) {
+            $old = '[' . scalar($o) . ']';
+            $new = '[' . scalar($n) . ']';
+            $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
+            return 0;
+        }
+        else {
+            for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
+                unless ( _same( $o->[$i], $n->[$i], "$keypath\[$i\]" ) ) {
+                    if ($reporter) {
+                        $old = Data::Dumper->Dump( [$o] );
+                        $old =~ s/^.*?= //;
+                        $new = Data::Dumper->Dump( [$n] );
+                        $new =~ s/^.*?= //;
+                        $reporter->NOTE("| $keypath | $old | $new |");
+                    }
+                    return 0;
+                }
+            }
+        }
+    }
+    elsif (( !defined $o && defined $n )
+        || ( defined $o && !defined $n )
+        || $o ne $n )
+    {
+        $old = ref($o) || ( defined $o ? $o : 'undef' );
+        $new = ref($n) || ( defined $n ? $n : 'undef' );
+        $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
+        return 0;
+    }
+
+    return 1;
 }
 
 sub _spec_dump {
-    my ( $spec, $hash, $keys ) = @_;
+    my ( $spec, $datum, $keys ) = @_;
 
     my @dump;
-    if ( $spec->getValueObject($keys) ) {
-        my $d = Data::Dumper->Dump( [$hash] );
-        $d =~ s/^\$VAR1/\$Foswiki::cfg$keys/;
-        while ( $d =~ s#qr/\(\?-xism:(.*?)\)/;$#qr/$1/;#s ) { }
-        while ( $d =~ s#qr/\(\?\^:(.*?)\)/;$#qr/$1/;#s )    { }
-        push( @dump, $d );
+    if ( my $vs = $spec->getValueObject($keys) ) {
+        my $d;
+        if ( $vs->{typename} eq 'REGEX' ) {
+            $datum = "$datum";
+        }
+        if ( $vs->{typename} eq 'BOOLEAN' ) {
+            $d = ( $datum ? 1 : 0 );
+        }
+        elsif ( $vs->{typename} eq 'NUMBER' ) {
+            $d = $datum;
+        }
+        else {
+            $d = Data::Dumper->Dump( [$datum] );
+            $d =~ s/^\$VAR1\s*=\s*//s;
+            $d =~ s/;\s*$//s;
+        }
+        push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
-    elsif ( ref($hash) eq 'HASH' ) {
-        foreach my $k ( sort keys %$hash ) {
-            my $v  = $hash->{$k};
+    elsif ( ref($datum) eq 'HASH' ) {
+        foreach my $k ( sort keys %$datum ) {
+            my $v  = $datum->{$k};
             my $sk = _perlKeys("{$k}");
             push( @dump, _spec_dump( $spec, $v, "${keys}$sk" ) );
         }
     }
     else {
-        my $d = Data::Dumper->Dump( [$hash] );
+        my $d = Data::Dumper->Dump( [$datum] );
         my $sk = _perlKeys($keys);
         $d =~ s/^\$VAR1/\$Foswiki::cfg$sk/;
         push( @dump, "# Not found in .spec\n" );
