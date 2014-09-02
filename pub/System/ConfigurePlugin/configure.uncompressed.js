@@ -652,7 +652,8 @@ function _id_ify(id) {
                 $node.data('spec.entry', entry);
                 if (entry.EXPERT && entry.EXPERT == 1) {
                     $node.addClass('expert');
-                    $node.addClass('hidden_expert');
+                    if ($('#showExpert').attr('checked') !== 'checked')
+                        $node.addClass('hidden_expert');
                 }
                 label = entry.LABEL;
                 if (typeof(entry.DISPLAY_IF) !== "undefined") {
@@ -829,7 +830,7 @@ function _id_ify(id) {
             $('#auth_prompt').dialog("open");
         });
 
-        $('#showExpert').button();
+        $('#showExpert').button({disabled: true});
 
         $('#saveButton').button({disabled: !bs}).click(function() {
             // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
@@ -910,7 +911,7 @@ function _id_ify(id) {
                             $(this).addClass('hidden_expert');
                         });
                     }
-                }).removeAttr('disabled');
+                }).button('enable');
 
                 // Check all keys under root
                 RPC('check_current_value',
