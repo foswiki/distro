@@ -43,9 +43,26 @@ function _id_ify(id) {
     var auth_action = function() {},
         confirm_action = function() {};
 
-    // Load a whirling wait image
-    function create_whirly($node, loadType, message) {
-        return $image; /* SMELL: $image not defined */
+    function init_whirly() {
+        var $whirly, whirlyTimer;
+
+        $whirly = $("<div class='whirly' />").appendTo("body");
+        $(document).ajaxSend(function() {
+            if (typeof(whirlyTimer) !== 'undefined') {
+              window.clearTimeout(whirlyTimer);
+            }
+            $whirly.show();
+        });
+        $(document).ajaxComplete(function() {
+            if (typeof(whirlyTimer) !== 'undefined') {
+              window.clearTimeout(whirlyTimer);
+            }
+            whirlyTimer = window.setTimeout(function() {
+              $whirly.hide();
+              whirlyTimer = undefined;
+            }, 1000);
+        });
+
     }
 
     // Handler to open the documentation on a configuration item
@@ -79,8 +96,7 @@ function _id_ify(id) {
         } else {
             $node.removeClass("value_modified");
             $node.find('.undo_button').hide();
-            if (!$('#saveButton').button("option", "disabled")
-                && $('#bootstrap_warning').length == 0) {
+            if (!$('#saveButton').button("option", "disabled") && $('#bootstrap_warning').length === 0) {
                 $('#saveButton').button('disable');
                 $('.value_modified').first().each(function() {
                     $('#saveButton').button('enable');
@@ -96,13 +112,8 @@ function _id_ify(id) {
     }
 
     // Make an RPC call
-    function RPC(method, message, params, report, $node, whirly_type) {
-        var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++, // Get an id to uniquely identify the request
-            $whirly = $('<div class="whirly">' + message + '</div>'); // Add an activity whirly
-
-        $whirly.attr('id', rpcid);
-        $whirly.addClass(whirly_type);
-        $node.append($whirly);
+    function RPC(method, message, params, report, $node) {
+        var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
 
         console.debug("Sending " + rpcid);
         $.jsonRpc(
@@ -114,12 +125,17 @@ function _id_ify(id) {
                 params: params,
                 error: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " failed");
-                    $whirly.remove();
-                    alert(jsonResponse.error.message);
+                    $.pnotify({
+                      title: "Error",
+                      text: jsonResponse.error.message,
+                      type: "error",
+                      hide: false,
+                      sticker: false,
+                      closer_hover: false
+                    });
                 },
                 success: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " OK");
-                    $whirly.remove();
                     report(jsonResponse.result);
                 }
             });
@@ -748,13 +764,16 @@ function _id_ify(id) {
     */
 
     $(document).ready(function() {
-        var $root = $('#root');
+        var $root = $('#root'), 
+            bs = foswiki.getPreference('is_bootstrapped') === 'true';
 
-        var bs = foswiki.getPreference('is_bootstrapped') === 'true';
-        json_rpc_url = json_rpc_url + foswiki.getPreference('scriptsuffix');
+        json_rpc_url += foswiki.getPreference('scriptsuffix');
 
-        if (!bs)
+        init_whirly();
+
+        if (!bs) {
             $('#bootstrap_warning').remove();
+        }
 
         $('#auth_prompt').dialog({
             autoOpen: false,
@@ -845,8 +864,9 @@ function _id_ify(id) {
                     $root, 'load');
             };
             var changed = ':<ul>';
-            if ($('#bootstrap_warning').length)
+            if ($('#bootstrap_warning').length) {
                 changed = " complete basic configuration" + changed;
+            }
             $('.value_modified').each(function() {
                 var handler = $(this).data('value_handler');
                 changed += '<li>' + handler.spec.keys + '</li>';
