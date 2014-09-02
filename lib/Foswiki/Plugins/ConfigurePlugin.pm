@@ -38,7 +38,7 @@ our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 BEGIN {
     # Note: if Foswiki is in bootstrap mode, Foswiki.pm will try
