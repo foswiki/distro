@@ -61,7 +61,7 @@ sub save {
     my $old_content;
     my $orig_content;    # used so diff detects remapping of keys
     my %changeLog;
-
+    die unless $Foswiki::cfg{SMTP}{MAILHOST};
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec($root);
 
@@ -209,8 +209,7 @@ sub save {
     delete $Foswiki::cfg{ConfigurationFinished};
     my $new_content =
       STD_HEADER . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
-    print $new_content;
-    exit 1;
+
     if ( $new_content ne $old_content ) {
         my $um = umask(007);   # Contains passwords, no world access to new file
         open( F, '>', $lsc )
