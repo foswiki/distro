@@ -41,7 +41,6 @@ use warnings;
 use Error qw(:try);
 use Assert;
 use Foswiki::Configure::Dependency;
-use Foswiki::Configure::Util;
 use File::stat;
 
 my $depwarn = '';    # Pass back warnings from untaint validation routine

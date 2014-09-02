@@ -10,10 +10,9 @@ use Assert;
 
 ---+ package Foswiki::Configure::Wizards:ExploreExtensions
 
-Specialised UI; an implementation of the "Find more extensions" UI screen.
-When this screen is visited, the remote extensions repositories are visited
-to pull down details of available extensions. These are then presented
-in custom tabular form.
+Visits remote extensions repositories to pull down details of
+available extensions. These are then presented to the reporter
+in tabular form.
 
 =cut
 
@@ -27,8 +26,10 @@ use Foswiki::Func                  ();
 # They describe the format of an extension topic.
 
 # Ordered list of field names to column headings
-my @tableHeads =
-  qw( image description compatibility release installedRelease install );
+my %tableHeads = (
+    installed   => [ 'description', 'release', 'installedRelease', 'install' ],
+    uninstalled => [ 'description', 'release', 'install' ]
+);
 
 # Mapping to column heading string
 my %headNames = (
@@ -37,9 +38,9 @@ my %headNames = (
     compatibility    => 'Compatible with',
     installedRelease => 'Installed release',
     install          => '',
-    image            => '',
 
     # Not used; just here for completeness
+    image            => 'Image',
     topic            => 'Extension',
     classification   => 'Classification',
     version          => 'Most Recent Version',
@@ -70,9 +71,8 @@ sub _getListOfExtensions {
 
     $this->{list}   = {};
     $this->{errors} = [];
-    $this->_findRepositories();
 
-    foreach my $place ( @{ $this->{repositories} } ) {
+    foreach my $place ( findRepositories() ) {
         next unless defined $place->{data};
         $place->{data} =~ s#/*$#/#;
 
@@ -202,77 +202,63 @@ sub _parseRow {
     return '';
 }
 
-=begin TML
-
----++ ObjectMethod getExtensions() -> ( $consultedLocations, $table, $errors, $installedCount, $allCount )
-
-Constructs an HTML table of extensions
-
-=cut
-
-sub get_extensions {
+# Wizard - Constructs an HTML table of installed extensions
+sub get_installed_extensions {
     my ( $this, $reporter ) = @_;
 
-    my $table = '';
+    $this->_get_extensions( $reporter, 'installed' );
+}
 
-    my $allCount  = 0;
-    my $installed = 0;
+# Wizard - Constructs an HTML table of not-installed extensions
+sub get_other_extensions {
+    my ( $this, $reporter ) = @_;
+
+    $this->_get_extensions( $reporter, 'uninstalled' );
+}
+
+sub _get_extensions {
+    my ( $this, $reporter, $set ) = @_;
+
     my ( $exts, @consultedLocations ) = $this->_getListOfExtensions($reporter);
     my $installedExts;
+    my $installedCount = 0;
     my $uninstalledExts;
+    my $uninstalledCount = 0;
 
     # count
     foreach my $key ( keys %$exts ) {
-        $allCount++;
         my $ext = $exts->{$key};
         if ( $ext->{installedRelease} ) {
-            $installed++;
+            $installedCount++;
             $installedExts->{$key} = $ext;
         }
         else {
+            $uninstalledCount++;
             $uninstalledExts->{$key} = $ext;
         }
     }
+    $exts = $set eq 'installed' ? $installedExts : $uninstalledExts;
 
-    # Table heads
-    my $tableHeads = '';
-    my $colNum     = 0;
-    foreach my $headNameKey (@tableHeads) {
-        $colNum++;
-        my $cssClass =
-          ( $colNum == scalar @tableHeads )
-          ? 'action'
-          : undef;
-        $tableHeads .=
-          CGI::th( { class => $cssClass }, $headNames{$headNameKey} );
+    $reporter->NOTE("<div class=\"extensions_report\">");
+    $reporter->NOTE( "Looked in " . join( ' ', @consultedLocations ) );
+
+    $reporter->ERROR( @{ $this->{errors} } ) if scalar @{ $this->{errors} };
+
+    if ( $set eq 'installed' ) {
+        $reporter->NOTE(" *Found $installedCount Installed extensions* ");
+    }
+    else {
+        $reporter->NOTE(" *Found $uninstalledCount Uninstalled extensions* ");
     }
 
-    $table .= CGI::Tr(
-        { class => 'title' },
-        CGI::th(
-            { colspan => 6 },
-            "<h3>Installed extensions ($installed out of $allCount)</h3>"
-        )
+    # Table heads
+    $reporter->NOTE(
+        '|'
+          . join( '|',
+            map { $headNames{$_} ? " *$headNames{$_}* " : '' }
+              @{ $tableHeads{$set} } )
+          . '|'
     );
-    $table .= CGI::Tr($tableHeads);
-
-    $table .= _rawExtensionRows($installedExts);
-
-    $table .= CGI::Tr( { class => 'title' },
-        CGI::th( { colspan => 6 }, "<h3>Uninstalled extensions</h3>" ) );
-    $table .= CGI::Tr($tableHeads);
-
-    $table .= _rawExtensionRows($uninstalledExts);
-
-    $reporter->NOTE( "Looked in " . join( ' ', @consultedLocations ) );
-    $reporter->NOTE("<table>$table</table>");
-
-    #    return ( \@consultedLocations, $table, $this->{errors}, $installed,
-    #        $allCount );
-}
-
-sub _rawExtensionRows {
-    my ($exts) = @_;
 
     # Each extension has two rows
 
@@ -297,7 +283,7 @@ sub _rawExtensionRows {
 
         my $install   = 'Install';
         my $uninstall = '';
-        my $trClass   = 'configureInstall';
+
         if ( $ext->{installedRelease} ) {
 
             # The module is installed; check the version
@@ -305,7 +291,6 @@ sub _rawExtensionRows {
 
                 # pseudo-installed
                 $install = 'pseudo-installed';
-                $trClass = 'configurePseudoInstalled';
             }
             elsif ( $ext->compare_versions( '<', $ext->{release} ) ) {
 
@@ -313,7 +298,6 @@ sub _rawExtensionRows {
 
                 $install   = 'Upgrade';
                 $uninstall = 'Uninstall';
-                $trClass   = 'configureUpgrade';
             }
             else {
 
@@ -321,138 +305,90 @@ sub _rawExtensionRows {
 
                 $install   = 'Re-install';
                 $uninstall = 'Uninstall';
-                $trClass   = 'configureReInstall';
             }
         }
 
         if ( $install ne 'pseudo-installed' ) {
-            $install = CGI::checkbox(
-                -name  => 'add',
-                -value => $ext->{repository} . '/' . $ext->{topic},
-                -class => 'foswikiCheckbox',
-                -label => $install,
+            my %data = (
+                wizard => 'InstallExtensions',
+                method => 'add',
+                args   => "$ext->{repository}/$ext->{topic}"
             );
+            my $json = JSON->new->encode( \%data );
+            $json =~ s/"/&quot;/g;
+            $install =
+"<button class=\"wizard_button\" data-wizard=\"$json\">$install</button>";
         }
 
         if ($uninstall) {
-            $uninstall = '<br />'
-              . CGI::checkbox(
-                -name  => 'remove',
-                -value => $ext->{repository} . '/' . $ext->{topic},
-                -class => 'foswikiCheckbox',
-                -label => $uninstall,
-              );
+            my %data = (
+                wizard => 'InstallExtensions',
+                method => 'remove',
+                args   => "$ext->{repository}/$ext->{topic}"
+            );
+            my $json = JSON->new->encode( \%data );
+            $json =~ s/"/&quot;/g;
+            $uninstall =
+"<button class=\"wizard_button\" data-wizard=\"$json\">$uninstall</button>";
         }
 
-        $trClass .= ' configureAlienExtension'
-          if ( $ext->{module} && $ext->{module} !~ /^Foswiki::/ );
-        $trClass .= ' extensionRow';
-
-        # Do the title row
+        # Do the title + actions row
         my $thd = $ext->{topic} || 'Unknown';
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
         $thd =
-          CGI::a( { href => $ext->{data} . $ext->{topic}, -target => '_blank' },
-            $thd );
+          "<a href=\"$ext->{data}$ext->{topic}\" target=\"_blank\">$thd</a>";
+
+        $reporter->NOTE(
+            "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );
 
         # Do the data row
-        my $row      = '';
-        my $colCount = 0;
-
-        my @imgControls = ();
-        if ( $ext->{image} ) {
-            $ext->{image} =
-                '<div title="'
-              . $ext->{image}
-              . '" class="foswikiImage loadImage"></div>';
-        }
-
-        $out .= CGI::Tr(
-            { class => $trClass },
-            CGI::td(
-                {
-                    class   => "image",
-                    rowspan => 2
-                },
-                $ext->{image}
-            ),
-            CGI::td(
-                {
-                    colspan => ( $#tableHeads - 1 ),
-                    class   => "title"
-                },
-                $thd
-            ),
-            CGI::td(
-                {
-                    class   => "action",
-                    rowspan => 2
-                },
-                $install . ' ' . $uninstall
-            )
-        );
-
-        foreach my $f (@tableHeads) {
-            next if $f eq 'image';
-            my $tdd = $ext->{$f} || '&nbsp;';
+        my @cols;
+        foreach my $f ( @{ $tableHeads{$set} } ) {
+            my $tdd = $ext->{$f} || '';
             $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-            my $cssClass = "configureExtensionData";
-            $cssClass .= " $f";
-            if ( $colCount == scalar @tableHeads - 2 ) {
-
-                # nothing (in colspan)
+            if ( $f eq 'description' && $ext->{compatibility} ) {
+                $tdd .= "<br />$ext->{compatibility}";
             }
-            else {
-                $row .= CGI::td( { class => $cssClass }, $tdd );
-            }
-            $colCount++;
+            push( @cols, $tdd );
         }
+        push( @cols, $uninstall );
 
-        $out .= CGI::Tr(
-            {
-                class => $trClass,
-                id    => $ext->{topic},
-                @imgControls
-            },
-            $row
-        );
-
+        $reporter->NOTE( '|' . join( '|', map { " $_ " } @cols ) . '|' );
     }
-    return $out;
+    $reporter->NOTE("</div>");
 }
 
 # Build descriptive hashes for the repositories listed in
 # $Foswiki::cfg{ExtensionsRepositories}
 # name=(dataUrl,pubURL[,user,password]) ; ...
 
-sub _findRepositories {
-    my $this = shift;
-    unless ( defined( $this->{repositories} ) ) {
-        my $replist = '';
-        $replist = $Foswiki::cfg{ExtensionsRepositories}
-          if defined $Foswiki::cfg{ExtensionsRepositories};
+sub findRepositories {
 
-        while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
-            my ( $name, $value ) = ( $1, $2 );
-            if ( $value =~
-                /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
-            {
-                push @{ $this->{repositories} },
-                  {
+    my $replist = '';
+    $replist = $Foswiki::cfg{ExtensionsRepositories}
+      if defined $Foswiki::cfg{ExtensionsRepositories};
+
+    my @repositories;
+    while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
+        my ( $name, $value ) = ( $1, $2 );
+        if ( $value =~
+            /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
+        {
+            push(
+                @repositories,
+                {
                     name => $name,
                     data => $1,
                     pub  => $2,
                     user => $3,
                     pass => $4
-                  };
-            }
-            else {
-                $this->{_repositoryerror} ||= "$value)$replist";
-            }
+                }
+            );
+
             last unless ( $replist =~ s/^;\s*// );
         }
-        $this->{_repositoryerror} ||= $replist;
     }
+    return @repositories;
 }
 
 1;
