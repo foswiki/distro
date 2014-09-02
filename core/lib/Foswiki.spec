@@ -101,7 +101,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # **STRING 10**
 # Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
 # if your webserver requires an extension.
-$Foswiki::cfg{ScriptSuffix} = '';
+#$Foswiki::cfg{ScriptSuffix} = '';
 
 # **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" UNDEFINEDOK MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items

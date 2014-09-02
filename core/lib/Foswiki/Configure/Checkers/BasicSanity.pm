@@ -122,7 +122,8 @@ HERE
     else {
 
         # Doesn't exist (yet)
-        my $errs = Foswiki::Configure::FileUtil::checkCanCreateFile( $this->{LocalSiteDotCfg} );
+        my $errs = Foswiki::Configure::FileUtil::checkCanCreateFile(
+            $this->{LocalSiteDotCfg} );
 
         if ($errs) {
             $this->{errorcount}++;
@@ -146,13 +147,15 @@ HERE
     # 'uninitialised variable' alerts later.
     foreach my $var (
         qw( DataDir DefaultUrlHost PubUrlPath
-        PubDir TemplateDir ScriptUrlPath LocalesDir SafeEnvPath )
+        PubDir TemplateDir ScriptUrlPath ScriptSuffix LocalesDir SafeEnvPath )
       )
     {
 
         # NOT SET tells the checker to try and guess the value later on
         $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
     }
+    $Foswiki::cfg{ScriptUrlPaths}{view} = 'NOT SET'
+      unless defined $Foswiki::cfg{ScriptUrlPaths}{view};
 
     # Make %ENV safer for CGI - Assign a safe default for SafeEnvPath
     $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';

@@ -409,10 +409,19 @@ BEGIN {
         if ( $ENV{SCRIPT_NAME} ) {
             print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME} \n"
               if (TRAUTO);
+
+            $Foswiki::cfg{ScriptSuffix} =
+              ( $ENV{SCRIPT_NAME} =~ /(\.[^.]*)$/ ) ? $1 : '';
+            print STDERR
+              "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
+              if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
+
             if ( $ENV{SCRIPT_NAME} =~ m{^(.*?)/$script(\b|$)} ) {
 
                 # Conventional URLs   with path and script
                 $Foswiki::cfg{ScriptUrlPath} = $1;
+                $Foswiki::cfg{ScriptUrlPaths}{view} =
+                  $1 . '/view' . $Foswiki::cfg{ScriptSuffix};
 
                 # This might not work, depending on the websrver config,
                 # but it's the best we can do
@@ -424,7 +433,7 @@ BEGIN {
                   "AUTOCONFIG: Found path, but no script. short URLs \n"
                   if (TRAUTO);
                 $Foswiki::cfg{ScriptUrlPath} = $ENV{SCRIPT_NAME} . '/bin';
-                $Foswiki::cfg{'ScriptUrlPaths'}{'view'} = '';
+                $Foswiki::cfg{ScriptUrlPaths}{view} = $ENV{SCRIPT_NAME};
                 $Foswiki::cfg{PubUrlPath} = $ENV{SCRIPT_NAME} . '/pub';
             }
         }
