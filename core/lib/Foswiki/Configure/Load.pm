@@ -27,7 +27,9 @@ our $TRUE  = 1;
 our $FALSE = 0;
 
 our @NOT_SET = qw( DataDir DefaultUrlHost PubUrlPath ToolsDir WorkingDir
-  PubDir TemplateDir ScriptDir ScriptUrlPath LocalesDir );
+  PubDir TemplateDir ScriptDir ScriptUrlPath ScriptSuffix LocalesDir );
+
+#  {ScriptUrlPaths}{view} is also processed as NOT_SET
 
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
@@ -158,6 +160,10 @@ GOLLYGOSH
             $Foswiki::cfg{$var} = 'NOT SET';
             $validLSC = 0;
         }
+    }
+    unless ( defined $Foswiki::cfg{ScriptUrlPaths}{view} ) {
+        $Foswiki::cfg{ScriptUrlPaths}{view} = 'NOT SET';
+        $validLSC = 0;
     }
 
     # Patch deprecated config settings

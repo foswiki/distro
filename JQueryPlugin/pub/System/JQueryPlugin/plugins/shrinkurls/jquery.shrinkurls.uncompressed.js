@@ -1,5 +1,5 @@
 /*
- * jQuery Shrinkurls plugin 2.00
+ * jQuery Shrinkurls plugin 2.01
  *
  * Copyright (c) 2007-2014 Foswiki Contributors http://foswiki.org
  *
@@ -30,7 +30,7 @@
  */
 
 (function($) {
-  "use strict";
+"use strict";
 
   $.fn.extend({
 

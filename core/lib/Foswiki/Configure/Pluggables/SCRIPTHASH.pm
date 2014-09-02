@@ -48,7 +48,7 @@ sub construct {
         my $default;
 
         if ( $Foswiki::cfg{ScriptSuffix} ) {
-            next unless $filename =~ /^(.*)\.$Foswiki::cfg{ScriptSuffix}$/;
+            next unless $filename =~ /^(.*)$Foswiki::cfg{ScriptSuffix}$/;
             $script = $1;
             $default =
               "\$Foswiki::cfg{ScriptUrlPath}/$1\$Foswiki::cfg{ScriptSuffix}";
