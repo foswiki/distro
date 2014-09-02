@@ -1,5 +1,5 @@
 /*
- * jQuery tmpl-loader 1.0
+ * jQuery tmpl-loader 1.01
  *
  * loads a jquery.template from an url and compiles it
  *
@@ -12,7 +12,7 @@
  */
 
 (function($) {
-  "use strict";
+"use strict";
 
   var queue = {};
 

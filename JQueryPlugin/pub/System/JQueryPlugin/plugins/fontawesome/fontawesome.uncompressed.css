@@ -1567,3 +1567,14 @@
 .fa {
   vertical-align:baseline;
 }
+
+/* font-awesome + jquery-ui */
+.ui-icon.fa {
+  background: transparent;
+  background-image:none !important;
+  text-indent: 0; 
+  display:inline-block;
+  height:auto;
+  line-height:inherit;
+}
+
