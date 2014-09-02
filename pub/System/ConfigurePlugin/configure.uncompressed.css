@@ -48,6 +48,9 @@ div.node {
     
 }
 
+td {
+}
+
 /* Used to record that a leaf node has been populated with a value
    and needs a UI to be loaded */
 .load_ui {
@@ -158,3 +161,18 @@ textarea.report {
     width: 100%;
     height: 40%;
 }
+
+/* --- EXTENSIONS --- */
+.extensions_report table {
+    border: none;
+    width: auto;
+    margin: 0;
+}
+
+.extensions_report th td {
+    background: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border: 1px solid black;
+}
+

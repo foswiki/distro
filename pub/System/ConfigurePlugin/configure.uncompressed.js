@@ -301,7 +301,7 @@ function _id_ify(id) {
     */
 
     // Create a popup with reports, and apply changes
-    function wizard_reports(results) {
+    function wizard_reports($node, results) {
         $('body').css('cursor','wait');
         // Generate reports
         var $div = $('<div id="report_dialog"></div>');
@@ -309,6 +309,13 @@ function _id_ify(id) {
             var $whine = $('<div>' + rep.message + '</div>');
             $whine.addClass(rep.level);
             $div.append($whine);
+            // Enable any carry-on buttons we find
+            $whine.find('.wizard_button').each(function() {
+                var data = $(this).data('wizard');
+                $(this).button().click(function() {
+                    call_wizard($node, data);
+                });
+            });
         });
         // Reflect changed values back to the input elements and
         // run the checker on them
@@ -340,11 +347,11 @@ function _id_ify(id) {
 
     // Delegate for calling wizards once auth info is available
     function call_wizard($node, fb) {
-        var handler = $node.data('value_handler'), 
+        var handler = $node.data('value_handler'),
             params = {
               wizard: fb.wizard,
-              keys: handler.spec.keys,
               method: fb.method,
+              keys: handler ? handler.spec.keys : '',
               set: modified_values(),
               cfgusername: $('#username').val(),
               cfgpassword: $('#password').val()
@@ -353,7 +360,7 @@ function _id_ify(id) {
         RPC('wizard',
             'Call ' + fb.method,
             params,
-            wizard_reports,
+            function(result) { wizard_reports($node, result) },
             $node, 'check');
     }
 
@@ -841,7 +848,7 @@ function _id_ify(id) {
                     'Save',
                     params,
                     function(results) {
-                        wizard_reports(results);
+                        wizard_reports(results, $root);
                         var erc = 0;
                         $.each(results.report, function(index, rep) {
                             if (rep.level == 'errors') {
