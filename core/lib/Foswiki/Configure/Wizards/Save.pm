@@ -44,7 +44,7 @@ sub _perlKeys {
 # Make a single key safe for use in perl
 sub _perlKey {
     my $k = shift;
-    return $k unless $k =~ /\W/;
+    return $k if $k =~ /^[a-zA-Z_]\w+$/;
     $k =~ s/'/\\'/g;
     return "'$k'";
 }
@@ -297,6 +297,8 @@ sub _match {
 
     $oval = _dumpVal( \$oval ) if ( ref($oval) );
     $nval = _dumpVal( \$nval ) if ( ref($nval) );
+    $oval = 'undef' unless defined $oval;
+    $nval = 'undef' unless defined $nval;
 
     if ( $oval ne $nval ) {
         push @{ $log->{"'$ai->[$a]'"} }, ( 'CHANGE', $oval, $nval );
