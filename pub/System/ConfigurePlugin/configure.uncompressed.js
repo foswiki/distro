@@ -527,6 +527,8 @@ function _id_ify(id) {
 
     // Load the tab for a given section spec
     function load_tab(spec, $panel) {
+        if ($panel.hasClass('spec_loaded'))
+            return;
         RPC('getspec',
             'Load: ' + spec.headline,
             {
@@ -543,6 +545,7 @@ function _id_ify(id) {
                     $tab, $report;
 
                 $panel.append($node);
+                $panel.addClass('spec_loaded');
 
                 // Clean off errors and warnings that were bubbled
                 // up to here from higher level deep checks. We will
@@ -561,15 +564,8 @@ function _id_ify(id) {
                 if (spec.desc) {
                     $node.append('<div class="description">' + spec.desc + '</div>');
                 }
-                load_section_specs(response, $node); /*SMELL load_section_specs is not defined */
-                // Call to check all the *known* keys under this node. Keys
-                // that are currently missing from the UI (because they have
-                // not been loaded yet) will not be checked.
-                //var to_do = [];
-                //$node.find('.node.keyed').each(function() {
-                //    var spec = $(this).data('spec.entry');
-                //    to_do.push(spec.keys);
-                //});
+                load_section_specs(response, $node); /*SMELL load_section_specs is not defined yet */
+                // Check all the keys under this node.
                 RPC('check_current_value',
                     'Check: ' + spec.headline,
                     { keys : [ spec.headline ] },
@@ -823,7 +819,7 @@ function _id_ify(id) {
                      'Study webserver',
                      params,
                      function(results) {
-                         wizard_reports(results);
+                         wizard_reports($root, results);
                      },
                      $root, 'check');
              };
@@ -848,7 +844,7 @@ function _id_ify(id) {
                     'Save',
                     params,
                     function(results) {
-                        wizard_reports(results, $root);
+                        wizard_reports($root, results);
                         var erc = 0;
                         $.each(results.report, function(index, rep) {
                             if (rep.level == 'errors') {

@@ -78,7 +78,7 @@ var Types = {};
       isModified: function() {
           var cv = this.spec.current_value;
           if (typeof(cv) === 'undefined') {
-              cv = null;
+              cv = (this.null_if === null) ? '' : null;
           }
           return this.currentValue() != cv;
       },
@@ -157,11 +157,6 @@ var Types = {};
               this.spec.SIZE = "80x20";
           }
           return this._super(change_handler);
-      },
-
-      isDefault: function() {
-          // String comparison, no eval
-          return this.currentValue() == this.spec['default'];
       }
   });
 
