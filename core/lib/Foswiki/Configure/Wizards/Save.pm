@@ -227,7 +227,7 @@ sub save {
         }
         $reporter->NOTE("New configuration saved in $lsc");
 
-        _compareConfigs( $orig_content, \%Foswiki::cfg, $reporter )
+        _compareConfigs( $root, $orig_content, \%Foswiki::cfg, $reporter )
           if $orig_content;
     }
     else {
@@ -238,18 +238,18 @@ sub save {
 
 sub _compareConfigs {
 
-    my ( $oldcfg, $newcfg, $reporter ) = @_;
+    my ( $spec, $oldcfg, $newcfg, $reporter ) = @_;
 
     $reporter->NOTE('| *Key* | *Old* | *New* |');
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Indent   = 0;
     local $Data::Dumper::SortKeys = 1;
 
-    _same( $oldcfg, $newcfg, '', $reporter );
+    _same( $spec, $oldcfg, $newcfg, '', $reporter );
 }
 
 sub _same {
-    my ( $o, $n, $keypath, $reporter ) = @_;
+    my ( $spec, $o, $n, $keypath, $reporter ) = @_;
     print STDERR "SNIFFING $keypath $o $n\n" if $keypath =~ /zh/;
     my ( $old, $new );
 
@@ -267,7 +267,7 @@ sub _same {
         foreach my $k ( sort keys %keys ) {
             unless (
                 _same(
-                    $o->{$k},                            $n->{$k},
+                    $spec, $o->{$k}, $n->{$k},
                     $keypath . '{' . _perlKey($k) . '}', $reporter
                 )
               )
@@ -287,7 +287,8 @@ sub _same {
         }
         else {
             for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
-                unless ( _same( $o->[$i], $n->[$i], "$keypath\[$i\]" ) ) {
+                unless ( _same( $spec, $o->[$i], $n->[$i], "$keypath\[$i\]" ) )
+                {
                     if ($reporter) {
                         $old = Data::Dumper->Dump( [$o] );
                         $old =~ s/^.*?= //;
@@ -304,6 +305,14 @@ sub _same {
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
+        if ( my $vs = $spec->getValueObject($keypath) ) {
+            if ( $vs->{typename} eq 'PASSWORD' ) {
+                $reporter->NOTE("| $keypath | _[redacted]_ | _[redacted]_ |")
+                  if $reporter;
+                return 0;
+            }
+        }
+
         $old = ref($o) || ( defined $o ? $o : 'undef' );
         $new = ref($n) || ( defined $n ? $n : 'undef' );
         $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
