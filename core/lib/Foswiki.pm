@@ -2308,30 +2308,6 @@ sub new {
     # Finish plugin initialization - register handlers
     $this->{plugins}->enable();
 
-    # Bootstrap code.   Capture the path for the "view" script from the URL
-    # and stash it into a session variable for use by jsonrpc commands.
-    # Or if it's not in the query, recover it from the session variable.
-    # (jsonrpc uses POSTs, so the URL param isn't there.
-    if ( $Foswiki::cfg{isBOOTSTRAPPING} && defined $query ) {
-        my $viewpath = $query->param('VIEWPATH');
-        if ( defined $viewpath ) {
-            $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
-            $Foswiki::Plugins::SESSION->getLoginManager()
-              ->setSessionValue( 'VIEWPATH', $viewpath );
-            print STDERR "AUTOCONFIG: Applied viewpath $viewpath from URL\n";
-        }
-        else {
-            $viewpath =
-              $Foswiki::Plugins::SESSION->getLoginManager()
-              ->getSessionValue('VIEWPATH');
-            if ( defined $viewpath ) {
-                $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
-                print STDERR
-                  "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n";
-            }
-        }
-    }
-
     Monitor::MARK("Foswiki object created");
 
     return $this;
