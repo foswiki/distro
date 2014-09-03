@@ -98,15 +98,15 @@ var Types = {};
           if (typeof(change_handler) !== "undefined") {
               this.$ui.change(change_handler);
           }
-          if (typeof(this.spec.current_value) === 'undefined')
+          if (typeof(this.spec.current_value) == 'undefined')
               this.spec.current_value = 0;
-          else if (this.spec.current_value === '0')
+          else if (this.spec.current_value == '0')
               this.spec.current_value = 0;
-          else if (this.spec.current_value === '1')
+          else if (this.spec.current_value == '1')
               this.spec.current_value = 1;
 
-          if (this.spec.current_value !== 0) {
-              this.$ui.attr('checked', 'checked');
+          if (this.spec.current_value != 0) {
+              this.$ui.attr('checked', true);
           }
           if (this.spec.extraClass) {
               this.$ui.addClass(this.spec.extraClass);
@@ -131,7 +131,13 @@ var Types = {};
       },
 
       useVal: function(val) {
-          this.$ui.attr('checked', val ? 'checked' : '');
+          if (typeof(val) == 'undefined')
+              val = false;
+          else if (val  == '0')
+              val = false;
+          else if ( val == '1')
+              val = true;
+          this.$ui.attr('checked', val );
       }
   });
 
