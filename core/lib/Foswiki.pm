@@ -384,6 +384,11 @@ BEGIN {
 "AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
           if (TRAUTO);
 
+        $Foswiki::cfg{ScriptSuffix} = ( $script =~ /(\.[^.]*)$/ ) ? $1 : '';
+        print STDERR
+          "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
+          if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
+
         my $protocol = $ENV{HTTPS} ? 'https' : 'http';
         if ( $ENV{HTTP_HOST} ) {
             $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
@@ -414,12 +419,6 @@ BEGIN {
             print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME} \n"
               if (TRAUTO);
 
-            $Foswiki::cfg{ScriptSuffix} =
-              ( $ENV{SCRIPT_NAME} =~ /(\.[^.]*)$/ ) ? $1 : '';
-            print STDERR
-              "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
-              if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
-
             if ( $ENV{SCRIPT_NAME} =~ m{^(.*?)/$script(\b|$)} ) {
 
                 # Conventional URLs   with path and script
@@ -449,7 +448,6 @@ BEGIN {
             $Foswiki::cfg{ScriptUrlPaths}{view} = '';
             $Foswiki::cfg{ScriptUrlPath}        = '/bin';
             $Foswiki::cfg{PubUrlPath}           = '/pub';
-            $Foswiki::cfg{ScriptSuffix}         = '';
         }
 
         print STDERR
