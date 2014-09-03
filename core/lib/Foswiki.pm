@@ -449,6 +449,7 @@ BEGIN {
             $Foswiki::cfg{ScriptUrlPaths}{view} = '';
             $Foswiki::cfg{ScriptUrlPath}        = '/bin';
             $Foswiki::cfg{PubUrlPath}           = '/pub';
+            $Foswiki::cfg{ScriptSuffix}         = '';
         }
 
         print STDERR
