@@ -405,7 +405,11 @@ BEGIN {
               if (TRAUTO);
         }
 
-        # Examine the CGI path
+       # Examine the CGI path.   The 'view' script it typically removed from the
+       # URL when using "Short URLs.  If this BEGIN block is being run by
+       # 'view',  then $Foswiki::cfg{ScriptUrlPaths}{view} will be correctly
+       # bootstrapped.   If run for any other script, it will be set to a
+       # reasonable though probably incorrect default.
         if ( $ENV{SCRIPT_NAME} ) {
             print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME} \n"
               if (TRAUTO);
@@ -545,7 +549,7 @@ out by detecting the layout of the installation. Any requests made to this
 Foswiki will be treated as requests made by an administrator with full rights
 to make changes! You should either:
    * correct any permissions problems with an existing !LocalSite.cfg (see the webserver error logs for details), or
-   * visit [[%SCRIPTURL{configure}%][configure]] as soon as possible to generate a new one.
+   * visit [[%SCRIPTURL{configure}%?VIEWPATH=$Foswiki::cfg{ScriptUrlPaths}{view}][configure]] as soon as possible to generate a new one.
 BOOTS
     }
 
@@ -2303,6 +2307,30 @@ sub new {
 
     # Finish plugin initialization - register handlers
     $this->{plugins}->enable();
+
+    # Bootstrap code.   Capture the path for the "view" script from the URL
+    # and stash it into a session variable for use by jsonrpc commands.
+    # Or if it's not in the query, recover it from the session variable.
+    # (jsonrpc uses POSTs, so the URL param isn't there.
+    if ( $Foswiki::cfg{isBOOTSTRAPPING} && defined $query ) {
+        my $viewpath = $query->param('VIEWPATH');
+        if ( defined $viewpath ) {
+            $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
+            $Foswiki::Plugins::SESSION->getLoginManager()
+              ->setSessionValue( 'VIEWPATH', $viewpath );
+            print STDERR "AUTOCONFIG: Applied viewpath $viewpath from URL\n";
+        }
+        else {
+            $viewpath =
+              $Foswiki::Plugins::SESSION->getLoginManager()
+              ->getSessionValue('VIEWPATH');
+            if ( defined $viewpath ) {
+                $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
+                print STDERR
+                  "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n";
+            }
+        }
+    }
 
     Monitor::MARK("Foswiki object created");
 

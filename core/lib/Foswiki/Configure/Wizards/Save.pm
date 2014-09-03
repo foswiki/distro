@@ -176,7 +176,7 @@ sub save {
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         my %save;
         foreach my $key (@Foswiki::Configure::Load::NOT_SET) {
-            $save{$key} = $Foswiki::cfg{$key};
+            eval("\$save$key = \$Foswiki::cfg$key ");
         }
 
         # Re-read LocalSite.cfg without expansions but with

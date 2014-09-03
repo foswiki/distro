@@ -113,7 +113,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # (so you'll have to leave this field empty if your wiki lives at the top level).
 # <p></p>
 # More information: <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
-$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
+#$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*

@@ -26,10 +26,9 @@ our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 our $TRUE  = 1;
 our $FALSE = 0;
 
-our @NOT_SET = qw( DataDir DefaultUrlHost PubUrlPath ToolsDir WorkingDir
-  PubDir TemplateDir ScriptDir ScriptUrlPath ScriptSuffix LocalesDir );
-
-#  {ScriptUrlPaths}{view} is also processed as NOT_SET
+our @NOT_SET =
+  qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
+  {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view} {ScriptSuffix} {LocalesDir} );
 
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
@@ -156,14 +155,10 @@ GOLLYGOSH
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
-        unless ( defined $Foswiki::cfg{$var} ) {
-            $Foswiki::cfg{$var} = 'NOT SET';
+        unless ( eval("defined \$Foswiki::cfg$var") ) {
+            eval("\$Foswiki::cfg$var = 'NOT SET'");
             $validLSC = 0;
         }
-    }
-    unless ( defined $Foswiki::cfg{ScriptUrlPaths}{view} ) {
-        $Foswiki::cfg{ScriptUrlPaths}{view} = 'NOT SET';
-        $validLSC = 0;
     }
 
     # Patch deprecated config settings
