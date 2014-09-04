@@ -101,7 +101,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # **STRING 10**
 # Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
 # if your webserver requires an extension.
-#$Foswiki::cfg{ScriptSuffix} = '';
+# $Foswiki::cfg{ScriptSuffix} = '';
 
 # **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" UNDEFINEDOK MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
@@ -113,7 +113,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # (so you'll have to leave this field empty if your wiki lives at the top level).
 # <p></p>
 # More information: <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
-#$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
+# $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
