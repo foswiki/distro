@@ -46,6 +46,7 @@ use warnings;
 use Assert;
 use Cwd qw( abs_path );
 use Error qw( :try );
+use File::Basename;
 use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
@@ -384,7 +385,7 @@ BEGIN {
 "AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
           if (TRAUTO);
 
-        $Foswiki::cfg{ScriptSuffix} = ( $script =~ /(\.[^.]*)$/ ) ? $1 : '';
+        $Foswiki::cfg{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
         print STDERR
           "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
           if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );

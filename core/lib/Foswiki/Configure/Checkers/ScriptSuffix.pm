@@ -4,21 +4,19 @@ package Foswiki::Configure::Checkers::ScriptSuffix;
 use strict;
 use warnings;
 
+use File::Basename;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    # SMELL:  On FreeBSD, $0 includes the full path.
-    # Don't allow any path components to disrupt the suffix
-    my $currentSuffix = ( $0 =~ /(\.[^.\/]*?)$/ ) ? $1 : '';
-
+    my $currentSuffix = ( fileparse( $0, qr/\.[^.]*/ ) )[2];
     my $expectedSuffix = $Foswiki::cfg{ScriptSuffix} || '';
 
     if ( $currentSuffix ne $expectedSuffix ) {
         $reporter->WARN( <<WHINGE );
-This script ($0) does not have the expected {ScriptSuffix} ($expectedSuffix)
+This script ($0) suffix ($currentSuffix) does not have the expected {ScriptSuffix} ($expectedSuffix)
 WHINGE
     }
 }
