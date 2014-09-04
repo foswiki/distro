@@ -26,6 +26,10 @@ our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 our $TRUE  = 1;
 our $FALSE = 0;
 
+# Keys in this list are initialized with "NOT SET" if missing from the configuration.
+# Bootstrap works out the correct values,  and then Foswiki::Configure::Wizards::Save uses
+# this list to preserve the Bootstrap settings when loading the Spec files.
+
 our @NOT_SET =
   qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
   {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view} {ScriptSuffix} {LocalesDir} );
@@ -147,7 +151,9 @@ GOLLYGOSH
 
     # If we got this far without definitions for key variables, then
     # we need to default them. Otherwise we get peppered with
-    # 'uninitialised variable' alerts later.
+    # 'uninitialised variable' alerts later.  Make an exception for
+    # keys that are UNDEFINEDOK.   (But keep those keys in this list because
+    # it's also used to preserve bootstrapped values.)
 
     foreach my $var (@NOT_SET) {
 
@@ -156,6 +162,7 @@ GOLLYGOSH
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
         unless ( eval("defined \$Foswiki::cfg$var") ) {
+            next if ( $var eq '{ScriptUrlPaths}{view}' );    #UNDEFINEDOK
             eval("\$Foswiki::cfg$var = 'NOT SET'");
             $validLSC = 0;
         }
