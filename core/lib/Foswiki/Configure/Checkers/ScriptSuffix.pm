@@ -8,12 +8,15 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    my $currentSuffix = ($0 =~ /(\.[^.]*)$/) ? $1 : '';
+    # SMELL:  On FreeBSD, $0 includes the full path.
+    # Don't allow any path components to disrupt the suffix
+    my $currentSuffix = ( $0 =~ /(\.[^.\/]*?)$/ ) ? $1 : '';
+
     my $expectedSuffix = $Foswiki::cfg{ScriptSuffix} || '';
 
-    if ($currentSuffix ne $expectedSuffix) {
+    if ( $currentSuffix ne $expectedSuffix ) {
         $reporter->WARN( <<WHINGE );
 This script ($0) does not have the expected {ScriptSuffix} ($expectedSuffix)
 WHINGE
