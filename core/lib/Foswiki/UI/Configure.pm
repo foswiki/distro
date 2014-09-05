@@ -55,14 +55,13 @@ sub configure {
         unless ( $session->{user} =~ m/$filter/ ) {
             throw Foswiki::AccessControlException( 'VIEW',
                 $session->{user}, 'System', 'Configuration',
-                $Foswiki::Meta::reason );
+                'Denied by {ConfigureFilter} Setting' );
         }
     }
     else {
         unless ( Foswiki::Func::isAnAdmin() ) {
             throw Foswiki::AccessControlException( 'VIEW',
-                $session->{user}, 'System', 'Configuration',
-                $Foswiki::Meta::reason );
+                $session->{user}, 'System', 'Configuration', 'Not an admin' );
         }
     }
 
