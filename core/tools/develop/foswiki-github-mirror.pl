@@ -6,6 +6,33 @@ use Data::Dumper;
 use Net::GitHub;
 use Net::GitHub::V3;
 use Time::Local;
+use Data::Dumper;
+
+=pod
+
+---+ foswiki-github-mirror
+This script will create a bare mirror of the github resident repositories.
+It is intended to be run on http://foswiki.org in the github mirror directory.
+It creates or refreshes a local mirro of the fosiwki account on github.com
+
+It has no parameters.  It fetches the github list of repositories using
+the GitHub API.  The last push date is compared to the date of the
+local mirror and the mirror is updated if required.
+
+It requires a password file for proper operation.
+(Only the github access token is used by this script.)
+
+$secrets = {  github_access_token  => '<access token for the github foswiki account>',
+                'webhook_secret'      => '<secrete required to validate rest handler posts>',
+                'mailman_secret'      => '<Used by hook to be able to send messages to the mailing list>',
+                'GithubBot_password'  => '<password for GithubBot IRC account>;
+           };
+return $secrets;
+
+=cut
+
+# Set to 1 for basic information,  2 for dump of github responses
+use constant VERBOSE => 0;
 
 my $secrets = do '.github-secrets' or die "Unable to read secrets file";
 
@@ -26,8 +53,9 @@ while ( $gh->repos->has_next_page ) {
     push @rp, $gh->repos->next_page;
 }
 
-my $foundit = 0;
-use Data::Dumper;
+my $cloned  = 0;
+my $updated = 0;
+my $rpcount = scalar @rp;
 
 foreach my $r (@rp) {
     my $rname = $r->{'name'};
@@ -36,47 +64,39 @@ foreach my $r (@rp) {
     #        || $rname eq 'TestBootstrapPlugin'
     #        || $rname eq 'ConfigurePlugin' )
     #    {
-    #print Data::Dumper::Dumper( \$r );
-    #dumpHooks( $repos, $r );
+    print Data::Dumper::Dumper( \$r ) if ( VERBOSE == 2 );
+
     my $pushdate = $r->{'pushed_at'} || '';
-    print "\n$rname: $pushdate\n";
+    print "\n$rname:\n" if (VERBOSE);
     if ( -d "$rname.git" && $pushdate ) {
         my $update = check_times( $rname, $pushdate ) if $pushdate;
         if ($update) {
-            print STDERR "    UPDATE REQUIRED for $rname\n" if $update;
+            print "    UPDATE REQUIRED for $rname\n" if $update;
             do_commands(<<"HERE");
 git --git-dir $rname.git remote update 
 HERE
+            $updated++;
         }
         else {
-            print STDERR "    $rname is up to date\n";
+            print "    $rname is up to date\n" if (VERBOSE);
         }
     }
     elsif ( !-d "$rname.git" ) {
-        print STDERR "    CLONE REQUIRED for $rname\n";
+        print "    CLONE REQUIRED for $rname\n";
         do_commands(<<"HERE");
 git clone --mirror https://github.com/foswiki/$rname.git 
 HERE
+        $cloned++;
     }
     else {
-        print STDERR "    Repository never pushed\n";
+        print "    Repository never pushed\n" if (VERBOSE);
     }
 
     #    }
 }
 
-sub dumpHooks {
-    my $repos = shift;
-    my $r     = shift;
-
-    my @hooks = $repos->hooks( 'foswiki', $r->{'name'} );
-
-    if ( scalar @hooks ) {
-        foreach my $h (@hooks) {
-            print Data::Dumper::Dumper( \$h );
-        }
-    }
-}
+print
+"Mirror completed: $rpcount repositories processed:  cloned: $cloned,  updated: $updated\n";
 
 sub check_times {
     my ( $gitdir, $pushdate ) = @_;
@@ -99,7 +119,8 @@ sub check_times {
     close $fh;
 
     print STDERR
-"    Last fetch: $epoch_timestamp: $etime,\n    Last push:  $gh_timestamp: $ltime\n";
+"    Last fetch: $epoch_timestamp: $etime,\n    Last push:  $gh_timestamp: $ltime\n"
+      if (VERBOSE);
 
     return ( $gh_timestamp > $epoch_timestamp );
 }
@@ -107,7 +128,7 @@ sub check_times {
 sub do_commands {
     my ($commands) = @_;
 
-    #print $commands . "\n";
+    print $commands . "\n" if (VERBOSE);
     local $ENV{PATH} = untaint( $ENV{PATH} );
 
     return `$commands`;
