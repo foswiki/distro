@@ -1,0 +1,4 @@
+*.gz
+pub/System/EditRowPlugin/erp.js
+pub/System/EditRowPlugin/TableSort.js
+pub/System/EditRowPlugin/erp.css
