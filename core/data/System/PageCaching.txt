@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1401410854" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1410243089" format="1.1" version="1"}%
 ---+!! Page Caching
 
 %TOC%
@@ -261,7 +261,7 @@ new rss feed is provided containing the most recent update as expected.
 
 Example:
 <verbatim>
-    * Set WEBPREFERENCES = WebRss, WebAtom, WebTopicList, WebIndex, 
+    * Set WEBDEPENDENCIES = WebRss, WebAtom, WebTopicList, WebIndex,
       WebSearch, WebSearchAdvanced, MyOwnProtectedTopic
 </verbatim>
 
