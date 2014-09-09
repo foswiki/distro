@@ -1,16 +1,15 @@
 # Foswiki Installation based on git
 
-You can run a Foswiki instance from this clone simply by pointing Apache at it in the normal way and running `configure`.
-Note however it will be missing all the extensions.  Read on for instructions on how to install the default extensions shipped with Foswiki.
+You can run a Foswiki instance from this clone simply by pointing Apache at it.  See the  [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator)
 
-**Note: Configure is currently broken in the master branch.  We hope to resovle this shortly.  We recommend using the Release01x01 branch.**
-
-By default the cloned Foswiki core won't have any of the extensions (plugins or contribs) installed.   Default extensions are downloaded one level up from the Foswiki core:
+*Note:Configure has been completely rewritten on the master branch.  Foswiki is now able to "bootstrap" itself without a configuration.*  After pseudo-installing the default extensions,
+Point your browser at your default URL for the new site as configured in ApacheConfigGenerator.
+(ex.  `http://yoursite.com`, `http://yoursite.com/foswiki`, or `http://yoursite.com/foswiki/bin/view` depending upon the apache configuration)
 
 To "install" extensions in a checkout area, you should use the `pseudo-install.pl` script to install them. On Unix/Linux this script generates soft-links from the core tree
 to the extensions, so you can work on your code in situ and see the impact of the changes on your live foswiki without needing to do an install step.
 Windows doesn't support soft links, so the script can also be run in `-copy` mode (the default on Windows), but in this case you will have to re-run it each time you change your extension.
-*Remember that you have to enable any plugins you want to test* in `configure`. Use:
+Use:
  - `pseudo-install.pl default` to install the default contribs and plugins (e.g. Extensions.TwistyContrib which is relied on by Extensions.PatternSkin)
  - `pseudo-install.pl developer` to install the additional developer extensions.  The developer option also installs all the default extensions.
 See the header comment of the `pseudo-install.pl` script (core directory of checkout) for options and more information.
@@ -19,7 +18,7 @@ Note that `pseudo-install.pl` only works with extensions that have a MANIFEST fi
 Script examples below are for `bash` shell.
 ## Example of running pseudo-install
 
-The typical situation is that you want to run a pseudo-installed Foswiki checked out from "master" branch. (But use Release01x01 for now)
+The typical situation is that you want to run a pseudo-installed Foswiki checked out from "master" branch.
 And if you develop plugins, you want to be able to activate your plugin in this installation. This is the entire sequence for checking out the master branch from git
 and doing the pseudo-install. We assume that you want to run your git based install in `/var/www/foswiki`
 
@@ -88,6 +87,11 @@ chown -R apache:apache foswiki
  -* Ensure your new .conf file has chmod a+r access
 **Note:** If the apache error log has lots of `Symbolic link not allowed or link target not accessible` type messages, then you probably need to add `+FollowSymLinks`
 to the `Options` for the `/var/www/foswiki/dev/core/pub` directory in your apache configuration.
+
+At this point, if you point your browser to your foswiki url,  it should "just work",  but will display a bootstrap warning at the top of the configuration.  To fully configure foswiki, visit the `bin/configure`
+URL, resolve any warnings and errors, and save the configuration.  *Caution:  Once you save the configuration, you will be unable to use configure again unless you have registered and granted yourself "Adimin"
+authority.*  You can control who can use configure by setting `Security and Authentication` -> `Access Control` `{ConfigureFilter}`.   When that option is set, it replaces the check for Admin authority and can
+allow *any* user including the guest user to use configure.  So use caution!.
 
 Now and then you will want to keep your installation in sync with the latest version in the foswiki git repository. The pseudo-install script is not intelligent enough to cope with changes to MANIFESTs, so this is the idiot proof way to update. It first removes all the links (or copied files), git fetch. And finally does a new pseudo-install.
 ```
