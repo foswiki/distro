@@ -60,7 +60,7 @@ sub save {
     my ( @backups, $backup );
 
     my $old_content;
-    my $orig_content;    # used so diff detects remapping of keys
+    my %orig_content;    # used so diff detects remapping of keys
     my %changeLog;
 
     my $root = Foswiki::Configure::Root->new();
@@ -150,7 +150,7 @@ sub save {
             die "Error reading existing LocalSite.cfg: $@";
         }
         else {
-            $orig_content = \%Foswiki::cfg;
+            %orig_content = %Foswiki::cfg;
 
             # Clean out deprecated settings, so they don't occlude the
             # replacements
@@ -227,8 +227,8 @@ sub save {
         }
         $reporter->NOTE("New configuration saved in $lsc");
 
-        _compareConfigs( $root, $orig_content, \%Foswiki::cfg, $reporter )
-          if $orig_content;
+        _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, $reporter )
+          if (%orig_content);
     }
     else {
         unlink $backup if ($backup);
