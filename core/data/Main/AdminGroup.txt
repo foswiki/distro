@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1330395889" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1410387798" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
@@ -23,6 +23,6 @@ If you haven't previously set up an administrator, follow these steps:
 
 Edit this topic to add a description to the AdminGroup
 
-%META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value="SimianApe"}%
+%META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
