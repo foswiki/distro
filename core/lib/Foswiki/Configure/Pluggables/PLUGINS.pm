@@ -76,7 +76,12 @@ sub construct {
             )
         );
 
-        $Foswiki::cfg{Plugins}{$plugin}{Module} ||= $modules{$plugin};
+# Set the module name in the configuration, and tell save via the BOOTSTRAP
+# list that keys have been discovered and should be saved in the new configuration
+        unless ( $Foswiki::cfg{Plugins}{$plugin}{Module} ) {
+            $Foswiki::cfg{Plugins}{$plugin}{Module} = $modules{$plugin};
+            push( @{ $Foswiki::cfg{BOOTSTRAP} }, "{Plugins}{$plugin}{Module}" );
+        }
     }
 }
 

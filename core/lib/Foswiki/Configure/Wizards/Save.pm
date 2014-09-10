@@ -164,6 +164,8 @@ sub save {
 
         # Pull in a new LocalSite.cfg from the spec
         local %Foswiki::cfg = ();
+
+        #---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         delete $Foswiki::cfg{ConfigurationFinished};
         $old_content =
@@ -171,29 +173,30 @@ sub save {
           . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
     }
 
-    # In bootstrap mode, we want to keep the essential settings that
-    # the bootstrap process worked out.
+    my %save;
+    foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
+        eval("\$save$key = \$Foswiki::cfg$key ");
+        delete $Foswiki::cfg{BOOTSTRAP};
+    }
+
+    # Clear out the configuration and re-initialized it either
+    # with or without the .spec expansion.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
-        my %save;
-        foreach my $key (@Foswiki::Configure::Load::NOT_SET) {
-            eval("\$save$key = \$Foswiki::cfg$key ");
-        }
-
-        # Re-read LocalSite.cfg without expansions but with
-        # the .spec
         %Foswiki::cfg = ();
-        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
 
-        while ( my ( $k, $v ) = each %save ) {
-            $Foswiki::cfg{$k} = $v;
-        }
+        # Read without expansions but with the .spec
+        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
     }
     else {
-
-        # Re-read LocalSite.cfg without expansions
         %Foswiki::cfg = ();
+
+        # Read without expansions and without the .spec
         Foswiki::Configure::Load::readConfig( 1, 1 );
     }
+
+    # apply bootstrapped settings
+    #print STDERR join( '', _spec_dump( $root, \%save, '' ) );
+    eval( join( '', _spec_dump( $root, \%save, '' ) ) );
 
     # Import sets without expanding
     if ( $this->param('set') ) {
