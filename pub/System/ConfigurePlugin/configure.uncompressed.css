@@ -32,7 +32,7 @@ div.node {
 }
 
 .value_modified {
-    color: pink;
+    background: khaki;
 }
 
 .closed > .description {
