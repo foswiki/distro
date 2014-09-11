@@ -13,19 +13,19 @@
    id="Layer_1"
    x="0px"
    y="0px"
-   width="500"
-   height="190.3125"
-   viewBox="0 0 499.99998 190.3125"
+   width="432.65176"
+   height="142.422"
+   viewBox="0 0 432.65175 142.422"
    enable-background="new 0 0 595.28 841.89"
    xml:space="preserve"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="foswiki-logo-arial.svg"
+   sodipodi:docname="foswiki-logo.svg"
    inkscape:export-filename="/tmp/foswiki-badge.png"
    inkscape:export-xdpi="15.499811"
    inkscape:export-ydpi="15.499811"><metadata
    id="metadata3002"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
    id="defs3000" /><sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
@@ -40,8 +40,8 @@
    id="namedview2998"
    showgrid="false"
    inkscape:zoom="1"
-   inkscape:cx="165.30224"
-   inkscape:cy="-87.820655"
+   inkscape:cx="131.62795"
+   inkscape:cy="-111.75761"
    inkscape:window-x="-4"
    inkscape:window-y="-3"
    inkscape:window-maximized="1"
@@ -58,43 +58,38 @@
    inkscape:export-xdpi="31.596235"
    inkscape:export-ydpi="31.596235"
    inkscape:export-filename="/home/micha/pictures/foswiki/text2996.png"
-   transform="translate(-33.768004,-271.38094)">
+   transform="translate(-67.442296,-295.33449)">
 	
 </g>
 
 <g
    id="g3910"
-   transform="translate(32.517084,22.648917)"><g
-     transform="translate(-62.158802,-294.02937)"
-     inkscape:export-ydpi="31.596235"
-     inkscape:export-xdpi="31.596235"
-     inkscape:export-filename="/home/micha/pictures/foswiki/text2996.png"
-     id="g2986">
+   transform="translate(-1.157208,-1.30463)"><g
+   transform="translate(-62.158802,-294.02937)"
+   inkscape:export-ydpi="31.596235"
+   inkscape:export-xdpi="31.596235"
+   inkscape:export-filename="/home/micha/pictures/foswiki/text2996.png"
+   id="g2986">
 	<path
    style="fill:#3e89d3"
    inkscape:connector-curvature="0"
    id="path2988"
    d="m 84.249,366.542 c 0,-35.198 28.535,-63.733 63.733,-63.733 11.109,0 21.55,2.848 30.641,7.842 -12.129,-9.583 -27.438,-15.317 -44.097,-15.317 -39.328,0 -71.21,31.88 -71.21,71.209 0,39.329 31.882,71.213 71.21,71.213 16.658,0 31.968,-5.736 44.097,-15.32 -9.095,4.994 -19.531,7.846 -30.641,7.846 -35.198,-10e-4 -63.733,-28.539 -63.733,-63.74 z" />
 </g><path
-     style="fill:#52af00"
-     inkscape:connector-curvature="0"
-     id="path2992"
-     d="m 156.72,320.874 c -5.894,0 -11.521,1.129 -16.695,3.161 1.966,-0.273 3.963,-0.427 6.004,-0.427 23.716,0 42.938,19.224 42.938,42.938 0,23.715 -19.223,42.936 -42.938,42.936 -2.041,0 -4.036,-0.153 -6.001,-0.425 5.171,2.033 10.799,3.16 16.692,3.16 25.227,0 45.671,-20.446 45.671,-45.671 0,-25.223 -20.445,-45.672 -45.671,-45.672 z"
-     transform="translate(-62.158802,-294.02987)" /><text
-     y="95.40625"
-     x="164.21521"
-     inkscape:export-ydpi="31.596235"
-     inkscape:export-xdpi="31.596235"
-     sodipodi:linespacing="125%"
-     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#52af00;font-family:Arial;-inkscape-font-specification:Arial Bold"
-     id="text2996"
-     font-size="66">FOSWIKI</text>
+   style="fill:#52af00"
+   inkscape:connector-curvature="0"
+   id="path2992"
+   d="m 156.72,320.874 c -5.894,0 -11.521,1.129 -16.695,3.161 1.966,-0.273 3.963,-0.427 6.004,-0.427 23.716,0 42.938,19.224 42.938,42.938 0,23.715 -19.223,42.936 -42.938,42.936 -2.041,0 -4.036,-0.153 -6.001,-0.425 5.171,2.033 10.799,3.16 16.692,3.16 25.227,0 45.671,-20.446 45.671,-45.671 0,-25.223 -20.445,-45.672 -45.671,-45.672 z"
+   transform="translate(-62.158802,-294.02987)" /><text
+   y="95.40625"
+   x="164.21521"
+   inkscape:export-ydpi="31.596235"
+   inkscape:export-xdpi="31.596235"
+   sodipodi:linespacing="125%"
+   style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#52af00;font-family:Arial;-inkscape-font-specification:Arial Bold"
+   id="text2996"
+   font-size="66">FOSWIKI</text>
+
 </g>
 
-<rect
-   style="fill:none;stroke:#999999;stroke-width:0.99999839;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-   id="rect3139"
-   width="499"
-   height="189.3"
-   x="0.50016171"
-   y="0.51344669" /></svg>
+</svg>
