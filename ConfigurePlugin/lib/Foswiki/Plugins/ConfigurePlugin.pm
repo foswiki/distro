@@ -109,8 +109,29 @@ sub initPlugin {
         }
     }
 
+    Foswiki::Func::registerTagHandler( 'DEPENDENCYREPORT', \&_DEPENDENCYREPORT );
+
     return 1;
+
 }
+
+
+sub _DEPENDENCYREPORT {
+    my ( $session, $params, $topic, $web ) = @_;
+
+    require Foswiki::Plugins::ConfigurePlugin::DependencyReport;
+
+    print STDERR "PARAM = ($params->{_DEFAULT}) \n" if defined $params->{_DEFAULT};
+
+    if ( defined $params->{_DEFAULT} && $params->{_DEFAULT} =~ m/'?extensions'?/ ) {
+        return Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeExtensions()
+    }
+    else {
+        return Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeFoswiki()
+    }
+
+}
+
 
 sub _JSONwrap {
     my $method = shift;
