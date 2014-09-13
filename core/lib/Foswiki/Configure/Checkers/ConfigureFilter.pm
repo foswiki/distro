@@ -31,7 +31,7 @@ sub check_current_value {
 "Note that this filter matches against *all* users.  When this filter is set, users do not have to be in the $Foswiki::cfg{SuperAdminGroup} to access configure!"
     );
 
-    unless ( $Foswiki::cfg{isBootstrapping} ) {
+    unless ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         if ( $Foswiki::cfg{ConfigureFilter}
             && Foswiki::Func::getCanonicalUserID() !~
             m/$Foswiki::cfg{ConfigureFilter}/ )
