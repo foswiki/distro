@@ -1768,6 +1768,11 @@ sub new {
     ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) )
       if DEBUG;
 
+   # Override user to be admin if no configuration exists.
+   # Do this really early, so that later changes in isBOOTSTRAPPING can't change
+   # Foswiki's behavior.
+    $defaultUser = 'admin' if ( $Foswiki::cfg{isBOOTSTRAPPING} );
+
     unless ( defined $Foswiki::cfg{TempfileDir} && $Foswiki::cfg{TempfileDir} )
     {
 
@@ -2107,8 +2112,11 @@ sub new {
 
     #Monitor::MARK("Preferences all set up");
 
+    # Set both isadmin and authenticated contexts.   If the current user
+    # is admin, then they either authenticated, or we are in bootstrap.
     if ( $this->{users}->isAdmin( $this->{user} ) ) {
-        $this->{context}{isadmin} = 1;
+        $this->{context}{authenticated} = 1;
+        $this->{context}{isadmin}       = 1;
     }
 
     # Finish plugin initialization - register handlers
