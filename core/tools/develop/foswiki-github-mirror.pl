@@ -96,7 +96,8 @@ HERE
 }
 
 print
-"Mirror completed: $rpcount repositories processed:  cloned: $cloned,  updated: $updated\n";
+"Mirror completed: $rpcount repositories processed:  cloned: $cloned,  updated: $updated\n"
+  if ( $cloned || $updated );
 
 sub check_times {
     my ( $gitdir, $pushdate ) = @_;
