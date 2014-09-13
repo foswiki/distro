@@ -1,0 +1,5 @@
+*.gz
+pub/System/ConfigurePlugin/resig.js
+pub/System/ConfigurePlugin/types.js
+pub/System/ConfigurePlugin/configure.css
+pub/System/ConfigurePlugin/configure.js
