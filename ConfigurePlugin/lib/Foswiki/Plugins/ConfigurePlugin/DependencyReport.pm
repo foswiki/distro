@@ -55,7 +55,7 @@ sub analyzeExtensions {
 
     foreach my $info ( values %seen ) {
         if ( $info->{usage} ) {
-            $info->{usage} =~ s,^<br />,<br /><strong>Foswiki: </strong>,;
+            $info->{usage} =~ s,^\s?<br />,<br /><strong>Foswiki: </strong>,;
         }
     }
     my %extns = (
@@ -119,10 +119,10 @@ sub _showDEPENDENCIES {
             my $mvu = $_->[0]{minVersionUser};
             $mvu = 'Foswiki' if ( $mvu eq 'core' );
             my $mu = @{ $_->[0]{users} } > 1;
-            $_->[0]{usage} .= '<br><b>Used by: </b>'
+            $_->[0]{usage} .= ' <br><b>Used by:</b> '
               . join( ', ',
-                map { $_ eq $mvu && $mu ? "<u>$_</u>" : $_ }
-                  sort map { $_ eq 'core' ? 'Foswiki' : $_ }
+                map { $_ eq $mvu && $mu ? "<u>[[$_]]</u>" : "[[$_]]" }
+                  sort map { $_ eq 'core' ? '%WIKITOOLNAME%' : $_ }
                   @{ $_->[0]{users} } )
               if ($users);
             $_->[0]
@@ -142,12 +142,18 @@ sub _showDEPENDENCIES {
               : [ $_, [ split( /::/, $_->{name} ) ] ]
           } @$perlModules;
 
-        Foswiki::Configure::Dependency::checkPerlModules( @list );
+        Foswiki::Configure::Dependency::checkPerlModules(@list);
 
-        foreach ( @list ) {
-           $_->{check_result} =~ s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
-           my $ok = ( $_->{ok} ) ? '' : '<span class="foswikiAlert">%X% Possible missing dependency!</span><br/>';
-           $set .= "| CPAN:$_->{name} | $ok$_->{check_result} |\n";
+        foreach (@list) {
+
+     #SMELL: Something is inserting newlines, breaking the table. This fixes it.
+            $_->{check_result} =~
+              s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
+            my $ok =
+              ( $_->{ok} )
+              ? ''
+              : '<span class="foswikiAlert">%X% Possible missing dependency!</span><br/>';
+            $set .= "| CPAN:$_->{name} | $ok$_->{check_result} |\n";
         }
     }
     else {
@@ -155,8 +161,7 @@ sub _showDEPENDENCIES {
     }
 
     $who = 'Foswiki' if ( $who eq 'core' );
-    return
-        "Perl modules used by $who \n" .  $set;
+    return "Perl modules used by $who \n" . $set;
 }
 
 # Extract a list of the perl modules that are required by a DEPENDENCIES file.
@@ -218,12 +223,12 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
                 $info->{minimumVersion} = $ver;
                 $info->{minVersionUser} = $who;
             }
-            $info->{usage} .= "<br />$dwho: $usage" if ($usage);
+            $info->{usage} .= " <br />$dwho: $usage" if ($usage);
             next;
         }
         if ($usage) {
             if ( $who eq 'core' ) {
-                $usage = "<br />" . ucfirst( lc($dispo) ) . " $usage";
+                $usage = " <br />" . ucfirst( lc($dispo) ) . " $usage";
             }
             else {
                 $usage = "<br />$dwho: " . ucfirst( lc($dispo) ) . " $usage";
@@ -255,7 +260,7 @@ Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
-Additional copyrights apply to some or all of the code in this
+edditional copyrights apply to some or all of the code in this
 file as follows:
 
 Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
