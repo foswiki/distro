@@ -158,10 +158,12 @@ BEGIN {
 use Error qw(:try);
 use Assert;
 use CGI ();
+use Data::Dumper;
 
 use Foswiki                         ();
 use Foswiki::Request                ();
 use Foswiki::Response               ();
+use Foswiki::Infix::Error           ();
 use Foswiki::OopsException          ();
 use Foswiki::EngineException        ();
 use Foswiki::ValidationException    ();
@@ -430,6 +432,15 @@ sub _execute {
         }
         $Foswiki::engine->finalizeError( $res, $session->{request} );
     }
+    catch Foswiki::Infix::Error with {
+        my $e = shift;
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $session->{response} if $session;
+        $res ||= new Foswiki::Response();
+        $res->header( -type => 'text/plain' );
+        $res->print("Foswiki::Infix error\n\n");
+        $res->print( Data::Dumper::Dumper( \$e ) );
+    }
     catch Error::Simple with {
 
         # Most usually a 'die'
@@ -466,9 +477,11 @@ sub _execute {
     otherwise {
 
         # Aargh! Should never get here
+        my $e = shift;
         $res = new Foswiki::Response;
         $res->header( -type => 'text/plain' );
-        $res->print("Unspecified error");
+        $res->print("Unspecified error\n\n");
+        $res->print( Data::Dumper::Dumper( \$e ) );
     };
     $session->finish() if $session;
     return $res;
