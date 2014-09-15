@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1410745600" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ Text Formatting
@@ -48,7 +48,6 @@ Being able to create links without any special formatting is a core Foswiki feat
    are linked automatically.  
    * E-mail addresses like =name@domain.com= are linked automatically.
    * =[<nop>[Square bracket rules]]= let you easily create [[#SquareBrackets][non-WikiWord links]].
-      * You can also write =[<nop>[http://yahoo.com Yahoo home page]]= as an easier way of doing external links with descriptive text for the link, such as [[http://yahoo.com/ Yahoo home page]].
 
 ---++ Macros
 
