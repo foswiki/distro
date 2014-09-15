@@ -660,15 +660,6 @@ sub TML2PlainText {
         while ( $text =~ s/^\s*\-\-\-+\+[^\n\r]*// ) { };    # remove heading
     }
 
-    # keep only link text of legacy [[prot://uri.tld/ link text]]
-    $text =~ s/
-            \[
-                \[$Foswiki::regex{linkProtocolPattern}\:
-                    ([^\s<>"\]]+[^\s*.,!?;:)<|\]])
-                        \s+([^\[\]]*?)
-                \]
-            \]/$3/gx;
-
     #keep only test portion of [[][]] links
     $text =~ s/\[\[([^\]]*\]\[)(.*?)\]\]/$2/g;
 
@@ -1500,25 +1491,6 @@ sub _handleSquareBracketedLink {
     }
 
     if ( $link =~ m#^($Foswiki::regex{linkProtocolPattern}:|/)# ) {
-
-        # Explicit external [[http://$link]] or [[http://$link][$text]]
-        # or explicit absolute [[/$link]] or [[/$link][$text]]
-        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ ) {
-
-            my $candidateLink = $1;
-            my $candidateText = $2;
-
-            # If the URL portion contains a ? indicating query parameters then
-            # the spaces are possibly embedded in the query string, so don't
-            # use the legacy format.
-            if ( $candidateLink !~ m/\?/ ) {
-
-                # Legacy case of '[[URL anchor display text]]' link
-                # implicit untaint is OK as we are just recycling topic content
-                $link = $candidateLink;
-                $text = _escapeAutoLinks($candidateText);
-            }
-        }
         return $this->_externalLink( $link, $text );
     }
 

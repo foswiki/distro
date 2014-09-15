@@ -355,7 +355,6 @@ Note: noautolink tags will still be there, because they are not removed until im
 Note: depends on setting of spam padding
 ---+++ Expected
 <!-- expected MAILTOS -->
-<a href="mailto&#58;a&#64;z&#46;com">Mail</a>
 <a href="mailto&#58;&#63;subject&#61;Hi">Hi</a>
 <a href="mailto&#58;a&#64;b&#46;com">a&#64;b.com</a>
 <a href="mailto&#58;a&#64;b&#46;com">Mail</a>
@@ -367,7 +366,6 @@ Note: depends on setting of spam padding
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
-[[mailto:a@z.com Mail]]
 [[mailto:?subject=Hi][Hi]]
 a@b.com
 [[mailto:a@b.com][Mail]]
@@ -417,6 +415,8 @@ LinkBoxes
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
+<a href="file:///\\somesite.local\data\somesite\Shared%20Docs\Software%20Projects\Soft%20AAbBC\system_design\imaging\AAbBC%20Imaging%20Glossary.doc" target="_top">Spaced File</a>
+<p />
 escaped:
 [<nop>[wiki syntax]]
 <p />
@@ -429,6 +429,8 @@ escaped:
 [[wiki syntax]]
 
 [[%USERSWEB%.Wiki users]]
+
+[[file:///\\somesite.local\data\somesite\Shared Docs\Software Projects\Soft AAbBC\system_design\imaging\AAbBC Imaging Glossary.doc][Spaced File]]
 
 escaped:
 ![[wiki syntax]]
@@ -444,16 +446,12 @@ escaped:
 <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">syntax</a>
 <p />
 <a href="http://gnu.org" target="_top">GNU</a>
-<p />
-<a href="http://xml.org" target="_top">XML</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
 [[WikiSyntax][syntax]]
 
 [[http://gnu.org][GNU]]
-
-[[http://xml.org XML]]
 <!-- /actual -->
 
 ---++ Anchors

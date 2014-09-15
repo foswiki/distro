@@ -958,17 +958,9 @@ sub _liftOutSquab {
     my $class        = shift || '';
     my $dataWikiword = '';
 
-    # Convert obsolete format link  [[http://blah.com link text]]
-    if (   $class eq 'TMLlink'
-        && $url =~ m/\s/
-        && $url =~ m/^$Foswiki::regex{linkProtocolPattern}:/ )
-    {
-        ( $url, $text ) = split( / /, $url, 2 );
-    }
-
     # Treat as old style link if embedded spaces in the url
     return $this->_liftOut( '[[' . $url . ']]', 'LINK' )
-      if ( $class eq 'TMLlink' && $url =~ m/\s/ );
+      if ( $class eq 'TMLlink' && $url =~ m/\s/ && $url eq $text );
 
     # Treat as old link if embedded quotes, which will break href=
     if ( $url =~ m/"/ ) {

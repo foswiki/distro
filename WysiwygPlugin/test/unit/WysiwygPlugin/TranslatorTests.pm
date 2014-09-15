@@ -1052,18 +1052,33 @@ HERE
 [[mailto:a@example.org?subject=Hi&body=Hi%21%0A%0ABye%21][hi]]
 HERE
     },
+
+    #    {
+    #        # Foswiki 1.2,  obsolete Squab link format has been deleted.
+    #        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML | $RTFAIL | $T2HFAIL,
+    #        name => 'obsoleteSquabLink',
+    #        tml  => <<'HERE',
+    #[[https://example.com Link *text* here]]
+    #HERE
+    #        html => <<'HERE',
+    #<p><a class='TMLlink' href="https://example.com">Link <b>text</b> here</a>
+    #</p>
+    #HERE
+    #        finaltml => <<'HERE',
+    #[[https://example.com][Link *text* here]]
+    #HERE
+    #    },
+
     {
-        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
-        name => 'obsoleteSquabLink',
+        # UNC Link with spaces
+        exec => $ROUNDTRIP | $TML2HTML,
+        name => 'specedunclink',
         tml  => <<'HERE',
-[[https://example.com Link *text* here]]
+[[file:///\\somesite.local\data\somesite\Shared Docs\Software Projects\Soft AAbBC\system_design\imaging\AAbBC Imaging Glossary.doc][Link Text]]
 HERE
         html => <<'HERE',
-<p><a class='TMLlink' href="https://example.com">Link <b>text</b> here</a>
+<p><a class='TMLlink' href="file:///\\somesite.local\data\somesite\Shared Docs\Software Projects\Soft AAbBC\system_design\imaging\AAbBC Imaging Glossary.doc">Link Text</a>
 </p>
-HERE
-        finaltml => <<'HERE',
-[[https://example.com][Link *text* here]]
 HERE
     },
     {
