@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404871157" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1410745843" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -42,30 +42,11 @@ Foswiki 1.2 is shipped with the following:
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x02Changes
----++ Important changes since Foswiki 1.2
+---++ Deprecations
 
----+++ Perl libraries and paths
+   * The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed.  Links must be written as =[<nop>[url][title]]= format if a title is desired.
 
-Foswiki no longer ships the required Perl CPAN libraries for use as a last
-resort. If it is not possible or convenient to install perl libraries, then
-install the Foswiki:Extensions.CpanContrib to get pre-built libraries
-for Foswiki to use.
-
-The setup of the perl =@INC= path has been simplified, and the =foswiki/bin/LocalLib.cfg=
-setting for =$CPANBASE= has been completely eliminated.  A simple method of
-adding libraries to the top of the @INC path is provided in the new example
-=foswiki/bin/LocalLib.txt= shipped with foswiki.
-
-<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
-have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
-copy using the updated =foswiki/bin/LocalLib.cfg.txt=
-</blockquote>
-
----+++ Authentication, Authorization and Security
-
-   * users can authenticate via 'TemplateLogin' with their email address
-
----++++ Deprecation of empty DENY rules
+---+++ Deprecation of empty DENY rules
 
 The intention to deprecate the use of an empty =DENYTOPIC&lt;action&gt;= rule to act as an "ALLOW all" has been completed.   This has been a
 pending change predating Foswiki 1.0.0.
@@ -122,6 +103,29 @@ A conversion tool is available in the tools directory.  =tools/convertTopicSetti
 #    will make the foswiki log unusable by the foswiki web server.
 #
 </verbatim>
+
+---++ Important changes since Foswiki 1.2
+
+---+++ Perl libraries and paths
+
+Foswiki no longer ships the required Perl CPAN libraries for use as a last
+resort. If it is not possible or convenient to install perl libraries, then
+install the Foswiki:Extensions.CpanContrib to get pre-built libraries
+for Foswiki to use.
+
+The setup of the perl =@INC= path has been simplified, and the =foswiki/bin/LocalLib.cfg=
+setting for =$CPANBASE= has been completely eliminated.  A simple method of
+adding libraries to the top of the @INC path is provided in the new example
+=foswiki/bin/LocalLib.txt= shipped with foswiki.
+
+<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
+have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
+copy using the updated =foswiki/bin/LocalLib.cfg.txt=
+</blockquote>
+
+---+++ Authentication, Authorization and Security
+
+   * users can authenticate via 'TemplateLogin' with their email address
 
 ---++++ REST Script default security has changed:
 
@@ -185,31 +189,25 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 
 ---+++ Configure has been given a major restructuring
 
+| *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki.  Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuraiton. |
+
+   * Configure is now a conventional "Foswiki Engine" based script.  This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
+      * You can register an initial user and add them to the AdminGroup while in "Bootstrap mode" before saving your initial configuration.
    * Configure now requires JavaScript.
       * Configuration parameters are Checked and saved through ajax.
       * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
-   * Configure has been changed to behave more like a classic "shopping cart"
-      * Changes are kept in your session, you can leave and return without loosing pending changes.
-      * Pending changes can be checked, before being saved.
-      * A log message describing the cnanges can be annotated during save.
-   * Settings are checked through several mechanisms
-      * Traditional: all settings are checked when configure is intially loaded.
-      * On demand: A manual "Check this setting" button is provided for some resource intensive checkers. (ex. File permission checking)
-      * Automatic: Some fields are auto-checked as soon as you tab away.  (Numbers, Regular expressions)
-      * New "Configuration Audit" centrailzes several overall system health check buttons, and allows all checkers to be run again on demand.
-      * The error summary counts are now buttons, which pop up a list of the errors
    * Performance
       * Javascript minimzies the  data transmitted to/from the client.  The entire configuration is not sent for each transaction.
-      * Configure now supports etags and will return option 302 for resources that are cached by the browser.
 
----++++ Changes to confgigure Authentication
+---++++ Changes to configure Authentication
 
-   * Configure requires a password to access the configuration.
-   * Configure now trusts the Session login.   If your web server is configured to authenticate the user, configure will not prompt for a password
+   * Configure requires that the user has logged in to Foswiki and is in the AdminGroup.
    * The "admin" superuser password is now optional:
-      * If set, configure requires that it be entered to save
       * If not set, configure depends solely upon the session authentication
       * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
+   * Configure can be restricted to individual users in or out of the AdminGroup.
+      * If a ={ConfigureFilter}= is NOT configured, then the current user must be in the AdminGroup in order to view or save the configuration.
+      * If ={ConfigureFilter}= rule is configured, then the current user must match the rule to be allowed access to configure, regardless of whether or not they are in the AdminGroup.
 
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
@@ -235,7 +233,7 @@ macro to generate singe quotes by default.  This has no impact unless the
 In order to simplify migration, a new =quote== parameter has been added to the
 ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
 quotes delimiters.  See System.VarICON for more details.
-.
+
 ---++ Foswiki Release 1.2 Details
 
 ---+++ Fixes
