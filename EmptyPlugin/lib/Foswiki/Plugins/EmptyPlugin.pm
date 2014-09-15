@@ -22,10 +22,10 @@ working.
 Error messages can be output using the =Foswiki::Func= =writeWarning= and
 =writeDebug= functions. These logs can be found in the Foswiki/working/logs
 directory.  You can also =print STDERR=; the output will appear in the
-webserver error log.  The {WarningsAreErrors} configure setting makes
+webserver error log.  The ENVironment setting =$ENV{FOSWIKI_ASSERTS}= setting makes
 Foswiki less tolerant of errors, and it is recommended to set it during
-development.  It can be set using configure, in the 'Miscellaneous'
-section.  Most handlers can also throw exceptions (e.g.
+development.  It can be set by editing =bin/LocalLib.cfg=, (If missing, see =bin/LocalLib.cfg.txt=)
+Most handlers can also throw exceptions (e.g.
 [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]])
 
 For increased performance, all handler functions except =initPlugin= are

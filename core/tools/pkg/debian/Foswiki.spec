@@ -183,7 +183,6 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 $Foswiki::cfg{LeaseLength} = 3600;
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
-$Foswiki::cfg{WarningsAreErrors} = $FALSE;
 $Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_and', 'Foswiki::Query::OP_eq', 'Foswiki::Query::OP_lc', 'Foswiki::Query::OP_lte', 'Foswiki::Query::OP_not', 'Foswiki::Query::OP_ref', 'Foswiki::Query::OP_d2n', 'Foswiki::Query::OP_gte', 'Foswiki::Query::OP_length', 'Foswiki::Query::OP_lt', 'Foswiki::Query::OP_ob', 'Foswiki::Query::OP_uc', 'Foswiki::Query::OP_dot', 'Foswiki::Query::OP_gt', 'Foswiki::Query::OP_like', 'Foswiki::Query::OP_ne', 'Foswiki::Query::OP_or', 'Foswiki::Query::OP_where' ];
 $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';

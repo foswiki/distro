@@ -177,9 +177,6 @@ BEGIN {
 
             # If ASSERTs are on (and not soft), then warnings are errors.
             # Paranoid, but the only way to be sure we eliminate them all.
-            # Look out also for $cfg{WarningsAreErrors}, below, which
-            # is another way to install this handler without enabling
-            # ASSERTs
             # ASSERTS are turned on by defining the environment variable
             # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
             # production environment, and no stack traces or paths are
@@ -192,8 +189,6 @@ BEGIN {
             # ASSERTs are soft, so warnings are not errors
             # but ASSERTs are enabled. This is useful for tracking down
             # problems that only manifest on production servers.
-            # Consequently, this is only useful when
-            # $cfg{WarningsAreErrors} is NOT enabled
             $Error::Debug = 0;    # no verbose stack traces
         }
     }
