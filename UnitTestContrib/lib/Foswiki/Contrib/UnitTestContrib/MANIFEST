@@ -26,13 +26,13 @@ test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/CacheTests.pm 0644
 test/unit/ClientTests.pm 0644
-test/unit/ConfigureTests.pm 0644
 test/unit/DependencyTests.pm 0644
 test/unit/EmptyTests.pm 0644
 test/unit/EngineTests.pm 0644
 test/unit/ExampleTests.pm 0644
 test/unit/ExceptionTests.pm 0644
 test/unit/ExpandMacrosTests.pm 0644
+test/unit/ExtensionInstallerTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644
 test/unit/Fn_FORMAT.pm 0644
 test/unit/Fn_FORMFIELD.pm 0644

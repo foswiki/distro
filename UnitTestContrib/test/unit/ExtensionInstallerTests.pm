@@ -1,4 +1,4 @@
-package ConfigureTests;
+package ExtensionInstallerTests;
 
 use strict;
 use warnings;
