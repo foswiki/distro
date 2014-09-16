@@ -191,7 +191,9 @@ LALA
 
     # Examine the current install of the module
     if ( !$this->studyInstallation() ) {
-        return ( 0, "$this->{module} version $this->{version} required -- $this->{type} $this->{notes}");
+        return ( 0,
+"$this->{module} version $this->{version} required\n -- $this->{type} $this->{notes}\n"
+        );
     }
     elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
 
@@ -201,10 +203,12 @@ LALA
         unless ( $this->compare_versions( $op, $requiredVersion ) ) {
 
             # module doesn't meet this condition
-            return ( 0, "$this->{module} version $op $requiredVersion required -- installed version is $this->{installedRelease}" )
+            return ( 0,
+"$this->{module} version $op $requiredVersion required\n -- installed version is $this->{installedRelease}\n"
+            );
         }
     }
-    return ( 1, "$this->{module} version $this->{installedRelease} installed");
+    return ( 1, "$this->{module} version $this->{installedRelease} installed" );
 }
 
 =begin TML
@@ -800,26 +804,27 @@ sub checkPerlModules {
 
         if ( $dep->{installed} ) {
             $mod->{installedVersion} =
-                $dep->{installedVersion} || 'Unknown version';
+              $dep->{installedVersion} || 'Unknown version';
             $mod->{ok} = $ok;
             $mod->{check_result} =
-                $mod->{name} . ' ' . $mod->{installedVersion}
-                . ' installed';
+              $mod->{name} . ' ' . $mod->{installedVersion} . ' installed';
             unless ($ok) {
-                $mod->{check_result} .= ' *Version ' . $mod->{minimumVersion}
-                . ' ' . $mod->{disposition};
+                $mod->{check_result} .=
+                    ' *Version '
+                  . $mod->{minimumVersion} . ' '
+                  . $mod->{disposition};
             }
             $mod->{check_result} .= " for $mod->{usage}" if $mod->{usage};
             $mod->{check_result} .= '*' unless $ok;
             $mod->{check_result} .= " $msg"
-                if $msg
-                && (!$ok || $mod->{installedVersion} eq 'Unknown version' );
+              if $msg
+              && ( !$ok || $mod->{installedVersion} eq 'Unknown version' );
         }
         else {
-            $mod->{ok} = 0;
+            $mod->{ok}               = 0;
             $mod->{installedVersion} = 'Not installed';
-            $mod->{check_result} = $mod->{name} . ' is not installed. '
-                . $mod->{usage};
+            $mod->{check_result} =
+              $mod->{name} . ' is not installed. ' . $mod->{usage};
         }
     }
 }
