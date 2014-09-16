@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 # Simple test script for the baseline Configure classes, also useful#
 # for testing .spec changes.
 #

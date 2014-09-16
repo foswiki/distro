@@ -26,6 +26,7 @@ my $new_path     = '';
 my @default_dir  = ( '../tools', '../bin', );
 my $expect_perlv = 5.008008;
 my $ask          = 1;
+my $taint        = 0;                           # Default is no taint checking
 my $not_just_cwd = '';
 my $os           = $^O;
 my $new_perlv;
@@ -43,6 +44,7 @@ GetOptions(
     'help|?'        => \$help,
     man             => \$man,
     'path|p=s'      => \$new_path,
+    'taint!'        => \$taint,
     'directory|d=s' => \@directories,
     'ask!'          => \$ask
 ) or pod2usage(2);
@@ -70,6 +72,8 @@ Description
 -----------
 Use option -m or --man to read the manual page and to become aware about
 limitations regarding the automatically suggested path.
+
+Taint option set to $taint
 
 Environment
 -----------
@@ -219,6 +223,8 @@ sub change_files {
     my $scanned = 0;
     my $changed = 0;
 
+    my $tflag = ( $cwd =~ m/bin$/ ) ? $taint : undef;
+
     # Grep relevant files to process while only including .pl, .cgi or .?cgi
     # Keep .bak and this script excluded.
     # ^\w+$ matches only alphanumeric characters between beginning and end
@@ -238,7 +244,7 @@ sub change_files {
         $scanned++;
 
         my $rewriteErr =
-          Foswiki::Configure::Util::rewriteShebang( $file, $new_path );
+          Foswiki::Configure::Util::rewriteShebang( $file, $new_path, $tflag );
 
         if ($rewriteErr) {
             print "$cwd/$file - $rewriteErr \n";
@@ -269,7 +275,7 @@ in the specified directories
 
 =head1 SYNOPSIS
 
-rewriteshebang.pl [-a|--ask] [-d|--directory <directory>] [--noask] [-p|--path <path to Perl interpreter>] [-h|?|--help] [-m|--man] 
+rewriteshebang.pl [-a|--ask] [-d|--directory <directory>] [--noask] [-p|--path <path to Perl interpreter>] [-h|?|--help] [-m|--man]  [-t|taint]
 
 Options:
 
@@ -284,6 +290,8 @@ B<-p> or B<--path> path to Perl interpreter
 B<-h> or B<-?> or B<--help> brief help message
 
 B<-m> or B<--man> full documentation
+
+B<--taint> / B<-t> or B<--notaint> / B<-not>  Set (--taint)  or clear (--notaint) the -T taint flags from the shebang. Note that this option is ONLY applied to the bin directory.
 
 =head1 OPTIONS
 

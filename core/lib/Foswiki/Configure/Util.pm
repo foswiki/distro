@@ -581,7 +581,7 @@ This is used in 2 places:
 sub rewriteShebang {
     my $file       = shift;
     my $newShebang = shift;
-    my $notaint    = shift;
+    my $taint      = shift;
 
     return 'Not a file' unless ( -f $file );
     return 'Missing Shebang' unless $newShebang;
@@ -593,13 +593,33 @@ sub rewriteShebang {
 
     my $firstline = substr( $contents, 0, index( $contents, "\n" ) );
     my ( $match, $args ) =
-      $firstline =~ m/^#\!\s*(.*?perl[^\s]*)(\s?-w?Tw?)?.*?$/ms;
+      $firstline =~ m/^#\!\s*(.*?perl[^\s]*)(\s?-w?T?w?)?.*?$/ms;
     $match = '' unless $match;
-    $args  = '' unless $args;
+    $match = '' if ( $match =~ m/env perl/ );
+    $args = '' unless $args;
+    my $newargs = $args;
+
+    if ( defined $taint ) {
+        if ($args) {
+            if ($taint) {
+                $newargs .= 'T' unless ( $args =~ m/T/ );
+            }
+            else {
+                $newargs =~ s/T//;
+                $newargs = '' if ( $newargs eq ' -' );
+            }
+        }
+    }
 
     return "Not a perl script" unless ($match);
 
     my $argsIdx = index( $contents, $args );
+    if ($argsIdx) {
+        substr( $contents, $argsIdx, length($args) ) = "$newargs";
+    }
+    elsif ( defined $taint ) {
+        $newShebang .= ' -T' if ($taint);
+    }
 
     # Note: space inserted after #! - needed on some flavors of Unix
     my $perlIdx = index( $contents, $match );
@@ -609,6 +629,7 @@ sub rewriteShebang {
 
     return "No change required"
       if ( $match eq $newShebang
+        && $args eq $newargs
         && substr( $contents, $perlIdx - 1, 1 ) eq ' ' );
 
     my $mode = ( stat($file) )[2];

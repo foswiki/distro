@@ -638,6 +638,12 @@ sub test_Util_rewriteShebang {
         '#! /usr/bin/perl ',
         'No change required'
     );
+    _doRewriteTest(
+        $this, $tempdir, '#! /usr/bin/env perl ',
+        '/usr/bin/perl',
+        '#! /usr/bin/perl ',
+        'Not a perl script'
+    );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT ',
         '/my/bin/perl', '#! /my/bin/perl -wT ' );
     _doRewriteTest(
@@ -685,6 +691,48 @@ sub test_Util_rewriteShebang {
         "/usr/shebang" );
     $this->assert_str_equals( 'Not a file', $err );
 
+    # Taint checking
+    _doRewriteTest(
+        $this, $tempdir, '#!/usr/bin/perl -wT',
+        '/usr/bin/perl', '#! /usr/bin/perl -wT',
+        undef, 1
+    );
+    _doRewriteTest(
+        $this, $tempdir, '#!/usr/bin/perl -wT',
+        '/usr/bin/perl', '#! /usr/bin/perl -w',
+        undef, 0
+    );
+    _doRewriteTest(
+        $this, $tempdir, '#!/usr/bin/perl -w',
+        '/usr/bin/perl', '#! /usr/bin/perl -wT',
+        undef, 1
+    );
+    _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl',
+        '/usr/bin/perl', '#! /usr/bin/perl -T',
+        undef, 1 );
+    _doRewriteTest(
+        $this, $tempdir,
+        '#!/usr/bin/perl -wT',
+        'C:\Program Files\Active-State\perl.exe',
+        '#! C:\Program Files\Active-State\perl.exe -w',
+        undef, 0
+    );
+    _doRewriteTest(
+        $this, $tempdir, '#!/usr/bin/perl',
+        'C:\Program Files\Active-State\perl.exe',
+        '#! C:\Program Files\Active-State\perl.exe -T',
+        undef, 1
+    );
+    _doRewriteTest(
+        $this,
+        $tempdir,
+        '#! C:\Program Files\Active-State\perl.exe -T',
+        'C:\Program Files\Active-State\perl.exe',
+        '#! C:\Program Files\Active-State\perl.exe',
+        undef,
+        0
+    );
+
     return;
 }
 
@@ -695,6 +743,7 @@ sub _doRewriteTest {
     my $shebang   = shift;
     my $expected  = shift;
     my $errReturn = shift;
+    my $taint     = shift;
 
     open( my $fh, '>', "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}" )
       || die "Unable to open \n $! \n\n ";
@@ -706,7 +755,8 @@ DONE
     $this->assert( close($fh) );
 
     my $err = Foswiki::Configure::Util::rewriteShebang(
-        "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", "$shebang" );
+        "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}",
+        "$shebang", $taint );
 
     if ($errReturn) {
         $this->assert_str_equals( $errReturn, $err );
