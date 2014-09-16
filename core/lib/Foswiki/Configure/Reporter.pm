@@ -182,8 +182,8 @@ Messages are formatted using a cut-down version of TML.
 =cut
 
 my %group_css = (
-    errors        => 'foswikiAlert configureError',
-    warnings      => 'foswikiAlert configureWarning',
+    errors        => 'configureError',
+    warnings      => 'configureWarning',
     confirmations => 'configureOk',
     notes         => 'configureOk',
     changes       => 'configureOk'

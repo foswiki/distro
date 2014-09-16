@@ -23,7 +23,7 @@ sub new {
         javascript    => [ 'resig.js', 'types.js', 'configure.js' ],
         css           => ['configure.css'],
         dependencies  => [
-            'JQUERYPLUGIN', 'UI', 'JsonRpc', 'UI::Tabs',
+            'JQUERYPLUGIN', 'UI', 'JsonRpc', 'UI::Tabs', "pnotify",
             'UI::Tooltip',  'UI::Dialog'
         ]
     );

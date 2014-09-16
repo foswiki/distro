@@ -8,9 +8,11 @@ configure.js script.
 }%<!DOCTYPE html>
 <html lang="en">
  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="robots" content="noindex" /> 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Foswiki Configuration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=yes" />
+  <meta name="robots" content="noindex" /> 
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,52 +21,59 @@ configure.js script.
   <meta name="foswiki.scriptsuffix" content="%SCRIPTSUFFIX%" />
   <meta name="description" content="Foswiki Configuration" />
   <link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
-  <title>Foswiki Configuration</title>
   <meta content="noindex" name="robots" />
   <link type="image/x-icon" rel="icon" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-icon.ico" />
   <link type="image/x-icon" rel="shortcut icon" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-icon.ico" />
-  %RENDERZONE{"head"}%
+  <link type="text/css" media="all" rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/reset.css" />
   <link type="text/css" media="all" rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css" />
+  %JQREQUIRE{"configure"}%
+  %RENDERZONE{"head"}%
+  <link type="text/css" media="all" rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/configure.css" />
   %RENDERZONE{"script"}%
-  %JQREQUIRE{"configure, pnotify"}%
  </head>
  <body>
-  <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png" alt="Foswiki configure"/>
-  <div class="top_level_buttons"><button id="webCheckButton">Study Web Server</button> <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> <button id="saveButton">Save</button></div>
-  <div style="width:60%">
+  <div class="header clearfix">
+    <img class="logo" src="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-logo.png" alt="Foswiki configure"/>
+    <div class="top_level_buttons">
+      <button id="webCheckButton">Study Web Server</button> 
+      <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> 
+      <button id="saveButton">Save</button>
+    </div>
+    <div id="bootstrap_warning" class="foswikiAlert">
+      <strong>Warning</strong> Foswiki is running in 'bootstrap' mode, which means
+      that there is no existing configuration (LocalSite.cfg is missing or is
+      unreadable). Before you save, you
+      <strong>must</strong> make sure you have configured some way to log in as
+      an admin (see 'Security and Authentication'), or you might lock yourself out
+      from this interface.
+    </div>
+    <div class="whirly"></div>
+  </div>
+  <div id="root" class="main">
+  </div>
+  <!-- Dialogs and messages -->
+  <div id="auth_prompt" title="Requires authentication">
+    <div id="auth_note"></div>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"><br />
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br />
+  </div>
+  <div id="webCheckAuthMessage" style="display:none">
+    The web server <i>may</i> need authentication to check access to resources.
+  </div>
+  <div id="confirm_prompt" title="Confirm">
+    <div id="confirm_note"></div>
+  </div>
+  <div id="saveMessage" style="display:none">
+    Save changes to
+  </div>
+<!-- 
    This is Foswiki <tt>configure</tt>. From this interface you can access all the setup for your Foswiki. Use
    <button class="help_button control_button" name="info-icon"></button> to get help on an item.
    <button class="help_button control_button" name="undo-icon"></button> will undo any changes to the item.
    <button class="help_button control_button" name="default-icon"></button> will reset the item to the default - hover over it to see what that is.
 When you are ready to save your changes, click the 'Save' button at the top right.
-  <div id="bootstrap_warning" class="foswikiAlert">
-<strong>Warning</strong> Foswiki is running in 'bootstrap' mode, which means
-that there is no existing configuration (LocalSite.cfg is missing or is
-unreadable). Before you save, you
-<strong>must</strong> make sure you have configured some way to log in as
-an admin (see 'Security and Authentication'), or you might lock yourself out
-from this interface.
-  </div>
-  </div>
-  <br style="clear:both" />
-  <div id="root">
-  </div>
+-->
  </body>
- <!-- Dialogs and messages -->
- <div id="auth_prompt" title="Requires authentication">
-  <div id="auth_note"></div>
-  <label for="username">Username</label>
-  <input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"><br />
-  <label for="password">Password</label>
-  <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br />
- </div>
- <div id="webCheckAuthMessage" style="display:none">
-  The web server <i>may</i> need authentication to check access to resources.
- </div>
- <div id="confirm_prompt" title="Confirm">
-  <div id="confirm_note"></div>
- </div>
- <div id="saveMessage" style="display:none">
-  Save changes to
- </div>
 </html>

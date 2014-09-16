@@ -1,5 +1,5 @@
 FOSWIKI_ROOT?=~/foswiki/core
-TARGET= configure.js resig.js types.js configure.css
+TARGET= configure.js resig.js types.js reset.css configure.css
 
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include
 

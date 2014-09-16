@@ -1,6 +1,42 @@
 html body {
-	font-family: Arial, sans-serif;
-	font-size: 13px;
+  color:#444;
+  font-family: Arial, 'Liberation Sans', FreeSans, sans-serif;
+  font-size:14px;
+  line-height:1.5em;
+  padding:1em;
+}
+
+.header {
+  margin:-1em -1em 2em;
+  padding:2em;
+  background-color:#eee;
+  position:relative;
+}
+
+.top_level_buttons {
+  float: right;
+  margin-top:0.5em;
+}
+
+.clearfix:after,
+.foswikiClearFix:after {
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.clearfix,
+.foswikiClearFix {
+  *zoom:1; /* IE7 hack */
+}
+
+* html .clearfix,
+* html .foswikiClearFix {
+  height: 1%;
 }
 
 .whirly {
@@ -10,29 +46,31 @@ html body {
     background-image:url(loader-bars.gif);
     background-repeat:no-repeat;
     background-position:bottom left;
-    position:fixed;
-    top:5px;
-    right:5px;
+    position:absolute;
+    bottom:-32px;
+    right:1em;
 }
 
-.top_level_buttons {
-    float: right;
-    margin:1em;
-}
 
 /* A node in the spec tree */
-div.node {
-    padding: 0.5em;
+.node .node {
+    padding-bottom: 0.5em;
+    margin-bottom:1em;
+    border-bottom:1px solid #eee;
 }
-
-.keys {
-    font-family: "Courier New", Courier, monospacecourier;
-    font-weight: bold;
-    margin-right: 1em;
+.node .keys {
+  margin-right:0.5em;
+  display:inline-block;
+}
+.node .description,
+.node .reports {
+  color:gray;
+  margin:0.5em 0;
 }
 
 .value_modified {
-    background: khaki;
+  background-color:#DEEBFA;
+  color:#005884;
 }
 
 .closed > .description {
@@ -62,20 +100,32 @@ td {
 div.information {
 }
 
+.reports > .warnings,
+.reports > .errors {
+  margin:1em 0;
+  padding:0.5em 1em 0.5em 3em;
+  background-repeat:no-repeat;
+  background-position:1em 0.8em;
+  border:1px solid;
+  font-weight:bold;
+
+  -webkit-border-radius: 4px; 
+     -moz-border-radius: 4px; 
+          border-radius: 4px; 
+}
+
 .reports > .warnings {
-    background-image: url(warningsIcon.png);
-    padding-left: 22px;
-    background-position: left 45%;
-    background-repeat: no-repeat;
-    color: #AA0;
+  background-image: url(warningsIcon.png);
+  background-color:#FFF6BF;
+  border-color:#FDD845;
+  color:#c09853;
 }
 
 .reports > .errors {
-    background-image: url(errorsIcon.png);
-    padding-left: 22px;
-    background-position: left 45%;
-    background-repeat: no-repeat;
-    color: #A00;
+  background-image: url(errorsIcon.png);
+  background-color:#FBE3E4;
+  border-color:#FBC7C9;
+  color:#b22222;
 }
 
 .tab.warnings {
@@ -83,7 +133,6 @@ div.information {
     padding-right: 22px;
     background-position: right 45%;
     background-repeat: no-repeat;
-    color: #AA0;
 }
 
 .tab.errors {
@@ -91,7 +140,6 @@ div.information {
     padding-right: 22px;
     background-position: right 45%;
     background-repeat: no-repeat;
-    color: #A00;
 }
 
 .tab.warnings.errors {

@@ -9,7 +9,14 @@ lib/Foswiki/Plugins/ConfigurePlugin/JQuery.pm 0444 Configuration
 lib/Foswiki/Plugins/ConfigurePlugin/DependencyReport.pm 0444 Configuration
 pub/System/ConfigurePlugin/checkWhirly.gif 0444
 pub/System/ConfigurePlugin/configure.css 0444
+pub/System/ConfigurePlugin/configure.css.gz 0444
+pub/System/ConfigurePlugin/configure.uncompressed.css 0444
 pub/System/ConfigurePlugin/configure.js 0444
+pub/System/ConfigurePlugin/configure.js.gz 0444
+pub/System/ConfigurePlugin/configure.uncompressed.js 0444
+pub/System/ConfigurePlugin/reset.css 0444
+pub/System/ConfigurePlugin/reset.css.gz 0444
+pub/System/ConfigurePlugin/reset.uncompressed.css 0444
 pub/System/ConfigurePlugin/errorsIcon.png 0444
 pub/System/ConfigurePlugin/expert.png 0444
 pub/System/ConfigurePlugin/foswiki-icon.ico 0444

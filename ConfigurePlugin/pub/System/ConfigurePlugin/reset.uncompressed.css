@@ -1,0 +1,351 @@
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote,
+body, button, canvas, caption, center, cite, code, dd, del, details, dfn, dialog, div,
+dl, dt, em, embed, fieldset, figcaption, figure, font, footer, form, h1, h2,
+h3, h4, h5, h6, header, hgroup, hr, html, i, iframe, img, input, ins, kbd, label,
+legend, li, mark, menu, meter, nav, object, ol, output, p, pre, progress, q,
+rp, rt, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup,
+table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video, xmp {
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  background: transparent;
+}
+
+embed, object {
+  position: relative;
+  z-index: 0;
+}
+
+/* correct block display not defined in IE 8/9.  */
+article, aside, details, figcaption, figure, footer,
+header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* Correct `inline-block` display not defined in IE 8/9. */
+audio, canvas, video {
+  display: inline-block;
+}
+
+/* prevent modern browsers from displaying `audio` without controls.
+   remove excess height in iOS 5 devices.  */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/* address [hidden] styling not present in IE 8/9. hide the template element in IE, Safari, and Firefox < 22.  */
+[hidden],
+template {
+  display: none;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+ins {
+  text-decoration: none;
+}
+del {
+  text-decoration: line-through;
+}
+
+table {
+  border-collapse:collapse;
+  border-spacing: 0;
+}
+
+img {
+  color:transparent;
+  vertical-align:text-bottom;
+  border:0;
+  /* For IE.  http://css-tricks.com/ie-fix-bicubic-scaling-for-images */
+  -ms-interpolation-mode: bicubic;
+}
+img.foswikiButton {
+  vertical-align:middle;
+}
+
+svg { /* for IE9.  */
+  overflow: hidden;
+}
+
+label, input, textarea, select, body, button { 
+  vertical-align:middle;
+  line-height:1.385em;
+}
+label {
+  margin-right:0.5em;
+}
+label input {
+  margin-right:0.2em;
+}
+
+blockquote, q {
+  quotes:none;
+}
+
+input, textarea, select, button {
+  -webkit-box-sizing:border-box; 
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
+}
+
+/* address box sizing set to `content-box` in IE 8/9/10. */
+input[type="checkbox"],
+input[type="radio"] {
+  padding: 0; 
+}
+
+/* appearance set to searchfield in Safari 5 and Chrome.  * box-sizing set to border-box in Safari 5 and Chrome.  */
+input[type="search"] {
+  -webkit-appearance: textfield; 
+}
+
+/* remove inner padding and search cancel button in Safari 5 and Chrome * on OS X.  */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content:'';
+  content:none;
+}
+
+a:active,
+:focus {
+  outline:0;
+}
+
+a:hover {
+  color:#ffffff;
+  background-color:#0055b5;
+  text-decoration:none;
+}
+
+hr:before {
+  clear:both;
+}
+hr {
+  border:0px;
+  padding:0px;
+  border-bottom:1px solid #ddd;
+  margin:1.385em 0em 1.3077em;
+}
+pre, code, textarea {
+  font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
+  line-height:17px; /* a bit less compared to sans-serif */
+}
+
+code {
+  padding: 1px 2px;
+  background-color: #f6f6f6;
+  border: 1px solid #ddd;
+  font-size:85%;
+}
+
+address {
+  font-style:normal;
+  white-space:pre-line;
+}
+address:first-line {
+  font-weight:bold;
+}
+
+pre, textarea {
+  line-height:1.385em;
+}
+
+pre {
+  overflow-x:auto;
+  overflow-y:hidden;
+  margin:0;
+  background:#f6f6f6;
+  padding:0.5em;
+  border:1px solid #ddd;
+}
+
+p {
+  line-height:1.5em;
+  margin:1.5em 0;
+}
+
+em {
+  font-style:italic;
+}
+
+blockquote {
+  border-left:2px solid #ddd;
+  font-style:italic;
+  margin:1.5em 0;
+  padding:1.4285em; /* 20px */
+}
+blockquote i {
+  font-style:normal;
+  font-weight:bold;
+}
+
+ul,
+ol {
+  margin:1.5em 0;
+  padding:0 0 0 3.0769em;
+}
+dd {
+}
+ol ul,
+ul ul {
+  margin-top:0em;
+  margin-bottom:0em;
+}
+
+dd {
+  margin:0 0 1.5em 2em;
+}
+dt {
+  font-weight:bold;
+}
+table ul,
+table ol {
+  margin:0;
+  padding:0 0 0 1.385em;
+}
+
+input[type=search],
+input[type=text],
+input[type=password],
+select,
+textarea {
+  margin:0px;
+  background-color:#fff;
+  padding:4px 6px;
+  font-size:0.923em;
+  border-radius:0;
+  background-color:#fff;
+  border:1px solid #ccc;
+  box-shadow:none;
+  box-shadow:inset 2px 2px 4px #f4f4f4;
+}
+
+select:focus,
+input[type=search]:focus,
+input[type=text]:focus,
+input[type=password]:focus {
+  box-shadow:inset 2px 2px 2px rgba(0,0,0,0.1);
+  border:1px solid #16BEEF;
+}
+
+select {
+  padding-left:2px;
+}
+select option {
+  padding:0px 5px;
+}
+
+button,
+input[type=button],
+input[type=submit] {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  text-decoration: none !important;
+  cursor: pointer;
+  text-align: center;
+  zoom: 1;
+  overflow: visible; /* the overflow property removes extra width in IE */
+
+  padding: 0.2307em 0.6153em; /* 3px 8px */
+  margin-top:0px;
+  margin-bottom:0px;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  -webkit-border-radius: 3px; 
+     -moz-border-radius: 3px; 
+          border-radius: 3px;
+
+  color:#111;
+  text-shadow: 0px 1px #fff;
+  border: 1px solid #bcbcbc;
+  /* http://colorzilla.com/gradient-editor/#ffffff+0,dfdfdf+100;Custom */
+  background: #dfdfdf; 
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZmRmZGYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
+  background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf)); 
+  background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+}
+button:active,
+input[type=button]:active,
+input[type=submit]:active {
+  color:#C60206;
+  /* http://colorzilla.com/gradient-editor/#ededed+0,ffffff+100;Custom */
+  background: #ededed;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VkZWRlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
+  background: -moz-linear-gradient(top, #ededed 0%, #ffffff 50%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(50%,#ffffff));
+  background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
+}
+
+fieldset {
+  padding:0em 0.5em 0.5em;
+  border:1px #ccc solid;
+}
+legend {
+  color:#0055b5;
+  margin:0em 1.3em;
+  font-size:100%;
+  font-weight:bold;
+}
+
+h1 {
+  font-size:2em; /* 28px */
+  margin-top:0;
+  margin-bottom:0.5em; /* 14px */
+}
+h2 {
+  font-size:1.5em; /* 21px */
+  line-height:1em; /* 21px */
+  margin:1em 0;
+  border-bottom:1px solid #D5D6DD;
+}
+
+h3 {
+  font-size:1.2857em; /* 18px */
+  line-height: 1.1667em; /* 21px */
+  margin: 1.1667em 0; 
+}
+
+h4 {
+  font-size: 1.1429em; /* 16px */
+  line-height: 1.3125em; /* 21px */
+  margin: 1.3125em 0 0 0;
+}
+
+h5 {
+  font-size: 1.0714em; /* 15px */
+  line-height: 1.4em; /* 21px */
+  margin-top: 1.4em;
+  margin-bottom: 0em;
+}
+
+h6 {
+  font-size: 1em; /* 14px */
+  line-height: 1.5em; /* 21px */
+}

@@ -39,7 +39,7 @@ var Types = {};
                   (m = this.spec.SIZE.match(/^\s*(\d+)(\s|$)/))) {
                   size = m[1];
               }
-              this.$ui = $('<input id="' + _id_ify(this.spec.keys) + 
+              this.$ui = $('<input type="text" id="' + _id_ify(this.spec.keys) + 
                            '" size="' + size + '"/>');
               this.useVal(val);
           }

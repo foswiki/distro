@@ -46,7 +46,7 @@ function _id_ify(id) {
     function init_whirly() {
         var $whirly, whirlyTimer;
 
-        $whirly = $("<div class='whirly' />").appendTo("body");
+        $whirly = $(".whirly");
         $(document).ajaxSend(function() {
             if (typeof(whirlyTimer) !== 'undefined') {
               window.clearTimeout(whirlyTimer);
@@ -137,7 +137,8 @@ function _id_ify(id) {
                       type: "error",
                       hide: false,
                       sticker: false,
-                      closer_hover: false
+                      closer_hover: false,
+                      icon: false
                     });
                 },
                 success: function(jsonResponse, textStatus, xhr) {
@@ -491,7 +492,7 @@ function _id_ify(id) {
                 update_modified_default($node);
                 check_current_value($node);
             });
-        $node.append($ui);
+        $node.find(".ui-placeholder").replaceWith($ui);
 
         // Check for a pending value change from a wizard
         var pendid = 'pending' + _id_ify(spec.keys);
@@ -531,7 +532,7 @@ function _id_ify(id) {
             } else {
                 $butt.attr("checked", "checked");
             }
-            $ui.before($butt);
+            $ui.after($butt);
         }
 
         $button = $('<button class="undo_button control_button"></button>');
@@ -545,7 +546,7 @@ function _id_ify(id) {
             },
             text: false
         }).hide();
-        $node.append($button);
+        $ui.after($button);
 
         $button = $('<button class="default_button control_button"></button>');
         $button.attr('title', 'Reset to default value: ' + spec['default']);
@@ -558,7 +559,7 @@ function _id_ify(id) {
             },
             text: false
         }).hide();
-        $node.append($button);
+        $ui.after($button);
 
         if (spec.FEEDBACK) {
             $.each(spec.FEEDBACK, function(index, fb) {
@@ -686,13 +687,13 @@ function _id_ify(id) {
             created = {};
 
         $.each(entries, function(index, entry) {
-            var label, $node, id, $head, $infob, $report;
+            var label, $node, id, $infob, $report;
 
             if (entry.typename != "SECTION") {
                 // It's a key
 
                 // the load_ui class will trigger load_ui() later
-                $node = $('<div class="node load_ui closed"></div>');
+                $node = $('<div class="node load_ui"></div>');
                 $node.data('spec.entry', entry);
                 if (entry.EXPERT && entry.EXPERT == 1) {
                     $node.addClass('expert');
@@ -731,8 +732,9 @@ function _id_ify(id) {
                     if (!label) {
                         label = entry.keys;
                     }
-                    $head = $('<div class="keys">' + label + '</div>');
-                    $node.append($head);
+                    label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
+                    $node.append('<b class="keys">' + label + "</b><span class='ui-placeholder'></span>");
+/*
                     if (entry.desc) {
                         $infob = $('<button class="control_button"></button>');
                         $head.prepend($infob);
@@ -745,6 +747,7 @@ function _id_ify(id) {
                             text: false
                         });
                     }
+*/
                 } else if (entry.headline !== null) {
                     // unkeyed type e.g. BUTTON
                     id = _id_ify(entry.headline);
@@ -965,6 +968,7 @@ function _id_ify(id) {
             },
             $root, 'load');
     });
+/*
 
     $(window).on('beforeunload', function() {
         if ($('.value_modified').length > 0) {
@@ -972,5 +976,6 @@ function _id_ify(id) {
         }
         return 'Are you really sure?';
     });
+*/
 
 })(jQuery);
