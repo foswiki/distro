@@ -1645,28 +1645,57 @@ sub update_githooks_dir {
     $module ||= '';
     use Cwd;
 
+    # "just in case"  core becomes a separate repo.
+    my @locations = qw(./.git);
+    if ($module) {
+
+        # Conventional and "submodule" repository locations
+        push @locations, ( "../$module/.git", "../.git/modules/$module" );
+    }
+    else {
+        # Root ('distro') repository location
+        push @locations, ("../.git");
+    }
+
     trace
-"UPDATE_GITHOOKS_DIR:  Called with   $moduleDir   module:  $module  current dir: "
+"UPDATE_GITHOOKS_DIR:  Called with   ($moduleDir)   module:  ($module)  current dir: "
       . Cwd::cwd() . "\n";
 
     my $hooks_src =
       File::Spec->catdir( Cwd::cwd(), 'tools', 'develop', 'githooks' );
 
     # Check for .git directories,  and copy in hooks if needed
-    foreach my $gitdir ( '.', '..' ) {
-        my $repo_hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
-        my $gitmodule_hooks_tgt =
-          File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
-
+    foreach my $gitdir (@locations) {
+        my $repo_hooks_tgt = File::Spec->catdir( $gitdir, 'hooks' );
         my $repo_target_dir =
-          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
-        my $gitmodule_target_dir =
-          File::Spec->catdir( Cwd::cwd(), $gitdir, '.git', 'modules', $module,
-            'hooks' );
+          File::Spec->catdir( $moduleDir, $gitdir, 'hooks' );
 
-        trace
-          "Scanning $gitmodule_target_dir for hooks - source in $hooks_src \n";
+        next unless ( -d $gitdir );
 
+# Examine upstream for repo.
+# SMELL: We would do better to somehow detect repos that are forks from foswiki repos
+# So that when they submit git pull requests, the commit messages and tidy state is
+# hopefully complete.
+        my $curUrl;
+        if ( -d $gitdir ) {
+            $curUrl = do_commands(<<"HERE");
+git --git-dir $gitdir config --list
+HERE
+            unless ( $curUrl =~
+                m#^.*(.*?remote\..*\.url=.*?github\.com[:/]foswiki.*?)$#ms )
+            {
+                $curUrl =~ m/^.*(.*?remote\..*\.url=.*?)$/ms;
+                print STDERR
+"SKIPPING hooks for $gitdir,  Not a Foswiki project repository $1 \n";
+                next;
+            }
+            $curUrl = $1;
+
+        }
+
+        print STDERR "Installing hooks for repo: "
+          . _cleanPath($gitdir)
+          . " Git origin URL: $curUrl \n";
         foreach my $hook (
             qw( applypatch-msg commit-msg post-commit post-update pre-applypatch pre-commit pre-rebase prepare-commit-msg post-receive update)
           )
@@ -1675,21 +1704,6 @@ sub update_githooks_dir {
             trace "Installing hook: "
               . File::Spec->catfile( $hooks_src, $hook ) . "\n";
 
-            if ($module) {
-                trace "Checking for submodule for $module in: "
-                  . $gitmodule_target_dir . "\n";
-                if ( -d $gitmodule_target_dir ) {
-                    unlink _cleanPath(
-                        File::Spec->catfile( $gitmodule_target_dir, $hook ) )
-                      if (
-                        -e File::Spec->catfile( $gitmodule_target_dir, $hook )
-                      );
-                    linkOrCopy '',
-                      File::Spec->catfile( $hooks_src,            $hook ),
-                      File::Spec->catfile( $gitmodule_target_dir, $hook ),
-                      $CAN_LINK;
-                }
-            }
             trace "Checking for conventional repo:  $repo_target_dir\n";
             if ( -d $repo_target_dir ) {
                 trace " Trying to unlink "
@@ -1713,7 +1727,7 @@ init_config();
 init_extensions_path();
 run();
 update_gitignore_file($basedir);
-update_githooks_dir( $basedir, 'core' ) if ($githooks);
+update_githooks_dir($basedir) if ($githooks);
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
