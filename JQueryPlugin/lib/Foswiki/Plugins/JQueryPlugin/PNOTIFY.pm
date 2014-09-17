@@ -30,7 +30,7 @@ sub new {
             name         => 'PNotify',
             version      => '1.2.0',
             author       => 'Hunter Perrin',
-            homepage     => 'http://pines.sourceforge.net/pnotify/',
+            homepage     => 'http://sciactive.com/pnotify/',
             css          => ['jquery.pnotify.default.css'],
             javascript   => ['jquery.pnotify.js'],
             dependencies => ['ui']
