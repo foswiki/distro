@@ -136,13 +136,13 @@ sub renderForEdit {
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
 
-    my $displayValue = $this->getDisplayValue($value);
-    $format =~ s/\$value\(display\)/$displayValue/g;
+    $format =~ s/\$value\(display\)/$this->renderDisplayValue($value)/ge;
     $format =~ s/\$value/$value/g;
+
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
 }
 
-sub getDisplayValue {
+sub renderDisplayValue {
     my ( $this, $value ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
