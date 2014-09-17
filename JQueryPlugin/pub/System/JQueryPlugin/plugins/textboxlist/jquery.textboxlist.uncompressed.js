@@ -94,7 +94,9 @@
         var val = self.input.val();
         if (val) {
           $.log("TEXTBOXLIST: closing suggestion list");
-          self.input.autocomplete("close");
+          if (self.opts.autocomplete) {
+            self.input.autocomplete("close");
+          }
           self.select(val);
           event.preventDefault();
           return false;
