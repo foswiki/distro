@@ -35,6 +35,7 @@ data/System/JQueryPNotify.txt 0644
 data/System/JQueryPopUpWindow.txt 0644
 data/System/JQueryQueryObject.txt 0644
 data/System/JQueryRating.txt 0644
+data/System/JQueryRender.txt 0644
 data/System/JQueryScrollTo.txt 0644
 data/System/JQuerySerialScroll.txt 0644
 data/System/JQueryShake.txt 0644
@@ -71,6 +72,7 @@ lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Themeswitcher/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
@@ -140,6 +142,8 @@ lib/Foswiki/Plugins/JQueryPlugin/UI/TOOLTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/VALIDATE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/WIKIWORD.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TMPL.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/RENDER.pm 644
+pub/System/JQueryRender/logo-jsr.png 0644
 pub/System/JQueryCycle/beach1.jpg 0644
 pub/System/JQueryCycle/beach2.jpg 0644
 pub/System/JQueryCycle/beach3.jpg 0644
@@ -539,6 +543,10 @@ pub/System/JQueryPlugin/plugins/rating/jquery.rating.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/rating/Makefile 0644
 pub/System/JQueryPlugin/plugins/rating/star.png 0644
+pub/System/JQueryPlugin/plugins/render/Makefile 0644
+pub/System/JQueryPlugin/plugins/render/jquery.render.js 0644
+pub/System/JQueryPlugin/plugins/render/jquery.render.js.gz 0644
+pub/System/JQueryPlugin/plugins/render/jquery.render.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js.gz 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.uncompressed.js 0644
@@ -940,3 +948,5 @@ tools/jslint4java.jar 0444
 tools/minifycss 0555
 tools/minifyjs 0555
 tools/yuicompressor.jar 0444
+
+

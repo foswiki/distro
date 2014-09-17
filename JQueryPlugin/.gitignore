@@ -78,6 +78,8 @@ pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.init.js
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.js
+pub/System/JQueryPlugin/plugins/render/jquery.render.js
+pub/System/JQueryPlugin/plugins/render/git/
 pub/System/JQueryPlugin/plugins/scrollto/git/
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.init.js
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js

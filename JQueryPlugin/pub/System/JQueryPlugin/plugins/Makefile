@@ -45,6 +45,7 @@ SUBDIRS=\
   tooltip \
   treeview \
   validate \
-  wikiword 
+  wikiword  \
+  render
 
 -include ../Makefile.include

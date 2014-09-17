@@ -155,6 +155,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{QueryObject}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Render}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{ScrollTo}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -180,9 +183,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Tabpane}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{TextboxList}{Enabled} = 1;
-
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Treeview}{Enabled} = 1;
@@ -238,6 +238,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # Any plugins listed here should be disabled.  They will be removed in a future release of Foswiki.
 # If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
 # the Foswiki distribution.
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
 
 # **BOOLEAN EXPERT**
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
