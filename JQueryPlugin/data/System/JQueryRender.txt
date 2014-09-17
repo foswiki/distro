@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
-%JQPLUGINS{"tmpl"
+%JQPLUGINS{"render"
   format="
     Homepage: $homepage <br />
     Author(s): $author <br />
@@ -105,6 +105,12 @@ jQuery(function($) {
 
 Whenever you'd like to use a different layout for the same data just use a different template. No big deal.
 Imagine doing the same using DOM plumbing...
+
+<verbatim class="js">
+<script id="personTemplate2" type="text/x-jsrender ">
+  <li>{{:firstName}} {{:lastName}}</li>
+</script>
+</verbatim>
 
 <ol id="container2"></ol>
 
