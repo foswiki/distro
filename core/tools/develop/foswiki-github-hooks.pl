@@ -27,7 +27,8 @@ use Time::Local;
 use Data::Dumper;
 
 # Set to 1 for basic information,  2 for dump of github responses
-use constant VERBOSE => 0;
+use constant VERBOSE  => 0;
+use constant LAST_RUN => './last_hooks_run';
 
 my $secrets = do '.github-secrets' or die "Unable to read secrets file";
 
@@ -71,6 +72,15 @@ my %HOOKS = (
     }
 );
 
+my $last_run = 0;
+
+if ( -e LAST_RUN ) {
+    open( my $fh, '<', LAST_RUN )
+      or die "Unable to open " . LAST_RUN . " $!\n";
+    $last_run = ( stat($fh) )[9];
+    close $fh;
+}
+
 my $ghAccount = 'foswiki';
 my $repos;
 my @rp;
@@ -88,27 +98,81 @@ my $updated = 0;
 my $rpcount = scalar @rp;
 
 foreach my $r (@rp) {
-    my $rname = $r->{'name'};
+    my $rname   = $r->{'name'};
+    my $created = $r->{'created_at'};
 
-    #    if (  $rname eq 'TestBootstrapPlugin')
-    #    {
+    #next unless ( $rname eq 'TestRepoAuto' );
+
     print
       "\n============================== $r->{name} ======================\n"
-      if (VERBOSE);
+      if ( VERBOSE == 2 );
     print Data::Dumper::Dumper( \$r ) if ( VERBOSE == 2 );
+    print "Checking $rname,  created $created\n" if ( VERBOSE == 2 );
 
-    checkHooks( $repos, $r );
-
-    #    }
+    if ( check_created( $last_run, $created ) ) {
+        checkSettings( $ghAccount, $repos, $rname, $r );
+        checkHooks( $repos, $r );
+    }
 
 }
 
 print
-"Hooks check completed: $rpcount repositories processed:  hooks created: $created,  hooks updated: $updated\n";
+"Hooks check completed: $rpcount repositories processed:  hooks created: $created,  hooks updated: $updated\n"
+  if ( $created || $updated );
+
+open( my $lr, ">", LAST_RUN ) or die "Unable to touch " . LAST_RUN . " $!\n";
+close $lr;
+
+sub check_created {
+    my ( $last_run, $createdate ) = @_;
+
+    my ( $date, $time ) = split( /T/, $createdate );
+    my ( $year, $mon, $mday ) = split( /-/, $date );
+    chop $time;    #Remove the trailing Z
+    my ( $hour, $min, $sec ) = split( /:/, $time );
+    my $create_timestamp = timegm( $sec, $min, $hour, $mday, $mon - 1, $year );
+    my $ctime = scalar localtime $create_timestamp;
+
+    print
+      "    Repo created: $createdate: $create_timestamp - Last Run $last_run\n"
+      if ( VERBOSE == 2 );
+
+    return ( $last_run <= $create_timestamp );
+}
+
+sub checkSettings {
+    my ( $ghAccount, $repos, $rname, $r ) = @_;
+    my $weburl;
+
+    if ( $rname =~ m/(Skin|Plugin|Contrib|Add[Oo]n)$/ ) {
+        $weburl = "http://foswiki.org/Extensions/$rname";
+    }
+    else {
+        $weburl = "http://foswiki.org/";
+    }
+
+    my $desc = $r->{'description'} || "Foswiki $rname Extension";
+
+    $repos->update(
+        $ghAccount,
+        $rname,
+        {
+            "name"          => $rname,
+            "homepage"      => "$weburl",
+            "description"   => "$desc",
+            "has_issues"    => '0',
+            "has_wiki"      => '0',
+            "has_downloads" => '0'
+        }
+    );
+    print "$rname settings updated\n";
+}
 
 sub checkHooks {
     my $repos = shift;
     my $r     = shift;
+
+    print "Verifying hooks for $r->{'name'}\n";
 
     my @hooks = $repos->hooks( 'foswiki', $r->{'name'} );
 

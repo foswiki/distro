@@ -119,7 +119,7 @@ sub check_times {
     my $etime           = scalar localtime $epoch_timestamp;
     close $fh;
 
-    print STDERR
+    print
 "    Last fetch: $epoch_timestamp: $etime,\n    Last push:  $gh_timestamp: $ltime\n"
       if (VERBOSE);
 
