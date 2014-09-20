@@ -151,14 +151,15 @@ sub checkSettings {
         $weburl = "http://foswiki.org/";
     }
 
-    my $desc = $r->{'description'} || "Foswiki $rname Extension";
+    my $homepage = $r->{'homepage'}    || $weburl;
+    my $desc     = $r->{'description'} || "Foswiki $rname Extension";
 
     $repos->update(
         $ghAccount,
         $rname,
         {
             "name"          => $rname,
-            "homepage"      => "$weburl",
+            "homepage"      => "$homepage",
             "description"   => "$desc",
             "has_issues"    => '0',
             "has_wiki"      => '0',
