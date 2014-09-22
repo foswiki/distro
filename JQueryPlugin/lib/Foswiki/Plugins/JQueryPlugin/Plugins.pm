@@ -275,7 +275,7 @@ sub load {
     my $normalizedName = lc($pluginName);
     my $pluginDesc     = $plugins{$normalizedName};
 
-    return undef unless $pluginDesc;
+    return unless $pluginDesc;
 
     unless ( defined $pluginDesc->{instance} ) {
 

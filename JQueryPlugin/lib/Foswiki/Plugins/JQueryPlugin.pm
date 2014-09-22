@@ -14,8 +14,8 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-our $VERSION           = '6.00_001';
-our $RELEASE           = '6.00_001';
+our $VERSION           = '6.00_002';
+our $RELEASE           = '6.00_002';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -31,7 +31,8 @@ sub initPlugin {
     # check for prerequisites
     unless ( defined(&Foswiki::Func::addToZone) ) {
         Foswiki::Func::writeWarning(
-            "ZonePlugin not installed/enabled...disabling JQueryPlugin");
+"ZonePlugin required for legacy Foswiki engines ... disabling JQueryPlugin"
+        );
         return 0;
     }
 
@@ -115,13 +116,13 @@ sub createTheme {
 
 ---++ registerPlugin($pluginName, $class) -> $plugin
 
-API to register a jQuery plugin. this is of use for other Foswiki plugins
+API to register a jQuery plugin. This is of use for other Foswiki plugins
 to register their javascript modules as a jQuery plugin. Registering a plugin 'foobar'
 will make it available via =%<nop>JQREQUIRE{"foobar"}%=.
 
 Class will default to 'Foswiki::Plugins::JQueryPlugin::FOOBAR,
 
-The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::PLUGIN class.
+The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::Plugin class.
 
 =cut
 
@@ -421,13 +422,20 @@ sub handleJQueryPlugins {
         $summary =~ s/\s+$//;
         my $tags = '';
         if ( $theFormat =~ /\$tags/ ) {
-            my @tags = ();
-            foreach my $tag ( sort split( /\s*,\s*/, $plugin->{tags} ) ) {
+            my @lines = ();
+            my @tags  = ();
+            if ( ref( $plugin->{tags} ) ) {
+                @tags = @{ $plugin->{tags} };
+            }
+            else {
+                @tags = split( /\s*,\s*/, $plugin->{tags} );
+            }
+            foreach my $tag ( sort @tags ) {
                 my $line = $theTagFormat;
                 $line =~ s/\$tag/$tag/g;
-                push @tags, $line if $line;
+                push @lines, $line if $line;
             }
-            $tags = join( ', ', @tags );
+            $tags = join( ', ', @lines );
         }
         my $active =
           defined( $plugin->{isInit} )
