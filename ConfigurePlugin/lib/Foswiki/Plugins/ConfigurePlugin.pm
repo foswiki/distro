@@ -43,11 +43,7 @@ use constant TRACE => 0;
 BEGIN {
     # Note: if Foswiki is in bootstrap mode, Foswiki.pm will try
     # to require this module, thus executing this BEGIN block.
-    $Foswiki::cfg{SwitchBoard}{jsonrpc} = {
-        package  => 'Foswiki::Contrib::JsonRpcContrib',
-        function => 'dispatch',
-        context  => { jsonrpc => 1 }
-    };
+
     $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
     $Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} =
       'Foswiki::Plugins::ConfigurePlugin';
@@ -109,29 +105,34 @@ sub initPlugin {
         }
     }
 
-    Foswiki::Func::registerTagHandler( 'DEPENDENCYREPORT', \&_DEPENDENCYREPORT );
+    Foswiki::Func::registerTagHandler( 'DEPENDENCYREPORT',
+        \&_DEPENDENCYREPORT );
 
     return 1;
 
 }
-
 
 sub _DEPENDENCYREPORT {
     my ( $session, $params, $topic, $web ) = @_;
 
     require Foswiki::Plugins::ConfigurePlugin::DependencyReport;
 
-    print STDERR "PARAM = ($params->{_DEFAULT}) \n" if defined $params->{_DEFAULT};
+    print STDERR "PARAM = ($params->{_DEFAULT}) \n"
+      if defined $params->{_DEFAULT};
 
-    if ( defined $params->{_DEFAULT} && $params->{_DEFAULT} =~ m/'?extensions'?/ ) {
-        return Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeExtensions()
+    if ( defined $params->{_DEFAULT}
+        && $params->{_DEFAULT} =~ m/'?extensions'?/ )
+    {
+        return
+          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeExtensions(
+          );
     }
     else {
-        return Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeFoswiki()
+        return
+          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeFoswiki();
     }
 
 }
-
 
 sub _JSONwrap {
     my $method = shift;
