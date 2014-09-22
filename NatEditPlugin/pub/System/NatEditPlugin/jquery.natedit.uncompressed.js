@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2013 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2014 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -11,7 +11,7 @@
 
 /*global FoswikiTiny:false, tinyMCE:false, StrikeOne:false, plupload:false */
 (function($) {
-  "use strict";
+"use strict";
 
 /*****************************************************************************
  * class TextareaState
@@ -250,14 +250,13 @@ $.NatEditor = function(txtarea, opts) {
   $txtarea.addClass("ui-natedit ui-widget");
 
   self.initGui();
+  self.undoManager = new UndoManager(self);
 
   if (self.opts.showToolbar) {
     self.initToolbar();
   }
 
   self.initForm();
-
-  self.undoManager = new UndoManager(self);
 
   /* establish auto max expand */
   if (self.opts.autoMaxExpand) {
@@ -1207,38 +1206,6 @@ $.NatEditor.prototype.remove = function() {
 
   return selection;
 };
-
-/*************************************************************************
- * Transform selected text with a provided function
- */
-$.NatEditor.prototype.transformSelection = function(transformer) {
-  var self = this,
-      startPos, endPos, 
-      text, scrollTop, theSelection,
-      subst;
-
-  self.getSelectionRange();
-  startPos = self.txtarea.selectionStart;
-  endPos = self.txtarea.selectionEnd;
-  text = self.txtarea.value;
-  scrollTop = self.txtarea.scrollTop;
-  theSelection = text.substring(startPos, endPos);
-
-  subst = transformer.call(self, theSelection);
-
-  self.txtarea.value =  
-    text.substring(0, startPos) + subst +
-    text.substring(endPos, text.length);
-
-  // set new selection
-  endPos = startPos + subst.length;
-  self.txtarea.scrollTop = scrollTop;
-  self.setSelectionRange(startPos, endPos);
-
-  self.undoManager.saveState("command");
-};
-
-
 
 /*************************************************************************
  * compatibility method for IE: this sets txtarea.selectionStart and

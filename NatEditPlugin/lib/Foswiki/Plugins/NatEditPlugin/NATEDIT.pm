@@ -58,7 +58,7 @@ sub new {
                 'ui::tooltip',                        'tabpane',
                 'ui::autocomplete',                   'ui::button',
                 'button',                             'loader',
-                'uploader',                           'blockui',
+                'JQUERYPLUGIN::UPLOADER',             'blockui',
                 'tmpl',
             ],
         ),
@@ -82,10 +82,11 @@ sub init {
     return unless $this->SUPER::init();
 
     Foswiki::Func::addToZone(
-        "script", "NATEDIT::ENABLEDPLUGINS",
+        "script", "NATEDIT::PREFERENCES",
         <<'HERE', "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
 <script>jQuery.extend(foswiki.preferences, { 
-  'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
+  'NatEditEngine': '%NATEDIT_ENGINE{default="raw"}%',
+  'MathEnabled': %IF{"context MathModePluginEnabled or context MathJaxPluginEnabled" then="true" else="false"}%,
   'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
   'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
   'FarbtasticEnabled': %IF{"context FarbtasticEnabled" then="true" else="false"}%

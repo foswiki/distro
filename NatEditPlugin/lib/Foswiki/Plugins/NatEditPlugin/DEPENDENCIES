@@ -1,8 +1,5 @@
-Foswiki::Plugins::JQueryPlugin,>=5.00,perl,Required.
+Foswiki::Plugins::JQueryPlugin,>=6.00,perl,Required.
 JSON,>=2.59,cpan,Required. 
-Foswiki::Plugins::TopicInteractionPlugin,>=3.20,perl,Optional, require to upload attachments from within the editor.
-Foswiki::Plugins::ImagePlugin,>=3.20,perl,Optional
-Foswiki::Plugins::MathModePlugin,>=4.20,perl,Optional
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
 Foswiki::Plugins::SetVariablePlugin,>=2.33,perl,Required. required for Foswiki < 1.2
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
