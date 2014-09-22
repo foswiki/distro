@@ -48,8 +48,7 @@ sub loadWizard {
 
     ASSERT( $name =~ /^[A-Za-z][A-Za-z0-9]+$/ ) if DEBUG;
 
-    my $class    = 'Foswiki::Configure::Wizards::' . $name;
-    my @packages = Foswiki::Configure::FileUtil::findPackages($class);
+    my $class = 'Foswiki::Configure::Wizards::' . $name;
 
     eval "require $class";
     die "Failed to load wizard $class: $@" if $@;
