@@ -101,24 +101,18 @@ sub loadChecker {
     }
 
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
-    my @packages   = Foswiki::Configure::FileUtil::findPackages($checkClass);
-
-    unless ( scalar(@packages) ) {
-
-        # See if a generic type checker exists for this type
-        my $checkClass = 'Foswiki::Configure::Checkers::' . $item->{typename};
-        @packages = Foswiki::Configure::FileUtil::findPackages($checkClass);
-    }
-    return undef unless scalar(@packages);
-
-    $checkClass = $packages[0];
-
     eval "require $checkClass";
-    if ($@) {
-        die "Failed to load checker class $checkClass: $@";
+    unless ($@) {
+        return $checkClass->new($item);
     }
 
-    return $checkClass->new($item);
+    # See if a generic type checker exists for this type
+    $checkClass = 'Foswiki::Configure::Checkers::' . $item->{typename};
+    eval "require $checkClass";
+    unless ($@) {
+        return $checkClass->new($item);
+    }
+    return undef;
 }
 
 =begin TML
