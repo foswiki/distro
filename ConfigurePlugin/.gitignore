@@ -4,3 +4,4 @@ pub/System/ConfigurePlugin/types.js
 pub/System/ConfigurePlugin/reset.css
 pub/System/ConfigurePlugin/configure.css
 pub/System/ConfigurePlugin/configure.js
+pub/System/ConfigurePlugin/render_tml.js
