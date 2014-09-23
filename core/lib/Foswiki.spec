@@ -46,8 +46,9 @@
 #              schemes:http,https \
 #              authtype:host" \
 #              MANDATORY**
-# This is the root of all Foswiki URLs e.g. =http://myhost.com:123=
-# (Do not include the trailing slash.)
+# This is the root of all Foswiki URLs.
+# For example, =http://myhost.com:123=
+# (do not include the trailing slash.)
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
 # **BOOLEAN EXPERT**
@@ -81,13 +82,13 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # permitted.
 #
 # Enter as a comma separated list of URLs (protocol, hostname and (optional)
-# port) e.g. =http://your.domain.com:8080,https://other.domain.com=.
+# port), for example =http://your.domain.com:8080,https://other.domain.com=.
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **URLPATH CHECK="expand notrail" MANDATORY**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
-# directory e.g. =/foswiki/bin=.
+# directory. For example =/foswiki/bin=.
 # See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
@@ -107,8 +108,8 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
 # **STRING 10**
-# Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
-# if your webserver requires an extension.
+# Suffix of Foswiki CGI scripts. For example, .cgi or .pl.
+# You may need to set this if your webserver requires an extension.
 # $Foswiki::cfg{ScriptSuffix} = '';
 
 # **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" UNDEFINEDOK MANDATORY**
@@ -116,10 +117,10 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # This is the complete path used to access the Foswiki view script,
 # including any suffix.
 # You should leave this as it is, unless your web server is configured
-# for short URLs (e.g. using Foswiki's
+# for short URLs (for example using Foswiki's
 # [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
-# ). If it is, replace this with the base path of your wiki, i.e. the value of
-# {ScriptUrlPath} with the =/bin= suffix removed (so you'll have to leave
+# ). If it is, replace this with the base path of your wiki (the value of
+# {ScriptUrlPath} with the =/bin= suffix removed, so you'll have to leave
 # this field empty if your wiki lives at the top level).
 # 
 # More information:
@@ -130,39 +131,41 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # *SCRIPTHASH*
 
 # **URLPATH CHECK='expand notrail' MANDATORY**
-# Attachments URL path e.g. /foswiki/pub
+# Attachments URL path.
+# For example =/foswiki/pub=
 
 # *Security Note:* files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
-# will have to use webserver controls (e.g. .htaccess on Apache).
+# will have to use webserver controls (for example =.htaccess= on Apache).
 # See the [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
 # **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:pub silentguess perms:rwD filter:',v$'" MANDATORY**
 # Attachments store (file path, not URL), must match the attachments URL
-# path =/foswiki/pub= e.g. =/usr/local/foswiki/pub=  This directory is
+# path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
 # **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:data silentguess perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" MANDATORY**
-# Topic files store (file path, not URL) e.g. =/usr/local/foswiki/data=.
+# Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:tools silentguess perms:rD" MANDATORY**
-# Tools directory e.g. =/usr/local/foswiki/tools=   This directory must
-# not be web accessible.
+# File path to tools directory. For example =/usr/local/foswiki/tools=.
+# This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
 # **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:templates silentguess perms:rD" MANDATORY**
-# Template directory e.g. =/usr/local/foswiki/templates=  This directory
-# must not be web accessible.
+# File path to templates directory. For example =/usr/local/foswiki/templates=.
+# This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
 # **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:locale silentguess perms:rD" MANDATORY**
-# Translation files directory (file path, not URL) e.g.
-# =/usr/local/foswiki/locale=  This directory must not be web accessible.
+# File path to locale directory.
+# For example =/usr/local/foswiki/locale=.
+# This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
 # **PATH EXPERT MANDATORY FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:working silentguess perms:rw" **
@@ -349,7 +352,7 @@ $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 # than the webserver user access session objects that Foswiki creates in
 # the filesystem. This is an *octal* number representing the standard
 # UNIX permissions
-# (e.g. 0640 == rw-r-----)
+# (for example 0640 == rw-r-----)
 $Foswiki::cfg{Session}{filePermission} = 0600;
 
 #---++ Validation
@@ -485,7 +488,7 @@ $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} = 0;
 # **REGEX EXPERT**
 # The perl regular expression used to constrain user login names. Some
 # environments may require funny characters in login names, such as \.
-# This is a filter *in* expression i.e. a login name must match this
+# This is a filter *in* expression, so a login name must match this
 # expression or an error will be thrown and the login denied.
 $Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
 
@@ -1009,7 +1012,7 @@ $Foswiki::cfg{DrainStdin} = $FALSE;
 
 # **BOOLEAN EXPERT**
 # Remove port number from URL. If set, and a URL is given with a port
-# number e.g. http://my.server.com:8080/foswiki/bin/view, this will strip
+# number for example http://my.server.com:8080/foswiki/bin/view, this will strip
 # off the port number before using the url in links.
 $Foswiki::cfg{RemovePortNumber} = $FALSE;
 
@@ -1042,7 +1045,7 @@ $Foswiki::cfg{AccessibleENV} =
 
 #---++ Proxies
 # Some environments require outbound HTTP traffic to go through a proxy
-# server. (e.g. http://proxy.your.company).
+# server (for example http://proxy.your.company).
 # **URL 30 CHECK='parts:scheme,authority,path,user,pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
@@ -1067,7 +1070,7 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 
 # **STRING 50**
 # Text added to e-mail addresses to prevent spambots from grabbing
-# addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
+# addresses. For example set to 'NOSPAM' to get fred@user.co.ru
 # rendered as fred@user.coNOSPAM.ru
 $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 
@@ -1079,7 +1082,7 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # This setting controls whether or not the =%USERINFO%= macro will reveal
 # details about users other than the current logged in user. It does not
 # control how Foswiki actually stores email addresses. If disclosure of
-# emails is not a risk for you (e.g. you are behind a firewall) and you
+# emails is not a risk for you (for example, you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users, then you
 # can disable this option. If you prefer to store email addresses directly
 # in user topics, see the TopicUserMapping expert settings under the
@@ -1093,7 +1096,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # **BOOLEAN**
 # By default Foswiki will also manipulate e-mail addresses to reduce the
 #  harvesting of e-mail addresses. Foswiki will encode all non-alphanumeric
-# characters to their HTML entity equivalent. e.g. @ becomes &&lt;nop&gt;#64; 
+# characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64; 
 # This is not completely effective, however it can prevent some primitive
 # spambots from seeing the addresses.
 $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
@@ -1236,7 +1239,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 #---+ Internationalisation -- TABS
 #---++ Languages
 # **BOOLEAN**
-# Enable user interface internationalisation, i.e. presenting the user
+# Enable user interface internationalisation. Present the user
 # interface in the users own language(s). Some languages require the
 # =Locale::Maketext::Lexicon= and =Encode/MapUTF8= Perl
 # modules to be installed.
@@ -1315,7 +1318,7 @@ $Foswiki::cfg{Site}{Locale} = 'en.utf8';
 # **STRING 50 **
 # Set this to match your site locale (from 'locale -a')
 # whose character set is not supported by your available perl conversion module
-# (i.e. Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
+# (Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
 # versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
 # but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
 # If you don't define it, it will automatically be defaulted to iso-8859-1
@@ -1347,11 +1350,11 @@ $Foswiki::cfg{DefaultDateFormat} = '$day $month $year';
 $Foswiki::cfg{Site}{LocaleRegexes} = $TRUE;
 
 # **STRING DISPLAY_IF="! {UseLocale} || ! {Site}{LocaleRegexes}" **
-# If a suitable working locale is not available (i.e. {UseLocale}
+# If a suitable working locale is not available ({UseLocale}
 # is disabled), OR  you are using Perl 5.005 (with or without working
 # locales), OR {Site}{LocaleRegexes} is disabled, you can use WikiWords with
 # accented national characters by putting any '8-bit' accented
-# national characters within these strings - i.e. {UpperNational}
+# national characters within these strings . {UpperNational}
 # should contain upper case non-ASCII letters.  This is termed
 # 'non-locale regexes' mode.
 # If 'non-locale regexes' is in effect, WikiWord linking will work,
@@ -1367,8 +1370,8 @@ $Foswiki::cfg{UpperNational} = '';
 $Foswiki::cfg{LowerNational} = '';
 
 # **BOOLEAN**
-# Change non-existent plural topic name to singular,
-# e.g. TestPolicies to TestPolicy. Only works in English.
+# Change non-existent plural topic name to singular.
+# For example, =TestPolicies= to =TestPolicy=. Only works in English.
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 #############################################################################
@@ -1390,7 +1393,7 @@ $Foswiki::cfg{Store}{ImplementationClasses} = [];
 # **BOOLEAN EXPERT**
 # Set to enable (hierarchical) sub-webs. Without this setting, Foswiki will only
 # allow a single level of webs. If you set this, you can use
-# multiple levels, like a directory tree, i.e. webs within webs.
+# multiple levels, like a directory tree, webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
 # **NUMBER CHECK="min:60" EXPERT**
@@ -1479,20 +1482,21 @@ $Foswiki::cfg{Store}{FgrepCmd} =
 $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 
 # **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
-# File security for new directories created by stores, only used by store
-# implementations that create plain files. You may have
+# File security for new directories created by stores.
+# Only used by store implementations that create plain files. You may have
 # to adjust these permissions to allow (or deny) users other than the
-# webserver user access
-# to directories that Foswiki creates. This is an *octal* number
-# representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
+# webserver user access to directories that Foswiki creates. This is an
+# *octal* number representing the standard UNIX permissions
+# (for example 755 == rwxr-xr-x)
 $Foswiki::cfg{Store}{dirPermission} = 0755;
 
 # **OCTAL CHECK="min:000 max:7777" EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
-# File security for new directories created by stores, only used by store
-# implementations that create plain files. You may have to adjust these
-# permissions to allow (or deny) users other than the webserver user access
-# to files that Foswiki creates.  This is an *octal* number
-# representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
+# File security for new directories created by stores.
+# Only used by store implementations that create plain files. You may have
+# to adjust these permissions to allow (or deny) users other than the
+# webserver user access to files that Foswiki creates.  This is an
+# *octal* number representing the standard UNIX permissions
+# (for example 644 == rw-r--r--)
 $Foswiki::cfg{Store}{filePermission} = 0644;
 
 #---++ DataForm settings
@@ -1776,9 +1780,9 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 $Foswiki::cfg{EnableEmail} = $FALSE;
 
 # **EMAILADDRESS 30 FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
-# Wiki administrator's e-mail address e.g. =webmaster@example.com=
-# (used in =%WIKIWEBMASTER%=)
-# NOTE: must be a single valid email address
+# Wiki administrator's e-mail address. For example =webmaster@example.com=
+# Used in =%WIKIWEBMASTER%=
+# Must be a single valid email address
 $Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30 \
@@ -1798,8 +1802,9 @@ $Foswiki::cfg{WebMasterEmail} = '';
 #                    the request.';\
 #             wizard='CancelSMIMECertificate'; method='cancel_cert'"\
 # **
-# Wiki administrator's name address, for use in mails (first name and
-# last name, e.g. =Fred Smith=) (used in %WIKIWEBMASTERNAME%)
+# Wiki administrator's name address.
+# For use in mails (first name and last name, for example =Fred Smith=).
+# Used in %WIKIWEBMASTERNAME%.
 #
 # The action buttons are used to generate certificates for S/MIME
 # signed email.  There are two ways to use this:
@@ -1913,11 +1918,11 @@ $Foswiki::cfg{Email}{SmimeCertST} = '';
 $Foswiki::cfg{Email}{SmimeCertL} = '';
 
 # **STRING DISPLAY_IF="{EnableEmail}"**
-# Organization - Required
+# Organization
 $Foswiki::cfg{Email}{SmimeCertO} = '';
 
 # **STRING DISPLAY_IF="{EnableEmail}"**
-# Organizational unit (e.g. Department) - Required
+# Organizational unit. For example Department.
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
 
 #---++ Advanced Setup
@@ -1946,15 +1951,16 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
 # **STRING 30 EXPERT \
 #          DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'"**
-# These flags are passed to the mail program selected by {MailProgram}
-# when {SMTP}{Debug} is enabled in addition to any specified with
+# Flags passed to the mail program.
+# Used when a {MailProgram} is selected and {SMTP}{Debug} is enabled.
+# Flags are in addition to any specified with
 # the program.  These flags should enable tracing of the SMTP
 # transactions to debug configuration issues.
 #
 # The default flags are correct for the =sendmail= program
 # on many Unix/Linux systems.  Note, however that =sendmail=
 # will drop its privileges when running with -X.  You must arrange
-# for the client queue files (e.g. =/var/spool/clientmqueue/=)
+# for the client queue files (. =/var/spool/clientmqueue/=)
 # to be read and writable by the webserver for the duration of any
 # testing.
 
@@ -2062,7 +2068,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # **STRING 20**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work (i.e. don't
+# appropriate content, and upgrade scripts may no longer work (don't
 # change it unless you are certain that you know what you are doing!)
 $Foswiki::cfg{SystemWebName} = 'System';
 
@@ -2080,7 +2086,7 @@ $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 # Name of site-level preferences topic in the {SystemWebName} web.
 # *If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.*
-# (i.e. don't change it unless you are *certain* that you know what
+# (don't change it unless you are *certain* that you know what
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
@@ -2099,7 +2105,7 @@ $Foswiki::cfg{LocalSitePreferences} =
 # Name of main topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
-# (i.e. don't change it unless you are *certain* that you know what
+# (don't change it unless you are *certain* that you know what
 # you are doing!)
 $Foswiki::cfg{HomeTopicName} = 'WebHome';
 
@@ -2107,7 +2113,7 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # Name of preferences topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
-# (i.e. don't change it unless you are *certain* that you know what
+# (don't change it unless you are *certain* that you know what
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 
@@ -2122,7 +2128,7 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # change this setting, you must make sure the web exists and contains
 # appropriate content including all user and group templates.  Note that
 # this web also houses the SitePreferences topic.
-# (i.e. don't change it unless you are *certain* that you know what
+# (don't change it unless you are *certain* that you know what
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
@@ -2176,9 +2182,9 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # **NUMBER CHECK="min:1" **
 # Set the upper limit of the maximum number of difference that will be
 # displayed when viewing the entire history of a page. The compared revisions
-# will be evenly spaced across the history of the page e.g. if the page has
-# 100 revisions and we have set this option to 10, we will see differences
-# between r100 and r90, r90 and r80, r80 and r70 and so on.
+# will be evenly spaced across the history of the page, for example if the
+# page has 100 revisions and we have set this option to 10, we will see
+# differences between r100 and r90, r90 and r80, r80 and r70 and so on.
 #
 # This is only active for the =bin/rdiff= command.  It is not used by the
 # CompareRevisionsAddOn.
@@ -2202,7 +2208,7 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # 
 # Note: Leases are *not* locks; they are purely advisory. Leases
 # can always be broken, but they are valuable if you want to avoid merge
-# conflicts (e.g. you use highly structured data in your topic text and
+# conflicts (for example you use highly structured data in your topic text and
 # want to avoid ever having to deal with conflicts)
 # 
 # Since Foswiki 1.0.6, Foswiki pages that can be used to POST to the
@@ -2265,8 +2271,7 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 
 #---+++ Install, Update or Remove extensions
 # **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'" FEEDBACK="label='Search for extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
-# *Extensions Repositories Search List*
-#
+# Extensions Repositories Search List.
 # Foswiki extension repositories are just Foswiki webs that are organised in the
 # same way as the Extensions web on Foswiki.org. The 'Find more extensions' link
 # searches these repositories for installable extensions. To set up an
@@ -2281,7 +2286,7 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # The search list is a semicolon-separated list of repository
 # specifications, each in the format: =name=(listurl,puburl,username,password)=
 # where:
-#    * =name= is the symbolic name of the repository e.g. Foswiki.org
+#    * =name= is the symbolic name of the repository, for example Foswiki.org
 #    * =listurl= is the root of a view URL
 #    * =puburl= is the root of a download URL
 #    * =username= is the username if TemplateAuth is required on the
@@ -2306,9 +2311,9 @@ $Foswiki::cfg{ExtensionsRepositories} =
 
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # The plugins were discovered by searching the =@INC=
-# path for modules that match the Foswiki standard e.g.
-# =Foswiki/Plugins/MyPlugin.pm= or the TWiki standard i.e.
-# =TWiki/Plugins/YourPlugin.pm= Note that this list
+# path for modules that match the Foswiki standard. For example
+# =Foswiki/Plugins/MyPlugin.pm= or the TWiki standard
+# =TWiki/Plugins/YourPlugin.pm=. Note that this list
 # is only for Plugins. You cannot Enable/Disable Contribs, AddOns or Skins.
 #
 # Any plugins enabled in the configuration but not found in the =@INC=

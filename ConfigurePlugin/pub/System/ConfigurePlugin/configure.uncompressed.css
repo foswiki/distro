@@ -73,7 +73,7 @@ html body {
   color:#005884;
 }
 
-.closed > .description {
+.closed {
     display: none;
 }
 

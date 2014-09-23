@@ -495,7 +495,7 @@ sub check_current_value {
             {
                 keys    => '',
                 level   => $level,
-                message => $reporter->html($level)
+                message => $reporter->text($level)
             }
         ) if $reporter->has($level);
     }
@@ -582,7 +582,7 @@ sub check_current_value {
                     @reps,
                     {
                         level   => $level,
-                        message => $reporter->html($level)
+                        message => $reporter->text($level)
                     }
                 ) if $reporter->has($level);
             }
@@ -972,7 +972,7 @@ sub wizard {
             @report,
             {
                 level   => $level,
-                message => $reporter->html($level)
+                message => $reporter->text($level)
             }
         ) if $reporter->has($level);
     }

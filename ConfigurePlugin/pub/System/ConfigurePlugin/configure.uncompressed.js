@@ -65,17 +65,6 @@ function _id_ify(id) {
 
     }
 
-    // Handler to open the documentation on a configuration item
-    function toggle_description($node) {
-        if ($node.hasClass("closed")) {
-            $node.removeClass("closed");
-            $node.addClass("open");
-        } else {
-            $node.removeClass("open");
-            $node.addClass("closed");
-        }
-    }
-
     // Find all modified values, and return key-values
     function find_modified_values() {
         var set = {}, handler;
@@ -610,11 +599,9 @@ function _id_ify(id) {
                 $report.attr('id', 'REP' + _id_ify(spec.headline));
                 $node.append($report);
 
-                if (spec.desc) {
-                    $node.append('<div class="description">'
-                                 + TML.render(spec.desc)
-                                 + '</div>');
-                }
+                if (spec.desc)
+                    add_desc(spec, $node);
+
                 load_section_specs(response, $node); /*SMELL load_section_specs is not defined yet */
                 // Check all the keys under this node.
                 RPC('check_current_value',
@@ -684,6 +671,44 @@ function _id_ify(id) {
         return handler;
     }
 
+    // Add a description, splitting into summary and body if appropriate.
+    function add_desc(entry, $node) {
+        var m;
+        if (m = /^((?:.|\n)*?)\.\s+((?:.|\n)*)$/.exec(entry.desc)) {
+            var $description = $('<div class="description">'
+                             + TML.render(m[1])
+                             + '&nbsp;</div>');
+            $node.append($description);
+            var $more = $('<div class="closed">'
+                          + TML.render(m[2])
+                          + '</div>');
+            var $infob = $('<button class="control_button"></button>');
+            $infob.click(function() {
+                if ($more.hasClass("closed")) {
+                    $more.removeClass("closed");
+                    $infob.button('option', 'icons',
+                                  { primary: 'ui-icon-triangle-1-s' });
+                } else {
+                    $more.addClass("closed");
+                    $infob.button('option', 'icons',
+                                  { primary: 'ui-icon-triangle-1-e' });
+                }
+            }).button({
+                icons: {
+                    primary: 'ui-icon-triangle-1-e'
+                },
+                text: false
+            });
+            $description.append($infob);
+            $description.append($more);
+        } else {
+            $node.append('<div class="description">'
+                         + TML.render(entry.desc)
+                         + '</div>');
+        }
+        $node.append();
+    }
+
     // Create the DOM for a section from getspec entries
     function load_section_specs(entries, $section) {
         // Construct a value field for each key
@@ -693,7 +718,7 @@ function _id_ify(id) {
             created = {};
 
         $.each(entries, function(index, entry) {
-            var label, $node, id, $infob, $report;
+            var label, $node, id, $report;
 
             if (entry.typename != "SECTION") {
                 // It's a key
@@ -738,22 +763,12 @@ function _id_ify(id) {
                     if (!label) {
                         label = entry.keys;
                     }
-                    label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
-                    $node.append('<b class="keys">' + label + "</b><span class='ui-placeholder'></span>");
-/*
-                    if (entry.desc) {
-                        $infob = $('<button class="control_button"></button>');
-                        $head.prepend($infob);
-                        $infob.click(function() {
-                            toggle_description($(this).closest('.keyed'));
-                        }).button({
-                            icons: {
-                                primary: "info-icon"
-                            },
-                            text: false
-                        });
-                    }
-*/
+                    // Don't do this; configuration items are referred to
+                    // using the {} syntax throughout the doc.
+                    //label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
+                    $node.append('<b class="keys">'
+                                 + label
+                                 + "</b><span class='ui-placeholder'></span>");
                 } else if (entry.headline !== null) {
                     // unkeyed type e.g. BUTTON
                     id = _id_ify(entry.headline);
@@ -762,11 +777,8 @@ function _id_ify(id) {
                 $report = $('<div class="reports"></div>');
                 $report.attr('id', 'REP' + id);
                 $node.append($report);
-                if (entry.desc) {
-                    $node.append('<div class="description">'
-                                 + TML.render(entry.desc)
-                                 + '</div>');
-                }
+                if (entry.desc)
+                    add_desc(entry, $node);
                 $section.append($node);
             }
         });
