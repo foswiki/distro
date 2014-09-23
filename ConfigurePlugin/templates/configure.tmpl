@@ -35,9 +35,14 @@ configure.js script.
   <div class="header clearfix">
     <img class="logo" src="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-logo.png" alt="Foswiki configure"/>
     <div class="top_level_buttons">
+      <input type="text" width="30" id="searchInput" title="Enter a string to search for"/>
+      <button id="searchButton" title="Search in titles and keys">Search</button> 
       <button id="webCheckButton">Study Web Server</button> 
       <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> 
       <button id="saveButton">Save</button>
+    </div>
+    <div id="searchResults">
+     <button id="closeSearchButton">Close</button>
     </div>
     <div id="bootstrap_warning" class="foswikiAlert">
       <strong>Warning</strong> Foswiki is running in 'bootstrap' mode, which means

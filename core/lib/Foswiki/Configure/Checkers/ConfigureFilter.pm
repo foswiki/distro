@@ -17,12 +17,12 @@ sub check_current_value {
         push @admins, Foswiki::Func::getCanonicalUserID( $it->next() );
     }
     $reporter->WARN(
-"AdminGroup contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}), Click the [i] button for information on how to set this filter."
+"$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})"
     ) if ( scalar @admins lt 2 );
 
     my @filtered = grep( /$Foswiki::cfg{ConfigureFilter}/, @admins );
     $reporter->WARN(
-"AdminGroup as filtered by this filter contains no users, Click the [i] button to see how to set this filter."
+"$Foswiki::cfg{SuperAdminGroup} as filtered by this filter contains no users"
     ) unless ( scalar @filtered );
 
     my $user = join( ' ', @filtered );

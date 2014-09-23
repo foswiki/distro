@@ -128,7 +128,7 @@ sub getSectionObject {
     return undef;
 }
 
-# See Foswiki::Configure::Item
+# Implements Foswiki::Configure::Item
 # Keys are only present on leaf items, so recursively query until we
 # find the appropriate leaf Value.
 sub getValueObject {
@@ -136,9 +136,52 @@ sub getValueObject {
     return $this->{_vobCache}->{$keys};
 }
 
+# Implements Foswiki::Configure::Item
 sub getAllValueKeys {
     my $this = shift;
     return keys %{ $this->{_vobCache} };
+}
+
+# Implements Foswiki::Configure::Item
+sub promoteSetting {
+    my ( $this, $setting ) = @_;
+    my $on_me = 1;
+
+    foreach my $child ( @{ $this->{children} } ) {
+        $on_me = 0 unless $child->promoteSetting($setting);
+    }
+
+    if ($on_me) {
+        $this->{$setting} = 1;
+    }
+    else {
+        delete $this->{$setting};
+    }
+
+    return $this->{$setting};
+}
+
+# Implements Foswiki::Configure::Item
+sub getPath {
+    my $this = shift;
+
+    my @path;
+    @path = $this->{_parent}->getPath() if ( $this->{_parent} );
+    push( @path, $this->{headline} ) if $this->{headline};
+
+    return @path;
+}
+
+# Implements Foswiki::Configure::Item
+sub search {
+    my ( $this, $re ) = @_;
+
+    my @result = ();
+    push( @result, $this ) if $this->{headline} =~ /$re/;
+    foreach my $child ( @{ $this->{children} } ) {
+        push( @result, $child->search($re) );
+    }
+    return @result;
 }
 
 1;

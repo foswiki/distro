@@ -73,7 +73,7 @@ sub initPlugin {
 
     # Register each of the RPC methods with JsonRpcContrib
     foreach my $method (
-        qw(getcfg getspec check_current_value changecfg deletecfg purgecfg wizard)
+        qw(getcfg getspec search check_current_value changecfg deletecfg purgecfg wizard)
       )
     {
         Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
@@ -289,6 +289,32 @@ sub getcfg {
         $what = \%Foswiki::cfg;
     }
     return $what;
+}
+
+=pod
+
+---+++ =search=
+
+Search headlines and keys for a fragment of text. Return the path(s) to
+the item(s) matched in an array or arrays, where each entry is a single
+path.
+
+=cut
+
+sub search {
+    my $params = shift;
+    my $root   = _loadSpec();
+
+    return () unless $params->{search};
+
+    my %found;
+    foreach my $find ( $root->search( $params->{search} ) ) {
+        my @path = $find->getPath();
+        $found{ join( '>', @path ) } = \@path;
+    }
+    my $finds = [ map { $found{$_} } sort keys %found ];
+
+    return $finds;
 }
 
 =pod
@@ -586,11 +612,13 @@ sub check_current_value {
                     }
                 ) if $reporter->has($level);
             }
+            my @path = $spec->getPath();
+            pop(@path);    # remove keys
             push(
                 @report,
                 {
                     keys    => $k,
-                    path    => [ $spec->getSectionPath() ],
+                    path    => [@path],
                     reports => \@reps
                 }
             );

@@ -236,7 +236,7 @@ $Foswiki::cfg{DetailedOS} = '';
 $Foswiki::cfg{MaxLSCBackups} = 10;
 
 #############################################################################
-#---+ Security and Authentication -- TABS
+#---+ Security and Authentication
 # Control most aspects of how Foswiki handles security related activities.
 
 #---++ Sessions
@@ -301,7 +301,7 @@ $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 # {Sessions}{MapIP2SID}).
 $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 
-# **STRING 20 EXPERT DISPLAY_IF="{UseClientSessions}"**
+# **STRING 20 EXPERT DISPLAY_IF="{UseClientSessions}" EXPERT**
 # By default the Foswiki session cookie is only accessible by the host which
 # sets it. To change the scope of this cookie you can set this to any other
 # value (ie. company.com). Make sure that Foswiki can access its own cookie.
@@ -309,7 +309,7 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # If empty, this defaults to the current host.
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
-# **BOOLEAN DISPLAY_IF="{UseClientSessions}"**
+# **BOOLEAN DISPLAY_IF="{UseClientSessions}" EXPERT**
 # Enable this option to prevent a session from being accessed by
 # more than one IP Address. This gives some protection against session
 # hijack attacks.
@@ -326,7 +326,7 @@ $Foswiki::cfg{Sessions}{CookieRealm} = '';
 # IP Matching for security purposes, so it is now enabled by default.
 $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 
-# **BOOLEAN DISPLAY_IF="{UseClientSessions}"**
+# **BOOLEAN DISPLAY_IF="{UseClientSessions}" EXPERT**
 # On prior versions of Foswiki, every user is given their own CGI Session.
 # Disable this setting to block creation of session for guest users.
 #
@@ -335,7 +335,7 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 # that make use of session variables.
 $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{UseClientSessions}"**
+# **BOOLEAN EXPERT DISPLAY_IF="{UseClientSessions}" EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
 # clients IP address to a session ID. You can only use this if all
 # client IP addresses are known to be unique.
@@ -417,6 +417,7 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # to log in.
 
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
+# Select the login manager to use.
 #    * none - Don't support logging in, all users have access to everything.
 #    * Foswiki::LoginManager::TemplateLogin - Redirect to the login template,
 #      which asks for a username and password in a form. Does not cache the
@@ -443,7 +444,7 @@ $Foswiki::cfg{Trace}{LoginManager} = 0;
 $Foswiki::cfg{AuthScripts} =
 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
 
-# **BOOLEAN**
+# **BOOLEAN EXPERT**
 # Foswiki 1.2 has removed the =rest= script from the list of {AuthScripts}.
 # Instead of providing blanket security for =rest=, each handler is now
 # responsible to set its individual requirements for 3 options:
@@ -563,6 +564,7 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 # Control some features of how Foswiki handles access control settings.
 
 # **SELECTCLASS Foswiki::Access::*Access**
+# Choose who can access the wiki.
 #    * =TopicACLAccess= is the normal foswiki ACL system, as documented
 #      in the setup guides.
 #    * =AdminOnlyAccess= denies all non-admins (not in the AdminGroup)
@@ -570,10 +572,13 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 #    * =TopicACLReadOnlyAccess= denies all non-admins any update access
 #      to the wiki, and falls back to =TopicACLAccess= for VIEW access
 #      checks  - also useful for site maintenance.
-# Note:  The AdminOnly and ReadOnly access controls do not necessarly provide absolute control.  Some extensions (non-default) have been written to allow anonymous updates.  If an operation does not check for access permission, then it will not get blocked by these controls.
+# Note:  The AdminOnly and ReadOnly access controls do not necessarly
+# provide absolute control.  Some extensions (non-default) have been
+# written to allow anonymous updates.  If an operation does not check
+# for access permission, then it will not get blocked by these controls.
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
-# **BOOLEAN**
+# **BOOLEAN EXPERT**
 # Optionally restore the deprecated empty =DENY= ACL behavior.
 # If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
 # "Deny nobody", which is equivalent to "Allow all".
@@ -585,7 +590,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # </verbatim>
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
-# **SELECT authenticated,acl,all**
+# **SELECT authenticated,acl,all EXPERT**
 # Choose which users will have access to the "raw" topic views.
 # Default is "authenticated",  so that guest users can not view the raw
 # topic contents.  This avoids indexing of raw topic context by bots and
@@ -597,7 +602,7 @@ $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 # </verbatim>
 $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 
-# **SELECT authenticated,acl,all**
+# **SELECT authenticated,acl,all EXPERT**
 # Choose which users will have access to the topic history.
 # Default is "authenticated",  so that guest users can not view the topic
 # history. This can also reduce bot workload by denying web crawlers access
@@ -2075,27 +2080,27 @@ $Foswiki::cfg{Email}{Servertime} = $FALSE;
 $Foswiki::cfg{Email}{ValidTLD} =
 qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
-#---+ Miscellaneous -- EXPERT
-# Miscellaneous expert options.
+#---+ Miscellaneous
+# Miscellaneous options.
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work (don't
 # change it unless you are certain that you know what you are doing!)
 $Foswiki::cfg{SystemWebName} = 'System';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of the web used as a trashcan (where deleted topics are moved)
 # If you change this setting, you must make sure the web exists.
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of the web used as a scratchpad or temporary workarea for users to
 # experiment with Foswiki topics.
 $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # *If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.*
@@ -2103,7 +2108,7 @@ $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
-# **STRING 70**
+# **STRING 70 EXPERT**
 # Web.TopicName of the site-level local preferences topic. If this topic
 # exists, any settings in it will *override* settings in
 # {SitePrefsTopicName}.
@@ -2114,7 +2119,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 $Foswiki::cfg{LocalSitePreferences} =
   '$Foswiki::cfg{UsersWebName}.SitePreferences';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of main topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
@@ -2122,7 +2127,7 @@ $Foswiki::cfg{LocalSitePreferences} =
 # you are doing!)
 $Foswiki::cfg{HomeTopicName} = 'WebHome';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of preferences topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
@@ -2130,13 +2135,13 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of topic in each web that has notification registrations.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
 $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
-# **STRING 20**
+# **STRING 20 EXPERT**
 # Name of the web where user and group topics are stored. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content including all user and group templates.  Note that
@@ -2145,7 +2150,7 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 70x10 NOSPELLCHECK**
+# **STRING 70x10 NOSPELLCHECK EXPERT**
 # A comma-separated list of generic file name templates that defines the order
 # in which templates are assigned to skin path components.
 # The file name templates can either be absolute file names ending in ".tmpl"
@@ -2161,7 +2166,7 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 $Foswiki::cfg{TemplatePath} =
 '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
-# **STRING 120**
+# **STRING 120 EXPERT**
 # List of protocols (URI schemes) that Foswiki will
 # automatically recognize in absolute links.
 # Add any extra protocols specific to your environment (for example, you might
@@ -2172,12 +2177,12 @@ $Foswiki::cfg{TemplatePath} =
 $Foswiki::cfg{LinkProtocolPattern} =
   '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
-# **NUMBER CHECK="min:2" **
+# **NUMBER CHECK="min:2" EXPERT**
 # Length of linking acronyms.  Minumum number of consecutive upper case
 # characters required to be linked as an acronym.
 $Foswiki::cfg{AcronymLength} = 3;
 
-# **BOOLEAN**
+# **BOOLEAN EXPERT**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
 # a URL using the =#anchor= syntax. The format of these anchors has
 # changed several times. If this option is set, Foswiki will generate extra
@@ -2192,7 +2197,7 @@ $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 # How many links to other revisions to show in the bottom bar. 0 for all
 $Foswiki::cfg{NumberOfRevisions} = 4;
 
-# **NUMBER CHECK="min:1" **
+# **NUMBER CHECK="min:1" EXPERT**
 # Set the upper limit of the maximum number of difference that will be
 # displayed when viewing the entire history of a page. The compared revisions
 # will be evenly spaced across the history of the page, for example if the
@@ -2203,7 +2208,7 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # CompareRevisionsAddOn.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
-# **NUMBER CHECK="min:0" **
+# **NUMBER CHECK="min:0" EXPERT**
 # If this is set to a > 0 value, and the revision control system
 # supports it, then if a second edit of the same topic
 # is done by the same user within this number of seconds, a new
@@ -2238,7 +2243,7 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-# **PATH CHECK='auto perms:Fr'**
+# **PATH CHECK='auto perms:Fr' EXPERT**
 # Pathname to file that maps file suffixes to MIME types :
 # For Apache server set this to Apache's mime.types file pathname,
 # for example /etc/httpd/mime.types, or use the default shipped in
@@ -2250,7 +2255,7 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 # $Foswiki::cfg{DebugTracebacks} = '';
 
 #############################################################################
-#---+ Extensions -- TABS SORTED
+#---+ Extensions
 
 #---++ Extension operation and maintenance
 #    * Specify the plugin load order

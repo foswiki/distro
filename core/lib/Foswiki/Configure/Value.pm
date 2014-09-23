@@ -367,6 +367,24 @@ sub decodeValue {
     return $value;
 }
 
+# Implements Foswiki::Configure::item
+sub search {
+    my ( $this, $re ) = @_;
+    if ( $this->{keys} =~ /$re/ ) {
+        return ($this);
+    }
+    return ();
+}
+
+# Implements Foswiki::Configure::item
+sub getPath {
+    my $this = shift;
+    my @path;
+    @path = $this->{_parent}->getPath() if ( $this->{_parent} );
+    push( @path, $this->{keys} );
+    return @path;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

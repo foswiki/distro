@@ -301,19 +301,19 @@ sub getAllValueKeys {
 
 =begin TML
 
----++ ObjectMethod getSectionPath() -> @list
+---++ ObjectMethod getPath() -> @list
 
-Get the path down to a configuration item. The path is a list of section
-titles.
+Get the path down to a configuration item. The path is a list of
+titles (headlines and keys).
 
 =cut
 
-sub getSectionPath {
+sub getPath {
     my $this = shift;
     my @path = ();
 
     if ( $this->{_parent} ) {
-        @path = $this->{_parent}->getSectionPath();
+        @path = $this->{_parent}->getPath();
         push( @path, $this->{_parent}->{headline} )
           if $this->{_parent}->{headline};
     }
@@ -400,6 +400,35 @@ sub find {
     }
 
     return @result;
+}
+
+=begin TML
+
+---++ ObjectMethod search($re) -> @nodes
+
+Get a list of nodes that match the given RE. Sections match on the headline,
+Valuse on the keys.
+
+=cut
+
+sub search {
+    my ( $this, $re ) = @_;
+    return ();
+}
+
+=begin TML
+
+---++ ObjectMethod promoteSetting($setting) -> $boolean
+If all children of this node are tagged with the boolean attribute,
+then tag me too. Return true if the attribute is on us, false
+otherwise.
+
+=cut
+
+# Default impl assumes a leaf node
+sub promoteSetting {
+    my ( $this, $setting ) = @_;
+    return $this->{$setting};
 }
 
 =begin TML
