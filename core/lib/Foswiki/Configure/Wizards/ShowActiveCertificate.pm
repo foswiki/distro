@@ -53,7 +53,7 @@ sub execute {
       unless $Foswiki::cfg{Email}{EnableSMIME};
 
     return $this->NOTE( "Certificate data from $certfile",
-        "PREFORMAT:$output" );
+        '<verbatim>', $output, '</verbatim>' );
 }
 
 1;

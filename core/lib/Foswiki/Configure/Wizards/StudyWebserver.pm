@@ -420,7 +420,7 @@ sub _getScriptENV {
                 "Failed to access =$url= "
                   . $response->code . ' '
                   . $response->message,
-                "PREFORMAT: $content"
+                '<verbatim>', $content, '</verbatim>'
             );
             last;
         }

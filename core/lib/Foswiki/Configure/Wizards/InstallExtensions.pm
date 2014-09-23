@@ -109,7 +109,7 @@ sub depreport {
 
     $reporter->NOTE("Running dependency check for $extension");
     my ( $loadrslt, $err ) = $pkg->loadInstaller();
-    $reporter->NOTE("PREFORMAT:$loadrslt");
+    $reporter->NOTE( '<verbatim>', $loadrslt, '</verbatim>' );
     $reporter->NOTE("Dependency Report");
     ( $installed, $missing ) = $pkg->checkDependencies();
     $reporter->NOTE(" *INSTALLED* $installed") if ($installed);
@@ -165,8 +165,7 @@ sub _install {
     if ($err) {
         $reporter->ERROR(
 "Errors encountered during package installation.  The Extension may not be usable.",
-            "PREFORMAT:$err",
-            "Installation terminated"
+            '<verbatim>', $err, '</verbatim>', 'Installation terminated'
         );
         return 0;
     }
@@ -205,7 +204,7 @@ installed by the Web installer.  The following dependencies should be
 manually resolved as required. 
 HERE
         foreach my $dep ( sort { lc($a) cmp lc($b) } keys %$depCPAN ) {
-            $reporter->NOTE("PREFORMAT:$dep");
+            $reporter->NOTE( '<verbatim>', $dep, '</verbatim>' );
         }
     }
 }
