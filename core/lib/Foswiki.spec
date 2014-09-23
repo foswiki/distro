@@ -38,7 +38,7 @@
 #############################################################################
 #---+ General path settings
 # *Security Note:* Only the URL paths listed should
-# be browseable from the web. If you expose any other directories (such as
+# be browseable from the web - if you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
 
 # **URL CHECK="parts:scheme,authority \
@@ -131,7 +131,7 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # *SCRIPTHASH*
 
 # **URLPATH CHECK='expand notrail' MANDATORY**
-# Attachments URL path.
+# This is the URL path used to link to attachments.
 # For example =/foswiki/pub=
 
 # *Security Note:* files in this directory are *not*
@@ -238,9 +238,9 @@ $Foswiki::cfg{MaxLSCBackups} = 10;
 #############################################################################
 #---+ Security and Authentication -- TABS
 # Control most aspects of how Foswiki handles security related activities.
+
 #---++ Sessions
 # Sessions are how Foswiki tracks a user across multiple requests.
-# 'Show expert options' has advanced options for controlling sessions.
 
 # **BOOLEAN**
 # Control whether Foswiki will use persistent sessions.
@@ -358,8 +358,6 @@ $Foswiki::cfg{Session}{filePermission} = 0600;
 #---++ Validation
 # Validation is the process by which Foswiki validates that a request is
 # allowed by the site, and is not part of an attack on the site.
-#
-# 'Show expert options' has advanced options for controlling validation.
 
 # **SELECT strikeone,embedded,none **
 # By default Foswiki uses Javascript to perform "double submission" validation
@@ -417,8 +415,6 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 #---++ Login
 # Foswiki supports different ways of handling how a user asks, or is asked,
 # to log in.
-#
-# Infrequently used options can be displayed by clicking 'Show expert options'
 
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
 #    * none - Don't support logging in, all users have access to everything.
@@ -535,13 +531,13 @@ $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 
 #---++ User mapping
-# The user mapping is used to equate login names, used with external
-# authentication systems, with Foswiki user identities.
+# This section contains only expert options.
+# The user mapping is used to map login names used with external
+# authentication systems to Foswiki user identities.
 
-# **SELECTCLASS Foswiki::Users::*UserMapping**
-# By default only
-# two mappings are available, though other mappings *may* be installed to
-# support authentication providers.
+# **SELECTCLASS Foswiki::Users::*UserMapping EXPERT**
+# By default only two mappings are available, though other mappings *may*
+# be installed to support other authentication providers.
 #    * Foswiki::Users::TopicUserMapping - uses Foswiki user and group topics to
 #      determine user information, and group memberships.
 #    * Foswiki::Users::BaseUserMapping - has only pseudo users such as
@@ -564,6 +560,8 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 
 #---++ Access Control
+# Control some features of how Foswiki handles access control settings.
+
 # **SELECTCLASS Foswiki::Access::*Access**
 #    * =TopicACLAccess= is the normal foswiki ACL system, as documented
 #      in the setup guides.
@@ -576,11 +574,11 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 # **BOOLEAN**
-# Optionally restore the deprecated empty DENY ACL behavior.
-# If this setting is enabled, the "Empty" DENY ACL is interpreted as 
+# Optionally restore the deprecated empty =DENY= ACL behavior.
+# If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
 # "Deny nobody", which is equivalent to "Allow all".
 # It is recommended that this setting remain disabled,  and that
-# these rules be replaced with the  * wildcard on the ALLOW setting:
+# these rules be replaced with the  * wildcard on the =ALLOW= setting:
 # <verbatim>
 #    * Set DENYTOPICVIEW =        Should be replaced with:
 #    * Set ALLOWTOPICVIEW = *
@@ -613,8 +611,9 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 #  scripts.
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
-# **REGEX 80 **
-# FilterIn regex.  If this is configured, then users attempting to access
+# **REGEX 80**
+# Filter-in regular expression that must be matched to access configure.
+# If this is configured, then users attempting to access
 # configure are validated using this regex. (The user must still first
 # login using the normal Foswiki authentication). If configured, it is
 # applied as a replacement for testing the isAdmin status of the user.
@@ -632,12 +631,13 @@ $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 $Foswiki::cfg{ConfigureFilter} = '';
 
 #---++ Passwords
+# Control how passwords are handled.
+
+# **SELECTCLASS none,Foswiki::Users::*User**
 # The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of
 # Foswiki.
-
-# **SELECTCLASS none,Foswiki::Users::*User**
-# Name of the password handler implementation. Foswiki ships with two alternative implementations:
+# Foswiki ships with two alternative password manager implementations:
 #    * =Foswiki::Users::HtPasswdUser= - handles 'htpasswd' format files, with
 #      passwords encoded as per the HtpasswdEncoding
 #    * =Foswiki::Users::ApacheHtpasswdUser= - should behave identically to
@@ -780,6 +780,7 @@ $Foswiki::cfg{Password} = '';
 #---++ Registration
 # Registration is the process by which new users register themselves with
 # Foswiki.
+
 # **BOOLEAN**
 # If you want users to be able to use a login ID other than their
 # wikiname, you need to turn this on. It controls whether the 'LoginName'
@@ -877,6 +878,8 @@ $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 $Foswiki::cfg{Register}{EmailFilter} = '';
 
 #---++ Environment
+# Control some aspects of the environment Foswiki runs within.
+
 # **PERL**
 # Array of the names of configuration items that are available when using
 # %IF, %SEARCH and %QUERY{}%. Extensions can push into this array to extend
@@ -1046,6 +1049,7 @@ $Foswiki::cfg{AccessibleENV} =
 #---++ Proxies
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).
+
 # **URL 30 CHECK='parts:scheme,authority,path,user,pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
@@ -1063,7 +1067,7 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect
-# e-mail addresses and control the activities of benign robots. These
+# e-mail addresses and control the activities of benign robots, which
 # should be enough to handle intranet requirements. Administrators of
 # public (internet) sites are strongly recommended to install
 # [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]]
@@ -1111,8 +1115,9 @@ $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 # (there is an example in the root of your Foswiki installation).
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
-#---+ Logging and Statistics -- TABS
+#---+ Logging and Statistics
 #---++ Logging
+# Control how Foswiki handles logging, including location of logfiles.
 
 # **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
 # Foswiki supports different implementations of log files. It can be
@@ -1204,6 +1209,8 @@ $Foswiki::cfg{WarningFileName} = '';
 $Foswiki::cfg{LogFileName} = '';
 
 #---++ Statistics
+# Statistics are usually assembled by a cron script
+
 # **NUMBER CHECK="min:0" **
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
@@ -1236,14 +1243,13 @@ $Foswiki::cfg{Stats}{StatisticsGroup} = '';
 $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
 #############################################################################
-#---+ Internationalisation -- TABS
+#---+ Internationalisation
+# Foswiki includes powerful features for internationalisation.
+
 #---++ Languages
 # **BOOLEAN**
-# Enable user interface internationalisation. Present the user
-# interface in the users own language(s). Some languages require the
-# =Locale::Maketext::Lexicon= and =Encode/MapUTF8= Perl
-# modules to be installed.
-# 
+# Enable user interface internationalisation to present the user
+# interface in the users own language(s).
 # When  enabled, the following settings control the languages that are
 # available in the user interface. Check every language that you want
 # your site to support.
@@ -1375,7 +1381,7 @@ $Foswiki::cfg{LowerNational} = '';
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 #############################################################################
-#---+ Store -- TABS
+#---+ Store
 #---++ Store Implementation
 # Foswiki supports different back-end store implementations.
 # **SELECTCLASS Foswiki::Store::* **
@@ -1472,6 +1478,8 @@ $Foswiki::cfg{Store}{FgrepCmd} =
   '$Foswiki::cfg{_grepProgram} -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
 #---++ File system settings
+# Generic settings applicable to all stores that read/write the file system.
+
 # **BOOLEAN EXPERT DISPLAY_IF="/Foswiki::Store::Rcs/.test({Store}{Implementation}) || /Foswiki::Store::Plain/.test({Store}{Implementation})"**
 # Some systems will override the default umask to a highly restricted setting,
 # which will block the application of the file and directory permissions.
@@ -1500,6 +1508,9 @@ $Foswiki::cfg{Store}{dirPermission} = 0755;
 $Foswiki::cfg{Store}{filePermission} = 0644;
 
 #---++ DataForm settings
+# Settings that control the available form fiels types. Extensions may extend
+# the set of available types.
+
 # **PERL**
 # This setting is automatically updated by configure to list all the installed
 # FormField types. If you install an extension that adds new Form Field types,
@@ -1608,6 +1619,7 @@ $Foswiki::cfg{FormTypes} = [
 
 #---++ Browser Cache
 # Settings for the browser cache are for experts only.
+
 # **PERL EXPERT**
 # Disable or change the HTTP Cache-Control header. Foswiki defaults to
 # =Cache-Control: max-age=0= which recomends to the browser that it should
@@ -1626,7 +1638,8 @@ $Foswiki::cfg{FormTypes} = [
 $Foswiki::cfg{BrowserCacheControl} = {};
 
 #---++ HTTP Compression
-# Settings controlling compression of the generated HTML. For experts only.
+# Settings controlling compression of the generated HTML, for experts only.
+
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by
@@ -1637,7 +1650,7 @@ $Foswiki::cfg{BrowserCacheControl} = {};
 $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
-# Settings controlling the layout of the generated HTML. For experts only.
+# Settings controlling the layout of the generated HTML, for experts only.
 # **BOOLEAN EXPERT**
 # {MergeHeadAndScriptZones} is provided to maintain compatibility with
 # legacy extensions that use =ADDTOHEAD= to add =script= markup and require
@@ -1759,9 +1772,9 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username} = '';
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 
 #############################################################################
-#---+ Mail -- TABS
+#---+ Mail
 # Settings controlling if and how Foswiki sends email.
-# Select the destination mail server or local email agent used for
+# You can select the destination mail server or local email agent used for
 # forwarding email.
 
 #---++ Basic Setup
@@ -2240,9 +2253,9 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 #---+ Extensions -- TABS SORTED
 
 #---++ Extension operation and maintenance
-#    * Specify the plugin load order.
-#    * Use the Extensions Repository to add, update or remove plugins.
-#    * Enable and disable installed plugins.
+#    * Specify the plugin load order
+#    * Use the Extensions Repository to add, update or remove plugins
+#    * Enable and disable installed plugins
 
 #---+++ Configure how plugins are loaded by Foswiki
 # **STRING 80**

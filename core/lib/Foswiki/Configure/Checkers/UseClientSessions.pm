@@ -11,28 +11,29 @@ use Foswiki::Configure::Dependency ();
 
 my @modules = (
     {
-        name            => 'CGI::Session',
-        usage           => "persistant session support",
+        name           => 'CGI::Session',
+        usage          => "persistant session support",
         minimumVersion => 1,
     },
     {
-        name               => 'CGI::Cookie',
-        usage              => "persistant session support",
+        name           => 'CGI::Cookie',
+        usage          => "persistant session support",
         minimumVersion => 1,
     },
 );
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless $Foswiki::cfg{UseClientSessions};
 
     Foswiki::Configure::Dependency::checkPerlModules(@modules);
     foreach my $mod (@modules) {
-        if ($mod->{ok}) {
-            $reporter->NOTE($mod->{check_result});
-        } else {
-            $reporter->ERROR($mod->{check_result});
+        if ( $mod->{ok} ) {
+            $reporter->NOTE( '   * ' . $mod->{check_result} );
+        }
+        else {
+            $reporter->ERROR( '   * ' . $mod->{check_result} );
         }
     }
 }
