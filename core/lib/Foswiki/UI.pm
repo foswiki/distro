@@ -192,10 +192,6 @@ sub handleRequest {
     my $req = shift;
 
     my $res;
-    if ( $req->queryParam('configurationTest') ) {
-        require Foswiki::Configure::ImageTest;
-        return Foswiki::Configure::ImageTest::respond($req);
-    }
 
     my $dispatcher = $Foswiki::cfg{SwitchBoard}{ $req->action() };
     unless ( defined $dispatcher ) {
@@ -353,6 +349,16 @@ sub _execute {
         );
 
         $res = $session->{response};
+
+        # SMELL:  HACK HACK.   Ugly hack to allow configure to test the mainline
+        # execution path.  Now that configure is based on the Foswiki Engine, we
+        # probably don't need this any more.  ImageTest checks security same as
+        # configure.
+        if ( $req->queryParam('configurationTest') ) {
+            require Foswiki::Configure::ImageTest;
+            return Foswiki::Configure::ImageTest::respond( $req, $res );
+        }
+
         unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();
             &$sub($session);
