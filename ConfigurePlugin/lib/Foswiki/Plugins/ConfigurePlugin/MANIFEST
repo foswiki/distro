@@ -14,6 +14,8 @@ pub/System/ConfigurePlugin/configure.uncompressed.css 0444
 pub/System/ConfigurePlugin/configure.js 0444
 pub/System/ConfigurePlugin/configure.js.gz 0444
 pub/System/ConfigurePlugin/configure.uncompressed.js 0444
+pub/System/ConfigurePlugin/render_tml.js 0444
+pub/System/ConfigurePlugin/render_tml.uncompressed.js 0444
 pub/System/ConfigurePlugin/reset.css 0444
 pub/System/ConfigurePlugin/reset.css.gz 0444
 pub/System/ConfigurePlugin/reset.uncompressed.css 0444

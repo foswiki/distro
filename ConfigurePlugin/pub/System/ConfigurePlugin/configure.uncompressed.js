@@ -263,7 +263,9 @@ function _id_ify(id) {
                             // If the key block isn't loaded,
                             // bubble_checker_reports will annotate
                             // the path leading to it
-                            $whine = $('<div>' + rep.message + '</div>');
+                            $whine = $('<div>'
+                                       + TML.render(rep.message)
+                                       + '</div>');
                             $whine.addClass(rep.level);
                             $whine.addClass(id + '_report');
                             $reports.append($whine);
@@ -313,7 +315,9 @@ function _id_ify(id) {
         // Generate reports
         var $div = $('<div id="report_dialog"></div>');
         $.each(results.report, function(index, rep) {
-            var $whine = $('<div>' + rep.message + '</div>');
+            var $whine = $('<div>'
+                           + TML.render(rep.message)
+                           + '</div>');
             $whine.addClass(rep.level);
             $div.append($whine);
             // Enable any carry-on buttons we find
@@ -607,7 +611,9 @@ function _id_ify(id) {
                 $node.append($report);
 
                 if (spec.desc) {
-                    $node.append('<div class="description">' + spec.desc + '</div>');
+                    $node.append('<div class="description">'
+                                 + TML.render(spec.desc)
+                                 + '</div>');
                 }
                 load_section_specs(response, $node); /*SMELL load_section_specs is not defined yet */
                 // Check all the keys under this node.
@@ -757,7 +763,9 @@ function _id_ify(id) {
                 $report.attr('id', 'REP' + id);
                 $node.append($report);
                 if (entry.desc) {
-                    $node.append('<div class="description">' + entry.desc + '</div>');
+                    $node.append('<div class="description">'
+                                 + TML.render(entry.desc)
+                                 + '</div>');
                 }
                 $section.append($node);
             }

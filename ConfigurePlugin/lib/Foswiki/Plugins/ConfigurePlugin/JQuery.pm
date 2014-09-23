@@ -20,11 +20,12 @@ sub new {
         homepage      => 'http://foswiki.org/Extensions/ConfigurePlugin',
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin',
         documentation => "$Foswiki::cfg{SystemWebName}.ConfigurePlugin",
-        javascript    => [ 'resig.js', 'types.js', 'configure.js' ],
-        css           => ['configure.css'],
-        dependencies  => [
-            'JQUERYPLUGIN', 'UI', 'JsonRpc', 'UI::Tabs', "pnotify",
-            'UI::Tooltip',  'UI::Dialog'
+        javascript =>
+          [ 'resig.js', 'types.js', 'render_tml.js', 'configure.js' ],
+        css          => ['configure.css'],
+        dependencies => [
+            'JQUERYPLUGIN', 'UI',          'JsonRpc', 'UI::Tabs',
+            'pnotify',      'UI::Tooltip', 'UI::Dialog'
         ]
     );
 
