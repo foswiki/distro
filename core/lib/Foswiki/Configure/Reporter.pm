@@ -32,10 +32,7 @@ Returns the reporter to allow chaining.
 
 sub NOTE {
     my $this = shift;
-    push(
-        @{ $this->{notes} },
-        map { $_ =~ /^PREFORMAT:/ ? $_ : split /\n/ } @_
-    );
+    push( @{ $this->{notes} }, @_ );
     return $this;
 }
 
@@ -49,7 +46,7 @@ Report a confirmation. The parameters are concatenated to form the message.
 
 sub CONFIRM {
     my $this = shift;
-    push( @{ $this->{confirmations} }, map { split /\n/ } @_ );
+    push( @{ $this->{confirmations} }, @_ );
     return $this;
 }
 
@@ -64,7 +61,7 @@ Returns the reporter to allow chaining.
 
 sub WARN {
     my $this = shift;
-    push( @{ $this->{warnings} }, map { split /\n/ } @_ );
+    push( @{ $this->{warnings} }, @_ );
 }
 
 =begin TML
@@ -78,7 +75,7 @@ Returns the reporter to allow chaining.
 
 sub ERROR {
     my $this = shift;
-    push( @{ $this->{errors} }, map { split /\n/ } @_ );
+    push( @{ $this->{errors} }, @_ );
     return $this;
 }
 
@@ -137,172 +134,24 @@ sub clear {
 
 =begin TML
 
----++ ObjectMethod text() -> $text
+---++ ObjectMethod text($level) -> $text
 
-Generate a text representation of the content of the reporter.
+Get the content of the reporter for the given reporting level.
 
 =cut
 
 sub text {
-    my $this = shift;
+    my ( $this, $level ) = @_;
 
-    my @notes;
-    for my $e ( @{ $this->{errors} } ) {
-        push( @notes, "Error: $e" ) if $e;
-
-    }
-    for my $e ( @{ $this->{warnings} } ) {
-        push( @notes, "Warning: $e" ) if $e;
-    }
-    for my $e ( @{ $this->{confirmations} } ) {
-        push( @notes, "OK: $e" ) if $e;
-    }
-    for my $e ( @{ $this->{notes} } ) {
-        push( @notes, "Note: $e" ) if $e;
-    }
-    while ( my ( $k, $v ) = each %{ $this->{changes} } ) {
-        push( @notes, "Change: $k => $v" );
-    }
-    return join( "\n", @notes );
-}
-
-our $S = qr/^|(?<=[\s\(])/m;
-our $E = qr/$|(?=[\s,.;:!?)])/m;
-
-=begin TML
-
----++ ObjectMethod html([@levels]) -> $html
-
-Generate an HTML representation of the content of the reporter.
-Messages are formatted using a cut-down version of TML.
-
-   * =@levels= optional list of levels e.g. 'errors', 'changes' to
-     expand in the result. Default is to expand all levels.
-
-=cut
-
-my %group_css = (
-    errors        => 'configureError',
-    warnings      => 'configureWarning',
-    confirmations => 'configureOk',
-    notes         => 'configureOk',
-    changes       => 'configureOk'
-);
-
-sub html {
-    my ( $this, @groups ) = @_;
-    @groups = ( 'errors', 'warnings', 'confirmations', 'notes', 'changes' )
-      unless scalar(@groups);
-    my @notes;
-    foreach my $group (@groups) {
-        if ( $group eq 'changes' ) {
-            while ( my ( $k, $v ) = each %{ $this->{changes} } ) {
-                push( @notes,
-                    "<div class='$group_css{changes}'>Changed: $k = $v</div>" );
-            }
-            next;
+    if ( $level eq 'changes' ) {
+        my $text = "*Changed:*\n";
+        while ( my ( $k, $v ) = each %{ $this->{changes} } ) {
+            $text .= "   * $k = $v";
         }
-
-        my (
-            $in_list,     # in an ol or ul
-            $in_table,    # in a table
-            $list_type
-        );                # u or o
-
-        foreach ( @{ $this->{$group} } ) {
-
-            # {strong}
-            $_ =~
-s/${S}\{(\S+?|\S[^\n]*?\S)\}$E/<strong><code>{$1}<\/code><\/strong>/g;
-
-            # *strong*
-            $_ =~ s/${S}\*(\S+?|\S[^\n]*?\S)\*$E/<strong>$1<\/strong>/g;
-
-            # _em_
-            $_ =~ s/${S}\_(\S+?|\S[^\n]*?\S)\_$E/<em>$1<\/em>/g;
-
-            # =code=
-            $_ =~ s/${S}\=(\S+?|\S[^\n]*?\S)\=$E/<code>$1<\/code>/g;
-
-            # [[http][link]]
-            $_ =~ s/[[([^][])+][([^][]+)]]/<a href="$1">$2<\/a>/g;
-            $_ =~ s/\n/<br \/>/g;
-
-            if ( $_ =~ s/^   (\*|\d) (.*)$/<li>$2<\/li>/ ) {
-
-                #    * Bullet list item
-                #    1 Ordered list item
-                if ($in_list) {
-                    $$in_list .= $_;
-                    $_ = '';
-                }
-                else {
-                    $list_type = ( $1 eq '*' ) ? 'ul' : 'ol';
-                    if ($in_table) {
-                        $$in_table .= "</table>";
-                        undef $in_table;
-                    }
-                    $_       = "<$list_type>$_";
-                    $in_list = \$_;
-                }
-                next;
-            }
-
-            if ( $_ =~ s/^\|(.*)\|$/$1/ ) {
-
-                # | Table row |
-                my @cols = split( /\|/, $_ );
-                if ($in_list) {
-                    $$in_list .= "</$list_type>";
-                    undef $in_list;
-                }
-                if ($in_table) {
-                    $_ = '';
-                }
-                else {
-                    $_        = '<table>';
-                    $in_table = \$_;
-                }
-                $$in_table .=
-                  '<tr><td>' . join( '</td><td>', @cols ) . '</td></tr>';
-                next;
-            }
-
-            if ($in_list) {
-                $$in_list .= "</$list_type>";
-                undef $in_list;
-            }
-            elsif ($in_table) {
-                $$in_table .= '</table>';
-                undef $in_table;
-            }
-
-            if ( $_ =~ s/^PREFORMAT:// ) {
-                $_ =~ s/&/&amp;/g;
-                $_ =~ s/</&lt;/g;
-                $_ =~ s/>/&gt;/g;
-                $_ = "<textarea class=\"report\">$_</textarea>";
-            }
-            elsif (
-                $_ =~ s/^---(\++) (.*)$/
-                    '<h' . length($1) . "> $2 <\/h" . length($1) .'>'/e
-              )
-            {
-            }
-        }
-        if ($in_list) {
-            $$in_list .= "</$list_type>";
-        }
-        elsif ($in_table) {
-            $$in_table .= '</table>';
-        }
-
-        for my $e ( @{ $this->{$group} } ) {
-            next unless $e;
-            push( @notes, "<div class='$group_css{$group}'>$e</div>" );
-        }
+        return $text;
     }
-    return join( "\n", @notes );
+
+    return join( "\n", @{ $this->{$level} } );
 }
 
 1;

@@ -449,10 +449,16 @@ sub showExpandedValue {
             local $Data::Dumper::Indent = 2;
             $field = Data::Dumper->Dump( [$field] );
             $field =~ s/\$.*?= //;
-            $reporter->NOTE( "Expands to: ", "PREFORMAT:$field" );
+            $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
         }
         elsif ($field) {
-            $reporter->NOTE("Expands to: =$field=");
+            if ( $field =~ /\n/ ) {
+                $reporter->NOTE( 'Expands to: <verbatim>',
+                    $field, '</verbatim>' );
+            }
+            else {
+                $reporter->NOTE("Expands to: =$field=");
+            }
         }
         elsif ( defined $field ) {
             $reporter->NOTE("Expands to ''");

@@ -240,9 +240,12 @@ Concatenate $str to the string value of $key.
 sub append {
     my ( $this, $key, $str ) = @_;
 
-    my @l = split( /\n/, $this->{$key} || '' );
-    push( @l, $str );
-    $this->{$key} = join( "\n", @l );
+    if ( $this->{$key} ) {
+        $this->{$key} .= "\n$str";
+    }
+    else {
+        $this->{$key} .= $str;
+    }
 }
 
 =begin TML
