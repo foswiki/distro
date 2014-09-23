@@ -41,6 +41,8 @@ confirm this setting (and any other guessed settings) and save
 correct values before changing any other settings.
 HERE
 
+my %checkers;
+
 # Construct a new Checker, attaching the given $item from the model.
 # This is not normally used by other classes, but is provided in case
 # a subclass needs to override it for any reason.
@@ -100,17 +102,37 @@ sub loadChecker {
           and substr( $id, -2 ) = '';
     }
 
-    my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
-    eval "require $checkClass";
-    unless ($@) {
-        return $checkClass->new($item);
-    }
+    foreach my $chkmod ( $id, $item->{typename} ) {
+        if ( defined $checkers{$chkmod} ) {
+            if ( $checkers{$chkmod} ) {
 
-    # See if a generic type checker exists for this type
-    $checkClass = 'Foswiki::Configure::Checkers::' . $item->{typename};
-    eval "require $checkClass";
-    unless ($@) {
-        return $checkClass->new($item);
+                #print STDERR "Returning cached $chkmod\n";
+                return $checkers{$chkmod}->new($item);
+            }
+        }
+        else {
+            my $checkClass = 'Foswiki::Configure::Checkers::' . $chkmod;
+            if (
+                Foswiki::Configure::FileUtil::findFileOnPath(
+                    $checkClass . '.pm'
+                )
+              )
+            {
+                eval "require $checkClass";
+                unless ($@) {
+                    $checkers{$chkmod} = $checkClass;
+
+                    #print STDERR "Returning NEW cached $chkmod\n";
+                    return $checkClass->new($item);
+                }
+                else {
+                    die "Checker $checkClass failed to load: $@\n";
+                }
+            }
+
+            #print STDERR "Caching empty $chkmod\n";
+            $checkers{$chkmod} = '';
+        }
     }
     return undef;
 }
