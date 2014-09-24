@@ -62,7 +62,14 @@ sub finish {
 
 =begin TML
 
----+++ getExternalResource( $url ) -> $response
+---+++ getExternalResource( $url [, %options] ) -> $response
+
+   * =$url= - url to get
+   * =%options= may contain
+      * =method= => method to use e.g. POST (GET is the default)
+      * =headers= => =\%headers= - hash of additional headers
+      * =content= => =$content= - request content (perl) string
+        (default is an empty request body)
 
 Get whatever is at the other end of a URL (using an HTTP GET request). Will
 only work for encrypted protocols such as =https= if the =LWP= CPAN module is
@@ -111,7 +118,7 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 =cut
 
 sub getExternalResource {
-    my ( $this, $url ) = splice( @_, 0, 2 );
+    my ( $this, $url, %options ) = @_;
 
     my $protocol;
     if ( $url =~ m!^([a-z]+):! ) {
@@ -126,10 +133,11 @@ sub getExternalResource {
     # testing
     unless ( defined $LWPAvailable ) {
         eval 'require LWP';
+        die $@ if $@;
         $LWPAvailable = ($@) ? 0 : 1;
     }
     if ($LWPAvailable) {
-        return _GETUsingLWP( $this, $url, @_ );
+        return _GETUsingLWP( $this, $url, %options );
     }
 
     # Fallback mechanism
@@ -145,8 +153,9 @@ sub getExternalResource {
         }
     }
 
+    my $method = $options{method} || 'GET';
     my $response;
-    my @headers = @_;
+
     try {
         $url =~ s!^\w+://!!;    # remove protocol
         my ( $user, $pass );
@@ -178,7 +187,8 @@ sub getExternalResource {
         }
 
         $url = '/' unless ($url);
-        my $req = "GET $url HTTP/1.0\r\nHost: $host";
+
+        my $req = "$method $url HTTP/1.0\r\nHost: $host";
         if (   $protocol eq 'http' && $port == 80
             || $protocol eq 'https' && $port == 443 )
         {
@@ -220,7 +230,7 @@ sub getExternalResource {
                 return new Foswiki::Net::HTTPResponse(
                     "Proxy settings are invalid, check configure ($proxyHost)");
             }
-            $req      = "GET $protocol://$host:$port$url HTTP/1.0\r\n";
+            $req      = "$method $protocol://$host:$port$url HTTP/1.0\r\n";
             $protocol = $proxyProtocol;
             $host     = $proxyHost;
             $port     = $proxyPort;
@@ -228,22 +238,32 @@ sub getExternalResource {
                 require MIME::Base64;
                 my $base64 =
                   MIME::Base64::encode_base64( "$proxyUser:$proxyPass", '' );
-                $req .= "Proxy-Authorization: Basic $base64\n";
+                $req .= "Proxy-Authorization: Basic $base64\r\n";
             }
         }
         if ($user) {
             require MIME::Base64;
             my $base64 = MIME::Base64::encode_base64( "$user:$pass", '' );
-            $req .= "Authorization: Basic $base64\n";
+            $req .= "Authorization: Basic $base64\r\n";
         }
 
         $req .= 'User-Agent: Foswiki::Net/' . $Foswiki::VERSION . "\r\n";
-        while (@headers) {
-            my ( $name, $value ) = splice( @headers, 0, 2 );
-            $name =~ s/_/-/g;
-            $req .= "$name: $value\r\n";
+        if ( $options{headers} ) {
+            while ( my ( $name, $value ) = each %{ $options{headers} } ) {
+                $name =~ s/_/-/g;
+                $req .= "$name: $value\r\n";
+            }
         }
+
+        if ( defined $options{content} ) {
+
+            # Force body encoding to octets
+            $options{content} = Encode::encode( 'utf-8', $options{content} );
+            $req .= 'Content-length: ' . length( $options{content} ) . "\r\n";
+        }
+
         $req .= "\r\n";
+        $req .= $options{content} if defined $options{content};
 
         my $sock = $sclass->new(
             PeerAddr => $host,
@@ -288,7 +308,7 @@ sub getExternalResource {
 }
 
 sub _GETUsingLWP {
-    my ( $this, $url ) = splice( @_, 0, 2 );
+    my ( $this, $url, %options ) = @_;
 
     my ( $user, $pass );
     if ( $url =~ s!([^/\@:]+)(?::([^/\@:]+))?@!! ) {
@@ -296,13 +316,18 @@ sub _GETUsingLWP {
     }
     my $request;
     require HTTP::Request;
-    $request = HTTP::Request->new( GET => $url );
+    my $method = $options{method} || 'GET';
+    $request = HTTP::Request->new( $method => $url );
+    my %headers = ();
+    %headers = %{ $options{headers} } if $options{headers};
     $request->header(
         'User-Agent' => 'Foswiki::Net/'
           . $Foswiki::VERSION
           . " libwww-perl/$LWP::VERSION",
-        @_
+        %headers
     );
+    $request->content( $options{content} ) if defined $options{content};
+
     require Foswiki::Net::UserCredAgent;
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
     my $response = $ua->request($request);
