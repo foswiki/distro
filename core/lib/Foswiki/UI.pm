@@ -235,7 +235,11 @@ sub handleRequest {
     # this Foswiki. Respond with the serialised dispatcher, and
     # finish the request.
     if ( $req->header('X-Foswiki-Tickle') ) {
-        my $data = { SCRIPT_NAME => $ENV{SCRIPT_NAME}, };
+        my $data = {
+            SCRIPT_NAME => $ENV{SCRIPT_NAME},
+            VERSION     => $Foswiki::VERSION,
+            RELEASE     => $Foswiki::RELEASE,
+        };
         my $res = new Foswiki::Response();
         $res->header( -type => 'application/json', -status => '200' );
         my $d = JSON->new->allow_nonref->encode($data);
