@@ -42,7 +42,7 @@ use constant TRACE => 0;    # toggle me
 ################################################################################
 # static
 sub writeDebug {
-    print STDERR '- JsonRpcContrib::Server - ' . $_[0] . "\n" if TRACE;
+    Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
 }
 
 ################################################################################
@@ -59,7 +59,7 @@ sub new {
 sub registerMethod {
     my ( $this, $namespace, $method, $fnref, $options ) = @_;
 
-    writeDebug("registerMethod($namespace, $method, $fnref)");
+    writeDebug("registerMethod($namespace, $method, $fnref)") if TRACE;
 
     $this->{handler}{$namespace}{$method} = {
         function => $fnref,
@@ -71,7 +71,7 @@ sub registerMethod {
 sub dispatch {
     my ( $this, $session ) = @_;
 
-    writeDebug("called dispatch");
+    writeDebug("called dispatch") if TRACE;
 
     $Foswiki::Plugins::SESSION = $session;
     $this->{session} = $session;
@@ -96,7 +96,7 @@ sub dispatch {
     ( $session->{webName}, $session->{topicName} ) =
       Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $topic );
-    writeDebug("topic=$topic");
+    writeDebug("topic=$topic") if TRACE;
 
     # get handler for this namespace
     my $handler = $this->getHandler($request);
@@ -115,7 +115,7 @@ sub dispatch {
     # if there's login info, try and apply it
     my $userName = $request->param("username");
     if ($userName) {
-        writeDebug("checking password for $userName");
+        writeDebug("checking password for $userName") if TRACE;
         my $pass = $request->param("password") || '';
         unless ( $session->{users}->checkPassword( $userName, $pass ) ) {
             Foswiki::Contrib::JsonRpcContrib::Response->print(
@@ -161,7 +161,8 @@ sub dispatch {
         my $function = $handler->{function};
         writeDebug( "calling handler for "
               . $request->namespace . "."
-              . $request->method );
+              . $request->method )
+          if TRACE;
         $result =
           &$function( $session, $request, $session->{response},
             $handler->{options} );
@@ -226,12 +227,13 @@ sub getHandler {
             my $def =
               $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method};
 
-            writeDebug("compiling $def->{package} for $namespace.$method");
+            writeDebug("compiling $def->{package} for $namespace.$method")
+              if TRACE;
             eval qq(use $def->{package});
 
             # disable on error
             if ($@) {
-                print STDERR "Error: $@\n";
+                print STDERR "JsonRPC handler compile error: $@\n";
                 $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method} =
                   undef;
                 return;

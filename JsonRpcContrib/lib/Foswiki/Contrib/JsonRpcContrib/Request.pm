@@ -40,11 +40,10 @@ sub new {
         $data = fromUtf8($data);
     }
     else {
-
         # minimal stup
         $data = '{"jsonrpc":"2.0"}';
     }
-    writeDebug("data=$data");
+    writeDebug("data=$data") if TRACE;
     $this->initFromString($data);
 
     # get namespace from path info, maybe separate a REST-like method as well
@@ -55,7 +54,7 @@ sub new {
         $method    = $2;
     }
     $this->namespace($namespace);
-    writeDebug("namepsace=$namespace");
+    writeDebug("namespace=$namespace") if TRACE;
 
     # override json-rpc params using url params
     foreach my $key ( $request->param() ) {
@@ -81,6 +80,7 @@ sub new {
 
     # check that this is a http POST
     my $httpMethod = $request->method() || "jsonrpc";
+
     throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
         "Method must be POST" )
       unless $httpMethod =~ /post|jsonrpc/i;
@@ -98,7 +98,7 @@ sub new {
         "Invalid JSON-RPC request - no method" )
       unless defined $this->method();
 
-    writeDebug( "method=" . $this->method() );
+    writeDebug( "method=" . $this->method() ) if TRACE;
 
     # must not have any other keys other than these
     foreach my $key ( keys %{ $this->{data} } ) {
@@ -190,7 +190,7 @@ sub json {
 ################################################################################
 # static
 sub writeDebug {
-    print STDERR '- JsonRpcContrib::Request - ' . $_[0] . "\n" if TRACE;
+    Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
 }
 
 ###############################################################################
