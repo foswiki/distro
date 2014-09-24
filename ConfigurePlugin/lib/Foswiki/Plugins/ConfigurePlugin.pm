@@ -960,7 +960,9 @@ and time-consuming integrity checks.
    * =keys= - name of a checker to use if =wizard= is not given
    * =method= - name of the method in the wizard or checker to call
 
-The return result is a hash containing the following keys:
+If the wizard method returns an object, that will be passed back
+as the result of the call. If the wizard method returns undef, the
+return result is a hash containing the following keys:
     * =report= - Error/Warning etc messages, formatted as HTML. Each
       entry in this array is a hash with keys 'level' (e.g. error, warning)
       and 'message'.
@@ -974,38 +976,41 @@ sub wizard {
     my $target;
     my $root = _loadSpec();
     if ( defined $params->{wizard} ) {
-        die unless $params->{wizard} =~ /^(\w+)$/;    # untaint
+        die "Bad wizard" unless $params->{wizard} =~ /^(\w+)$/;    # untaint
         $target = Foswiki::Configure::Wizard::loadWizard( $1, $params );
     }
     else {
-        die unless $params->{keys};
+        die "No wizard and no keys" unless $params->{keys};
         my $vob = $root->getValueObject( $params->{keys} );
         $target = Foswiki::Configure::Checker::loadChecker($vob);
     }
     die unless $target;
     my $method = $params->{method};
     die unless $method =~ /^(\w+)$/;
-    $method = $1;                                     # untaint
+    $method = $1;                                                  # untaint
     my $reporter = Foswiki::Configure::Reporter->new();
 
     _getSetParams( $params, $root );
 
-    $target->$method($reporter);
+    my $response = $target->$method($reporter);
 
-    my @report;
-    foreach
-      my $level ( 'errors', 'warnings', 'confirmations', 'notes', 'changes' )
-    {
-        push(
-            @report,
-            {
-                level   => $level,
-                message => $reporter->text($level)
-            }
-        ) if $reporter->has($level);
+    unless ($response) {
+        my @report;
+        foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes',
+            'changes' )
+        {
+            push(
+                @report,
+                {
+                    level   => $level,
+                    message => $reporter->text($level)
+                }
+            ) if $reporter->has($level);
+        }
+        $response = { changes => $reporter->{changes}, report => \@report };
     }
 
-    return { changes => $reporter->{changes}, report => \@report };
+    return $response;
 }
 
 =pod

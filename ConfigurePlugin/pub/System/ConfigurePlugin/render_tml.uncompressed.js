@@ -156,9 +156,9 @@ var TML = {
             }
 
             if (m = /^---(\++) (.*)$/.exec(line)) {
-                lines[i] = '<h' + length(m[1]) + '>'
+                lines[i] = '<h' + m[1].length + '>'
                     + m[2]
-                    + '</h' + length(m[1]) + '>';
+                    + '</h' + m[1].length + '>';
             }
         }
 

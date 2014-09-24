@@ -43,6 +43,7 @@ sub send {
 
     eval { _sendTestEmail( $Foswiki::cfg{WebMasterEmail}, $reporter ); };
     die $@ if $@;
+    return undef;    # return the report
 }
 
 # Send a test email to the address in the value
@@ -410,7 +411,7 @@ MAILTEST
         return if $neterrors;
     }
 
-    return $reporter->NOTE(<<ACCEPTED);
+    $reporter->NOTE(<<ACCEPTED);
 Mail was accepted for delivery to $addrs from $Foswiki::cfg{WebMasterEmail}. Be sure to check any SPAM and Bulk-email folders before assuming that delivery has failed.
 ACCEPTED
 }

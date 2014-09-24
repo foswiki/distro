@@ -207,6 +207,7 @@ sub get_installed_extensions {
     my ( $this, $reporter ) = @_;
 
     $this->_get_extensions( $reporter, 'installed' );
+    return undef;    # return the report
 }
 
 # Wizard - Constructs an HTML table of not-installed extensions
@@ -214,6 +215,7 @@ sub get_other_extensions {
     my ( $this, $reporter ) = @_;
 
     $this->_get_extensions( $reporter, 'uninstalled' );
+    return undef;    # return the report
 }
 
 sub _get_extensions {
