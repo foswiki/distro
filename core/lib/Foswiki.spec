@@ -1807,18 +1807,18 @@ $Foswiki::cfg{WebMasterEmail} = '';
 #   FEEDBACK="label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
 #                    This allows immediate use of signed email.'; \
-#             wizard='GenerateSMIMECertificate'; method='generate_cert'"\
+#             wizard='SMIMECertificate'; method='generate_cert'"\
 #   FEEDBACK="label='Generate S/MIME CSR';col=1;\
 #             title='Generate a Certificate Signing Request for the \
 #                    WebMaster. This request must be signed by a \
 #                    Certificate Authority to create a certificate, \
 #                    then installed.';\
-#             wizard='GenerateCSR'; method='request_cert'"\
+#             wizard='SMIMECertificate'; method='request_cert'"\
 #   FEEDBACK="label='Cancel CSR';\
 #             title='Cancel a pending Certificate Signing request. \
 #                    This destroys the private key associated with \
 #                    the request.';\
-#             wizard='CancelSMIMECertificate'; method='cancel_cert'"\
+#             wizard='SMIMECertificate'; method='cancel_cert'"\
 # **
 # Wiki administrator's name address.
 # For use in mails (first name and last name, for example =Fred Smith=).
@@ -2003,7 +2003,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
 # **PATH EXPERT \
-#               FEEDBACK="label='Guess certificate locations'; wizard='GuessSSLCaLocations'; method='guess'"\
+#               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
@@ -2013,8 +2013,8 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 $Foswiki::cfg{Email}{SSLCaFile} = '';
 
 # **PATH EXPERT \
-#               FEEDBACK="label='Guess certificate locations'; wizard='GuessSSLCaLocations'; method='guess'"\
-#               FEEDBACK='label="Validate Contents"; wizard="ValidateCertificates"; method="validate";\
+#               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
+#               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
 #               that the contents look like certificates/and/or CRLs"' \
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
