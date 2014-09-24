@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1410628915" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1411582947" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -15,7 +15,8 @@ allows you to save modifications.
 You do not have to have this plugin installed to run %WIKITOOLNAME%. Checkers
 and wizards can be run from the command-line using the =tools/configure_test=
 script, and !LocalSite.cfg can be manually edited to add your required settings.
-However this UI provides a simple way to access the configuration.
+However this UI provides a simple way to access the configuration without
+requiring login access to the server.
 
 If your system has an existing !LocalSite.cfg, then you *must* be
 logged in to %WIKITOOLNAME% as an administrator, or as a user identified by the 
@@ -32,13 +33,14 @@ Users of the =configure= interface access it through the CGI script in
 =bin/configure=. The UI is self-explanatory and needs no further introduction
 here.
 
+The plugin also provides a =%<nop>DEPENDENCYREPORT% macro for use in
+wiki topics.  The dependency report analyzes the identified perl
+dependencies for %WIKITOOLNAME% and all installed extensions, and
+reports any issues with installed versions of the dependencies.
+
 Of interest to developers may be the JSON RPC interface provided by the
 plugin, which gives access to the Foswiki configuration to web clients
 (who must, of course, be authenticated as admins to make RPC calls).
-
-This plugin also provides a DependencyReport.  The DependencyReport analyzes the
-identified perl dependencies for %WIKITOOLNAME% and all installed extensions, and
-reports any issues with installed versions of the dependencies.
 
 %$POD%
 

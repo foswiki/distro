@@ -441,10 +441,9 @@ function _id_ify(id) {
                 fb.label = fb.wizard;
             }
             $button = $('<button class="feedback_button">' + fb.label + '</button>'); 
-            if (spec.title === null) {
-                spec.title = fb.label;
+            if (fb.title) {
+                $button.attr('title', fb.title);
             }
-            $button.attr('title', spec.title);
             $button.click(function() {
                 if (fb.auth == 1) {
                     auth_action = function() {

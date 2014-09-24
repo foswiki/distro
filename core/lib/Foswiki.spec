@@ -93,17 +93,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **NUMBER EXPERT**
-# This is the maximum number of files and directories that will be checked
-# for permissions for the pub and data Directory paths.
-# This limit is initially set to 7000, which should be reasonable for a
-# default installation.  If it is exceeded, then an informational message
-# is returned stating that incomplete checking was performed.  If this is
-# set to a large number on large installations, then a significant delay
-# will be incurred when permissions are checked.
-$Foswiki::cfg{PathCheckLimit} = 7000;
-
-# **PATH EXPERT FEEDBACK="label='Validate Permissions';method='validate'" CHECK="guess:bin silentguess perms:D" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions';method='validate'" CHECK="perms:D" MANDATORY**
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
@@ -141,34 +131,34 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:pub silentguess perms:rwD filter:',v$'" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="perms:r" CHECK="perms:wD filter:',v$'" MANDATORY**
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:data silentguess perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="filter:',v$' perms:rwDpd" CHECK="perms:r" MANDATORY**
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:tools silentguess perms:rD" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" MANDATORY**
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:templates silentguess perms:rD" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" MANDATORY**
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:locale silentguess perms:rD" MANDATORY**
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" MANDATORY**
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH EXPERT MANDATORY FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="guess:working silentguess perms:rw" **
+# **PATH EXPERT MANDATORY FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rw" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -1991,8 +1981,8 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 
 # **STRING 30 DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # Mail domain sending mail, required. SMTP
-# requires that you identify the server sending mail. If not set, *Auto-configure* or
-# =Net::SMTP= will guess it for you. Example: foswiki.your.company.
+# requires that you identify the server sending mail.
+# Example: foswiki.your.company.
 $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **BOOLEAN \
@@ -2243,7 +2233,7 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-# **PATH CHECK='auto perms:Fr' EXPERT**
+# **PATH CHECK='perms:Fr' EXPERT**
 # Pathname to file that maps file suffixes to MIME types :
 # For Apache server set this to Apache's mime.types file pathname,
 # for example /etc/httpd/mime.types, or use the default shipped in

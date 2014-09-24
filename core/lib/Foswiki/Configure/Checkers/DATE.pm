@@ -24,10 +24,10 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
-    my ($check) = $this->{item}->getChecks();
+    my $checks = $this->{item}->{CHECK}->[0] || {};
 
-    my $zone      = $check->{zone}[0] || 'utc';
-    my $normalize = !$check->{raw}[0];
+    my $zone      = $checks->{zone}[0] || 'utc';
+    my $normalize = !$checks->{raw}[0];
     my $value     = $this->getCfgUndefOk();
 
     if ( defined $value && $value =~ /\S/ ) {
@@ -44,7 +44,7 @@ sub check_current_value {
             $reporter->ERROR("Unrecognized format for date");
         }
     }
-    elsif ( !$check->{nullok}[0] ) {
+    elsif ( !$checks->{nullok}[0] ) {
         $reporter->ERROR('A date/time must be provided for this item');
     }
 }

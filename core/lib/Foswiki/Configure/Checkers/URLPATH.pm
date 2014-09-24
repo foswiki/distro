@@ -9,10 +9,6 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 use Foswiki::Configure::Checkers::URL ();
 
-# CHECK= options
-#  expand
-#  parts, partsreq = query, fragment (path is required)
-
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
@@ -21,9 +17,9 @@ sub check_current_value {
     $this->showExpandedValue($reporter);
 
     my %check = ();
-
-    my @checks = $this->{item}->getChecks();
-    %check = %{ $checks[0] } if scalar(@checks);
+    if ( scalar( @{ $this->{item}->{CHECK} } ) > 0 ) {
+        %check = %{ $this->{item}->{CHECK}->[0] };
+    }
 
     # Force the following 'options' to specialize URL to URLPATH.
     $check{parts} = [
