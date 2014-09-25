@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1408949368" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1411624271" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide
 
@@ -229,6 +229,7 @@ In order to keep your user, group, and site configuration information separate f
 If you are having problems with your installation, try the following:
 
    * Run the =configure= script and ensure you have resolved all errors and are satisfied that you understand any warnings.
+   * Review the [[%SYSTEMWEB%.PerlDependencyReport]] and sure all dependencies are correctly resolved.
    * Consult the topics at Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
    * Ask for help on [[Foswiki:Community.InternetRelayChat][IRC]] (irc.freenode.net, channel #foswiki). There are often a number of people waiting to help.
    * Ask a question in the Foswiki:Support web

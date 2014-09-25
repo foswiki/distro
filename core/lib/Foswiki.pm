@@ -246,19 +246,20 @@ BEGIN {
 
           #deprecated functionality, now implemented using %ENV%
           sub { $_[0]->{request}->header('Host') || '' },
-        HTTP         => undef,
-        HTTPS        => undef,
-        ICON         => undef,
-        ICONURL      => undef,
-        ICONURLPATH  => undef,
-        IF           => undef,
-        INCLUDE      => undef,
-        INTURLENCODE => undef,
-        LANGUAGE     => sub { $_[0]->i18n->language(); },
-        LANGUAGES    => undef,
-        MAKETEXT     => undef,
-        META         => undef,                              # deprecated
-        METASEARCH   => undef,                              # deprecated
+        HTTP                 => undef,
+        HTTPS                => undef,
+        ICON                 => undef,
+        ICONURL              => undef,
+        ICONURLPATH          => undef,
+        IF                   => undef,
+        INCLUDE              => undef,
+        INTURLENCODE         => undef,
+        LANGUAGE             => sub { $_[0]->i18n->language(); },
+        LANGUAGES            => undef,
+        MAKETEXT             => undef,
+        META                 => undef,                              # deprecated
+        METASEARCH           => undef,                              # deprecated
+        PERLDEPENDENCYREPORT => undef,
         NOP =>
 
           # Remove NOP tag in template topics but show content.

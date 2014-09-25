@@ -1,11 +1,17 @@
 # See bottom of file for default license and copyright information
 
+# Note on separation of concerns: Please *do not* add anything to this
+# plugin that is not specific to the Javascript 'configure' interface.
+# Generic functionality related to configuration should be implemented
+# in the core. The ConfigurePlugin is *just* for handling the UI, no more.
+
 # Note that POD in this module is included in the documentation topic
 # by BuildContrib
 
 =pod
 
 ---++ Remote Procedure Call (RPC) interface
+
 RPC calls are handled via the =JsonRpcContrib=. Callers must authenticate
 as admins, or the request will be rejected with a 403 status.
 
@@ -33,7 +39,7 @@ use Foswiki::Configure::Reporter     ();
 use Foswiki::Configure::Checker      ();
 use Foswiki::Configure::Wizard       ();
 
-our $RELEASE          = '29 May 2013';
+our $RELEASE          = '25 Sep 2014';
 our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;
@@ -105,32 +111,7 @@ sub initPlugin {
         }
     }
 
-    Foswiki::Func::registerTagHandler( 'DEPENDENCYREPORT',
-        \&_DEPENDENCYREPORT );
-
     return 1;
-
-}
-
-sub _DEPENDENCYREPORT {
-    my ( $session, $params, $topic, $web ) = @_;
-
-    require Foswiki::Plugins::ConfigurePlugin::DependencyReport;
-
-    print STDERR "PARAM = ($params->{_DEFAULT}) \n"
-      if defined $params->{_DEFAULT};
-
-    if ( defined $params->{_DEFAULT}
-        && $params->{_DEFAULT} =~ m/'?extensions'?/ )
-    {
-        return
-          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeExtensions(
-          );
-    }
-    else {
-        return
-          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeFoswiki();
-    }
 
 }
 
@@ -169,18 +150,18 @@ sub _JSONwrap {
 }
 
 # Canonicalise a key string
-sub safeKeys {
+sub _safeKeys {
     my $k = shift;
     $k =~ s/^{(.*)}$/$1/;
     return '{'
       . join( '}{',
-        map { $_ =~ s/^(['"])(.*)\1$/$2/; safeKey($_) }
+        map { $_ =~ s/^(['"])(.*)\1$/$2/; _safeKey($_) }
           split( /}{/, $k ) )
       . '}';
 }
 
 # Make a single key safe for use in a canonical key string
-sub safeKey {
+sub _safeKey {
     my $k = shift;
     return $k if ( $k =~ /^[a-z_][a-z0-9_]*$/i );
     $k =~ s/'/\\'/g;
@@ -733,7 +714,7 @@ sub changecfg {
 /^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
             # Implicit untaint
-            $key = safeKeys($1);
+            $key = _safeKeys($1);
             if ( eval "exists \$Foswiki::cfg$key" ) {
                 print STDERR "Cleared $key\n" if TRACE;
                 $cleared++;
@@ -748,7 +729,7 @@ sub changecfg {
 /^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
             # Implicit untaint
-            $key = safeKeys($1);
+            $key = _safeKeys($1);
             if ( eval "exists \$Foswiki::cfg$key" ) {
                 my $oval = eval "\$Foswiki::cfg$key";
                 if ( ref($oval) || $oval =~ /^[0-9]+$/ ) {
@@ -815,7 +796,7 @@ sub _lscify {
     }
     if ( ref($data) eq 'HASH' ) {
         foreach my $sk ( sort keys %$data ) {
-            my $c = _lscify( $specs, $data->{$sk}, ( @path, safeKey($sk) ) );
+            my $c = _lscify( $specs, $data->{$sk}, ( @path, _safeKey($sk) ) );
             push( @content, @$c );
         }
     }
