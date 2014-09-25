@@ -104,6 +104,7 @@ signed e-mail. For signed mail to work, Certificate and Key files must be
 provided (or generated), but none were found. Correct the settings in
 the *Signed Email* section before trying Auto Configure again.
 NOCERT
+            _setConfig( $reporter, '{EnableEmail}', 0 );
             return;
         }
     }
@@ -132,7 +133,8 @@ NOCERT
             'Mail configuration failed. Foswiki will not be able to send mail.'
         );
     }
-    _setConfig( $reporter, 'EnableEmail', $ok );
+
+    _setConfig( $reporter, '{EnableEmail}', $ok );
 
     return undef;    # return the reporter content
 }
@@ -269,7 +271,6 @@ ID
     _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
     _setConfig( $reporter,
         '{MailProgram}', "$path/$cfg->{file} $cfg->{flags}" );
-    _setConfig( $reporter, '{EnableEmail}', 1 );
 
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
@@ -649,7 +650,6 @@ sub _setConfig {
 
     my $old = eval("\$Foswiki::cfg$setting");
 
-    #$reporter->NOTE(" $setting:  $old,   $value ");
     if (   defined $old && !defined $value
         || !defined $old && defined $value
         || defined $value && $value ne $old )
