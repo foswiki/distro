@@ -537,15 +537,15 @@ $.NatEditor.prototype.initToolbar = function() {
       url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load="+self.opts.toolbar;
 
   // load toolbar
-  $.loadTmpl({
+  $.loadTemplate({
     url:url
-  }).done(function(tmplName) {
+  }).done(function(tmpl) {
 
     // init it
-    self.toolbar = $.tmpl(tmplName, {
+    self.toolbar = $(tmpl.render({
       web: self.opts.web,
       topic: self.opts.topic
-    });
+    }));
 
     self.container.prepend(self.toolbar);
 
@@ -1858,11 +1858,11 @@ $.NatEditor.prototype.dialog = function(opts) {
 
   self.hideMessages();
   return $.Deferred(function(dfd) {
-    $.loadTmpl({
+    $.loadTemplate({
       url:opts.url,
       name:opts.name
-    }).then(function(tmplName) {
-      $.tmpl(tmplName, opts.data).dialog({
+    }).then(function(tmpl) {
+      $(tmpl.render(opts.data)).dialog({
         buttons: [{
           text: opts.okayText,
           icons: {
@@ -1935,7 +1935,7 @@ $.NatEditor.prototype.handleSearchReplace = function(elem) {
 
   $.log("NATEDIT: handleSearchReplace, search='"+search+" 'replace='"+replace+"' ignoreCase=",ignoreCase);
 
-  if (search.length && replace.length) {
+  if (search.length) {
     count = self.searchReplace(search, replace, ignoreCase);
     if (count) {
       self.showMessage("info", "replaced '"+search+"' "+count+" times");

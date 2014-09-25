@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1349941111" format="1.1" version="5"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1411635527" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -55,11 +55,12 @@ is sufficient.
 %$INSTALL_INSTRUCTIONS%
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2013 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2014 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  25 Sep 2014 | move templating to new jsrender replacing deprecated jquery.tmpl |
 |  12 Dec 2013 | rewrite all of the js code; make it themable using jquery-ui |
 |  01 Nov 2013 | working around IE10 incompatibility of its own proprietary edit api for textareas |
 |  07 Aug 2013 | fixed generation of a new validation key in a save+continue |
@@ -169,4 +170,4 @@ is sufficient.
 |  Perl Version: | - |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1411635527" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

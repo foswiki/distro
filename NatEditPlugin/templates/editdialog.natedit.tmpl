@@ -2,7 +2,7 @@
 %TMPL:DEF{"insertcolor"}%<div class="ui-natedit-dialog-content ui-natedit-insert-color-content" data-title="%MAKETEXT{"Insert a color code"}%">
 <form>
 <div class="ui-natedit-colorpicker"></div>
-<input type="text" name="color" class="foswikiInputField" size="10" value="${selection}" />
+<input type="text" name="color" class="foswikiInputField" size="10" value="{{:selection}}" />
 </form>
 </div>%TMPL:END%
 
@@ -12,7 +12,7 @@
   <table class="foswikiLayoutTable">
     <tr>
       <th>%MAKETEXT{"Search"}%</th>
-      <td><input type="text" name="search" class="foswikiInputField" value="${selection}" size="30" /></td>
+      <td><input type="text" name="search" class="foswikiInputField" value="{{:selection}}" size="30" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"Replace"}%</th>
@@ -81,15 +81,15 @@
   <table class="foswikiLayoutTable">
     <tr>
       <th>%MAKETEXT{"Web"}%</th>
-      <td><input type="text" size="50" name="web" class="foswikiInputField" value="${web}" /></td>
+      <td><input type="text" size="50" name="web" class="foswikiInputField" value="{{:web}}" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"Topic"}%</th>
-      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="${topic}" /></td>
+      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="{{:topic}}" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"Text"}%</th>
-      <td><input type="text" size="50" name="linktext_topic" class="foswikiInputField" value="${selection}" /></td>
+      <td><input type="text" size="50" name="linktext_topic" class="foswikiInputField" value="{{:selection}}" /></td>
     </tr>
   </table>
 <!-- -->%TMPL:END%
@@ -99,11 +99,11 @@
   <table class="foswikiLayoutTable">
     <tr>
       <th>%MAKETEXT{"Url"}%</th>
-      <td><input type="text" size="50" name="url" class="foswikiInputField empty" value="${url}" /></td>
+      <td><input type="text" size="50" name="url" class="foswikiInputField empty" value="{{:url}}" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"Text"}%</th>
-      <td><input type="text" size="50" name="linktext_external" class="foswikiInputField" value="${selection}" /></td>
+      <td><input type="text" size="50" name="linktext_external" class="foswikiInputField" value="{{:selection}}" /></td>
     </tr>
   </table>
 <!-- -->%TMPL:END%
@@ -113,15 +113,15 @@
   <table class="foswikiLayoutTable">
     <tr>
       <th>%MAKETEXT{"Web"}%</th>
-      <td><input type="text" size="50" name="web" class="foswikiInputField" value="${web}" /></td>
+      <td><input type="text" size="50" name="web" class="foswikiInputField" value="{{:web}}" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"Topic"}%</th>
-      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="${topic}" /></td>
+      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="{{:topic}}" /></td>
     </tr>
     <tr>
       <th>%MAKETEXT{"File"}%</th>
-      <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="${file}" />
+      <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="{{:file}}" />
         %IF{"context 'TopicInteractionPluginEnabled'"
           then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true'>
                   <a href='#' class='ui-natedit-uploader-button' style='vertical-align:middle' title='%MAKETEXT{"Upload a file"}%'>%JQICON{"add"}%</a>
@@ -131,7 +131,7 @@
     </tr>
     <tr>
       <th>%MAKETEXT{"Text"}%</th>
-      <td><input type="text" size="50" name="linktext_attachment" class="foswikiInputField" value="${selection}" /></td>
+      <td><input type="text" size="50" name="linktext_attachment" class="foswikiInputField" value="{{:selection}}" /></td>
     </tr>
   </table>
 <!-- -->%TMPL:END%
@@ -140,7 +140,7 @@
 %TMPL:DEF{"uploader"}%<div class="natEditUploader jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:600, position:{my:'top', at:'top', of:'#uploadLink'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Upload"}%">
   <form>
     <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    <input type="hidden" name="topic" value="${topic}" />
+    <input type="hidden" name="topic" value="{{:topic}}" />
     <input type="hidden" name="autostart" value="true" class="jqUploaderAutoStart" /> 
     <div class="foswikiFormStep">
       <div class="jqUploaderFilesContainer">
