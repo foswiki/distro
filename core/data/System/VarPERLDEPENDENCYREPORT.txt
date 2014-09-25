@@ -3,9 +3,7 @@
 #VarPERLDEPENDENCYREPORT
 ---+++ PERLDEPENDENCYREPORT -- report the perl module dependencies and status for Foswiki core and extensions
    * Syntax: =%<nop>PERLDEPENDENCYREPORT%=
----+++ DEPENDENCYREPORT{"extensions"} -- report the perl module dependencies for the installed extensions
-   * Syntax: =%<nop>PERLDEPENDENCYREPORT{"extensions"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
-     | ="extensions"= | The word ="extensions" - requests dependencies of installed extensions. | (not set) |
+     | ="extensions"= | requests dependencies of installed extensions. | (not set) |
    * See also: %SYSTEMWEB%.PerlDependencyReport
