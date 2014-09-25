@@ -117,6 +117,11 @@ NOCERT
             );
         }
     }
+    else {
+        $reporter->WARN(
+"{SMTP}{MAILHOST} is not defined, so cannot use SMTP. Falling back to mail program"
+        );
+    }
 
     if ( !$ok && _autoconfigProgram($reporter) ) {
         $ok = 1;

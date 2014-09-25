@@ -144,14 +144,14 @@ sub text {
     my ( $this, $level ) = @_;
 
     if ( $level eq 'changes' ) {
-        my $text = "*Changed:*\n";
+        my $text = "---+++ Changed\n";
         while ( my ( $k, $v ) = each %{ $this->{changes} } ) {
-            $text .= "   * $k = $v";
+            $text .= "   * $k = $v\n";
         }
         return $text;
     }
 
-    return join( "\n", @{ $this->{$level} } );
+    return join( "\n\n", @{ $this->{$level} } );
 }
 
 1;

@@ -20,7 +20,7 @@ As per the GPL, removal of this notice is prohibited.
 TML (subset) renderer. Handles a simple subset of TML:
 
 - Single level of lists (ul and ol)
-- Blank line -> <p />
+- Blank line -> <br />
 - Simple tables
 - Text styling e.g. *bold*, =code= etc
 - URL links [[http://that][text description]]
@@ -96,7 +96,7 @@ var TML = {
             line = lines[i];
 
             if (/^\s*$/.test(line)) {
-                lines[i] = "<p />";
+                lines[i] = "<br />";
                 continue;
             }
 
