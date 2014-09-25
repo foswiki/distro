@@ -1379,6 +1379,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 #---+ Store
 #---++ Store Implementation
 # Foswiki supports different back-end store implementations.
+
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
 $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
@@ -1646,6 +1647,7 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
 # Settings controlling the layout of the generated HTML, for experts only.
+
 # **BOOLEAN EXPERT**
 # {MergeHeadAndScriptZones} is provided to maintain compatibility with
 # legacy extensions that use =ADDTOHEAD= to add =script= markup and require
@@ -1920,7 +1922,6 @@ $Foswiki::cfg{Email}{SmimeKeyPassword} = '';
 #---++ Certificate Management
 # The following parameters can be used to specify commonly used components
 # of the subject name for Certificate Signing Requests.
-#
 
 # **STRING**
 # ISO country code (2 letters)
