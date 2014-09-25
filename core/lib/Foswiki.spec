@@ -1777,7 +1777,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 #---++ Basic Setup
 # Basic settings controlling if and how Foswiki handles email including the
 # identity of the sender.
-#
+
 # **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" **
 # Enable email globally.  Un-check this option to disable all outgoing
 # email from Foswiki.

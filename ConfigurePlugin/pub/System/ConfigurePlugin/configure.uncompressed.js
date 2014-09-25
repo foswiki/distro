@@ -669,7 +669,7 @@ function _id_ify(id) {
     // Add a description, splitting into summary and body if appropriate.
     function add_desc(entry, $node) {
         var m;
-        if (m = /^((?:.|\n)*?)\.\s+((?:.|\n)*)$/.exec(entry.desc)) {
+        if (m = /^((?:.|\n)*?)\.\s+((?:.|\n)+)$/.exec(entry.desc)) {
             var $description = $('<div class="description">'
                              + TML.render(m[1])
                              + '&nbsp;</div>');
