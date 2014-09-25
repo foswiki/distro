@@ -207,7 +207,10 @@ function _id_ify(id) {
                     .first()
                     .each(
                         function() {
-                            $whine = $('<div>' + path + ' > ' + r.keys + ' has ' + count + ' ' + level + '</div>');
+                            var s = (count == 1) ?
+                                level.substr(0, level.length - 1) : level;
+                            $whine = $('<div>' + path + ' > ' + r.keys
+                                       + ' has ' + count + ' ' + s + '</div>');
                             $whine.addClass(level);
                             $whine.addClass(id + '_report');
                             $(this).append($whine);
