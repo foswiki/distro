@@ -592,6 +592,7 @@ sub _autoconfigSMTP {
     close $fd2;
     open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
     close $stderr;
+    $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH \1 xxxxxxxxxxxxxxxx/mg;
     $reporter->NOTE($tlog);
 
     unless (@use) {
