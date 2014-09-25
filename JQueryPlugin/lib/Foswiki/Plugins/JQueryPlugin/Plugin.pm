@@ -128,9 +128,12 @@ sub init {
                   $plugin->{idPrefix} . '::' . uc( $plugin->{name} );
             }
             else {
-                my ( $package, undef, $line ) = caller;
-                print STDERR
-"ERROR: can't load plugin for $dep ... called by $package:$line\n";
+                my $trace = '';
+
+                # require Devel::StackTrace;
+                # $trace = Devel::StackTrace->new()->as_string()."\n";
+
+                print STDERR "ERROR: can't load plugin for $dep\n" . $trace;
             }
         }
     }

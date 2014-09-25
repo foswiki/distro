@@ -14,8 +14,8 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-our $VERSION           = '6.00_002';
-our $RELEASE           = '6.00_002';
+our $VERSION           = '6.00_003';
+our $RELEASE           = '6.00_003';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -173,7 +173,7 @@ Handles the tmpl rest handler
 sub handleRestTmpl {
     my $session = shift;
 
-    my $plugin = createPlugin( 'tmpl', $session );
+    my $plugin = createPlugin( 'render', $session );
     return $plugin->restTmpl( $session, @_ ) if $plugin;
     return '';
 }

@@ -547,6 +547,9 @@ pub/System/JQueryPlugin/plugins/render/Makefile 0644
 pub/System/JQueryPlugin/plugins/render/jquery.render.js 0644
 pub/System/JQueryPlugin/plugins/render/jquery.render.js.gz 0644
 pub/System/JQueryPlugin/plugins/render/jquery.render.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/render/jquery.template-loader.js 0644
+pub/System/JQueryPlugin/plugins/render/jquery.template-loader.js.gz 0644
+pub/System/JQueryPlugin/plugins/render/jquery.template-loader.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js.gz 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.uncompressed.js 0644
