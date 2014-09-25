@@ -132,7 +132,7 @@ NOCERT
             'Mail configuration failed. Foswiki will not be able to send mail.'
         );
     }
-    _setConfig( 'EnableEmail', $ok );
+    _setConfig( $reporter, 'EnableEmail', $ok );
 
     return undef;    # return the reporter content
 }
@@ -191,8 +191,11 @@ sub _autoconfigProgram {
         $mailp = 'sendmail';
     }
 
+    # Rummage through path including sbin, try to find a sendmail program
+    # And see if it's masquerading as a different mailer.
     foreach my $p ( '/usr/sbin', split( /:/, $path ) ) {
         if ( -x "$p/$mailp" ) {
+            my $cfg = $mtas{$mailp} or next;
             $mailp =
               ( File::Basename::fileparse( Cwd::realpath("$p/$mailp") ) )[0];
             foreach my $mta (@mtas) {
@@ -205,6 +208,8 @@ sub _autoconfigProgram {
                     return 1;    # OK
                 }
             }
+        }
+        else {
             $reporter->NOTE("Unable to identify $p/$mailp.");
         }
     }
@@ -614,6 +619,7 @@ sub _autoconfigSMTP {
     elsif ( $use[2] == 2 ) {                 # Bad credentials
             # Authentication failed, perl is OK, don't try program.
         $reporter->NOTE( $use[3] );
+        return 0;
     }
     else {    # Other failure
         $reporter->NOTE( $use[3] );
@@ -642,6 +648,8 @@ sub _setConfig {
     my ( $reporter, $setting, $value ) = @_;
 
     my $old = eval("\$Foswiki::cfg$setting");
+
+    #$reporter->NOTE(" $setting:  $old,   $value ");
     if (   defined $old && !defined $value
         || !defined $old && defined $value
         || defined $value && $value ne $old )
