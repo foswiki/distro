@@ -107,7 +107,7 @@ function _id_ify(id) {
     }
 
     // Make an RPC call
-    function RPC(method, message, params, report, $node) {
+    function RPC(method, message, params, report) {
         var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
 
         console.debug("Sending " + rpcid);
@@ -286,8 +286,7 @@ function _id_ify(id) {
         RPC('check_current_value',
             'Check: '+ handler.spec.keys,
             params,
-            checker_reports,
-            $node, 'check' );
+            checker_reports );
     }
 
     /*
@@ -387,8 +386,7 @@ function _id_ify(id) {
         RPC('wizard',
             'Call ' + fb.method,
             params,
-            function(result) { wizard_reports($node, result) },
-            $node, 'check');
+            function(result) { wizard_reports($node, result) });
     }
 
     /*
@@ -443,10 +441,9 @@ function _id_ify(id) {
                 fb.label = fb.wizard;
             }
             $button = $('<button class="feedback_button">' + fb.label + '</button>'); 
-            if (spec.title === null) {
-                spec.title = fb.label;
+            if (fb.title) {
+                $button.attr('title', fb.title);
             }
-            $button.attr('title', spec.title);
             $button.click(function() {
                 if (fb.auth == 1) {
                     auth_action = function() {
@@ -535,7 +532,7 @@ function _id_ify(id) {
             check_current_value($node);
         }).button({
             icons: {
-                primary: "undo-icon"
+                primary: "ui-icon-arrowreturn-1-w"
             },
             text: false
         }).hide();
@@ -607,10 +604,8 @@ function _id_ify(id) {
                 RPC('check_current_value',
                     'Check: ' + spec.headline,
                     { keys : [ spec.headline ] },
-                    checker_reports,
-                    $panel, 'check');
-            },
-            $panel, 'load'
+                    checker_reports);
+            }
         );
     }
 
@@ -787,13 +782,19 @@ function _id_ify(id) {
         $.each(entries, function(index, entry) {
             if (entry.typename == "SECTION" && !created[entry.headline]) {
                 created[entry.headline] = true;
-                var $li = $('<li><a href="' +
-                           // This URL could be anything; we're going to
-                           // cancel it in the beforeLoad, below.
-                           json_rpc_url +
-                           '"><span class="tab" id="' +
-                           'TAB' + _id_ify(entry.headline) + '">' +
-                           entry.headline + '</span></a></li>');
+                var $li = $('<li><a href="'
+                            // This URL could be anything; we're going to
+                            // cancel it in the beforeLoad, below.
+                            + json_rpc_url
+                            + '"><span class="tab" id="'
+                            + 'TAB' + _id_ify(entry.headline) + '">'
+                            + entry.headline
+                            + '</span></a></li>');
+                if (entry.EXPERT && entry.EXPERT == 1) {
+                    $li.addClass('expert');
+                    if ($('#showExpert').attr('checked') !== 'checked')
+                        $li.addClass('hidden_expert');
+                }
                 $li.data('spec.entry', entry);
                 if ($children === null) {
                     $children = $('<div></div>');
@@ -888,14 +889,44 @@ function _id_ify(id) {
                      params,
                      function(results) {
                          wizard_reports($root, results);
-                     },
-                     $root, 'check');
+                     });
              };
             $('#auth_note').html($("#webCheckAuthMessage").html());
             $('#auth_prompt').dialog(
                 'option', 'title', 'Webserver authentication');
             $('#auth_prompt').dialog("open");
         });
+
+        $('#closeSearchButton').button().click(function() {
+            $('#searchResults').hide();
+        });
+        $('#searchResults').hide();
+        $('#searchButton').button(
+            {
+                icons: {
+                    primary: "ui-icon-search"
+                },
+                text: false
+            }).click(function() {
+                var search = $('#searchInput').val();
+                var $node = $('#searchResults');
+                $node.find('.path').remove();
+                $node.prepend('<div>Search for: ' + search + '</div>');
+                $('#searchResults').show();
+                RPC('search',
+                    'Search: ' + search,
+                    {
+                        search: search
+                    },
+                    function(response) {
+                        for (var i = 0; i < response.length; i++) {
+                            var path = response[i];
+                            $node.append('<div class="path">'
+                                         + path.join(' > ')
+                                         + '</div>');
+                        }
+                    });
+            });
 
         $('#showExpert').button({disabled: true});
 
@@ -930,8 +961,7 @@ function _id_ify(id) {
                             });
                             $('#saveButton').button('disable');
                         }
-                    },
-                    $root, 'load');
+                    });
             };
             var changed = ':<ul>';
             if ($('#bootstrap_warning').length) {
@@ -983,10 +1013,8 @@ function _id_ify(id) {
                 RPC('check_current_value',
                     'Check all',
                     { keys : [] },
-                    checker_reports,
-                    $root, 'check' );
-            },
-            $root, 'load');
+                    checker_reports);
+            });
     });
 /*
 

@@ -162,8 +162,9 @@ BEGIN {
 
 use Error qw(:try);
 use Assert;
-use CGI ();
-use Data::Dumper;
+use CGI          ();
+use Data::Dumper ();
+use JSON         ();
 
 use Foswiki                         ();
 use Foswiki::Request                ();
@@ -225,9 +226,26 @@ sub handleRequest {
         $isInitialized{ $dispatcher->{package} } = 1;
     }
 
-    my $sub;
+    my $sub = '';
     $sub = $dispatcher->{package} . '::' if $dispatcher->{package};
     $sub .= $dispatcher->{function};
+
+    # If the X-Foswiki-Tickle header is present, this request is an
+    # attempt to verify that the requested function is available on
+    # this Foswiki. Respond with the serialised dispatcher, and
+    # finish the request.
+    if ( $req->header('X-Foswiki-Tickle') ) {
+        my $data = {
+            SCRIPT_NAME => $ENV{SCRIPT_NAME},
+            VERSION     => $Foswiki::VERSION,
+            RELEASE     => $Foswiki::RELEASE,
+        };
+        my $res = new Foswiki::Response();
+        $res->header( -type => 'application/json', -status => '200' );
+        my $d = JSON->new->allow_nonref->encode($data);
+        $res->print($d);
+        return $res;
+    }
 
     # Get the params cache from the path
     my $cache = $req->param('foswiki_redirect_cache');
@@ -337,9 +355,9 @@ sub _execute {
     # it may already be polluted with non-exception-related crud.
     try {
 
-     # DO NOT pass in $req->remoteUser here (even though it appears to be right)
-     # because it may occlude the login manager.  Exception is when running in
-     # CLI environment.
+        # DO NOT pass in $req->remoteUser here (even though may seem
+        # to be right) because it may occlude the login manager.
+        # Exception is when running in CLI environment.
 
         $session = new Foswiki(
             ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} )
@@ -349,15 +367,6 @@ sub _execute {
         );
 
         $res = $session->{response};
-
-        # SMELL:  HACK HACK.   Ugly hack to allow configure to test the mainline
-        # execution path.  Now that configure is based on the Foswiki Engine, we
-        # probably don't need this any more.  ImageTest checks security same as
-        # configure.
-        if ( $req->queryParam('configurationTest') ) {
-            require Foswiki::Configure::ImageTest;
-            return Foswiki::Configure::ImageTest::respond( $req, $res );
-        }
 
         unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();

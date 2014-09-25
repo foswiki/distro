@@ -135,6 +135,7 @@ data/System/MetaData.txt 0644
 data/System/ObjectMethod.txt 0644
 data/System/PageCaching.txt 0644
 data/System/ParentList.txt 0644
+data/System/PerlDependencyReport.txt 0644
 data/System/PerlDoc.txt 0644
 data/System/PlainSkin.txt 0644
 data/System/Plugins.txt 0644
@@ -258,6 +259,7 @@ data/System/VarNOTIFYTOPIC.txt 0644
 data/System/VarOLIVE.txt 0644
 data/System/VarORANGE.txt 0644
 data/System/VarP.txt 0644
+data/System/VarPERLDEPENDENCYREPORT.txt 0644 System dependency report
 data/System/VarPINK.txt 0644
 data/System/VarPLUGINDESCRIPTIONS.txt 0644
 data/System/VarPLUGINVERSION.txt 0644
@@ -531,21 +533,16 @@ lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
 lib/Foswiki/Configure/Wizard.pm 0444
 lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm 0444
-lib/Foswiki/Configure/Wizards/CancelSMIMECertificate.pm 0444
 lib/Foswiki/Configure/Wizards/ExploreExtensions.pm 0444
-lib/Foswiki/Configure/Wizards/GenerateCSR.pm 0444
-lib/Foswiki/Configure/Wizards/GenerateSMIMECertificate.pm 0444
-lib/Foswiki/Configure/Wizards/GuessSSLCaLocations.pm 0444
-lib/Foswiki/Configure/Wizards/InstallCertificate.pm 0444
 lib/Foswiki/Configure/Wizards/InstallExtensions.pm 0444
 lib/Foswiki/Configure/Wizards/Save.pm 0444
 lib/Foswiki/Configure/Wizards/ScriptHash.pm 0444
 lib/Foswiki/Configure/Wizards/SendTestEmail.pm 0444
 lib/Foswiki/Configure/Wizards/ShowActiveCertificate.pm 0444
-lib/Foswiki/Configure/Wizards/ShowCSR.pm 0444
+lib/Foswiki/Configure/Wizards/SMIMECertificate.pm 0444
+lib/Foswiki/Configure/Wizards/SSLCertificates.pm 0444
 lib/Foswiki/Configure/Wizards/StudyWebserver.pm 0444
 lib/Foswiki/Configure/Wizards/Test.pm 0444
-lib/Foswiki/Configure/Wizards/ValidateCertificates.pm 0444
 lib/Foswiki/Contrib/core/DEPENDENCIES 0444
 lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files
 lib/Foswiki/Engine.pm 0444
@@ -624,6 +621,7 @@ lib/Foswiki/Macros/LANGUAGES.pm 0444
 lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
+lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444

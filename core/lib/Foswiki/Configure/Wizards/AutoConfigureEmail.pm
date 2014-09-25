@@ -147,6 +147,8 @@ NOCERT
         $Foswiki::cfg{EnableEmail} = 1;
         $reporter->CHANGED('{EnableEmail}');
     }
+
+    return undef;    # return the report
 }
 
 # Return 0 on failure

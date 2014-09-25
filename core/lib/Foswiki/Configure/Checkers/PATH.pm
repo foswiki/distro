@@ -5,10 +5,6 @@ package Foswiki::Configure::Checkers::PATH;
 #
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
-#    guess:dir,rootkey,silent - guess  value
-#          dir = subdirectory name to guess
-#          rootkey = {key} under which to place dir (install root is default)
-#          silent = directory need not exist
 #
 #    perms:code - validate tree permissions using code (default is no check)
 #                 See Foswiki::Configure::FileUtil::checkTreePerms (current codes: rwxdfp)
@@ -16,14 +12,8 @@ package Foswiki::Configure::Checkers::PATH;
 #                  F - Must exist and be a file (not a directory)
 #                  D - Must exist and be a directory (not a file)
 #
-#    filter:'regex' - Files to exclude.  Note nested quotes mean \ is \\, e.g.
-#                     filter:'\\\\.pl$' (CHECK="" => '\\.pl$'; filter: => \.pl$
-#                     which filters by file extension.)
-#
-#    auto - Field is autochecked only (no visible button exists).  Valid in
-#           first CHECK clause only
-#
-# An item can have multiple CHECK requirements, e.g. with different filters.
+#    accept:regex* - Files to include.
+#    filter:regex* - Files to exclude.
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
@@ -40,8 +30,8 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
-    foreach my $opts ( $this->{item}->getChecks() ) {
-        my $perms = $opts->{perms};
+    foreach my $check ( @{ $this->{item}->{CHECK} } ) {
+        my $perms = $check->{perms};
 
         next unless ($perms);
         $perms = $perms->[0];
@@ -91,7 +81,7 @@ sub validate_permissions {
     my $missingFile = 0;
     my @messages;
 
-    foreach my $check ( $this->{item}->getChecks() ) {
+    foreach my $check ( @{ $this->{item}->{CHECK} } ) {
         my $perms  = $check->{perms};
         my $filter = $check->{filter}[0];
 
@@ -115,13 +105,6 @@ sub validate_permissions {
             $missingFile += $report->{missingFile};
             push( @messages, @{ $report->{messages} } );
         }
-    }
-
-    if ( $fileCount >= $Foswiki::cfg{PathCheckLimit} ) {
-        $reporter->NOTE(
-"File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options",
-            @messages
-        );
     }
 
     my $dperm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );
@@ -153,6 +136,8 @@ PREFS
 $excessPerms or more directories appear to have more access permission than requested in the Store configuration. Excess permissions might allow other users on the web server to have undesired access to the files. Verify that the Store expert settings of {Store}{filePermission} ($fperm} and {Store}{dirPermission}) ($dperm}) are set correctly for your environment and correct the file permissions listed below.  (Files were not checked for excessive permissions.)
 PERMS
     }
+    $reporter->NOTE("Finished checking $fileCount files");
+    return;
 }
 
 1;

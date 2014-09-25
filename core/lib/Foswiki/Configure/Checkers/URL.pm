@@ -13,7 +13,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 # This is a generic (item-independent) checker for URIs.
 #
-# CHECKoptions:
+# CHECK options:
 #    * expand = expand $Foswiki::cfg variables in value
 #    * nullok = allow item to be empty
 #    * parts:scheme,authority,path,query,fragment
@@ -31,7 +31,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 #    * user = Permit user@host syntax
 #    * pass = Permit user:pass@host syntax
 #
-# CHECKoptions default to whatever is in the model if not provided
+# CHECK options default to whatever is in the model if not provided
 
 # Fallback validation expression:
 # (scheme, authority, path, query, frag)
@@ -46,8 +46,8 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
-    my ($check) = $this->{item}->getChecks();
-    checkURI( $reporter, $this->getCfgUndefOk(), %$check );
+    checkURI( $reporter, $this->getCfgUndefOk(),
+        %{ $this->{item}->{CHECK}->[0] || {} } );
 }
 
 sub _list2hash {
@@ -57,30 +57,30 @@ sub _list2hash {
 }
 
 sub checkURI {
-    my ( $reporter, $uri, %check ) = @_;
+    my ( $reporter, $uri, %checks ) = @_;
 
     unless ( defined $uri ) {
-        $reporter->ERROR("Not a valid URI") unless $check{nullok}[0];
+        $reporter->ERROR("Not a valid URI") unless $checks{nullok}[0];
         return;
     }
 
     # Apply defaults
-    $check{expand}   ||= [0];
-    $check{parts}    ||= [qw/scheme authority path/];
-    $check{partsreq} ||= [qw/scheme authority/];
-    $check{schemes}  ||= [qw/http https/];
-    $check{authtype} ||= ['host'];
-    $check{notrail}  ||= [0];
-    $check{pass}     ||= [0];
-    $check{user}     ||= $check{pass}[0] ? [1] : [0];
+    $checks{expand}   ||= [0];
+    $checks{parts}    ||= [qw/scheme authority path/];
+    $checks{partsreq} ||= [qw/scheme authority/];
+    $checks{schemes}  ||= [qw/http https/];
+    $checks{authtype} ||= ['host'];
+    $checks{notrail}  ||= [0];
+    $checks{pass}     ||= [0];
+    $checks{user}     ||= $checks{pass}[0] ? [1] : [0];
 
-    if ( $check{expand}[0] ) {
+    if ( $checks{expand}[0] ) {
         Foswiki::Configure::Load::expandValue($uri);
     }
 
     $uri =~ s/^\s*(.*?)\s*$/$1/ if defined $uri;
 
-    return if ( !( defined $uri && length($uri) ) && $check{nullok}[0] );
+    return if ( !( defined $uri && length($uri) ) && $checks{nullok}[0] );
 
     unless ( $uri =~ $uriRE ) {
         $reporter->ERROR("Syntax error: $uri is not a valid URI");
@@ -92,12 +92,12 @@ sub checkURI {
     undef $authority if ( defined $authority && !length $authority );
     undef $path      if ( defined $path      && !length $path );
 
-    my %parts    = _list2hash( $check{parts} );
-    my %partsreq = _list2hash( $check{partsreq} );
+    my %parts    = _list2hash( $checks{parts} );
+    my %partsreq = _list2hash( $checks{partsreq} );
 
     if ( $parts{scheme} ) {
-        if ( defined $scheme && scalar @{ $check{schemes} } ) {
-            my %s = _list2hash( $check{schemes} );
+        if ( defined $scheme && scalar @{ $checks{schemes} } ) {
+            my %s = _list2hash( $checks{schemes} );
             $reporter->ERROR("Scheme '$scheme' is not permitted in $uri")
               unless ( $s{ lc $scheme } );
         }
@@ -116,9 +116,9 @@ sub checkURI {
             my $auth = $authority;
             if ( $auth =~ s/^([^:\@]+)(?::[^\@]+)?\@// ) {
                 my ( $user, $pass ) = ( $1, $2 );
-                if ( $check{user}[0] ) {
+                if ( $checks{user}[0] ) {
                     if ( defined $pass ) {
-                        unless ( $check{pass}[0] ) {
+                        unless ( $checks{pass}[0] ) {
                             $reporter->ERROR(
                                 "Embedded password is not permitted in $uri");
                         }
@@ -137,15 +137,15 @@ sub checkURI {
             else {
                 if ( $hi->{ipaddr} ) {
                     $reporter->ERROR("IP address is not permitted in $uri")
-                      unless ( $check{authtype}[0] =~ /ip$/ );
+                      unless ( $checks{authtype}[0] =~ /ip$/ );
                     $reporter->ERROR("IP address is required in $uri")
-                      if ( $check{authtype}[0] eq 'ip' );
+                      if ( $checks{authtype}[0] eq 'ip' );
                     $reporter->ERROR(
 "$auth is an IPv6 address, but Foswiki can not use it unless you install IO::Socket::IP"
                     ) if ( !$IPv6Avail && $hi->{ipv6addr} );
                 }
                 else {
-                    if ( $check{authtype}[0] =~ /^host/ ) {
+                    if ( $checks{authtype}[0] =~ /^host/ ) {
                         if ( !$IPv6Avail && @{ $hi->{v6addrs} } ) {
                             if ( @{ $hi->{v4addrs} } ) {
                                 $reporter->NOTE(
@@ -170,7 +170,7 @@ sub checkURI {
         }
         elsif ( $partsreq{authority} ) {
             $reporter->ERROR(
-                "Authority ($check{authtype}[0]) is required in $uri");
+                "Authority ($checks{authtype}[0]) is required in $uri");
         }
     }
     else {
@@ -188,7 +188,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 {
                     $reporter->ERROR("Path ($path) is not valid");
                 }
-                if ( $check{notrail}[0] ) {
+                if ( $checks{notrail}[0] ) {
                     $path =~ s,/$,,;
                 }
             }    # Checks for other schemes?
@@ -255,7 +255,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
             $p = $can->path;
             if ( defined $p && $parts{path} ) {
                 $canon .= $p;
-                if ( $check{notrail}[0] ) {
+                if ( $checks{notrail}[0] ) {
                     $canon =~ s,/$,,;
                 }
             }

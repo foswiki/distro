@@ -26,7 +26,7 @@ sub check_current_value {
     my $value = $this->getCfg() || '';
     my $len = length($value);
 
-    my ($check) = $this->{item}->getChecks();
+    my $check = $this->{item}->{CHECK}->[0] || {};
 
     return unless ($check);
 

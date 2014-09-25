@@ -116,6 +116,7 @@ sub new {
         #default    => undef,
         @options
     );
+    $this->{CHECK} ||= [];
 
     return $this;
 }
@@ -240,24 +241,6 @@ sub _CHECK {
     push( @{ $this->{CHECK} }, \%options );
 }
 
-=begin TML
-
----++ ObjectMethod getChecks() -> @checks
-Get the array of checks specified by the CHECK option in the .spec
-
-=cut
-
-sub getChecks {
-    my ($this) = @_;
-
-    if ( ref( $this->{CHECK} ) eq 'ARRAY' ) {
-        return @{ $this->{CHECK} };
-    }
-    else {
-        return ();
-    }
-}
-
 # A value is a leaf, so this is a NOP.
 sub getSectionObject {
     return;
@@ -365,6 +348,24 @@ sub decodeValue {
 
     # String or number or boolean, just sling it back
     return $value;
+}
+
+# Implements Foswiki::Configure::item
+sub search {
+    my ( $this, $re ) = @_;
+    if ( $this->{keys} =~ /$re/ ) {
+        return ($this);
+    }
+    return ();
+}
+
+# Implements Foswiki::Configure::item
+sub getPath {
+    my $this = shift;
+    my @path;
+    @path = $this->{_parent}->getPath() if ( $this->{_parent} );
+    push( @path, $this->{keys} );
+    return @path;
 }
 
 1;

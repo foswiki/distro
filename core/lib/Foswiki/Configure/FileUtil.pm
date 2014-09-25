@@ -121,7 +121,7 @@ sub findPackages {
                 $file =~ /^(.*)\.pm$/;
                 my $module = "$place/$1";
                 $module =~ s./.::.g;
-                if ($module =~ /($pattern)$/) {
+                if ( $module =~ /($pattern)$/ ) {
                     push( @list, $1 ) unless $known{$1};
                     $known{$1} = 1;
                 }
@@ -146,14 +146,14 @@ Returns a message if the check fails or undef if the check passed.
 =cut
 
 sub checkCanCreateFile {
-    my ( $name ) = @_;
+    my ($name) = @_;
 
     if ( -e $name ) {
 
         # if the file exists just check perms and return
         my $report = checkTreePerms( $name, 'rw' );
-        if (@{$report->{messages}}) {
-            return join("\n", @{$report->{messages}});
+        if ( @{ $report->{messages} } ) {
+            return join( "\n", @{ $report->{messages} } );
         }
         return undef;
     }
@@ -205,7 +205,8 @@ Enhanced checks:
 %options may include the following:
    * =filter= is a regular expression.  Files matching the regex
      if present will not be checked. This is used to skip hidden files
-    and those with different permission requirements.
+     and those with different permission requirements.
+   * =maxFileCount= - limit on number of files checked
    * =maxFileErrors= - limit on number of fileError messages generated
      Default is 10
    * =maxExcessPerms= - limit on number of excessPerms messages generated
@@ -235,20 +236,23 @@ sub checkTreePerms {
     my ( $path, $perms, %options ) = @_;
 
     my %report = (
-        fileCount => 0,
-        fileErrors => 0,
+        fileCount   => 0,
+        fileErrors  => 0,
         missingFile => 0,
         excessPerms => 0,
-        messages => []
-        );
+        messages    => []
+    );
 
-    return \%report if ( defined($options{filter})
-                         && $path =~ /$options{filter}/ && !-d $path );
+    return \%report
+      if ( defined( $options{filter} )
+        && $path =~ /$options{filter}/
+        && !-d $path );
+
     # Let's ignore Subversion directories
     return \%report if ( $path eq '_svn' );
     return \%report if ( $path eq '.svn' );
 
-    $options{maxFileErrors} = 10 unless defined $options{maxFileErrors};
+    $options{maxFileErrors}  = 10 unless defined $options{maxFileErrors};
     $options{maxExcessPerms} = 10 unless defined $options{maxExcessPerms};
     $options{maxMissingFile} = 10 unless defined $options{maxMissingFile};
 
@@ -260,7 +264,7 @@ sub checkTreePerms {
     my $rwxString = _buildRWXMessageString( $perms, $path );
 
     unless ( -e $path || -l $path ) {
-        push(@{$report{messages}}, $path . ' cannot be found');
+        push( @{ $report{messages} }, $path . ' cannot be found' );
         return \%report;
     }
 
@@ -276,17 +280,21 @@ sub checkTreePerms {
                 )
               )
             {
-                if ($report{excessPerms}++ < $options{maxExcessPerms}) {
-                    push(@{$report{messages}},
-                         "$path - directory permission $omode differs from requested $operm - check directory for possible excess permissions\n");
+                if ( $report{excessPerms}++ < $options{maxExcessPerms} ) {
+                    push(
+                        @{ $report{messages} },
+"$path - directory permission $omode differs from requested $operm - check directory for possible excess permissions\n"
+                    );
                 }
             }
             if ( ( $mode & $Foswiki::cfg{Store}{dirPermission} ) !=
                 $Foswiki::cfg{Store}{dirPermission} )
             {
-                if ($report{fileErrors}++ < $options{maxFileErrors}) {
-                    push(@{$report{messages}},
-                         "$path - directory permission $omode differs from requested $operm - check directory for possible insufficient permissions\n");
+                if ( $report{fileErrors}++ < $options{maxFileErrors} ) {
+                    push(
+                        @{ $report{messages} },
+"$path - directory permission $omode differs from requested $operm - check directory for possible insufficient permissions\n"
+                    );
                 }
             }
         }
@@ -304,17 +312,21 @@ sub checkTreePerms {
                 )
               )
             {
-                if ($report{excessPerms}++ < $options{maxExcessPerms}) {
-                    push(@{$report{messages}},
-                         "$path - file permission $omode differs from requested $operm - check file for possible excess permissions\n");
+                if ( $report{excessPerms}++ < $options{maxExcessPerms} ) {
+                    push(
+                        @{ $report{messages} },
+"$path - file permission $omode differs from requested $operm - check file for possible excess permissions\n"
+                    );
                 }
             }
             if ( ( $mode & $Foswiki::cfg{Store}{filePermission} ) !=
                 $Foswiki::cfg{Store}{filePermission} )
             {
-                if ($report{fileErrors}++ < $options{maxFileErrors}) {
-                    push(@{$report{messages}},
-                         "$path - file permission $omode differs from requested $operm - check file for possible insufficient permissions");
+                if ( $report{fileErrors}++ < $options{maxFileErrors} ) {
+                    push(
+                        @{ $report{messages} },
+"$path - file permission $omode differs from requested $operm - check file for possible insufficient permissions"
+                    );
                 }
             }
         }
@@ -325,22 +337,25 @@ sub checkTreePerms {
         && -d $path )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
-            unless ($report{missingFile}++ > $options{maxMissingFile}) {
-                push(@{$report{messages}}, "$path missing $Foswiki::cfg{WebPrefsTopicName} topic");
+            unless ( $report{missingFile}++ > $options{maxMissingFile} ) {
+                push(
+                    @{ $report{messages} },
+                    "$path missing $Foswiki::cfg{WebPrefsTopicName} topic"
+                );
             }
         }
     }
 
-    if ($rwxString && $report{fileErrors}++ < $options{maxFileErrors}) {
-        push(@{$report{messages}}, "=$path= $rwxString");
+    if ( $rwxString && $report{fileErrors}++ < $options{maxFileErrors} ) {
+        push( @{ $report{messages} }, "=$path= $rwxString" );
     }
 
-    return \%report if scalar(@{$report{messages}});
+    return \%report if scalar( @{ $report{messages} } );
 
     return \%report unless -d $path;
 
     if ( -d $path && !-x $path ) {
-        unshift(@{$report{messages}}, "$path missing -x permission");
+        unshift( @{ $report{messages} }, "$path missing -x permission" );
         return \%report;
     }
 
@@ -350,14 +365,17 @@ sub checkTreePerms {
     foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
         my $p = $path . '/' . $e;
         my $subreport = checkTreePerms( $p, $perms, %options );
-        while (my ($k, $v) = each %report) {
-            if (ref($v) eq 'ARRAY') {
-                push(@$v, @{$subreport->{$k}});
-            } else {
+        while ( my ( $k, $v ) = each %report ) {
+            if ( ref($v) eq 'ARRAY' ) {
+                push( @$v, @{ $subreport->{$k} } );
+            }
+            else {
                 $report{$k} += $subreport->{$k};
             }
         }
-        last if ( $report{fileCount} >= $Foswiki::cfg{PathCheckLimit} );
+        last
+          if ( defined $options{maxFileCount}
+            && $report{fileCount} >= $options{maxFileCount} );
     }
     closedir($Dfh);
 
@@ -443,7 +461,7 @@ A partial copy may happen if the copy fails mid-way.
 
 sub copytree {
     my ( $from, $to ) = @_;
-    
+
     if ( -d $from ) {
         if ( !-e $to ) {
             mkdir($to) || return ("Failed to mkdir $to: $!");
@@ -451,19 +469,19 @@ sub copytree {
         elsif ( !-d $to ) {
             return ("Existing $to is in the way");
         }
-        
+
         my $d;
         return ("Failed to copy $from: $!") unless opendir( $d, $from );
         my @e;
         foreach my $f ( grep { !/^\./ } readdir $d ) {
             $f =~ /(.*)/;
             $f = $1;    # untaint
-            push(@e, copytree( "$from/$f", "$to/$f" ));
+            push( @e, copytree( "$from/$f", "$to/$f" ) );
         }
         closedir($d);
         return @e if scalar @e;
     }
-    
+
     unless ( -e $to ) {
         require File::Copy;
         if ( !File::Copy::copy( $from, $to ) ) {

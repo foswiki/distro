@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1411624271" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="InstallationGuide"}%
+
+---+!! Perl dependencies for Foswiki and Extensions
+
+This topic lists the perl module dependencies required by the Foswiki core
+and installed extensions. It is designed to help administrators analyse and
+resolve missing perl dependencies.
+
+The module name links to the module information on the
+[[https://metacpan.org][Comprehensive Perl Archive Network (CPAN)]].
+In the report, all users of the module are identified (including the Foswiki
+core).  If a minimum version can be determined identified, the extension
+requiring the highest minimum version is underlined.
+
+%TOC%
+
+<noautolink>
+---++ Foswiki dependencies
+
+%PERLDEPENDENCYREPORT%
+
+---++ Foswiki extension dependencies
+
+%PERLDEPENDENCYREPORT{'extensions'}%
+</noautolink>
+

@@ -1,11 +1,17 @@
 # See bottom of file for default license and copyright information
 
+# Note on separation of concerns: Please *do not* add anything to this
+# plugin that is not specific to the Javascript 'configure' interface.
+# Generic functionality related to configuration should be implemented
+# in the core. The ConfigurePlugin is *just* for handling the UI, no more.
+
 # Note that POD in this module is included in the documentation topic
 # by BuildContrib
 
 =pod
 
 ---++ Remote Procedure Call (RPC) interface
+
 RPC calls are handled via the =JsonRpcContrib=. Callers must authenticate
 as admins, or the request will be rejected with a 403 status.
 
@@ -33,7 +39,7 @@ use Foswiki::Configure::Reporter     ();
 use Foswiki::Configure::Checker      ();
 use Foswiki::Configure::Wizard       ();
 
-our $RELEASE          = '29 May 2013';
+our $RELEASE          = '25 Sep 2014';
 our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;
@@ -73,7 +79,7 @@ sub initPlugin {
 
     # Register each of the RPC methods with JsonRpcContrib
     foreach my $method (
-        qw(getcfg getspec check_current_value changecfg deletecfg purgecfg wizard)
+        qw(getcfg getspec search check_current_value changecfg deletecfg purgecfg wizard)
       )
     {
         Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
@@ -105,32 +111,7 @@ sub initPlugin {
         }
     }
 
-    Foswiki::Func::registerTagHandler( 'DEPENDENCYREPORT',
-        \&_DEPENDENCYREPORT );
-
     return 1;
-
-}
-
-sub _DEPENDENCYREPORT {
-    my ( $session, $params, $topic, $web ) = @_;
-
-    require Foswiki::Plugins::ConfigurePlugin::DependencyReport;
-
-    print STDERR "PARAM = ($params->{_DEFAULT}) \n"
-      if defined $params->{_DEFAULT};
-
-    if ( defined $params->{_DEFAULT}
-        && $params->{_DEFAULT} =~ m/'?extensions'?/ )
-    {
-        return
-          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeExtensions(
-          );
-    }
-    else {
-        return
-          Foswiki::Plugins::ConfigurePlugin::DependencyReport::analyzeFoswiki();
-    }
 
 }
 
@@ -169,18 +150,18 @@ sub _JSONwrap {
 }
 
 # Canonicalise a key string
-sub safeKeys {
+sub _safeKeys {
     my $k = shift;
     $k =~ s/^{(.*)}$/$1/;
     return '{'
       . join( '}{',
-        map { $_ =~ s/^(['"])(.*)\1$/$2/; safeKey($_) }
+        map { $_ =~ s/^(['"])(.*)\1$/$2/; _safeKey($_) }
           split( /}{/, $k ) )
       . '}';
 }
 
 # Make a single key safe for use in a canonical key string
-sub safeKey {
+sub _safeKey {
     my $k = shift;
     return $k if ( $k =~ /^[a-z_][a-z0-9_]*$/i );
     $k =~ s/'/\\'/g;
@@ -289,6 +270,32 @@ sub getcfg {
         $what = \%Foswiki::cfg;
     }
     return $what;
+}
+
+=pod
+
+---+++ =search=
+
+Search headlines and keys for a fragment of text. Return the path(s) to
+the item(s) matched in an array or arrays, where each entry is a single
+path.
+
+=cut
+
+sub search {
+    my $params = shift;
+    my $root   = _loadSpec();
+
+    return () unless $params->{search};
+
+    my %found;
+    foreach my $find ( $root->search( $params->{search} ) ) {
+        my @path = $find->getPath();
+        $found{ join( '>', @path ) } = \@path;
+    }
+    my $finds = [ map { $found{$_} } sort keys %found ];
+
+    return $finds;
 }
 
 =pod
@@ -586,11 +593,13 @@ sub check_current_value {
                     }
                 ) if $reporter->has($level);
             }
+            my @path = $spec->getPath();
+            pop(@path);    # remove keys
             push(
                 @report,
                 {
                     keys    => $k,
-                    path    => [ $spec->getSectionPath() ],
+                    path    => [@path],
                     reports => \@reps
                 }
             );
@@ -705,7 +714,7 @@ sub changecfg {
 /^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
             # Implicit untaint
-            $key = safeKeys($1);
+            $key = _safeKeys($1);
             if ( eval "exists \$Foswiki::cfg$key" ) {
                 print STDERR "Cleared $key\n" if TRACE;
                 $cleared++;
@@ -720,7 +729,7 @@ sub changecfg {
 /^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
             # Implicit untaint
-            $key = safeKeys($1);
+            $key = _safeKeys($1);
             if ( eval "exists \$Foswiki::cfg$key" ) {
                 my $oval = eval "\$Foswiki::cfg$key";
                 if ( ref($oval) || $oval =~ /^[0-9]+$/ ) {
@@ -787,7 +796,7 @@ sub _lscify {
     }
     if ( ref($data) eq 'HASH' ) {
         foreach my $sk ( sort keys %$data ) {
-            my $c = _lscify( $specs, $data->{$sk}, ( @path, safeKey($sk) ) );
+            my $c = _lscify( $specs, $data->{$sk}, ( @path, _safeKey($sk) ) );
             push( @content, @$c );
         }
     }
@@ -932,7 +941,9 @@ and time-consuming integrity checks.
    * =keys= - name of a checker to use if =wizard= is not given
    * =method= - name of the method in the wizard or checker to call
 
-The return result is a hash containing the following keys:
+If the wizard method returns an object, that will be passed back
+as the result of the call. If the wizard method returns undef, the
+return result is a hash containing the following keys:
     * =report= - Error/Warning etc messages, formatted as HTML. Each
       entry in this array is a hash with keys 'level' (e.g. error, warning)
       and 'message'.
@@ -946,38 +957,41 @@ sub wizard {
     my $target;
     my $root = _loadSpec();
     if ( defined $params->{wizard} ) {
-        die unless $params->{wizard} =~ /^(\w+)$/;    # untaint
+        die "Bad wizard" unless $params->{wizard} =~ /^(\w+)$/;    # untaint
         $target = Foswiki::Configure::Wizard::loadWizard( $1, $params );
     }
     else {
-        die unless $params->{keys};
+        die "No wizard and no keys" unless $params->{keys};
         my $vob = $root->getValueObject( $params->{keys} );
         $target = Foswiki::Configure::Checker::loadChecker($vob);
     }
     die unless $target;
     my $method = $params->{method};
     die unless $method =~ /^(\w+)$/;
-    $method = $1;                                     # untaint
+    $method = $1;                                                  # untaint
     my $reporter = Foswiki::Configure::Reporter->new();
 
     _getSetParams( $params, $root );
 
-    $target->$method($reporter);
+    my $response = $target->$method($reporter);
 
-    my @report;
-    foreach
-      my $level ( 'errors', 'warnings', 'confirmations', 'notes', 'changes' )
-    {
-        push(
-            @report,
-            {
-                level   => $level,
-                message => $reporter->text($level)
-            }
-        ) if $reporter->has($level);
+    unless ($response) {
+        my @report;
+        foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes',
+            'changes' )
+        {
+            push(
+                @report,
+                {
+                    level   => $level,
+                    message => $reporter->text($level)
+                }
+            ) if $reporter->has($level);
+        }
+        $response = { changes => $reporter->{changes}, report => \@report };
     }
 
-    return { changes => $reporter->{changes}, report => \@report };
+    return $response;
 }
 
 =pod

@@ -1,14 +1,8 @@
 # See bottom of file for license and copyright information
-package Foswiki::Plugins::ConfigurePlugin::DependencyReport;
+package Foswiki;
 
-=begin TML
-
----+ package Foswiki::Plugins::ConfigurePlugin::DependencyReport
-
-Restore the detailed core and plugin dependency report done 
-in TimotheLitt's 1.2 configure.
-
-=cut
+# Detailed core and plugin dependency report - see
+# System.VarPERLDEPENDENCYREPORT and System.PerlDependencyReport
 
 use strict;
 use warnings;
@@ -16,7 +10,21 @@ use warnings;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::FileUtil   ();
 
-sub analyzeFoswiki {
+sub PERLDEPENDENCYREPORT {
+    my ( $this, $params ) = @_;
+
+    if ( defined $params->{_DEFAULT}
+        && $params->{_DEFAULT} eq 'extensions' )
+    {
+        return _analyzeExtensions();
+    }
+    else {
+        return _analyzeFoswiki();
+    }
+
+}
+
+sub _analyzeFoswiki {
 
     my $content;
 
@@ -38,7 +46,7 @@ sub analyzeFoswiki {
     return $content;
 }
 
-sub analyzeExtensions {
+sub _analyzeExtensions {
 
     my $content;
 
@@ -256,16 +264,9 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-edditional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

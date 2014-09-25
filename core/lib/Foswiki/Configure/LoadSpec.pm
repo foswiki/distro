@@ -520,6 +520,10 @@ sub _parse {
         }
     }
     _extractSections( \@settings, $root );
+
+    # Promote the EXPERT setting up to those containers where
+    # all children have it
+    $root->promoteSetting('EXPERT');
 }
 
 1;

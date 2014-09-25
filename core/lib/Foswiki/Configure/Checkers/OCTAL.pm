@@ -18,19 +18,19 @@ use Foswiki::Configure::Checkers::NUMBER ();
 our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    my ($check) = $this->{item}->getChecks();
+    my $check = $this->{item}->{CHECK}->[0];
     if ($check) {
-        if (defined $check->{min}) {
+        if ( defined $check->{min} ) {
             my $v = eval "0$check->{min}[0]";
             $reporter->ERROR("Value must be at least $check->{min}[0]")
-                if ( defined $v && $this->getCfg() < $v );
+              if ( defined $v && $this->getCfg() < $v );
         }
-        if (defined $check->{max}) {
+        if ( defined $check->{max} ) {
             my $v = eval "0$check->{max}[0]";
             $reporter->ERROR("Value must be no greater than $check->{min}[0]")
-                if ( defined $v && $this->getCfg() > $v );
+              if ( defined $v && $this->getCfg() > $v );
         }
     }
 }

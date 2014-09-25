@@ -180,8 +180,7 @@ div.information {
     background-image: url("info-icon.png") !important;
 }
 
-.expert {
-    display: block;
+div.expert {
     background-image: url(expert.png);
     padding-left: 60px !important;
     background-position: left 45%;

@@ -40,59 +40,43 @@ sub verify {
     my $cookie = CGI->cookie(@pars);
     my $net    = Foswiki::Net->new;
 
-    # Flags must be defined and false.  Avoid 'used once' warnings.
-
-    local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
-    local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
-
     unless ( defined $Foswiki::VERSION ) {
         ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
         $Foswiki::Version = '0.0' unless ($fwi);
     }
 
-    my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
-    my $target = eval "\$Foswiki::cfg$keys";
+    my $script;
 
-    my $script = 'view';
-    my ( $root, $view, $viewtarget );
-
-    if ( $keys =~ /^\{[^}]+\}\{([^}]+)\}$/ ) {
+    if ( $keys =~ /^\{ScriptUrlPaths\}\{([^}]+)\}$/ ) {
         $script = $1;
     }
     else {
-        $target ||= '';
-        $target .= "/$script" . ( $Foswiki::cfg{ScriptSuffix} || '' );
-        $root       = 1;
-        $view       = $Foswiki::cfg{ScriptUrlPaths}{view};
-        $viewtarget = $view;
-        $viewtarget = $Foswiki::cfg{ScriptUrlPath}
-          if ( !defined $viewtarget );
-        Foswiki::Configure::Load::expandValue($viewtarget);
-        $view = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}'
-          if ( !defined $view );
-        Foswiki::Configure::Load::expandValue($view);
+        $script = 'view';
     }
-    $target =
-      '$Foswiki::cfg{ScriptUrlPath}/' . $script . '$Foswiki::cfg{ScriptSuffix}'
-      unless ( defined $target );
-    Foswiki::Configure::Load::expandValue($target);
-    my $data;
 
-    my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
+    my $url =
+        $Foswiki::cfg{DefaultUrlHost}
+      . $Foswiki::cfg{ScriptUrlPath}
+      . "/$script"
+      . ( $Foswiki::cfg{ScriptSuffix} || '' );
+
     $reporter->NOTE("Tracing access to =$url=");
 
-    my ( $limit, $try ) = (10);
-    my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
+    my $try     = 10;
+    my %headers = (
+        Cookie             => join( '=', $cookie->name, $cookie->value ),
+        'X-Foswiki-Tickle' => 1,
+        'X-Requested-With' => 'FoswikiReflectionRequest'
+    );
 
     if ($user) {
         require MIME::Base64;
         my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
-        push @headers, Authorization => "Basic $auth";
+        $headers{Authorization} = "Basic $auth";
     }
-    push( @headers, 'X-Requested-With' => 'FoswikiReflectionRequest' );
 
-    for ( $try = 1 ; $try <= $limit ; $try++ ) {
-        my $response = $net->getExternalResource( $url, @headers );
+    while ( $try-- ) {
+        my $response = $net->getExternalResource( $url, headers => \%headers );
 
         if ( $response->is_error ) {
             my $content = $response->content || '';
@@ -116,76 +100,53 @@ sub verify {
                 "Redirected (" . $response->code . ") " . "to =$url=" );
             next;
         }
-        $data = $response->content;
-        unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
+        unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?, ) {
             $reporter->ERROR("=$url= does not match request");
             last;
         }
-        my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
-        if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
-            $reporter->WARN(
-"=$host= does not match {DefaultUrlHost} (=$Foswiki::cfg{DefaultUrlHost}=)"
-            );
-        }
-        $path ||= '';
+
+        my $data = $response->content;
 
         my $info = JSON->new->decode($data);
 
-        unless ( ref($info) && defined $info->{ENV}->{SCRIPT_NAME} ) {
+        unless ( ref($info) && defined $info->{SCRIPT_NAME} ) {
             $reporter->ERROR(
                 "Server returned incorrect diagnostic data: =$data= ");
+            last;
         }
-        else {
-            if ( $info->{ENV}->{SCRIPT_NAME} eq $target ) {
+
+        my $target = $Foswiki::cfg{ScriptUrlPaths}{$script}
+          || "$Foswiki::cfg{ScriptUrlPath}/$script"
+          . ( $Foswiki::cfg{ScriptSuffix} || '' );
+
+        if ( $info->{SCRIPT_NAME} eq $target ) {
+            $reporter->NOTE("Server received the expected path (=$target=)");
+        }
+        elsif ( $script eq 'view' ) {
+            if ( $info->{SCRIPT_NAME} eq $Foswiki::cfg{ScriptUrlPath} ) {
                 $reporter->NOTE(
-                    "Server received the expected path (=$target=)");
-            }
-            elsif ($root) {
-                if ( $info->{ENV}->{SCRIPT_NAME} eq $view ) {
-                    $reporter->NOTE(
-"Server received =$view=, which is the value of {ScriptUrlPaths}{view}.  This indicates that short(er) URLs are active and functioning correctly."
-                    );
-                }
-                else {
-                    $reporter->ERROR(
-"Server received =$info->{ENV}->{SCRIPT_NAME}=, but the expected path is =$viewtarget=.
-Changing {ScriptUrlPaths}{view} to =$info->{ENV}->{SCRIPT_NAME}= will probably correct this error. (Server may be configured for Shorter URLs.)"
-                    );
-                }
+"Server received =$info->{SCRIPT_NAME}=, which is the value of {ScriptUrlPaths}{$script}.  This indicates that short(er) URLs are active and functioning correctly."
+                );
             }
             else {
                 $reporter->ERROR(
-"Server received =$info->{ENV}->{SCRIPT_NAME}=, but the expected path is =$target=.
-The correct setting for $keys is probably =$info->{ENV}->{SCRIPT_NAME}=.  (Server may be configured for Shorter URLs.)"
-                );
-            }
-        }
-        if ( $path eq $target ) {
-            $reporter->NOTE("Path =$path= is correct");
-        }
-        elsif ($root) {
-            if ( $path eq $view ) {
-                $reporter->NOTE(
-                    "Path =$path= is correct for =view= with short(er) URLs");
-            }
-            else {
-                $reporter->ERROR( "Path used by "
-                      . ( $try > 1 ? "final " : '' )
-                      . "GET (=$path=) does not match {ScriptUrlPath} (=$viewtarget=)"
+"Server received =$info->{SCRIPT_NAME}=, but the expected path is =$Foswiki::cfg{ScriptUrlPath}=.
+Changing {ScriptUrlPaths}{view} to =$info->{SCRIPT_NAME}= will probably correct this error. (Server may be configured for Shorter URLs.)"
                 );
             }
         }
         else {
-            $reporter->ERROR( "Path used by "
-                  . ( $try > 1 ? "final " : '' )
-                  . "GET (=$path=) does not match $keys (=$target=)" );
+            $reporter->ERROR(
+"Server received =$info->{SCRIPT_NAME}=, but the expected path is =$target=.
+The correct setting for $keys is probably =$info->{SCRIPT_NAME}=.  (Server may be configured for Shorter URLs.)"
+            );
         }
-
         last;
     }
-    if ( $try > $limit ) {
-        $reporter->ERROR("Excessive redirects (&gt;$limit) stopped trace.");
+    unless ($try) {
+        $reporter->ERROR("Excessive redirects stopped trace.");
     }
+    return undef;    # return the report
 }
 
 1;

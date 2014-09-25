@@ -17,15 +17,14 @@ our @ISA = ('Foswiki::Configure::Checker');
 use constant NOREDIRECT => 0;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->showExpandedValue($reporter);
 
-    my ($check) = $this->{item}->getChecks();
+    my $check = $this->{item}->{CHECK}->[0] || {};
 
-    my $nullok = $check ? $check->{nullok}[0] : 0;
-    my $list = $check ? $check->{list}[0] : undef;
-    $list = ',\s+' if ( defined $list && $list == 1 );
+    my $nullok = $check->{nullok}[0] || 0;
+    my $list = $check->{list}[0];
 
     my $value = $this->getCfg();
 
@@ -34,7 +33,7 @@ sub check_current_value {
     }
     else {
         my @addrs;
-        @addrs = split( qr{$list}, $value ) if ( defined $list );
+        @addrs = split( /,\s*/, $value ) if ( defined $list );
         push @addrs, $value unless ( defined $list );
 
         $reporter->ERROR("An e-mail address is required")

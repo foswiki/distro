@@ -35,11 +35,13 @@ our $installRoot;
 sub add {
     my ( $this, $reporter ) = @_;
     $this->_action( 'add', $reporter );
+    return undef;    # return the report
 }
 
 sub remove {
     my ( $this, $reporter ) = @_;
     $this->_action( 'remove', $reporter );
+    return undef;    # return the report
 }
 
 sub _action {

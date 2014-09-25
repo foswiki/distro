@@ -3,9 +3,9 @@ package Foswiki::Configure::Wizards::GenerateSMIMECertificate;
 
 =begin TML
 
----++ package Foswiki::Configure::Wizards::GenerateSMIMECertificate
+---++ package Foswiki::Configure::Wizards::SMIMECertificate
 
-Wizard to generate a self-signed SMIME certificate.
+Wizard methods to handle SMIME certificates.
 
 =cut
 
@@ -15,15 +15,23 @@ use warnings;
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 
-# WIZARD
+=begin TML
+
+---++ WIZARD generate_cert
+
+Generate a self-signed certficate for the WebMaster.
+This allows immediate use of signed email.
+
+=cut
+
 sub generate_cert {
-    my ( $this, $reporter ) = @_;
 
-    return generate( $reporter, {} );
-}
+    # \%checks is provided by an internal cross-call from the
+    # request_cert wizard method. It's empty when generating a self-signed
+    # cert.
+    my ( $this, $reporter, $checks ) = @_;
 
-sub generate {
-    my ( $reporter, $checks ) = @_;
+    $checks ||= {};
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
@@ -72,7 +80,7 @@ sub generate {
         return;
     }
 
-    ( $ok, my $msg, my $keypass ) = _generate(
+    ( $ok, my $msg, my $keypass ) = _inner_generate(
         $reporter,
         $Foswiki::cfg{WebMasterName},
         $Foswiki::cfg{WebMasterEmail},
@@ -86,9 +94,10 @@ sub generate {
     else {
         $reporter->ERROR($msg);
     }
+    return undef;    # return the report
 }
 
-sub _generate {
+sub _inner_generate {
     my ( $reporter, $name, $email, $certfile, $keyfile, $options ) = @_;
 
     require File::Temp;
@@ -245,6 +254,107 @@ $keypass
 "Your private key has been created.  Your certificate signing request is displayed below.  Please transmit it to your CA, then proceed to the Install button.  Do NOT click either action button again, as it will over-write the private key, rendering the CSR useless.<pre>$output</pre>",
         $keypass,
     );
+}
+
+=begin TML
+
+---++ WIZARD request_cert
+
+Generate a certificate signing request for the WebMaster. This request
+must be signed by a Certificate Authority to create a certificate,
+then installed.
+
+=cut
+
+sub request_cert {
+    my ( $this, $reporter ) = @_;
+    return generate_cert(
+        $reporter,
+        {
+            C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
+            ST => [ $Foswiki::cfg{Email}{SmimeCertST} ],
+            L  => [ $Foswiki::cfg{Email}{SmimeCertL} ],
+            O  => [ $Foswiki::cfg{Email}{SmimeCertO} ],
+            U  => [ $Foswiki::cfg{Email}{SmimeCertOU} ],
+        }
+    );
+}
+
+=begin TML
+
+---++ WIZARD cancel_cert
+
+Cancel a pending Certificate Signing request. This destroys the
+private key associated with the request.
+
+=cut
+
+sub cancel_cert {
+    my ( $this, $reporter ) = @_;
+    my $ok = 1;
+
+    my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
+    Foswiki::Configure::Load::expandValue($certfile);
+    my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
+    Foswiki::Configure::Load::expandValue($keyfile);
+
+    if ( -f "$certfile.csr" || -f "$keyfile.csr" ) {
+        if ( -f "$certfile.csr" && !unlink("$certfile.csr") ) {
+            $ok = 0;
+            $reporter->ERROR("Can't delete $certfile.csr: $!");
+        }
+        if ( -f "$keyfile.csr" && !unlink("$keyfile.csr") ) {
+            $ok = 0;
+            $reporter->ERROR("Can't delete $keyfile.csr: $!");
+        }
+        if ($ok) {
+            $reporter->NOTE("Request cancelled");
+        }
+        else {
+            $reporter->ERROR("Cancel failed.");
+        }
+    }
+    else {
+        $reporter->NOTE("No request pending");
+    }
+    return undef;    # return the report
+}
+
+=begin TML
+
+---++ WIZARD show_request
+
+Show the pending SSL Certificate signing request.
+
+=cut
+
+sub show_request {
+    my ( $this, $reporter ) = @_;
+
+    my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
+    Foswiki::Configure::Load::expandValue($certfile);
+    my $csrfile = "$ceertfile.csr";
+
+    unless ( -r $csrfile ) {
+        $reporter->ERROR("No CSR pending");
+        return undef;
+    }
+
+    my $output;
+    {
+        no warnings 'exec';
+
+        $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
+    }
+    if ($?) {
+        $reporter->ERROR(
+            "Operation failed" . ( $? == -1 ? " (No openssl: $!)" : '' ) );
+    }
+    else {
+        $reporter->NOTE($output);
+    }
+
+    return undef;    # return the report
 }
 
 1;

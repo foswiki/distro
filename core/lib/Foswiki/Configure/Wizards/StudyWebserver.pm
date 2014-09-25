@@ -5,8 +5,6 @@ package Foswiki::Configure::Wizards::StudyWebserver;
 
 ---++ package Foswiki::Configure::Wizards::StudyWebserver
 
-Wizard to try to analyse and report on webserver.
-
 =cut
 
 use strict;
@@ -25,7 +23,14 @@ use Foswiki::Net ();
 our $inc_rubric =
 '@INC library path _This is the Perl library path, used to load Foswiki modules, third-party modules used by some plugins, and Perl built-in modules_ ';
 
-# WIZARD
+=begin TML
+
+---++ WIZARD report
+
+Analyse and report on webserver.
+
+=cut
+
 sub report {
     my ( $this, $reporter ) = @_;
 
@@ -331,8 +336,8 @@ HERE
 I could not see your execution environment to test for mod_perl. Please re-run this analysis once the problem preventing configure from querying the execution environment is resolved.
 BADXENV
     }
-    $reporter->NOTE("| mod_perl enabled? | $n (Only =attach= is tested) |");
-
+    $reporter->NOTE("| mod_perl enabled? | $n (Only =jsonrpc= is tested) |");
+    return undef;
 }
 
 sub _compareHashes {
@@ -366,6 +371,12 @@ sub _compareHashes {
 }
 
 # Return %XENV = env from the script execution environment
+# We perform JSON RPC back to this wizard in order to get this
+# information. This may seem circular, but remember that the current
+# instance may be running from the command line. We're checking what
+# the *remote* server has to say for itself.
+#
+# REQUIRES ConfigurePlugin
 
 sub _getScriptENV {
     my ( $this, $reporter ) = @_;
@@ -381,26 +392,18 @@ sub _getScriptENV {
     local $Foswiki::VERSION = "CONFIGURATION";
     my $net = Foswiki::Net->new;
 
-    # Flags must be defined and false.  Avoid 'used once' warnings.
-
-    local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
-    local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
-
-    # 'attach' chosen because it is unlikely to be redirected.
-    # SMELL: this assumes
-
-    my $test = '/Web/Topic/Env/Echo?configurationTest=yes';
-    my $target =
-        '$Foswiki::cfg{ScriptUrlPath}/'
-      . 'attach'
-      . '$Foswiki::cfg{ScriptSuffix}';
-
-    Foswiki::Configure::Load::expandValue($target);
-
-    my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
+    my $url =
+        $Foswiki::cfg{DefaultUrlHost}
+      . $Foswiki::cfg{ScriptUrlPath}
+      . '/jsonrpc'
+      . ( $Foswiki::cfg{ScriptSuffix} || '' )
+      . '/configure';
 
     my ( $limit, $try ) = (10);
-    my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
+    my %headers = (
+        Cookie         => join( '=', $cookie->name, $cookie->value ),
+        'Content-type' => 'application/json'
+    );
 
     my $user = $this->param('cfgusername');
 
@@ -408,11 +411,26 @@ sub _getScriptENV {
     if ($user) {
         require MIME::Base64;
         my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
-        push @headers, Authorization => "Basic $auth";
+        $headers{Authorization} = "Basic $auth";
     }
 
+    my $data = {
+        jsonrpc => '2.0',
+        id      => 'configurationTest' . time(),
+        method  => 'wizard',
+        params  => {
+            wizard => 'StudyWebserver',
+            method => 'request_environment'
+        }
+    };
+
     for ( $try = 1 ; $try <= $limit ; $try++ ) {
-        my $response = $net->getExternalResource( $url, @headers );
+        my $response = $net->getExternalResource(
+            $url,
+            headers => \%headers,
+            method  => 'POST',
+            content => JSON->new->encode($data)
+        );
         if ( $response->is_error ) {
             my $content = $response->content || '';
             $content =~ s/<([^>]*)>/&lt;$1&gt;/g;
@@ -434,16 +452,6 @@ sub _getScriptENV {
             }
             next;
         }
-        unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
-            $reporter->ERROR("\"=$url=\" does not match request");
-            last;
-        }
-        my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
-        if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
-            $reporter->WARN(
-"\"=$host=\" does not match {DefaultUrlHost} (=$Foswiki::cfg{DefaultUrlHost}=)"
-            );
-        }
 
         my $xenv;
         eval {
@@ -454,7 +462,7 @@ sub _getScriptENV {
             return undef;
         }
         else {
-            return $xenv;
+            return $xenv->{result};
         }
         last;
     }
@@ -466,6 +474,63 @@ sub _getBinDir {
     my $dir = $ENV{SCRIPT_FILENAME} || '.';
     $dir =~ s(/+configure[^/]*$)();
     return $dir;
+}
+
+=begin TML
+
+---++ WIZARD request_environment
+
+Respond to a test request from this module.
+
+=cut
+
+sub request_environment {
+    my ( $this, $reporter ) = @_;
+
+    # Get environment
+
+    my $data = { action => $2 };
+
+    my @cgivars = (
+
+        # CGI 'Standard'
+        qw/AUTH_TYPE CONTENT_LENGTH CONTENT_TYPE GATEWAY_INTERFACE/,
+        qw/PATH_INFO PATH_TRANSLATED QUERY_STRING REMOTE_ADDR/,
+        qw/REMOTE_HOST REMOTE_IDENT REMOTE_USER REQUEST_METHOD/,
+        qw/SCRIPT_NAME SERVER_NAME SERVER_PORT SERVER_PROTOCOL/,
+        qw/SERVER_SOFTWARE/,
+
+        # Apache/common extensions
+        qw/DOCUMENT_ROOT PATH_TRANSLATED REQUEST_URI SCRIPT_FILENAME/,
+        qw/SCRIPT_URI SCRIPT_URL SERVER_ADDR SERVER_ADMIN SERVER_SIGNATURE/,
+
+        # HTTP headers & SSL data
+        grep( /^(?:HTTP|SSL)_/, keys %ENV ),
+
+        # Other
+        qw/PATH MOD_PERL MOD_PERL_API_VERSION/,
+    );
+
+    foreach my $var ( sort @cgivars ) {
+        next unless ( exists $ENV{$var} );
+        $data->{ENV}->{$var} = $ENV{$var};
+    }
+
+    $data->{'@INC'} = [@INC];
+    my @gids;
+    eval {
+        @gids = map { lc getgrgid($_) } split( ' ', $( );
+    };
+    if ($@) {
+        @gids =
+          ( lc( qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a' ) );
+    }
+    $data->{groups} = [@gids];
+
+    $data->{uid} = getlogin() || getpwuid($>);
+    $data->{umask} = umask;
+
+    return $data;
 }
 
 1;

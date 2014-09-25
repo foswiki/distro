@@ -237,6 +237,7 @@ sub save {
         unlink $backup if ($backup);
         $reporter->NOTE("No change made to $lsc");
     }
+    return undef;    # return the report
 }
 
 sub _compareConfigs {

@@ -22,7 +22,7 @@ our @ISA = qw(Foswiki::Configure::Checker);
 use Assert;
 
 sub check {
-    ASSERT(0, "Subclasses must implement this") if DEBUG;
+    ASSERT( 0, "Subclasses must implement this" ) if DEBUG;
 }
 
 sub checkEnabled {
@@ -41,14 +41,14 @@ sub checkEnabled {
         return;
     }
 
-    my ($check) = $this->{item}->getChecks();
+    my $check = $this->{item}->{CHECK};
 
-    if ( defined $value && $check) {
+    if ( defined $value && $check ) {
         my $filter = $check->{filter}[0];
         $reporter->ERROR("Password contains illegal characters")
           if ( defined $filter && $value =~ qr{$filter} );
 
-        my $min    = $check->{min}[0];
+        my $min = $check->{min}[0];
         $reporter->ERROR("Password must be at least $min characters long")
           if ( defined $min && length($value) < $min );
     }
