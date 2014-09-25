@@ -98,61 +98,42 @@ sub autoconfigure {
         Foswiki::Configure::Load::expandValue($keyFile);
 
         unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
-            $reporter->WARN( <<NOCERT );
-You nave configured Foswiki to send S/MIME signed e-mail.
-To do this, either Certificate and Key files must be provided, or a self-signed certificate can be generated.
-To generate a self-signed certificate or generate a signing request, use the button next to the {WebmasterName} setting.
-Because no certificate is present, S/MIME has been disabled to allow basic autoconfiguration to continue.
+            $reporter->ERROR( <<NOCERT );
+You have enabled \{Email\}\{EnableSMIME\}, so you obviously want to send
+signed e-mail. For signed mail to work, Certificate and Key files must be
+provided (or generated), but none were found. Correct the settings in
+the *Signed Email* section before trying Auto Configure again.
 NOCERT
-            $Foswiki::cfg{Email}{EnableSMIME} = 0;
-            $reporter->CHANGED('{Email}{EnableSMIME}');
+            return;
         }
     }
 
     my $ok = 0;
-    unless ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
-        my $perlAvail = eval "require Net::SMTP";
-        if ($perlAvail) {
-            $ok = _autoconfigPerl($reporter);
-            unless ($ok) {
-                $reporter->NOTE(
-"$Foswiki::cfg{Email}{MailMethod} configuration failed. Falling back to mail program."
-                );
-            }
-        }
-        else {
-            $ok = 0;
-            $reporter->NOTE("Net::SMTP is not available: $@");
+    if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
+        $ok = _autoconfigSMTP($reporter);
+        unless ($ok) {
+            $reporter->WARN(
+"SMTP configuration using $Foswiki::cfg{SMTP}{MAILHOST} failed. Falling back to mail program"
+            );
         }
     }
 
     if ( !$ok && _autoconfigProgram($reporter) ) {
         $ok = 1;
-        if ( $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' ) {
-            $Foswiki::cfg{Email}{MailMethod} = 'MailProgram';
-            $reporter->CHANGED('{Email}{MailMethod}');
-        }
     }
 
-    if ( !$ok ) {
+    unless ($ok) {
         $reporter->ERROR(
             'Mail configuration failed. Foswiki will not be able to send mail.'
         );
-        if ( $Foswiki::cfg{EnableEmail} ) {
-            $Foswiki::cfg{EnableEmail} = 0;
-            $reporter->CHANGED('{EnableEmail}');
-        }
     }
-    elsif ( !$Foswiki::cfg{EnableEmail} ) {
-        $Foswiki::cfg{EnableEmail} = 1;
-        $reporter->CHANGED('{EnableEmail}');
-    }
+    _setConfig( 'EnableEmail', $ok );
 
-    return undef;    # return the report
+    return undef;    # return the reporter content
 }
 
 # Return 0 on failure
-# $perlAvail = 0 if not available, -1 if tried and failed, 1 if tried and OK
+# $smtpAvail = 0 if not available, -1 if tried and failed, 1 if tried and OK
 sub _autoconfigProgram {
     my ($reporter) = @_;
 
@@ -275,14 +256,10 @@ sub _setMailProgram {
 Identified $cfg->{name} ( =$path/$cfg->{file}= ) as your mail program
 ID
 
-    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
     _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
     _setConfig( $reporter,
         '{MailProgram}', "$path/$cfg->{file} $cfg->{flags}" );
-    _setConfig( $reporter, '{SMTP}{DebugFlags}', $cfg->{debug} );
-    _setConfig( $reporter, '{EnableEmail}',      1 );
-    _setConfig( $reporter, '{SMTP}{MAILHOST}',
-        ' ---- Unused when MailProgram selected ---' );
+    _setConfig( $reporter, '{EnableEmail}', 1 );
 
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
@@ -307,36 +284,30 @@ our (
 our $pad = ' ' x length('Net::SMTpXXX ');
 
 # Return 0 on failure
-sub _autoconfigPerl {
+sub _autoconfigSMTP {
     my ($reporter) = @_;
 
     $SIG{__DIE__} = sub {
         Carp::confess($@);
     };
 
-    $reporter->NOTE("Attempting to configure Net::SMTP");
+    $host = $Foswiki::cfg{SMTP}{MAILHOST};
+
+    foreach my $module ( 'Net::SMTP', 'IO::Handle' ) {
+        eval "require $module";
+        if ($@) {
+            $reporter->WARN("$module is required to auto configure SMTP mail");
+            return 0;
+        }
+    }
 
     my $trySSL = 1;
 
-    my $IOHandleAvail = eval "require IO::Handle";
-    if ($@) {
-        $reporter->NOTE(
-            "IO::Handle is required to auto configure Net::SMTP mail");
-        return 0;
-    }
-
-    eval "require Net::SSLeay";
-    if ($@) {
-        $reporter->NOTE(
-"Net::SSLeay is required to auto configure Net::SMTP mail over SSL - trying plain SMTP"
-        );
-        $trySSL = 0;
-    }
-    else {
-        eval "require IO::Socket::SSL";
+    foreach my $module ( 'Net::SSLeay', 'IO::Socket::SSL' ) {
+        eval "require $module";
         if ($@) {
-            $reporter->NOTE(
-"IO::Socket::SSL is required to auto configure Net::SMTP mail over SSL"
+            $reporter->WARN(
+"$module is required to auto configure SMTP mail over SSL, but it could not be loaded"
             );
             $trySSL = 0;
         }
@@ -344,17 +315,13 @@ sub _autoconfigPerl {
 
     IO::Socket::SSL->import('debug2') if ( $trySSL && DEBUG_SSL );
 
-    # Enable IPv6 if it's available
+    if ($IPv6Avail) {
 
-    @Net::SMTP::ISA = (
-        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
-        'IO::Socket::IP'
-    ) if ($IPv6Avail);
-
-    $host = $Foswiki::cfg{SMTP}{MAILHOST};
-    unless ( $host && $host !~ /^ ---/ ) {
-        $reporter->NOTE("{SMTP}{MAILHOST} must be specified to use Net::SMTP");
-        return 0;
+        # Enable IPv6 if it's available
+        @Net::SMTP::ISA = (
+            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+            'IO::Socket::IP'
+        );
     }
 
     $hInfo = hostInfo($host);
@@ -654,7 +621,6 @@ sub _autoconfigPerl {
     $host = "[$host]" if ( $hInfo->{ipv6addr} );
     my $cfg = $use[0];
 
-    _setConfig( $reporter, '{SMTP}{Debug}',       0 );
     _setConfig( $reporter, '{Email}{MailMethod}', $cfg->{method} );
     _setConfig( $reporter, '{SMTP}{SENDERHOST}',  $hello );
     _setConfig( $reporter, '{SMTP}{Username}',    $username );
@@ -667,11 +633,16 @@ sub _autoconfigPerl {
 }
 
 sub _setConfig {
+    my ( $reporter, $setting, $value ) = @_;
 
-    #my ($reporter, $setting, $value) = @_;
-
-    eval( '$Foswiki::cfg' . $_[1] . ' = ' . '"' . $_[2] . '"' );
-    $_[0]->CHANGED( $_[1] );
+    my $old = eval("\$Foswiki::cfg$setting");
+    if (   defined $old && !defined $value
+        || !defined $old && defined $value
+        || defined $value && $value ne $old )
+    {
+        eval("\$Foswiki::cfg$setting=\$value");
+        $reporter->CHANGED($setting);
+    }
     return;
 }
 
@@ -1084,7 +1055,7 @@ sub starttls {
 
 # Handle host verification manually so we can report issues
 
-my %verifyErrors = (
+our %verifyErrors = (
     2 =>
 "The issuer of a looked-up certificate could not be found.  This is probably a root certificate that is not in {Email}{SSLCaFile} or {Email}{SSLCaPath}..\n",
     18 => "The server certificate is self-signed, but not trusted.\n"

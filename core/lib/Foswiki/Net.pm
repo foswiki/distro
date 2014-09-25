@@ -1184,7 +1184,7 @@ sub setup {
             push @sslopts,
               SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
               SSL_verifycn_name => $host,
-              setupSSLoptions($this);
+              _setupSSLoptions($this);
         }
         else {
             $verified = -1;
@@ -1263,7 +1263,7 @@ sub new {
 
 # Create socket options list for TSL/SSL/STARTTLS connections
 
-sub setupSSLoptions {
+sub _setupSSLoptions {
     my ($this) = @_;
 
     # Accurate SSL error reporting requires setting this hook.
