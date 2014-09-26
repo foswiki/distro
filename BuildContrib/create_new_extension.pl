@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 # Script for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Author: Crawford Currie http://c-dot.co.uk
@@ -45,6 +45,10 @@ my %def;
 $def{MODULE} = $ARGV[0];
 usage() unless $def{MODULE};
 
+$def{MODULE} =~ /^.*?(Plugin|Contrib|Skin|AddOn)$/;
+$def{TYPE} = $1;
+usage() unless $def{TYPE};
+
 # Determine the template module to use, either from an explicit parameter
 # or by finding an appropriate Empty* template module
 our $templateModule;
@@ -71,10 +75,10 @@ else {
     $def{TYPE} = $1;
     usage() unless $def{TYPE};
 
-    $def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
-
     $templateModule = "Empty$def{TYPE}";
 }
+
+$def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
 
 unless ( $templateModule && -d $templateModule ) {
     usage( error =>
