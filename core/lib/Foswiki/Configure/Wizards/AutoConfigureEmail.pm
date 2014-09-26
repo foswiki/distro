@@ -314,6 +314,7 @@ sub _autoconfigSMTP {
 
     my $trySSL = 1;
 
+    # Make sure all SSL dependencies are available. If any fail, don't try SSL.
     foreach my $module ( 'Net::SSLeay', 'IO::Socket::SSL' ) {
         eval "require $module";
         if ($@) {
@@ -326,6 +327,8 @@ sub _autoconfigSMTP {
 
     IO::Socket::SSL->import('debug2') if ( $trySSL && DEBUG_SSL );
 
+# If Dependencies for IPv6 are available, This changes the ISA of Net::SMTP to IO::Socket::IP
+# which supports both IPv6 and IP V4
     if ($IPv6Avail) {
 
         # Enable IPv6 if it's available
@@ -366,8 +369,10 @@ sub _autoconfigSMTP {
     }
 
     my @options = (
-        Debug   => 1,
-        Host    => [@addrs],
+        Debug => 1,
+        Host  => [@addrs],
+
+        # Shorten timeout if > 2 Addresses to test
         Timeout => ( @addrs >= 2 ? 10 : 30 ),
     );
 
@@ -375,6 +380,7 @@ sub _autoconfigSMTP {
         push @options, Hello => ($hello);
     }
     else {
+        # Figure out a hostname to use in the HELO
         require Net::Domain;
         $hello = Net::Domain::hostfqdn();
         $hello = "[$hello]"
@@ -514,6 +520,25 @@ sub _autoconfigSMTP {
     STDERR->autoflush(1);
 
     # Loop over methods - output @use if one succeeds
+
+    # This code loops over the @methods list.  It configures each method
+    # per the %config hash for that method, and tests the connection.
+    # The first connection that succeeds in sending a message is used.
+    #
+    # The methods are tried in order of the most secure / modern to the least
+    # secure,  so STARTTLS on Submission (587) would be preferred over SSL which
+    # is preferred over plain SMTP port 25.
+    #
+    # The configuration  that worked is pushed onto @use,
+    #    $use[0] Configuration hash
+    #    $use[1] Port
+    #    $use[2] Flag if authentication worked
+    #     0 - Test incomplete
+    #     1 - Succeeded
+    #     2 - Bad credentials
+    #     3 - Some other error
+    #     4 - Auth not required, remove credentials
+    #    $use[3] Message from the authentication test
 
     my @use;
   METHOD:
@@ -904,12 +929,43 @@ sub debug_print {
 }
 
 # Package for extended SSL functions
-
+#
+# The reason for this is that Net::SMTP::SSL and Net::SMTP::TLS don't work and
+# don't appear to be maintained.  By intercepting Net::SMTP, it's reasonably straight
+# forward to open the correct socket type for SSL or TLS right at the start.
+# Net::SMTP::SSL doesn't work with recent versions of SSL due to changes in
+# certificate verification.  See https://rt.cpan.org/Ticket/Display.html?id=81594
+#
+# Net::SMTP::TLS is an incomplete implementation, totally unusable by Foswiki, It
+# was forked into Net::SMPT::TLS::ButMaintained.  Neither can sent to multiple To:
+# addresses.  First failure kills the session.
+#
+# The overrides below support SMTP, SSL, and START_TLS on ports 25, 465 and 587
+#
+# CHANGES IN THESE FUNCTIONS ALSO NEED TO BE MADE TO Foswiki::Net!
+#
 package Foswiki::Configure::Wizards::AutoConfigureEmail::SSL;
 
 our @ISA;
 
 # Intercept new() socket issued by Net::SMTP
+#
+# Arrange interception of Net::SMTP socket creation
+# Possible because it inherits from a socket
+# method and uses SUPER::new to create its socket.
+# By putting this package first in its @ISA, it inherits
+# from this package instead.  This mechanism replaces
+# Net::SMTP::SSL (and Net::SMTP::TLs).
+#
+# Mail objects inherit from several classes, and act as
+# sockets, Net::Cmd and SMTP objects.
+#
+# All SSL goes through IO::Socket::SSL, loaded only for SSL.
+# SSL options are selected here, and applied in new(), which
+# must deal with multiple calls.
+#
+# socket options come from mail->new and Net::SMTP internals,
+# and are saved in case they are needed for STARTTLS.
 
 sub new {
     my $class = shift;
