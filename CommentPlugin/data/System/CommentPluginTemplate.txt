@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404875256" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1411722996" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -13,6 +13,23 @@ While this topic can be viewed as a topic, it is used by the CommentPlugin as a 
 
 Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it does not exist yet). *Local templates defined in that topic will override templates defined below.*
 
+!CommentPlugin can work in two modes, _refresh_ and _ajax_. In refresh mode,
+the entire topic is refreshed whenever a comment is added. This is rather slow,
+but gives the most accurate results. In _ajax_ mode, insertion of comments is
+handled by Javascript in the browser, but what the user sees after adding
+a comment is not necessarily identical to what they will see when the topic is
+refreshed.
+
+The templates below all use ajax mode for best performance by default.
+The plugin will fall back to refresh mode if Javascript is not available
+(e.g. it is enabled in your user's browsers).
+
+If you want to disable ajax completely, then override the following template
+<verbatim>
+%TMPL:DEF{ajax}%commentPluginAjax%TMPL:END%
+</verbatim>
+setting it to empty.
+
 %TOC{title="Table of Contents"}%
 
 ---++ Template definitions
@@ -22,10 +39,12 @@ Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it doe
    * The encode="off" option is only used in OUTPUT defs and never in the PROMPT.
    
 ---+++ Templates used in rest of file
+
 Generic prompt box used by other templates
 <verbatim>
-%TMPL:DEF{promptbox}%<div class="commentPlugin commentPluginPromptBox"><table border="0" cellpadding="0" cellspacing="0"><tr valign="middle"><td><textarea %DISABLED% rows="%rows|3%" cols="%cols|70%" name="comment" class="foswikiInputField commentPluginPromptBox" title="%MESSAGE%">%MESSAGE%</textarea></td><td>&nbsp;<input %DISABLED% type="button" value="%button|Add comment%" class="foswikiButton commentPluginAjax" /></td></tr></table></div><!--/commentPlugin-->%TMPL:END%
+%TMPL:DEF{promptbox}%<div class="commentPlugin commentPluginPromptBox"><table border="0" cellpadding="0" cellspacing="0"><tr valign="middle"><td><textarea %DISABLED% rows="%rows|3%" cols="%cols|70%" name="comment" class="foswikiInputField commentPluginPromptBox" title="%MESSAGE%">%MESSAGE%</textarea></td><td>&nbsp;<input %DISABLED% type="submit" value="%button|Add comment%" class="foswikiButton %TMPL:P{ajax}%" /></td></tr></table></div><!--/commentPlugin-->%TMPL:END%
 </verbatim>
+
 Short comment, signed and dated
 <verbatim>
 %TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="off"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
@@ -88,7 +107,7 @@ Bullet item added immediately before anchor. The input field width is passed wit
 </verbatim></blockquote>
 
 <verbatim>
-%TMPL:DEF{PROMPT:bulletabove}%<input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item" type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%" />&nbsp;<input %DISABLED% type="button" value="%button|Add item%" class="foswikiButton commentPluginAjax" />%TMPL:END%
+%TMPL:DEF{PROMPT:bulletabove}%<input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item" type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%" />&nbsp;<input %DISABLED% type="button" value="%button|Add item%" class="foswikiButton %TMPL:P{ajax}%" />%TMPL:END%
 </verbatim>
 <verbatim>
 %TMPL:DEF{OUTPUT:bulletabove}%   * %URLPARAM{"bullet_above_item" encode="off"}%%POS:BEFORE%
@@ -209,7 +228,7 @@ Action added to action table directly above comment box
 |        <label for="action_who">Action for</label>| <input class="foswikiInputField" name="action_who" id="action_who" type="text" size="50" value="%URLPARAM{"who"}%" /> |
 | <label for="action_due">Due date</label>| <input class="foswikiInputField" name="action_due" id="action_due" type="text" size="30" value="%URLPARAM{"due"}%" /> |
 |    <label for="action_comment">Comment</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="action_comment" id="action_comment" class="foswikiInputField commentPluginPromptBox" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
-|| <input %DISABLED% type="button" class="foswikiButton commentPluginAjax" value="Add action" /> |
+|| <input %DISABLED% type="button" class="foswikiButton %TMPL:P{ajax}%" value="Add action" /> |
 %TMPL:END%
 </verbatim>
 <verbatim>
@@ -229,7 +248,7 @@ Tablerows adding on end
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
 |        <label for="comment_date">Date</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_date" id="comment_date" /> |
 |        <label for="comment_city">City</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_city" id="comment_city" value="" /> |
-|| <input %DISABLED% type="button" class="foswikiButton commentPluginAjax" value="%button|Add entry%" /> |
+|| <input %DISABLED% type="button" class="foswikiButton %TMPL:P{ajax}%" value="%button|Add entry%" /> |
 %TMPL:END%
 </verbatim>
 <verbatim>
@@ -249,7 +268,7 @@ Talk using TOC adding on end
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
 |        <label for="comment_summary">Summary</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_summary" id="comment_summary" /> |
 |        <label for="toctalk_comment_text">Message</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="toctalk_comment_text" id="toctalk_comment_text" class="foswikiInputField commentPluginPromptBox" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
-|| <input %DISABLED% type="button" value="%button|Add%" class="foswikiButton commentPluginAjax" /> |
+|| <input %DISABLED% type="button" value="%button|Add%" class="foswikiButton %TMPL:P{ajax}%" /> |
 %TMPL:END%
 </verbatim>
 <verbatim>
@@ -273,7 +292,7 @@ Create a list of annotated bookmarks
 |        <label for="comment_url">Url</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_url" id="comment_url" value="http://" /> |
 | <label for="comment_link">Link label</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_link" id="comment_link" /> |
 |    <label for="bookmark_comment_text">Comment</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="bookmark_comment_text" id="bookmark_comment_text" value="%MESSAGE%" /> |
-|| <input %DISABLED% type="button" value="%button|Add bookmark%" class="foswikiButton commentPluginAjax" /> |
+|| <input %DISABLED% type="button" value="%button|Add bookmark%" class="foswikiButton %TMPL:P{ajax}%" /> |
 %TMPL:END%
 </verbatim>
 <verbatim>
@@ -296,7 +315,7 @@ Post to a different topic and return to here. The comment =target= is set in the
 %TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{PROMPT:return}%%TMPL:P{returnpromptbox}%%TMPL:END%
+%TMPL:DEF{PROMPT:return}%%TMPL:P{return_promptbox}%%TMPL:END%
 </verbatim>
 <verbatim>
 %TMPL:DEF{OUTPUT:return}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%

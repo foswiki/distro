@@ -22,6 +22,7 @@ This is an example of a simple AJAX comment submission.
 */
 (function($) {
     $(document).ready( function() {
+        // Handle focus and typing operations in a prompt textarea
         $("textarea.commentPluginPromptBox")
             .blur(
                 function() {
@@ -39,23 +40,23 @@ This is an example of a simple AJAX comment submission.
                     $(form).find(".commentPluginStatusResponse").html('');
                 });
 
-        var strikeTwo = function(jqXHR) {
-        };
-
-        var addComment = function(position, text, form) {
+        // Given a response to an AJAX REST comment save operation,
+        // insert the returned comment in the appropriate place in the
+        // text.
+        var addComment = function(position, html, form) {
             var relto;
             if (position == 'TOP') {
                 // There's no standard
                 relto = $('.patternContent');
                 if (relto.length == 0)
                     relto = $('body');
-                relto.prepend(text);
+                relto.prepend(html);
                 position = '';
             } else if (position == 'BOTTOM') {
                 relto = $('.patternContent');
                 if (relto.length == 0)
                     relto = $('body');
-                relto.append(text);
+                relto.append(html);
                 position = '';
             } else if (form.comment_location) {
                 relto = $('*:contains("' + form.comment.location.value
@@ -70,14 +71,16 @@ This is an example of a simple AJAX comment submission.
             }
 
             if (relto && position == 'BEFORE') {
-                relto.before($(text));
+                relto.before(html);
             } else if ( relto && position == 'AFTER' ) {
-                relto.after($(text));
+                relto.after(html);
             } else if (position != '') {
-                $('body').append(text);
+                $('body').append(html);
             }
         };
 
+        // Handler for when an AJAXed "Add Comment" button is clicked
+        // Compose and send off a rest request to save the new comment.
         $("input.commentPluginAjax").click(
             function(e) {
                 var form = $(this).parents("form")[0];

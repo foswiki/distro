@@ -20,6 +20,7 @@ sub new {
         homepage      => 'http://foswiki.org/Extensions/CommentPlugin',
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/CommentPlugin',
         documentation => "$Foswiki::cfg{SystemWebName}.CommentPlugin",
+        css           => ["comment.css"],
         javascript    => ["comment.js"]
     );
 

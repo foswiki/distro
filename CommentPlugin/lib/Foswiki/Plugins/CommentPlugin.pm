@@ -13,11 +13,14 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 # Please use major.minor
-use version; our $VERSION = version->declare("v2.1");
+use version; our $VERSION = version->declare("v2.2");
 our $RELEASE = '25 Apr 2014';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
+
+use constant PLACEHOLDER_TEXT =>
+'This is a temporary placeholder for your new comment. Refresh the topic to see the actual comment.';
 
 # Reset when the plugin is reset, this counter counts the instances of the
 # %COMMENT macro and indexes them.
@@ -208,9 +211,27 @@ sub _restSave {
                     $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
                       if defined $nonce;
                 }
-                $response->body(
-                    Foswiki::Func::renderText( $output, $web, $topic ) );
+
+                # Decorate the response to show it's been ajax-added.
+                # It's TML, and free format, so there's a limit as to
+                # how clever we can be.
+                my $pht = $session->i18n->maketext(PLACEHOLDER_TEXT);
+                $output =
+                    '<div class="comment_placeholder" '
+                  . "title=\"$pht\">\n"
+                  . $output
+                  . "\n</div>";
+                my $comment =
+                  Foswiki::Func::renderText( $output, $web, $topic );
+                $response->body($comment);
             }
+        }
+
+        if ( !$isXHR && !$query->param('redirectto') ) {
+
+            # Not XHR; Default to redirect to view if redirectto not given
+            $query->param( 'redirectto' =>
+                  Foswiki::Func::getScriptUrl( $web, $topic, 'view' ) );
         }
     }
     catch Foswiki::AccessControlException with {
