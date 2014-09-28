@@ -408,6 +408,8 @@ sub bootstrapConfig {
       if (TRAUTO);
 
     $Foswiki::cfg{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
+    $Foswiki::cfg{ScriptSuffix} = ''
+      if ( $Foswiki::cfg{ScriptSuffix} eq '.fcgi' );
     print STDERR
       "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
       if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
@@ -452,16 +454,24 @@ sub bootstrapConfig {
     if ( my $idx = index( $ENV{REQUEST_URI}, $ENV{PATH_INFO} ) ) {
         $pfx = substr( $ENV{REQUEST_URI}, 0, $idx );
     }
-    print STDERR "AUTOCONFIG: URI Prefix is $pfx\n";
+    print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
 
-    # We don't use the SCRIPT_NAME,  but report it anyway for debugging
-    print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME} \n"
+    # FCGI uses $ENV{SCRIPT_NAME} for the foswiki request, Fixup the scriptname
+    print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME}\n"
       if ( TRAUTO && $ENV{SCRIPT_NAME} );
+
+    if ( ( $script eq 'foswiki.fcgi' ) && $ENV{SCRIPT_NAME} ) {
+        $script = $ENV{SCRIPT_NAME};
+        print STDERR
+"AUTOCONFIGURE: FCGI active for $ENV{SCRIPT_NAME}, Set Script to $script \n"
+          if (TRAUTO);
+    }
 
     # Work out the URL path for Short and standard URLs
     if ( $ENV{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
         print STDERR
-"AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI $ENV{REQUEST_URI}, Not short URLs\n";
+"AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI $ENV{REQUEST_URI}, Not short URLs\n"
+          if (TRAUTO);
 
         # Conventional URLs   with path and script
         $Foswiki::cfg{ScriptUrlPath} = $1;
@@ -473,7 +483,7 @@ sub bootstrapConfig {
         $Foswiki::cfg{PubUrlPath} = "$1/../pub";
     }
     else {
-        print STDERR "AUTOCONFIG: Building Short URL paths using prefix \n"
+        print STDERR "AUTOCONFIG: Building Short URL paths using prefix $pfx \n"
           if (TRAUTO);
         $Foswiki::cfg{ScriptUrlPath}        = $pfx . '/bin';
         $Foswiki::cfg{ScriptUrlPaths}{view} = $pfx;
