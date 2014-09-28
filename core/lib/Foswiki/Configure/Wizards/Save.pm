@@ -175,7 +175,7 @@ sub save {
 
     my %save;
     foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
-        eval("\$save$key = \$Foswiki::cfg$key ");
+        eval(" (\$save$key)  = \$Foswiki::cfg$key =~ /^(.*)\$/ ");
         delete $Foswiki::cfg{BOOTSTRAP};
     }
 
