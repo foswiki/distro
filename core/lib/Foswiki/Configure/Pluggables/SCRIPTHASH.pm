@@ -41,6 +41,10 @@ sub construct {
     foreach my $filename ( sort readdir($dh) ) {
         next if $filename =~ /^\./;
 
+        # Foswiki.fcgi Doesn't follow suffix convention, and would never be
+        # considered a foswiki action,  so just skip over the fcgi helper.
+        next if $filename =~ /^foswiki.fcgi$/;
+
         # validate and untaint
         next unless $filename =~ /^([-A-Za-z_.]+)$/;
         $filename = $1;
