@@ -516,6 +516,11 @@ sub _autoconfigSMTP {
     close STDERR;
     open( my $fd2, ">/dev/null" ) or die "fd2: $!\n";
     $tlog = '';
+
+#SMELL:  Does not work under FCGI
+# at ../foswiki/distro/core/lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm line 302.
+# Foswiki::Configure::Wizards::AutoConfigureEmail::__ANON__("Operation 'OPEN' not supported on FCGI::Stream handle
+
     open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
     STDERR->autoflush(1);
 
@@ -623,7 +628,7 @@ sub _autoconfigSMTP {
     close $fd2;
     open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
     close $stderr;
-    $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH \1 xxxxxxxxxxxxxxxx/mg;
+    $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg;
     $reporter->NOTE($tlog);
 
     unless (@use) {
