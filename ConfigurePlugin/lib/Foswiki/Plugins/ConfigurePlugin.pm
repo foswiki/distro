@@ -195,7 +195,7 @@ sub _addSpecDefaultsToCfg {
 }
 
 # For each key in the spec add the current value from the %cfg
-# as current_value. NOT SET values are skipped. If the key is
+# as current_value. If the key is
 # not set in the %cfg, then set it to the default.
 # Note that the %cfg should contain *unexpanded* values.
 sub _addCfgValuesToSpec {
@@ -206,9 +206,8 @@ sub _addCfgValuesToSpec {
         }
     }
     else {
-        if (   eval("exists(\$cfg->$spec->{keys})")
-            && eval("\$cfg->$spec->{keys}") ne "NOT SET" )
-        {
+        if ( eval("exists(\$cfg->$spec->{keys})") ) {
+
             # Encode the value as something that can be handled by
             # UIs
             my $value = eval "\$cfg->$spec->{keys}";

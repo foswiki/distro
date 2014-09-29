@@ -142,25 +142,10 @@ HERE
         }
     }
 
-    # If we got this far without definitions for key variables, then
-    # we need to default them. otherwise we get peppered with
-    # 'uninitialised variable' alerts later.
-    foreach my $var (
-        qw( DataDir DefaultUrlHost PubUrlPath
-        PubDir TemplateDir ScriptUrlPath ScriptSuffix LocalesDir SafeEnvPath )
-      )
-    {
-
-        # NOT SET tells the checker to try and guess the value later on
-        $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
-    }
-    $Foswiki::cfg{ScriptUrlPaths}{view} = 'NOT SET'
-      unless defined $Foswiki::cfg{ScriptUrlPaths}{view};
-
     # Make %ENV safer for CGI - Assign a safe default for SafeEnvPath
     $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
 
-    if ( $Foswiki::cfg{SafeEnvPath} eq 'NOT SET' ) {
+    unless ( defined $Foswiki::cfg{SafeEnvPath} ) {
 
         # SMELL:  Untaint to get past the first run.  It will be
         # Overridden to the SafeEnvPath after first save
@@ -221,12 +206,6 @@ sub _checkCfg {
     elsif ( ref($entry) eq 'ARRAY' ) {
         foreach my $i ( 0 .. scalar(@$entry) ) {
             $mess .= $this->_checkCfg( $entry->[$i], "$keys\[$i]" );
-        }
-    }
-    else {
-        if ( defined $entry && $entry =~ /NOT SET/ ) {
-            $mess .=
-"<div>\$Foswiki::cfg::$keys has been guessed and may be incorrect</div>";
         }
     }
     return $mess;

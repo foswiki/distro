@@ -8,37 +8,16 @@ use Foswiki::Configure::Checkers::URLPATH ();
 our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     # Check Script URL Path against REQUEST_URI
     my $value  = $this->getCfg();
     my $report = '';
 
-    # SMELL: using the query, though in this case it looks OK
-    my $guess = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
-
-    if ( !$value || $value eq 'NOT SET' ) {
-        if ( $guess =~ s{/+configure\b.*$}{} ) {
-            $reporter->ERROR("No value set; proceeding with a guess '$guess'");
-            $this->{GuessedValue} = $guess;
-            $this->SUPER::check_current_value($reporter);
-        }
-        else {
-            $reporter->ERROR(<<"HERE");
-This web server does not set REQUEST_URI or SCRIPT_NAME
-so this setting cannot be guessed.
-HERE
-            return;
-        }
-        $Foswiki::cfg{ScriptUrlPath} = $guess;
-        $value = $guess;
-    }
-
     $this->SUPER::check_current_value($reporter);
 
     if ( $value =~ /\/+$/ ) {
-        $reporter->WARN(
-            'A trailing / is not recommended');
+        $reporter->WARN('A trailing / is not recommended');
     }
 }
 

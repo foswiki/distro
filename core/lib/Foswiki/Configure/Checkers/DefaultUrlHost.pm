@@ -11,7 +11,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     my $d = $this->getCfg();
-    if ( $d && $d ne 'NOT SET' ) {
+    if ($d) {
         $this->SUPER::check_current_value($reporter);
 
         my $host = $ENV{HTTP_HOST};
