@@ -25,32 +25,46 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     my $pathSep = ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
+    my $envPath = $ENV{PATH} || "(undefined)";
+
+    unless ( defined $ENV{PATH} && $ENV{PATH} ) {
+        unless ( defined $Foswiki::cfg{SafeEnvPath}
+            && $Foswiki::cfg{SafeEnvPath} )
+        {
+            $reporter->ERROR(
+"The Path is not provided by the ENVironment, and SafeEnvPath has not been set. ={SafeEnvPath}= must be manually set for your system."
+            );
+        }
+    }
 
     unless ( $Foswiki::cfg{SafeEnvPath} ) {
         $reporter->NOTE(
-"Without a setting of {SafeEnvPath}, the PATH used will be taken from the PATH environment variable: $ENV{PATH}"
+"Without a setting of {SafeEnvPath}, the PATH used will be taken from the PATH environment variable: $envPath"
         );
         return;
     }
 
-    # First, get the proposed path
-    my @dirs =
-      ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} || $ENV{PATH} ) );
+    if ( defined $ENV{PATH} ) {
 
-    # Check they exist
-    my $found = 0;
-    foreach my $dir (@dirs) {
-        if ( -d $dir ) {
-            $found++;
+        # First, get the proposed path
+        my @dirs =
+          ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} || $ENV{PATH} ) );
+
+        # Check they exist
+        my $found = 0;
+        foreach my $dir (@dirs) {
+            if ( -d $dir ) {
+                $found++;
+            }
+            else {
+                $reporter->WARN("$dir could not be found");
+            }
         }
-        else {
-            $reporter->WARN("$dir could not be found");
-        }
-    }
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' && !$found ) {
-        $reporter->ERROR(
+        if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' && !$found ) {
+            $reporter->ERROR(
 "None of the directories on the path could be found. This path will almost certainly not work on Windows. Normally the minimum acceptable {SafeEnvPath} is C:\\WINDOWS\\System32 (or the equivalent on your system)."
-        );
+            );
+        }
     }
 }
 
