@@ -27,25 +27,14 @@ use Foswiki::Configure::Wizards::ExploreExtensions ();
 
 our $installRoot;
 
-# (Un)Install the extensions selected by the URL parameters.
+# (Un)Install the extensions selected by the parameters.
 #
 # This method uses *print* rather than gathering output. This is to give
 # the caller early feedback.
 
-sub add {
+# Common initialisation
+sub _getPackage {
     my ( $this, $reporter ) = @_;
-    $this->_action( 'add', $reporter );
-    return undef;    # return the report
-}
-
-sub remove {
-    my ( $this, $reporter ) = @_;
-    $this->_action( 'remove', $reporter );
-    return undef;    # return the report
-}
-
-sub _action {
-    my ( $this, $action, $reporter ) = @_;
 
     my ( $fwi, $ver, $fwp ) =
       Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
@@ -58,98 +47,106 @@ sub _action {
     $installRoot = File::Spec->catfile( @instRoot, 'x' );
     chop $installRoot;
 
-    my $processExt = ''; #$Foswiki::Configure::query->param('processExt') || '';
-    my $useCache   = ''; #$Foswiki::Configure::query->param('useCache')   || '';
-    my $extension = $this->param('args');
-    unless ( $extension && $extension =~ /(.*)\/(\w+)$/ ) {
-        $reporter->ERROR("No extension specified");
-        return;
-    }
-    my $repositoryPath = $1;
-    my $extensionName  = $2;
-    print "Bad extension name" unless $extensionName && $repositoryPath;
+    my $args = $this->param('args');
+    die "No repository specified" unless $args->{repository};
+    die "No extension specified"  unless $args->{module};
 
-    if ( $action eq 'add' ) {
-        $this->_install( $reporter, $repositoryPath, $extensionName,
-            $processExt, $useCache );
-    }
-    else {
-        $this->_uninstall( $reporter, $repositoryPath, $extensionName,
-            $processExt );
-    }
-}
-
-sub _getRepository {
-    my $reponame = shift;
-
+    my $repository;
     foreach my $place (
         Foswiki::Configure::Wizards::ExploreExtensions::findRepositories() )
     {
-        return $place if $place->{name} eq $reponame;
+        if ( $place->{name} eq $args->{repository} ) {
+            $repository = $place;
+            last;
+        }
     }
-    return;
+    if ( !$repository ) {
+        if ( $args->{USELOCAL} ) {
+            $reporter->WARN(
+                "Repository not found: $args->{repository}",
+                "Will try to use previously downloaded local copy"
+            );
+        }
+        else {
+            $reporter->ERROR(
+                "Repository $args->{repository} not found\n> Cannot proceed.");
+            return undef;
+        }
+    }
+    my $pkg =
+      new Foswiki::Configure::Package( $installRoot,
+        $repository, $args->{module}, %$args );
+
+    return $pkg;
 }
 
-# unused wizard, saved from old code
-sub depreport {
-    my ( $this, $reporter, $repositoryPath, $extension, $processExt ) = @_;
+=begin TML
 
-    my $repository = _getRepository($repositoryPath);
-    if ( !$repository ) {
-        $reporter->ERROR("Repository not found: $repository");
-        return;
+---++ WIZARD depreport
+
+First step in an installation; generate a dependency report.
+
+=cut
+
+sub depreport {
+    my ( $this, $reporter ) = @_;
+
+    my $pkg = $this->_getPackage($reporter);
+    return unless $pkg;
+
+    $reporter->NOTE( "---++ Dependency report for " . $pkg->module() );
+    $pkg->loadInstaller($reporter);
+    my ( $installed, $missing ) = $pkg->checkDependencies();
+    $reporter->NOTE( "> *INSTALLED*", map { "\t* $_" } @$installed )
+      if (@$installed);
+    if (@$missing) {
+        $reporter->NOTE( "> *MISSING*", map { "\t* $_" } @$missing );
+    }
+    else {
+        $reporter->NOTE("> All dependencies satisfied");
     }
 
-    my $pkg = new Foswiki::Configure::Package( $installRoot, $extension );
+    if ( $this->param('args')->{installable} ) {
+        my %data = (
+            wizard => 'InstallExtensions',
+            method => 'add',
+            args   => {
+                repository => $pkg->repository(),
+                module     => $pkg->module(),
 
-    $pkg->repository($repository);
-
-    $reporter->NOTE("---++ Running dependency check for $extension");
-    $pkg->loadInstaller($reporter);
-    $reporter->NOTE("> Dependency Report");
-    my ( $installed, $missing ) = $pkg->checkDependencies();
-    $reporter->NOTE("> *INSTALLED* $installed") if ($installed);
-    $reporter->NOTE("> *MISSING* $missing")     if ($missing);
+                # SIMULATE =>
+                # NODEPS =>
+                # USELOCAL =>
+            }
+        );
+        my $json = JSON->new->encode( \%data );
+        $json =~ s/"/&quot;/g;
+        $reporter->NOTE(
+"<button class=\"wizard_button\" data-wizard=\"$json\">Install</button>"
+        );
+    }
 
     $pkg->finish();
     undef $pkg;
 }
 
-sub _install {
-    my ( $this, $reporter, $repositoryPath, $extension, $processExt, $useCache )
-      = @_;
-    my $err;
+=begin TML
 
-    my $repository = _getRepository($repositoryPath);
-    if ( !$repository ) {
-        $reporter->ERROR("Repository not found: $repository");
-        return;
-    }
+---++ WIZARD add
 
-    my $simulate = 0;
-    my $nodeps   = 0;
+Install an extension
 
-    if ($processExt) {
-        $simulate = ( $processExt eq 'sim' )   ? 1 : 0;
-        $nodeps   = ( $processExt eq 'nodep' ) ? 1 : 0;
-    }
+=cut
 
-    my $pkg = new Foswiki::Configure::Package(
-        $installRoot,
-        $extension,
-        $Foswiki::Plugins::SESSION,
-        {
-            SIMULATE => $simulate,
-            NODEPS   => $nodeps,
-            USELOCAL => ( $useCache eq 'on' ) ? 1 : 0,
-        }
-    );
+sub add {
+    my ( $this, $reporter ) = @_;
 
-    $pkg->repository($repository);
+    my $pkg = $this->_getPackage($reporter);
+    return unless $pkg;
 
     my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
 
-    if ( $ok && $plugins && keys %$plugins ) {
+    if ($ok) {
         foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
             my $clef = "{Plugins}{$plu}";
             my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
@@ -176,14 +173,11 @@ OMG
     }
 
     # OK
-    if ( $processExt eq 'sim' ) {
-        $reporter->NOTE(
-            "> Simulated installation of $extension and dependencies finished"
-        );
+    if ( $pkg->{_options}->{SIMULATE} ) {
+        $reporter->NOTE("> Simulated installation finished");
     }
     else {
-        $reporter->NOTE(
-            "> Installation of $extension and dependencies finished");
+        $reporter->NOTE("> Installation finished");
     }
     $reporter->NOTE( <<WRAPUP );
 > Before proceeding, review the dependency reports of each installed extension
@@ -203,44 +197,17 @@ HERE
             $reporter->NOTE("\t* $dep");
         }
     }
+    return undef;    # return the report
 }
 
-sub _uninstall {
-    my ( $this, $reporter, $repositoryPath, $extension, $processExt ) = @_;
+sub remove {
+    my ( $this, $reporter ) = @_;
 
-    my @removed;
-
-    my $simulate = 0;
-    my $sim      = '';
-
-    if ( $processExt && $processExt eq 'sim' ) {
-        $simulate = 1;
-        $sim      = "Simulated: ";
-    }
-
-    my $pkg = new Foswiki::Configure::Package(
-        $installRoot,
-        $extension,
-        $Foswiki::Plugins::SESSION,
-        {
-            SIMULATE => $simulate,
-            USELOCAL => 1,
-        }
-    );
-
-    # For uninstall, set repository in case local installer is not found
-    # it can be downloaded to recover the manifest
-    my $repository = _getRepository($repositoryPath);
-    if ( !$repository ) {
-        $reporter->WARN(
-"> Repository not found ($repositoryPath) - Local installer must exist)"
-        );
-    }
-    else {
-        $pkg->repository($repository);
-    }
+    my $pkg = $this->_getPackage($reporter);
+    return unless $pkg;
 
     my ( $ok, $plugins ) = $pkg->uninstall($reporter);
+
     if ( $ok && $plugins && scalar(@$plugins) ) {
         foreach my $plu ( sort { lc($a) cmp lc($b) } @$plugins ) {
             my $clef = "{Plugins}{$plu}";

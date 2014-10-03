@@ -71,23 +71,24 @@ use Foswiki::Configure::Util       ();
 =cut
 
 sub new {
-    my ( $class, $root, $pkgname, $options ) = @_;
+    my ( $class, $root, $repository, $module, %args ) = @_;
     my @deps;
 
     my $this = bless(
         {
             _root    => $root,
-            _pkgname => $pkgname,
-            _options => $options,
+            _pkgname => $args{module},
+            _options => {%args},
 
-  # Hash mapping the topics, attachment and other files supplied by this package
+            # Hash mapping the topics, attachment and other files
+            # supplied by this package
             _manifest => undef,
 
             # Array of dependencies required by this package
             _dependencies => \@deps,
             _prepost_code => undef,
-            _repository   => undef,
-            _loaded       => undef,    # Flag set if loadInstaller is complete
+            _repository   => $repository,
+            _loaded       => undef,      # Flag set if loadInstaller is complete
         },
         $class
     );
@@ -124,31 +125,45 @@ sub finish {
 
 =begin TML
 
+---++ ObjectMethod module()
+
+Get module name.
+
+=cut
+
+sub module {
+    my ($this) = @_;
+
+    return $this->{_pkgname};
+}
+
+=begin TML
+
 ---++ ObjectMethod repository()
 
-Get or set the repository associated with the object.
+Get repository.
 
 =cut
 
 sub repository {
-    my $this = shift;
+    my ($this) = @_;
 
-    $this->{_repository} = $_[0] if defined $_[0];
     return $this->{_repository};
 }
 
 =begin TML
 
----++ ObjectMethod pkgname([$name])
-   * =$name= - optional, change the package name in the object
-Get/set the web name associated with the object.
+---++ ObjectMethod option($name [, $value]))
+
+Get or set the option associated with the object.
 
 =cut
 
-sub pkgname {
-    my ( $this, $pkgname ) = @_;
-    $this->{_pkgname} = $pkgname if defined $pkgname;
-    return $this->{_pkgname};
+sub option {
+    my ( $this, $name, $value ) = @_;
+
+    $this->{_options}->{$name} = $value if defined $value;
+    return $this->{_options}->{$name};
 }
 
 {
@@ -283,6 +298,9 @@ Foswiki Meta API to save the topic.
       * =NODEPS   => 1= Don't install any dependents
       * =SIMULATE => 1= Don't actually install, just report expected results.  No logs are written. 
 
+Returns a status (1 is good), a list of plugins that need to be enabled,
+and a hash mapping names of cpan dependencies to ... something
+
 =cut
 
 sub install {
@@ -313,8 +331,10 @@ sub install {
 
     if ( $installed || $missing ) {
         $reporter->WARN("> Dependency Report for $this->{_pkgname} ...");
-        $reporter->WARN("> INSTALLED $installed") if ($installed);
-        $reporter->WARN("> MISSING $missing")     if ($missing);
+        $reporter->WARN( "> *INSTALLED*", map { "\t* $_" } @$installed )
+          if (@$installed);
+        $reporter->WARN( "> *MISSING*", map { "\t* $_" } @$missing )
+          if (@$missing);
     }
 
     my $depPlugins;    # hashref to hash of plugin names
@@ -832,27 +852,23 @@ sub _listPlugins {
 
 =begin TML
 
----++ uninstall ( $reporter, $simulate )
+---++ uninstall ( $reporter ) -> ($status, \@plugins)
 Remove each file identified by the manifest.  Also remove
 any rcs "...,v" files if they exist.   Note that directories
 are NOT removed unless they are empty.
 
 Pre and Post un-install exits are run.
 
-Returns the list of files that were removed.  If simulate is set to
-true, no files are uninstalled, but the list of files that would
-have been removed is returned.
+Returns a status (1 for success) and a list of plugins that need
+to be removed from LSC.
 
 =cut
 
 sub uninstall {
-    my ( $this, $supereporter, $simulate ) = @_;
-
-    $simulate = $this->{_options}->{SIMULATE} unless ($simulate);
+    my ( $this, $supereporter ) = @_;
 
     my @removed;
     my %directories;
-
     my $reporter = LoggingReporter->new( $supereporter, action => 'Uninstall' );
 
     $reporter->NOTE("---+ Uninstalling $this->{_pkgname}");
@@ -861,7 +877,7 @@ sub uninstall {
 
         # Recover the manifest from the _installer file
         $reporter->NOTE("> Loading package installer");
-        return 0 unless $this->loadInstaller($reporter);
+        return (0) unless $this->loadInstaller($reporter);
     }
 
     $reporter->NOTE("> Creating Backup of $this->{_pkgname} ...");
@@ -886,7 +902,7 @@ sub uninstall {
         my $target =
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
 
-        if ($simulate) {
+        if ( $this->{_options}->{SIMULATE} ) {
             push( @removed, "simulated $target" )   if ( -f "$target" );
             push( @removed, "simulated $target,v" ) if ( -f "$target,v" );
             $directories{$1}++ if $target =~ m!^(.*)/[^/]*$!;
@@ -906,7 +922,7 @@ sub uninstall {
 
     my $pkgdata =
       "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
-    unless ($simulate) {
+    unless ( $this->{_options}->{SIMULATE} ) {
         push( @removed, $pkgdata );
         unlink "$pkgdata";
         for ( keys %directories ) {
@@ -959,10 +975,11 @@ The manifest and dependencies are parsed and loaded into their
 respective hashes.  The pre and post routines are eval'd and
 installed as methods for this object.
 
-   * =%options= (optional) options to override behavior - primarily for unit tests.
+   * =%options= options to set behavior
       * =DIR =>  directory where installer package is found
-      * =USELOCAL => 1= Use local archives if found (Used by shell installations)
-      * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
+      * =USELOCAL => 1= Use local archives if found
+      * =EXPANDED => 1= Archive file has already been expanded -
+        preventing any downloads - for unit tests
 
 Returns:
     * boolean success
@@ -1264,18 +1281,18 @@ sub _validatePerlModule {
 =begin TML
 
 ---++ ObjectMethod checkDependencies ()
-Checks the dependencies listed for this module.  Returns two "reports";
-Installed dependencies and Missing dependencies.   It also returns a
+Checks the dependencies listed for this module.  Returns two lists, one
+of Installed dependencies and one of Missing dependencies.   It also returns a
 list of Foswiki package names that might be installed and a list of the
 CPAN modules that could be installed.
 
 =cut
 
 sub checkDependencies {
-    my $this      = shift;
-    my $which     = shift;
-    my $installed = '';
-    my $missing   = '';
+    my $this  = shift;
+    my $which = shift;
+    my @installed;
+    my @missing;
     my @wiki;
     my @cpan;
     my @manual;
@@ -1290,22 +1307,25 @@ sub checkDependencies {
           if ($@);
         next unless $required;    # Skip the module - trigger was false
 
-        my $trig = " -- Triggered by $dep->{trigger}\n"
-          unless ( $dep->{trigger} eq '1' );
+        my $trig =
+          ( !(DEBUG) || $dep->{trigger} eq '1' )
+          ? ''
+          : " - Triggered by $dep->{trigger}";
 
         my ( $ok, $msg ) = $dep->checkDependency();
         if ($ok) {
-            $installed .= "   * $msg$trig\n";
+            $msg =~ s/\n/ /g;
+            push( @installed, "$msg$trig" );
             next;
         }
 
-        $missing .= "   * $msg$trig";
-        $missing .= " -- Description: $dep->{description}\n"
+        $msg .= $trig;
+        $msg .= " - $dep->{description}"
           if ( $dep->{description} );
-        $missing .=
-          " -- Optional dependency will not be automatically installed\n"
+        $msg .= " - Optional dependency, will not be automatically installed"
           if ( $dep->{description} =~ m/^[Oo]ptional/ );
-        $missing .= "\n";
+        $msg =~ s/\n/ /g;
+        push( @missing, $msg );
 
         if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
             my $type     = $1;
@@ -1327,7 +1347,7 @@ sub checkDependencies {
         }
     }
     return ( \@wiki ) if ( defined $which && $which eq 'wiki' );
-    return ( $installed, $missing, \@wiki, \@cpan, \@manual );
+    return ( \@installed, \@missing, \@wiki, \@cpan, \@manual );
 }
 
 # Installs the dependencies listed for this module.  Returns the details
@@ -1342,10 +1362,10 @@ sub _installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my ( $ok, $msg ) = $dep->checkDependency();
         unless ($ok) {
-            my $deppkg =
-              new Foswiki::Configure::Package( $this->{_root}, $dep->{name},
-                $this->{_options} );
-            $deppkg->repository( $this->repository() );
+            my $deppkg = Foswiki::Configure::Package->new(
+                $this->{_root}, $this->{_repository},
+                $dep->{name},   %{ $this->{_options} }
+            );
             ( $plugins, $cpan ) = $deppkg->install($reporter);
             @pluglist{ keys %$plugins } = values %$plugins;
             @cpanlist{ keys %$cpan }    = values %$cpan;

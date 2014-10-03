@@ -303,14 +303,11 @@ sub _loadInstaller {
 
     $thispkg = Foswiki::Configure::Package->new(
         "$installationRoot/",
-        $MODULE,
-        {
-            USELOCAL => $reuseOK,
-            SIMULATE => $simulate,
-            DIR      => $installationRoot,
-        }
+        $repository, $MODULE,
+        USELOCAL => $reuseOK,
+        SIMULATE => $simulate,
+        DIR      => $installationRoot
     );
-    $thispkg->repository($repository);
 
     # Use local package, don't download, as we were invoked from it.
     _stop unless $thispkg->loadInstaller($reporter);
@@ -451,8 +448,8 @@ sub _install {
 
     my ( $installed, $missing, @wiki, @cpan, @manual ) =
       $thispkg->checkDependencies();
-    $reporter->NOTE($installed);
-    $reporter->NOTE($missing);
+    $reporter->NOTE( "INSTALLED: ", @$installed ) if @$installed;
+    $reporter->NOTE( "MISSING: ",   @$missing )   if @$missing;
 
     my $instmsg = "$MODULE ready to be installed";
     $instmsg .=
@@ -610,8 +607,8 @@ sub install {
         my ( $installed, $missing, @wiki, @cpan, @manual ) =
           $thispkg->checkDependencies();
 
-        $reporter->NOTE($installed);
-        $reporter->NOTE($missing);
+        $reporter->NOTE( "INSTALLED: " . join( "; ", @$installed ) );
+        $reporter->NOTE( "MISSING: " . join( "; ", @$missing ) );
 
         exit 0;
     }

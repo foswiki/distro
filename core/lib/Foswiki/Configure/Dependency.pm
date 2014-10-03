@@ -183,7 +183,7 @@ sub checkDependency {
     # reject non-Perl dependencies
     if ( $this->{type} !~ /^(?:perl|cpan)$/i ) {
         return ( 0, <<LALA );
-$this->{module} is type $this->{type}, and cannot be automatically checked.
+$this->{module} is type '$this->{type}', and cannot be automatically checked.
 Please check it manually and install if necessary.
 LALA
     }

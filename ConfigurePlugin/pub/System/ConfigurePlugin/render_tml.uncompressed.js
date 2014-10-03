@@ -59,16 +59,25 @@ var TML = {
             i, j, m, line, cols;
 
         removed = [];
-        text = text.replace(
-            /<verbatim>((.|\n)*?)<\/verbatim>/g,
-            function (m, $1) {
-                $1 = $1.replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-                removed.push('<pre>' + $1 + "</pre>");
-                return "PLACEHOLDER" + (removed.length - 1) + ";";
-            }
-        ).replace(/^>(.*)$/gm, '<p class="one_line_report">$1</p>');
+        text = text
+            .replace(
+                /<verbatim>((.|\n)*?)<\/verbatim>/g,
+                function (m, $1) {
+                    // Encode verbatim
+                    $1 = $1.replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;");
+                    removed.push('<pre>' + $1 + "</pre>");
+                    return "PLACEHOLDER" + (removed.length - 1) + ";";
+                })
+            .replace(
+                /(<button(?:.|\n)*?<\/button>)/g,
+                function (m, $1) {
+                    // Protect wizard buttons
+                    removed.push($1);
+                    return "PLACEHOLDER" + (removed.length - 1) + ";";
+                })
+            .replace(/^>(.*)$/gm, '<p class="one_line_report"> $1 </p>');
 
         lines = text.split(/\n/);
 

@@ -558,6 +558,7 @@ sub _loadDependenciesFrom {
                 $condition = $1;
             }
             elsif ( $line =~ m/^(\w+)\s+(\w*)\s*(.*)$/o ) {
+                die "Badly formatted ONLYIF" if $1 eq 'ONLYIF';
                 $this->_addDependency(
                     name        => $1,
                     type        => $2,

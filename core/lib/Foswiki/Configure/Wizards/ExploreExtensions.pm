@@ -309,23 +309,36 @@ sub _get_extensions {
             }
         }
 
-        if ( $install ne 'pseudo-installed' ) {
-            my %data = (
-                wizard => 'InstallExtensions',
-                method => 'add',
-                args   => "$ext->{repository}/$ext->{topic}"
-            );
-            my $json = JSON->new->encode( \%data );
-            $json =~ s/"/&quot;/g;
-            $install =
+        my %data = (
+            wizard => 'InstallExtensions',
+            method => 'depreport',
+            args   => {
+                repository  => $ext->{repository},
+                module      => $ext->{topic},
+                installable => ( $install ne 'pseudo-installed' ),
+
+                # SIMULATE =>
+                # NODEPS =>
+                # USELOCAL =>
+            }
+        );
+        my $json = JSON->new->encode( \%data );
+        $json =~ s/"/&quot;/g;
+        $install =
 "<button class=\"wizard_button\" data-wizard=\"$json\">$install</button>";
-        }
 
         if ($uninstall) {
             my %data = (
                 wizard => 'InstallExtensions',
                 method => 'remove',
-                args   => "$ext->{repository}/$ext->{topic}"
+                args   => {
+                    repository => $ext->{repository},
+                    module     => $ext->{topic},
+
+                    # SIMULATE =>
+                    # NODEPS =>
+                    # USELOCAL =>
+                }
             );
             my $json = JSON->new->encode( \%data );
             $json =~ s/"/&quot;/g;
