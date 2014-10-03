@@ -4,6 +4,7 @@
 
 ---+ package Foswiki::Configure::Package
 
+Support for installing/removing extension packages.
 Objects of this class represent an installed or installable
 Foswiki Extension.
 
@@ -39,17 +40,16 @@ package Foswiki::Configure::Package;
 use strict;
 use warnings;
 use Error qw(:try);
-use Assert;
-use Foswiki::Configure::Dependency;
 use File::stat;
-
-my $depwarn = '';    # Pass back warnings from untaint validation routine
+use Assert;
+use Foswiki::Configure::Dependency ();
+use Foswiki::Configure::Util       ();
 
 ############# GENERIC METHODS #############
 
 =begin TML
 
----++ ClassMethod new($root, $pkgname, $type, $session)
+---++ ClassMethod new($root, $pkgname, $type, \%options)
    * =$root= - The root of the Foswiki installation - used for file operations
    * =$pkgname= - The name of the the package.
    * $type - The type of package represented by this objct.  Supported types include:
@@ -57,15 +57,11 @@ my $depwarn = '';    # Pass back warnings from untaint validation routine
       * Skin - A Foswiki Skin
       * Contrib - A Foswiki Contribution or AddOn.   Defined in Contrib/_extension_.pm
       * Core - (future) a packaged core installation.
-   * =$session= (optional) - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
-Required for installer methods - used for checkin operations
-
-   * =$options= - A hash of options for the installation
+   * =\%options= - A hash of options for the installation
 
       {
         EXPANDED => 0/1     Specify that archive file has already been expanded
         USELOCAL => 0/1     If local versions of _installer or archives are found, use them instead of download.
-        SHELL    => 0/1     Specify if executed from shell - default is to generate html markup in messages.
         NODEPS   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
                             (CPAN and external dependencies are not handled by this module.)
         SIMULATE => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
@@ -75,28 +71,23 @@ Required for installer methods - used for checkin operations
 =cut
 
 sub new {
-    my ( $class, $root, $pkgname, $session, $options ) = @_;
+    my ( $class, $root, $pkgname, $options ) = @_;
     my @deps;
 
     my $this = bless(
         {
             _root    => $root,
             _pkgname => $pkgname,
-            _session => $session,
             _options => $options,
 
   # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
 
             # Array of dependencies required by this package
-            _dependency => \@deps,
-            _routines   => undef,
-            _repository => undef,
-            _loaded     => undef, # Flag set if loadInstaller is complete
-            _errors     => undef, # Collected errors
-            _logfile    => undef, # Log filename for results of requested action
-            _messages =>
-              undef,    # Messages returned to caller from requested action
+            _dependencies => \@deps,
+            _prepost_code => undef,
+            _repository   => undef,
+            _loaded       => undef,    # Flag set if loadInstaller is complete
         },
         $class
     );
@@ -119,15 +110,11 @@ sub finish {
     undef $this->{_root};
     undef $this->{_pkgname};
     undef $this->{_type};
-    undef $this->{_session};
     undef $this->{_options};
     undef $this->{_manifest};
-    undef $this->{_dependency};
-    undef $this->{_routines};
+    undef $this->{_dependencies};
+    undef $this->{_prepost_code};
     undef $this->{_loaded};
-    undef $this->{_errors};
-    undef $this->{_logfile};
-    undef $this->{_messages};
 
     for (qw( preinstall postinstall preuninstall postuninstall )) {
         undef &{$_};
@@ -139,7 +126,7 @@ sub finish {
 
 ---++ ObjectMethod repository()
 
-Get or set the respository associated with the object.
+Get or set the repository associated with the object.
 
 =cut
 
@@ -164,267 +151,210 @@ sub pkgname {
     return $this->{_pkgname};
 }
 
-=begin TML
+{
 
----++ ObjectMethod errors()
-Return any errors encountered duriung the installation of this object
-and those returned by any dependencies.
+    package LoggingReporter;
 
-=cut
+    # Options hash can include:
+    #  filename =>  Override of generated name including path
+    #  action   =>  Action - Install, Remove etc.
+    #  path     =>  Override the default logging path
+    #  pkgname  => name of package being installed
+    # Default name:  pkgname-[action]-yyyymmdd-hhmmss.log
+    sub new {
+        my ( $class, $super, %options ) = @_;
+        my $this = bless( { _reporter => $super }, $class );
+        if ( $options{filename} ) {
+            $this->{_logfile} = $options{filename};
+        }
 
-sub errors {
-    my $this = shift;
-    return $this->{_errors} || '';
-}
+        my $action = ( defined $options{action} ) ? $options{action} : 'run';
+        my $path =
+          ( defined $options{path} )
+          ? $options{path}
+          : "$Foswiki::cfg{Log}{Dir}/configure";
+        my $timestamp =
+          Foswiki::Time::formatTime( time(),
+            '$year$mo$day-$hours$minutes$seconds' );
 
-=begin TML
-
----++ ObjectMethod logfile( $this, $options )
-Get or set the logfile used to store the results of the requested operations.
-
-Options hash can include:
-
-  filename =>  Override of generated name including path
-  action   =>  Action - Install, Remove etc.
-  path     =>  Override the default logging path
-
-Default name:  NameOfPackage-[action]-yyyymmdd-hhmmss.log
-
-=cut
-
-sub logfile {
-    my ( $this, $options ) = @_;
-
-    if ( defined $this->{_logfile} ) {
-        return $this->{_logfile} unless defined $options;
+        $this->{_logfile} =
+            $path . '/'
+          . ( $options{pkgname} || '' ) . '-'
+          . $timestamp . '-'
+          . $action . '.log';
+        Foswiki::Configure::Load::expandValue( $this->{_logfile} );
+        return $this;
     }
 
-    if ( $options->{filename} ) {
-        $this->{_logfile} = $options->{filename};
-        return $this->{_logfile};
-    }
+    sub _log {
+        my $this = shift;
 
-    my $action = ( defined $options->{action} ) ? $options->{action} : 'run';
-    my $path =
-      ( defined $options->{path} )
-      ? $options->{path}
-      : "$Foswiki::cfg{Log}{Dir}/configure";
-    my $timestamp =
-      Foswiki::Time::formatTime( time(),
-        '$year$mo$day-$hours$minutes$seconds' );
+        # Don't actually write any logs if simulating the install
+        return if ( $this->{_options}->{SIMULATE} );
 
-    $this->{_logfile} =
-        $path . '/'
-      . $this->pkgname() . '-'
-      . $timestamp . '-'
-      . $action . '.log';
-    Foswiki::Configure::Load::expandValue( $this->{_logfile} );
-
-    return $this->{_logfile};
-}
-
-=begin TML
-
----++ ObjectMethod log( $this, $string )
-Write the $string to the logfile.
-
-=cut
-
-sub log {
-    my ( $this, $message, $markup ) = @_;
-    $markup ||= '';
-
-    if ( $this->{_options}->{SHELL} ) {
-        if ( $markup eq 'h' ) {
-            $this->{_messages} .= "\n===== $message ====\n";
+        unless ( -e $this->{_logfile} ) {
+            my @path =
+              split( /[\/\\]+/, $this->{_logfile}, -1 ); # -1 allows directories
+            pop(@path);
+            if ( scalar(@path) ) {
+                umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
+                File::Path::mkpath( join( '/', @path ),
+                    0, $Foswiki::cfg{Store}{dirPermission} );
+            }
         }
-        elsif ( $markup eq 'pre' ) {
-            $this->{_messages} .= "\n$message\n";
-        }
-        elsif ( $markup eq 'warn' ) {
-            $this->{_messages} .= "\n*WARNING* $message \n";
+
+        if ( open( my $file, '>>', $this->{_logfile} ) ) {
+            print $file join( "\n", @_ ) . "\n";
+            close($file);
         }
         else {
-            $this->{_messages} .= "\n$message\n";
-        }
-    }
-    else {
-        if ( $markup eq 'h' ) {
-            $this->{_messages} .= "<h3 style='margin-top:0'>$message</h3>";
-        }
-        elsif ( $markup eq 'pre' ) {
-            $this->{_messages} .= "<pre>$message</pre>";
-        }
-        elsif ( $markup eq 'warn' ) {
-            $this->{_messages} .= CGI::div(
-                { class => 'foswikiAlert configureWarn' },
-                CGI::span(
-                    {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", $message )
-                )
-            );
-        }
-        else {
-            $this->{_messages} .= "$message<br />";
+            if ( !-w $this->{_logfile} ) {
+                die "ERROR: Could not open logfile "
+                  . $this->{_logfile}
+                  . " for write. Your admin should 'configure' now and fix the errors!";
+            }
+
+            # die to force the admin to get permissions correct
+            die 'ERROR: Could not write to ' . $this->{_logfile} . ": $!";
         }
     }
 
-    # Don't actually write any logs if simulating the install
-    return if ( $this->{_options}->{SIMULATE} );
+    sub NOTE {
+        my $this = shift;
 
-    unless ( -e $this->logfile() ) {
-        my @path =
-          split( /[\/\\]+/, $this->logfile(), -1 );    # -1 allows directories
-        pop(@path);
-        if ( scalar(@path) ) {
-            umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
-            File::Path::mkpath( join( '/', @path ),
-                0, $Foswiki::cfg{Store}{dirPermission} );
+        $this->{_reporter}->NOTE(@_);
+        $this->_log(@_);
+    }
+
+    sub WARN {
+        my ( $this, @p ) = @_;
+        return unless scalar @p;
+        $this->{_reporter}->WARN(@p);
+        unless ( $p[0] =~ s/^>/> *WARNING:* / ) {
+            $p[0] = "> *WARNING:* ";
         }
+        $this->_log(@p);
     }
 
-    if ( open( my $file, '>>', $this->logfile() ) ) {
-        print $file "$message\n";
-        close($file);
-    }
-    else {
-        if ( !-w $this->logfile() ) {
-            die "ERROR: Could not open logfile "
-              . $this->logfile()
-              . " for write. Your admin should 'configure' now and fix the errors!\n";
+    sub ERROR {
+        my ( $this, @p ) = @_;
+        return unless scalar @p;
+        $this->{_reporter}->ERROR(@p);
+        unless ( $p[0] =~ s/^>/> *ERROR:* / ) {
+            $p[0] = "> *ERROR:* ";
         }
-
-        # die to force the admin to get permissions correct
-        die 'ERROR: Could not write '
-          . $message . ' to '
-          . $this->logfile()
-          . ": $!\n";
+        $this->_log(@p);
     }
 
+    sub CHANGED {
+        my $this = shift;
+        $this->{_reporter}->CHANGED(@_);
+        $this->_log( "> _Changed:_ $_[0] = " . eval("\$Foswiki::cfg$_[1]") );
+    }
 }
 
 =begin TML
 
----++ ObjectMethod install()
+---++ ObjectMethod install($reporter) -> ($ok, \%plugins, \%cpanDeps)
 
 Perform a full installation of the package, including all dependencies
 and any required downloads from the repository.
 
 A backup is taken before any changes are made to the file system.
 
-Missing directories are created as required.  The files are mapped into non-standard
-locations by the mapTarget utility routine.  If a file is read-only, it is temporarily
-overridden and the mode of the file is restored after the move.
+Missing directories are created as required.  The files are mapped into
+non-standard locations by the mapTarget utility routine.  If a file is
+read-only, it is temporarily overridden and the mode of the file is
+restored after the move.
 
-The $session is a Foswiki session used for Topic checkin when required.  The session - while
-optional, must be set prior to running the install method.
-
-Files are "checked in" by creating a Topic Meta object and using the Foswiki Meta API to
-save the topic.
+Files are "checked in" by creating a Topic Meta object and using the
+Foswiki Meta API to save the topic.
 
    * If the file is new, with no history, it is simply copied,
-   * If the file exists and has rcs history ( *,v file exists), it is always checked in
+   * If the file exists and has rcs history ( *,v file exists), it is
+     always checked in
    * If the file exists without history, the Manifest "CI" flag is followed
 
-   * =%options= (optional) options to override behavior - primarily for unit tests.
+   * =%options= (optional) options to override behavior - primarily for
+     unit tests.
       * =DIR =>  directory where installer package is found
       * =USELOCAL => 1= Use local archives if found (Used by shell installations)
       * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
       * =NODEPS   => 1= Don't install any dependents
       * =SIMULATE => 1= Don't actually install, just report expected results.  No logs are written. 
 
-
 =cut
 
 sub install {
-    my $this = shift;
+    my ( $this, $supereporter ) = @_;
 
-    my $feedback = '';
-    my $rslt     = '';
-    my $err      = '';
+    my $reporter = LoggingReporter->new(
+        $supereporter,
+        action  => 'Install',
+        pkgname => $this->{_pkgname}
+    );
 
-    $this->logfile( { action => 'Install' } );
-
-    $this->log( "Installing $this->{_pkgname}", 'h' );
+    $reporter->NOTE("---+ Installing $this->{_pkgname}");
 
     unless ( $this->{_loaded} ) {
-        ( $rslt, $err ) = $this->loadInstaller()
-          ;    # Recover the manifest from the _installer file
-        if ($rslt) {
-            $this->log("Loading package installer");
-            $this->log( $rslt, 'pre' );
-            $rslt = '';
-        }
-    }
 
-    if ($err) {
-        $this->{_errors} .= $err;
-        return ( "ERROR - " . $err )
-          ;    # Don't try to continue if installer could not be loaded.
+        # Recover the manifest from the _installer file
+        $reporter->NOTE("> Loading package installer");
+
+        # Don't try to continue if installer could not be loaded.
+        return (0) unless $this->loadInstaller($reporter);
     }
 
     my ( $installed, $missing, $wiki, $cpan, $manual ) =
       $this->checkDependencies();
 
-  # #wiki, $cpan and $manual are array references to array of Dependency objects
+    # $wiki, $cpan and $manual are array references to array
+    # of Dependency objects
 
-    $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
-    $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
-
-    if ($rslt) {
-        $this->log("Dependency Report for $this->{_pkgname} ...");
-        $this->log( $rslt, 'pre' );
-        $rslt = '';
+    if ( $installed || $missing ) {
+        $reporter->WARN("> Dependency Report for $this->{_pkgname} ...");
+        $reporter->WARN("> INSTALLED $installed") if ($installed);
+        $reporter->WARN("> MISSING $missing")     if ($missing);
     }
 
     my $depPlugins;    # hashref to hash of plugin names
     my $depCPAN;       # hashref to hash of cpan dependency names
     unless ( $this->{_options}->{NODEPS} ) {
-        ( $rslt, $depPlugins, $depCPAN ) = $this->installDependencies();
 
         # Don't log these results - each package uses it's own logfile
-        $this->{_messages} .= $rslt;
+        my ( $depPlugins, $depCPAN ) =
+          $this->_installDependencies($supereporter);
     }
 
-    $this->log("Creating Backup of $this->{_pkgname} ...");
-    ( $rslt, $err ) =
-      $this->createBackup();    # Create a backup of the previous install if any
-    if ($err) {
-        $this->{_errors} .= $err;
-        $this->log( $err, 'pre' );
-    }
-    $this->log( $rslt, 'pre' );
-    $rslt = '';
+    # Create a backup of the previous install if any
+    $reporter->NOTE("> Creating Backup of $this->{_pkgname} ...");
+    my $ok = $this->_createBackup($reporter);
 
     my %plugins;
     my %cpanDeps;
 
-    unless ($err) {             # If backup failed don't proceed
+    if ($ok) {    # If backup failed don't proceed
 
-        $this->loadExits();
+        $this->_loadExits();
 
-        unless ( $this->{_options}->{SIMULATE} ) {
-            $this->log("Running Pre-install exit for $this->{_pkgname} ...");
-            $rslt = $this->preinstall() || '';
-            $this->log( $rslt, 'pre' );
-            $rslt = '';
+        if ( $this->can('preinstall') && !$this->{_options}->{SIMULATE} ) {
+            $reporter->NOTE("> Running pre-install for $this->{_pkgname} ...");
+            my $rslt = $this->preinstall();
+            $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
         }
 
-        $err = '';
-        ( $rslt, $err ) = $this->_install();    # and do the installation
-        $this->{_errors} .= $err if ($err);
+        my $ok = $this->_install($reporter);    # and do the installation
 
-        $this->log("Installing $this->{_pkgname}...");
-        $this->log( $rslt, 'pre' );
-        $rslt = '';
-
-        unless ( $this->{_options}->{SIMULATE} || $err ) {
-            $this->log("Running Post-install exit for $this->{_pkgname}...");
-            $rslt = $this->postinstall() || '';
-            $this->log( $rslt, 'pre' );
-            $rslt = '';
+        if (   $ok
+            && $this->can('postinstall')
+            && !$this->{_options}->{SIMULATE} )
+        {
+            $reporter->NOTE("> Running post-install for $this->{_pkgname}...");
+            my $rslt = $this->postinstall();
+            $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
         }
     }
-    %plugins = $this->listPlugins()
+    %plugins = $this->_listPlugins()
       ;    # Retrieve a list of any plugin modules installed by this package.
     @plugins{ keys %$depPlugins } = values %$depPlugins; # merge in dependencies
 
@@ -434,46 +364,28 @@ sub install {
     @cpanDeps{ keys %$depCPAN } =
       values %$depCPAN;    # merge in cpan from dependencies
 
-    if ( keys %plugins && !$this->{_options}->{SIMULATE} ) {
-        $this->log(
-"Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in configure.",
-            'warn'
-        );
-        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %plugins ) {
-            $rslt .= "$plu \n";
-        }
-        $this->log( $rslt, 'pre' );
-    }
-
-    return ( $this->{_messages}, \%plugins, \%cpanDeps );
+    return ( 1, \%plugins, \%cpanDeps );
 
 }
 
-=begin TML
-
----++ ObjectMethod install()
-
-Install files listed in the manifest.  
-
-=cut
+# Install files listed in the manifest.
+# Returns boolean status, reports progress to $reporter
 
 sub _install {
-    my $this    = shift;
-    my $options = shift;
+    my ( $this, $reporter ) = @_;
 
-    my $expanded = $this->{_options}->{EXPANDED} || $options->{EXPANDED} || 0;
-    my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL} || 0;
-    my $dir = $this->{_options}->{DIR} || $options->{DIR} || $this->{_root};
+    my $dir = $this->{_options}->{DIR} || $this->{_root};
 
+    my $err;
     my $ext       = '';
-    my $feedback  = '';    # Results from install
-    my $err       = '';    # Error results
     my $installer = '';
     my $simulated = '';
     $simulated = 'Simulated - ' if ( $this->{_options}->{SIMULATE} );
 
-    unless ($expanded) {
-        if ($uselocal) {
+    unless ( $this->{_options}->{EXPANDED} ) {
+
+        # Archive not yet expanded
+        if ( $this->{_options}->{USELOCAL} ) {
 
             # Check $dir first, then the download directory.
             for my $sdir ( "$dir",
@@ -490,53 +402,67 @@ sub _install {
                 }
                 last if ($ext);
             }
+
+            if ($ext) {
+                $reporter->NOTE(
+"> Using previously downloaded archive $dir/$this->{_pkgname}$ext"
+                );
+            }
+            else {
+                $reporter->WARN(
+"> No previously downloaded archive found.  Download is required"
+                );
+            }
         }
-        $feedback .=
-          ($ext)
-          ? "Using previously downloaded archive $dir/$this->{_pkgname}$ext \n"
-          : ($uselocal)
-          ? "No previously downloaded archive found.  Download is required\n"
-          : "Use of previously downloaded archives was not selected.  Download is required\n";
 
         my $tmpdir;         # Directory where archive was expanded
         my $tmpfilename;    # Filename set when downloaded
 
         if ( !$ext && $this->{_repository} )
         {                   # no extension found - need to download the package
+
+            $reporter->NOTE(
+"\t* fetching $this->{_pkgname} from $this->{_repository}->{pub} ..."
+            );
+
             ( $err, $tmpfilename ) = $this->_fetchFile('.tgz');
             if ($err) {
-                $feedback .=
-"Download failure fetching .tgz file - $err\n Trying .zip file\n";
+                $reporter->WARN( "Download failure fetching .tgz file - $err",
+                    "Trying .zip file" );
             }
 
             unless ( $tmpfilename && !$err )
-            {               # no .tgz found - try the zip archive
+            {    # no .tgz found - try the zip archive
                 ( $err, $tmpfilename ) = $this->_fetchFile('.zip');
                 if ($err) {
-                    $this->{_errors} .= "Download failure\n $err";
-                    return ( $feedback, "Download failure\n $err" );
+                    $reporter->ERROR(
+                        "Download failure fetching .zip file - $err");
+                    return 0;
                 }
             }
         }
+
         $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext);
-        my $sb = stat("$tmpfilename");
-        $feedback .=
-            "Unpacking $tmpfilename..., Size: "
-          . $sb->size
-          . " Modified: "
-          . scalar localtime( $sb->mtime )
-          . " for package archive \n";
+        my $sb = stat($tmpfilename);
+        $reporter->NOTE( "> Unpacking $tmpfilename..., Size: "
+              . $sb->size
+              . " Modified: "
+              . scalar localtime( $sb->mtime ) );
         ( $tmpdir, $err ) =
           Foswiki::Configure::Util::unpackArchive($tmpfilename);
         if ($err) {
-            $feedback .= "$err\n";
-            $this->{_errors} .= $err;
+            $reporter->ERROR("Unpack failed - $err");
+            return 0;
         }
-        return ( $feedback, "No archive found to install\n" ) unless ($tmpdir);
+        unless ($tmpdir) {
+            $reporter->ERROR("No archive found to install");
+            return 0;
+        }
 
         my ($tmpext) = $tmpfilename =~ m/.*(\.[^\.]+)$/;
-        $feedback .=
-"Saving $tmpfilename to $Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext\n";
+        $reporter->NOTE(
+"> Saving $tmpfilename to $Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext"
+        );
         $this->_moveFile(
             $tmpfilename,
 "$Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext",
@@ -547,18 +473,14 @@ sub _install {
         $dir = $tmpdir;
     }
 
-    my $session =
-      $this->{_session}; # Session used for file checkin - should be admin user.
     my $root     = $this->{_root};        # Root of the foswiki installation
     my $manifest = $this->{_manifest};    # Reference to the manifest
 
-    my @names  = $this->listFiles();  # Retrieve list of filenames from manifest
-    my $errors = '';                  # Accumulated errors
+    my @names = $this->_listFiles();  # Retrieve list of filenames from manifest
+    my $ok    = 1;
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
-
-        $err = '';
 
         if ( $file =~ /^(:?bin|tools)\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
@@ -577,102 +499,105 @@ sub _install {
 
         # Move or copy the file.
 
-        if ( -f "$dir/$file" ) {    # Exists as a file.
-            my $installed = $manifest->{$file}->{I}
-              || '';                # Set to 1 if file already installed
-            next if ($installed);
-            $manifest->{$file}->{I} =
-              1;    # Set this to installed (assuming it all works)
+        next unless ( -f "$dir/$file" );    # Exists as a file.
 
-            my $ci = $manifest->{$file}->{ci}
-              || '';    # Set to 1 if checkin desired
-            my $perms = $manifest->{$file}->{perms};    # File permissions
+        my $installed = $manifest->{$file}->{I}
+          || '';                            # Set to 1 if file already installed
+        next if ($installed);
+        $manifest->{$file}->{I} =
+          1;    # Set this to installed (assuming it all works)
 
-            # Topic files in the data directory needing Checkin
-            if ( $file =~ m/^data/
-                && ( -e "$target,v" || ( -e "$target" && $ci ) ) )
-            {
-                my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
-                my ( $tweb, $ttopic ) =
-                  Foswiki::Configure::Util::getMappedWebTopic($file);
+        my $ci = $manifest->{$file}->{ci}
+          || '';    # Set to 1 if checkin desired
+        my $perms = $manifest->{$file}->{perms};    # File permissions
 
-                if ( Foswiki::Func::webExists($tweb) ) {
-                    my %opts;
-                    $opts{forcenewrevision} = 1;
+        # Topic files in the data directory needing Checkin
+        if ( $file =~ m/^data/
+            && ( -e "$target,v" || ( -e "$target" && $ci ) ) )
+        {
+            my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+            my ( $tweb, $ttopic ) =
+              Foswiki::Configure::Util::getMappedWebTopic($file);
 
-                    local $/ = undef;
-                    open( my $fh, '<', "$dir/$file" )
-                      or return ( $feedback,
-"Cannot open $dir/$file for reading: $!\nProbably packaging error\n"
-                      );
-                    my $contents = <$fh>;
-                    close $fh;
+            if ( Foswiki::Func::webExists($tweb) ) {
+                my %opts;
+                $opts{forcenewrevision} = 1;
 
-# If file is not writable, and not owned, the chmod probably won't work ...  so fail.
-                    $err = "Target $file is not writable\n"
-                      if ( -e "$target" && !-w "$target" && !-o "$target" );
-                    if ($err) {
-                        $errors .= $err;
-                        next;
-                    }
-
-                    if ($contents) {
-                        $feedback .=
-                          "${simulated}Checked in: $file  as $tweb.$ttopic\n";
-                        my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic,
-                            $contents );
-
-                        ( my $afdbk, $err ) =
-                          _installAttachments( $this, $dir, "$web/$topic",
-                            "$tweb/$ttopic", $meta );
-                        $feedback .= $afdbk;
-                        $errors .= $err if ($err);
-                        $meta->saveAs( $tweb, $ttopic, %opts )
-                          unless $this->{_options}->{SIMULATE};
-                    }
+                local $/ = undef;
+                my $fh;
+                unless ( open( $fh, '<', "$dir/$file" ) ) {
+                    $reporter->ERROR( "Cannot open $dir/$file for reading: $!",
+                        "Probably packaging error" );
+                    $ok = 0;
                     next;
                 }
+                my $contents = <$fh>;
+                close $fh;
+
+                # If file is not writable, and not owned, the chmod
+                # probably won't work ...  so fail.
+                if ( -e "$target" && !-w "$target" && !-o "$target" ) {
+                    $reporter->ERROR("Target $file is not writable");
+                    $ok = 0;
+                    next;
+                }
+
+                if ($contents) {
+                    $reporter->NOTE(
+                        "> ${simulated}Checked in: $file  as $tweb.$ttopic");
+                    my $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,
+                        $tweb, $ttopic, $contents );
+
+                    $ok = 0
+                      unless $this->_installAttachments( $reporter, $dir,
+                        "$web/$topic", "$tweb/$ttopic", $meta );
+                    $meta->saveAs( $tweb, $ttopic, %opts )
+                      unless $this->{_options}->{SIMULATE};
+                }
+                next;
             }
+        }
 
-            # Everything else
-            $err = _moveFile( $this, "$dir/$file", "$target", $perms );
-
-            $errors .= $err if ($err);
-            $feedback .= "${simulated}Installed:  $file as $target\n";
+        # Everything else
+        $err = _moveFile( $this, "$dir/$file", "$target", $perms );
+        if ($err) {
+            $reporter->ERROR($err);
+            $ok = 0;
             next;
         }
+        $reporter->NOTE("> ${simulated}Installed:  $file as $target");
     }
+
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     $err = _moveFile(
         $this,
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
-    $errors .= $err if ($err);
-    $feedback .=
-      "${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore\n";
-
-    return ( $feedback, $errors );
-
+    if ($err) {
+        $reporter->ERROR($err);
+        $ok = 0;
+    }
+    if ($ok) {
+        $reporter->NOTE(
+            "> ${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore"
+        );
+    }
+    return $ok;
 }
 
-=begin TML
----+++ _installAttachments ()
-
-Install the attachments associated with a topic.  Used when
-attachments or the owning topic have revision data to maintain.
-Otherwise the attachments are just copied.
-
-=cut
+# Install the attachments associated with a topic.  Used when
+# attachments or the owning topic have revision data to maintain.
+# Otherwise the attachments are just copied.
+# Return boolean status.
 
 sub _installAttachments {
     my $this      = shift;
+    my $reporter  = shift;
     my $dir       = shift;
     my $webTopic  = shift;    # Standard web/topic for the attachment
     my $twebTopic = shift;    # Mapped target web/topic
     my $meta      = shift;
-    my $feedback  = '';
-    my $errors    = '';
 
     foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
@@ -688,13 +613,13 @@ sub _installAttachments {
             || ( -e "$tfile,v" )      # or rcs file exists
           )
         {
-            my $err = '';
-            $err = "Target file $tfile is not writable\n"
-              if ( -e "$tfile" && !-w "$tfile" && !-o "$tfile" );
-            $err .= "Source file $dir/$file missing, probable packaging error\n"
-              if ( !-e "$dir/$file" );
-            if ($err) {
-                $errors .= $err;
+            if ( -e "$tfile" && !-w "$tfile" && !-o "$tfile" ) {
+                $reporter->ERROR("Target file $tfile is not writable");
+                next;
+            }
+            if ( !-e "$dir/$file" ) {
+                $reporter->ERROR(
+                    "Source file $dir/$file missing, probable packaging error");
                 next;
             }
 
@@ -713,18 +638,13 @@ sub _installAttachments {
             $opts{filesize} = $fstats->size;
             $opts{filedate} = $fstats->mtime;
             $meta->attach(%opts) unless ( $this->{_options}->{SIMULATE} );
-            $feedback .= "Attached:   $file to $twebTopic\n";
+            $reporter->NOTE("   * Attached:   $file to $twebTopic");
         }
     }
-    return ( $feedback, $errors );
+    return 1;
 }
 
-=begin TML
----+++ _moveFile ()
-
-Make the path as required and move or copy the file into the target location
-
-=cut
+# Make the path as required and move or copy the file into the target location
 
 sub _moveFile {
     my $this  = shift;
@@ -766,17 +686,12 @@ sub _moveFile {
     return 0;
 }
 
-=begin TML
----++ ObjectMethod createBackup ()
-Create a backup of the extension by copying the files into the
-=working/configure/backup/= directory.  If system archive
-tools are available, then the directory will be compressed
-into a backup file.
-
-=cut
-
-sub createBackup {
-    my $this = shift;
+# Create a backup of the extension by copying the files into the
+# =working/configure/backup/= directory.  If system archive
+# tools are available, then the directory will be compressed
+# into a backup file.
+sub _createBackup {
+    my ( $this, $reporter ) = @_;
     my $root = $this->{_root};
     $root =~ s#\\#/#g;    # Convert windows style slashes
 
@@ -788,8 +703,9 @@ sub createBackup {
     my $bkdir  = "$Foswiki::cfg{WorkingDir}/configure/backup";
     my $bkname = "$this->{_pkgname}-backup-$stamp";
     my $pkgstore .= "$bkdir/$bkname";
+    my $ok = 1;
 
-    my @files = $this->listFiles('1');    # return list of installed files
+    my @files = $this->_listFiles(1);    # return list of installed files
     unshift( @files,
 "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
       )
@@ -797,7 +713,11 @@ sub createBackup {
         -e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
       );
 
-    if ( scalar @files ) {                # Anything to backup?
+    unless ( scalar @files ) {           # Anything to backup?
+        $reporter->NOTE("\t* Nothing to backup");
+    }
+    else {
+
         File::Path::mkpath("$pkgstore")
           unless ( $this->{_options}->{SIMULATE} );
 
@@ -833,27 +753,24 @@ sub createBackup {
         else {
             ( $rslt, my $err ) =
               Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' );
-            $rslt = "FAILED \n" . $err unless ($rslt);
+            $reporter->ERROR("FAILED $err") unless ($rslt);
+            $ok = 0;
         }
 
-        return "Backup saved into $pkgstore \n   Archived as $rslt \n";
+        $reporter->NOTE( "\t* Backup saved into $pkgstore",
+            "\t* Archived as $rslt" );
     }
-    return "Nothing to backup\n";
+    return $ok;
 }
 
-=begin TML
+# Check each installed file against the manifest.  Apply the
+# permissions to the file.
 
----++ ObjectMethod setPermissions ()
-Check each installed file against the manifest.  Apply the
-permissions to the file.
-
-=cut
-
-sub setPermissions {
+sub _setPermissions {
     my $this = shift;
 
     # foreach file in list, apply the permissions per the manifest
-    my @names = $this->listFiles();
+    my @names = $this->_listFiles();
     foreach my $file (@names) {
 
         # Find where it is meant to go
@@ -876,17 +793,12 @@ sub setPermissions {
     }
 }
 
-=begin TML
+# Return the sorted list of files in the package.
+#
+# If $installed is true, return the list of files that are actually installed
+# including rcs files.
 
----++ listFiles ( $installed )
-Return the sorted list of files in the package.
-
-If $installed is true, return the list of files that are actually installed
-including rcs files.
-
-=cut
-
-sub listFiles {
+sub _listFiles {
     my ( $this, $installed ) = @_;
 
     my @files;
@@ -905,17 +817,13 @@ sub listFiles {
     return sort(@files);
 }
 
-=begin TML
----++ ObjectMethod listPlugins ()
-List the plugin modules provided by this extension.
+# List the plugin modules provided by this extension.
 
-=cut
-
-sub listPlugins {
+sub _listPlugins {
     my $this = shift;
     my %plugins;
 
-    foreach my $plugin ( $this->listFiles() ) {
+    foreach my $plugin ( $this->_listFiles() ) {
         my ($plugName) = $plugin =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         $plugins{$plugName} = 1 if $plugName;
     }
@@ -924,7 +832,7 @@ sub listPlugins {
 
 =begin TML
 
----++ uninstall ( $simulate )
+---++ uninstall ( $reporter, $simulate )
 Remove each file identified by the manifest.  Also remove
 any rcs "...,v" files if they exist.   Note that directories
 are NOT removed unless they are empty.
@@ -938,53 +846,35 @@ have been removed is returned.
 =cut
 
 sub uninstall {
-    my $this     = shift;
-    my $simulate = shift;
-    my $rslt;
-    my $err;
+    my ( $this, $supereporter, $simulate ) = @_;
 
     $simulate = $this->{_options}->{SIMULATE} unless ($simulate);
 
     my @removed;
     my %directories;
 
-    $this->logfile( { action => 'Uninstall' } );
+    my $reporter = LoggingReporter->new( $supereporter, action => 'Uninstall' );
 
-    $this->log( "Uninstalling $this->{_pkgname}", 'h' );
+    $reporter->NOTE("---+ Uninstalling $this->{_pkgname}");
 
     unless ( $this->{_loaded} ) {
-        ( $rslt, $err ) = $this->loadInstaller()
-          ;    # Recover the manifest from the _installer file
-        if ($rslt) {
-            $this->log("Loading package installer");
-            $this->log( $rslt, 'pre' );
-            $rslt = '';
-        }
+
+        # Recover the manifest from the _installer file
+        $reporter->NOTE("> Loading package installer");
+        return 0 unless $this->loadInstaller($reporter);
     }
 
-    if ($err) {
-        $this->{_errors} .= $err;
-        return ( "ERROR - " . $err )
-          ;    # Don't try to continue if installer could not be loaded.
-    }
+    $reporter->NOTE("> Creating Backup of $this->{_pkgname} ...");
 
-    $this->log("Creating Backup of $this->{_pkgname} ...");
-    ( $rslt, $err ) =
-      $this->createBackup();    # Create a backup of the previous install if any
-    if ($err) {
-        $this->{_errors} .= $err;
-        $this->log( $err, 'pre' );
-    }
-    $this->log( $rslt, 'pre' );
-    $rslt = '';
+    # Create a backup of the previous install if any
+    $this->_createBackup($reporter);
 
-    $this->loadExits();
+    $this->_loadExits();
 
-    unless ( $this->{_options}->{SIMULATE} ) {
-        $this->log("Running Pre-uninstall exit for $this->{_pkgname} ...");
-        $rslt = $this->preuninstall() || '';
-        $this->log( $rslt, 'pre' );
-        $rslt = '';
+    if ( $this->can('preuninstall') && !$this->{_options}->{SIMULATE} ) {
+        $reporter->NOTE("> Running Pre-uninstall for $this->{_pkgname} ...");
+        my $rslt = $this->preuninstall();
+        $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
     }
 
     # foreach file in the manifest, remove the file.
@@ -1028,44 +918,30 @@ sub uninstall {
     }
 
     my @plugins;
-    my $unpackedFeedback = '';
+    my @unpackedFeedback;
 
     foreach my $file ( sort @removed ) {
-        $unpackedFeedback .= "$file\n";
+        push( @unpackedFeedback, "   * $file" );
         my ($plugName) = $file =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         push( @plugins, $plugName ) if $plugName;
     }
-    $this->log("Removed files:");
-    $this->log( $unpackedFeedback, 'pre' );
-
-    unless ( $this->{_options}->{SIMULATE} ) {
-        $this->log("Running Post-uninstall exit for $this->{_pkgname} ...");
-        $rslt = $this->postuninstall() || '';
-        $this->log( $rslt, 'pre' );
-        $rslt = '';
+    if ( scalar @unpackedFeedback ) {
+        $reporter->NOTE("> Removed files:");
+        $reporter->NOTE(@unpackedFeedback);
     }
 
-    if ( scalar @plugins && !$simulate ) {
-        $this->log(
-            "Don't forget to disable uninstalled plugins in the
-\"Plugins\" section in the main page, listed below:
-",
-            'warn'
-        );
-
-        foreach my $plugName ( sort @plugins ) {
-            $rslt .= "$plugName \n" if $plugName;
-        }
-        $this->log( $rslt, 'pre' );
-        $rslt = '';
+    if ( $this->can('posuninstall') && !$this->{_options}->{SIMULATE} ) {
+        $reporter->NOTE("> Running Post-uninstall for $this->{_pkgname} ...");
+        my $rslt = $this->postuninstall();
+        $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
     }
 
-    return $this->{_messages};
+    return ( 1, \@plugins );
 }
 
 =begin TML
 
----++ loadInstaller ([$options])
+---++ loadInstaller ($reporter [, $options]) -> $ok
 This routine looks for the $extension_installer or
 $extension_installer.pl file  and extracts the manifest,
 dependencies and pre/post Exit routines from the installer.
@@ -1089,14 +965,12 @@ installed as methods for this object.
       * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
 
 Returns:
-   * Warning text if no fatal errors occurred
-   * Error messages if load failed.
+    * boolean success
 
 =cut
 
 sub loadInstaller {
-    my $this    = shift;
-    my $options = shift;
+    my ( $this, $reporter, $options ) = @_;
 
     my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
     my $temproot =
@@ -1133,44 +1007,39 @@ sub loadInstaller {
             $file = "$pkgstore/${extension}_installer";
         }
         else {
-            $warn .= "Unable to find $extension locally in $temproot ...";
+            $reporter->WARN(
+                "> Unable to find $extension locally in $temproot ...");
         }
     }
 
     if ($file) {
         my $sb = stat("$file");
-        $warn .=
-            "Using local $file, Size: "
-          . $sb->size
-          . " Modified: "
-          . scalar localtime( $sb->mtime )
-          . " for package manifest \n";
+        $reporter->WARN( "> Using local $file, Size: "
+              . $sb->size
+              . " Modified: "
+              . scalar localtime( $sb->mtime )
+              . " for package manifest" );
     }
     else {
         if ( defined $this->{_repository} ) {
-            $warn .= "fetching installer from $this->{_repository}->{pub} ...";
+            $reporter->NOTE(
+                "   * fetching installer from $this->{_repository}->{pub} ...");
             ( $err, $file ) = $this->_fetchFile('_installer');
             if ($err) {
-                $warn .= " Download failed \n - $err \n";
-                $this->{_errors} .= "$err\n";
-                return ( '', $warn );
-            }
-            else {
-                $warn .= " succeeded\n";
+                $reporter->ERROR("Download failed - $err");
+                return 0;
             }
         }
         else {
-            $warn .= 'unable to download - no repository provided';
-            $this->{_errors} .= 'unable to download - no repository provided';
-            return ( '', $warn );
+            $reporter->ERROR('unable to download - no repository provided');
+            return 0;
         }
     }
 
     my $opened = open( my $fh, '<', $file );
     if ( !$opened ) {
-        $err = "Extract manifest failed: $file -  $!";
-        $this->{_errors} .= "$err\n";
-        return ( '', $err );
+        $reporter->ERROR("Extract manifest failed: $file -  $!");
+        return 0;
     }
 
     my $found = '';
@@ -1194,7 +1063,7 @@ sub loadInstaller {
                 $found = '';
                 next;
             }
-            $warn .= $this->_parseManifest($_);
+            $this->_parseManifest( $_, $reporter );
             next;
         }
 
@@ -1203,7 +1072,7 @@ sub loadInstaller {
                 $found = '';
                 next;
             }
-            $warn .= $this->_parseDependency($_) if ($_);
+            $this->_parseDependency( $_, $reporter ) if ($_);
             next;
         }
 
@@ -1213,52 +1082,42 @@ sub loadInstaller {
             # if brackets are not in pairs, this will fail, like { in comment
             $depth++ for /{/g;
             $depth-- for /}/g;
-            $this->{_routines} .= "$_\n";
+            $this->{_prepost_code} .= "$_\n";
             $found = '' unless $depth;
             next;
         }
     }
     close $fh;
     $this->{_loaded} = 1;
-    return ( $warn, '' );
+    return 1;
 }
 
-=begin TML
+# Evaluate the pre and post install / uninstall functions extracted from
+# the package file.
 
----++ ObjectMethod loadExits ()
-Evaluate the pre and post install / uninstall routines extracted from
-the package file.
-
-=cut
-
-sub loadExits {
+sub _loadExits {
     my $this = shift;
     my $err  = '';
 
-    if ( $this->{_routines} ) {
+    if ( $this->{_prepost_code} ) {
 
         # Ensure it's clean, to avoid redefine error
         for (qw( preinstall postinstall preuninstall postuninstall )) {
             undef &{$_};
         }
-        $this->{_routines} =~ /(.*)/sm;
-        $this->{_routines} = $1;    #yes, we must untaint
-        unless ( eval $this->{_routines} . "; 1; " ) {
-            $err = "Couldn't load subroutines: $@";
-            $this->{_errors} = $err;
+        $this->{_prepost_code} =~ /(.*)/sm;
+        $this->{_prepost_code} = $1;    #yes, we must untaint
+
+        unless ( eval $this->{_prepost_code} . "; 1; " ) {
+            die "Couldn't load pre/post (un)install: $@";
         }
     }
     return;
 }
 
-=begin TML
+# Delete the pre and post install / uninstall routines from the namespace
 
----++ ObjectMethod deleteExits ()
-Delete the pre and post install / uninstall routines from the namespace
-
-=cut
-
-sub deleteExits {
+sub _deleteExits {
     my $this = shift;
 
     for (qw( preinstall postinstall preuninstall postuninstall )) {
@@ -1267,14 +1126,9 @@ sub deleteExits {
     return;
 }
 
-=begin TML
+# Return the manifest in printable format
 
----++ ObjectMethod Manifest ()
-Return the manifest in printable format
-
-=cut
-
-sub Manifest {
+sub manifest {
     my ($this) = @_;
     my $rslt = '';
 
@@ -1290,7 +1144,7 @@ sub Manifest {
 
 =begin TML
 
----++ _parseManifest ( $line )
+---++ _parseManifest ( $line, $reporter )
 Parse the manifest line into the manifest hash.
 
 ->{filename}->{ci}      Flag if file should be "checked in"
@@ -1300,7 +1154,7 @@ Parse the manifest line into the manifest hash.
 =cut
 
 sub _parseManifest {
-    my ( $this, $line ) = @_;
+    my ( $this, $line, $reporter ) = @_;
 
     my ( $file, $perms, $md5, $desc ) =    # New format
       $line =~ /^(".+"|\S+)\s+(\d+)(?:\s+([a-f0-9]{32}))?\s+(.*)$/;
@@ -1310,7 +1164,10 @@ sub _parseManifest {
           /^([^,]+)(?:,([^,]+)(?:,([a-f0-9]{32}))?,(.*))?$/;
     }
 
-    return "No file found in $line - line bypassed" unless $file;
+    unless ($file) {
+        $reporter->WARN("No file found in $line - line bypassed");
+        return;
+    }
     $file =~ s/^"(.+)"$/$1/;
 
     my $tweb    = '';
@@ -1324,7 +1181,7 @@ sub _parseManifest {
             && length($tweb) > 0
             && length($ttopic) > 0 )
         {
-            return "$file is not a topic - file will be bypassed\n";
+            $reporter->WARN("$file is not a topic - file will be bypassed");
         }
     }
     if ( $file =~ m/^pub\/.*/ ) {
@@ -1336,8 +1193,10 @@ sub _parseManifest {
             && length($ttopic) > 0
             && length($tattach) > 0 )
         {
-            return "Unable to identify attachment $file name or location"
-              . " - file will be bypassed\n";
+            $reporter->WARN(
+                    "Unable to identify attachment $file name or location"
+                  . " - file will be bypassed" );
+            return;
         }
     }
 
@@ -1348,66 +1207,40 @@ sub _parseManifest {
     $this->{_manifest}->{$file}->{desc}  = $desc;
     $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}->{$tattach} = $file
       if $tattach;
-
-    return '';
 }
 
-=begin TML
-
----++ _parseDependency ( \%DEPENDENCY, $_)
-Parse the manifest line into the manifest hash.
-
-=cut
+# Parse the manifest line into the manifest hash.
+our $depwarn = '';    # Pass back warnings from untaint validation routine
 
 sub _parseDependency {
-    my $this = shift;
-    my $deps = $this->{_dependency};
+    my ( $this, $line, $reporter ) = @_;
 
     require Foswiki::Sandbox;
 
     my $warn = '';
     my ( $module, $condition, $trigger, $type, $desc ) =
-      split( ',', $_[0], 5 );
+      split( ',', $line, 5 );
 
     return unless ($module);
 
     if ( $type =~ m/cpan|perl/i ) {
-        $depwarn = '';
+        local $depwarn = '';
         $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
-        $warn .= $depwarn;
+        $reporter->WARN($depwarn) if $depwarn;
     }
 
-    if ( $trigger eq '1' ) {
-
-        # ONLYIF is rare and (potentially) dangerous
-        push(
-            @$deps,
-            new Foswiki::Configure::Dependency(
-                module      => $module,
-                type        => $type,
-                version     => $condition || 0,    # version condition
-                trigger     => 1,                  # ONLYIF condition
-                description => $desc
-            )
-        );
-    }
-    else {
-
-        # There is a ONLYIF condition.
-        # ONLYIF can be arbitrary perl code - but then, so can the
-        # extension.  DEPENDENCIES files should be as secure as .pms.
-        push(
-            @$deps,
-            new Foswiki::Configure::Dependency(
-                module      => $module,
-                type        => $type,
-                version     => $condition,    # version condition
-                trigger     => $trigger,      # ONLYIF condition
-                description => $desc
-            )
-        );
-    }
-    return $warn;
+    # ONLYIF can be arbitrary perl code - but then, so can the
+    # extension.  DEPENDENCIES files should be as secure as .pms.
+    push(
+        @{ $this->{_dependencies} },
+        new Foswiki::Configure::Dependency(
+            module      => $module,
+            type        => $type,
+            version     => $condition,    # version condition
+            trigger     => $trigger,      # ONLYIF condition
+            description => $desc
+        )
+    );
 }
 
 # This is used to ensure the perl module dependencies
@@ -1447,26 +1280,26 @@ sub checkDependencies {
     my @cpan;
     my @manual;
 
-    foreach my $dep ( @{ $this->{_dependency} } ) {
+    foreach my $dep ( @{ $this->{_dependencies} } ) {
 
         ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
         my $required =
           eval "$trigger";  # Evaluate the trigger - if true, module is required
-        $missing .=
-" $dep->{module} **ERROR**\n -- ONLYIF \"$trigger\"\n -- ONLYIF condition failed: contact developer.\n -- $@ "
+        die
+" $dep->{module} **ERROR** -- ONLYIF \"$trigger\" condition failed to compile: contact developer -- $@ "
           if ($@);
         next unless $required;    # Skip the module - trigger was false
-        my $trig = '';
-        $trig = " -- Triggered by $dep->{trigger}\n"
+
+        my $trig = " -- Triggered by $dep->{trigger}\n"
           unless ( $dep->{trigger} eq '1' );
 
         my ( $ok, $msg ) = $dep->checkDependency();
         if ($ok) {
-            $installed .= "$msg$trig\n";
+            $installed .= "   * $msg$trig\n";
             next;
         }
 
-        $missing .= "$msg$trig";
+        $missing .= "   * $msg$trig";
         $missing .= " -- Description: $dep->{description}\n"
           if ( $dep->{description} );
         $missing .=
@@ -1495,20 +1328,12 @@ sub checkDependencies {
     }
     return ( \@wiki ) if ( defined $which && $which eq 'wiki' );
     return ( $installed, $missing, \@wiki, \@cpan, \@manual );
-
 }
 
-=begin TML
----++ ObjectMethod installDependencies ()
-Installs the dependencies listed for this module.  Returns the details
-of the installation.
-
-=cut
-
-sub installDependencies {
-    my $this    = shift;
-    my $tmpRslt = '';
-    my $rslt    = '';
+# Installs the dependencies listed for this module.  Returns the details
+# of the installation.
+sub _installDependencies {
+    my ( $this, $reporter ) = @_;
     my $cpan;
     my $plugins;
     my %pluglist;
@@ -1517,42 +1342,32 @@ sub installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my ( $ok, $msg ) = $dep->checkDependency();
         unless ($ok) {
-            my $deppkg = new Foswiki::Configure::Package(
-                $this->{_root},    $dep->{name},
-                $this->{_session}, $this->{_options}
-            );
+            my $deppkg =
+              new Foswiki::Configure::Package( $this->{_root}, $dep->{name},
+                $this->{_options} );
             $deppkg->repository( $this->repository() );
-            ( $tmpRslt, $plugins, $cpan ) = $deppkg->install();
-            $this->{_errors} .= $deppkg->errors();
-            $rslt .= $tmpRslt;
+            ( $plugins, $cpan ) = $deppkg->install($reporter);
             @pluglist{ keys %$plugins } = values %$plugins;
             @cpanlist{ keys %$cpan }    = values %$cpan;
         }
     }
-    return ( $rslt, \%pluglist, \%cpanlist );
+    return ( \%pluglist, \%cpanlist );
 }
 
-=begin TML
----++ ObjectMethod _fetchFile  ( $this, $ext )
-
-Internal function to fetch a file from a repository.  It uses the repository hash
-set for the object:
-<verbatim>
-       my $repository = {
-          name => 'Foswiki',
-          data => 'http://foswiki.org/Extensions/',
-          pub => 'http://foswiki.org/pub/Extensions/' };
-<verbatim>
-
-$ext is the filetype to be fetched - .tgz,  .zip,  .md5,  _installer.
-
-The function returns the file location & name,  along with a message if any.
-
-=cut
-
+# Fetch a file from a repository.  It uses the repository hash
+# set for the object:
+# <verbatim>
+#        my $repository = {
+#           name => 'Foswiki',
+#           data => 'http://foswiki.org/Extensions/',
+#           pub => 'http://foswiki.org/pub/Extensions/' };
+# <verbatim>
+#
+# $ext is the filetype to be fetched - .tgz,  .zip,  .md5,  _installer.
+#
+# Returns the file location & name,  along with a message if any.
 sub _fetchFile {
-    my $this = shift;
-    my $ext  = shift;
+    my ( $this, $ext ) = @_;
 
     my $arf =
         $this->{_repository}->{pub}
@@ -1567,9 +1382,7 @@ sub _fetchFile {
     }
     my $ar;
 
-    my $feedback;
-
-    my $response = Foswiki::Configure::Package::_getUrl($arf);
+    my $response = _getUrl($arf);
     if ( !$response->is_error() ) {
         eval { $ar = $response->content(); };
     }
@@ -1577,19 +1390,20 @@ sub _fetchFile {
         $@ = $response->message();
     }
 
+    my $feedback = '';
     if ($@) {
         $feedback .= <<HERE;
-I can't download $arf because of the following error:
+I can\'t download $arf because of the following error:
 $@
 HERE
-        return $feedback;
+        return ($feedback);
     }
 
     if ( !defined($ar) ) {
         $feedback .= <<HERE;
 No content.  Extension may not have been packaged correctly.
 HERE
-        return $feedback;
+        return ($feedback);
     }
 
     # Strip HTTP headers if necessary
@@ -1620,7 +1434,7 @@ sub _getUrl {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

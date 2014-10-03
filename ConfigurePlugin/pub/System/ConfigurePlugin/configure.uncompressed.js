@@ -189,11 +189,7 @@ function _id_ify(id) {
         $.each(r.path, function(index, pel) {
             sid = _id_ify(pel);
             $.each(has, function (level, count) {
-                if (count === 0) {
-                    return;
-                }
-
-                if (level != 'errors' && level != 'warnings') {
+                if (count === 0 || level === 'notes' ) {
                     return;
                 }
 
@@ -229,6 +225,24 @@ function _id_ify(id) {
 
         $.each(results, function (index, r) {
 
+            if (!r.keys) {
+                // Report generic problems
+                var $div = $('<div id="report_dialog"></div>');
+                $div.html(TML.render_reports(r.reports));
+                $div.dialog({
+                    width: '60%',
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                            $div.dialog("close");
+                            $div.remove();
+                        }
+                    },
+                    close: function() {
+                        $('body').css('cursor','auto');
+                    }
+                });
+            }
             var id = _id_ify(r.keys),
                 has, $reports, $whine;
 
@@ -244,26 +258,21 @@ function _id_ify(id) {
             // Update the key block report (if it's there)
             has = { errors: 0, warnings: 0 };
             if (r.reports) {
-                $reports = $('#REP' + id); // if it's there
+                $reports = $('#REP' + id); // key block report is there
                 $.each(r.reports, function(index, rep) {
-                    // An empty information message can be ignored
-                    if (!(rep.level == 'notes' && rep.message == '')) {
-                        if (rep.level == 'errors' || rep.level == 'warnings') {
-                            has[rep.level]++;
-                        }
-                        if ($reports.length > 0) {
-                            // If the key block isn't loaded,
-                            // bubble_checker_reports will annotate
-                            // the path leading to it
-                            $whine = $('<div>'
-                                       + TML.render(rep.message)
-                                       + '</div>');
-                            $whine.addClass(rep.level);
-                            $whine.addClass(id + '_report');
-                            $reports.append($whine);
-                        }
-                    }
+                    has[rep.level]++;
                 });
+                if ($reports.length > 0) {
+                    // Annotate the key block report
+                    $whine = $("<div></div>");
+                    $whine.html(TML.render_reports(r.reports));
+                    $whine.addClass(id + '_report');
+                    $whine.addClass('message_block');
+                    $reports.append($whine);
+                };
+                // If the key block isn't loaded yet,
+                // bubble_checker_reports will annotate
+                // the path leading to it
             }
 
             // Bubble the existance of reports up through
@@ -304,19 +313,31 @@ function _id_ify(id) {
     function wizard_reports($node, results) {
         $('body').css('cursor','wait');
         // Generate reports
-        var $div = $('<div id="report_dialog"></div>');
-        $.each(results.report, function(index, rep) {
-            var $whine = $('<div>'
-                           + TML.render(rep.message)
-                           + '</div>');
-            $whine.addClass(rep.level);
-            $div.append($whine);
-            // Enable any carry-on buttons we find
-            $whine.find('.wizard_button').each(function() {
-                var data = $(this).data('wizard');
-                $(this).button().click(function() {
-                    call_wizard($node, data);
-                });
+        var $div = $('<div class="message_block"></div>');
+        $div.html(TML.render_reports(results.messages));
+        $.each(results.changes, function(key, value) {
+            $div.append('<div class="changes">'
+                        + key + ' = ' + value
+                        + '</div>');
+            
+        });
+        // Enable any carry-on buttons we find
+        $div.find('.wizard_button').each(function() {
+            var data = $(this).data('wizard');
+            $(this).button().click(function() {
+                var params = {
+                    wizard: data.wizard,
+                    method: data.method,
+                    args: data.args,
+                    set: find_modified_values(),
+                    cfgusername: $('#username').val(),
+                    cfgpassword: $('#password').val()
+                };
+                
+                RPC('wizard',
+                    'Call ' + data.method,
+                    params,
+                    function(result) { wizard_reports($node, result) });
             });
         });
         // Reflect changed values back to the input elements and
@@ -359,13 +380,15 @@ function _id_ify(id) {
                 update_save_button();
             }
         });
-        $div.dialog({
+        var $dlg = $('<div id="report_dialog"></div>');
+        $dlg.append($div);
+        $dlg.dialog({
             width: '60%',
             modal: true,
             buttons: {
                 Ok: function() {
-                    $div.dialog("close");
-                    $div.remove();
+                    $dlg.dialog("close");
+                    $dlg.remove();
                 }
             },
             close: function() {

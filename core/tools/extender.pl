@@ -28,31 +28,55 @@ my $reuseOK         = 0;
 my $simulate        = 0;
 my $nocpan          = 0;
 my $action          = 'install';    # Default target is install
-my $session;
 my $thispkg;                        # Package object for THIS module
 my %available;
 my $lwp;
 my @archTypes = ( '.tgz', '.tar.gz', '.zip' );
 my $installationRoot;
-my $MODULE;
+my $MODULE = '<package>';
 my $PACKAGES_URL;
 my $MANIFEST;
 
-sub _inform {
-    print @_, "\n";
-}
+{
 
-sub _warn {
-    print "*WARNING* ", @_, "\n";
-}
+    package ShellReporter;
 
-sub _shout {
-    print "### ERROR ### ", @_, "\n";
-}
+    our @ISA = ('Foswiki::Configure::Reporter');
+
+    sub new {
+        return bless( {}, $_[0] );
+    }
+
+    sub NOTE {
+        my $this = shift;
+        print join( "\n", @_ ) . "\n";
+    }
+
+    sub WARN {
+        my $this = shift;
+        Carp::confess unless $_[0];
+        print "Warning: ";
+        $this->NOTE(@_);
+    }
+
+    sub ERROR {
+        my $this = shift;
+        print "#### ERROR: ";
+        $this->NOTE(@_);
+    }
+
+    sub CHANGED {
+        my $this = shift;
+        print "CHANGED: ";
+        $this->NOTE(@_);
+    }
+};
+
+my $reporter = ShellReporter->new();
 
 sub _stop {
-    _shout @_;
-    die @_;
+    $reporter->ERROR(@_);
+    exit 1;
 }
 
 # processParameters
@@ -64,7 +88,11 @@ $downloadOK      = $opts{d};
 $reuseOK         = $opts{r};
 $simulate        = $opts{n};
 $alreadyUnpacked = $opts{u};
-if ( @ARGV > 1 ) {
+if ( @ARGV == 0 ) {
+    usage();
+    exit(0);
+}
+elsif ( @ARGV > 1 ) {
     usage();
     _stop( 'Too many parameters: ' . join( " ", @ARGV ) );
 }
@@ -83,7 +111,7 @@ my $check_perl_module = sub {
         $available{$module} = 1;
     }
     else {
-        _warn(  "$module is not available on this server,"
+        $reporter->WARN( "$module is not available on this server,"
               . " some installer functions have been disabled \n $@" );
         $available{$module} = 0;
     }
@@ -131,7 +159,7 @@ unless ( eval { require Foswiki } ) {
 
 # We have to get the admin user, as a guest user may be blocked.
 my $user = $Foswiki::cfg{AdminUserLogin};
-$session = new Foswiki($user);
+Foswiki->new($user);
 
 &$check_perl_module('CPAN');
 
@@ -139,6 +167,7 @@ $session = new Foswiki($user);
 require Foswiki::Configure::Dependency;
 require Foswiki::Configure::Util;
 require Foswiki::Configure::Package;
+require Foswiki::Configure::Reporter;
 
 # Satisfy CPAN dependencies on modules, by checking:
 
@@ -148,7 +177,7 @@ sub satisfy {
     my $msg = '';
 
     if ( $dep->{type} =~ m/cpan/i && $available{CPAN} && !$nocpan ) {
-        _inform <<'DONE';
+        $reporter->NOTE( <<'DONE' );
 This module is available from the CPAN archive (http://www.cpan.org). You
 can download and install it from here. The module will be installed
 to wherever you configured CPAN to install to.
@@ -162,7 +191,7 @@ DONE
 
         my $mod = CPAN::Shell->expand( 'Module', $dep->{module} );
         unless ($mod) {
-            _shout <<DONE;
+            $reporter->ERROR( <<DONE );
 $dep->{module} was not found on CPAN
 
 Please check the dependencies for this package.  $dep->{module} may be incorrect.
@@ -175,7 +204,7 @@ DONE
         if ( $info->{D} eq 'S' ) {
 
             # Standard perl module!
-            _shout <<DONE;
+            $reporter->ERROR( <<DONE );
 $dep->{module} is a standard perl module
 
 I cannot install it without upgrading your version of perl, something
@@ -199,7 +228,7 @@ DONE
         if ( $CPAN::Config->{makepl_arg} =~ /PREFIX=(\S+)/ ) {
             $e = $1;
         }
-        _shout <<DONE;
+        $reporter->ERROR( <<DONE );
 I still can't find the module $dep->{module}
 
 If you installed the module in a non-standard directory, make sure you
@@ -267,16 +296,15 @@ sub _loadInstaller {
         pub  => "$PACKAGES_URL/"
     };
 
-    _inform "Package repository set to $PACKAGES_URL \n";
-    _inform
+    $reporter->NOTE("Package repository set to $PACKAGES_URL");
+    $reporter->NOTE(
 " ... locally found installer scripts and archives will be used if available"
-      if ($reuseOK);
+    ) if ($reuseOK);
 
-    $thispkg = new Foswiki::Configure::Package(
+    $thispkg = Foswiki::Configure::Package->new(
         "$installationRoot/",
-        $MODULE, $session,
+        $MODULE,
         {
-            SHELL    => 1,
             USELOCAL => $reuseOK,
             SIMULATE => $simulate,
             DIR      => $installationRoot,
@@ -284,11 +312,8 @@ sub _loadInstaller {
     );
     $thispkg->repository($repository);
 
-    my ( $rslt, $err ) = $thispkg->loadInstaller()
-      ;    # Use local package, don't download, as we were invoked from it.
-
-    _inform "$rslt" if ($rslt);
-    _stop "$err"    if ($err);
+    # Use local package, don't download, as we were invoked from it.
+    _stop unless $thispkg->loadInstaller($reporter);
 }
 
 sub _uninstall {
@@ -301,28 +326,42 @@ sub _uninstall {
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
 
-        $rslt = $thispkg->uninstall();
-        _inform "$rslt";
+        my ( $ok, $plugins ) = $thispkg->uninstall($reporter);
+
+        if ( $ok && scalar @$plugins && !$simulate ) {
+            $reporter->NOTE(
+                "> Don't forget to disable uninstalled plugins:
+"
+            );
+
+            foreach my $plugName ( sort @$plugins ) {
+                $reporter->NOTE("   * $plugName");
+            }
+        }
 
         $thispkg->finish();
         undef $thispkg;
 
-        _inform "$sim $MODULE uninstalled";
+        $reporter->NOTE("$sim $MODULE uninstalled");
     }
     return 1;
 }
 
 sub usage {
-    _inform <<DONE;
+    $reporter->NOTE( <<DONE );
 
-Usage as a custom installer:
+This is tools/extender.pl. It is called either as part of a custom
+installer, or from the tools/extension_installer generic
+installation script.
+
+When used as a custom installer:
 
        ${MODULE}_installer -a -n -d -r -u -c install
        ${MODULE}_installer -a -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
 
-Usage as a generic installer:
+When used from the generic installer:
 
        tools/extension_installer ${MODULE} -a -n -d -r -u -c install
        tools/extension_installer ${MODULE} -a -n uninstall
@@ -412,8 +451,8 @@ sub _install {
 
     my ( $installed, $missing, @wiki, @cpan, @manual ) =
       $thispkg->checkDependencies();
-    _inform $installed;
-    _inform $missing;
+    $reporter->NOTE($installed);
+    $reporter->NOTE($missing);
 
     my $instmsg = "$MODULE ready to be installed";
     $instmsg .=
@@ -429,9 +468,16 @@ sub _install {
     return 0
       unless ask("$instmsg");
 
-    my ( $rslt, $plugins, $depCPAN ) = $thispkg->install();
-    _inform $rslt;
-    $rslt = '';
+    my ( $plugins, $depCPAN ) = $thispkg->install($reporter);
+
+    if ( $plugins && keys %$plugins && !$simulate ) {
+        $reporter->NOTE(
+"> Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in configure."
+        );
+        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
+            $reporter->NOTE("   * $plu");
+        }
+    }
 
     my $unsatisfied = 0;
     foreach my $depkey ( keys %$depCPAN ) {
@@ -442,10 +488,10 @@ sub _install {
 
     my $err = $thispkg->errors();
     if ($err) {
-        _shout($err);
+        $reporter->ERROR($err);
     }
     else {
-        _inform("No errors encountered during installation\n");
+        $reporter->NOTE("No errors encountered during installation\n");
     }
 
     $thispkg->finish();
@@ -464,10 +510,10 @@ sub _validatePerlModule {
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    _warn 'validatePerlModule removed '
-      . $replacements
-      . ' characters, leading to '
-      . $module . "\n"
+    $reporter->WARN( 'validatePerlModule removed '
+          . $replacements
+          . ' characters, leading to '
+          . $module )
       if $replacements;
     return $module;
 }
@@ -556,7 +602,7 @@ sub install {
     _loadInstaller();
 
     if ( $action eq 'manifest' ) {
-        _inform $thispkg->Manifest();
+        $reporter->NOTE( $thispkg->Manifest() );
         exit 0;
     }
 
@@ -564,24 +610,24 @@ sub install {
         my ( $installed, $missing, @wiki, @cpan, @manual ) =
           $thispkg->checkDependencies();
 
-        _inform $installed;
-        _inform $missing;
+        $reporter->NOTE($installed);
+        $reporter->NOTE($missing);
 
         exit 0;
     }
 
-    _inform "\n${MODULE} Installer";
-    _inform <<DONE;
+    $reporter->NOTE("\n${MODULE} Installer");
+    $reporter->NOTE( <<DONE );
 This installer must be run from the root directory of your Foswiki
 installation.
 DONE
     unless ($noconfirm) {
-        _inform <<DONE
+        $reporter->NOTE( <<DONE );
     * The script will not do anything without asking you for
       confirmation first (unless you used -a).
 DONE
     }
-    _inform <<DONE;
+    $reporter->NOTE( <<DONE );
     * You can abort the script at any point and re-run it later
     * If you answer 'no' to any questions you can always re-run
       the script again later

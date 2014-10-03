@@ -168,13 +168,12 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod check()
+---++ ObjectMethod check() -> ($ok, $msg)
 
 Check whether the dependency is satisfied by a currently-installed module.
    * Return: ($ok, $msg)
       * $ok is a boolean indicating success/failure
       * $msg is a helpful message describing the failure
-      * $release is the installed release of the module, as determined from the values of $RELEASE and $VERSION in the module.
 
 =cut
 
@@ -191,9 +190,10 @@ LALA
 
     # Examine the current install of the module
     if ( !$this->studyInstallation() ) {
-        return ( 0,
-"$this->{module} version $this->{version} required\n -- $this->{type} $this->{notes}\n"
-        );
+        return ( 0, <<TINKYWINKY );
+$this->{module} version $this->{version} required
+-- $this->{type} $this->{notes}
+TINKYWINKY
     }
     elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
 
@@ -203,12 +203,15 @@ LALA
         unless ( $this->compare_versions( $op, $requiredVersion ) ) {
 
             # module doesn't meet this condition
-            return ( 0,
-"$this->{module} version $op $requiredVersion required\n -- installed version is $this->{installedRelease}\n"
-            );
+            return ( 0, <<PO );
+$this->{module} version $op $requiredVersion required
+-- installed version is $this->{installedRelease}
+PO
         }
     }
-    return ( 1, "$this->{module} version $this->{installedRelease} installed" );
+    return ( 1, <<DIPSY );
+$this->{module} version $this->{installedRelease} installed
+DIPSY
 }
 
 =begin TML

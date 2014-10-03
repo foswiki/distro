@@ -100,8 +100,14 @@ td {
 div.information {
 }
 
+p.one_line_report {
+    margin: 0;
+}
+
 .reports > .warnings,
-.reports > .errors {
+.reports > .errors,
+.message_block > .warnings,
+.message_block > .errors {
   margin:1em 0;
   padding:0.5em 1em 0.5em 3em;
   background-repeat:no-repeat;
@@ -114,18 +120,25 @@ div.information {
           border-radius: 4px; 
 }
 
-.reports > .warnings {
+.reports > .warnings,
+.message_block > .warnings {
   background-image: url(warningsIcon.png);
   background-color:#FFF6BF;
   border-color:#FDD845;
   color:#c09853;
 }
 
-.reports > .errors {
+.reports > .errors,
+.message_block > .errors {
   background-image: url(errorsIcon.png);
   background-color:#FBE3E4;
   border-color:#FBC7C9;
   color:#b22222;
+}
+
+.message_block > .changes {
+  background-color:#DEEBFA;
+  color:#005884;
 }
 
 .tab.warnings {
@@ -212,14 +225,13 @@ textarea.report {
     height: 40%;
 }
 
-/* --- EXTENSIONS --- */
-.extensions_report table {
+table.tml {
     border: none;
     width: auto;
     margin: 0;
 }
 
-.extensions_report th td {
+.tml th td {
     background: #fff;
     padding-top: 1em;
     padding-bottom: 1em;

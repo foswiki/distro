@@ -241,16 +241,15 @@ sub _get_extensions {
     }
     $exts = $set eq 'installed' ? $installedExts : $uninstalledExts;
 
-    $reporter->NOTE("<div class=\"extensions_report\">");
-    $reporter->NOTE( "Looked in " . join( ' ', @consultedLocations ) );
+    $reporter->NOTE( "> Looked in " . join( ' ', @consultedLocations ) );
 
     $reporter->ERROR( @{ $this->{errors} } ) if scalar @{ $this->{errors} };
 
     if ( $set eq 'installed' ) {
-        $reporter->NOTE(" *Found $installedCount Installed extensions* ");
+        $reporter->NOTE("> *Found $installedCount Installed extensions* ");
     }
     else {
-        $reporter->NOTE(" *Found $uninstalledCount Uninstalled extensions* ");
+        $reporter->NOTE("> *Found $uninstalledCount Uninstalled extensions* ");
     }
 
     # Table heads
@@ -337,8 +336,7 @@ sub _get_extensions {
         # Do the title + actions row
         my $thd = $ext->{topic} || 'Unknown';
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-        $thd =
-          "<a href=\"$ext->{data}$ext->{topic}\" target=\"_blank\">$thd</a>";
+        $thd = "[[$ext->{data}$ext->{topic}][$thd]]";
 
         $reporter->NOTE(
             "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );

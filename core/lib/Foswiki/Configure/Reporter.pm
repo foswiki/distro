@@ -11,6 +11,29 @@ use warnings;
 Report package for configure, supporting text reporting and
 simple TML expansion to HTML.
 
+This class doesn't actually handle expansion of TML to anything else;
+it simply stores messages for processing by formatting back ends.
+However it is a sensible place to define the subset of TML that is expected
+to be supported by renderers.
+
+   * Single level of lists (* and 1)
+   * Blank line = paragraph break &lt;p /&gt;
+   * &gt; at start of line = &lt;br&gt; before and after
+     (i.e. line stands alone)
+   * Simple tables | like | this |
+   * Text styling e.g. <nop>*bold*, <nop>=code= etc
+   * URL links [<nop>[http://that][text description]]
+   * &lt;verbatim&gt;...&lt;/verbatim&gt;
+   * ---+++ Headings
+
+Each of the reporting methods (NOTE, WARN, ERROR) accepts any number of
+message parameters. These are treated as individual error messages, rather
+than being concatenated into a single message. \n can be used in any
+message, and it will survive into the final TML.
+
+Most renderers will assume an implicit > at the front of every WARN and
+ERROR message.
+
 =cut
 
 sub new {
@@ -23,59 +46,49 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod NOTE(...) -> $this
+---++ ObjectMethod NOTE(@notes) -> $this
 
-Report a note. The parameters are concatenated to form the message.
-Returns the reporter to allow chaining.
+Report one or more notes. Each parameter is handled as an independent
+message. Returns the reporter to allow chaining.
 
 =cut
 
 sub NOTE {
     my $this = shift;
-    push( @{ $this->{notes} }, @_ );
+    push( @{ $this->{messages} }, map { { level => 'notes', text => $_ } } @_ );
     return $this;
 }
 
 =begin TML
 
----++ ObjectMethod CONFIRM(...) -> $this
+---++ ObjectMethod WARN(@warnings)
 
-Report a confirmation. The parameters are concatenated to form the message.
-
-=cut
-
-sub CONFIRM {
-    my $this = shift;
-    push( @{ $this->{confirmations} }, @_ );
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod WARN(...)
-
-Report a warning. The parameters are concatenated to form the message.
-Returns the reporter to allow chaining.
+Report one or more warnings. Each parameter is handled as an independent
+message. Returns the reporter to allow chaining.
 
 =cut
 
 sub WARN {
     my $this = shift;
-    push( @{ $this->{warnings} }, @_ );
+    push(
+        @{ $this->{messages} },
+        map { { level => 'warnings', text => $_ } } @_
+    );
 }
 
 =begin TML
 
----++ ObjectMethod ERROR(...) -> $this
+---++ ObjectMethod ERROR(@errors) -> $this
 
-Report an error. The parameters are concatenated to form the message.
-Returns the reporter to allow chaining.
+Report one or more errors. Each parameter is handled as an independent
+message. Returns the reporter to allow chaining.
 
 =cut
 
 sub ERROR {
     my $this = shift;
-    push( @{ $this->{errors} }, @_ );
+    push( @{ $this->{messages} },
+        map { { level => 'errors', text => $_ } } @_ );
     return $this;
 }
 
@@ -84,7 +97,8 @@ sub ERROR {
 ---++ ObjectMethod CHANGED($keys) -> $this
 
 Report that a =Foswiki::cfg= entry has changed. The new value will
-be taken from the current value in =$Foswiki::cfg=
+be taken from the current value in =$Foswiki::cfg= at the time of
+the call to CHANGED.
 
 Example: =$reporter->CHANGED('{Email}{Method}')=
 
@@ -100,21 +114,6 @@ sub CHANGED {
 
 =begin TML
 
----++ ObjectMethod has($level) -> $number
-
-Return the number of reports of the given level (errors, warnings,
-notes, confirmations) gathered so far. 
-
-=cut
-
-sub has {
-    my ( $this, $level ) = @_;
-    return scalar( keys %{ $this->{changes} } ) if $level eq 'changes';
-    return scalar( @{ $this->{$level} } );
-}
-
-=begin TML
-
 ---++ ObjectMethod clear() -> $this
 
 Clear all contents from the reporter.
@@ -124,34 +123,45 @@ Returns the reporter to allow chaining.
 
 sub clear {
     my $this = shift;
-    $this->{notes}         = [];
-    $this->{confirmations} = [];
-    $this->{warnings}      = [];
-    $this->{errors}        = [];
-    $this->{changes}       = {};
+    $this->{messages} = [];
+    $this->{changes}  = {};
     return $this;
 }
 
 =begin TML
 
----++ ObjectMethod text($level) -> $text
+---++ ObjectMethod messages() -> \@messages
 
-Get the content of the reporter for the given reporting level.
+Get the content of the reporter. @messages is an ordered array of hashes,
+each of which has fields:
+   * level: one of errors, warnings, notes
+   * text: text of the message
+Each message corresponds to a single parameter to one of the ERROR,
+WARN or NOTES methods.
 
 =cut
 
-sub text {
-    my ( $this, $level ) = @_;
+sub messages {
+    my ($this) = @_;
 
-    if ( $level eq 'changes' ) {
-        my $text = "---+++ Changed\n";
-        while ( my ( $k, $v ) = each %{ $this->{changes} } ) {
-            $text .= "   * $k = $v\n";
-        }
-        return $text;
-    }
+    return $this->{messages};
+}
 
-    return join( "\n\n", @{ $this->{$level} } );
+=begin TML
+
+---++ ObjectMethod changes() -> \%changes
+
+Get the content of the reporter. %changes is a hash mapping a key
+to a (new) value. Each entry corresponds to a call to the CHANGED
+method (though multiple calls to CHANGED with the same keys will
+only result in one entry).
+
+=cut
+
+sub changes {
+    my ($this) = @_;
+
+    return $this->{changes};
 }
 
 1;

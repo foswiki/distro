@@ -490,21 +490,15 @@ sub _getSetParams {
 sub check_current_value {
     my $params = shift;
 
-    my @report;
-
     # Load the spec files
     my $reporter = Foswiki::Configure::Reporter->new();
     my $root     = _loadSpec($reporter);
-    foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes' ) {
-        push(
-            @report,
-            {
-                keys    => '',
-                level   => $level,
-                message => $reporter->text($level)
-            }
-        ) if $reporter->has($level);
+    my @report;
+
+    if ( scalar @{ $reporter->messages() } ) {
+        push( @report, { reports => $reporter->messages(), } );
     }
+
     $reporter->clear();
 
     # Because we're running in a plugin, we already have LocalSite.cfg
@@ -581,17 +575,6 @@ sub check_current_value {
             $reporter->clear();
             print STDERR "Checking $k\n" if TRACE;
             $checker->check_current_value($reporter);
-            my @reps;
-            foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes' )
-            {
-                push(
-                    @reps,
-                    {
-                        level   => $level,
-                        message => $reporter->text($level)
-                    }
-                ) if $reporter->has($level);
-            }
             my @path = $spec->getPath();
             pop(@path);    # remove keys
             push(
@@ -599,7 +582,7 @@ sub check_current_value {
                 {
                     keys    => $k,
                     path    => [@path],
-                    reports => \@reps
+                    reports => $reporter->messages()
                 }
             );
         }
@@ -975,19 +958,10 @@ sub wizard {
     my $response = $target->$method($reporter);
 
     unless ($response) {
-        my @report;
-        foreach my $level ( 'errors', 'warnings', 'confirmations', 'notes',
-            'changes' )
-        {
-            push(
-                @report,
-                {
-                    level   => $level,
-                    message => $reporter->text($level)
-                }
-            ) if $reporter->has($level);
-        }
-        $response = { changes => $reporter->{changes}, report => \@report };
+        $response = {
+            changes  => $reporter->changes(),
+            messages => $reporter->messages()
+        };
     }
 
     return $response;

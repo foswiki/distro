@@ -18,23 +18,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 As per the GPL, removal of this notice is prohibited.
 
 TML (subset) renderer. Handles a simple subset of TML:
-
-- Single level of lists (ul and ol)
-- Blank line -> <br />
-- Simple tables
-- Text styling e.g. *bold*, =code= etc
-- URL links [[http://that][text description]]
-- <verbatim>
-- ---++ Headings
+See Foswiki::Configure::Reporter for the subset of TML that is
+supported.
 
 Author: Crawford Currie http://c-dot.co.uk
 */
-
 var TML = {
-    STYLING: [
+    STYLING : [
         // {strong}
         [
-            /(^|[\s(]){(\S+?|\S[^\n]*?\S)}($|(?=[\s,.;:!?)]))/g,
+            /(^|[\s(])\{(\S+?|\S[^\n]*?\S)\}($|(?=[\s,.;:!?)]))/g,
             "$1<strong><code>{$2}</code></strong>"
         ],
         [
@@ -44,7 +37,7 @@ var TML = {
         // _em_
         [
             /(^|[\s\(])\_(\S+?|\S[^\n]*?\S)\_(?:$|(?=[\s,.;:!?\)]))/g,
-            "$1<em>$2</em>",
+            "$1<em>$2</em>"
         ],
         // =code=
         [
@@ -54,39 +47,28 @@ var TML = {
         // [[url][text]]
         [
             /\[\[(.*?)\]\[(.*?)\]\]/g,
-            '<a href="$1">$2</a>'
+            '<a target="_blank" href="$1">$2</a>'
         ]
     ],
 
-    handle_verbatim: function(text) {
-        text = text.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-        return '<pre>' + text + "</pre>";
-    },
-
-    put_back: function(text, removed) {
-        return 
-    },
-
     // Given a block of text that contains TML, render that TML,
     // returning HTML
-    render: function(text) {
+    render : function (text) {
 
         var removed, lines, in_table, in_list, list_type,
-        i, j, m, line, cols;
+            i, j, m, line, cols;
 
         removed = [];
         text = text.replace(
-                /<verbatim>((.|\n)*?)<\/verbatim>/g,
-            function(match, $1) {
+            /<verbatim>((.|\n)*?)<\/verbatim>/g,
+            function (m, $1) {
                 $1 = $1.replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;");
                 removed.push('<pre>' + $1 + "</pre>");
                 return "PLACEHOLDER" + (removed.length - 1) + ";";
             }
-        );
+        ).replace(/^>(.*)$/gm, '<p class="one_line_report">$1</p>');
 
         lines = text.split(/\n/);
 
@@ -96,6 +78,14 @@ var TML = {
             line = lines[i];
 
             if (/^\s*$/.test(line)) {
+                // blank line closes list and table
+                if (in_list) {
+                    lines.splice(i++, 0, '</' + list_type + '>');
+                    in_list = false;
+                } else if (in_table) {
+                    lines.splice(i++, 0, '</table>');
+                    in_table = false;
+                }
                 lines[i] = "<br />";
                 continue;
             }
@@ -105,13 +95,14 @@ var TML = {
             }
             lines[i] = line;
 
-            if (m = /^   (\*|\d) (.*)$/.exec(line)) {
-                lines[i] = line.replace(/^   \*|\d /, "");
+            m = /^(?: {3}|\t)(\*|\d) (.*)$/.exec(line);
+            if (m) {
+                lines[i] = line.replace(/^( {3}|\t)\*|\d /, "");
 
                 //    * Bullet list item
                 //    1 Ordered list item
                 if (!in_list) {
-                    list_type = ( m[1] == '*' ) ? 'ul' : 'ol';
+                    list_type = (m[1] === '*') ? 'ul' : 'ol';
                     if (in_table) {
                         lines.splice(i++, 0, "</table>");
                         in_table = false;
@@ -124,38 +115,40 @@ var TML = {
                 continue;
             }
 
-            if (m = /^\|(.*)\|$/.exec(line)) {
+            m = /^\|(.*)\|$/.exec(line);
+            if (m) {
                 // | Table row |
-                cols = line.split( /\|/ );
-                cols.shift; cols.pop(); // remove empty cols
+                cols = line.split(/\|/);
+                cols.shift();
+                cols.pop(); // remove empty cols
 
                 if (in_list) {
                     lines.splice(i++, 0, "</" + list_type + ">");
                     in_list = false;
                 }
                 if (!in_table) {
-                    lines.splice(i++, 0, '<table>');
+                    lines.splice(i++, 0, '<table class="tml">');
                     in_table = true;
                 }
-                lines.splice(i++, 0, '<tr>');
-                lines[i] = cols.join( '</td><td>' );
+                lines.splice(i++, 0, '<tr><td>');
+                lines[i] = cols.join('</td><td>');
                 lines.splice(++i, 0, '</td></tr>');
                 continue;
             }
 
             // Not a list item or a table row
             if (in_list) {
-                if (!/^(   |\t)/.test(line)) {
+                if (!/^( {3}|\t)/.test(line)) {
                     lines.splice(i++, 0, '</' + list_type + '>');
                     in_list = false;
                 }
-            }
-            else if (in_table) {
+            } else if (in_table) {
                 lines.splice(i++, 0, '</table>');
                 in_table = false;
             }
 
-            if (m = /^---(\++) (.*)$/.exec(line)) {
+            m = /^---(\++) (.*)$/.exec(line);
+            if (m) {
                 lines[i] = '<h' + m[1].length + '>'
                     + m[2]
                     + '</h' + m[1].length + '>';
@@ -165,18 +158,44 @@ var TML = {
         // Clean up
         if (in_list) {
             lines.push('</' + list_type + '>');
-        }
-        else if (in_table) {
+        } else if (in_table) {
             lines.push('</table>');
         }
 
         text = lines.join(' ');
 
         return text.replace(
-                /PLACEHOLDER(\d+);/,
-            function(m, idx) {
+            /PLACEHOLDER(\d+);/g,
+            function (m, idx) {
                 return removed[idx];
             }
         );
+    },
+
+    // Render a set of reports, each being a hash of
+    // { level: text: }
+    render_reports : function(reports) {
+        var i;
+        var curClass;
+        var html = '';
+        var pending = '';
+        for (i = 0; i < reports.length; i++) {
+            if (reports[i].level !== curClass) {
+                if (pending.length > 0) {
+                    html += '<div class="' + curClass + '">'
+                        + TML.render(pending)
+                        + '</div>';
+                    pending = '';
+                }
+                curClass = reports[i].level;
+            }
+            pending += reports[i].text + "\n";
+        }
+        if (pending.length > 0) {
+            html += '<div class="' + curClass + '">'
+                + TML.render(pending)
+                + '</div>';
+        }
+        return html;
     }
-}
+};

@@ -102,22 +102,14 @@ sub depreport {
 
     my $pkg = new Foswiki::Configure::Package( $installRoot, $extension );
 
-    my $installed;
-    my $missing;
-    my $plugins;
-    my $depCPAN;
-
     $pkg->repository($repository);
 
-    $reporter->NOTE("Running dependency check for $extension");
-    my ( $loadrslt, $err ) = $pkg->loadInstaller();
-    $reporter->NOTE( '<verbatim>', $loadrslt, '</verbatim>' );
-    $reporter->NOTE("Dependency Report");
-    ( $installed, $missing ) = $pkg->checkDependencies();
-    $reporter->NOTE(" *INSTALLED* $installed") if ($installed);
-    $reporter->NOTE(" *MISSING* $missing")     if ($missing);
-
-    $err = $pkg->errors();
+    $reporter->NOTE("---++ Running dependency check for $extension");
+    $pkg->loadInstaller($reporter);
+    $reporter->NOTE("> Dependency Report");
+    my ( $installed, $missing ) = $pkg->checkDependencies();
+    $reporter->NOTE("> *INSTALLED* $installed") if ($installed);
+    $reporter->NOTE("> *MISSING* $missing")     if ($missing);
 
     $pkg->finish();
     undef $pkg;
@@ -155,58 +147,60 @@ sub _install {
 
     $pkg->repository($repository);
 
-    my ( $rslt, $plugins, $depCPAN ) = $pkg->install();
+    my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
 
-    $err = $pkg->errors();
-
-    $reporter->NOTE($rslt);
+    if ( $ok && $plugins && keys %$plugins ) {
+        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
+            my $clef = "{Plugins}{$plu}";
+            my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
+            if ( !$old ) {
+                eval "\$Foswiki::cfg${clef}{Enabled}=1";
+                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+            }
+            $old = eval "\$Foswiki::cfg${clef}{Module}";
+            if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
+                eval "\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'";
+                $reporter->CHANGED("{Plugins}{$plu}{Module}");
+            }
+        }
+    }
 
     $pkg->finish();
     undef $pkg;
 
-    if ($err) {
-        $reporter->ERROR(
-"Errors encountered during package installation.  The Extension may not be usable.",
-            '<verbatim>', $err, '</verbatim>', 'Installation terminated'
-        );
+    if ( !$ok ) {
+        $reporter->ERROR( <<OMG );
+Errors encountered during package installation.  The Extension may not be usable. Installation terminated
+OMG
         return 0;
     }
 
-    if ( $this->{warnings} ) {
-        $reporter->NOTE( "Installation finished with $this->{errors} error"
-              . ( $this->{errors} == 1 ? '' : 's' )
-              . " and $this->{warnings} warning"
-              . ( $this->{warnings} == 1 ? '' : 's' ) );
+    # OK
+    if ( $processExt eq 'sim' ) {
+        $reporter->NOTE(
+            "> Simulated installation of $extension and dependencies finished"
+        );
     }
     else {
-
-        # OK
-        if ( $processExt eq 'sim' ) {
-            $reporter->NOTE(
-                "Simulated installation of $extension and dependencies finished"
-            );
-        }
-        else {
-            $reporter->NOTE(
-                "Installation of $extension and dependencies finished");
-        }
-        $reporter->NOTE(<<HERE);
-Before proceeding, review the dependency reports of each installed
-extension and resolve any dependencies as required.  <ul><li>External
-dependencies are never automatically resolved by Foswiki. <li>Dependencies
-noted as "Optional" will not be automatically resolved, and <li>CPAN
-dependencies are not resolved by the web installer.
-HERE
+        $reporter->NOTE(
+            "> Installation of $extension and dependencies finished");
     }
+    $reporter->NOTE( <<WRAPUP );
+> Before proceeding, review the dependency reports of each installed extension
+  and resolve any dependencies as required.
+   * External dependencies are never automatically resolved by Foswiki.
+   * Dependencies noted as 'Optional' will not be automatically resolved, and
+   * CPAN dependencies are not resolved by the web installer.
+WRAPUP
 
     if ( keys %$depCPAN ) {
-        $reporter->NOTE(<<HERE);
-Warning:  CPAN dependencies were detected, but will not be automatically
+        $reporter->WARN(<<HERE);
+> CPAN dependencies were detected, but will not be automatically
 installed by the Web installer.  The following dependencies should be
 manually resolved as required. 
 HERE
         foreach my $dep ( sort { lc($a) cmp lc($b) } keys %$depCPAN ) {
-            $reporter->NOTE( '<verbatim>', $dep, '</verbatim>' );
+            $reporter->NOTE("\t* $dep");
         }
     }
 }
@@ -238,15 +232,28 @@ sub _uninstall {
     # it can be downloaded to recover the manifest
     my $repository = _getRepository($repositoryPath);
     if ( !$repository ) {
-        $reporter->NOTE(
-"Repository not found ($repositoryPath) - Local installer must exist)"
+        $reporter->WARN(
+"> Repository not found ($repositoryPath) - Local installer must exist)"
         );
     }
     else {
         $pkg->repository($repository);
     }
 
-    $reporter->NOTE( $pkg->uninstall() );
+    my ( $ok, $plugins ) = $pkg->uninstall($reporter);
+    if ( $ok && $plugins && scalar(@$plugins) ) {
+        foreach my $plu ( sort { lc($a) cmp lc($b) } @$plugins ) {
+            my $clef = "{Plugins}{$plu}";
+            if ( eval "exists \$Foswiki::cfg${clef}{Enabled}" ) {
+                eval "delete \$Foswiki::cfg${clef}{Enabled}";
+                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+            }
+            if ( eval "exists \$Foswiki::cfg${clef}{Module}" ) {
+                eval "delete \$Foswiki::cfg${clef}{Module}";
+                $reporter->CHANGED("{Plugins}{$plu}{Module}");
+            }
+        }
+    }
 
     $pkg->finish();
     undef $pkg;

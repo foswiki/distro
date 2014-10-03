@@ -2285,8 +2285,8 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'" FEEDBACK="label='Search for extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
 # Extensions Repositories Search List.
 # Foswiki extension repositories are just Foswiki webs that are organised in the
-# same way as the Extensions web on Foswiki.org. The 'Find more extensions' link
-# searches these repositories for installable extensions. To set up an
+# same way as the Extensions web on Foswiki.org. The 'Search for extensions'
+# button searches these repositories for installable extensions. To set up an
 # extensions repository:
 #    1 Create a Foswiki web to contain the repository
 #    2 Copy the =FastReport= page from [[http://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web

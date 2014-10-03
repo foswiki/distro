@@ -24,7 +24,6 @@ sub test {
     die "No password" unless $this->param('cfgpassword');
     $reporter->ERROR("This is an error");
     $reporter->WARN("This is a warning");
-    $reporter->CONFIRM("This is a confirmation");
     $reporter->NOTE("This is a note");
     $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'ROPE';
     $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{STRING}');
