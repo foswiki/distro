@@ -26,8 +26,8 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-our $VERSION           = '1.20';
-our $RELEASE           = '1.20';
+our $VERSION           = '1.21';
+our $RELEASE           = '1.21';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -88,19 +88,36 @@ sub initPlugin {
           Foswiki::Func::readTopic( $interWeb, $interTopic );
 
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
-        $text =~
-s/^\|\s*$sitePattern\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|.*$/_map($1,$2,$3)/meg;
+        $text =~ s/
+              ^\|\s*              # Start of table
+              $sitePattern
+              \s*\|\s*            # Column separator
+              (.*?)               # URL
+              \s*\|\s*            # Column separator
+              (.*?)               # tooltip
+              (?:
+                  \s*\|\s*         # Colunmn separator
+                  ([^\|\n]+)       # Not a separator or end of line
+              )?
+              \s*\|.*?           # Last column separator
+            /_map($1,$2,$3,$4)/megx;
+
     }
 
     $sitePattern = "(" . join( "|", keys %interSiteTable ) . ")";
+
     return 1;
 }
 
 sub _map {
-    my ( $site, $url, $tooltip ) = @_;
+    my ( $site, $url, $tooltip, $format ) = @_;
     if ($site) {
         $interSiteTable{$site}{url}     = $url     || '';
         $interSiteTable{$site}{tooltip} = $tooltip || '';
+        if ( defined $format ) {
+            $format =~ s/\s*$//g;    # remove trailing spaces
+            $interSiteTable{$site}{format} = $format;
+        }
     }
     return '';
 }
@@ -156,7 +173,7 @@ sub _link {
             }
         }
 
-        my $format = $interLinkFormat;
+        my $format = $interSiteTable{$site}{format} || $interLinkFormat;
         $format =~ s/\$url/$url/g;
         $format =~ s/\$tooltip/$tooltip/g;
         $format =~ s/\$label/$label/g;

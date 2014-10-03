@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1292007729" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1412365793" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InterwikiPlugin"}%
 ---+ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
@@ -51,19 +51,19 @@ Any inter-wikis you add to [[%USERSWEB%.InterWikis]] will then be available in t
 
 <noautolink>
 
-| *Alias:* | *URL:* | *Tooltip Text:* |
+| *Alias:* | *URL:* | *Tooltip Text:* | *Format override:* |
 | Advogato | http://www.advogato.org/ | '$page' on Advogato community site (with peer review) |
 | C2find | http://c2.com/cgi/wiki?FindPage&value= | Search '$page' on the original 'WikiWikiWeb' site |
 | DokuWiki | http://wiki.splitbrain.org/wiki: | '$page' on Doku Wiki site |
 | Foswiki | http://foswiki.org/ | '$page' on foswiki.org |
 | Foswikitask | http://foswiki.org/Tasks/ | '$page' on the 'Foswiki' issue tracking site |
-| Foswikirev | http://trac.foswiki.org/changeset/ | revision $page of 'Foswiki' |
+| Foswikirev | %REV2REF{$page}% | revision $page of 'Foswiki' on Github | $url |
 | FoxWiki | http://fox.wikis.com/wc.dll?Wiki~ | '$page' on Fox Wiki site |
 | HammondWiki | http://www.dairiki.org/HammondWiki/index.php3? | '$page' on 'HammondWiki' site |
 | MeatBall | http://www.usemod.com/cgi-bin/mb.pl? | '$page' on 'MeatBall' site, a 'UseMod' Wiki variant |
 | MoinMoin | http://moinmo.in/ | '$page' on 'MoinMoin' Wiki site |
 | PPR | http://c2.com/cgi/wiki? | '$page' on the original 'PortlandPatternRepository' site |
-| Squeak | http://minnow.cc.gatech.edu/squeak/ | '$page' on Squeak Smalltalk Wiki |
+| Squeak | http://wiki.squeak.org/squeak/ | '$page' on Squeak Smalltalk Wiki |
 | TWiki | http://twiki.org/cgi-bin/view/ | '$page' on TWiki.org |
 | TWikibug | http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ | '$page' on the TWiki issue tracking site |
 | TWikirev | http://develop.twiki.org/trac/changeset/ | revision $page of TWiki svn |

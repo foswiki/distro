@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1400981068" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1412365793" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -14,12 +14,13 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
    * Enter ==ExternalSite:Page== to create a link that points to the ==Page== on the ==ExternalSite== server.
       * If ==Page== contains spaces, it can be enclosed in single or double quotes. Example: ==MySite:'My Photo.jpg'==.  Special characters contained within the quotes are URL encoded.
    * Enter ==[<nop>[ExternalSite:Page][any label]]== to specify a custom label.
-   * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic.
+   * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic or as specified by the =INTERWIKIPLUGIN_RULESTOPIC= topic list.
    * Add and edit aliases in %SYSTEMWEB%.InterWikis.
-   * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
-   * Site aliases must start with an upper case letter and may contain alphanumeric letters.
-   * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
-   * The URL may contain foswiki macros.  They are expanded when the URL is expanded.
+      * Each entry must be 3 or 4 columns of format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
+      * Site aliases must start with an upper case letter and may contain alphanumeric letters.
+      * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
+      * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
+      * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
 <blockquote class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
 
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
@@ -58,6 +59,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
 |  24 May 2014: (1.20)  | Foswikitask:Item12819: Expand variables defined in !InterWiki links%BR% \
                           Foswikitask:Item11587: Replace call to deprecated =Foswiki::Func::readTopicText()= |
 |  23 Oct 2013: (1.1.7) | Foswikitask:Item12555: Documentation updates |
