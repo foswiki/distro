@@ -77,7 +77,7 @@ my %mtas = (
 #>>>
 
 use constant ACCEPTMSG =>
-  "Configuration accepted. Next step: Setup and test {WebMasterEmail}.";
+  "> Configuration accepted. Next step: Setup and test {WebMasterEmail}.";
 
 # WIZARD
 sub autoconfigure {
@@ -144,7 +144,7 @@ NOCERT
 sub _autoconfigProgram {
     my ($reporter) = @_;
 
-    $reporter->NOTE("Attempting to configure a mailer program");
+    $reporter->NOTE("> Attempting to configure a mailer program");
 
     require Cwd;
     require File::Basename;
@@ -188,7 +188,8 @@ sub _autoconfigProgram {
 
         # Not found, must map /usr/sbin/sendmail to the tool
         $reporter->NOTE(
-            'Unable to locate a known external mail program, trying sendmail');
+            '> Unable to locate a known external mail program, trying sendmail'
+        );
 
         $mailp = 'sendmail';
     }
@@ -212,7 +213,7 @@ sub _autoconfigProgram {
             }
         }
         else {
-            $reporter->NOTE("Unable to identify $p/$mailp.");
+            $reporter->NOTE("> Unable to identify $p/$mailp.");
         }
     }
 
@@ -252,7 +253,7 @@ sub _sniffSELinux {
         || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) )
     {
         $reporter->NOTE(<<SELINUX);
-SELinux appears to be enabled on your system.
+> SELinux appears to be enabled on your system.
 Please ensure that the SELinux policy permits SMTP connections from webserver processes to at least one of these tcp ports: 587, 465 or 25.  Also ensure that your e-mail client is permitted to be run under your webserver, and that it is permitted access to its configuration data and temporary files in this security context.
 Check the audit log for specific errors, as policies vary.
 SELINUX
@@ -265,7 +266,7 @@ sub _setMailProgram {
     my ( $cfg, $path, $reporter ) = @_;
 
     $reporter->NOTE(<<ID);
-Identified $cfg->{name} ( =$path/$cfg->{file}= ) as your mail program
+> Identified $cfg->{name} ( =$path/$cfg->{file}= ) as your mail program
 ID
 
     _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
@@ -358,13 +359,13 @@ sub _autoconfigSMTP {
         @addrs = @{ $hInfo->{v4addrs} };
         if ( @{ $hInfo->{v6addrs} } ) {
             $reporter->NOTE(
-"$host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."
+"> $host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."
             );
         }
     }
     unless (@addrs) {
         $reporter->NOTE(
-            "{SMTP}{MAILHOST} $host is invalid: server has no IP address");
+            "> {SMTP}{MAILHOST} $host is invalid: server has no IP address");
         return 0;
     }
 
@@ -524,7 +525,7 @@ sub _autoconfigSMTP {
     open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
     STDERR->autoflush(1);
 
-    # Loop over methods - output @use if one succeeds
+    # Loop over methods - output %use if one succeeds
 
     # This code loops over the @methods list.  It configures each method
     # per the %config hash for that method, and tests the connection.
@@ -534,18 +535,18 @@ sub _autoconfigSMTP {
     # secure,  so STARTTLS on Submission (587) would be preferred over SSL which
     # is preferred over plain SMTP port 25.
     #
-    # The configuration  that worked is pushed onto @use,
-    #    $use[0] Configuration hash
-    #    $use[1] Port
-    #    $use[2] Flag if authentication worked
+    # The configuration  that worked is in %use:
+    #    $use{cfg} Configuration hash
+    #    $use{port} Port
+    #    $use{authOK} Flag if authentication worked
     #     0 - Test incomplete
     #     1 - Succeeded
     #     2 - Bad credentials
     #     3 - Some other error
     #     4 - Auth not required, remove credentials
-    #    $use[3] Message from the authentication test
+    #    $use{authMsg} Message from the authentication test
 
-    my @use;
+    my %use;
   METHOD:
     foreach my $method (@methods) {
         my $cfg = $config{$method};
@@ -615,13 +616,16 @@ sub _autoconfigSMTP {
             if ($startTls) {
                 next unless ( $smtp->starttls( $log, $reporter ) );
             }
-            @use = ( $cfg, $port );
-            push @use, $smtp->testServer( $host, $username, $password );
+            $use{cfg}  = $cfg;
+            $use{port} = $port;
+            my @res = $smtp->testServer( $host, $username, $password );
+            $use{authOK}  = $res[0];
+            $use{authMsg} = $res[1];
             $smtp->quit;
 
-            last METHOD if ( $use[2] >= 0 );
-            $tlog .= $use[3];
-            @use = ();
+            last METHOD if ( $use{authOK} >= 0 );
+            $tlog .= $use{authMsg};
+            %use = ();
         }
     }
     close STDERR;
@@ -629,46 +633,45 @@ sub _autoconfigSMTP {
     open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
     close $stderr;
     $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg;
-    $reporter->NOTE($tlog);
+    $reporter->NOTE("<verbatim>$tlog</verbatim>");
 
-    unless (@use) {
+    unless ( scalar keys %use ) {
         _diagnoseFailure( $noconnect, $allconnect, $reporter );
         return 0;
     }
 
-    #  @use[ cfg, port, authOK, authMsg ]
-    if ( $use[2] == 0 ) {    # Incomplete
+    #  %use{ cfg, port, authOK, authMsg }
+    if ( $use{authOK} == 0 ) {    # Incomplete
         $reporter->NOTE(
-"This configuration appears to be acceptable, but testing is incomplete."
+"> This configuration appears to be acceptable, but testing is incomplete."
         );
-        $reporter->NOTE( $use[3] );
+        $reporter->NOTE( $use{authMsg} );
         return 0;
     }
-    if ( $use[2] == 1 || $use[2] == 4 ) {    # OK, Not required
-        $reporter->NOTE( $use[3], ACCEPTMSG );
+    if ( $use{authOK} == 1 || $use{authOK} == 4 ) {    # OK, Not required
+        $reporter->NOTE( $use{authMsg}, ACCEPTMSG );
     }
-    elsif ( $use[2] == 2 ) {                 # Bad credentials
+    elsif ( $use{authOK} == 2 ) {                      # Bad credentials
             # Authentication failed, perl is OK, don't try program.
-        $reporter->NOTE( $use[3] );
+        $reporter->NOTE( $use{authMsg} );
         return 0;
     }
     else {    # Other failure
-        $reporter->NOTE( $use[3] );
-        $reporter->NOTE(
-"Although a connection was established with $host on port $use[1], it did not accept mail."
+        $reporter->NOTE( $use{authMsg},
+"> Although a connection was established with $host on port $use{port}, it did not accept mail."
         );
         return 0;
     }
 
-    $use[1] =~ s/^.*\((\d+)\)$/$1/;
+    $use{port} =~ s/^.*\((\d+)\)$/$1/;
     $host = "[$host]" if ( $hInfo->{ipv6addr} );
-    my $cfg = $use[0];
+    my $cfg = $use{cfg};
 
     _setConfig( $reporter, '{Email}{MailMethod}', $cfg->{method} );
     _setConfig( $reporter, '{SMTP}{SENDERHOST}',  $hello );
     _setConfig( $reporter, '{SMTP}{Username}',    $username );
     _setConfig( $reporter, '{SMTP}{Password}',    $password );
-    _setConfig( $reporter, '{SMTP}{MAILHOST}',    $host . ':' . $use[1] );
+    _setConfig( $reporter, '{SMTP}{MAILHOST}',    $host . ':' . $use{port} );
     _setConfig( $reporter, '{Email}{SSLVerifyServer}', ( $cfg->{verify} || 0 ) )
       if ( $cfg->{ssl} );
 
@@ -700,8 +703,8 @@ sub _diagnoseFailure {
     # If no connection went through, there's probably a block
     if ($noconnect) {
         my $mess =
-"No connection was established on any port, so if the e-mail server is up, it is likely that a firewall";
-        $mess .= "and/or SELINUX" if ($isSELinux);
+"> No connection was established on any port, so if the e-mail server is up, it is likely that a firewall";
+        $mess .= " and/or SELINUX" if ($isSELinux);
         $mess .= " is blocking TCP connections to e-mail submission ports.";
 
         $reporter->NOTE($mess);
@@ -711,8 +714,8 @@ sub _diagnoseFailure {
     # Some worked, some didn't
     unless ($allconnect) {
         my $mess =
-"At least one connection was blocked, but others succeeded.  It is possible that that a firewall";
-        $mess .= "and/or SELINUX" if ($isSELinux);
+"> At least one connection was blocked, but others succeeded.  It is possible that that a firewall";
+        $mess .= " and/or SELINUX" if ($isSELinux);
         $mess .=
           " is blocking TCP connections to some e-mail submission port(s).
 However, only one connection type needs to work, so you should focus on the\
@@ -725,7 +728,7 @@ issues logged on the ports where connections succeeded.";
     # All connections worked, but the protocol didn't.
 
     $reporter->NOTE(<<"SMTP");
-Although all connections were successful, the service is not speaking SMTP.
+> Although all connections were successful, the service is not speaking SMTP.
 The most likely causes are that the server uses a non-standard port for SMTP,
 or your configuration erroneously specifies a non-SMTP port.  Check your
 configuration; then check with your server support.
@@ -930,7 +933,7 @@ sub debug_print {
       . "\n";
 
     $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge unless ($hok);
-    $tlog .= $text;
+    $tlog .= "$text\n";
 }
 
 # Package for extended SSL functions
@@ -1078,13 +1081,14 @@ sub starttls {
 
     unless ( defined $smtp->supports('STARTTLS') ) {
         $smtp->quit;
-        $reporter->NOTE( $tlog,
-            "${pad}STARTTLS is not supported by $host</pre>" );
+        $reporter->NOTE( "<verbatim>$tlog</verbatim>",
+            "> ${pad}STARTTLS is not supported by $host" );
         return 0;
     }
     unless ( $smtp->command('STARTTLS')->response() == 2 ) {
         $smtp->quit;
-        $reporter->NOTE( $tlog . "${pad}STARTTLS command failed</pre>" );
+        $reporter->NOTE( "<verbatim>$tlog</verbatim>",
+            "${pad}STARTTLS command failed" );
         return 0;
     }
 
@@ -1092,7 +1096,8 @@ sub starttls {
 
     unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts, ) ) {
         $tlog .= $pad . IO::Socket::SSL::errstr() . "\n" if ($verified);
-        $reporter->NOTE( $tlog . "${pad}Upgrade to TLS failed</pre>" );
+        $reporter->NOTE( "<verbatim>$tlog</verbatim>",
+            "${pad}Upgrade to TLS failed" );
 
         # Note: The server may still be trying to talk SSL; we can't quit.
         $smtp->close;
@@ -1114,13 +1119,13 @@ sub starttls {
         : "Unable to verify server certificate"
       ) . "\n";
     if ( $verified == 0 ) {
-        $reporter->NOTE( $tlog . '</pre>' );
+        $reporter->NOTE("<verbatim>$tlog</verbatim>");
         $smtp->close;
         return 0;
     }
 
     unless ( $smtp->hello($hello) ) {
-        $reporter->NOTE( $tlog . "${pad}Hello failed</pre>" );
+        $reporter->NOTE( "<verbatim>$tlog</verbatim>", "${pad}Hello failed" );
         $smtp->quit();
         return 0;
     }
