@@ -970,7 +970,7 @@ function _id_ify(id) {
                     function(results) {
                         wizard_reports($root, results);
                         var erc = 0;
-                        $.each(results.report, function(index, rep) {
+                        $.each(results.messages, function(index, rep) {
                             if (rep.level == 'errors') {
                                 erc += 1;
                             }
@@ -1042,14 +1042,19 @@ function _id_ify(id) {
                     checker_reports);
             });
     });
-/*
 
     $(window).on('beforeunload', function() {
         if ($('.value_modified').length > 0) {
-            return "You have unsaved changes";
+            var changed = '';
+            if ($('#bootstrap_warning').length) {
+                changed = " complete basic configuration\n";
+            }
+            $('.value_modified').each(function() {
+                var handler = $(this).data('value_handler');
+                changed += '   ' + handler.spec.keys + '\n';
+            });
+            return 'You have unsaved changes:\n'
+                + changed +  'Are you really sure?\n'
         }
-        return 'Are you really sure?';
     });
-*/
-
 })(jQuery);
