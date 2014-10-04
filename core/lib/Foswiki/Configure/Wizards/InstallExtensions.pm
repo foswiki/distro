@@ -48,6 +48,13 @@ sub _getPackage {
     chop $installRoot;
 
     my $args = $this->param('args');
+
+#SMELL: This is called with repository as a simple string in the Dependency report,
+# and then again as a hash when running the installer.  The fix is probably elsewhere
+# to use consistent calls,  but hack hack cough... this works.
+    my $repo = $args->{repository};
+    $repo = $repo->{name} if ( ref($repo) eq 'HASH' );
+
     die "No repository specified" unless $args->{repository};
     die "No extension specified"  unless $args->{module};
 
@@ -55,7 +62,7 @@ sub _getPackage {
     foreach my $place (
         Foswiki::Configure::Wizards::ExploreExtensions::findRepositories() )
     {
-        if ( $place->{name} eq $args->{repository} ) {
+        if ( $place->{name} eq $repo ) {
             $repository = $place;
             last;
         }
@@ -173,10 +180,12 @@ sub add {
 
     my $pkg = $this->_getPackage($reporter);
     return unless $pkg;
+    use Data::Dumper;
+    print STDERR Data::Dumper::Dumper( \$pkg );
 
     my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
 
-    if ($ok) {
+    if ( $ok && !$pkg->option('SIMULATE') ) {
         foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
             my $clef = "{Plugins}{$plu}";
             my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
