@@ -101,10 +101,25 @@ sub depreport {
       if (@$installed);
     if (@$missing) {
         $reporter->NOTE( "> *MISSING*", map { "\t* $_" } @$missing );
+        $reporter->WARN( <<DEPS );
+> *Caution:* If you proceed with install, the missing dependencies listed as _Required_
+will be automatically installed.   Be sure that this is what you want.
+DEPS
     }
     else {
         $reporter->NOTE("> All dependencies satisfied");
     }
+
+    $reporter->NOTE('   * Click "Install" to proceed with the installation.');
+    $reporter->NOTE(
+'   * Click "Simulate" to get a detailed report on what will happen during installation.'
+    );
+    $reporter->NOTE(
+'   * Click "Install without Dependencies" to install _only_ this extension, ignoring the dependencies.'
+    ) if (@$missing);
+
+    my $simulate = 0;
+    my $nodeps   = 0;
 
     if ( $this->param('args')->{installable} ) {
         my %data = (
@@ -113,9 +128,9 @@ sub depreport {
             args   => {
                 repository => $pkg->repository(),
                 module     => $pkg->module(),
+                SIMULATE   => 0,
+                NODEPS     => 0,
 
-                # SIMULATE =>
-                # NODEPS =>
                 # USELOCAL =>
             }
         );
@@ -124,6 +139,21 @@ sub depreport {
         $reporter->NOTE(
 "<button class=\"wizard_button\" data-wizard=\"$json\">Install</button>"
         );
+
+        $data{args}->{SIMULATE} = 1;
+        $json = JSON->new->encode( \%data );
+        $json =~ s/"/&quot;/g;
+
+        $reporter->NOTE(
+"<button class=\"wizard_button\" data-wizard=\"$json\">Simulate</button>"
+        );
+        if (@$missing) {
+            $data{args}->{SIMULATE} = 0;
+            $data{args}->{NODEPS}   = 1;
+            $reporter->NOTE(
+"<button class=\"wizard_button\" data-wizard=\"$json\">Install without dependencies</button>"
+            );
+        }
     }
 
     $pkg->finish();

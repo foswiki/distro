@@ -227,6 +227,12 @@ sub _get_extensions {
     my $uninstalledExts;
     my $uninstalledCount = 0;
 
+    $reporter->NOTE('---++ Available Extensions');
+    $reporter->NOTE(
+'> Each extension is listed along with a "Study" button.   Click "Study" to generate a dependency report for the extension.  From there, you can proceed with the installation. '
+    );
+    $reporter->NOTE('> ');
+
     # count
     foreach my $key ( keys %$exts ) {
         my $ext = $exts->{$key};
@@ -282,7 +288,7 @@ sub _get_extensions {
         # is the version number read from FastReport, and {release} will be
         # the latest release from there.
 
-        my $install   = 'Install';
+        my $install   = 'Study';
         my $uninstall = '';
 
         if ( $ext->{installedRelease} ) {
