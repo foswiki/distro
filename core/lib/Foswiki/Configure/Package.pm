@@ -51,15 +51,11 @@ use Foswiki::Configure::Util       ();
 
 ---++ ClassMethod new($root, $pkgname, $type, \%options)
    * =$root= - The root of the Foswiki installation - used for file operations
-   * =$pkgname= - The name of the the package.
-   * $type - The type of package represented by this objct.  Supported types include:
-      * Plugin - A Foswiki Extension of type Plugin - Defined in Extension/_extension_.pm
-      * Skin - A Foswiki Skin
-      * Contrib - A Foswiki Contribution or AddOn.   Defined in Contrib/_extension_.pm
-      * Core - (future) a packaged core installation.
+   * =$repository= - The source repository information.
    * =\%options= - A hash of options for the installation
 
       {
+        module   => 'Module' Name of the package being installed
         EXPANDED => 0/1     Specify that archive file has already been expanded
         USELOCAL => 0/1     If local versions of _installer or archives are found, use them instead of download.
         NODEPS   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
@@ -71,7 +67,7 @@ use Foswiki::Configure::Util       ();
 =cut
 
 sub new {
-    my ( $class, $root, $repository, $module, %args ) = @_;
+    my ( $class, $root, $repository, %args ) = @_;
     my @deps;
 
     my $this = bless(

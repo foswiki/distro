@@ -91,6 +91,7 @@ sub _stop {
 # processParameters
 my %opts;
 getopts( 'acdnoru', \%opts );
+
 $noconfirm       = $opts{a};
 $nocpan          = $opts{c};
 $downloadOK      = $opts{d};
@@ -98,6 +99,9 @@ $reuseOK         = $opts{r};
 $simulate        = $opts{n};
 $alreadyUnpacked = $opts{u};
 if ( @ARGV == 0 ) {
+    $reporter->ERROR(
+'DEFAULT \'install\' action is no longer active.  Specify \'install\' if you want to install this extension.'
+    );
     usage();
     exit(0);
 }
@@ -312,7 +316,8 @@ sub _loadInstaller {
 
     $thispkg = Foswiki::Configure::Package->new(
         "$installationRoot/",
-        $repository, $MODULE,
+        $repository,
+        module   => $MODULE,
         USELOCAL => $reuseOK,
         SIMULATE => $simulate,
         DIR      => $installationRoot
@@ -374,9 +379,6 @@ When used from the generic installer:
        tools/extension_installer ${MODULE} manifest
        tools/extension_installer ${MODULE} dependencies
 
-If command (install, uninstall ..) is not provided, default is to 
-install the extension.
-
 Operates on the directory tree below where it is run from,
 so should be run from the top level of your Foswiki installation.
 
@@ -416,6 +418,8 @@ DONE
 # 4 If any CPAN dependences are reported - offer to satisfy them
 sub _install {
     my ($rootModule) = @_;
+    my $sim = '';
+    $sim = ' simulated' if ($simulate);
 
     my $path = $MODULE;
 
@@ -450,33 +454,35 @@ sub _install {
         if ($moduleVersion) {
             return 0
               unless ask(
-"$MODULE version $moduleVersion is already installed. Are you sure you want to re-install this module?"
+"$MODULE version $moduleVersion is already installed. Are you sure you want to re-install this module? $sim."
               );
         }
     }
 
     my ( $installed, $missing, @wiki, @cpan, @manual ) =
       $thispkg->checkDependencies();
+    $reporter->NOTE("\nDEPENDENCIES:") if ( @$installed || @$missing );
     $reporter->NOTE( "INSTALLED: ", @$installed ) if @$installed;
     $reporter->NOTE( "MISSING: ",   @$missing )   if @$missing;
 
     my $instmsg = "$MODULE ready to be installed";
+    $instmsg .= ": ($sim )" if ($simulate);
     $instmsg .=
-        " along with Foswiki dependencies identified above\n"
+        " along with missing Foswiki dependencies identified above\n"
       . "(you will be asked later about any CPAN dependencies)"
-      if ($missing);
+      if (@$missing);
     $instmsg .= ".\n";
 
-    $instmsg .= "Do you want to proceed with installation of $MODULE";
+    $instmsg .= "Do you want to proceed with$sim installation of $MODULE";
     $instmsg .= " and Dependencies" if ($missing);
     $instmsg .= '?';
 
     return 0
       unless ask("$instmsg");
 
-    my ( $plugins, $depCPAN ) = $thispkg->install($reporter);
+    my ( $ok, $plugins, $depCPAN ) = $thispkg->install($reporter);
 
-    if ( $plugins && keys %$plugins && !$simulate ) {
+    if ( $ok && !$simulate ) {
         $reporter->NOTE(
 "> Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in configure."
         );
@@ -492,12 +498,8 @@ sub _install {
         }
     }
 
-    my $err = $thispkg->errors();
-    if ($err) {
-        $reporter->ERROR($err);
-    }
-    else {
-        $reporter->NOTE("No errors encountered during installation\n");
+    if ($ok) {
+        $reporter->NOTE("No errors encountered during$sim installation\n");
     }
 
     $thispkg->finish();
@@ -550,12 +552,12 @@ sub getScriptDir {
           \"
         }x;
 
-    my $reBinDir = qr{
-      ^\s*\$Foswiki::cfg\{ScriptDir\}                           # Variable
+    my $reBinDir = qr/
+      ^\s*\$Foswiki::cfg{ScriptDir}                           # Variable
       \s*=\s*                                                   # Equal sign - optional spaces
       (?: (?:$reSqString) | (?:$reDqString) )                   # delimited value
       \s*;\s*$                                                  # ending bracket
-    }msx;
+    /msx;
 
     my $cfgfh = open my $cfg, '<', "$lscFile";
     if ( !$cfgfh ) {
