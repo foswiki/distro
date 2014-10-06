@@ -75,6 +75,10 @@ my $MANIFEST;
         my $this = shift;
         print "CHANGED: $_[0] = $_[1]";
     }
+
+    sub WIZARD {
+        return '';
+    }
 };
 
 my $reporter = ShellReporter->new();

@@ -278,6 +278,10 @@ sub option {
         $this->{_reporter}->CHANGED(@_);
         $this->_log( "> _Changed:_ $_[0] = " . eval("\$Foswiki::cfg$_[1]") );
     }
+
+    sub WIZARD {
+        return shift->SUPER::WIZARD(@_);
+    }
 }
 
 =begin TML
