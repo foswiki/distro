@@ -2256,69 +2256,6 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 #    * Use the Extensions Repository to add, update or remove plugins
 #    * Enable and disable installed plugins
 
-#---+++ Configure how plugins are loaded by Foswiki
-# **STRING 80**
-# Plugins evaluation order. If set to a comma-separated list of plugin names,
-# will change the execution order of plugins so the listed subset of plugins
-# are executed first. The default execution order is alphabetical on plugin
-# name.
-#
-# If TWiki compatibility is required, TWikiCompatibilityPlugin should be
-# the first Plugin in the list.  SpreadSheetPlugin should typically be next
-# in the list for proper operation.
-#
-# Note that some other general extension environment checks are made and
-# reported here.  Plugins that are enabled but not installed and duplicate
-# plugins in the TWiki and Foswiki libraries are reported here.  Also if a
-# TWiki plugin is enabled and the Foswik version is installed, this will
-# also be reported here.
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
-
-# **STRING 80 EXPERT**
-# Search path (web names) for plugin topics. Note that the current web
-# is searched last, after this list.   Most modern foswiki plugins do not
-# use the plugin topic for settings, and this setting is ignored. It is
-# recommended that this setting not be changed.
-$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
-
-#---+++ Install, Update or Remove extensions
-# **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'" FEEDBACK="label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'" FEEDBACK="label='Search';wizard='ExploreExtensions';method='find_extension_1'"**
-# Extensions Repositories Search List.
-# Foswiki extension repositories are just Foswiki webs that are organised in the
-# same way as the Extensions web on Foswiki.org. The 'Search for extensions'
-# button searches these repositories for installable extensions. To set up an
-# extensions repository:
-#    1 Create a Foswiki web to contain the repository
-#    2 Copy the =FastReport= page from [[http://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web
-#    3 Set the =WEBFORMS= preference in WebPreferences to =PackageForm=
-# The page for each extension must have the =PackageForm= (copy from
-# Foswiki.org), and should have the packaged extension attached as a
-# =zip= and/or =tgz= file.
-#
-# The search list is a semicolon-separated list of repository
-# specifications, each in the format: =name=(listurl,puburl,username,password)=
-# where:
-#    * =name= is the symbolic name of the repository, for example Foswiki.org
-#    * =listurl= is the root of a view URL
-#    * =puburl= is the root of a download URL
-#    * =username= is the username if TemplateAuth is required on the
-#      repository (optional)
-#    * =password= is the password if TemplateAuth is required on the
-#      repository (optional)
-# Note: if your Repository uses ApacheAuth, embed the username and password
-# into the listurl as =?username=x;password=y=
-#
-# For example,=
-# twiki.org=(http://twiki.org/cgi-bin/viewlugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);=
-#
-# For Extensions with the same name in more than one repository, the *last*
-# matching repository in the list will be chosen, so Foswiki.org should
-# always be last in the list for maximum compatibility.
-$Foswiki::cfg{ExtensionsRepositories} =
-'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
-
-# *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
-
 #---+++ Enable or disable installed extensions
 
 # *PLUGINS* Marker used by bin/configure script - do not remove!
@@ -2400,6 +2337,69 @@ $Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} =
   'Foswiki::Plugins::ConfigurePlugin';
+
+#---+++ Install, Update or Remove extensions
+# **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"  FEEDBACK="label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'" FEEDBACK="label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
+# Extensions Repositories Search List.
+# Foswiki extension repositories are just Foswiki webs that are organised in the
+# same way as the Extensions web on Foswiki.org. The 'Search for extensions'
+# button searches these repositories for installable extensions. To set up an
+# extensions repository:
+#    1 Create a Foswiki web to contain the repository
+#    2 Copy the =FastReport= page from [[http://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web
+#    3 Set the =WEBFORMS= preference in WebPreferences to =PackageForm=
+# The page for each extension must have the =PackageForm= (copy from
+# Foswiki.org), and should have the packaged extension attached as a
+# =zip= and/or =tgz= file.
+#
+# The search list is a semicolon-separated list of repository
+# specifications, each in the format: =name=(listurl,puburl,username,password)=
+# where:
+#    * =name= is the symbolic name of the repository, for example Foswiki.org
+#    * =listurl= is the root of a view URL
+#    * =puburl= is the root of a download URL
+#    * =username= is the username if TemplateAuth is required on the
+#      repository (optional)
+#    * =password= is the password if TemplateAuth is required on the
+#      repository (optional)
+# Note: if your Repository uses ApacheAuth, embed the username and password
+# into the listurl as =?username=x;password=y=
+#
+# For example,=
+# twiki.org=(http://twiki.org/cgi-bin/viewlugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);=
+#
+# For Extensions with the same name in more than one repository, the *last*
+# matching repository in the list will be chosen, so Foswiki.org should
+# always be last in the list for maximum compatibility.
+$Foswiki::cfg{ExtensionsRepositories} =
+'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
+
+# *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
+
+#---+++ Configure how plugins are loaded by Foswiki
+# **STRING 80**
+# Plugins evaluation order. If set to a comma-separated list of plugin names,
+# will change the execution order of plugins so the listed subset of plugins
+# are executed first. The default execution order is alphabetical on plugin
+# name.
+#
+# If TWiki compatibility is required, TWikiCompatibilityPlugin should be
+# the first Plugin in the list.  SpreadSheetPlugin should typically be next
+# in the list for proper operation.
+#
+# Note that some other general extension environment checks are made and
+# reported here.  Plugins that are enabled but not installed and duplicate
+# plugins in the TWiki and Foswiki libraries are reported here.  Also if a
+# TWiki plugin is enabled and the Foswik version is installed, this will
+# also be reported here.
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+
+# **STRING 80 EXPERT**
+# Search path (web names) for plugin topics. Note that the current web
+# is searched last, after this list.   Most modern foswiki plugins do not
+# use the plugin topic for settings, and this setting is ignored. It is
+# recommended that this setting not be changed.
+$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 
 1;
 __END__
