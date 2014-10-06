@@ -141,25 +141,16 @@ DEPS
                 # USELOCAL =>
             }
         );
-        my $json = JSON->new->encode( \%data );
-        $json =~ s/"/&quot;/g;
-        $reporter->NOTE(
-"<button class=\"wizard_button\" data-wizard=\"$json\">Install</button>"
-        );
+        $reporter->NOTE( $reporter->WIZARD( "Install", \%data ) );
 
         $data{args}->{SIMULATE} = 1;
-        $json = JSON->new->encode( \%data );
-        $json =~ s/"/&quot;/g;
+        $reporter->NOTE( $reporter->WIZARD( "Simulate", \%data ) );
 
-        $reporter->NOTE(
-"<button class=\"wizard_button\" data-wizard=\"$json\">Simulate</button>"
-        );
         if (@$missing) {
             $data{args}->{SIMULATE} = 0;
             $data{args}->{NODEPS}   = 1;
             $reporter->NOTE(
-"<button class=\"wizard_button\" data-wizard=\"$json\">Install without dependencies</button>"
-            );
+                $reporter->WIZARD( "Install without dependencies", \%data ) );
         }
     }
 
@@ -180,8 +171,6 @@ sub add {
 
     my $pkg = $this->_getPackage($reporter);
     return unless $pkg;
-    use Data::Dumper;
-    print STDERR Data::Dumper::Dumper( \$pkg );
 
     my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
 
@@ -212,7 +201,7 @@ OMG
     }
 
     # OK
-    if ( $pkg->{_options}->{SIMULATE} ) {
+    if ( $pkg->option('SIMULATE') ) {
         $reporter->NOTE("> Simulated installation finished");
     }
     else {

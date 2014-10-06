@@ -49,12 +49,18 @@ my $MANIFEST;
 
     sub NOTE {
         my $this = shift;
-        print join( "\n", @_ ) . "\n";
+        my $text = join( "\n", @_ ) . "\n";
+
+        # Take out block formatting tags
+        $text =~ s/<\/?verbatim>//g;
+
+        # Take out active elements
+        $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
+        print $text;
     }
 
     sub WARN {
         my $this = shift;
-        Carp::confess unless $_[0];
         print "Warning: ";
         $this->NOTE(@_);
     }
@@ -67,8 +73,7 @@ my $MANIFEST;
 
     sub CHANGED {
         my $this = shift;
-        print "CHANGED: ";
-        $this->NOTE(@_);
+        print "CHANGED: $_[0] = $_[1]";
     }
 };
 

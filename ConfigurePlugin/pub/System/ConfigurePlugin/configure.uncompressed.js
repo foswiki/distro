@@ -233,7 +233,7 @@ function _id_ify(id) {
                     width: '60%',
                     modal: true,
                     buttons: {
-                        Ok: function() {
+                        Close: function() {
                             $div.dialog("close");
                             $div.remove();
                         }
@@ -325,10 +325,26 @@ function _id_ify(id) {
         $div.find('.wizard_button').each(function() {
             var data = $(this).data('wizard');
             $(this).button().click(function() {
+                var o;
+                if (data.form) {
+                    o = $.extend({}, data.args);
+                    // Get wizard arguments from an optional form
+                    $.each($(data.form).serializeArray(), function() {
+                        if (o[this.name] !== undefined) {
+                            if (!o[this.name].push) {
+                                o[this.name] = [o[this.name]];
+                            }
+                            o[this.name].push(this.value || '');
+                        } else {
+                            o[this.name] = this.value || '';
+                        }
+                    });
+                } else
+                    o = data.args;
                 var params = {
                     wizard: data.wizard,
                     method: data.method,
-                    args: data.args,
+                    args: o,
                     set: find_modified_values(),
                     cfgusername: $('#username').val(),
                     cfgpassword: $('#password').val()
@@ -386,7 +402,7 @@ function _id_ify(id) {
             width: '60%',
             modal: true,
             buttons: {
-                Ok: function() {
+                Close: function() {
                     $dlg.dialog("close");
                     $dlg.remove();
                 }

@@ -71,9 +71,9 @@ var TML = {
                     return "PLACEHOLDER" + (removed.length - 1) + ";";
                 })
             .replace(
-                /(<button(?:.|\n)*?<\/button>)/g,
+                /(<(button|select|option|textarea)\b(?:.|\n)*?<\/\1>)/g,
                 function (m, $1) {
-                    // Protect wizard buttons
+                    // Protect HTML types. Only <lc>...</lc> syntax supported.
                     removed.push($1);
                     return "PLACEHOLDER" + (removed.length - 1) + ";";
                 })

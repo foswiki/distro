@@ -167,14 +167,18 @@ sub option {
 }
 
 {
-
+    # Subclass of reporter that writes reports to a file
+    # as well as passing them to another logger.
+    # TODO: abstract this out and share with tools/extender.pl
     package LoggingReporter;
 
-    # Options hash can include:
-    #  filename =>  Override of generated name including path
-    #  action   =>  Action - Install, Remove etc.
-    #  path     =>  Override the default logging path
+    # $super - Foswiki::Configure::Reporter to pass all reports to
+    # %options can include:
+    #  filename => Override of generated name including path
+    #  action   => Action - Install, Remove etc.
+    #  path     => Override the default logging path
     #  pkgname  => name of package being installed
+    #  nolog    => if true, don't log to file
     # Default name:  pkgname-[action]-yyyymmdd-hhmmss.log
     sub new {
         my ( $class, $super, %options ) = @_;
@@ -205,7 +209,15 @@ sub option {
         my $this = shift;
 
         # Don't actually write any logs if simulating the install
-        return if ( $this->{_options}->{SIMULATE} );
+        return if $this->{nolog};
+
+        my $text = join( "\n", @_ ) . "\n";
+
+        # Take out block formatting tags
+        $text =~ s/<\/?verbatim>//g;
+
+        # Take out active elements
+        $text =~ s/<button.*?<\/button?//g;
 
         unless ( -e $this->{_logfile} ) {
             my @path =
@@ -219,7 +231,7 @@ sub option {
         }
 
         if ( open( my $file, '>>', $this->{_logfile} ) ) {
-            print $file join( "\n", @_ ) . "\n";
+            print $file $text;
             close($file);
         }
         else {
@@ -282,13 +294,9 @@ non-standard locations by the mapTarget utility routine.  If a file is
 read-only, it is temporarily overridden and the mode of the file is
 restored after the move.
 
-Files are "checked in" by creating a Topic Meta object and using the
-Foswiki Meta API to save the topic.
-
-   * If the file is new, with no history, it is simply copied,
-   * If the file exists and has rcs history ( *,v file exists), it is
-     always checked in
-   * If the file exists without history, the Manifest "CI" flag is followed
+Unless the !noci flag is set in the manifest, files are "checked in"
+by creating a Topic Meta object and using the Foswiki Meta API to save
+the topic.
 
    * =%options= (optional) options to override behavior - primarily for
      unit tests.
@@ -309,7 +317,8 @@ sub install {
     my $reporter = LoggingReporter->new(
         $supereporter,
         action  => 'Install',
-        pkgname => $this->{_pkgname}
+        pkgname => $this->{_pkgname},
+        nolog   => $this->{_options}->{SIMULATE}
     );
 
     $reporter->NOTE("---+ Installing $this->{_pkgname}");
@@ -869,7 +878,11 @@ sub uninstall {
 
     my @removed;
     my %directories;
-    my $reporter = LoggingReporter->new( $supereporter, action => 'Uninstall' );
+    my $reporter = LoggingReporter->new(
+        $supereporter,
+        action => 'Uninstall',
+        nolog  => $this->{_options}->{SIMULATE}
+    );
 
     $reporter->NOTE("---+ Uninstalling $this->{_pkgname}");
 

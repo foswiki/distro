@@ -4,6 +4,8 @@ package Foswiki::Configure::Reporter;
 use strict;
 use warnings;
 
+use JSON;
+
 =begin TML
 
 ---+ package Foswiki::Configure::Reporter
@@ -24,6 +26,9 @@ to be supported by renderers.
    * Text styling e.g. <nop>*bold*, <nop>=code= etc
    * URL links [<nop>[http://that][text description]]
    * &lt;verbatim&gt;...&lt;/verbatim&gt;
+   * HTML types =button=, =select=, =option= and =textarea= are supported
+     for wizard inputs, if the renderer supports them. Non-interactive
+     renderers should ignore them.
    * ---+++ Headings
 
 Each of the reporting methods (NOTE, WARN, ERROR) accepts any number of
@@ -110,6 +115,27 @@ sub CHANGED {
     my ( $this, $keys ) = @_;
     $this->{changes}->{$keys} = eval "\$Foswiki::cfg$keys";
     return $this;
+}
+
+=begin TML
+
+---++ ObjectMethod WIZARD($label, $data) -> $note
+
+Generate a wizard button suitable for adding to the stream.
+This should return '' if the reporter does not support wizards.
+The default is to create an HTML button.
+
+Caller is expected to add the result to the reporter stream using
+NOTE etc.
+
+=cut
+
+sub WIZARD {
+    my ( $this, $label, $data ) = @_;
+    my $json = JSON->new->encode($data);
+    $json =~ s/"/&quot;/g;
+    return
+      "<button class=\"wizard_button\" data-wizard=\"$json\">$label</button>";
 }
 
 =begin TML

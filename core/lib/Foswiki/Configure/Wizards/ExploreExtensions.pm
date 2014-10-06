@@ -27,8 +27,8 @@ use Foswiki::Func                  ();
 
 # Ordered list of field names to column headings
 my %tableHeads = (
-    installed   => [ 'description', 'release', 'installedRelease', 'install' ],
-    uninstalled => [ 'description', 'release', 'install' ]
+    Installed   => [ 'description', 'release', 'installedRelease', 'install' ],
+    Uninstalled => [ 'description', 'release', 'install' ]
 );
 
 # Mapping to column heading string
@@ -62,7 +62,7 @@ sub d2n {
 # Download the report page from the repository, and extract a hash of
 # available extensions
 sub _getListOfExtensions {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, %search ) = @_;
     my ( $release, $version, $pluginsapi ) =
       ( $Foswiki::RELEASE, $Foswiki::VERSION, $Foswiki::Plugins::VERSION );
 
@@ -79,7 +79,10 @@ sub _getListOfExtensions {
         push( @consulted, $place->{name} );
 
         my $url = $place->{data}
-          . "FastReport?skin=text;release=$release;version=$version;pluginsapi=$pluginsapi";
+          . "JsonReport?contenttype=application/json;skin=text;release=$release;version=$version;pluginsapi=$pluginsapi";
+        while ( my ( $k, $v ) = each %search ) {
+            $url .= ";$k=" . Foswiki::urlEncode($v);
+        }
         if ( defined( $place->{user} ) ) {
             $url .= ';username=' . $place->{user};
             if ( defined( $place->{pass} ) ) {
@@ -115,10 +118,10 @@ sub _getListOfExtensions {
                     push( @{ $this->{errors} }, $errorMsg );
                 }
                 else {
-
-                    #probably a normal extensions FastReport. Item9786:
-                    #content may contain '{','}' chars so anchor to newlines
-                    $page =~ s/\n{(.*?)}\n/$this->_parseRow($1, $place)/ges;
+                    # probably a normal extensions JsonReport.
+                    foreach my $row ( @{ JSON->new->decode($page) } ) {
+                        $this->_studyRow( $row, $place );
+                    }
                 }
 
             }
@@ -145,58 +148,40 @@ sub _getListOfExtensions {
             }
         }
     }
+
     return ( $this->{list}, @consulted );
 }
 
-sub _parseRow {
-    my ( $this, $row, $place ) = @_;
-    my %data;
-    return '' unless defined $row;
-    my $original_row = $row;
-    return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
+sub _studyRow {
+    my ( $this, $data, $place ) = @_;
 
-    if ( !$data{topic} ) {
+    $data->{repository} = $place->{name};
+    $data->{data}       = $place->{data};
+    $data->{pub}        = $place->{pub};
+    $data->{type}       = 'perl';
 
-#die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] );
-#its a shame that at this point we don't have enough info to extract (for eg) the <title> -
-#which might tell the user that the site has been redirected to http://slashdot.org or something
-        push(
-            @{ $this->{errors} },
-            "no valid Extensions report found. (" . $place->{name} . ")"
-        );
-        return '';
-    }
-
-    chomp( $data{topic} );
-    $data{name}       = $data{topic};
-    $data{repository} = $place->{name};
-    $data{data}       = $place->{data};
-    $data{pub}        = $place->{pub};
-    $data{type}       = 'perl';
-
-    my $dep = Foswiki::Configure::Dependency->new(%data);
+    my $dep = Foswiki::Configure::Dependency->new(%$data);
     $dep->studyInstallation();
 
     # If release isn't specified, then use the version string
 
-# SMELL:  $dep->{release} is defined as the "Required" release string that will be compared by the
-#         dependency check function. It is being misused here to report the latest "available"
-#         release in the Extensions repository.
-    if ( !$data{release} && $data{version} ) {
+    # SMELL:  $dep->{release} is defined as the "Required" release
+    # string that will be compared by the dependency check function.
+    # It is being misused here to report the latest "available"
+    # release in the Extensions repository.
+    if ( !$data->{release} && $data->{version} ) {
 
         # See if we can pull the release ID from the generated %$VERSION%
-        if ( $data{version} =~ /^\d+ \((.+)\)$/ ) {
+        if ( $data->{version} =~ /^\d+ \((.+)\)$/ ) {
             $dep->{release} = $1;
         }
         else {
 
             # Can't make sense of it; use the whole string
-            $dep->{release} = $data{version};
+            $dep->{release} = $data->{version};
 
         }
     }
-
-#die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] ) if ($data{name} eq "WordPressPlugin");
 
     $this->{list}->{ $dep->{name} } = $dep;
     return '';
@@ -206,7 +191,7 @@ sub _parseRow {
 sub get_installed_extensions {
     my ( $this, $reporter ) = @_;
 
-    $this->_get_extensions( $reporter, 'installed' );
+    $this->_get_extensions( $reporter, 'Installed' );
     return undef;    # return the report
 }
 
@@ -214,28 +199,28 @@ sub get_installed_extensions {
 sub get_other_extensions {
     my ( $this, $reporter ) = @_;
 
-    $this->_get_extensions( $reporter, 'uninstalled' );
+    $this->_get_extensions( $reporter, 'Uninstalled' );
     return undef;    # return the report
 }
 
 sub _get_extensions {
-    my ( $this, $reporter, $set ) = @_;
+    my ( $this, $reporter, $set, %search ) = @_;
 
-    my ( $exts, @consultedLocations ) = $this->_getListOfExtensions($reporter);
+    my ( $exts, @consultedLocations ) =
+      $this->_getListOfExtensions( $reporter, %search );
     my $installedExts;
     my $installedCount = 0;
     my $uninstalledExts;
     my $uninstalledCount = 0;
 
-    $reporter->NOTE('---++ Available Extensions');
+    $reporter->NOTE("---++ $set Extensions");
     $reporter->NOTE(
-'> Each extension is listed along with a "Study" button.   Click "Study" to generate a dependency report for the extension.  From there, you can proceed with the installation. '
+'> Each extension is listed along with a "Study" button, which is used to generate a dependency report for the extension. From there, you can proceed with the installation. '
     );
     $reporter->NOTE('> ');
 
     # count
-    foreach my $key ( keys %$exts ) {
-        my $ext = $exts->{$key};
+    while ( my ( $key, $ext ) = each %$exts ) {
         if ( $ext->{installedRelease} ) {
             $installedCount++;
             $installedExts->{$key} = $ext;
@@ -245,13 +230,13 @@ sub _get_extensions {
             $uninstalledExts->{$key} = $ext;
         }
     }
-    $exts = $set eq 'installed' ? $installedExts : $uninstalledExts;
+    $exts = $set eq 'Installed' ? $installedExts : $uninstalledExts;
 
     $reporter->NOTE( "> Looked in " . join( ' ', @consultedLocations ) );
 
     $reporter->ERROR( @{ $this->{errors} } ) if scalar @{ $this->{errors} };
 
-    if ( $set eq 'installed' ) {
+    if ( $set eq 'Installed' ) {
         $reporter->NOTE("> *Found $installedCount Installed extensions* ");
     }
     else {
@@ -280,7 +265,7 @@ sub _get_extensions {
     {
         my $ext = $exts->{$key};
 
-        next if $ext->{topic} eq 'EmptyPlugin';    # special case
+        next if $ext->{name} eq 'EmptyPlugin';    # special case
 
         # $ext is type Foswiki::Configure::Dependency, and studyInstallation
         # has already been called, so {installedRelease} and {installedVersion}
@@ -315,47 +300,45 @@ sub _get_extensions {
             }
         }
 
-        my %data = (
-            wizard => 'InstallExtensions',
-            method => 'depreport',
-            args   => {
-                repository  => $ext->{repository},
-                module      => $ext->{topic},
-                installable => ( $install ne 'pseudo-installed' ),
-
-                # SIMULATE =>
-                # NODEPS =>
-                # USELOCAL =>
-            }
-        );
-        my $json = JSON->new->encode( \%data );
-        $json =~ s/"/&quot;/g;
-        $install =
-"<button class=\"wizard_button\" data-wizard=\"$json\">$install</button>";
-
-        if ($uninstall) {
-            my %data = (
+        $install = $reporter->WIZARD(
+            $install,
+            {
                 wizard => 'InstallExtensions',
-                method => 'remove',
+                method => 'depreport',
                 args   => {
-                    repository => $ext->{repository},
-                    module     => $ext->{topic},
+                    repository  => $ext->{repository},
+                    module      => $ext->{name},
+                    installable => ( $install ne 'pseudo-installed' ),
 
                     # SIMULATE =>
                     # NODEPS =>
                     # USELOCAL =>
                 }
+            }
+        );
+
+        if ($uninstall) {
+            $uninstall = $reporter->WIZARD(
+                $uninstall,
+                {
+                    wizard => 'InstallExtensions',
+                    method => 'remove',
+                    args   => {
+                        repository => $ext->{repository},
+                        module     => $ext->{name},
+
+                        # SIMULATE =>
+                        # NODEPS =>
+                        # USELOCAL =>
+                    }
+                }
             );
-            my $json = JSON->new->encode( \%data );
-            $json =~ s/"/&quot;/g;
-            $uninstall =
-"<button class=\"wizard_button\" data-wizard=\"$json\">$uninstall</button>";
         }
 
         # Do the title + actions row
-        my $thd = $ext->{topic} || 'Unknown';
+        my $thd = $ext->{name} || 'Unknown';
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-        $thd = "[[$ext->{data}$ext->{topic}][$thd]]";
+        $thd = "[[$ext->{data}$ext->{name}][$thd]]";
 
         $reporter->NOTE(
             "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );
@@ -375,6 +358,51 @@ sub _get_extensions {
         $reporter->NOTE( '|' . join( '|', map { " $_ " } @cols ) . '|' );
     }
     $reporter->NOTE("</div>");
+}
+
+=begin TML
+
+---+ WIZARD find_extension_1
+
+Stage 1 of the find extension process. Build a prompt page for the
+extension search expression.
+
+=cut
+
+sub find_extension_1 {
+    my ( $this, $reporter ) = @_;
+
+    $reporter->NOTE("---+ Find New Extensions");
+    $reporter->NOTE( '<form id="find_extensions">'
+          . "Regular expression search <br/>"
+          . 'Extension name: '
+          . '<input type="text" length="30" name="name"></input></br/>'
+          . 'Description: '
+          . '<input type="text" length="30" name="text"></input><br/>'
+          . '</form>' );
+    my %data = (
+        wizard => 'ExploreExtensions',
+        method => 'find_extension_2',
+        form   => '#find_extensions',
+        args   => {
+
+            # Other args come from the form
+        }
+    );
+    $reporter->NOTE( $reporter->WIZARD( 'Find Extension', \%data ) );
+    return undef;
+}
+
+sub find_extension_2 {
+    my ( $this, $reporter ) = @_;
+
+    my %filters;
+    my $pa = $this->param('args');
+    foreach my $p ( 'name', 'text' ) {
+        $filters{$p} = $pa->{$p} if ( $pa->{$p} );
+    }
+    $this->_get_extensions( $reporter, 'Uninstalled', %filters );
+    return undef;
 }
 
 # Build descriptive hashes for the repositories listed in
