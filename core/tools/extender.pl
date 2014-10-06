@@ -26,7 +26,6 @@ my $downloadOK      = 0;
 my $alreadyUnpacked = 0;
 my $reuseOK         = 0;
 my $simulate        = 0;
-my $nocpan          = 0;
 my $action          = 'install';    # Default target is install
 my $thispkg;                        # Package object for THIS module
 my %available;
@@ -93,7 +92,6 @@ my %opts;
 getopts( 'acdnoru', \%opts );
 
 $noconfirm       = $opts{a};
-$nocpan          = $opts{c};
 $downloadOK      = $opts{d};
 $reuseOK         = $opts{r};
 $simulate        = $opts{n};
@@ -174,85 +172,11 @@ unless ( eval { require Foswiki } ) {
 my $user = $Foswiki::cfg{AdminUserLogin};
 Foswiki->new($user);
 
-&$check_perl_module('CPAN');
-
 # Can't do this until we have setlib.cfg
 require Foswiki::Configure::Dependency;
 require Foswiki::Configure::Util;
 require Foswiki::Configure::Package;
 require Foswiki::Configure::Reporter;
-
-# Satisfy CPAN dependencies on modules, by checking:
-
-sub satisfy {
-    my $dep = shift;
-    my $ok  = '';
-    my $msg = '';
-
-    if ( $dep->{type} =~ m/cpan/i && $available{CPAN} && !$nocpan ) {
-        $reporter->NOTE( <<'DONE' );
-This module is available from the CPAN archive (http://www.cpan.org). You
-can download and install it from here. The module will be installed
-to wherever you configured CPAN to install to.
-DONE
-        my $reply =
-          ask(  'Would you like me to try to download '
-              . 'and install the latest version of '
-              . $dep->{module}
-              . ' from cpan.org?' );
-        return 0 unless $reply;
-
-        my $mod = CPAN::Shell->expand( 'Module', $dep->{module} );
-        unless ($mod) {
-            $reporter->ERROR( <<DONE );
-$dep->{module} was not found on CPAN
-
-Please check the dependencies for this package.  $dep->{module} may be incorrect.
-Or the dependency will require manual resolution.
-DONE
-            return 0;
-        }
-
-        my $info = $mod->dslip_status();
-        if ( $info->{D} eq 'S' ) {
-
-            # Standard perl module!
-            $reporter->ERROR( <<DONE );
-$dep->{module} is a standard perl module
-
-I cannot install it without upgrading your version of perl, something
-I'm not willing to do. Please either install the module manually (from
-a package downloaded from cpan.org) or upgrade your perl to a version
-that includes this module.
-DONE
-            return 0;
-        }
-        if ($noconfirm) {
-            $CPAN::Config->{prerequisites_policy} = 'follow';
-        }
-        else {
-            $CPAN::Config->{prerequisites_policy} = 'ask';
-        }
-        CPAN::install( $dep->{module} );
-        ( $ok, $msg ) = $dep->check();
-        return 1 if $ok;
-
-        my $e = 'it';
-        if ( $CPAN::Config->{makepl_arg} =~ /PREFIX=(\S+)/ ) {
-            $e = $1;
-        }
-        $reporter->ERROR( <<DONE );
-I still can't find the module $dep->{module}
-
-If you installed the module in a non-standard directory, make sure you
-have followed the instructions in bin/setlib.cfg and added $e
-to your \@INC path.
-
-DONE
-    }
-
-    return 0;
-}
 
 =pod
 
@@ -374,7 +298,7 @@ When used as a custom installer:
 
 When used from the generic installer:
 
-       tools/extension_installer ${MODULE} -a -n -d -r -u -c install
+       tools/extension_installer ${MODULE} -a -n -d -r -u install
        tools/extension_installer ${MODULE} -a -n uninstall
        tools/extension_installer ${MODULE} manifest
        tools/extension_installer ${MODULE} dependencies
@@ -399,7 +323,6 @@ $MODULE even if they have been locally modified.
 -u means the archive has already been downloaded and unpacked
 -n means don't write any files into my current install, just
    tell me what you would have done
--c means don't try to use CPAN to install missing libraries
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -407,6 +330,10 @@ the MANIFEST files used by BuildContrib.
 
 "dependencies" will generate a list of dependencies on standard
 output.
+
+Note: CPAN dependencies are not installed with this tool.  Use your
+local OS package manager, or a tool like cpanm to resolve dependencies
+from CPAN.
 
 DONE
 }
@@ -467,9 +394,7 @@ sub _install {
 
     my $instmsg = "$MODULE ready to be installed";
     $instmsg .= ": ($sim )" if ($simulate);
-    $instmsg .=
-        " along with missing Foswiki dependencies identified above\n"
-      . "(you will be asked later about any CPAN dependencies)"
+    $instmsg .= " along with missing Foswiki dependencies identified above\n"
       if (@$missing);
     $instmsg .= ".\n";
 
@@ -491,12 +416,9 @@ sub _install {
         }
     }
 
-    my $unsatisfied = 0;
-    foreach my $depkey ( keys %$depCPAN ) {
-        unless ( satisfy( \%{ $depCPAN->{$depkey} } ) ) {
-            $unsatisfied++;
-        }
-    }
+    $reporter->WARN(
+'Missing CPAN dependencies should be installed before using this extension'
+    ) if ( keys %$depCPAN );
 
     if ($ok) {
         $reporter->NOTE("No errors encountered during$sim installation\n");
