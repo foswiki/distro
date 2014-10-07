@@ -171,22 +171,29 @@ sub add {
     my $pkg = $this->_getPackage($reporter);
     return unless $pkg;
 
+    my $extension = $pkg->module();
     my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
 
     if ( $ok && !$pkg->option('SIMULATE') ) {
+        my $chflag;
         foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
             my $clef = "{Plugins}{$plu}";
             my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
             if ( !$old ) {
                 eval "\$Foswiki::cfg${clef}{Enabled}=1";
                 $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+                $chflag = 1;
             }
             $old = eval "\$Foswiki::cfg${clef}{Module}";
             if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
                 eval "\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'";
                 $reporter->CHANGED("{Plugins}{$plu}{Module}");
+                $chflag = 1;
             }
         }
+        $reporter->WARN(
+"Foswiki configuration has been updated. Don't forget to save your configuration"
+        ) if ($chflag);
     }
 
     if ( $pkg->option('SIMULATE') ) {
@@ -206,12 +213,21 @@ OMG
         return 0;
     }
 
+    my $extUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        $extension, 'view' );
+    my $instUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        'InstalledPlugins', 'view' );
+
     $reporter->NOTE( <<WRAPUP );
 > Before proceeding, review the dependency reports of each installed extension
   and resolve any dependencies as required.
    * External dependencies are never automatically resolved by Foswiki.
    * Dependencies noted as 'Optional' will not be automatically resolved, and
    * CPAN dependencies are not resolved by the web installer.
+
+> After you save your configuration: (opens in new window)
+   * Visit <a href="$extUrl" target="_blank">$extension extension page</a>
+   * Check <a href="$instUrl" target="_blank">InstalledPlugins</a> to check for errors.
 WRAPUP
 
     if ( keys %$depCPAN ) {
