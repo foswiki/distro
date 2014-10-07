@@ -189,6 +189,13 @@ sub add {
         }
     }
 
+    if ( $pkg->option('SIMULATE') ) {
+        $reporter->NOTE("> Simulated installation finished");
+    }
+    else {
+        $reporter->NOTE("> Installation finished");
+    }
+
     $pkg->finish();
     undef $pkg;
 
@@ -199,13 +206,6 @@ OMG
         return 0;
     }
 
-    # OK
-    if ( $pkg->option('SIMULATE') ) {
-        $reporter->NOTE("> Simulated installation finished");
-    }
-    else {
-        $reporter->NOTE("> Installation finished");
-    }
     $reporter->NOTE( <<WRAPUP );
 > Before proceeding, review the dependency reports of each installed extension
   and resolve any dependencies as required.

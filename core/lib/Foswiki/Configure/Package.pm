@@ -339,8 +339,8 @@ sub install {
     # of Dependency objects
 
     if ( $installed || $missing ) {
-        $reporter->WARN("> Dependency Report for $this->{_pkgname} ...");
-        $reporter->WARN( "> *INSTALLED*", map { "\t* $_" } @$installed )
+        $reporter->NOTE("---++ Dependency Report for $this->{_pkgname} ...");
+        $reporter->NOTE( "> *INSTALLED*", map { "\t* $_" } @$installed )
           if (@$installed);
         $reporter->WARN( "> *MISSING*", map { "\t* $_" } @$missing )
           if (@$missing);
@@ -356,7 +356,7 @@ sub install {
     }
 
     # Create a backup of the previous install if any
-    $reporter->NOTE("> Creating Backup of $this->{_pkgname} ...");
+    $reporter->NOTE("---+++ Creating backup of $this->{_pkgname} ...");
     my $ok = $this->_createBackup($reporter);
 
     my %plugins;
@@ -404,6 +404,8 @@ sub _install {
     my ( $this, $reporter ) = @_;
 
     my $dir = $this->{_options}->{DIR} || $this->{_root};
+
+    $reporter->NOTE("---+++ Installing $this->{_options}->{module}");
 
     my $err;
     my $ext       = '';
