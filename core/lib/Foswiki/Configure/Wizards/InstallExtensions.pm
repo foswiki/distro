@@ -252,17 +252,23 @@ sub remove {
     my ( $ok, $plugins ) = $pkg->uninstall($reporter);
 
     if ( $ok && $plugins && scalar(@$plugins) ) {
+        my $chflag;
         foreach my $plu ( sort { lc($a) cmp lc($b) } @$plugins ) {
             my $clef = "{Plugins}{$plu}";
             if ( eval "exists \$Foswiki::cfg${clef}{Enabled}" ) {
                 eval "delete \$Foswiki::cfg${clef}{Enabled}";
                 $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+                $chflag = 1;
             }
             if ( eval "exists \$Foswiki::cfg${clef}{Module}" ) {
                 eval "delete \$Foswiki::cfg${clef}{Module}";
                 $reporter->CHANGED("{Plugins}{$plu}{Module}");
+                $chflag = 1;
             }
         }
+        $reporter->WARN(
+"Foswiki configuration has been updated. Don't forget to save your configuration"
+        ) if ($chflag);
     }
 
     $pkg->finish();
