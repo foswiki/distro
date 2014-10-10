@@ -253,6 +253,7 @@ sub studyInstallation {
         $this->{installedVersion} = $ver;
         $this->{installedRelease} = $rel || $ver;
         $this->{installed}        = 1;
+        $this->{location}         = $loc;
         if ( -l $loc ) {
 
             # Assume pseudo-installed
@@ -263,6 +264,7 @@ sub studyInstallation {
         $this->{notes}            = "module is not installed";
         $this->{installedVersion} = '';
         $this->{installedRelease} = '';
+        $this->{location}         = '';
         return 0;
     }
 
@@ -808,7 +810,8 @@ sub checkPerlModules {
         if ( $dep->{installed} ) {
             $mod->{installedVersion} =
               $dep->{installedVersion} || 'Unknown version';
-            $mod->{ok} = $ok;
+            $mod->{location} = $dep->{location};
+            $mod->{ok}       = $ok;
             $mod->{check_result} =
               $mod->{name} . ' ' . $mod->{installedVersion} . ' installed';
             unless ($ok) {

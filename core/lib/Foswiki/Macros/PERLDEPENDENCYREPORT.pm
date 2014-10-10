@@ -12,6 +12,21 @@ use Foswiki::Configure::FileUtil   ();
 
 sub PERLDEPENDENCYREPORT {
     my ( $this, $params ) = @_;
+    my $allowed;
+    my $session = $Foswiki::Plugins::SESSION;
+
+    if ( defined $Foswiki::cfg{ConfigureFilter}
+        && length( $Foswiki::cfg{ConfigureFilter} ) )
+    {
+        my $filter = eval { $Foswiki::cfg{ConfigureFilter} };
+        $allowed = $session->{user} =~ m/$filter/;
+    }
+    else {
+        $allowed = Foswiki::Func::isAnAdmin();
+    }
+
+    return "Dependency report only accessible to authorized configure users."
+      unless $allowed;
 
     if ( defined $params->{_DEFAULT}
         && $params->{_DEFAULT} eq 'extensions' )
@@ -157,11 +172,12 @@ sub _showDEPENDENCIES {
      #SMELL: Something is inserting newlines, breaking the table. This fixes it.
             $_->{check_result} =~
               s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
-            my $ok =
+            my $ok = '<br/>';
+            $ok .=
               ( $_->{ok} )
-              ? ''
-              : '<span class="foswikiAlert">%X% Possible missing dependency!</span><br/>';
-            $set .= "| CPAN:$_->{name} | $ok$_->{check_result} |\n";
+              ? "Location: $_->{location}"
+              : '<span class="foswikiAlert">%X% Possible missing dependency!</span>';
+            $set .= "| CPAN:$_->{name} | $_->{check_result}$ok |\n";
         }
     }
     else {
