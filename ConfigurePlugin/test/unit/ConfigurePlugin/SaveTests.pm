@@ -25,8 +25,7 @@ sub set_up {
 
     $this->SUPER::set_up();
     $this->{lscpath} =
-      Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-        'Foswiki.spec');
+      Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec');
     $this->{lscpath} =~ s/Foswiki\.spec/LocalSite.cfg/;
     $this->{test_work_dir} = $Foswiki::cfg{WorkingDir};
     if ( open( F, '<', $this->{lscpath} ) ) {
@@ -90,15 +89,17 @@ sub test_changecfg {
         set => {
             '{TestA}'                                  => 'Shingle',
             '{TestB}{Ruin}'                            => 'Ribbed',
-            '{Test-Key}'                               => 'newtestkey',
+            '{"Test-Key"}'                             => 'newtestkey',
             '{TestKey}'                                => 'newval',
             '{Plugins}{ConfigurePlugin}{Test}{SELECT}' => 'choice'
         },
         purge => 1,
     };
     my $result = Foswiki::Plugins::ConfigurePlugin::changecfg($params);
-    $this->assert_str_equals( 'Added: 4; Changed: 1; Cleared: 2; Purged: 19',
-        $result );
+    $this->assert_num_equals( 4,  $result->{added} );
+    $this->assert_num_equals( 1,  $result->{changed} );
+    $this->assert_num_equals( 2,  $result->{cleared} );
+    $this->assert_num_equals( 19, $result->{purged} );
     $this->assert_str_equals( 'newtestkey', $Foswiki::cfg{'Test-Key'} );
     $this->assert( !exists $Foswiki::cfg{Test}{Key} );
     $this->assert( !exists $Foswiki::cfg{TestDontCountMe} );
@@ -108,9 +109,8 @@ sub test_changecfg {
     # Check it was written correctly
     delete $Foswiki::cfg{Test};
     open( F, '<',
-        Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-            'LocalSite.cfg')
-    ) || die $@;
+        Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg') )
+      || die $@;
     local $/ = undef;
     my $c = <F>;
     close F;

@@ -249,7 +249,6 @@ sub NOTE {
 sub WARN {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{item}->inc('warningcount');
     $this->{reporter}->WARN(@_);
     return join( ' ', @_ );
 }
@@ -259,7 +258,6 @@ sub WARN {
 sub ERROR {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{item}->inc('errorcount');
     $this->{reporter}->ERROR(@_);
     return join( ' ', @_ );
 }

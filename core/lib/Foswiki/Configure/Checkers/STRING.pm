@@ -27,7 +27,6 @@ sub check_current_value {
     my $len = length($value);
 
     my $check = $this->{item}->{CHECK}->[0] || {};
-
     return unless ($check);
 
     my $min = $check->{min}[0];

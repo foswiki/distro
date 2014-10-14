@@ -79,7 +79,7 @@ sub initPlugin {
 
     # Register each of the RPC methods with JsonRpcContrib
     foreach my $method (
-        qw(getcfg getspec search check_current_value changecfg deletecfg purgecfg wizard)
+        qw(getcfg getspec search check_current_value changecfg deletecfg wizard)
       )
     {
         Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
@@ -356,30 +356,12 @@ sub getspec {
         @matches = ($root);
     }
 
-    if ( defined $depth ) {
-
-        # Children to a fixed depth only; prune
-        foreach my $m (@matches) {
-            _prune( $m, $depth );
-        }
+    foreach my $m (@matches) {
+        $m->unparent();
+        $m->prune($depth) if defined $depth;
     }
 
     return \@matches;
-}
-
-# 0 will prune children
-# 1 will prune children-of-children
-sub _prune {
-    my ( $node, $level ) = @_;
-
-    if ( $level == 0 ) {
-        delete $node->{children};
-    }
-    elsif ( $node->{children} ) {
-        foreach my $c ( @{ $node->{children} } ) {
-            _prune( $c, $level - 1 );
-        }
-    }
 }
 
 # Recursive locate references to other keys in the values of keys
@@ -460,7 +442,6 @@ each being a hash with keys =level= (e.g. =warnings=, =errors=), and
 
 sub _getSetParams {
     my ( $params, $root ) = @_;
-
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
             if ( defined $v && $v ne '' ) {
@@ -562,7 +543,8 @@ sub check_current_value {
             next if $done{$dep};
             $check{$dep} = 1;
             $done{$dep}  = 1;
-            push( @dep_keys, @{ $deps{forward}->{$dep} } );
+            push( @dep_keys, @{ $deps{forward}->{$dep} } )
+              if $deps{forward}->{$dep};
         }
     }
 
@@ -620,7 +602,7 @@ sub _purgecfg {
     my $root = shift;
 
     # All specced keys are OK
-    my %ok = map { $_ => 1 } $root->getAllKeys();
+    my %ok = map { $_ => 1 } $root->getAllValueKeys();
 
     # See if there are any dependencies between OK keys and other
     # keys
@@ -692,8 +674,7 @@ sub changecfg {
     if ( defined $deletions ) {
         foreach my $key (@$deletions) {
             die "Bad key '$key'"
-              unless $key =~
-/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
+              unless $key =~ /^($Foswiki::Configure::Load::ITEMREGEX)$/;
 
             # Implicit untaint
             $key = _safeKeys($1);
@@ -707,8 +688,7 @@ sub changecfg {
     if ( defined $changes ) {
         while ( my ( $key, $value ) = each %$changes ) {
             die "Bad key '$key'"
-              unless $key =~
-/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
+              unless $key =~ /^($Foswiki::Configure::Load::ITEMREGEX)$/;
 
             # Implicit untaint
             $key = _safeKeys($1);
@@ -741,8 +721,12 @@ sub changecfg {
     $Foswiki::cfg{ConfigurationFinished} = 0;
     Foswiki::Configure::Load::readConfig( 0, 1 );
 
-    return
-      "Added: $added; Changed: $changed; Cleared: $cleared; Purged: $purged";
+    return {
+        added   => $added,
+        changed => $changed,
+        cleared => $cleared,
+        purged  => $purged
+    };
 }
 
 # Traverse LSC generating LSC format output
@@ -753,7 +737,7 @@ sub _lscify {
     if ( scalar(@path) ) {
         my $keypath = '{' . join( '}{', @path ) . '}';
 
-        my $spec = ( $specs->_keyCache->{$keypath} );
+        my $spec = ( $specs->getValueObject($keypath) );
         if ( $spec && defined $spec->{keys} ) {
 
             # This is a specced level; we will take the entire data
@@ -801,8 +785,7 @@ sub _value2string {
 }
 
 sub _save {
-    my $lsc = Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-        'Foswiki.spec')
+    my $lsc = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec')
       || '';
     $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
     print STDERR "LSC is at $lsc\n" if TRACE;
@@ -982,7 +965,7 @@ while POSTing a request encoded according to the JSON-RPC 2.0 specification:
   jsonrpc: "2.0", 
   method: "getspec", 
   params: {
-     get : { keys: [ "{DataDir}", "Store" ] },
+     get : { keys: "{DataDir}" },
      depth : 0
   }, 
   id: "caller's id"

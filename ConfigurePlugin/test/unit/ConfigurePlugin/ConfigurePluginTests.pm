@@ -4,8 +4,8 @@ use warnings;
 
 package ConfigurePluginTests;
 
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use warnings;
@@ -51,12 +51,12 @@ sub test_getcfg {
     );
 }
 
-sub test_getcfg_all {
-    my $this   = shift;
-    my $params = {};
-    my $result = Foswiki::Plugins::ConfigurePlugin::getcfg($params);
-    $this->assert_deep_equals( \%Foswiki::cfg, $result );
-}
+#sub test_getcfg_all {
+#    my $this   = shift;
+#    my $params = {};
+#    my $result = Foswiki::Plugins::ConfigurePlugin::getcfg($params);
+#    $this->assert_deep_equals( \%Foswiki::cfg, $result );
+#}
 
 sub test_getcfg_badkey {
     my $this = shift;
@@ -107,23 +107,70 @@ sub unparent {
     return $what;
 }
 
-sub test_getspec {
+sub test_getspec_headline {
     my $this   = shift;
-    my %params = ( keys => '{Plugins}{ConfigurePlugin}{Test}{STRING}' );
+    my %params = ( get => { headline => 'ConfigurePlugin' } );
     my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
     $this->assert_num_equals( 1, scalar @$spec );
-    $spec = $spec->[0];
-    $this->assert_str_equals( 'STRING',      $spec->{type} );
-    $this->assert_str_equals( $params{keys}, $spec->{keys} );
-    $this->assert_str_equals( 'STRING',      $spec->{spec_value} );
+    $this->assert_str_equals( 'ConfigurePlugin', $spec->[0]->{headline} );
+    $params{depth} = 1;
+    $spec = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $this->assert_str_equals( 'ConfigurePlugin', $spec->[0]->{headline} );
+    $this->assert_num_equals( 1, scalar @{ $spec->[0]->{children} } );
+    $this->assert_str_equals( 'Testing',
+        $spec->[0]->{children}->[0]->{headline} );
+    $this->assert_null( $spec->[0]->{children}->[0]->{children} );
+}
 
-    $params{keys} = '{Plugins}{ConfigurePlugin}{Test}{empty}';
+sub test_getspec_parent {
+    my $this   = shift;
+    my %params = ( get => { parent => { headline => 'ConfigurePlugin' } } );
+    my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $this->assert_str_equals( 'Testing', $spec->[0]->{headline} );
+}
+
+sub test_getspec {
+    my $this = shift;
+    my %params =
+      ( get => { keys => '{Plugins}{ConfigurePlugin}{Test}{STRING}' } );
+    my $spec = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $spec = $spec->[0];
+    $this->assert_str_equals( 'STRING', $spec->{typename} );
+    $this->assert_str_equals( 'STRING', $spec->{default} );
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{STRING}',
+        $spec->{keys} );
+    $this->assert_str_equals( 'STRING', $spec->{current_value} );
+    $this->assert_matches( qr/^When you press the.*of report.$/s,
+        $spec->{desc} );
+    $this->assert_num_equals( 4, $spec->{depth} );
+    $this->assert_num_equals( 2, scalar @{ $spec->{defined_at} } );
+    $this->assert_num_equals( 2, scalar @{ $spec->{FEEDBACK} } );
+    my $fb = $spec->{FEEDBACK}->[0];
+    $this->assert( $fb->{auth} );
+    $this->assert_str_equals( 'Test',     $fb->{wizard} );
+    $this->assert_str_equals( 'test',     $fb->{method} );
+    $this->assert_str_equals( 'Test one', $fb->{label} );
+    $fb = $spec->{FEEDBACK}->[1];
+    $this->assert( !$fb->{auth} );
+    $this->assert_str_equals( 'Gandalf',  $fb->{wizard} );
+    $this->assert_str_equals( 'wand',     $fb->{method} );
+    $this->assert_str_equals( 'Test two', $fb->{label} );
+
+    my $ch = $spec->{CHECK};
+    $this->assert_num_equals( 1,  scalar @$ch );
+    $this->assert_num_equals( 3,  $ch->[0]->{min}->[0] );
+    $this->assert_num_equals( 20, $ch->[0]->{max}->[0] );
+
+    $params{get}->{keys} = '{Plugins}{ConfigurePlugin}{Test}{empty}';
     $spec = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'PATH',        $spec->{type} );
-    $this->assert_str_equals( $params{keys}, $spec->{keys} );
-    $this->assert_str_equals( 'empty',       $spec->{spec_value} );
+    $this->assert_str_equals( $params{get}->{keys}, $spec->{keys} );
+    $this->assert_str_equals( 'PATH',               $spec->{typename} );
+    $this->assert_str_equals( 'empty',              $spec->{default} );
 }
 
 sub test_getspec_no_LSC {
@@ -137,44 +184,7 @@ sub test_getspec_no_LSC {
     my $spec = Foswiki::Plugins::ConfigurePlugin::getspec( {} );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'ROOT', $spec->{type} );
-}
-
-sub test_getspec_children {
-    my $this = shift;
-    my $use_section;
-    my $params = { children => 1 };
-    my $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
-    $this->assert_num_equals( 1, scalar(@$ss) );
-    $this->assert_equals( "ROOT", $ss->[0]->{type} );
-    $this->assert_null( $ss->[0]->{title} );
-    $this->assert( scalar( @{ $ss->[0]->{children} } ) );
-
-    foreach my $spec ( @{ $ss->[0]->{children} } ) {
-        $this->assert( $spec->{type} eq 'SECTION', $spec->{type} );
-        $this->assert_null( $spec->{children} );
-        if ( !$use_section ) {
-            $use_section = $spec->{title};
-        }
-    }
-
-    $params = { parent => { title => $use_section }, children => 0 };
-    $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
-    foreach my $spec (@$ss) {
-        $this->assert_equals( $use_section, $spec->{parent}->{title} );
-        $this->assert_null( $spec->{children} );
-    }
-
-    $params = { title => $use_section, children => 1 };
-    $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
-    foreach my $spec (@$ss) {
-        $this->assert_not_null( $spec->{children} );
-        foreach my $subspec ( @{ $spec->{children} } ) {
-            $this->assert_null( $subspec->{children} );
-        }
-    }
-
-    # Check pluggables
+    $this->assert_str_equals( 'SECTION', $spec->{typename} );
 }
 
 sub test_getspec_badkey {
@@ -209,20 +219,25 @@ use Foswiki::Configure::Checker;
 }
 
 sub test_check {
-    my $this   = shift;
-    my $params = { "{Plugins}{ConfigurePlugin}{Test}{STRING}" => 'Theory' };
-    my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
+    my $this = shift;
+
+    # force an error - STRING length
+    my $params = {
+        keys => ["{Plugins}{ConfigurePlugin}{Test}{STRING}"],
+        set  => { "{Plugins}{ConfigurePlugin}{Test}{STRING}" => 'no' }
+    };
+    my $report =
+      Foswiki::Plugins::ConfigurePlugin::check_current_value($params);
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
     $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{STRING}',
         $report->{keys} );
-    $this->assert_str_equals( 'errors',          $report->{level} );
-    $this->assert_str_equals( 'Extensions',      $report->{sections}->[0] );
-    $this->assert_str_equals( 'ConfigurePlugin', $report->{sections}->[1] );
-    $this->assert_str_equals( 'Testing',         $report->{sections}->[2] );
-    $this->assert_matches( qr/Error/,   $report->{message} );
-    $this->assert_matches( qr/Warning/, $report->{message} );
-    $this->assert_matches( qr/Note/,    $report->{message} );
+    $this->assert_str_equals( 'Extensions',      $report->{path}->[0] );
+    $this->assert_str_equals( 'ConfigurePlugin', $report->{path}->[1] );
+    $this->assert_str_equals( 'Testing',         $report->{path}->[2] );
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $this->assert_str_equals( 'errors', $report->{reports}->[0]->{level} );
+    $this->assert_matches( qr/3/, $report->{reports}->[0]->{text} );
 }
 
 sub test_check_dependencies {
@@ -230,10 +245,12 @@ sub test_check_dependencies {
 
     # DEPENDS depends on H and EXPERT
     my $params = {
-        '{Plugins}{ConfigurePlugin}{Test}{H}' => 'fruitbat',
-        'check_dependent'                     => 1
+        keys => ['{Plugins}{ConfigurePlugin}{Test}{H}'],
+        set  => { '{Plugins}{ConfigurePlugin}{Test}{H}' => 'fruitbat' },
+        check_dependencies => 1
     };
-    my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
+    my $report =
+      Foswiki::Plugins::ConfigurePlugin::check_current_value($params);
     $this->assert_num_equals( 2, scalar @$report );
     my ( $first, $second );
     if ( $report->[0]->{keys} =~ /DEPENDS/ ) {

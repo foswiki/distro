@@ -38,13 +38,11 @@ sub new {
     my $this = bless(
         {
             _parent => undef,
-            _depth  => 0,
+            depth   => 0,
 
             # Serialisable attribtes
-            desc         => '',
-            errorcount   => 0,
-            warningcount => 0,
-            defined_at   => undef    # where it is defined [ "file", line ]
+            desc       => '',
+            defined_at => undef    # where it is defined [ "file", line ]
         },
         $class
     );
@@ -64,20 +62,6 @@ sub DESTROY {
 
     # Undef unserialisable internals
     map { undef $this->{$_} } grep { /^__/ } keys %$this;
-}
-
-=begin TML
-
----++ ObjectMethod getDepth() -> $integer
-
-Get the depth of the item in the item tree, where the root is at depth 0,
-it's children at depth 1, etc.
-
-=cut
-
-sub getDepth {
-    my $this = shift;
-    return $this->{_depth};
 }
 
 =begin TML
@@ -250,29 +234,6 @@ sub append {
 
 =begin TML
 
----++ ObjectMethod inc($key)
-
-Increment a numeric value identified by $key, recursing up the tree to the
-root.
-
-Assumptions
-   * All item levels have $key defined and initialized
-   * Parents of items are items (or more precisely: can inc())
-
-This is used for counting the numbers of warnings, errors etc found in
-subtrees of the configuration structure.
-
-=cut
-
-sub inc {
-    my ( $this, $key ) = @_;
-
-    $this->{$key}++;
-    $this->{_parent}->inc($key) if $this->{_parent};
-}
-
-=begin TML
-
 ---++ ObjectMethod hasDeep($attrname) -> $boolean
 
 Determine if this item (or any sub-item if this is a collection)
@@ -322,10 +283,50 @@ sub getPath {
 
 =begin TML
 
+---++ ObjectMethod unparent()
+
+Unparent a configuration item. This only clears the parent of the node,
+it does not remove the node from the parent. After removing parents
+only the top-down structure remains, and methods that use the parent,
+such as getPath, will not work any more, so use with great caution.
+
+The main purpose of this method is to prepare a spec node for isolated
+use (e.g. serialisation).
+
+=cut
+
+sub unparent {
+    my $this = shift;
+    delete $this->{_parent};
+    delete $this->{_vobCache};
+}
+
+=begin TML
+
+---++ ObjectMethod prune($depth)
+
+Prunes the subtree under $this to a maximum depth of $depth, discarding
+children under that point.
+
+$depth = 0 will prune immediate children
+$depth = 1 will prune children-of-children
+
+etc.
+
+=cut
+
+sub prune {
+    my ( $this, $depth ) = @_;
+
+    # NOP
+}
+
+=begin TML
+
 ---++ ObjectMethod getSectionObject($head, $depth) -> $item
 
 This gets the section object that has the heading $head and
-getDepth() == $depth below this item. If $depth is not given,
+$this->{depth} == $depth below this item. If $depth is not given,
 will return the first headline that matches.
 
 Subclasses must provide an implementation.
@@ -355,30 +356,44 @@ All search terms must be matched.
 # True if the given configuration item matches the given search
 sub _matches {
     my ( $this, %search ) = @_;
-    my $match = 1;
 
     while ( my ( $k, $e ) = each %search ) {
-        if ( $k eq 'parent' ) {
-            unless ( $this->{_parent}
-                && $this->{_parent}->_matches(%$e) )
-            {
-                $match = 0;
-                last;
-            }
+        if ( ref($e) ) {
+            return 0
+              unless ( ref( $this->{"_$k"} )
+                && $this->{"_$k"}->isa('Foswiki::Configure::Item')
+                && $this->{"_$k"}->_matches(%$e) );
         }
-        elsif ( $k eq 'depth' ) {
-            unless ( $this->getDepth() == $e ) {
-                $match = 0;
-                last;
-            }
+        elsif ( !defined $e ) {
+            return 0 if defined $this->{$k};
         }
         elsif ( !defined $this->{$k} || $this->{$k} ne $e ) {
-            $match = 0;
-            last;
+            return 0;
         }
     }
-    return $match;
+    return 1;
 }
+
+=begin TML
+
+---++ ObjectMethod find(\%match) -> @nodes
+
+Get a list of nodes that match the given search template. The template
+is a node structure with a subset of fields filled in that must be
+matched in a node for it to be returned.
+
+Any fields can be used in searches and will match using eq, for example:
+   * =headline= - title of a section,
+   * =typename= - type of a leaf spec entry,
+   * =keys= - keys of a spec entry,
+   * =desc= - descriptive text of a section or entry.
+   * =depth= - matches the depth of a node under the root
+     (which is depth 0)
+Fields starting with _ are assumed to refer to another Foswiki::Configure::Item
+   * =parent= - a structure that will be used to match a parent (the value
+     should be another match hash that will match the parent),
+
+=cut
 
 sub find {
     my $this   = shift;
@@ -386,20 +401,10 @@ sub find {
 
     my $match = $this->_matches(%search);
 
-    # Return without searching the subtree if this node matches
     if ($match) {
         return ($this);
     }
-
-    return () unless $this->{children};
-
-    # Search children
-    my @result = ();
-    foreach my $child ( @{ $this->{children} } ) {
-        push( @result, $child->find(@_) );
-    }
-
-    return @result;
+    return ();
 }
 
 =begin TML
@@ -407,7 +412,7 @@ sub find {
 ---++ ObjectMethod search($re) -> @nodes
 
 Get a list of nodes that match the given RE. Sections match on the headline,
-Valuse on the keys.
+Values on the keys.
 
 =cut
 

@@ -42,7 +42,6 @@ sub new {
         children  => [],
         headline  => 'UNKNOWN',
         typename  => 'SECTION',
-        _depth    => 0,
         _vobCache => {},          # Do not serialise
         @opts
     );
@@ -63,7 +62,7 @@ sub addChild {
         die "Subnode already present; cannot add again" if $child eq $kid;
     }
     $child->{_parent} = $this;
-    $child->{_depth}  = $this->{_depth} + 1;
+    $child->{depth}   = $this->{depth} + 1;
 
     push( @{ $this->{children} }, $child );
 
@@ -96,6 +95,32 @@ sub hasDeep {
 }
 
 # See Foswiki::Configure::Item
+sub unparent {
+    my $this = shift;
+
+    if ( $this->{children} ) {
+        foreach my $c ( @{ $this->{children} } ) {
+            $c->unparent();
+        }
+    }
+    $this->SUPER::unparent();
+}
+
+# See Foswiki::Configure::Item
+sub prune {
+    my ( $this, $depth ) = @_;
+
+    if ( $depth == 0 ) {
+        delete $this->{children};
+    }
+    elsif ( $this->{children} ) {
+        foreach my $c ( @{ $this->{children} } ) {
+            $c->prune( $depth - 1 );
+        }
+    }
+}
+
+# See Foswiki::Configure::Item
 # Visit each of the children of this node in turn.
 sub visit {
     my ( $this, $visitor ) = @_;
@@ -117,7 +142,7 @@ sub visit {
 sub getSectionObject {
     my ( $this, $head, $depth ) = @_;
     if ( $this->{headline} eq $head
-        && ( !defined $depth || $this->getDepth() == $depth ) )
+        && ( !defined $depth || $this->{depth} == $depth ) )
     {
         return $this;
     }
@@ -181,6 +206,29 @@ sub search {
     foreach my $child ( @{ $this->{children} } ) {
         push( @result, $child->search($re) );
     }
+    return @result;
+}
+
+# Implements Foswiki::Configure::Item
+sub find {
+    my $this   = shift;
+    my %search = @_;
+
+    my $match = $this->_matches(%search);
+
+    # Return without searching the subtree if this node matches
+    if ($match) {
+        return ($this);
+    }
+
+    return () unless $this->{children};
+
+    # Search children
+    my @result = ();
+    foreach my $child ( @{ $this->{children} } ) {
+        push( @result, $child->find(@_) );
+    }
+
     return @result;
 }
 
