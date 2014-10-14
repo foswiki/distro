@@ -32,7 +32,7 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PASSWORD} = 'PASSWORD';
 # Should be PATH
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PATH} = 'PATH';
 # **PERL**
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PERL} = 'PERL';
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PERL} = '\'PERL\';';
 # **REGEX**
 # Should be /^regex$/
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{REGEX} = qr/^regex$/;

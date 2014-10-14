@@ -201,7 +201,7 @@ sub save {
     # Import sets without expanding
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
-            if ( defined $v && $v =~ /(.*)/ ) {
+            if ( defined $v && $v =~ /(.*)/s ) {
                 eval "\$Foswiki::cfg" . _perlKeys($k) . "=\$1";
             }
             else {
@@ -340,6 +340,13 @@ sub _spec_dump {
         }
         elsif ( $vs->{typename} eq 'NUMBER' ) {
             $d = $datum;
+        }
+
+        # SMELL: Perl Datatype comes in from JSON as a quoted string,
+        # but might be stored as a HASH or ARRAY,
+        elsif ( $vs->{typename} eq 'PERL' && !ref($datum) ) {
+            print STDERR "Setting $keys to ($datum)\n";
+            $d = "$datum";
         }
         else {
             $d = Data::Dumper->Dump( [$datum] );
