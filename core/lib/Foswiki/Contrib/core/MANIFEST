@@ -513,7 +513,6 @@ lib/Foswiki/Configure/Checkers/WebMasterName.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/FileUtil.pm 0444
-lib/Foswiki/Configure/ImageTest.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/LoadSpec.pm 0444

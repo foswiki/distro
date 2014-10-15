@@ -19,6 +19,7 @@ use Errno;
 use Fcntl;
 use File::Spec                   ();
 use Foswiki::Configure::Load     ();
+use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::FileUtil ();
 
 use constant STD_HEADER => <<'HERE';
@@ -30,25 +31,122 @@ use constant STD_HEADER => <<'HERE';
 
 HERE
 
-# Perlise a key string
-sub _perlKeys {
-    my $k = shift;
-    $k =~ s/^{(.*)}$/$1/;
-    return '{'
-      . join(
-        '}{', map { _perlKey($_) }
-          split( /}{/, $k )
-      ) . '}';
+# back up the current LSC content and return it
+sub _backupCurrentContent {
+    my ( $path, $reporter ) = @_;
+    my $content;
+
+    if ( open( F, '<', $path ) ) {
+        local $/ = undef;
+        $content = <F>;
+        close(F);
+    }
+    else {
+        return ($content) if ( $!{ENOENT} );    # Race: file disappeared
+        die "Unable to read $path: $!\n";       # Serious error
+    }
+
+    unless ( defined $Foswiki::cfg{MaxLSCBackups}
+        && $Foswiki::cfg{MaxLSCBackups} >= -1 )
+    {
+        $Foswiki::cfg{MaxLSCBackups} = 0;
+        $reporter->CHANGED('{MaxLSCBackups}');
+    }
+
+    return ($content) unless ( $Foswiki::cfg{MaxLSCBackups} );
+
+    # Save backup copy of current configuration (even if always_write)
+
+    Fcntl->import(qw/:DEFAULT/);
+
+    my ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(_) )[ 2, 4, 5, 8, 9 ];
+
+    # Find a reasonable starting point for the new backup's name
+
+    my $n = 0;
+    my ( $vol, $dir, $file ) = File::Spec->splitpath($path);
+    $dir = File::Spec->catpath( $vol, $dir, 'x' );
+    chop $dir;
+    my @backups;
+    if ( opendir( my $d, $dir ) ) {
+        @backups =
+          sort { $b <=> $a }
+          map { /^$file\.(\d+)$/ ? ($1) : () } readdir($d);
+        my $last = $backups[0];
+        $n = $last if ( defined $last );
+        $n++;
+        closedir($d);
+    }
+    else {
+        $n = 1;
+        unshift @backups, $n++ while ( -e "$path.$n" );
+    }
+
+    # Find the actual filename and open for write
+
+    my $open;
+    my $um = umask(0);
+    unshift @backups, $n++
+      while (
+        !(
+            $open = sysopen( F, "$path.$n",
+                O_WRONLY() | O_CREAT() | O_EXCL(), $mode & 07777
+            )
+        )
+        && $!{EEXIST}
+      );
+    my $backup;
+    if ($open) {
+        $backup = "$path.$n";
+        unshift @backups, $n;
+        print F $content;
+        close(F);
+        utime $atime, $mtime, $backup;
+        chown $uid, $gid, $backup;
+    }
+    else {
+        die "Unable to open $path.$n for write: $!\n";
+    }
+    umask($um);
+
+    return ( $content, $backup, @backups );
 }
 
-# Make a single key safe for use in perl
-sub _perlKey {
-    my $k = shift;
-    return $k if $k =~ /^[a-zA-Z_]\w*$/;
-    return $k if $k =~ /^(['"]).*\1$/;     # Already encoded
-    $k =~ s/'/\\'/g;
-    return "'$k'";
+# For each key in the spec missing from the %cfg passed, add the
+# default (unexpanded) from the spec to the %cfg, if it exists.
+sub _addSpecDefaultsToCfg {
+    my ( $spec, $cfg ) = @_;
+    if ( $spec->{children} ) {
+        foreach my $child ( @{ $spec->{children} } ) {
+            _addSpecDefaultsToCfg( $child, $cfg );
+        }
+    }
+    else {
+        if ( exists( $spec->{default} )
+            && eval("!exists(\$cfg->$spec->{keys})") )
+        {
+            # {default} stores a value string. Convert it to the
+            # value suitable for storing in cfg
+            my $value = $spec->decodeValue( $spec->{default} );
+            if ( defined $value ) {
+                eval("\$cfg->$spec->{keys}=\$value");
+            }
+            else {
+                eval("undef \$cfg->$spec->{keys}");
+            }
+        }
+    }
 }
+
+=begin TML
+
+---++ WIZARD save
+Params:
+   * set - hash mapping keys to values
+
+Returns a wizard report.
+
+=cut
 
 sub save {
     my ( $this, $reporter ) = @_;
@@ -57,10 +155,6 @@ sub save {
     # Sort keys so it's possible to diff LSC files.
     local $Data::Dumper::Sortkeys = 1;
 
-    my ( @backups, $backup );
-
-    my $old_content;
-    my %orig_content;    # used so diff detects remapping of keys
     my %changeLog;
 
     my $root = Foswiki::Configure::Root->new();
@@ -68,86 +162,26 @@ sub save {
 
     my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
-    # while loop used just so it can use 'last' :-(
-    while ( -f $lsc ) {
-        if ( open( F, '<', $lsc ) ) {
-            local $/ = undef;
-            $old_content = <F>;
-            close(F);
-        }
-        else {
-            last if ( $!{ENOENT} );    # Race: file disappeared
-            die "Unable to read $lsc: $!\n";    # Serious error
-        }
+    # Pick up any missing config options from .spec
+    # SMELL: this *should* be a NOP, if the wizards did their job correctly,
+    # though if an extension was installed from the shell when we weren't
+    # looking it might be required.
+    _addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
 
-        unless ( defined $Foswiki::cfg{MaxLSCBackups}
-            && $Foswiki::cfg{MaxLSCBackups} >= -1 )
-        {
-            $Foswiki::cfg{MaxLSCBackups} = 0;
-            $reporter->CHANGED('{MaxLSCBackups}');
-        }
+    my ( $old_content, $backup, @backups ) =
+      _backupCurrentContent( $lsc, $reporter );
 
-        last unless ( $Foswiki::cfg{MaxLSCBackups} );
-
-        # Save backup copy of current configuration (even if always_write)
-
-        Fcntl->import(qw/:DEFAULT/);
-
-        my ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(_) )[ 2, 4, 5, 8, 9 ];
-
-        # Find a reasonable starting point for the new backup's name
-
-        my $n = 0;
-        my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
-        $dir = File::Spec->catpath( $vol, $dir, 'x' );
-        chop $dir;
-        if ( opendir( my $d, $dir ) ) {
-            @backups =
-              sort { $b <=> $a }
-              map { /^$file\.(\d+)$/ ? ($1) : () } readdir($d);
-            my $last = $backups[0];
-            $n = $last if ( defined $last );
-            $n++;
-            closedir($d);
-        }
-        else {
-            $n = 1;
-            unshift @backups, $n++ while ( -e "$lsc.$n" );
-        }
-
-        # Find the actual filename and open for write
-
-        my $open;
-        my $um = umask(0);
-        unshift @backups, $n++
-          while (
-            !(
-                $open = sysopen( F, "$lsc.$n",
-                    O_WRONLY() | O_CREAT() | O_EXCL(), $mode & 07777
-                )
-            )
-            && $!{EEXIST}
-          );
-        if ($open) {
-            $backup = "$lsc.$n";
-            unshift @backups, $n;
-            print F $old_content;
-            close(F);
-            utime $atime, $mtime, $backup;
-            chown $uid, $gid, $backup;
-        }
-        else {
-            die "Unable to open $lsc.$n for write: $!\n";
-        }
-        umask($um);
-        last;
-    }
+    my %orig_content;    # used so diff detects remapping of keys
 
     if ( defined $old_content && $old_content =~ /^(.*)$/s ) {
+
+        # Eval the old LSC and extract the content (assuming we can)
         local %Foswiki::cfg;
         eval $1;
         if ($@) {
-            die "Error reading existing LocalSite.cfg: $@";
+            print STDERR "Error reading existing $lsc: $@";
+
+            # Continue, but will be unable to detect changes
         }
         else {
             %orig_content = %Foswiki::cfg;
@@ -162,7 +196,7 @@ sub save {
 
     unless ( defined $old_content ) {
 
-        # Pull in a new LocalSite.cfg from the spec
+        # Construct a new LocalSite.cfg from the spec
         local %Foswiki::cfg = ();
 
         #---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
@@ -179,7 +213,7 @@ sub save {
         delete $Foswiki::cfg{BOOTSTRAP};
     }
 
-    # Clear out the configuration and re-initialized it either
+    # Clear out the configuration and re-initialize it either
     # with or without the .spec expansion.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         %Foswiki::cfg = ();
@@ -195,17 +229,28 @@ sub save {
     }
 
     # apply bootstrapped settings
-    #print STDERR join( '', _spec_dump( $root, \%save, '' ) );
+    # print STDERR join( '', _spec_dump( $root, \%save, '' ) );
     eval( join( '', _spec_dump( $root, \%save, '' ) ) );
+    die "Internal error: $@" if ($@);
 
-    # Import sets without expanding
+    # Get changes from 'set' *without* expanding values
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
-            if ( defined $v && $v =~ /(.*)/s ) {
-                eval "\$Foswiki::cfg" . _perlKeys($k) . "=\$1";
+            if ( defined $v && $v ne '' ) {
+                my $spec  = $root->getValueObject($k);
+                my $value = $v;
+                if ($spec) {
+                    $value = $spec->decodeValue($value);
+                }
+                if ( defined $value ) {
+                    eval "\$Foswiki::cfg$k=\$value";
+                }
+                else {
+                    eval "undef \$Foswiki::cfg$k";
+                }
             }
             else {
-                eval "undef \$Foswiki::cfg" . _perlKeys($k);
+                eval "undef \$Foswiki::cfg$k";
             }
         }
     }
@@ -252,14 +297,21 @@ sub _compareConfigs {
     _same( $spec, $oldcfg, $newcfg, '', $reporter );
 }
 
+sub _dump {
+    my $val = shift;
+    local $Data::Dumper::Indent = 0;
+    return Data::Dumper->Dump( [$val] );
+}
+
 sub _same {
     my ( $spec, $o, $n, $keypath, $reporter ) = @_;
-    print STDERR "SNIFFING $keypath $o $n\n" if $keypath =~ /zh/;
     my ( $old, $new );
 
+    return 1 unless ( defined $o || defined $n );
+
     if ( ref($o) ne ref($n) ) {
-        $old = ref($o) || ( defined $o ? $o : 'undef' );
-        $new = ref($n) || ( defined $n ? $n : 'undef' );
+        $old = _dump($o);
+        $new = _dump($n);
         $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
         return 0;
     }
@@ -271,8 +323,12 @@ sub _same {
         foreach my $k ( sort keys %keys ) {
             unless (
                 _same(
-                    $spec, $o->{$k}, $n->{$k},
-                    $keypath . '{' . _perlKey($k) . '}', $reporter
+                    $spec,
+                    $o->{$k},
+                    $n->{$k},
+                    $keypath . '{'
+                      . Foswiki::Configure::LoadSpec::protectKey($k) . '}',
+                    $reporter
                 )
               )
             {
@@ -284,8 +340,8 @@ sub _same {
 
     if ( ref($o) eq 'ARRAY' ) {
         if ( scalar(@$o) != scalar(@$n) ) {
-            $old = '[' . scalar($o) . ']';
-            $new = '[' . scalar($n) . ']';
+            $old = '[' . scalar(@$o) . ']';
+            $new = '[' . scalar(@$n) . ']';
             $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
             return 0;
         }
@@ -294,10 +350,8 @@ sub _same {
                 unless ( _same( $spec, $o->[$i], $n->[$i], "$keypath\[$i\]" ) )
                 {
                     if ($reporter) {
-                        $old = Data::Dumper->Dump( [$o] );
-                        $old =~ s/^.*?= //;
-                        $new = Data::Dumper->Dump( [$n] );
-                        $new =~ s/^.*?= //;
+                        $old = _dump($o);
+                        $new = _dump($n);
                         $reporter->NOTE("| $keypath | $old | $new |");
                     }
                     return 0;
@@ -317,8 +371,8 @@ sub _same {
             }
         }
 
-        $old = ref($o) || ( defined $o ? $o : 'undef' );
-        $new = ref($n) || ( defined $n ? $n : 'undef' );
+        $old = _dump($o);
+        $new = _dump($n);
         $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
         return 0;
     }
@@ -358,13 +412,13 @@ sub _spec_dump {
     elsif ( ref($datum) eq 'HASH' ) {
         foreach my $k ( sort keys %$datum ) {
             my $v  = $datum->{$k};
-            my $sk = _perlKeys("{$k}");
+            my $sk = Foswiki::Configure::LoadSpec::protectKeys("{$k}");
             push( @dump, _spec_dump( $spec, $v, "${keys}$sk" ) );
         }
     }
     else {
         my $d = Data::Dumper->Dump( [$datum] );
-        my $sk = _perlKeys($keys);
+        my $sk = Foswiki::Configure::LoadSpec::protectKeys($keys);
         $d =~ s/^\$VAR1/\$Foswiki::cfg$sk/;
         push( @dump, "# Not found in .spec\n" );
         push( @dump, $d );

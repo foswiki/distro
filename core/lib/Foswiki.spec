@@ -451,7 +451,7 @@ $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 # script. The =login= and =logon= script will always accept the username and
 # password, but only from POST requests. In order to add support for the
 # =rest= and =restauth>> scripts, specify =/^(view|rest)(auth)?$/=
-$Foswiki::cfg{Session}{AcceptUserPwParam} = qr/^view(auth)?$/;
+$Foswiki::cfg{Session}{AcceptUserPwParam} = '^view(auth)?$';
 
 # **BOOLEAN EXPERT**
 # For backwards compatibility, enable this setting if you want
@@ -970,14 +970,27 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 
 # **REGEX EXPERT**
-# Filter-in regex for uploaded (attached) file names. This is a filter
-# *in*, so any files that match this filter will be renamed on upload
-# to prevent upload of files with the same file extensions as executables.
+# Regex used to detect illegal names for uploaded (attached) files.
+#
+# Normally your web server should be configured to control what can be
+# done with files in the =pub= directory (see
+# [[http://foswiki.org/Support/FaqSecureFoswikiAgainstAttacks#Configure_the_web_server_to_protect_attachments][Support.FaqSecureFoswikiAgainstAttacks]]
+# for help doing this. In this case, this configuration item can be set to
+# the null string.
+#
+# On some hosted installations, you don't have access to the web server
+# configuration in order to secure it. In this case, you can use this option
+# to detect filenames that present a security threat (e.g. that the webserver
+# might interpret as executables).
 # 
 # *Note:* Make sure you update this list with any configuration or script
 # filetypes that are automatically run by your web server.
-$Foswiki::cfg{UploadFilter} =
-  qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$/;
+#
+# *Note:* this will only filter files during upload. It won't affect
+# files that were already uploaded, or files that were created directly
+# on the server.
+#
+$Foswiki::cfg{UploadFilter} = '^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$';
 
 # **REGEX EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,

@@ -525,6 +525,49 @@ sub _parse {
     $root->promoteSetting('EXPERT');
 }
 
+=begin TML
+
+---++ StaticMethod protectKeys($keystring) -> $keystring
+
+Process a key string {Like}{This} and make sure that each key is
+safe for use in an eval.
+
+=cut
+
+sub protectKeys {
+    my $k = shift;
+    $k =~ s/^{(.*)}$/$1/;
+    return '{'
+      . join(
+        '}{', map { protectKey($_) }
+          split( /}{/, $k )
+      ) . '}';
+}
+
+=begin TML
+
+---++ StaticMethod protectKey($keystring) -> $keystring
+
+Process a key string (a hash index) and make sure that it is
+safe for use as a perl hash index.
+
+=cut
+
+sub protectKey {
+    my $k = shift;
+    eval $k;    # Brute force
+    return $k unless $@;
+
+    # Use ' to suppress interpolation (just in case)
+    $k =~ s/'/\\'/g;    # escape '
+    $k = "'$k'";
+    if (DEBUG) {
+        eval $k;
+        ASSERT( !$@, $k );
+    }
+    return $k;
+}
+
 1;
 __END__
 
