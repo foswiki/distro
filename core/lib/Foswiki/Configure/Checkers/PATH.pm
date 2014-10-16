@@ -30,12 +30,20 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
+    my $path = $this->{item}->getExpandedValue();
+    if ( !defined $path ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("A value must be given (may not be undefined)");
+        }
+        return;
+    }
+
     foreach my $check ( @{ $this->{item}->{CHECK} } ) {
         my $perms = $check->{perms};
 
         next unless ($perms);
         $perms = $perms->[0];
-        my $path = $this->getCfg();
 
         if ( $perms =~ /F/ && !-f $path ) {
             if ( -d $path ) {
@@ -64,7 +72,6 @@ sub check_current_value {
         }
     }
 
-    my $path = $this->getCfg();
     if ( $path =~ /\\/ ) {
         reporter->WARN('You should use c:/path style slashes, not c:\path');
     }

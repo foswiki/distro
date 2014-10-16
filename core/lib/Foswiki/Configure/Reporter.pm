@@ -4,7 +4,13 @@ package Foswiki::Configure::Reporter;
 use strict;
 use warnings;
 
-use JSON;
+use Assert;
+
+use JSON         ();
+use Data::Dumper ();
+
+# Number of levels of a stack trace to keep
+use constant KEEP_STACK_LEVELS => ( (DEBUG) ? 2 : 0 );
 
 =begin TML
 
@@ -42,7 +48,7 @@ ERROR message.
 =cut
 
 sub new {
-    my $class = shift;
+    my ($class) = @_;
 
     my $this = bless( {}, $class );
     $this->clear();
@@ -113,7 +119,7 @@ Returns the reporter to allow chaining.
 
 sub CHANGED {
     my ( $this, $keys ) = @_;
-    $this->{changes}->{$keys} = eval "\$Foswiki::cfg$keys";
+    $this->{changes}->{$keys} = uneval( eval "\$Foswiki::cfg$keys" );
     return $this;
 }
 
@@ -188,6 +194,70 @@ sub changes {
     my ($this) = @_;
 
     return $this->{changes};
+}
+
+=begin TML
+
+---++ StaticMethod uneval($datum [, $indent]) -> $string
+
+Serialise the perl datum $datum as a perl string that can be
+evalled to recover the original value.
+
+$indent can be used to override the default setting (0) for
+$Data::Dumper::Indent. See perldoc Data::Dumper for more information.
+
+=cut
+
+sub uneval {
+    my ( $datum, $indent ) = @_;
+    local $Data::Dumper::Sortkeys = 1;
+    local $Data::Dumper::Terse    = 1;
+    local $Data::Dumper::Indent   = $indent || 0;
+    my $d = Data::Dumper->Dump( [$datum] );
+    $d =~ s/^\$VAR1\s*=\s*//s;
+    $d =~ s/;\s*$//s;
+    return $d;
+}
+
+=begin TML
+
+---++ StaticMethod ellipsis($string, $limit) -> $string
+
+If $string exceeds $limit in length, truncate the string to
+$limit-3 characters and append ellipsis (...)
+
+=cut
+
+sub ellipsis {
+    my ( $string, $limit ) = @_;
+    if ( length($string) > $limit - 3 ) {
+        $string = substr( $string, 0, $limit - 3 ) . '...';
+    }
+    return $string;
+}
+
+=begin TML
+
+---++ StaticMethod stripStacktrace($stacktrace) -> $message
+
+Strip traceback from die and carp for a user message
+
+=cut
+
+sub stripStacktrace {
+    my ($message) = @_;
+
+    return '' unless ( length $message );
+
+    my @lines = split( /\n/, $message );
+    splice( @lines, KEEP_STACK_LEVELS + 1 );
+    return join(
+        "\n",
+        map {
+            $_ =~ s/ at .*? line \d+\.$//;
+            $_;
+        } @lines
+    );
 }
 
 1;

@@ -5,15 +5,15 @@ package Foswiki::Configure::Checkers::Email::SSLCrlFile;
 use strict;
 use warnings;
 
-require Foswiki::Configure::Checker;
-our @ISA = qw/Foswiki::Configure::Checker/;
+use Foswiki::Configure::Checker ();
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     return '' unless ( $Foswiki::cfg{Email}{SSLCheckCRL} );
 
-    my $value = $this->getCfg;
+    my $value = $this->{item}->getExpandedValue();
 
     unless ( $value || $Foswiki::cfg{Email}{SSLCaPath} ) {
 
@@ -31,7 +31,12 @@ sub check_current_value {
                 $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
                 $guessed = 1;
             }
-            elsif ( $this->getCfg( $Foswiki::cfg{Email}{SSLCaFile} ) ) {
+            elsif (
+                Foswiki::Configure::Load::expand(
+                    $Foswiki::cfg{Email}{SSLCaFile}
+                )
+              )
+            {
                 $reporter->NOTE(
                     "Guessed {Email}{SSLCaFile} may also contain CRLs");
                 $file    = '$Foswiki::cfg{Email}{SSLCaFile}';
@@ -48,7 +53,7 @@ sub check_current_value {
         }
     }
 
-    my $file = $this->getCfg;
+    my $file = $value;
 
     if ($file) {
         return $reporter->ERROR("Invalid characters in $file")
@@ -67,7 +72,8 @@ sub check_current_value {
             $reporter->ERROR("$file is world-writable");
         }
     }
-    my $path = $this->getCfg('{Email}{SSLCaPath}');
+    my $path =
+      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaPath} );
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );

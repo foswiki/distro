@@ -44,6 +44,7 @@ use File::stat;
 use Assert;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::Util       ();
+use Foswiki::Plugins               ();
 
 ############# GENERIC METHODS #############
 
@@ -158,7 +159,7 @@ Get or set the option associated with the object.
 sub option {
     my ( $this, $name, $value ) = @_;
 
-    $this->{_options}->{$name} = $value if defined $value;
+    $this->{_options}->{$name} = $value if scalar(@_) == 3;
     return $this->{_options}->{$name};
 }
 
@@ -272,11 +273,19 @@ sub option {
     sub CHANGED {
         my $this = shift;
         $this->{_reporter}->CHANGED(@_);
-        $this->_log( "> _Changed:_ $_[0] = " . eval("\$Foswiki::cfg$_[1]") );
+        $this->_log( "> _Changed:_ $_[0] = " . eval("\$Foswiki::cfg$_[0]") );
     }
 
     sub WIZARD {
-        return shift->SUPER::WIZARD(@_);
+        return shift->{_reporter}->WIZARD(@_);
+    }
+
+    sub messages {
+        return shift->{_reporter}->messages(@_);
+    }
+
+    sub changes {
+        return shift->{_reporter}->changes(@_);
     }
 }
 
@@ -318,7 +327,7 @@ sub install {
         $supereporter,
         action  => 'Install',
         pkgname => $this->{_pkgname},
-        nolog   => $this->{_options}->{SIMULATE}
+        nolog   => $this->option('SIMULATE')
     );
 
     $reporter->NOTE("---+ Installing $this->{_pkgname}");
@@ -348,7 +357,7 @@ sub install {
 
     my $depPlugins;    # hashref to hash of plugin names
     my $depCPAN;       # hashref to hash of cpan dependency names
-    unless ( $this->{_options}->{NODEPS} ) {
+    unless ( $this->option('NODEPS') ) {
 
         # Don't log these results - each package uses it's own logfile
         my ( $depPlugins, $depCPAN ) =
@@ -366,7 +375,7 @@ sub install {
 
         $this->_loadExits();
 
-        if ( $this->can('preinstall') && !$this->{_options}->{SIMULATE} ) {
+        if ( $this->can('preinstall') && !$this->option('SIMULATE') ) {
             $reporter->NOTE("> Running pre-install for $this->{_pkgname} ...");
             my $rslt = $this->preinstall();
             $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
@@ -376,7 +385,7 @@ sub install {
 
         if (   $ok
             && $this->can('postinstall')
-            && !$this->{_options}->{SIMULATE} )
+            && !$this->option('SIMULATE') )
         {
             $reporter->NOTE("> Running post-install for $this->{_pkgname}...");
             my $rslt = $this->postinstall();
@@ -393,8 +402,103 @@ sub install {
     @cpanDeps{ keys %$depCPAN } =
       values %$depCPAN;    # merge in cpan from dependencies
 
-    return ( 1, \%plugins, \%cpanDeps );
+    my $extUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        $this->{_pkgname}, 'view' );
+    my $instUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        'InstalledPlugins', 'view' );
 
+    $reporter->NOTE( <<WRAPUP );
+> Before proceeding, review the dependency reports of each installed extension
+  and resolve any dependencies, as required.
+   * External dependencies are never automatically resolved by Foswiki.
+   * Dependencies noted as 'Optional' will not be automatically resolved, and
+   * CPAN dependencies are not resolved by the web installer.
+
+> After you save your configuration: (opens in new window)
+   * Visit <a href="$extUrl" target="_blank">$this->{_pkgname} extension page</a>
+   * Check <a href="$instUrl" target="_blank">InstalledPlugins</a> to check for errors.
+WRAPUP
+
+    if ( keys %cpanDeps ) {
+        $reporter->WARN(<<HERE);
+> CPAN dependencies were detected, but will not be automatically
+installed by the Web installer.  The following dependencies should be
+manually resolved as required. 
+HERE
+        foreach my $dep ( sort { lc($a) cmp lc($b) } keys %cpanDeps ) {
+            $reporter->NOTE("\t* $dep");
+        }
+    }
+
+    foreach my $plu ( sort { lc($a) cmp lc($b) } keys %plugins ) {
+        my $clef = "{Plugins}{$plu}";
+        my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
+        if ( !$old ) {
+            if ( $this->option('SIMULATE') ) {
+                $reporter->NOTE("\t* ${clef}{Enabled} = 1");
+            }
+            else {
+                eval "\$Foswiki::cfg${clef}{Enabled}=1";
+                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+            }
+        }
+
+        $old = eval "\$Foswiki::cfg${clef}{Module}";
+        if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
+            if ( $this->option('SIMULATE') ) {
+                $reporter->NOTE(
+                    "\t* ${clef}{Module} = 'Foswiki::Plugins::$plu'");
+            }
+            else {
+                eval "\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'";
+                $reporter->CHANGED("{Plugins}{$plu}{Module}");
+            }
+        }
+    }
+    $reporter->WARN(
+        "Don't forget to save your configuration to complete installation of "
+          . join( ', ', keys %plugins ) )
+      if ( scalar keys %{ $reporter->changes() } );
+
+    $reporter->NOTE( "> Installation "
+          . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
+
+    return 1;
+
+}
+
+{
+
+    package _SpecChecker;
+
+    use Assert;
+    use Foswiki::Configure::Visitor ();
+
+    our @ISA = ('Foswiki::Configure::Visitor');
+
+    sub new {
+        my ( $class, $r, $sim ) = @_;
+        return bless( { reporter => $r, simulated => $sim }, $class );
+    }
+
+    sub startVisit {
+        my ( $this, $node ) = @_;
+        return 1
+          unless $node->{keys}
+          && exists $node->{default};
+        my $val = $node->decodeValue( $node->{default} );
+        if ( $this->{simulated} ) {
+            $this->{reporter}->NOTE( "\t* $node->{keys} = "
+                  . Foswiki::Configure::Reporter::uneval($val) );
+        }
+        else {
+            eval "\$Foswiki::cfg$node->{keys}=\$val";
+            ASSERT( !$@, $@ ) if DEBUG;
+            $this->{reporter}->CHANGED( $node->{keys} );
+        }
+        return 1;
+    }
+    sub endVisit { return 1 }
 }
 
 # Install files listed in the manifest.
@@ -403,24 +507,24 @@ sub install {
 sub _install {
     my ( $this, $reporter ) = @_;
 
-    my $dir = $this->{_options}->{DIR} || $this->{_root};
+    my $dir = $this->option('DIR') || $this->{_root};
 
-    $reporter->NOTE("---+++ Installing $this->{_options}->{module}");
+    $reporter->NOTE( "---+++ Installing " . $this->option('module') );
 
     my $err;
     my $ext       = '';
     my $installer = '';
     my $simulated = '';
-    $simulated = 'Simulated - ' if ( $this->{_options}->{SIMULATE} );
+    $simulated = 'Simulated - ' if ( $this->option('SIMULATE') );
 
-    unless ( $this->{_options}->{EXPANDED} ) {
+    unless ( $this->option('EXPANDED') ) {
 
         # Archive not yet expanded
-        if ( $this->{_options}->{USELOCAL} ) {
+        if ( $this->option('USELOCAL') ) {
 
             # Check $dir first, then the download directory.
-            for my $sdir ( "$dir",
-                "$Foswiki::cfg{WorkingDir}/configure/download" )
+            for
+              my $sdir ( $dir, "$Foswiki::cfg{WorkingDir}/configure/download" )
             {
                 for my $sext (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
                     use Cwd;
@@ -509,13 +613,14 @@ sub _install {
 
     my @names = $this->_listFiles();  # Retrieve list of filenames from manifest
     my $ok    = 1;
+    my $spec = Foswiki::Configure::Root->new();
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
 
         if ( $file =~ /^(:?bin|tools)\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-            Foswiki::Configure::Util::rewriteShebang( "$dir/$file", "$perlLoc" )
+            Foswiki::Configure::Util::rewriteShebang( "$dir/$file", $perlLoc )
               if $perlLoc;
         }
 
@@ -524,8 +629,8 @@ sub _install {
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
         # Make file writable if it is read-only
-        if ( -e $target && !-w $target && !$this->{_options}->{SIMULATE} ) {
-            chmod( oct(600), "$target" );
+        if ( -e $target && !-w $target && !$this->option('SIMULATE') ) {
+            chmod( oct(600), $target );
         }
 
         # Move or copy the file.
@@ -544,7 +649,7 @@ sub _install {
 
         # Topic files in the data directory needing Checkin
         if ( $file =~ m/^data/
-            && ( -e "$target,v" || ( -e "$target" && $ci ) ) )
+            && ( -e "$target,v" || ( -e $target && $ci ) ) )
         {
             my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
             my ( $tweb, $ttopic ) =
@@ -567,7 +672,7 @@ sub _install {
 
                 # If file is not writable, and not owned, the chmod
                 # probably won't work ...  so fail.
-                if ( -e "$target" && !-w "$target" && !-o "$target" ) {
+                if ( -e $target && !-w $target && !-o $target ) {
                     $reporter->ERROR("Target $file is not writable");
                     $ok = 0;
                     next;
@@ -583,25 +688,29 @@ sub _install {
                       unless $this->_installAttachments( $reporter, $dir,
                         "$web/$topic", "$tweb/$ttopic", $meta );
                     $meta->saveAs( $tweb, $ttopic, %opts )
-                      unless $this->{_options}->{SIMULATE};
+                      unless $this->option('SIMULATE');
                 }
                 next;
             }
         }
 
         # Everything else
-        $err = _moveFile( $this, "$dir/$file", "$target", $perms );
+        $err = $this->_moveFile( "$dir/$file", $target, $perms );
         if ($err) {
             $reporter->ERROR($err);
             $ok = 0;
             next;
         }
+
+        # Pick up all Config.spec's
+        if ( $file =~ /\/Config.spec$/ ) {
+            Foswiki::Configure::LoadSpec::parse( $target, $spec );
+        }
         $reporter->NOTE("> ${simulated}Installed:  $file as $target");
     }
 
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-    $err = _moveFile(
-        $this,
+    $err = $this->_moveFile(
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
@@ -610,10 +719,14 @@ sub _install {
         $ok = 0;
     }
     if ($ok) {
+        $spec->visit(
+            _SpecChecker->new( $reporter, $this->option('SIMULATE') ) );
+
         $reporter->NOTE(
             "> ${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore"
         );
     }
+
     return $ok;
 }
 
@@ -639,12 +752,12 @@ sub _installAttachments {
         if (
             (
                 $this->{_manifest}->{$file}->{ci}
-                && ( -e "$tfile" )    # checkin requested and file exists
+                && ( -e $tfile )    # checkin requested and file exists
             )
-            || ( -e "$tfile,v" )      # or rcs file exists
+            || ( -e "$tfile,v" )    # or rcs file exists
           )
         {
-            if ( -e "$tfile" && !-w "$tfile" && !-o "$tfile" ) {
+            if ( -e $tfile && !-w $tfile && !-o $tfile ) {
                 $reporter->ERROR("Target file $tfile is not writable");
                 next;
             }
@@ -668,7 +781,7 @@ sub _installAttachments {
             $opts{comment}  = $attachinfo->{comment};
             $opts{filesize} = $fstats->size;
             $opts{filedate} = $fstats->mtime;
-            $meta->attach(%opts) unless ( $this->{_options}->{SIMULATE} );
+            $meta->attach(%opts) unless ( $this->option('SIMULATE') );
             $reporter->NOTE("   * Attached:   $file to $twebTopic");
         }
     }
@@ -678,25 +791,25 @@ sub _installAttachments {
 # Make the path as required and move or copy the file into the target location
 
 sub _moveFile {
-    my $this  = shift;
-    my $from  = shift; # Source path
-    my $to    = shift; # Destination path
-    my $perms = shift; # File permissions
-    my $force = shift; # Force copy even if simulate - used for the .tgz archive
-
-    $force ||= 0;
+    my (
+        $this,
+        $from,     # Source path
+        $to,       # Destination path
+        $perms,    # File permissions
+        $force     # Force copy even if simulate - used for the .tgz archive
+    ) = @_;
 
     my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
     pop(@path);
-    if ( !$this->{_options}->{SIMULATE} || $force ) {
+    if ( !$this->option('SIMULATE') || $force ) {
         if ( scalar(@path) ) {
             umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
             File::Path::mkpath( join( '/', @path ),
                 0, $Foswiki::cfg{Store}{dirPermission} );
         }
 
-        if ( !File::Copy::move( "$from", $to ) ) {
-            if ( !File::Copy::copy( "$from", $to ) ) {
+        if ( !File::Copy::move( $from, $to ) ) {
+            if ( !File::Copy::copy( $from, $to ) ) {
                 return "Failed to move/copy file '$from' to $to: $!\n";
             }
         }
@@ -705,12 +818,12 @@ sub _moveFile {
             $to = $1;    #yes, we must untaint
             $perms =~ /(.*)/;
             $perms = $1;    #yes, we must untaint
-            chmod( oct($perms), "$to" );
+            chmod( oct($perms), $to );
         }
     }
     else {
         return "Target file $to is not writable\n"
-          if ( -e "$to" && !-w "$to" && !-o "$to" );
+          if ( -e $to && !-w $to && !-o $to );
         return "Probably packaging error - $from not found" if ( !-e $from );
     }
 
@@ -749,8 +862,8 @@ sub _createBackup {
     }
     else {
 
-        File::Path::mkpath("$pkgstore")
-          unless ( $this->{_options}->{SIMULATE} );
+        File::Path::mkpath($pkgstore)
+          unless ( $this->option('SIMULATE') );
 
         foreach my $file (@files) {
             my $fstat = stat($file);
@@ -764,28 +877,30 @@ sub _createBackup {
             pop(@path);
             if ( scalar(@path) ) {
                 File::Path::mkpath( join( '/', @path ) )
-                  unless ( $this->{_options}->{SIMULATE} );
+                  unless ( $this->option('SIMULATE') );
                 my $mode = $fstat->mode;
 
                 #( stat($file) )[2];    # File::Copy doesn't copy permissions
-                File::Copy::copy( "$file", "$pkgstore/$tofile" )
-                  unless ( $this->{_options}->{SIMULATE} );
+                File::Copy::copy( $file, "$pkgstore/$tofile" )
+                  unless ( $this->option('SIMULATE') );
                 $mode =~ /(.*)/;
                 $mode = $1;    #yes, we must untaint
                 chmod( $mode, "$pkgstore/$tofile" )
-                  unless ( $this->{_options}->{SIMULATE} );
+                  unless ( $this->option('SIMULATE') );
             }
         }
 
         my $rslt;
-        if ( $this->{_options}->{SIMULATE} ) {
+        if ( $this->option('SIMULATE') ) {
             $rslt = ' - Simulated backup, no files copied ';
         }
         else {
             ( $rslt, my $err ) =
               Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' );
-            $reporter->ERROR("FAILED $err") unless ($rslt);
-            $ok = 0;
+            unless ($rslt) {
+                $reporter->ERROR("FAILED $err");
+                $ok = 0;
+            }
         }
 
         $reporter->NOTE( "\t* Backup saved into $pkgstore",
@@ -818,7 +933,7 @@ sub _setPermissions {
                 $mode =~ /(.*)/;
                 $mode = $1;      #yes, we must untaint
                 chmod( oct($mode), $target )
-                  unless ( $this->{_options}->{SIMULATE} );
+                  unless ( $this->option('SIMULATE') );
             }
         }
     }
@@ -838,7 +953,7 @@ sub _listFiles {
         if ($installed) {
             my $target =
               Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
-            push( @files, "$target" )   if ( -f "$target" );
+            push( @files, $target )     if ( -f $target );
             push( @files, "$target,v" ) if ( -f "$target,v" );
         }
         else {
@@ -863,15 +978,14 @@ sub _listPlugins {
 
 =begin TML
 
----++ uninstall ( $reporter ) -> ($status, \@plugins)
+---++ uninstall ( $reporter ) -> $status
 Remove each file identified by the manifest.  Also remove
 any rcs "...,v" files if they exist.   Note that directories
 are NOT removed unless they are empty.
 
-Pre and Post un-install exits are run.
+Pre and Post un-install handlers are run.
 
-Returns a status (1 for success) and a list of plugins that need
-to be removed from LSC.
+Returns a status (1 for success)
 
 =cut
 
@@ -883,7 +997,7 @@ sub uninstall {
     my $reporter = LoggingReporter->new(
         $supereporter,
         action => 'Uninstall',
-        nolog  => $this->{_options}->{SIMULATE}
+        nolog  => $this->option('SIMULATE')
     );
 
     $reporter->NOTE("---+ Uninstalling $this->{_pkgname}");
@@ -892,7 +1006,7 @@ sub uninstall {
 
         # Recover the manifest from the _installer file
         $reporter->NOTE("> Loading package installer");
-        return (0) unless $this->loadInstaller($reporter);
+        return 0 unless $this->loadInstaller($reporter);
     }
 
     $reporter->NOTE("> Creating Backup of $this->{_pkgname} ...");
@@ -902,7 +1016,7 @@ sub uninstall {
 
     $this->_loadExits();
 
-    if ( $this->can('preuninstall') && !$this->{_options}->{SIMULATE} ) {
+    if ( $this->can('preuninstall') && !$this->option('SIMULATE') ) {
         $reporter->NOTE("> Running Pre-uninstall for $this->{_pkgname} ...");
         my $rslt = $this->preuninstall();
         $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
@@ -917,16 +1031,16 @@ sub uninstall {
         my $target =
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
 
-        if ( $this->{_options}->{SIMULATE} ) {
-            push( @removed, "simulated $target" )   if ( -f "$target" );
+        if ( $this->option('SIMULATE') ) {
+            push( @removed, "simulated $target" )   if ( -f $target );
             push( @removed, "simulated $target,v" ) if ( -f "$target,v" );
             $directories{$1}++ if $target =~ m!^(.*)/[^/]*$!;
         }
         else {
 
             if ( -f $target ) {
-                my $n = unlink "$target";
-                push( @removed, "$target" ) if ( $n == 1 );
+                my $n = unlink $target;
+                push( @removed, $target ) if ( $n == 1 );
             }
             if ( -f "$target,v" ) {
                 my $n = unlink "$target,v";
@@ -937,9 +1051,9 @@ sub uninstall {
 
     my $pkgdata =
       "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
-    unless ( $this->{_options}->{SIMULATE} ) {
+    unless ( $this->option('SIMULATE') ) {
         push( @removed, $pkgdata );
-        unlink "$pkgdata";
+        unlink $pkgdata;
         for ( keys %directories ) {
             while (rmdir) { s!/[^/]*$!!; }
         }
@@ -961,13 +1075,34 @@ sub uninstall {
         $reporter->NOTE(@unpackedFeedback);
     }
 
-    if ( $this->can('posuninstall') && !$this->{_options}->{SIMULATE} ) {
+    if ( $this->can('posuninstall') && !$this->option('SIMULATE') ) {
         $reporter->NOTE("> Running Post-uninstall for $this->{_pkgname} ...");
         my $rslt = $this->postuninstall();
         $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
     }
 
-    return ( 1, \@plugins );
+    unless ( $this->option('SIMULATE') ) {
+        foreach my $plu ( sort { lc($a) cmp lc($b) } @plugins ) {
+            my $clef = "{Plugins}{$plu}";
+            if ( eval "exists \$Foswiki::cfg${clef}{Enabled}" ) {
+                eval "delete \$Foswiki::cfg${clef}{Enabled}";
+                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+            }
+            if ( eval "exists \$Foswiki::cfg${clef}{Module}" ) {
+                eval "delete \$Foswiki::cfg${clef}{Module}";
+                $reporter->CHANGED("{Plugins}{$plu}{Module}");
+            }
+        }
+    }
+    $reporter->WARN(
+        "Don't forget to save your configuration to complete removal of "
+          . join( ', ', @plugins ) )
+      if ( scalar keys %{ $reporter->changes() } );
+
+    $reporter->NOTE( "> Removal "
+          . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
+
+    return 1;
 }
 
 =begin TML
@@ -1004,9 +1139,9 @@ Returns:
 sub loadInstaller {
     my ( $this, $reporter, $options ) = @_;
 
-    my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
+    my $uselocal = $this->option('USELOCAL') || $options->{USELOCAL};
     my $temproot =
-         $this->{_options}->{DIR}
+         $this->option('DIR')
       || $options->{DIR}
       || $this->{_root};
 
@@ -1045,7 +1180,7 @@ sub loadInstaller {
     }
 
     if ($file) {
-        my $sb = stat("$file");
+        my $sb = stat($file);
         $reporter->WARN( "> Using local $file, Size: "
               . $sb->size
               . " Modified: "
@@ -1316,7 +1451,7 @@ sub checkDependencies {
 
         ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
         my $required =
-          eval "$trigger";  # Evaluate the trigger - if true, module is required
+          eval $trigger;    # Evaluate the trigger - if true, module is required
         die
 " $dep->{module} **ERROR** -- ONLYIF \"$trigger\" condition failed to compile: contact developer -- $@ "
           if ($@);

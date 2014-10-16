@@ -28,9 +28,17 @@ sub check_current_value {
 
     my $zone      = $checks->{zone}[0] || 'utc';
     my $normalize = !$checks->{raw}[0];
-    my $value     = $this->getCfgUndefOk();
+    my $value     = $this->{item}->getExpandedValue();
 
-    if ( defined $value && $value =~ /\S/ ) {
+    if ( !defined $value ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("Must be non-empty");
+        }
+        return;
+    }
+
+    if ( $value =~ /\S/ ) {
         my $binval = Foswiki::Time::parseTime( $value, $zone eq 'local' );
         if ( defined $binval ) {
             if ($normalize) {    # undef uses configured display format

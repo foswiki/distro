@@ -28,9 +28,6 @@ use Foswiki::Configure::Wizards::ExploreExtensions ();
 our $installRoot;
 
 # (Un)Install the extensions selected by the parameters.
-#
-# This method uses *print* rather than gathering output. This is to give
-# the caller early feedback.
 
 # Common initialisation
 sub _getPackage {
@@ -49,9 +46,10 @@ sub _getPackage {
 
     my $args = $this->param('args');
 
-#SMELL: This is called with repository as a simple string in the Dependency report,
-# and then again as a hash when running the installer.  The fix is probably elsewhere
-# to use consistent calls,  but hack hack cough... this works.
+    # SMELL: This is called with repository as a simple string in
+    # the Dependency report, and then again as a hash when running
+    # the installer.  The fix is probably elsewhere to use consistent
+    # calls,  but hack hack cough... this works.
     my $repo = $args->{repository};
     $repo = $repo->{name} if ( ref($repo) eq 'HASH' );
 
@@ -109,23 +107,23 @@ sub depreport {
         $reporter->NOTE( "> *MISSING*", map { "\t* $_" } @$missing );
         $reporter->WARN( <<DEPS );
 > *Caution:* If you proceed with install, the missing dependencies listed as _Required_
-will be automatically installed.   Be sure that this is what you want.
+will be automatically installed. Be sure that this is what you want.
 DEPS
     }
     else {
         $reporter->NOTE("> All dependencies satisfied");
     }
 
-    $reporter->NOTE('   * Click "Install" to proceed with the installation.');
-    $reporter->NOTE(
-'   * Click "Simulate" to get a detailed report on what will happen during installation.'
+    $reporter->WARN(
+        "\t* Click 'Install' to proceed with the installation.",
+        "\t* Click 'Simulate' to get a detailed report on what",
+        "\t  will happen during installation."
     );
-    $reporter->NOTE(
-'   * Click "Install without Dependencies" to install _only_ this extension, ignoring the dependencies.'
-    ) if (@$missing);
 
-    my $simulate = 0;
-    my $nodeps   = 0;
+    $reporter->WARN(
+        "\t* Click 'Install without Dependencies' to install",
+        "\t  _only_ this extension, ignoring the dependencies."
+    ) if (@$missing);
 
     if ( $this->param('args')->{installable} ) {
         my %data = (
@@ -172,74 +170,15 @@ sub add {
     return unless $pkg;
 
     my $extension = $pkg->module();
-    my ( $ok, $plugins, $depCPAN ) = $pkg->install($reporter);
-
-    if ( $ok && !$pkg->option('SIMULATE') ) {
-        my $chflag;
-        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
-            my $clef = "{Plugins}{$plu}";
-            my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
-            if ( !$old ) {
-                eval "\$Foswiki::cfg${clef}{Enabled}=1";
-                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
-                $chflag = 1;
-            }
-            $old = eval "\$Foswiki::cfg${clef}{Module}";
-            if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
-                eval "\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'";
-                $reporter->CHANGED("{Plugins}{$plu}{Module}");
-                $chflag = 1;
-            }
-        }
-        $reporter->WARN(
-"Foswiki configuration has been updated. Don't forget to save your configuration"
-        ) if ($chflag);
-    }
-
-    if ( $pkg->option('SIMULATE') ) {
-        $reporter->NOTE("> Simulated installation finished");
-    }
-    else {
-        $reporter->NOTE("> Installation finished");
+    unless ( $pkg->install($reporter) ) {
+        $reporter->ERROR( <<OMG );
+The Extension may not be usable due to errors. Installation terminated.
+OMG
     }
 
     $pkg->finish();
     undef $pkg;
 
-    if ( !$ok ) {
-        $reporter->ERROR( <<OMG );
-Errors encountered during package installation.  The Extension may not be usable. Installation terminated
-OMG
-        return 0;
-    }
-
-    my $extUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
-        $extension, 'view' );
-    my $instUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
-        'InstalledPlugins', 'view' );
-
-    $reporter->NOTE( <<WRAPUP );
-> Before proceeding, review the dependency reports of each installed extension
-  and resolve any dependencies as required.
-   * External dependencies are never automatically resolved by Foswiki.
-   * Dependencies noted as 'Optional' will not be automatically resolved, and
-   * CPAN dependencies are not resolved by the web installer.
-
-> After you save your configuration: (opens in new window)
-   * Visit <a href="$extUrl" target="_blank">$extension extension page</a>
-   * Check <a href="$instUrl" target="_blank">InstalledPlugins</a> to check for errors.
-WRAPUP
-
-    if ( keys %$depCPAN ) {
-        $reporter->WARN(<<HERE);
-> CPAN dependencies were detected, but will not be automatically
-installed by the Web installer.  The following dependencies should be
-manually resolved as required. 
-HERE
-        foreach my $dep ( sort { lc($a) cmp lc($b) } keys %$depCPAN ) {
-            $reporter->NOTE("\t* $dep");
-        }
-    }
     return undef;    # return the report
 }
 
@@ -249,30 +188,12 @@ sub remove {
     my $pkg = $this->_getPackage($reporter);
     return unless $pkg;
 
-    my ( $ok, $plugins ) = $pkg->uninstall($reporter);
-
-    if ( $ok && $plugins && scalar(@$plugins) ) {
-        my $chflag;
-        foreach my $plu ( sort { lc($a) cmp lc($b) } @$plugins ) {
-            my $clef = "{Plugins}{$plu}";
-            if ( eval "exists \$Foswiki::cfg${clef}{Enabled}" ) {
-                eval "delete \$Foswiki::cfg${clef}{Enabled}";
-                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
-                $chflag = 1;
-            }
-            if ( eval "exists \$Foswiki::cfg${clef}{Module}" ) {
-                eval "delete \$Foswiki::cfg${clef}{Module}";
-                $reporter->CHANGED("{Plugins}{$plu}{Module}");
-                $chflag = 1;
-            }
-        }
-        $reporter->WARN(
-"Foswiki configuration has been updated. Don't forget to save your configuration"
-        ) if ($chflag);
-    }
+    $pkg->uninstall($reporter);
 
     $pkg->finish();
     undef $pkg;
+
+    return undef;
 }
 
 1;

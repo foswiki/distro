@@ -194,6 +194,25 @@ CODE
 
 =begin TML
 
+---++ StaticMethod expanded($value) -> $expanded
+
+Given a value of a configuration item, expand references to
+$Foswiki::cfg configuration items within strings in the value.
+
+If an embedded $Foswiki::cfg reference is not defined, it will
+be expanded as 'undef'.
+
+=cut
+
+sub expanded {
+    my $val = shift;
+    return undef unless defined $val;
+    expandValue($val);
+    return $val;
+}
+
+=begin TML
+
 ---++ StaticMethod expandValue($datum [, $mode])
 
 Expands references to Foswiki configuration items which occur in the

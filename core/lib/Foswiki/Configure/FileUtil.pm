@@ -13,6 +13,8 @@ Basic file utilities
 use strict;
 use warnings;
 
+use Assert;
+
 =begin TML
 
 ---++ StaticMethod findFileOnPath($filename) ->> $fullpath
@@ -87,6 +89,7 @@ sub findPackages {
     my @path = split( /::/, $pattern );
 
     my $places = \@INC;
+    my $dir;
 
     while ( scalar(@path) > 1 && @$places ) {
         my $pathel = shift(@path);
@@ -94,31 +97,33 @@ sub findPackages {
         my @newplaces;
 
         foreach my $place (@$places) {
-            if ( opendir( DIR, $place ) ) {
+            if ( opendir( $dir, $place ) ) {
 
                 #next if ($place =~ /^\..*/);
-                foreach my $subplace ( readdir DIR ) {
+                foreach my $subplace ( readdir $dir ) {
                     next unless $subplace =~ $pathel;
 
                     #next if ($subplace =~ /^\..*/);
                     push( @newplaces, $place . '/' . $1 );
                 }
-                closedir DIR;
+                closedir $dir;
             }
         }
         $places = \@newplaces;
     }
 
     my @list;
-    my $leaf = shift(@path);
-    eval "\$leaf = qr/$leaf\.pm\$/";
+    my $leaf = pop(@path);
+    eval "\$leaf = qr/$leaf\\.pm\$/";
+    ASSERT( !$@, $@ ) if DEBUG;
+
     my %known;
     foreach my $place (@$places) {
-        if ( opendir( DIR, $place ) ) {
-            foreach my $file ( readdir DIR ) {
+        if ( opendir( $dir, $place ) ) {
+            foreach my $file ( readdir $dir ) {
                 next unless $file =~ $leaf;
                 next if ( $file =~ /^\..*/ );
-                $file =~ /^(.*)\.pm$/;
+                next unless $file =~ /^(.*)\.pm$/;
                 my $module = "$place/$1";
                 $module =~ s./.::.g;
                 if ( $module =~ /($pattern)$/ ) {
@@ -126,10 +131,9 @@ sub findPackages {
                     $known{$1} = 1;
                 }
             }
-            closedir DIR;
+            closedir $dir;
         }
     }
-
     return @list;
 }
 

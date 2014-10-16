@@ -12,8 +12,7 @@ taking a backup as necessary.
 use strict;
 use warnings;
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Assert;
 
 use Errno;
 use Fcntl;
@@ -21,6 +20,9 @@ use File::Spec                   ();
 use Foswiki::Configure::Load     ();
 use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::FileUtil ();
+
+use Foswiki::Configure::Wizard ();
+our @ISA = ('Foswiki::Configure::Wizard');
 
 use constant STD_HEADER => <<'HERE';
 # Local site settings for Foswiki. This file is managed by the 'configure'
@@ -30,6 +32,9 @@ use constant STD_HEADER => <<'HERE';
 # or Contrib/<extension> directories  (Do not remove the following blank line.)
 
 HERE
+
+# Max length of a change report before ellipsis
+use constant CHANGE_LIMIT => 256;
 
 # back up the current LSC content and return it
 sub _backupCurrentContent {
@@ -134,6 +139,7 @@ sub _addSpecDefaultsToCfg {
             else {
                 eval("undef \$cfg->$spec->{keys}");
             }
+            ASSERT( !$@, $@ ) if DEBUG;
         }
     }
 }
@@ -203,13 +209,15 @@ sub save {
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         delete $Foswiki::cfg{ConfigurationFinished};
         $old_content =
-          STD_HEADER
-          . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
+            STD_HEADER
+          . join( '', _generateLSC( $root, \%Foswiki::cfg, '', $reporter ) )
+          . "1;\n";
     }
 
     my %save;
     foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
-        eval(" (\$save$key)  = \$Foswiki::cfg$key =~ /^(.*)\$/ ");
+        eval("(\$save$key)=\$Foswiki::cfg$key=~/^(.*)\$/");
+        ASSERT( !$@, $@ ) if DEBUG;
         delete $Foswiki::cfg{BOOTSTRAP};
     }
 
@@ -229,8 +237,8 @@ sub save {
     }
 
     # apply bootstrapped settings
-    # print STDERR join( '', _spec_dump( $root, \%save, '' ) );
-    eval( join( '', _spec_dump( $root, \%save, '' ) ) );
+    # print STDERR join( '', _generateLSC( $root, \%save, '', $reporter ) );
+    eval( join( '', _generateLSC( $root, \%save, '', $reporter ) ) );
     die "Internal error: $@" if ($@);
 
     # Get changes from 'set' *without* expanding values
@@ -252,12 +260,15 @@ sub save {
             else {
                 eval "undef \$Foswiki::cfg$k";
             }
+            ASSERT( !$@, $@ ) if DEBUG;
         }
     }
 
     delete $Foswiki::cfg{ConfigurationFinished};
     my $new_content =
-      STD_HEADER . join( '', _spec_dump( $root, \%Foswiki::cfg, '' ) ) . "1;\n";
+        STD_HEADER
+      . join( '', _generateLSC( $root, \%Foswiki::cfg, '', $reporter ) )
+      . "1;\n";
 
     if ( $new_content ne $old_content ) {
         my $um = umask(007);   # Contains passwords, no world access to new file
@@ -275,8 +286,11 @@ sub save {
         }
         $reporter->NOTE("New configuration saved in $lsc");
 
-        _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, $reporter )
-          if (%orig_content);
+        if (%orig_content) {
+            $reporter->NOTE('| *Key* | *Old* | *New* |');
+            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg,
+                $reporter, '' );
+        }
     }
     else {
         unlink $backup if ($backup);
@@ -285,36 +299,27 @@ sub save {
     return undef;    # return the report
 }
 
+# $reporter is set to undef when recursing into a hash below the
+# Foswiki::Configure::Value level
 sub _compareConfigs {
-
-    my ( $spec, $oldcfg, $newcfg, $reporter ) = @_;
-
-    $reporter->NOTE('| *Key* | *Old* | *New* |');
-    local $Data::Dumper::Terse    = 1;
-    local $Data::Dumper::Indent   = 0;
-    local $Data::Dumper::SortKeys = 1;
-
-    _same( $spec, $oldcfg, $newcfg, '', $reporter );
-}
-
-sub _dump {
-    my $val = shift;
-    local $Data::Dumper::Indent = 0;
-    return Data::Dumper->Dump( [$val] );
-}
-
-sub _same {
-    my ( $spec, $o, $n, $keypath, $reporter ) = @_;
-    my ( $old, $new );
+    my ( $spec, $o, $n, $reporter, $keypath ) = @_;
 
     return 1 unless ( defined $o || defined $n );
 
+    my $old =
+      Foswiki::Configure::Reporter::ellipsis(
+        Foswiki::Configure::Reporter::uneval($o), CHANGE_LIMIT );
+    my $new =
+      Foswiki::Configure::Reporter::ellipsis(
+        Foswiki::Configure::Reporter::uneval($n), CHANGE_LIMIT );
+
     if ( ref($o) ne ref($n) ) {
-        $old = _dump($o);
-        $new = _dump($n);
         $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
         return 0;
     }
+
+    # Intermediates on the road to a value will return undef here.
+    my $vs = $spec->getValueObject($keypath);
 
     # We know they are the same type
     if ( ref($o) eq 'HASH' ) {
@@ -322,13 +327,13 @@ sub _same {
         my $ok = 1;
         foreach my $k ( sort keys %keys ) {
             unless (
-                _same(
+                _compareConfigs(
                     $spec,
                     $o->{$k},
                     $n->{$k},
+                    $vs ? undef : $reporter,
                     $keypath . '{'
-                      . Foswiki::Configure::LoadSpec::protectKey($k) . '}',
-                    $reporter
+                      . Foswiki::Configure::LoadSpec::protectKey($k) . '}'
                 )
               )
             {
@@ -340,18 +345,20 @@ sub _same {
 
     if ( ref($o) eq 'ARRAY' ) {
         if ( scalar(@$o) != scalar(@$n) ) {
-            $old = '[' . scalar(@$o) . ']';
-            $new = '[' . scalar(@$n) . ']';
-            $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
+            if ($reporter) {
+                $reporter->NOTE("| $keypath | $old | $new |");
+            }
             return 0;
         }
         else {
             for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
-                unless ( _same( $spec, $o->[$i], $n->[$i], "$keypath\[$i\]" ) )
+                unless (
+                    _compareConfigs(
+                        $spec, $o->[$i], $n->[$i], undef, "$keypath\[$i\]"
+                    )
+                  )
                 {
                     if ($reporter) {
-                        $old = _dump($o);
-                        $new = _dump($n);
                         $reporter->NOTE("| $keypath | $old | $new |");
                     }
                     return 0;
@@ -363,49 +370,39 @@ sub _same {
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
-        if ( my $vs = $spec->getValueObject($keypath) ) {
-            if ( $vs->{typename} eq 'PASSWORD' ) {
-                $reporter->NOTE("| $keypath | _[redacted]_ | _[redacted]_ |")
-                  if $reporter;
-                return 0;
+        if ($reporter) {
+            if ( $vs && $vs->{typename} eq 'PASSWORD' ) {
+                $reporter->NOTE("| $keypath | _[redacted]_ | _[redacted]_ |");
+            }
+            else {
+                $reporter->NOTE("| $keypath | $old | $new |");
             }
         }
-
-        $old = _dump($o);
-        $new = _dump($n);
-        $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
         return 0;
     }
 
     return 1;
 }
 
-sub _spec_dump {
-    my ( $spec, $datum, $keys ) = @_;
+# $datum starts as \%Foswiki::cfg and recurses down the hash tree
+sub _generateLSC {
+    my ( $spec, $datum, $keys, $reporter ) = @_;
 
     my @dump;
-    if ( my $vs = $spec->getValueObject($keys) ) {
+
+    my $vs = $spec->getValueObject($keys);
+    if ($vs) {
         my $d;
         if ( $vs->{typename} eq 'REGEX' ) {
+
+            # Force qr/^regex$/ to '^regex$'
             $datum = "$datum";
         }
         if ( $vs->{typename} eq 'BOOLEAN' ) {
             $d = ( $datum ? 1 : 0 );
         }
-        elsif ( $vs->{typename} eq 'NUMBER' ) {
-            $d = $datum;
-        }
-
-        # SMELL: Perl Datatype comes in from JSON as a quoted string,
-        # but might be stored as a HASH or ARRAY,
-        elsif ( $vs->{typename} eq 'PERL' && !ref($datum) ) {
-            print STDERR "Setting $keys to ($datum)\n";
-            $d = "$datum";
-        }
         else {
-            $d = Data::Dumper->Dump( [$datum] );
-            $d =~ s/^\$VAR1\s*=\s*//s;
-            $d =~ s/;\s*$//s;
+            $d = Foswiki::Configure::Reporter::uneval($datum);
         }
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
@@ -413,15 +410,14 @@ sub _spec_dump {
         foreach my $k ( sort keys %$datum ) {
             my $v  = $datum->{$k};
             my $sk = Foswiki::Configure::LoadSpec::protectKeys("{$k}");
-            push( @dump, _spec_dump( $spec, $v, "${keys}$sk" ) );
+            push( @dump, _generateLSC( $spec, $v, "${keys}$sk", $reporter ) );
         }
     }
     else {
-        my $d = Data::Dumper->Dump( [$datum] );
+        my $d  = Foswiki::Configure::Reporter::uneval($datum);
         my $sk = Foswiki::Configure::LoadSpec::protectKeys($keys);
-        $d =~ s/^\$VAR1/\$Foswiki::cfg$sk/;
-        push( @dump, "# Not found in .spec\n" );
-        push( @dump, $d );
+        push( @dump, "# $sk was not found in .spec\n" );
+        push( @dump, "\$Foswiki::cfg$sk = $d;\n" );
     }
 
     return @dump;

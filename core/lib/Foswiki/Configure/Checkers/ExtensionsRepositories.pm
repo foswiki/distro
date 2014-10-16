@@ -16,19 +16,16 @@ use Foswiki::Configure::Checkers::URL ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $keys = $this->{item}->{keys};
+    $this->showExpandedValue($reporter);
 
-    my $value = $this->getCfgUndefOk();
+    my $replist = $this->{item}->getExpandedValue();
 
-    unless ($value) {
+    unless ($replist) {
         $reporter->NOTE("No repositories specified");
         return;
     }
-    $this->showExpandedValue($reporter);
 
     my @list;
-    my $replist = $this->getCfgUndefOk() || '';
-
     while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
         my ( $name, $value ) = ( $1, $2 );
         if ( $value =~

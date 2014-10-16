@@ -22,10 +22,10 @@ sub check_current_value {
 
     return unless ( $Foswiki::cfg{UserInterfaceInternationalisation} );
 
-    my $enabled = $this->getCfg();
+    my $enabled = $this->{item}->getExpandedValue();
     return unless $enabled;
 
-    my $dir      = $this->getCfg('{LocalesDir}');
+    my $dir = Foswiki::Configure::Load::expand( $Foswiki::cfg{LocalesDir} );
     my $compress = $Foswiki::cfg{LanguageFileCompression};
 
     my $lang = $this->{item}->{keys};

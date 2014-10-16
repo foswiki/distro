@@ -30,7 +30,7 @@ sub checkEnabled {
 
     my $keys = $this->{item}->{keys};
 
-    my $value = $this->getCfg();
+    my $value = $this->{item}->getExpandedValue();
 
     # Unused passwords should not be hanging around.
 

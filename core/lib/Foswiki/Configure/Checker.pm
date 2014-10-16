@@ -165,29 +165,28 @@ sub check_current_value {
     }
 }
 
-=begin TML
+###################################################################
+# Compatibility methods
+# Note that ASSERT($this->{reporter} if DEBUG is used to confirm that
+# the call has come from an implementation of check()
 
----++ ObjectMethod getCfg([$keys]) -> $expanded_value
-Get the value of the named configuration var.
-   * =$keys= - optional keys to retrieve e.g
-     =getCfg("{Validation}{ExpireKeyOnUse}")=. Defaults to the
-    keys of the item associated with the checker.
-
-Any embedded references to other Foswiki::cfg vars will be expanded.
-Note that any embedded references to undefined variables will be
-expanded as the string 'undef'. Use =getCfgUndefOk= if you want a
-real undef for undefined values rather than the string.
-
-Synonymous with:
-<verbatim>
-my $x = '$Foswiki::cfg{Keys}';
-Foswiki::Configure::Load::expandValue($x, 0);
-</verbatim>
-Thus it returns the value as Foswiki will see it (i.e. with undef
-expanded as the string 'undef')
-
-=cut
-
+# Get the value of the named configuration var.
+#    * =$keys= - optional keys to retrieve e.g
+#      =getCfg("{Validation}{ExpireKeyOnUse}")=. Defaults to the
+#     keys of the item associated with the checker.
+#
+# Any embedded references to other Foswiki::cfg vars will be expanded.
+# Note that any embedded references to undefined variables will be
+# expanded as the string 'undef'. Use =getCfgUndefOk= if you want a
+# real undef for undefined values rather than the string.
+#
+# Synonymous with:
+# <verbatim>
+# my $x = '$Foswiki::cfg{Keys}';
+# Foswiki::Configure::Load::expandValue($x, 0);
+# </verbatim>
+# Thus it returns the value as Foswiki will see it (i.e. with undef
+# expanded as the string 'undef')
 sub getCfg {
     my ( $this, $name ) = @_;
     $name ||= $this->{item}->{keys};
@@ -197,19 +196,11 @@ sub getCfg {
     return $item;
 }
 
-=begin TML
-
----++ ObjectMethod getCfgUndefOk([$keys]) -> $expanded_value
-
-As =getCfg=, except that =undef= will not be expanded to the string 'undef'.
-Note that recursive expansion of embedded =$Foswiki::cfg= will also return
-undef, and will result in a program error.
-
-=cut
-
+# As =getCfg=, except that =undef= will not be expanded to the string 'undef'.
+# Note that recursive expansion of embedded =$Foswiki::cfg= will also return
+# undef, and will result in a program error.
 sub getCfgUndefOk {
 
-    # $undef provided for check() compatibility; new callers must not use it
     my ( $this, $name, $undef ) = @_;
     $name ||= $this->{item}->{keys};
 
@@ -217,11 +208,6 @@ sub getCfgUndefOk {
     Foswiki::Configure::Load::expandValue( $item, defined $undef ? $undef : 1 );
     return $item;
 }
-
-###################################################################
-# Compatibility methods
-# Note that ASSERT($this->{reporter} if DEBUG is used to confirm that
-# the call has come from an implementation of check()
 
 # Provided for compatibility; if a checker tries to call SUPER::check and
 # the superclass only has check_current_value, it will fold back to here.
@@ -375,16 +361,13 @@ Return the expanded value of a parameter as a note for display.
 sub showExpandedValue {
     my ( $this, $reporter ) = @_;
 
-    my $field = eval "\$Foswiki::cfg$this->{item}->{keys}";
+    my $field = $this->{item}->getExpandedValue();
     if ( defined $field ) {
-        Foswiki::Configure::Load::expandValue($field);
         if ( ref($field) ) {
-            local $Data::Dumper::Indent = 2;
-            $field = Data::Dumper->Dump( [$field] );
-            $field =~ s/\$.*?= //;
+            $field = Foswiki::Configure::Reporter::uneval( $field, 2 );
             $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
         }
-        elsif ($field) {
+        elsif ( $field ne '' ) {
             if ( $field =~ /\n/ ) {
                 $reporter->NOTE( 'Expands to: <verbatim>',
                     $field, '</verbatim>' );
@@ -393,30 +376,16 @@ sub showExpandedValue {
                 $reporter->NOTE("Expands to: =$field=");
             }
         }
-        elsif ( defined $field ) {
+        else {
             $reporter->NOTE("Expands to ''");
         }
-        else {
-            $reporter->NOTE("Is undefined after expansion");
+    }
+    else {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->NOTE("$this->{item}->{keys} is undefined");
         }
     }
-    elsif ( !$this->{item}->{UNDEFINEDOK} ) {
-        $reporter->NOTE("$this->{item}->{keys} is undefined");
-    }
-}
-
-# Strip traceback from die and carp for a user message
-
-sub stripTraceback {
-    my ( $this, $message ) = @_;
-
-    return '' unless ( length $message );
-
-    return $message if ( $Foswiki::cfg::{DebugTracebacks} );
-
-    $message = ( split( /\n/, $message ) )[0];
-    $message =~ s/ at .*? line \d+\.$//;
-    return $message;
 }
 
 1;

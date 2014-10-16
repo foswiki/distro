@@ -1,26 +1,46 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Cache::Debug;
+package Foswiki::Configure::Wizards::Test;
+
+=begin TML
+
+---++ package Foswiki::Configure::Wizards::Test
+
+Wizard to test configure parameter passing
+
+=cut
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Assert;
 
-sub check_current_value {
+use Foswiki::Configure::Wizard ();
+our @ISA = ('Foswiki::Configure::Wizard');
+
+sub test1 {
     my ( $this, $reporter ) = @_;
 
-    return
-      unless $Foswiki::cfg{Cache}{Enabled}
-      && $Foswiki::cfg{Cache}{Debug};
-    $reporter->WARN('Debugging enabled. This can impact performances');
+    die "No username" unless $this->param('cfgusername');
+    die "No password" unless $this->param('cfgpassword');
+    $reporter->ERROR("This is an error");
+    $reporter->WARN("This is a warning");
+    $reporter->NOTE("This is a note");
+    $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'ROPE';
+    $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{STRING}');
+    return undef;
+}
+
+sub format {
+    my ( $this, $reporter ) = @_;
+    $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{PERL}');
+    return undef;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

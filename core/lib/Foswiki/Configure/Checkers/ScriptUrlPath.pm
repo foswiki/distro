@@ -11,12 +11,9 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     # Check Script URL Path against REQUEST_URI
-    my $value  = $this->getCfg();
-    my $report = '';
-
     $this->SUPER::check_current_value($reporter);
 
-    if ( $value =~ /\/+$/ ) {
+    if ( $this->{item}->getExpandedValue() =~ /\/+$/ ) {
         $reporter->WARN('A trailing / is not recommended');
     }
 }

@@ -88,8 +88,6 @@ sub test_changecfg {
     my $reporter = Foswiki::Configure::Reporter->new();
     $wizard->save($reporter);
 
-    #print STDERR Data::Dumper->Dump([$reporter]);
-
     # Check report
     my $ms = $reporter->messages();
     $this->assert_matches( qr/^Previous/,                    $ms->[0]->{text} );

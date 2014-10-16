@@ -14,12 +14,13 @@ sub check_current_value {
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
-    my $file = $this->getCfg('{Email}{SSLCaFile}');
+    my $file =
+      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaFile} );
 
     if ( $file && !-r $file ) {
         $reporter->ERROR("Unable to read $file");
     }
-    my $path = $this->getCfg();
+    my $path = $this->{item}->getExpandedValue();
     if ($path) {
         if ( !( -d $path && -r _ ) ) {
             $reporter->ERROR(
@@ -35,7 +36,8 @@ sub check_current_value {
         );
     }
 
-    my $cfile = $this->getCfg('{Email}{SSLCrlFile}');
+    my $cfile =
+      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCrlFile} );
     if ( $Foswiki::cfg{Email}{SSLCheckCRL}
         && !( $path || $cfile ) )
     {

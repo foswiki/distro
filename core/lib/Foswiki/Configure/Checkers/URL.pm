@@ -46,8 +46,11 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
-    checkURI( $reporter, $this->getCfgUndefOk(),
-        %{ $this->{item}->{CHECK}->[0] || {} } );
+    checkURI(
+        $reporter,
+        $this->{item}->getExpandedValue(),
+        %{ $this->{item}->{CHECK}->[0] || {} }
+    );
 }
 
 sub _list2hash {
@@ -65,7 +68,6 @@ sub checkURI {
     }
 
     # Apply defaults
-    $checks{expand}   ||= [0];
     $checks{parts}    ||= [qw/scheme authority path/];
     $checks{partsreq} ||= [qw/scheme authority/];
     $checks{schemes}  ||= [qw/http https/];
@@ -73,10 +75,6 @@ sub checkURI {
     $checks{notrail}  ||= [0];
     $checks{pass}     ||= [0];
     $checks{user}     ||= $checks{pass}[0] ? [1] : [0];
-
-    if ( $checks{expand}[0] ) {
-        Foswiki::Configure::Load::expandValue($uri);
-    }
 
     $uri =~ s/^\s*(.*?)\s*$/$1/ if defined $uri;
 

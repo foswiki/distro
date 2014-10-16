@@ -19,18 +19,28 @@ our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
+    my $val = $this->{item}->getExpandedValue();
+
+    if ( !defined $val ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("A value must be given (may not be undefined)");
+            return;
+        }
+        $val = 0;
+    }
 
     my $check = $this->{item}->{CHECK}->[0];
     if ($check) {
         if ( defined $check->{min} ) {
             my $v = eval "0$check->{min}[0]";
             $reporter->ERROR("Value must be at least $check->{min}[0]")
-              if ( defined $v && $this->getCfg() < $v );
+              if ( defined $v && $val < $v );
         }
         if ( defined $check->{max} ) {
             my $v = eval "0$check->{max}[0]";
             $reporter->ERROR("Value must be no greater than $check->{min}[0]")
-              if ( defined $v && $this->getCfg() > $v );
+              if ( defined $v && $val > $v );
         }
     }
 }

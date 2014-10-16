@@ -333,7 +333,7 @@ sub show_request {
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
-    my $csrfile = "$ceertfile.csr";
+    my $csrfile = "$certfile.csr";
 
     unless ( -r $csrfile ) {
         $reporter->ERROR("No CSR pending");

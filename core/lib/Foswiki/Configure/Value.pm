@@ -65,22 +65,20 @@ use Foswiki::Configure::FileUtil ();
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
-    FEEDBACK    => { parse_val => '_FEEDBACK' },
-    CHECK       => { parse_val => '_CHECK' },
-    CHECKER     => {},
-    MANDATORY   => {},
-    MULTIPLE    => {},         # Allow multiple select
-    HIDDEN      => {},
-    UNDEFINEDOK => {},         # Allow non-existant values
-    SPELLCHECK  => {},
-    EXPERT      => {},
-    DISPLAY_IF  => { openclose => 1 },
-    ENABLE_IF   => { openclose => 1 },
+    FEEDBACK   => { parse_val => '_FEEDBACK' },
+    CHECK      => { parse_val => '_CHECK' },
+    CHECKER    => {},
+    MANDATORY  => {},
+    MULTIPLE   => {},         # Allow multiple select
+    HIDDEN     => {},
+    SPELLCHECK => {},
+    EXPERT     => {},
+    DISPLAY_IF => { openclose => 1 },
+    ENABLE_IF  => { openclose => 1 },
 
     # Rename single character options (legacy)
     M => 'MANDATORY',
-    H => 'HIDDEN',
-    U => 'UNDEFINEDOK'
+    H => 'HIDDEN'
 };
 
 =begin TML
@@ -265,32 +263,48 @@ sub getAllValueKeys {
     return ( $this->{keys} );
 }
 
-=pod
+=begin TML
 
----++ ObjectMethod stringify( $value) -> $string
-Use type information to generate a storeable / loggable rendition of the value.
+---++ ObjectMethod getRawValue() -> $rawval
+
+Get the current value of the key from $Foswiki::cfg.
+The value returned is not expanded (embedded $Foswiki::cfg references
+will be intact)
+
 =cut
 
-sub stringify {
-    my ( $this, $value ) = @_;
+sub getRawValue {
+    my ($this) = @_;
 
-    if ( $this->{typename} eq 'PERL' || ref $value ) {
-
-        # || $this->{typename} eq 'HASH'
-        # || $this->{typename} eq 'ARRAY' ) {
-        require Data::Dumper;
-
-        local $Data::Dumper::Sortkeys = 1;
-        local $Data::Dumper::Terse    = 1;
-
-        $value = Data::Dumper::Dumper($value);
-    }
-    return $value;
+    my $val = eval "\$Foswiki::cfg$this->{keys}";
+    ASSERT( !$@, $@ ) if DEBUG;
+    return $val;
 }
 
 =begin TML
 
----++ ObjectMethod encodeValue($true_value) -> $encoded_value
+---++ ObjectMethod getExpandedValue() -> $expandedval
+
+Get the current value of the key from $Foswiki::cfg.
+The value returned with embedded $Foswiki::cfg references
+recursively expanded. If the current value is undef, then undef
+is returned. Embedded references that evaluate to undef
+are expanded using the string 'undef'.
+
+=cut
+
+sub getExpandedValue {
+    my ( $this, $name ) = @_;
+
+    my $val = $this->getRawValue();
+    return undef unless defined $val;
+    Foswiki::Configure::Load::expandValue($val);
+    return $val;
+}
+
+=begin TML
+
+---++ ObjectMethod encodeValue($raw_value) -> $encoded_value
 
 Encode a "real" cfg value as a string (if necessary) for passing
 to other tools, such as UIs, in a type-sensitive way.
@@ -318,7 +332,7 @@ sub encodeValue {
 
 =begin TML
 
----++ ObjectMethod decodeValue($encoded_value) -> $true_value
+---++ ObjectMethod decodeValue($encoded_value) -> $raw_value
 
 Decode a string that represents the value (e.g a serialsed perl structure)
 and return the 'true' value by applying type rules
@@ -336,7 +350,7 @@ sub decodeValue {
     }
     elsif ( $this->{typename} eq 'PERL' ) {
         my $value = eval $value;
-        ASSERT( !$@, $@ ) if DEBUG;
+        die $@ if $@;
         return $value;
     }
     elsif ( $this->{typename} eq 'BOOLEAN' ) {

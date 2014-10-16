@@ -23,7 +23,7 @@ are slightly different.
 package Foswiki::Configure::Checkers::Certificate;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load;
 
 use MIME::Base64;
@@ -36,11 +36,11 @@ use Assert;
 my $expwarn = 30 * ( 24 * 60 * 60 );
 
 sub check_current_value {
-    ASSERT(0, "Subclasses must implement this") if DEBUG;
+    ASSERT( 0, "Subclasses must implement this" ) if DEBUG;
 }
 
 sub check {
-    ASSERT(0, "Unexpected call") if DEBUG;
+    ASSERT( 0, "Unexpected call" ) if DEBUG;
 }
 
 # Private methods
@@ -106,9 +106,9 @@ sub checkUsage {
     my ( $this, $keys, $usage, $reporter ) = @_;
 
     my $value = eval "\$Foswiki::cfg$keys";
-    my $e     = '';
     if ($@) {
-        $reporter->ERROR("Can't evaluate current value of $keys: $@");
+        $reporter->ERROR( "Can't evaluate current value of $keys: "
+              . Foswiki::Configure::Reporter::stripStacktrace($@) );
         return ();
     }
 
@@ -118,7 +118,8 @@ sub checkUsage {
     unless ( defined $value ) {
         $value = eval "\$Foswiki::Configure::defaultCfg->$keys";
         if ($@) {
-            $reporter->ERROR("Can't evaluate default value of $keys: $@");
+            $reporter->ERROR( "Can't evaluate default value of $keys: "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) );
             return ();
         }
         $value = "***UNDEF***" unless defined $value;
@@ -141,7 +142,7 @@ sub checkUsage {
         return ();
     }
     else {
-        if ( ( ( stat $value )[2] || 0 ) & 002) {
+        if ( ( ( stat $value )[2] || 0 ) & 002 ) {
             $reporter->ERROR("File permissions allow world write");
             return ();
         }
@@ -151,7 +152,7 @@ sub checkUsage {
     if ($@) {
         $reporter->WARN(
             "Unable to verify certificate: Please install Crypt::X509 from CPAN"
-            );
+        );
         return ();
     }
 
@@ -253,7 +254,7 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
 
     $reporter->NOTE($notes);
     $reporter->WARN($warnings) if ($warnings);
-    $reporter->ERROR($errors) if ($errors);
+    $reporter->ERROR($errors)  if ($errors);
 
     # Handle any chained certificates in file.
     # These must be CAs, so we don't bother with alternate names
@@ -313,7 +314,7 @@ Issued by %s for %s<br />", ( $x->issuer_cn || 'Unknown issuer' ),
 
             $reporter->NOTE($notes);
             $reporter->WARN($warnings) if ($warnings);
-            $reporter->ERROR($errors) if ($errors);
+            $reporter->ERROR($errors)  if ($errors);
         }
     }
     return @ans;

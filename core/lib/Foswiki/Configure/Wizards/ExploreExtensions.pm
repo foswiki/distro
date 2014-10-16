@@ -93,7 +93,6 @@ sub _getListOfExtensions {
 
         if ( !$response->is_error() ) {
 
-            #print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
             my $page = $response->content();
             if ( defined $page ) {
 

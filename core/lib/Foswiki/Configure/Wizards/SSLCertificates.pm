@@ -12,6 +12,8 @@ Wizard to check SSL certificates.
 use strict;
 use warnings;
 
+use Foswiki::Configure::Checker ();
+
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 

@@ -416,6 +416,8 @@ hash with fields =keys= and =reports=. =reports= is an array of reports,
 each being a hash with keys =level= (e.g. =warnings=, =errors=), and
 =message=.
 
+Any errors will be reported using exceptions.
+
 =cut
 
 sub _getSetParams {
@@ -426,7 +428,8 @@ sub _getSetParams {
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;
                 if ($spec) {
-                    $value = $spec->decodeValue($value);
+                    eval { $value = $spec->decodeValue( $value, 1 ); };
+                    die "The value of $k was unreadable: $@" if $@;
                 }
                 if ( defined $value ) {
                     eval "\$Foswiki::cfg$k=\$value";
@@ -438,7 +441,7 @@ sub _getSetParams {
             else {
                 eval "undef \$Foswiki::cfg$k";
             }
-            die $@ if $@;
+            die $@ if ($@);
         }
 
         # Expand imported values
@@ -498,7 +501,14 @@ sub check_current_value {
     my %deps;
 
     # Apply "set" values to $Foswiki::cfg
-    _getSetParams( $params, $root );
+    eval { _getSetParams( $params, $root ); };
+
+    if ($@) {
+        $reporter->ERROR( '<verbatim>'
+              . Foswiki::Configure::Reporter::stripStacktrace($@)
+              . '</verbatim>' );
+        return [ { reports => $reporter->messages() } ];
+    }
 
     if ( $params->{check_dependencies} ) {
 
@@ -594,7 +604,12 @@ sub wizard {
     $method = $1;                                                  # untaint
     my $reporter = Foswiki::Configure::Reporter->new();
 
-    _getSetParams( $params, $root );
+    eval { _getSetParams( $params, $root ); };
+
+    if ($@) {
+        $reporter->ERROR( Foswiki::Configure::Reporter::stripStacktrace($@) );
+        return undef;
+    }
 
     my $response = $target->$method($reporter);
 

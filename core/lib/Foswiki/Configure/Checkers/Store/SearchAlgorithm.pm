@@ -7,15 +7,14 @@ use strict;
 use warnings;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Native$/ ) {
         eval 'use Foswiki::Store::SearchAlgorithms::Native';
         if ($@) {
-            $reporter->ERROR(<<EOF);
-Sorry, I could not find the required components for Native search. The
-error was: $@
-EOF
+            $reporter->ERROR(
+"Sorry, I could not find the required components for Native search. The error was: "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) );
         }
     }
     if (    ( $^O eq 'MSWin32' )

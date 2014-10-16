@@ -9,21 +9,26 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 # This is a generic (item-independent) checker for regular expressions.
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->showExpandedValue($reporter);
 
-    my $str = $this->getCfgUndefOk();
+    my $str = $this->{item}->getExpandedValue();
 
-    if (defined $str) {
-        eval { qr/$str/ };
-        if ($@) {
-            my $msg = $this->stripTraceback($@);
-            $reporter->ERROR(<<"MESS");
+    if ( !defined $str ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("Must be non-empty");
+        }
+        return;
+    }
+    eval { qr/$str/ };
+    if ($@) {
+        my $msg = Foswiki::Configure::Reporter::stripStacktrace($@);
+        $reporter->ERROR(<<"MESS");
 Invalid regular expression: $msg <p />
 See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> for help with Perl regular expressions.
 MESS
-        }
     }
 }
 

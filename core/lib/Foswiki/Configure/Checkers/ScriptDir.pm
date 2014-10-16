@@ -11,7 +11,7 @@ our @ISA = ('Foswiki::Configure::Checkers::PATH');
 sub validate {
     my ( $this, $reporter ) = @_;
 
-    my $dir = $this->getCfg();
+    my $dir = $this->{item}->getExpandedValue();
 
     my $ext = $Foswiki::cfg{ScriptSuffix} || '';
     my $errs = '';

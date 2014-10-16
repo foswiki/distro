@@ -10,24 +10,31 @@ our @ISA = ('Foswiki::Configure::Checkers::PATH');
 use Foswiki::Configure::FileUtil ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    my $d = $this->getCfg();
+    my ( $this, $reporter ) = @_;
+    my $d = $this->{item}->getExpandedValue();
 
-    if (-d $d) {
-        my $path = $d.'/'.time;
+    if ( !$d ) {
+        $reporter->ERROR("Must be defined");
+    }
+    elsif ( -d $d ) {
+        my $path   = $d . '/' . time;
         my $report = Foswiki::Configure::FileUtil::checkCanCreateFile($path);
         if ($report) {
             $reporter->ERROR("Cannot write to this directory");
         }
-    } else {
+    }
+    elsif ( -e $d ) {
         $reporter->ERROR("Exists, but is not a directory");
-    } 
+    }
+    else {
+        $reporter->ERROR("Does not exist");
+    }
 }
 
 sub commit_new_value {
     my ( $this, $reporter ) = @_;
 
-    my $d = $this->getCfg();
+    my $d = $this->{item}->getExpandedValue();
 
     # SMELL:   In a suexec environment, umask is forced to 077, blocking
     # group and world access.  This is probably not bad for the working
@@ -40,8 +47,8 @@ sub commit_new_value {
 
     unless ( -d $d ) {
         mkdir( $d, oct(755) )
-          || return
-            $reporter->ERROR("$d does not exist, and I can't create it: $!");
+          || return $reporter->ERROR(
+            "$d does not exist, and I can't create it: $!");
         $reporter->NOTE("Created $d");
     }
 
@@ -76,8 +83,8 @@ sub commit_new_value {
     if ( $existing && -d $existing ) {
 
         # Try and move the contents of the old workarea
-        my @report = Foswiki::Configure::FileUtil::copytree(
-            $existing, "$d/work_areas" );
+        my @report =
+          Foswiki::Configure::FileUtil::copytree( $existing, "$d/work_areas" );
         if (@report) {
             $reporter->ERROR(@report);
         }
@@ -105,9 +112,9 @@ the upgrade." );
 
     umask($saveumask);
 
-    my $report = Foswiki::Configure::FileUtil::checkTreePerms(
-        $d, 'rw', filter => qr/configure\/backup\/|README/ );
-    $reporter->ERROR(@{$report->{messages}});
+    my $report = Foswiki::Configure::FileUtil::checkTreePerms( $d, 'rw',
+        filter => qr/configure\/backup\/|README/ );
+    $reporter->ERROR( @{ $report->{messages} } );
 }
 
 1;

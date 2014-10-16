@@ -12,13 +12,13 @@ my @required = (
 );
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{UseLocale} ) {
         eval "use locale;use POSIX";
         if ($@) {
-            $Foswiki::cfg{UseLocale} = 0;
-            return $this->WARN( 'Disabling locales. Error was: ' . $@ );
+            return $this->WARN( 'Locales cannot be used. Error was: '
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) );
         }
         my $locale = $Foswiki::cfg{Site}{Locale};
         POSIX::setlocale( &POSIX::LC_CTYPE, $locale );

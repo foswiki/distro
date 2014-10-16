@@ -102,10 +102,9 @@ sub construct {
         # Create the item under the current heading
         my $value = Foswiki::Configure::Value->new(
             'URLPATH',
-            keys        => $keys,
-            desc        => "Full URL for $script script. Rarely modified.",
-            EXPERT      => 1,
-            UNDEFINEDOK => 1,
+            keys   => $keys,
+            desc   => "Full URL for $script script. Rarely modified.",
+            EXPERT => 1,
 
             # By providing a default we are suggesting it is a
             # good idea - which it isn't. So don't.

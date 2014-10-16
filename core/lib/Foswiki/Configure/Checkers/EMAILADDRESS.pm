@@ -21,31 +21,34 @@ sub check_current_value {
 
     $this->showExpandedValue($reporter);
 
+    my $value = $this->{item}->getExpandedValue();
+    if ( !defined $value ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("Cannot be undefined");
+        }
+        return;
+    }
+    $value = $this->{item}->getExpandedValue();
+
     my $check = $this->{item}->{CHECK}->[0] || {};
 
     my $nullok = $check->{nullok}[0] || 0;
     my $list = $check->{list}[0];
 
-    my $value = $this->getCfg();
+    my @addrs;
+    @addrs = split( /,\s*/, $value ) if ( defined $list );
+    push @addrs, $value unless ( defined $list );
 
-    if ( !defined $value ) {
-        $reporter->ERROR("Not defined");
-    }
-    else {
-        my @addrs;
-        @addrs = split( /,\s*/, $value ) if ( defined $list );
-        push @addrs, $value unless ( defined $list );
+    $reporter->ERROR("An e-mail address is required")
+      unless ( @addrs || $nullok );
 
-        $reporter->ERROR("An e-mail address is required")
-          unless ( @addrs || $nullok );
+    foreach my $addr (@addrs) {
+        $reporter->WARN("\"$addr\" does not appear to be an e-mail address")
+          unless (
+            $addr =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );
 
-        foreach my $addr (@addrs) {
-            $reporter->WARN("\"$addr\" does not appear to be an e-mail address")
-              unless (
-                $addr =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );
-
-            # unless( $addr =~ /\s*[^@]+\@\S+\s*/ ); #'
-        }
+        # unless( $addr =~ /\s*[^@]+\@\S+\s*/ ); #'
     }
 }
 

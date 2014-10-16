@@ -3,11 +3,11 @@
 # ---+++ Testing
 # The following key specs are only used in testing the ConfigurePlugin
 # and do nothing.
-# **STRING FEEDBACK="label='Test one';wizard='Test';method='test';auth=1" \
-#          FEEDBACK="label='Test two';wizard='Gandalf';method='wand'" \
+# **STRING FEEDBACK="label='Test one';wizard='Test';method='test1';auth=1" \
+#          FEEDBACK="label='Test two';wizard='Test';method='test1'" \
 #          CHECK="min:3 max:20" **
-# When you press the Test button, expect the value to change to "ROPE" and
-# there to be one each of the different levels of report.
+# When you press either of the test buttons, expect the value to change
+# to "ROPE" and there to be one each of the different levels of report.
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'STRING';
 # **BOOLEAN**
 # Should be 1
@@ -33,14 +33,15 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PASSWORD} = 'PASSWORD';
 # **PATH**
 # Should be PATH
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PATH} = 'PATH';
-# **PERL**
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PERL} = '\'PERL\';';
+# **PERL FEEDBACK="label='Format';wizard='Test';method='format'" **
+# The test button should come back with a prettified version of your value.
+#$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PERL} = '\'PERL\';';
 # **REGEX**
 # Should be '^regex$'
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{REGEX} = '^regex$';
-# **SELECTCLASS none,Foswiki::Confi* **
-# Should be Foswiki::Configure
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{SELECTCLASS} = 'Foswiki::Configure';
+# **SELECTCLASS none,Foswiki::Configure::P* **
+# Should be Package; should offer Pluggables,Package
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{SELECTCLASS} = 'Foswiki::Configure::Package';
 # **SELECT choose,life**
 # Should be life
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{SELECT} = 'life';
@@ -54,7 +55,7 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H} = 'H';
 # **STRING EXPERT**
 # Should be EXPERT
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{EXPERT} = 'EXPERT';
-# **PATH**
+# **PATH CHECK='nullok'**
 # Should be 'empty'
 # $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{empty} = 'empty';
 # **STRING**

@@ -242,6 +242,7 @@ function _id_ify(id) {
                         $('body').css('cursor','auto');
                     }
                 });
+                return;
             }
             var id = _id_ify(r.keys),
                 has, $reports, $whine;
@@ -1000,6 +1001,7 @@ function _id_ify(id) {
                                 var handler = $(this).data('value_handler');
                                 handler.commitVal();
                                 update_modified_default($(this));
+                                $(this).removeClass('value_modified');
                             });
                             $('#saveButton').button('disable');
                         }

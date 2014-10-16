@@ -10,56 +10,44 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    #$this->showExpandedValue($reporter);
+    my $value = $this->{item}->getRawValue();
 
-    my $value = $this->getCfgUndefOk();
+    if ( !defined $value ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR('May not be undefined');
+        }
+        return;
+    }
 
-    return if ( defined $value );
-
-    return if $this->{item}->{UNDEFINEDOK};
-
-    return $reporter->ERROR("Unexpected undefined PERL value");
+    _check_for_null( $value, $reporter );
 }
 
-# Simple parse of a perl value to determine if it matches a simple
-# grammar. Returns the remainder of the string at the point completed.
-# If the parse completed, this will be the empty string.
-# SMELL: move this to JS
-sub _rvalue {
-    my ( $s, $term ) = @_;
-    $s =~ s/^\s+(.*?)$/$1/s;
-    while ( length($s) > 0 && ( !$term || $s !~ s/^\s*$term// ) ) {
-        if ( $s =~ s/^\s*'//s ) {
-            my $escaped = 0;
-            while ( length($s) > 0 && $s =~ s/^(.)//s ) {
-                last if ( $1 eq "'" && !$escaped );
-                $escaped = ( $escaped ? 0 : $1 eq '\\' );
-            }
-        }
-        elsif ( $s =~ s/^\s*"//s ) {
-            my $escaped = 0;
-            while ( length($s) > 0 && $s =~ s/^(.)//s ) {
-                last if ( $1 eq '"' && !$escaped );
-                $escaped = ( $escaped ? 0 : $1 eq '\\' );
-            }
-        }
-        elsif ( $s =~ s/^\s*(\w+)//s ) {
-        }
-        elsif ( $s =~ s/^\s*\[//s ) {
-            $s = _rvalue( $s, ']' );
-        }
-        elsif ( $s =~ s/^\s*{//s ) {
-            $s = _rvalue( $s, '}' );
-        }
-        elsif ( $s =~ s/^\s*(,|=>)//s ) {
-        }
-        else {
-            last;
-        }
-    }
-    $s =~ s/^\s+//s;
+# Ensure undef expansions in perl structures won't cause problems
+sub _check_for_null {
+    my ( $value, $reporter ) = @_;
 
-    return $s;
+    if ( ref($value) eq 'HASH' ) {
+        _check_for_null($_) foreach ( values %$value );
+    }
+    elsif ( ref($value) eq 'ARRAY' ) {
+        _check_for_null($_) foreach (@$value);
+    }
+    $value =~
+s/(\$Foswiki::cfg$Foswiki::Configure::Load::ITEMREGEX)/_check_null($1)/geso;
+}
+
+sub _check_null {
+    my ( $str, $reporter ) = @_;
+    my $val = eval $str;
+    if ($@) {
+        $reporter->ERROR( "Expansion of embedded $str failed: "
+              . Foswiki::Configure::Reporter::stripStacktrace($@) );
+    }
+    elsif ( !defined $val ) {
+        $reporter->ERROR("Embedded $str is undefined");
+    }
+    return $str;
 }
 
 1;

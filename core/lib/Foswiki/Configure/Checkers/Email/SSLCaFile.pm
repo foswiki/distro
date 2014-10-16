@@ -15,7 +15,11 @@ sub check_current_value {
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
-    my $file = $this->getCfg();
+    my $file = $this->{item}->getExpandedValue();
+    if ( !defined $file ) {
+        $reporter->ERROR("A value must be given (may not be undefined)");
+        return;
+    }
 
     if ($file) {
         unless ( $file =~ m,^([\w_./]+)$, ) {
@@ -36,7 +40,8 @@ sub check_current_value {
         }
     }
 
-    my $path = $this->getCfg('{Email}{SSLCaPath}');
+    my $path =
+      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaPath} );
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );

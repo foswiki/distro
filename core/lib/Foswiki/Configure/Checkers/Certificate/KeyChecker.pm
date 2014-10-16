@@ -30,7 +30,7 @@ use Foswiki::Configure::Load ();
 use Assert;
 
 sub check {
-    ASSERT(0, "Subclasses must implement this") if DEBUG;
+    ASSERT( 0, "Subclasses must implement this" ) if DEBUG;
 }
 
 # Private methods
@@ -195,17 +195,23 @@ A lot of checking is done here to prevent mystery errors at runtime.
 =cut
 
 sub validateKeys {
-    my ($this, $keys, $passkey, $reporter) = @_;
+    my ( $this, $keys, $passkey, $reporter ) = @_;
 
     my $value = eval "\$Foswiki::cfg$keys";
-    return $reporter->ERROR("Can't evaluate current value of $keys: $@") if ($@);
+    if ($@) {
+        return $reporter->ERROR( "Can't evaluate current value of $keys: "
+              . Foswiki::Configure::Reporter::stripStacktrace($@) );
+    }
 
 # The default value may not have been available when the other defaulting is done.
 
     unless ( defined $value ) {
         $value = eval "\$Foswiki::Configure::defaultCfg->$keys";
-        return $reporter->ERROR("Can't evaluate default value of $keys: $@")
-          if ($@);
+        if ($@) {
+            return $reporter->ERROR(
+                "Can't evaluate default value of $keys: "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) );
+        }
         $value = "***UNDEF***" unless defined $value;
     }
 
@@ -223,8 +229,11 @@ sub validateKeys {
     my $password;
     if ($passkey) {
         $password = eval "\$Foswiki::cfg$passkey";
-        return $reporter->ERROR("Can't evaluate current value of $passkey: $@")
-          if ($@);
+        if ($@) {
+            return $reporter->ERROR(
+                "Can't evaluate current value of $passkey: "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) );
+        }
     }
 
     my ( $errors, @keys ) = _loadKey( $value, $passkey, $password );

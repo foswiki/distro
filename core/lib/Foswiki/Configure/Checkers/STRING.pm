@@ -23,7 +23,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $value = $this->getCfg() || '';
+    my $value = $this->{item}->getExpandedValue();
+    if ( !defined $value ) {
+        my $check = $this->{item}->{CHECK}->[0];
+        unless ( $check && $check->{nullok}[0] ) {
+            $reporter->ERROR("Must be non-empty");
+        }
+        return;
+    }
+    $value = $this->{item}->getExpandedValue();
+
     my $len = length($value);
 
     my $check = $this->{item}->{CHECK}->[0] || {};

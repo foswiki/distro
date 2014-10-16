@@ -115,7 +115,7 @@ sub readSpec {
 
     my $file = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec');
     if ($file) {
-        _parse( $file, $root );
+        parse( $file, $root );
     }
 
     my %read;
@@ -178,7 +178,7 @@ sub _loadSpecsFrom {
         $extension = $1;    # untaint
         my $file = "$dir/$extension/Config.spec";
         next unless -e $file;
-        _parse( $file, $root );
+        parse( $file, $root );
         $read->{$extension} = $file;
     }
     closedir(D);
@@ -266,13 +266,24 @@ sub _getValueObject {
     return;
 }
 
-# Parse the config declaration file and return a root node for the
-# configuration it describes
+=begin TML
 
-sub _parse {
+---++ StaticMethod parse($file, $root)
+
+Parse the config declaration file and add it to a root node for the
+configuration it describes
+
+=cut
+
+sub parse {
     my ( $file, $root ) = @_;
+    my $fh;
 
-    open( F, '<', $file ) || return '';
+    unless ( open( $fh, '<', $file ) ) {
+        print STDERR "$file open failed: $!";
+        return '';
+    }
+
     local $/ = "\n";
     my $open = undef;    # current setting or section
     my $isEnhancing = 0; # Is the current $open an existing item being enhanced?
@@ -282,7 +293,7 @@ sub _parse {
 
     print STDERR "Loading specs from $file\n" if TRACE;
 
-    while ( my $l = <F> ) {
+    while ( my $l = <$fh> ) {
         chomp $l;
 
         $context[1] = $.;
@@ -290,7 +301,7 @@ sub _parse {
         # Continuation lines
 
         while ( $l =~ s/\\$// ) {
-            my $cont = <F>;
+            my $cont = <$fh>;
             last unless defined $cont;
             chomp $cont;
             $cont =~ s/^#// if ( $l =~ /^#/ );
@@ -367,7 +378,7 @@ sub _parse {
             }
 
             while ( $value !~ s/\s*;\s*$// ) {
-                my $cont = <F>;
+                my $cont = <$fh>;
                 last unless defined $cont;
                 chomp $cont;
                 $cont =~ s/^\s+/ /;
@@ -504,7 +515,7 @@ sub _parse {
             $open->append( 'desc', $1 ) if $open;
         }
     }
-    close(F);
+    close($fh);
     if ( $open && !$isEnhancing ) {
         if ( $open->isa('Foswiki::Configure::Value') ) {
             my $otype = $open->{typename};
@@ -555,8 +566,7 @@ safe for use as a perl hash index.
 
 sub protectKey {
     my $k = shift;
-    eval $k;    # Brute force
-    return $k unless $@;
+    return $k if $k =~ /^[a-z_][a-z0-9_]*$/i;
 
     # Use ' to suppress interpolation (just in case)
     $k =~ s/'/\\'/g;    # escape '

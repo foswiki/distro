@@ -102,7 +102,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # You may need to set this if your webserver requires an extension.
 # $Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" UNDEFINEDOK MANDATORY**
+# **URLPATH CHECK='expand nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script,
 # including any suffix.
@@ -182,14 +182,14 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #      are pending verification.
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH UNDEFINEDOK EXPERT**
+# **PATH CHECK="nullok" EXPERT**
 # This is used to override the default system temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It substitutes for the environment variable =TempfileDir= which
 # is not used by Foswiki for security reasons.
 #$Foswiki::cfg{TempfileDir} = '';
 
-# **PATH EXPERT UNDEFINEDOK MANDATORY**
+# **PATH EXPERT CHECK='nullok' MANDATORY**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key
@@ -205,7 +205,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #      Typical setting is =/cygdrive/c/windows/system32=
 #$Foswiki::cfg{SafeEnvPath} = '';
 
-# **STRING 20 UNDEFINEDOK EXPERT**
+# **STRING 20 CHECK='nullok' EXPERT**
 # {OS} and {DetailedOS} are calculated in the Foswiki code. *You
 # should only need to override if there is something badly wrong with
 # those calculations*
@@ -1058,11 +1058,10 @@ $Foswiki::cfg{AccessibleENV} =
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).
 
-# **URL 30 CHECK='parts:scheme,authority,path,user,pass  \
+# **URL 30 CHECK='nullok parts:scheme,authority,path,user,pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
-#              authtype:hostip \
-#              nullok' **
+#              authtype:hostip' **
 # Hostname or address of the proxy server.
 # If your proxy requires authentication, simply put it in the URL, as in:
 # http://username:password@proxy.your.company.
