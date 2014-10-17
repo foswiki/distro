@@ -568,6 +568,9 @@ sub protectKey {
     my $k = shift;
     return $k if $k =~ /^[a-z_][a-z0-9_]*$/i;
 
+    # Remove existing quotes, if there
+    $k =~ s/^(["'])(.*)\1$/$2/i;
+
     # Use ' to suppress interpolation (just in case)
     $k =~ s/'/\\'/g;    # escape '
     $k = "'$k'";

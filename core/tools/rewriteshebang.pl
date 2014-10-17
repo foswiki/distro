@@ -14,12 +14,10 @@ use File::Spec;
 use strict;
 
 BEGIN {
-    eval {
-        require Foswiki::Configure::Util;
-        1;
-    }
-      or die
-"Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n";
+    eval 'require Foswiki::Configure::FileUtil';
+    die
+"Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n"
+      if $@;
 }
 
 my $new_path     = '';
@@ -244,7 +242,8 @@ sub change_files {
         $scanned++;
 
         my $rewriteErr =
-          Foswiki::Configure::Util::rewriteShebang( $file, $new_path, $tflag );
+          Foswiki::Configure::FileUtil::rewriteShebang( $file, $new_path,
+            $tflag );
 
         if ($rewriteErr) {
             print "$cwd/$file - $rewriteErr \n";

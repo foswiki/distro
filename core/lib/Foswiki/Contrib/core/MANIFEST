@@ -525,7 +525,6 @@ lib/Foswiki/Configure/Pluggables/SCRIPTHASH.pm 0444
 lib/Foswiki/Configure/Reporter.pm 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
-lib/Foswiki/Configure/Util.pm 0444
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
 lib/Foswiki/Configure/Wizard.pm 0444

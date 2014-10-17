@@ -43,39 +43,47 @@ use Error qw(:try);
 use File::stat;
 use Assert;
 use Foswiki::Configure::Dependency ();
-use Foswiki::Configure::Util       ();
+use Foswiki::Configure::FileUtil   ();
 use Foswiki::Plugins               ();
 
 ############# GENERIC METHODS #############
 
 =begin TML
 
----++ ClassMethod new($root, $pkgname, $type, \%options)
-   * =$root= - The root of the Foswiki installation - used for file operations
-   * =$repository= - The source repository information.
-   * =\%options= - A hash of options for the installation
-
-      {
-        module   => 'Module' Name of the package being installed
-        EXPANDED => 0/1     Specify that archive file has already been expanded
-        USELOCAL => 0/1     If local versions of _installer or archives are found, use them instead of download.
-        NODEPS   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
+---++ ClassMethod new(%options)
+   * =%options= - A hash of options for the installation
+      * =root= => The root path of the Foswiki installation
+        - used for file operations - REQUIRED
+      * =module=   => 'Module' Name of the package being installed - REQUIRED
+      * =repository= => The source repository information
+      * =EXPANDED= => 0/1     Specify that archive file has already been expanded (for unit tests)
+      * =USELOCAL= => 0/1     If local versions of _installer or archives are found, use them instead of download.
+      * =NODEPS=   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
                             (CPAN and external dependencies are not handled by this module.)
-        SIMULATE => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
-        CONTINUE => 0/1     If set to 1, the installation will continue even if errors are encountered. (future)
-      }
+      * =SIMULATE= => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
+      * =CONTINUE= => 0/1     If set to 1, the installation will continue even if errors are encountered. (future)
 
 =cut
 
 sub new {
-    my ( $class, $root, $repository, %args ) = @_;
+    my ( $class, %args ) = @_;
     my @deps;
 
+    ASSERT( $args{root} )   if DEBUG;
+    ASSERT( $args{module} ) if DEBUG;
+
+    my $repo = $args{repository};
+    delete $args{repository};
+    my $root = $args{root};
+    delete $args{root};
+    my $module = $args{module};
+    delete $args{module};
     my $this = bless(
         {
-            _root    => $root,
-            _pkgname => $args{module},
-            _options => {%args},
+            _root       => $root,
+            _pkgname    => $module,
+            _repository => $repo,
+            _options    => \%args,
 
             # Hash mapping the topics, attachment and other files
             # supplied by this package
@@ -84,8 +92,7 @@ sub new {
             # Array of dependencies required by this package
             _dependencies => \@deps,
             _prepost_code => undef,
-            _repository   => $repository,
-            _loaded       => undef,      # Flag set if loadInstaller is complete
+            _loaded       => undef,    # Flag set if loadInstaller is complete
         },
         $class
     );
@@ -291,7 +298,7 @@ sub option {
 
 =begin TML
 
----++ ObjectMethod install($reporter) -> ($ok, \%plugins, \%cpanDeps)
+---++ ObjectMethod install($reporter) -> ($boolean, \%plugins, \$cpanDeps)
 
 Perform a full installation of the package, including all dependencies
 and any required downloads from the repository.
@@ -299,7 +306,7 @@ and any required downloads from the repository.
 A backup is taken before any changes are made to the file system.
 
 Missing directories are created as required.  The files are mapped into
-non-standard locations by the mapTarget utility routine.  If a file is
+non-standard locations by _mapTarget.  If a file is
 read-only, it is temporarily overridden and the mode of the file is
 restored after the move.
 
@@ -307,16 +314,8 @@ Unless the !noci flag is set in the manifest, files are "checked in"
 by creating a Topic Meta object and using the Foswiki Meta API to save
 the topic.
 
-   * =%options= (optional) options to override behavior - primarily for
-     unit tests.
-      * =DIR =>  directory where installer package is found
-      * =USELOCAL => 1= Use local archives if found (Used by shell installations)
-      * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
-      * =NODEPS   => 1= Don't install any dependents
-      * =SIMULATE => 1= Don't actually install, just report expected results.  No logs are written. 
-
-Returns a status (1 is good), a list of plugins that need to be enabled,
-and a hash mapping names of cpan dependencies to ... something
+Returns a status (1 is good) and two hashes, one of installed plugins and
+the other of required CPAN dependencies.
 
 =cut
 
@@ -381,10 +380,10 @@ sub install {
             $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
         }
 
-        my $ok = $this->_install($reporter);    # and do the installation
+        $ok = $this->_install($reporter);    # and do the installation
 
-        if (   $ok
-            && $this->can('postinstall')
+        return (0) unless $ok;
+        if ( $this->can('postinstall')
             && !$this->option('SIMULATE') )
         {
             $reporter->NOTE("> Running post-install for $this->{_pkgname}...");
@@ -463,8 +462,7 @@ HERE
     $reporter->NOTE( "> Installation "
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
 
-    return 1;
-
+    return ( 1, \%plugins, \%cpanDeps );
 }
 
 {
@@ -501,6 +499,194 @@ HERE
     sub endVisit { return 1 }
 }
 
+# Map a standard filename from the default paths to any alternate file
+# locations defined in $Foswiki::cfg.  Adjust for changes in directory
+# names and also Web names.   The following mapping is performed:
+#
+# ---+++ Web names
+#
+#    * =SystemWebName=
+#    * =TrashWebname=
+#    * =UsersWebname=
+#    * =SandboxWebName= ( Future - see  Foswikitask:Item8744 )
+#
+# ---+++ Topic Names
+#    * =NotifyTopicName=
+#    * =HomeTopicName=
+#    * =WebPrefsTopicName=
+#
+# ---+++ Directory locations
+#    * =DataDir=
+#    * =PubDir=
+#    * =WorkingDir=
+#    * =TemplateDir=
+#    * =ToolsDir=
+#    * =LocalesDir=
+#    * =ScriptDir=
+#
+# ---+++ Other
+#    * =ScriptSuffix=
+#    * =MimeTypesFileName=
+sub _mapTarget {
+    my $root = shift;
+    my $file = shift;
+
+    # Workaround for Tasks.Item8744 feature proposal
+    my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+
+    foreach my $t (
+        qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+        )
+      )
+    {
+        my ( $val, $def ) = split( ':', $t );
+        if ( defined $Foswiki::cfg{$val} ) {
+            $file =~
+              s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
+            $file =~ s#^pub/(.*)/$def/([^/]*)$#pub/$1/$Foswiki::cfg{$val}/$2#;
+        }
+    }
+
+    if ( defined $Foswiki::cfg{MimeTypesFileName}
+        && ( $file eq 'data/mime.types' ) )
+    {
+        $file =~ s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
+        return $file;
+    }
+
+    if ( $sandbox ne 'Sandbox' ) {
+        $file =~ s#^data/Sandbox/#data/$sandbox/#;
+        $file =~ s#^pub/Sandbox/#pub/$sandbox/#;
+    }
+
+    if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
+        $file =~ s#^data/System/#data/$Foswiki::cfg{SystemWebName}/#;
+        $file =~ s#^pub/System/#pub/$Foswiki::cfg{SystemWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{TrashWebName} ne 'Trash' ) {
+        $file =~ s#^data/Trash/#data/$Foswiki::cfg{TrashWebName}/#;
+        $file =~ s#^pub/Trash/#pub/$Foswiki::cfg{TrashWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Main' ) {
+        $file =~ s#^data/Main/#data/$Foswiki::cfg{UsersWebName}/#;
+        $file =~ s#^pub/Main/#pub/$Foswiki::cfg{UsersWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Users' ) {
+        $file =~ s#^data/Users/#data/$Foswiki::cfg{UsersWebName}/#;
+        $file =~ s#^pub/Users/#pub/$Foswiki::cfg{UsersWebName}/#;
+    }
+
+# Canonical symbol mappings
+#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName )) {  #Waiting for Item8744
+    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
+        if ( defined $Foswiki::cfg{$w} ) {
+            $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
+            $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
+        }
+    }
+    $file =~ s#^data/Sandbox/#data/$sandbox/#;
+    $file =~ s#^pub/Sandbox/#pub/$sandbox/#;
+
+    if ( $file =~ s#^data/#$Foswiki::cfg{DataDir}/# ) {
+    }
+    elsif ( $file =~ s#^pub/#$Foswiki::cfg{PubDir}/# ) {
+    }
+    elsif ( $file =~ s#^templates/#$Foswiki::cfg{TemplateDir}/# ) {
+    }
+    elsif ( $file =~ s#^tools/#$Foswiki::cfg{ToolsDir}/# ) {
+    }
+    elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
+    }
+    elsif ( $file =~ s#^lib/#$Foswiki::foswikiLibPath/# ) {
+    }
+    elsif ( $file =~
+        s#^bin/(.*)$#$Foswiki::cfg{ScriptDir}/$1$Foswiki::cfg{ScriptSuffix}# )
+    {
+
+        #This makes a couple of bad assumptions
+        #2. that any file going into there _is_ a script - making installing the
+        #   .htaccess file via this machanism impossible
+        #3. that softlinks are not in use (same issue below)
+    }
+    else {
+        $file = File::Spec->catfile( $root, $file );
+    }
+
+    return $file;
+}
+
+# Extract a mapped Web,TopicName from the default path from a topic in the manifest.
+# (Works for topics, not attachments)
+#
+# Returns ($web, $topic)
+#
+# ---+++ Web names
+#
+#    * =SystemWebName=
+#    * =TrashWebname=
+#    * =UsersWebname=
+#    * =SandboxWebName= ( Future - see  Foswikitask:Item8744 )
+#
+# ---+++ Topic Names
+#    * =NotifyTopicName=
+#    * =HomeTopicName=
+#    * =WebPrefsTopicName=
+
+sub _getMappedWebTopic {
+    my $file = shift;
+
+    # Workaround for Tasks.Item8744 feature proposal
+    my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+
+    foreach my $t (
+        qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+        )
+      )
+    {
+        my ( $val, $def ) = split( ':', $t );
+        if ( defined $Foswiki::cfg{$val} ) {
+            $file =~
+              s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
+        }
+    }
+
+    if ( $sandbox ne 'Sandbox' ) {
+        $file =~ s#^data/Sandbox/#$sandbox/#;
+    }
+
+    if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
+        $file =~ s#^data/System/#$Foswiki::cfg{SystemWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{TrashWebName} ne 'Trash' ) {
+        $file =~ s#^data/Trash/#$Foswiki::cfg{TrashWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Main' ) {
+        $file =~ s#^data/Main/#$Foswiki::cfg{UsersWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Users' ) {
+        $file =~ s#^data/Users/#$Foswiki::cfg{UsersWebName}/#;
+    }
+
+# Canonical symbol mappings
+#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName )) {  #Waiting for Item8744
+    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
+        if ( defined $Foswiki::cfg{$w} ) {
+            $file =~ s#^data/$w/#$Foswiki::cfg{$w}/#;
+        }
+    }
+    $file =~ s#^data/Sandbox/#$sandbox/#;
+
+    my ( $tweb, $ttopic ) = $file =~ /^(?:data\/)?(.*)\/(\w+).txt$/;
+
+    return ( $tweb, $ttopic );
+}
+
 # Install files listed in the manifest.
 # Returns boolean status, reports progress to $reporter
 
@@ -509,7 +695,7 @@ sub _install {
 
     my $dir = $this->option('DIR') || $this->{_root};
 
-    $reporter->NOTE( "---+++ Installing " . $this->option('module') );
+    $reporter->NOTE( "---+++ Installing " . $this->module() );
 
     my $err;
     my $ext       = '';
@@ -584,7 +770,7 @@ sub _install {
               . " Modified: "
               . scalar localtime( $sb->mtime ) );
         ( $tmpdir, $err ) =
-          Foswiki::Configure::Util::unpackArchive($tmpfilename);
+          Foswiki::Configure::FileUtil::unpackArchive($tmpfilename);
         if ($err) {
             $reporter->ERROR("Unpack failed - $err");
             return 0;
@@ -619,14 +805,14 @@ sub _install {
     foreach my $file (@names) {
 
         if ( $file =~ /^(:?bin|tools)\/[^\/]+$/ ) {
-            my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-            Foswiki::Configure::Util::rewriteShebang( "$dir/$file", $perlLoc )
+            my $perlLoc = Foswiki::Configure::FileUtil::getPerlLocation();
+            Foswiki::Configure::FileUtil::rewriteShebang( "$dir/$file",
+                $perlLoc )
               if $perlLoc;
         }
 
         # Find where it is meant to go
-        my $target =
-          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+        my $target = _mapTarget( $this->{_root}, $file );
 
         # Make file writable if it is read-only
         if ( -e $target && !-w $target && !$this->option('SIMULATE') ) {
@@ -652,8 +838,7 @@ sub _install {
             && ( -e "$target,v" || ( -e $target && $ci ) ) )
         {
             my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
-            my ( $tweb, $ttopic ) =
-              Foswiki::Configure::Util::getMappedWebTopic($file);
+            my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
 
             if ( Foswiki::Func::webExists($tweb) ) {
                 my %opts;
@@ -745,8 +930,7 @@ sub _installAttachments {
 
     foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
-        my $tfile =
-          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+        my $tfile = _mapTarget( $this->{_root}, $file );
 
 # Attach the file if rcs checkin is needed, otherwise skip it and it will be copied later.
         if (
@@ -896,7 +1080,8 @@ sub _createBackup {
         }
         else {
             ( $rslt, my $err ) =
-              Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' );
+              Foswiki::Configure::FileUtil::createArchive( $bkname, $bkdir,
+                '1' );
             unless ($rslt) {
                 $reporter->ERROR("FAILED $err");
                 $ok = 0;
@@ -920,8 +1105,7 @@ sub _setPermissions {
     foreach my $file (@names) {
 
         # Find where it is meant to go
-        my $target =
-          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+        my $target = _mapTarget( $this->{_root}, $file );
 
         if ( -f $target ) {
 
@@ -951,8 +1135,7 @@ sub _listFiles {
     foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
         next if ( $key eq 'ATTACH' );
         if ($installed) {
-            my $target =
-              Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
+            my $target = _mapTarget( $this->{_root}, $key );
             push( @files, $target )     if ( -f $target );
             push( @files, "$target,v" ) if ( -f "$target,v" );
         }
@@ -1028,8 +1211,7 @@ sub uninstall {
         next if ( $key eq 'ATTACH' );
 
         # Find where it is meant to go
-        my $target =
-          Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
+        my $target = _mapTarget( $this->{_root}, $key );
 
         if ( $this->option('SIMULATE') ) {
             push( @removed, "simulated $target" )   if ( -f $target );
@@ -1107,9 +1289,10 @@ sub uninstall {
 
 =begin TML
 
----++ loadInstaller ($reporter [, $options]) -> $ok
-This routine looks for the $extension_installer or
-$extension_installer.pl file  and extracts the manifest,
+---++ loadInstaller ($reporter) -> $ok
+
+Looks for the ${extension}_installer or
+${extension}_installer.pl file  and extracts the manifest,
 dependencies and pre/post Exit routines from the installer.
 
 The local search path is:
@@ -1125,25 +1308,15 @@ The manifest and dependencies are parsed and loaded into their
 respective hashes.  The pre and post routines are eval'd and
 installed as methods for this object.
 
-   * =%options= options to set behavior
-      * =DIR =>  directory where installer package is found
-      * =USELOCAL => 1= Use local archives if found
-      * =EXPANDED => 1= Archive file has already been expanded -
-        preventing any downloads - for unit tests
-
 Returns:
     * boolean success
 
 =cut
 
 sub loadInstaller {
-    my ( $this, $reporter, $options ) = @_;
+    my ( $this, $reporter ) = @_;
 
-    my $uselocal = $this->option('USELOCAL') || $options->{USELOCAL};
-    my $temproot =
-         $this->option('DIR')
-      || $options->{DIR}
-      || $this->{_root};
+    my $temproot = $this->option('DIR') || $this->{_root};
 
     my $file;
     my $err;
@@ -1154,7 +1327,7 @@ sub loadInstaller {
     my $warn          = '';
     local $/ = "\n";
 
-    if ($uselocal) {
+    if ( $this->option('USELOCAL') ) {
 
         #  The root for manually downloaded extensions
         if ( -e "$temproot/${extension}_installer" ) {
@@ -1189,8 +1362,9 @@ sub loadInstaller {
     }
     else {
         if ( defined $this->{_repository} ) {
-            $reporter->NOTE(
-                "   * fetching installer from $this->{_repository}->{pub} ...");
+            $reporter->NOTE( "   * fetching $extension installer from "
+                  . $this->repository()->{pub}
+                  . '...' );
             ( $err, $file ) = $this->_fetchFile('_installer');
             if ($err) {
                 $reporter->ERROR("Download failed - $err");
@@ -1198,7 +1372,9 @@ sub loadInstaller {
             }
         }
         else {
-            $reporter->ERROR('unable to download - no repository provided');
+            $reporter->WARN(
+                "Unable to download $this->{_pkgname} - no repository provided"
+            );
             return 0;
         }
     }
@@ -1452,9 +1628,12 @@ sub checkDependencies {
         ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
         my $required =
           eval $trigger;    # Evaluate the trigger - if true, module is required
-        die
-" $dep->{module} **ERROR** -- ONLYIF \"$trigger\" condition failed to compile: contact developer -- $@ "
-          if ($@);
+        if ($@) {
+            push( @missing,
+"$dep->{module} **ERROR** -- ONLYIF \"$trigger\" condition failed to compile: contact developer -- $@ "
+            );
+            next;
+        }
         next unless $required;    # Skip the module - trigger was false
 
         my $trig =
@@ -1504,8 +1683,6 @@ sub checkDependencies {
 # of the installation.
 sub _installDependencies {
     my ( $this, $reporter ) = @_;
-    my $cpan;
-    my $plugins;
     my %pluglist;
     my %cpanlist;
 
@@ -1513,12 +1690,16 @@ sub _installDependencies {
         my ( $ok, $msg ) = $dep->checkDependency();
         unless ($ok) {
             my $deppkg = Foswiki::Configure::Package->new(
-                $this->{_root}, $this->{_repository},
-                $dep->{name},   %{ $this->{_options} }
+                root       => $this->{_root},
+                repository => $this->{_repository},
+                module     => $dep->{name},
+                %{ $this->{_options} }
             );
-            ( $plugins, $cpan ) = $deppkg->install($reporter);
-            @pluglist{ keys %$plugins } = values %$plugins;
-            @cpanlist{ keys %$cpan }    = values %$cpan;
+            my ( $ok, $plugins, $cpan ) = $deppkg->install($reporter);
+            if ($ok) {
+                @pluglist{ keys %$plugins } = values %$plugins;
+                @cpanlist{ keys %$cpan }    = values %$cpan;
+            }
         }
     }
     return ( \%pluglist, \%cpanlist );

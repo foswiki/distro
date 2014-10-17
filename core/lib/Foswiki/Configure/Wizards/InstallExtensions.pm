@@ -78,8 +78,11 @@ sub _getPackage {
             return undef;
         }
     }
-    my $pkg =
-      new Foswiki::Configure::Package( $installRoot, $repository, %$args );
+    my $pkg = Foswiki::Configure::Package->new(
+        root       => $installRoot,
+        repository => $repository,
+        %$args
+    );
 
     return $pkg;
 }

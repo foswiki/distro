@@ -10,7 +10,7 @@ use JSON         ();
 use Data::Dumper ();
 
 # Number of levels of a stack trace to keep
-use constant KEEP_STACK_LEVELS => ( (DEBUG) ? 2 : 0 );
+use constant KEEP_STACK_LEVELS => 0;    #( (DEBUG) ? 2 : 0 );
 
 =begin TML
 
@@ -254,7 +254,7 @@ sub stripStacktrace {
     return join(
         "\n",
         map {
-            $_ =~ s/ at .*? line \d+\.$//;
+            $_ =~ s/ at .*? line \d+\.?$//;
             $_;
         } @lines
     );

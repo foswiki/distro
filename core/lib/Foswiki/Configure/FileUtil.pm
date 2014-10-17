@@ -6,7 +6,7 @@ package Foswiki::Configure::FileUtil;
 
 ---+ package Foswiki::Configure::FileUtil
 
-Basic file utilities
+Basic file utilities used by Configure and admin scripts
 
 =cut
 
@@ -14,6 +14,8 @@ use strict;
 use warnings;
 
 use Assert;
+
+use Foswiki::Configure::Reporter ();
 
 =begin TML
 
@@ -492,6 +494,393 @@ sub copytree {
             return ("Failed to copy $from to $to: $!");
         }
     }
+}
+
+=begin TML
+
+---++ StaticMethod listDir($dir, [$dflag], [$path] )
+Recursively list the files in directory $dir. Optional $dflag can be set to 1
+to cause the list to exclude the directory names from the list. 
+
+If $path is used internally for the recursive directory list. It is
+appended to the Directory.  The list of files in @names is relative to the
+$dir directory.   Subroutine called recursively for each subdirectory
+encountered.
+
+=cut
+
+# Recursively list a directory
+sub listDir {
+    my ( $dir, $dflag, $path ) = @_;
+    $path  ||= '';
+    $dflag ||= '';
+    $dir .= '/' unless $dir =~ /\/$/;
+    my $d;
+    my @names = ();
+    if ( opendir( $d, "$dir$path" ) ) {
+        foreach my $f ( grep { !/^\.*$/ } readdir $d ) {
+
+            # Someone might upload a package that contains
+            # a filename which, when passed to File::Copy, does something
+            # evil. Check and untaint the filenames here.
+            # SMELL: potential problem with unicode chars in file names? (yes)
+            if ( $f =~ /^([-\w.,]+)$/ ) {
+                $f = $1;
+                if ( -d "$dir$path/$f" ) {
+                    push( @names, "$path$f/" ) unless ($dflag);
+                    push( @names, listDir( $dir, $dflag, "$path$f/" ) );
+                }
+                else {
+                    push( @names, "$path$f" );
+                }
+            }
+            else {
+                print
+"WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n";
+            }
+        }
+        closedir($d);
+    }
+    return @names;
+}
+
+=begin TML
+
+---++ StaticMethod createArchive($name, $dir, $delete )
+Create an archive of the passed directory. 
+   * $name is the directory to be backed up _and_ the filename of the archive to be created.  $name will be given a suffix of the backup type - depends on what type of backup tools are installed.
+   * $dir is the root directory of the backups - typically the working/configure/backup directory
+   * $delete - set if the directory being backed up should be deleted after archive is created.
+
+=cut
+
+sub createArchive {
+    my ( $name, $dir, $delete, $test ) = @_;
+    eval { use File::Path qw(rmtree) };
+
+    my $file    = undef;
+    my $results = '';
+    my $warn    = '';
+
+    my $here = Cwd::getcwd();
+    $here =~ /(.*)/;
+    $here = $1;    # untaint current dir name
+
+    return ( undef, "Directory $dir/$name does not exist \n" )
+      unless ( -e "$dir/$name" && -d "$dir/$name" );
+
+    chdir("$dir/$name");
+
+    if ( !defined $test || ( defined $test && $test eq 'tar' ) ) {
+        $results .= `tar -czvf "../$name.tgz" .`;
+
+        if ( $results && !$@ ) {
+            $file = "$dir/$name.tgz";
+        }
+    }
+
+    unless ($results) {
+        $warn .= "tar command failed $!, trying zip \n";
+
+        if ( !defined $test || ( defined $test && $test eq 'zip' ) ) {
+            $results .= `zip -r "../$name.zip" .`;
+
+            if ( $results && !$@ ) {
+                $file = "$dir/$name.zip";
+            }
+        }
+
+        unless ($results) {
+            $warn .= "zip failed $!, trying perl routines \n";
+
+            if ( !defined $test || ( defined $test && $test eq 'Ptar' ) ) {
+                my @flist = listDir( '.', 1 );
+                $results = _tar( "../$name.tgz", \@flist );
+
+                if ($results) {
+                    $file = "$dir/$name.tgz";
+                }
+            }
+
+            unless ($results) {
+                $warn .= "Perl Archive::Tar failed - trying zip \n";
+
+                if ( !defined $test || ( defined $test && $test eq 'Pzip' ) ) {
+                    my @flist = listDir( '.', 1 );
+                    $results = _zip( "../$name.zip", \@flist );
+
+                    if ($results) {
+                        $file = "$dir/$name.zip";
+                    }
+                    else {
+                        $warn .=
+"Perl Archive::Zip failed - Backup directory remains \n";
+                    }
+                }
+            }
+        }
+    }
+
+    chdir($here);
+
+    return ( undef, $warn ) unless ($results);
+
+    rmtree("$dir/$name") if ($delete);
+    return ( $file, $results );
+
+}
+
+sub _zip {
+    my $archive = shift;
+    my $files   = shift;
+    my $err;
+
+    eval 'use Archive::Zip ( )';
+    unless ($@) {
+        my $zip = Archive::Zip->new();
+        unless ($zip) {
+            return 0;
+        }
+
+        # Note:  Archive::Zip addTree fails with taint errors.
+        # Workaround was to add each file individually
+        foreach my $f (@$files) {
+            $zip->addFile($f);
+        }
+        $err = $zip->writeToFileNamed("$archive");
+        return join( "\n", $zip->memberNames() ) unless ($err);
+    }
+
+    return 0;
+}
+
+sub _tar {
+    my $archive = shift;
+    my $files   = shift;
+
+    eval 'use Archive::Tar ()';
+    unless ($@) {
+        my $tgz = Archive::Tar->new();
+        return 0 unless ($tgz);
+        $tgz->add_files(@$files);
+        $tgz->write( "$archive", 7 );
+        return join( "\n", $tgz->list_files() );
+    }
+    return 0;
+}
+
+=begin TML
+
+---++ StaticMethod unpackArchive($archive [,$dir] ) -> ( $dir, $err )
+Unpack an archive. The unpacking method is determined from the file
+extension e.g. .zip, .tgz. .tar, etc. If $dir is not given, unpack
+to a temporary directory, the name of which is returned.
+
+Errors are reported by returnng a non-null $err
+
+=cut
+
+sub unpackArchive {
+    my ( $name, $dir ) = @_;
+
+    $dir ||= File::Temp::tempdir( CLEANUP => 1 );
+    my $here = Cwd::getcwd();
+    $here =~ /(.*)/;
+    $here = $1;    # untaint current dir name
+    chdir($dir);
+
+    my $error;
+    if ( $name =~ m/\.zip$/i ) {
+        $error = _unzip($name);
+        $error = "Failed to unpack archive $name: $error" if $error;
+    }
+    else {
+        if ( $name =~ m/(\.tar\.gz|\.tgz|\.tar)$/i ) {
+            $error = _untar($name);
+            $error = "Failed to unpack archive $name: $error" if $error;
+        }
+    }
+    chdir($here);
+
+    return ( $dir, $error );
+}
+
+sub _unzip {
+    my $archive = shift;
+
+    eval 'require Archive::Zip';
+    unless ($@) {
+        my $zip;
+        eval { $zip = Archive::Zip->new($archive); };
+        return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
+        return "Failed to open zip file $archive" unless $zip;
+
+        my @members = $zip->members();
+        foreach my $member (@members) {
+            my $file = $member->fileName();
+            $file =~ /^(.*)$/;
+            $file = $1;    #yes, we must untaint
+            my $target = $file;
+            my $dest   = Cwd::getcwd();
+            ($dest) = $dest =~ m/^(.*)$/;
+
+            #SMELL:  Archive::Zip->extractMember( $file)  would be better to use
+            # but it has taint issues on Perl 5.12.
+            my $contents = $zip->contents($file);
+            if ($contents) {
+                my ( $vol, $dir, $fn ) = File::Spec->splitpath($file);
+                File::Path::mkpath("$dest/$dir");
+                open( my $fh, '>', "$dest/$file" )
+                  || die "Unable to open $dest/$file \n $! \n\n ";
+                binmode $fh;
+                print $fh $contents;
+                close($fh);
+            }
+        }
+    }
+    else {
+        `unzip -n $archive`;
+        return "$? - $!" if ($?);
+    }
+    return undef;
+}
+
+sub _untar {
+    my $archive = shift;
+
+    my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
+
+    eval 'require Archive::Tar';
+
+    unless ($@) {
+        my $tar;
+        eval { $tar = Archive::Tar->new( $archive, $compressed ); };
+        return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
+        return "Could not open tar file $archive" unless $tar;
+
+        my @members = $tar->list_files();
+        foreach my $file (@members) {
+            my $err = $tar->extract($file);
+            unless ($err) {
+                return 'Failed to extract ', $file, ' from tar file ',
+                  $tar, ". Archive may be corrupt.\n";
+            }
+        }
+    }
+    else {
+        `tar xvf$compressed $archive`;
+        return "$? - $!" if ($?);
+    }
+    return undef;
+}
+
+=begin TML
+
+---++ StaticMethod getPerlLocation( )
+This routine will read in the first line of the bin/configure 
+script and recover the location of the perl interpreter. 
+
+Optional parameter is file used to retrieve the shebang.  If not 
+specified, defaults to the configure script
+
+=cut
+
+sub getPerlLocation {
+
+    my $file = shift
+      || "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}";
+
+    local $/ = "\n";
+    open( my $fh, '<', "$file" )
+      || return "";
+    my $Shebang = <$fh>;
+    chomp $Shebang;
+    ($Shebang) = $Shebang =~ m/^#\!\s*(.*?perl.*?)\s?(?:\s-.*?)?$/;
+    $Shebang =~ s/\s+$//;
+    close($fh);
+    return $Shebang;
+
+}
+
+=begin TML
+
+---++ StaticMethod rewriteShebang($file, $newShebang )
+
+Rewrite the #! (shebang) line of the target script
+with the specified script name.
+
+This is used in 2 places:
+ - The Package installer - used when installing extensions
+ - In tools/rewriteshebang.pl
+
+=cut
+
+sub rewriteShebang {
+    my $file       = shift;
+    my $newShebang = shift;
+    my $taint      = shift;
+
+    return 'Not a file' unless ( -f $file );
+    return 'Missing Shebang' unless $newShebang;
+
+    local $/ = undef;
+    open( my $fh, '<', $file ) || return "Rewrite shebang failed:  $!";
+    my $contents = <$fh>;
+    close $fh;
+
+    my $firstline = substr( $contents, 0, index( $contents, "\n" ) );
+    my ( $match, $args ) =
+      $firstline =~ m/^#\!\s*(.*?perl[^\s]*)(\s?-w?T?w?)?.*?$/ms;
+    $match = '' unless $match;
+    $match = '' if ( $match =~ m/env perl/ );
+    $args = '' unless $args;
+    my $newargs = $args;
+
+    if ( defined $taint ) {
+        if ($args) {
+            if ($taint) {
+                $newargs .= 'T' unless ( $args =~ m/T/ );
+            }
+            else {
+                $newargs =~ s/T//;
+                $newargs = '' if ( $newargs eq ' -' );
+            }
+        }
+    }
+
+    return "Not a perl script" unless ($match);
+
+    my $argsIdx = index( $contents, $args );
+    if ($argsIdx) {
+        substr( $contents, $argsIdx, length($args) ) = "$newargs";
+    }
+    elsif ( defined $taint ) {
+        $newShebang .= ' -T' if ($taint);
+    }
+
+    # Note: space inserted after #! - needed on some flavors of Unix
+    my $perlIdx = index( $contents, $match );
+    substr( $contents, $perlIdx, length($match) ) =
+      ( substr( $contents, $perlIdx - 1, 1 ) eq ' ' ? '' : ' ' )
+      . "$newShebang";
+
+    return "No change required"
+      if ( $match eq $newShebang
+        && $args eq $newargs
+        && substr( $contents, $perlIdx - 1, 1 ) eq ' ' );
+
+    my $mode = ( stat($file) )[2];
+    $file =~ /(.*)/;
+    $file = $1;
+    chmod( oct(600), "$file" );
+    open( $fh, '>', $file ) || return "Rewrite shebang failed:  $!";
+    print $fh $contents;
+    close $fh;
+    $mode =~ /(.*)/;
+    $mode = $1;
+    chmod( $mode, "$file" );
+
+    return '';
 }
 
 1;
