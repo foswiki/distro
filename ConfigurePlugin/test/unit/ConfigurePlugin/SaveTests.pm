@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-package SaveTests;
+package ConfigureSaveTests;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
@@ -52,7 +52,8 @@ sub tear_down {
     $Foswiki::cfg{WorkingDir} = $this->{test_work_dir};
 
     $this->SUPER::tear_down();
-    print STDERR "Tearing down $this->{lscpath}\n";
+
+    #print STDERR "Tearing down $this->{lscpath}\n";
     if ( $this->{safe_lsc} ) {
         open( F, '>', $this->{lscpath} );
         print F $this->{safe_lsc};
