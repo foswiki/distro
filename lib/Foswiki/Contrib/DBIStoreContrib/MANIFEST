@@ -16,3 +16,4 @@ lib/Foswiki/Contrib/DBIStoreContrib/Personality/SQLite.pm
 lib/Foswiki/Plugins/DBIStorePlugin.pm
 lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm 0444
 lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm 0444
+lib/Foswiki/Store/DBIStore.pm 0444

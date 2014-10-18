@@ -15,6 +15,7 @@
 package Foswiki::Store::DBIStore;
 use strict;
 use warnings;
+use Fcntl qw( :flock );
 
 use Foswiki::Store ();
 our @ISA = ('Foswiki::Store');
@@ -52,7 +53,6 @@ sub finish {
     $this->SUPER::finish();
     undef $this->{queryObj};
     undef $this->{searchQueryObj};
-    undef $db;
 }
 
 # Implement Foswiki::Store
@@ -94,8 +94,8 @@ sub readTopic {
     my $mf = _metaFile( $meta, undef, $version );
     ( $ri{author}, $ri{comment} ) = _readMetaFile($mf);
     $ri{date} = ( stat _historyFile( $meta, undef, $version ) )[9];
-    $info->{comment} = '' unless defined $info->{comment};
-    $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+    $ri{comment} = '' unless defined $ri{comment};
+    $ri{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
 
     $meta->setRevisionInfo(%ri);
 
@@ -970,30 +970,40 @@ sub _metaFile {
 sub _numRevisions {
     my ( $revs, $meta, $attachment ) = @_;
 
+    Foswiki::Contrib::DBIStoreContrib::_connect();
     my $r;
     if ($attachment) {
-        my $r = $dbh->selectall_arrayref(
-            "SELECT FILEATTACHMENT.version FROM FILEATTACHMENT,TOPICINFO,topic "
-              . "WHERE NOT topic.isHistory "
-              . "AND topic.web='"
-              . $meta->web() . "' "
-              . "AND topic.name='"
-              . $meta->topic() . "' "
-              . "AND TOPICINFO.tid=topic.tid "
-              . "AND FILEATTACHMENT.tid=topic.tid "
-              . "AND " );
+        my $r = $Foswiki::Contrib::DBIStoreContrib::dbh->selectall_arrayref(
+                "SELECT \"FILEATTACHMENT\".version"
+              . " FROM \"FILEATTACHMENT\",\"TOPICINFO\",topic"
+              . " WHERE "
+              . join(
+                ' AND ',
+
+                #                   "NOT topic.\"isHistory\"",
+                "topic.web='" . $meta->web() . "'",
+                "topic.name='" . $meta->topic() . "'",
+                "\"TOPICINFO\".tid=topic.tid",
+                "\"FILEATTACHMENT\".tid=topic.tid"
+              )
+        );
 
     }
     else {
         # Get all versions
-        $r = $dbh->selectall_arrayref(
-                "SELECT TOPICINFO.version FROM topic,TOPICINFO "
-              . "WHERE NOT topic.isHistory "
-              . "AND topic.web='"
-              . $meta->web() . "' "
-              . "AND topic.name='"
-              . $meta->topic() . "' "
-              . "AND TOPICINFO.tid=topic.tid" );
+        $r = $Foswiki::Contrib::DBIStoreContrib::dbh->selectall_arrayref(
+                "SELECT \"TOPICINFO\".version"
+              . " FROM topic,\"TOPICINFO\""
+              . " WHERE "
+              . join(
+                ' AND ',
+
+                #                   "NOT topic.\"isHistory\"",
+                "topic.web='" . $meta->web() . "'",
+                "topic.name='" . $meta->topic() . "'",
+                "\"TOPICINFO\".tid=topic.tid"
+              )
+        );
     }
     my @r = reverse sort { $a->[0] <=> $b->[0] } @$r;
 

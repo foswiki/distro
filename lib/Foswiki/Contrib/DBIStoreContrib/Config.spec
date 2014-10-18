@@ -117,7 +117,7 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     PREFERENCE => {
         tid  => { type => 'INT', unique => 'onepref' },
         name => { type => 'VARCHAR(64)', index => 1, unique => 'onepref' },
-        value => _DEFAULT,
+        value => '_DEFAULT',
         type => { type => 'VARCHAR(32)' },
     }
 };

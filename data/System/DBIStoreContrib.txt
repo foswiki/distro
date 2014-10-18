@@ -8,7 +8,10 @@
 %TOC%
 
 This extension supports the storing of wiki data in an SQL database.
-Works with Foswiki 1.1.9 and later.
+Works with Foswiki 1.1.9.
+
+NOTE: the implementation for Foswiki 1.2 is currently incomplete. Please
+do not try to use this version of DBIStoreContrib on Foswiki 1.2!
 
 At this point in time, it works as a mirror of an existing
 store (e.g. PlainFile, RCS)
@@ -95,11 +98,10 @@ The =length()= operator only works on string data, not on tables.
    * Go to =configure= and:
       1 Set a DSN etc. for the contrib in the 'Extensions' section (the default is for sqlite3),
       1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
+      1 Select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
       1 *For Foswiki > 1.1* only
-         * Set ={Store}{ImplementationClasses}{Foswiki::Contrib::DBIStoreContrib::DBIStore}= *EXPERT* setting in =LocalSite.cfg= to =$TRUE=.
-         * select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
+         * Set ={Store}{ImplementationClasses}{Foswiki::Contrib::DBIStoreContrib::DBIStore}= *EXPERT* configuration setting to =[ 'Foswiki::Store::DBIStoreContrib' ]=.
       1 *For Foswiki 1.1 only*
-         * Select Foswiki::Store::QueryAlgorithms::DBIStoreContrib for the ={Store}{QueryAlgorithm}= configuration setting
          * enable the integrated =DBIStorePlugin=
 
 ---+++ Testing
