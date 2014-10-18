@@ -2418,8 +2418,8 @@ HERE
     );
 
     #test a few others to try to not break things
-    $this->assert_str_equals(
-        'Apache is the well known web server.',
+    $this->assert_matches(
+qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
         $this->{session}->{renderer}->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )

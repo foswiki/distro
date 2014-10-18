@@ -521,31 +521,31 @@ ACTUAL
 }
 
 # [[Url Alt TextAlt]]
-sub test_squabbedUrlAltTextOldUndocumentedUse {
-    my $this     = shift;
-    my $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}" target="_top">Alt <nop>TextAlt</a>
-EXPECTED
-
-    my $actual = <<ACTUAL;
-[[$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
-ACTUAL
-    $this->do_test( $expected, $actual );
-}
-
+#sub test_squabbedUrlAltTextOldUndocumentedUse {
+#    my $this     = shift;
+#    my $expected = <<EXPECTED;
+#<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}" target="_top">Alt <nop>TextAlt</a>
+#EXPECTED
+#
+#    my $actual = <<ACTUAL;
+#[[$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
+#ACTUAL
+#    $this->do_test( $expected, $actual );
+#}
+#
 # [[mailtoUrl Alt TextAlt]]
-sub test_squabbedMailtoUrlAltTextOldUndocumentedUse {
-    my $this     = shift;
-    my $expected = <<EXPECTED;
-<a href="mailto&#58;user&#64;exampleSTUFFED&#46;com">Alt <nop>TextAlt</a>
-EXPECTED
-
-    my $actual = <<ACTUAL;
-[[mailto:user\@example.com Alt TextAlt]]
-ACTUAL
-    chomp $expected;
-    $this->do_test( $expected, $actual, 1 );
-}
+#sub test_squabbedMailtoUrlAltTextOldUndocumentedUse {
+#    my $this     = shift;
+#    my $expected = <<EXPECTED;
+#<a href="mailto&#58;user&#64;exampleSTUFFED&#46;com">Alt <nop>TextAlt</a>
+#EXPECTED
+#
+#    my $actual = <<ACTUAL;
+#[[mailto:user\@example.com Alt TextAlt]]
+#ACTUAL
+#    chomp $expected;
+#    $this->do_test( $expected, $actual, 1 );
+#}
 
 # [[mailtoUrl?with params]]
 sub test_squabbedMailtoUrlWithSpaces {
@@ -1433,8 +1433,8 @@ sub test_render_PlainText {
     );
 
     #test a few others to try to not break things
-    $this->assert_str_equals(
-        'Apache is the well known web server.',
+    $this->assert_matches(
+qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
         $this->{session}->{renderer}->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )
