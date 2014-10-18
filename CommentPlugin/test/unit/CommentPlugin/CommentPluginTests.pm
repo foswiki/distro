@@ -236,7 +236,7 @@ HERE
     $this->assert_matches( qr/name=\"comment\"/, $dattrs );
     my $mess = $2;
     $this->assert_str_equals( "The Message", $mess );
-    $this->assert_matches( qr/<input\s+\s*type="button"\s*value=\".*?"\s*\/>/i,
+    $this->assert_matches( qr/<input\s+\s*type="submit"\s*value=\".*?"\s*\/>/i,
         $html );
 
     # Compose the query
@@ -261,12 +261,11 @@ HERE
     }
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
 
     # invoke the save handler
     $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
-    $text = Foswiki::Func::readTopicText( $web, $topic );
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
 
     #uncomment this to debug what the actual output looks like.
@@ -378,7 +377,7 @@ sub test_reverseCompat {
     $this->assert_matches( qr/form [^>]*name=\"after0\"/,        $html );
     $this->assert_matches( qr/rows=\"99\"/,                      $html );
     $this->assert_matches( qr/cols=\"104\"/,                     $html );
-    $this->assert_matches( qr/type=\"button\"\s+value=\"HoHo\"/, $html );
+    $this->assert_matches( qr/type=\"submit\"\s+value=\"HoHo\"/, $html );
 
     return;
 }
@@ -525,13 +524,12 @@ HERE
     $query->path_info("/CommentPlugin/comment");
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
 
     # invoke the save handler
     $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
-    $text =
-      Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -576,13 +574,12 @@ HERE
     $query->path_info("/CommentPlugin/comment");
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
 
     # invoke the save handler
     $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
-    $text =
-      Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -656,13 +653,12 @@ HERE
     $query->path_info("/CommentPlugin/comment");
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
 
     # invoke the save handler
     $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
-    $text =
-      Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -718,13 +714,12 @@ HERE
     $query->path_info("/CommentPlugin/comment");
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
 
     # invoke the save handler
     $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
-    $text =
-      Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -799,7 +794,7 @@ HERE
         );
     };
     $this->assert( !$@, $@ );
-    $this->assert_matches( qr/Status: 200/, $responseText );
+    $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
