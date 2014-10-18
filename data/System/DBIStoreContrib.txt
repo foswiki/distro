@@ -7,37 +7,34 @@
 
 %TOC%
 
-This extension supports the storing of wiki data in an SQL database. Works with Foswiki 1.1.9
-and later.
+This extension supports the storing of wiki data in an SQL database.
+Works with Foswiki 1.1.9 and later.
 
-At this point in time, it works as a mirror of an existing store (e.g. PlainFile, RCS)
+At this point in time, it works as a mirror of an existing
+store (e.g. PlainFile, RCS)
    1. With all searching operations performed using SQL _or_
    2. With just structured queries performed using the store _or_
    3. Simply to support other clients querying data using SQL.
-However it may be extended to be a full store implementation at
-some point in the future.
+(However it may be extended to be a full store implementation at
+some point in the future.)
 
 The extension has been designed to be *fully compatible* with existing
-=%SEARCH= expressions, and is useable with all well-written extensions (those
+=%SEARCH= expressions, and is usable with all well-written extensions (those
 that have been written to use the Foswiki::Func API, and do not perform
-direct-to-disk file operations).
+direct-to-disk file operations.)
 
-It has been tested with
-[[http://www.sqlite.org/][SQLite]],
-[[http://www.mysql.com/][MySQL]],
-[[http://www.postgresql.org/][Postgresql]], and
-[[www.microsoft.com/SQL][Microsoft SQL Server]].
+It has been tested with:
+   * [[http://www.sqlite.org/][SQLite 3.7.13]],
+   * [[http://www.mysql.com/][MySQL 5.5.37]],
+   * [[http://www.postgresql.org/][Postgresql 9.1.13]], and
+   * [[www.microsoft.com/SQL][Microsoft SQL Server 2005 9.00.4035.00 SP2 (Transact-SQL)]].
 
 Note however that there are many different versions of these databases and
-campatibility with any given version cannot be guaranteed.
+compatibility with any given version cannot be guaranteed.
 
 ---++ Database Schema
-The database schema reflects 1:1 the schema of Foswiki topics. The following tables
-exist by default:
-
-=web= %BR%
-Contains full hierarchical names of all webs
-   * =name= - web name
+The database schema reflects 1:1 the schema of Foswiki topics. The following
+tables exist by default:
 
 =topic= %BR%
 Contains all wiki topics. 
@@ -63,7 +60,7 @@ Perl syntax supported by Foswiki that cannot be mapped to the databases.
 Regular expressions written using this extended syntax may fail.
 
 ---+++ Numeric comparison
-Foswiki "knows" when two values in the database can be compared using numeric, as against lexical, comparison (the =, <, >, <= and >= operators). SQL doesn't have this kind of support, and has to be explicitly *told* whether a the values being compared are numeric or lexical.
+Foswiki "knows" when two values in the database can be compared using numeric, as against lexical, comparison (the =, <, >, <= and >= operators). SQL doesn't have this kind of support, and has to be explicitly *told* whether the values being compared are numeric or lexical.
 
 If one of the things being compared is explicitly a number, then numeric comparison will be used by default.
 
@@ -74,8 +71,12 @@ If the query expression isn't explicit about the type to be used, you can use th
    * =%<nop>SEARCH{"info.version<is_number('1.1')"}%= will use numeric comparison
    * =%<nop>SEARCH{"info.version<is_string(1.1)"}%= will use lexical comparison
 
+SQL =CAST= (or equivalent) statements are used to convert value types
+being compared.
+
 ---+++ Date comparison
-Date conversion using the =d2n= operator is not supported.
+Date conversion using the =d2n= operator is not supported with Postgresql and
+!MySQL.
 
 ---+++ Row indexes
 Integer indexes are not supported. Use queries instead.
@@ -147,9 +148,15 @@ source for SQL Server in the ODBC Administrator which uses Windows authenticatio
 Then set an empty username and password for !DBIStoreContrib.
 
 SQL Server does not come equipped with regular expression matching, which is
-required for Foswiki, so you wil need to install a regular expression library.
+required for Foswiki, so you will need to install a regular expression library.
 The default personality module included in this module requires the user function =dbo.fn_RegExIsMatch= to stub the =.NET= !RegEx class. Instructions for building and installing this user function can be found at
 http://www.codeproject.com/Articles/19502/A-T-SQL-Regular-Expression-Library-for-SQL-Server
+
+Make you set a collation sequence for the database. For example,
+<verbatim>
+ALTER DATABASE Foswiki COLLATE Latin1_General_100_CS_AS_SC;
+</verbatim>
+Without this, upper and lower case strings will be compared case-insensitively. If you don't, it may be fatal to the DBIStoreContrib, as the DB will be unable to distinguish =ThisTopicName= and =THISTOPICNAME.
 
 ---+++ SQLite Notes
 SQLite requires the =pcre= module to be installed to support regular expression searches. The path to this module is set up in =configure=.
@@ -165,7 +172,7 @@ Note that you don't *have* to use the mapping search algorithm for text searches
 ---+++ The Database
 The database is used simply as a cache, to accelerate searches. The contrib is designed to work with the standard Foswiki RCS-based store, but can also work with *any* post 1.2.0 store implementation. It can also hook into the standard plugin handlers for a slightly reduced capability.
 
-The database is interfaced to via the standard Perl DBI interface, so any RDBMS that has an adapter can be used for the cache. This includes most standard SQL RDBMS.
+The database is interfaced to via the standard Perl DBI interface, so any RDBMS that has an adapter can be used for the cache. This includes most standard SQL RDBMS. If you want to use a different database you will have to implement a personality module for it; if you do this, please contribute the new personality module (and appropriate usage information) back to the community.
 
 The schema used to represent Foswiki topics is (currently) a 1:1 mapping of the schema described in System.QuerySearch. The same schema could be used to store Foswiki topics in the actual store, and this is one of the longer term goals. Among other things, this would allow us to search topic histories.
 
@@ -190,6 +197,7 @@ can be useful when debugging SQL server, or for simply understanding the tables.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.2 (18 Oct 2014) | Foswikitask:Item12992: Added UNIQUE constraints to schema Foswikitask:Item13056: fix fileattachment moves in plugin |
 |  1.1 (12 Aug 2014) | Fixes for Foswikitask:Item12989 and Foswikitask:Item12990: |
 |  1.0 (8 May 2014) | First version |
 |  Dependencies: | %$DEPENDENCIES% |

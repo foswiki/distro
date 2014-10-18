@@ -37,13 +37,23 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA} = 0;
 # You should extend this table as required by extra meta-data found in
 # your wiki.
 # If an entry for a column is a string starting with an underscore,
-# that string will be used as an index to get the 'real' schema for
+# that string will be used as an index to look up the 'real' schema for
 # the column.
-# If {index} is true, then an index will be created for that column.
-# If {truncate_to} is set to a length, then the value of that field
+# The following attributes can be used on each column:</ul>
+# <li><tt>type</tt> (required) specifies the SQL type for the column</li>
+# <li><tt>index</tt> if true, then an index will be created for that
+# column.</li>
+# <li><tt>truncate_to</tt> if set to a length, then the value of that field
 # stored in the DB will be truncated to that length. This only affects
 # searching. If truncate_to is not set, then trying to store a value
-# longer than the field accepts will be an error.
+# longer than the field accepts will be an error.</li>
+# <li><tt>unique</tt> may be set to the name of a constraint that forces
+# each value of a column (or the combined values of a set of columns)
+# to be unique. There may be more than one unique-set in a single table.</li>
+# <li><tt>primary</tt> if true, the column will be the PRIMARY KEY for
+# the table. This automatically enforces a uniqueness constraint on the
+# column.</li>
+# </ul>
 # The pseudo-type _DEFAULT must exist and must be a text type, ideally
 # supporting arbitrary length text strings. Possible types are TEXT
 # for Postgresql, SQLite and MySQL, and VARCHAR(MAX) for SQL Server.
@@ -52,19 +62,17 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     _USERNAME => { type => 'VARCHAR(64)', index => 1 },
     _DATE => { type => 'VARCHAR(32)' },
     topic => {
-        _level => 0,
-        tid  => { type => 'INT', primary => 1 }
-        web  => { type => 'VARCHAR(256)', index => 1 },
-        name => { type => 'VARCHAR(128)', index => 1 },
+        tid  => { type => 'INT', primary => 1 },
+        web  => { type => 'VARCHAR(256)', index => 1, unique => 'webtopic' },
+        name => { type => 'VARCHAR(128)', index => 1, unique => 'webtopic' },
         text => '_DEFAULT',
         raw  => '_DEFAULT'
         },
     metatypes => {
-        _level => 0,
-        name => { type => 'VARCHAR(63)', index => 1 },
+        name => { type => 'VARCHAR(63)', primary => 1 },
         },
     TOPICINFO => {
-        _level => 1,
+        tid  => { type => 'INT', unique => 'onetopicinfo' },
         author => '_USERNAME',
         version => { type => 'VARCHAR(256)' },
         date => '_DATE',
@@ -75,18 +83,18 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         encoding => { type => 'VARCHAR(32)' },
     },
     TOPICMOVED => {
-        _level => 1,
+        tid  => { type => 'INT' },
         from => { type => 'VARCHAR(256)' },
         to => { type => 'VARCHAR(256)' },
         by => { type => 'VARCHAR(256)' },
         date => '_DATE',
     },
     TOPICPARENT => {
-        _level => 1,
+        tid  => { type => 'INT', unique => 'oneparent' },
         name => { type => 'VARCHAR(256)', index => 1 },
     },
     FILEATTACHMENT => {
-        _level => 1,
+        tid  => { type => 'INT' },
         name => { type => 'VARCHAR(256)', index => 1 },
         version => { type => 'VARCHAR(32)' },
         path => { type => 'VARCHAR(256)' },
@@ -97,18 +105,18 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         attr => { type => 'VARCHAR(32)' }
     },
     FORM => {
-        _level => 1,
+        tid  => { type => 'INT' },
         name => { type => 'VARCHAR(256)', index => 1 },
     },
     FIELD => {
-        _level => 1,
+        tid  => { type => 'INT' },
         name => { type => 'VARCHAR(128)', index => 1 },
         value => { type => 'VARCHAR(512)', index => 1, truncate_to => 512 },
         title => { type => 'VARCHAR(256)' },
     },
     PREFERENCE => {
-        _level => 1,
-        name => { type => 'VARCHAR(64)', index => 1 },
+        tid  => { type => 'INT', unique => 'onepref' },
+        name => { type => 'VARCHAR(64)', index => 1, unique => 'onepref' },
         value => _DEFAULT,
         type => { type => 'VARCHAR(32)' },
     }

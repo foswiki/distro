@@ -111,8 +111,10 @@ sub afterRenameHandler {
     my $newo =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
     Foswiki::Contrib::DBIStoreContrib::start();
-    Foswiki::Contrib::DBIStoreContrib::remove( $oldo, $olda );
-    Foswiki::Contrib::DBIStoreContrib::insert( $newo, $newa );
+    Foswiki::Contrib::DBIStoreContrib::remove($oldo);    #, $olda );
+    Foswiki::Contrib::DBIStoreContrib::insert($oldo);    #, $olda );
+    Foswiki::Contrib::DBIStoreContrib::remove($newo);    #, $newa );
+    Foswiki::Contrib::DBIStoreContrib::insert($newo);    #, $newa );
     Foswiki::Contrib::DBIStoreContrib::commit();
 }
 

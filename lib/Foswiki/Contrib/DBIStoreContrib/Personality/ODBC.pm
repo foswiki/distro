@@ -1,13 +1,16 @@
 # See bottom of file for license and copyright information
 package Foswiki::Contrib::DBIStoreContrib::Personality::ODBC;
 
-# Personality module for MS SQL Server
+# Personality module for MS SQL Server / Transact-SQL
 
 use strict;
 use warnings;
 
 use Foswiki::Contrib::DBIStoreContrib::Personality ();
 our @ISA = ('Foswiki::Contrib::DBIStoreContrib::Personality');
+
+# Use the database version this has been tested with
+our $VERSION = 'Microsoft SQL Server 2005 - 9.00.4035.00 Standard Edition';
 
 sub new {
     my ( $class, $dbistore ) = @_;

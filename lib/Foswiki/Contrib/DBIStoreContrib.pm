@@ -21,8 +21,8 @@ use Foswiki       ();
 use Foswiki::Func ();
 use DBI           ();
 
-our $VERSION = '1.1';            # plugin version is also locked to this
-our $RELEASE = '12 Aug 2014';
+our $VERSION = '1.2';           # plugin version is also locked to this
+our $RELEASE = '18 Oct 2014';
 
 # Very verbose debugging. Used by all modules in the suite.
 use constant MONITOR => 0;
@@ -133,24 +133,23 @@ sub _connect {
     }
     elsif (MONITOR) {
         _say "Base tables don't exist";
-        ASSERT(0);
+        ASSERT($session);
     }
 
     # Hard reset; strip down all existing tables
 
     # The metatypes table is how we know which tables are ours. Add
     # this to the schema.
-    my @tables = keys %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} };
+    my %tables = map { $_ => 1 }
+      keys %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} };
     if ( $personality->table_exists('metatypes') ) {
         my $mts = $dbh->selectcol_arrayref('SELECT name FROM metatypes');
         foreach my $t (@$mts) {
-            unless ( grep( /^$t$/, @tables ) ) {
-                push( @tables, $t );
-            }
+            $tables{$t} = 1;
         }
     }
 
-    foreach my $table (@tables) {
+    foreach my $table ( keys %tables ) {
         if ( $personality->table_exists($table) ) {
             $dbh->do( 'DROP TABLE ' . $personality->safe_id($table) );
             _say "Dropped $table" if MONITOR;
@@ -171,35 +170,62 @@ sub _connect {
 }
 
 # Create the table for the given META - PRIVATE
-sub _createTableForMETA {
-    my ($t) = @_;
-    my $schema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$t};
+sub _createTable {
+    my ( $tname, $tschema ) = @_;
 
     # Create table
-    my $cols = join( ',',
-        map { $personality->safe_id($_) . ' ' . _column( $t, $_ )->{type} }
-        grep( !/^_/, keys %$schema ) );
-    my $sn  = $personality->safe_id($t);
+    my @cols;
+    my %constraint;    # indexed on constraint name
+    while ( my ( $cname, $cschema ) = each %$tschema ) {
+
+        # resolve pseudo-type
+        $cschema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$cschema}
+          unless ( ref($cschema) );
+        my $s = $personality->safe_id($cname) . ' ' . $cschema->{type};
+        if ( $cschema->{primary} ) {
+            $s .= ' PRIMARY KEY';
+        }
+        if ( defined $cschema->{unique} ) {
+            ASSERT( $cschema->{unique} =~ /^[A-Za-z]+$/i ) if DEBUG;
+            $constraint{ $cschema->{unique} } ||= [];
+            push( @{ $constraint{ $cschema->{unique} } }, $cname );
+        }
+        push( @cols, $s );
+    }
+    my $sn = $personality->safe_id($tname);
+    my $ok = 0;
+    while ( my ( $cons, $set ) = each %constraint ) {
+        push( @cols,
+                'CONSTRAINT '
+              . $personality->safe_id($cons)
+              . ' UNIQUE ('
+              . join( ',', map { $personality->safe_id($_) } @$set )
+              . ')' );
+        $ok = 1;
+    }
+    my $cols = join( ',', @cols );
     my $sql = "CREATE TABLE $sn ( $cols )";
     _say $sql if MONITOR;
     $dbh->do($sql);
 
-    # Add the table to the table of tables
-    $dbh->do("INSERT INTO metatypes (name) VALUES ( '$t' )");
+    # Add non-primary tables to the table of tables
+    $dbh->do("INSERT INTO metatypes (name) VALUES ( '$tname' )")
+      unless $tname eq 'topic' || $tname eq 'metatypes';
 
     # Create indexes
-    while ( my ( $col, $v ) = each %$schema ) {
-        $v = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$v}
-          unless ( ref($v) );
-        if ( $v->{index} ) {
-            my $sql =
-                'CREATE INDEX '
-              . $personality->safe_id("IX_${t}_${col}") . ' ON '
-              . $personality->safe_id($t) . '('
-              . $personality->safe_id($col) . ')';
-            _say $sql if MONITOR;
-            $dbh->do($sql);
-        }
+    while ( my ( $cname, $cschema ) = each %$tschema ) {
+
+        # dereference _NAME
+        $cschema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$cschema}
+          unless ( ref($cschema) );
+        next unless ( $cschema->{index} );
+        my $sql =
+            'CREATE INDEX '
+          . $personality->safe_id("IX_${tname}_${cname}") . ' ON '
+          . $personality->safe_id($tname) . '('
+          . $personality->safe_id($cname) . ')';
+        _say $sql if MONITOR;
+        $dbh->do($sql);
     }
 }
 
@@ -207,38 +233,15 @@ sub _createTableForMETA {
 # default META: tables) - PRIVATE
 sub _createTables {
 
-    # Create the topic table. This links the web name, topic name,
-    # topic text and raw text of the topic.
-    my @cols;
-
-    foreach my $type (
-        keys( %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} } ) )
+    _createTable( 'metatypes',
+        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}->{metatypes} );
+    while ( my ( $name, $schema ) =
+        each %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} } )
     {
-        next unless defined $type->{_level};
+        next if $name eq 'metatypes' || $name =~ /^_/;
 
-        if ( $type->{_level} == 0 ) {
-            my $uniq = '';
-            foreach my $c ( keys %$type ) {
-                my $col = _column( 'topic', $c );
-                my $s = $personality->safe_id($c) . ' ' . $col->{type};
-                if ( $col->{primary} ) {
-                    $uniq = ",UNIQUE " . $personality->safe_id($c);
-                    $s .= ' PRIMARY KEY';
-                }
-                push( @cols, $s );
-            }
-            my $colst = join( ',', @cols );
-            $dbh->do("CREATE TABLE $type ($colst$uniq)");
-        }
-        else {
-            # Create the tables for each registered META: type
-
-            my $t = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$type};
-            unless ( $t =~ /^_/ ) {
-                _say "Creating table for $type" if MONITOR;
-                _createTableForMETA($type);
-            }
-        }
+        _say "Creating table for $name" if MONITOR;
+        _createTable( $name, $schema );
     }
     $dbh->do('COMMIT') if $personality->{requires_COMMIT};
 }
@@ -256,17 +259,17 @@ sub _preload {
 }
 
 # Preload a single web - PRIVATE
+# pass web and topic name to insert() simply so it appears in stack traces
 sub _preloadWeb {
     my ( $w, $session ) = @_;
     my $web = Foswiki::Meta->new( $session, $w );
-    insert($web);
+    insert( $web, undef, "$web." );
     my $tit = $web->eachTopic();
     while ( $tit->hasNext() ) {
         my $t = $tit->next();
         my $topic = Foswiki::Meta->load( $session, $w, $t );
         _say "Preloading topic $w/$t" if MONITOR;
-        insert($topic);
-      TODO: load attachments;
+        insert( $topic, undef, "$web.$t" );
     }
 
     my $wit = $web->eachWeb();
@@ -294,17 +297,17 @@ sub _truncate {
 sub _column {
     my ( $table, $column ) = @_;
 
-    my $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$table};
-    $l = $l->{$column} if $l;
-    if ( defined $l ) {
+    my $t = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$table};
+    if ( ref($t) ) {
+        my $c = $t->{$column};
+        return $c if ref($c);
 
-        # If the type name starts with an underscore, map to a default
+        # If the type name starts with an underscore, map to a top-level
         # type name
-        if ( $l =~ /^_/ ) {
-            $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$l};
-            ASSERT($l) if DEBUG;
+        if ( $c && $c =~ /^_/ ) {
+            $c = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$c};
+            return $c if ref($c);
         }
-        return $l;
     }
     Foswiki::Func::writeWarning(
         "DBIStoreContrib: Could not determine a type for $table.$column")
@@ -414,7 +417,13 @@ sub insert {
                 else {
                     # The table is not in the DB either. Try deduce the schema
                     # from the data.
-                    $schema = {};
+                    $schema = {
+                        tid => {
+                            type =>
+                              $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}
+                              ->{TOPICINFO}->{tid}->{type}
+                        }
+                    };
 
                     # Check the entries to ensure we have picked up all the
                     # columns. We read *all* entries so we get all columns.
@@ -426,7 +435,7 @@ sub insert {
                     _say "Creating fly table for $type" if MONITOR;
                     $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}->{$type}
                       = $schema;
-                    _createTableForMETA($type);
+                    _createTable( $type, $schema );
                 }
             }
 

@@ -1,11 +1,16 @@
 # See bottom of file for license and copyright information
 package Foswiki::Contrib::DBIStoreContrib::Personality::SQLite;
 
+# SBICtoreContrib personality module for SQLite
+
 use strict;
 use warnings;
 
 use Foswiki::Contrib::DBIStoreContrib::Personality ();
 our @ISA = ('Foswiki::Contrib::DBIStoreContrib::Personality');
+
+# Use the database version this has been tested with
+our $VERSION = '3.7.13';
 
 sub new {
     my ( $class, $dbistore ) = @_;

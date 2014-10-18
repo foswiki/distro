@@ -1,12 +1,17 @@
 # See bottom of file for license and copyright information
 package Foswiki::Contrib::DBIStoreContrib::Personality::Pg;
 
+# DBIStoreContrib personality module for Postgresql
+
 use strict;
 use warnings;
 use Assert;
 
 use Foswiki::Contrib::DBIStoreContrib::Personality ();
 our @ISA = ('Foswiki::Contrib::DBIStoreContrib::Personality');
+
+# Use the database version this has been tested with
+our $VERSION = '9.1.13';
 
 sub new {
     my ( $class, $dbistore ) = @_;

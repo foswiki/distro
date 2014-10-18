@@ -1,11 +1,16 @@
 # See bottom of file for license and copyright information
 package Foswiki::Contrib::DBIStoreContrib::Personality::mysql;
 
+# DBIStoreContrib personality module for MySQL
+
 use strict;
 use warnings;
 
 use Foswiki::Contrib::DBIStoreContrib::Personality ();
 our @ISA = ('Foswiki::Contrib::DBIStoreContrib::Personality');
+
+# Use the database version this has been tested with
+our $VERSION = '5.5.37';
 
 sub new {
     my ( $class, $dbistore ) = @_;
