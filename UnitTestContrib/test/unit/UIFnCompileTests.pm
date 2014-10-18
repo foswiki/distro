@@ -51,11 +51,16 @@ sub fixture_groups {
     my @groups;
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
+
+        # jsonrpc and configure are registered, but do things differently
+        next if $script =~ /^(jsonrpc|configure).*/;
+
         push( @groups, $script );
         next if ( defined( &{$script} ) );
 
         #print STDERR "defining $script\n";
         my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
+
         if ( ref($dispatcher) eq 'ARRAY' ) {
 
             # Old-style array entry in switchboard from a plugin
