@@ -712,6 +712,18 @@ HERE
 HERE
     },
     {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'definitionListWithFormat_Item13059',
+        html => <<'HERE',
+<dl><dt><span class="WYSIWYG_TT">"name"</span></dt><dd>The name provided on the github user account. Typically this provide as "First Last", although older github accounts might use this as the username (see below),</dd><dt><b>"email"</b></dt><dd>The email address registered on the github user account.,</dd><dt><span class="WYSIWYG_TT">"username"</span></dt><dd>The github account userid.</dd></dl>
+HERE
+        tml => <<'HERE',
+   $ ="name"=: The name provided on the github user account. Typically this provide as "First Last", although older github accounts might use this as the username (see below),
+   $ *"email"*: The email address registered on the github user account.,
+   $ ="username"=: The github account userid.
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'indentColon',
         html => <<'HERE',
