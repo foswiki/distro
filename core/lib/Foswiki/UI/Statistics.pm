@@ -150,8 +150,8 @@ sub statistics {
                     while ( $it->hasNext() ) {
                         my $w = $it->next();
                         next
-                          unless Foswiki::WebFilter->user()
-                          ->ok( $session, "$subweb/$w" );
+                          unless $Foswiki::WebFilter::user->ok( $session,
+                            "$subweb/$w" );
                         push( @weblist, "$subweb/$w" );
                     }
                     $webObj->finish();
