@@ -11,7 +11,7 @@ sub name { 'ConfigurePluginSuite' }
 
 # List the modules that contain the extension-specific tests you
 # want to run. These tests are run when you 'perl build.pl test'
-sub include_tests { qw(ConfigurePluginTests SaveTests) }
+sub include_tests { qw(ConfigurePluginTests) }
 
 1;
 __END__
