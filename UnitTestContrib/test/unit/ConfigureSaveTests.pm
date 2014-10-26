@@ -90,9 +90,13 @@ sub test_changecfg {
 
     # Check report
     my $ms = $reporter->messages();
-    $this->assert_matches( qr/^Previous/,                $ms->[0]->{text} );
-    $this->assert_matches( qr/^New/,                     $ms->[1]->{text} );
-    $this->assert_matches( qr/AccessibleCFG.*\[.+ \[\]/, $ms->[3]->{text} );
+    $this->assert_matches( qr/^Previous/, $ms->[0]->{text} );
+    $this->assert_matches( qr/^New/,      $ms->[1]->{text} );
+    $this->assert_matches(
+        qr/AccessibleCFG.*\[.+ \[\]/,
+        $ms->[3]->{text},
+        Data::Dumper->Dump( [$ms] )
+    );
 
     # Check it was written correctly
     open( F, '<',

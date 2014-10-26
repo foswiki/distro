@@ -244,8 +244,6 @@ sub call_UI_FN {
     if ( $status == 666 ) {
         $status = 200;
     }
-    $this->assert_num_not_equals( 500, $status,
-        'exception thrown, or status not set properly' );
 
     return ( $status, $header, $body, $stdout, $stderr );
 }
@@ -374,8 +372,17 @@ sub verify_switchboard_function {
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
+    unless ( $header =~ /Content-type: text\/html\b/i ) {
+
+        # non-HTML script, no HTML to validate
+        $this->{tidy}->clear_messages();
+        return;
+    }
+
     $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
     if ( $status != 302 ) {
+        $this->assert_num_not_equals( 500, $status,
+            'exception thrown, or status not set properly' );
         $this->assert( $text,
             "no body for $SCRIPT_NAME\nSTATUS: $status\nHEADER: $header" );
         $this->assert_str_not_equals( '', $text,
@@ -563,6 +570,8 @@ sub test_edit_without_urlparam_presets {
 
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+    $this->assert_num_not_equals( 500, $status,
+        'exception thrown, or status not set properly' );
     my $notchecked  = { checked  => 0 };
     my $notselected = { selected => 0 };
 
@@ -610,6 +619,9 @@ sub test_edit_with_urlparam_presets {
         undef,
         { Issue3 => ['c'], State => ['1'], Issue1 => ['y'], Issue5 => ['Bar'] }
     );
+    $this->assert_num_not_equals( 500, $status,
+        'exception thrown, or status not set properly' );
+
     my $notchecked  = { checked  => 0 };
     my $notselected = { selected => 0 };
 
