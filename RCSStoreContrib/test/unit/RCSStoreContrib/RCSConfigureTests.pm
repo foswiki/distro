@@ -32,8 +32,8 @@ sub test_checkRCSProgram {
 {
 
     package Test::Foswiki::Configure::Dummy;
-    use Foswiki::Configure::UIs::Value();
-    local our @ISA = 'Foswiki::Configure::UIs::Value';
+    use Foswiki::Configure::Value();
+    local our @ISA = 'Foswiki::Configure::Value';
 
     sub inc { }
 }
