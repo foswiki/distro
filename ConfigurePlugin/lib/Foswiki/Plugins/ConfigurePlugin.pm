@@ -418,6 +418,11 @@ each being a hash with keys =level= (e.g. =warnings=, =errors=), and
 
 Any errors will be reported using exceptions.
 
+*NOTE* check_dependencies will look into the values of other keys for
+$Foswiki::cfg references, for example into the entries in a PERL hash.
+If a dependency is found, the closest checkable entity (i.e. the PERL
+key) will be checked, and *not* the subkey.
+
 =cut
 
 sub _getSetParams {
@@ -515,7 +520,7 @@ sub check_current_value {
         # Reload Foswiki::cfg without expansions so we can find
         # dependencies
         local %Foswiki::cfg = ();
-        Foswiki::Configure::Load::readConfig( 1, 1 );
+        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         if ( $params->{with} ) {
             while ( my ( $k, $v ) = each %{ $params->{with} } ) {
                 eval "\$Foswiki::cfg$k=$v";
@@ -529,13 +534,19 @@ sub check_current_value {
         my %done;
         while ( my $dep = shift @dep_keys ) {
             next if $done{$dep};
-            $check{$dep} = 1;
-            $done{$dep}  = 1;
+            $done{$dep} = 1;
+
+            # Find the closest enclosing key that has a spec (we only
+            # check things with specs) and add it to the check set
+            my $cd = $dep;
+            while ( $cd && !$root->getValueObject($cd) ) {
+                $cd =~ s/(.*){.*?}$/$1/;
+            }
+            $check{$cd} = 1 if $cd;
             push( @dep_keys, @{ $deps{forward}->{$dep} } )
               if $deps{forward}->{$dep};
         }
     }
-
     foreach my $k ( keys %check ) {
         next unless $k;
         my $spec = $root->getValueObject($k);

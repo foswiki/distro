@@ -142,21 +142,19 @@ sub test_getspec {
     $this->assert_str_equals( 'STRING', $spec->{default} );
     $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{STRING}',
         $spec->{keys} );
-    $this->assert_str_equals( 'STRING', $spec->{current_value} );
-    $this->assert_matches( qr/^When you press the.*of report.$/s,
-        $spec->{desc} );
+    $this->assert_matches( qr/^When you press.*of report.$/s, $spec->{desc} );
     $this->assert_num_equals( 4, $spec->{depth} );
     $this->assert_num_equals( 2, scalar @{ $spec->{defined_at} } );
     $this->assert_num_equals( 2, scalar @{ $spec->{FEEDBACK} } );
     my $fb = $spec->{FEEDBACK}->[0];
     $this->assert( $fb->{auth} );
     $this->assert_str_equals( 'Test',     $fb->{wizard} );
-    $this->assert_str_equals( 'test',     $fb->{method} );
+    $this->assert_str_equals( 'test1',    $fb->{method} );
     $this->assert_str_equals( 'Test one', $fb->{label} );
     $fb = $spec->{FEEDBACK}->[1];
     $this->assert( !$fb->{auth} );
-    $this->assert_str_equals( 'Gandalf',  $fb->{wizard} );
-    $this->assert_str_equals( 'wand',     $fb->{method} );
+    $this->assert_str_equals( 'Test',     $fb->{wizard} );
+    $this->assert_str_equals( 'test1',    $fb->{method} );
     $this->assert_str_equals( 'Test two', $fb->{label} );
 
     my $ch = $spec->{CHECK};
@@ -251,18 +249,18 @@ sub test_check_dependencies {
     };
     my $report =
       Foswiki::Plugins::ConfigurePlugin::check_current_value($params);
-    $this->assert_num_equals( 2, scalar @$report );
-    my ( $first, $second );
-    if ( $report->[0]->{keys} =~ /DEPENDS/ ) {
-        ( $first, $second ) = ( $report->[0], $report->[1] );
-    }
-    else {
-        ( $first, $second ) = ( $report->[1], $report->[0] );
-    }
-    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{DEPENDS}',
-        $first->{keys} );
+    $this->assert_num_equals(
+        3,
+        scalar @$report,
+        Data::Dumper->Dump( [$report] )
+    );
+    my @r = sort { $a->{keys} cmp $b->{keys} } @$report;
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{DEP_PERL}',
+        $r[0]->{keys} );
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{DEP_STRING}',
+        $r[1]->{keys} );
     $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{H}',
-        $second->{keys} );
+        $r[2]->{keys} );
 }
 
 1;

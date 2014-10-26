@@ -59,7 +59,14 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{EXPERT} = 'EXPERT';
 # Should be 'empty'
 # $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{empty} = 'empty';
 # **STRING**
-# Should be a list of other items
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{DEPENDS} = '$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H} and $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{EXPERT} ans $$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{NotPresent}';
+# Should contain other items
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{DEP_STRING} = 'xxx$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H}xxx';
+# **PERL**
+# Should contain other items
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{DEP_PERL} = {
+    'string' => 'xxx$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H}xxx',
+    'hash' => { 'hash' => 'xxx$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H}xxx' },
+    'array' => [ '$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H}' ]
+};
 
 
