@@ -5,7 +5,7 @@
 # and do nothing.
 # **STRING FEEDBACK="label='Test one';wizard='Test';method='test1';auth=1" \
 #          FEEDBACK="label='Test two';wizard='Test';method='test1'" \
-#          CHECK="min:3 max:20" **
+#          CHECK="min:3 max:20"**
 # When you press either of the test buttons, expect the value to change
 # to "ROPE" and there to be one each of the different levels of report.
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'STRING';
@@ -15,7 +15,7 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{BOOLEAN} = 1;
 # **COMMAND**
 # Should be COMMAND
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{COMMAND} = 'COMMAND';
-# **DATE**
+# **DATE CHECK="nullok"**
 # Should be 12 Feb 2012
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{DATE} = '12 Feb 2012';
 # **EMAILADDRESS**

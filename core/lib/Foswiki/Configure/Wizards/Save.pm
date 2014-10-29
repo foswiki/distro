@@ -117,33 +117,6 @@ sub _backupCurrentContent {
     return ( $content, $backup, @backups );
 }
 
-# For each key in the spec missing from the %cfg passed, add the
-# default (unexpanded) from the spec to the %cfg, if it exists.
-sub _addSpecDefaultsToCfg {
-    my ( $spec, $cfg ) = @_;
-    if ( $spec->{children} ) {
-        foreach my $child ( @{ $spec->{children} } ) {
-            _addSpecDefaultsToCfg( $child, $cfg );
-        }
-    }
-    else {
-        if ( exists( $spec->{default} )
-            && eval("!exists(\$cfg->$spec->{keys})") )
-        {
-            # {default} stores a value string. Convert it to the
-            # value suitable for storing in cfg
-            my $value = $spec->decodeValue( $spec->{default} );
-            if ( defined $value ) {
-                eval("\$cfg->$spec->{keys}=\$value");
-            }
-            else {
-                eval("undef \$cfg->$spec->{keys}");
-            }
-            ASSERT( !$@, $@ ) if DEBUG;
-        }
-    }
-}
-
 =begin TML
 
 ---++ WIZARD save
@@ -164,7 +137,7 @@ sub save {
     my %changeLog;
 
     my $root = Foswiki::Configure::Root->new();
-    Foswiki::Configure::LoadSpec::readSpec($root);
+    Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
 
     my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
@@ -172,7 +145,7 @@ sub save {
     # SMELL: this *should* be a NOP, if the wizards did their job correctly,
     # though if an extension was installed from the shell when we weren't
     # looking it might be required.
-    _addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
+    Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
 
     my ( $old_content, $backup, @backups ) =
       _backupCurrentContent( $lsc, $reporter );

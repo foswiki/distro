@@ -146,6 +146,23 @@ sub WIZARD {
 
 =begin TML
 
+---++ ObjectMethod has_level( $level ) -> $boolean
+
+Return true if the reporter has seen at least one $level message, where
+$level is one of notes, warnings or errors.
+
+=cut
+
+sub has_level {
+    my ( $this, $level ) = @_;
+    foreach my $m ( @{ $this->{messages} } ) {
+        return 1 if ( $m->{level} eq $level );
+    }
+    return 0;
+}
+
+=begin TML
+
 ---++ ObjectMethod clear() -> $this
 
 Clear all contents from the reporter.

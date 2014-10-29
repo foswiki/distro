@@ -69,10 +69,7 @@ use Foswiki::Configure::Load      ();
 use Foswiki::Configure::FileUtil  ();
 use Foswiki::Configure::Pluggable ();
 
-our @errors;      # Log of errors
-our @warnings;    # and warnings
-
-our $TRUE  = 1;   # Required for checking default value syntax
+our $TRUE  = 1;    # Required for checking default value syntax
 our $FALSE = 0;
 
 use constant TRACE => 0;
@@ -97,7 +94,7 @@ sub _debugItem {
 
 =begin TML
 
----++ StaticMethod readSpec($root, %options)
+---++ StaticMethod readSpec($root, $reporter)
 
 Load the configuration declarations. The core set is defined in
 Foswiki.spec, which must be found on the @INC path and is always loaded
@@ -111,11 +108,11 @@ use Foswiki::Configure::Load::readConfig.
 =cut
 
 sub readSpec {
-    my ($root) = @_;
+    my ( $root, $reporter ) = @_;
 
     my $file = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec');
     if ($file) {
-        parse( $file, $root );
+        parse( $file, $root, $reporter );
     }
 
     my %read;
@@ -126,45 +123,13 @@ sub readSpec {
           )
         {
 
-            _loadSpecsFrom( "$dir/$subdir", $root, \%read );
+            _loadSpecsFrom( "$dir/$subdir", $root, \%read, $reporter );
         }
     }
 }
 
-=begin TML
-
----++ StaticMethod error($file, $line, @errs)
-Report an error.
-
-=cut
-
-sub error {
-    my ( $file, $line, $err ) = @_;
-    $file ||= '';
-    $line = $. unless defined $line;
-    $err ||= 'Unspecified error';
-    print STDERR "ERROR: $file:$line $err\n" if TRACE;
-    Carp::confess "ERROR: $file:$line $err\n";
-    push( @errors, [ $file, $line, $err ] );
-}
-
-=begin TML
-
----++ StaticMethod warning($file, $line, @errs)
-Report an error.
-
-=cut
-
-sub warning {
-    my ( $file, $line, $err ) = @_;
-    return error(@_) unless $err;
-    $file ||= '';
-    $line = $. unless defined $line;
-    push( @warnings, [ $file, $line, $err ] );
-}
-
 sub _loadSpecsFrom {
-    my ( $dir, $root, $read ) = @_;
+    my ( $dir, $root, $read, $reporter ) = @_;
 
     return unless opendir( D, $dir );
 
@@ -178,7 +143,7 @@ sub _loadSpecsFrom {
         $extension = $1;    # untaint
         my $file = "$dir/$extension/Config.spec";
         next unless -e $file;
-        parse( $file, $root );
+        parse( $file, $root, $reporter );
         $read->{$extension} = $file;
     }
     closedir(D);
@@ -268,7 +233,7 @@ sub _getValueObject {
 
 =begin TML
 
----++ StaticMethod parse($file, $root)
+---++ StaticMethod parse($file, $root, $reporter)
 
 Parse the config declaration file and add it to a root node for the
 configuration it describes
@@ -276,11 +241,11 @@ configuration it describes
 =cut
 
 sub parse {
-    my ( $file, $root ) = @_;
+    my ( $file, $root, $reporter ) = @_;
     my $fh;
 
     unless ( open( $fh, '<', $file ) ) {
-        print STDERR "$file open failed: $!";
+        $reporter->ERROR("$file open failed: $!");
         return '';
     }
 
@@ -289,14 +254,13 @@ sub parse {
     my $isEnhancing = 0; # Is the current $open an existing item being enhanced?
     my @settings;
     my $sectionNum = 0;
-    my @context = ( $file, 0 );
 
-    print STDERR "Loading specs from $file\n" if TRACE;
+    $reporter->NOTE("Loading specs from $file") if TRACE;
 
     while ( my $l = <$fh> ) {
         chomp $l;
 
-        $context[1] = $.;
+        my $context = "$file: $.";
 
         # Continuation lines
 
@@ -321,9 +285,8 @@ sub parse {
 
             # **STRING 30 EXPERT**
             if ( $open && !$isEnhancing ) {
-                print STDERR "\tClosed "
-                  . _debugItem($open) . ' at '
-                  . __LINE__ . "\n"
+                $reporter->NOTE(
+                    "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                   if TRACE;
                 push( @settings, $open );
                 $open = undef;
@@ -332,10 +295,11 @@ sub parse {
 
                 # Enhance an existing value
                 $open = $root->getValueObject($2);
-                error( @context, "No such value $2" )
+                $reporter->ERROR("$context: No such value $2")
                   unless $open;
                 $isEnhancing = $open ? 1 : 0;
-                print STDERR "\tEnhancing $open->{keys}\n" if TRACE && $open;
+                $reporter->NOTE("\tEnhancing $open->{keys}")
+                  if TRACE && $open;
             }
             else {
                 my $type = $1;
@@ -345,13 +309,13 @@ sub parse {
                     $open = Foswiki::Configure::Value->new(
                         $1,
                         opts       => $2,
-                        defined_at => [@context]
+                        defined_at => [ $file, $. ]
                     );
-                    print STDERR "\tOpened $open->{typename}\n" if TRACE;
+                    $reporter->NOTE("\tOpened $open->{typename}") if TRACE;
                 };
 
                 if ($@) {
-                    error( @context, $@ );
+                    $reporter->ERROR("$context: $@");
                     $open = undef;
                 }
                 $isEnhancing = 0;
@@ -372,7 +336,7 @@ sub parse {
                 ASSERT($open) if DEBUG;
             }
             unless ( $keys =~ /^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
-                error( @context, "Invalid item specifier $keys" );
+                $reporter->ERROR("$context: Invalid item specifier $keys");
                 $open = undef;
                 next;
             }
@@ -392,15 +356,14 @@ sub parse {
             no warnings;
             $value =~ /^(.*)$/;
             eval $1;
-            die "Cannot eval value '$value': $@" if $@;
+            $reporter->ERROR("$context: Cannot eval value '$value': $@") if $@;
             $value = $1;
             use warnings;
 
             if ( $open && $open->isa('SectionMarker') ) {
                 unless ($isEnhancing) {
-                    print STDERR "\tClosed "
-                      . _debugItem($open) . ' at '
-                      . __LINE__ . "\n"
+                    $reporter->NOTE(
+                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                       if TRACE;
                     push( @settings, $open );
                     $open = undef;
@@ -417,7 +380,7 @@ sub parse {
                 $open        = Foswiki::Configure::Value->new('UNKNOWN');
                 $isEnhancing = 0;
             }
-            $open->{defined_at} = [@context];
+            $open->{defined_at} = [ $file, $. ];
 
             # Record the value *string*, internal formatting et al.
             # This is the best way to retain perl formatting while
@@ -427,9 +390,8 @@ sub parse {
 
             $open->{keys} = $keys;
             unless ($isEnhancing) {
-                print STDERR "\tClosed "
-                  . _debugItem($open) . ' at '
-                  . __LINE__ . "\n"
+                $reporter->NOTE(
+                    "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                   if TRACE;
                 push( @settings, $open );
             }
@@ -444,7 +406,8 @@ sub parse {
             my $subset = \@settings;
 
             if ($isEnhancing) {
-                die "Cannot ENHANCE a non-section with a Pluggable"
+                $reporter->ERROR(
+                    "$context: Cannot ENHANCE a non-section with a Pluggable")
                   if ( $open
                     && !$open->isa('Foswiki::Configure::Section') );
                 $subset      = \@{ $open->{children} };
@@ -455,23 +418,23 @@ sub parse {
                     && !$open->isa('SectionMarker') )
                 {
                     my $otype = $open->{typename} || $open;
-                    error( @context, "Incomplete $otype declaration" );
+                    $reporter->ERROR("$context: Incomplete $otype declaration");
                 }
                 elsif ( !$isEnhancing ) {
                     push( @settings, $open );
-                    print STDERR "\tClosed "
-                      . _debugItem($open) . ' at '
-                      . __LINE__ . "\n"
+                    $reporter->NOTE(
+                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                       if TRACE;
                 }
                 $open = undef;
             }
 
             eval {
-                Foswiki::Configure::Pluggable::load( $name, $subset, @context );
+                Foswiki::Configure::Pluggable::load( $name, $subset, $file,
+                    $. );
             };
             if ($@) {
-                warning( @context, "Can't load pluggable $name: $@" );
+                $reporter->WARN("Can't load pluggable $name: $@");
             }
             elsif ($isEnhancing) {
 
@@ -495,13 +458,12 @@ sub parse {
                # it since that will confuse the UI.  Report such errors.
                 if ( $open->isa('Foswiki::Configure::Value') ) {
                     my $otype = $open->{typename};
-                    error( @context, "Incomplete $otype declaration" );
+                    $reporter->ERROR("$context: Incomplete $otype declaration");
                 }
                 elsif ( !$isEnhancing ) {
                     push( @settings, $open );
-                    print STDERR "\tClosed "
-                      . _debugItem($open) . ' at '
-                      . __LINE__ . "\n"
+                    $reporter->NOTE(
+                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                       if TRACE;
                 }
             }
@@ -519,13 +481,12 @@ sub parse {
     if ( $open && !$isEnhancing ) {
         if ( $open->isa('Foswiki::Configure::Value') ) {
             my $otype = $open->{typename};
-            error( $file, $., "Incomplete $otype declaration" );
+            $reporter->ERROR("$file:$.: Incomplete $otype declaration");
         }
         else {
             push( @settings, $open ) unless $isEnhancing;
-            print STDERR "\tClosed "
-              . _debugItem($open) . ' at '
-              . __LINE__ . "\n"
+            $reporter->NOTE(
+                "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
               if TRACE;
         }
     }
@@ -579,6 +540,82 @@ sub protectKey {
         ASSERT( !$@, $k );
     }
     return $k;
+}
+
+=begin TML
+
+---++ StaticMethod addSpecDefaultsToCfg($spec, \%cfg)
+
+   * =$spec= - ref to a Foswiki::Configure::Item
+   * =\%cfg= ref to a cfg hash e.g. Foswiki::cfg
+
+For each key in the $spec missing from the %cfg passed, add the
+default (unexpanded) from the spec to the %cfg, if it exists.
+
+=cut
+
+sub addSpecDefaultsToCfg {
+    my ( $spec, $cfg ) = @_;
+
+    if ( $spec->{children} ) {
+        foreach my $child ( @{ $spec->{children} } ) {
+            addSpecDefaultsToCfg( $child, $cfg );
+        }
+    }
+    else {
+        if ( exists( $spec->{default} )
+            && eval("!exists(\$cfg->$spec->{keys})") )
+        {
+            # {default} stores a value string. Convert it to the
+            # value suitable for storing in cfg
+            my $value = $spec->decodeValue( $spec->{default} );
+            if ( defined $value ) {
+                eval("\$cfg->$spec->{keys}=\$value");
+            }
+            else {
+                eval("undef \$cfg->$spec->{keys}");
+            }
+        }
+    }
+}
+
+=begin TML
+
+---++ StaticMethod addCfgValuesToSpec(\%cfg, $spec)
+
+   * =\%cfg= ref to a cfg hash e.g. Foswiki::cfg
+   * =$spec= - ref to a Foswiki::Configure::Item
+
+For each key in the spec add the current value from the %cfg
+as current_value. If the key is
+not set in the %cfg, then set it to the default.
+Note that the %cfg should contain *unexpanded* values.
+
+=cut
+
+sub addCfgValuesToSpec {
+    my ( $cfg, $spec ) = @_;
+    if ( $spec->{children} ) {
+        foreach my $child ( @{ $spec->{children} } ) {
+            addCfgValuesToSpec( $cfg, $child );
+        }
+    }
+    else {
+        if ( eval("exists(\$cfg->$spec->{keys})") ) {
+
+            # Encode the value as something that can be handled by
+            # UIs
+            my $value = eval "\$cfg->$spec->{keys}";
+            ASSERT( !$@ ) if DEBUG;
+            $spec->{current_value} = $spec->encodeValue($value);
+        }
+
+        # Don't do this; it's not the case that the default value
+        # will end up in LocalSite.cfg
+        #elsif (exists($spec->{default})) {
+        #    eval("\$spec->{current_value}=eval(\$spec->{default})");
+        #}
+    }
 }
 
 1;

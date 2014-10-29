@@ -80,9 +80,7 @@ sub construct {
 
         my $sf;
         unless ( open( $sf, '<', File::Spec->catfile( $bindir, $filename ) ) ) {
-            Foswiki::Configure::LoadSpec::error( $file, $line,
-                "Unable to inspect $bindir/$filename: $!" );
-            next;
+            die "$file: $line: Unable to inspect $bindir/$filename: $!\n";
         }
 
         my $engine;

@@ -52,6 +52,35 @@ our %remap = (
     '{RCS}{WorkAreaDir}'    => '{Store}{WorkAreaDir}'
 );
 
+sub _workOutOS {
+    unless ( ( $Foswiki::cfg{DetailedOS} = $^O ) ) {
+        require Config;
+        $Foswiki::cfg{DetailedOS} = $Config::Config{'osname'};
+    }
+    $Foswiki::cfg{OS} = 'UNIX';
+    if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /Win/i ) {
+        $Foswiki::cfg{OS} = 'WINDOWS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /vms/i ) {
+        $Foswiki::cfg{OS} = 'VMS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
+        $Foswiki::cfg{OS} = 'DOS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
+        $Foswiki::cfg{OS} = 'MACINTOSH';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
+        $Foswiki::cfg{OS} = 'OS2';
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
@@ -90,6 +119,8 @@ sub readConfig {
 
     # Read Foswiki.spec and LocalSite.cfg
     # (Suppress Foswiki.spec if already read)
+
+    _workOutOS();
 
     my @files = qw( Foswiki.spec LocalSite.cfg );
     if ($nospec) {
@@ -284,6 +315,7 @@ settings for operation when a LocalSite.cfg could not be found.
 
 sub bootstrapConfig {
     my $noload = shift;
+    Carp::confess "WTF";
 
     # Failed to read LocalSite.cfg
     # Clear out $Foswiki::cfg to allow variable expansion to work
@@ -471,7 +503,7 @@ EPITAPH
     # JQueryPlugin. Without the Config.spec, no plugins get registered)
     Foswiki::Configure::Load::readConfig( 0, 0, 1 ) unless ($noload);
 
-    Foswiki::_workOutOS();
+    _workOutOS();
 
     $Foswiki::cfg{isVALID}         = 1;
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
@@ -499,6 +531,54 @@ BOOTS
     }
     return ( $system_message || '' );
 
+}
+
+=begin TML
+
+---++ StaticMethod findDependencies(\%cfg) -> \%deps
+
+   * =\%cfg= configuration hash to scan; defaults to %Foswiki::cfg 
+
+Recursively locate references to other keys in the values of keys.
+Returns a hash containing two keys:
+   * =forward= => a hash mapping keys to a list of the keys that depend
+     on their value
+   * =reverse= => a hash mapping keys to a list of keys whose value they
+     depend on.
+
+=cut
+
+sub findDependencies {
+    my ( $fwcfg, $deps, $extend_keypath, $keypath ) = @_;
+
+    unless ( defined $fwcfg ) {
+        ( $fwcfg, $extend_keypath, $keypath ) = ( \%Foswiki::cfg, 1, '' );
+    }
+
+    $deps ||= { forward => {}, reverse => {} };
+
+    if ( ref($fwcfg) eq 'HASH' ) {
+        while ( my ( $k, $v ) = each %$fwcfg ) {
+            if ( defined $v ) {
+                my $subkey = $extend_keypath ? "$keypath\{$k\}" : $keypath;
+                findDependencies( $v, $deps, $extend_keypath, $subkey );
+            }
+        }
+    }
+    elsif ( ref($fwcfg) eq 'ARRAY' ) {
+        foreach my $v (@$fwcfg) {
+            if ( defined $v ) {
+                findDependencies( $v, $deps, 0, $keypath );
+            }
+        }
+    }
+    else {
+        while ( $fwcfg =~ /\$Foswiki::cfg(({[^}]*})+)/g ) {
+            push( @{ $deps->{forward}->{$1} },       $keypath );
+            push( @{ $deps->{reverse}->{$keypath} }, $1 );
+        }
+    }
+    return $deps;
 }
 
 1;

@@ -10,6 +10,11 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    # Checkers may be called in a script context, in which case
+    # Foswiki::Func is not available. However in a script context
+    # this option isn't interesting anyway.
+    return unless eval "require Foswiki::Func";
+
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 

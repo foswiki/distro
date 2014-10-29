@@ -140,35 +140,6 @@ sub _getLibDir {
     return $foswikiLibDir;
 }
 
-sub _workOutOS {
-    unless ( ( $Foswiki::cfg{DetailedOS} = $^O ) ) {
-        require Config;
-        $Foswiki::cfg{DetailedOS} = $Config::Config{'osname'};
-    }
-    $Foswiki::cfg{OS} = 'UNIX';
-    if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
-        $Foswiki::cfg{OS} = 'UNIX';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /Win/i ) {
-        $Foswiki::cfg{OS} = 'WINDOWS';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /vms/i ) {
-        $Foswiki::cfg{OS} = 'VMS';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
-        $Foswiki::cfg{OS} = 'UNIX';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
-        $Foswiki::cfg{OS} = 'DOS';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
-        $Foswiki::cfg{OS} = 'MACINTOSH';
-    }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
-        $Foswiki::cfg{OS} = 'OS2';
-    }
-}
-
 BEGIN {
 
     #Monitor::MARK("Start of BEGIN block in Foswiki.pm");
@@ -344,8 +315,6 @@ BEGIN {
         ENDINCLUDE   => sub { '' },
     );
     $contextFreeSyntax{IF} = 1;
-
-    _workOutOS();
 
     # Load LocalSite.cfg
     if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {

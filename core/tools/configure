@@ -1,0 +1,342 @@
+#! /usr/bin/perl
+# Shell access to Foswiki.spec, Config.spec and LocalSite.cfg
+# See bottom of file for POD documentation.
+#
+# Author: Crawford Currie http://c-dot.co.uk
+#
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
+
+use warnings;
+use strict;
+
+use Getopt::Long;
+use Pod::Usage   ();
+use Data::Dumper ();
+use JSON         ();
+
+# Assume we are in the tools dir, and we can find bin and lib from there
+use FindBin ();
+$FindBin::Bin =~ /^(.*)$/;
+my $bin = $1;
+
+use lib "$FindBin::Bin/../bin";
+use lib "$FindBin::Bin/../lib";
+
+use Assert;
+
+require Foswiki::Configure::Root;
+require Foswiki::Configure::LoadSpec;
+require Foswiki::Configure::Load;
+require Foswiki::Configure::Reporter;
+require Foswiki::Configure::Query;
+
+# Command-line parameter handling
+
+my $params = {
+    keys   => [],
+    method => 'check_current_value',
+    set    => {},
+};
+
+my %actions;
+
+sub _keys {
+    my ( $name, $val ) = @_;
+    push( @{ $params->{keys} }, $val ) if defined $val && length($val);
+    $actions{"Foswiki::Configure::Query::$name"} = 1;
+}
+
+sub _scalar {
+    my ( $name, $val ) = @_;
+    $params->{$name} = $val;
+    $actions{"Foswiki::Configure::Query::$name"} = 1;
+}
+
+my $result = Getopt::Long::GetOptions(
+    'check_current_value:s' => \&_keys,
+    'dependencies'          => sub {
+        $params->{check_dependencies} = 1;
+    },
+    'depth=i',
+    \&_scalar,
+    'getcfg:s'   => \&_keys,
+    'getspec:s%' => sub {
+        my ( $name, $key, $val ) = @_;
+        $actions{"Foswiki::Configure::Query::$name"} = 1;
+        if ( defined $key ) {
+            $params->{get}->{$key} = $val;
+        }
+    },
+    'help' => sub {
+        Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
+    },
+    'json'     => \&_scalar,
+    'method=s' => \&_scalar,
+    'search=s' => \&_scalar,
+    'save'     => \&_scalar,
+    'set=s%'   => \%{ $params->{set} },
+    'trace'    => \&_scalar,
+    'wizard=s' => \&_scalar,
+);
+
+my $action;
+my %uniq;
+my @methods = grep { defined &{$_} }
+  map { "Foswiki::Configure::Query::$_" }
+  grep { $_ =~ /^[a-z]/ }
+  keys %Foswiki::Configure::Query::;
+
+foreach my $a (@methods) {
+    if ( $actions{$a} ) {
+        $action = $a;
+        $uniq{$a} = 1;
+    }
+}
+
+if ( scalar( keys %uniq ) > 1 ) {
+    die "Only one of " . join( ' ', keys %uniq ) . " allowed at once";
+}
+
+if ( !scalar( keys %uniq ) && !$actions{'Foswiki::Configure::Query::save'} ) {
+    die "Nothing to do";
+}
+
+if ( $params->{save} ) {
+    delete $params->{save};
+    $params->{wizard} = 'Save';
+    $params->{method} = 'save';
+}
+
+sub _prompt {
+    my ( $root, $keys, $default ) = @_;
+    my $vob = $root->getValueObject($keys);
+    if ( $vob && $vob->{desc} ) {
+        print "$vob->{desc}\n";
+    }
+    local $/ = "\n";
+    my $reply = '';
+    while ( !$reply ) {
+        print $keys;
+        print " ($default)" if defined $default;
+        print ': ';
+        $reply = <STDIN>;
+        chomp($reply);
+        $reply ||= $default;
+    }
+    eval "\$Foswiki::cfg$keys='$reply'";
+    die $@ if $@;
+}
+
+sub _reply {
+    my $response = shift;
+
+    if ($response) {
+        my $json      = JSON->new->convert_blessed(1);
+        my $json_text = $json->encode($response);
+        if ( $params->{json} ) {
+            print "$json_text\n";
+        }
+        else {
+            my $data = $json->decode($json_text);
+            local $Data::Dumper::Indent = 2;
+            my $perl_text = Data::Dumper->Dump( [$data] );
+            $perl_text =~ s/^(\$VAR1 = |        )//gm;
+            $perl_text =~ s/;$//s;
+            print $perl_text;
+        }
+    }
+}
+
+#$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
+
+if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
+    $Foswiki::cfg{isVALID} = 1;
+}
+
+my $root     = Foswiki::Configure::Root->new();
+my $reporter = Foswiki::Configure::Reporter->new();
+Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
+die $reporter->text() if $reporter->has_level('errors');
+
+unless ( $Foswiki::cfg{isVALID} ) {
+    %Foswiki::cfg = ();
+    eval 'require Foswiki::Plugins::ConfigurePlugin';
+    die
+      "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
+      if $@;
+    print "** Enter values for critical configuration items.\n";
+    print
+      "** type a new value or hit return to accept the value in brackets.\n";
+    _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
+    _prompt( $root, '{ScriptUrlPath}' );
+    _prompt( $root, '{PubUrlPath}' );
+    _prompt( $root, '{ScriptDir}',      "$bin/../bin" );
+    _prompt( $root, '{DataDir}',        "$bin/../pub" );
+    _prompt( $root, '{PubDir}',         "$bin/../pub" );
+    _prompt( $root, '{TemplateDir}',    "$bin/../templates" );
+    _prompt( $root, '{LocalesDir}',     "$bin/../locale" );
+    _prompt( $root, '{WorkingDir}',     "$bin/../working" );
+    _prompt( $root, '{ToolsDir}',       $bin );
+    Foswiki::Configure::Load::readConfig( 0, 0, 1 );
+    $Foswiki::cfg{isVALID}         = 1;
+    $Foswiki::cfg{isBOOTSTRAPPING} = 1;
+}
+
+if ( $reporter->has_level('errors') ) {
+    foreach my $mess ( @{ $reporter->messages() } ) {
+        if ( $mess->{level} ne 'notes' ) {
+            print uc( $mess->{level} ) . ": $mess->{text}\n";
+        }
+    }
+    exit 1;
+}
+else {
+    foreach my $mess ( @{ $reporter->messages() } ) {
+        print uc( $mess->{level} ) . ": $mess->{text}\n";
+    }
+}
+
+if ($action) {
+    no strict 'refs';
+    my $response = &$action( $params, $reporter );
+    use strict 'refs';
+
+    _reply($response);
+}
+
+if ( $actions{'Foswiki::Configure::Query::save'} ) {
+
+    # -save is functionally equivalent to -wizard Save -method save
+    # (except of course you can have another wizard call)
+    if ( $reporter->has_level('errors') ) {
+        die 'Save aborted due to errors';
+    }
+    $reporter         = Foswiki::Configure::Reporter->new();
+    $params->{wizard} = 'Save';
+    $params->{method} = 'save';
+    my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
+
+    _reply($response);
+}
+
+1;
+__END__
+
+=head1 tools/configure
+
+Shell interface for Foswiki.spec, Config.spec and LocalSite.cfg
+
+=head1 SYNOPSIS
+
+ tools/configure [options]
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-set> key value
+
+Set the value of a key. You can have as many
+-set options as you want. -set options are
+applied before any checkers or wizards are run, but will not
+persist unless -save is specified. The value is expected to be
+a perl value - be careful about quotes, to pass a string value
+from the shell requires double quoting e.g.
+ -set {ScriptSuffix} '".pl"'
+
+=item B<-check> [key|section]
+
+Call checkers for the given key or section.
+No key|section means check all keys. You can have as many -check
+options as you want.
+
+=item B<-wizard> name
+
+Wizard to call. You can only call a single wizard.
+
+=item B<-method> name
+
+If -wizard is given, this is the name of the
+wizard method to call (defaults to execute()). If --wizard is not
+given then --method is interpreted as the name of a checker
+method to call. The method will be called on all keys passed
+using --check.
+
+=item B<-save>
+
+If given, then the configuration will be saved - but only if all checks
+pass, both on items requested by -check and also items set using -set
+(or set by a wizard call.)
+
+=item B<-getcfg> [key]
+
+Report the value of key. -getcfg can be given
+as many times as you like to retrieve the values of several keys.
+Without a value, the option returns the value of all known keys.
+
+=item B<-getspec> [key|section]
+
+Get the Config.spec for a key or an entire section.
+No key|section will return the entire spec.
+Only the last -getspec option will be processed.
+
+=item B<-search> what
+
+Search headlines and keys for a fragment of text.
+Returns the path(s) to the item(s) matched.
+
+=item B<-json>
+
+If set then results will be output in JSON format rather than the
+default serialised perl format.
+
+=item B<trace>
+
+Switch on limited tracing (mainly for debugging, traces are added to
+reports)
+
+=back
+
+=head1 EXAMPLES
+
+ $ configure --check {PubDir} --method validate_permissions
+
+will call validate_permissions() for the {PubDir} checker.
+
+ $ configure --check Extensions
+
+will call check_current_value() for all keys under the Extensions section.
+
+ $ configure --method check_current_value
+
+will call the check_current_value() method for all leaf items
+in the .spec.
+
+ $ configure --wizard GuessSSLCaLocations --save
+
+will call execute() from Foswiki::Configure::Wizards::GuessSSLCaLocations
+and save the resulting Foswiki::cfg.
+
+ $ configure --wizard Email --method send_test_email
+
+will call send_test_email() from Foswiki::Configure::Wizards::Email
+and report the results.
+
+ $ configure --set {ScriptSuffix} "'.pl'"
+
