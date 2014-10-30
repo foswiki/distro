@@ -288,18 +288,18 @@ key) will be checked, and *not* the subkey.
 =cut
 
 sub check_current_value {
-    my ( $params, $reporter ) = @_;
+    my ( $params, $frep ) = @_;
 
     # Load the spec files
     my $root = Foswiki::Configure::Root->new();
-    Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
-    my @report;
-
-    if ( scalar @{ $reporter->messages() } ) {
-        push( @report, { reports => $reporter->messages(), } );
+    Foswiki::Configure::LoadSpec::readSpec( $root, $frep );
+    if ( $frep->has_level('errors') ) {
+        return undef;
     }
 
-    $reporter->clear();
+    my @report;
+
+    my $reporter = Foswiki::Configure::Reporter->new();
 
     # Because we're running in a plugin, we already have LocalSite.cfg
     # loaded. It's in $Foswiki::cfg! Of course if we're bootstrapping,
@@ -338,9 +338,9 @@ sub check_current_value {
     my $dependants = 0;
 
     # Apply "set" values to $Foswiki::cfg
-    eval { _getSetParams( $params, $root, $reporter ); };
-    if ( $reporter->has_level('errors') ) {
-        return [ { reports => $reporter->messages() } ];
+    eval { _getSetParams( $params, $root, $frep ); };
+    if ( $frep->has_level('errors') ) {
+        return undef;
     }
 
     if ( $params->{check_dependencies} ) {
@@ -354,7 +354,7 @@ sub check_current_value {
                 eval "\$Foswiki::cfg$k=$v";
             }
         }
-        my %deps = Foswiki::Configure::Load::findDependencies();
+        my $deps = Foswiki::Configure::Load::findDependencies();
 
         # Extend the list of requested keys with the keys that depend
         # on their values.
@@ -371,8 +371,8 @@ sub check_current_value {
                 $cd =~ s/(.*){.*?}$/$1/;
             }
             $check{$cd} = 1 if $cd;
-            push( @dep_keys, @{ $deps{forward}->{$dep} } )
-              if $deps{forward}->{$dep};
+            push( @dep_keys, @{ $deps->{forward}->{$dep} } )
+              if $deps->{forward}->{$dep};
         }
     }
     foreach my $k ( keys %check ) {

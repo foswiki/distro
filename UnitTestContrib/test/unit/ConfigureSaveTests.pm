@@ -89,7 +89,6 @@ sub test_changecfg {
     my $ms = $reporter->messages();
     $this->assert_matches( qr/^Previous/, $ms->[0]->{text} );
     $this->assert_matches( qr/^New/,      $ms->[1]->{text} );
-    die Data::Dumper->Dump( [$ms] );
     $this->assert_matches(
         qr/AccessibleCFG.*\[.+ \[\]/,
         $ms->[3]->{text},

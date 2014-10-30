@@ -1,9 +1,7 @@
 !noci
 bin/configure
 data/System/ConfigurePlugin.txt 0644 Documentation page
-lib/Foswiki/Configure/Wizards/Test.pm 0444 Perl module
 lib/Foswiki/Plugins/ConfigurePlugin.pm 0444 Perl module
-lib/Foswiki/Plugins/ConfigurePlugin/Config.spec 0444 Configuration
 lib/Foswiki/Plugins/ConfigurePlugin/JQuery.pm 0444 Configuration
 pub/System/ConfigurePlugin/checkWhirly.gif 0444
 pub/System/ConfigurePlugin/configure.css 0444

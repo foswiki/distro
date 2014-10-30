@@ -59,13 +59,13 @@ my %actions;
 sub _keys {
     my ( $name, $val ) = @_;
     push( @{ $params->{keys} }, $val ) if defined $val && length($val);
-    $actions{"Foswiki::Configure::Query::$name"} = 1;
+    $actions{$name} = 1;
 }
 
 sub _scalar {
     my ( $name, $val ) = @_;
     $params->{$name} = $val;
-    $actions{"Foswiki::Configure::Query::$name"} = 1;
+    $actions{$name} = 1;
 }
 
 my $result = Getopt::Long::GetOptions(
@@ -78,9 +78,9 @@ my $result = Getopt::Long::GetOptions(
     'getcfg:s'   => \&_keys,
     'getspec:s%' => sub {
         my ( $name, $key, $val ) = @_;
-        $actions{"Foswiki::Configure::Query::$name"} = 1;
+        $actions{$name} = 1;
         if ( defined $key ) {
-            $params->{get}->{$key} = $val;
+            $params->{get}->{keys} = $key;
         }
     },
     'help' => sub {
@@ -95,10 +95,12 @@ my $result = Getopt::Long::GetOptions(
     'wizard=s' => \&_scalar,
 );
 
+# Check parameters
+
 my $action;
 my %uniq;
-my @methods = grep { defined &{$_} }
-  map { "Foswiki::Configure::Query::$_" }
+my @methods =
+  grep { defined &{"Foswiki::Configure::Query::$_"} }
   grep { $_ =~ /^[a-z]/ }
   keys %Foswiki::Configure::Query::;
 
@@ -110,11 +112,20 @@ foreach my $a (@methods) {
 }
 
 if ( scalar( keys %uniq ) > 1 ) {
-    die "Only one of " . join( ' ', keys %uniq ) . " allowed at once";
+    print STDERR "Only one of "
+      . join( ' ', map { $_ =~ /(\w+)$/; "-$1" } keys %uniq )
+      . " allowed\n";
+    exit 1;
 }
 
-if ( !scalar( keys %uniq ) && !$actions{'Foswiki::Configure::Query::save'} ) {
-    die "Nothing to do";
+if ( !scalar( keys %uniq ) && !$actions{save} ) {
+    print STDERR "Nothing to do\n";
+    exit 1;
+}
+
+if ( $action =~ /^get/ && scalar( keys %{ $params->{set} } ) ) {
+    print STDERR "-set doesn't work with -$action\n";
+    exit 1;
 }
 
 if ( $params->{save} ) {
@@ -140,7 +151,10 @@ sub _prompt {
         $reply ||= $default;
     }
     eval "\$Foswiki::cfg$keys='$reply'";
-    die $@ if $@;
+    if ($@) {
+        print STDERR "Failed to set $keys: "
+          . Foswiki::Configure::Reporter::stripStacktrace($@);
+    }
 }
 
 sub _reply {
@@ -165,6 +179,8 @@ sub _reply {
 
 #$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
 
+# Initialise
+
 if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
     $Foswiki::cfg{isVALID} = 1;
 }
@@ -172,14 +188,15 @@ if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
 my $root     = Foswiki::Configure::Root->new();
 my $reporter = Foswiki::Configure::Reporter->new();
 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
-die $reporter->text() if $reporter->has_level('errors');
+if ( $reporter->has_level('errors') ) {
+    print STDERR $reporter->stringify( 'errors', 'warnings' ) . "\n";
+    exit 1;
+}
 
 unless ( $Foswiki::cfg{isVALID} ) {
     %Foswiki::cfg = ();
-    eval 'require Foswiki::Plugins::ConfigurePlugin';
-    die
-      "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
-      if $@;
+    print STDERR "LocalSite.cfg load failed\n"
+      . Foswiki::Configure::Reporter::stripStacktrace($@);
     print "** Enter values for critical configuration items.\n";
     print
       "** type a new value or hit return to accept the value in brackets.\n";
@@ -199,33 +216,33 @@ unless ( $Foswiki::cfg{isVALID} ) {
 }
 
 if ( $reporter->has_level('errors') ) {
-    foreach my $mess ( @{ $reporter->messages() } ) {
-        if ( $mess->{level} ne 'notes' ) {
-            print uc( $mess->{level} ) . ": $mess->{text}\n";
-        }
-    }
+    print STDERR $reporter->stringify( 'errors', 'warnings' ) . "\n";
     exit 1;
 }
-else {
-    foreach my $mess ( @{ $reporter->messages() } ) {
-        print uc( $mess->{level} ) . ": $mess->{text}\n";
-    }
-}
+
+print $reporter->stringify();
+
+# Perform the action
 
 if ($action) {
+    $action = "Foswiki::Configure::Query::$action";
     no strict 'refs';
+
+    #print STDERR Data::Dumper->Dump([$params], [$action]);
     my $response = &$action( $params, $reporter );
     use strict 'refs';
 
     _reply($response);
 }
 
-if ( $actions{'Foswiki::Configure::Query::save'} ) {
+if ( $actions{save} ) {
 
     # -save is functionally equivalent to -wizard Save -method save
     # (except of course you can have another wizard call)
     if ( $reporter->has_level('errors') ) {
-        die 'Save aborted due to errors';
+        print STDERR "Save aborted due to errors\n"
+          . $reporter->stringify( 'errors', 'warnings' );
+        exit 1;
     }
     $reporter         = Foswiki::Configure::Reporter->new();
     $params->{wizard} = 'Save';
@@ -246,97 +263,108 @@ Shell interface for Foswiki.spec, Config.spec and LocalSite.cfg
 
  tools/configure [options]
 
+Use -search, -getspec and -getcfg to explore the configuration.
+
+Use -check, -wizard and -method to perform actions.
+
+Use -save to save a new configuration.
+
+Use -json and -trace to control the output of this script.
+
 =head1 OPTIONS
 
 =over 8
-
-=item B<-set> key value
-
-Set the value of a key. You can have as many
--set options as you want. -set options are
-applied before any checkers or wizards are run, but will not
-persist unless -save is specified. The value is expected to be
-a perl value - be careful about quotes, to pass a string value
-from the shell requires double quoting e.g.
- -set {ScriptSuffix} '".pl"'
-
-=item B<-check> [key|section]
-
-Call checkers for the given key or section.
-No key|section means check all keys. You can have as many -check
-options as you want.
-
-=item B<-wizard> name
-
-Wizard to call. You can only call a single wizard.
-
-=item B<-method> name
-
-If -wizard is given, this is the name of the
-wizard method to call (defaults to execute()). If --wizard is not
-given then --method is interpreted as the name of a checker
-method to call. The method will be called on all keys passed
-using --check.
-
-=item B<-save>
-
-If given, then the configuration will be saved - but only if all checks
-pass, both on items requested by -check and also items set using -set
-(or set by a wizard call.)
-
-=item B<-getcfg> [key]
-
-Report the value of key. -getcfg can be given
-as many times as you like to retrieve the values of several keys.
-Without a value, the option returns the value of all known keys.
-
-=item B<-getspec> [key|section]
-
-Get the Config.spec for a key or an entire section.
-No key|section will return the entire spec.
-Only the last -getspec option will be processed.
-
-=item B<-search> what
-
-Search headlines and keys for a fragment of text.
-Returns the path(s) to the item(s) matched.
 
 =item B<-json>
 
 If set then results will be output in JSON format rather than the
 default serialised perl format.
 
-=item B<trace>
+=item B<-check> [key|section]
+
+Call checkers for the given key or section.
+No key|section means check all keys. You can have as many B<-check>
+options as you want.
+
+=item B<-getcfg> [key]
+
+Report the value of key. B<-getcfg> can be given
+as many times as you like to retrieve the values of several keys.
+Without a value, the option returns the value of all
+known keys.
+
+=item B<-getspec> [key|section]
+
+Get the Config.spec for a key or an entire section.
+No key|section will return the entire spec.
+Only the last B<-getspec> option will be processed.
+
+=item B<-method> name
+
+If B<-wizard> is given, this is the name of the
+wizard method to call (defaults to execute()). If B<-wizard> is not
+given then B<-method> is interpreted as the name of a checker
+method to call. The method will be called on all keys passed
+using B<-check>.
+
+=item B<-save>
+
+Save a new configuration, with all items set using B<-set> (or set
+by a B<-wizard> call). Checkers are not run unless explicitly requested
+by B<-check>.
+
+=item B<-search> what
+
+Search headlines and keys for a fragment of text.
+Returns the path(s) to the item(s) matched.
+
+=item B<-set> key value
+
+Set the value of a key for B<-check>, B<-wizard> and B<-save>. You
+can have as many B<-set> options as you want. B<-set> options are
+applied before any checkers or wizards are run, but will not
+persist unless B<-save> is specified. The value is expected to be
+a perl value - be careful about quotes, to pass a string value
+from the shell requires double quoting e.g.
+ -set {ScriptSuffix} '".pl"'
+
+=item B<-trace>
 
 Switch on limited tracing (mainly for debugging, traces are added to
 reports)
+
+=item B<-wizard> name
+
+Wizard to call. You can only call a single wizard.
 
 =back
 
 =head1 EXAMPLES
 
- $ configure --check {PubDir} --method validate_permissions
+ $ configure -check {PubDir} -method validate_permissions
 
 will call validate_permissions() for the {PubDir} checker.
 
- $ configure --check Extensions
+ $ configure -check Extensions
 
 will call check_current_value() for all keys under the Extensions section.
 
- $ configure --method check_current_value
+ $ configure -method check_current_value
 
 will call the check_current_value() method for all leaf items
 in the .spec.
 
- $ configure --wizard GuessSSLCaLocations --save
+ $ configure -wizard GuessSSLCaLocations -save
 
 will call execute() from Foswiki::Configure::Wizards::GuessSSLCaLocations
 and save the resulting Foswiki::cfg.
 
- $ configure --wizard Email --method send_test_email
+ $ configure -wizard Email -method send_test_email
 
 will call send_test_email() from Foswiki::Configure::Wizards::Email
 and report the results.
 
- $ configure --set {ScriptSuffix} "'.pl'"
+ $ configure -set {ScriptSuffix}="'.pl'" -set {MainWebName}="'Users'" -save
 
+will set the values of {ScriptSuffix} and {MainWebName} and save a new
+configuration.

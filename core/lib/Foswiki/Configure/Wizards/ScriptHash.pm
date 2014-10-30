@@ -1,6 +1,14 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::ScriptHash;
 
+=begin TML
+
+---++ package Foswiki::Configure::Wizards::ScriptHash
+
+Wizard to verify script paths.
+
+=cut
+
 use strict;
 use warnings;
 
@@ -14,7 +22,15 @@ use Foswiki::Configure::Load       ();
 require Foswiki::Configure::Wizard;
 our @ISA = ('Foswiki::Configure::Wizard');
 
-# This is brutally hard work - don't do it unless you have to!
+=begin TML
+
+---++ WIZARD verify
+
+Verify the validity of scripthash entries.
+This is brutally hard work - don't do it unless you have to!
+
+=cut
+
 sub verify {
     my ( $this, $reporter ) = @_;
 

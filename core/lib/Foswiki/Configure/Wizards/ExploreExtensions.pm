@@ -392,6 +392,16 @@ sub find_extension_1 {
     return undef;
 }
 
+=begin TML
+
+---+ WIZARD find_extension_2
+
+Stage 2 of the find extension process, follows on from find_extension_1.
+Given a search, get matching extensions. the report will then permit
+study and installation of the extensions.
+
+=cut
+
 sub find_extension_2 {
     my ( $this, $reporter ) = @_;
 

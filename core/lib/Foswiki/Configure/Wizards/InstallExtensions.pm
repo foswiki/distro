@@ -185,6 +185,14 @@ OMG
     return undef;    # return the report
 }
 
+=begin TML
+
+---++ WIZARD remove
+
+Uninstall an extension
+
+=cut
+
 sub remove {
     my ( $this, $reporter ) = @_;
 

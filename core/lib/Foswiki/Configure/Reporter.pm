@@ -215,6 +215,63 @@ sub changes {
 
 =begin TML
 
+---++ ObjectMethod stringify(@levels) -> $text
+
+Used for debugging, simply generates a plain text string from the
+content of the reporter.
+   * =@levels= optional list of levels to report (default is all levels)
+     from notes, warnings, errors, changes
+=cut
+
+sub stringify {
+    my ( $this, @levels ) = @_;
+
+    my $all_levels;
+    my $many_levels;
+    my %l;
+    if ( scalar(@levels) ) {
+        %l           = map { $_ => 1 } @levels;
+        $all_levels  = 0;
+        $many_levels = ( scalar(@levels) > 1 );
+    }
+    else {
+        $all_levels  = 1;
+        $many_levels = 1;
+    }
+    my @report;
+
+    push(
+        @report,
+        map {
+            (
+                $many_levels
+                ? ( uc( substr( $_->{level}, 0, -1 ) ) . ': ' )
+                : ''
+              )
+              . $_->{text}
+          }
+          grep { $all_levels || $l{ $_->{level} } } @{ $this->messages() }
+    );
+
+    if ( $all_levels || $l{changes} ) {
+        push(
+            @report,
+            map {
+                ( $many_levels ? 'CHANGE: ' : '' ) . "$_ = "
+                  . (
+                    defined $this->changes()->{$_}
+                    ? $this->changes()->{$_}
+                    : 'undef'
+                  )
+            } keys %{ $this->changes() }
+        );
+    }
+    return '' unless scalar(@report);
+    return join( "\n", @report ) . "\n";
+}
+
+=begin TML
+
 ---++ StaticMethod uneval($datum [, $indent]) -> $string
 
 Serialise the perl datum $datum as a perl string that can be
