@@ -38,24 +38,25 @@ sub SEARCH {
     try {
         $s = $this->search->searchWeb(%$params);
     }
-    catch Error::Simple with {
-        my $message = (DEBUG) ? shift->stringify() : shift->{-text};
+    catch Error with {
+        my $exception = shift;
+        my $message;
+
+        if (DEBUG) {
+            $message = $exception->stringify();
+        }
+        else {
+            $message = $exception->{-text};
+            my @lines = split( /\n/, $message );
+            $message = $lines[0];
+            $message =~ s/ at .*? line \d+\.?$//;
+        }
 
         # Block recursions kicked off by the text being repeated in the
         # error message
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
         $message =~ s/\n/<br \/>/g;
         $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
-
-        $Foswiki::Plugins::SESSION->logger->log( 'debug',
-                'SEARCH crash: '
-              . $topicObject->web . '.'
-              . $topicObject->topic
-              . ': SEARCH{"'
-              . $params->{search}
-              . "\"...\nCaused the following error:\n"
-              . $message
-              . "\n-------\n" );
     };
     return $s;
 }

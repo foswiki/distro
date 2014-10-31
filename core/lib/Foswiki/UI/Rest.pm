@@ -322,6 +322,9 @@ sub rest {
         use strict 'refs';
     }
     catch Error::Simple with {
+
+        # Note: we're *not* catching Error here, just Error::Simple
+        # so we catch things like OopsException
         $session->{response}->header(
             -status  => 500,
             -type    => 'text/plain',

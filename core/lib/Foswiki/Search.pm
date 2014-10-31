@@ -175,7 +175,7 @@ sub _countPattern {
         # see: perldoc -q count
         $count = () = $text =~ /$pattern/g;
     }
-    catch Error::Simple with {
+    catch Error with {
         $count = 0;
     };
 

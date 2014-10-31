@@ -300,7 +300,7 @@ sub getExternalResource {
             $response = HTTP::Response->parse($result);
         }
     }
-    catch Error::Simple with {
+    catch Error with {
         require Foswiki::Net::HTTPResponse;
         $response = new Foswiki::Net::HTTPResponse(shift);
     };
@@ -559,7 +559,7 @@ sub sendEmail {
             &{ $this->{mailHandler} }( $this, $text );
             $retries = 0;
         }
-        catch Error::Simple with {
+        catch Error with {
             my $msg = shift->stringify();
             ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
 

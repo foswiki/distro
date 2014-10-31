@@ -71,7 +71,7 @@ sub FORMAT {
           $this->search->formatResults( undef, $listIterator, $params );
         $s = Foswiki::expandStandardEscapes($searchResult);
     }
-    catch Error::Simple with {
+    catch Error with {
         my $message = (DEBUG) ? shift->stringify() : shift->{-text};
 
         # Block recursions kicked off by the text being repeated in the

@@ -592,7 +592,7 @@ WARN
         try {
             $topicObject->deleteMostRecentRevision();
         }
-        catch Error::Simple with {
+        catch Error with {
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'save_error',
@@ -616,7 +616,7 @@ WARN
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );
         }
-        catch Error::Simple with {
+        catch Error with {
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'save_error',
@@ -647,7 +647,7 @@ WARN
     try {
         $topicObject->save(%$saveOpts);
     }
-    catch Error::Simple with {
+    catch Error with {
         throw Foswiki::OopsException(
             'attention',
             def    => 'save_error',
@@ -662,7 +662,7 @@ WARN
             try {
                 $a->{tom}->copyAttachment( $a->{name}, $topicObject );
             }
-            catch Error::Simple with {
+            catch Error with {
                 throw Foswiki::OopsException(
                     'attention',
                     def    => 'save_error',

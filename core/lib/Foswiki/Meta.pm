@@ -1961,7 +1961,7 @@ sub save {
     try {
         $newRev = $this->saveAs( $this->{_web}, $this->{_topic}, %opts );
     }
-    catch Error::Simple with {
+    catch Error with {
         $signal = shift;
     };
 

@@ -258,7 +258,7 @@ sub _subscribe {
         $mess = _template_text( ( $unsubscribe ? 'un' : '' ) . 'subscribe_done',
             $subscriber, $web, $topics );
     }
-    catch Error::Simple with {
+    catch Error with {
         $mess = _template_text( 'cannot_change', shift->{-text} );
         $status = 400;
     };

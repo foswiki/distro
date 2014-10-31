@@ -162,9 +162,8 @@ BEGIN {
 
 use Error qw(:try);
 use Assert;
-use CGI          ();
-use Data::Dumper ();
-use JSON         ();
+use CGI  ();
+use JSON ();
 
 use Foswiki                         ();
 use Foswiki::Request                ();
@@ -452,16 +451,7 @@ sub _execute {
         }
         $Foswiki::engine->finalizeError( $res, $session->{request} );
     }
-    catch Foswiki::Infix::Error with {
-        my $e = shift;
-        $session ||= $Foswiki::Plugins::SESSION;
-        $res = $session->{response} if $session;
-        $res ||= new Foswiki::Response();
-        $res->header( -type => 'text/plain' );
-        $res->print("Foswiki::Infix error\n\n");
-        $res->print( Data::Dumper::Dumper( \$e ) );
-    }
-    catch Error::Simple with {
+    catch Error with {
 
         # Most usually a 'die'
         my $e = shift;
@@ -500,8 +490,11 @@ sub _execute {
         my $e = shift;
         $res = new Foswiki::Response;
         $res->header( -type => 'text/plain' );
-        $res->print("Unspecified error\n\n");
-        $res->print( Data::Dumper::Dumper( \$e ) );
+        $res->print("Unspecified internal error\n\n");
+        if (DEBUG) {
+            eval "require Data::Dumper";
+            $res->print( Data::Dumper::Dumper( \$e ) );
+        }
     };
     $session->finish() if $session;
     return $res;

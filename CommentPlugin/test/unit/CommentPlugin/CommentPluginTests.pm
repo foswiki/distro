@@ -778,7 +778,8 @@ HERE
             $this->{session}
         );
     };
-
+    print STDERR ( $responseText || '' ), ' )', ( $stdout || '' ), ' E',
+      ( $stderr || '' ) . "\n";
     $this->assert_matches( qr"AccessControlException", $@ );
 
     # Now make sure we *can* change it, given COMMENT access

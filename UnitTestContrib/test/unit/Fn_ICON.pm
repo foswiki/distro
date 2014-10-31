@@ -16,11 +16,11 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+    my $it = Foswiki::Func::getPreferencesValue('ICONTOPIC');
+    $it =~ s/\./\//;
     $this->{reliconurl} =
       $Foswiki::cfg{PubUrlPath} . '/'
-      . Foswiki::Func::expandCommonVariables(
-        Foswiki::Func::getPreferencesValue('ICONTOPIC') );
-    $this->{reliconurl} =~ s/\./\//g;
+      . Foswiki::Func::expandCommonVariables($it);
     $this->{absiconurl} = $Foswiki::cfg{DefaultUrlHost} . $this->{reliconurl};
 }
 
@@ -41,7 +41,7 @@ sub test_ICONURL {
 sub test_ICONURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables("%ICONURLPATH%");
-    $this->assert_equals( $this->{reliconurl} . '/else.png', $t );
+    $this->assert_str_equals( $this->{reliconurl} . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables("%ICONURLPATH{\"unknown\"}%");
     $this->assert_equals( $this->{reliconurl} . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables("%ICONURLPATH{\"else\"}%");

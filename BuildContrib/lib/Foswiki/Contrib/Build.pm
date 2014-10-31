@@ -346,7 +346,7 @@ sub new {
 
                 $this->_loadDependenciesFrom($depsfile);
             }
-            catch Error::Simple with {
+            catch Error with {
                 warn "WARNING: no dependencies in $basedir/$module " . shift;
             };
         }

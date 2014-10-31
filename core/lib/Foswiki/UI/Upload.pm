@@ -152,7 +152,7 @@ sub _upload {
         try {
             $tmpFilePath = $query->tmpFileName($fh);
         }
-        catch Error::Simple with {
+        catch Error with {
 
             # Item5130, Item5133 - Illegal file name, bad path,
             # something like that
@@ -211,7 +211,7 @@ sub _upload {
             filedate   => $fileDate,
         );
     }
-    catch Error::Simple with {
+    catch Error with {
         throw Foswiki::OopsException(
             'attention',
             def    => 'save_error',

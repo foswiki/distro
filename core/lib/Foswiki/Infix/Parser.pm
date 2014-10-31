@@ -304,7 +304,13 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
         }
         _apply( $this, 0, \@opers, \@opands );
     }
-    catch Error::Simple with {
+    catch Foswiki::Infix::Error with {
+        my $e = shift;
+
+        # Don't need to construct a new Foswiki::Infix::Error
+        throw $e;
+    };
+    catch Error with {
 
         # Catch errors thrown during the tree building process
         throw Foswiki::Infix::Error( shift, $expr, $$input );

@@ -79,7 +79,7 @@ sub init {
     try {
         $this->connect;
     }
-    catch Error::Simple with {
+    catch Error with {
         $error = shift;
         my $msg;
         if ( defined $DBI::errstr ) {
@@ -102,7 +102,7 @@ sub init {
     try {
         $this->createTables;
     }
-    catch Error::Simple with {
+    catch Error with {
         $error = shift;
 
         my $msg =
@@ -174,7 +174,7 @@ HERE
 
         $this->{dbh}->commit;
     }
-    catch Error::Simple with {
+    catch Error with {
         local $this->{dbh}->{RaiseError} = 0;
         $this->{dbh}->rollback;
         $error = 1;
@@ -321,7 +321,7 @@ HERE
 
         $this->{dbh}->commit;
     }
-    catch Error::Simple with {
+    catch Error with {
         local $this->{dbh}->{RaiseError} = 0;
         $this->{dbh}->rollback;
         writeDebug("transaction error at deletePage");
@@ -397,7 +397,7 @@ HERE
 
         $this->{dbh}->commit;
     }
-    catch Error::Simple with {
+    catch Error with {
         local $this->{dbh}->{RaiseError} = 0;
         $this->{dbh}->rollback;
         writeDebug("transaction error at setDependencies");
@@ -509,7 +509,7 @@ HERE
 HERE
         $this->{dbh}->commit;
     }
-    catch Error::Simple with {
+    catch Error with {
         local $this->{dbh}->{RaiseError} = 0;
         $this->{dbh}->rollback;
         $error = 1;

@@ -227,7 +227,7 @@ sub _action_createweb {
     try {
         $webObject->populateNewWeb( $baseWeb, $opts );
     }
-    catch Error::Simple with {
+    catch Error with {
         throw Foswiki::OopsException(
             'attention',
             def    => 'web_creation_error',
@@ -528,7 +528,7 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         try {
             $newTopicObject->save( minor => 1, forcenewrevision => 1 );
         }
-        catch Error::Simple with {
+        catch Error with {
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'save_error',

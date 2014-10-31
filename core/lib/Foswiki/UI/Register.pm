@@ -538,7 +538,7 @@ sub _registerSingleBulkUser {
             }
         );
     }
-    catch Error::Simple with {
+    catch Error with {
         my $e = shift;
         $log .= "$b1 Failed to add user: " . $e->stringify() . "\n";
     };
@@ -904,7 +904,7 @@ sub addUserToGroup {
             try {
                 $session->{users}->addUserToGroup( undef, $groupName, $create );
             }
-            catch Error::Simple with {
+            catch Error with {
                 my $e = shift;
 
                 # Log the error
@@ -975,7 +975,7 @@ sub addUserToGroup {
             $session->{users}->addUserToGroup( $u, $groupName, $create );
             push( @succeeded, $u );
         }
-        catch Error::Simple with {
+        catch Error with {
             my $e    = shift;
             my $mess = $e->stringify();
             $mess =~ s/ at .*$//s;
@@ -1068,7 +1068,7 @@ sub removeUserFromGroup {
             Foswiki::Func::removeUserFromGroup( $u, $groupName );
             push( @succeeded, $u );
         }
-        catch Error::Simple with {
+        catch Error with {
             my $e    = shift;
             my $mess = $e->stringify();
             $mess =~ s/ at .*$//s;
@@ -1199,7 +1199,7 @@ sub _complete {
                     $users->addUserToGroup( $cUID, $groupName );
                     push @addedTo, $groupName;
                 }
-                catch Error::Simple with {
+                catch Error with {
                     my $e = shift;
                     $session->logger->log( 'warning',
                         "Registration: Failure adding $cUID to $groupName" );
@@ -1220,7 +1220,7 @@ sub _complete {
 
         #throw Foswiki::OopsException ( @_ ); # Propagate
     }
-    catch Error::Simple with {
+    catch Error with {
         my $e = shift;
 
         $users->removeUser( $data->{LoginName}, $data->{WikiName} )
@@ -1496,7 +1496,7 @@ sub _emailRegistrationConfirmations {
             $template =
               $session->templates->readTemplate('registerfailednotremoved');
         }
-        catch Error::Simple with {
+        catch Error with {
 
             # Most Mapping Managers don't support removeUser, unfortunately
             $template =
@@ -1850,7 +1850,7 @@ sub _validateRegistration {
         # better get it right!
         $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
     }
-    catch Error::Simple with {
+    catch Error with {
         my $e = shift;
         throw Foswiki::OopsException(
             'register',
@@ -1936,7 +1936,7 @@ sub _loadPendingRegistration {
     try {
         $file = _codeFile($code);
     }
-    catch Error::Simple with {
+    catch Error with {
         throw Foswiki::OopsException(
             'register',
             def    => 'bad_ver_code',
@@ -1998,7 +1998,7 @@ sub _getDataFromQuery {
                 $data->{$name} =
                   $users->validateRegistrationField( $name, $value );
             }
-            catch Error::Simple with {
+            catch Error with {
                 my $e = shift;
                 throw Foswiki::OopsException(
                     'register',

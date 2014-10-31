@@ -465,7 +465,7 @@ sub _maintainUsersTopic {
               ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} )
         );
     }
-    catch Error::Simple with {
+    catch Error with {
 
         # Failed to add user; must remove them from the password system too,
         # otherwise their next registration attempt will be blocked

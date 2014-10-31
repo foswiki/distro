@@ -673,7 +673,8 @@ s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "ex
         foreach my $d ( grep { /^[A-Za-z]+Contrib$/ } readdir(F) ) {
             next unless -e "$home/lib/Foswiki/Contrib/$d/UnitTestSetup.pm";
             my $setup = "Foswiki::Contrib::$d" . '::UnitTestSetup';
-            eval "require $setup" || die $@;
+            $setup =~ /^(.*)$/;    # untaint
+            eval "require $1" || die $@;
             $setup->set_up();
         }
         closedir(F);

@@ -592,7 +592,7 @@ sub fetchPass {
                 $ret = undef;
             }
         }
-        catch Error::Simple with {
+        catch Error with {
             $this->{error} = $!;
         };
     }
@@ -637,7 +637,7 @@ sub setPassword {
         $this->_savePasswd($db);
 
     }
-    catch Error::Simple with {
+    catch Error with {
         my $e = shift;
         $this->{error} = $!;
         print STDERR "ERROR: failed to resetPassword - $! ($e)";
@@ -673,7 +673,7 @@ sub removeUser {
             $result = 1;
         }
     }
-    catch Error::Simple with {
+    catch Error with {
         $this->{error} = shift->{-text};
     }
     finally {

@@ -187,7 +187,7 @@ sub removeUser {
         $r = $this->{apache}->htDelete($login);
         $this->{error} = $this->{apache}->error() unless ( defined($r) );
     }
-    catch Error::Simple with {
+    catch Error with {
         $this->{error} = $this->{apache}->error();
     };
     return $r;
@@ -202,7 +202,7 @@ sub setPassword {
         try {
             $ok = $this->{apache}->htCheckPassword( $login, $oldPassU );
         }
-        catch Error::Simple with {};
+        catch Error with {};
         unless ($ok) {
             $this->{error} = "Wrong password";
             return 0;
@@ -221,7 +221,7 @@ sub setPassword {
         }
         $this->{error} = undef;
     }
-    catch Error::Simple with {
+    catch Error with {
         $this->{error} = $this->{apache}->error();
         $this->{error} = undef
           if $this->{error} && $this->{error} =~ /assword not changed/;

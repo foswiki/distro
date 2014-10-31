@@ -58,7 +58,7 @@ sub evaluate {
                 push( @result, $res );
             }
         }
-        catch Error::Simple with {
+        catch Error with {
             print STDERR "ERROR IN OP_ref: $_[0]->{-text}" if DEBUG;
         };
     }

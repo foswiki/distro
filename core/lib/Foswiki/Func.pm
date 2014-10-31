@@ -1788,7 +1788,7 @@ sub readAttachment {
     try {
         $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
     }
-    catch Error::Simple with {
+    catch Error with {
         $fh = undef;
     };
     return undef unless $fh;
@@ -1825,9 +1825,9 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
     my $e = shift;
-    # see documentation on Error::Simple
+    # see documentation on Error
 } otherwise {
     ...
 };
@@ -1879,7 +1879,7 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
 } otherwise {
@@ -2026,7 +2026,7 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
 } otherwise {
@@ -2089,7 +2089,7 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
 } otherwise {
@@ -2158,7 +2158,7 @@ have CHANGE access on the topic being attached to.
                                        hide => 1 } );
    } catch Foswiki::AccessControlException with {
       # Topic CHANGE access denied
-   } catch Error::Simple with {
+   } catch Error with {
       # see documentation on Error
    } otherwise {
       ...
@@ -2215,9 +2215,9 @@ try {
 } catch Foswiki::AccessControlException with {
    my $e = shift;
    # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
    my $e = shift;
-   # see documentation on Error::Simple
+   # see documentation on Error
 };
 </verbatim>
 
@@ -2296,9 +2296,9 @@ try {
 } catch Foswiki::AccessControlException with {
    my $e = shift;
    # see documentation on Foswiki::AccessControlException
-} catch Error::Simple with {
+} catch Error with {
    my $e = shift;
-   # see documentation on Error::Simple
+   # see documentation on Error
 };
 </verbatim>
 
@@ -3654,7 +3654,7 @@ sub saveTopicText {
     try {
         $topicObject->save( minor => $dontNotify );
     }
-    catch Error::Simple with {
+    catch Error with {
         $outcome = getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsattention',

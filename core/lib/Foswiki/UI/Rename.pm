@@ -781,7 +781,7 @@ sub _moveTopicOrAttachment {
             $from->moveAttachment( $attachment, $to,
                 new_name => $toattachment );
         }
-        catch Error::Simple with {
+        catch Error with {
             throw Foswiki::OopsException(
                 'attention',
                 web    => $from->web,
