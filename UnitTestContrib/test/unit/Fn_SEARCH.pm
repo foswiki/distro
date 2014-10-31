@@ -54,21 +54,21 @@ sub set_up {
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'OkTopic' );
-    $topicObject->text("BLEEGLE blah/matchme.blah");
+    $topicObject->text("PATTERN blah/matchme.blah");
     $topicObject->save( forcedate => $timestamp + 120 );
     $topicObject->finish();
     ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'OkATopic' );
-    $topicObject->text("BLEEGLE dontmatchme.blah");
+    $topicObject->text("PATTERN dontmatchme.blah");
     $topicObject->save( forcedate => $timestamp + 240 );
     $topicObject->finish();
     ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'OkBTopic' );
-    $topicObject->text("BLEEGLE dont.matchmeblah");
+    $topicObject->text("PATTERN dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'InvisibleTopic' );
-    $topicObject->text("BLEEGLE dont.matchmeblah");
+    $topicObject->text("PATTERN dont.matchmeblah");
     $topicObject->putKeyed( 'PREFERENCE',
         { name => 'ALLOWTOPICVIEW', value => 'OnlySuperman' } );
     $topicObject->save( forcedate => $timestamp + 480 );
@@ -201,7 +201,7 @@ sub verify_simple {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+'%SEARCH{"PATTERN" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
       );
 
     $this->assert_matches( qr/OkTopic/,  $result );
@@ -216,7 +216,7 @@ sub verify_Item4692 {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"BLEEGLE" topic="NonExistant" nonoise="on" format="$topic"}%');
+        '%SEARCH{"PATTERN" topic="NonExistant" nonoise="on" format="$topic"}%');
 
     $this->assert_str_equals( '', $result );
 
@@ -1134,12 +1134,12 @@ sub verify_quote_regex {
     my $this = shift;
 
     # ---------------------
-    # Search string 'BLEEGLE dont'
+    # Search string 'PATTERN dont'
     # regex
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"BLEEGLE dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%'
+'%SEARCH{"\"PATTERN dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
     $this->assert_does_not_match( qr/OkTopic/,  $result );
@@ -1156,7 +1156,7 @@ sub verify_quote_literal {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"BLEEGLE dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%'
+'%SEARCH{"\"PATTERN dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
     $this->assert_does_not_match( qr/OkTopic/,  $result );
@@ -1173,7 +1173,7 @@ sub verify_quote_keyword {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"BLEEGLE dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+'%SEARCH{"\"PATTERN dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
     $this->assert_does_not_match( qr/OkTopic/, $result );
@@ -1189,7 +1189,7 @@ sub verify_quote_word {
     # word
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"BLEEGLE dont\"" type="word" scope="text" nonoise="on" format="$topic"}%'
+'%SEARCH{"\"PATTERN dont\"" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
     $this->assert_does_not_match( qr/OkTopic/,  $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
@@ -1202,13 +1202,13 @@ sub verify_SEARCH_3860 {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%SEARCH{"BLEEGLE" topic="OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
+%SEARCH{"PATTERN" topic="OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
     my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%SEARCH{"BLEEGLE" topic="OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
+%SEARCH{"PATTERN" topic="OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
@@ -2319,12 +2319,29 @@ sub test_pattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
+'%SEARCH{"PATTERN" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?PATTERN (.*?)blah.*)Y"}%'
       );
     $this->assert_matches( qr/Xdontmatchme\.Y/, $result );
     $this->assert_matches( qr/Xdont.matchmeY/,  $result );
     $this->assert_matches( qr/XY/,              $result );
 
+    return;
+}
+
+sub test_extract {
+    my $this = shift;
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'ExtractTopic' );
+    $topicObject->text("PATTERN \"<>&%\$\"blah");
+    $topicObject->save();
+    $topicObject->finish();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"PATTERN" topic="ExtractTopic" nonoise="on" format="X$percentENCODE{$extract(.*?PATTERN (.*?)blah.*)}$percentY"}%'
+      );
+    $this->assert_matches( qr/X%3c%3e%26%25%24Y/, $result );
     return;
 }
 
@@ -2335,7 +2352,7 @@ sub test_badpattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
+'%SEARCH{"PATTERN" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
       );
 
     # If (??{ is evaluated, the topics should match:
@@ -2712,7 +2729,7 @@ sub verify_casesensitivesetting {
 
     $actual =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+'%SEARCH{"PATTERN" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
@@ -2728,7 +2745,7 @@ sub verify_casesensitivesetting {
 
     $actual =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+'%SEARCH{"PATTERN" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
@@ -4021,24 +4038,24 @@ sub _cut_the_crap {
 sub test_no_format_no_shit {
     my $this = shift;
 
-    my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
+    my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"PATTERN"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
+Searched: <noautolink>PATTERN</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 Number of topics: 4
@@ -4060,9 +4077,9 @@ CRUD
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" nosummary="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
+Searched: <noautolink>PATTERN</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
@@ -4080,130 +4097,130 @@ Number of topics: 4
 CRUD
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" nosearch="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" nosearch="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" nototal="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" nototal="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>
+Searched: <noautolink>PATTERN</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 CRUD
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" noheader="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" noheader="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>
+Searched: <noautolink>PATTERN</noautolink>
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" noempty="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" noempty="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>
+Searched: <noautolink>PATTERN</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
 
 
 
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" zeroresults="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" zeroresults="on"}%');
     $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>
+Searched: <noautolink>PATTERN</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
 
 
 
 <a href="">OkATopic</a>
-<nop>BLEEGLE dontmatchme.blah
+<nop>PATTERN dontmatchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-<nop>BLEEGLE dont.matchmeblah
+<nop>PATTERN dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
-<nop>BLEEGLE blah/matchme.blah
+<nop>PATTERN blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
-<nop>BLEEGLE
+<nop>PATTERN
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
@@ -4211,11 +4228,11 @@ CRUD
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"}%'
+'%SEARCH{"PATTERN" nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"}%'
       );
     my $result2 =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
+      ->expandMacros('%SEARCH{"PATTERN" nosummary="on" nonoise="on"}%');
     $this->assert_html_equals( $result, $result2 );
 
     return;
@@ -4709,48 +4726,48 @@ sub verify_zeroresults {
     my $this = shift;
     my $result;
 
-    $result = $this->{test_topicObject}->expandMacros('%SEARCH{"NOBLEEGLE"}%');
+    $result = $this->{test_topicObject}->expandMacros('%SEARCH{"NOPATTERN"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="on"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults="on"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="off"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults="off"}%');
     $this->assert_equals( '', $result );
 
     #Item10324: should return the string '0' ? (I'm not so sure)
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="0"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults="0"}%');
     $this->assert_equals( '', $result );
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="%NOP%0"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults="%NOP%0"}%');
     $this->assert_equals( '<nop>0', $result );
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults=" 0"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults=" 0"}%');
     $this->assert_equals( '', $result );
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="1"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" zeroresults="1"}%');
     $this->assert_equals( '1', $result );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"NOBLEEGLE" zeroresults="I did not find anything."}%');
+        '%SEARCH{"NOPATTERN" zeroresults="I did not find anything."}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
 I did not find anything.
 RESULT
@@ -4758,26 +4775,26 @@ RESULT
     #nototal=on
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="on"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="on"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="on" zeroresults="on"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="off"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="on" zeroresults="off"}%');
     $this->assert_equals( '', $result );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="I did not find anything."}%'
+'%SEARCH{"NOPATTERN" nototal="on" zeroresults="I did not find anything."}%'
       );
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
 I did not find anything.
@@ -4786,28 +4803,28 @@ RESULT
     #nototal=off
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="off"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="on"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="off" zeroresults="on"}%');
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
+Searched: <noautolink>NOPATTERN</noautolink>
 Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="off"}%');
+      ->expandMacros('%SEARCH{"NOPATTERN" nototal="off" zeroresults="off"}%');
     $this->assert_equals( '', $result );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="I did not find anything."}%'
+'%SEARCH{"NOPATTERN" nototal="off" zeroresults="I did not find anything."}%'
       );
     $this->assert_html_equals( <<'RESULT', _cut_the_crap($result) );
 I did not find anything.
@@ -6466,7 +6483,7 @@ sub verify_Item10398 {
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'Trash.MainBobTest' );
-    $topicObject->text("BLEEGLE blah/matchme.blah");
+    $topicObject->text("PATTERN blah/matchme.blah");
     $topicObject->save();
     $topicObject->finish();
 

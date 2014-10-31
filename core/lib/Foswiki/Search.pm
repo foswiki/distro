@@ -143,7 +143,7 @@ sub parseSearch {
 }
 
 sub _extractPattern {
-    my ( $text, $pattern ) = @_;
+    my ( $text, $pattern, $encode ) = @_;
 
     # Pattern comes from topic, therefore tainted
     $pattern =
@@ -157,6 +157,19 @@ sub _extractPattern {
         $ok = 1 if ( $text =~ s/$pattern/$1/is );
     };
     $text = '' unless $ok;
+
+    if ($encode) {
+
+        # Reverse the action of Foswiki::expandStandardEscapes
+        $text =~ s/$/\$dollar/g;
+        $text =~ s/&/\$amp()/g;
+        $text =~ s/>/\$gt()/g;
+        $text =~ s/</\$lt()/g;
+        $text =~ s/%/\$percent()/g;
+        $text =~ s/>/\$comma()/g;
+        $text =~ s/"/\$quot()/g;
+        $text =~ s/\n/\$n()/g;
+    }
 
     return $text;
 }
@@ -1281,7 +1294,9 @@ sub formatResult {
    # Note: The RE requires a .* at the end of a pattern to avoid false positives
    # in pattern matching
             $out =~
-              s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+              s/\$extract\((.*?\s*\.\*)\)/_extractPattern( $text, $1, 1 )/ges;
+            $out =~
+              s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1, 0 )/ges;
         }
         $out =~ s/\r?\n/$newLine/gos if ($newLine);
 

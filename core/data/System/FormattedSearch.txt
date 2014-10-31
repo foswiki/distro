@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404876093" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1414777877" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Formatted Search
@@ -108,12 +108,28 @@ Format tokens that can be used in the format string:
 | =$formfield(name, 20, -&lt;br /&gt;)= | Form field value, hyphenated every 20 characters with separator "<tt>-&lt;br /&gt;</tt>" |
 | =$formfield(name,30,...)= | Form field value, shortened to 30 characters with trailing ellipsis. |
 | =$formfield(name, display)= | Form field value _after_ mapping the stored value to the display value (use with =+values= form fields). You can still use the hyphenation controls described above by placing them *after* =display= e.g. =$formfield(name, display, 10)= |
-| =$pattern(reg-exp)= | A regular expression pattern to extract some text from a topic (does not search meta data; use =$formfield= instead). In case of a =multiple="on"= search, the pattern is applied to the line found in each search hit.%BB% Specify a RegularExpression that covers the whole text (topic or line), which typically starts with =.*=, and must end in =.*= %BB% Put text you want to keep in parenthesis, like =$pattern(.*?(from here.*?to here).*)= %BB% Example: =$pattern(.*?\*.*?Email\:\s*([^\n\r]+).*)= extracts the e-mail address from a bullet of format =* Email: ...= %BB% This example has non-greedy =.*?= patterns to scan for the first occurance of the Email bullet; use greedy =.*= patterns to scan for the last occurance %BB% Limitation: Do not use =.*)= inside the pattern, e.g. =$pattern(.*foo(.*)bar.*)= does not work, but =$pattern(.*foo(.*?)bar.*)= does %BB% Note: Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag |
+| =$extract(reg-exp)= | A regular expression pattern to extract some text from a topic (does not search meta data; use =$formfield= instead). Escapes some characters to their standard FormatTokens in the discovered text to make embedding in other macros easier. See [[#Using_36extract_and_36pattern][Using $extract and $pattern]] below for more information. |
+| =$pattern(reg-exp)= | As =$extract=, with the difference that =$pattern= does *not* escape quotes or precent signs in the result. |
 | =$count(reg-exp)= | Count of number of times a regular expression pattern appears in the text of a topic (does not search meta data). Follows guidelines for use and limitations outlined above under =$pattern(reg-exp)=. Example: =$count(.*?(---[+][+][+][+]) .*)= counts the number of &lt;H4&gt; headers in a page. |
 | =$ntopics= | Number of topics found in current web. This is the current topic count, not the total number of topics |
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{"FormatTokens"}%
+
+---++ Using $extract and $pattern
+
+=$extract= and =$pattern= are subtle. These tokens specify a RegularExpression that covers the whole text (of each line found by the search if =multiple="on"=, of the entire topic text otherwise). The regular expression typically starts with =.*=, and must end in =.*=
+
+The leading =.*= matches all the content up to the start of the string you want to find. It will try to match the longest string of characters it can, so if your pattern occurs several times in the content it will always match the _last_ occurence. If you always want to match the first occurrence, use =.*?= instead.
+
+You _must* end the pattern with =.*=
+
+Put the section of the pattern that matches the text you want to keep in parenthesis, like this =$extract(.*?(from here.*?to here).*)=
+   * Example: =$extract(.*?\*.*?Email\:\s*([^\n\r]+).*)= extracts the e-mail address from =* Email: ...=
+
+Do not use =.*= _inside_ the parentheses, e.g. =$extract(.*foo(.*)bar.*)= does not work. You can however use =.*?= thus =$extract(.*foo(.*?)bar.*)=
+
+Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag. =$extract= will automatically escape ="&lt;&gt;&amp;%$= characters so that the string matched by the pattern doesn't break any macros that are wrapped around it. =$pattern= does not do this, and should be used with care. =$extract= is only available in Foswiki 1.2 and later.
 
 ---++ Examples
 
