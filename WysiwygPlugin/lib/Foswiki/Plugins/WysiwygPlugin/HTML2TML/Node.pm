@@ -449,7 +449,7 @@ sub _collapse {
             && $node->{head} == $node->{tail} )
         {
             my $kid = $node->{head};
-            if ( uc( $kid->{tag} ) eq 'SPAN'
+            if (   $kid->{tag} eq 'span'
                 && $kid->hasClass('WYSIWYG_PROTECTED') )
             {
                 $kid->_remove();
@@ -513,7 +513,7 @@ sub _moveClassToSpan {
     my $class = shift;
 
     if (    $this->{tag}
-        and lc( $this->{tag} ) ne 'span'
+        and $this->{tag} ne 'span'
         and $this->_removeClass($class) )
     {
 
@@ -582,7 +582,7 @@ sub generate {
 
     $this->_moveClassToSpan('WYSIWYG_TT');
     $this->_moveClassToSpan('WYSIWYG_COLOR')
-      if lc( $this->{tag} ) ne 'font';
+      if $this->{tag} ne 'font';
 
     # See if we have a TML translation function for this tag
     # the translation functions will work out the rendering
@@ -1264,7 +1264,6 @@ sub _emphasis {
     elsif ( $contents =~ /^([*_=]).*\1$/ ) {
         return ( 0, undef );
     }
-
     my $be = $this->_checkBeforeEmphasis();
     my $ae = $this->_checkAfterEmphasis();
     return ( 0, undef ) unless $ae && $be;
@@ -1308,6 +1307,9 @@ sub _checkBeforeEmphasis {
     return 1 unless $tb;
     return 1 if ( $tb->isBlockNode() );
     return 1 if ( $tb->{nodeType} == 3 && $tb->{text} =~ /[\s(*_=]$/ );
+
+    # Special case of a DT - Item13059 - DT terminates cleanly with :
+    return 1 if ( $this->{parent} && $this->{parent}->{tag} eq 'dt' );
     return 0;
 }
 
@@ -1343,6 +1345,9 @@ sub _checkAfterEmphasis {
     return 1 unless $tb;
     return 1 if ( $tb->isBlockNode() );
     return 1 if ( $tb->{nodeType} == 3 && $tb->{text} =~ /^[\s,.;:!?)*_=]/ );
+
+    # Special case of a DT - Item13059 - DT terminates cleanly with :
+    return 1 if ( $this->{parent} && $this->{parent}->{tag} eq 'dt' );
     return 0;
 }
 
@@ -1840,7 +1845,7 @@ sub _handleSPAN {
     }
 
     if ( _removeClass( \%atts, 'WYSIWYG_TT' ) ) {
-        return _emphasis( @_, '=' );
+        return $this->_emphasis( $options, '=' );
     }
 
     # If we have WYSIWYG_COLOR and the colour can be mapped, then convert
