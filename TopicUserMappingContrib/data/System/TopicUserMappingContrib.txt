@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1414875107" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -67,6 +68,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|                      | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page |
 |  4.3.5 (06 Apr 2012) | Foswikitask:Item652, Foswikitask:Item710, Foswikitask:Item2196: Cleanup partial registrations after failure.%BR%\
                          Foswikitask:Item10238: Allow UI to create empty groups<br /> \
                          Foswikitask:Item11196: Add error messages translations for registraion and group UI errors<br /> \
