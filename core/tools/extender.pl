@@ -238,12 +238,12 @@ sub _loadInstaller {
     ) if ($reuseOK);
 
     $thispkg = Foswiki::Configure::Package->new(
-        "$installationRoot/",
-        $repository,
-        module   => $MODULE,
-        USELOCAL => $reuseOK,
-        SIMULATE => $simulate,
-        DIR      => $installationRoot
+        root       => "$installationRoot/",
+        repository => $repository,
+        module     => $MODULE,
+        USELOCAL   => $reuseOK,
+        SIMULATE   => $simulate,
+        DIR        => $installationRoot
     );
 
     # Use local package, don't download, as we were invoked from it.

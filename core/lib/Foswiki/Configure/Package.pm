@@ -44,6 +44,7 @@ use File::stat;
 use Assert;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::FileUtil   ();
+use Foswiki::Configure::Root       ();
 use Foswiki::Plugins               ();
 
 ############# GENERIC METHODS #############
