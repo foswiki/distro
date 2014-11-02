@@ -78,6 +78,8 @@ sub _getPackage {
             return undef;
         }
     }
+    delete $args->{repository};
+
     my $pkg = Foswiki::Configure::Package->new(
         root       => $installRoot,
         repository => $repository,

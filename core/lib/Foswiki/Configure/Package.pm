@@ -889,7 +889,7 @@ sub _install {
 
         # Pick up all Config.spec's
         if ( $file =~ /\/Config.spec$/ ) {
-            Foswiki::Configure::LoadSpec::parse( $target, $spec );
+            Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter );
         }
         $reporter->NOTE("> ${simulated}Installed:  $file as $target");
     }

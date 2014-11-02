@@ -174,7 +174,6 @@ Foswiki->new($user);
 
 # Can't do this until we have setlib.cfg
 require Foswiki::Configure::Dependency;
-require Foswiki::Configure::Util;
 require Foswiki::Configure::Package;
 require Foswiki::Configure::Reporter;
 
