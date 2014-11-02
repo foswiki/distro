@@ -338,6 +338,8 @@ sub _get_extensions {
         my $thd = $ext->{name} || 'Unknown';
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
         $thd = "[[$ext->{data}$ext->{name}][$thd]]";
+        $thd .= " <sup>[$ext->{repository}]</sup>"
+          if ( scalar @consultedLocations > 1 );
 
         $reporter->NOTE(
             "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );
