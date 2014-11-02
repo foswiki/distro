@@ -25,7 +25,8 @@ sub check_current_value {
     my $enabled = $this->{item}->getExpandedValue();
     return unless $enabled;
 
-    my $dir = Foswiki::Configure::Load::expand( $Foswiki::cfg{LocalesDir} );
+    my $dir = $Foswiki::cfg{LocalesDir};
+    Foswiki::Configure::Load::expandValue($dir);
     my $compress = $Foswiki::cfg{LanguageFileCompression};
 
     my $lang = $this->{item}->{keys};

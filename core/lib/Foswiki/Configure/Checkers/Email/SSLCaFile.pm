@@ -40,8 +40,8 @@ sub check_current_value {
         }
     }
 
-    my $path =
-      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaPath} );
+    my $path = $Foswiki::cfg{Email}{SSLCaPath};
+    Foswiki::Configure::Load::expandValue($path);
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );
