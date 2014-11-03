@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404395344" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1414999929" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -94,11 +94,16 @@ Fields in this plan are referenced using a simple _field specifier_ syntax:
 Note: at some point Foswiki may support multiple forms in the same topic. For this reason you can use the name of the form on the left-hand side of =.= and =[]= expressions. As long as there is only one form in the topic, it will have the same effect as the =fields= accessor.
 
 If you use the name of a field (for example, =LastName=) in the query without a . before it, that is taken to mean "the value of the field named this". This works if and only if the field name isn't the same as of the top level entry names or their aliases described above. For example, the following expressions will all evaluate to the same thing:
-   * =PersonForm[name='Lastname'].value=
    * =Lastname=
    * =PersonForm.Lastname=
+   * =Lastname.value=
 If the field name would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example. You cannot refer to fields that have
 the same name as operators (e.g. =AND=, =not= etc)
+
+Note: some search implementations have difficulty with expressions that rely
+on database values to disambiguate the syntax of the expression. If you don't
+get the expected result from a query search, then make sure all references
+are fully qualified.
 
 ---++ Basic Types
 The query language supports five basic types:
