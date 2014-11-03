@@ -21,7 +21,6 @@ our @ISA = ('Foswiki::Configure::Item');
 
 # Attributes legal on a section header
 use constant ATTRSPEC => {
-    TABS   => {},
     EXPERT => {},
     SORTED => {}
 };
@@ -230,6 +229,17 @@ sub find {
     }
 
     return @result;
+}
+
+# Implements Foswiki::Configure::Item
+sub find_also_dependencies {
+    my ( $this, $root ) = @_;
+
+    $root ||= $this;
+
+    foreach my $kid ( @{ $this->{children} } ) {
+        $kid->find_also_dependencies($root);
+    }
 }
 
 1;

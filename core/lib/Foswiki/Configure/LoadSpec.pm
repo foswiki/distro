@@ -304,11 +304,10 @@ sub parse {
             else {
                 my $type = $1;
                 my $opts = $2;
-
                 eval {
                     $open = Foswiki::Configure::Value->new(
-                        $1,
-                        opts       => $2,
+                        $type,
+                        opts       => $opts,
                         defined_at => [ $file, $. ]
                     );
                     $reporter->NOTE("\tOpened $open->{typename}") if TRACE;

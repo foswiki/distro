@@ -17,10 +17,7 @@ our @ISA = ('Foswiki::Configure::Section');
 
 sub new {
     my ($class) = @_;
-    return $class->SUPER::new(
-        headline => '',
-        TABS     => 1
-    );
+    return $class->SUPER::new( headline => '' );
 }
 
 1;

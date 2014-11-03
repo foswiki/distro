@@ -255,6 +255,11 @@ function _id_ify(id) {
             $('.warnings' + id).each(function() {
                 forget_checker_reports($(this), 'warnings', id);
             });
+            // Remove the class that suppresses hidden_di and hidden_expert
+            $('#' + id + '_block')
+                .removeClass('errors')
+                .removeClass('warnings')
+                .removeClass('notes');
 
             // Update the key block report (if it's there)
             has = { errors: 0, warnings: 0 };
@@ -262,6 +267,9 @@ function _id_ify(id) {
                 $reports = $('#REP' + id); // key block report is there
                 $.each(r.reports, function(index, rep) {
                     has[rep.level]++;
+                    if(rep.level == 'errors') debugger;
+                    // Add the message type to the key block
+                    $('#' + id + '_block').addClass(rep.level);
                 });
                 if ($reports.length > 0) {
                     // Annotate the key block report
@@ -286,14 +294,16 @@ function _id_ify(id) {
         $('body').css('cursor','auto');
     }
 
-    // Perform a check on a single key node
-    function check_current_value($node) {
+    // Perform a check on a single key node. If dep is true, then
+    // check dependents as well
+    function check_current_value($node, dep) {
         update_modified_default($node);
 
         var handler = $node.data('value_handler'),
             params = {
-              keys: [ handler.spec.keys ],
-              set: find_modified_values()
+                keys: [ handler.spec.keys ],
+                set: find_modified_values(),
+                check_dependencies: dep
             };
 
         RPC('check_current_value',
@@ -371,7 +381,7 @@ function _id_ify(id) {
                     handler.useVal(value);
                     spotted = true;
                     // Fire off checker
-                    check_current_value($node);
+                    check_current_value($node, true);
                 });
             if (!spotted) {
                 // It's not loaded yet, so record it for when it is
@@ -523,7 +533,7 @@ function _id_ify(id) {
         $ui = handler.createUI(
             function() {
                 update_modified_default($node);
-                check_current_value($node);
+                check_current_value($node, true);
             });
         $node.find(".ui-placeholder").replaceWith($ui);
 
@@ -572,7 +582,7 @@ function _id_ify(id) {
         $button.attr('title', 'Reset to configured value: ' + spec.current_value);
         $button.click(function() {
             handler.restoreCurrentValue();
-            check_current_value($node);
+            check_current_value($node, true);
         }).button({
             icons: {
                 primary: "ui-icon-arrowreturn-1-w"
@@ -585,7 +595,7 @@ function _id_ify(id) {
         $button.attr('title', 'Reset to default value: ' + spec['default']);
         $button.click(function() {
             handler.restoreDefaultValue();
-            check_current_value($node);
+            check_current_value($node, true);
         }).button({
             icons: {
                 primary: "default-icon"

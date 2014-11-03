@@ -65,16 +65,17 @@ use Foswiki::Configure::FileUtil ();
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
-    FEEDBACK   => { parse_val => '_FEEDBACK' },
-    CHECK      => { parse_val => '_CHECK' },
-    CHECKER    => {},
-    MANDATORY  => {},
-    MULTIPLE   => {},         # Allow multiple select
-    HIDDEN     => {},
-    SPELLCHECK => {},
-    EXPERT     => {},
-    DISPLAY_IF => { openclose => 1 },
-    ENABLE_IF  => { openclose => 1 },
+    FEEDBACK        => { parse_val => '_FEEDBACK' },
+    CHECK           => { parse_val => '_CHECK' },
+    CHECKER         => {},
+    CHECK_ON_CHANGE => {},
+    MANDATORY       => {},
+    MULTIPLE        => {},         # Allow multiple select
+    HIDDEN          => {},
+    SPELLCHECK      => {},
+    EXPERT          => {},
+    DISPLAY_IF      => { openclose => 1 },
+    ENABLE_IF       => { openclose => 1 },
 
     # Rename single character options (legacy)
     M => 'MANDATORY',
@@ -129,10 +130,10 @@ sub parseTypeParams {
         # class specifiers, or quoted strings (no internal quotes)
         my @picks = ();
         do {
-            if ( $str =~ s/^\s*(["'])(.*?)\1// ) {
+            if ( $str =~ s/^(["'])(.*?)\1// ) {
                 push( @picks, $2 );
             }
-            elsif ( $str =~ s/^\s*([-A-Za-z0-9:.*]*)// ) {
+            elsif ( $str =~ s/^([-A-Za-z0-9:.*]+)// || $str =~ /(\s)*,/ ) {
                 my $v = $1;
                 $v = '' unless defined $v;
                 if ( $v =~ /\*/ && $this->{typename} eq 'SELECTCLASS' ) {
@@ -146,9 +147,9 @@ sub parseTypeParams {
                 }
             }
             else {
-                die "Illegal .spec at $str";
+                die "Illegal .spec at '$str'";
             }
-        } while ( $str =~ s/\s*,// );
+        } while ( $str =~ s/\s*,\s*// );
         $this->{select_from} = [@picks];
     }
     elsif ( $str =~ s/^\s*(\d+(?:x\d+)?)// ) {
@@ -221,7 +222,7 @@ sub _CHECK {
                 elsif ( $str =~ s/^([-+]?\d+)// ) {
                     push( @opts, $1 );
                 }
-                elsif ( $str =~ s/^([a-z_]+)//i ) {
+                elsif ( $str =~ s/^([a-z_{}]+)//i ) {
                     push( @opts, $1 );
                 }
                 else {
@@ -380,6 +381,26 @@ sub getPath {
     @path = $this->{_parent}->getPath() if ( $this->{_parent} );
     push( @path, $this->{keys} );
     return @path;
+}
+
+# Implements Foswiki::Configure::Item
+sub find_also_dependencies {
+    my ( $this, $root ) = @_;
+    ASSERT($root) if DEBUG;
+
+    return unless $this->{CHECK_ON_CHANGE};
+    foreach my $slave ( split( /[\s,]+/, $this->{CHECK_ON_CHANGE} ) ) {
+        my $vob = $root->getValueObject($slave);
+        next unless ($vob);
+        my $check = $vob->{CHECK}->[0];
+        if ($check) {
+            $check->{also} ||= [];
+            push( @{ $check->{also} }, $slave );
+        }
+        else {
+            $vob->{CHECK}->[0] = { also => [$slave] };
+        }
+    }
 }
 
 1;

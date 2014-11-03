@@ -210,9 +210,25 @@ div.expert {
     display: none;
 }
 
+.hidden_expert.errors {
+    display: block;
+}
+
+.hidden_expert.warnings {
+    display: block;
+}
+
 /* Hidden because it failed a DISPLAY_IF */
 .hidden_di {
     display: none;
+}
+
+.hidden_di.errors {
+    display: block;
+}
+
+.hidden_di.warnings {
+    display: block;
 }
 
 #auth_prompt {

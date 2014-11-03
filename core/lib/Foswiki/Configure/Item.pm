@@ -190,7 +190,15 @@ sub _parseOptions {
         }
         elsif ( $spec->{openclose} ) {
             $str =~ s/^(.*?)(\/$key|$)//;
-            $this->{$key} = $1;
+            if ( defined $spec->{parse_val}
+                && !$Foswiki::Configure::LoadSpec::RAW_VALS )
+            {
+                my $fn = $spec->{parse_val};
+                $this->$fn( $str, $key );
+            }
+            else {
+                $this->{$key} = $1;
+            }
         }
         else {
             $this->{$key} = 1;
@@ -258,6 +266,28 @@ sub getAllValueKeys {
     my $this = shift;
 
     return ();
+}
+
+=begin TML
+
+---++ ObjectMethod find_also_dependencies([$root])
+
+Find 'also' dependencies by scanning values.
+
+'also' dependencies are checker dependencies that are inferred from the
+values of DISPLAY_IF and ENABLE_IF attributes. Some 'also' dependencies
+may 'also' be explicitly declared in the CHECK clause of an item.
+
+'also' dependencies are used to trigger checks of other items when the
+value of an item they depend on changes.
+
+   * =$root= - root used to getValueObject for keys found
+
+=cut
+
+sub find_also_dependencies {
+    my ( $this, $root ) = @_;
+    die 'Subclasses must define this method';
 }
 
 =begin TML

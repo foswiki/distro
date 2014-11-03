@@ -273,7 +273,9 @@ pass in candidate values that will be set before any keys are checked.
      keys under the headlined section(s) will be checked). The default
      is to check everything under the root.
    * =check_dependencies= - if true, check everything that depends
-     on any of the keys being checked
+     on any of the keys being checked. This include dependencies
+     explicitly expressed through CHECK and implicit dependencies found
+     from the value of the checked item.
 
 The results of the check are reported in an array where each entry is a
 hash with fields =keys= and =reports=. =reports= is an array of reports,
@@ -345,8 +347,34 @@ sub check_current_value {
 
     if ( $params->{check_dependencies} ) {
 
+        # First get reverse dependencies expressed in CHECK_ON_CHANGE
+        # and add them as CHECK="also: forward dependencies to the
+        # item they depend on. We only do this now, as it is quite
+        # demanding.
+        $root->find_also_dependencies($root);
+
+        # Now look at the CHECK="also: for the items we've been asked
+        # to check.
+        my $changed;
+        do {
+            $changed = 0;
+            foreach my $k ( keys %check ) {
+                next unless $k;
+                my $spec = $root->getValueObject($k);
+                next unless $spec;
+                foreach my $ch ( @{ $spec->{CHECK} } ) {
+                    next unless $ch->{also};
+                    foreach my $dep ( @{ $ch->{also} } ) {
+                        next if $check{$dep};
+                        $check{$dep} = 1;
+                        $changed = 1;
+                    }
+                }
+            }
+        } while ($changed);
+
         # Reload Foswiki::cfg without expansions so we can find
-        # dependencies
+        # string-embedded dependencies
         local %Foswiki::cfg = ();
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         if ( $params->{with} ) {
