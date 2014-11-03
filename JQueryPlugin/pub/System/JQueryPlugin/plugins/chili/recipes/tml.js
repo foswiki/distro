@@ -62,6 +62,15 @@
 			  _match: /((?:^|\n)(?:   |\t)+)(\* )(Set|Local)([^=]+)(=)(.*?)([ \t]*)(?=\n|$)/
 			, _replace: function( all, leading_space, bullet, verb, name, equals, value, trailing_whitespace ) {
 				var ws = '';
+
+        function encode(string) {
+          var result = string.replace(/[\u00A0-\u00FF<>@]/g, function(c) {
+            return '&#'+c.charCodeAt(0)+';';
+          });
+ 
+          return result;
+        }
+
 				if (trailing_whitespace.length > 0) {
 					ws = "<span class='trailing_whitespace'>"
 						+ trailing_whitespace
@@ -76,7 +85,7 @@
 					+ name
 					+ "</span>"
 					+ equals
-					+ value
+					+ encode(value)
 					+ ws;
 			}
 		}

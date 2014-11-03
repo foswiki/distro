@@ -30,7 +30,7 @@ sub new {
             name         => 'Chili',
             version      => '2.2_1',
             author       => 'Andrea Ercolino',
-            homepage     => 'http://noteslog.com/chili/',
+            homepage     => 'https://github.com/aercolino/Chili',
             javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
             dependencies => [ 'metadata', 'livequery' ],
         ),

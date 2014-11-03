@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name     => 'FontAwesome',
-            version  => '4.1.0',
+            version  => '4.2.0',
             author   => 'Dave Gandy',
             homepage => 'http://fontawesome.io',
             css      => ['fontawesome.css'],

@@ -1,0 +1,31 @@
+--- tmp/font-awesome-4.1.0/css/font-awesome.css	2014-06-18 23:28:19.000000000 +0200
++++ fontawesome.uncompressed.css	2014-09-04 12:33:17.579067479 +0200
+@@ -6,8 +6,8 @@
+  * -------------------------- */
+ @font-face {
+   font-family: 'FontAwesome';
+-  src: url('../fonts/fontawesome-webfont.eot?v=4.1.0');
+-  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
++  src: url('fontawesome-webfont.eot?v=4.1.0');
++  src: url('fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), url('fontawesome-webfont.woff?v=4.1.0') format('woff'), url('fontawesome-webfont.ttf?v=4.1.0') format('truetype'), url('fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+   font-weight: normal;
+   font-style: normal;
+ }
+@@ -1564,3 +1564,17 @@
+ .fa-bomb:before {
+   content: "\f1e2";
+ }
++.fa {
++  vertical-align:baseline;
++}
++
++/* font-awesome + jquery-ui */
++.ui-icon.fa {
++  background: transparent;
++  background-image:none !important;
++  text-indent: 0; 
++  display:inline-block;
++  height:auto;
++  line-height:inherit;
++}
++

@@ -1,4 +1,6 @@
 *.gz
+*.jslint
+tmp
 pub/System/JQueryPlugin/jquery-1.10.0.js
 pub/System/JQueryPlugin/jquery-1.10.1.js
 pub/System/JQueryPlugin/jquery-1.11.0.js
