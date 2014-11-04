@@ -55,9 +55,9 @@ sub new {
 
 ---++ ObjectMethod number([$set]) -> $number
 
-Setter/getter for the row number. The row number uniquely identifies the row
-within the context of a table. The row number is undef until it is set by
-some external agency (e.g. the table)
+Setter/getter for the cell number. The number uniquely identifies the cell
+within the context of a row. The cell number is undef until it is set by
+some external agency (e.g. the row)
 
 =cut
 

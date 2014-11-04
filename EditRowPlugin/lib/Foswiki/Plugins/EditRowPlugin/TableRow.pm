@@ -68,8 +68,9 @@ sub setRow {
                 my @cell = Foswiki::Tables::Parser::split_cell($val);
                 $val = \@cell;
             }
-            push(
-                @{ $this->{cols} },
+
+            # Use pushCell so the cell gets numbered
+            $this->pushCell(
                 Foswiki::Plugins::EditRowPlugin::TableCell->new( $this, @$val )
             );
         }

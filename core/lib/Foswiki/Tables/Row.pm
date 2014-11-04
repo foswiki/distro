@@ -75,11 +75,12 @@ sub cell_class {
 }
 
 # PACKAGE PRIVATE ObjectMethod pushCell($cellObject) -> $index
-# Add a row to the end of the table.
+# Add a cell to the end of the row.
 sub pushCell {
     my ( $this, $cell ) = @_;
 
     $cell->number( push( @{ $this->{cols} }, $cell ) - 1 );
+    ASSERT( defined $cell->{number} );
     return $cell->number;
 }
 
@@ -207,7 +208,8 @@ sub setRow {
                 my @cell = Foswiki::Tables::Parser::split_cell($val);
                 $val = \@cell;
             }
-            $this->pushCell( $this->cell_class->new( $this, @$val ) );
+            my $c = $this->cell_class->new( $this, @$val );
+            $this->pushCell($c);
         }
         $n++;
     }

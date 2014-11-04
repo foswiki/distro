@@ -157,6 +157,60 @@ EXPECTED
     $this->assert_deep_equals( $e_celldata,  $a_celldata );
 }
 
+sub test_Item12953 {
+    my $this = shift;
+    require Foswiki::Plugins::EditRowPlugin::View;
+    $this->assert( !$@, $@ );
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{session}->finish()          if $this->{session};
+    my $query = Unit::Request->new( {} );
+    $this->{session} =
+      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    my $in = <<INPUT;
+%EDITTABLE{
+   format="| row,1 | text,20,init |"
+   header="|*Nr*|*Text*|"
+}%
+INPUT
+    $this->assert(
+        Foswiki::Plugins::EditRowPlugin::View::process(
+            $in,                 $this->{test_web},
+            $this->{test_topic}, $this->{test_topicObject}
+        )
+    );
+    $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
+
+    $this->assert( $in =~ s/^(<form[^>]*>)\s*(.*?)<\/form>$/$2/s, $in );
+
+    my $f = $1;
+    $f =~ s/action=(["']).*?\1/action="valid"/;
+    $this->assert_html_equals( <<HTML, "$f</form>" );
+<form method="post" action="valid" enctype="multipart/form-data" name="erp_form_EDITTABLE_0"></form>
+HTML
+
+    # anchor
+    $this->assert( $in =~ s/^<a name='erp_EDITTABLE_0'><\/a>\s*//s, $in );
+
+    # edit button
+    $this->assert( $in =~ s/(<a name='erp_EDITTABLE_0'>.*)$//s, $in );
+    my $viewurl = Foswiki::Func::getScriptUrl(
+        $this->{test_web}, $this->{test_topic}, "view",
+        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        erp_table => "EDITTABLE_0",
+        erp_row   => -1,
+        '#'       => "erp_EDITTABLE_0"
+    );
+    my $expected = <<EXPECTED;
+<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><img name="erp_edit_EDITTABLE_0" title="Edit full table" border="0" src="%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png" /></a><br />
+EXPECTED
+    $this->assert_html_equals( $expected, $1 );
+    $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
+    $in =~ s/version=1_\d+/version=VERSION/gs;
+}
+
 # Default is JS preferred
 sub test_edit_view_default {
     my $this = shift;
