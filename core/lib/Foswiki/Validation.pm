@@ -104,14 +104,19 @@ Generate a new validation key. The key will time out after
    * =$strikeone= - if set, expect the nonce to be combined with the
      session secret before it is posted back.
 The validation key wcan then be used in a HTML form, or headers for RestPlugin API etc.
-TODO: should this be assable from Foswiki::Func so that RestHandlers can use it too?
 
 =cut
 
+# TODO: should this be callable from Foswiki::Func so that RestHandlers
+# can use it too?
 sub generateValidationKey {
     my ( $cgis, $context, $strikeone ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS') || {};
-    my $nonce = Digest::MD5::md5_hex( $context, $cgis->id() );
+
+    # Use scalar keys %$actions to ensure we generate a unique token
+    # for each form on a page.
+    my $nonce =
+      Digest::MD5::md5_hex( $context, $cgis->id(), scalar keys %$actions );
     my $action = $nonce;
     if ($strikeone) {
 
@@ -237,7 +242,9 @@ force expiry of a specific key, even if it hasn't timed out.
 sub expireValidationKeys {
     my ( $cgis, $key ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS');
+
     if ($actions) {
+
         if ( defined $key && exists $actions->{$key} ) {
             $actions->{$key} = 0;    # force-expire this key
         }
