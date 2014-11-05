@@ -306,16 +306,20 @@ sub _handleExpand {
 
 =begin TML
 
----++ StaticMethod bootstrapConfig()
+---++ StaticMethod bootstrapConfig( $noload )
 
 This routine is called from Foswiki.pm BEGIN block to discover the mandatory
 settings for operation when a LocalSite.cfg could not be found.
+
+SMELL: The noload paramter is used by the TestBootstrapPlugin to suppress loading of
+the complete Foswiki.spec and Config.spec files during bootstrap.  It was added
+so that the test plutin could report exactly what was set during the bootstrap.
+This can probably be eliminated at some point.
 
 =cut
 
 sub bootstrapConfig {
     my $noload = shift;
-    Carp::confess "WTF";
 
     # Failed to read LocalSite.cfg
     # Clear out $Foswiki::cfg to allow variable expansion to work
