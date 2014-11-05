@@ -80,13 +80,13 @@ chown -R apache:apache foswiki
 # Now configure Apache to use the Foswiki in /var/www/foswiki/core
 ```
 
- 1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
- 1. Clipboard copy and save this to `core/../foswiki.httpd.conf`
- 1. Include this `foswiki.httpd.conf` from your apache `httpd.conf`  OR
- ..* On many linux distributions, you can save this file into `/etc/apache2/sites_enabled` or `/etc/apache2/vhosts.d`,  or `/etc/apache2/Include` ... Check your local distribution's instructions.
- ..* If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
- ..* Otherwise, edit your httpd.conf and add: `Include /path/to/foswiki.httpd.conf`
- ..* Ensure your new .conf file has chmod a+r access
+1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
+1. Clipboard copy and save this to `core/../foswiki.httpd.conf`
+1. Include this `foswiki.httpd.conf` from your apache `httpd.conf`  OR
+  * On many linux distributions, you can save this file into `/etc/apache2/sites_enabled` or `/etc/apache2/vhosts.d`,  or `/etc/apache2/Include` ... Check your local distribution's instructions.
+  * If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
+  * Otherwise, edit your httpd.conf and add: `Include /path/to/foswiki.httpd.conf`
+  * Ensure your new .conf file has chmod a+r access
 **Note:** If the apache error log has lots of `Symbolic link not allowed or link target not accessible` type messages, then you probably need to add `+FollowSymLinks`
 to the `Options` for the `/var/www/foswiki/dev/core/pub` directory in your apache configuration.
 
