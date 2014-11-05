@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1414777877" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1415195898" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Formatted Search
@@ -103,7 +103,7 @@ Format tokens that can be used in the format string:
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |
 | =$formname= | The name of the form attached to the topic; empty if none |
-| =$formfield(name)= | The field value of a form field; for example, if FAQWhatIsWikiWiki was a search hit, =$formfield(<nop>TopicClassification)= would get expanded to =%QUERY{"'WhatIsWikiWiki'/TopicClassification"}%=. This applies only to topics that have a [[DataForms][DataForm]]. For multi-line textfields new lines are replace by an HTML &lt;br /&gt; |
+| =$formfield(name)= | The field value of a form field; for example, if FAQWhatIsWikiWiki was a search hit, =$formfield(<nop>TopicClassification)= would get expanded to =%QUERY{"'WhatIsWikiWiki'/TopicClassification"}%=. This applies only to topics that have a [[DataForms][DataForm]]. For multi-line textfields new lines are replaced by the value of the =newline= parameter if it is defined, otherwise by an HTML &lt;br /&gt; |
 | =$formfield(name, 10)= | Form field value, "<tt>- </tt>" hyphenated every 10 characters |
 | =$formfield(name, 20, -&lt;br /&gt;)= | Form field value, hyphenated every 20 characters with separator "<tt>-&lt;br /&gt;</tt>" |
 | =$formfield(name,30,...)= | Form field value, shortened to 30 characters with trailing ellipsis. |

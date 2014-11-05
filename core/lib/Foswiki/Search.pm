@@ -1198,7 +1198,7 @@ sub formatResult {
 
         # parse formatted search tokens
         $itemView =~
-          s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1 )/ges;
+s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         foreach my $key ( keys(%$tomKeys) ) {
             $itemView =~ s[\$$key(?:\(([^\)]*)\))?]
 			[&{$tomKeys->{$key}}($key, $item, $1)]ges;
@@ -1282,7 +1282,7 @@ sub formatResult {
             $out =~ s/\$changes(?:\(([^\)]*)\))?/
               $item->summariseChanges(Foswiki::Store::cleanUpRevID($1), $revNum)/ges;
             $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
-              displayFormField( $item, $1 )/ges;
+              displayFormField( $item, $1, $newLine )/ges;
             $out =~ s/\$parent\(([^\)]*)\)/
               Foswiki::Render::breakName(
                   $item->getParent(), $1 )/ges;
@@ -1331,13 +1331,15 @@ sub formatResult {
 
 =begin TML
 
----++ StaticMethod displayFormField( $meta, $args ) -> $text
+---++ StaticMethod displayFormField( $meta, $args, $newline ) -> $text
 
 Parse the arguments to a $formfield specification and extract
 the relevant formfield from the given meta data.
 
    * =args= string containing name of form field
-
+   * =$newline= - replacement text for newlines within the form field, if
+     not defined defaults to &lt;br />
+ 
 In addition to the name of a field =args= can be appended with a commas
 followed by a string format (\d+)([,\s*]\.\.\.)?). This supports the formatted
 search function $formfield and is used to shorten the returned string or a
@@ -1346,8 +1348,9 @@ hyphenated string.
 =cut
 
 sub displayFormField {
-    my ( $meta, $args ) = @_;
+    my ( $meta, $args, $newline ) = @_;
 
+    $newline ||= '<br />';
     my ( $name, @params ) = split( /,\s*/, $args );
     my $format    = '$value';    # default is to show the unmapped value
     my $breakArgs = '';
@@ -1363,14 +1366,14 @@ sub displayFormField {
 
     # SMELL: this is a *terrible* idea. Not only does it munge the result
     # so it can only be used for display, it also munges it such that it
-    # can't be repaired by the options on %SEARCH. 'nomap' goes some
-    # way to curing the problem, but it's still not ideal :-(
+    # can't be repaired by the options on %SEARCH. :-(
     return $meta->renderFormFieldForDisplay(
         $name, $format,
         {
             break         => $breakArgs,
             protectdollar => 1,
-            showhidden    => 1
+            showhidden    => 1,
+            newline       => $newline
         }
     );
 }

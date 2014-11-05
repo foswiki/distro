@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404395344" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1415195898" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSEARCH
 
@@ -34,7 +34,7 @@
      | =recurse="on"= | Recurse into subwebs, if subwebs are enabled. Note: recurse will currently search subwebs of explicitly excluded webs. =(web="all, -%SANDBOXWEB%" recurse="on")= will still search subwebs of =%SANDBOXWEB%=. This behavior is likely to change in a future release. | =off= |
      | =separator=", "= | Line separator _between_ search hits (only used when format= is set) uses FormatTokens. <br />If =separator= is not defined, the default is "$n" (newline). Not defining the separator will additionally cause a newline to be added after a header and before a footer. | ="$n"= (Newline) |
      | =headingoffset="1"= | Adds the given offset to any HTML headings generated in the search result. Works on headings defined by HTML tags as well as headings defined using foswiki markup. | 0 |
-     | =newline="%<nop>BR%"= | Line separator _within_ a search hit. Useful if you want to put multi-line content into a table cell, for example if the format="" parameter contains a $pattern() that captures more than one line. | ="$n"= (Newline) |
+     | =newline="%<nop>BR%"= | Line separator _within_ a search hit. Useful if you want to put multi-line content into a table cell, for example if the format="" parameter contains a =$pattern()= or a =$formfield()= the result of which may contain newlines. | ="$n"= (Newline) |
      | =pagesize="25"= | number of items to show per page | ="25"= |
      | =showpage="1"= | Page of items to show (starts at 1) (over-ridden by the value specified by the URL parameter hash from =$previousurl= and =$nexturl=) | ="1"= |
      | =pager="on"= | appends the pager to the footer format (the quickest way to add paging to your SEARCHes is to just add =pager="on"=) %BR% \

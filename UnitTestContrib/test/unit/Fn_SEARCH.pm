@@ -4937,15 +4937,14 @@ RESULT
 Meta-PhysicsXMarxismXCrimeXSuicideXPaganism
 RESULT
 
-# $formfield, newline="X", \n expands to X
-# SMELL: C. believes this is correct behaviour, but it doesn't work
-# because formfields are rendered by the Form package way before they
-# get here :-(
-#    $result = $this->{test_topicObject}->expandMacros(
-#        '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$formfield(Name)" newline="X"}%');
-#    $this->assert_str_equals( <<RESULT, "$result\n" );
-#Meta-PhysicsXMarxismXCrimeXSuicideXPaganism.
-#RESULT
+    # $formfield, newline="X", \n in form data expands to X
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"OffColour" scope="topic" nonoise="on" format="$formfield(Name)" newline="X"}%'
+      );
+    $this->assert_str_equals( <<RESULT, "$result\n" );
+Meta-PhysicsXMarxismXCrimeXSuicideXPaganism.
+RESULT
 
     return;
 }
