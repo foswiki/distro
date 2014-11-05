@@ -1,5 +1,7 @@
 # Foswiki Installation based on git
 
+*These instructions are more geared for developers, and admins who want to use the "bleeding edge" of Foswiki.   It's preferred to use our packaged distributions.  See our [Download page](http://foswiki.org/Download/)*
+
 You can run a Foswiki instance from this clone simply by pointing Apache at it.  See the  [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator)
 
 *Note:Configure has been completely rewritten on the master branch.  Foswiki is now able to "bootstrap" itself without a configuration.*  After pseudo-installing the default extensions,
@@ -79,12 +81,12 @@ chown -R apache:apache foswiki
 ```
 
  1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
- 1. Clipboard copy and save this to core/../foswiki.httpd.conf
- -* cat &gt; foswiki-svn_httpd.conf
- 1. Include this httpd.conf from your apache httpd.conf
- -* If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
- -* Otherwise, edit your httpd.conf and add: Include /path/to/foswiki-svn_httpd.conf
- -* Ensure your new .conf file has chmod a+r access
+ 1. Clipboard copy and save this to `core/../foswiki.httpd.conf`
+ 1. Include this `foswiki.httpd.conf` from your apache `httpd.conf`  OR
+ ..* On many linux distributions, you can save this file into `/etc/apache2/sites_enabled` or `/etc/apache2/vhosts.d`,  or `/etc/apache2/Include` ... Check your local distribution's instructions.
+ ..* If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
+ ..* Otherwise, edit your httpd.conf and add: `Include /path/to/foswiki.httpd.conf`
+ ..* Ensure your new .conf file has chmod a+r access
 **Note:** If the apache error log has lots of `Symbolic link not allowed or link target not accessible` type messages, then you probably need to add `+FollowSymLinks`
 to the `Options` for the `/var/www/foswiki/dev/core/pub` directory in your apache configuration.
 
