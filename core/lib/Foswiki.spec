@@ -1204,7 +1204,7 @@ $Foswiki::cfg{DebugFileName} = '';
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/warn%DATE%.txt=
 $Foswiki::cfg{WarningFileName} = '';
 
-# **PATH**
+# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {LogFileName}"**
 # Log file recording web activity when using the Compatibility logger
 # (High volume). If =%DATE%= is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.
@@ -1214,6 +1214,15 @@ $Foswiki::cfg{WarningFileName} = '';
 # Foswiki 1.0.x default: =$Foswiki::cfg{DataDir}/log%DATE%.txt=
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/log%DATE%.txt=
 $Foswiki::cfg{LogFileName} = '';
+
+# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {ConfigureLogFileName}"**
+# Log file recording configuration changes when using the Compatibility logger
+# If =%DATE%= is included in the file name, it gets expanded
+# to YYYYMM (year, month), causing a new log to be written each month.
+#
+# To use the Compatibility logger, set this to a valid file path and name.
+#
+$Foswiki::cfg{ConfigureLogFileName} = '';
 
 #---++ Statistics
 # Statistics are usually assembled by a cron script

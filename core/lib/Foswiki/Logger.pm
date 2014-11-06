@@ -242,6 +242,12 @@ sub getOldCall {
         push( @fields, $extra );
         push( @fields, $fhash->{remoteAddr} || '' );
     }
+    elsif ( $level eq 'notice' ) {    # Configuration changes logged as notice
+        foreach my $key (qw( user remoteAddr setting oldvalue newvalue)) {
+            push( @fields, $fhash->{$key} || '' );
+            delete $fhash->{$key};
+        }
+    }
     else {
         push( @fields, $fhash->{caller} )     if defined $fhash->{caller};
         push( @fields, @{ $fhash->{extra} } ) if defined $fhash->{extra};

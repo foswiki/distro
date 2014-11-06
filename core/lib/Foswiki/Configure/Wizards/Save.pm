@@ -278,6 +278,8 @@ sub save {
 sub _compareConfigs {
     my ( $spec, $o, $n, $reporter, $keypath ) = @_;
 
+    my $session = $Foswiki::Plugins::SESSION;
+
     return 1 unless ( defined $o || defined $n );
 
     my $old =
@@ -287,13 +289,17 @@ sub _compareConfigs {
       Foswiki::Configure::Reporter::ellipsis(
         Foswiki::Configure::Reporter::uneval($n), CHANGE_LIMIT );
 
-    if ( ref($o) ne ref($n) ) {
-        $reporter->NOTE("| $keypath | $old | $new |") if $reporter;
-        return 0;
-    }
-
     # Intermediates on the road to a value will return undef here.
     my $vs = $spec->getValueObject($keypath);
+    if ( $vs && $vs->{typename} eq 'PASSWORD' ) {
+        $old = '_[redacted]_';
+        $new = '_[redacted]_';
+    }
+
+    if ( ref($o) ne ref($n) ) {
+        _logAndReport( $reporter, $session, $keypath, $old, $new );
+        return 0;
+    }
 
     # We know they are the same type
     if ( ref($o) eq 'HASH' ) {
@@ -319,9 +325,7 @@ sub _compareConfigs {
 
     if ( ref($o) eq 'ARRAY' ) {
         if ( scalar(@$o) != scalar(@$n) ) {
-            if ($reporter) {
-                $reporter->NOTE("| $keypath | $old | $new |");
-            }
+            _logAndReport( $reporter, $session, $keypath, $old, $new );
             return 0;
         }
         else {
@@ -332,9 +336,7 @@ sub _compareConfigs {
                     )
                   )
                 {
-                    if ($reporter) {
-                        $reporter->NOTE("| $keypath | $old | $new |");
-                    }
+                    _logAndReport( $reporter, $session, $keypath, $old, $new );
                     return 0;
                 }
             }
@@ -344,18 +346,28 @@ sub _compareConfigs {
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
-        if ($reporter) {
-            if ( $vs && $vs->{typename} eq 'PASSWORD' ) {
-                $reporter->NOTE("| $keypath | _[redacted]_ | _[redacted]_ |");
-            }
-            else {
-                $reporter->NOTE("| $keypath | $old | $new |");
-            }
-        }
+        _logAndReport( $reporter, $session, $keypath, $old, $new );
         return 0;
     }
 
     return 1;
+}
+
+sub _logAndReport {
+    my ( $reporter, $session, $keypath, $old, $new ) = @_;
+
+    $session->logger->log(
+        {
+            level    => 'notice',
+            action   => 'save',
+            setting  => $keypath,
+            newvalue => $new,
+            oldvalue => $old,
+        }
+    );
+    if ($reporter) {
+        $reporter->NOTE("| $keypath | $old | $new |");
+    }
 }
 
 # $datum starts as \%Foswiki::cfg and recurses down the hash tree
