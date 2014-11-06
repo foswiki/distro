@@ -394,11 +394,13 @@ sub bootstrapConfig {
 # and then recovers it.  When the jsonrpc script is called to save the configuration
 # it then has the VIEWPATH parameter available.  If "view" was never called during
 # configuration, then it will not be set correctly.
+    my $path_info = $ENV{'PATH_INFO'}
+      || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
     print STDERR "AUTOCONFIG: REQUEST_URI is $ENV{REQUEST_URI} \n" if (TRAUTO);
     print STDERR "AUTOCONFIG: SCRIPT_URI  is "
       . ( $ENV{SCRIPT_URI} || '(undef)' ) . " \n"
       if (TRAUTO);
-    print STDERR "AUTOCONFIG: PATH_INFO   is $ENV{PATH_INFO} \n" if (TRAUTO);
+    print STDERR "AUTOCONFIG: PATH_INFO   is $path_info \n" if (TRAUTO);
     print STDERR "AUTOCONFIG: ENGINE      is $Foswiki::cfg{Engine}\n"
       if (TRAUTO);
 
@@ -432,9 +434,9 @@ sub bootstrapConfig {
     }
     else {
         my $suffix =
-          ( length( $ENV{SCRIPT_URL} ) < length( $ENV{PATH_INFO} ) )
+          ( length( $ENV{SCRIPT_URL} ) < length($path_info) )
           ? $ENV{SCRIPT_URL}
-          : $ENV{PATH_INFO};
+          : $path_info;
 
         # Try to Determine the prefix of the script part of the URI.
         if ( $ENV{SCRIPT_URI} && $ENV{SCRIPT_URL} ) {
@@ -452,7 +454,7 @@ sub bootstrapConfig {
     }
 
     unless ( defined $pfx ) {
-        if ( my $idx = index( $ENV{REQUEST_URI}, $ENV{PATH_INFO} ) ) {
+        if ( my $idx = index( $ENV{REQUEST_URI}, $path_info ) ) {
             $pfx = substr( $ENV{REQUEST_URI}, 0, $idx + 1 );
         }
         $pfx = '' unless ( defined $pfx );
