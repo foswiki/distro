@@ -123,7 +123,7 @@ sub new {
 sub parseTypeParams {
     my ( $this, $str ) = @_;
 
-    if ( $this->{typename} =~ /^SELECT/ ) {
+    if ( $this->{typename} =~ /^(SELECT|BOOLGROUP)/ ) {
 
         # SELECT types *always* start with a comma-separated list of
         # things to select from. These things may be words or wildcard
