@@ -354,6 +354,8 @@ sub bootstrapConfig {
       if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
+
+    # Figure out the DefaultUrlHost
     if ( $ENV{HTTP_HOST} ) {
         $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
         print STDERR
@@ -364,6 +366,13 @@ sub bootstrapConfig {
         $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{SERVER_NAME}";
         print STDERR
 "AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from SERVER_NAME $ENV{SERVER_NAME} \n"
+          if (TRAUTO);
+    }
+    elsif ( $ENV{SCRIPT_URI} ) {
+        ( $Foswiki::cfg{DefaultUrlHost} ) =
+          $ENV{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
+        print STDERR
+"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from SCRIPT_URI $ENV{SCRIPT_URI} \n"
           if (TRAUTO);
     }
     else {
@@ -386,24 +395,68 @@ sub bootstrapConfig {
 # it then has the VIEWPATH parameter available.  If "view" was never called during
 # configuration, then it will not be set correctly.
     print STDERR "AUTOCONFIG: REQUEST_URI is $ENV{REQUEST_URI} \n" if (TRAUTO);
-    print STDERR "AUTOCONFIG: PATH_INFO   is $ENV{PATH_INFO} \n"   if (TRAUTO);
+    print STDERR "AUTOCONFIG: SCRIPT_URI  is "
+      . ( $ENV{SCRIPT_URI} || '(undef)' ) . " \n"
+      if (TRAUTO);
+    print STDERR "AUTOCONFIG: PATH_INFO   is $ENV{PATH_INFO} \n" if (TRAUTO);
+    print STDERR "AUTOCONFIG: ENGINE      is $Foswiki::cfg{Engine}\n"
+      if (TRAUTO);
 
-    # Determine the prefix of the script part of the URI.
-    my $pfx = '';
-    if ( my $idx = index( $ENV{REQUEST_URI}, $ENV{PATH_INFO} ) ) {
-        $pfx = substr( $ENV{REQUEST_URI}, 0, $idx );
-    }
-    print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
+# This code tries to break the url up into <prefix><script><path> ... The script may or may not
+# be present.  Short URLs will omit the script from view operations, and *may* omit the
+# <prefix> for all operations.   Examples of URLs and shortening.
+#
+#  Full:    /foswiki/bin/view/Main/WebHome   /foswiki/bin/edit/Main/WebHome
+#  Full:    /bin/view/Main/WebHome           /bin/edit/Main/WebHome            omitting prefix
+#  Short:   /foswiki/Main/WebHome            /foswiki/bin/edit/Main/WebHome    omitting bin/view
+#  Short:   /Main/WebHome                    /bin/edit/Main/WebHome            omitting prefix and bin/view
+#  Shorter: /Main/WebHome                    /edit/Main/WebHome                omitting prefix and bin in all cases.
+#
+# Note that some of this can't be done as part of the view script.  The only way to know if "bin" is omitted in
+# all cases is when a script other than view runs,   like jsonrpc.
 
-    # FCGI uses $ENV{SCRIPT_NAME} for the foswiki request, Fixup the scriptname
-    print STDERR "AUTOCONFIG: Found SCRIPT $ENV{SCRIPT_NAME}\n"
-      if ( TRAUTO && $ENV{SCRIPT_NAME} );
+    my $pfx;
 
-    if ( ( $script eq 'foswiki.fcgi' ) && $ENV{SCRIPT_NAME} ) {
-        $script = $ENV{SCRIPT_NAME};
+    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+
+#PATH_INFO includes script  /view/System/WebHome,  REQUEST_URI is /System/WebHome.
+        ($script) = $ENV{PATH_INFO} =~ m#^/([^/]+)/#;
+        $script ||= '';
         print STDERR
-"AUTOCONFIGURE: FCGI active for $ENV{SCRIPT_NAME}, Set Script to $script \n"
+"AUTOCONFIG: FCGI Parsed script $script from PATH_INFO $ENV{PATH_INFO} \n"
           if (TRAUTO);
+        $pfx = $ENV{SCRIPT_NAME};
+        print STDERR
+          "AUTOCONFIG: FCGI set Prefix $pfx from \$ENV{SCRIPT_NAME}\n"
+          if (TRAUTO);
+    }
+    else {
+        my $suffix =
+          ( length( $ENV{SCRIPT_URL} ) < length( $ENV{PATH_INFO} ) )
+          ? $ENV{SCRIPT_URL}
+          : $ENV{PATH_INFO};
+
+        # Try to Determine the prefix of the script part of the URI.
+        if ( $ENV{SCRIPT_URI} && $ENV{SCRIPT_URL} ) {
+            if ( index( $ENV{SCRIPT_URI}, $Foswiki::cfg{DefaultUrlHost} ) eq 0 )
+            {
+                $pfx =
+                  substr( $ENV{SCRIPT_URI},
+                    length( $Foswiki::cfg{DefaultUrlHost} ) );
+                $pfx =~ s#$suffix$##;
+                print STDERR
+"AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI and SCRIPT_URL\n"
+                  if (TRAUTO);
+            }
+        }
+    }
+
+    unless ( defined $pfx ) {
+        if ( my $idx = index( $ENV{REQUEST_URI}, $ENV{PATH_INFO} ) ) {
+            $pfx = substr( $ENV{REQUEST_URI}, 0, $idx + 1 );
+        }
+        $pfx = '' unless ( defined $pfx );
+        print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
     }
 
     # Work out the URL path for Short and standard URLs
@@ -455,7 +508,7 @@ sub bootstrapConfig {
         TemplateDir => {
             dir           => 'templates',
             required      => 1,
-            validate_file => 'configure.tmpl'
+            validate_file => 'foswiki.tmpl'
         },
         ScriptDir => {
             dir           => 'bin',
