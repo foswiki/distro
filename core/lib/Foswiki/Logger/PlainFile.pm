@@ -69,6 +69,7 @@ use constant TRACE => 0;
 our %LEVEL2LOG = (
     debug     => 'debug',
     info      => 'events',
+    notice    => 'configure',
     warning   => 'error',
     error     => 'error',
     critical  => 'error',
@@ -77,9 +78,10 @@ our %LEVEL2LOG = (
 );
 
 our %nextCheckDue = (
-    debug  => 0,
-    events => 0,
-    error  => 0,
+    configure => 0,
+    debug     => 0,
+    events    => 0,
+    error     => 0,
 );
 
 # Symbols used so we can override during unit testing

@@ -270,6 +270,10 @@ sub _getLogsForLevel {
             $log = $Foswiki::cfg{LogFileName}
               || $defaultLogDir . 'log%DATE%.txt';
         }
+        elsif ( $lvl eq 'notice' ) {
+            $log = $Foswiki::cfg{ConfigureLogFileName}
+              || $defaultLogDir . 'configure%DATE%.txt';
+        }
         else {
             ASSERT( $lvl =~ /^(warning|error|critical|alert|emergency)$/ )
               if DEBUG;

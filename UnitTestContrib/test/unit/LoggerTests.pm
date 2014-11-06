@@ -21,6 +21,7 @@ sub set_up {
     delete $Foswiki::cfg{LogFileName};
     delete $Foswiki::cfg{DebugFileName};
     delete $Foswiki::cfg{WarningFileName};
+    delete $Foswiki::cfg{ConfigureLogFileName};
     $this->SUPER::set_up();
     $logDir = "logDir$$";
     $Foswiki::cfg{Log}{Dir} = "$logDir";
@@ -155,11 +156,12 @@ sub skip {
 sub CompatibilityLogger {
     my $this = shift;
     require Foswiki::Logger::Compatibility;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-    $this->{logger}                    = Foswiki::Logger::Compatibility->new();
-    $Foswiki::cfg{LogFileName}         = "$logDir/logfile%DATE%";
-    $Foswiki::cfg{DebugFileName}       = "$logDir/debug%DATE%";
-    $Foswiki::cfg{WarningFileName}     = "$logDir/warn%DATE%!!";
+    $Foswiki::cfg{Log}{Implementation}  = 'Foswiki::Logger::Compatibility';
+    $this->{logger}                     = Foswiki::Logger::Compatibility->new();
+    $Foswiki::cfg{LogFileName}          = "$logDir/logfile%DATE%";
+    $Foswiki::cfg{DebugFileName}        = "$logDir/debug%DATE%";
+    $Foswiki::cfg{WarningFileName}      = "$logDir/warn%DATE%!!";
+    $Foswiki::cfg{ConfigureLogFileName} = "$logDir/configure%DATE%!!";
 
     return;
 }
@@ -193,9 +195,10 @@ sub LogDispatchFileLogger {
     $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
     $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
-        'events' => 'info:info',
-        'error'  => 'notice:emergency',
-        'debug'  => 'debug:debug',
+        'events'    => 'info:info',
+        'configure' => 'notice:notice',
+        'error'     => 'warning:emergency',
+        'debug'     => 'debug:debug',
     };
     $this->{logger} = Foswiki::Logger::LogDispatch->new();
 
@@ -211,9 +214,10 @@ sub LogDispatchFileObfuscatingLogger {
     $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'x.x.x.x';
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
     $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
-        'events' => 'info:info',
-        'error'  => 'notice:emergency',
-        'debug'  => 'debug:debug',
+        'events'    => 'info:info',
+        'configure' => 'notice:notice',
+        'error'     => 'warning:emergency',
+        'debug'     => 'debug:debug',
     };
     $this->{logger} = Foswiki::Logger::LogDispatch->new();
 
@@ -323,10 +327,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
       ( $Foswiki::cfg{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
-    my @levels =
-      ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/ )
-      ? qw(debug info notice warning error critical alert emergency)
-      : qw(debug info warning error critical alert emergency);
+    my @levels = qw(debug info notice warning error critical alert emergency);
 
     my $testIP = $logIP;
     my $it = $this->{logger}->eachEventSince( $time, \@levels );
