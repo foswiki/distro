@@ -1,6 +1,6 @@
 # Foswiki Installation based on git
 
-*These instructions are more geared for developers, and admins who want to use the "bleeding edge" of Foswiki.   It's preferred to use our packaged distributions.  See our [Download page](http://foswiki.org/Download/)*
+**These instructions are more geared for developers, and admins who want to use the "bleeding edge" of Foswiki.   We recommend using our packaged distributions.  See our [Download page](http://foswiki.org/Download/)**
 
 You can run a Foswiki instance from this clone simply by pointing Apache at it.  See the  [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator)
 
