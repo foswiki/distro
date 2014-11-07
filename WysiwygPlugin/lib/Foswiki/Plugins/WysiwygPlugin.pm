@@ -88,13 +88,11 @@ sub initPlugin {
     );
 
     Foswiki::Func::registerRESTHandler( 'tml2html',
-        sub { _execute( '_restTML2HTML', @_ ) }, %opts );
+        sub { _execute( 'REST_TML2HTML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'html2tml',
-        sub { _execute( '_restHTML2TML', @_ ) }, %opts );
-    Foswiki::Func::registerRESTHandler( 'upload',
-        sub { _execute( '_restUpload', @_ ) }, %opts );
+        sub { _execute( 'REST_HTML2TML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'attachments',
-        sub { _execute( '_restAttachments', @_ ) }, %opts );
+        sub { _execute( 'REST_attachments', @_ ) }, %opts );
 
     # Plugin correctly initialized
     return 1;
@@ -151,7 +149,8 @@ sub getBrowserName {
 sub _execute {
     my $fn = shift;
 
-    require Foswiki::Plugins::WysiwygPlugin::Handlers;
+    eval "require Foswiki::Plugins::WysiwygPlugin::Handlers";
+    ASSERT( !$@ ) if DEBUG;
     $fn = 'Foswiki::Plugins::WysiwygPlugin::Handlers::' . $fn;
     no strict 'refs';
     return &$fn(@_);
@@ -293,8 +292,12 @@ sub wysiwygEditingDisabledForThisContent {
 sub wysiwygEditingNotPossibleForThisContent {
     eval {
         require Foswiki::Plugins::WysiwygPlugin::Handlers;
-        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML( $_[0],
-            'Fakewebname', 'FakeTopicName', dieOnError => 1 );
+        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML(
+            $_[0],
+            web        => 'Fakewebname',
+            topic      => 'FakeTopicName',
+            dieOnError => 1
+        );
     };
     if ($@) {
         print STDERR

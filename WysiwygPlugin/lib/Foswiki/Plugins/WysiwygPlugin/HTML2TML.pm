@@ -87,18 +87,17 @@ sub _resetStack {
 
 =pod
 
----++ ObjectMethod convert( $html ) -> $tml
+---++ ObjectMethod convert( $html, \%options ) -> $tml
 
 Convert a block of HTML text into TML.
 
-=cut
+Options:
+   * expandVarsInURL
+   * xmltag
 
-sub debugEncode {
-    my $text = shift;
-    $text = WC::debugEncode($text);
-    $text =~ s/([^\x20-\x7E])/sprintf '\\x{%X}', ord($1)/ge;
-    return $text;
-}
+IMPORTANT: $html is a perl internal string, *NOT* octets
+
+=cut
 
 sub convert {
     my ( $this, $text, $options ) = @_;
@@ -106,11 +105,10 @@ sub convert {
     $this->{opts} = $options;
 
     my $opts = 0;
-    $opts = $WC::VERY_CLEAN
+    $opts = WC::VERY_CLEAN
       if ( $options->{very_clean} );
 
-    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-    #print STDERR "input     [". debugEncode($text). "]\n\n";
+    #print STDERR "input     [". WC::encode_specials($text). "]\n\n";
 
     # Convert (safe) named entities back to the
     # site charset. Numeric entities are mapped straight to the
@@ -118,19 +116,6 @@ sub convert {
     # HTML::Entities::_decode_entities converts numeric entities
     # to Unicode codepoints, so first convert the text to Unicode
     # characters
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-
-        # text is already UTF-8, so just decode
-        $text = Encode::decode_utf8($text);
-    }
-    else {
-
-        # convert to unicode codepoints
-        $text = Encode::decode( WC::encoding(), $text );
-    }
-
-    # $text is now Unicode characters
-    #print STDERR "unicoded  [". debugEncode($text). "]\n\n";
 
     # Make sure that & < > ' and " remain encoded, because the parser depends
     # on it. The safe-entities does not include the corresponding named
@@ -148,31 +133,15 @@ sub convert {
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
 
+    # SMELL: Item11912 These are left behind by TMCE as zero width characters
+    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
+    # We really ought to have a better solution.  TMCE is supposed
+    # to handle this it the cleanup routine, but it doesn't happen,
+    # and cleanup routine has been deprecated.
+    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
+    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
+
     HTML::Entities::_decode_entities( $text, WC::safeEntities() );
-
-    #print STDERR "decodedent[". debugEncode($text). "]\n\n";
-
-    # HTML::Entities::_decode_entities is NOT aware of the site charset
-    # so it converts numeric entities to characters willy-nilly.
-    # Some of those were entities in the first place because the
-    # site character set cannot represent them.
-    # Convert them back to entities:
-    WC::convertNotRepresentabletoEntity($text);
-
-    #print STDERR "notrep2ent[". debugEncode($text). "]\n\n";
-
-    # $text is now Unicode characters that are representable
-    # in the site charset.
-    # Convert to the site charset:
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-
-        # nothing to do, already in unicode
-    }
-    else {
-        $text = Encode::encode( WC::encoding(), $text );
-    }
-
-    #print STDERR "sitechrset[". debugEncode($text). "]\n\n";
 
     # get rid of nasties
     $text =~ s/\r//g;
@@ -186,25 +155,8 @@ sub convert {
     #print STDERR "Finished\n";
     $this->_apply(undef);
     $text = $this->{stackTop}->rootGenerate($opts);
+    $text =~ s/\s+$/\n/s;
 
-    #print STDERR "parsed    [". debugEncode($text). "]\n\n";
-
-    # If the site charset is UTF8, we need to recode
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-        $text = Encode::encode_utf8($text);
-
-        #print STDERR "re-encoded[". debugEncode($text). "]\n\n";
-    }
-
-    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-
-    # SMELL: Item11912 These are left behind by TMCE as zero widht characters
-    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
-    # We really ought to have a better solution.  TMCE is supposed
-    # to handle this it the cleanup routine, but it doesn't happen,
-    # and cleanup routine has been deprecated.
-    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
-    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
     return $text;
 }
 

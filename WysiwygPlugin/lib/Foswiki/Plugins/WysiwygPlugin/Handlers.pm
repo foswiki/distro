@@ -66,6 +66,13 @@ sub _OTOPICTAG {
     return $topic;
 }
 
+# Assert that the given text is octets encoded according to $encoding
+sub _assertEncoding {
+    my ( $encoding, $text ) = @_;
+    eval { Encode::decode( $encoding, $text, Encode::FB_CROAK ); };
+    ASSERT( !$@, $@ );
+}
+
 # This handler is used to determine whether the topic is editable by
 # a WYSIWYG editor or not. The only thing it does is to redirect to a
 # normal edit url if the skin is set to WYSIWYGPLUGIN_WYSIWYGSKIN and
@@ -141,14 +148,14 @@ sub afterEditHandler {
     $_[0] = $text;
 }
 
-# Invoked to convert HTML to TML (best efforts)
+# Invoked to convert HTML to TML
+# $text is a foswiki string i.e. octets encoded according to {Site}{CharSet},
+# and so is the result.
 sub TranslateHTML2TML {
-    my ( $text, $topic, $web ) = @_;
+    my ( $text, %opts ) = @_;
 
-    # $text must be in encoded in the site charset
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to TranslateHTML2TML" )
-      if DEBUG;
+    # ASSERT $text is encoded in the site charset
+    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
@@ -165,21 +172,29 @@ sub TranslateHTML2TML {
     my $bottom = '';
     $text =~ s/^(%META:[A-Z]+{.*?}%\r?\n)/$bottom = "$1$bottom";''/gem;
 
-    my $opts = {
-        web          => $web,
-        topic        => $topic,
-        convertImage => \&_convertImage,
-        rewriteURL   => \&postConvertURL,
-        very_clean   => 1,                  # aggressively polish saved HTML
-    };
+    # Apply defaults
+    $opts{convertImage} ||= \&_convertImage;
+    $opts{rewriteURL}   ||= \&postConvertURL;
 
-    $text = $html2tml->convert( $text, $opts );
+    # used by above callbacks
+    $opts{web}   ||= $Foswiki::Plugins::SESSION->{webName};
+    $opts{topic} ||= $Foswiki::Plugins::SESSION->{topicName};
 
-    $text =~ s/\s+$/\n/s;
+    $opts{very_clean} = 1;    # aggressively polish saved HTML
 
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in topic text output from TranslateHTML2TML" )
-      if DEBUG;
+    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
+
+    $text = Encode::decode( WC::site_encoding(), $text );
+
+    # $text is now Perl internal (Unicode) characters.
+
+    $text = $html2tml->convert( $text, \%opts );
+
+    $text = _to_SiteCharSet_octets($text);
+
+    # ASSERT $text is encoded in the site charset
+    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
+
     return $top . $text . $bottom;
 }
 
@@ -225,7 +240,7 @@ sub _WYSIWYG_TEXT {
     # by other plugins, or by the extraction of verbatim blocks.
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
-    $text = TranslateTML2HTML( $text, $web, $topic );
+    $text = TranslateTML2HTML( $text, web => $web, topic => $topic );
 
     # Lift out the text to protect it from further Foswiki rendering. It will be
     # put back in the postRenderingHandler.
@@ -259,18 +274,6 @@ sub modifyHeaderHandler {
         $headers->{Expires} = 0;
         $headers->{'Cache-control'} = 'max-age=0, must-revalidate';
     }
-}
-
-# callback passed to the TML2HTML convertor
-sub getViewUrl {
-    my ( $web, $topic ) = @_;
-
-    # the Cairo documentation says getViewUrl defaults the web. It doesn't.
-    unless ( defined $Foswiki::Plugins::SESSION ) {
-        $web ||= $Foswiki::webName;
-    }
-
-    return Foswiki::Func::getViewUrl( $web, $topic );
 }
 
 # The subset of vars for which bidirection transformation is supported
@@ -369,15 +372,12 @@ sub postConvertURL {
 
         if ( $web && $web ne $opts->{web} ) {
 
-            #print STDERR "$orig -> $web+$topic$anchor\n";    #debug
             return $web . '.' . $topic . $anchor;
         }
 
-        #print STDERR "$orig -> $topic$anchor\n"; #debug
         return $topic . $anchor;
     }
 
-    #print STDERR "$orig -> $url$anchor$parameters\n"; #debug
     return $url . $anchor . $parameters;
 }
 
@@ -493,33 +493,33 @@ sub addXMLTag {
     }
 }
 
+# Invoked to convert TML to HTML
+# $text is a foswiki string i.e. octets encoded according to {Site}{CharSet},
+# and so is the result.
 sub TranslateTML2HTML {
-    my ( $text, $web, $topic, @extraConvertOptions ) = @_;
+    my ( $text, %opts ) = @_;
 
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to TranslateTML2HTML" )
-      if DEBUG;
+    # ASSERT $text is encoded in the site charset
+    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
-    # Translate the topic text to pure HTML.
     unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
         $Foswiki::Plugins::WysiwygPlugin::tml2html =
           new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     }
-    my $html = $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
-        $_[0],
-        {
-            web             => $web,
-            topic           => $topic,
-            getViewUrl      => \&getViewUrl,
-            expandVarsInURL => \&expandVarsInURL,
-            xmltag          => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
-            @extraConvertOptions,
-        }
-    );
-    ASSERT( $html !~ /[^\x00-\xff]/,
-        "only octets expected in output from TranslateTML2HTML" )
-      if DEBUG;
+
+    # Apply defaults
+    $opts{web}             ||= $Foswiki::Plugins::SESSION->{webName};
+    $opts{topic}           ||= $Foswiki::Plugins::SESSION->{topicName};
+    $opts{expandVarsInURL} ||= \&expandVarsInURL;
+    $opts{xmltag}          ||= \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+
+    my $html =
+      $Foswiki::Plugins::WysiwygPlugin::tml2html->convert( $_[0], \%opts );
+
+    # ASSERT $text is still encoded in the site charset
+    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
+
     return $html;
 }
 
@@ -579,12 +579,7 @@ DEFAULT
     foreach my $row (@protectedByAttr) {
         if ( $tag =~ /^$row->{tag}$/i ) {
 
-            #print STDERR
-            #  "Matched $tag, looking for ^($row->{attrs})\$ in $attr\n";
             if ( $attr =~ /^($row->{attrs})$/i ) {
-
-            #   print STDERR
-            #     "Protecting  $tag with $attr matches $row->{attrs} \n"; #debug
                 return 1;
             }
         }
@@ -592,67 +587,33 @@ DEFAULT
     return 0;
 }
 
-# Text that is taken from a web page and added to the parameters of an XHR
-# by JavaScript is UTF-8 encoded. This is because UTF-8 is the default encoding
-# for XML, which XHR was designed to transport.
+# Convert a perl string containing TML or HTML to the site charset,
+# handling any characters that can't be represented in the site charset
+# by converting them to entities.
+sub _to_SiteCharSet_octets {
+    my $text = shift;
 
-# This function is used to decode such parameters to the currently selected
-# Foswiki site character set.
-
-# Note that this transform is not as simple as an Encode::from_to, as
-# a number of unicode code points must be remapped for certain encodings.
-sub RESTParameter2SiteCharSet {
-    my ($text) = @_;
-
-    #print STDERR "octets in [". WC::debugEncode($text). "]\n\n";
-    # $text is supposed to contain octets that are valid UTF-8.
-    # $text should certainly not have any codes above 255.
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to RESTParameter2SiteCharSet" )
-      if DEBUG;
-
-    # $text might contain octets that are not valid UTF-8
-    # because it came from the browser, and so it might be hostile content.
-    # Encode::FB_PERLQQ makes decode_utf8 convert invalid octet sequences
-    # into a perl escape sequence, octet for octet (e.g. \xFF\x80),
-    # instead of throwing an exception. This defuses the invalid sequence.
-    $text = Encode::decode_utf8( $text, Encode::FB_PERLQQ );
-
-    # $text now contains unicode characters
-    #print STDERR "as utf-8  [". WC::debugEncode($text). "]\n\n";
-
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-        $text = Encode::encode_utf8($text);
-    }
-    else {
+    if ( WC::site_encoding() !~ /^utf-?8/ ) {
 
         # The site charset is a non-UTF-8 8-bit charset
 
+        # Make sure that characters that cannot be represented in
+        # the site charset are now encoded as entities. Named
+        # entities are used if available, otherwise numeric entities,
+        # because named entities produce more readable TML
         WC::convertNotRepresentabletoEntity($text);
-
-# All characters that cannot be represented in the site charset are now encoded as entities
-# Named entities are used if available, otherwise numeric entities,
-# because named entities produce more readable TML
-
-      # Encode $text in the site charset
-      # The Encode::FB_HTMLCREF should not be needed, as all characters in $text
-      # are supposed to be representable in the site charset.
-        $text = Encode::encode( WC::encoding(), $text, Encode::FB_HTMLCREF );
     }
 
-# $text is now encoded as per the site charset.
-# For UTF-8 - that means octets.
-# For non-UTF8, Unicode characters that cannot be represented in the site charset
-# are converted to HTML entities (preferring named entities to numeric entities)
+    # Encode $text in the site charset
+    # The Encode::FB_HTMLCREF should not be needed, as all characters
+    # in $text are supposed to be representable in the site charset.
+    # In debug mode, we ASSERT if there are any alien chars.
+    $text =
+      Encode::encode( WC::site_encoding(), $text,
+        (DEBUG) ? Encode::FB_CROAK : Encode::FB_HTMLCREF );
 
-    # The return value is supposed to be according to the currently selected
-    # Foswiki site character set, encoded as octets.
-    # Thus, there should not be any codes above 255.
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in return value for RESTParameter2SiteCharSet" )
-      if DEBUG;
+    # $text is now octets encoded as per the site charset.
 
-    #print STDERR "octets out [". WC::debugEncode($text). "]\n\n";
     return $text;
 }
 
@@ -661,16 +622,12 @@ sub RESTParameter2SiteCharSet {
 # for XML, which XHR was designed to transport. For usefulness in Javascript
 # the response to an XHR should also be UTF-8 encoded.
 # This function generates such a response.
+# BE CAREFUL - $text is a perl string, not octets encoded using the
+# site charset!
 sub returnRESTResult {
     my ( $response, $status, $text ) = @_;
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to returnRESTResult" )
-      if DEBUG;
 
-    $text = Encode::decode( WC::encoding(), $text, Encode::FB_HTMLCREF );
-
-    #print STDERR "unicodechr[". WC::debugEncode($text). "]\n\n";
-
+    # Convert $string to octets
     $text = Encode::encode_utf8($text);
 
     # Foswiki 1.0 introduces the Foswiki::Response object, which handles all
@@ -717,11 +674,17 @@ sub returnRESTResult {
 # request.req.onreadystatechange = ...;
 # req.send(params);
 #
-sub _restTML2HTML {
+sub REST_TML2HTML {
     my ( $session, $plugin, $verb, $response ) = @_;
+
     my $tml = Foswiki::Func::getCgiQuery()->param('text');
 
-    $tml = RESTParameter2SiteCharSet($tml);
+    # ASSERT $tml contains octets that are valid UTF-8.
+    _assertEncoding( 'utf-8', $tml ) if DEBUG;
+
+    # Convert the UTF-8 to the site charset
+    $tml = Encode::decode( 'utf-8', $tml, Encode::FB_CROAK );
+    $tml = _to_SiteCharSet_octets($tml);
 
     # if the secret ID is present, don't convert again. We are probably
     # going 'back' to this page (doesn't work on IE :-( )
@@ -729,13 +692,16 @@ sub _restTML2HTML {
         return $tml;
     }
 
-    my $html =
-      TranslateTML2HTML( $tml, $session->{webName}, $session->{topicName} );
+    my $html = TranslateTML2HTML($tml);
 
     # Add the secret id to trigger reconversion. Doesn't work if the
     # editor eats HTML comments, so the editor may need to put it back
     # in during final cleanup.
     $html = '<!--' . $SECRET_ID . '-->' . $html;
+
+    # Convert the result back to perl characters for passing
+    # to returnRESTResult
+    $html = Encode::decode( WC::site_encoding(), $html );
 
     returnRESTResult( $response, 200, $html );
 
@@ -743,148 +709,38 @@ sub _restTML2HTML {
 }
 
 # Rest handler for use from Javascript
-sub _restHTML2TML {
+sub REST_HTML2TML {
     my ( $session, $plugin, $verb, $response ) = @_;
+
+    my $html = Foswiki::Func::getCgiQuery()->param('text');
+
+    # ASSERT $html contains octets that are valid UTF-8.
+    _assertEncoding( 'utf-8', $html ) if DEBUG;
+
+    # Convert to perl characters (as required by HTML2TML::convert)
+    $html = Encode::decode( 'utf-8', $html );
+
+    $html =~ s/<!--$SECRET_ID-->//go;
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
         $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     }
-    my $html = Foswiki::Func::getCgiQuery()->param('text');
-
-#print STDERR "param     [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
-
-    $html = RESTParameter2SiteCharSet($html);
-
-#print STDERR "paraminSC [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
-
-    $html =~ s/<!--$SECRET_ID-->//go;
     my $tml = $html2tml->convert(
         $html,
         {
-            web          => $session->{webName},
-            topic        => $session->{topicName},
+            very_clean   => 1,
             convertImage => \&_convertImage,
             rewriteURL   => \&postConvertURL,
-            very_clean   => 1,
+            web          => $session->{webName},      # used by callbacks
+            topic        => $session->{topicName},    # used by callbacks
         }
     );
 
-#print STDERR "tml inSc  [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($tml). "]\n\n";
-
+    # The result is in perl characters, so we can just sling it back
     returnRESTResult( $response, 200, $tml );
+
     return;    # to prevent further processing
-}
-
-# SMELL: foswiki supports proper REST usage of the upload script,
-# so debatable if this is required any more
-sub _restUpload {
-    my ( $session, $plugin, $verb, $response ) = @_;
-    my $query = Foswiki::Func::getCgiQuery();
-
-    # Item1458 ignore uploads not using POST
-    if ( $query && $query->method() && uc( $query->method() ) ne 'POST' ) {
-        returnRESTResult( $response, 405, "Method not Allowed" );
-        return;
-    }
-    my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
-    my $hideFile    = $query->param('hidefile')    || '';
-    my $fileComment = $query->param('filecomment') || '';
-    my $createLink  = $query->param('createlink')  || '';
-    my $doPropsOnly = $query->param('changeproperties');
-    my $filePath    = $query->param('filepath')    || '';
-    my $fileName    = $query->param('filename')    || '';
-    if ( $filePath && !$fileName ) {
-        $filePath =~ m|([^/\\]*$)|;
-        $fileName = $1;
-    }
-    $fileComment =~ s/\s+/ /go;
-    $fileComment =~ s/^\s*//o;
-    $fileComment =~ s/\s*$//o;
-    $fileName =~ s/\s*$//o;
-    $filePath =~ s/\s*$//o;
-
-    unless (
-        Foswiki::Func::checkAccessPermission(
-            'CHANGE', Foswiki::Func::getWikiName(),
-            undef, $topic, $web
-        )
-      )
-    {
-        returnRESTResult( $response, 401, "Access denied" );
-        return;    # to prevent further processing
-    }
-
-    my ( $fileSize, $fileDate, $tmpFileName );
-
-    my $stream;
-    $stream = $query->upload('filepath') unless $doPropsOnly;
-    my $origName = $fileName;
-
-    unless ($doPropsOnly) {
-
-        # SMELL: call to unpublished function
-        ( $fileName, $origName ) =
-          Foswiki::Sandbox::sanitizeAttachmentName($fileName);
-
-        # check if upload has non zero size
-        if ($stream) {
-            my @stats = stat $stream;
-            $fileSize = $stats[7];
-            $fileDate = $stats[9];
-        }
-
-        unless ( $fileSize && $fileName ) {
-            returnRESTResult( $response, 500, "Zero-sized file upload" );
-            return;    # to prevent further processing
-        }
-
-        my $maxSize = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT')
-          || 0;
-        $maxSize =~ s/\s+$//;
-        $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
-
-        if ( $maxSize && $fileSize > $maxSize * 1024 ) {
-            returnRESTResult( $response, 500, "OVERSIZED UPLOAD" );
-            return;    # to prevent further processing
-        }
-    }
-
-    # SMELL: use of undocumented CGI::tmpFileName
-    my $tfp = $query->tmpFileName( $query->param('filepath') );
-    my $error;
-    try {
-        Foswiki::Func::saveAttachment(
-            $web, $topic,
-            $fileName,
-            {
-                dontlog     => !$Foswiki::cfg{Log}{upload},
-                comment     => $fileComment,
-                hide        => $hideFile,
-                createlink  => $createLink,
-                stream      => $stream,
-                filepath    => $filePath,
-                filesize    => $fileSize,
-                filedate    => $fileDate,
-                tmpFilename => $tfp,
-            }
-        );
-    }
-    catch Error::Simple with {
-        $error = shift->{-text};
-    }
-    finally {
-        close($stream) if $stream;
-    };
-
-    if ($error) {
-        returnRESTResult( $response, 500, $error );
-        return;    # to prevent further processing
-    }
-
-    # Otherwise allow the rest dispatcher to write a 200
-    return "$origName attached to $web.$topic"
-      . ( $origName ne $fileName ? " as $fileName" : '' );
 }
 
 sub _unquote {
@@ -899,7 +755,7 @@ sub _unquote {
 }
 
 # Get, and return, a list of attachments using JSON
-sub _restAttachments {
+sub REST_attachments {
     my ( $session, $plugin, $verb, $response ) = @_;
     my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
@@ -941,7 +797,7 @@ sub _restAttachments {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

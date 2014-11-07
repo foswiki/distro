@@ -44,7 +44,7 @@ sub new {
 
 =begin TML
 
----+ ObjectMethod set_up()
+---++ ObjectMethod set_up()
 
 Called by the test environment before each test case, used to set up
 test fixtures.
@@ -510,7 +510,7 @@ sub expect_failure {
 
 =begin TML
 
----+ ObjectMethod assert_html_equals($expected, $got [,$message])
+---++ ObjectMethod assert_html_equals($expected, $got [,$message])
 
 HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser
 which is tolerant of unbalanced tags, so the actual may have unbalanced
@@ -542,7 +542,7 @@ sub assert_html_equals {
 
 =begin TML
 
----+ ObjectMethod assert_html_matches($expected, $got [,$message])
+---++ ObjectMethod assert_html_matches($expected, $got [,$message])
 
 See if a block of HTML occurs in a larger
 block of HTML. Both blocks must be well-formed HTML.
@@ -565,7 +565,7 @@ sub assert_html_matches {
 
 =begin TML
 
----+ ObjectMethod assert_json_equals($expected, $got [,$message])
+---++ ObjectMethod assert_json_equals($expected, $got [,$message])
 
 Fail the test unless the two JSON data structures are equivalent.
 The message is optional.
@@ -585,7 +585,7 @@ sub assert_json_equals {
 
 =begin TML
 
----+ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
+---++ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
 
 Invoke a function while grabbing stdout and stderr, so the output
 doesn't flood the console that you're running the unit test from.
@@ -641,6 +641,34 @@ sub captureSTD {
         close($f);
     };
     return ( $this->{stdout}, $this->{stderr}, $result );
+}
+
+=begin TML
+
+---++ StaticMethod encode_wide_chars($text) -> $text
+
+Given a string that may contain wide characters (which will break
+print) encode those characters using URL encoding.
+
+Note that if the current output encoding is an 8-bit character set
+(e.g. iso-8859-1) then this will munge characters with the high bit
+set even if they are printable. A necessary evil :-(
+
+=cut
+
+sub encode_wide_chars {
+    my @s = split( //, shift );
+
+    foreach (@s) {
+        my $n = ord($_);
+        if ( $n > 0xFF ) {
+            $_ = sprintf( '#%04x;', $n );
+        }
+        elsif ( $n != 10 && ( $n < 32 || $n > 127 ) ) {
+            $_ = sprintf( '#%02x;', $n );
+        }
+    }
+    return join( '', @s );
 }
 
 1;

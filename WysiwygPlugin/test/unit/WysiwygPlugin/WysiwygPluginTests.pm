@@ -14,6 +14,7 @@ use Unit::Response();
 use Foswiki();
 use Foswiki::Plugins::WysiwygPlugin();
 use Foswiki::Plugins::WysiwygPlugin::Handlers();
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
 use Encode();
 use Carp();
 
@@ -58,14 +59,11 @@ sub set_up {
     $this->SUPER::set_up();
     $UI_FN ||= $this->getUIFn('save');
 
-    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
-
     $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
-    $WC::encoding                                  = undef;
-    $WC::safe_entities                             = undef;
-    $Foswiki::cfg{Site}{CharSet}                   = undef;
-    $Foswiki::cfg{Site}{Locale}                    = undef;
-    $Foswiki::cfg{Site}{UseLocale}                 = 0;
+    Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC::test_reset();
+    $Foswiki::cfg{Site}{CharSet}   = undef;
+    $Foswiki::cfg{Site}{Locale}    = undef;
+    $Foswiki::cfg{Site}{UseLocale} = 0;
 
     return;
 }
@@ -116,8 +114,8 @@ sub _perlEncodeCharset {
     my $charset = shift;
 
     # The default encoding is 'iso-8859-1'
-    # Foswiki treats that encoding like windows-1252
-    # Perl's Encode library treats the differently
+    # Foswiki treats that encoding like windows-1252, as do browsers
+    # Perl's Encode library treats them differently
     $charset = 'windows-1252' if not $charset or $charset eq 'iso-8859-1';
     return $charset;
 }
@@ -137,6 +135,7 @@ sub save_test {
       $charset
       ? Encode::encode( _perlEncodeCharset($charset), $input )
       : $input;
+
     my $e =
       $charset
       ? Encode::encode( _perlEncodeCharset($charset), $expectedOutput )
@@ -161,7 +160,8 @@ sub save_test {
     $Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
 
     require Foswiki::UI::Save;
-    $this->captureWithKey(
+
+    my ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
         save => sub {
             no strict 'refs';
             &{$UI_FN}($Foswiki::Plugins::SESSION);
@@ -174,7 +174,7 @@ sub save_test {
     );
 
     my ( $meta, $out ) = Foswiki::Func::readTopic( $web, $topic );
-
+    $this->assert_not_null($out);
     $out =~ s/\s*$//s;
 
     $this->assert( $e eq $out, "'" . anal($out) . "' !=\n'" . anal($e) . "'" );
@@ -233,7 +233,7 @@ sub TML2HTML_test {
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
-            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restTML2HTML(
+            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::REST_TML2HTML(
                 $this->{session}, undef, undef, $this->{session}{response} );
             $Foswiki::engine->finalize( $this->{session}{response},
                 $this->{session}{request} );
@@ -310,7 +310,7 @@ sub HTML2TML_test {
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
-            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restHTML2TML(
+            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::REST_HTML2TML(
                 $this->{session}, undef, undef, $this->{session}{response} );
             $Foswiki::engine->finalize( $this->{session}{response},
                 $this->{session}{request} );

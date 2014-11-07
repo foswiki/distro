@@ -10,6 +10,7 @@
 # of Foswiki it needs to include.
 #
 package ExtendedTranslatorTests;
+use TranslatorBase;
 use TranslatorTests;
 our @ISA = qw( TranslatorTests );
 
@@ -21,95 +22,34 @@ require Foswiki::Plugins::WysiwygPlugin::Handlers;
 require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
-# Bits for test type
-# Fields in test records:
-my $TML2HTML      = 1 << 0;    # test tml => html
-my $HTML2TML      = 1 << 1;    # test html => finaltml (default tml)
-my $ROUNDTRIP     = 1 << 2;    # test tml => => finaltml
-my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
-                               #   and make the ROUNDTRIP test expect failure
-
-# Note: ROUNDTRIP is *not* the same as the combination of
-# HTML2TML and TML2HTML. The HTML and TML comparisons are both
-# somewhat "flexible". This is necessry because, for example,
-# the nature of whitespace in the TML may change.
-# ROUNDTRIP tests are intended to isolate gradual degradation
-# of the TML, where TML -> HTML -> not quite TML -> HTML
-# -> even worse TML, ad nauseum
-#
-# CANNOTWYSIWYG should normally be used in conjunction with ROUNDTRIP
-# to ensure that notWysiwygEditable is consistent with this plugin's
-# ROUNDTRIP capabilities.
-#
-# CANNOTWYSIWYG and ROUNDTRIP used together document the failure cases,
-# i.e. they indicate TML that WysiwygPlugin cannot properly translate
-# to HTML and back. When WysiwygPlugin is modified to support these
-# cases, CANNOTWYSIWYG should be removed from each corresponding
-# test case and nonWysiwygEditable should be updated so that the TML
-# is "WysiwygEditable".
-#
-# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate
-# explanation. For example:
-#   Can't ROUNDTRIP this TML because perl on the SMURF platform
-#   automagically replaces all instances of 'blue' with 'beautiful'.
-
-# Bit mask for selected test types
-my $mask = $TML2HTML | $HTML2TML | $ROUNDTRIP | $CANNOTWYSIWYG;
-
-my $protecton  = '<span class="WYSIWYG_PROTECTED">';
-my $linkon     = '<span class="WYSIWYG_LINK">';
-my $protectoff = '</span>';
-my $linkoff    = '</span>';
-my $preoff     = '</span>';
-my $nop        = "$protecton<nop>$protectoff";
-my $deleteme   = '<p class="foswikiDeleteMe">&nbsp;</p>';
+my $deleteme = '<p class="foswikiDeleteMe">&nbsp;</p>';
 
 # Holds extra options to be passed to the TML2HTML convertor
 my %extraTML2HTMLOptions;
 
-# The following big table contains all the testcases. These are
-# used to add a bunch of functions to the symbol table of this
-# testcase, so they get picked up and run by TestRunner.
-
-# Each testcase is a subhash with fields as follows:
-# exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
-#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test
-#   notWysiwygEditable, all other bits are ignored.
-#   They may be OR'd togoether to perform multiple tests.
-#   For example: $TML2HTML | $HTML2TML to test both
-#   TML -> HTML and HTML -> TML
-# name => identifier (used to compose the testcase function name)
-# setup => reference to setup function for the test
-# cleanup => reference to cleanup function for the test, which should
-#   not be needed for most tests because this test harness re-initialises
-#   the WysiwygPlugin before each test
-# tml => source topic markup language
-# html => expected html from expanding tml (not used in roundtrip tests)
-# finaltml => optional expected tml from translating html. If not there,
-#   will use tml. Only use where round-trip can't be closed because
-#   we are testing deprecated syntax.
+# See TranslatorTests for details of how these tests work
 my $data = [
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'UnspecifiedCustomXmlTag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;'
-          . $protectoff
+          . $PROTECTOFF
           . 'some &gt;'
           . TranslatorTests::encodedWhitespace('s2') . 'text'
-          . $protecton
+          . $PROTECTON
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml      => '<customtag>some >  text</customtag>',
         finaltml => '<customtag>some &gt;  text</customtag>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'DisabledCustomXmlTag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -118,19 +58,19 @@ my $data = [
                 sub { 0 } );
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;'
-          . $protectoff
+          . $PROTECTOFF
           . 'some &gt;'
           . TranslatorTests::encodedWhitespace('s2') . 'text'
-          . $protecton
+          . $PROTECTON
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml      => '<customtag>some >  text</customtag>',
         finaltml => '<customtag>some &gt;  text</customtag>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomXmlTag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -139,13 +79,13 @@ my $data = [
                 sub { 1 } );
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;some&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml => '<customtag>some >  text</customtag>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomXmlTagCallbackChangesText',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -154,14 +94,14 @@ my $data = [
                 sub { $_[0] =~ s/some/different/; return 1; } );
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;different&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml      => '<customtag>some >  text</customtag>',
         finaltml => '<customtag>different >  text</customtag>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomXmlTagDefaultCallback',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -169,13 +109,13 @@ my $data = [
             Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag('customtag');
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;some&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml => '<customtag>some >  text</customtag>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomXmlTagWithAttributes',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -184,9 +124,9 @@ my $data = [
                 sub { 1 } );
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&nbsp;with="attributes"&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml => <<'BLAH',
 <customtag with="attributes">
   formatting >  preserved
@@ -194,7 +134,7 @@ my $data = [
 BLAH
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'NestedCustomXmlTagWithAttributes',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -203,14 +143,14 @@ BLAH
                 sub { 1 } );
         },
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />'
           . '&nbsp;&nbsp;&nbsp;&nbsp;&lt;customtag&gt;<br />'
           . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;banana&nbsp;&lt;&nbsp;cheese&nbsp;&lt;&lt;&nbsp;Elephant;<br />'
           . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&amp;that<br />'
           . '&nbsp;&nbsp;&nbsp;&nbsp;&lt;/customtag&gt;<br />'
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
         tml => <<'BLAH',
 <customtag>
   formatting >  preserved
@@ -222,7 +162,7 @@ BLAH
 BLAH
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'VerbatimInsideDot',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -241,7 +181,7 @@ digraph G {
 </dot>
 DOT
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;dot&gt;<br />'
           . 'digraph&nbsp;G&nbsp{<br />'
           . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;[label="&lt;verbatim&gt;"];<br />'
@@ -250,10 +190,10 @@ DOT
           . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;-&gt;&nbsp;content&nbsp-&gt;&nbsp;close;<br />'
           . '}<br />'
           . '&lt;/dot&gt;'
-          . $protectoff . '</p>',
+          . $PROTECTOFF . '</p>',
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomtagInsideSticky',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -271,7 +211,7 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'StickyInsideCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -282,7 +222,7 @@ DOT
         tml =>
 "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;'
           . 'this&nbsp;'
           . '&lt;sticky&gt;'
@@ -290,10 +230,10 @@ DOT
           . '&lt;/sticky&gt;'
           . '&nbsp;other&nbsp;'
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>'
+          . $PROTECTOFF . '</p>'
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'StickyInsideUnspecifiedCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -302,18 +242,18 @@ DOT
         tml =>
 "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;'
-          . $protectoff . 'this'
+          . $PROTECTOFF . 'this'
           . '<div class="WYSIWYG_STICKY">'
           . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
           . '</div>' . 'other'
-          . $protecton
+          . $PROTECTON
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>'
+          . $PROTECTOFF . '</p>'
     },
     {
-        exec  => $ROUNDTRIP,
+        exec  => ROUNDTRIP,
         name  => 'UnspecifiedCustomtagInsideSticky',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -323,7 +263,7 @@ DOT
           "<sticky><customtag>this & that\n >   the other </customtag></sticky>"
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'CustomtagInsideLiteral',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -339,7 +279,7 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'UnspecifiedCustomtagInsideLiteral',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -353,7 +293,7 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'insideCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -377,7 +317,7 @@ WikiWord [[some link]]
 </customtag>
 HERE
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;<br />'
           . '%MACRO{"&lt;b&gt;X&lt;/b&gt;"}%<br />'
           . 'this&nbsp;&lt;literal&gt;&amp;&nbsp;that&nbsp;&gt;&nbsp;the&lt;/literal&gt;&nbsp;other<br />'
@@ -391,10 +331,10 @@ HERE
           . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
           . '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>'
+          . $PROTECTOFF . '</p>'
     },
     {
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'LiteralInsideUnspecifiedCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -403,15 +343,15 @@ HERE
         tml =>
           '<customtag>this <literal>& that > the</literal> other </customtag>',
         html => '<p>'
-          . $protecton
+          . $PROTECTON
           . '&lt;customtag&gt;'
-          . $protectoff . 'this'
+          . $PROTECTOFF . 'this'
           . '<div class="WYSIWYG_LITERAL">'
           . '& that > the'
           . '</div>' . 'other'
-          . $protecton
+          . $PROTECTON
           . '&lt;/customtag&gt;'
-          . $protectoff . '</p>'
+          . $PROTECTOFF . '</p>'
     },
     {
 
@@ -419,7 +359,7 @@ HERE
   # but it is not always easy to say what that markup is.
   # This test case checks the protection of unconvertable text
   # by using valid markup and forcing the conversion to fail.
-        exec  => $TML2HTML | $ROUNDTRIP,
+        exec  => TML2HTML | ROUNDTRIP,
         name  => 'UnconvertableTextIsProtected',
         setup => sub {
 
@@ -435,7 +375,7 @@ HERE
 '<div class="WYSIWYG_PROTECTED">&lt;img&nbsp;src="%PUBURLPATH%"&gt;</div>'
     },
     {
-        exec => $HTML2TML | $ROUNDTRIP,
+        exec => HTML2TML | ROUNDTRIP,
         name => 'TableWithRowSpan_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -454,7 +394,7 @@ TML
 TML
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         name => 'simpleTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -490,7 +430,7 @@ After
 HERE
     },
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'ttClassInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -498,7 +438,7 @@ HERE
         tml  => '| =Code= |'
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         name => 'tmlInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -542,7 +482,7 @@ BLAH
 BLAH
     },
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'Item12448_IgnoreDefaultAttrs',
         html => <<'HERE',
 <table border="1" cellspacing="1" cellpadding="0">
@@ -562,7 +502,7 @@ HERE
 
     #<tr><td border-style: solid; border-width: 1px;">asdf</td>
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'Item12448_PreserveTableCellAttrs',
         html => <<'HERE',
 <table border="1" cellspacing="1" cellpadding="0">
@@ -584,7 +524,7 @@ HERE
 HERE
     },
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'Item12448_PreserveTableAttrs',
         html => <<'HERE',
 <table border="0" cellspacing="1" cellpadding="0" style="background-color: #e9154c;">
@@ -633,7 +573,7 @@ HERE
 HERE
     },
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'kupuTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -653,7 +593,7 @@ HERE
 HERE
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         name => 'tableWithColSpans_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -680,7 +620,7 @@ hijk
 HERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'Item4410_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -692,7 +632,7 @@ HERE
 '<ul><li>x</li></ul><table cellspacing="1" cellpadding="0" border="1"><tr><td>Y</td></tr></table>',
     },
     {
-        exec => $HTML2TML,
+        exec => HTML2TML,
         name => 'tableInnaBun_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -708,7 +648,7 @@ JUNK
 JUNX
     },
     {
-        exec => $TML2HTML | $HTML2TML,
+        exec => TML2HTML | HTML2TML,
         name => 'Item4700_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -734,7 +674,7 @@ $deleteme<table cellspacing="1" cellpadding="0" border="1">
 HEXPT
     },
     {
-        exec => $ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'Item4700_2_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -757,7 +697,7 @@ HEXPT
         name => 'Item4855_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        exec => $TML2HTML,
+        exec => TML2HTML,
         tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %TABLESEP%
@@ -777,7 +717,7 @@ THERE
         name => 'Item1798_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        exec => $ROUNDTRIP | $TML2HTML,
+        exec => ROUNDTRIP | TML2HTML,
         tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[$topic]] | [[$wikiname]] |"}%
@@ -792,7 +732,7 @@ $deleteme<div class="foswikiTableAndMacros">
 THERE
     },
     {
-        exec => $HTML2TML | $ROUNDTRIP,
+        exec => HTML2TML | ROUNDTRIP,
         name => 'colorClassInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -808,7 +748,7 @@ BLAH
 BLAH
     },
     {
-        exec => $HTML2TML | $ROUNDTRIP,
+        exec => HTML2TML | ROUNDTRIP,
         name => 'colorAndTtClassInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
@@ -827,7 +767,7 @@ BLAH
         name => 'Item4969_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        exec => $HTML2TML,
+        exec => HTML2TML,
         html => <<'HERE',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td>table element with a <hr /> horizontal rule</td></tr>
@@ -843,7 +783,7 @@ HERE
         name => 'Item5076_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        exec => $HTML2TML,
+        exec => HTML2TML,
         html => <<'HERE',
 <table border="0"><tbody><tr><td><h2>Argh</h2><ul><li>Ergh&nbsp;</li></ul></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table>
 HERE
@@ -856,7 +796,7 @@ HERE
     },
     {
         name => 'Item2618_ExtraneousCaretMarkerInTables',
-        exec => $HTML2TML | $ROUNDTRIP,
+        exec => HTML2TML | ROUNDTRIP,
         html => <<"HERE",
 $deleteme<table border="1"> <tbody> 
   <tr> <td>Foo</td> <span id="__caret"> </span> <td>a</td> </tr>
@@ -872,7 +812,7 @@ HERE
             Foswiki::Func::setPreferencesValue(
                 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', ',' );
         },
-        exec => $ROUNDTRIP,
+        exec => HTML2TML,
         tml  => <<'HERE',
 <div class="bumblebee">
 
@@ -882,6 +822,14 @@ HERE
         finaltml => <<'CLEANED',
 | apple *pie* slice shelf |
 CLEANED
+        html => <<'HTML',
+<p class="foswikiDeleteMe">&nbsp;</p><div class="bumblebee">
+<p class='WYSIWYG_NBNL'>
+</p>
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td> <span class="foo">apple <b>pie</b> slice</span> shelf </td></tr>
+</table><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div>
+HTML
     },
     {
         name  => 'preserveDefaultExistingTags',
@@ -889,7 +837,7 @@ CLEANED
             Foswiki::Func::setPreferencesValue(
                 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', '' );
         },
-        exec => $ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<'HERE',
 <div class="bumblebee">
 
@@ -901,33 +849,33 @@ HERE
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
-    $this->testSpecificSetup($args);
+    $this->_testSpecificSetup($args);
     $this->SUPER::compareTML_HTML($args);
-    $this->testSpecificCleanup($args);
+    $this->_testSpecificCleanup($args);
 }
 
 sub compareNotWysiwygEditable {
     my ( $this, $args ) = @_;
-    $this->testSpecificSetup($args);
+    $this->_testSpecificSetup($args);
     $this->SUPER::compareNotWysiwygEditable($args);
-    $this->testSpecificCleanup($args);
+    $this->_testSpecificCleanup($args);
 }
 
 sub compareRoundTrip {
     my ( $this, $args ) = @_;
-    $this->testSpecificSetup($args);
+    $this->_testSpecificSetup($args);
     $this->SUPER::compareRoundTrip($args);
-    $this->testSpecificCleanup($args);
+    $this->_testSpecificCleanup($args);
 }
 
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
-    $this->testSpecificSetup($args);
+    $this->_testSpecificSetup($args);
     $this->SUPER::compareHTML_TML($args);
-    $this->testSpecificCleanup($args);
+    $this->_testSpecificCleanup($args);
 }
 
-sub testSpecificSetup {
+sub _testSpecificSetup {
     my ( $this, $args ) = @_;
 
     # Reset the extendable parts of WysiwygPlugin
@@ -944,7 +892,7 @@ sub testSpecificSetup {
     return;
 }
 
-sub testSpecificCleanup {
+sub _testSpecificCleanup {
     my ( $this, $args ) = @_;
     if ( exists $args->{cleanup} ) {
         $args->{cleanup}->($this);
@@ -955,14 +903,14 @@ sub testSpecificCleanup {
 
 sub TML_HTMLconverterOptions {
     my $this    = shift;
-    my $options = $this->SUPER::TML_HTMLconverterOptions(@_);
+    my %options = $this->SUPER::TML_HTMLconverterOptions(@_);
     for my $extraOptionName ( keys %extraTML2HTMLOptions ) {
-        $options->{$extraOptionName} = $extraTML2HTMLOptions{$extraOptionName};
+        $options{$extraOptionName} = $extraTML2HTMLOptions{$extraOptionName};
     }
-    return $options;
+    return %options;
 }
 
-ExtendedTranslatorTests->gen_compare_tests( 'test', $data );
+ExtendedTranslatorTests->gen_compare_tests($data);
 
 1;
 __END__

@@ -17,6 +17,7 @@ use Assert;
 use Devel::Symdump();
 use File::Spec();
 use Error qw(:try);
+use Unit::TestCase;
 
 sub CHECKLEAK { 0 }
 
@@ -46,6 +47,11 @@ sub new {
         },
         $class
     );
+}
+
+# Print without risking a "wide char in print" error
+sub safe_print {
+    print join( ' ', map { Unit::TestCase::encode_wide_chars($_) } @_ );
 }
 
 sub start {
@@ -189,7 +195,8 @@ sub start {
     if ( my $failed = scalar @{ $this->{failures} } ) {
 
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
-        print join( "\n---------------------------\n", @{ $this->{failures} } ),
+        safe_print
+          join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
         $actual_incorrect_failures = $failed;
     }
@@ -210,7 +217,7 @@ sub start {
             print
 "$suite skipped $ntests (of $this->{tests_per_module}{$suite}):\n";
             while ( my ( $test, $reason ) = each %{$tests} ) {
-                print "   * $test - $reason\n";
+                safe_print "   * $test - $reason\n";
             }
         }
         $skipped_tests_total = $skipped_tests;
@@ -219,7 +226,7 @@ sub start {
         print "\n$skipped_suites skipped suite"
           . ( $skipped_suites > 1 ? 's' : '' ) . ":\n";
         while ( my ( $suite, $detail ) = each %{ $this->{skipped_suites} } ) {
-            print "   * $suite ($detail->{tests}) - $detail->{reason}\n";
+            safe_print "   * $suite ($detail->{tests}) - $detail->{reason}\n";
             $skipped_tests_total += $detail->{tests};
         }
     }
@@ -242,7 +249,8 @@ sub start {
                 my @annotations = $this->get_annotations($test);
 
                 if ( scalar(@annotations) ) {
-                    print "   * $test: " . join( '; ', @annotations ) . "\n";
+                    safe_print "   * $test: "
+                      . join( '; ', @annotations ) . "\n";
                 }
                 else {
                     print "   * $test\n";
@@ -275,7 +283,7 @@ HERE
             while ( my ( $suite, $detail ) = each %{ $this->{failed_suites} } )
             {
                 $detail = substr( $detail, 0, 50 ) . '...';
-                print "   * F: $suite - $detail\n";
+                safe_print "   * F: $suite - $detail\n";
             }
         }
         foreach my $module (
@@ -326,7 +334,7 @@ HERE
         else {
             $message .= ")\n";
         }
-        print $message;
+        safe_print $message;
         ::PRINT_TAP_TOTAL();
     }
     return $actual_incorrect;
@@ -336,7 +344,7 @@ sub _print_unexpected_test {
     my ( $this, $test, $sense ) = @_;
     my @annotations = $this->get_annotations($test);
 
-    print "   * $sense: $test"
+    safe_print "   * $sense: $test"
       . ( scalar(@annotations) ? ' - ' . join( '; ', @annotations ) : '' )
       . "\n";
 
@@ -577,7 +585,7 @@ sub runOne {
                 }
                 catch Error with {
                     my $e = shift;
-                    print "*** ", $e->stringify(), "\n";
+                    safe_print "*** ", $e->stringify(), "\n";
                     if ( $tester->{expect_failure} ) {
                         $action .=
                           "\$this->{expected_failures}{'$suite'}{'$test'} = \""
