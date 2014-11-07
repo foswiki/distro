@@ -32,11 +32,6 @@ our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 our $TRUE  = 1;
 our $FALSE = 0;
 
-# Bootstrap works out the correct values of these keys
-my @BOOTSTRAP =
-  qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
-  {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view} {ScriptSuffix} {LocalesDir} );
-
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
 our %remap = (
@@ -306,6 +301,30 @@ sub _handleExpand {
 
 =begin TML
 
+---++ StaticMethod setBootstrap()
+
+This routine is called to initialize the bootstrap process.   It sets the list of
+configuration parameters that will need to be set and "protected" during bootstrap.
+
+If any keys will be set during bootstrap / initial creation of LocalSite.cfg, they
+should be added here so that they are preserved when the %Foswiki::cfg hash is
+wiped and re-initialized from the Foswiki spec.
+
+=cut
+
+sub setBootstrap {
+
+    # Bootstrap works out the correct values of these keys
+    my @BOOTSTRAP =
+      qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
+      {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view} {ScriptSuffix} {LocalesDir} );
+
+    $Foswiki::cfg{isBOOTSTRAPPING} = 1;
+    push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
+}
+
+=begin TML
+
 ---++ StaticMethod bootstrapConfig( $noload )
 
 This routine is called from Foswiki.pm BEGIN block to discover the mandatory
@@ -564,9 +583,8 @@ EPITAPH
 
     _workOutOS();
 
-    $Foswiki::cfg{isVALID}         = 1;
-    $Foswiki::cfg{isBOOTSTRAPPING} = 1;
-    push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
+    $Foswiki::cfg{isVALID} = 1;
+    Foswiki::Configure::Load::setBootstrap();
     eval 'require Foswiki::Plugins::ConfigurePlugin';
     die
       "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
@@ -596,7 +614,7 @@ BOOTS
 
 ---++ StaticMethod findDependencies(\%cfg) -> \%deps
 
-   * =\%cfg= configuration hash to scan; defaults to %Foswiki::cfg 
+   * =\%cfg= configuration hash to scan; defaults to %Foswiki::cfg
 
 Recursively locate references to other keys in the values of keys.
 Returns a hash containing two keys:

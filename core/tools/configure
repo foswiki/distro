@@ -197,22 +197,23 @@ unless ( $Foswiki::cfg{isVALID} ) {
     %Foswiki::cfg = ();
     print STDERR "LocalSite.cfg load failed\n"
       . Foswiki::Configure::Reporter::stripStacktrace($@);
+    Foswiki::Configure::Load::readConfig( 0, 0, 1 );
     print "** Enter values for critical configuration items.\n";
     print
       "** type a new value or hit return to accept the value in brackets.\n";
     _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
-    _prompt( $root, '{ScriptUrlPath}' );
-    _prompt( $root, '{PubUrlPath}' );
+    _prompt( $root, '{ScriptUrlPath}',  '/foswiki/bin' );
+    _prompt( $root, '{PubUrlPath}',     '/foswiki/pub' );
     _prompt( $root, '{ScriptDir}',      "$bin/../bin" );
-    _prompt( $root, '{DataDir}',        "$bin/../pub" );
+    _prompt( $root, '{DataDir}',        "$bin/../data" );
     _prompt( $root, '{PubDir}',         "$bin/../pub" );
     _prompt( $root, '{TemplateDir}',    "$bin/../templates" );
     _prompt( $root, '{LocalesDir}',     "$bin/../locale" );
     _prompt( $root, '{WorkingDir}',     "$bin/../working" );
     _prompt( $root, '{ToolsDir}',       $bin );
-    Foswiki::Configure::Load::readConfig( 0, 0, 1 );
-    $Foswiki::cfg{isVALID}         = 1;
-    $Foswiki::cfg{isBOOTSTRAPPING} = 1;
+
+    Foswiki::Configure::Load::setBootstrap();
+    $Foswiki::cfg{isVALID} = 1;
 }
 
 if ( $reporter->has_level('errors') ) {
