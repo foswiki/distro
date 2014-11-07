@@ -282,12 +282,8 @@ sub _compareConfigs {
 
     return 1 unless ( defined $o || defined $n );
 
-    my $old =
-      Foswiki::Configure::Reporter::ellipsis(
-        Foswiki::Configure::Reporter::uneval($o), CHANGE_LIMIT );
-    my $new =
-      Foswiki::Configure::Reporter::ellipsis(
-        Foswiki::Configure::Reporter::uneval($n), CHANGE_LIMIT );
+    my $old = Foswiki::Configure::Reporter::uneval($o);
+    my $new = Foswiki::Configure::Reporter::uneval($n);
 
     # Intermediates on the road to a value will return undef here.
     my $vs = $spec->getValueObject($keypath);
@@ -311,7 +307,7 @@ sub _compareConfigs {
                     $spec,
                     $o->{$k},
                     $n->{$k},
-                    $vs ? undef : $reporter,
+                    $reporter,
                     $keypath . '{'
                       . Foswiki::Configure::LoadSpec::protectKey($k) . '}'
                 )
@@ -332,7 +328,8 @@ sub _compareConfigs {
             for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
                 unless (
                     _compareConfigs(
-                        $spec, $o->[$i], $n->[$i], undef, "$keypath\[$i\]"
+                        $spec,     $o->[$i], $n->[$i],
+                        $reporter, "$keypath\[$i\]"
                     )
                   )
                 {
@@ -365,6 +362,15 @@ sub _logAndReport {
             oldvalue => $old,
         }
     );
+
+    # Truncate the change for the UI
+    $old = Foswiki::Configure::Reporter::ellipsis( $old, CHANGE_LIMIT );
+    $new = Foswiki::Configure::Reporter::ellipsis( $new, CHANGE_LIMIT );
+
+    # Encode vertcal bars, so that the TML table isn't corrupted.
+    $old =~ s/\|/&#124;/g;
+    $new =~ s/\|/&#124;/g;
+
     if ($reporter) {
         $reporter->NOTE("| $keypath | $old | $new |");
     }
