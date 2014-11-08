@@ -313,7 +313,6 @@ sub check_current_value {
     if ( !$keys || scalar @$keys == 0 ) {
         push( @$keys, '' );
     }
-
     my %check;
     foreach my $k (@$keys) {
 
@@ -331,7 +330,14 @@ sub check_current_value {
             }
             else {
                 $k = "'$k'" unless $k =~ /^\{.*\}$/;
-                $reporter->ERROR("$k is not part of this .spec");
+                push(
+                    @report,
+                    {
+                        keys    => $k,
+                        path    => [],
+                        reports => "$k is not part of this .spec"
+                    }
+                );
             }
         }
     }

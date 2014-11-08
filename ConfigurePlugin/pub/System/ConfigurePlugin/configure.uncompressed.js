@@ -176,6 +176,8 @@ function _id_ify(id) {
         }
         report_data[level][id] = true;
         $tab.addClass(level);
+        // Make sure the tab is visible if it has an error or warning
+        $tab.closest('li').addClass(level);
     }
 
     // Bubble reports up through the section hierarchy. Even if the
@@ -267,7 +269,6 @@ function _id_ify(id) {
                 $reports = $('#REP' + id); // key block report is there
                 $.each(r.reports, function(index, rep) {
                     has[rep.level]++;
-                    if(rep.level == 'errors') debugger;
                     // Add the message type to the key block
                     $('#' + id + '_block').addClass(rep.level);
                 });
