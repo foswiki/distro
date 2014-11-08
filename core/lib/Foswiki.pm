@@ -322,6 +322,10 @@ BEGIN {
     }
     else {
         $system_message = Foswiki::Configure::Load::bootstrapConfig();
+        eval 'require Foswiki::Plugins::ConfigurePlugin';
+        die
+"LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
+          if $@;
     }
 
     if ( $Foswiki::cfg{UseLocale} ) {
