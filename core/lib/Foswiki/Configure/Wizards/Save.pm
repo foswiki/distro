@@ -361,7 +361,7 @@ sub _logAndReport {
             newvalue => $new,
             oldvalue => $old,
         }
-    );
+    ) if ( defined $session );
 
     # Truncate the change for the UI
     $old = Foswiki::Configure::Reporter::ellipsis( $old, CHANGE_LIMIT );
