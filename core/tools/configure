@@ -135,10 +135,16 @@ if ( $params->{save} ) {
 }
 
 sub _prompt {
-    my ( $root, $keys, $default ) = @_;
-    my $vob = $root->getValueObject($keys);
-    if ( $vob && $vob->{desc} ) {
-        print "$vob->{desc}\n";
+    my ( $root, $keys, $default, $prompt ) = @_;
+
+    if ($prompt) {
+        print $prompt;
+    }
+    else {
+        my $vob = $root->getValueObject($keys);
+        if ( $vob && $vob->{desc} ) {
+            print "$vob->{desc}\n";
+        }
     }
     local $/ = "\n";
     my $reply = '';
@@ -150,11 +156,35 @@ sub _prompt {
         chomp($reply);
         $reply ||= $default;
     }
+    if ( $keys eq '{Password}' ) {
+        $reply = _setPassword( 'admin', $reply );
+    }
     eval "\$Foswiki::cfg$keys='$reply'";
     if ($@) {
         print STDERR "Failed to set $keys: "
           . Foswiki::Configure::Reporter::stripStacktrace($@);
     }
+}
+
+sub _setPassword {
+    my ( $login, $passwd ) = @_;
+    my $salt = '$apr1$';
+    my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+    require Crypt::PasswdMD5;
+    foreach my $i ( 0 .. 7 ) {
+
+        # generate a salt not only from rand() but also mixing
+        # in the users login name: unecessary
+        $salt .= $saltchars[
+          (
+              int( rand( $#saltchars + 1 ) ) +
+                $i +
+                ord( substr( $login, $i % length($login), 1 ) ) )
+          % ( $#saltchars + 1 )
+        ];
+    }
+    return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
+        substr( $salt, 0, 14 ) );
 }
 
 sub _reply {
@@ -198,6 +228,8 @@ unless ( $Foswiki::cfg{isVALID} ) {
     print STDERR "LocalSite.cfg load failed\n"
       . Foswiki::Configure::Reporter::stripStacktrace($@);
     Foswiki::Configure::Load::readConfig( 0, 0, 1 );
+    Foswiki::Configure::Load::setBootstrap();
+
     print "** Enter values for critical configuration items.\n";
     print
       "** type a new value or hit return to accept the value in brackets.\n";
@@ -212,7 +244,17 @@ unless ( $Foswiki::cfg{isVALID} ) {
     _prompt( $root, '{WorkingDir}',     "$bin/../working" );
     _prompt( $root, '{ToolsDir}',       $bin );
 
-    Foswiki::Configure::Load::setBootstrap();
+    eval 'use Crypt::PasswdMD5';
+    unless ($@) {
+        _prompt( $root, '{Password}', undef,
+            "Enter a password for the 'admin' sudo account.\n" );
+        push( @{ $Foswiki::cfg{BOOTSTRAP} }, '{Password}' );
+    }
+    else {
+        print
+"*** Unable to set password - Module Crypt::PasswdMD5 is not available\n";
+    }
+
     $Foswiki::cfg{isVALID} = 1;
 }
 
