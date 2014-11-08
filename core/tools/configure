@@ -134,8 +134,20 @@ if ( $params->{save} ) {
     $params->{method} = 'save';
 }
 
+=begin TML
+
+---++ Prompt for config values
+   * $root - Configuration root
+   * $keys - ={Configuration}{Key}{Path}= to a single variable
+   * $default - Default if any,  undef to require a response.
+   * $prompts - Alternate prompt. If undef, the help text from the configuration spec is used.
+   * $opt - Flag for optional values.   Optional values can have an "empty" reponse, Pressing enter will save a "null", and the keyword 'none' will omit setting the option.
+
+=cut
+
 sub _prompt {
-    my ( $root, $keys, $default, $prompt ) = @_;
+    my ( $root, $keys, $default, $prompt, $opt ) = @_;
+    print "\n";
 
     if ($prompt) {
         print $prompt;
@@ -146,19 +158,23 @@ sub _prompt {
             print "$vob->{desc}\n";
         }
     }
+
+    print "\n";
     local $/ = "\n";
-    my $reply = '';
-    while ( !$reply ) {
+    my $reply;
+    while ( !defined $reply ) {
         print $keys;
         print " ($default)" if defined $default;
         print ': ';
         $reply = <STDIN>;
         chomp($reply);
         $reply ||= $default;
+        last if $opt;
     }
-    if ( $keys eq '{Password}' ) {
+    if ( $keys eq '{Password}' && $reply ) {
         $reply = _setPassword( 'admin', $reply );
     }
+    return if ( $opt && $reply eq 'none' );
     eval "\$Foswiki::cfg$keys='$reply'";
     if ($@) {
         print STDERR "Failed to set $keys: "
@@ -227,22 +243,23 @@ unless ( $Foswiki::cfg{isVALID} ) {
     %Foswiki::cfg = ();
     print STDERR "LocalSite.cfg load failed\n"
       . Foswiki::Configure::Reporter::stripStacktrace($@);
-    Foswiki::Configure::Load::readConfig( 0, 0, 1 );
-    Foswiki::Configure::Load::setBootstrap();
+
+    # Run the bootstrap process. This guesses all the critical path settings.
+    Foswiki::Configure::Load::bootstrapConfig();
 
     print "** Enter values for critical configuration items.\n";
     print
       "** type a new value or hit return to accept the value in brackets.\n";
     _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
     _prompt( $root, '{ScriptUrlPath}',  '/foswiki/bin' );
-    _prompt( $root, '{PubUrlPath}',     '/foswiki/pub' );
-    _prompt( $root, '{ScriptDir}',      "$bin/../bin" );
-    _prompt( $root, '{DataDir}',        "$bin/../data" );
-    _prompt( $root, '{PubDir}',         "$bin/../pub" );
-    _prompt( $root, '{TemplateDir}',    "$bin/../templates" );
-    _prompt( $root, '{LocalesDir}',     "$bin/../locale" );
-    _prompt( $root, '{WorkingDir}',     "$bin/../working" );
-    _prompt( $root, '{ToolsDir}',       $bin );
+    _prompt(
+        $root,
+        '{ScriptUrlPaths}{view}',
+        undef,
+'Enter optional short URL for view script, Press enter for shortest URLs,  Enter "none" to use full URLs.',
+        1
+    );
+    _prompt( $root, '{PubUrlPath}', '/foswiki/pub' );
 
     eval 'use Crypt::PasswdMD5';
     unless ($@) {
@@ -255,7 +272,18 @@ unless ( $Foswiki::cfg{isVALID} ) {
 "*** Unable to set password - Module Crypt::PasswdMD5 is not available\n";
     }
 
-    $Foswiki::cfg{isVALID} = 1;
+    print
+" The following directory settings have been guessed.  Press enter to confirm each setting:\n";
+
+    _prompt( $root, '{ScriptDir}',    $Foswiki::cfg{ScriptDir} );
+    _prompt( $root, '{ScriptSuffix}', $Foswiki::cfg{ScriptSuffix}, undef, 1 );
+    _prompt( $root, '{DataDir}',      $Foswiki::cfg{DataDir} );
+    _prompt( $root, '{PubDir}',       $Foswiki::cfg{PubDir} );
+    _prompt( $root, '{TemplateDir}',  $Foswiki::cfg{TemplateDir} );
+    _prompt( $root, '{LocalesDir}',   $Foswiki::cfg{LocalesDir} );
+    _prompt( $root, '{WorkingDir}',   $Foswiki::cfg{WorkingDir} );
+    _prompt( $root, '{ToolsDir}',     $Foswiki::cfg{ToolsDir} );
+
 }
 
 if ( $reporter->has_level('errors') ) {
@@ -361,7 +389,7 @@ by B<-check>.
 Search headlines and keys for a fragment of text.
 Returns the path(s) to the item(s) matched.
 
-=item B<-set> key value
+=item B<-set> key=value
 
 Set the value of a key for B<-check>, B<-wizard> and B<-save>. You
 can have as many B<-set> options as you want. B<-set> options are
@@ -369,7 +397,7 @@ applied before any checkers or wizards are run, but will not
 persist unless B<-save> is specified. The value is expected to be
 a perl value - be careful about quotes, to pass a string value
 from the shell requires double quoting e.g.
- -set {ScriptSuffix} '".pl"'
+ -set {ScriptSuffix}='".pl"'
 
 =item B<-trace>
 
