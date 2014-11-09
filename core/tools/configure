@@ -171,6 +171,8 @@ sub _prompt {
         $reply ||= $default;
         last if $opt;
     }
+
+    $reply = '' unless ( defined $reply );
     if ( $keys eq '{Password}' && $reply ) {
         $reply = _setPassword( 'admin', $reply );
     }
@@ -247,6 +249,12 @@ unless ( $Foswiki::cfg{isVALID} ) {
     # Run the bootstrap process. This guesses all the critical path settings.
     Foswiki::Configure::Load::bootstrapConfig();
 
+#SMELL: Another way to do this would be to loop through $Foswiki::cfg{BOOTSTRAP} array
+#       of config keys, But this allows customized prompts and defaults.  Anything prompted
+#       here should also be in the BOOTSTRAP array.   And anything guessed in Load::bootstrapConfig
+#       should probably be verified here unless very certain that we guess corrrectly.
+
+    # Ask for missing parameters that cannot bootstrap in CLI
     print "** Enter values for critical configuration items.\n";
     print
       "** type a new value or hit return to accept the value in brackets.\n";
@@ -272,6 +280,7 @@ unless ( $Foswiki::cfg{isVALID} ) {
 "*** Unable to set password - Module Crypt::PasswdMD5 is not available\n";
     }
 
+    # And confirm the rest of the guesses
     print
 " The following directory settings have been guessed.  Press enter to confirm each setting:\n";
 
