@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398996897" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1415506139" format="1.1" version="1"}%
 ---+ Compare Revisions Add-On
 <!--
 One line description, required for extensions repository catalog.
@@ -24,7 +24,7 @@ The differences may be shown in two formats, either side-by-side or as an interw
    * Screenshot of side-by-side output: %BR%
      <div class="foswikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
-These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic.
+These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic. (Foswiki no longer ships with the revision history files, so the demo is no longer operational.)
 
 The appearance can be affected by templates and skins.
 
@@ -178,5 +178,5 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1398997008" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1398997008" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1415506139" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1415506139" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%

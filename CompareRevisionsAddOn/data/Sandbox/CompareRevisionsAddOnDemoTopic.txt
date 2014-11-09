@@ -1,5 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404921098" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1415506139" format="1.1" version="1"}%
 ---+ This is the title
+<div class="foswikiHelp">Note: This topic no longer ships with its history. The
+compare demonstration is no longer operational</div>
 
 Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing felix elit.
 

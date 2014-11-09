@@ -2,7 +2,6 @@
 bin/compare 0555
 bin/compareauth 0555
 data/Sandbox/CompareRevisionsAddOnDemoTopic.txt 0644
-data/Sandbox/CompareRevisionsAddOnDemoTopic.txt,v 0644
 data/System/CompareRevisionsAddOn.txt 0644
 data/System/CompareRevisionsAddonPlugin.txt 0644
 lib/Foswiki/Plugins/CompareRevisionsAddonPlugin.pm 0444
