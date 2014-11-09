@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Store::Implementation;
+package Foswiki::Configure::Checkers::Store::PlainFile::Implementation;
 
 use strict;
 use warnings;
@@ -10,31 +10,30 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( !$Foswiki::cfg{Store}{Implementation} ) {
-        $reporter->ERROR(<<EOF);
-You *must* select a store implementation.
-EOF
-        return;
-    }
-    elsif ( ( $^O eq 'MSWin32' )
-        and ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) )
-    {
-        $reporter->WARN(<<EOF);
-RcsWrap has poor performance on Windows. You are recommended to choose a different store implementation.
-EOF
-    }
+    _checkDir( $Foswiki::cfg{DataDir}, $reporter )
+      if ( defined $Foswiki::cfg{DataDir} );
+    _checkDir( $Foswiki::cfg{PubDir}, $reporter )
+      if ( defined $Foswiki::cfg{PubDir} );
 
-    ( my $implementation ) =
-      $Foswiki::cfg{Store}{Implementation} =~ m/::([^:]+)$/;
+    return;
+}
 
-    eval(
-"require Foswiki::Configure::Checkers::Store::${implementation}::Implementation"
-    );
-    unless ($@) {
-        eval(
-"Foswiki::Configure::Checkers::Store::${implementation}::Implementation->check_current_value( \$reporter )"
+sub _checkDir {
+    my ( $ddir, $reporter ) = @_;
+    Foswiki::Configure::Load::expandValue($ddir);
+
+    my $bad =
+      Foswiki::Configure::FileUtil::findFileOnTree( $ddir, qr/,v$/, qr/,pfv$/ );
+
+    if ($bad) {
+        $reporter->ERROR(
+'Choose one of the RCS stores. Loss of history possible if this setting is saved!'
         );
-        $reporter->NOTE($@) if ($@);
+        $reporter->WARN(
+'RCS files detected, Migrate RCS files using =tools/change_store.pl=.'
+        );
+        $reporter->NOTE("First RCS file encountered: $bad");
+        return;
     }
 }
 

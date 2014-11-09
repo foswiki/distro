@@ -16,6 +16,54 @@ use warnings;
 use Assert;
 
 use Foswiki::Configure::Reporter ();
+use File::Spec;
+
+=begin TML
+
+---++ StaticMethod findFileOnTree($dir, $pattern, $reject) ->> $fullpath
+Recursive search for a file matching the specified pattern, searching $dir
+and all subdirectories of $dir,  Anything matching $reject is not
+considered, to avoid searching the ,pfv subdirectories..
+
+This is used by checkers and bootstrap to see if there are any ",v" rcs
+files in the Store.
+
+Example:
+
+  findFileOnTree( $Foswiki::cfg{DataDir}, qr/,v$/, qr/,pfv$/ );
+
+SMELL:  We could use File::Find as a CPAN solution, however in this case
+really only need to find the first occurance, we have no need for the full
+list,  just whether or not any exist.  File::Find returns the complete list
+of matching files.
+
+=cut
+
+sub findFileOnTree {
+
+    #my ( $dir, $match, $reject ) = @_;
+
+    if ( opendir( my $dh, $_[0] ) ) {
+        foreach ( grep !/^\./, readdir($dh) ) {
+            my $dentry = File::Spec->catdir( $_[0], $_ );
+            next if ( $dentry =~ $_[2] );
+            if ( -d $dentry ) {
+                my $hit = findFileOnTree( $dentry, $_[1], $_[2] );
+                return $hit if ($hit);
+            }
+            else {
+                next unless $_ =~ $_[1];
+                return $dentry;
+            }
+        }
+        closedir $dh;
+    }
+    else {
+        return
+          "Search failed: Directory open of $_[0] failed. Check permissions.\n";
+    }
+    return 0;
+}
 
 =begin TML
 

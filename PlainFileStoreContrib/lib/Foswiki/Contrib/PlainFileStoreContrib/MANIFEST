@@ -1,6 +1,16 @@
-!noci
-data/System/PlainFileStoreContrib.txt 0644 Documentation page
-lib/Foswiki/Contrib/PlainFileStoreContrib.pm 0644 Perl module 
-lib/Foswiki/Store/PlainFile.pm 0644 Perl module 
-lib/Foswiki/Contrib/PlainFileStoreContrib/Config.spec 0444 Configuration
-tools/change_store.pl 0444 Store format conversion script
+!noci data /System/ PlainFileStoreContrib
+  . txt 0644 Documentation page lib /
+  Foswiki /Contrib/ PlainFileStoreContrib
+  . pm 0644 Perl module lib /Foswiki/ Store /
+  PlainFile
+  . pm 0644 Perl module lib /
+  Foswiki /Contrib/ PlainFileStoreContrib /
+  Config
+  . spec 0444 Configuration lib /
+  Foswiki /
+  Configure /Checkers/ Store /
+  PlainFile /
+  Implementation
+  . pm 0644 tools /
+  change_store
+  . pl 0444 Store format conversion script
