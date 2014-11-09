@@ -45,15 +45,12 @@ sub findFileOnTree {
 
     if ( opendir( my $dh, $_[0] ) ) {
         foreach ( grep !/^\./, readdir($dh) ) {
+            next if $_ =~ $_[2];
             my $dentry = File::Spec->catdir( $_[0], $_ );
-            next if ( $dentry =~ $_[2] );
+            return $dentry if $dentry =~ $_[1];
             if ( -d $dentry ) {
                 my $hit = findFileOnTree( $dentry, $_[1], $_[2] );
                 return $hit if ($hit);
-            }
-            else {
-                next unless $_ =~ $_[1];
-                return $dentry;
             }
         }
         closedir $dh;
