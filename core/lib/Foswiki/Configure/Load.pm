@@ -78,7 +78,7 @@ sub _workOutOS {
 
 =begin TML
 
----++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
+---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec][,$noLocal)
 
 In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
@@ -86,9 +86,9 @@ replaced by custom code which sets the configuration hash.  To prevent us from
 overriding the custom code again, we use an "unconfigurable" key
 =$cfg{ConfigurationFinished}= as an indicator.
 
-Note that this method is called by Foswiki and configure, and *only* reads
+Note that this method is called by Foswiki and configure, and normally reads
 =Foswiki.spec= to get defaults. Other spec files (those for extensions) are
-*not* read.
+*not* read unless the $config_spec flag is set.
 
 The assumption is that =configure= will be run when an extension is installed,
 and that will add the config values to LocalSite.cfg, so no defaults are
@@ -99,12 +99,15 @@ provide defaults, and it would be silly to have them in two places anyway.
      values.
    * =$nospec= - can be set when the caller knows that Foswiki.spec
      has already been read.
-   * =$config_spec - if set, will also read Config.spec files located
+   * =$config_spec= - if set, will also read Config.spec files located
      using the standard methods (iff !$nospec). Slow.
+   * =$noLocal= - if set, Load will not re-read an existing LocalSite.cfg.
+     this is needed when testing the bootstrap.  If it rereads an existing
+     config, it overlays all the bootstrapped settings.
 =cut
 
 sub readConfig {
-    my ( $noexpand, $nospec, $config_spec ) = @_;
+    my ( $noexpand, $nospec, $config_spec, $noLocal ) = @_;
 
     # To prevent us from overriding the custom code in test mode
     return if $Foswiki::cfg{ConfigurationFinished};
@@ -118,6 +121,9 @@ sub readConfig {
     _workOutOS();
 
     my @files = qw( Foswiki.spec LocalSite.cfg );
+    if ($noLocal) {
+        pop @files;
+    }
     if ($nospec) {
         shift @files;
     }
@@ -325,20 +331,14 @@ sub setBootstrap {
 
 =begin TML
 
----++ StaticMethod bootstrapConfig( $noload )
+---++ StaticMethod bootstrapConfig()
 
 This routine is called from Foswiki.pm BEGIN block to discover the mandatory
 settings for operation when a LocalSite.cfg could not be found.
 
-SMELL: The noload paramter is used by the TestBootstrapPlugin to suppress loading of
-the complete Foswiki.spec and Config.spec files during bootstrap.  It was added
-so that the test plutin could report exactly what was set during the bootstrap.
-This can probably be eliminated at some point.
-
 =cut
 
 sub bootstrapConfig {
-    my $noload = shift;
 
     # Failed to read LocalSite.cfg
     # Clear out $Foswiki::cfg to allow variable expansion to work
@@ -438,10 +438,11 @@ directories: $fatal
 EPITAPH
     }
 
-    # Re-read Foswiki.spec *and Config.spec*. We need the Config.spec's
-    # to get a true picture of our defaults (notably those from
-    # JQueryPlugin. Without the Config.spec, no plugins get registered)
-    Foswiki::Configure::Load::readConfig( 0, 0, 1 ) unless ($noload);
+# Re-read Foswiki.spec *and Config.spec*. We need the Config.spec's
+# to get a true picture of our defaults (notably those from
+# JQueryPlugin. Without the Config.spec, no plugins get registered)
+# Don't load LocalSite.cfg if it exists (should normally not exist when bootstrapping)
+    Foswiki::Configure::Load::readConfig( 0, 0, 1, 1 );
 
     _workOutOS();
 
