@@ -11,7 +11,6 @@ installed version of the Contrib.
 
 =cut
 
-
 package Foswiki::Contrib::RCSStoreContrib;
 
 # Always use strict to enforce variable scoping
@@ -64,7 +63,62 @@ our $VERSION = '1.0';
 #
 our $RELEASE = '1.0';
 
-our $SHORTDESCRIPTION = 'A wiki topic and attachment store using the RCS revision control system';;
+our $SHORTDESCRIPTION =
+  'A wiki topic and attachment store using the RCS revision control system';
+
+=begin TML
+
+---++ bootstrapStore
+
+Class method called from configuration bootstrap to determine if this
+store can be used.  If it's usable, it will take precedence over the RCS
+based configurations.
+
+This method "guesses" the following configuration settings
+
+   * ={Store}{Implementation}=
+
+It must run after the DataDir and PubDir settings have been applied.
+
+If it detects both RCS and PlainFile store files, it dies to prevent
+history corruption.
+
+=cut
+
+sub bootstrapStore {
+
+    if (
+        Foswiki::Configure::FileUtil::findFileOnTree( $Foswiki::cfg{DataDir},
+            qr/,pfv$/, qr/,v$/ )
+        || Foswiki::Configure::FileUtil::findFileOnTree(
+            $Foswiki::cfg{PubDir}, qr/,pfv$/, qr/,v$/
+        )
+      )
+    {
+
+        print STDERR
+          "AUTOCONFIG: Unable to use RCS Store,, PlainFile histories found.\n";
+        if (
+            Foswiki::Configure::FileUtil::findFileOnTree(
+                $Foswiki::cfg{DataDir}, qr/,v$/, qr/,pfv$/ )
+            || Foswiki::Configure::FileUtil::findFileOnTree(
+                $Foswiki::cfg{PubDir}, qr/,v$/, qr/,pfv$/
+            )
+          )
+        {
+            die
+"AUTOCONFIG: Conflicting RCS and PlainFile histories found,  unable to autoconfigure\n";
+        }
+        return;
+    }
+
+    # If some other store is configured,  don't override it.  Rcs stores
+    # are the last resort. Default to RcsLite, it's the most portable.
+    unless ( $Foswiki::cfg{Store}{Implementation} ) {
+        $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+        print STDERR "AUTOCONFIG: Store configured for RcsLite\n";
+    }
+}
 
 1;
 

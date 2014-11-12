@@ -1403,7 +1403,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
-$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
+#$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
 # **PERL EXPERT**
 # Customisation of the Foswiki Store implementation. This allows
@@ -1450,11 +1450,8 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # Other store implementations and indexing search engines (for example,
 # [[http://foswiki.org/Extensions/KinoSearchContrib][KinoSearchContrib]])
 # may come with their own search algorithms.
-$Foswiki::cfg{Store}{SearchAlgorithm} =
-  'Foswiki::Store::SearchAlgorithms::Forking';
-$Foswiki::cfg{Store}{SearchAlgorithm} =
-  'Foswiki::Store::SearchAlgorithms::PurePerl'
-  if ( $^O eq 'MSWin32' );
+#$Foswiki::cfg{Store}{SearchAlgorithm} =
+#  'Foswiki::Store::SearchAlgorithms::Forking';
 
 # **SELECTCLASS Foswiki::Store::QueryAlgorithms::***
 # This is the algorithm used to perform query searches. The default Foswiki
@@ -1473,10 +1470,10 @@ $Foswiki::cfg{Store}{QueryAlgorithm} =
 $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
 # bodgey up a default location for grep
-# **STRING HIDDEN**
-$Foswiki::cfg{_grepProgram} = '/bin/grep';
-$Foswiki::cfg{_grepProgram} = '/usr/bin/grep' if ( $^O eq 'darwin' );
-$Foswiki::cfg{_grepProgram} = 'c:/PROGRA~1/GnuWin32/bin/grep' if ( $^O eq 'MSWin32' );
+# **STRING EXPERT**
+# Stores the file system location for the GNU Grep program. Bootstrap
+# works this out based upon OS.
+#$Foswiki::cfg{_grepProgram} = '/bin/grep';
 
 # **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" **
 # Full path to GNU-compatible egrep program. This is used for searching when

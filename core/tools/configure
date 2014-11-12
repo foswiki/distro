@@ -292,6 +292,11 @@ unless ( $Foswiki::cfg{isVALID} ) {
     _prompt( $root, '{LocalesDir}',   $Foswiki::cfg{LocalesDir} );
     _prompt( $root, '{WorkingDir}',   $Foswiki::cfg{WorkingDir} );
     _prompt( $root, '{ToolsDir}',     $Foswiki::cfg{ToolsDir} );
+    _prompt( $root, '{Store}{Implementation}',
+        $Foswiki::cfg{Store}{Implementation} );
+    _prompt( $root, '{_grepProgram}', $Foswiki::cfg{_grepProgram} );
+    _prompt( $root, '{Store}{SearchAlgorithm}',
+        $Foswiki::cfg{Store}{SearchAlgorithm} );
 
 }
 

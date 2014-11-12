@@ -20,6 +20,8 @@ use Cwd qw( abs_path );
 use File::Basename;
 use File::Spec;
 
+use Foswiki::Configure::FileUtil;
+
 # Enable to trace auto-configuration (Bootstrap)
 use constant TRAUTO => 1;
 
@@ -323,7 +325,9 @@ sub setBootstrap {
     # Bootstrap works out the correct values of these keys
     my @BOOTSTRAP =
       qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
-      {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view} {ScriptSuffix} {LocalesDir} );
+      {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
+      {ScriptSuffix} {LocalesDir} {Store}{Implementation}
+      {Store}{SearchAlgorithm} {_grepProgram} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
@@ -430,6 +434,10 @@ sub bootstrapConfig {
               "\n      * Note: {$key} could not be guessed. Set it manually!";
         }
     }
+
+    # Bootstrap the store related settings.
+    _bootstrapStoreSettings();
+
     if ($fatal) {
         die <<EPITAPH;
 Unable to bootstrap configuration. LocalSite.cfg could not be loaded,
@@ -466,6 +474,89 @@ BOOTS
         $system_message .= $warn . "\n";
     }
     return ( $system_message || '' );
+
+}
+
+=begin TML
+
+---++ StaticMethod _bootstrapStoreSettings()
+
+Called by bootstrapConfig.  This handles the store specific settings.   This in turn
+tests each Store Contib to determine if it's capable of bootstrapping.
+
+=cut
+
+sub _bootstrapStoreSettings {
+
+    # Ask each installed store to bootstrap itself.
+
+    my @stores = Foswiki::Configure::FileUtil::findPackages(
+        'Foswiki::Contrib::*StoreContrib');
+
+    foreach my $store (@stores) {
+        eval("require $store");
+        print STDERR $@ if ($@);
+        unless ($@) {
+            my $ok;
+            eval('$ok = $store->can(\'bootstrapStore\')');
+            if ($@) {
+                print STDERR $@;
+            }
+            else {
+                $store->bootstrapStore() if ($ok);
+            }
+        }
+    }
+
+    # Handle the common store settings managed by Core.  Important ones
+    # guessed/checked here include:
+    #  - $Foswiki::cfg{Store}{SearchAlgorithm}
+    #  - $Foswiki::cfg{_grepProgram}
+
+    # Set PurePerl search on Windows, or FastCGI systems.
+    if ( ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI/ )
+        || $^O eq 'MSWin32' )
+    {
+        $Foswiki::cfg{Store}{SearchAlgorithm} =
+          'Foswiki::Store::SearchAlgorithms::PurePerl';
+        print STDERR
+"AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
+    }
+    else {
+        $Foswiki::cfg{Store}{SearchAlgorithm} =
+          'Foswiki::Store::SearchAlgorithms::Forking';
+        print STDERR "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
+    }
+
+    # Work out the location for grep.
+
+    $Foswiki::cfg{_grepProgram} = '/bin/grep';
+    $Foswiki::cfg{_grepProgram} = '/usr/bin/grep'
+      if ( $^O eq 'darwin' || $^O eq 'freebsd' );
+    $Foswiki::cfg{_grepProgram} = 'c:/PROGRA~1/GnuWin32/bin/grep'
+      if ( $^O eq 'MSWin32' );
+
+    unless ( -e $Foswiki::cfg{_grepProgram} ) {
+
+        print STDERR "AUTOCONFIG: The usual locations for grep did not work\n";
+
+        # Try simple grep - maybe it's on the path.
+
+        ( $ENV{PATH} ) = $ENV{PATH} =~ m/^(.*)$/;    # UNTAINT the path
+        $Foswiki::cfg{_grepProgram} = 'grep';
+        my $rslt = `grep --version 2>&1` || '';
+
+        if ( $rslt =~ m/GNU grep/ ) {
+            print STDERR
+              "AUTOCONFIG: Simple grep without a path appears to work\n";
+        }
+        else {
+            print STDERR
+"AUTOCONFIG: Unable to find a valid grep executable. Force PurePerl search\n";
+            $Foswiki::cfg{Store}{SearchAlgorithm} =
+              'Foswiki::Store::SearchAlgorithms::PurePerl';
+        }
+    }
 
 }
 
