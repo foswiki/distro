@@ -187,7 +187,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # Set this if you wish to have control over where working tmp files are
 # created.  It substitutes for the environment variable =TempfileDir= which
 # is not used by Foswiki for security reasons.
-#$Foswiki::cfg{TempfileDir} = '';
+# $Foswiki::cfg{TempfileDir} = '';
 
 # **PATH EXPERT CHECK='nullok' MANDATORY**
 # You can override the default PATH setting to control
@@ -203,7 +203,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #    * Windows Cygwin Perl - Path separator is ':'. The Windows system
 #      directory is required on the path. Use '/' not '\' in pathnames.
 #      Typical setting is =/cygdrive/c/windows/system32=
-#$Foswiki::cfg{SafeEnvPath} = '';
+# $Foswiki::cfg{SafeEnvPath} = '';
 
 # **STRING 20 CHECK='nullok' EXPERT**
 # {OS} and {DetailedOS} are calculated in the Foswiki code. *You
@@ -211,7 +211,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # those calculations*
 #
 # {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
-#$Foswiki::cfg{OS} = '';
+# $Foswiki::cfg{OS} = '';
 
 # **STRING 20 EXPERT**
 # The value of Perl $OS
@@ -1344,7 +1344,7 @@ $Foswiki::cfg{Site}{Locale} = 'en.utf8';
 # versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
 # but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
 # If you don't define it, it will automatically be defaulted to iso-8859-1
-#$Foswiki::cfg{Site}{CharSet} = undef;
+# $Foswiki::cfg{Site}{CharSet} = undef;
 
 # **SELECT gmtime,servertime**
 # Set the timezone (this only effects the display of times,
@@ -1403,7 +1403,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
-#$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
+# $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
 # **PERL EXPERT**
 # Customisation of the Foswiki Store implementation. This allows
@@ -1450,8 +1450,7 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # Other store implementations and indexing search engines (for example,
 # [[http://foswiki.org/Extensions/KinoSearchContrib][KinoSearchContrib]])
 # may come with their own search algorithms.
-#$Foswiki::cfg{Store}{SearchAlgorithm} =
-#  'Foswiki::Store::SearchAlgorithms::Forking';
+# $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
 # **SELECTCLASS Foswiki::Store::QueryAlgorithms::***
 # This is the algorithm used to perform query searches. The default Foswiki
@@ -1459,8 +1458,7 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # based on plain-text searching). You may be able to select a different
 # algorithm here, depending on what alternative implementations have been
 # installed.
-$Foswiki::cfg{Store}{QueryAlgorithm} =
-  'Foswiki::Store::QueryAlgorithms::BruteForce';
+$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
 
 # **SELECTCLASS Foswiki::Prefs::*RAM* EXPERT**
 # The algorithm used to store preferences. The default algorithm reads
@@ -1473,7 +1471,7 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # **STRING EXPERT**
 # Stores the file system location for the GNU Grep program. Bootstrap
 # works this out based upon OS.
-#$Foswiki::cfg{_grepProgram} = '/bin/grep';
+# $Foswiki::cfg{_grepProgram} = '/bin/grep';
 
 # **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" **
 # Full path to GNU-compatible egrep program. This is used for searching when
