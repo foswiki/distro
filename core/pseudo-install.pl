@@ -1260,6 +1260,8 @@ sub Autoconf {
      #assume that the commented out settings (DataDir etc) are only on one line.
             $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
             $localsite =~ s/^#[^\n]*\n+//mg;
+            $localsite =~ s/\$TRUE;/'1';/g;
+            $localsite =~ s/\$FALSE;/'0';/g;
             $localsite =~ s/\n\s+/\n/sg;
             $localsite =~ s/__END__//g;
             if ( $^O eq 'MSWin32' ) {
