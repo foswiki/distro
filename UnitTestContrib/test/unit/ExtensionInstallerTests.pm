@@ -1259,6 +1259,9 @@ DONE
     $pkg->finish();
     undef $pkg;
 
+    # Clean out and restart the reporter
+    $reporter->clear();
+
     #
     # Install a 2nd time - files should be created when checkin is requested.
     #
@@ -1397,6 +1400,9 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
     $this->assert_matches( qr/^File::Spec(.*)installed/ms,
         $installed, 'Installed module File::Spec' );
 
+    # Clean out and restart the reporter
+    $reporter->clear();
+
     #
     #  Now uninistall the package
     #
@@ -1416,9 +1422,11 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
         notes => 'Testsandboxweb1234/TestTopic43/file.att,v',
         notes => 'Testsandboxweb1234/TestTopic43/file2.att',
         notes => 'Testsandboxweb1234/TestTopic43/file2.att,v',
+    );
+    $this->sniff(
         notes => 'configure/pkgdata/MyPlugin_installer',
         notes => "$this->{scriptdir}/shbtest1",
-        notes => "$this->{toolsdir}/shbtest2"
+        notes => "$this->{toolsdir}/shbtest2",
     );
 
     $pkg2->finish();
