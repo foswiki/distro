@@ -183,10 +183,22 @@ BEGIN {
         # deprecated, use ADDTOZONE instead
         ADDTOZONE    => undef,
         ALLVARIABLES => sub { $_[0]->{prefs}->stringify() },
-        ATTACHURL =>
-          sub { return $_[0]->getPubUrl( 1, $_[2]->web, $_[2]->topic ); },
-        ATTACHURLPATH =>
-          sub { return $_[0]->getPubUrl( 0, $_[2]->web, $_[2]->topic ); },
+        ATTACHURL    => sub {
+            my $this = shift;
+            return $this->getPubURL(
+                web      => $this->{webName},
+                topic    => $this->{topicName},
+                absolute => 1
+            ) . '/';
+        },
+        ATTACHURLPATH => sub {
+            my $this = shift;
+            return $this->getPubURL(
+                web      => $this->{webName},
+                topic    => $this->{topicName},
+                absolute => 0
+            ) . '/';
+        },
         DATE => sub {
             Foswiki::Time::formatTime(
                 time(),
@@ -240,8 +252,12 @@ BEGIN {
         PLUGINVERSION => sub {
             $_[0]->{plugins}->getPluginVersion( $_[1]->{_DEFAULT} );
         },
-        PUBURL      => sub { $_[0]->getPubUrl(1) },
-        PUBURLPATH  => sub { $_[0]->getPubUrl(0) },
+        PUBURL => sub {
+            $_[0]->getPubURL( %{ $_[1] }, absolute => 1 );
+        },
+        PUBURLPATH => sub {
+            $_[0]->getPubURL( %{ $_[1] }, absolute => 0 );
+        },
         QUERY       => undef,
         QUERYPARAMS => undef,
         QUERYSTRING => sub {
@@ -613,7 +629,6 @@ use Foswiki::Sandbox  ();
 use Foswiki::Time     ();
 use Foswiki::Prefs    ();
 use Foswiki::Plugins  ();
-use Foswiki::Store    ();
 use Foswiki::Users    ();
 
 =begin TML
@@ -794,10 +809,18 @@ sub writeCompletePage {
             # is conditionally loaded under the control of the
             # templates, and we have to be *sure* it gets loaded.
             my $src = $this->{prefs}->getPreference('FWSRC') || '';
-            $this->addToZone( 'script', 'JavascriptFiles/strikeone',
-                <<JS, 'JQUERYPLUGIN' );
-<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
-JS
+            $this->addToZone(
+                'script',
+                'JavascriptFiles/strikeone',
+                '<script type="text/javascript" src="'
+                  . $this->getPubURL(
+                    web        => $Foswiki::cfg{SystemWebName},
+                    topic      => 'JavascriptFiles',
+                    attachment => "strikeone$src.js"
+                  )
+                  . '"></script>',
+                'JQUERYPLUGIN'
+            );
 
             # Add the onsubmit handler to the form
             $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
@@ -1476,9 +1499,7 @@ sub getScriptUrl {
     my ( $this, $absolute, $script, $web, $topic, @params ) = @_;
 
     $absolute ||=
-      (      $this->inContext('command_line')
-          || $this->inContext('rss')
-          || $this->inContext('absolute_urls') );
+      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
 
     # SMELL: topics and webs that contain spaces?
 
@@ -1549,51 +1570,57 @@ sub make_params {
 
 =begin TML
 
----++ ObjectMethod getPubUrl($absolute, $web, $topic, $attachment) -> $url
+---++ ObjectMethod getPubURL(%options) -> $url
 
-Composes a pub url. If $absolute is set, returns an absolute URL.
-If $absolute is set, generates an absolute URL. $absolute is advisory only;
-Foswiki can decide to generate absolute URLs (for example when run from the
-command-line) even when relative URLs have been requested.
+Composes a pub url. %options are:
+   * =web= - name of the web for the URL, defaults to $session->{webName}
+   * =topic= - name of the topic, defaults to $session->{topicName}
+   * =attachment= - name of the attachment, defaults to no attachment
+   * =topic_version= - version of topic to retrieve attachment from
+   * =attachment_version= - version of attachment to retrieve
+   * =absolute= - requests an absolute URL (rather than a relative path)
+   * =*= - all other entries in the %options hash are used as additional
+     URL parameters that are added to the returned URL.
 
-$web, $topic and $attachment are optional. A partial URL path will be
-generated if one or all is not given.
+If =web= is not given, =topic= and =attachment= are ignored, giving
+a link to the root of all attachments.
+
+If =topic= is not given, =attachment= is ignored. If it is given but
+=attachment= is not, then a list of attachments to the specified topic
+version will be returned.
+
+If =topic_version= is not given, the most recent revision of the topic
+will be linked. Similarly if attachment_version= is not given, the most recent
+revision of the attachment will be assumed. If =topic_version= is specified
+but =attachment_version= is not (or the specified =attachment_version= is not
+present), then the most recent version of the attachment in that topic version
+will be linked.
+
+If Foswiki is running in an absolute URL context (e.g. the skin requires
+absolute URLs, such as print or rss, or Foswiki is running from the
+command-line) then =absolute= will automatically be set.
+
+Note: for compatibility with older plugins, which use %PUBURL*% with
+a constructed URL path, do not use =*= unless =web=, =topic=, and
+=attachment= are all specified.
 
 =cut
 
-sub getPubUrl {
-    my ( $this, $absolute, $web, $topic, $attachment ) = @_;
+sub getPubURL {
+    my ( $this, %options ) = @_;
 
-    $absolute ||=
-      (      $this->inContext('command_line')
-          || $this->inContext('rss')
-          || $this->inContext('absolute_urls') );
+    $options{absolute} ||=
+      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
 
-    my $url = '';
-    $url .= $Foswiki::cfg{PubUrlPath};
-    if ( $absolute && $url !~ /^[a-z]+:/ ) {
+    my $url = $this->{store}->getAttachmentURL(%options);
+
+    if ( $options{absolute} && $url !~ /^[a-z]+:/ ) {
 
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
         # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
-        $url = $this->{urlHost} . $url;
+        $url = "$this->{urlHost}$url";
     }
-    if ( $web || $topic || $attachment ) {
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-
-        my $path = '/' . $web . '/' . $topic;
-        if ($attachment) {
-            $path .= '/' . $attachment;
-
-            # Attachments are served directly by web server, need to handle
-            # URL encoding specially
-            $url .= urlEncodeAttachment($path);
-        }
-        else {
-            $url .= urlEncode($path);
-        }
-    }
-
     return $url;
 }
 
@@ -1861,7 +1888,7 @@ sub new {
         # Rejig the store impl's ISA to use each Class  in order.'
         load_package($class);
         no strict 'refs';
-        @{ $class . '::ISA' } = ($base);
+        push( @{ $class . '::ISA' }, $base );
         use strict 'refs';
         $base = $class;
     }

@@ -23,9 +23,8 @@ ICONURLPATH macro implementation
 
 sub ICONURL {
     my ( $this, $params ) = @_;
-    my ($path) = $this->_findIcon($params);
-
-    return $this->_getIconUrl( 1, $path );
+    $params->{absolute} = 1;
+    return $this->_getIconURL($params);
 }
 
 1;

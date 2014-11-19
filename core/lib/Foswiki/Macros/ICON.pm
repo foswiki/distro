@@ -118,27 +118,23 @@ sub _lookupIcon {
     return $path;
 }
 
-sub _findIcon {
-    my $this   = shift;
-    my $params = shift;
-
+# Private method shared with ICONURL and ICONURLPATH
+sub _getIconURL {
+    my ( $this, $params ) = @_;
     my $path =
          $this->_lookupIcon( $params->{_DEFAULT} )
       || $this->_lookupIcon( $params->{default} )
       || $this->_lookupIcon('else');
-    return ($path);
-}
-
-sub _getIconUrl {
-    my $this     = shift;
-    my $absolute = shift;
-    my $path     = shift;
-    return if ( !defined($path) );
-    my @path = split( '/', $path );
-    my $a    = pop(@path);
-    my $t    = pop(@path);
-    my $w    = join( '/', @path );
-    return $this->getPubUrl( $absolute, $w, $t, $a );
+    return unless $path && $path =~ s/\/([^\/]+)$//;
+    my $a = $1;
+    my ( $w, $t ) =
+      $this->normalizeWebTopicName( $Foswiki::cfg{SystemWebName}, $path );
+    return $this->getPubURL(
+        web        => $w,
+        topic      => $t,
+        attachment => $a,
+        absolute   => $params->{absolute}
+    );
 }
 
 =begin TML
@@ -182,12 +178,10 @@ sub ICON {
     }
 
     #fall back to using the traditional brute force attachment method.
-    my ($path) = $this->_findIcon($params);
-
     require Foswiki::Render::IconImage;
     return Foswiki::Render::IconImage::render(
         $this,
-        $this->_getIconUrl( 0, $path ),
+        $this->_getIconURL($params),
         $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else',
         $params->{quote},
     );
@@ -197,7 +191,7 @@ sub ICON {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2009-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

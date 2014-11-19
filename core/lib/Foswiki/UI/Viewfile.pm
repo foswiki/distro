@@ -62,6 +62,8 @@ sub viewfile {
 
         # ignore parameters, as apache would.
         $pathInfo =~ s/^(.*)(\?|#).*/$1/;
+
+        # SMELL: not store agnostic, assume the construction of pub urls
         $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||;    #remove pubUrlPath
     }
     elsif ( defined( $query->param('filename') ) ) {

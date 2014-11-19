@@ -52,9 +52,9 @@ sub renderForEdit {
     my $button = CGI::img(
         {
             onclick => "return showCalendar('id$this->{name}','$ifFormat')",
-            src     => $Foswiki::cfg{PubUrlPath} . '/'
-              . $Foswiki::cfg{SystemWebName}
-              . '/JSCalendarContrib/img.gif',
+            src     => Foswiki::Func::getPubUrlPath(
+                $Foswiki::cfg{SystemWebName} . 'JSCalendarContrib', 'img.gif'
+            ),
             alt   => 'Calendar',
             class => 'foswikiButton foswikiEditFormCalendarButton'
         }

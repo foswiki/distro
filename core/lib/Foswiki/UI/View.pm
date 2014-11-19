@@ -436,7 +436,10 @@ sub view {
     );
 
     # Set page generation mode to RSS if using an RSS skin
-    $session->enterContext('rss') if $session->getSkin() =~ /\brss/;
+    if ( $session->getSkin() =~ /\brss/ ) {
+        $session->enterContext('rss');
+        $session->enterContext('absolute_urls');
+    }
 
     my $page;
 
