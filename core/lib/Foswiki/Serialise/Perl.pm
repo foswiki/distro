@@ -30,7 +30,7 @@ sub new {
 
 sub write {
     my $module = shift;
-    my ( $session, $result ) = @_;
+    my ($result) = @_;
 
     local $Data::Dumper::Indent = 0;
     local $Data::Dumper::Terse  = 1;

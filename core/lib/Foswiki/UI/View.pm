@@ -21,6 +21,7 @@ use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
 use Foswiki::Store         ();
+use Foswiki::Serialise     ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -276,7 +277,7 @@ sub view {
         if ( $raw eq 'debug' || $raw eq 'all' ) {
 
             # We want to see the embedded store form
-            $text = $topicObject->getEmbeddedStoreForm();
+            $text = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
         }
     }
 

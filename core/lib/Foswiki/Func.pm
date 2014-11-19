@@ -3571,7 +3571,8 @@ sub readTopicText {
         || $topicObject->haveAccess( 'VIEW',
             $Foswiki::Plugins::SESSION->{user} ) )
     {
-        $text = $topicObject->getEmbeddedStoreForm();
+        require Foswiki::Serialise;
+        $text = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
     }
     else {
         $text = getScriptUrl(
@@ -3646,7 +3647,9 @@ sub saveTopicText {
     }
 
     #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
-    $topicObject->setEmbeddedStoreForm($text);
+    require Foswiki::Serialise;
+    Foswiki::Serialise::serialise::deserialise( $text, 'Embedded',
+        $topicObject );
 
     # Ensure the meta object realises it's the latest
     $topicObject->setLoadStatus( $topicObject->getLoadedRev, 1 );

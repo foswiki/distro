@@ -18,6 +18,7 @@ use Foswiki                ();
 use Foswiki::UI            ();
 use Foswiki::OopsException ();
 use Foswiki::Form          ();
+use Foswiki::Serialise     ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -392,7 +393,8 @@ sub init_edit {
         my $basemeta = Foswiki::Meta->load( $session, $web, $topic );
 
         # No need to check permissions; we are admin if we got here.
-        my $rawText = $basemeta->getEmbeddedStoreForm();
+        my $rawText = Foswiki::Serialise::serialise( $basemeta, 'Embedded' );
+
         $rawText =~ s/^%META:TOPICINFO{.*?}%$//m;
         $topicObject->text($rawText);
         $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go;

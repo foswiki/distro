@@ -40,7 +40,7 @@ use Foswiki::Attrs                         ();
 
 # Modules required for handling TOPICINFO cacheing
 use Foswiki::Meta                   ();
-use Foswiki::Serialise::Embedded    ();
+use Foswiki::Serialise              ();
 use Foswiki::Users::BaseUserMapping ();
 
 # use the locale if required to ensure sort order is correct
@@ -70,13 +70,7 @@ sub new {
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
-    if ( UNIVERSAL::isa( $web, 'Foswiki::Meta' ) ) {
-
-        # $web refers to a meta object
-        $attachment = $topic;
-        $topic      = $web->topic();
-        $web        = $web->web();
-    }
+    ASSERT( !ref($web) );    # defunct usage
 
     # Reuse is good
     my $id = ( $web || 0 ) . '/' . ( $topic || 0 ) . '/' . ( $attachment || 0 );
@@ -178,7 +172,9 @@ sub mkPathTo {
     my ( $volume, $path, undef ) = File::Spec->splitpath($file);
     $path = File::Spec->catpath( $volume, $path, '' );
 
-    eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} ); };
+    eval {
+        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
+    };
     if ($@) {
         throw Error::Simple("VC::Handler: failed to create ${path}: $!");
     }
@@ -1326,18 +1322,16 @@ sub _constructAttributesForAutoAttached {
     }
 }
 
-=begin TML
-
----++ ObjectMethod synchroniseAttachmentsList(\@old) -> @new
-
-Synchronise the attachment list from meta-data with what's actually
-stored in the DB. Returns an ARRAY of FILEATTACHMENTs. These can be
-put in the new tom.
-
-This function is only called when the {RCS}{AutoAttachPubFiles} configuration
-option is set.
-
-=cut
+# ---++ ObjectMethod synchroniseAttachmentsList(\@old) -> @new
+#
+# PACKAGE PRIVATE
+#
+# Synchronise the attachment list from meta-data with what's actually
+# stored in the DB. Returns an ARRAY of FILEATTACHMENTs. These can be
+# put in the new tom.
+#
+# This function is only called when the {RCS}{AutoAttachPubFiles} configuration
+# option is set.
 
 # IDEA On Windows machines where the underlying filesystem can store arbitary
 # meta data against files, this might replace/fulfil the COMMENT purpose

@@ -29,20 +29,19 @@ sub new {
 # Default serialiser for QUERY
 sub write {
     my $module = shift;
-    my ( $session, $result ) = @_;
+    my ($result) = @_;
     if ( ref($result) eq 'ARRAY' ) {
 
         # If any of the results is non-scalar, have to perl it
         foreach my $v (@$result) {
             if ( ref($v) ) {
-                return Foswiki::Serialise::serialise( $session, $result,
-                    'Perl' );
+                return Foswiki::Serialise::serialise( $result, 'Perl' );
             }
         }
         return join( ',', @$result );
     }
     elsif ( ref($result) ) {
-        return Foswiki::Serialise::serialise( $session, $result, 'Perl' );
+        return Foswiki::Serialise::serialise( $result, 'Perl' );
     }
     else {
         return defined $result ? $result : '';

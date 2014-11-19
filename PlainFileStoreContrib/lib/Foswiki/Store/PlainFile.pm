@@ -43,6 +43,7 @@ use Foswiki::Meta                          ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Users::BaseUserMapping        ();
+use Foswiki::Serialise                     ();
 
 my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
 
@@ -103,7 +104,7 @@ sub readTopic {
 
     $text =~ s/\r//g;    # Remove carriage returns
                          # Parse meta-data out of the text
-    $meta->setEmbeddedStoreForm($text);
+    Foswiki::Serialise::deserialise( $text, 'Embedded', $meta );
 
     $version = $isLatest ? $nr : $version;
 
@@ -453,7 +454,7 @@ sub saveTopic {
 
     # Create new latest
     my $latest = _latestFile($meta);
-    _saveFile( $latest, $meta->getEmbeddedStoreForm() );
+    _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
     # Create history file by copying latest (modification date
     # doesn't matter, so long as it's >= $latest)
@@ -507,7 +508,7 @@ sub repRev {
     $ti->{date}    = $options{forcedate} || time;
     $ti->{author}  = $cUID;
 
-    _saveFile( $latest, $meta->getEmbeddedStoreForm() );
+    _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
     _mkPathTo($hf);
     File::Copy::copy( $latest, $hf )
@@ -802,7 +803,7 @@ sub remove {
         $this->recordChange(
             _meta         => $meta,
             cuid          => $cUID,
-            revision      => $0,
+            revision      => 0,
             more          => 'Deleted ' . $topic,
             verb          => 'remove',
             oldmeta       => $meta,
