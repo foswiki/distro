@@ -184,20 +184,20 @@ BEGIN {
         ADDTOZONE    => undef,
         ALLVARIABLES => sub { $_[0]->{prefs}->stringify() },
         ATTACHURL    => sub {
-            my $this = shift;
+            my ( $this, $attrs, $topicObject ) = @_;
             return $this->getPubURL(
-                web      => $this->{webName},
-                topic    => $this->{topicName},
+                web      => $topicObject->web,
+                topic    => $topicObject->topic,
                 absolute => 1
-            ) . '/';
+            );
         },
         ATTACHURLPATH => sub {
-            my $this = shift;
+            my ( $this, $attrs, $topicObject ) = @_;
             return $this->getPubURL(
-                web      => $this->{webName},
-                topic    => $this->{topicName},
+                web      => $topicObject->web,
+                topic    => $topicObject->topic,
                 absolute => 0
-            ) . '/';
+            );
         },
         DATE => sub {
             Foswiki::Time::formatTime(
@@ -1563,6 +1563,7 @@ sub make_params {
         }
     }
     if ( scalar(@ps) ) {
+        @ps = sort(@ps) if (DEBUG);
         $url .= '?' . join( ';', @ps );
     }
     return $url . $anchor;

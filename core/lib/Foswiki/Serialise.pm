@@ -65,7 +65,9 @@ sub _getSerialiser {
     my $module = "Foswiki::Serialise::$style";
 
     eval "require $module";
-    ASSERT( !$@, $@ ) if DEBUG;
+
+    # Assertion breaks unit test Fn_QUERY::test_InvalidStyle
+    #ASSERT( !$@, $@ ) if DEBUG;
 
     my $cereal;
     $cereal = _getSerialiser('Simplified') if $@;

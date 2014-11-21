@@ -304,8 +304,19 @@ sub check {
             print STDERR "after simplification: \n"
               . Data::Dumper::Dumper($query) . "\n"
               if MONITOR;
+            my @a = split( '', $opts{simpler} );
+            my @b = split( '', my $q = $query->stringify() );
+            for ( my $i = 0 ; $i < $#a ; $i++ ) {
+                if ( $a[$i] ne $b[$i] ) {
+                    print STDERR "MISMATCH "
+                      . ord( $a[$i] ) . " ne "
+                      . ord( $b[$i] ) . " "
+                      . substr( $opts{simpler}, 0, $i ) . "\n";
+                    last;
+                }
+            }
             $this->assert_str_equals( $opts{simpler}, $query->stringify(),
-                $query->stringify() . " is not $opts{simpler}" );
+                '<' . $query->stringify() . ">\nIS NOT\n<$opts{simpler}>" );
         }
         elsif ( $query->evaluatesToConstant() ) {
             $this->assert( 0,
@@ -964,9 +975,8 @@ sub test_match_lc_field {
             { value => 'Petrol', name => 'SillyFuel', title => 'Silly fuel' }
         ],
         simpler =>
-',{value=>99,name=>number,title=>Number,,{value=>String,name=>string,title=>String,,{value=>n'
-          . "\n"
-          . 'n t	t s\s q\'q o#o h#h X~X \b \a \e \f \r \cX,name=>StringWithChars,title=>StringWithChars,,{value=>1,name=>boolean,title=>Boolean,,{value=>%RED%,name=>macro,,{value=>Some text (really) we have text,name=>brace,title=>Brace,value=>Petrol,name=>SillyFuel,title=>Silly fuel}}}}}}'
+qq/,{name=>'number',title=>'Number',value=>'99',,{name=>'string',title=>'String',value=>'String',,{name=>'StringWithChars',title=>'StringWithChars',value=>'n\nn t\tt/
+          . q/ s\s q'q o#o h#h X~X \b \a \e \f \r \cX',,{name=>'boolean',title=>'Boolean',value=>'1',,{name=>'macro',value=>'%RED%',,{name=>'brace',title=>'Brace',value=>'Some text (really) we have text',name=>'SillyFuel',title=>'Silly fuel',value=>'Petrol'}}}}}}/
     );
 
     $this->check(

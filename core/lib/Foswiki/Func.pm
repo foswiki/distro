@@ -3680,8 +3680,7 @@ sub saveTopicText {
 
     #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
     require Foswiki::Serialise;
-    Foswiki::Serialise::serialise::deserialise( $text, 'Embedded',
-        $topicObject );
+    Foswiki::Serialise::deserialise( $text, 'Embedded', $topicObject );
 
     # Ensure the meta object realises it's the latest
     $topicObject->setLoadStatus( $topicObject->getLoadedRev, 1 );

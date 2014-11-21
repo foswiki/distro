@@ -695,16 +695,22 @@ sub test_registerMETA {
 
     # Check an unregistered tag
     $this->assert(
-        $o->isValidEmbedding( 'TREE', { type => 'ash', height => '15' } ) );
-    $this->assert( $o->isValidEmbedding( 'TREE', {} ) );
+        Foswiki::Meta::isValidEmbedding(
+            'TREE', { type => 'ash', height => '15' }
+        )
+    );
+    $this->assert( Foswiki::Meta::isValidEmbedding( 'TREE', {} ) );
 
     # required param
     Foswiki::Func::registerMETA( 'TREE', require => ['spread'] );
-    $this->assert( !$o->isValidEmbedding( 'TREE', {} ) );
+    $this->assert( !Foswiki::Meta::isValidEmbedding( 'TREE', {} ) );
     $this->assert(
-        !$o->isValidEmbedding( 'TREE', { type => 'ash', height => '15' } ) );
+        !Foswiki::Meta::isValidEmbedding(
+            'TREE', { type => 'ash', height => '15' }
+        )
+    );
     $this->assert(
-        $o->isValidEmbedding(
+        Foswiki::Meta::isValidEmbedding(
             'TREE', { type => 'ash', height => '15', spread => '5' }
         )
     );
@@ -716,12 +722,15 @@ sub test_registerMETA {
         allow   => ['height']
     );
     $this->assert(
-        !$o->isValidEmbedding(
+        !Foswiki::Meta::isValidEmbedding(
             'TREE', { type => 'ash', height => '15', spread => '5' }
         )
     );
     $this->assert(
-        $o->isValidEmbedding( 'TREE', { spread => '5', height => '15' } ) );
+        Foswiki::Meta::isValidEmbedding(
+            'TREE', { spread => '5', height => '15' }
+        )
+    );
 
     # Function and require.
     Foswiki::Func::registerMETA(
@@ -733,7 +742,8 @@ sub test_registerMETA {
             return $args->{spread};
         }
     );
-    $this->assert( !$o->isValidEmbedding( 'TREE', { height => 10 } ) );
+    $this->assert(
+        !Foswiki::Meta::isValidEmbedding( 'TREE', { height => 10 } ) );
 
     # required param, allowed param and function
     Foswiki::Func::registerMETA(
@@ -749,8 +759,11 @@ sub test_registerMETA {
         }
     );
     $this->assert(
-        $o->isValidEmbedding( 'TREE', { spread => 15, height => 10 } ),
-        $Foswiki::Meta::reason );
+        Foswiki::Meta::isValidEmbedding(
+            'TREE', { spread => 15, height => 10 }
+        ),
+        $Foswiki::Meta::reason
+    );
 
     # allowed param only, function rewrites args
     Foswiki::Func::registerMETA(
@@ -764,10 +777,17 @@ sub test_registerMETA {
         }
     );
     $this->assert(
-        !$o->isValidEmbedding( 'TREE', { type => 'elm', height => '15' } ) );
-    $this->assert( $o->isValidEmbedding( 'TREE', { height => '15' } ) );
+        !Foswiki::Meta::isValidEmbedding(
+            'TREE', { type => 'elm', height => '15' }
+        )
+    );
     $this->assert(
-        $o->isValidEmbedding( 'TREE', { spread => '5', height => '15' } ) );
+        Foswiki::Meta::isValidEmbedding( 'TREE', { height => '15' } ) );
+    $this->assert(
+        Foswiki::Meta::isValidEmbedding(
+            'TREE', { spread => '5', height => '15' }
+        )
+    );
     $o->finish();
 
     return;

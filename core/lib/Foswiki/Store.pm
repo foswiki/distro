@@ -228,10 +228,10 @@ sub getAttachmentURL {
     }
     while ( my ( $k, $v ) = each %options ) {
         next if $k eq 'absolute' || $k =~ /^_/;
-        push( @params, "$k=" . Foswiki::urlEncode($v) );
+        push( @params, $k, $v );
     }
 
-    $url .= '?' . join( ';', @params ) if scalar @params;
+    $url .= Foswiki::make_params(@params) if scalar @params;
 
     return $url;
 }

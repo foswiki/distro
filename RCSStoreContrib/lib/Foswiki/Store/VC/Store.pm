@@ -663,7 +663,7 @@ sub eachWeb {
     # to make the recursion more efficient.
     my $web = ref($webObject) ? $webObject->web : $webObject;
 
-    my $handler = $this->getHandler( $web );
+    my $handler = $this->getHandler($web);
     my @list    = $handler->getWebNames();
     if ($all) {
         my $root = $web ? "$web/" : '';
@@ -764,7 +764,7 @@ sub setLease {
 
 sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
-    my $handler = $this->getHandler( $web->web );
+    my $handler = $this->getHandler($web);
     $handler->removeSpuriousLeases();
 }
 

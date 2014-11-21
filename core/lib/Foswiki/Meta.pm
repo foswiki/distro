@@ -3604,7 +3604,7 @@ sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
 
     _assertIsTopic($this) if DEBUG;
-    Foswiki::Serialise::serialise::deserialise( $text, 'Embedded', $this );
+    Foswiki::Serialise::deserialise( $text, 'Embedded', $this );
 }
 
 =begin TML

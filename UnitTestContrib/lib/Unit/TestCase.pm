@@ -428,7 +428,10 @@ sub assert_deep_equals {
     if ( UNIVERSAL::isa( $expected, 'ARRAY' ) ) {
         $this->assert( UNIVERSAL::isa( $got, 'ARRAY' ) );
         $this->assert_equals( $#$expected, $#$got,
-            'Different size arrays: ' . ( $mess || '' ) );
+                'Different size arrays: '
+              . ( $mess || '' )
+              . " $#$got!=$#$expected at "
+              . join( '/', @path ) );
 
         for ( 0 .. $#$expected ) {
             $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
@@ -450,13 +453,28 @@ sub assert_deep_equals {
     elsif (UNIVERSAL::isa( $expected, 'REF' )
         || UNIVERSAL::isa( $expected, 'SCALAR' ) )
     {
-        $this->assert_equals( ref($expected), ref($got), $mess );
+        $this->assert_equals( ref($expected), ref($got),
+                _nundef( $mess, '' ) . ' '
+              . ref($expected) . '('
+              . _nundef($expected) . ') != '
+              . ref($got) . '('
+              . _nundef($got) . ') at '
+              . join( '/', @path ) );
         $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed, @path,
             'ref' );
     }
     else {
-        $this->assert_equals( $expected, $got, $mess );
+        $this->assert_equals( $expected, $got,
+                _nundef( $mess, '' ) . "\n"
+              . _nundef($expected)
+              . "\n!=\n"
+              . _nundef($got) . "\nat "
+              . join( '/', @path ) );
     }
+}
+
+sub _nundef {
+    defined( $_[0] ) ? $_[0] : ( defined( $_[1] ) ? $_[1] : 'undef' );
 }
 
 =begin TML

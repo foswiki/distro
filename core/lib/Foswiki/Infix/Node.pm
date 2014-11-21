@@ -117,8 +117,8 @@ sub stringify {
         else {
             if ( ref( $this->{params}[0] ) eq 'HASH' ) {
                 return join( ',',
-                    map { $_ . '=>' . $this->{params}[0]->{$_} }
-                      keys( %{ $this->{params}[0] } ) );
+                    map { $_ . "=>'" . $this->{params}[0]->{$_} . "'" }
+                    sort keys( %{ $this->{params}[0] } ) );
             }
             if ( ref( $this->{params}[0] ) eq 'Foswiki::Meta' ) {
                 return $this->{params}[0]->web . '.'

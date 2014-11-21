@@ -184,9 +184,9 @@ sub test_perl {
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
     $topicObject->text( <<'SMELL');
-%QUERY{ "Wibble" style="perl" }%
-%QUERY{ "attachments.name" style="perl" }%
-%QUERY{ "attachments" style="perl" }%
+[%QUERY{ "Wibble" style="perl" }%,
+%QUERY{ "attachments.name" style="perl" }%,
+%QUERY{ "attachments" style="perl" }%]
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 %META:FILEATTACHMENT{name="whatsnot.gif" date="1266942905" size="4586" version="1"}%
@@ -197,11 +197,29 @@ SMELL
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
-    $this->assert_equals( <<THIS, $result );
-'Woo'
-['whatsnot.gif','World.gif']
-[{'version' => '1','date' => '1266942905','name' => 'whatsnot.gif','size' => '4586'},{'version' => '1','date' => '1266943219','name' => 'World.gif','size' => '2486'}]
-THIS
+    $result = eval $result;
+    $this->assert( !$@, $@ );
+    $this->assert_deep_equals(
+        [
+            'Woo',
+            [ 'whatsnot.gif', 'World.gif' ],
+            [
+                {
+                    'version' => '1',
+                    'date'    => '1266942905',
+                    'name'    => 'whatsnot.gif',
+                    'size'    => '4586'
+                },
+                {
+                    'version' => '1',
+                    'date'    => '1266943219',
+                    'name'    => 'World.gif',
+                    'size'    => '2486'
+                }
+            ]
+        ],
+        $result
+    );
     $topicObject->finish();
 }
 
@@ -328,8 +346,7 @@ sub test_cfg {
             else {
                 require Foswiki::Serialise;
                 my $expectedString =
-                  Foswiki::Serialise::serialise( $this->{session}, $expected,
-                    'Perl' );
+                  Foswiki::Serialise::serialise( $expected, 'Perl' );
                 $this->assert_equals( $expectedString, "$result",
                     "$var!=$expectedString" );
             }

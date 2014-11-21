@@ -108,7 +108,17 @@ sub set_up {
         $this->{request} );
     Foswiki::Func::createWeb($testweb);
     $this->createNewFoswikiSession( undef, $this->{request} );
-    $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
+    if ( $this->{session}->can('getPubURL') ) {
+
+        # FW 1.2 and later
+        $aurl =
+          $this->{session}
+          ->getPubURL( web => $testweb, topic => $testform, absolute => 1 );
+    }
+    else {
+        # up to FW 1.1.9
+        $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
+    }
     $surl = $this->{session}->getScriptUrl(1);
 
     my ($to) = Foswiki::Func::readTopic( $testweb, $testtopic1 );
