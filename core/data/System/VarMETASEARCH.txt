@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404874980" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMETASEARCH
 ---+++ METASEARCH -- special search of meta data
 
-<blockquote class="foswikiHelp">%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.</blockquote>
+<div class="foswikiHelp">%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.</div>
 
    * Syntax: =%<nop>METASEARCH{...}%=
    * Supported parameters:

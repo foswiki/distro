@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Reference Manual
 
@@ -36,10 +36,10 @@ Manual sections in separate pages:
       * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
       * [[AppendixCascadingStyleSheets][C: Cascading Style Sheets]]
 
-<blockquote class="foswikiHelp"> %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
+<div class="foswikiHelp"> %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).
    * AdminToolsCategory: Topics an admin typically needs, all in one page
    * DocumentGraphics: Collection of useful icons
-</blockquote>
+</div>
 
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

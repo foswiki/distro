@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarWEBLIST
 ---+++ WEBLIST{"format"} -- index of all webs
@@ -21,6 +21,6 @@
       selection="%<nop>WEB%"
       separator=" "
    }% &lt;/select&gt;&lt;/form&gt;</pre>
-   <blockquote class="foswikiHelp">%X% =WEBLIST= will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed</blockquote>
+   <div class="foswikiHelp">%X% =WEBLIST= will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 <!--%JQREQUIRE{"chili"}%-->

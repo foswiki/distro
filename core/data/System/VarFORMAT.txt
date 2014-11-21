@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarFORMAT
 ---+++ FORMAT{"list" format="" header="" footer="" separator=""} -- format a list of objects
@@ -41,8 +41,8 @@ The FORMAT macro is currently only of use in formatting lists of topics,
 or of simple strings. It will be extended in future releases to add the
 capability to render other object types.
 
-<blockquote class="foswikiHelp">%I% For more sophisticated handling of string lists, consider installing
-Foswiki:Extensions.FilterPlugin.</blockquote>
+<div class="foswikiHelp">%I% For more sophisticated handling of string lists, consider installing
+Foswiki:Extensions.FilterPlugin.</div>
 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]], FormattedSearch
 <!--%JQREQUIRE{"chili"}%-->

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1409216418" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -43,7 +43,7 @@ In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
    * =$Foswiki::cfg= - reference to configuration hash
    * =$Foswiki::regex= - see [[#StReEx][Standard Regular Expressions]], below
-<blockquote class="foswikiHelp">%I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.</blockquote>
+<div class="foswikiHelp">%I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.</div>
 
 *Note:* the APIs are available to all extensions, but rely on a
 =Foswiki= singleton object having been created before the APIs can be used.
@@ -117,7 +117,7 @@ The plugin documentation topic contains usage instructions and version details. 
       * Important: In case you plan to publish your plugin on Foswiki.org, use Interwiki names for author names and links to Foswiki.org topics, such as Foswiki:Main/%WIKINAME%. This is important because links should work properly in a plugin topic installed on any Foswiki, not just on Foswiki.org.
    1. *Save* your topic, for use in [[#CreatePluginPackage][packaging]] and [[#PublishPlugin][publishing]] your plugin.
 
-<blockquote style="background-color:#f5f5f5">
+<div class="foswikiHelp">
 *OUTLINE: Doc Topic Contents* <br />
 Check the plugins web on Foswiki.org for the latest plugin doc topic template. Here's a quick overview of what's covered:
 
@@ -132,7 +132,7 @@ Check the plugins web on Foswiki.org for the latest plugin doc topic template. H
 *Plugin Installation Instructions:* &lt;<i>Step-by-step set-up guide, user help, whatever it takes to install and run, goes here.</i>&gt;"
 
 *Plugin Info:* &lt;<i>Version, credits, history, requirements - entered in a form, displayed as a table. Both are automatically generated when you create or edit a page in the Foswiki:Extensions web.</i>&gt;
-</blockquote>
+</div>
 
 #CreatePluginPackage
 ---+++ Packaging for Distribution
@@ -351,8 +351,8 @@ The plugin interface ([[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Fu
 
 Organizations typically do not upgrade to the latest Foswiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older Foswiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
 
-<blockquote class="foswikiHelp"> *%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
-Here is an example; the Foswiki:Support.PluginsSupplement has more details.</blockquote>
+<div class="foswikiHelp"> *%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
+Here is an example; the Foswiki:Support.PluginsSupplement has more details.</div>
 
 <verbatim class="perl">
     if( $Foswiki::Plugins::VERSION >= 1.1 ) {

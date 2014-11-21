@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1405484547" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592999" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
@@ -655,19 +655,19 @@ required
  You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt; tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any .
 </td><td>
 <pre>
----+ Offset is 0
+---++ offset is 0
 &lt;ho off="1"&gt;
----+ H1 becomes H2
+---++ H2 becomes H3
 &lt;ho off="-1"&gt;
----+ Offset was 1, so Offset is now 0
+---++ offset was 1, so offset is now 0
 </pre>
 </td>
 <td>
----+ Offset is 0
+---++ offset is 0
 <ho off="1">
----+ Offset is 1, so H1 becomes H2
+---++ H2 becomes H3
 <ho off="-1">
----+ Offset is now 0
+---++ offset was 1, so offset is now 0
 </td>
 </tr>
 </table>

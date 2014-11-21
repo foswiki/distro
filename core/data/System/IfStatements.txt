@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -329,7 +329,7 @@ Display the value of a form field if the topic has form field "Summary":
 </verbatim>
 Note that while a [[QuerySearch][query search]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you want. In these cases you can use the =/= operator to indicate the name of the topic:
 
-<blockquote>%H% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</blockquote>
+<div class='foswikiHelp'>%H% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</div>
 
 Test if the topic has attachments:
 <verbatim class="tml">

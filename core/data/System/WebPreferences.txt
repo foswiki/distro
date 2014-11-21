@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1409300041" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 <!-- Don't change the TOPICINFO date otherwise it will break SemiAutomaticTestCaseTests::test_TestCaseAutoFormattedSearchDetails -->
 ---+!! <nop>%WEB% Web Preferences
@@ -10,6 +10,7 @@
    * Set WEBBGCOLOR = #FFD8AA
    * Set SITEMAPLIST = on
    * Set WEBSUMMARY = %MAKETEXT{"Discover the details, and how to start your own site with Foswiki"}% - %MAKETEXT{"The Free and Open Source Wiki."}%
+   * Set NOAUTOLINK = off
 
 ---++ TOC settings
 

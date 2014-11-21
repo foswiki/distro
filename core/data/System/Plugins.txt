@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Plugins
 
@@ -41,9 +41,9 @@ Failing that, you may want to check your webserver error log and the various Fos
 
 The performance of the system depends to some extent on the number of plugins installed and on the plugin implementation. Some plugins impose no measurable performance decrease, some do. For example, a Plugin might use many Perl libraries that need to be initialized with each page view (unless you run mod_perl). You can only really tell the performance impact by installing the plugin and by measuring the performance with and without the new plugin, on real data.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
-</blockquote>
+</div>
 
 Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
 <pre class="tml">

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTINCLUDE%
@@ -107,8 +107,10 @@ The notify e-mail uses the default =changes.tmpl= template, or a skin if activat
 =mailnotify= also relies on a hidden file in each =data/Web= directory: =.changes= and a file with the Web name (one per web) in the =working/work_areas/MailerContrib/= directory. Make sure both are writable by your web server process. =.changes= contains a list of changes;  The file in the =working/work_areas/MailerContrib/= directorycontains a timestamp of the last time notification was done for the web.Both files are automatically created as needed.
 
 ---++++ Legacy and current configuration
-<blockquote>
-%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki.</blockquote>
+
+<div class="foswikiHelp">
+%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki.
+</div>
 
 %TABLE{sort="off"}%
 | *Parameter* | *[[%SCRIPTURLPATH{"configure"}%#MailAndProxies][configure]]<br />(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br />(Legacy)* | *Default* | *Description* |

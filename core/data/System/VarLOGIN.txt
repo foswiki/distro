@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLOGIN
 ---+++ LOGIN -- present a full login link
 %IF{"context authenticated"
-  then="<blockquote class='foswikiHelp'>$percentT$percent
-    You are already authenticated, so =%<nop>LOGIN%= expands to an empty string</blockquote>
+  then="<div class='foswikiHelp'>$percentT$percent
+    You are already authenticated, so =%<nop>LOGIN%= expands to an empty string</div>
 "}%
    * Syntax: =%<nop>LOGIN%=
    * Expand to: %LOGIN%

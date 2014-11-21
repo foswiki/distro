@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 ---++ Formatting Tokens
 
 Foswiki defines some standard special tokens that can be used to replace characters in some parameters - notably those to FormattedSearch and IfStatements - to defer evaluation of the parameter until later. These special tokens are often called "escapes", because they allow the character to "escape" from its normal meaning. 
-%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= <blockquote class="foswikiHelp">%T% Most macros accept parameter strings which are split over multiple lines. This is usually more readable than using =$n= tokens. If you are familiar with [[VarSTARTSECTION][sectional includes]], you might also consider [[FormattedSearch#NestedSectionalInclude][nested sectional includes]] to hold the newline content outside of the parameter string entirely.</blockquote> \
- <blockquote class="foswikiHelp">%T% Note that newline is _not_ a line break.  The browser will wrap the lines together. If you require a line break, displaying the results on two lines, use =%<nop>BR%=.  Or use two consecutive newlines to create a TML "Paragraph".</blockquote> |
+%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= <p class="foswikiHelp">%T% Most macros accept parameter strings which are split over multiple lines. This is usually more readable than using =$n= tokens. If you are familiar with [[VarSTARTSECTION][sectional includes]], you might also consider [[FormattedSearch#NestedSectionalInclude][nested sectional includes]] to hold the newline content outside of the parameter string entirely.</p> \
+ <p class="foswikiHelp">%T% Note that newline is _not_ a line break.  The browser will wrap the lines together. If you require a line break, displaying the results on two lines, use =%<nop>BR%=.  Or use two consecutive newlines to create a TML "Paragraph".</p> |
 | =$nop= or =$nop()= | Is a "no operation". This token gets removed; useful for nested search |
 | =$quot= | Double quote (="=) (\" also works) |
 | =$percent= | Percent sign (=%=) (=$percnt= also works) |

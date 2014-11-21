@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404418604" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -19,7 +19,7 @@ Preferences can be defined in a number of places:
    1 In the topic being accessed
 In this list, =Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ in this case, the macro is locked to the value at that level; =set= statements at higher-numbered levels are ignored.
 
-     <img src="%ATTACHURLPATH%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
+     <img src="%PUBURLPATH%/%WEB%/%TOPIC%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
 
 ---++ Writing preference settings
 Preference settings are written as a simple bullet. In TML, they are written
@@ -123,11 +123,11 @@ Then, when they are editing any other topic, they will get a 10 high edit box. H
 Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
 <!-- %JQREQUIRE{"chili"}% -->
 
-<blockquote class="foswikiHelp"> *Deprecation warning*.  The setting used in
+<div class="foswikiHelp"> *Deprecation warning*.  The setting used in
 this example, EDITBOXHEIGHT, is being deprecated and will be remove from
 Foswiki 1.2.  Note that if the edit box size is changed using the javascript
 controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
-</blockquote>
+</div>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1404419003" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1416592876" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%

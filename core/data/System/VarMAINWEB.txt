@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMAINWEB
 ---+++ MAINWEB -- synonym for [[VarUSERSWEB][USERSWEB]]
-<blockquote class="foswikiHelp">%X% *Deprecated*. Please use =%<nop>USERSWEB%= instead.</blockquote>
+<div class="foswikiHelp">%X% *Deprecated*. Please use =%<nop>USERSWEB%= instead.</div>

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---++ Using HTML
 
@@ -13,7 +13,7 @@ There are a few usability and technical considerations to keep in mind:
    * If you _must_ use HTML, use [[http://www.w3.org/TR/xhtml1/][XHTML 1.0 Transitional]] syntax.
    * Use =&lt;literal&gt;..&lt;/literal&gt;= tags around blocks of HTML to avoid accidental interpretation of
      [[Wiki syntax]] within the HTML.
-<blockquote class="foswikiHelp">%X% Script tags may be filtered out, at the discretion of your Wiki administrator.</blockquote>
+<div class="foswikiHelp">%X% Script tags may be filtered out, at the discretion of your Wiki administrator.</div>
 
 Recommendations when pasting HTML from other sources (using the plain-text editor):
    * Copy only text between =&lt;body&gt;= and =&lt;/body&gt;= tags.

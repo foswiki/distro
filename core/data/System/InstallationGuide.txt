@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1411624271" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
----+!! Installation Guide
+---+ Installation Guide
 
 %TOC{title="Contents"}%
 
@@ -125,7 +125,7 @@ Different script execution mechanisms are disabled in different ways; see your w
 #ProtectConfigure
 ---+++  Step 5: Protect the configure script
 
-<blockquote class="foswikiHelp"> %X% *You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user, using Apache basic or preferably digest  authentication. The Foswiki:Support.ApacheConfigGenerator lets you set up who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin-htaccess.txt= file for an example of the setting required to protect the =configure= script.</blockquote>
+<div class="foswikiHelp"> %X% *You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user, using Apache basic or preferably digest  authentication. The Foswiki:Support.ApacheConfigGenerator lets you set up who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin-htaccess.txt= file for an example of the setting required to protect the =configure= script.</div>
 
 *NEW with Foswiki 1.2:* Foswiki now  ships with a default =foswiki/working/configure/.htdigest-configure= file, along with sample Foswiki configuration that uses this file to protect configure.   The default file ships with
    * *Userid:* =admin=
@@ -141,7 +141,7 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
    * When you access the =configure= web page for the first time, you can only edit the section =General Path Settings=. Make any required changes, and save the settings, whether or not you needed to make any changes. You will be prompted to set a password for the =configure= page: this password must be entered for all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]").
    * After saving the =General Path Settings=, continue configuring Foswiki. Configuration items which may require further attention will be highlighted.
    * If the Foswiki installation can be accessed by more than one !protocol://domain, ensure the additional alternative URLs are set in ={PermittedRedirectHostUrls}=.
-   <blockquote class="foswikiHelp"> %T% *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class="html">https://company.com, http://111.222.123.234</verbatim></blockquote>
+   <div class="foswikiHelp"> %T% *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class="html">https://company.com, http://111.222.123.234</verbatim></div>
    * Setup the =Mail and Proxies= section.  Email must be available so Foswiki can send registration emails.
       * Under the "Email General" tab, If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=. Otherwise the ={WebMasterEmail}= parameter must be configured.
       * Under the "Email Server" tab, you can choose 3 methods of sending email.  This is explained in detail under the help text for this tab.
@@ -149,8 +149,8 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
          * If you chose either of the =Net::SMPT= methods, you must also configure ={SMTP}{MAILHOST}=. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=.
          * =Net::SMTP::SSL= will encrypt the connection to the e-mail server and is required for some email services like Google's GMail.
       * Under the "Proxy" tab, if your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
-     <blockquote class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</blockquote> <div class="foswikiHelp">I think we can drop this next note - configure will warn if modules are missing</div>
-     <blockquote class="foswikiHelp">%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIME::Base64=, </blockquote>
+     <div class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</div> <div class="foswikiHelp">I think we can drop this next note - configure will warn if modules are missing</div>
+     <div class="foswikiHelp">%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIME::Base64=, </div>
 
 If there is a problem with your setup that prevents you from accessing the =configure= page, you can [[#ConfiguringFoswikiManually][configure Foswiki manually]].
 

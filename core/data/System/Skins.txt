@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1409300041" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
 
@@ -30,7 +30,7 @@ Most skins, even those that look radically different to the default, use this la
 
 If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook. These topics also provide practical instructions how to create custom skin template files.
 
-<blockquote class="foswikiHelp"> *%X% Note:* Don't call your skin =text= or =rss= as these two skin names have reserved meanings, see below at [[#HardCodedSkins][hard-coded meanings]].</blockquote>
+<div class="foswikiHelp"> *%X% Note:* Don't call your skin =text= or =rss= as these two skin names have reserved meanings, see below at [[#HardCodedSkins][hard-coded meanings]].</div>
 
 The following template names are used for Foswiki screens, and are referenced in the Foswiki core code. If a skin doesn't define its own version of a template file, then Foswiki will fall back to the next skin in the skin path, or finally, to the default version of the template file.
 
@@ -76,7 +76,7 @@ The following template names are used for Foswiki screens, and are referenced in
    
 =foswiki.tmpl= is a master template conventionally used by other templates, but not used directly by code.
 
-<blockquote class="foswikiHelp"> *%X% Note:* Make sure templates do not end with a newline. Any newline will expand to an empty =&lt;p /&gt;= in the generated html. It will produce invalid html, and may break the page layout. </blockquote>
+<div class="foswikiHelp"> *%X% Note:* Make sure templates do not end with a newline. Any newline will expand to an empty =&lt;p /&gt;= in the generated html. It will produce invalid html, and may break the page layout. </div>
 
 ---+++ Partial customisation, or adding in new features to an existing skin
 
@@ -150,18 +150,22 @@ The box also understands URLs, e.g. you can type =http://www.google.com/= to jum
 
 Here is an example form that has a select box and the "Go" box for illustration purposes. You need to have <nop>JavaScript enabled for this to work:
 
-<form name="sample" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
 %ADDTOZONE{
-"script"
-id="SkinNavigation"
-requires="JQUERYPLUGIN"
-text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/Skins/js.js'></script>"
+  "script"
+  id="SkinNavigation"
+  requires="JQUERYPLUGIN"
+  text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/Skins/js.js'></script>"
 }%
-%TABLE{databg="#ffffff" tableframe="box" tablerules="none"}%
-| Bare bones header, for demo only ||
-| Navigate: | <select class="foswikiSelect" id="navigate" name="sel"><option selected="selected" value="">choose</option><option value="http://foswiki.org/">Intranet home</option><option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option><option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option><option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option><option value="http://www.google.com/">Google</option><option value="http://www.yahoo.com/">Yahoo!</option></select> |
-| Jump: | <input class="foswikiInputField" type="text" name="topic" size="16" /> |
-</form> 
+
+Navigate: 
+<select class="foswikiSelect" id="navigate" name="sel">
+  <option selected="selected" value="">choose</option>
+  <option value="%SCRIPTURLPATH{"view"}%">Home</option>
+  <option value="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">Users</option>
+  <option value="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/%HOMETOPIC%">%SYSTEMWEB% web</option>
+  <option value="https://www.google.com/">Google</option>
+  <option value="https://www.youtube.com/">YouTube</option>
+</select> 
 
 *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous, ={AllowRedirectUrl}=).
 

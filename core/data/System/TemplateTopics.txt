@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 #TemplateTopics
 ---+ Template topics
@@ -106,17 +106,17 @@ New example topic: <input type="text" name="topic" class="foswikiInputField" val
 </form>
 </verbatim>
 
-<blockquote class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
+<div class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
 <pre class="tml">
 &lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/%SANDBOXWEB%/" method="post"&gt;
     ...
 &lt;/form&gt;
 </pre>
 
-See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.</blockquote>
+See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.</div>
 
-<blockquote class="foswikiHelp">%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
-==-- %<nop>WIKIUSERNAME% - %<nop>DATE%== </blockquote>
+<div class="foswikiHelp">%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
+==-- %<nop>WIKIUSERNAME% - %<nop>DATE%== </div>
 
 ---++ Using absolute vs relative URLs in templates
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1409300041" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -17,7 +17,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 #DefaultWebPreferences
 ---++ Default Web Preferences
 
-<blockquote calss="foswikiHelp"> %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web</blockquote>
+<div calss="foswikiHelp"> %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web</div>
 
 
    * Web-specific background color: (is overwritten by web preferences)
@@ -75,7 +75,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Default User Settings
 
-<blockquote class="foswikiHelp"> %X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers</blockquote>
+<div class="foswikiHelp"> %X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers</div>
 
    * Show tool-tip topic info on mouse-over of WikiWord links. Setting can be on, off, or customized. An empty setting or off setting disables the tool-tips (for better performance). The setting can contain $summary to show the topic summary, $date for the last change date, $rev for the revision, $username for the login name of the last editor, $wikiname for the <nop>WikiName, $wikiusername for <nop>%USERSWEB%.WikiName, $topic for the topic name, and $web for the web name
       * Set LINKTOOLTIPINFO = off
@@ -83,7 +83,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
          * This is exactly equivalent to:
       * #Set LINKTOOLTIPINFO = on
 
-<blockquote>
+<div class="foswikiHelp">
 ---+++ Deprecated editor settings
 These settings are overridden by an editor cookie that is set when using the
 Sizing and font buttons on the lower right corner of the edit window.  These
@@ -96,7 +96,7 @@ be removed from Foswiki 1.2.0.
    * Vertical size of text edit box: (can be overwritten by user preferences)
       * Set EDITBOXHEIGHT = 22
 
-</blockquote>
+</div>
 
    * Style of text edit box. Set to =width: 99%= for full window width (default; this will override the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
       * Set EDITBOXSTYLE = width:99%
@@ -114,14 +114,14 @@ be removed from Foswiki 1.2.0.
       * Set ATTACHLINKBOX =
 
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
-   <blockquote class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</blockquote>
+   <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</div>
    <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
    <verbatim class="tml">
       * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
-      <blockquote class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).</blockquote>
+      <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).</div>
       <verbatim class="tml">
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
 </verbatim>
@@ -202,7 +202,7 @@ be removed from Foswiki 1.2.0.
 
 ---+++ HTTP-<nop>EQUIV Settings
 
-<blockquote class="foswikiHelp"> %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.</blockquote>
+<div class="foswikiHelp"> %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.</div>
    * *NOTE:* The current values of these preferences are not displayed in view mode (values are <code>&lt;link&gt;</code>-tags).
 
    * ==http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts:
@@ -273,7 +273,7 @@ be removed from Foswiki 1.2.0.
 ---+++ TinyMCEPlugin
    * Topic containing a [[VarSECTION][section]] named =INIT= which will hold the default initialisation parameters for the !TinyMCE editor.
       * #Set TINYMCEPLUGIN_INIT_TOPIC = %SYSTEMWEB%.TinyMCEPlugin
-         <blockquote class="foswikiHelp"> %H% _Not set in this topic, the plugin assumes this value if missing_ </blockquote>
+         <div class="foswikiHelp"> %H% _Not set in this topic, the plugin assumes this value if missing_ </div>
 
 ---+++ TwistyPlugin
    * Show/hide animation speed: 'fast', 'slow', or integer milliseconds | =0= (no animation)
@@ -434,9 +434,9 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs: ==%==. Example:
       * When you write ==%WEB<nop>BGCOLOR%==, it gets expanded to =%WEBBGCOLOR%= .
 
-<blockquote class="foswikiHelp"> %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
+<div class="foswikiHelp"> %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
 
-%X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%LOCALSITEPREFS%]].</blockquote>
+%X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%LOCALSITEPREFS%]].</div>
 
 ---++ Protected System Settings
 

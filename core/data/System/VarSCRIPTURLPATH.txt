@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSCRIPTURLPATH
 ---+++ SCRIPTURLPATH{"script"} -- URL path of script
    * As =%<nop>SCRIPTURL{"script"}%=, but doesn't include the protocol and host part of the URL
    * Syntax: =%<nop>SCRIPTURL%= OR =%<nop>SCRIPTURLPATH{"script"}%=
    * Expands to: =%SCRIPTURLPATH{"script"}%=
-   <blockquote class="foswikiHelp">%X% The =edit= script should always be used in conjunction with =?t=%<nop>GMTIME{"$epoch"}%= to ensure pages about to be edited are not cached in the browser</blockquote>
+   <div class="foswikiHelp">%X% The =edit= script should always be used in conjunction with =?t=%<nop>GMTIME{"$epoch"}%= to ensure pages about to be edited are not cached in the browser</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]]

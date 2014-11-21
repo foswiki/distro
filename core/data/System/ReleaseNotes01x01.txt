@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.5
@@ -203,11 +203,11 @@ The plainfile logger will now report additional information on the rotation proc
 
 ---+++ 1.1.3 may have changed some =form.name= MetaData to contain fully-qualified (with web name prefix) values
 In Foswiki 1.1.4 this problem has been fixed by [[%BUGS%/Item10874][Item10874]], however, users upgrading from 1.1.3 may wish to review the following information to determine if they need to take action on their existing SEARCHes or !DataForm topics.
-<blockquote class="foswikiHelp">%I% Please note, you may be unaffected by %BUGS%/Item10874 if:
+<div class="foswikiHelp">%I% Please note, you may be unaffected by %BUGS%/Item10874 if:
    * You have never used Foswiki 1.1.3
    * You are not [[%SYSTEMWEB%.QuerySearch][QuerySearching]] =form.name= MetaData for exact topic-only (without web prefix) values, or
    * Your users are not adding or changing DataForms on their topics via the edit screen's "add/change form" button, or
-   * Your installation is using Foswiki:Extensions.NatEditPlugin </blockquote>
+   * Your installation is using Foswiki:Extensions.NatEditPlugin </div>
 
 ---++++ Description
 Any topics which have had a [[%SYSTEMWEB%.DataForms][DataForm]] added or changed using the "Add/change form" button on the edit screen while running Foswiki 1.1.3 will now have "fully-qualified" Web.Topic names in the =form.name= %SYSTEMWEB%.MetaData even if the =WEBFORMS= preference variable omitted web prefixes from [[%SYSTEMWEB%.DataForms][DataForm]] topic names. In other words, if you were using a =WEBFORMS= preference which looked like this:%JQREQUIRE{"chili"}%
@@ -223,7 +223,7 @@ Having selected "MyForm", the =form.name= value is actually stored as =TheWeb/So
 <verbatim class="tml">%SEARCH{"form.name='MyForm' OR form.name='TheWeb/SomeSubWeb.MyForm'" type="query" ...}%</verbatim>
 
 Or a regex query:
-<verbatim class="tml">%SEARCH{"form.name=~'\bMyForm$'" type="query" ...}%</verbatim></blockquote>
+<verbatim class="tml">%SEARCH{"form.name=~'\bMyForm$'" type="query" ...}%</verbatim>
 
 Alternatively, the erroneous =form.name= values can be repaired by searching for and fixing them using one of the solutions detailed in %BUGS%/Item10874#Solution
 
@@ -268,7 +268,7 @@ The <nop>PasswordManager <code>Foswiki::Users::HtpasswdUser</code> has been enha
    * Cross-platform compatibility issues between Linux, Apple OSX and MS Windows have been resolved and <code>.htpasswd</code> files should be portable regardless of the selected encoding.
    * The <code>Crypt::PasswdMD5</code> CPAN module is required for the <code>apache-md5</code> encoding, as well as for better cross-platform compatibility.
 
-<blockquote class="foswikiHelp">%X% Note:  It is *strongly* recommended that sites using the old default "crypt" encoding migrate to a stronger method.  The crypt method truncates passwords at 8 characters and silently discards the rest. For the highest security, choose htdigest-md5 encoding with Apache htdigest authentication.  If using Template authentication, if possible use a SSL client connection - HTTPS.</blockquote>
+<div class="foswikiHelp">%X% Note:  It is *strongly* recommended that sites using the old default "crypt" encoding migrate to a stronger method.  The crypt method truncates passwords at 8 characters and silently discards the rest. For the highest security, choose htdigest-md5 encoding with Apache htdigest authentication.  If using Template authentication, if possible use a SSL client connection - HTTPS.</div>
 
 ---+++ Changes to User Registration topics [[%BUGS%/Item1539][Item1539]]
 

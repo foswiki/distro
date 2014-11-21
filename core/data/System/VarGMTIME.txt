@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGMTIME
 ---+++ GMTIME{"format"} -- formatted GM time
@@ -25,6 +25,6 @@
      | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
    * Tokens can be shortened to 3 characters
    * Example: <verbatim class="tml">%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</verbatim> expands to <pre>%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</pre>
-   <blockquote class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</blockquote>
+   <div class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]
 <!--%JQREQUIRE{"chili"}%-->

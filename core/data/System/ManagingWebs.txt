@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -210,9 +210,9 @@ You may only rename a web if you have the following permissions
 ---+++ Renaming the webs in the distribution
 It is possible, though not recommended, to change the names of the webs in the distribution. If you plan to rename the %USERSWEB% web, remember that Foswiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the macro style =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
 
-<blockquote class="foswikiHelp">%X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the Foswiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
+<div class="foswikiHelp">%X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the Foswiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
 
-%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.</blockquote>
+%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.</div>
 %ENDSECTION{"rename"}%
 
 *Related Topics:* AdminDocumentationCategory, AdminToolsCategory

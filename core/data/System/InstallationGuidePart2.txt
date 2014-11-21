@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -265,10 +265,11 @@ output.
 
 ---++++ Removing (uninstalling) extensions
 
-<blockquote class="foswikiHelp"> %X% *Caution:*  When removing an extension, no dependency checking is performed.
+<div class="foswikiHelp"> %X% *Caution:*  When removing an extension, no dependency checking is performed.
    * Dependencies are not removed
    * Other Extensions dependent on the removed extension may become non-operational.
-</blockquote>
+</div>
+
 The web and command line interfaces can be used to uninstall extensions.  When an extension is remove, the following occurs:
    * The =_installer= package is used to recover the manifest.  If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory

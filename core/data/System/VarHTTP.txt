@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarHTTP
 ---+++ HTTP -- get HTTP headers
@@ -9,6 +9,6 @@
      | =%<nop>HTTP%= | %HTTP% |
      | =%<nop>HTTP{"Accept-language"}%= | %HTTP{"Accept-language"}% |
      | =%<nop>HTTP{"User-Agent"}%= | %HTTP{"User-Agent"}% |
-   <blockquote class="foswikiHelp">%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</blockquote>
+   <div class="foswikiHelp">%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPS][HTTPS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
 

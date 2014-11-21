@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGROUPINFO
 ---+++ GROUPINFO{"name"} -- retrieve details about a group
@@ -24,6 +24,6 @@
      | =limit= | If set, limits the number of results to this | infinity |
      | =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list | '' |
 
-<blockquote class="foswikiHelp">%X% Note: GROUPINFO will not list members that are hidden from the current authenticated user. If the current user does not have VIEW authority for a user's topic, then the user will not be shown as a group member.</blockquote> 
+<div class="foswikiHelp">%X% Note: GROUPINFO will not list members that are hidden from the current authenticated user. If the current user does not have VIEW authority for a user's topic, then the user will not be shown as a group member.</div> 
 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]]

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1410243089" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 ---+!! Page Caching
 
 %TOC%
@@ -156,10 +156,10 @@ by adding =refresh=on= or =refresh=cache= to an url.
 
 The complete cache for all topics can be cleared as well using =refresh=all=. 
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %T% The cache should be refreshed after installing a Foswiki upgrade, or after
 installing or upgrading any plugin that would change the output of macros.
-</blockquote>
+</div>
 
 ---++++ Command line cache refresh
 
@@ -233,11 +233,11 @@ The default value for ={Cache}{DependencyFilter}= is set to
 <pre>%SYSTEMWEB%\..*|%TRASHWEB%\..*|TWiki\..*</pre>
 
 So this will disable any dependencies to topics that match this expression.
-<blockquote>
+<div class="foswikiHelp">
 %X% Caution: by default dependency tracking is switched off for all of the %SYSTEMWEB% web.
 Changing topics in the %SYSTEMWEB% web will _not_ invalidate any cache entries.
 This is because the %SYSTEMWEB% web is considered read-only content.
-</blockquote>
+</div>
 
 ---++++ Add topics to the dependency check
 Some other topics change automatically whenever _any_ topic in the same web is
@@ -341,7 +341,7 @@ When such a page is cached it must only be retrieved for the identical user it w
 generated for the first time.
 
 ----+++ Software requirements
-   * {HttpCompress} and {Cache}{Compress} depend on =Compress::Zlib=,
+   * {HttpCompress} depend on =Compress::Zlib=,
    * DBD::Pg to connect to a !PostgreSQL database or
    * DBD::mysql to connect to a !MySQL database or
    * DBD::SQLite to connect to an !SQLite database.

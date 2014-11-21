@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarINCLUDE
 ---+++ INCLUDE{"topic"} -- include other topic.
@@ -21,7 +21,7 @@
    * Syntax: =%<nop>INCLUDE{"http://..." ...}%=  (See also the topic form of =%<nop>INCLUDE%=)
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
-     | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <blockquote class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</blockquote> | |
+     | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <div class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</div> | |
      | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
      | =raw="on"= | When a page is included, normally %WIKITOOLNAME% will process it, doing the following: 1) Alter relative links to point back to originating host, 2) Remove some basic HTML tags (html, head, body, script) and finally 3) Remove newlines from HTML tags spanning multiple lines. If you prefer to include _exactly_ what is in the source of the originating page set this to =on=. %BR% =raw="on"= is short for =disableremoveheaders="on"=, =disableremovescript="on"=, =disableremovebody="on"=, =disablecompresstags="on"= and =disablerewriteurls="on"=. | disabled |
      | =literal="on"= | While using the =raw= option will indeed include the raw content, the included content will still be processed and rendered like regular topic content. To disable parsing of the included content, set the =literal= option to ="on"=. | disabled |
@@ -31,8 +31,8 @@
      | =disablecompresstags="on"= | Bypass replacing newlines in HTML tags with spaces. This compression step rewrites unmatched &lt;'s into =&amp;lt;= entities unless bypassed | disabled |
      | =disablerewriteurls="on"= | Bypass rewriting relative URLs into absolute ones | disabled |
      | =warn="off"= | Warn if URL include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) appended with the http error information. | =%<nop>INCLUDEWARNING%= [[DefaultPreferences][preferences]] setting |
-   <p></p><blockquote class="foswikiHelp">%H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)<p></p>
-   %X% Foswiki by default is configured to deny URL format includes.</blockquote>
+   <p></p><div class="foswikiHelp">%H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)<p></p>
+   %X% Foswiki by default is configured to deny URL format includes.</div>
    * Examples: See IncludeTopicsAndWebPages
    * Related: [[#VarINCLUDE][INCLUDE("topic")]]
 #VarINCLUDEdoc

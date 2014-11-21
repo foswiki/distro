@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404874980" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
@@ -89,7 +89,7 @@ The best strategy is to use WikiWords for your topic names. In this way, linking
 
 Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe][EditingShorthand]]
 
-<blockquote class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%#Environment$SecurityAndAuthentication][configure]]</blockquote>
+<div class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%#Environment$SecurityAndAuthentication][configure]]</div>
 
 ---+++ Revision numbers
 Topic and attachment versions are identified by positive, non-zero, integer numbers. Versions start with 1 and are sequencial.
@@ -135,4 +135,4 @@ See [[ManagingWebs]]
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" version="1" date="1404874855" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="diagram.png" version="1" date="1416592876" user="ProjectContributor"}%

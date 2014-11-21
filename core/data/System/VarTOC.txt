@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarTOC
 ---+++ TOC{"Topic"} -- table of contents
@@ -26,5 +26,5 @@ If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<no
    * Examples: <pre class="tml">%<nop>TOC{depth="2"}%
 %<nop>TOC{"CompleteDocumentation" web="%<nop>SYSTEMWEB%" title="Contents:"}%</pre>
    See also: Foswiki:Support/HowToCreateATableOfContents
-   <blockquote class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.</blockquote>
+   <div class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.</div>
 <!--%JQREQUIRE{"chili"}%-->

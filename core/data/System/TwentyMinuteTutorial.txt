@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -20,7 +20,7 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * You can search each web. Enter a search string into the *Search* field on the top of a page. Foswiki searches for an exact match
    * Advanced Search lets you select different search types, including database-style [[QuerySearch][Queries]] and even RegularExpressions.
 
-<blockquote class="foswikiHelp">%T% Do not confuse the *Jump* field with the *Search* field.</blockquote>
+<div class="foswikiHelp">%T% Do not confuse the *Jump* field with the *Search* field.</div>
 
 ---++ 3. Open a private account...
 To edit topics, you need to have a Foswiki account. 
@@ -100,7 +100,7 @@ Now we will proceed to the second option of creating a topic - following a link 
    * Again, in the edit mode, type a WikiWord. A WikiWord is a word consisting of at least two capitalized words run together, so type e.g. =MySecondTopic=.
    * Save the topic and have a look at the [[WikiWord]] you just typed. You will notice a question mark behind the WikiWord. Once you finish creating your second topic, the question mark will disappear and word will be converted into a link. In fact, the word WikiWord is a link, too. Using the name of a topic is the easiest way to create links between two topics.
    * Now click on the question mark behind the WikiWord you just entered. You will be redirected to the edit mode, this time not for your first topic, but for the new one. This new (second) topic will be named after the link you created in the original topic. So if the WikiWord you typed in the original text was =MySecondTopic=, the new topic will be called =MySecondTopic=, too. %BR%
-   <blockquote class="foswikiHelp">%H% If you were not redirected to the edit mode, but see some strange text (which is not yours) instead, it seems like the topic already existed :-) In this case, go back in your browser and type something different from =MySecondTopic=.</blockquote>
+   <div class="foswikiHelp">%H% If you were not redirected to the edit mode, but see some strange text (which is not yours) instead, it seems like the topic already existed :-) In this case, go back in your browser and type something different from =MySecondTopic=.</div>
 
 There are different ways of formatting text:
    1. *Using the WYSIWYG editor* - highlight and format text as you would do it in a normal text editor
@@ -108,7 +108,7 @@ There are different ways of formatting text:
 
 ---++ 7. Use your browser to upload files as page attachments...
  You can attach *any* type of file to a topic - documents, images, programs, whatever - where they can be opened, viewed, or downloaded.
- <blockquote class="foswikiHelp">%X% Your site administrator may have blocked some types of files (such as =.html=) from being attached for security reasons.</blockquote>
+ <div class="foswikiHelp">%X% Your site administrator may have blocked some types of files (such as =.html=) from being attached for security reasons.</div>
    * Attaching files is just like including a file with an e-mail. 
       1 Go once more to your sandbox topic and click on the ==[Attach]== icon.
       1 Click ==[Browse]== to find a file on your PC that you'd like to attach; enter an optional comment; leave everything else unchecked.
@@ -126,7 +126,7 @@ There are different ways of formatting text:
 
 That's it! You're now equipped with all the Foswiki essentials. You are ready to roll.
 
-<blockquote class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. _Don't worry about it._ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</blockquote>
+<div class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. _Don't worry about it._ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</div>
 
 *Related Topics:* UserDocumentationCategory, TopicsAndWebs, WikiSyntax
 %STOPINCLUDE% 

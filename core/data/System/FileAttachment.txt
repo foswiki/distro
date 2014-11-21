@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -23,7 +23,7 @@ For file sharing, FileAttachments on a series of topics can be used to quickly c
 
 Through your web browser, you can easily upload graphics (or sound files, or anything else you want to link to on a page) and place them on a single page, or use them across a web, or site-wide.
 
-<blockquote class="foswikiHelp"> %H% You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files cannot be managed using browser-based attachment controls. You can use your browser to create shortcuts using [[Macros]], like this %<nop>H% = %H%.</blockquote>
+<div class="foswikiHelp"> %H% You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files cannot be managed using browser-based attachment controls. You can use your browser to create shortcuts using [[Macros]], like this %<nop>H% = %H%.</div>
 
 ---+++ Attachment Names
 
@@ -70,15 +70,15 @@ Attachment names are stored directly in the server native file system, so filena
 ---++ Uploading files
 
    * Click on the ==[Attach]== link at the bottom of the page. The =Attach= screen lets you browse for a file, add a comment, and upload it. The uploaded file will show up in the [[#FileAttachmentTable][file attachment table]].
-      <blockquote class="foswikiHelp"> %H% The topic must already exist. If it does not, it is a two step process: First create the topic, then add the file attachment.</blockquote>
+      <div class="foswikiHelp"> %H% The topic must already exist. If it does not, it is a two step process: First create the topic, then add the file attachment.</div>
       * Any type of file can be uploaded. Some files that might pose a security risk are renamed, for example: =*.php= files are renamed to =*.php.txt= so that no one can place code that would be read in a .php file.
       * Foswiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% kB.
-         <blockquote class="foswikiHelp"> %X% It is not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.</blockquote>
+         <div class="foswikiHelp"> %X% It is not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.</div>
    * Automatic attachments:
       * When enabled, all files with valid names in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an =[Attach]= link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
          * Before an attachment is shown, the filename is filtered per the above Attachment name rules.  If the filtered name is not identical to the actual file name, the file will not be included in the list of attachments
       * To enable this feature, set the {AutoAttachPubFiles} configuration option.
-      <blockquote class="foswikiHelp"> %H% The automatic attachment feature can only be used by an administrator who has access to the server's file system.</blockquote>
+      <div class="foswikiHelp"> %H% The automatic attachment feature can only be used by an administrator who has access to the server's file system.</div>
    * Linking to the attached file in the topic:
       * Checking the "Create a link to the attached file" appends a link at the end of the topic. The format can be modified with the =%<nop>ATTACHEDFILELINKFORMAT%= [[%SYSTEMWEB%.PreferenceSettings][preference setting]]. Images (files ending in gif, jpg, jpeg or png) are handled by =%<nop>ATTACHEDIMAGEFORMAT%=.
       * The two named preference settings may use the following variables:
@@ -96,7 +96,7 @@ Attachment names are stored directly in the server native file system, so filena
    * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
 #AttachmentAccess
 
-<blockquote class="foswikiHelp"> %X% There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[CompleteDocumentation#AccessControl][access restrictions]] for each.</blockquote>
+<div class="foswikiHelp"> %X% There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[CompleteDocumentation#AccessControl][access restrictions]] for each.</div>
 
 ---++ Moving attachment files
 
@@ -129,7 +129,7 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
    * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
       1. ==[Attach]== an image file, for example: =Smile.gif=
       1. ==[Edit]== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
-      1. ==[Preview]==: text appears as %ATTACHURL%/Smile.gif, an image.
+      1. ==[Preview]==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
 
 ---++ Securing Attachments
 In most installations, attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
@@ -262,5 +262,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="Sample.txt" size="30" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="964294680" path="Smile.gif" size="94" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1416592876" path="Sample.txt" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1416592876" path="Smile.gif" size="94" user="ProjectContributor" version="1"}%

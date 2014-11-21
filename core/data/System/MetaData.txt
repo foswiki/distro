@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 #MetaData
@@ -23,13 +23,12 @@ To keep everything together in one place, meta-data (Foswiki-generated or from [
    * Meta-data is divided into _core_ meta-data, described below, and _extension_ meta-data, which shares the same syntax but is used by extensions.
    * Dates are stored as "epoch times" i.e. the integer number of seconds since 1st January 1970.
 
-<blockquote>
 *Example of core meta-data*
 <pre class="tml">
-%<nop>META:TOPICINFO{version="6" date="976762663" author="LastEditor" format="1.0"}%
+%<nop>META:TOPICINFO{version="6" date="1416592876" author="LastEditor" format="1.0"}%
    text of the topic
 %<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents"
-   by="CoverUp" date="976762680"}%
+   by="CoverUp" date="1416592876"}%
 %<nop>META:TOPICPARENT{name="MilitaryIntelligence5"}%
 %<nop>META:FILEATTACHMENT{name="CV.txt" version="3" ... }%
 %<nop>META:FILEATTACHMENT{name="Photo.gif" version="1" ... }%
@@ -39,7 +38,6 @@ To keep everything together in one place, meta-data (Foswiki-generated or from [
 %<nop>META:PREFERENCE{name="ALLOWTOPICCHANGE" value="JamesBond"}%
 %<nop>META:PREFERENCE{name="DENYTOPICVIEW" value="ErnstBlofeld"}%
 </pre>
-</blockquote>
 
 ---++ Core meta-data
 
@@ -64,7 +62,7 @@ Note that the *version and date fields are advisory only* and cannot be trusted.
 
 This only exists if the topic has been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic. Older ones can to be found in the topic history.
 
-<pre class="tml">%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents" by="CoverUp" date="976762680"}%</pre>
+<pre class="tml">%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents" by="CoverUp" date="1416592876"}%</pre>
 
 |  *Key*  |  *Comment*          |
 | from%REG% | Full name, i.e., web.topic |

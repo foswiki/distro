@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %STARTINCLUDE%
 #VarENDCOLOR
 ---+++ ENDCOLOR -- end colored text
@@ -25,6 +25,6 @@
    *Example:*
    <pre class="tml">%<nop>%color%% %CALC{"$LOWER(%color%)"}% text %<nop>ENDCOLOR%</pre>
    *Expands to:* %%color%% %CALC{"$LOWER(%color%)"}% text %ENDCOLOR%
-   %STARTSECTION{"remember"}%<p></p><blockquote class="foswikiHelp">%X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write <pre class="tml">%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%</pre></blockquote>%ENDSECTION{"remember"}%
+   %STARTSECTION{"remember"}%<p></p><div class="foswikiHelp">%X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write <pre class="tml">%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%</pre></div>%ENDSECTION{"remember"}%
 *Related:* [[%IF{"'%includingtopic%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
 <!--%JQREQUIRE{"chili"}%-->%ENDSECTION{"varcolor"}%</verbatim>

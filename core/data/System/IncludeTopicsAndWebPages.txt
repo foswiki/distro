@@ -1,13 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
 The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specified topic at the place where the [[VarINCLUDE][INCLUDE]] is used. The whole content or only parts of of a page can be included.
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %H% If permitted in [[%SCRIPTURLPATH{"configure"}%][configure]], content from any arbitrary URL may be included also. This is disabled by default because it may be used for malicious purposes, especially on public installations.
 
 %H% If your web server connects to the internet via a proxy server, ={PROXY}{HOST}= and ={PROXY}{PORT}= settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]].
-</blockquote>
+</div>
 
 %TOC%
 
@@ -33,7 +33,7 @@ The example parameters PARAMETER1 and PARAMETER2 will be defined as macros withi
 
 VarINCLUDE explains the other parameters.
 
-<blockquote class="foswikiHelp"> %H% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</blockquote>
+<div class="foswikiHelp"> %H% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</div>
 
 ---++ Usage Examples
 
@@ -54,7 +54,7 @@ VarINCLUDE explains the other parameters.
    * You get:
 %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 
-<blockquote class="foswikiHelp">%X% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</blockquote>
+<div class="foswikiHelp">%X% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</div>
 
 ---+++ 3. Include a topic
 

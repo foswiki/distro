@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404875256" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -82,9 +82,10 @@ All the scripts accept a number of common parameters. The first two components o
 
 Where revision parameters are required, individual versions are identified by positive, non-zero integers. Versions start with 1 and are sequencial. For compatibility reasons, Some scripts accept revision numbers with '1.' (or even 'r1.') prepended to the number, but this usage is deprecated and should be corrected when encountered.
 
-<blockquote class="foswikiHelp">*Note:* Prior releases of Foswiki would accept the undocumented =username= and =password= parameter on any script.
+<div class="foswikiHelp">
+*Note:* Prior releases of Foswiki would accept the undocumented =username= and =password= parameter on any script.
 Foswiki 1.1.9 restricts this to the =view= script and only on POST transactions unless overridden in the Foswiki configuration.
-</blockquote>
+</div>
 
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.
@@ -128,12 +129,11 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 | =topicparent= | Sets the parent topic. | |
 | _&lt;any name&gt;_ | This can be used in two ways; first, if the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. %ICON{"wip"}% Second, it can be expanded in the topic text during topic creation - see [[#NewTopicCreation][New topic creation]] below | |
 
-<blockquote>
 The following options are *only* available to the site Administrator.  They can "rewrite history" and should be used with caution only when absolutely necessary.
+
 | *Parameter name* | *Description* | *Default* |
 | =delRev= | *Administrators only* delete the most recent revision of the topic - all other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it.  This option returns you to an editor for the current version, but the edit is ignored, and save will delete the latest revision. | |
 | =repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= may include embedded meta-data tags. As far as possible, the original author and date of the revision being replaced are retained. You have to be an administrator to use this, and not all store implementations will support it. | |
-</blockquote>
 
 __Skin notes:__
 
@@ -167,7 +167,9 @@ Used for logging in with !TemplateLoginManager, and for interactive validation o
 | =username= | username of user logging in (if set, login will attempt to authenticate) | |
 | =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | |
 
-<blockquote class="foswikiHelp"> *%T% Note:* The =login= script will only accept the username and password fields when submitted with a POST.</blockquote>
+<div class="foswikiHelp"> 
+*%T% Note:* The =login= script will only accept the username and password fields when submitted with a POST.
+</div>
 
 ---+++ =logon=
 Used for logging in when Web Server authentication is being used (e.g. !ApacheLoginManager). The script does nothing; it is purely a placeholder for triggering the login process. The webserver must be set up to require a valid user to access this script, thus triggering the webserver login process.
@@ -175,7 +177,9 @@ Used for logging in when Web Server authentication is being used (e.g. !ApacheLo
 ---+++ =manage=
 Performs a range of management functions.
 
-<blockquote class="foswikiHelp"> *%X% Note:* The =manage= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.</blockquote>
+<div class="foswikiHelp"> 
+*%X% Note:* The =manage= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.
+</div>
 
 | *Parameter* | *Description* | *Default* |
 | =action= | One of =create=, =createweb=, =changePassword=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | _required_ |
@@ -291,7 +295,9 @@ context diffs.
 | *Parameter* | *Description* | *Default* |
 | =action= | =register= or =verify= or =approve= or =disapprove= | _required_ |
 
-<blockquote class="foswikiHelp"> *%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.</blockquote>
+<div class="foswikiHelp">
+*%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.
+</div>
 
 ---++++ =action=register=
 
@@ -388,7 +394,9 @@ Rename a topic or an attachment.
 | =nonwikiword= | if =on=, a non-wikiword is acceptable for the new topic name | =off= |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 
-<blockquote class="foswikiHelp"> *%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.</blockquote>
+<div class="foswikiHelp">
+*%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.
+</div>
 
 ---+++ =resetpasswd=
 This script is _deprecated_. Its functions are covered by the =manage= script.
@@ -423,10 +431,14 @@ $.ajax({
 });
 </verbatim>
 
-<blockquote class="foswikiHelp"> %X% The =rest= script should *always* be configured to require authentication in any site that is using =ApacheLogin=. Otherwise there is a risk of opening up major security holes. So make sure you add it to the ={AuthScripts}= list in =configure=.</blockquote>
+<div class="foswikiHelp">
+%X% The =rest= script should *always* be configured to require authentication in any site that is using =ApacheLogin=. Otherwise there is a risk of opening up major security holes. So make sure you add it to the ={AuthScripts}= list in =configure=.
+</div>
 
-<blockquote class="foswikiHelp"> *%X% Note:* As of 1.1.9, the =rest= script no longer will accept the username and password fields by default. If the prior behavior is required, it can be enabled in =bin/configure=
-by setting =$Foswiki::cfg{Session}{AcceptUserPwParam} = /^rest$/;=.   Note that even with this enabled, the =rest= script requires that the username and password be entered using POST.</blockquote>
+<div class="foswikiHelp"> 
+*%X% Note:* As of 1.1.9, the =rest= script no longer will accept the username and password fields by default. If the prior behavior is required, it can be enabled in =bin/configure=
+by setting =$Foswiki::cfg{Session}{AcceptUserPwParam} = /^rest$/;=.   Note that even with this enabled, the =rest= script requires that the username and password be entered using POST.
+</div>
 
 ---++++ Invocation Examples
 
@@ -513,13 +525,16 @@ Merging is only enabled if the topic text comes from =text= and =originalrev= is
 
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
 
-<blockquote class="foswikiHelp"> *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
+<div class="foswikiHelp"> 
+*%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
+
 <verbatim class="html">
 <form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
     ...
 </form>
 </verbatim>
-It is not possible to call =save= from an =&lt;a href ...&gt;= link.</blockquote>
+It is not possible to call =save= from an =&lt;a href ...&gt;= link.
+</div>
 
 ---+++ =search=
 This cgi script has been deprecated. When called, it will redirect to the WebSearch topic, and the parameters will be passed on.
@@ -529,7 +544,8 @@ This cgi script has been deprecated. When called, it will redirect to the WebSea
    * Set ISSTATISTICSTOPIC = %IF{"istopic '%STATISTICSTOPIC%'" else="!WebStatistics" then="[[$percntSTATISTICSTOPIC$percnt][WebStatistics]]"}%
 -->
 
-<div class="foswikiHelp">%X% *Note:* This script is no longer callable using a
+<div class="foswikiHelp">
+%X% *Note:* This script is no longer callable using a
 simple HTTP "GET" operation.  It must be called using the POST method using a
 form.
 </div>
@@ -542,7 +558,8 @@ Refresh the %ISSTATISTICSTOPIC% topics in range of webs.
 | =webs= | comma-separated list of webs. | _all accessible webs_ |
 
 Command line examples:  (All run by first changing to the =foswiki/bin= directory)
-<div class="foswikiAlert">%X% *Caution:* This script writes to foswiki system files.  It *must* be run as the web server user.  If ownership of critical system files is changed, it may disrupt the web server!
+<div class="foswikiAlert">
+%X% *Caution:* This script writes to foswiki system files.  It *must* be run as the web server user.  If ownership of critical system files is changed, it may disrupt the web server!
 </div>
    1 ==./statistics== updates _all user webs, excluding subwebs_
    1 ==./statistics webs=Userweb,%SANDBOXWEB% subwebs=1== updates _Userweb and %SANDBOXWEB% including subwebs_
@@ -572,7 +589,9 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
 
-<blockquote class="foswikiHelp"> *%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.</blockquote>
+<div class="foswikiHelp"> 
+*%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.
+</div>
 
 ---+++ =view=
 Used for viewing topics.
@@ -590,7 +609,9 @@ Used for viewing topics.
 | =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | _&lt;any name&gt;_ | It can be expanded in the topic text during rendering and referenced in IF statements  - See the %SYSTEMWEB%.VarURLPARAM macro and %SYSTEMWEB%.IfStatements | |
 
-<blockquote class="foswikiHelp"> %X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.</blockquote>
+<div class="foswikiHelp"> 
+%X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.
+</div>
 
 ---+++ =viewfile=
 Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using [[AccessControl][AccessControls]]. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.

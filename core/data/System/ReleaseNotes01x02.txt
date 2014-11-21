@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1410745843" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -51,11 +51,11 @@ Foswiki 1.2 is shipped with the following:
 The intention to deprecate the use of an empty =DENYTOPIC&lt;action&gt;= rule to act as an "ALLOW all" has been completed.   This has been a
 pending change predating Foswiki 1.0.0.
 
-<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
+<div class="foswikiHelp">%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
 rule need to be updated.  A utility has been provided to find and convert existing empty DENY rules to the new ALLOW format.
 You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny}= in the _Security and Authentication_
 section under the _Access control_ tab.
-</blockquote>
+</div>
 
 With release 1.2 of Foswiki, a new ACL rule, the asterisk,  is used as a
 wildcard to match *any* user, including the guest user, !WikiGuest. Prior to
@@ -118,10 +118,10 @@ setting for =$CPANBASE= has been completely eliminated.  A simple method of
 adding libraries to the top of the @INC path is provided in the new example
 =foswiki/bin/LocalLib.txt= shipped with foswiki.
 
-<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
+<div class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
 have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
 copy using the updated =foswiki/bin/LocalLib.cfg.txt=
-</blockquote>
+</div>
 
 ---+++ Authentication, Authorization and Security
 
@@ -149,11 +149,11 @@ Administrator:
    $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the AdminGroup.
    $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the AdminGroup
 
-<blockquote class="foswikiHelp">%X% *Caution:* These controls are enforced at
+<div class="foswikiHelp">%X% *Caution:* These controls are enforced at
 the ACL Level.  Extensions have the ability to ignore access controls.  If an
 extension fails to check for access permission, then these new methods will
 not block access.
-</blockquote>
+</div>
 
 ---++++ Improved CGI Session security
 

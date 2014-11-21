@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSESSIONVARIABLE
 ---+++ SESSION_VARIABLE -- get, set or clear a session variable
    * Syntax: =%<nop>SESSION_VARIABLE{"name"}%=
    * Syntax: =%<nop>SESSION_VARIABLE{"name" set="value"}%=
    * Syntax: =%<nop>SESSION_VARIABLE{"name" clear=""}%=
-   <blockquote class="foswikiHelp">%T% The users ID is in the =AUTHUSER= session variable, and is read-only</blockquote>
+   <div class="foswikiHelp">%T% The users ID is in the =AUTHUSER= session variable, and is read-only</div>
    * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]]
 

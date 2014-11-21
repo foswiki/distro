@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarRENDERZONE
 ---+++ RENDERZONE
@@ -39,8 +39,8 @@ __Notes:__
      enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], then =head=
      content which requires an =id= that only exists in =script= will be re-ordered 
      to satisfy this dependency.
-     <blockquote class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= will be
-     removed from a future version of Foswiki.</blockquote>
+     <div class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= will be
+     removed from a future version of Foswiki.</div>
 
 See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.
 <!-- %JQREQUIRE{"chili"}% -->

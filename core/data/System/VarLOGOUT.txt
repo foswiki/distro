@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLOGOUT
 ---+++ LOGOUT -- present a full logout link
 %IF{"context authenticated"
-  else="<blockquote class='foswikiHelp'>$percentT$percent
-    You are already logged out, so =%<nop>LOGOUT= expands to an empty string</blockquote>"
+  else="<div class='foswikiHelp'>$percentT$percent
+    You are already logged out, so =%<nop>LOGOUT= expands to an empty string</div>"
 }%
    * Syntax: =%<nop>LOGOUT%=
    * Expand to: %LOGOUT%

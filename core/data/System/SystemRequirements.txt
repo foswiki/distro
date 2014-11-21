@@ -1,13 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
----+!! Foswiki System Requirements
-%STARTINCLUDE%
+---+ System Requirements
 
 Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
 
 %TOC{title="Contents"}%
 
----+++ Server Requirements
+---++ Server Requirements
 
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
 
@@ -18,7 +17,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 | Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
----+++ Perl Modules
+---++ Perl Modules
 
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
@@ -61,9 +60,9 @@ The following dependencies are usually met by the Perl core installation: =Carp=
 There were once CPAN modules shipped with prior versions of Foswiki as a "last resort". Since they are needed only in rare situations,
 they were put into an additional extension. See Foswiki:Extensions.CpanContrib. Install this packages if cannot install Perl modules otherwise.
 
----+++ Specific distribution details
+---++ Specific distribution details
 <noautolink>
----++++!! Ubuntu and other Debian derived distributions
+---+++!! Ubuntu and other Debian derived distributions
 %TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
 
 Install apache and rcs ==apt-get install apache2 rcs==
@@ -87,7 +86,7 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 %ENDTWISTY{}%
 
----++++!! RedHat, SuSE, CentOS and other RPM based distributions
+---+++!! RedHat, SuSE, CentOS and other RPM based distributions
 %TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
 
 Install apache2, rcs, and perl-CPAN
@@ -108,7 +107,7 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 %ENDTWISTY{}%
 
----++++!! Gentoo (ebuild) based distributions
+---+++!! Gentoo (ebuild) based distributions
 %TWISTY{ showlink="Show Gentoo details" hidelink="Hide RPM details"}%
 
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
@@ -137,13 +136,13 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 </noautolink>
 #ClientRequirements
----+++ Client Requirements
+---++ Client Requirements
 
 The [[InstallationGuide][standard installation]] has relatively low browser requirements:
 
    * XHTML 1.0 Transitional compliant
    * Cookies, if persistent sessions are required
-   * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
+   * Javascript, for edit/save/upload functionality <div class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</div>
 
 CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6+, Safari, Chrome and Firefox.
 

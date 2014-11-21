@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -123,14 +123,14 @@ Here are the last 15 changed pages, formatted into a neat table.
 You may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only authorized users will be able to use ==Edit==.
 
 *Example:* <verbatim class="tml">   * Set ALLOWTOPICCHANGE = %USERSWEB%.UserName, %USERSWEB%.GroupName</verbatim>
-<blockquote class="foswikiHelp"> %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.</blockquote>
+<div class="foswikiHelp"> %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.</div>
 
 See [[Access Controls]] for much more on controlling access to webs and topics.
 
 ---++ Customize the Left Navigation Bar
 If you are using the default skin, you can customize the contents of the !WebLeftBar topic. This topic does not exist by default - read PatternSkinCustomization for details. Each web can have its own !WebLeftBar.
 
-<blockquote class="foswikiHelp">%T% Also check PatternSkinCustomization to learn how to customise the !WebTopBar</blockquote>
+<div class="foswikiHelp">%T% Also check PatternSkinCustomization to learn how to customise the !WebTopBar</div>
 
 ---++ Deeper Customisations
 Foswiki is very powerful, and can be customised at many

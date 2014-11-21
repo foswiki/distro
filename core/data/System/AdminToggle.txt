@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 ---+ Group Member Toggle
 
 This topic implements a button that will turn Admin status on or off for the
@@ -9,9 +9,9 @@ user making the change instead of the anonymous !AdminUser.
 
 %T% This is actually a generic capability.  Any group membership can be toggled using this function.
 
-<blockquote class="foswikiHelp"> 
+<div class="foswikiHelp"> 
   %T% Note: This feature is only usable if your User Mapper allows group membership to be modified from the Wiki.
-</blockquote>
+</div>
 
 ---++ Configuration
    * Edit the settings for %USERSWEB%.AdminGroup

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -31,9 +31,9 @@ To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1
    
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %T% If you use the Foswiki PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version.
-</blockquote>
+</div>
 
 ---++ Upgrade procedure: upgrading to a new major or minor version, or upgrading from TWiki
 
@@ -48,7 +48,7 @@ The following is a high level view of the upgrade procedure:
    1 *Apply your site customizations*: skin, logos, menu bars, forms for personal information, and so forth.
    1 *Validate your Wiki* applications and other key functionality.
    1 *Switch your production site* from the old installation to the new installation.
-   <blockquote class="foswikiHelp">%I% %STARTSECTION{"cacheadvice"}%Managing caches of static =.js=, =.css= files: some parts of Foswiki use URI versioning to help web browsers obtain a current version of these files when they change, but currently other parts do not. You may need to get your users to clear their browser's cache after upgrading your site to a new major or minor release (usually not necessary for patch upgrades). An alternative approach is to manage your web server configuration to strategically set appropriate expiry times for static files (see [[Foswiki:Support.PerformanceSupplement#ModExpires][performance supplement]])%ENDSECTION{"cacheadvice"}%</blockquote>
+   <div class="foswikiHelp">%I% %STARTSECTION{"cacheadvice"}%Managing caches of static =.js=, =.css= files: some parts of Foswiki use URI versioning to help web browsers obtain a current version of these files when they change, but currently other parts do not. You may need to get your users to clear their browser's cache after upgrading your site to a new major or minor release (usually not necessary for patch upgrades). An alternative approach is to manage your web server configuration to strategically set appropriate expiry times for static files (see [[Foswiki:Support.PerformanceSupplement#ModExpires][performance supplement]])%ENDSECTION{"cacheadvice"}%</div>
 
 More details for each step appear in the following sections. The steps may need to be modified or otherwise tailored with specifics for your installation. In particular, you must take care to preserve any special configuration or customizations you have made, especially if you have modified any of the default software files or system topics that are contained within the installation package.
 
@@ -359,7 +359,7 @@ Foswiki 1.1 uses a new configurable location for logs (a pluggable logging API h
 
 The currently used log file is always the same name. They are renamed to somehthing resembling the old scheme on a monthly basis automatically.
 
-<blockquote>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x01#Release01x00Changes][release notes]]</blockquote>
+<div>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x01#Release01x00Changes][release notes]]</div>
 
 #ManagingBrowserCache
 ---+++ Managing caches of static files during upgrade

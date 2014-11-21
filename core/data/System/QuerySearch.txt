@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1414999929" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -167,14 +167,14 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | =IN= | Test if a value is in a list | =1 in (2, 3, 4)= |
 Note that operator names are *not* case sensitive. =AND= is the same as =and=.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %I% The same operators are supported by the [[VarIF][%IF]] and [[VarQUERY][%QUERY]] macros.
 
 %I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined=.
 <sticky> 
 %I% In the operators (<literal><code> = != ~ =~ &lt; &gt; &lt;= &gt;= NOT AND OR</code></literal>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
 </sticky>
-</blockquote>
+</div>
 
 ---++ Putting it all together
 When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE value that indicates whether the topic matches that query or not. If the query returns TRUE, then the topic is included in the search results.

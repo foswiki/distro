@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarENCODE
 ---+++ ENCODE{"string"} -- encodes a string
@@ -9,7 +9,7 @@
      | ="string"= | String to encode | "" (empty string) |
      | =type="encodingname"= | Use a predefined encoding (see below). | Default is 'url'. Parameter =type= not be used if =old= or =new= are given. |
      | =old="tokenlist"= | Comma-separated list of tokens to replace. Tokens are normally single characters, but can also be sequences of characters. The standard [[format tokens]] may be used in this list. Each token must be unique - you cannot list the same token twice. | May not be used with =type=; required if =new= is used |
-     | =new="tokenlist"= | comma-separated list of replacement tokens. The elements in this list match 1:1 with the elements in the =old= list. Again, the standard [[format tokens]] may be used. An empty element in the =new= list will result in the corresponding token in the =old= list being deleted from the string. If the =new= list is shorter than the =old= list it will be extended to the same length using the empty element. Tokens do not have to be unique. <blockquote class="foswikiHelp">%X% %INCLUDE{"%TOPIC%" section="oldnewwarning"}% (see examples below)</blockquote> | May not be used with =type=; required if =old= is used |
+     | =new="tokenlist"= | comma-separated list of replacement tokens. The elements in this list match 1:1 with the elements in the =old= list. Again, the standard [[format tokens]] may be used. An empty element in the =new= list will result in the corresponding token in the =old= list being deleted from the string. If the =new= list is shorter than the =old= list it will be extended to the same length using the empty element. Tokens do not have to be unique. <div class="foswikiHelp">%X% %INCLUDE{"%TOPIC%" section="oldnewwarning"}% (see examples below)</div> | May not be used with =type=; required if =old= is used |
    * If =ENCODE= is called with no optional parameters (e.g. =%<nop>ENCODE{"string"}%=) then the default =type="url"= encoding will be used.
    * Predefined encodings.
       * Unless otherwise specified, the =type= parameter encodes the following "special characters" 
@@ -35,9 +35,9 @@
    * =ENCODE= can be used to filter user input from URL parameters and similar to help protect against cross-site scripting. The safest approach is to use =type="entity"=. This can however prevent an application from fully working. You can alternatively use =type="safe"= which encodes only the characters ='"&lt;&gt;%= into HTML entities. When =ENCODE= is passing a string inside another macro always use double quotes ("") type="quote". For maximum protection against cross-site scripting you are advised to install the Foswiki:Extensions.SafeWikiPlugin.
 
    * Double quotes in strings must be escaped when passed into other macros.%BR% Example: <verbatim class="tml">%SEARCH{ "%ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%</verbatim>
-   <blockquote class="foswikiHelp">%X% %STARTSECTION{"oldnewwarning"}%When using =old= and =new=, be aware that the results of applying earlier tokens are not processed again using later tokens.%ENDSECTION{"oldnewwarning"}% For example:<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
+   <div class="foswikiHelp">%X% %STARTSECTION{"oldnewwarning"}%When using =old= and =new=, be aware that the results of applying earlier tokens are not processed again using later tokens.%ENDSECTION{"oldnewwarning"}% For example:<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
    %ENCODE{"A" old="A,B" new="B,C"}% will result in 'B' (not 'C'),
    %ENCODE{"asd" old="as,d" new="d,f"}% will yield 'df', and
    %ENCODE{"A" old="A,AA" new="AA,B"}% will give 'AA' and.
-   %ENCODE{"asdf" old="a,asdf" new="a,2"}% will give 'asdf'</verbatim></blockquote>
+   %ENCODE{"asdf" old="a,asdf" new="a,2"}% will give 'asdf'</verbatim></div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarURLPARAM][URLPARAM]]

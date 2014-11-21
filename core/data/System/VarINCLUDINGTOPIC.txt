@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarINCLUDINGTOPIC
 ---+++ INCLUDINGTOPIC -- name of topic that includes current topic
    * The name of the topic that includes the current topic - same as =%<nop>TOPIC%= in case there is no include
    * If a topic is used in a chain of =INCLUDEs=, =INCLUDINGTOPIC= is set to the topic directly INCLUDing this one, _NOT_ the topic that has been requested by the user (which is set in =BASETOPIC=)
-   <blockquote class="foswikiHelp">%X% While this Macro may appear to work, unless you require the subtle difference between =INCLUDINGTOPIC= and =BASETOPIC=, you probably should use =BASETOPIC= </blockquote>
+   <div class="foswikiHelp">%X% While this Macro may appear to work, unless you require the subtle difference between =INCLUDINGTOPIC= and =BASETOPIC=, you probably should use =BASETOPIC= </div>
    * Syntax: =%<nop>INCLUDINGTOPIC%=
    * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
 

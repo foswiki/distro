@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -49,9 +49,9 @@ Template directives look a lot like standard [[macros]].
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
-</blockquote>
+</div>
 
 ---+++ Parameters to blocks
 =%<nop>TMPL:DEF%= and =%<nop>TMPL:P%= support simple parameters.
@@ -209,7 +209,7 @@ For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are sear
    6 =templates/function.tmpl= _(rule 6)_
    7 =%SANDBOXWEB%.FunctionTemplate= _(rule 7)_
    8 =%SYSTEMWEB%.FunctionTemplate= _(rule 8)_
-<blockquote class="foswikiHelp">%X% :skull: This usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead. </blockquote>
+<div class="foswikiHelp">%X% :skull: This usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead. </div>
 
 When a skin name or template name is used to build a topic name, the first character is automatically capitalised.
 
@@ -272,7 +272,7 @@ Note that the trace annotations may make your output look strange. However
 you can usually "view source" in the browser to see what was generated (or
 you may be able to run the script from the command-line e.g. =cd bin; perl -T -I . view topic=MyWeb.MyTopic skin=mynewskin=).
 
-<blockquote class="foswikiHelp">%I% Don't forget to switch the trace mode off again when you are finished!</blockquote>
+<div class="foswikiHelp">%I% Don't forget to switch the trace mode off again when you are finished!</div>
 
 ---+++ Overview of the default templates
 

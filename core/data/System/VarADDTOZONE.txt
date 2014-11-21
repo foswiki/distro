@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarADDTOZONE
 ---+++ ADDTOZONE
@@ -86,13 +86,13 @@ there are any dependencies specified that only exist in the opposite zone. This
 allows an =ADDTOZONE{"head"...}= to to successfully require an =id= that has
 been added to =script=.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
   %X% ={MergeHeadAndScriptZones}= is provided to
   maintain compatibility with legacy extensions that use
   [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;= markup and require content
   that is now in the =script= zone. ={MergeHeadAndScriptZones}= will be removed
   from a future version of Foswiki.
-</blockquote>
+</div>
 
 ---++++ Example: Adding to a zone with missing dependencies
 You must ensure that no =head= content (and no inline Javascript) depends on

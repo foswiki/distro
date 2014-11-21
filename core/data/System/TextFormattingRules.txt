@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1410745600" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ Text Formatting
@@ -31,9 +31,9 @@ Being able to create links without any special formatting is a core Foswiki feat
 ---+++ External Links
 
    * Protocols matching the configuration parameter =LinkProtocolPattern=, which by default is set to =(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)=, are linked automatically. You might change this setting to add more protocols (such as smb).
-   <blockquote class="foswikiHelp">%T% =LinkProtocolPattern= is an
+   <div class="foswikiHelp">%T% =LinkProtocolPattern= is an
    _expert_ setting in the Foswiki configuration and can only be changed
-   by a systems administrator.</blockquote>
+   by a systems administrator.</div>
    Thus, all lines containing:
       * =file://...=
       * =ftp://...=

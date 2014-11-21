@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1400984562" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -67,7 +67,7 @@ Login management controls the way users have to log in. There are three basic op
 
 Does exactly what it says on the tin. Forget about authentication to make your site completely public - anyone can browse and edit freely, in classic Wiki style. All visitors are given the %USERSWEB%.WikiGuest default identity, so you can't track individual user activity.
 
-<blockquote class="foswikiHelp"> *%X% Note:* This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.</blockquote>
+<div class="foswikiHelp"> *%X% Note:* This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.</div>
 
 #TemplateLogin
 ---+++ Template Login (select =Foswiki::LoginManager::TemplateLogin=)
@@ -75,12 +75,12 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 %STARTSECTION{"TemplateLogin"}%Template Login asks for a username (or optionally email address) and password in a web page, and processes them using whatever Password Manager you choose. Users can log in and log out. Client Sessions are used to remember users. Users can choose to have their session remembered so they will automatically be logged in the next time they start their browser.
 
 ---++++ Enabling Template Login
-<blockquote class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</blockquote>
+<div class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</div>
    1 Using [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]]:
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
-      <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</blockquote>
-      <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{AllowLoginUsingEmailAddress}= that you can set to allow users to login using their password system registered email addresses.</blockquote>
+      <div class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</div>
+      <div class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{AllowLoginUsingEmailAddress}= that you can set to allow users to login using their password system registered email addresses.</div>
 %STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
       "'%INSTALLGUIDE%'='1'"
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%
@@ -88,16 +88,16 @@ Does exactly what it says on the tin. Forget about authentication to make your s
       1 If your !PasswordManager is =HtPasswdUser= (the default), check the =.htpasswd= file is being updated correctly with a new entry. If not, check ={Htpasswd}{FileName}= is correct (under =Security and Authentication= on the =Password= tab in =configure=), and that the webserver user has write permission.
    1 Create a new topic (in [[%SANDBOXWEB%.WebHome][%SANDBOXWEB%]] web for example) to confirm that authentication works.
    1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#DefineAdminUser][defining adminstrator user(s)]] for more information.
-   <blockquote class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</blockquote>%ENDSECTION{"TESTING"}%
+   <div class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</div>%ENDSECTION{"TESTING"}%
 
 AccessControl has more information on setting up access controls.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %X% Foswiki AccessControls do not protect topic attachments unless the web server has been configured to do so using the =viewfile= script. Visit Foswiki:Support.ApacheConfigGenerator for examples using Apache.
 
 %T% As Template Login uses a wiki page for its login prompt, there is a great deal of flexibility in customizing the login page for your purposes.
 
-%T% The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user topic by creating the !NewUserTemplate topic in %USERSWEB% web, which will then override the default in %SYSTEMWEB% web. See %SYSTEMWEB%.UserForm for copy instructions.</blockquote>
+%T% The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user topic by creating the !NewUserTemplate topic in %USERSWEB% web, which will then override the default in %SYSTEMWEB% web. See %SYSTEMWEB%.UserForm for copy instructions.</div>
 
 #UserRegistrationPage
 ---++++ Custom registration page
@@ -141,12 +141,12 @@ The disadvantage is that because the user identity is cached in the browser, you
 
 The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be used to authenticate Apache users, using the Apache Basic Authentication support.
 
-<blockquote class="foswikiHelp">%X% Do *not* use the Apache =htpasswd= program to modify =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out email addresses that %WIKITOOLNAME% saves in the info fields of this file.
+<div class="foswikiHelp">%X% Do *not* use the Apache =htpasswd= program to modify =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out email addresses that %WIKITOOLNAME% saves in the info fields of this file.
 
 %I% Apache Login is required for Apache-based login methods such as =mod_ldap=
 
 %I% You can use any Apache authentication module that sets the =REMOTE_USER= environment variable.
-</blockquote>
+</div>
 
 To setup Apache Login, perform the following steps:
 
@@ -190,7 +190,7 @@ To make use of these features, use the tags:
 %SESSION_VARIABLE{ "varName" clear="" }%
 </verbatim>
 
-<blockquote class="foswikiHelp">%X% [[AccessControls][Access controls]] cannot be modified in this way</blockquote>
+<div class="foswikiHelp">%X% [[AccessControls][Access controls]] cannot be modified in this way</div>
 
 ---+++ Cookies and Transparent Session IDs
 
@@ -227,10 +227,10 @@ This section applies only if you are using authentication with existing login na
 
 Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%#Registration$SecurityAndAuthentication][configure]]. The default is to use your WikiName as a login name.
 
-<blockquote>
+<div class='foswikiHelp'>
 *NOTE:* *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
 This points ==<nop>WikiUsername== to the %USERSWEB% web, where user home pages are located, no matter which web it's entered in. Without the web prefix, the name appears as a NewTopic everywhere but in the %USERSWEB% web.
-</blockquote>
+</div>
 
 #ChangingPasswords
 ---++ Changing Passwords

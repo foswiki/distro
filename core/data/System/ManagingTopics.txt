@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Topics
@@ -17,11 +17,11 @@ You can use browser-based controls to change a name of a topic, move it to anoth
    1. *Select* the ==[More topic actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename or move topic...]== or ==[Delete topic...]==. You can now rename and/or move in one operation:
       * *Move:* Select the target web if other than the current web
       * *Rename:* Enter the new topic name - default is current name
-      <blockquote class="foswikiHelp">%X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.</blockquote>
+      <div class="foswikiHelp">%X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.</div>
    1. *Prevent updates* by unchecking individual items on the list of referring links - these topics will NOT to be updated with the new name (by default, *only links in the same web* will be updated).
    1. *Click* on ==[Rename]==: the topic will be renamed and links to the topic updated as requested.
       * If any of the referring pages are locked then they will be listed: you can correct these later by again pressing ==[Rename]==.
-<blockquote class="foswikiHelp">%T% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear under the ==[Rename or move topic]== section of the ==[More topic actions]== page. This allows you to revert from the _last modification only_.</blockquote>
+<div class="foswikiHelp">%T% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear under the ==[Rename or move topic]== section of the ==[More topic actions]== page. This allows you to revert from the _last modification only_.</div>
 
 ---++ How to delete a topic
 Foswiki deletes topics by moving them to the hidden =Trash= web.
@@ -93,18 +93,18 @@ The following shows some limitations of square bracket processing.
 
 #RevisionRollback
 ---++ Reviewing and Reverting
-<blockquote class="foswikiHelp">%T% The previous version of this documented recommended copy/paste from the raw view of a prior version to revert.  This is *not* recommended as it fails to revert changes to the topic metadata.
-Note howver that no method actually reverts attachments as they are stored separately from the topics.</blockquote>
+<div class="foswikiHelp">%T% The previous version of this documented recommended copy/paste from the raw view of a prior version to revert.  This is *not* recommended as it fails to revert changes to the topic metadata.
+Note howver that no method actually reverts attachments as they are stored separately from the topics.</div>
 Foswiki's revision control saves all topic changes. To view earlier versions of a topic, click on the =%MAKETEXT{"History"}%= link in <a href="#topic-actions" class="foswikiLink">topic actions</a>. If you would like to revert to an earlier version or reclaim part of an earlier version, just copy from the old topic revision to the current topic revision as follows:
    1 If necessary, using the =History= view, find the revision number you want to restore.
    1 Visit the ==[More topic actions]== page, ==[Restore topic]== section.
    1 Enter the desired revision number and click ==[Restore]==.  This action creates a new revision from the specified version.
-<blockquote class="foswikiAlert".%X% *Caution:* This action does not "rewrite history".  A new revision is created, and the rollback can still be reverted.  If the is some highly sensitive data that must be removed from the history, this operation will not remove the information.
+<div class="foswikiAlert".%X% *Caution:* This action does not "rewrite history".  A new revision is created, and the rollback can still be reverted.  If the is some highly sensitive data that must be removed from the history, this operation will not remove the information.
 In order to completely expunge data from history, there are several possible options:
    * Move the topic to trash, and create a new version of the topic by cut/paste from the raw view of the trashed topic.
    * _or_ the site administrator can use the =cmd=delRev= option of the edit script to permanently remove the last revision of a topic. 
    * _or_ a server admin can remove the =topic.txt,v= rcs file from the file system after removing the offending information from the topic.
-</blockquote>
+</div>
 %ENDSECTION{"PowerUserGuide"}%
 
 ---
