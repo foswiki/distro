@@ -12,10 +12,9 @@ use HTML::Entities;
 
 sub test_reset {
     Foswiki::Plugins::WysiwygPlugin::Constants::test_reset;
-    $WC::siteCharsetRepresentable = undef;
-    $WC::representable_entities   = undef;
-    $WC::encoded_nbsp             = undef;
-    $WC::safe_entities            = undef;
+    $WC::representable_entities = undef;
+    $WC::encoded_nbsp           = undef;
+    $WC::safe_entities          = undef;
 }
 
 =pod
@@ -431,52 +430,6 @@ sub decodeRepresentableEntities {
     $_[0] =~ s/$encoded_nbsp/$WC::NBSP/g;
 
     return $_[0];
-}
-
-our $siteCharsetRepresentable;
-
-# Convert characters (unicode codepoints) that cannot be represented in
-# the site charset to entities. Prefer named entities to numeric entities.
-sub convertNotRepresentabletoEntity {
-    if ( WC::site_encoding() =~ /^utf-?8/ ) {
-
-        # UTF-8 can represent all characters, so no entities needed
-    }
-    else {
-        unless ($siteCharsetRepresentable) {
-
-            # Produce a string of unicode characters that contains
-            # all of the characters representable in the site charset.
-            # It's assumed that this is an 8-bit charset so only the
-            # codepoints 0..255 are considered.
-            $siteCharsetRepresentable = '';
-            for my $code ( 0 .. 255 ) {
-                eval {
-                    my $unicodeChar =
-                      Encode::decode( WC::site_encoding(), chr($code),
-                        Encode::FB_CROAK );
-
-                    # Escape codes in the standard ASCII range, as necessary,
-                    # to avoid special interpretation by perl
-                    $unicodeChar = quotemeta($unicodeChar)
-                      if ord($unicodeChar) <= 127;
-
-                    $siteCharsetRepresentable .= $unicodeChar;
-                };
-
-                # otherwise ignore
-            }
-        }
-
-        $_[0] =
-          HTML::Entities::encode_entities( $_[0],
-            "^$siteCharsetRepresentable" );
-
-        # All characters that cannot be represented in the site
-        # charset are now encoded as entities
-        # Named entities are used if available, otherwise numeric
-        # entities, because named entities produce more readable TML
-    }
 }
 
 # DEBUG
