@@ -368,6 +368,7 @@ jQuery(function($) {
         q: $("#search_field").val()
       }
     });
+    return false;
   };
   $("#search_button").on("click", doSearch);
   $("#search_field").on("keydown", function(ev) {
