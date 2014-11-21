@@ -1,140 +1,72 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416587388" format="1.1" version="1"}%
 ---+!! Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.
 
-%TOC{ depth="2" }%
-
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
-------
----++ System Requirements
-%INCLUDE{"SystemRequirements"}%
+%BUTTON{
+  "%MAKETEXT{"Click here"}%" 
+  icon="book"
+  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=content';"
+}% to load the content.
 
-[[#PageTop][Back to top]]
+<verbatim class="foswikiHidden">
+%STARTSECTION{"content"}%
+---+!! Reference Manual (%WIKIVERSION%)
 
-------
-%INCLUDE{"InstallationGuide"}%
+%TOC{ depth="2" }%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"InstallationGuide" headingoffset="1"}%
 
-------
-%INCLUDE{"UpgradeGuide"}%
+%INCLUDE{"UpgradeGuide" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"UserAuthentication" headingoffset="1"}%
 
-------
-%INCLUDE{"UserAuthentication"}%
+%INCLUDE{"AccessControl" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"TextFormattingRules" headingoffset="1"}%
 
-------
-%INCLUDE{"AccessControl"}%
+%INCLUDE{"Macros" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"FormattedSearch" headingoffset="1"}%
 
-------
-%INCLUDE{"TextFormattingRules"}%
+%INCLUDE{"FileAttachment" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"DataForms" headingoffset="1"}%
 
-------
-%INCLUDE{"Macros"}%
+%INCLUDE{"TemplateTopics" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"SkinTemplates" headingoffset="1"}%
 
-------
-%INCLUDE{"FormattedSearch"}%
+%INCLUDE{"Skins" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"MetaData" headingoffset="1"}%
 
-------
-%INCLUDE{"FileAttachment"}%
+%INCLUDE{"ContributedAddOns" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"Contribs" headingoffset="1"}%
 
-------
-%INCLUDE{"DataForms"}%
+%INCLUDE{"Plugins" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"DevelopingPlugins" headingoffset="1"}%
 
-------
-%INCLUDE{"TemplateTopics"}%
+%INCLUDE{"CommandAndCGIScripts" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
-------
-%INCLUDE{"SkinTemplates"}%
+%INCLUDE{"SiteTools" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"ManagingTopics" headingoffset="1"}%
 
-------
-%INCLUDE{"Skins"}%
+%INCLUDE{"ManagingWebs" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"ManagingUsers" headingoffset="1"}%
 
------
-%INCLUDE{"MetaData"}%
+%INCLUDE{"ReleaseHistory" headingoffset="1"}%
 
-[[#PageTop][Back to top]]
+%INCLUDE{"AppendixEncodeURLsWithUTF8" headingoffset="1"}%
 
------
-%INCLUDE{"ContributedAddOns"}%
-
-[[#PageTop][Back to top]]
-
------
-%INCLUDE{"Contribs"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"Plugins"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"DevelopingPlugins"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"CommandAndCGIScripts"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"SiteTools"}%
-
-[[#PageTop][Back to top]]
-
-----
-%INCLUDE{"ManagingTopics"}%
-
-[[#PageTop][Back to top]]
-
------
-%INCLUDE{"ManagingWebs"}%
-
-[[#PageTop][Back to top]]
-
------
-%INCLUDE{"ManagingUsers"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"ReleaseHistory"}%
-
-[[#PageTop][Back to top]]
-
-------
-%INCLUDE{"AppendixEncodeURLsWithUTF8"}%
-
-[[#PageTop][Back to top]]
-
------
-%INCLUDE{"AppendixCascadingStyleSheets"}%
-
-[[#PageTop][Back to top]]
+%INCLUDE{"AppendixCascadingStyleSheets" headingoffset="1"}%
+%ENDSECTION{"content"}%%
+</verbatim>
 
 %META:PREFERENCE{name="TOC_MIN_DEPTH" title="TOC_MIN_DEPTH" type="Set" value="1"}%
