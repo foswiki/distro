@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1415195898" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592337" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-%STARTINCLUDE%
 ---+ Formatted Search
 Customize the display of search results.
 
@@ -26,7 +25,7 @@ Format tokens that can be used in the header string:
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{"FormatTokens"}%
 
-<blockquote class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the header.</blockquote>
+<div class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the header.</div>
 
 ---+++ 2. =footer="..."= parameter
 
@@ -42,7 +41,7 @@ Format tokens that can be used in the footer string:
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{"FormatTokens"}%
 
-<blockquote class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.</blockquote>
+<div class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.</div>
 
 ---+++ 3. =pagerformat="..."= parameter
 
@@ -138,19 +137,8 @@ Here are some samples of formatted searches. The SearchPatternCookbook has other
 #SearchTable
 ---+++ Search showing topic name and summary
 
-*Write this:*
-
-<verbatim class="tml">%SEARCH{
-   "VarREMOTE"
-   scope="topic"
-   nonoise="on"
-   header="| *Topic*        | *Summary*  |"
-   format="| [[$topic]]     | $summary   |"
-   footer="| *Topics found* | *$ntopics* |"
-}%</verbatim>
-
-*To get this:*
-
+<verbatim class="tml">
+%STARTSECTION{"example1"}%
 %SEARCH{
    "VarREMOTE"
    scope="topic"
@@ -159,42 +147,28 @@ Here are some samples of formatted searches. The SearchPatternCookbook has other
    format="| [[$topic]]     | $summary   |"
    footer="| *Topics found* | *$ntopics* |"
 }%
+%ENDSECTION{"example1"}%
+</verbatim>
+
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example1"}%
 
 ---+++ Table showing form field values of topics with a form
 
 In a web where there is a form that contains a =Topic<nop>Classification= field, an =Operating<nop>System= field and an =Os<nop>Version= field we could write:
 
 <verbatim class="tml">
-| *Topic:* | *!OperatingSystem:* | *!OsVersion:* |
+%STARTSECTION{"example2"}%
 %SEARCH{
    "TopicClassification~'FrequentlyAskedQuestion'"
    type="query"
    nonoise="on"
-   format="| [[$topic]] | $formfield(OperatingSystem) | $formfield(OsVersion) |"
-}%</verbatim>
+   header="| *Topic:* | *Summary:* | *Related Topics:* |"
+   format="| [[$topic]] | $formfield(TopicSummary) | $formfield(RelatedTopics) |"
+}%
+%ENDSECTION{"example2"}%
+</verbatim>
 
-To get this (simulated):
-
-<table border="1" rules="none" class="foswikiTable" >
-<thead>
-  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-    <th> <strong>Topic:</strong> </th>
-    <th> <strong>OperatingSystem:</strong> </th>
-    <th> <strong>OsVersion:</strong> </th></tr>
-</thead>
-<tbody>
-  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-    <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/IncorrectDllVersionW32PTH10DLL">IncorrectDllVersionW32PTH10DLL</a>  </td>
-    <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin">OsWin</a>  </td>
-    <td>  95/98  </td>
-  </tr>
-  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-     <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/WinDoze95Crash">WinDoze95Crash</a>  </td>
-     <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin">OsWin</a>  </td>
-     <td>  95  </td>
-  </tr>
-</tbody>
-</table>
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example2"}%
 
 ---+++ Extract some text from a topic using regular expression
 The following example makes use of the =$pattern()= token to extract the first level-1 heading for each topic:
@@ -212,7 +186,7 @@ The following example makes use of the =$pattern()= token to extract the first l
    <verbatim class="tml"> %OUTERMACRO{
    format="$percentINNERMACRO$percent"
  }%</verbatim>
- %INCLUDE{"Macros" section="tokensupport"}%
+%INCLUDE{"Macros" section="tokensupport"}%
 
 %INCLUDE{"Macros"
   section="insideoutlefttoright"
@@ -228,7 +202,7 @@ The following example makes use of the =$pattern()= token to extract the first l
 Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
 
 *Initial (outer) search:*
-   <verbatim class="tml">
+<verbatim class="tml">
 %SEARCH{
    "culture"
    nonoise="on"
@@ -238,7 +212,7 @@ Consider the following example. Let's search for all topics that contain the wor
 *Second (inner) search:*
 
 For each hit, we want this search:
-   <verbatim class="tml">
+<verbatim class="tml">
 %SEARCH{
    "(topic found in outer search)"
    nonoise="on"
@@ -254,41 +228,29 @@ The inner search cannot be placed directly into the format string of the outer, 
    * Use =\"= to escape the double quotes
    * Use =$dollar= to escape the =$= of =$topic=
 
-*Write this:*
 <verbatim class="tml">
+%STARTSECTION{"example3"}%
 %SEARCH{
    "culture"
    nonoise="on"
    limit="5"
    format="\
-   * $topic is referenced by:
+   * [[$topic]] is referenced by:
       * $percentSEARCH{
          \"$topic\"
          nonoise=\"on\"
-         format=\"$dollartopic\"
+         format=\"[[$dollartopic]]\"
          separator=\", \"
       }$percent"
 }%
+%ENDSECTION{"example3"}%
 </verbatim>
 
-*To get this:*
-%SEARCH{
-   "culture"
-   nonoise="on"
-   limit="5"
-   format="\
-   * $topic is referenced by:
-      * $percentSEARCH{
-         \"$topic\"
-         nonoise=\"on\"
-         format=\"$dollartopic\"
-         separator=\", \"
-      }$percent"
-}%
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example3"}%
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %X% When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
-</blockquote>
+</div>
 
 #NestedSectionalInclude
 ---+++++ Method 2 (nesting with sectional includes)
@@ -296,8 +258,8 @@ Nested expressions with delayed macros can be difficult to write: care must be t
 
 If you find yourself using escaped tokens like =$dollartopic=, another approach is to use the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of [[VarINCLUDE][INCLUDE]]. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
 
-*Write this:*
 <verbatim class="tml">
+%STARTSECTION{"example4"}%
 %SEARCH{
    "culture"
    nonoise="on"
@@ -307,11 +269,7 @@ If you find yourself using escaped tokens like =$dollartopic=, another approach 
       * $percentINCLUDE{\"%TOPIC%\" section=\"mysearch\" thetopic=\"$topic\"}$percent"
 }%
 
-<!-- HTML comment to hide this section from the user and web browser's DOM.
-     verbatim prevents the section being evaluated. Alternatively, sections
-     like this can be placed into dedicated utility topics which may hold
-     many such re-usable pieces of your wiki application
-<verbatim>
+<verbatim class="foswikiHidden">
 %STARTSECTION{"mysearch"}%%SEARCH{
    "%thetopic%"
    nonoise="on"
@@ -319,17 +277,15 @@ If you find yourself using escaped tokens like =$dollartopic=, another approach 
    separator=", "
 }%%ENDSECTION{"mysearch"}%
 </verbatim>
--->
+%ENDSECTION{"example4"}%
 </verbatim>
 
-<blockquote class="foswikiHelp">%H% Output will be the same as for the first method
-
-%X% Nested search can be slow, especially if you nest more than 3 levels deep. Nesting is limited to 16 levels.</blockquote>
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example4"}%
 
 ---+++ Most recently changed pages
 
-*Write this:*
 <verbatim class="tml">
+%STARTSECTION{"example5"}%
 %SEARCH{
    "1"
    type="query"
@@ -337,19 +293,13 @@ If you find yourself using escaped tokens like =$dollartopic=, another approach 
    order="modified"
    reverse="on"
    limit="7"
-   format="| [[$topic]] | $wikiusername  | $date |"
-}%</verbatim>
-
-*To get this:*
-%SEARCH{
-   "1"
-   type="query"
-   nonoise="on"
-   order="modified"
-   reverse="on"
-   limit="7"
-   format="| [[$topic]] | $wikiusername  | $date |"
+   header="| *Topic* | *Changed* | *By* |"
+   format="| [[$topic]] | $date  | $wikiusername |"
 }%
+%ENDSECTION{"example5"}%
+</verbatim>
+
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example5"}%
 
 #ConditionalOutputExample
 ---+++ Search with conditional output
@@ -358,27 +308,8 @@ Sometimes it may be desirable for each hit to be displayed differently depending
    1. Specify a search which returns the hits you need
    1. For each search hit, test the condition that will influence the output using a nested [[VarIF][IF]] [[IfStatements][statement]]
 
-*Write this:*
 <verbatim class="tml">
-%SEARCH{
-   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
-   type="query"
-   limit="20"
-   format="   * $percentICON{
-      \"$percentIF{
-         \"'$topic'/parent.name='UserDocumentationCategory'\"
-         then=\"info\"
-         else=\"gear\"
-      }$percent\"
-   }$percent [[$topic]]"
-}%</verbatim>
-<blockquote class="foswikiHelp">
-%ICON{"info"}% *Details:*
-   * The SEARCH has a delayed [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
-   * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is delayed with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the [[#InsideOutLeftToRight][inside-out, left-to-right]] rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
-   * If =$topic= is a child of UserDocumentationCategory, the =info= icon is used; otherwise, =gear=.
-</blockquote>
-*To get this:*
+%STARTSECTION{"example6"}%
 %SEARCH{
    "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
    type="query"
@@ -391,45 +322,78 @@ Sometimes it may be desirable for each hit to be displayed differently depending
       }$percent\"
    }$percent [[$topic]]"
 }%
+%ENDSECTION{"example6"}%
+</verbatim>
+
+%INCLUDE{"SearchPatternCookbook" section="click2exec" id="example6"}%
+
+<div class="foswikiHelp">
+%ICON{"info"}% *Details:*
+   * The SEARCH has a delayed [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
+   * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is delayed with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the [[#InsideOutLeftToRight][inside-out, left-to-right]] rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
+   * If =$topic= is a child of UserDocumentationCategory, the =info= icon is used; otherwise, =gear=.
+</div>
 
 ---+++ Embedding search forms to return a formatted result
 
 Use an HTML form and an embedded formatted search on the same topic. You can link them together with an [[VarURLPARAM][URLPARAM]] macro. Example:
 
-*Write this:*
 <verbatim class="tml">
-<form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
-Find Topics:
-<input type="text" name="q" size="32"\
-  value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
-  type="submit" class="foswikiSubmit" value="Search" />
-</form>
+%STARTSECTION{"example7"}%
+<input type="text" id="search_field" size="32" />
+%BUTTON{"Search" icon="find" id="search_button"}%
 
-Result:
+<verbatim class="jqLoader {section:'example7_results', mode:'manual'}" id="result_loader">
+%STARTSECTION{"example7_results"}%
+<div class="search_results">
 %SEARCH{
    "%URLPARAM{"q" encode="quote"}%"
    type="keyword"
    nosearch="on"
-   format="   * $web.$topic: %BR% $summary"
+   format="<div class='search_hit'> $web.$topic
+      <div class='search_summary'>$summary(searchcontext)<!-- --></div> 
+      <div class='search_info'>$date, $wikiusername</div>
+    </div>"
 }%
+</div>
+%ENDSECTION{"example7_results"}%
 </verbatim>
 
-#FormSearchExample
-*To get this:*
-<form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%#FormSearchExample">
-Find Topics: 
-<input type="text" name="q" class="foswikiInputField" size="32"\
-  value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
-  type="submit" class="foswikiSubmit" value="Search" />
-</form>
+<literal>
+<script>
+jQuery(function($) {
+  function doSearch() {
+    $("#result_loader").trigger("refresh", {
+      params: {
+        q: $("#search_field").val()
+      }
+    });
+  };
+  $("#search_button").on("click", doSearch);
+  $("#search_field").on("keydown", function(ev) {
+    if (ev.keyCode == 13) {
+      doSearch();
+    }
+  });
+});
+</script>
+<style>
+.search_results em {
+  color:red;
+}
+.search_hit {
+  margin-bottom:1em;
+}
+.search_info a,
+.search_info {
+  color:#64B000;
+}
+</style>
+</literal>
+%ENDSECTION{"example7"}%
+</verbatim>
 
-Result:
-%SEARCH{
-   "%URLPARAM{"q" encode="quote"}%"
-   type="keyword"
-   nosearch="on"
-   format="   * $web.$topic: %BR% $summary"
-}%
+%INCLUDE{"%WEB%.%TOPIC%" section="example7"}%
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
