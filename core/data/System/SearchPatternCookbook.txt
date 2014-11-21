@@ -29,6 +29,7 @@ How to extract the 'name' values, i.e. 'option1', 'option2' and 'option3' and pu
 The following search pattern can be employed:
 
 <verbatim class="tml">
+%STARTSECTION{"solution1"}%
 <form>
     <select>
         %SEARCH{
@@ -41,21 +42,10 @@ The following search pattern can be employed:
         }%
     </select>
 </form>
+%ENDSECTION{"solution1"}%
 </verbatim>
 
-which is, in effect:
-<form>
-    <select>
-        %SEARCH{
-            "^\|[^\|]*\| *option *\|"
-            topic="%TOPIC%"
-            type="regex"
-            multiple="on"
-            nonoise="on"
-            format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
-        }%
-    </select>
-</form>
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution1"}%
 
 ---+++ Solution 2
 If your table has this format:
@@ -72,6 +62,7 @@ If your table has this format:
 
 You need to skip the header row. Use this search:
 <verbatim class="tml">
+%STARTSECTION{"solution2"}%
 <select>
     %SEARCH{
         "^\|[^\*\|]*\|"
@@ -82,19 +73,10 @@ You need to skip the header row. Use this search:
         format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
     }%
 </select>
+%ENDSECTION{"solution2"}%
 </verbatim>
 
-Which renders as:
-<select>
-    %SEARCH{
-        "^\|[^\*\|]*\|"
-        topic="CountryList"
-        type="regex"
-        multiple="on"
-        nonoise="on"
-        format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
-    }%
-</select>
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution2"}%
 
 ---+++ Solution 3
 If you want to grab the complete row for each occurrence of a string in a table, for instance the word "Marketing":
@@ -108,6 +90,7 @@ If you want to grab the complete row for each occurrence of a string in a table,
 
 use this query:
 <verbatim class="tml">
+%STARTSECTION{"solution3"}%
 %SEARCH{
     "^\|.*?Marketing.*"
     type="regex"
@@ -116,17 +99,10 @@ use this query:
     nonoise="on"
     format="| $pattern(^\| *(.*?) *|.*)"
 }%
+%ENDSECTION{"solution3"}%
 </verbatim>
 
-Which renders as:
-%SEARCH{
-    "^\|.*?Marketing.*"
-    type="regex"
-    topic="%TOPIC%"
-    multiple="on"
-    nonoise="on"
-    format="| $pattern(^\| *(.*?) *|.*)"
-}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution3"}%
 
 <!-- ============================== -->
 #SearchFormClassification
@@ -152,22 +128,24 @@ We will:
 ---+++ Solution
 
 <verbatim class="tml">
+%STARTSECTION{"solution4"}%
 %SEARCH{
-    "TopicClassification='%URLPARAM{type}%'"
+    "TopicClassification='%URLPARAM{"type" default="FrequentlyAskedQuestion"}%'"
     type="query"
     nonoise="on"
     sort="topic"
-    format="   * $topic - <font face='arial,helvetica' size='1'> 
-    _last modified by_ $wikiusername _on_ $date </font> %BR% &nbsp;&nbsp;&nbsp; 
-    <font face='arial,helvetica' size='1'> $formfield(TopicStatus) </font>" 
+    format="   * [[$topic]] - <span class='foswikiGrayText'>$date, [[$wikiusername]]</span>"
 }%
+%ENDSECTION{"solution4"}%
 </verbatim>
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution4"}%
 
 The filtering select dialogue is created as in Pattern 1:
 
 <verbatim class="tml">
-%STARTSIDEBAR%
-*Filter:* %BR%
+%STARTSECTION{"solution5"}%
+*Filter:* 
 <form name="selectType" action="%SCRIPTURLPATH{"view"}%/%WEB%/" >
     <select name="type" size="1" onchange="document.location=this.value;"> 
         %SEARCH{
@@ -181,10 +159,12 @@ The filtering select dialogue is created as in Pattern 1:
         <option value='%BASETOPIC%'>All pages</option>
     </select>
 </form>
-%STOPSIDEBAR% 
+%ENDSECTION{"solution5"}%
 </verbatim>
 
 This will create similar functionality as Foswiki:Extensions.TopicClassificationAddOn
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution5"}%
 
 
 <!-- ============================== -->
@@ -199,11 +179,13 @@ How to get to the parent of the current topic to display on the page?
 
 Use the QUERY macro:
 
-=%<nop>QUERY{ "parent.name" }%=
+<verbatim class="tml">
+%STARTSECTION{"solution6"}%
+Parent of [[%TOPIC%]] is [[%QUERY{ "parent.name" }%]]
+%ENDSECTION{"solution6"}%
+</verbatim>
 
----+++ Test case
-
-%QUERY{ "parent.name" }%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution6"}%
 
 
 <!-- ============================== -->
@@ -219,19 +201,21 @@ How to get to the list of all children of the current topic to display on the pa
 The parent information is stored in the topic meta data. Do a SEARCH to find all topic parent meta data pointing to the current topic:
 
 <verbatim class="tml">
-Children:
+%STARTSECTION{"solution7"}%
 %SEARCH{
-    "parent.name='%TOPIC%'"
+    "parent.name='WebHome'"
     type="query"
     nonoise="on"
+    header="*Children:* "
     format="[[$topic]]"
     separator=", "
 }%
+%ENDSECTION{"solution7"}%
 </verbatim>
 
-*Note:* Replace =%<nop>TOPIC%= with =%<nop>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution7"}%
 
-See also HierarchicalNavigation for an elaborate example.
+See also [[HierarchicalNavigation]] for an elaborate example.
 
 <!-- ============================== -->
 #SearchPublicWebsList
@@ -244,6 +228,7 @@ How to find and display public webs in a drop down list box.
 ---+++ Solution
 
 <verbatim class="tml">
+%STARTSECTION{"solution8"}%
 <form>
     <select name="topic">
         <option value="%TOPIC%">Select...</option>
@@ -258,27 +243,12 @@ How to find and display public webs in a drop down list box.
     </select>
     <input type="submit" class="foswikiSubmit" value="Go" />
 </form>
+%ENDSECTION{"solution8"}%
 </verbatim>
-
----+++ Test case
 
 Public webs can be found with the %<nop>WEBLIST% macro.
 
-<form>
-    <select name="topic">
-        <option value="%TOPIC%">Select...</option>
-            %SEARCH{
-                "%HOMETOPIC%"
-                scope="topic"
-                web="all"
-                topic="%HOMETOPIC%"
-                format="<option value='$web.$topic'>$web</option>"
-                separator=" "
-            }%
-        </select>
-    <input type="submit" class="foswikiSubmit" value="Go" />
-</form>
-
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution8"}%
 
 <!-- ============================== -->
 #SearchBulletList
@@ -299,6 +269,7 @@ For example, !CategoryList has:
 The following search pattern can be employed:
 
 <verbatim class="tml">
+%STARTSECTION{"solution9"}%
 <select name="type">
     <option>Select category...</option>
     %SEARCH{
@@ -311,10 +282,14 @@ The following search pattern can be employed:
         format="<option>$pattern(.*   \*\s*([^\n]*).*)</option>"
     }%
 </select>
+%ENDSECTION{"solution9"}%
 </verbatim>
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution9"}%
 
 To render the bullet list as a comma-separated list, use the =separator= parameter:
 <verbatim class="tml">
+%STARTSECTION{"solution10"}%
 %SEARCH{
     "   *\s*.*?"
     topic="CategoryList"
@@ -325,7 +300,10 @@ To render the bullet list as a comma-separated list, use the =separator= paramet
     separator=","
     format="$pattern(.*   \*\s*([^\n]*).*)"
 }%
+%ENDSECTION{"solution10"}%
 </verbatim>
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution10"}%
 
 <!-- ============================== -->
 #MovedTopics
@@ -337,47 +315,33 @@ How would I go about listing all moved topics ?
 
 ---+++ Solution
 
-Search for the 'moved' meta data. Type this: 
+Search for the 'moved' meta data. 
 
 <verbatim class="tml">
-Moved topics: %SEARCH{
+%STARTSECTION{"solution11"}%
+*Moved topics*: %SEARCH{
     "moved.from=~'\w+'"
     web="all"
     type="query"
     separator=", "
-    format="$web.$topic"
+    format="[[$web.$topic]]"
     nonoise="on"
 }%
+%ENDSECTION{"solution11"}%
 </verbatim>
----+++ Test case
-Moved topics: %SEARCH{
-    "moved.from=~'\w+'"
-    web="all"
-    type="query"
-    separator=", "
-    format="$web.$topic"
-    nonoise="on"
-}%
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution11"}%
 
 ---++ Pattern 8: Extract level-1 headings
 
 ---+++ How do I go about extracting the first occurance of a level-1 heading?
 
 ---+++ Solution
-Use the =$pattern()= token. Type this:
+Use the =$pattern()= token. 
+
 %STARTSECTION{"Headings"}%
 <verbatim class="tml">
-%SEARCH{
-    "^---[+][^+][^\r\n]+[\r\n]"
-    type="regex"
-    nonoise="on"
-    header="Headings:"
-    limit="5"
-    format="   * [[$topic][$pattern([\r\n\-+!]+([^\r\n]*?)[\r\n].*)]]"
-    footer="Found $ntopics topics with level-1 headings"
-}%</verbatim>
-
----+++ Test case
+%STARTSECTION{"solution12"}%
 %SEARCH{
     "^---[+][^+][^\r\n]+[\r\n]"
     type="regex"
@@ -387,8 +351,20 @@ Use the =$pattern()= token. Type this:
     format="   * [[$topic][$pattern([\r\n\-+!]+([^\r\n]*?)[\r\n].*)]]"
     footer="Found $ntopics topics with level-1 headings"
 }%
+%ENDSECTION{"solution12"}%
+</verbatim>
+
+%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution12"}%
 %ENDSECTION{"Headings"}%
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
-<!-- %JQREQUIRE{"chili"}% -->
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"click2execute"}%
+%BUTTON{"Click to execute" onclick="jQuery('#%id%').trigger('refresh')"}%
+
+<div class="jqLoader {mode:'manual', web:'%WEB%', topic:'%TOPIC%', section:'%id%'}" id="%id%"></div>
+%ENDSECTION{"click2execute"}%
+</verbatim>
+%JQREQUIRE{"chili,loader"}%
