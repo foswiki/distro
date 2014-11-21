@@ -21,13 +21,14 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
       * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
       * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
       * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
-<blockquote class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
+<div class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
 
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
-</blockquote>
+</div>
 
-<blockquote class="foswikiHelp">%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
-</blockquote>
+<div class="foswikiHelp">
+%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
+</div>
 
 ---++ <nop>%TOPIC% Settings
 

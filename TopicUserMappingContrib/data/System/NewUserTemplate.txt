@@ -1,4 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284629812" format="1.1" version="1"}%
+%META:TOPICINFO{author="BaseUserMapping_999" comment="autosave" date="1356278777" format="1.1" version="1"}%
+
+%META:TOPICPARENT{name="WikiUsers"}%
 ---+ <nop>%TOPIC%
 
 %SPLIT%
@@ -25,4 +27,3 @@
 %META:FIELD{name="Email" attributes="" title="Email" value=""}%
 %META:FIELD{name="HomePage" attributes="" title="<nop>HomePage" value=""}%
 %META:FIELD{name="Comment" attributes="" title="Comment" value=""}%
-%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Local" value="UserView"}%

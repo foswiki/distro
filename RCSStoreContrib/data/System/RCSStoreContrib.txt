@@ -15,9 +15,9 @@ This is the modern implementation of the classic Foswiki RCS based store. It has
 ---++ Managing Topics
 The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =pub/Trash= and =data/Trash= directories. 
 
-<blockquote class="foswikiHelp">%X% This can only be done from on the server, not through the browser. %T% Be sure to recreate the empty !TrashAttachments after you remove it.
+<div class="foswikiHelp">%X% This can only be done from on the server, not through the browser. %T% Be sure to recreate the empty !TrashAttachments after you remove it.
 
-%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</blockquote>
+%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</div>
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%

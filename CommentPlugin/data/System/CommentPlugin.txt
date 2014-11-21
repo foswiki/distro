@@ -90,7 +90,7 @@ This allows for several levels of customization:
    1 To override templates *for a specific skin*, add them to %SYSTEMWEB%.<nop>UserComments&lt;Skin&gt;Template (where &lt;Skin&gt; is the name of the skin with the first letter capitalized, e.g. Pattern)
 
 You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
-<blockquote>
+
 <verbatim class="tml">
 %COMMENT{
    type="blogpost"
@@ -101,10 +101,10 @@ You can also define a *comment template in a topic*, by passing the topic locati
 </verbatim>
 
 =templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
-</blockquote>
 
 
-<blockquote class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</blockquote>
+
+<div class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</div>
 
 ---+++ Customization example
 Provide both a =PROMPT= and an =OUTPUT= definition:
@@ -177,7 +177,7 @@ Note that =comment_anchor= overrides =comment_index=. Example, shows an "I Appro
 </verbatim>
 
 ---++++ Customisation example with custom form template
-<blockquote class="foswikiAlert"> %X% *This method has critical differences from the version shipped with Foswiki 1.1.4!* (Identified by %X%) </blockquote>
+<div class="foswikiAlert"> %X% *This method has critical differences from the version shipped with Foswiki 1.1.4!* (Identified by %X%) </div>
 Write a custom form in a topic.
    * %X% In the form, the =action= must be =%<nop>SCRIPTURL{"rest"}%/CommentPlugin/comment=.   The save script used in previous versions will not work.
    * %X% In the form, the =topic= must be set to a valid, existing =Web.Topic=.  =topic= is validated by the =rest= script which will reject the request if invalid.

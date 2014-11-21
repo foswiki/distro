@@ -53,7 +53,7 @@ Users are added using the default registration process in Foswiki. To delete a u
    2. Remove their topic files: data/%USERSWEB%/FredQuimby.txt and data/%USERSWEB%/FredQuimby.txt,v
    3. Remove the !FredQuimby line from the [[%USERSWEB%.%WIKIUSERSTOPIC%]] topic
    4. Remove user from all groups and from all the ALLOWWEB/ALLOWTOPIC... declarations, if any. <br />
-   <blockquote class="foswikiHelp">%X% *Note:* Otherwise this will leave a security hole, as the first person to re-register with this name will be granted the permissions of the previous user.</blockquote>
+   <div class="foswikiHelp">%X% *Note:* Otherwise this will leave a security hole, as the first person to re-register with this name will be granted the permissions of the previous user.</div>
 
 ---++ Settings
 The !TopicUserMappingContrib specific settings have not yet been moved out of the standard Foswiki.spec. This will be done in a future release.

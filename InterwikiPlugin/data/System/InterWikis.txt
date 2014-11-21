@@ -6,7 +6,7 @@ This topic lists all aliases needed to map inter-wiki links to external wikis/si
 
 Whenever you write ==ExternalSite:Page== it will be linked automatically to the page on the external site. The link points to the URL corresponding to the ==ExternalSite== alias below, concatenated to the ==Page== you choose. Example: Type ==Wiki<nop>:RecentChanges== to get <a href="http://c2.com/cgi/wiki?RecentChanges">Wiki:RecentChanges</a>, the <nop>RecentChanges page at the original Wiki site.
 
-<blockquote class="foswikiHelp">%X% Note: This topic needs to be visible for all users, or the plugin will not work correctly.</blockquote>
+<div class="foswikiHelp">%X% Note: This topic needs to be visible for all users, or the plugin will not work correctly.</div>
 
 ---+++ How to define Inter-Wiki Links
 

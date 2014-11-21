@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284862626" format="1.1" version="1"}%
+%META:TOPICINFO{author="BaseUserMapping_999" comment="autosave" date="1356278781" format="1.1" version="1"}%
+
 %META:TOPICPARENT{name="UserForm"}%
 ---+!! User Form Help
 %STARTSECTION{"note"}%%IF{"$ BASEWEB='%SYSTEMWEB%'"
@@ -26,9 +27,9 @@ To create a custom user form, do this:
 "}%
 "}%
 
-<blockquote class="foswikiHelp">%X% Your form changes will only be visible in a user topic after it has been saved.
+<div class="foswikiHelp">%X% Your form changes will only be visible in a user topic after it has been saved.
 
-%X% Please keep the %SYSTEMWEB%.UserRegistration form and the user form definition in sync. When you update the user form you need to edit/save the %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="[[%SYSTEMWEB%.NewUserTemplate]] (not recommended, see below)"}%. This ensures that the fields are in the right order.</blockquote>
+%X% Please keep the %SYSTEMWEB%.UserRegistration form and the user form definition in sync. When you update the user form you need to edit/save the %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="[[%SYSTEMWEB%.NewUserTemplate]] (not recommended, see below)"}%. This ensures that the fields are in the right order.</div>
 
 #CreateNewUserForm
 ---+++ A form for new users

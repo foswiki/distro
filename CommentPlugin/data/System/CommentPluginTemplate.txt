@@ -102,9 +102,10 @@ Comments, signed and dated, added immediately before anchor
 
 ---++++ bulletabove
 Bullet item added immediately before anchor. The input field width is passed with parameter =inputsize=, for example:
-<blockquote><verbatim>
+
+<verbatim>
 %COMMENT{type="bulletabove" inputsize="20"}%
-</verbatim></blockquote>
+</verbatim>
 
 <verbatim>
 %TMPL:DEF{PROMPT:bulletabove}%<input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item" type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%" />&nbsp;<input %DISABLED% type="button" value="%button|Add item%" class="foswikiButton %TMPL:P{ajax}%" />%TMPL:END%

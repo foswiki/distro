@@ -102,19 +102,21 @@ Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in 
 There are 2 ways to change the logo in a web:
 
 *Using logo.gif:*
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
    * Create a new image named =logo.gif= and attach it to the web's WebPreferences topic. %SYSTEMWEB%.PatternSkin's stylesheet assumes the logo is 40px high. More about that later.
    * You can also upload the image with FTP to =/pub/YourWeb/WebPreferences/=.
    * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
-</blockquote>
+</div>
+
 *Using a new filename:*
-<blockquote class="foswikiHelp">
+
+<div class="foswikiHelp">
    * Attach whatever image and attach it to the web's WebPreferences topic. Then add to the WebPreferences (under _Custom web preferences_):
 <pre class="tml">
       * Set <nop>WEBLOGONAME = your-logo-name.gif-or-png
 </pre>
    * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
-</blockquote>
+</div>
 
 ---+++ How do I set a site-wide logo?
 

@@ -7,8 +7,8 @@ _Register users on your Foswiki site; change/reset/install passwords; remove use
 
 %TOC%
 
-<blockquote class="foswikiHelp"> %X% Some of the features below may be disabled, depending on your Foswiki
-configuration.</blockquote>
+<div class="foswikiHelp"> %X% Some of the features below may be disabled, depending on your Foswiki
+configuration.</div>
 
 ---++ Authentication and Access Control
 
@@ -162,7 +162,7 @@ Content-Transfer-Encoding: 8bit
     EMAILADDRESS="%EMAILADDRESS%"
 }%
 </verbatim>
-<blockquote class="foswikiHelp"> %H% *Note* the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template</blockquote>
+<div class="foswikiHelp"> %H% *Note* the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template</div>
 
 and then create a topic %NOP%%USERSWEB%.RegisterNotifyEmail:
 <verbatim class="tml">
@@ -186,7 +186,7 @@ Your Wiki Admin
 %FORMDATA%
 
 </verbatim>
-<blockquote class="foswikiHelp">%X% *Remember* to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.</blockquote>
+<div class="foswikiHelp">%X% *Remember* to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.</div>
 
 ---++ Manually approving registrations
 In some installations, registration requests should be forwarded to an administrator for approval.  This can be accomplished relatively easily by
@@ -228,7 +228,7 @@ Verification code %VERIFICATIONCODE%
 
 %SCRIPTURL{"register"}%?action=verify;code=%VERIFICATIONCODE%
 </verbatim>
-<blockquote class="foswikiHelp"> %T% *Note* The line following the =Content-Transfer= *must* be completely empty, with no spaces, or the email wil fail.</blockquote>
+<div class="foswikiHelp"> %T% *Note* The line following the =Content-Transfer= *must* be completely empty, with no spaces, or the email wil fail.</div>
 
 ---+++!! Wiki Admin notification =templates/registernotifyadmin.approval.tmpl= _(Step 4)_
 
@@ -287,13 +287,13 @@ Edit your [[%LOCALSITEPREFS%]] topic and enable the new skin, and set the %<nop>
    * #Set REGISTRATIONAPPROVAL=Registraions
    * #Set REGISTRATIONAPPROVALEMAIL=registrations@mycompany.com
 </verbatim>
-<blockquote class="foswikiHelp"> %X% *Note* Be sure to add the REGISTRATIONAPPROVAL and REGISTRATIONAPPROVALEMAIL to the =Set FINALPREFERENCES= line.</blockquote>
+<div class="foswikiHelp"> %X% *Note* Be sure to add the REGISTRATIONAPPROVAL and REGISTRATIONAPPROVALEMAIL to the =Set FINALPREFERENCES= line.</div>
 
 ---+++!! Edit the Registration Configuration _(Steps 7-8)_
 
-<blockquote>
    $ ={Register}{NeedVerification}=: This checkbox should be enabled in the "Security and Authentication" -> "Registration" tab.
    $ ={Register}{ExpireAfter}=: Set to a value that is > than the longest delay expected for approval.  For ex.  a "Holiday weekend" - 3-day lifetime would require 259200 seconds.
+
 <div class="foswikiHelp">
 Set the pending registration timeout, in seconds. The pending registration
 will be cleared after this amount of time. The default is 6 hours (21600
@@ -313,8 +313,6 @@ timer should most likely be significantly increased. 24 hours = 86400, 3 days
 Pending registration requests are stored in the
 ={WorkingDir}/registration_approvals= directory.
 </div>
-
-</blockquote>
 
 ---
 *Related Topics:* AdminDocumentationCategory

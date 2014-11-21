@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1342561107" format="1.1" version="1"}%
+%META:TOPICINFO{author="BaseUserMapping_999" comment="autosave" date="1356278771" format="1.1" version="1"}%
+
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
-<blockquote class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.WikiUsers topic.</blockquote>
+<div class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.WikiUsers topic.</div>
 
 Sometimes, the %USERSWEB%.WikiUsers topic maintained by %SYSTEMWEB%.TopicUserMappingContrib may not reflect the true list of users registered on your Foswiki installation. This most commonly happens when:
    * You deleted or renamed users and forgot to edit the %USERSWEB%.WikiUsers topic, or
