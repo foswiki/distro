@@ -445,7 +445,7 @@ s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
 s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') . $2 . ">"/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @{ WC::TML_COLOURS() } ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @$WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
 
@@ -969,7 +969,7 @@ sub _liftOutSquab {
     }
 
     # Handle colour tags specially (hack, hack, hackity-HACK!
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @{ WC::TML_COLOURS() } ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @$WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
     _handleMarkup($text);

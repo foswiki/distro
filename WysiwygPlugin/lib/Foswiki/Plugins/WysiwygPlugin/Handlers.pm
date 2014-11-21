@@ -13,9 +13,10 @@ use CGI qw( :cgi -any );
 
 use Encode ();
 
-use Foswiki::Func                              ();    # The plugins API
-use Foswiki::Plugins                           ();    # For the API version
-use Foswiki::Plugins::WysiwygPlugin::Constants ();
+use Foswiki::Func                                 ();    # The plugins API
+use Foswiki::Plugins                              ();    # For the API version
+use Foswiki::Plugins::WysiwygPlugin::Constants    ();
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC ();
 
 our $html2tml;
 our $imgMap;
