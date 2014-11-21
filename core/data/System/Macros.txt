@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416593166" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -36,9 +36,9 @@ To use a macro type its name. For example,
 The following describes only these types of macros:
    * [[PreferenceSettings][Preference settings]]
    * Most macros provided by plugins (those that use [[PerlDoc?module=Foswiki::Func#registerTagHandler][registerTagHandler()]])
-   <blockquote class="foswikiHelp">%X% *Not* those that use [[PerlDoc?module=Foswiki::Func#commonTagsHandler][commonTagsHandler()]]</blockquote>
+   <div class="foswikiHelp">%X% *Not* those that use [[PerlDoc?module=Foswiki::Func#commonTagsHandler][commonTagsHandler()]]</div>
    * Most built-in Foswiki macros
-   <blockquote class="foswikiHelp">%X% Notable exceptions include: [[VarCALC][CALC]], [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION, [[VarSTARTINCLUDE][STARTINCLUDE]]/STOPINCLUDE</blockquote>
+   <div class="foswikiHelp">%X% Notable exceptions include: [[VarCALC][CALC]], [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION, [[VarSTARTINCLUDE][STARTINCLUDE]]/STOPINCLUDE</div>
 
 %STARTSECTION{"insideoutlefttoright"}%
 #StandardForm
@@ -57,7 +57,8 @@ The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 
 #AnimatedExample
 ---+++++ Animated Example
-%JQREQUIRE{"CYCLE,EASING,CHILI"}%<!-- ids are appended with %INCLUDINGTOPIC%
+
+%JQREQUIRE{"cycle,easing,chili"}%<!-- ids are appended with %INCLUDINGTOPIC%
 to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
   id="NestedSlideshow%INCLUDINGTOPIC%"
   text="<script type='text/javascript'>
@@ -81,6 +82,7 @@ jQuery(document).ready(function($) {
     #NestedSlideshowNav%INCLUDINGTOPIC%  a.activeSlide,
     #NestedSlideshowNav%INCLUDINGTOPIC%  a:hover { background: #cff }
     #NestedSlideshowNav%INCLUDINGTOPIC%  a:focus { outline: none; }
+    #NestedSlideshow%INCLUDINGTOPIC% pre { overflow:visible }
   </style>"
 }%<div id="NestedSlideshowNav%INCLUDINGTOPIC%"></div>
 <div id="NestedSlideshow%INCLUDINGTOPIC%">
@@ -160,9 +162,9 @@ jQuery(document).ready(function($) {
 ---++++ Delayed form
 [[#StandardForm][Standard form]] macros can nearly always be used to build the parameter string of another macro; however, sometimes it is desirable to bypass the [[#InsideOutLeftToRight][inside-out]] expansion order and delay the inner macro until after the outer macro has finished expansion. This is accomplished by using the [[FormatTokens][$percent]] format token instead of =%=, and escaping any ="= character it uses (becomes =\"=)
 
-%STARTSECTION{"tokensupport"}%<blockquote class="foswikiHelp">
+%STARTSECTION{"tokensupport"}%<div class="foswikiHelp">
   %T% When working with a given [[Macros][macro]], consult its documentation to determine which parameters support the =$percent/$percnt= [[FormatTokens][format tokens]]. Generally only _output parameters_ like =header=, =format= and =footer= support [[FormatTokens][format tokens]].
-  </blockquote>%ENDSECTION{"tokensupport"}%
+  </div>%ENDSECTION{"tokensupport"}%
 *Example:*
 <verbatim class="tml">
 %MACRO1{
@@ -172,11 +174,13 @@ jQuery(document).ready(function($) {
 }%
 </verbatim>
 The macros are expanded in this order: MACRO3, MACRO4, MACRO1, *MACRO2*.
+
 #AnimatedDelayedExample
 ---+++++ Animated Example
+
 From the [[FormattedSearch#ConditionalOutputExample][conditional output example]]:
 
-%JQREQUIRE{"CYCLE,EASING,CHILI"}%<!-- ids are appended with %INCLUDINGTOPIC%
+%JQREQUIRE{"cycle,easing,chili"}%<!-- ids are appended with %INCLUDINGTOPIC%
 to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
   id="DelayedSlideshow%INCLUDINGTOPIC%"
   text="<script type='text/javascript'>
@@ -200,6 +204,7 @@ jQuery(document).ready(function($) {
     #DelayedSlideshowNav%INCLUDINGTOPIC%  a.activeSlide,
     #DelayedSlideshowNav%INCLUDINGTOPIC%  a:hover { background: #cff }
     #DelayedSlideshowNav%INCLUDINGTOPIC%  a:focus { outline: none; }
+    #DelayedSlideshow%INCLUDINGTOPIC% pre { overflow:visible }
   </style>"
 }%<div id="DelayedSlideshowNav%INCLUDINGTOPIC%"></div>
 <div id="DelayedSlideshow%INCLUDINGTOPIC%">
@@ -303,13 +308,13 @@ By convention all settings, predefined macros and macros registered by plugins a
 
 Most predefined macros return values that were either set in the configuration when Foswiki was installed, or taken from server info (such as current username, or date and time). Some, like =%<nop>SEARCH%=, are powerful and general tools.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">
 %X% Predefined macros can be overridden by [[%SYSTEMWEB%.PreferenceSettings][preference settings]] (except TOPIC and WEB)
 
 %X% Plugins may extend the set of predefined macros (see individual Plugins topics for details)
 
 %T% *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<nop>BASETOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
-</blockquote>
+</div>
 
 Your installation of Foswiki %WIKIVERSION% has the following registered macros:
 

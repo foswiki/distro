@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416593166" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 ---+!! Search Pattern Cookbook
 
@@ -45,7 +45,7 @@ The following search pattern can be employed:
 %ENDSECTION{"solution1"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution1"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution1"}%
 
 ---+++ Solution 2
 If your table has this format:
@@ -76,7 +76,7 @@ You need to skip the header row. Use this search:
 %ENDSECTION{"solution2"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution2"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution2"}%
 
 ---+++ Solution 3
 If you want to grab the complete row for each occurrence of a string in a table, for instance the word "Marketing":
@@ -102,7 +102,7 @@ use this query:
 %ENDSECTION{"solution3"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution3"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution3"}%
 
 <!-- ============================== -->
 #SearchFormClassification
@@ -139,7 +139,7 @@ We will:
 %ENDSECTION{"solution4"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution4"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution4"}%
 
 The filtering select dialogue is created as in Pattern 1:
 
@@ -164,7 +164,7 @@ The filtering select dialogue is created as in Pattern 1:
 
 This will create similar functionality as Foswiki:Extensions.TopicClassificationAddOn
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution5"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution5"}%
 
 
 <!-- ============================== -->
@@ -185,7 +185,7 @@ Parent of [[%TOPIC%]] is [[%QUERY{ "parent.name" }%]]
 %ENDSECTION{"solution6"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution6"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution6"}%
 
 
 <!-- ============================== -->
@@ -213,7 +213,7 @@ The parent information is stored in the topic meta data. Do a SEARCH to find all
 %ENDSECTION{"solution7"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution7"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution7"}%
 
 See also [[HierarchicalNavigation]] for an elaborate example.
 
@@ -248,7 +248,7 @@ How to find and display public webs in a drop down list box.
 
 Public webs can be found with the %<nop>WEBLIST% macro.
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution8"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution8"}%
 
 <!-- ============================== -->
 #SearchBulletList
@@ -285,7 +285,7 @@ The following search pattern can be employed:
 %ENDSECTION{"solution9"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution9"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution9"}%
 
 To render the bullet list as a comma-separated list, use the =separator= parameter:
 <verbatim class="tml">
@@ -303,7 +303,7 @@ To render the bullet list as a comma-separated list, use the =separator= paramet
 %ENDSECTION{"solution10"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution10"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution10"}%
 
 <!-- ============================== -->
 #MovedTopics
@@ -330,7 +330,7 @@ Search for the 'moved' meta data.
 %ENDSECTION{"solution11"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution11"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution11"}%
 
 ---++ Pattern 8: Extract level-1 headings
 
@@ -354,17 +354,18 @@ Use the =$pattern()= token.
 %ENDSECTION{"solution12"}%
 </verbatim>
 
-%INCLUDE{"%WEB%.%TOPIC%" section="click2execute" id="solution12"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution12"}%
 %ENDSECTION{"Headings"}%
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
 
 <verbatim class="foswikiHidden">
-%STARTSECTION{"click2execute"}%
+%STARTSECTION{"click2exec"}%
 %BUTTON{"Click to execute" onclick="jQuery('#%id%').trigger('refresh')"}%
 
-<div class="jqLoader {mode:'manual', web:'%WEB%', topic:'%TOPIC%', section:'%id%'}" id="%id%"></div>
-%ENDSECTION{"click2execute"}%
+<div class="jqLoader {mode:'manual', web:'%INCLUDINGWEB%', topic:'%INCLUDINGTOPIC%', section:'%id%'}" id="%id%"></div>
+%JQREQUIRE{"loader"}%
+%ENDSECTION{"click2exec"}%
 </verbatim>
-%JQREQUIRE{"chili,loader"}%
+%JQREQUIRE{"chili"}%
