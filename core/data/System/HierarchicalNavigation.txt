@@ -2,54 +2,28 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! Hierarchical Navigation
 
-*Navigation block that displays the current topic, its parent and children (if any).* %BR%
+*Navigation block that displays the current topic, its parent and children (if any).* 
 This is intended to be included in other topics, for example in a side navigation bar (!WebLeftBar).
 
-_NOTE: The lookup for parent and children will increase the loading time of your pages._
+<div class="foswikiHelp">
+%X% WARNING: The lookup for parent and children will increase the loading time of your pages.
+</div>
 
-%TOC%
+---++ Displaying parent, current and child topics
 
----++ Usage
-Two sections are defined:
-   * =all=
-   * =children=
-   
----+++ Displaying the Parent - Current - Children block
-<blockquote>
 <verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
 </verbatim>
-</blockquote>
-generates:
 
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
+---++ Displaying child topics
 
-
-When included in !WebLeftBar (using default PatternSkin) this is styled to:
-
-<div id="patternSideBarContents">
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
-</div>
-
----+++ Displaying child topics
-<blockquote>
 <verbatim class="tml">
 *Child topics:*
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
 </verbatim>
 </blockquote>
-generates:
 
-*Child topics:*
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
-
-When included in !WebLeftBar (using default Pattern skin) this is styled to:
-
-<div id="patternSideBarContents">
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
-</div>
-
-<verbatim style="display:none;">
+<verbatim class="foswikiHidden">
 %STARTSECTION{"all"}%<div class="foswikiHierarchicalNavigation">
 <ul>
 %SEARCH{
