@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416565920" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Contribs
 
@@ -30,7 +30,7 @@ Foswiki contribs may
    scope="topic"
    topic="*Contrib"
    nosearch="on"
-   format="   * <b>[[$topic]]</b>: <nop>$pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*) <span style=\"color: gray\">- version $pattern(.*?Version\:?\s*\|([^\n\r\|]*)\|.*)</span> <br /> <span style=\"color: gray; font-size: 80%\"> Author: $pattern(.*?\sAuthors?:\s*\|\s*(.*?)\s*\|.*) - last modified: r$rev - [[%SCRIPTURL{rdiff}%/$web/$topic][$date]] - $wikiusername </span>"
+   format="   * [[$topic]]"
 }%
 
 ---++ Installing Contribs
