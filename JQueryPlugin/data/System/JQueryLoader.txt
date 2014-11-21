@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1319452868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416592207" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -30,8 +30,12 @@ Parameter are specified using JQueryMetadata, as in
 </verbatim>
 
 | *Parameter* | *Description* | *Default* |
-| url | the full url from where the content, e.g. =url:'%SCRIPTURL{"view"}%/MyWeb/MyTopic?section=mysection;skin=text'= | |
+| url | the full url from where the content, e.g. =url:'%SCRIPTURL{"view"}%/MyWeb/MyTopic= | =%<nop>SCRIPTURLPATH{"view"}/&lt;web>/&lt;topic>= |
+| web | the web from where to load content | current web |
+| topic | the topic from where to load content | current topic |
 | section | the section within the topic (see %SYSTEMWEB%.VarSTARTSECTION) | |
+| select | jQuery selector to extract a specific node from the retrieved data | |
+| params | url parameter that are sent to the server | ={"skin":"text"}= |
 | mode | specify whether the content is either loaded automatically or by clicking on the container; \
          possible values: =auto=, =manual= | =auto= |
 | placeholder | the image to be displayed as long as the content hasn't been loaded \
@@ -57,7 +61,8 @@ events can be used to hook your own callbacks to be processed when they are fire
 
 <verbatim class="tml">
 %JQREQUIRE{"loader"}%
-<verbatim class="jqLoader {section:'recentchanges', effect:'fade'}" id="myLoader">
+<div class="jqLoader {section:'recentchanges'}" id="myLoader">
+<verbatim>
 %STARTSECTION{"recentchanges"}%<!-- -->
 %SEARCH{
     "'1'" 
@@ -71,6 +76,7 @@ events can be used to hook your own callbacks to be processed when they are fire
 }%
 <!-- -->%ENDSECTION{"recentchanges"}%
 </verbatim>
+</div>
 </verbatim>
 
 ... if installed:
