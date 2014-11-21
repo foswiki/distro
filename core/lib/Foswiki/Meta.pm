@@ -79,10 +79,6 @@ revision of the object. Version numbers are required to increase (later
 version numbers are greater than earlier) but are *not* required to be
 sequential.
 
-This module also includes some methods to support embedding meta-data for
-topics directly in topic text, a la the traditional Foswiki store
-(getEmbeddedStoreForm and setEmbeddedStoreForm)
-
 *IMPORTANT* the methods on =Foswiki::Meta= _do not check access permissions_
 (other than =haveAccess=, obviously).
 This is a deliberate design decision, as these checks are expensive and many
@@ -129,7 +125,7 @@ BEGIN {
 our $reason;
 
 # Version for the embedding format (increment when embedding format changes)
-our $EMBEDDING_FORMAT_VERSION = 1.1;
+use constant EMBEDDING_FORMAT_VERSION => 1.1;
 
 # defaults for truncation of summary text
 our $SUMMARY_TMLTRUNC = 162;
@@ -331,7 +327,7 @@ sub registerMETA {
      this object is a handle for the root container. If $topic is undef,
      it is the handle to a web. Otherwise it's a handle to a topic.
    * $text - optional raw text, which may include embedded meta-data. Will
-     be passed to =setEmbeddedStoreForm= to initialise the object. Only valid
+     be deserialised to initialise the object. Only valid
      if =$web= and =$topic= are defined.
 Construct a new, unloaded object. This method creates lightweight
 handles for store objects; the full content of the actual object will
@@ -399,7 +395,7 @@ sub new {
         # latest rev
         ASSERT( defined($web),   'web is not defined' )   if DEBUG;
         ASSERT( defined($topic), 'topic is not defined' ) if DEBUG;
-        $this->setEmbeddedStoreForm($text);
+        Foswiki::Serialise::deserialise( $text, 'Embedded', $this );
         $this->{_latestIsLoaded} = 1;
     }
 
@@ -758,7 +754,7 @@ sub stringify {
           ? $this->{_loadedRev}
           : '(not loaded)'
           if $debug;
-        $s .= "\n" . $this->getEmbeddedStoreForm();
+        $s .= "\n" . Foswiki::Serialise::serialise( $this, 'Embedded' );
     }
     return $s;
 }
@@ -1501,7 +1497,7 @@ sub setRevisionInfo {
     ASSERT( defined $ti->{version} ) if DEBUG;
     $ti->{version} = 1 if $ti->{version} < 1;
     $ti->{version} = $ti->{version};
-    $ti->{format}  = $EMBEDDING_FORMAT_VERSION;
+    $ti->{format}  = EMBEDDING_FORMAT_VERSION;
 
     $this->put( 'TOPICINFO', $ti );
 }
@@ -1538,7 +1534,7 @@ sub getRevisionInfo {
             date    => 0,
             author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
             version => 0,
-            format  => $EMBEDDING_FORMAT_VERSION,
+            format  => EMBEDDING_FORMAT_VERSION,
         };
         return $info;
     }
@@ -1920,7 +1916,7 @@ sub save {
         # Break up the tom and write the meta into the topic text.
         # Nasty compatibility requirement as some old plugins may hack the
         # meta instead of using the Meta API
-        my $text = $this->getEmbeddedStoreForm();
+        my $text = Foswiki::Serialise::serialise( $this, 'Embedded' );
 
         my $pretext = $text;               # text before the handler modifies it
         my $premeta = $this->stringify();  # just the meta, no text
@@ -1968,7 +1964,7 @@ sub save {
     # Semantics inherited from TWiki. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
     if ( !defined $signal && $plugins->haveHandlerFor('afterSaveHandler') ) {
-        my $text = $this->getEmbeddedStoreForm();
+        my $text = Foswiki::Serialise::serialise( $this, 'Embedded' );
         delete $this->{_preferences};    # Make sure handler has changed prefs
         my $error = $signal ? $signal->{-text} : undef;
         $plugins->dispatch( 'afterSaveHandler', $text, $this->{_topic},
@@ -3574,13 +3570,9 @@ Generate the embedded store form of the topic. The embedded store
 form has meta-data values embedded using %META: lines. The text
 stored in the meta is taken as the topic text.
 
-TODO: Soooo.... if we wanted to make a meta->setPreference('VARIABLE', 'Values...'); we would have to change this to
-   1 see if that preference is set in the {_text} using the    * Set syntax, in which case, replace that
-   2 or let the META::PREF.. work as it does now..
-   
-yay :/
-
-TODO: can we move this code into Foswiki::Serialise ?
+*Deprecated* 2014-11-13, and will be removed in Foswiki 2.0.
+It is retained for compatibility only.
+use =Foswiki::Serialise::serialise($meta, 'Embedded')= instead.
 
 =cut
 
@@ -3589,7 +3581,7 @@ sub getEmbeddedStoreForm {
 
     _assertIsTopic($this) if DEBUG;
 
-    return Foswiki::Serialise::serialise( $this->session(), $this, 'Embedded' );
+    return Foswiki::Serialise::serialise( $this, 'Embedded' );
 }
 
 =begin TML
@@ -3602,117 +3594,22 @@ topic text. Only valid on topics.
 
 Note: line endings must be normalised to \n *before* calling this method.
 
+*Deprecated* 2014-11-13, and will be removed in Foswiki 2.0.
+It is retained for compatibility only.
+use =Foswiki::Serialise::deserialise($text, 'Embedded', $meta)= instead.
+
 =cut
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
 
     _assertIsTopic($this) if DEBUG;
-
-    my $format = $EMBEDDING_FORMAT_VERSION;
-
-    # head meta-data
-    $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
-      $this->_readMETA($1, $2, $3)/e
-      ;    #NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
-    my $ti = $this->get('TOPICINFO');
-    if ($ti) {
-        $format = $ti->{format} || 0;
-
-        # Make sure we update the topic format for when we save
-        $ti->{format} = $EMBEDDING_FORMAT_VERSION;
-
-        # Clean up SVN and other malformed rev nums. This can happen
-        # when old code (e.g. old plugins) generated the meta.
-        $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
-        $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
-        $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
-          if defined $ti->{reprev};
-    }
-    else {
-
-        #defaults..
-    }
-
-    # Other meta-data
-    my $endMeta = 0;
-    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
-        require Foswiki::Compatibility;
-        if (
-            $text =~ s/^%META:([^{]+){(.*)}%\n/
-              Foswiki::Compatibility::readSymmetricallyEncodedMETA(
-                  $this, $1, $2 ); ''/gem
-          )
-        {
-            $endMeta = 1;
-        }
-    }
-    else {
-        if (
-            $text =~ s/^(%META:([^{]+){(.*)}%\n)/
-					if ($2 ne 'TOPICINFO') {
-							#TOPICINFO is only valid on the first line
-        		      		$this->_readMETA($1, $2, $3)
-					} else {
-					    $1
-					}/gem
-          )
-        {
-            $endMeta = 1;
-        }
-    }
-
-    # eat extra newlines put in to separate text from tail meta-data
-    $text =~ s/\n$//s if $endMeta;
-
-    # If there is no meta data then convert from old format
-    if ( !$this->count('TOPICINFO') ) {
-
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiAttachment-->/ ) {
-            require Foswiki::Compatibility;
-            $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
-                $this->{_session}, $this, $text );
-        }
-
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
-            require Foswiki::Compatibility;
-            $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
-                $this->{_web}, $this->{_topic}, $this, $text );
-        }
-    }
-    elsif ( $format eq '1.0beta' ) {
-        require Foswiki::Compatibility;
-
-        # This format used live at DrKW for a few months
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
-            $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
-                $this->{_web}, $this->{_topic}, $this, $text );
-        }
-        Foswiki::Compatibility::upgradeFrom1v0beta( $this->{_session}, $this );
-        if ( $this->count('TOPICMOVED') ) {
-            my $moved = $this->get('TOPICMOVED');
-            $this->put( 'TOPICMOVED', $moved );
-        }
-    }
-
-    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
-
-        # compatibility; topics version 1.0 and earlier equivalenced tab
-        # with three spaces. Respect that.
-        $text =~ s/\t/   /g;
-    }
-
-    $this->{_text} = $text;
+    Foswiki::Serialise::serialise::deserialise( $text, 'Embedded', $this );
 }
 
 =begin TML
 
----++ ObjectMethod isValidEmbedding($macro, \%args) -> $boolean
+---++ StaticMethod isValidEmbedding($macro, \%args) -> $boolean
 
 Test that the arguments defined in =\%args= are sufficient to satisfy the
 requirements of the embeddable meta-data given by =$macro=. For example,
@@ -3728,7 +3625,7 @@ message explaining why.
 =cut
 
 sub isValidEmbedding {
-    my ( $this, $macro, $args ) = @_;
+    my ( $macro, $args ) = @_;
 
     my $validate = $VALIDATE{$macro};
     return 1 unless $validate;    # not validated
@@ -3764,39 +3661,6 @@ sub isValidEmbedding {
     }
 
     return 1;
-}
-
-sub _readMETA {
-    my ( $this, $expr, $type, $args ) = @_;
-    my $keys = _readKeyValues($args);
-    if ( $this->isValidEmbedding( $type, $keys ) ) {
-        if ( defined( $keys->{name} ) ) {
-
-            # save it keyed if it has a name
-            $this->putKeyed( $type, $keys );
-        }
-        else {
-            $this->put( $type, $keys );
-        }
-        return '';
-    }
-    else {
-        return $expr;
-    }
-}
-
-# STATIC Build a hash by parsing name=value comma separated pairs
-# SMELL: duplication of Foswiki::Attrs, using a different
-# system of escapes :-(
-sub _readKeyValues {
-    my ($args) = @_;
-    my %res;
-
-    # Format of data is name='value' name1='value1' [...]
-    $args =~ s/\s*([^=]+)="([^"]*)"/
-      $res{$1} = dataDecode( $2 ), ''/ge;
-
-    return \%res;
 }
 
 =begin TML

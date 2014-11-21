@@ -32,14 +32,9 @@ sub new {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub write {
     my $module = shift;
-    my ( $session, $result ) = @_;
+    my ($result) = @_;
 
     return '' if ( not( defined($result) ) );
-
-    if ($@) {
-        return $session->inlineAlert( 'alerts', 'generic',
-            'Perl JSON::XS or JSON module is not available' );
-    }
     my $j = JSON::Any->new( allow_nonref => 1 );
     return $j->to_json( $result, { allow_nonref => 1 } );
 }
@@ -48,14 +43,10 @@ sub write {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub read {
     my $module = shift;
-    my ( $session, $result ) = @_;
+    my ($result) = @_;
 
     return if ( $result eq '' );
 
-    if ($@) {
-        return $session->inlineAlert( 'alerts', 'generic',
-            'Perl JSON module is not available' );
-    }
     my $j = JSON::Any->new( allow_nonref => 1 );
     return $j->from_json($result);
 }

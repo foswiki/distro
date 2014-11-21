@@ -3,14 +3,8 @@ package Foswiki::Serialise;
 
 use strict;
 use warnings;
-use Foswiki ();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+use Assert;
 
 =begin TML
 
@@ -28,8 +22,7 @@ my %serialisers = ();
 
 =begin TML
 
----++ StaticMethod serialise( $session, $value, $style ) -> $cereal
-   * =$session= Foswiki Session object
+---++ StaticMethod serialise( $value, $style ) -> $cereal
    * =$value= the perl object we're serializing (typically a ref/obj)
    * =$style= serialization format
 
@@ -39,38 +32,30 @@ my %serialisers = ();
 =cut
 
 sub serialise {
-    my $session = shift;
-    my $value   = shift;
-    my $style   = shift;
+    my ( $value, $style ) = @_;
 
-    return getSerialiser( $session, $style )->write( $session, $value );
+    return _getSerialiser($style)->write($value);
 }
 
 =begin TML
 
----++ StaticMethod deserialise( $session, $cereal, $style ) -> $data
-   * =$session= Foswiki Session object
-   * =$cereal= the perl object we're serializing (typically a ref/obj)
+---++ StaticMethod deserialise( $text, $style, $into ) -> $data
+   * =$text= the data we are deserialising
    * =$style= serialization format
-
-#TODO: do we need to use Foswiki, or can we throw a Simple exception instead?
-#I think to be reusable we actually have to throw..
-
-#TODO: please work out how to add _some_ autodetection of format
+     TODO: please work out how to add _some_ autodetection of format
+   * =$into= the perl object we're deserializing into. The serialiser
+     is matched to this object type.
 
 =cut
 
 sub deserialise {
-    my $session = shift;
-    my $cereal  = shift;
-    my $style   = shift;
+    my ( $text, $style, $into ) = @_;
 
-    return getSerialiser( $session, $style )->read( $session, $cereal );
+    return _getSerialiser($style)->read( $text, $into );
 }
 
 #in the event of trouble, return 'Simplified'
-sub getSerialiser {
-    my $session = shift;
+sub _getSerialiser {
     my $style = shift || 'Simplified';
 
     return $serialisers{$style}
@@ -80,8 +65,10 @@ sub getSerialiser {
     my $module = "Foswiki::Serialise::$style";
 
     eval "require $module";
+    ASSERT( !$@, $@ ) if DEBUG;
+
     my $cereal;
-    $cereal = getSerialiser( $session, 'Simplified' ) if $@;
+    $cereal = _getSerialiser('Simplified') if $@;
 
     # Devel::Leak::Object implies we're leaking Eg. Foswiki::Serialise::Embedded
     # objects here, but they're just singletons we let hang around for minor
@@ -118,7 +105,7 @@ sub convertMeta {
     if ( defined( $meta->{_topic} ) ) {
 
         #TODO: exclude attachment meta too..
-        my $raw = $savedMeta->getEmbeddedStoreForm();
+        my $raw = serialise( $savedMeta, 'Embedded' );
         if ( defined($raw) ) {
             $meta->{_raw_text} = $raw;
         }

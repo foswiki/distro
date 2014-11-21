@@ -67,7 +67,8 @@ sub fixture_groups {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
                 next if $alg =~ /RcsWrap/ && !rcs_is_installed();
                 ($alg) = $alg =~ /^(.*)$/ms;    # untaint
-                $this->assert( eval "require Foswiki::Store::$alg; 1;" );
+                eval "require Foswiki::Store::$alg;";
+                $this->assert( !$@, $@ );
                 my $algname = ref($this) . '_' . $alg;
                 next if defined &{$algname};
                 no strict 'refs';

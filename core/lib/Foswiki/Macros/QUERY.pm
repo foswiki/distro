@@ -64,7 +64,7 @@ sub QUERY {
     try {
         my $node = $evalParser->parse($expr);
         $result = $node->evaluate( tom => $topicObject, data => $topicObject );
-        $result = Foswiki::Serialise::serialise( $this, $result, $style );
+        $result = Foswiki::Serialise::serialise( $result, $style );
     }
     catch Foswiki::Infix::Error with {
         my $e = shift;

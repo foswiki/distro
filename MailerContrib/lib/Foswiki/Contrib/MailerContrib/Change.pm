@@ -172,7 +172,7 @@ sub expandDiff {
           Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $this->{WEB},
             $this->{TOPIC}, $this->{CURR_REV} );
         return '' unless ( $b->haveAccess('VIEW') );
-        my $btext = $b->getEmbeddedStoreForm();
+        my $btext = Foswiki::Serialise::serialise( $b, 'Embedded' );
         $btext =~ s/^%META:TOPICINFO{.*}%$//;
 
         return $btext if ( $this->{BASE_REV} < 1 );
@@ -181,7 +181,7 @@ sub expandDiff {
           Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $this->{WEB},
             $this->{TOPIC}, $this->{BASE_REV} );
         return '' unless ( $a->haveAccess('VIEW') );
-        my $atext = $a->getEmbeddedStoreForm();
+        my $atext = Foswiki::Serialise::serialise( $a, 'Embedded' );
         $atext =~ s/^%META:TOPICINFO{.*}%$//;
 
         require Foswiki::Merge;
@@ -226,7 +226,7 @@ sub expandVariables {
     $template =~ s/%TIME%/$tim/g;
     $template =~ s/%WEB%/$this->{WEB}/g;
     $template =~ s/%TOPIC%/$this->{TOPIC}/g;
-    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
+    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;     # deprecated DO NOT USE!
 
     my $frev = '';
 

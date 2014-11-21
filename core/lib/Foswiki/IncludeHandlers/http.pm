@@ -25,18 +25,32 @@ BEGIN {
 }
 
 # Fetch content from a URL for inclusion by an INCLUDE
+our $template_url;
+
 sub INCLUDE {
     my ( $ignore, $session, $control, $options ) = @_;
 
     my $text = '';
     my $url  = $control->{_DEFAULT};
 
-    # For speed, read file directly if URL matches an attachment directory
-    # on this server
-    if ( $url =~
-/^$session->{urlHost}$Foswiki::cfg{PubUrlPath}\/($Foswiki::regex{webNameRegex})\/([^\/\.]+)\/([^\/]+)$/
-      )
-    {
+    # For speed, read file directly if URL matches an attachment
+    # on this server. This is a DIRTY HACK that depends somewhat on the
+    # structure of attachment URLs (they must contain a web, a topic
+    # and an attachment)
+    unless ($template_url) {
+        $template_url = quotemeta(
+            $session->getPubURL(
+                web   => 'WEB',
+                topic => 'TOPIC',
+                attachment = 'ATTACHMENT'
+            )
+        );
+        $template_url =~ s/WEB/($Foswiki::regex{webNameRegex})/;
+        $template_url =~ s{TOPIC}{([^/.]+)};
+        $template_url =~ s{ATTACHMENT}{([^/]+)};
+    }
+
+    if ( $url =~ m{^$template_url$} ) {
         my $incWeb   = $1;
         my $incTopic = $2;
         my $incAtt   = $3;
@@ -63,10 +77,13 @@ sub INCLUDE {
             local $/;
             $text = <$fh>;
             $fh->close();
-            $text =
-              _cleanupIncludedHTML( $text, $session->{urlHost},
-                $Foswiki::cfg{PubUrlPath}, $options )
-              unless $control->{raw};
+            unless ( $control->{raw} ) {
+
+                # SMELL: assumes the construction of pub URLs
+                my $tu = $session->getPubURL();
+                $tu =~ m!^((?:[a-z]+:)?/*[^/]*)(/[^#?]*)!;
+                $text = _cleanupIncludedHTML( $text, $1, $2, $options );
+            }
             $text =
               Foswiki::applyPatternToIncludedText( $text, $control->{pattern} )
               if ( $control->{pattern} );

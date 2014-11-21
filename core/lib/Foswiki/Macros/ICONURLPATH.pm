@@ -17,15 +17,13 @@ BEGIN {
 
 ---++ ObjectMethod ICONURLPATH($params) -> $html
 
-ICONPATH macro implementation
+Macro implementation
 
 =cut
 
 sub ICONURLPATH {
     my ( $this, $params ) = @_;
-    my ($path) = $this->_findIcon($params);
-
-    return $this->_getIconUrl( 0, $path );
+    return $this->_getIconURL($params);
 }
 
 1;

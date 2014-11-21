@@ -121,13 +121,16 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # *SCRIPTHASH*
 
 # **URLPATH CHECK='expand notrail' MANDATORY**
-# This is the URL path used to link to attachments.
+# This is the URL path used to link to attachments. For stores where
+# attachments are stored as files (such as PlainFile and RCSLite) then this
+# will normally be the URL path to the =pub= directory.
 # For example =/foswiki/pub=
-
-# *Security Note:* files in this directory are *not*
+#
+# *Security Note:* files in the pub directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
 # will have to use webserver controls (for example =.htaccess= on Apache).
-# See the [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
+# See the
+# [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 

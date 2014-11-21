@@ -1,8 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416397793" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarPUBURLPATH
----+++ PUBURLPATH -- the base URL path of attachments
-   * Syntax: =%<nop>PUBURLPATH%=
-   * Expands to: =%PUBURLPATH%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+---+++ PUBURLPATH{...} -- generate a relative URL for an attachment
+   * =%<nop>PUBURLPATH%= expands to =%PUBURLPATH%=
+   * =%<nop>PUBURLPATH{web="System"}%= expands to =%PUBURLPATH{web="System"}%=
+   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures"}%=
+   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures"}%=
+   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures" attachment="icon_plus.png"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures" attachment="icon_plus.png"}%=
+   * Also supports =topic_version= and =attachment_version= parameters.
+   * Any unrecognised parameters will be
+     added to the returned URL as URL parameters. %BR% For example, =%<nop>PUBURL{web="System" topic="MainFeatures" attachment="icon_plus.png" zero="0"}%= expands to =%PUBURL{web="System" topic="MainFeatures" attachment="icon_plus.png" zero="0"}%=
+Note: this macro will only generate a relative URL if the store supports them, and the context allows it.
+Otherwise it will generate the same as =[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]]=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

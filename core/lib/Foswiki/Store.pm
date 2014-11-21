@@ -53,10 +53,8 @@ use warnings;
 use Error qw( :try );
 use Assert;
 
-use Foswiki                         ();
-use Foswiki::Meta                   ();
-use Foswiki::Sandbox                ();
-use Foswiki::AccessControlException ();
+use Foswiki          ();
+use Foswiki::Sandbox ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -151,6 +149,91 @@ in =configure=.
 ERROR
     }
     return $dir;
+}
+
+=begin TML
+
+---++ ObjectMethod getAttachmentURL( %options ) -> $url
+
+Get a URL that points at an attachment. The URL may be absolute, or
+relative to the the page being rendered (if that makes sense for the
+store implementation).
+
+%options are:
+   * =web= - name of the web for the URL, defaults to $session->{webName}
+   * =topic= - name of the topic, defaults to $session->{topicName}
+   * =attachment= - name of the attachment, defaults to no attachment
+   * =topic_version= - version of topic to retrieve attachment from
+   * =attachment_version= - version of attachment to retrieve
+   * =*= - all other entries in the %options hash are used as additional
+     URL parameters that are added to the returned URL.
+
+If =web= is not given, =topic= and =attachment= are ignored, giving
+a link to the root of all attachments.
+
+If =topic= is not given, =attachment= is ignored. If it is given but
+=attachment= is not, then a list of attachments to the specified topic
+version will be returned.
+
+If =topic_version= is not given, the most recent revision of the topic
+will be linked. Similarly if attachment_version= is not given, the most recent
+revision of the attachment will be assumed. If =topic_version= is specified
+but =attachment_version= is not (or the specified =attachment_version= is not
+present), then the most recent version of the attachment in that topic version
+will be linked.
+
+If =attachment= is not given, then
+the URL will refer to an index of the attachments on the topic. If =topic=
+is not given, it will yield an index of the topics in the web that have
+attachments. If =$web= is not given, it will yield an index of the webs that
+contain topics that have attachments.
+
+The default implementation is suitable for use with stores that put
+attachments in a web-visible directory, pointed at by
+$Foswiki::cfg{PubUrlPath}. As such it may also be used as a
+fallback for distributed topics (such as those in System) when content is not
+held in the store itself (e.g. if the store doesn't recognise the web it
+can call SUPER::getAttachmentURL)
+
+=cut
+
+sub getAttachmentURL {
+    my ( $this, %options ) = @_;
+    my $url = $Foswiki::cfg{PubUrlPath};
+    my @params;
+
+    if ( $options{web} ) {
+        $url .= '/' . Foswiki::urlEncode( $options{web} );
+        delete $options{web};
+        if ( $options{topic} ) {
+            if ( defined $options{topic_version} ) {
+
+                # TODO: check that the given topic version exists
+            }
+            $url .= '/' . Foswiki::urlEncode( $options{topic} );
+            delete $options{topic};
+            if ( $options{attachment} ) {
+                if ( defined $options{attachment_version} ) {
+
+                    # TODO: check that this attachment version actually
+                    # exists on the requested topic version
+                }
+
+                # TODO: check that the attachment actually exists on the
+                # topic at this revision
+                $url .= '/' . Foswiki::urlEncode( $options{attachment} );
+                delete $options{attachment};
+            }
+        }
+    }
+    while ( my ( $k, $v ) = each %options ) {
+        next if $k eq 'absolute' || $k =~ /^_/;
+        push( @params, "$k=" . Foswiki::urlEncode($v) );
+    }
+
+    $url .= '?' . join( ';', @params ) if scalar @params;
+
+    return $url;
 }
 
 1;
@@ -277,8 +360,8 @@ Performs a type test on the given attachment file.
 The return value is the value that would be returned by the standard
 perl file operations, as indicated by $type
 
-    * r File is readable by current user (tests Foswiki permissions)
-    * w File is writable by current user (tests Foswiki permissions)
+    * r File is readable by current user
+    * w File is writable by current user
     * e File exists.
     * z File has zero size.
     * s File has nonzero size (returns size).

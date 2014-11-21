@@ -835,8 +835,23 @@ sub _install {
         my $perms = $manifest->{$file}->{perms};    # File permissions
 
         # Topic files in the data directory needing Checkin
-        if ( $file =~ m/^data/
-            && ( -e "$target,v" || ( -e $target && $ci ) ) )
+        # SMELL
+        if (
+            $file =~ m/^data/    # File for the data directory
+            && (
+                -e "$target,v"         # rcs history file exists
+                || -e "$target,pfv"    # pfv versions directory exists
+                || ( -e $target && $ci )   # target exists and checkin requested
+                || (    # Or the store is not well known file based
+                    $Foswiki::cfg{Store}{Implementation} ne
+                    'Foswiki::Store::PlainFile'
+                    && $Foswiki::cfg{Store}{Implementation} ne
+                    'Foswiki::Store::RcsWrap'
+                    && $Foswiki::cfg{Store}{Implementation} ne
+                    'Foswiki::Store::RcsLite'
+                )
+            )
+          )
         {
             my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);

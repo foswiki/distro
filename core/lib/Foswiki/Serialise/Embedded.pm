@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Serialise::Embedded
 
-This is __the__ on disk format serialiser and deserialise for TWiki and Foswiki topics legacy .txt format.
+This is __the__ on disk format serialiser and deserialise for
+Foswiki topics legacy .txt format.
 
 __WARNING__ this is only for Foswiki::Meta objects.
 
@@ -30,66 +31,167 @@ sub new {
     return $this;
 }
 
+# Generate the embedded store form of the topic. The embedded store
+# form has meta-data values embedded using %META: lines. The text
+# stored in the meta is taken as the topic text.
+#
+# TODO: Soooo.... if we wanted to make a meta->setPreference('VARIABLE', 'Values...'); we would have to change this to
+#    1 see if that preference is set in the {_text} using the    * Set syntax, in which case, replace that
+#    2 or let the META::PREF.. work as it does now..
 sub write {
-    my $module = shift;
-    my ( $session, $result ) = @_;
+    my ( $this, $meta ) = @_;
 
-    ASSERT( $result->isa('Foswiki::Meta') ) if DEBUG;
-    return getEmbeddedStoreForm($result);
-}
+    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
 
-#really awkward - setEmbeddedStoreForm interleaves reading from text and calling Meta calls to update cache information
-#need to separate these out in a performant way.
-sub read {
-    die 'not implemented';
-    my $module = shift;
-    my ( $session, $result ) = @_;
-
-    ASSERT( $result->isa('Foswiki::Meta') ) if DEBUG;
-    return setEmbeddedStoreForm($result);
-}
-
-=begin TML
-
----++ ObjectMethod getEmbeddedStoreForm() -> $text
-
-Generate the embedded store form of the topic. The embedded store
-form has meta-data values embedded using %META: lines. The text
-stored in the meta is taken as the topic text.
-
-TODO: Soooo.... if we wanted to make a meta->setPreference('VARIABLE', 'Values...'); we would have to change this to
-   1 see if that preference is set in the {_text} using the    * Set syntax, in which case, replace that
-   2 or let the META::PREF.. work as it does now..
-   
-yay :/
-
-TODO: can we move this code into Foswiki::Serialise ?
-
-=cut
-
-sub getEmbeddedStoreForm {
-    my $this = shift;
-
-    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
-      if DEBUG;
-    $this->{_text} ||= '';
-
-    require Foswiki::Store;    # for encoding
-
-    my $ti = $this->get('TOPICINFO');
+    my $ti = $meta->get('TOPICINFO');
     delete $ti->{rev} if $ti;    # don't want this written
 
-    my $text = _writeTypes( $this, 'TOPICINFO', 'TOPICPARENT' );
-    $text .= $this->{_text};
+    my $text = _writeTypes( $meta, 'TOPICINFO', 'TOPICPARENT' );
+    $text .= ( $meta->text() || '' );
     my $end =
-      _writeTypes( $this, 'FORM', 'FIELD', 'FILEATTACHMENT', 'TOPICMOVED' )
-      . _writeTypes( $this, 'not', 'TOPICINFO', 'TOPICPARENT', 'FORM', 'FIELD',
+      _writeTypes( $meta, 'FORM', 'FIELD', 'FILEATTACHMENT', 'TOPICMOVED' )
+      . _writeTypes( $meta, 'not', 'TOPICINFO', 'TOPICPARENT', 'FORM', 'FIELD',
         'FILEATTACHMENT', 'TOPICMOVED' );
     $text .= "\n" if $end;
 
     $ti->{rev} = $ti->{version} if $ti;
 
     return $text . $end;
+}
+
+sub read {
+    my ( $this, $text, $meta ) = @_;
+
+    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
+    my $format = Foswiki::Meta::EMBEDDING_FORMAT_VERSION;
+
+    # head meta-data
+    # NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
+    $text =~ s<^(%META:(TOPICINFO){(.*)}%\n)>
+              <_readMETA($meta, $1, $2, $3, 1)>e;
+
+    my $ti = $meta->get('TOPICINFO');
+    if ($ti) {
+        $format = $ti->{format} || 0;
+
+        # Make sure we update the topic format for when we save
+        $ti->{format} = Foswiki::Meta::EMBEDDING_FORMAT_VERSION;
+
+        # Clean up SVN and other malformed rev nums. This can happen
+        # when old code (e.g. old plugins) generated the meta.
+        $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
+        $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
+        $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
+          if defined $ti->{reprev};
+    }
+    else {
+
+        #defaults..
+    }
+
+    # Other meta-data
+    my $endMeta = 0;
+    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
+        require Foswiki::Compatibility;
+        if (
+            $text =~ s/^%META:([^{]+){(.*)}%\n/
+              Foswiki::Compatibility::readSymmetricallyEncodedMETA(
+                  $meta, $1, $2 ); ''/gem
+          )
+        {
+            $endMeta = 1;
+        }
+    }
+    else {
+        if (
+            $text =~ s<^(%META:([^{]+){(.*)}%\n)>
+                      <_readMETA($meta, $1, $2, $3, 0)>gem
+          )
+        {
+            $endMeta = 1;
+        }
+    }
+
+    # eat extra newlines put in to separate text from tail meta-data
+    $text =~ s/\n$//s if $endMeta;
+
+    # If there is no meta data then convert from old format
+    if ( !$meta->count('TOPICINFO') ) {
+
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiAttachment-->/ ) {
+            require Foswiki::Compatibility;
+            $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
+                $meta->{_session}, $meta, $text );
+        }
+
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiCat-->/ ) {
+            require Foswiki::Compatibility;
+            $text =
+              Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
+                $meta->{_web}, $meta->{_topic}, $meta, $text );
+        }
+    }
+    elsif ( $format eq '1.0beta' ) {
+        require Foswiki::Compatibility;
+
+        # This format used live at DrKW for a few months
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiCat-->/ ) {
+            $text =
+              Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
+                $meta->{_web}, $meta->{_topic}, $meta, $text );
+        }
+        Foswiki::Compatibility::upgradeFrom1v0beta( $meta->{_session}, $meta );
+        if ( $meta->count('TOPICMOVED') ) {
+            my $moved = $meta->get('TOPICMOVED');
+            $meta->put( 'TOPICMOVED', $moved );
+        }
+    }
+
+    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
+
+        # compatibility; topics version 1.0 and earlier equivalenced tab
+        # with three spaces. Respect that.
+        $text =~ s/\t/   /g;
+    }
+
+    $meta->text($text);
+}
+
+# STATIC Build a hash by parsing name=value comma separated pairs
+# SMELL: duplication of Foswiki::Attrs, using a different
+# system of escapes :-(
+sub _readKeyValues {
+    my ($args) = @_;
+    my %res;
+
+    # Format of data is name='value' name1='value1' [...]
+    $args =~ s/\s*([^=]+)="([^"]*)"/
+      $res{$1} = Foswiki::Meta::dataDecode( $2 ), ''/ge;
+
+    return \%res;
+}
+
+sub _readMETA {
+    my ( $meta, $expr, $type, $args, $readTOPICINFO ) = @_;
+    return $expr if $type eq 'TOPICINFO' && !$readTOPICINFO;
+    my $keys = _readKeyValues($args);
+    if ( Foswiki::Meta::isValidEmbedding( $type, $keys ) ) {
+        if ( defined( $keys->{name} ) ) {
+
+            # save it keyed if it has a name
+            $meta->putKeyed( $type, $keys );
+        }
+        else {
+            $meta->put( $type, $keys );
+        }
+        return '';
+    }
+    else {
+        return $expr;
+    }
 }
 
 # PRIVATE STATIC Write a meta-data key=value pair
@@ -109,7 +211,7 @@ sub _writeKeyValue {
 
 # PRIVATE STATIC: Write all the key=value pairs for the types listed
 sub _writeTypes {
-    my ( $this, @types ) = @_;
+    my ( $meta, @types ) = @_;
 
     my $text = '';
 
@@ -119,7 +221,7 @@ sub _writeTypes {
         my %seen;
         @seen{@types} = ();
         @types = ();    # empty "not in list"
-        foreach my $key ( keys %$this ) {
+        foreach my $key ( keys %$meta ) {
             push( @types, $key )
               unless ( exists $seen{$key} || $key =~ /^_/ );
         }
@@ -127,7 +229,7 @@ sub _writeTypes {
 
     foreach my $type (@types) {
         next if ( $type =~ /^_/ );
-        my $data = $this->{$type};
+        my $data = $meta->{$type};
         next if !defined $data;
         foreach my $item (@$data) {
             next if ( $item =~ /^_/ );
@@ -184,7 +286,7 @@ sub dataEncode {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
