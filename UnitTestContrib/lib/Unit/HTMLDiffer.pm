@@ -41,7 +41,7 @@ sub _openTag {
 
     # Sort params of URL type attributes
     foreach my $k ( keys %$attrs ) {
-        if ( $k eq 'href' ) {
+        if ( $k eq 'href' || $k eq 'src' ) {
             my $url = $attrs->{$k};
             if ( $url =~ s/\?(.*)$// ) {
                 my $params = $1;

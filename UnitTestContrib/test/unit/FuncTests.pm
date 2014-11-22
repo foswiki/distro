@@ -444,7 +444,7 @@ sub test_getOopsUrl {
     my $url =
       Foswiki::Func::getOopsUrl( 'Incy', 'Wincy', 'Spider', 'Hurble', 'Burble',
         'Wurble', 'Murble' );
-    $this->assert_str_equals(
+    $this->assert_URI_equals(
         Foswiki::Func::getScriptUrl( 'Incy', 'Wincy', 'oops' )
           . "?template=Spider;param1=Hurble;param2=Burble;param3=Wurble;param4=Murble",
         $url
@@ -453,7 +453,7 @@ sub test_getOopsUrl {
         'Incy',   'Wincy',  'oopspider', 'Hurble',
         'Burble', 'Wurble', 'Murble'
     );
-    $this->assert_str_equals(
+    $this->assert_URI_equals(
         Foswiki::Func::getScriptUrl( 'Incy', 'Wincy', 'oops' )
           . "?template=oopspider;param1=Hurble;param2=Burble;param3=Wurble;param4=Murble",
         $url
@@ -878,13 +878,19 @@ sub test_noauth_saveTopic {
     );
 
     # Validate that saveTopicText throws an exception
-    $this->assert_matches(
-        qr/oopsattention;def=topic_access/,
-        Foswiki::Func::saveTopicText(
-            $this->{test_web}, $topic,
-            " \n   * Set ALLOWTOPIVIEW = SomeUser \n blah"
-        )
+    my $except =
+      Foswiki::Func::saveTopicText( $this->{test_web}, $topic,
+        " \n   * Set ALLOWTOPIVIEW = SomeUser \n blah" );
+    $this->assert_URI_equals(
+        Foswiki::Func::getScriptUrl(
+            $this->{test_web}, $topic, 'oops',
+            def      => 'topic_access',
+            param1   => 'FuncTests',
+            template => 'oopsattention'
+        ),
+        $except
     );
+
     $this->assert(
         !Foswiki::Func::checkAccessPermission(
             'CHANGE', $curUser, '', $topic, $this->{test_web}

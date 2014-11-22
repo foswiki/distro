@@ -51,7 +51,6 @@ my $testuser2 = "TestUser2";
 my $setup_failure = '';
 
 my $aurl;    # Holds the %ATTACHURL%
-my $surl;    # Holds the %SCRIPTURL%
 
 my $testtmpl1 = <<'HERE';
 
@@ -119,7 +118,6 @@ sub set_up {
         # up to FW 1.1.9
         $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
     }
-    $surl = $this->{session}->getScriptUrl(1);
 
     my ($to) = Foswiki::Func::readTopic( $testweb, $testtopic1 );
     $to->put(

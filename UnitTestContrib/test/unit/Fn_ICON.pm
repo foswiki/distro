@@ -112,25 +112,25 @@ sub test_ICON {
 sub test_PUBURL {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%PUBURL%');
-    $this->assert_html_equals(
+    $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}", $t );
     $t = Foswiki::Func::expandCommonVariables('%PUBURL{web="Web"}%');
-    $this->assert_html_equals(
+    $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web", $t );
     $t =
       Foswiki::Func::expandCommonVariables('%PUBURL{web="Web" topic="Topic"}%');
-    $this->assert_html_equals(
+    $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic",
         $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%PUBURL{web="Web" topic="Topic" attachment="att.dat"}%');
-    $this->assert_html_equals(
+    $this->assert_URI_equals(
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat",
         $t
     );
     $t = Foswiki::Func::expandCommonVariables(
         '%PUBURL{web="Web" topic="Topic" attachment="att.dat" x="y"}%');
-    $this->assert_html_equals(
+    $this->assert_URI_equals(
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat?x=y",
         $t
     );
@@ -139,27 +139,27 @@ sub test_PUBURL {
 sub test_PUBURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%PUBURLPATH%');
-    $this->assert_html_equals( $Foswiki::cfg{PubUrlPath}, $t );
+    $this->assert_URI_equals( $Foswiki::cfg{PubUrlPath}, $t );
     $t = Foswiki::Func::expandCommonVariables('%PUBURLPATH{web="Web"}%');
-    $this->assert_html_equals( "$Foswiki::cfg{PubUrlPath}/Web", $t );
+    $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web", $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%PUBURLPATH{web="Web" topic="Topic"}%');
-    $this->assert_html_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic", $t );
+    $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic", $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%PUBURLPATH{web="Web" topic="Topic" attachment="att.dat"}%');
-    $this->assert_html_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat",
+    $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat",
         $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%PUBURLPATH{web="Web" topic="Topic" attachment="att.dat" p="q"}%');
-    $this->assert_html_equals(
-        "$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat?p=q", $t );
+    $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat?p=q",
+        $t );
 }
 
 sub test_ATTACHURL {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ATTACHURL%');
-    $this->assert_html_equals(
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}/",
+    $this->assert_URI_equals(
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}",
         $t
     );
 }
@@ -167,9 +167,8 @@ sub test_ATTACHURL {
 sub test_ATTACHURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ATTACHURLPATH%');
-    $this->assert_html_equals(
-        "$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}/",
-        $t );
+    $this->assert_URI_equals(
+        "$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}", $t );
 }
 
 1;

@@ -603,6 +603,53 @@ sub assert_json_equals {
 
 =begin TML
 
+---++ ObjectMethod assert_URI_equals($expected, $got [,$message])
+
+Test two (string) URIs for canonical equality.
+
+=cut
+
+sub assert_URI_equals {
+    my ( $this, $expected, $got, $mess ) = @_;
+
+    eval { require URI };
+    $this->assert( !$@, $@ );
+
+    if ( $expected =~ s/([?#].*)$// ) {
+        $expected .= _canonical_param_string($1);
+    }
+    if ( $got =~ s/([?#].*)$// ) {
+        $got .= _canonical_param_string($1);
+    }
+
+    #print "COMPARE $got == $expected\n";
+    my $e = URI->new($expected);
+    my $g = URI->new($got);
+    $this->assert( $g->eq($e), $mess );
+}
+
+sub _canonical_param_string {
+    my $str = shift;
+    $str =~ s/^\?//;
+    my %p;
+    if ( $str =~ s/#(.*)// ) {
+        $p{'#'} = $1;
+    }
+    foreach my $p ( split( /[;&]/, $str ) ) {
+        my ( $k, $v ) = split( /=/, $p, 2 );
+
+        # Normalise encoding
+        $k =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+        $k =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+        $v =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+        $v =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+        $p{$k} = $v;
+    }
+    return '?' . join( ';', map { "$_=$p{$_}" } sort keys %p );
+}
+
+=begin TML
+
 ---++ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
 
 Invoke a function while grabbing stdout and stderr, so the output
