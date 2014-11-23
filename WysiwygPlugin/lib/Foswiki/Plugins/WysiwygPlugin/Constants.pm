@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 use Encode;
+use HTML::Entities;
 
 =pod
 
