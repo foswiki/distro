@@ -81,7 +81,7 @@ sub stringify {
         foreach my $attr ( sort keys %{ $this->{attrs} } ) {
             $r .= " " . $attr . "='" . $this->{attrs}->{$attr} . "'";
         }
-        $r .= ' /' if WC::SELF_CLOSING()->{ $this->{tag} };
+        $r .= ' /' if $WC::SELF_CLOSING{ $this->{tag} };
         $r .= '>';
     }
     if ($shallow) {
@@ -94,7 +94,7 @@ sub stringify {
             $kid = $kid->{next};
         }
     }
-    if ( $this->{tag} and not WC::SELF_CLOSING()->{ $this->{tag} } ) {
+    if ( $this->{tag} and not $WC::SELF_CLOSING{ $this->{tag} } ) {
         $r .= '</' . $this->{tag} . '>';
     }
     return $r;
@@ -485,12 +485,12 @@ sub _collapse {
         # If this is an emphasis (b, i, code, tt, strong) then
         # flatten out any child nodes that express the same emphasis.
         # This has to be done because Foswiki emphases are single level.
-        if ( WC::EMPH_TAG()->{ $node->{tag} } ) {
+        if ( $WC::EMPH_TAG{ $node->{tag} } ) {
             my $kid = $node->{head};
             while ($kid) {
-                if (   WC::EMPH_TAG()->{ $kid->{tag} }
-                    && WC::EMPH_TAG()->{ $kid->{tag} } eq
-                    WC::EMPH_TAG()->{ $node->{tag} } )
+                if (   $WC::EMPH_TAG{ $kid->{tag} }
+                    && $WC::EMPH_TAG{ $kid->{tag} } eq
+                    $WC::EMPH_TAG{ $node->{tag} } )
                 {
                     $kid = $kid->_inline();
                 }
@@ -713,7 +713,7 @@ sub _defaultTag {
     my $tag = $this->{tag};
     my $p = _htmlParams( $this->{attrs}, $options );
 
-    if ( $text =~ /^\s*$/ && WC::SELF_CLOSING()->{$tag} ) {
+    if ( $text =~ /^\s*$/ && $WC::SELF_CLOSING{$tag} ) {
         return ( $flags, '<' . $tag . $p . ' />' );
     }
     else {
@@ -1648,7 +1648,7 @@ sub _handleFONT {
     # converted to a Foswiki colour macro, as long as the colour is
     # recognised.
     if ( hasClass( \%atts, 'WYSIWYG_COLOR' ) ) {
-        my $percentColour = WC::HTML2TML_COLOURMAP()->{ uc($colour) };
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
 
             # All other font information will be lost.
@@ -1662,7 +1662,7 @@ sub _handleFONT {
     delete $atts{style} if defined $atts{style} && $atts{style} =~ /^[\s;]*$/;
     delete $atts{color} if defined $atts{color};
     if ( defined $colour && !scalar keys %atts ) {
-        my $percentColour = WC::HTML2TML_COLOURMAP()->{ uc($colour) };
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
@@ -1853,7 +1853,7 @@ sub _handleSPAN {
                 $colour = $2;
             }
         }
-        my $percentColour = WC::HTML2TML_COLOURMAP()->{ uc($colour) };
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );

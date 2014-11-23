@@ -137,7 +137,7 @@ sub isInline {
 
     # This impl is actually for Nodes; Leaf overrides it
     my $this = shift;
-    return 0 if WC::ALWAYS_BLOCK()->{ $this->{tag} };
+    return 0 if $WC::ALWAYS_BLOCK{ $this->{tag} };
     my $kid = $this->{head};
     while ($kid) {
         return 0 unless $kid->isInline();
@@ -150,7 +150,7 @@ sub isLeftInline {
 
     # This impl is actually for Nodes; Leaf overrides it
     my $this = shift;
-    return 0 if WC::ALWAYS_BLOCK()->{ $this->{tag} };
+    return 0 if $WC::ALWAYS_BLOCK{ $this->{tag} };
     return 1 unless ( $this->{head} );
     return 0 unless $this->{head}->isInline();
     return 1;
@@ -158,7 +158,7 @@ sub isLeftInline {
 
 sub isRightInline {
     my $this = shift;
-    return 0 if WC::ALWAYS_BLOCK()->{ $this->{tag} };
+    return 0 if $WC::ALWAYS_BLOCK{ $this->{tag} };
     return 1 unless $this->{tail};
     return 0 unless $this->{tail}->isInline();
     return 1;

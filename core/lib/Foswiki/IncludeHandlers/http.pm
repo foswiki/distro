@@ -34,15 +34,17 @@ sub INCLUDE {
     my $url  = $control->{_DEFAULT};
 
     # For speed, read file directly if URL matches an attachment
-    # on this server. This is a DIRTY HACK that depends somewhat on the
-    # structure of attachment URLs (they must contain a web, a topic
-    # and an attachment)
+    # on this server.
+    # SMELL: This is a DIRTY HACK that depends on the structure of
+    # attachment URLs. Since the store is responsible for the generation of
+    # attachment URLs, it is the only place this can really be done.
     unless ($template_url) {
         $template_url = quotemeta(
             $session->getPubURL(
-                web   => 'WEB',
-                topic => 'TOPIC',
-                attachment = 'ATTACHMENT'
+                web        => 'WEB',
+                topic      => 'TOPIC',
+                attachment => 'ATTACHMENT',
+                absolute   => 1
             )
         );
         $template_url =~ s/WEB/($Foswiki::regex{webNameRegex})/;

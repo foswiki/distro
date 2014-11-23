@@ -3,6 +3,11 @@ package Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
 
 # VERY IMPORTANT: ALL STRINGS STORED IN NODES ARE UNICODE
 # (perl character strings)
+#
+#
+# Note on constants: most string constants are not declared 'use constant'
+# because they are widely used in string interpolations. There is no value
+# in 'use constant' for non-scalar values as perl does not inline them.
 
 use strict;
 use warnings;
@@ -121,7 +126,7 @@ our $WS       = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
 # http://www.htmlhelp.com/reference/html40/block.html.
 # Block type elements do not require
 # <br /> to be generated for newlines on the boundary - see WC::isInline.
-use constant ALWAYS_BLOCK => {
+our %ALWAYS_BLOCK = (
     address    => 1,
     blockquote => 1,
     center     => 1,
@@ -146,18 +151,18 @@ use constant ALWAYS_BLOCK => {
     pre        => 1,
     table      => 1,
     ul         => 1
-};
+);
 
 # Colours with colour settings in DefaultPreferences.
-use constant TML_COLOURS => [
+our @TML_COLOURS = (
     'BLACK',  'MAROON', 'PURPLE', 'PINK',       'RED',   'ORANGE',
     'YELLOW', 'LIME',   'AQUA',   'AQUAMARINE', 'GREEN', 'OLIVE',
     'BROWN',  'NAVY',   'TEAL',   'BLUE',       'GRAY',  'SILVER',
     'WHITE',
-];
+);
 
 # Map of possible colours back to TML %COLOUR%...%ENDCOLOR%
-use constant HTML2TML_COLOURMAP => {
+our %HTML2TML_COLOURMAP = (
     BLACK      => 'BLACK',
     '#000000'  => 'BLACK',
     MAROON     => 'MAROON',
@@ -195,7 +200,7 @@ use constant HTML2TML_COLOURMAP => {
     '#C0C0C0'  => 'SILVER',
     WHITE      => 'WHITE',
     '#FFFFFF'  => 'WHITE',
-};
+);
 
 # Genuine HTML colors as follows:
 # '#4682B4' => 'steelblue',
@@ -332,21 +337,21 @@ use constant HTML2TML_COLOURMAP => {
 # '#D3D3D3' => 'lightgrey',
 
 # Maps of tag types
-use constant SELF_CLOSING => { img => 1, br => 1 };
+our %SELF_CLOSING = ( img => 1, br => 1 );
 
 # Map that specifies tags to be renamed to a canonical name
-use constant EMPH_TAG => {
+our %EMPH_TAG = (
     b      => 'strong',
     i      => 'em',
     tt     => 'code',
     strong => 'strong',
     em     => 'em',
     code   => 'code',
-};
+);
 
 # Named entities that we want to convert back to characters, rather
 # than leaving them as HTML entities.
-use constant SAFE_ENTITIES => [
+our @SAFE_ENTITIES = (
     qw(
       euro   iexcl  cent   pound  curren yen    brvbar sect
       uml    copy   ordf   laquo  not    shy    reg    macr
@@ -361,14 +366,14 @@ use constant SAFE_ENTITIES => [
       eth    ntilde ograve oacute ocirc  otilde ouml   divide
       oslash ugrave uacute ucirc  uuml   yacute thorn  yuml
       )
-];
+);
 
 # Get a hash that maps the safe entities values to unicode characters
 our $safe_entities;
 
 sub safeEntities {
     unless ($safe_entities) {
-        foreach my $entity ( @{ SAFE_ENTITIES() } ) {
+        foreach my $entity (@SAFE_ENTITIES) {
 
             # Decode the entity name to unicode
             my $unicode = HTML::Entities::decode_entities("&$entity;");
