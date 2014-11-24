@@ -4,13 +4,13 @@
 # the =date= type
 
 package Foswiki::Form::Date;
-use Foswiki::Form::FieldDefinition ();
-@ISA = ('Foswiki::Form::FieldDefinition');
 
 use strict;
 use warnings;
 
+use Foswiki::Form::FieldDefinition      ();
 use Foswiki::Contrib::JSCalendarContrib ();
+our @ISA = ('Foswiki::Form::FieldDefinition');
 
 sub new {
     my $class = shift;
@@ -53,7 +53,9 @@ sub renderForEdit {
         {
             onclick => "return showCalendar('id$this->{name}','$ifFormat')",
             src     => Foswiki::Func::getPubUrlPath(
-                $Foswiki::cfg{SystemWebName} . 'JSCalendarContrib', 'img.gif'
+                web        => $Foswiki::cfg{SystemWebName},
+                topic      => 'JSCalendarContrib',
+                attachment => 'img.gif'
             ),
             alt   => 'Calendar',
             class => 'foswikiButton foswikiEditFormCalendarButton'
