@@ -21,42 +21,41 @@
  */
 (function($) {
     $(document).ready( function () {
-	$('.subscribe_button').on('click', function() {
-	    var form = $(this).parents("form");
-	    form.addClass("subscribe_waiting");
-	    form.find(".subscribe_button").text(
-		form.find(".subscribe_changing").text());
-            if (typeof(StrikeOne) !== 'undefined')
-	        StrikeOne.submit(form[0]);
+        $('.subscribe_link').click(function() {
+            var clink = $(this);
+            clink.off('click');
+            var url = clink.attr('href');
+            var params = url.match(/\?(.+)/)[1];
+            params = params.replace(/;/g, '&');
+            if (typeof(StrikeOne) !== 'undefined') {
+                params += "&validation_key="
+                    + StrikeOne.calculateNewKey(SubscribePlugin_key);
+            }
 	    $.ajax({
 		type: "POST",
-		data: form.serialize(),
-		url: form.attr('action'),
+		data: params,
+		url: $(this).attr('href'),
 		success: function(response) {
-                    $("form.subscribe_waiting>.subscribe_button")
-			.text(response.message);
-		    $("form.subscribe_waiting>input[name='subscribe_remove']")
-			.val(response.remove);
-		    $("form.subscribe_waiting")
-			.removeClass('subscribe_waiting');
+                    clink.text(response.message);
+                    url.replace(/subscribe_remove=\d+/, '');
+                    if (response.remove === 1) {
+                        clink.attr('href', url + '&subscribe_remove=1');
+                    }
 		},
 		error: function(response) {
-                    $("form.subscribe_waiting>.subscribe_button")
-			.text(response.message);
-		    $("form.subscribe_waiting")
-			.removeClass('subscribe_waiting');
+                    alert(response.message);
 		},
                 complete: function(jqXHR, status) {
                     // Update the strikeone nonce
                     var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
                     // patch in new nonce
                     if (nonce) {
-                        $("input[name='validation_key']").each(function() {
-                            $(this).val("?" + nonce);
-                        });
+                        subscribe_key = "?" + nonce;
                     }
+                    clink.on('click');
                 }
-            })
-	});
+            });
+            return false;
+        });
     });
 })(jQuery);

@@ -1,34 +1,12 @@
 %{----------------------------------------
-Simple 'Subscribe' button text
-}%%TMPL:DEF{sp:subscribe}%%{
-}%%MAKETEXT{"Subscribe"}%%{
-}%%TMPL:END%
-%{----------------------------------------
-Simple 'Unsubscribe' button text
-}%%TMPL:DEF{sp:unsubscribe}%%{
-}%%MAKETEXT{"Unsubscribe"}%%{
-}%%TMPL:END%
-%{----------------------------------------
-Form carrying all the parameters required for a "subscribe" request
-}%%TMPL:DEF{sp:form}%
-<form class="subscribe_form" action="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe" method="POST">
-<div class="subscribe_changing foswikiHidden">%MAKETEXT{"Changing..."}%</div>
-<input type="hidden" name="subscribe_topic" value="%PARAM1%" />
-<input type="hidden" name="subscribe_subscriber" value="%PARAM2%" />
-<input type="hidden" name="subscribe_remove" value="0" />
-<a class="subscribe_button">%TMPL:P{sp:subscribe}%</a>
-</form>
+Link for a "subscribe" request
+}%%TMPL:DEF{sp:subscribe}%
+<a class="subscribe_link" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" href="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe?subscribe_topic=%URLENCODE{%PARAM1%}%&subscribe_subscriber=%URLENCODE{%PARAM2%}%">%MAKETEXT{"Subscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
-Form carrying all the parameters for an "unsubscribe" request
-}%%TMPL:DEF{sp:unform}%
-<form class="subscribe_form" action="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe" method="POST">
-<div class="subscribe_changing foswikiHidden">%MAKETEXT{"Changing..."}%</div>
-<input type="hidden" name="subscribe_topic" value="%PARAM1%" />
-<input type="hidden" name="subscribe_subscriber" value="%PARAM2%" />
-<input type="hidden" name="subscribe_remove" value="1"/>
-<a class="subscribe_button">%TMPL:P{sp:unsubscribe}%</a>
-</form>
+Link for an "unsubscribe" request
+}%%TMPL:DEF{sp:unsubscribe}%
+<a class="subscribe_link" rel="nofollow"  title="%MAKETEXT{"Unsubscribe from this topic"}%" href="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe?subscribe_topic=%URLENCODE{%PARAM1%}%&subscribe_subscriber=%URLENCODE{%PARAM2%}%&subscribe_remove=1>%MAKETEXT{"Unsubscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
 Error message
@@ -51,14 +29,8 @@ Error message
 }%%MAKETEXT{"Cannot change subscription: [_1]" args="%PARAM1%"}%%{
 }%%TMPL:END%
 %{----------------------------------------
-Error message
-}%%TMPL:DEF{sp:subscribe_done}%%{
-alt: %MAKETEXT{"[_1] has been subscribed" args="%PARAM1%,%PARAM2%,%PARAM3%"
-}%%TMPL:P{sp:unsubscribe}%%{
-}%%TMPL:END%
+Success message
+}%%TMPL:DEF{sp:subscribe_done}%%MAKETEXT{"Unsubscribe"}%%TMPL:END%
 %{----------------------------------------
-Error message
-}%%TMPL:DEF{sp:unsubscribe_done}%%{
-alt: %MAKETEXT{"[_1] has been unsubscribed" args="%PARAM1%,%PARAM2%,%PARAM3%"
-}%%TMPL:P{sp:subscribe}%%{
-}%%TMPL:END%
+Success message
+}%%TMPL:DEF{sp:unsubscribe_done}%%MAKETEXT{"Subscribe"}%%TMPL:END%
