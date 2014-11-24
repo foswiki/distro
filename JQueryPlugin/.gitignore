@@ -67,6 +67,8 @@ pub/System/JQueryPlugin/plugins/media/jquery.media.init.js
 pub/System/JQueryPlugin/plugins/media/jquery.media.js
 pub/System/JQueryPlugin/plugins/metadata/jquery.metadata.js
 pub/System/JQueryPlugin/plugins/migrate/jquery.migrate.js
+pub/System/JQueryPlugin/plugins/mousewheel/git/
+pub/System/JQueryPlugin/plugins/mousewheel/jquery.mousewheel.js
 pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.css
 pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.js
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.css
@@ -80,9 +82,9 @@ pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.init.js
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.js
+pub/System/JQueryPlugin/plugins/render/git/
 pub/System/JQueryPlugin/plugins/render/jquery.render.js
 pub/System/JQueryPlugin/plugins/render/jquery.template-loader.js
-pub/System/JQueryPlugin/plugins/render/git/
 pub/System/JQueryPlugin/plugins/scrollto/git/
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.init.js
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js
@@ -96,6 +98,8 @@ pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.js
 pub/System/JQueryPlugin/plugins/slimbox/slimbox2.css
 pub/System/JQueryPlugin/plugins/slimbox/slimbox2.init.js
 pub/System/JQueryPlugin/plugins/slimbox/slimbox2.js
+pub/System/JQueryPlugin/plugins/sprintf/git/
+pub/System/JQueryPlugin/plugins/sprintf/sprintf.js
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.css
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.js
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css

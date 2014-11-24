@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1411635006" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416833502" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -117,7 +117,7 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-<blockquote class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</blockquote>
+<div class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</div>
 
 ---++ Plugin Info
 |  Maintainer(s): | Michael Daum |
