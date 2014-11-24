@@ -54,13 +54,7 @@ sub test_SUBSCRIBE_1 {
         "%SUBSCRIBE{who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web} );
     $this->assert_html_equals( <<HTML, $subscribe );
-<form class="subscribe_form" action="$restURL" method="POST">
-<div class="subscribe_changing foswikiHidden">Changing...</div>
-<input type="hidden" name="subscribe_topic" value="$this->{test_web}.$this->{test_topic}" />
-<input type="hidden" name="subscribe_subscriber" value="$this->{test_user_wikiname}" />
-<input type="hidden" name="subscribe_remove" value="0" />
-<a class="subscribe_button">Subscribe</a>
-</form>
+<a class="subscribe_link" rel="nofollow" title="Subscribe to this topic" href="$restURL?subscribe_topic=$this->{test_web}.$this->{test_topic}&subscribe_subscriber=$this->{test_user_wikiname}">Subscribe</a>
 HTML
 }
 
@@ -73,13 +67,7 @@ sub test_SUBSCRIBE_2 {
         $this->{test_topic}, $this->{test_web}
     );
     $this->assert_html_equals( <<HTML, $subscribe );
-<form class="subscribe_form" action="$restURL" method="POST">
-<div class="subscribe_changing foswikiHidden">Changing...</div>
-<input type="hidden" name="subscribe_topic" value="Kitties.Tobermory" />
-<input type="hidden" name="subscribe_subscriber" value="TobermoryCat" />
-<input type="hidden" name="subscribe_remove" value="1"/>
-<a class="subscribe_button">Unsubscribe</a>
-</form>
+<a class="subscribe_link" rel="nofollow"  title="Unsubscribe from this topic" href="$restURL?subscribe_topic=Kitties.Tobermory&subscribe_subscriber=TobermoryCat&subscribe_remove=1>Unsubscribe</a>
 HTML
 }
 

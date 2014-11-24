@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404876093" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1416851209" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -8,7 +8,7 @@
 -->
 %SHORTDESCRIPTION%
 
-Example (only works if plugin is installed, and you are logged in - you are: %WIKIUSERNAME% (not %MAINWEB%.WikiGuest)): %SUBSCRIBE%
+Example (only works if plugin is installed, and you are logged in - you are: %WIKIUSERNAME% - and you are not %USERSWEB%.WikiGuest): %SUBSCRIBE%
 
 ---++ Usage
 %INCLUDE{"VarSUBSCRIBE" section="subscribe_attributes"}%
@@ -58,11 +58,7 @@ Note that the calling user *must* be authenticated, and *must* have write permis
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-A word of warning; if you used !SubscribePlugin before version 3.1, please note that the use of GET requests for subscriptions is no longer supported. That means that any simple links constructed using the =format= parameter will not work.
-
-The recommended solutions are (in order of preference):
-   1 Recode to use the !SubscribePlugin templates
-   1 Add =class="subscribe_button"= to any link in the =format= parameter
+A word of warning; if you used !SubscribePlugin before version 3.1, please note that the use of GET requests for subscriptions is no longer supported. That means that Javascript *must* to be available in the browser..
 
 ---++ Plugin Info
 
@@ -75,11 +71,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.2 (24 Nov 2014) | Foswikitask:Item12926: removed requirement for an HTML form wrapping the button |
 |  3.1 (28 Apr 2014) | Foswikitask:Item12872: Add CSRF validation support |
 |  3.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
 |  2.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1404876093" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1404876093" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1416851209" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1416851209" user="ProjectContributor"}%

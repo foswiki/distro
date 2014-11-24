@@ -17,13 +17,15 @@ use Assert;
 use Error ':try';
 use JSON;
 
-our $VERSION = '3.1';
-our $RELEASE = '28 Apr 2014';
+our $VERSION = '3.2';
+our $RELEASE = '24 Nov 2014';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $tmpls;
+
+my $keyed;
 
 sub initPlugin {
     my ( $TOPIC, $WEB ) = @_;
@@ -56,6 +58,8 @@ sub initPlugin {
         http_allow   => 'POST'
     );
 
+    $keyed = 0;
+
     undef $tmpls;
     return 1;
 }
@@ -84,7 +88,7 @@ sub _SUBSCRIBE {
             $topic ) ) ? 1 : 0;
 
     my $form = _template_text(
-        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'form',
+        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe',
         "$web.$topic", $who );
 
     if ( defined $params->{format} || $params->{formatunsubscribe} ) {
@@ -112,9 +116,22 @@ sub _SUBSCRIBE {
         }
         else {
             $form =
-              CGI::a( { href => $url, class => 'subscribe_button' },
+              CGI::a( { href => $url, class => 'subscribe_link' },
                 $actionName );
         }
+    }
+
+    unless ($keyed) {
+
+        # If the subscribe expands to a form then that form will get
+        # a nonce but we will ignore it and only use this re-usable
+        # nonce.
+        Foswiki::Func::addToZone( "script", "SUBSCRIBEPLUGIN",
+                "<script type='text/javascript'>"
+              . "var SubscribePlugin_key='?"
+              . _getNonce($session) . "';"
+              . "</script>" );
+        $keyed = 1;
     }
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
@@ -180,21 +197,7 @@ sub _rest_subscribe {
 
     # Add new validation key to HTTP header
     if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
-        require Foswiki::Validation;
-        my $context =
-          $query->url( -full => 1, -path => 1, -query => 1 ) . time();
-        my $cgis = $session->getCGISession();
-        my $nonce;
-        if ( Foswiki::Validation->can('generateValidationKey') ) {
-            $nonce =
-              Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
-        }
-        else {
-            # Pre 1.2.0 compatibility
-            my $html =
-              Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
-            $nonce = $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
-        }
+        my $nonce = _getNonce($session);
         $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
           if defined $nonce;
     }
@@ -209,6 +212,23 @@ sub _rest_subscribe {
     );
 
     return undef;
+}
+
+sub _getNonce {
+    my ($session) = @_;
+    require Foswiki::Validation;
+    my $query   = Foswiki::Func::getCgiQuery();
+    my $context = $query->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $cgis    = $session->getCGISession();
+    if ( Foswiki::Validation->can('generateValidationKey') ) {
+        return Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
+    }
+    else {
+        # Pre 1.2.0 compatibility
+        my $html = Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
+        return $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+        die "Internal Error";
+    }
 }
 
 sub _template_text {
