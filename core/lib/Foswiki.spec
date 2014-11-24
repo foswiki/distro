@@ -1470,12 +1470,6 @@ $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteFo
 # is faster, but requires BerkeleyDB to be installed.
 $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
-# bodgey up a default location for grep
-# **STRING EXPERT**
-# Stores the file system location for the GNU Grep program. Bootstrap
-# works this out based upon OS.
-# $Foswiki::cfg{_grepProgram} = '/bin/grep';
-
 # **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" **
 # Full path to GNU-compatible egrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
@@ -1484,13 +1478,13 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # Similarly for %DET, which controls whether matching lines are required.
 # (see the documentation on these options with GNU grep for details).
 $Foswiki::cfg{Store}{EgrepCmd} =
-  '$Foswiki::cfg{_grepProgram} -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+  'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
 # **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'"**
 # Full path to GNU-compatible fgrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{Store}{FgrepCmd} =
-  '$Foswiki::cfg{_grepProgram} -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+  'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
 #---++ File system settings
 # Generic settings applicable to all stores that read/write the file system.

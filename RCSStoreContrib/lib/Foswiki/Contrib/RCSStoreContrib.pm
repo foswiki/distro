@@ -88,16 +88,18 @@ history corruption.
 sub bootstrapStore {
 
     if (
-        Foswiki::Configure::FileUtil::findFileOnTree( $Foswiki::cfg{DataDir},
-            qr/,pfv$/, qr/,v$/ )
-        || Foswiki::Configure::FileUtil::findFileOnTree(
-            $Foswiki::cfg{PubDir}, qr/,pfv$/, qr/,v$/
+        my $hit = (
+            Foswiki::Configure::FileUtil::findFileOnTree(
+                $Foswiki::cfg{DataDir}, qr/,pfv$/, qr/,v$/ )
+              || Foswiki::Configure::FileUtil::findFileOnTree(
+                $Foswiki::cfg{PubDir}, qr/,pfv$/, qr/,v$/
+              )
         )
       )
     {
 
         print STDERR
-          "AUTOCONFIG: Unable to use RCS Store,, PlainFile histories found.\n";
+"AUTOCONFIG: Unable to use RCSStore: ,pfv files were found in data or pub, which indicates this installation is already configured for PlainFileStore e.g. $hit\n";
         if (
             Foswiki::Configure::FileUtil::findFileOnTree(
                 $Foswiki::cfg{DataDir}, qr/,v$/, qr/,pfv$/ )
@@ -107,7 +109,7 @@ sub bootstrapStore {
           )
         {
             die
-"AUTOCONFIG: Conflicting RCS and PlainFile histories found,  unable to autoconfigure\n";
+"AUTOCONFIG: WARNING: both ,pfv and ,v files were found in data or pub, suggesting that both stores have been used at some point. Unable to autoconfigure - please resolve the histories manually.\n";
         }
         return;
     }

@@ -97,7 +97,7 @@ my $result = Getopt::Long::GetOptions(
 
 # Check parameters
 
-my $action;
+my $action = '';
 my %uniq;
 my @methods =
   grep { defined &{"Foswiki::Configure::Query::$_"} }
@@ -134,16 +134,13 @@ if ( $params->{save} ) {
     $params->{method} = 'save';
 }
 
-=begin TML
-
----++ Prompt for config values
-   * $root - Configuration root
-   * $keys - ={Configuration}{Key}{Path}= to a single variable
-   * $default - Default if any,  undef to require a response.
-   * $prompts - Alternate prompt. If undef, the help text from the configuration spec is used.
-   * $opt - Flag for optional values.   Optional values can have an "empty" reponse, Pressing enter will save a "null", and the keyword 'none' will omit setting the option.
-
-=cut
+# ---++ Prompt for config values
+#    * $root - Configuration root
+#    * $keys - ={Configuration}{Key}{Path}= to a single variable
+#    * $default - Default if any,  undef to require a response.
+#    * $prompts - Alternate prompt. If undef, the help text from the configuration spec is used.
+#    * $opt - Flag for optional values.   Optional values can have an "empty" reponse, Pressing enter will save a "null", and the keyword 'none' will omit setting the option.
+#
 
 sub _prompt {
     my ( $root, $keys, $default, $prompt, $opt ) = @_;
@@ -228,7 +225,6 @@ sub _reply {
 #$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
 
 # Initialise
-
 if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
     $Foswiki::cfg{isVALID} = 1;
 }
@@ -294,7 +290,6 @@ unless ( $Foswiki::cfg{isVALID} ) {
     _prompt( $root, '{ToolsDir}',     $Foswiki::cfg{ToolsDir} );
     _prompt( $root, '{Store}{Implementation}',
         $Foswiki::cfg{Store}{Implementation} );
-    _prompt( $root, '{_grepProgram}', $Foswiki::cfg{_grepProgram} );
     _prompt( $root, '{Store}{SearchAlgorithm}',
         $Foswiki::cfg{Store}{SearchAlgorithm} );
 

@@ -327,7 +327,7 @@ sub setBootstrap {
       qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {LocalesDir} {Store}{Implementation}
-      {Store}{SearchAlgorithm} {_grepProgram} );
+      {Store}{SearchAlgorithm} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
@@ -459,6 +459,7 @@ EPITAPH
 
     # Note: message is not I18N'd because there is no point; there
     # is no localisation in a default cfg derived from Foswiki.spec
+    my $vp = $Foswiki::cfg{ScriptUrlPaths}{view} || '';
     my $system_message = <<BOOTS;
  *WARNING !LocalSite.cfg could not be found, or failed to load.* %BR%This
 Foswiki is running using a bootstrap configuration worked
@@ -466,7 +467,7 @@ out by detecting the layout of the installation. Any requests made to this
 Foswiki will be treated as requests made by an administrator with full rights
 to make changes! You should either:
    * correct any permissions problems with an existing !LocalSite.cfg (see the webserver error logs for details), or
-   * visit [[%SCRIPTURL{configure}%?VIEWPATH=$Foswiki::cfg{ScriptUrlPaths}{view}][configure]] as soon as possible to generate a new one.
+   * visit [[%SCRIPTURL{configure}%?VIEWPATH=$vp][configure]] as soon as possible to generate a new one.
 BOOTS
 
     if ($warn) {
@@ -511,7 +512,6 @@ sub _bootstrapStoreSettings {
     # Handle the common store settings managed by Core.  Important ones
     # guessed/checked here include:
     #  - $Foswiki::cfg{Store}{SearchAlgorithm}
-    #  - $Foswiki::cfg{_grepProgram}
 
     # Set PurePerl search on Windows, or FastCGI systems.
     if ( ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI/ )
@@ -523,41 +523,20 @@ sub _bootstrapStoreSettings {
 "AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
     }
     else {
-        $Foswiki::cfg{Store}{SearchAlgorithm} =
-          'Foswiki::Store::SearchAlgorithms::Forking';
-        print STDERR "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
-    }
-
-    # Work out the location for grep.
-
-    $Foswiki::cfg{_grepProgram} = '/bin/grep';
-    $Foswiki::cfg{_grepProgram} = '/usr/bin/grep'
-      if ( $^O eq 'darwin' || $^O eq 'freebsd' );
-    $Foswiki::cfg{_grepProgram} = 'c:/PROGRA~1/GnuWin32/bin/grep'
-      if ( $^O eq 'MSWin32' );
-
-    unless ( -e $Foswiki::cfg{_grepProgram} ) {
-
-        print STDERR "AUTOCONFIG: The usual locations for grep did not work\n";
-
-        # Try simple grep - maybe it's on the path.
-
-        ( $ENV{PATH} ) = $ENV{PATH} =~ m/^(.*)$/;    # UNTAINT the path
-        $Foswiki::cfg{_grepProgram} = 'grep';
-        my $rslt = `grep --version 2>&1` || '';
-
-        if ( $rslt =~ m/GNU grep/ ) {
+        `grep -V 2>&1`;
+        if ($!) {
             print STDERR
-              "AUTOCONFIG: Simple grep without a path appears to work\n";
-        }
-        else {
-            print STDERR
-"AUTOCONFIG: Unable to find a valid grep executable. Force PurePerl search\n";
+"AUTOCONFIG: Unable to find a valid 'grep' on the path. Forcing PurePerl search\n";
             $Foswiki::cfg{Store}{SearchAlgorithm} =
               'Foswiki::Store::SearchAlgorithms::PurePerl';
         }
+        else {
+            $Foswiki::cfg{Store}{SearchAlgorithm} =
+              'Foswiki::Store::SearchAlgorithms::Forking';
+            print STDERR
+              "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
+        }
     }
-
 }
 
 =begin TML
