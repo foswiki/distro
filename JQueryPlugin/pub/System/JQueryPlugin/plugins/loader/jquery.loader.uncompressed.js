@@ -129,7 +129,9 @@ jQuery(function($) {
         params = $.extend({ "skin": "text"}, self.options.params);
 
     // construct url
-    self.options.url = foswiki.getScriptUrl("view", web, topic);
+    if (typeof(self.options.url) === 'undefined') {
+      self.options.url = foswiki.getScriptUrl("view", web, topic);
+    }
 
     if (typeof(self.options.section) !== 'undefined') {
       params.section = self.options.section;
