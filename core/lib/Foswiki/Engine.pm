@@ -53,7 +53,7 @@ Start point to Runtime Engines.
 sub run {
     my $this = shift;
     my $req  = $this->prepare();
-    if ( defined $req ) {
+    if ( ref($req) ) {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
     }
