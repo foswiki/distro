@@ -220,6 +220,7 @@ sub _getNonce {
     my $query   = Foswiki::Func::getCgiQuery();
     my $context = $query->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $cgis    = $session->getCGISession();
+    return '' unless $cgis;
     if ( Foswiki::Validation->can('generateValidationKey') ) {
         return Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
     }
