@@ -153,6 +153,15 @@ sub dispatch {
         }
     }
 
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'jsonrpc',
+            webTopic => $session->{webName} . '.' . $session->{topicName},
+            extra    => $request->namespace() . ' ' . $request->method(),
+        }
+    );
+
     # call
     my $code = 0;
     my $result;
