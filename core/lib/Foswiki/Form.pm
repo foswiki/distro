@@ -390,10 +390,12 @@ sub _link {
     $tooltip ||= $defaultToolTip;
 
     ( my $web, $topic ) =
-      $this->session->normalizeWebTopicName( $this->{web}, $topic );
+      $this->session->normalizeWebTopicName( $this->web(), $topic );
 
     $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
+
+    $web ||= $this->web();
 
     $topic = Foswiki::Sandbox::untaint( $topic,
         \&Foswiki::Sandbox::validateTopicName );
