@@ -1,0 +1,4 @@
+DBI,>=0.1,cpan,Required.
+DBD::Pg,>=1.49,cpan,Optional,Required for PostgreSQL.
+DBD::MySql,>=0,cpan,Optional,Required for MySQL.
+DBD::SQLite3,>=0,cpan,Optional,Required for SQLite, and for testing.

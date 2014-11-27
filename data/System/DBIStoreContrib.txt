@@ -1,0 +1,209 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1401385201" format="1.1" version="1"}%
+---+!! !DBIStoreContrib
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+This extension supports the storing of wiki data in an SQL database.
+Works with Foswiki 1.1.9.
+
+NOTE: the implementation for Foswiki 1.2 is currently incomplete. Please
+do not try to use this version of DBIStoreContrib on Foswiki 1.2!
+
+At this point in time, it works as a mirror of an existing
+store (e.g. PlainFile, RCS)
+   1. With all searching operations performed using SQL _or_
+   2. With just structured queries performed using the store _or_
+   3. Simply to support other clients querying data using SQL.
+(However it may be extended to be a full store implementation at
+some point in the future.)
+
+The extension has been designed to be *fully compatible* with existing
+=%SEARCH= expressions, and is usable with all well-written extensions (those
+that have been written to use the Foswiki::Func API, and do not perform
+direct-to-disk file operations.)
+
+It has been tested with:
+   * [[http://www.sqlite.org/][SQLite 3.7.13]],
+   * [[http://www.mysql.com/][MySQL 5.5.37]],
+   * [[http://www.postgresql.org/][Postgresql 9.1.13]], and
+   * [[www.microsoft.com/SQL][Microsoft SQL Server 2005 9.00.4035.00 SP2 (Transact-SQL)]].
+
+Note however that there are many different versions of these databases and
+compatibility with any given version cannot be guaranteed.
+
+---++ Database Schema
+The database schema reflects 1:1 the schema of Foswiki topics. The following
+tables exist by default:
+
+=topic= %BR%
+Contains all wiki topics. 
+   * =tid= - this column contains a numeric identifier that uniquely identifies the topic
+   * =web= - the web name
+   * =name= - the topic name
+   * =text= - the full text of the topic, without embedded meta-data
+   * =raw= - the full text of the topic including embedded meta-data
+
+=metatypes= %BR%
+Contains the names of all meta-tables.
+   * =name= - table name, e.g. =TOPICINFO=, =FORM= etc
+
+The full schema, including the types used to represent different data can
+be found in =configure= under the settings for the Extension.
+
+---++ Search Limitations
+---+++ Regular Expressions
+Regular expression searches are mapped to whatever regular expression
+support exists in the database. Most SQL databases support sophisticated
+regular expression matching; however there are features of the default
+Perl syntax supported by Foswiki that cannot be mapped to the databases.
+Regular expressions written using this extended syntax may fail.
+
+---+++ Numeric comparison
+Foswiki "knows" when two values in the database can be compared using numeric, as against lexical, comparison (the =, <, >, <= and >= operators). SQL doesn't have this kind of support, and has to be explicitly *told* whether the values being compared are numeric or lexical.
+
+If one of the things being compared is explicitly a number, then numeric comparison will be used by default.
+
+If the query expression isn't explicit about the type to be used, you can use the =is_number()= operator to indicate when one side represents a number or =is_string()= when it is a string. You only need to use =number= / =string= on one side of an expression. For example,
+
+   * =%<nop>SEARCH{"info.version<'1.1'"}%= will always use lexical comparison
+   * =%<nop>SEARCH{"info.version<1.1"}%= will always use numeric comparison
+   * =%<nop>SEARCH{"info.version<is_number('1.1')"}%= will use numeric comparison
+   * =%<nop>SEARCH{"info.version<is_string(1.1)"}%= will use lexical comparison
+
+SQL =CAST= (or equivalent) statements are used to convert value types
+being compared.
+
+---+++ Date comparison
+Date conversion using the =d2n= operator is not supported with Postgresql and
+!MySQL.
+
+---+++ Row indexes
+Integer indexes are not supported. Use queries instead.
+
+---+++ Representational types
+The type defined in the schema must be long enough to store any possible
+value for the given field, but be as short as possible to maximise the
+DB's chance of building a decent index for it.
+
+---+++ length of an array
+The =length()= operator only works on string data, not on tables.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+   * Go to =configure= and:
+      1 Set a DSN etc. for the contrib in the 'Extensions' section (the default is for sqlite3),
+      1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
+      1 Select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
+      1 *For Foswiki > 1.1* only
+         * Set ={Store}{ImplementationClasses}{Foswiki::Contrib::DBIStoreContrib::DBIStore}= *EXPERT* configuration setting to =[ 'Foswiki::Store::DBIStoreContrib' ]=.
+      1 *For Foswiki 1.1 only*
+         * enable the integrated =DBIStorePlugin=
+
+---+++ Testing
+
+Basic tests for queries can be found in the DBIStoreTest topic.
+
+---+++ Reloading the database
+
+It may become necessary to reload the DBI database - for example, because
+changes to topics have been made outside of Foswiki.
+
+---++++ Foswiki <1.20
+Click on the following link to clear down and re-load the entire database. *WARNING* on a large site this may take a very long time. You may prefer to run it from the command-line,
+using a command like this:
+<verbatim>
+./view topic=System.DBIStoreTest skin=text dbistore_reset=1
+</verbatim>
+You can also update an individual topic by passing =dbistore_update= to a
+view of the topic. For example,
+<verbatim>
+./view topic=System.DBIStoreTest skin=text dbistore_update=1
+</verbatim>
+will update the DB for System.DBIStoreTest *only*.
+
+---++++ Foswiki 1.2 and later
+To be completed
+
+---+++ Unknown meta-data *EXPERT*
+
+Normally the module will only record recognised meta-data in the database,
+and so make it accessible for searching. "Recognised" meta-data is meta-data
+created by the core and by plugins that use the =Foswiki::Func::registerMETA=
+method to announce meta-data to the system. In exceptional circumstances you
+can override this behaviour by setting the ={Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}= control in =configure=. This will cause *all* meta-data being recorded in the database, even if the plugin which is supposed to register it is missing, broken, or simply too old to do the right thing.
+
+---+++ !MySQL Notes
+The !MySQL database user needs at least the following privileges:
+SELECT, INSERT, CREATE, and DROP.
+
+---+++ Postgresql Notes
+
+---+++ Microsoft SQL Server Notes
+If you are using Windows authentication for users on SQL Server, then the simplest
+thing to do is to use the ODBC driver with DBIStoreContrib and create a data
+source for SQL Server in the ODBC Administrator which uses Windows authentication.
+Then set an empty username and password for !DBIStoreContrib.
+
+SQL Server does not come equipped with regular expression matching, which is
+required for Foswiki, so you will need to install a regular expression library.
+The default personality module included in this module requires the user function =dbo.fn_RegExIsMatch= to stub the =.NET= !RegEx class. Instructions for building and installing this user function can be found at
+http://www.codeproject.com/Articles/19502/A-T-SQL-Regular-Expression-Library-for-SQL-Server
+
+Make you set a collation sequence for the database. For example,
+<verbatim>
+ALTER DATABASE Foswiki COLLATE Latin1_General_100_CS_AS_SC;
+</verbatim>
+Without this, upper and lower case strings will be compared case-insensitively. If you don't, it may be fatal to the DBIStoreContrib, as the DB will be unable to distinguish =ThisTopicName= and =THISTOPICNAME.
+
+---+++ SQLite Notes
+SQLite requires the =pcre= module to be installed to support regular expression searches. The path to this module is set up in =configure=.
+
+---++ How it works
+---+++ Searches and Queries
+Foswiki has two internal interfaces, "search algorithm" and "query algorithm", that are selected from =configure=. These two interfaces are implemented in a variety of ways in the Foswiki core, but the typical solution is to implement the query interface in terms of the search interface i.e. map _queries_ to regular expression _searches_. This is done by "hoisting" those parts of a query that can be mapped to regular expressions and using those hoisted expressions as a filter to reduce the set of matching topics. The "unhoistable" parts of the query are then applied to the remaining topics using "brute force" to give a final set of matching topics.
+
+The DBIStoreContrib turns this process on its head by mapping _searches_ to SQL _queries_. Most modern RDBMS support regular expression searches, so a text search can be expressed as a regular expression match on a "raw text" field in the DB. Structured queries, on the other hand, are hoisted to extract SQL from the Foswiki query statement.
+
+Note that you don't *have* to use the mapping search algorithm for text searches - if you have a caching full text search implementation (such as Foswiki:Extensions.SolrPlugin) you should be able to continue using that.
+
+---+++ The Database
+The database is used simply as a cache, to accelerate searches. The contrib is designed to work with the standard Foswiki RCS-based store, but can also work with *any* post 1.2.0 store implementation. It can also hook into the standard plugin handlers for a slightly reduced capability.
+
+The database is interfaced to via the standard Perl DBI interface, so any RDBMS that has an adapter can be used for the cache. This includes most standard SQL RDBMS. If you want to use a different database you will have to implement a personality module for it; if you do this, please contribute the new personality module (and appropriate usage information) back to the community.
+
+The schema used to represent Foswiki topics is (currently) a 1:1 mapping of the schema described in System.QuerySearch. The same schema could be used to store Foswiki topics in the actual store, and this is one of the longer term goals. Among other things, this would allow us to search topic histories.
+
+---+++ The Code
+Here's an overview of the important bits of the contrib:
+   * =lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm= - code that hoists SQL statements from Foswiki queries
+   * =lib/Foswiki/Contrib/DBIStoreContrib/DBIStore.pm= - a partial =Foswiki::Store= implementation that eveavesdrops on =Store::recordChange= events (Foswiki >1.1 only)
+   * =lib/Foswiki/Plugins/DBIStorePlugin.pm= - plugin handlers (Foswiki <=1.1 only)
+   * =lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm= - the query algorithm
+   * =lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm= - the search algorithm
+
+The subversion repository (but not the official release) contains a fixed version of DBI::Shell from CPAN. This
+can be useful when debugging SQL server, or for simply understanding the tables. Run it using:
+
+=perl -I &lt;path to DBIStoreContrib checkout&gt;/lib -MDBI::Shell &lt;dsn from configure&gt; &lt;username&gt; &lt;password&gt;=
+
+---++ Info
+
+|  Author(s): | Crawford Currie http://c-dot.co.uk |
+|  Copyright: | &copy; 2010-2014 C-Dot Consultants |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.2 (18 Oct 2014) | Foswikitask:Item12992: Added UNIQUE constraints to schema Foswikitask:Item13056: fix fileattachment moves in plugin |
+|  1.1 (12 Aug 2014) | Fixes for Foswikitask:Item12989 and Foswikitask:Item12990: |
+|  1.0 (8 May 2014) | First version |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | http://foswiki.org/bin/view/Extensions/DBIStoreContrib |
+|  Support: | http://foswiki.org/bin/view/Support/DBIStoreContrib |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->

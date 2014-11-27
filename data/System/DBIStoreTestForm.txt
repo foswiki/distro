@@ -1,0 +1,15 @@
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| number |  text | 10 | | A Number | |
+| string | text | 32 | | A String | |
+| boolean | radio | 1 | Boolean | A Checkbox |
+| Other | text | 32 | | Another topic |
+
+This topic defines a form used for testing the DBIStoreContrib.
+Note that this topic, and the DBIStoreTest topic,
+have to be present in the cache for the tests to work.
+
+%META:FORM{name="DBIStoreTestForm"}%
+%META:FIELD{name="number" attributes="" title="number" value="666"}%
+%META:FIELD{name="string" attributes="" title="string" value="test"}%
+%META:FIELD{name="boolean" attributes="" title="boolean" value=""}%
+%META:FIELD{name="Other" attributes="" title="Other" value="DBIStoreTest"}%
