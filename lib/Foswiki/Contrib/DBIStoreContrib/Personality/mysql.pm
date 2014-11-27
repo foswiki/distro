@@ -50,6 +50,9 @@ sub startup {
     # MySQL has to be kicked in the ANSIs
     $this->{dbh}->do("SET sql_mode='ANSI'");
     $this->{dbh}->do('SELECT @sql_mode');
+	
+	#set to UTF8
+    $this->{dbh}->do("SET NAMES utf8");
 }
 
 sub regexp {
@@ -58,7 +61,7 @@ sub regexp {
     unless ( $rhs =~ s/^'(.*)'$/$1/s ) {
 
         # Somewhat risky....
-        return "$lhs REGEXP $rhs";
+        return "$lhs REGEXP ($rhs)";
     }
 
     # MySQL uses POSIX regular expressions.
@@ -72,6 +75,11 @@ sub regexp {
     # Nor \d, \D
     $rhs =~ s/(^|(?<=[^\\]))\\d/[0-9]/g;
     $rhs =~ s/(^|(?<=[^\\]))\\D/[^0-9]/g;
+    
+    # Nor \b, \B
+    $rhs =~ s/\\\\[bB](.*?)\\\\[bB]/\[\[:<:\]\]$1\[\[:>:\]\]/g;
+	$rhs =~ s/\\\\[bB]($|\|)/\[\[:>:\]\]$1/g;
+	$rhs =~ s/(^|\|)\\\\[bB]/$1\[\[:<:\]\]/g;
 
     # Nor \s, \S, \w, \W
     $rhs =~ s/(^|(?<=[^\\]))\\s/[ \011\012\015]/g;
@@ -80,7 +88,9 @@ sub regexp {
     $rhs =~ s/(^|(?<=[^\\]))\\W/[^a-zA-Z0-9_]/g;
 
     # Convert X? to (X|)
-    $rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
+    #$rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
+    $rhs =~ s/([\+\*])\?/$1/g;
+    $rhs =~ s/\?://g;
          # Handle special characters
     $rhs =~ s/(?<=[^\\])\\n/\n/g;             # will this work?
     $rhs =~ s/(?<=[^\\])\\r/\r/g;
@@ -88,9 +98,9 @@ sub regexp {
     $rhs =~ s/(?<=[^\\])\\b//g;               # not supported
     $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
                                               # Escape '
-    $rhs =~ s/\\/\\\\/g;
+    #$rhs =~ s/\\/\\\\/g;
 
-    return "$lhs REGEXP '$rhs'";
+    return "$lhs REGEXP ('$rhs')";
 }
 
 sub cast_to_numeric {
@@ -105,6 +115,13 @@ sub cast_to_text {
 
 sub length {
     return "char_length($_[1])";
+}
+
+sub safe_id {
+    my ( $this, $id ) = @_;
+    $id =~ s/[^A-Za-z0-9_]//gs;    # protect against bad data
+    $id = "`$id`";
+    return $id;
 }
 
 1;
