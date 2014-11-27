@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417084395" format="1.1" version="1"}%
 ---+!! Page Caching
 
 %TOC%
@@ -202,6 +202,9 @@ information, for instance results of an SQL, SOAP or LDAP query being rendered o
 This class of SEARCH-like expressions all show the same caching artefact: results are not 100% up-to-date.
 At the same time these expressions are the candidates that benefit the most from caching as their computation
 are the most expensive ones.
+
+---+++ Caching REST results (Developers)
+If a function called to service a =rest= script returns it's result using =return=, then the result will be cached. If the function returns an empty result or undef, then the function is totally responsible for its own output, and there is no caching.
 
 ---++ Configuring the Cache
 ---+++ Choosing a database engine
