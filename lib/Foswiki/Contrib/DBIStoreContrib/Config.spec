@@ -111,7 +111,7 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     FIELD => {
         tid  => { type => 'INT' },
         name => { type => 'VARCHAR(128)', index => 1 },
-        value => { type => 'VARCHAR(512)', index => 1, truncate_to => 512 },
+        value => { type => 'TEXT'},
         title => { type => 'VARCHAR(256)' },
     },
     PREFERENCE => {
