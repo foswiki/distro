@@ -523,6 +523,7 @@ sub _bootstrapStoreSettings {
 "AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
     }
     else {
+        ( $ENV{PATH} ) = $ENV{PATH} =~ m/^(.*)$/;    # Untaint the path
         `grep -V 2>&1`;
         if ($!) {
             print STDERR
