@@ -194,7 +194,11 @@ sub query {
     my $topicSet = [];
     my $sth      = Foswiki::Contrib::DBIStoreContrib::query($sql);
     while ( my @row = $sth->fetchrow_array() ) {
-        push( @$topicSet, "$row[0]/$row[1]" );
+    	my $_web = _convertFromUTF8( $row[0] );
+    	my $_name = _convertFromUTF8( $row[1] );
+    	Foswiki::Func::writeDebug("Decoded: " . $_web . " / " . $_name . " from UTF8 to " . $Foswiki::cfg{Site}{CharSet})
+    		if MONITOR;
+        push( @$topicSet, "$_web/$_name" );
     }
 
     my $filter = getOptionFilter($options);
@@ -255,6 +259,13 @@ sub query {
 
     # Add paging if applicable.
     return $this->addPager( $resultset, $options );
+}
+
+sub _convertFromUTF8 {
+    my $text = shift;
+    $text = Encode::decode( 'utf-8', $text );
+    $text = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $text );
+    return $text;
 }
 
 # Expand web and topic limits to SQL expressions that can be
