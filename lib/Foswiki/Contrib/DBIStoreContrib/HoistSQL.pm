@@ -125,7 +125,7 @@ sub _AS {
     while ( my ( $what, $alias ) = each %args ) {
         if ( defined $alias ) {
             $what = "($what)"
-              if $what !~ /^\w+$/
+              if $what !~ /^[\w`]+$/
               && $what !~ /^(["']).*\1$/
               && $what !~ /^\([^()]*\)$/;
             push( @terms, "$what AS $alias" );
@@ -686,7 +686,7 @@ sub _hoist {
                 );
                 my $where = "($lhs_alias.tid=$rhs_alias.tid)";
                 if ( $optype == BOOLEAN ) {
-                    $where .= " AND ($expr)";
+                    #$where .= " AND ($expr)";
                     $expr   = $TRUE;
                     $optype = $TRUE_TYPE;
                 }
@@ -890,7 +890,7 @@ sub _rewrite {
                     else {
                         $node = _rewrite(
                             $parser->parse(
-                                "META:FIELD[name='$node->{params}[0]'].value"),
+                                "META:FORM[name='$node->{params}[0]']"),
                             $context
                         );
                         $rewrote = __LINE__;
