@@ -6,7 +6,8 @@ Description: Tests for the "order" parameter in SEARCH.
 Designed by: Lynnwood Brown
 
 <!--
-   * Set FAILMSG = <b>Verify the file system dates of the <code>.txt,v</code> files for each of the 3 SearchTestTopicX topics.   If the <code>.txt</code> file is newer in the file system than the corresponding <code>.txt,v</code> file, the test will fail.   <code>touch</code> each <code>.txt,v</code> file to resolve the failure.</b>
+   * Set FAILMSG = This test <b>is expected to fail</b> when invoked from the browser unless the history topics SearchTestTopic1, SearchTestTopic2 and SearchTestTopic3 exist (they are automatically created and torn down by the unit tests). It should pas the unit tests, though.
+
 -->
 Topics created for test (Text Item; Number Item; Created; Modified):
    * SearchTestTopic1 (Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56)
