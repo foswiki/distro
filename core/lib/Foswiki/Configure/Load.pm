@@ -523,8 +523,10 @@ sub _bootstrapStoreSettings {
 "AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
     }
     else {
-        ( $ENV{PATH} ) = $ENV{PATH} =~ m/^(.*)$/
-          if defined $ENV{PATH};    # Untaint the path
+        # Untaint PATH so we can check for grep on the path
+        my $x = $ENV{PATH};
+        $x =~ /^(.*)$/;
+        $ENV{PATH} = $1;
         `grep -V 2>&1`;
         if ($!) {
             print STDERR
@@ -538,6 +540,7 @@ sub _bootstrapStoreSettings {
             print STDERR
               "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
         }
+        $ENV{PATH} = $x;    # re-taint
     }
 }
 
@@ -638,7 +641,8 @@ sub _bootstrapWebSettings {
     }
     else {
         my $suffix =
-          ( length( $ENV{SCRIPT_URL} ) < length($path_info) )
+          ( defined $ENV{SCRIPT_URL}
+              && length( $ENV{SCRIPT_URL} ) < length($path_info) )
           ? $ENV{SCRIPT_URL}
           : $path_info;
 
