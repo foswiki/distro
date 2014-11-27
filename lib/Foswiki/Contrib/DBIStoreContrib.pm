@@ -384,9 +384,10 @@ sub insert {
         _say "\tInsert $tid" if MONITOR;
         my $text = _convertToUTF8( $mo->text() );
         my $esf  = _convertToUTF8( $mo->getEmbeddedStoreForm() );
+        my $topicName = _convertToUTF8($mo->topic());
         $dbh->do(
             'INSERT INTO topic (tid,web,name,text,raw) VALUES (?,?,?,?,?)',
-            {}, $tid, $mo->web(), $mo->topic(), $text, $esf );
+            {}, $tid, $mo->web(), $topicName, $text, $esf );
 
         foreach my $type ( keys %$mo ) {
 
