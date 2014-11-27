@@ -371,6 +371,17 @@ sub loadSession {
             _trace( $this, "AUTHUSER from session is $sessionUser" )
               if defined $sessionUser;
 
+    # If we are bootstrapping, and the defaultUser from Foswiki.pm is admin
+    # Then override the session user to become admin.   This gets around a stale
+    # browser cookie from blocking the bootstrap admin login.
+
+            $authUser = $defaultUser
+              if ( $Foswiki::cfg{isBOOTSTRAPPING}
+                && $defaultUser eq 'admin' );
+
+            _trace( $this, "AUTHUSER after BOOTSTRAP check is $authUser" )
+              if defined $authUser;
+
             # An admin user stored in the session can override the webserver
             # user; handy for sudo
 
