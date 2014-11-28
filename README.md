@@ -28,7 +28,7 @@ The following commands check out an _absolutely minimal_ Foswiki (the core + def
  1. create the root directory called foswiki
  1. `git clone https://github.com/foswiki/distro.git foswiki`
  1. This will check out core and all the default and developer extensions, however they are not installed yet.
- 1. `cd core && ./pseudo-install default`
+ 1. `cd core && ./pseudo-install.pl default`
  1. change the ownership so the entire tree is owned by the user running the Apache. In this example the user name is "apache".
  1. point Apache at the checkout
 Change the commands to fit your actual file locations and Apache user. Some commands may have to be run as root.
