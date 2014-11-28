@@ -40,55 +40,15 @@ my $HEAD_ID_SPECIFIC_STYLE =
   'TABLEPLUGIN_specific';    # this name is part of the API, do not change
 
 my $PATTERN_TABLE = qr/%TABLE(?:{(.*?)})?%/;
-my $URL_ICON =
-    Foswiki::Func::getPubUrlPath() . '/'
-  . $Foswiki::cfg{SystemWebName}
-  . '/DocumentGraphics/';
-my $GIF_TABLE_SORT_ASCENDING = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortup.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sorted ascending',
-        title  => 'Sorted ascending'
-    }
-);
+my $URL_ICON;
+my $GIF_TABLE_SORT_ASCENDING;
+my $GIF_TABLE_SORT_DESCENDING;
+my $GIF_TABLE_SORT_BOTH;
+my $CHAR_SORT_ASCENDING;
+my $CHAR_SORT_DESCENDING;
+my $CHAR_SORT_BOTH;
 
-my $GIF_TABLE_SORT_DESCENDING = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortdown.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sorted descending',
-        title  => 'Sorted descending'
-    }
-);
-
-my $GIF_TABLE_SORT_BOTH = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortdiamond.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sort',
-        title  => 'Sort'
-    }
-);
-my $CHAR_SORT_ASCENDING = CGI::span( { class => 'tableSortIcon tableSortUp' },
-    $GIF_TABLE_SORT_ASCENDING );
-my $CHAR_SORT_DESCENDING =
-  CGI::span( { class => 'tableSortIcon tableSortDown' },
-    $GIF_TABLE_SORT_DESCENDING );
-my $CHAR_SORT_BOTH =
-  CGI::span( { class => 'tableSortIcon tableSortUp' }, $GIF_TABLE_SORT_BOTH );
-
-my $SORT_DIRECTION = {
-    'ASCENDING'  => 0,
-    'DESCENDING' => 1,
-    'NONE'       => 2,
-};
+my $SORT_DIRECTION;
 
 my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(px|%)*'o;
 
@@ -131,6 +91,55 @@ sub _init {
     $combinedTableAttrs   = {};
     $tableSpecificAttrs   = {};
     $styles               = {};
+    $URL_ICON =
+        Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName}
+      . '/DocumentGraphics/';
+    $GIF_TABLE_SORT_ASCENDING = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortup.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sorted ascending',
+            title  => 'Sorted ascending'
+        }
+    );
+
+    $GIF_TABLE_SORT_DESCENDING = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortdown.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sorted descending',
+            title  => 'Sorted descending'
+        }
+    );
+
+    $GIF_TABLE_SORT_BOTH = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortdiamond.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sort',
+            title  => 'Sort'
+        }
+    );
+    $CHAR_SORT_ASCENDING = CGI::span( { class => 'tableSortIcon tableSortUp' },
+        $GIF_TABLE_SORT_ASCENDING );
+    $CHAR_SORT_DESCENDING =
+      CGI::span( { class => 'tableSortIcon tableSortDown' },
+        $GIF_TABLE_SORT_DESCENDING );
+    $CHAR_SORT_BOTH = CGI::span( { class => 'tableSortIcon tableSortUp' },
+        $GIF_TABLE_SORT_BOTH );
+
+    $SORT_DIRECTION = {
+        'ASCENDING'  => 0,
+        'DESCENDING' => 1,
+        'NONE'       => 2,
+    };
 }
 
 # called one time
