@@ -447,7 +447,7 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
-      _getNamedColour($1, $2)#oge;
+      _getNamedColour($1, $2)#ge;
 
     # let WYSIWYG-editable A tags untouched for the editor
     $text =~ s/(\<a
