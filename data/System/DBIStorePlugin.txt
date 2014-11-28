@@ -1,1 +1,0 @@
-This plugin is a component of the DBIStoreContrib. It should only be enabled in Foswiki 1.1.x.
