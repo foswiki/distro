@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403006917" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417294557" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -17,6 +17,7 @@ example, the [[#Topic_selector][Topic selector]] example can be used
 in your own topics to define an HTML form input with the name =newtopic=
 by putting this in your topic:
 <verbatim class="tml">
+%JQREQUIRE{"ui::autocomplete"}%
 %INCLUDE{
  "%SYSTEMWEB%.JQueryAjaxHelper"
  section="topicselector"
@@ -42,11 +43,12 @@ loads the =topic= section of this topic, which expands to the topic list.
 *INCLUDE Parameters*
    * =INPUT_NAME=: name (and id) of HTML input field
    * =INPUT_VALUE=: preselected value
+   * =PLACEHOLDER=: example value
    * =EXCLUDE=: exclude expression to filter out unwanted topics, see the
      =excludetopic= parameter in VarSEARCH
 <verbatim class="tml">
 %STARTSECTION{"topicselector"}%<!-- topicselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" %IF{"defined PLACEHOLDER" then="placeholder=%PLACEHOLDER%"}% autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //topicselector -->%ENDSECTION{"topicselector"}%
 </verbatim>
 

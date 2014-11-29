@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416833502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417294557" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -126,6 +126,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Nov 2014: | (6.01) - Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
 |  25 Sep 2014: | (6.00) - Item13030: deprecate jquery.tmpl; added jsrender and a template loader |
 |  06 Jun 2014: | (5.11) - Item12933: make filtered characters configurable in JQueryWikiWord |
 |  21 Feb 2014: | (5.10) - Item12734: added jQuery-1.11, jQuery-2.10, jquery-ui-1.10.4; \
