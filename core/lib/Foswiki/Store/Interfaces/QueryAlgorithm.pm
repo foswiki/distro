@@ -291,11 +291,6 @@ sub getField {
             # Ensure the revision info is populated from the store
             $data->getRevisionInfo();
         }
-        if ( $field eq 'CREATEINFO' ) {
-
-            # Ensure the revision info is populated from the store
-            return $this->getRev1Info($data);
-        }
 
         if ( $Foswiki::Query::Node::isArrayType{$field} ) {
 

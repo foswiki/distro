@@ -245,7 +245,12 @@ sub _deleteRevision {
 sub getRevision {
     my ( $this, $version ) = @_;
 
-    unless ( $version && $this->revisionHistoryExists() ) {
+    # If there is no revision history, or if $version is not given,
+    # or there is a checkin pending, then consult the .txt
+    if (   !$this->revisionHistoryExists()
+        || !$version
+        || !$this->noCheckinPending() )
+    {
 
         # Get the latest rev from the cache
         return ( $this->SUPER::getRevision($version) );

@@ -157,18 +157,10 @@ our %VALIDATE = (
     TOPICINFO => {
         allow => [
             qw( author version date format reprev
-              rev comment encoding )
+              rev comment )
         ],
         _default => 1,
         alias    => 'info',
-    },
-    CREATEINFO => {
-        allow => [
-            qw( author version date format reprev
-              rev comment encoding )
-        ],
-        _default => 1,
-        alias    => 'createinfo',
     },
     TOPICMOVED => {
         require  => [qw( from to by date )],
@@ -1911,7 +1903,7 @@ sub save {
 
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
-    if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
+    if ( !$opts{nohandlers} && $plugins->haveHandlerFor('beforeSaveHandler') ) {
 
         # Break up the tom and write the meta into the topic text.
         # Nasty compatibility requirement as some old plugins may hack the
@@ -1963,7 +1955,10 @@ sub save {
 
     # Semantics inherited from TWiki. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
-    if ( !defined $signal && $plugins->haveHandlerFor('afterSaveHandler') ) {
+    if (   !$opts{nohandlers}
+        && !defined $signal
+        && $plugins->haveHandlerFor('afterSaveHandler') )
+    {
         my $text = Foswiki::Serialise::serialise( $this, 'Embedded' );
         delete $this->{_preferences};    # Make sure handler has changed prefs
         my $error = $signal ? $signal->{-text} : undef;
@@ -2007,6 +2002,7 @@ Save the current topic to a store location. Only works on topics.
       * =savecmd= - Save command (core use only)
       * =forcedate= - force the revision date to be this (core only)
       * =author= - cUID of author of change (core only - default current user)
+      * =nohandlers= - *do not* call plugins handlers
 
 Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
 so an extension author can in fact use all these options. However those
@@ -2717,6 +2713,7 @@ sub getAttachmentRevisionInfo {
         This may result in incorrect meta-data stored in the topic, so must
         be used with care. Only has a meaning if the store implementation 
         stores meta-data in topics.
+      * =nohandlers= - *do not* call plugin handlers
 
 Saves a new revision of the attachment, invoking plugin handlers as
 appropriate. This method automatically updates the loaded rev of $this
@@ -2758,11 +2755,13 @@ sub attach {
             name       => $opts{name},
             attachment => $opts{name},
             stream     => $opts{stream},
-            user       => $this->{_session}->{user},                      # cUID
+            user       => $opts{author} || $this->{_session}->{user},     # cUID
             comment    => defined $opts{comment} ? $opts{comment} : '',
         };
 
-        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+        if (  !$opts{nohandlers}
+            && $plugins->haveHandlerFor('beforeAttachmentSaveHandler') )
+        {
 
             # *Deprecated* handler.
 
@@ -2810,7 +2809,9 @@ sub attach {
                 $attrs->{tmpFilename} = $fh->filename();
             }
 
-            if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+            if (  !$opts{nohandlers}
+                && $plugins->haveHandlerFor('beforeAttachmentSaveHandler') )
+            {
                 $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
                     $this->{_topic}, $this->{_web} );
             }
@@ -2824,7 +2825,9 @@ sub attach {
             delete $attrs->{tmpFilename};
         }
 
-        if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
+        if (  !$opts{nohandlers}
+            && $plugins->haveHandlerFor('beforeUploadHandler') )
+        {
 
             # Check the stream is seekable
             ASSERT(
@@ -2859,7 +2862,9 @@ sub attach {
         $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
         $attrs->{date}    = defined $opts{filedate} ? $opts{filedate} : time();
 
-        if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
+        if (  !$opts{nohandlers}
+            && $plugins->haveHandlerFor('afterAttachmentSaveHandler') )
+        {
 
             # *Deprecated* handler
             $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
@@ -2901,7 +2906,8 @@ sub attach {
         }
     );
 
-    if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
+    if ( !$opts{nohandlers} && $plugins->haveHandlerFor('afterUploadHandler') )
+    {
         $plugins->dispatch( 'afterUploadHandler', $attrs, $this );
     }
 }

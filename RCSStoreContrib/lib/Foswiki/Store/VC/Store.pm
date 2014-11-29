@@ -427,7 +427,8 @@ sub saveAttachment {
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
     my $comment = $options->{comment} || '';
 
-    $handler->addRevisionFromStream( $stream, $comment, $cUID );
+    $handler->addRevisionFromStream( $stream, $comment, $cUID,
+        $options->{forcedate} );
 
     my $rev = $handler->getLatestRevisionID();
     $this->recordChange(
