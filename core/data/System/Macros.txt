@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416593166" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417318221" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -320,6 +320,7 @@ Your installation of Foswiki %WIKIVERSION% has the following registered macros:
 
 %SEARCH{
     "^Var[A-Z_0-9]+$"
+    topic="Var*"
     casesensitive="on"
     web="%SYSTEMWEB%"
     type="regex"
