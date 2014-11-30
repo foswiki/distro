@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::ConfigureFilter;
+package Foswiki::Configure::Checkers::Password;
 
 use strict;
 use warnings;
@@ -23,36 +23,17 @@ sub check_current_value {
     while ( defined $it && $it->hasNext() ) {
         push @admins, Foswiki::Func::getCanonicalUserID( $it->next() );
     }
+
     $reporter->WARN(
 "$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
     ) if ( scalar @admins lt 2 && !$Foswiki::cfg{Password} );
 
-    my @filtered = grep( /$Foswiki::cfg{ConfigureFilter}/, @admins );
-    $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} as filtered by this filter contains no users"
-    ) unless ( scalar @filtered );
-
-    my $user = join( ' ', @filtered );
-    $reporter->NOTE("AdminGroup Members with configure access: $user");
-    $reporter->NOTE(
-"Note that this filter matches against *all* users.  When this filter is set, users do not have to be in the $Foswiki::cfg{SuperAdminGroup} to access configure!"
-    );
-
-    unless ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
-        if ( $Foswiki::cfg{ConfigureFilter}
-            && Foswiki::Func::getCanonicalUserID() !~
-            m/$Foswiki::cfg{ConfigureFilter}/ )
-        {
-            $reporter->ERROR(
-"Current user is locked out by the configured filter, If you save the configuration, you'll lose access to configure!"
-            );
-        }
-    }
-
-    $reporter->WARN(
-"You have not set a Pasword, your $Foswiki::cfg{SuperAdminGroup} contains no users, or your filter eliminated all users in the $Foswiki::cfg{SuperAdminGroup}.
-You *Must* have a usable ID matching this filter to access configure.  Do not save the configuration unless you are sure you have not locked yourself out of configure!"
-    ) unless ( $Foswiki::cfg{Password} || scalar @filtered );
+    $reporter->ERROR(
+"The existing super admin password does not appear to be a valid password.  You will be unable to access the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})
+using the current configuration.  The password should be saved as an \"\$apr1:...\" encoded password."
+      )
+      unless ( $Foswiki::cfg{Password} =~ m/^\$apr1\$/
+        && length( $Foswiki::cfg{Password} ) eq 37 );
 
 }
 

@@ -44,7 +44,7 @@
 # **URL CHECK="parts:scheme,authority \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
-#              authtype:host" \
+#              authtype:hostip" \
 #              MANDATORY**
 # This is the root of all Foswiki URLs.
 # For example, =http://myhost.com:123=

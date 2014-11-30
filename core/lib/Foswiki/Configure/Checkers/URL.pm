@@ -129,8 +129,9 @@ sub checkURI {
             }
             my $hi = hostInfo($auth);
             if ( $hi->{error} ) {
-                $reporter->ERROR(
-                    "$auth is not a valid authority specifier: $hi->{error}");
+                $reporter->WARN(
+"$auth is not a valid authority specifier (hostname). Lookup returned: $hi->{error}"
+                );
             }
             else {
                 if ( $hi->{ipaddr} ) {
