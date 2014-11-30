@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1283708710" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTAB
 ---+++ TAB{"text" ...} -- tab inside a tabpane widget 
    * Defines a tab inside a TABPANE area; must be closed using ENDTAB.
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "text" | label of the tab | Tab |
      | before  | when switching tabs, this is the javascript fragment to be executed just before the tab is displayed | |

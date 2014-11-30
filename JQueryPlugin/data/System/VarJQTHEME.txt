@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1296209887" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQTHEME
 ---+++ JQTHEME{"name" ...} -- switch jQuery UI theme
@@ -8,6 +8,7 @@
    * Note: some Foswiki skins may come with their own jQuery UI matching the overall user experience of the web design. 
    * Note: in case of an error JQTHEME will produce an inline HTML error message. 
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "name" | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
                 additional themes maybe created using the [[http://jqueryui.com/themeroller/][themeroller]] and installed to \

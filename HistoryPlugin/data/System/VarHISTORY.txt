@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1299980057" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="HistoryPlugin"}%
 #VarHISTORY
 ---+++ HISTORY{ _attributes_ } -- control attributes of tables and sorting of table columns
    * The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
    * Syntax: =%<nop>HISTORY{ _attributes_ }%=
-%STARTSECTION{"history_attributes"}%
-%TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+     %STARTSECTION{"history_attributes"}%
+     %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*         | *Description*  | *Default&nbsp;value*  |
      | none       | Default layout: a simple list of topic revisions using the default format (see below) | |
      | ="format"= or =format="string"= | Format of one line, may include any variable which is supported by macro [[%SYSTEMWEB%.VarREVINFO][REVINFO]] | <code>"r$rev - $date - $wikiusername"</code> |
@@ -28,7 +28,7 @@
      
      
 Deprecated (but supported) parameters:
-%TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+     %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*         | *Description*  | *Default&nbsp;value*  |
      | =nrev="number"= | Number of revisions to show. Ignored if =versions= is specified, or if both =rev1= and =rev2= are specified. | =10= |
      | =rev2="number"= | Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |

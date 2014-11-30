@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSTARTSECTION
 ---+++ STARTSECTION -- marks the start of a section within a topic
@@ -15,6 +15,7 @@
    * Syntax: =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
    
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default* |
      | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
      | =type="..."= | Type of the section; type ="section"=, ="expandvariables"=, ="include"= or ="templateonly"= | ="section"= |

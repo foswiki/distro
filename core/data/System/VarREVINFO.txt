@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarREVINFO
 ---+++ REVINFO -- revision information of current topic
@@ -11,12 +11,14 @@
    * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r$rev - $date - $wikiusername"}%=
       * Expands to: <code>%REVINFO%</code>
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="format"= | Format of revision information, see supported formatting tokens below | ="r$rev - $date - $wikiusername"= |
      | =web="..."= | Name of web | Current web |
      | =topic="..."= | Topic name | Current topic |
      | =rev="5"= | Specific revision number | Latest revision |
    * Supported formatting tokens:
+     %TABLE{sort="off"}%
      | *Token:* | *Unit:* | *Example* |
      | =$web= | Name of web | Current web |
      | =$topic= | Topic name | Current topic |

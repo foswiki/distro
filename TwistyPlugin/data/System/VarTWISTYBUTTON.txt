@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284962225" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TwistyPlugin"}%
 
 #VarTWISTYBUTTON
@@ -10,6 +10,7 @@ This is useful if both the show and the hide button take the same arguments.
       * =mode=: button mode defaults to div
    * Syntax: =%<nop>TWISTYBUTTON{id="myid" ... }%=
    * Supported parameters:
+    %TABLE{sort="off"}%
     | *Parameter* | *Value* | *Description* | *Remark* |
     | =mode= | ="div"= or ="span"= | Specify if the *Twisty button* will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
    * Example: <verbatim class="tml">%TWISTYBUTTON{

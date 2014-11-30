@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMAKETEXT
 ---+++ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
@@ -6,6 +6,7 @@ Strings captured in the =MAKETEXT= macro are automatically mapped to the
 current user's selected language via =locale/*.po= translation files.
    * Syntax: =%<nop>MAKETEXT{"string" args="..."}%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
      | ="text"= or =string="text"= | The text to be displayed (the _translatable string_). | _none_ |
      | =args="param1, param2"= | a comma-separated list of arguments to be interpolated in the string, replacing =[_N]= placeholders in it. | _none_ |

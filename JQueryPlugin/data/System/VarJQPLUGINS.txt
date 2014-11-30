@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1293749884" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQPLUGINS
 ---+++ JQPLUGINS{"plugins" ... } -- display a summary of available plugins
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "plugins" | this is a regular expression that the plugin identifier must match to be displayed | |
      | format | format string to render information for each matching plugin; known variables to be used in the format string are: \

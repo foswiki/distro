@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398447500" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 #VarCOMMENT
 ---+++ COMMENT{ _attributes_ } -- insert an edit box into the topic to easily add comments.
 %STARTSECTION{"comment_attributes"}%
    * A =%<nop>COMMENT%= without parameters shows a simple text box.
    * The following standard attributes are recognized
+     %TABLE{sort="off"}%
      | *Name* | *Description* | *Default* |
      | =type= | This is the name of the template to use for this comment. Comment templates are defined in a Foswiki template - see [[CommentPlugin#TemPlates][Customisation]], below. If this attribute is not defined, the type is whatever is defined by COMMENTPLUGIN_DEFAULT_TYPE, either in this topic or in your WebPreferences. | =below= |
      | =default= | Default text to put into the prompt. | |

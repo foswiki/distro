@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarINCLUDE
 ---+++ INCLUDE{"topic"} -- include other topic.
    * Syntax: =%<nop>INCLUDE{"topic" ...}%=  (See also the URL form of =%<nop>INCLUDE%=)
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="SomeTopic"= | The name of a topic located in the current web, i.e. =%<nop>INCLUDE{"WebNotify"}%= | |
      | ="Web.Topic"= | A topic in another web, i.e. =%<nop>INCLUDE{"%SYSTEMWEB%.SiteMap"}%= | |
@@ -20,6 +21,7 @@
 ---+++ INCLUDE{"url"} -- include a web page
    * Syntax: =%<nop>INCLUDE{"http://..." ...}%=  (See also the topic form of =%<nop>INCLUDE%=)
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <div class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</div> | |
      | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
@@ -39,6 +41,7 @@
 ---+++ INCLUDE{"doc:"} -- include Foswiki embedded module documentation
    * Syntax: =%<nop>INCLUDE{"doc:Foswiki::Func" ...}%= 
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
      | =level="1"= | Override the root heading level to the specified number | |

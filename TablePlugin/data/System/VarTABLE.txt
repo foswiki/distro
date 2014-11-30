@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TablePlugin"}%
 #VarTABLE
 ---+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
@@ -65,10 +65,10 @@
 
 %ENDSECTION{"table_attributes"}%
    * Example:<verbatim class="tml">
- %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+ %TABLE{ sort="off" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
  | *A1* | *B1* |
  | A2   | B2   |</verbatim>
-   * Expands as: %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+   * Expands as: %TABLE{ sort="off" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
  | *A1* | *B1* |
  | A2   | B2   |
    * Related: See TablePlugin for more details

@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarENDSECTION
 ---+++ ENDSECTION{"name"} -- marks the end of a named section within a topic
    * Syntax: =%<nop>ENDSECTION{"name"}%=
    * Syntax: =%<nop>ENDSECTION{type="include"}%=
    * Supported parameter:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* |
      | ="name"= | Name of the section. |
      | =type="..."= | Type of the section being terminated; supported types ="section"=, ="include"=, ="expandvariables"=, ="templateonly"=. |

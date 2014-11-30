@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TwistyPlugin"}%
 
 #VarTWISTYHIDE
@@ -6,6 +6,7 @@
 *Hide/close link*
    * Syntax: =%<nop>TWISTYHIDE{id="myid" ... }%=
    * Supported parameters:
+    %TABLE{sort="off"}%
     | *Parameter* | *Value* | *Description* | *Remark* |
     | =id= | Unique identifier | Used to link [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE ][TWISTYHIDE ]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]] | required  |
     | =link= | Link label | Hide link label | optional |

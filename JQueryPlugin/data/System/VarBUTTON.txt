@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284962225" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarBUTTON
 ---+++ BUTTON{"text" ...} -- renders a nice button 
    * Parameters: 
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "text", value="text" | text to be put on this button | |
      | accesskey | access key used for this button | | 

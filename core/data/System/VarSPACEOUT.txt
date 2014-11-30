@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSPACEOUT
 ---+++ SPACEOUT{"string"} -- renders string with spaces inserted in sensible places
@@ -7,6 +7,7 @@
    * Syntax: =%<nop>SPACEOUT{ "%<nop>TOPIC%" }%=
    * Expands to: =%SPACEOUT{ "%INCLUDINGTOPIC%" }%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =separator= | The separator to put between words e.g. =%<nop>SPACEOUT{"DogsCatsBudgies" separator=", "}%= -> %SPACEOUT{"DogsCatsBudgies" separator=", "}% | ' ' |
    <div class="foswikiHelp">%T% Spaced out !WikiWords are not automatically linked. To =SPACEOUT= a !WikiWord but preserve the link use "double bracket" format. For example, =[<nop>[WebHome][%<nop>SPACEOUT{"Web<nop>Home"}%]]= expands to [[WebHome][%SPACEOUT{"WebHome"}%]]</div>

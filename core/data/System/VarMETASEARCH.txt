@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMETASEARCH
 ---+++ METASEARCH -- special search of meta data
@@ -7,6 +7,7 @@
 
    * Syntax: =%<nop>METASEARCH{...}%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =type="topicmoved"= | What sort of search is required? <br /> ="topicmoved"= if search for a topic that may have been moved <br /> ="parent"= if searching for topics that have a specific parent i.e. its children <br /> ="field"= if searching for topics that have a particular form field value (use the =name= and =value= parameters to specify which field to search).  | Required |
      | =web="%<nop>WEB%"= | Wiki web to search: A web, a list of webs separated by whitespace, or =all= webs. | Current web |

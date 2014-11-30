@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLANGUAGES
 ---+++ LANGUAGES -- list available languages
@@ -6,12 +6,14 @@
      These are the languages in which the user interface is available.
    * Syntax: =%<nop>LANGUAGES{...}%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =format=     | format for each item. See below for format tokens available in the format string. | ="   * $langname"= |
      | =separator=  | separator between items. | ="\n"= (newline) |
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
      | =selection="%<nop>LANGUAGE%"= | Current language to be selected in list | =(none)= |
    * =format= tokens:
+     %TABLE{sort="off"}%
      | *Token* | *Meaning* |
      | =$langname= | language's name, as informed by the translators |
      | =$langtag= | language's tag. Ex: =en=, =pt-br=, etc. |

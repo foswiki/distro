@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSEARCH
 
@@ -6,6 +6,7 @@
    * Inline search, shows a search result embedded in a topic
    * Syntax: =%<nop>SEARCH{"text" ...}%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="text"= | Search term. Is a keyword search, literal search, regular expression search, or query, depending on the =type= parameter. SearchHelp has more | required |
      | =search="text"= | (Alternative to above) | N/A |

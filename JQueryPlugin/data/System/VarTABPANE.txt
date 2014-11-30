@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTABPANE
 ---+++ TABPANE{...} -- tabpane widget
@@ -33,6 +33,7 @@
 </verbatim>
    * Example: see JQueryTabpane for more examples
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | select | number or id of tab to select | 1 |
      | automaxexpand | resizes the tabpane to the maximum height to fit into the window | off |

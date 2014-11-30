@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1283708710" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQREQUIRE
 ---+++ JQREQUIRE{"plugin, plugin, ... "} -- enable a plugin on the current page
@@ -9,6 +9,7 @@
      to aggregate javascript and css at the right place on the html page. 
    * Note: in case of an error JQREQUIRE will produce an inline HTML error message. 
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "plugin[, plugin, plugin]" | list of plugins to be loaded | |
      | warn | (on/off) allows you to switch off warnings when a plugin was not found | on |

@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarTOC
 ---+++ TOC{"Topic"} -- table of contents
    * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in WikiSyntax (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
    * Syntax: =%<nop>TOC%= OR =%<nop>TOC{"SomeTopic" ...}%=
    * Supported parameters:
-    %TABLE{columnwidths="30%,50%,20%"}%
+    %TABLE{sort="off" columnwidths="30%,50%,20%"}%
     | *Parameter:* | *Description:* | *Default:* |
     | ="TopicName"= | topic name | Current topic |
     | =web="Name"= | Name of web | Current web |
@@ -16,7 +16,7 @@
 If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]]. | "foswikiTOC" |
    * Default settings are defined in %SYSTEMWEB%.DefaultPreferences, and can be overridden in %USERSWEB%.SitePreferences:
     <noautolink>
-    %TABLE{columnwidths="30%,50%,20%"}%
+    %TABLE{sort="off" columnwidths="30%,50%,20%"}%
     | *Setting* | *Description* | *Value* |
     | =TOC_MIN_DEPTH= | The first header level to appear in the TOC | %TOC_MIN_DEPTH% |
     | =TOC_MAX_DEPTH= | The last header level to appear in the TOC | %TOC_MAX_DEPTH% |

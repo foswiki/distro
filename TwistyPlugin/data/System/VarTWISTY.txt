@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284962225" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TwistyPlugin"}%
 #VarTWISTY
 ---+++ TWISTY
 This renders the button as well as the toggled content section contained within this and the closing =ENDTWISTY= tag.
 
 Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
+    %TABLE{sort="off"}%
     | *Parameter*    | *Value* | *Description* | *Remark* |
     | =id=           | Unique identifier | Used to link [[#VarTWISTYBUTTON][TWISTYBUTTON]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]] | optional  |
     | =link=         | Link label | Link label for both show and hide links  | optional |

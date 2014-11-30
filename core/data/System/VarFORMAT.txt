@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarFORMAT
 ---+++ FORMAT{"list" format="" header="" footer="" separator=""} -- format a list of objects
    * Syntax: =%<nop>FORMAT{"list"}%=
    * Supported parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | The list to be expanded into the format. Required. Currently only two types of list data are supported; topic names (=type="topic"=) and plain strings (=type="string"=). | =""= |
      | =format="..."= | Format string; see [[%TOPIC%#FormatFormattingTokens][Supported formatting tokens]] for possible values. | =""= |

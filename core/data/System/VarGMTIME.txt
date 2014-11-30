@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGMTIME
 ---+++ GMTIME{"format"} -- formatted GM time
@@ -6,6 +6,7 @@
    * =%<nop>GMTIME%= uses the default date format defined by the {DefaultDateFormat} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
       * expands to %GMTIME%
    * Supported special format tokens:
+     %TABLE{sort="off"}%
      | *Token:* | *Unit:* | *Example* |
      | =$seconds= | seconds | 59 |
      | =$minutes= | minutes | 59 |

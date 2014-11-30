@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarENCODE
 ---+++ ENCODE{"string"} -- encodes a string
    * Encode character sequences in ="string"=, by mapping characters (or sequences of characters) to an alternative character (or sequence of characters). This macro can be used to encode strings for use in URLs, to encode to HTML entities, to protect quotes, and for as many other uses as you can imagine.
    * Syntax: =%<nop>ENCODE{"string"}%=
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
      | ="string"= | String to encode | "" (empty string) |
      | =type="encodingname"= | Use a predefined encoding (see below). | Default is 'url'. Parameter =type= not be used if =old= or =new= are given. |

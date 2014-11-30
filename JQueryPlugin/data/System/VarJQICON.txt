@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284879813" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICON
 ---+++ JQICON{"name" ...} -- render an image 
@@ -8,6 +8,7 @@
      When the name of the icon starts with =fa-= like in =fa-bold= then icons are taken from the [[http://fontawesome.io/icons/][font-awesome]] iconset.
      Note that these icons use a different way to be inserted them into the page making resizable for one.
    * Parameters:
+     %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "name" | name of the icon to display | |
      | class | additional css class for the img tag | | 
