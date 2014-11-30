@@ -119,18 +119,20 @@ sub check_current_value {
     foreach my $mod (@check) {
         if ( !$mod->{ok} ) {
             if ( checkEncoding( $passwords, $mod->{search}, $mod->{REQ} ) ) {
-                $reporter->ERROR( $mod->{check_result}
+                $reporter->ERROR( "   * "
+                      . $mod->{check_result}
                       . ": Existing passwords use this encoding, or it's the default encoding."
                 );
             }
             else {
-                $reporter->WARN( $mod->{check_result}
-                      . ": No passwords using this encoding were found in $passwordFile ."
+                $reporter->NOTE( "   * "
+                      . $mod->{check_result}
+                      . ": *Warning suppressed:* No passwords using this encoding were found in $passwordFile."
                 );
             }
         }
         else {
-            $reporter->NOTE( $mod->{check_result} );
+            $reporter->NOTE( "   * " . $mod->{check_result} );
         }
     }
 
