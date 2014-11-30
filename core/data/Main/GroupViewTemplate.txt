@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1417294557" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
@@ -198,7 +199,7 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_add"}%<!-- --><sticky>
-<div id='manageGroup' title='%MAKETEXT{"Add Members to"}% %URLPARAM{"groupname"}%' class='jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}'>
+<div id='manageGroup' title='%MAKETEXT{"Add Members to"}% <noautolink>%URLPARAM{"groupname"}%</noautolink>' class='jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}'>
 <form id='addUser' action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'> 
 <input type='hidden' name='groupname' value='%URLPARAM{"groupname" default="%groupname%"}%'/> 
 <input type='hidden' name='action' value='addUserToGroup'/>
@@ -220,7 +221,7 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_remove"}%<!-- -->
-<div id='manageGroup' title='%MAKETEXT{"Remove Members from"}% %URLPARAM{"groupname"}%' class='jqUIDialog { modal:true, resizable:false, draggable:false,  width:400, autoCenter:true,  cache:false }'>
+<div id='manageGroup' title='%MAKETEXT{"Remove Members from"}% <noautolink>%URLPARAM{"groupname"}%</noautolink>' class='jqUIDialog { modal:true, resizable:false, draggable:false,  width:400, autoCenter:true,  cache:false }'>
 %GROUPINFO{
    "%URLPARAM{"groupname"}%"
    expand="0"
