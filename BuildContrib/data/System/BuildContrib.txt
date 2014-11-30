@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1408948651" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417313471" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
@@ -34,42 +34,51 @@ __Notes__
 ---++ Fast Start
 If you don't like reading documentation, and just want a fast route to creating a new extension, then:
    1 Install the contrib using the instructions below
-   1 =cd= to the root of your installation
-   1 =perl create_new_extension.pl= <i>extension_name</i>
+   1 =cd= to the root of your git =foswiki/distro= checkout
+   1 =perl core/create_new_extension.pl= <i>extension_name</i>
+   1 Init the new Extension directory as its own git repository.  (Don't add extensions into the distro repository!)
 then modify the extension files as required (including MANIFEST). Then when you are ready to create archives:
-   1 =perl build.pl <i>extension_name</i> release=
+   1 cd to the <i>[extensions_name]</i>/lib/Foswiki/<i>[Plugins|Contrib]</i>/<i>[extension_name]</i> directory.
+   1 =perl ./build.pl <i>extension_name</i> release=
       * Archives (.zip, .tgz) will be created in =<i>extension_name</i>=
 
 #DevelopmentModel
 ---++ Development Model
 The build module assumes:
    1 two kinds of extension modules; 'Plugins', and 'Contribs' (everything else e.g Skins, !WikiApplications etc),
+      * Archaic =AddOn= modules are supported but should not be used for new extensions.
    1 you have some passing familiarity with build tools such as =make=,
    1 you are *not* developing your extension in a 'production'
      installation (something that is usually a really bad idea), but are
      instead doing the sensible thing and developing in a separate directory
      tree
-      * usually - but not always - a subversion checkout area.
+      * usually - but not always - a git checkout area.
 
 ---++ Standard directory structure
 !BuildContrib is used to build the Foswiki core, as well as most extensions. This
 document will focus on its use for building extensions. See the
-=tools/build.pl= file in a subversion checkout for information on building
+=tools/build.pl= file in a git checkout of =foswiki/distro= for information on building
 the core.
 
-Extensions are developed in subdirectories of the checkout.
+Extensions are developed in subdirectories of the =foswiki/distro= checkout.
 For example, !BathPlugin will be developed in =BathPlugin=.
 This directory is called the _root directory_ for the extension.
+
+<div class="foswikiHelp">%T%Even though your extension root directory is
+within =foswiki/distro=, it is almost _never_ checked into the =foswiki/distro=
+repository.   =foswiki/distro= is reserved for default components that we ship
+with foswik.
+</div>
 
 The standard directory structure under a root directory mirrors a standard
 installation tree. Every plugin has some _key files_:
    * =lib/=
       * =Foswiki/=
-         * =Plugins/=
-            * <code><i>name</i>.pm</code> - code file for the plugin, usually derived
-              from !EmptyPlugin
+         * =Plugins/= (or) =Contrib/=
+            * <code><i>name</i>.pm</code> - code file for the plugin or contrib, usually derived
+              from !EmptyPlugin or !EmptyContrib
             * <code><i>name</i>/</code> - directory containing sub-modules
-              used by your plugin, and for storing your =build.pl= script
+              used by your plugin/contrib, and for storing your =build.pl= script
               and other support files. It is referred to as the _module
               directory_
                * =build.pl= - build script for this extension
@@ -91,21 +100,17 @@ Contribs are held in the =lib/Foswiki/Contrib= directory instead of =lib/Foswiki
 <div class="foswikiHelp">
 %X% Foswiki configure now requires a perl module in either the =Plugins= or =Contrib= directory with the same name as the
 extension. This module should have two global variables - =$VERSION= and =$RELEASE= which are used to determine the installed version of the extension.
+Plugins also need =$SHORTDESCRIPTION= which shows up on InstalledPlugins and is merged with the =System/YourPlugin= topic when build is run,
 </div>
 
-Other directories normally found in a Foswiki installation may also exist under
-a root directory e.g. =bin=, =templates= etc.
+Other directories normally found in a Foswiki installation may also exist under a root directory e.g. =tools=,  =bin=, =templates= etc.
 
-While development in a subversion checkout is *strongly* recommended, it is also possible to develop in a normal Foswiki install. To do this, simply install the !BuildContrib.
+While development in a git checkout is *strongly* recommended, it is also possible to develop in a normal Foswiki install. To do this, simply install the !BuildContrib.
 
 ---++ Setting up for Development
-The first thing to do is to either
-   * check out a development environment from subversion, or
-   * create a separate, fresh, install for development.
-Configure this install so it's a running installation; we'll refer to this as your
-_dev install_.
 
-Now install the !BuildContrib. In a subversion checkout, =cd= to the installation root and =perl pseudo-install.pl BuildContrib=. In a non-subversion environment, install the =BuildContrib= package. Make sure that all installed files are readable by the webserver user.
+See Foswiki:Development.HowToStartExtensionDevelopmentInGit for further
+details on how to build your development environment.
 
 ---+++ Environment Variables
 
@@ -144,7 +149,7 @@ The targets you will normally use are:
 | =release= | =build=, =pod= and package a release zip |
 | =upload= | =build=, =pod=, =release= and upload |
 | =manifest= | print a guess at the MANIFEST (Caution - omits the primary System/Extension.txt topic |
-| =history= | Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic. |
+| <del>=history=</del> | <del>Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic.</del> Not functional on a git repository. |
 | =dependencies= | Find and print a best-guess dependencies list (for DEPENDENCIES) |
 
 The default target is =test=. The !BuildContrib is designed so that most common behaviour is catered for. It is also easy to _override_ any of the default targets in your =build.pl= and add extra behaviours.
@@ -348,6 +353,8 @@ you don't specify anything different:
 
 Do *not* include:
    * =,v= files. If you include a =,v= file it will overwrite any existing =,v= file when an extension is upgraded, potentially wiping out local changes on the end users installation.
+   (The extension installer will not install =,v= files even if they are included in the MANIFEST.  However this is still a concern for anyone installing manually using =unzip= or =tar=.
+   and sites using the new =PlainFileStore= will encounter errors if RCS =,v= files are present.)
    * =build.pl=, =MANIFEST=, or any other side file used by the build process.
    * unit tests
 ---+++ Directives
@@ -496,7 +503,7 @@ make a change.
 If you have a pre-existing extension, and you want to package it for use with
 !BuildContrib, then you (may) need to create the module directory and write the
 =build.pl=, =MANIFEST= and =DEPENDENCIES= files. The easiest way to do this
-is to copy those files from an existing extension in subversion, and modify
+is to copy those files from an existing extension in git, and modify
 them for your use.
 
 #InstallScripts
@@ -582,7 +589,7 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/Foswiki/Plugins/BlahPlugin.pm' => 0775
    * =%$<nop>FOSWIKIAUTHORS%= - contents of =core/AUTHORS=
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
-   * =%$<nop>VERSION%= subversion number and the date of the most recent checkin
+   * =%$<nop>VERSION%= standard perl version string
    * =%$<nop>RELEASE%= value of the =$RELEASE= perl global variable from your master perl module
    * =%$<nop>DATE%= - local date
    * =%$<nop>POD%= - POD documentation for the package, excluding test modules.
@@ -592,7 +599,7 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>POSTUNINSTALL%= - contents of POSTINSTALL
    * =%$<nop>BUGSURL%= - URL of bugs web
    * =%$<nop>INSTALL_INSTRUCTIONS%= - basic instructions for installing
-*Note* =configure= uses the =| Version: |= row in the table in the extension topic to determine what version of the package is installed. In the sources this is normally set to =| Version: | %$VERSION% |=. When you =perl build.pl release=, %$VERSION% is *computed* by finding the most recent subversion checkin of any file listed in MANIFEST, so it's very reliable and low maintenance. You don't _have_ to use %$VERSION% in the =| Version: |= row of the extension topic - you can use your own version string if you want, or you can use %$RELEASE% which will take whatever value you have assigned to the $RELEASE variable in the extension master perl module. =configure= supports all of subversion revision numbers, manually generated triples (1.2.3), ISO dates, and =dd Mmmm yyy= format dates as valid revision identifiers.
+*Note* =configure= uses the =| Version: |= row in the table in the extension topic to determine what version of the package is installed. In the sources this is normally set to =| Version: | %$VERSION% |=. When you =perl build.pl release=, %$VERSION% is extracted from the primary Plugin or Contrib module, so it's very reliable and low maintenance. You don't _have_ to use %$VERSION% in the =| Version: |= row of the extension topic - you can use your own version string if you want, or you can use %$RELEASE% which will take whatever value you have assigned to the $RELEASE variable in the extension master perl module. =configure= supports all of  manually generated triples (1.2.3), ISO dates, and =dd Mmmm yyy= format dates as valid RELEASE identifiers.
 
 ---++ Upload
 When you are happy the release package is built correctly, you can
@@ -604,6 +611,9 @@ to enter an alternate upload target, should you require it (e.g. to upload to
 private corporate repository). The upload updates the topic and any associated
 Var topics published by the extension, and uploads zip, tgz, md5 and installer
 files.
+
+Defaults for the upload, passwords, etc. are stored in the =.buildcontrib=
+file in the users home directory.
 
 ---++ Install support
 Installer scripts build by !BuildContrib are important for the full
@@ -637,7 +647,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  1.8.0 (13 Feb 2014) | Foswikitask:Item12748: Support symbolic links and empty directories |
+|  1.81  (29 Nov 2014) | Foswikitask:Item11267: Update documentation for git migration. |
+|  1.8.0 (13 Feb 2014) | Foswikitask:Item12748: Support symbolic links and empty directories. |
 |  1.7.1 (8 May 2013) | Foswikitask:Item12492: expose test output while running tests Foswikitask:Item11851: minor bugfixes |
 |  1.7.0 (11 May 2012) | Foswikitask:Item11716: correct paths in generated MANIFEST; Foswikitask:Item11851: internal maintenance |
 |  1.6.3 (18 Aug 2011) | Foswikitask:Item11014: Improve error message if installer not run from Foswiki root. |
@@ -667,5 +678,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0.1 (31 Jan 2009) | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  1.0.0 (03 Dec 2008) | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1408948651"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1408948651"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1417313471"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1417313471"}%
