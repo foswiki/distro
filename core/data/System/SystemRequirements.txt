@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417371840" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -35,9 +35,11 @@ Modules marked as Required may still be optional if certain default core feature
 | CPAN:Digest::MD5 | Required | |
 | CPAN:Encode | Required | Used for international characters |
 | CPAN:Error | Required | Version >=0.15 |
+| CPAN:File::Copy::Recursive | Required | Used by !PlainFileStore and !DBIStore |
 | CPAN:HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Tree | Required | Used by CompareRevisionsAddOn. |
+| CPAN:JSON | Required | Used by Configure and JsonRpcContrib |
 | CPAN:URI | Required | Used by MailerContrib for email notifications of topic changes. |
 | CPAN:LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
 | CPAN:version | Required | version >= 0.77 required for module version checks |
@@ -72,14 +74,16 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
 | Encode | =libencode-perl= (maybe required if your version is outdated) |
 | Error | =liberror-perl= |
+| File::Copy::Recursive | =libfile-copy-recursive-perl= | |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =libhtml-tree-perl= | |
+| JSON | =libjson-perl= | |
 | LWP | =libwww-perl= | |
 | version | =libversion-perl= | Must be version 0.77 or newer |
 | Digest::SHA | =libdigest-sha-perl= | |
 | URI | =liburi-perl= | |
-| Authen::SASL | =libauthen-sasl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
+| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
@@ -92,9 +96,11 @@ After expanding the Foswiki archive, change the ownership of the files:
 Install apache2, rcs, and perl-CPAN
 
 | *Perl Module* | *Package to install* | *Notes* |
+| File::Copy::Recursive | (FIXME) | |
 | HTML::Parser | =perl-HTML-Parser= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =perl-HTML-Tree= | |
+| JSON | (FIXME) | |
 | LWP | =perl-libwww-perl= | |
 | version | | Must be version 0.77 or newer |
 | Digest::SHA | =perl-Digest-SHA= | |
@@ -116,9 +122,11 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
 | Error | =dev-perl/Error= | |
+| File::Copy::Recursive | (FIXME) | |
 | HTML::Parser | =dev-perl/HTML-Parser= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =dev-perl/HTML-Tree= | |
+| JSON | (FIXME) | |
 | LWP | =dev-perl/libwww-perl= | |
 | version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
 | Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
