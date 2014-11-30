@@ -134,6 +134,11 @@ if ( $params->{save} ) {
     $params->{method} = 'save';
 }
 
+if ( $params->{set}{'{Password}'} ) {
+    $params->{set}{'{Password}'} =
+      _setPassword( 'admin', $params->{set}{'{Password}'} );
+}
+
 # ---++ Prompt for config values
 #    * $root - Configuration root
 #    * $keys - ={Configuration}{Key}{Path}= to a single variable
@@ -198,6 +203,11 @@ sub _setPassword {
           % ( $#saltchars + 1 )
         ];
     }
+
+    #print STDERR "encoded $passwd as "
+    #  . Crypt::PasswdMD5::apache_md5_crypt( $passwd, substr( $salt, 0, 14 ) )
+    #  . "\n";
+
     return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
         substr( $salt, 0, 14 ) );
 }
@@ -408,6 +418,9 @@ a perl value - be careful about quotes, to pass a string value
 from the shell requires double quoting e.g.
  -set {ScriptSuffix}='".pl"'
 
+The B<{Password}> setting is handled differently.  It will be encoded
+and stored as the hashed $apr1 value.
+
 =item B<-trace>
 
 Switch on limited tracing (mainly for debugging, traces are added to
@@ -420,6 +433,12 @@ Wizard to call. You can only call a single wizard.
 =back
 
 =head1 EXAMPLES
+
+
+ $ configure  -save -set {Password}='mypass'
+
+will set the "sudo" admin password to mypass and save the
+hashed / encoded value into a new configuration.
 
  $ configure -check {PubDir} -method validate_permissions
 
