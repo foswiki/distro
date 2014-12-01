@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403065051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417407038" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -138,6 +138,8 @@ can't be written to by the Foswiki server, you may break your site.</div>
 You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= script.
 
 Setting up cron can be done in many ways. Below is an ultra-short overview which may be sufficient.
+
+<div class="foswikiHelp">%X% To avoid issues with file permissions, *install the crontab as the web server user such as =nobody=, ==www-data= or =www=*. </div>
 
 <div class="foswikiHelp">
 Crontab syntax is 5 numbers followed by the command
@@ -297,5 +299,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1402971656" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1402971656" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1417407038" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1417407085" attr="h" comment="" version="1"}%

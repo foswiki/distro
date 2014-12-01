@@ -24,7 +24,11 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 Requests that are made using Ajax always pass parameters encoded using UTF-8, independent of the ={Site}{Charset}= used. For this reason, scripts (such as =save=) that accept text parameters should *not* be called using Ajax if the server is *not* using a UTF-8 ={Site}{CharSet}=. Functions that are called through the =rest= script must be written bearing in mind that data they receive from CGI parameters will be Unicode, and must be converted to the ={Site}{Charset}= before processing.
 
 ---++++ Command-line
-You *must* be have the =bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
+You *must* be have the =bin= directory on the perl path to run the scripts from the command line.
+
+<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, ==www-data= or =www=*. %BR%
+If running scripts under the control of cron, install the crontab under the
+web server user.</div>
 
 Parameters are passed on the command line using two possible formats:
 
