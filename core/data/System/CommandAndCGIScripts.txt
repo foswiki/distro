@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417406347" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -116,6 +116,7 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 | *Parameter name* | *Description* | *Default* |
 | =action= | If =action=text=, then hide the form. If =action=form=, then hide the normal text area and only edit the form. | _edit both_ |
 | =breaklock= | If set, any lease conflicts will be ignored, and the edit will proceed even if someone is already editing the topic. | |
+| =cmd= | Admin only features, see below | |
 | =contenttype= | Optional parameter that defines the application type to write into the CGI header. May be used to invoke alternative client applications | =text/html= |
 | =formtemplate= | Name of the form to instantiate in the topic. Set to =none= to remove any existing form. | |
 | =notemplateexpansion= | %ICON{"wip"}% Do not expand any macros in the template topic.  (see [[#NewTopicCreation][New topic creation]] below) | _expand_ |
@@ -132,8 +133,8 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 The following options are *only* available to the site Administrator.  They can "rewrite history" and should be used with caution only when absolutely necessary.
 
 | *Parameter name* | *Description* | *Default* |
-| =delRev= | *Administrators only* delete the most recent revision of the topic - all other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it.  This option returns you to an editor for the current version, but the edit is ignored, and save will delete the latest revision. | |
-| =repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= may include embedded meta-data tags. As far as possible, the original author and date of the revision being replaced are retained. You have to be an administrator to use this, and not all store implementations will support it. | |
+| =cmd=delRev= | *Administrators only* delete the most recent revision of the topic - all other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it.  This option returns you to an editor for the current version, but the edit is ignored, and save will delete the latest revision. | |
+| =cmd=repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= may include embedded meta-data tags. As far as possible, the original author and date of the revision being replaced are retained. You have to be an administrator to use this, and not all store implementations will support it. | |
 
 __Skin notes:__
 
