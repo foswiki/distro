@@ -64,19 +64,19 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 }%%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"head"}%<head>
-	%TMPL:P{"windowtitle"}%
-	<meta http-equiv="Content-Type" content="text/html; charset=%CHARSET%" /> <meta name="robots" content="noindex" /> 
+%TMPL:P{"windowtitle"}%
+        <meta charset=%CHARSET%" /> <meta name="robots" content="noindex" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> %HTTP_EQUIV_ON_VIEW%
-	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
-	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
-	<meta name="description" content="%TOPIC%" />
+<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
+<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
+<meta name="description" content="%TOPIC%" />
     <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
-	%TMPL:P{"script"}%
-	%TMPL:P{"defaultstyle"}%
+%TMPL:P{"script"}%
+%TMPL:P{"defaultstyle"}%
 </head>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"titleaction"}%%TMPL:END%%{
