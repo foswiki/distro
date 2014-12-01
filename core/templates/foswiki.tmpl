@@ -50,8 +50,8 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 ---------------------------------------------------
 }%%TMPL:DEF{"nonwikiword"}%%IF{"$HIDE_NON_WIKI_WORD_WARNINGS!='on'" then="$percntTMPL:P{$quotnonwikiwordwarning$quot}$percnt" else="$percntTMPL:P{$quotnonwikiwordallowed$quot}$percnt"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%%{
+}%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html>
+<html lang="%LANG%">%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%%{
 ---------------------------------------------------
