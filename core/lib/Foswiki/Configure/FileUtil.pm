@@ -226,7 +226,7 @@ sub checkCanCreateFile {
     close($in_file);
     unlink $name if ( -e $name );
 
-    unless ( $txt2 eq $txt1 ) {
+    unless ( defined $txt2 && $txt2 eq $txt1 ) {
         return 'Could not write and then read ' . $name;
     }
     return '';
