@@ -55,37 +55,10 @@ The key to understanding nested expressions in Foswiki is to understand that mac
 </verbatim>
 The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 
-#AnimatedExample
----+++++ Animated Example
+---+++++ Step-by-Step Example
 
-%JQREQUIRE{"cycle,easing,chili"}%<!-- ids are appended with %INCLUDINGTOPIC%
-to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
-  id="NestedSlideshow%INCLUDINGTOPIC%"
-  text="<script type='text/javascript'>
-jQuery(document).ready(function($) {
-    $('#NestedSlideshow%INCLUDINGTOPIC%').cycle({
-        fx:     'fade',
-        speed:  'slow',
-        timeout: 5000,
-        pager:  '#NestedSlideshowNav%INCLUDINGTOPIC%',
-        slideExpr: 'pre',
-        pause:  true,
-        pauseOnPagerHover: true
-    });
-});
-</script>"
-  requires="JQUERYPLUGIN::CYCLE"
-}%%ADDTOZONE{"head"
-  id="NestedSlideshow%INCLUDINGTOPIC%/css"
-  text="<style type='text/css'>
-    #NestedSlideshowNav%INCLUDINGTOPIC%  a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }
-    #NestedSlideshowNav%INCLUDINGTOPIC%  a.activeSlide,
-    #NestedSlideshowNav%INCLUDINGTOPIC%  a:hover { background: #cff }
-    #NestedSlideshowNav%INCLUDINGTOPIC%  a:focus { outline: none; }
-    #NestedSlideshow%INCLUDINGTOPIC% pre { overflow:visible }
-  </style>"
-}%<div id="NestedSlideshowNav%INCLUDINGTOPIC%"></div>
-<div id="NestedSlideshow%INCLUDINGTOPIC%">
+%TABPANE{class="plain" animate="on"}%
+%TAB{"Step 1"}%
 <pre class="tml">
 %<nop>INCLUDE{
     "%<nop>QUERY{
@@ -96,6 +69,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 2"}%
 <pre class="tml">
 %<nop>INCLUDE{
     "%<nop>QUERY{
@@ -106,6 +81,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 3"}%
 <pre class="tml">
 %<nop>INCLUDE{
     "%<nop>QUERY{
@@ -116,6 +93,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 4"}%
 <pre class="tml">
 %<nop>INCLUDE{
     "%<nop>QUERY{
@@ -126,6 +105,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 5"}%
 <pre class="tml">
 %<nop>INCLUDE{
     "%QUERY{
@@ -136,6 +117,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 6"}%
 <pre class="tml">
 %INCLUDE{
     "%QUERY{
@@ -146,6 +129,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
+%ENDTAB%
+%TAB{"Step 7"}%
 <pre class="tml">
 %INCLUDE{
     "%QUERY{
@@ -156,7 +141,8 @@ jQuery(document).ready(function($) {
    * Set THETOPIC = %SYSTEMWEB%.FAQWhatIsWikiWiki
    * Set THEFIELD = TopicClassification
 </pre>
-</div>
+%ENDTAB%
+%ENDTABPANE%
 
 #DelayedForm
 ---++++ Delayed form
@@ -175,39 +161,12 @@ jQuery(document).ready(function($) {
 </verbatim>
 The macros are expanded in this order: MACRO3, MACRO4, MACRO1, *MACRO2*.
 
-#AnimatedDelayedExample
----+++++ Animated Example
+---+++++ Step-by-Step Example
 
 From the [[FormattedSearch#ConditionalOutputExample][conditional output example]]:
 
-%JQREQUIRE{"cycle,easing,chili"}%<!-- ids are appended with %INCLUDINGTOPIC%
-to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
-  id="DelayedSlideshow%INCLUDINGTOPIC%"
-  text="<script type='text/javascript'>
-jQuery(document).ready(function($) {
-    $('#DelayedSlideshow%INCLUDINGTOPIC%').cycle({
-        fx:     'fade',
-        speed:  'slow',
-        timeout: 5000,
-        pager:  '#DelayedSlideshowNav%INCLUDINGTOPIC%',
-        slideExpr: 'pre',
-        pause:  true,
-        pauseOnPagerHover: true
-    });
-});
-</script>"
-  requires="JQUERYPLUGIN::CYCLE"
-}%%ADDTOZONE{"head"
-  id="DelayedSlideshow%INCLUDINGTOPIC%/css"
-  text="<style type='text/css'>
-    #DelayedSlideshowNav%INCLUDINGTOPIC%  a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }
-    #DelayedSlideshowNav%INCLUDINGTOPIC%  a.activeSlide,
-    #DelayedSlideshowNav%INCLUDINGTOPIC%  a:hover { background: #cff }
-    #DelayedSlideshowNav%INCLUDINGTOPIC%  a:focus { outline: none; }
-    #DelayedSlideshow%INCLUDINGTOPIC% pre { overflow:visible }
-  </style>"
-}%<div id="DelayedSlideshowNav%INCLUDINGTOPIC%"></div>
-<div id="DelayedSlideshow%INCLUDINGTOPIC%">
+%TABPANE{class="plain" animate="on"}%
+%TAB{"Step 1"}%
 <verbatim class="tml">
 %SEARCH{
   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
@@ -224,6 +183,8 @@ jQuery(document).ready(function($) {
 ----
    * Set PARENT = UserDocumentationCategory
 </verbatim>
+%ENDTAB%
+%TAB{"Step 2"}%
 <pre class="tml">
 %<nop>SEARCH{
   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
@@ -240,6 +201,11 @@ jQuery(document).ready(function($) {
 ----
    * Set PARENT = UserDocumentationCategory
 </pre>
+%ENDTAB%
+%TAB{"Step 3" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text&section=step3"}%
+%ICON{"processing"}%
+<verbatim class="foswikiHidden">
+%STARTSECTION{"step3"}%
 <pre class="tml">
 %SEARCH{
   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
@@ -256,6 +222,13 @@ jQuery(document).ready(function($) {
 ----
    * Set PARENT = UserDocumentationCategory
 </pre>
+%ENDSECTION{"step3"}%
+</verbatim>
+%ENDTAB%
+%TAB{"Step 4" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text&section=step4"}%
+%ICON{"processing"}%
+<verbatim class="foswikiHidden">
+%STARTSECTION{"step4"}%
 <pre class="tml">
 %SEARCH{
   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
@@ -272,6 +245,13 @@ jQuery(document).ready(function($) {
 ----
    * Set PARENT = UserDocumentationCategory
 </pre>
+%ENDSECTION{"step4"}%
+</verbatim>
+%ENDTAB%
+%TAB{"Step 5" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text&section=step5"}%
+%ICON{"processing"}%
+<verbatim class="foswikiHidden">
+%STARTSECTION{"step5"}%
 <pre class="tml">
 %SEARCH{
   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
@@ -288,7 +268,10 @@ jQuery(document).ready(function($) {
 ----
    * Set PARENT = UserDocumentationCategory
 </pre>
-</div>
+%ENDSECTION{"step5"}%
+</verbatim>
+%ENDTAB%
+%ENDTABPANE%
 %ENDSECTION{"insideoutlefttoright"}%
 
 See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]
