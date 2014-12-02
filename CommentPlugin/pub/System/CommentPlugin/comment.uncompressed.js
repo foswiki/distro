@@ -88,24 +88,27 @@ This is an example of a simple AJAX comment submission.
                 if (typeof(StrikeOne) !== 'undefined')
                     StrikeOne.submit(form);
                 $.ajax({
-		    url: form.action,
-		    type: "POST",
-		    data: $(form).serialize(),
+                    url: form.action,
+                    type: "POST",
+                    data: $(form).serialize(),
                     beforeSend: function() {
                         $(form).find('input').attr("disabled", "disabled");
                     },
-		    success: function(data, textStatus, jqXHR) {
+                    success: function(data, textStatus, jqXHR) {
                         var position = jqXHR.getResponseHeader(
                             'X-Foswiki-Comment');
                         addComment(position, data, form);
                         $(form).find('input').removeAttr("disabled");
                         $("body").css("cursor", "default");
                     },
-		    error: function(jqXHR, textStatus, errorThrown) {
-			alert("Error: " + errorThrown);
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.responseText)
+                            alert("Error: " + jqXHR.responseText);
+                        else
+                            alert("Error: " + errorThrown);
                         $(form).find('input').removeAttr("disabled");
                         $("body").css("cursor", "default");
-		    },
+                    },
                     complete: function(jqXHR) {
                         // Update the strikeone nonce
                         var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
@@ -116,7 +119,8 @@ This is an example of a simple AJAX comment submission.
                             });
                         }
                     }
-		})
+                });
+                return false;
             });
     });
 })(jQuery);

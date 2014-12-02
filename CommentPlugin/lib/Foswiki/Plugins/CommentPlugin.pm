@@ -238,7 +238,7 @@ sub _restSave {
         my $e = shift;
         if ($isXHR) {
             $response->header( -status => 404 );
-            $response->body(shift);
+            $response->body( $e->stringify );
         }
         else {
             $e->throw();
