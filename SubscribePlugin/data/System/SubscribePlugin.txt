@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416851209" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417550116" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -52,8 +52,8 @@ is also available for other clients wishing to use the subscription service.
 Parameters:
    * =subscribe_topic= topic to subscribe to/unsubscribe from. Value of =topic= parameter is used if missing. Use Web.Topic format to specify a web.
    * =subscribe_subscriber= WikiName of user to subscribe/unsubscribe. Current user is used if missing.
-   * =unsubscribe= true to unsubscribe. Default is to subscribe.
-Note that the calling user *must* be authenticated, and *must* have write permission for the !WebNotify topic in the relevant web. 
+   * =subscribe_remove= true to unsubscribe. Default is to subscribe.
+Note that the calling user *must* be authenticated, and *must* have write permission for the !WebNotify topic in the relevant web.
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -78,5 +78,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1416851209" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1416851209" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1417550116" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1417550116" user="ProjectContributor"}%
