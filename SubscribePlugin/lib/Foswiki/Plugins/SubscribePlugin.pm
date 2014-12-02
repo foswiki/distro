@@ -87,18 +87,24 @@ sub _SUBSCRIBE {
     my $tmpl = _template_text(
         ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe' );
 
+    my %urlparms;
     if ( defined $params->{format} || $params->{formatunsubscribe} ) {
 
         # Legacy
+        $urlparms{subscribe_subscriber} = $who;
+        $urlparms{subscribe_topic}      = "$web.$topic";
+
         my $actionName;
         if ($unsubscribe) {
             $tmpl = $params->{formatunsubscribe}
               if ( $params->{formatunsubscribe} );
             $actionName = 'Unsubscribe';
+            $urlparms{subscribe_remove} = 1;
         }
         else {
             $tmpl = $params->{format} if $params->{format};
             $actionName = 'Subscribe';
+            $urlparms{subscribe_remove} = 0;
         }
         $tmpl =~ s/\$action/%MAKETEXT{"$actionName"}%/g;
         $tmpl =~ s/\$wikiname/$who/g;
@@ -106,20 +112,23 @@ sub _SUBSCRIBE {
     }
 
     my $url =
-      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest' );
+      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest',
+        %urlparms );
 
     $tmpl =~ s/\$url/$url/g;
+
+    # REST parameters
     my $data = HTML::Entities::encode_entities(
         JSON::to_json(
             {
-                topic          => "$web.$topic",
-                subscriber     => $who,
-                remove         => $unsubscribe,
-                validation_key => '?' . _getNonce($session)
+                subscribe_topic      => "$web.$topic",
+                subscribe_subscriber => $who,
+                subscribe_remove     => $unsubscribe,
+                validation_key       => '?' . _getNonce($session)
             }
         )
     );
-    $tmpl =~ s/\$data/$data/g;
+    $tmpl =~ s/\$restparams/$data/g;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
         'Foswiki::Plugins::SubscribePlugin::JQuery' );

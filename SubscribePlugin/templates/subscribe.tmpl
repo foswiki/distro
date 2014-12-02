@@ -1,12 +1,14 @@
 %{----------------------------------------
-Link for a "subscribe" request
+Link for a "subscribe" request. Note that REST parameters are encoded in
+data-subscribe
 }%%TMPL:DEF{sp:subscribe}%
-<a class="subscribe_link" data-subscribe="$data" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" href="$url">%MAKETEXT{"Subscribe"}%</a>
+<a class="subscribe_link" data-subscribe="$restparams" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" href="$url">%MAKETEXT{"Subscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
-Link for an "unsubscribe" request
+Link for an "unsubscribe" request. Note that REST parameters are encoded in
+data-subscribe
 }%%TMPL:DEF{sp:unsubscribe}%
-<a class="subscribe_link" data-subscribe="$data" rel="nofollow" title="%MAKETEXT{"Unsubscribe from this topic"}%" href="$url">%MAKETEXT{"Unsubscribe"}%</a>
+<a class="subscribe_link" data-subscribe="$restparams" rel="nofollow" title="%MAKETEXT{"Unsubscribe from this topic"}%" href="$url">%MAKETEXT{"Unsubscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
 Error message

@@ -13,6 +13,7 @@ use Foswiki;
 use CGI;
 use Foswiki::Plugins::SubscribePlugin;
 use Foswiki::Contrib::MailerContrib;
+use JSON;
 
 our $UI_FN;
 
@@ -31,7 +32,7 @@ sub set_up {
     $Foswiki::cfg{Validation}{Method} = 'none';
     $UI_FN ||= $this->getUIFn('rest');
     $restURL =
-      Foswiki::Func::getScriptUrlPath( 'SubscribePlugin', 'subscribe', 'rest' );
+      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest' );
 }
 
 sub tear_down {
@@ -53,8 +54,21 @@ sub test_SUBSCRIBE_1 {
     my $subscribe = Foswiki::Func::expandCommonVariables(
         "%SUBSCRIBE{who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web} );
+    $subscribe =~ s/data-subscribe="(.*?)"//;
+    my $d = JSON::from_json( HTML::Entities::decode_entities($1) );
+    die $@ if $@;
+    $d->{validation_key} = '?';
+    $this->assert_deep_equals(
+        {
+            subscribe_remove     => 0,
+            subscribe_subscriber => $this->{test_user_wikiname},
+            subscribe_topic      => "$this->{test_web}.$this->{test_topic}",
+            validation_key       => "?"
+        },
+        $d
+    );
     $this->assert_html_equals( <<HTML, $subscribe );
-<a class="subscribe_link" rel="nofollow" title="Subscribe to this topic" href="$restURL?subscribe_topic=$this->{test_web}.$this->{test_topic}&subscribe_subscriber=$this->{test_user_wikiname}">Subscribe</a>
+<a class="subscribe_link"  rel="nofollow" title="Subscribe to this topic" href="$restURL">Subscribe</a>
 HTML
 }
 
@@ -66,8 +80,21 @@ sub test_SUBSCRIBE_2 {
 '%SUBSCRIBE{who="TobermoryCat" topic="Kitties.Tobermory" unsubscribe="on"}%',
         $this->{test_topic}, $this->{test_web}
     );
+    $subscribe =~ s/data-subscribe="(.*?)"//;
+    my $d = JSON::from_json( HTML::Entities::decode_entities($1) );
+    die $@ if $@;
+    $d->{validation_key} = '?';
+    $this->assert_deep_equals(
+        {
+            subscribe_remove     => 1,
+            subscribe_subscriber => "TobermoryCat",
+            subscribe_topic      => "Kitties.Tobermory",
+            validation_key       => "?"
+        },
+        $d
+    );
     $this->assert_html_equals( <<HTML, $subscribe );
-<a class="subscribe_link" rel="nofollow"  title="Unsubscribe from this topic" href="$restURL?subscribe_topic=Kitties.Tobermory&subscribe_subscriber=TobermoryCat&subscribe_remove=1>Unsubscribe</a>
+<a class="subscribe_link" href="http://daphne.foswiki/git/core/bin/rest/SubscribePlugin/subscribe" rel="nofollow" title="Unsubscribe from this topic">Unsubscribe</a>
 HTML
 }
 
