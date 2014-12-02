@@ -279,7 +279,8 @@ sub rest {
     # and we want a simple engine exception here.
     if (   $record->{validate}
         && $Foswiki::cfg{Validation}{Method} ne 'none'
-        && !$session->inContext('command_line') )
+        && !$session->inContext('command_line')
+        && uc( $req->method() eq 'POST' ) )
     {
 
         my $nonce = $req->param('validation_key');
