@@ -15,7 +15,8 @@ use strict;
 use Foswiki::Func ();
 use Assert;
 use Error ':try';
-use JSON;
+use JSON           ();
+use HTML::Entities ();
 
 our $VERSION = '3.2';
 our $RELEASE = '24 Nov 2014';
@@ -24,8 +25,6 @@ our $SHORTDESCRIPTION =
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $tmpls;
-
-my $keyed;
 
 sub initPlugin {
     my ( $TOPIC, $WEB ) = @_;
@@ -58,8 +57,6 @@ sub initPlugin {
         http_allow   => 'POST'
     );
 
-    $keyed = 0;
-
     undef $tmpls;
     return 1;
 }
@@ -87,52 +84,42 @@ sub _SUBSCRIBE {
           || Foswiki::Contrib::MailerContrib::isSubscribedTo( $web, $who,
             $topic ) ) ? 1 : 0;
 
-    my $form = _template_text(
-        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe',
-        "$web.$topic", $who );
+    my $tmpl = _template_text(
+        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe' );
 
     if ( defined $params->{format} || $params->{formatunsubscribe} ) {
 
         # Legacy
-        my $url = Foswiki::Func::getScriptUrl(
-            'SubscribePlugin', 'subscribe', 'rest',
-            subscribe_topic      => "$web.$topic",
-            subscribe_subscriber => $who,
-            subscribe_remove     => $unsubscribe
-        );
-
-        $form = $params->{format};
-        my $actionName = 'Subscribe';
+        my $actionName;
         if ($unsubscribe) {
-            $form = $params->{formatunsubscribe}
+            $tmpl = $params->{formatunsubscribe}
               if ( $params->{formatunsubscribe} );
             $actionName = 'Unsubscribe';
         }
-        if ($form) {
-            $form =~ s/\$action/%MAKETEXT{"$actionName"}%/g;
-            $form =~ s/\$url/$url/g;
-            $form =~ s/\$wikiname/$who/g;
-            $form =~ s/\$topics/$topic/g;
-        }
         else {
-            $form =
-              CGI::a( { href => $url, class => 'subscribe_link' },
-                $actionName );
+            $tmpl = $params->{format} if $params->{format};
+            $actionName = 'Subscribe';
         }
+        $tmpl =~ s/\$action/%MAKETEXT{"$actionName"}%/g;
+        $tmpl =~ s/\$wikiname/$who/g;
+        $tmpl =~ s/\$topics/$topic/g;
     }
 
-    unless ($keyed) {
+    my $url =
+      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest' );
 
-        # If the subscribe expands to a form then that form will get
-        # a nonce but we will ignore it and only use this re-usable
-        # nonce.
-        Foswiki::Func::addToZone( "script", "SUBSCRIBEPLUGIN",
-                "<script type='text/javascript'>"
-              . "var SubscribePlugin_key='?"
-              . _getNonce($session) . "';"
-              . "</script>" );
-        $keyed = 1;
-    }
+    $tmpl =~ s/\$url/$url/g;
+    my $data = HTML::Entities::encode_entities(
+        JSON::to_json(
+            {
+                topic          => "$web.$topic",
+                subscriber     => $who,
+                remove         => $unsubscribe,
+                validation_key => '?' . _getNonce($session)
+            }
+        )
+    );
+    $tmpl =~ s/\$data/$data/g;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
         'Foswiki::Plugins::SubscribePlugin::JQuery' );
@@ -144,7 +131,7 @@ sub _SUBSCRIBE {
     {
         die 'Failed to register "subscribe" JQuery plugin';
     }
-    return $form;
+    return $tmpl;
 }
 
 # subscribe_topic (topic is used if subscribe_topic is missing)

@@ -10,9 +10,9 @@
 	</a></span>%TMPL:END%
 	
 %TMPL:DEF{"top:toolbarbutton_subscribe"}%<span>
-    %SUBSCRIBE{format="<a href='$url' class='subscribe_link' rel='nofollow' title='%MAKETEXT{"Subscribe to this topic (s)"}%'>
+    %SUBSCRIBE{format="<a href='$url' class='subscribe_link' data-subscribe='$data' rel='nofollow' title='%MAKETEXT{"Subscribe to this topic (s)"}%'>
         <img alt='%MAKETEXT{"Subscribe to this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
-    </a>" formatunsubscribe="<a href='$url' rel='nofollow' title='%MAKETEXT{"Unsubscribe from this topic (s)"}%'>
+    </a>" formatunsubscribe="<a href='$url' class='subscribe_link' data-subscibe='$data' rel='nofollow' title='%MAKETEXT{"Unsubscribe from this topic (s)"}%'>
         <img alt='%MAKETEXT{"Unsubscribe from this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
     </a>"}%</span>%TMPL:END%
 

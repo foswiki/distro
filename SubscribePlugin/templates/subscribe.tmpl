@@ -1,12 +1,12 @@
 %{----------------------------------------
 Link for a "subscribe" request
 }%%TMPL:DEF{sp:subscribe}%
-<a class="subscribe_link" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" href="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe?subscribe_topic=%URLENCODE{%PARAM1%}%&subscribe_subscriber=%URLENCODE{%PARAM2%}%">%MAKETEXT{"Subscribe"}%</a>
+<a class="subscribe_link" data-subscribe="$data" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" href="$url">%MAKETEXT{"Subscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
 Link for an "unsubscribe" request
 }%%TMPL:DEF{sp:unsubscribe}%
-<a class="subscribe_link" rel="nofollow"  title="%MAKETEXT{"Unsubscribe from this topic"}%" href="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe?subscribe_topic=%URLENCODE{%PARAM1%}%&subscribe_subscriber=%URLENCODE{%PARAM2%}%&subscribe_remove=1>%MAKETEXT{"Unsubscribe"}%</a>
+<a class="subscribe_link" data-subscribe="$data" rel="nofollow" title="%MAKETEXT{"Unsubscribe from this topic"}%" href="$url">%MAKETEXT{"Unsubscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
 Error message

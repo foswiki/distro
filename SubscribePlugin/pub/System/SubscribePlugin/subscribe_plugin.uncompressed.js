@@ -23,39 +23,37 @@
     $(document).ready( function () {
         $('.subscribe_link').click(function() {
             var clink = $(this);
-            clink.off('click');
-            var url = clink.attr('href');
-            var params = url.match(/\?(.+)/)[1];
-            params = params.replace(/;/g, '&');
+            var params = clink.data('subscribe');
             if (typeof(StrikeOne) !== 'undefined') {
-                params += "&validation_key="
-                    + StrikeOne.calculateNewKey(SubscribePlugin_key);
+                var key = params['validation_key'];
+                params['validation_key'] = StrikeOne.calculateNewKey(key);
             }
-	    $.ajax({
-		type: "POST",
-		data: params,
-		url: $(this).attr('href'),
-		success: function(response) {
+            $.ajax({
+                type: "POST",
+                data: params,
+                url: $(this).attr('href'),
+                success: function(response) {
                     clink.text(response.message);
-                    url.replace(/subscribe_remove=\d+/, '');
-                    if (response.remove === 1) {
-                        clink.attr('href', url + '&subscribe_remove=1');
-                    }
-		},
-		error: function(response) {
-                    alert(response.message);
-		},
+                    params['subscribe_remove'] = response.remove;
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.responseText);
+                },
                 complete: function(jqXHR, status) {
                     // Update the strikeone nonce
                     var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
                     // patch in new nonce
                     if (nonce) {
-                        subscribe_key = "?" + nonce;
+                        params['validation_key'] = "?" + nonce;
                     }
-                    clink.on('click');
                 }
             });
             return false;
+        });
+        $('.subscribe_link').each(function() {
+            var clink = $(this);
+            var params = clink.data('subscribe');
+            clink.data('subscribe', eval(params));
         });
     });
 })(jQuery);
