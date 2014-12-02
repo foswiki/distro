@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417540527" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -221,6 +221,22 @@ Some extensions have setup requirements that are best integrated into =configure
 
 =Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/Foswiki/Plugins/BathPlugin/Config.spec=.
 
+---+++ Naming of =Config.spec= elements
+when building your extension, there are several choices on where to place the elements in the =$Foswiki::cfg= hash:
+
+%TABLE{sort="off"}%
+| *Location* | *Example* | *Notes* |
+| Under the ={Plugins}= namespace | =$Foswiki::cfg{Plugins}{BathPlugin}{PlugType}= | This is traditionally where foswiki organizes all plugin settings.  Foswiki automatically populates two settings for Plugins (and only plugins): ={Plugins}...{Module}= and ={Plugins}...{Enable}=, which must *not* be defined in the =Config.spec= file. |
+| Under the ={Extensions}= namespace | =$Foswiki::cfg{Extensions}{BathPlugin}{PlugType}= | This is a new recommended location,  and helps separate _automatic_ ={Plugins}...{Module}= and ={Plugins}...{Enable}= from custom settings.   It is suggested for new extensions, and *Strongly Recommended* for non-Plugin type extensions  (Contribs, Skins, etc). |
+| Under the root namespace | =$Foswiki::cfg{BathPlugin}= | *Not Recommended* Historical extensions place settings under the root, it results in a very cluttered configuration. |
+
+<div class="foswikiHelp">
+%X% Never assign a value to a level that will have sub-values:   *THIS WILL FAIL!  Don't do this.*
+<verbatim>
+   $Foswiki::cfg{Plugins}{BathPlugin} = "Take a bath here";
+   $Foswiki::cfg{Plugins}{BathPlugin}{PlugType} = "rubber stopper";
+</verbatim></div>
+
 ---+++ Structure of a <code>Config.spec</code> file
 This is a high level outline of the content of a <code>Config.spec</code> file. For full technical details, see [[http://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]]. However the information given here should be sufficient for most extension developers.
 
@@ -239,11 +255,11 @@ This is followed by one or more configuration items. Each configuration item has
 <verbatim class="perl">
 # **SELECT Plastic,Rubber,Metal**
 # Select the plug type
-$Foswiki::cfg{BathPlugin}{PlugType} = 'Plastic';
+$Foswiki::cfg{Plugins}{BathPlugin}{PlugType} = 'Plastic';
 
 # **NUMBER**
 # Enter the chain length in cm
-$Foswiki::cfg{BathPlugin}{ChainLength} = '30';
+$Foswiki::cfg{Plugins}{BathPlugin}{ChainLength} = '30';
 
 # **BOOLEAN EXPERT**
 # Turn this option off to disable the water temperature alarm
@@ -251,7 +267,7 @@ $Foswiki::cfg{BathPlugin}{TempSensorEnabled} = '1';
 </verbatim>
 The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. It also tells configure how to do some basic checking on the value you actually enter. All the comments between the type and the configuration item are taken as part of the description. The configuration item itself defines the default value for the configuration item. The above spec defines the configuration items =$Foswiki::cfg{BathPlugin}{PlugType}=, =$Foswiki::cfg{BathPlugin}{ChainLength}=, and =$Foswiki::cfg{BathPlugin}{TempSensorEnabled}= for use in your plugin. For example,
 <verbatim class="perl">
-if( $Foswiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
+if( $Foswiki::cfg{Plugins}{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
     die "The bathwater is too hot for comfort";
 }
 </verbatim>
@@ -259,12 +275,12 @@ You can use other =$Foswiki::cfg= values in other settings,
 but you must be sure they are only evaluated under program control, and
 not when this file is parsed by perl. For example:
 <verbatim class="perl">
-$Foswiki::cfg{BathPlugin}{MyBath} = "$Foswiki::cfg{PubDir}/enamel.gif"; # BAD
+$Foswiki::cfg{Plugins}{BathPlugin}{MyBath} = "$Foswiki::cfg{PubDir}/enamel.gif"; # BAD
 # Perl will interpolate variables in double-quotes, so $Foswiki::cfg{PubDir}
 # will be evaluated at configuration time, which will make reconfiguration
 # difficult.
 
-$Foswiki::cfg{BathPlugin}{MyBath} = '$Foswiki::cfg{PubDir}/enamel.gif'; # GOOD
+$Foswiki::cfg{Plugins}{BathPlugin}{MyBath} = '$Foswiki::cfg{PubDir}/enamel.gif'; # GOOD
 # The single quotes make sure $Foswiki::cfg{PubDir} will only be evaluated
 # at run-time.
 </verbatim>
@@ -326,6 +342,15 @@ When testing BOOLEAN options, simply stating the name of the option is enough. F
 <verbatim>
 **STRING DISPLAY_IF {This}{BOOLEAN}{Option} **
 </verbatim>
+
+<div class="foswikiHelp">
+In summary, don't confuse the layout within Configure tabs with the hierarchy within the configuration hash.   Settings are organized in the Configuration Tabs based upon the heading hierarchy of the Spec file, not the configuration hash structure. The following layout will work just fine:
+<verbatim>
+---+ Extensions
+---++ BathPlugin
+$Foswiki::cfg{Extensions}{BathPlugin}{PlugType} = 'rubber';
+$Foswiki::cfg{foobar} = 'some archaic root-level setting';
+</verbatim></div>
 
 #LinkingToConfigure
 ---+++ Linking to =configure=
