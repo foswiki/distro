@@ -49,10 +49,23 @@ sub check_current_value {
         }
     }
 
-    $reporter->WARN(
-"You have not set a Pasword, your $Foswiki::cfg{SuperAdminGroup} contains no users, or your filter eliminated all users in the $Foswiki::cfg{SuperAdminGroup}.
-You *Must* have a usable ID matching this filter to access configure.  Do not save the configuration unless you are sure you have not locked yourself out of configure!"
-    ) unless ( $Foswiki::cfg{Password} || scalar @filtered );
+    if (
+        (
+            $Foswiki::cfg{ConfigureFilter}
+            && Foswiki::Func::getCanonicalUserID() !~
+            m/$Foswiki::cfg{ConfigureFilter}/
+        )
+        && !$Foswiki::cfg{Password}
+        && scalar @filtered < 2
+      )
+    {
+        $reporter->WARN(
+"You have not set an admin Pasword.  Your $Foswiki::cfg{SuperAdminGroup} contains no users, or your filter eliminated all users in the $Foswiki::cfg{SuperAdminGroup}
+and your filter does not match your current ID "
+              . Foswiki::Func::getCanonicalUserID()
+              . ": You *Must* have a usable ID matching this filter to access configure.  Do not save the configuration unless you are sure you have not locked yourself out of configure!"
+        );
+    }
 
 }
 

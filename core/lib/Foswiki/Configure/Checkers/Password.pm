@@ -26,15 +26,22 @@ sub check_current_value {
 
     $reporter->WARN(
 "$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
-    ) if ( scalar @admins lt 2 && !$Foswiki::cfg{Password} );
-
-    $reporter->ERROR(
-"The existing super admin password does not appear to be a valid password.  You will be unable to access the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})
-using the current configuration.  The password should be saved as an \"\$apr1:...\" encoded password."
       )
-      unless ( $Foswiki::cfg{Password} =~ m/^\$apr1\$/
-        && length( $Foswiki::cfg{Password} ) eq 37 );
+      if ( scalar @admins lt 2
+        && !$Foswiki::cfg{Password}
+        && !$Foswiki::cfg{ConfigureFilter} );
 
+    if (
+        $Foswiki::cfg{Password}
+        && ( $Foswiki::cfg{Password} !~ m/^\$apr1\$/
+            || length( $Foswiki::cfg{Password} ) ne 37 )
+      )
+    {
+        $reporter->ERROR(
+"This admin password does not appear to be a valid password.  You will be unable to access the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})
+using the current configuration.  If you want to be able to use the super admin user, the password should be saved as an \"\$apr1:...\" encoded password.  Show the help for more details."
+        );
+    }
 }
 
 1;
