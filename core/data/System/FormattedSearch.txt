@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592337" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417513749" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -350,7 +350,7 @@ Use an HTML form and an embedded formatted search on the same topic. You can lin
    "%URLPARAM{"q" encode="quote"}%"
    type="keyword"
    nosearch="on"
-   format="<div class='search_hit'> $web.$topic
+   format="<div class='search_hit'> [[$web.$topic]]
       <div class='search_summary'>$summary(searchcontext)<!-- --></div> 
       <div class='search_info'>$date, $wikiusername</div>
     </div>"
