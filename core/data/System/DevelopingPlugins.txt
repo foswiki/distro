@@ -221,14 +221,24 @@ Some extensions have setup requirements that are best integrated into =configure
 
 =Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/Foswiki/Plugins/BathPlugin/Config.spec=.
 
+%STARTSECTION{type="include"}%
 ---+++ Naming of =Config.spec= elements
 when building your extension, there are several choices on where to place the elements in the =$Foswiki::cfg= hash:
 
 %TABLE{sort="off"}%
 | *Location* | *Example* | *Notes* |
-| Under the ={Plugins}= namespace | =$Foswiki::cfg{Plugins}{BathPlugin}{PlugType}= | This is traditionally where foswiki organizes all plugin settings.  Foswiki automatically populates two settings for Plugins (and only plugins): ={Plugins}...{Module}= and ={Plugins}...{Enable}=, which must *not* be defined in the =Config.spec= file. |
-| Under the ={Extensions}= namespace | =$Foswiki::cfg{Extensions}{BathPlugin}{PlugType}= | This is a new recommended location,  and helps separate _automatic_ ={Plugins}...{Module}= and ={Plugins}...{Enable}= from custom settings.   It is suggested for new extensions, and *Strongly Recommended* for non-Plugin type extensions  (Contribs, Skins, etc). |
+| Under the ={Extensions}= namespace | =$Foswiki::cfg{Extensions}{BathPlugin}{PlugType}= | *This is the recommended location,* It is recommended for all new extensions, and strongly recommended for non-Plugin type extensions  (Contribs, Skins, etc). |
+| Under the ={Plugins}= namespace | =$Foswiki::cfg{Plugins}{BathPlugin}{PlugType}= | This is traditionally where foswiki organizes all plugin settings. %BR% Foswiki automatically populates two settings for Plugins (and only plugins): \
+<ul><li> ={Plugins}...{Module}= \
+<li> ={Plugins}...{Enable}= </ul> \
+which must *not* be defined in the =Config.spec= file.%BR% We no longer recommend using this namespace for custom settings. |
 | Under the root namespace | =$Foswiki::cfg{BathPlugin}= | *Not Recommended* Historical extensions place settings under the root, it results in a very cluttered configuration. |
+---++++Config namespace Rules going forward:
+   * Existing extensions should probably not be restructured, to avoid configuration migration issues.
+   * If developing a "Contrib" or "Skin", configuration should live under ={Extensions}=, even if it has a Plugin component.
+   * If developing a "Plugin", it can use ={Plugins}= space but this is no longer recommended.
+   * Never store settings at the root level.
+%ENDSECTION{type="include"}%
 
 <div class="foswikiHelp">
 %X% Never assign a value to a level that will have sub-values:   *THIS WILL FAIL!  Don't do this.*
@@ -344,13 +354,19 @@ When testing BOOLEAN options, simply stating the name of the option is enough. F
 </verbatim>
 
 <div class="foswikiHelp">
-In summary, don't confuse the layout within Configure tabs with the hierarchy within the configuration hash.   Settings are organized in the Configuration Tabs based upon the heading hierarchy of the Spec file, not the configuration hash structure. The following layout will work just fine:
+%STARTSECTION{type="include"}%
+Also, don't confuse the layout within Configure tabs with the hierarchy within the configuration hash.   Settings are organized in the Configuration Tabs based upon the heading hierarchy of the Spec file, not the configuration hash structure.
+It is __strongly recommended__ to stick to one location for settings for any extension. Try not to split settings
+into multiple areas of the configuration hash, except when the settings are "Extending" a core feature like the Store. All of these below settings will appear under the Extensions -> !BathPlugin tab. (but this is certainly *not* recommended).
 <verbatim>
 ---+ Extensions
 ---++ BathPlugin
-$Foswiki::cfg{Extensions}{BathPlugin}{PlugType} = 'rubber';
+$Foswiki::cfg{Plugins}{BathPlugin}{PlugType} = 'rubber';
+$Foswiki::cfg{Extensions}{BathPlugin}{ToyType} = 'duckie';
 $Foswiki::cfg{foobar} = 'some archaic root-level setting';
-</verbatim></div>
+</verbatim>
+%ENDSECTION{type="include"}%
+</div>
 
 #LinkingToConfigure
 ---+++ Linking to =configure=
