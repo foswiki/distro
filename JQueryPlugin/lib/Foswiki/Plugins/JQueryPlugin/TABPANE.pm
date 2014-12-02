@@ -35,7 +35,7 @@ sub new {
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => [ 'metadata', 'livequery', 'easing' ],
         ),
         $class
     );
