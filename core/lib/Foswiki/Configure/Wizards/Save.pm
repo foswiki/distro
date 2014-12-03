@@ -385,6 +385,7 @@ sub _generateLSC {
     my $vs = $spec->getValueObject($keys);
     if ($vs) {
         my $d = $vs->encodeValue($datum);
+        $d = "''" unless defined $d;
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
     elsif ( ref($datum) eq 'HASH' ) {
