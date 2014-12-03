@@ -17,11 +17,18 @@ sub check_current_value {
       unless defined $Foswiki::Plugins::SESSION
       && eval "require Foswiki::Func";
 
+    return unless defined $Foswiki::cfg{ConfigureFilter};
+
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 
     while ( defined $it && $it->hasNext() ) {
-        push @admins, Foswiki::Func::getCanonicalUserID( $it->next() );
+        my $a = Foswiki::Func::getCanonicalUserID( $it->next() );
+
+        # The group members come from a data topic, which might have been
+        # populated even when running in bootstrap mode. In this case there
+        # will be no mapping for the user and therefore no CUID.
+        push( @admins, $a ) if $a;
     }
     $reporter->WARN(
 "$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
