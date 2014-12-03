@@ -284,23 +284,21 @@ $Data::Dumper::Indent. See perldoc Data::Dumper for more information.
 
 sub uneval {
     my ( $datum, $indent ) = @_;
-    my $d;
     if ( ref($datum) eq 'Regexp' ) {
 
         # Convert to string
-        $d = "$datum";
+        $datum = "$datum";
 
         # Strip off useless furniture (?^: ... )
-        $d =~ s/^\(\?\^:(.*)\)$/$1/;
-        $datum = $d;
+        $datum =~ s/^\(\?\^:(.*)\)$/$1/;
     }
     local $Data::Dumper::Sortkeys = 1;
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Indent   = $indent || 0;
-    $d = Data::Dumper->Dump( [$datum] );
-    $d =~ s/^\$VAR1\s*=\s*//s;
-    $d =~ s/;\s*$//s;
-    return $d;
+    $datum = Data::Dumper->Dump( [$datum] );
+    $datum =~ s/^\$VAR1\s*=\s*//s;
+    $datum =~ s/;\s*$//s;
+    return $datum;
 }
 
 =begin TML

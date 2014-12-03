@@ -318,17 +318,17 @@ sub encodeValue {
 
     return undef unless defined $value;
 
-    if ( $this->{typename} eq 'BOOLEAN' ) {
-        $value = $value ? 1 : 0;
+    if ( ref($value) || $this->{typename} eq 'BOOLEAN' ) {
+        return Foswiki::Configure::Reporter::uneval($value);
     }
-    return Foswiki::Configure::Reporter::uneval($value);
+    return $value;
 }
 
 =begin TML
 
 ---++ ObjectMethod decodeValue($encoded_value) -> $raw_value
 
-Decode a string that represents the value (e.g a serialsed perl structure)
+Decode a string that represents the value (e.g a serialised perl structure)
 and return the 'true' value by applying type rules
 
 =cut

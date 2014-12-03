@@ -500,8 +500,16 @@ sub wizard {
     my $response = $target->$method($reporter);
     return $response if $response;
 
+    # Note: we can't used the value recorded at CHANGED time because that
+    # is encoded using Reporter::uneval, which knows nothing about the
+    # real type of the value. For the real type we have to use the
+    # Value's encoder.
+    my %new_values = map {
+        $_ => $root->getValueObject($_)->encodeValue( eval "\$Foswiki::cfg$_" )
+    } keys %{ $reporter->{changes} };
+
     return {
-        changes  => $reporter->changes(),
+        changes  => \%new_values,
         messages => $reporter->messages()
     };
 }
