@@ -359,6 +359,7 @@ sub verify_moveTopic {
 sub verify_saveTopic {
     my $this = shift;
 
+    $this->_makeWeb();
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $meta->text("1 2 3");
@@ -807,6 +808,7 @@ sub verify_moveWeb {
 sub verify_setLease_getLease {
     my $this = shift;
 
+    $this->_makeWeb();
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $this->assert_null( $this->{sut}->getLease($meta) );
@@ -881,6 +883,7 @@ sub verify_delRev {
 
 sub verify_atomicLocks {
     my $this = shift;
+    $this->_makeWeb();
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AtomicLock" );
     $meta->text("Kaboom");

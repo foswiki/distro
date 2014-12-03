@@ -1,6 +1,6 @@
-# Tests for low-level RCS handler code. Store::VC::Store creates a
+# Tests for low-level RCS handler code. Store::Rcs::Store creates a
 # transitory handler object for each store item. The handler
-# behaviour is only exposed to Store::VC::Store, which is in turn tested
+# behaviour is only exposed to Store::Rcs::Store, which is in turn tested
 # in VCStoreTests.
 
 package RCSHandlerTests;
@@ -17,8 +17,8 @@ sub new {
 
 use Foswiki;
 use Foswiki::Store;
-use Foswiki::Store::VC::RcsLiteHandler;
-use Foswiki::Store::VC::RcsWrapHandler;
+use Foswiki::Store::Rcs::RcsLiteHandler;
+use Foswiki::Store::Rcs::RcsWrapHandler;
 use File::Path;
 use FoswikiStoreTestCase ();
 
@@ -46,13 +46,13 @@ my @rcsTypes = qw/Lite Wrap/;    # SMELL: can't skip if no RCS installed
 sub RcsLite {
     my $this = shift;
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
-    $class = 'Foswiki::Store::VC::RcsLiteHandler';
+    $class = 'Foswiki::Store::Rcs::RcsLiteHandler';
 }
 
 sub RcsWrap {
     my $this = shift;
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
-    $class = 'Foswiki::Store::VC::RcsWrapHandler';
+    $class = 'Foswiki::Store::Rcs::RcsWrapHandler';
 }
 
 sub RcsWrap_coMustCopy {
@@ -129,7 +129,7 @@ sub test_mktmp {
 
     # this is only used on WINDOWS so needs a special test
     my $this    = shift;
-    my $tmpfile = Foswiki::Store::VC::Handler::mkTmpFilename();
+    my $tmpfile = Foswiki::Store::Rcs::Handler::mkTmpFilename();
     $this->assert( !-e $tmpfile );
 }
 
@@ -267,7 +267,7 @@ sub verify_RcsWrapOnly_ciLocked {
     my $topic = "CiTestLockedTempDeleteMeItsOk";
 
     # create the fixture
-    my $rcs = Foswiki::Store::VC::RcsWrapHandler->new( new StoreStub,
+    my $rcs = Foswiki::Store::Rcs::RcsWrapHandler->new( new StoreStub,
         $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "Shooby Dooby", "original", "BungditDin" );
 
@@ -546,7 +546,7 @@ sub checkDifferences {
     my $diff = $rcs->revisionDiff( 1, 2 );
 
     # apply the differences to the text of topic 1
-    my $data = Foswiki::Store::VC::RcsLiteHandler::_split($from);
+    my $data = Foswiki::Store::Rcs::RcsLiteHandler::_split($from);
     my $l    = 0;
 
     #print STDERR "\nStart: ",join('\n',@$data),"\n";
@@ -963,7 +963,7 @@ sub test_Item945 {
     my $testTopic = "TestItem945";
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( $rcsType, @params ) = @{ $historyItem945[$depth] };
-        my $class = "Foswiki::Store::VC::Rcs${rcsType}Handler";
+        my $class = "Foswiki::Store::Rcs::Rcs${rcsType}Handler";
         my $rcs = $class->new( new StoreStub, $testWeb, $testTopic );
         $rcs->addRevisionFromText(@params);
         $rcs->finish();
@@ -975,9 +975,10 @@ sub item945_checkHistory {
     my ( $this, $depth, $testWeb, $testTopic ) = @_;
     for my $rcsType (@rcsTypes) {
         my $rcs =
-          "Foswiki::Store::VC::Rcs${rcsType}Handler"->new( new StoreStub,
+          "Foswiki::Store::Rcs::Rcs${rcsType}Handler"->new( new StoreStub,
             $testWeb, $testTopic );
-	#print STDERR "Check ".`cat $Foswiki::cfg{DataDir}/$testWeb/$testTopic.txt,v`."\n";
+
+#print STDERR "Check ".`cat $Foswiki::cfg{DataDir}/$testWeb/$testTopic.txt,v`."\n";
         $this->item945_checkHistoryRcs( $rcs, $depth );
         $rcs->finish();
     }
@@ -1024,7 +1025,7 @@ sub test_Item945_diff {
     my $testTopic = "TestItem945";
     for my $rcsType (@rcsTypes) {
         my $rcs =
-          "Foswiki::Store::VC::Rcs${rcsType}Handler"->new( new StoreStub,
+          "Foswiki::Store::Rcs::Rcs${rcsType}Handler"->new( new StoreStub,
             $testWeb, $testTopic . "Rcs$rcsType" );
         $this->item945_fillTopic( $rcs, $time, $testWeb,
             $testTopic . "Rcs$rcsType" );
@@ -1044,6 +1045,7 @@ sub test_Item945_diff {
 }
 
 sub deverify_Item11476_worst_case_performance {
+
     # Create lots of revs. We're not so worried about the time taken
     # to create a new rev as we are about the time taken to read basic
     # info, such as number of revisions.
@@ -1051,27 +1053,27 @@ sub deverify_Item11476_worst_case_performance {
     my $topic = "RcsTimeTest";
     local $| = 1;
     $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
-    for (my $i = 1; $i < 1000; $i++) {
-	my $string1 = <<HERE;
+    for ( my $i = 1 ; $i < 1000 ; $i++ ) {
+        my $string1 = <<HERE;
 %META:TOPICINFO{author="Author$i" date="$time" format="1.1" version="$i"}%
 $i men went to mow, went to mow a meadow,
 $i men, $i - 1 men, $i - 2 men... 1 man and his dog,
 went to mow a meadow
 HERE
-	$rcs->addRevisionFromText( $string1, "$i", "Author$i" );
-	print ".";
+        $rcs->addRevisionFromText( $string1, "$i", "Author$i" );
+        print ".";
     }
     print STDERR "Generated\n";
-    $Foswiki::Store::VC::RcsLiteHandler::trace = 1;
+    $Foswiki::Store::Rcs::RcsLiteHandler::trace = 1;
     my $t0 = Benchmark->new();
-    for (my $i = 1; $i < 100; $i++) {
-	$rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
-	$rcs->getInfo();
-	print ".";
+    for ( my $i = 1 ; $i < 100 ; $i++ ) {
+        $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
+        $rcs->getInfo();
+        print ".";
     }
     my $t1 = Benchmark->new();
     print STDERR "Timed\n";
-    my $td = timediff($t1, $t0);
-    print "the code took:",timestr($td),"\n";   
+    my $td = timediff( $t1, $t0 );
+    print "the code took:", timestr($td), "\n";
 }
 1;

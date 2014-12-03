@@ -165,8 +165,7 @@ sub formatVersions {
 
     while ( $revIt->hasNext() ) {
         my $rev = $revIt->next();
-        my $info =
-          $topicObject->getAttachmentRevisionInfo( $attrs{name}, $rev );
+        my $info = $topicObject->getRevisionInfo( $attrs{name}, $rev );
         $info->{name} = $attrs{name};
         $info->{attr} = $attrs{attr};
         $info->{size} = $attrs{size};

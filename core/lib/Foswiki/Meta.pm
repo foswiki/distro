@@ -454,7 +454,6 @@ sub load {
 #SVEN: sadly, Item10805 shows that the metacache is not yet multi-user safe, and as the Groups code in TopicUserMapping changes to user=admin, we can't use it here
 #which makes it clear I need to write a full cache validation set of tests for MetaCache
 #TODO: need to extract the metacache from search, and extract the additional derived info from it too
-#TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
 #NEW: the metacache has to return a _copy_ of the cached item, otherwise code that ->finish() es its copy will also ->finish() the cached version and any other refs.
 #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
 #        my $m =
@@ -1496,9 +1495,13 @@ sub setRevisionInfo {
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo() -> \%info
+---++ ObjectMethod getRevisionInfo([$attachment [,$rev]]) -> \%info
 
-Return revision info for the loaded revision in %info with at least:
+   * =$attachment= - (optional) attachment name to get info about
+   * =$rev= - (optional) revision of attachment for which to get info
+
+Return revision info for the loaded revision of a topic or
+attachment with at least:
    * ={date}= in epochSec
    * ={author}= canonical user ID
    * ={version}= the revision number
@@ -1511,8 +1514,14 @@ The comment is *always* blank
 =cut
 
 sub getRevisionInfo {
-    my $this = shift;
+    my ( $this, $attachment, $rev ) = @_;
+
     _assertIsTopic($this) if DEBUG;
+
+    if ($attachment) {
+        return $this->{_session}->{store}
+          ->getVersionInfo( $this, $rev, $attachment );
+    }
 
     my $info;
     if (    not defined( $this->{_loadedRev} )
@@ -2675,12 +2684,14 @@ sub onTick {
 
 =begin TML
 
----++ ObjectMethod getAttachmentRevisionInfo($attachment, $rev) -> \%info
+---++ *Deprecated* ObjectMethod getAttachmentRevisionInfo($attachment, $rev) -> \%info
    * =$attachment= - attachment name
    * =$rev= - optional integer attachment revision number
 Get revision info for an attachment. Only valid on topics.
 
 $info will contain at least: date, author, version, comment
+
+*Deprecated* 2014-11-03 use getRevisionInfo instead.
 
 =cut
 
@@ -2689,7 +2700,7 @@ sub getAttachmentRevisionInfo {
     _assertIsTopic($this) if DEBUG;
 
     return $this->{_session}->{store}
-      ->getAttachmentVersionInfo( $this, $fromrev, $attachment );
+      ->getVersionInfo( $this, $fromrev, $attachment );
 }
 
 =begin TML
@@ -3570,7 +3581,7 @@ sub summariseChanges {
 
 =begin TML
 
----++ ObjectMethod getEmbeddedStoreForm() -> $text
+---++ *Deprecated* ObjectMethod getEmbeddedStoreForm() -> $text
 
 Generate the embedded store form of the topic. The embedded store
 form has meta-data values embedded using %META: lines. The text
@@ -3592,7 +3603,7 @@ sub getEmbeddedStoreForm {
 
 =begin TML
 
----++ ObjectMethod setEmbeddedStoreForm( $text )
+---++ *Deprecated* ObjectMethod setEmbeddedStoreForm( $text )
 
 Populate this object with embedded meta-data from $text. This method
 is a utility provided for use with stores that store data embedded in

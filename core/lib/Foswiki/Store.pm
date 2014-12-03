@@ -480,7 +480,7 @@ sub getRevisionDiff {
 
 ---++ ObjectMethod getVersionInfo($topicObject, $rev, $attachment) -> \%info
 
-Get revision info of a topic or attachment.
+Get revision info for a topic or attachment.
    * =$topicObject= Topic object, required
    * =$rev= revision number. If 0, undef, or out-of-range, will get info
      about the most recent revision.
@@ -489,7 +489,10 @@ Return %info with at least:
 | date | in epochSec |
 | user | user *object* |
 | version | the revision number |
-| comment | comment in the VC system, may or may not be the same as the comment in embedded meta-data |
+| comment | comment in the store system, may or may not be the same as the comment in embedded meta-data |
+
+If =$attachment= and =$rev= are both given, then =$rev= applies to the
+attachment, not the topic.
 
 =cut
 

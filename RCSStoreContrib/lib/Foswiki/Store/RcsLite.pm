@@ -6,12 +6,12 @@
 
 Implementation of =Foswiki::Store= for stores that use the RCS version
 control system to manage disk files. This class inherits most of its
-functionality from =Foswiki::Store::VC::Store=, which it shares with
+functionality from =Foswiki::Store::Rcs::Store=, which it shares with
 =Foswiki::Store::RcsWrap=.
 
 For readers who are familiar with Foswiki version 1.0, this class
 has no equivalent in Foswiki 1.0. The equivalent of the old
-=Foswiki::Store::RcsLite= is the new =Foswiki::Store::VC::RcsLiteHandler=.
+=Foswiki::Store::RcsLite= is the new =Foswiki::Store::Rcs::RcsLiteHandler=.
 
 =cut
 
@@ -20,14 +20,14 @@ package Foswiki::Store::RcsLite;
 use strict;
 use warnings;
 
-use Foswiki::Store::VC::Store ();
-our @ISA = ('Foswiki::Store::VC::Store');
+use Foswiki::Store::Rcs::Store ();
+our @ISA = ('Foswiki::Store::Rcs::Store');
 
-use Foswiki::Store::VC::RcsLiteHandler ();
+use Foswiki::Store::Rcs::RcsLiteHandler ();
 
 sub getHandler {
     my $this = shift;
-    return new Foswiki::Store::VC::RcsLiteHandler( $this, @_ );
+    return new Foswiki::Store::Rcs::RcsLiteHandler( $this, @_ );
 }
 
 1;

@@ -1683,7 +1683,7 @@ sub getRevisionInfo {
     if ($attachment) {
         $topicObject =
           Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
-        $info = $topicObject->getAttachmentRevisionInfo( $attachment, $rev );
+        $info = $topicObject->getRevisionInfo( $attachment, $rev );
     }
     else {
         $topicObject =
