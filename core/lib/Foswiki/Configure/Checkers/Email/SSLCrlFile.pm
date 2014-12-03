@@ -15,43 +15,44 @@ sub check_current_value {
 
     my $value = $this->{item}->getExpandedValue();
 
-    unless ( $value || $Foswiki::cfg{Email}{SSLCaPath} ) {
-
-        # See if we can use LWP or Crypt::SSLEay's defaults
-
-        my ( $file, $path ) = @ENV{ undef, qw/PERL_LWP_SSL_CA_PATH/ };
-        my $guessed = 0;
-        if ( $file || $path ) {
-            $reporter->NOTE("Guessed from LWP settings");
-            $guessed = 1;
-        }
-        else {
-            $path = $ENV{HTTPS_CA_DIR};
-            if ( $file || $path ) {
-                $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
-                $guessed = 1;
-            }
-            elsif (
-                Foswiki::Configure::Load::expand(
-                    $Foswiki::cfg{Email}{SSLCaFile}
-                )
-              )
-            {
-                $reporter->NOTE(
-                    "Guessed {Email}{SSLCaFile} may also contain CRLs");
-                $file    = '$Foswiki::cfg{Email}{SSLCaFile}';
-                $guessed = 1;
-            }
-        }
-        if ($guessed) {
-            $reporter->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
-            $file = '' unless ( defined $file );
-            $path = '' unless ( defined $path );
-            $this->setItemValue($file);
-            $this->setItemValue( $path, '{Email}{SSLCaPath}' )
-              if ($path);
-        }
-    }
+    # TODO: move this to a wizard?
+    #    unless ( $value || $Foswiki::cfg{Email}{SSLCaPath} ) {
+    #
+    #        # See if we can use LWP or Crypt::SSLEay's defaults
+    #
+    #        my ( $file, $path ) = @ENV{ undef, qw/PERL_LWP_SSL_CA_PATH/ };
+    #        my $guessed = 0;
+    #        if ( $file || $path ) {
+    #            $reporter->NOTE("Guessed from LWP settings");
+    #            $guessed = 1;
+    #        }
+    #        else {
+    #            $path = $ENV{HTTPS_CA_DIR};
+    #            if ( $file || $path ) {
+    #                $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
+    #                $guessed = 1;
+    #            }
+    #            elsif (
+    #                Foswiki::Configure::Load::expand(
+    #                    $Foswiki::cfg{Email}{SSLCaFile}
+    #                )
+    #              )
+    #            {
+    #                $reporter->NOTE(
+    #                    "Guessed {Email}{SSLCaFile} may also contain CRLs");
+    #                $file    = '$Foswiki::cfg{Email}{SSLCaFile}';
+    #                $guessed = 1;
+    #            }
+    #        }
+    #        if ($guessed) {
+    #            $reporter->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
+    #            $file = '' unless ( defined $file );
+    #            $path = '' unless ( defined $path );
+    #            $Foswiki::cfg{Email}{SSLCrlFile} = $file;
+    #            $Foswiki::cfg{Email}{SSLCaPath} = $path
+    #              if ($path);
+    #        }
+    #    }
 
     my $file = $value;
 
