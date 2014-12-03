@@ -268,7 +268,7 @@ sub save {
     }
     else {
         unlink $backup if ($backup);
-        $reporter->NOTE("No change made to $lsc");
+        $reporter->NOTE("No changes needed to be made to $lsc");
     }
     return undef;    # return the report
 }

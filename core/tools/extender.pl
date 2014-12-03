@@ -71,8 +71,10 @@ my $MANIFEST;
     }
 
     sub CHANGED {
-        my $this = shift;
-        print "CHANGED: $_[0] = $_[1]";
+        my ( $this, $k ) = @_;
+        $this->SUPER::CHANGED($k);
+
+        #print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
     }
 
     sub WIZARD {
@@ -176,6 +178,7 @@ Foswiki->new($user);
 require Foswiki::Configure::Dependency;
 require Foswiki::Configure::Package;
 require Foswiki::Configure::Reporter;
+require Foswiki::Configure::Query;
 
 =pod
 
@@ -407,12 +410,18 @@ sub _install {
     my ( $ok, $plugins, $depCPAN ) = $thispkg->install($reporter);
 
     if ( $ok && !$simulate ) {
-        $reporter->NOTE(
-"> Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in configure."
-        );
-        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
-            $reporter->NOTE("   * $plu");
-        }
+
+        # Save default values set by the package installer to LocalSite.cfg
+        my $params = {
+            wizard => 'Save',
+            method => 'save',
+            set    => {
+                map { $_ => eval( $reporter->{changes}->{$_} ) }
+                  keys %{ $reporter->{changes} }
+            }
+        };
+        $reporter->{changes} = {};
+        my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
     }
 
     $reporter->WARN(

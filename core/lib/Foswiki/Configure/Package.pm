@@ -279,9 +279,10 @@ sub option {
     }
 
     sub CHANGED {
-        my $this = shift;
-        $this->{_reporter}->CHANGED(@_);
-        $this->_log( "> _Changed:_ $_[0] = " . eval("\$Foswiki::cfg$_[0]") );
+        my ( $this, $keys ) = @_;
+        $this->{_reporter}->CHANGED($keys);
+        my $val = $this->{_reporter}->{changes}->{$keys};
+        $this->_log("> _Changed:_ $keys = $val");
     }
 
     sub WIZARD {
@@ -414,7 +415,7 @@ sub install {
    * Dependencies noted as 'Optional' will not be automatically resolved, and
    * CPAN dependencies are not resolved by the web installer.
 
-> After you save your configuration: (opens in new window)
+> After your configuration has been saved:
    * Visit <a href="$extUrl" target="_blank">$this->{_pkgname} extension page</a>
    * Check <a href="$instUrl" target="_blank">InstalledPlugins</a> to check for errors.
 WRAPUP
@@ -485,7 +486,7 @@ HERE
         return 1
           unless $node->{keys}
           && exists $node->{default};
-        my $val = $node->decodeValue( $node->{default} );
+        my $val = $node->decodeValue( eval $node->{default} );
         if ( $this->{simulated} ) {
             $this->{reporter}->NOTE( "\t* $node->{keys} = "
                   . Foswiki::Configure::Reporter::uneval($val) );
