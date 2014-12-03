@@ -384,18 +384,7 @@ sub _generateLSC {
 
     my $vs = $spec->getValueObject($keys);
     if ($vs) {
-        my $d;
-        if ( $vs->{typename} eq 'REGEX' ) {
-
-            # Force qr/^regex$/ to '^regex$'
-            $datum = "$datum";
-        }
-        if ( $vs->{typename} eq 'BOOLEAN' ) {
-            $d = ( $datum ? 1 : 0 );
-        }
-        else {
-            $d = Foswiki::Configure::Reporter::uneval($datum);
-        }
+        my $d = $vs->encodeValue($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
     elsif ( ref($datum) eq 'HASH' ) {

@@ -43,7 +43,7 @@ sub _getSetParams {
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;
                 if ($spec) {
-                    eval { $value = $spec->decodeValue( $value, 1 ); };
+                    eval { $value = $spec->decodeValue($value); };
                     if ($@) {
                         $reporter->ERROR(
                             "The value of $k was unreadable: <verbatim>"

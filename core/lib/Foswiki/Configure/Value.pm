@@ -62,6 +62,7 @@ use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
 
 use Foswiki::Configure::FileUtil ();
+use Foswiki::Configure::Reporter ();
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
@@ -317,18 +318,10 @@ sub encodeValue {
 
     return undef unless defined $value;
 
-    if ( $this->{typename} eq 'REGEX' ) {
-        return "$value";
+    if ( $this->{typename} eq 'BOOLEAN' ) {
+        $value = $value ? 1 : 0;
     }
-    elsif ( $this->{typename} eq 'PERL' ) {
-        my $var1 = Data::Dumper->Dump( [$value] );
-        $var1 =~ s/^.*=\s*//;
-        return $var1;
-    }
-    else {
-        # Otherwise it's a type the UI can handle
-        return $value;
-    }
+    return Foswiki::Configure::Reporter::uneval($value);
 }
 
 =begin TML
