@@ -73,7 +73,7 @@ sub check_current_value {
     }
 
     if ( $path =~ /\\/ ) {
-        reporter->WARN('You should use c:/path style slashes, not c:\path');
+        $reporter->WARN('You should use c:/path style slashes, not c:\path');
     }
 }
 

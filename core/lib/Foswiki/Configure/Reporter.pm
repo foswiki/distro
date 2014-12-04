@@ -282,6 +282,14 @@ $Data::Dumper::Indent. See perldoc Data::Dumper for more information.
 
 =cut
 
+# THIS IS NOT THE SAME AS Foswiki::Configure::Value::encodeValue.
+# This function is returning a *perl expression* which, when evaled,
+# will yield the correct value, and doesn't need any type information.
+#
+# encodeValue generates a string that can be passed back to
+# a UI and then recycled back as a new value. As such the resultant
+# value requires type information to be correctly interpreted.
+#
 sub uneval {
     my ( $datum, $indent ) = @_;
     if ( ref($datum) eq 'Regexp' ) {
@@ -291,6 +299,8 @@ sub uneval {
 
         # Strip off useless furniture (?^: ... )
         $datum =~ s/^\(\?\^:(.*)\)$/$1/;
+        $datum =~ s{/}{\\/}g;
+        return "qr/$datum/";
     }
     local $Data::Dumper::Sortkeys = 1;
     local $Data::Dumper::Terse    = 1;

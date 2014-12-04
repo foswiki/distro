@@ -12,6 +12,12 @@ sub check_current_value {
 
     my $value = $this->{item}->getRawValue();
 
+    eval $value;
+    if ($@) {
+        $reporter->ERROR( 'Not a valid PERL value: '
+              . Foswiki::Configure::Reporter::stripStacktrace($@) );
+        return;
+    }
     if ( !defined $value ) {
         my $check = $this->{item}->{CHECK}->[0];
         unless ( $check && $check->{nullok}[0] ) {

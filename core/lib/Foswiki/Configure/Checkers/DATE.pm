@@ -44,7 +44,7 @@ sub check_current_value {
             if ($normalize) {    # undef uses configured display format
                 my $normval = Foswiki::Time::formatTime( $binval,
                     '$year-$mo-$dayT$hour:$min:$sec$isotz', undef );
-                $reporter->NOTE("$value != $normval")
+                $reporter->NOTE("$value is not in ISO8601 format $normval")
                   if ( $normval ne $value );
             }
         }

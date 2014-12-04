@@ -313,14 +313,35 @@ to other tools, such as UIs, in a type-sensitive way.
 
 =cut
 
+# THIS IS NOT THE SAME AS Foswiki::Configure::Reporter::uneval.
+# This function is returning a string that can be passed back to
+# a UI and then recycled back as a new value. As such the resultant
+# value requires type information to be correctly interpreted.
+#
+# uneval is producing a *perl expression* which, when evaled,
+# will yield the correct value, and doesn't need any type information.
+
 sub encodeValue {
     my ( $this, $value ) = @_;
 
     return undef unless defined $value;
 
-    if ( ref($value) || $this->{typename} eq 'BOOLEAN' ) {
+    if ( ref($value) eq 'Regexp' ) {
+
+        # Convert to string
+        $value = "$value";
+
+        # Strip off useless furniture (?^: ... )
+        $value =~ s/^\(\?\^:(.*)\)$/$1/;
+        return $value;
+    }
+    elsif ( ref($value) ) {
         return Foswiki::Configure::Reporter::uneval($value);
     }
+    elsif ( $this->{typename} eq 'BOOLEAN' ) {
+        return $value ? 1 : 0;
+    }
+
     return $value;
 }
 

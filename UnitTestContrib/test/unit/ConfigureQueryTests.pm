@@ -31,7 +31,8 @@ sub test_getcfg {
     my $params = {
         "keys" => [
             "{UnitTestContrib}{Configure}{STRING}",
-            "{UnitTestContrib}{Configure}{COMMAND}"
+            "{UnitTestContrib}{Configure}{COMMAND}",
+            "{UnitTestContrib}{Configure}{REGEX}"
         ]
     };
     my $reporter = Foswiki::Configure::Reporter->new();
@@ -42,7 +43,8 @@ sub test_getcfg {
             UnitTestContrib => {
                 Configure => {
                     STRING  => 'STRING',
-                    COMMAND => 'COMMAND'
+                    COMMAND => 'COMMAND',
+                    REGEX   => '^regex$'
                 }
             }
         },
@@ -154,7 +156,7 @@ sub test_getspec_parent {
     $this->assert( $i < $N );
 }
 
-sub test_getspec {
+sub test_getspec_STRING {
     my $this = shift;
     my %params = ( get => { keys => '{UnitTestContrib}{Configure}{STRING}' } );
     my $reporter = Foswiki::Configure::Reporter->new();
@@ -166,7 +168,7 @@ sub test_getspec {
     $this->assert_str_equals( 'STRING', $spec->{default} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{STRING}',
         $spec->{keys} );
-    $this->assert_matches( qr/^When you press.*of report.$/s, $spec->{desc} );
+    $this->assert_matches( qr/^When you press.*of report.*$/s, $spec->{desc} );
     $this->assert_num_equals( 4, $spec->{depth} );
     $this->assert_num_equals( 2, scalar @{ $spec->{defined_at} } );
     $this->assert_num_equals( 2, scalar @{ $spec->{FEEDBACK} } );
@@ -194,6 +196,25 @@ sub test_getspec {
     $this->assert_str_equals( $params{get}->{keys}, $spec->{keys} );
     $this->assert_str_equals( 'PATH',               $spec->{typename} );
     $this->assert_str_equals( 'empty',              $spec->{default} );
+}
+
+sub test_getspec_REGEX {
+    my $this = shift;
+    my %params = ( get => { keys => '{UnitTestContrib}{Configure}{REGEX}' } );
+    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX} = 'punk junk';
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my $spec = Foswiki::Configure::Query::getspec( \%params, $reporter );
+
+    #print STDERR Data::Dumper->Dump( [$spec] );
+    $this->assert( !$reporter->has_level('errors') );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $spec = $spec->[0];
+    $this->assert_str_equals( 'REGEX',                $spec->{typename} );
+    $this->assert_str_equals( '^regex$',              $spec->{default} );
+    $this->assert_str_equals( '^regex$',              $spec->{current_value} );
+    $this->assert_str_equals( 'Default: \'^regex$\'', $spec->{desc} );
+    $this->assert_str_equals( '{UnitTestContrib}{Configure}{REGEX}',
+        $spec->{keys} );
 }
 
 sub test_getspec_no_LSC {
@@ -230,42 +251,525 @@ sub test_getspec_badkey {
     };
 }
 
-use Foswiki::Configure::Checker;
-{
+#use Foswiki::Configure::Checker;
+#{
+#
+#    package Foswiki::Configure::Checkers::UnitTestContrib::Configure::STRING;
+#    our @ISA = ('Foswiki::Configure::Checker');
+#
+#    sub check {
+#        my ( $this, $val ) = @_;
+#        return
+#            $this->ERROR('Error')
+#          . $this->WARN('Warning')
+#          . $this->NOTE('Note');
+#    }
+#}
 
-    package Foswiki::Configure::Checkers::UnitTestContrib::Configure::STRING;
-    our @ISA = ('Foswiki::Configure::Checker');
+sub test_generic_check_EMAILADDRESS {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = {
+        keys => ['{UnitTestContrib}{Configure}{EMAILADDRESS}'],
+        set  => { '{UnitTestContrib}{Configure}{EMAILADDRESS}' => 'punk junk' }
+    };
+    my ( $report, $r );
 
-    sub check {
-        my ( $this, $val ) = @_;
-        return
-            $this->ERROR('Error')
-          . $this->WARN('Warning')
-          . $this->NOTE('Note');
-    }
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                   $r->{level} );
+    $this->assert_str_equals( 'Expands to: =punk junk=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'warnings', $r->{level} );
+    $this->assert_matches( qr/does not appear to be/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{EMAILADDRESS}'} =
+      'punk@junk.tv';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                      $r->{level} );
+    $this->assert_str_equals( 'Expands to: =punk@junk.tv=', $r->{text} );
 }
 
-sub test_check {
-    my $this = shift;
-
-    # force an error - STRING length
-    my $params = {
-        keys => ["{UnitTestContrib}{Configure}{STRING}"],
-        set  => { "{UnitTestContrib}{Configure}{STRING}" => 'no' }
-    };
+sub test_generic_check_DATE {
+    my $this     = shift;
     my $reporter = Foswiki::Configure::Reporter->new();
-    my $report =
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{DATE}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{DATE}'} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                   $r->{level} );
+    $this->assert_str_equals( 'Expands to: =punk junk=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Unrecognized format/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{DATE}'} = '10 May 1245';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                     $r->{level} );
+    $this->assert_str_equals( 'Expands to: =10 May 1245=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'notes', $r->{level} );
+    $this->assert_matches( qr/ISO8601/, $r->{text} );
+}
+
+sub test_generic_check_NUMBER {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{NUMBER}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{NUMBER}'} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Number format/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{NUMBER}'} = 666;
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
+}
+
+sub test_generic_check_OCTAL {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{OCTAL}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '123456789';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Number format/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '35';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '777';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/must be no greater than 70/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '0';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/must be at least 30/, $r->{text} );
+}
+
+sub test_generic_check_PATH {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{PATH}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{PATH}'} = 'punk\\junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                    $r->{level} );
+    $this->assert_str_equals( 'Expands to: =punk\\junk=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'warnings', $r->{level} );
+    $this->assert_matches( qr/You should use/, $r->{text} );
+}
+
+sub test_generic_check_PERL {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{PERL}'] };
+    my ( $report, $r );
+
+    # Can't use a set because of syntax errors
+    $Foswiki::cfg{UnitTestContrib}{Configure}{PERL} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    # print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Not a valid PERL value/, $r->{text} );
+}
+
+sub test_generic_check_REGEX {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = {
+        keys => ['{UnitTestContrib}{Configure}{REGEX}'],
+        set  => { '{UnitTestContrib}{Configure}{REGEX}' => 'skank/fank' }
+    };
+    my ( $report, $r );
+
+    # make sure Foswiki::cfg is overridden by the set
+    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                    $r->{level} );
+    $this->assert_str_equals( 'Expands to: =skank/fank=', $r->{text} );
+
+    # Can't use set because it will barf on the syntax
+    $params->{set} = undef;
+    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX} = 'oh/n[o';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$reporter]) unless $report;
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                $r->{level} );
+    $this->assert_str_equals( 'Expands to: =oh/n[o=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Invalid regular expression/, $r->{text} );
+}
+
+sub test_generic_check_STRING {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{STRING}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{STRING}'} = 'some garbage';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{STRING}'} = 'x';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/Length must be at least/, $r->{text} );
+
+    # H does not have nullEXPERT has nullok
+    $params = {
+        keys => [
+            '{UnitTestContrib}{Configure}{H}',
+            '{UnitTestContrib}{Configure}{EXPERT}'
+        ]
+    };
+    $params->{set}->{'{UnitTestContrib}{Configure}{H}'}      = '';
+    $params->{set}->{'{UnitTestContrib}{Configure}{EXPERT}'} = '';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 2, scalar @$report );
+    $this->assert_str_equals( $params->{keys}->[0], $report->[0]->{keys} );
+    $this->assert_num_equals( 1, scalar( @{ $report->[0]->{reports} } ) );
+    $r = $report->[0]->{reports}->[0];
+    $this->assert_str_equals( 'errors',            $r->{level} );
+    $this->assert_str_equals( 'Must be non-empty', $r->{text} );
+
+    $report = $report->[1];
+    $this->assert_str_equals( $params->{keys}->[1], $report->{keys} );
+    $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
+}
+
+sub test_generic_check_URL {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{URL}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{URL}'} = 'not a url';
+    $report =
       Foswiki::Configure::Query::check_current_value( $params, $reporter );
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
-    $this->assert_str_equals( '{UnitTestContrib}{Configure}{STRING}',
-        $report->{keys} );
-    $this->assert_str_equals( 'Extensions',      $report->{path}->[0] );
-    $this->assert_str_equals( 'UnitTestContrib', $report->{path}->[1] );
-    $this->assert_str_equals( 'Configure',       $report->{path}->[2] );
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 3, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                   $r->{level} );
+    $this->assert_str_equals( 'Expands to: =not a url=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/^Scheme/, $r->{text} );
+    $r = $report->{reports}->[2];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/^Authority/, $r->{text} );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{URL}'} = 'http://localhost';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
     $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
-    $this->assert_str_equals( 'errors', $report->{reports}->[0]->{level} );
-    $this->assert_matches( qr/3/, $report->{reports}->[0]->{text} );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                          $r->{level} );
+    $this->assert_str_equals( 'Expands to: =http://localhost=', $r->{text} );
+}
+
+sub test_generic_check_URLPATH {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = { keys => ['{UnitTestContrib}{Configure}{URLPATH}'] };
+    my ( $report, $r );
+
+    $params->{set}->{'{UnitTestContrib}{Configure}{URLPATH}'} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    #print STDERR Data::Dumper->Dump([$report]);
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+    # keys
+    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
+
+    # path
+    $this->assert_deep_equals( \@ui_path, $report->{path} );
+
+    # reports
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
+    $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                   $r->{level} );
+    $this->assert_str_equals( 'Expands to: =punk junk=', $r->{text} );
+    $r = $report->{reports}->[1];
+    $this->assert_str_equals( 'errors', $r->{level} );
+    $this->assert_matches( qr/is not valid/, $r->{text} );
 }
 
 sub test_check_dependencies {

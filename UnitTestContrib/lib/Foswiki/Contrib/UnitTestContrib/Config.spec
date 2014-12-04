@@ -32,55 +32,59 @@ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{BaseTimeout} = 5000;
 #          CHECK="min:3 max:20"**
 # When you press either of the test buttons, expect the value to change
 # to "ROPE" and there to be one each of the different levels of report.
+# Default: STRING
 $Foswiki::cfg{UnitTestContrib}{Configure}{STRING} = 'STRING';
 # **BOOLEAN**
-# Should be 1
+# Default: 1
 $Foswiki::cfg{UnitTestContrib}{Configure}{BOOLEAN} = 1;
 # **COMMAND**
-# Should be COMMAND
+# Default: COMMAND
 $Foswiki::cfg{UnitTestContrib}{Configure}{COMMAND} = 'COMMAND';
-# **DATE CHECK="nullok"**
-# Should be 12 Feb 2012
+# **DATE**
+# Default: 12 Feb 2012
 $Foswiki::cfg{UnitTestContrib}{Configure}{DATE} = '12 Feb 2012';
 # **EMAILADDRESS**
-# Should be address@email.co
+# Default: address@email.co
 $Foswiki::cfg{UnitTestContrib}{Configure}{EMAILADDRESS} = 'address@email.co';
 # **NUMBER**
-# Should be 666
+# Default: 666
 $Foswiki::cfg{UnitTestContrib}{Configure}{NUMBER} = 666;
-# **OCTAL**
-# Should see 755
+# **OCTAL CHECK="min:30 max:70"**
+# Default: 429
 $Foswiki::cfg{UnitTestContrib}{Configure}{OCTAL} = 429;
 # **PASSWORD**
-# Shouldn't reflect
+# Default: PASSWORD
 $Foswiki::cfg{UnitTestContrib}{Configure}{PASSWORD} = 'PASSWORD';
 # **PATH**
-# Should be PATH
+# Default: PATH
 $Foswiki::cfg{UnitTestContrib}{Configure}{PATH} = 'PATH';
 # **PERL FEEDBACK="label='Format';wizard='Test';method='format'" **
+# Default: 'PERL'
 # The test button should come back with a prettified version of your value.
 #$Foswiki::cfg{UnitTestContrib}{Configure}{PERL} = '\'PERL\';';
 # **REGEX**
-# Should be '^regex$'
+# Default: '^regex$'
 $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX} = '^regex$';
 # **SELECTCLASS none,Foswiki::Configure::P* **
-# Should be Package; should offer Pluggables,Package
+# Default: Foswiki::Configure::Package
 $Foswiki::cfg{UnitTestContrib}{Configure}{SELECTCLASS} = 'Foswiki::Configure::Package';
 # **SELECT choose,life**
-# Should be life
+# Default: life
 $Foswiki::cfg{UnitTestContrib}{Configure}{SELECT} = 'life';
 # **URLPATH**
-# Should be /
+# Default: /
 $Foswiki::cfg{UnitTestContrib}{Configure}{URLPATH} = '/';
 # **URL**
+# Default: http://localhost
 $Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://localhost';
 # **STRING H**
+# Default: H
 $Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'H';
-# **STRING EXPERT**
-# Should be EXPERT
+# **STRING EXPERT CHECK="nullok"**
+# Default: EXPERT
 $Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'EXPERT';
 # **PATH CHECK='nullok'**
-# Should be 'empty'
+# Default: empty
 # $Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'empty';
 # **STRING**
 # Should contain other items

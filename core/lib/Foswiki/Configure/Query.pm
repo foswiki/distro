@@ -314,17 +314,20 @@ sub check_current_value {
         push( @$keys, '' );
     }
     my %check;
+    my @checko;
     foreach my $k (@$keys) {
 
         # $k='' is the root section
         my $v = $root->getValueObject($k);
         if ($v) {
+            push( @checko, $k ) unless $check{$k};
             $check{$k} = 1;
         }
         else {
             $v = $root->getSectionObject($k);
             if ($v) {
                 foreach my $kk ( $v->getAllValueKeys() ) {
+                    push( @checko, $k ) unless $check{$kk};
                     $check{$kk} = 1;
                 }
             }
@@ -335,7 +338,12 @@ sub check_current_value {
                     {
                         keys    => $k,
                         path    => [],
-                        reports => "$k is not part of this .spec"
+                        reports => [
+                            {
+                                text  => "$k is not part of this .spec",
+                                level => 'errors'
+                            }
+                        ]
                     }
                 );
             }
@@ -364,7 +372,7 @@ sub check_current_value {
         my $changed;
         do {
             $changed = 0;
-            foreach my $k ( keys %check ) {
+            foreach my $k (@checko) {
                 next unless $k;
                 my $spec = $root->getValueObject($k);
                 next unless $spec;
@@ -372,6 +380,7 @@ sub check_current_value {
                     next unless $ch->{also};
                     foreach my $dep ( @{ $ch->{also} } ) {
                         next if $check{$dep};
+                        push( @checko, $dep );
                         $check{$dep} = 1;
                         $changed = 1;
                     }
@@ -392,7 +401,7 @@ sub check_current_value {
 
         # Extend the list of requested keys with the keys that depend
         # on their values.
-        my @dep_keys = keys %check;
+        my @dep_keys = @checko;
         my %done;
         while ( my $dep = shift @dep_keys ) {
             next if $done{$dep};
@@ -404,12 +413,15 @@ sub check_current_value {
             while ( $cd && !$root->getValueObject($cd) ) {
                 $cd =~ s/(.*){.*?}$/$1/;
             }
-            $check{$cd} = 1 if $cd;
+            if ($cd) {
+                push( @checko, $cd ) unless $check{$cd};
+                $check{$cd} = 1 if $cd;
+            }
             push( @dep_keys, @{ $deps->{forward}->{$dep} } )
               if $deps->{forward}->{$dep};
         }
     }
-    foreach my $k ( keys %check ) {
+    foreach my $k (@checko) {
         next unless $k;
         my $spec = $root->getValueObject($k);
         ASSERT( $spec, $k ) if DEBUG;

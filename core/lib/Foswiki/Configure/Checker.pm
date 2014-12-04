@@ -364,8 +364,14 @@ sub showExpandedValue {
     my $field = $this->{item}->getExpandedValue();
     if ( defined $field ) {
         if ( ref($field) ) {
-            $field = Foswiki::Configure::Reporter::uneval( $field, 2 );
-            $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
+            $field = $this->{item}->encodeValue($field);
+            if ( $field =~ /\n/ ) {
+                $reporter->NOTE( 'Expands to: <verbatim>',
+                    $field, '</verbatim>' );
+            }
+            else {
+                $reporter->NOTE("Expands to: =$field=");
+            }
         }
         elsif ( $field ne '' ) {
             if ( $field =~ /\n/ ) {
