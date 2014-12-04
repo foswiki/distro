@@ -49,7 +49,8 @@ sub tear_down {
     $Foswiki::cfg{WorkingDir} = $this->{test_work_dir};
 
     $this->SUPER::tear_down();
-    print STDERR "Tearing down $this->{lscpath}\n";
+
+    #print STDERR "Tearing down $this->{lscpath}\n";
     if ( $this->{safe_lsc} ) {
         open( F, '>', $this->{lscpath} );
         print F $this->{safe_lsc};
@@ -60,6 +61,7 @@ sub tear_down {
     }
 }
 
+# TODO: this needs to test that backups are correctly made
 sub test_changecfg {
     my $this   = shift;
     my $params = {
@@ -71,11 +73,14 @@ sub test_changecfg {
             '{"Test-Key"}'  => 'newtestkey',
 
             # Specced items
-            '{Sessions}{ExpireAfter}' => '99',
+            '{UnitTestContrib}{Configure}{NUMBER}' => '99',
 
             # Some PERL items, array and hash
-            '{AccessibleCFG}' => '[]',
-            '{Log}{Action}'   => '{ pootle=>1 }',
+            '{UnitTestContrib}{Configure}{PERL_ARRAY}' => '[ 3, 4 ]',
+            '{UnitTestContrib}{Configure}{PERL_HASH}'  => '{ pootle=>1 }',
+
+            # REGEX item
+            '{UnitTestContrib}{Configure}{REGEX}' => '(black|white)+',
 
             # Undeffable
             '{TempfileDir}' => '',
@@ -86,14 +91,56 @@ sub test_changecfg {
     $wizard->save($reporter);
 
     # Check report
+    my $expected = [
+        {
+            text  => "| {OS} | undef | \'$Foswiki::cfg{OS}\' |",
+            level => 'notes'
+        },
+        {
+            level => 'notes',
+            text  => '| {\'Test-Key\'} | undef | \'newtestkey\' |'
+        },
+        {
+            'level' => 'notes',
+            'text'  => '| {TestA} | undef | \'Shingle\' |'
+        },
+        {
+            'level' => 'notes',
+            'text'  => '| {TestB}{Ruin} | undef | \'Ribbed\' |'
+        },
+        {
+            level => 'notes',
+            text => '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |',
+        },
+        {
+            level => 'notes',
+            text =>
+              '| {UnitTestContrib}{Configure}{PERL_ARRAY} | ([1,2]) | [3,4] |',
+        },
+        {
+            level => 'notes',
+            text =>
+'| {UnitTestContrib}{Configure}{PERL_HASH} | ({\'a\' => 1,\'b\' => 2}) | {\'pootle\' => 1} |',
+        },
+        {
+            level => 'notes',
+            text =>
+q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | qr/(black&#124;white)+/ |>,
+        }
+    ];
     my $ms = $reporter->messages();
-    $this->assert_matches( qr/^Previous/, $ms->[0]->{text} );
-    $this->assert_matches( qr/^New/,      $ms->[1]->{text} );
-    $this->assert_matches(
-        qr/AccessibleCFG.*\[.+ \[\]/,
-        $ms->[3]->{text},
-        Data::Dumper->Dump( [$ms] )
-    );
+    my $r  = shift(@$ms);
+    $this->assert_matches( qr/^Previous/, $r->{text} );
+    $this->assert_str_equals( 'notes', $r->{level} );
+    $r = shift(@$ms);
+    $this->assert_matches( qr/^New/, $r->{text} );
+    $this->assert_str_equals( 'notes', $r->{level} );
+    $r = shift(@$ms);
+    $this->assert_matches( qr/^\| \*Key/, $r->{text} );
+    $this->assert_str_equals( 'notes', $r->{level} );
+
+    #print STDERR Data::Dumper->Dump([$ms]);
+    $this->assert_deep_equals( $ms, $expected );
 
     # Check it was written correctly
     open( F, '<',
@@ -110,11 +157,12 @@ sub test_changecfg {
     eval $c;
     %Foswiki::cfg = ();    #{ConfigurationFinished} = 0;
     Foswiki::Configure::Load::readConfig( 1, 1 );
+
+    #print STDERR Data::Dumper->Dump([\%Foswiki::cfg]);
     delete $Foswiki::cfg{ConfigurationFinished};
 
-    $this->assert_num_equals( 0, scalar @{ $blah{AccessibleCFG} } );
     $this->assert_null( $blah{TempfileDir} );
-    $this->assert_num_equals( 99, $blah{Sessions}{ExpireAfter} );
+    $this->assert_num_equals( 99, $blah{UnitTestContrib}{Configure}{NUMBER} );
     $this->assert_str_equals( 'newtestkey', $blah{'Test-Key'} );
     $this->assert_str_equals( 'Shingle',    $blah{'TestA'} );
     $this->assert_str_equals( 'Ribbed',     $blah{'TestB'}{'Ruin'} );

@@ -280,25 +280,38 @@ sub _compareConfigs {
 
     my $session = $Foswiki::Plugins::SESSION;
 
-    return 1 unless ( defined $o || defined $n );
-
     my $old = Foswiki::Configure::Reporter::uneval($o);
     my $new = Foswiki::Configure::Reporter::uneval($n);
 
-    # Intermediates on the road to a value will return undef here.
     my $vs = $spec->getValueObject($keypath);
-    if ( $vs && $vs->{typename} eq 'PASSWORD' ) {
-        $old = '_[redacted]_';
-        $new = '_[redacted]_';
+
+    if ($vs) {
+
+        #print STDERR "REPORT ON $vs->{keys} $old $new\n";
+        if ( $vs->{typename} eq 'PASSWORD' ) {
+            $old = '_[redacted]_';
+            $new = '_[redacted]_';
+        }
+        if ( $old ne $new ) {
+            $old = "($vs->{default})" if $old eq 'undef' && $vs->{default};
+            _logAndReport( $reporter, $session, $keypath, $old, $new );
+            return 0;
+        }
+        return 1;
     }
 
-    if ( ref($o) ne ref($n) ) {
+    #print STDERR "$keypath is not in spec\n";
+    if ( $o && $n && ref($o) ne ref($n) ) {
+
+        # Both set, but different types. Stop the recursion here.
         _logAndReport( $reporter, $session, $keypath, $old, $new );
         return 0;
     }
 
-    # We know they are the same type
-    if ( ref($o) eq 'HASH' ) {
+    # We know they are the same type (or one is undef)
+    if ( ref($o) eq 'HASH' || ref($n) eq 'HASH' ) {
+        $o = {} unless defined $o;
+        $n = {} unless defined $n;
         my %keys = map { $_ => 1 } ( keys %$o, keys %$n );
         my $ok = 1;
         foreach my $k ( sort keys %keys ) {
@@ -319,27 +332,28 @@ sub _compareConfigs {
         return $ok;
     }
 
-    if ( ref($o) eq 'ARRAY' ) {
+    if ( ref($o) eq 'ARRAY' || ref($n) eq 'ARRAY' ) {
+        $o = [] unless defined $o;
+        $n = [] unless defined $n;
         if ( scalar(@$o) != scalar(@$n) ) {
             _logAndReport( $reporter, $session, $keypath, $old, $new );
             return 0;
         }
-        else {
-            for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
-                unless (
-                    _compareConfigs(
-                        $spec,     $o->[$i], $n->[$i],
-                        $reporter, "$keypath\[$i\]"
-                    )
-                  )
-                {
-                    _logAndReport( $reporter, $session, $keypath, $old, $new );
-                    return 0;
-                }
+        for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
+            unless (
+                _compareConfigs(
+                    $spec, $o->[$i], $n->[$i], $reporter, "$keypath\[$i\]"
+                )
+              )
+            {
+                _logAndReport( $reporter, $session, $keypath, $old, $new );
+                return 0;
             }
         }
+        return 1;
     }
-    elsif (( !defined $o && defined $n )
+
+    if (   ( !defined $o && defined $n )
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
@@ -384,8 +398,7 @@ sub _generateLSC {
 
     my $vs = $spec->getValueObject($keys);
     if ($vs) {
-        my $d = $vs->encodeValue($datum);
-        $d = "''" unless defined $d;
+        my $d = Foswiki::Configure::Reporter::uneval($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
     elsif ( ref($datum) eq 'HASH' ) {

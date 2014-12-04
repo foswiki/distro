@@ -96,4 +96,10 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_PERL} = {
     'hash' => { 'hash' => 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx' },
     'array' => [ '$Foswiki::cfg{UnitTestContrib}{Configure}{H}' ]
 };
+# **PERL**
+# Default: { a => 1, b => 2 }
+$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_HASH} = { a => 1, b => 2 };
+# **PERL**
+# Default: [ 1, 2 ]
+$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_ARRAY} = [ 1, 2 ];
 1;
