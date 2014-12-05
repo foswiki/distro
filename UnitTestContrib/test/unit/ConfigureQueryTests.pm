@@ -564,6 +564,28 @@ sub test_generic_check_PERL {
     $this->assert_matches( qr/Not a valid PERL value/, $r->{text} );
 }
 
+sub test_generic_check_REGEX_Item13077 {
+    my $this     = shift;
+    my $reporter = Foswiki::Configure::Reporter->new();
+    my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
+    my $params   = {
+        keys => ['{UnitTestContrib}{Configure}{REGEX}'],
+        set =>
+          { '{UnitTestContrib}{Configure}{REGEX}' => '^mismatched( paren$' }
+    };
+    my ( $report, $r );
+
+    # make sure Foswiki::cfg is overridden by the set
+    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX} = 'punk junk';
+    $report =
+      Foswiki::Configure::Query::check_current_value( $params, $reporter );
+
+    print STDERR Data::Dumper->Dump( [$report] );
+    $this->assert_num_equals( 1, scalar @$report );
+    $report = $report->[0];
+
+}
+
 sub test_generic_check_REGEX {
     my $this     = shift;
     my $reporter = Foswiki::Configure::Reporter->new();
