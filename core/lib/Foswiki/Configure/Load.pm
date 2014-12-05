@@ -523,24 +523,34 @@ sub _bootstrapStoreSettings {
 "AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
     }
     else {
-        # Untaint PATH so we can check for grep on the path
-        my $x = $ENV{PATH};
-        $x =~ /^(.*)$/;
-        $ENV{PATH} = $1;
-        `grep -V 2>&1`;
-        if ($!) {
-            print STDERR
+        # SMELL: The fork to `grep goes into a loop in the unit tests
+        # Not sure why, for now just default to pure perl bootstrapping
+        # in the unit tests.
+        if ( !$Foswiki::inUnitTestMode ) {
+
+            # Untaint PATH so we can check for grep on the path
+            my $x = $ENV{PATH};
+            $x =~ /^(.*)$/;
+            $ENV{PATH} = $1;
+            `grep -V 2>&1`;
+            if ($!) {
+                print STDERR
 "AUTOCONFIG: Unable to find a valid 'grep' on the path. Forcing PurePerl search\n";
-            $Foswiki::cfg{Store}{SearchAlgorithm} =
-              'Foswiki::Store::SearchAlgorithms::PurePerl';
+                $Foswiki::cfg{Store}{SearchAlgorithm} =
+                  'Foswiki::Store::SearchAlgorithms::PurePerl';
+            }
+            else {
+                $Foswiki::cfg{Store}{SearchAlgorithm} =
+                  'Foswiki::Store::SearchAlgorithms::Forking';
+                print STDERR
+                  "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
+            }
+            $ENV{PATH} = $x;    # re-taint
         }
         else {
             $Foswiki::cfg{Store}{SearchAlgorithm} =
-              'Foswiki::Store::SearchAlgorithms::Forking';
-            print STDERR
-              "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
+              'Foswiki::Store::SearchAlgorithms::PurePerl';
         }
-        $ENV{PATH} = $x;    # re-taint
     }
 }
 
