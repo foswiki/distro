@@ -1625,7 +1625,7 @@ sub update_gitignore_file {
         @lines = merge_gitignore( $generated_files{$moduleDir}, \@lines );
         $ignorefile = untaint($ignorefile);
         if ( open( my $fh, '>', $ignorefile ) ) {
-            foreach my $line (@lines) {
+            foreach my $line ( sort @lines ) {
                 print $fh $line . "\n";
             }
             close($fh) or error("Couldn't close $ignorefile");
