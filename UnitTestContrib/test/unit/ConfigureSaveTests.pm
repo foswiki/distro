@@ -125,7 +125,7 @@ sub test_changecfg {
         {
             level => 'notes',
             text =>
-q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | qr/(black&#124;white)+/ |>,
+q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
         }
     ];
     my $ms = $reporter->messages();

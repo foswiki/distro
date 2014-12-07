@@ -361,7 +361,10 @@ sub decodeValue {
     return undef unless defined $value;
 
     if ( $this->{typename} eq 'REGEX' ) {
-        return qr/$value/;
+
+        # Regexes are stored as strings, because the conversion back
+        # and forth to regex objects is a PITA, and really a bit pointless.
+        return $value;
     }
     elsif ( $this->{typename} eq 'PERL' ) {
         my $value = eval $value;

@@ -38,6 +38,8 @@ sub test_getcfg {
     my $reporter = Foswiki::Configure::Reporter->new();
     my $result = Foswiki::Configure::Query::getcfg( $params, $reporter );
     $this->assert( !$reporter->has_level('errors') );
+
+    #print STDERR Data::Dumper->Dump([$result]);
     $this->assert_deep_equals(
         {
             UnitTestContrib => {
@@ -211,7 +213,6 @@ sub test_getspec_REGEX {
     $spec = $spec->[0];
     $this->assert_str_equals( 'REGEX',                $spec->{typename} );
     $this->assert_str_equals( '^regex$',              $spec->{default} );
-    $this->assert_str_equals( '^regex$',              $spec->{current_value} );
     $this->assert_str_equals( 'Default: \'^regex$\'', $spec->{desc} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{REGEX}',
         $spec->{keys} );

@@ -13,6 +13,8 @@ use Foswiki::Configure::Reporter ();
 use Foswiki::Configure::Checker  ();
 use Foswiki::Configure::Wizard   ();
 
+use constant TRACE_CHECK => 0;
+
 =begin TML
 
 ---+ package Foswiki::Configure::Query
@@ -83,9 +85,6 @@ sub _getSetParams {
 ---++ StaticMethod getcfg(\%params, $reporter) -> \%response
 
 Retrieve for the value of one or more keys. \%params may include
-   * =set= - hash of key-value pairs that maps the names of keys
-     to the value to be set. Strings in the values are assumed to be
-     unexpanded (i.e. with =$Foswiki::cfg= references intact).
    * =keys= - array of key names to recover values for.
 If there isn't at least one key parameter, returns the
 entire configuration hash. Values are returned unexpanded
@@ -303,90 +302,54 @@ sub check_current_value {
 
     my $reporter = Foswiki::Configure::Reporter->new();
 
-    # Because we're running in a plugin, we already have LocalSite.cfg
-    # loaded. It's in $Foswiki::cfg! Of course if we're bootstrapping,
-    # that config is wishful thinking, but hey, can't have everything.
-
-    # Determine the set of value keys being checked
-
-    my $keys = $params->{keys};
-    if ( !$keys || scalar @$keys == 0 ) {
-        push( @$keys, '' );
-    }
-    my %check;
-    my @checko;
-    foreach my $k (@$keys) {
-
-        # $k='' is the root section
-        my $v = $root->getValueObject($k);
-        if ($v) {
-            push( @checko, $k ) unless $check{$k};
-            $check{$k} = 1;
-        }
-        else {
-            $v = $root->getSectionObject($k);
-            if ($v) {
-                foreach my $kk ( $v->getAllValueKeys() ) {
-                    push( @checko, $k ) unless $check{$kk};
-                    $check{$kk} = 1;
-                }
-            }
-            else {
-                $k = "'$k'" unless $k =~ /^\{.*\}$/;
-                push(
-                    @report,
-                    {
-                        keys    => $k,
-                        path    => [],
-                        reports => [
-                            {
-                                text  => "$k is not part of this .spec",
-                                level => 'errors'
-                            }
-                        ]
-                    }
-                );
-            }
-        }
-    }
-
-    # Are we to follow dependencies?
-    my $dependants = 0;
-
     # Apply "set" values to $Foswiki::cfg
     eval { _getSetParams( $params, $root, $frep ); };
     if ( $frep->has_level('errors') ) {
         return undef;
     }
 
+    # Because we're running in a plugin, we already have LocalSite.cfg
+    # loaded. It's in $Foswiki::cfg! Of course if we're bootstrapping,
+    # that config is wishful thinking, but hey, can't have everything.
+
+    # Determine the set of value keys being checked. We start with
+    # the keys passed in as parameters.
+
+    my @keys;
+    foreach my $k ( @{ $params->{keys} } ) {
+        if ( $root->getValueObject($k) || $root->getSectionObject($k) ) {
+            push( @keys, $k );
+        }
+        else {
+            $k = "'$k'" unless $k =~ /^\{.*\}$/;
+            push(
+                @report,
+                {
+                    keys    => $k,
+                    path    => [],
+                    reports => [
+                        {
+                            text  => "$k is not part of this .spec",
+                            level => 'errors'
+                        }
+                    ]
+                }
+            );
+        }
+    }
+
+    if ( scalar @keys == 0 ) {
+        push( @keys, '' );
+    }
+
+    my $deps;    # forward and reverse dependencies computed from values
     if ( $params->{check_dependencies} ) {
 
-        # First get reverse dependencies expressed in CHECK_ON_CHANGE
+        # Get reverse dependencies expressed in CHECK_ON_CHANGE
         # and add them as CHECK="also: forward dependencies to the
-        # item they depend on. We only do this now, as it is quite
-        # demanding.
+        # item they depend on. We only do this if check_dependencies
+        # is set, as it is quite demanding.
         $root->find_also_dependencies($root);
-
-        # Now look at the CHECK="also: for the items we've been asked
-        # to check.
-        my $changed;
-        do {
-            $changed = 0;
-            foreach my $k (@checko) {
-                next unless $k;
-                my $spec = $root->getValueObject($k);
-                next unless $spec;
-                foreach my $ch ( @{ $spec->{CHECK} } ) {
-                    next unless $ch->{also};
-                    foreach my $dep ( @{ $ch->{also} } ) {
-                        next if $check{$dep};
-                        push( @checko, $dep );
-                        $check{$dep} = 1;
-                        $changed = 1;
-                    }
-                }
-            }
-        } while ($changed);
 
         # Reload Foswiki::cfg without expansions so we can find
         # string-embedded dependencies
@@ -397,52 +360,94 @@ sub check_current_value {
                 eval "\$Foswiki::cfg$k=$v";
             }
         }
-        my $deps = Foswiki::Configure::Load::findDependencies();
+        $deps = Foswiki::Configure::Load::findDependencies();
+    }
 
-        # Extend the list of requested keys with the keys that depend
-        # on their values.
-        my @dep_keys = @checko;
-        my %done;
-        while ( my $dep = shift @dep_keys ) {
-            next if $done{$dep};
-            $done{$dep} = 1;
+    #print STDERR Data::Dumper->Dump([$deps]);
 
-            # Find the closest enclosing key that has a spec (we only
-            # check things with specs) and add it to the check set
-            my $cd = $dep;
-            while ( $cd && !$root->getValueObject($cd) ) {
-                $cd =~ s/(.*){.*?}$/$1/;
+    my %check;     # set of keys to be checked
+    my @checko;    # list of Value objects for keys to be checked
+    while ( defined( my $k = shift(@keys) ) ) {
+        print STDERR "Find dependencies for $k\n" if TRACE_CHECK;
+        next if $check{$k};    # already done?
+        $check{$k} = 1;
+        my $v = _getValueSpec( $root, $k );
+        if ($v) {
+            print STDERR "\t'$k' is a key\n" if TRACE_CHECK;
+            push( @checko, $v );
+            if ( $params->{check_dependencies} ) {
+
+                # Look at the CHECK="also:" explicit dependencies
+                foreach my $ch ( @{ $v->{CHECK} } ) {
+                    next unless $ch->{also};
+                    foreach my $dep ( @{ $ch->{also} } ) {
+                        next if $check{$dep};
+                        print STDERR "\t... has a check:also for $dep\n"
+                          if TRACE_CHECK;
+                        push( @keys, $dep ) unless $check{$dep};
+                    }
+                }
             }
-            if ($cd) {
-                push( @checko, $cd ) unless $check{$cd};
-                $check{$cd} = 1 if $cd;
+        }
+        else {
+            $v = $root->getSectionObject($k);
+            if ($v) {
+                print STDERR "\n'$k' is a section\n" if TRACE_CHECK;
+                foreach my $kk ( $v->getAllValueKeys() ) {
+                    unless ( $check{$kk} ) {
+                        print STDERR "\tcontains key '$kk'\n" if TRACE_CHECK;
+                        push( @keys, $kk );
+                    }
+                }
             }
-            push( @dep_keys, @{ $deps->{forward}->{$dep} } )
-              if $deps->{forward}->{$dep};
+            else {
+                print STDERR "\t'$k' is not a key or a section\n"
+                  if TRACE_CHECK;
+                if ( $k =~ s/{[^{}]+}$// && !$check{$k} ) {
+                    print STDERR "\tcheck parent '$k' instead\n" if TRACE_CHECK;
+                    push( @keys, $k );
+                }
+            }
+        }
+
+        # Look at forward dependencies i.e. the keys that depend
+        # on the value of this key
+        if ( $deps && $deps->{forward}->{$k} ) {
+            my @more = grep { !$check{$_} } @{ $deps->{forward}->{$k} };
+            map { print STDERR "\t$_ depends on $k\n"; $_ } @more
+              if TRACE_CHECK;
+            push( @keys, @more );
         }
     }
-    foreach my $k (@checko) {
-        next unless $k;
-        my $spec = $root->getValueObject($k);
-        ASSERT( $spec, $k ) if DEBUG;
+
+    foreach my $spec (@checko) {
         my $checker = Foswiki::Configure::Checker::loadChecker($spec);
-        if ($checker) {
-            $reporter->clear();
-            $reporter->NOTE("Checking $k") if $params->{trace};
-            $checker->check_current_value($reporter);
-            my @path = $spec->getPath();
-            pop(@path);    # remove keys
-            push(
-                @report,
-                {
-                    keys    => $k,
-                    path    => [@path],
-                    reports => $reporter->messages()
-                }
-            );
-        }
+        next unless $checker;
+        ASSERT( $spec->{keys} ) if DEBUG;
+        $reporter->clear();
+        $reporter->NOTE("Checking $spec-.{keys}") if $params->{trace};
+        $checker->check_current_value($reporter);
+        my @path = $spec->getPath();
+        pop(@path);    # remove keys
+        push(
+            @report,
+            {
+                keys    => $spec->{keys},
+                path    => [@path],
+                reports => $reporter->messages()
+            }
+        );
     }
     return \@report;
+}
+
+sub _getValueSpec {
+    my ( $root, $k ) = @_;
+    return undef unless $k;
+    my $v = $root->getValueObject($k);
+    return $v if $v;
+    return undef unless $k =~ s/{[^{}]+}$//;
+    return _getValueSpec($k);
 }
 
 =begin TML
