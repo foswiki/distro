@@ -222,7 +222,14 @@ sub save {
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;
                 if ($spec) {
-                    $value = $spec->decodeValue($value);
+                    eval { $value = $spec->decodeValue($value) };
+                    if ($@) {
+                        $reporter->ERROR(
+"SAVE ABORTED: Could not interpret new value for $k: "
+                              . Foswiki::Configure::Reporter::stripStackTrace(
+                                $@) );
+                        return undef;
+                    }
                 }
                 if ( defined $value ) {
                     eval "\$Foswiki::cfg$k=\$value";

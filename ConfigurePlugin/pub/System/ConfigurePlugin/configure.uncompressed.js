@@ -46,7 +46,7 @@ function _id_ify(id) {
     function init_whirly() {
         var $whirly, whirlyTimer;
 
-        $whirly = $(".whirly");
+        $whirly = $(".ajax_whirly");
         $(document).ajaxSend(function() {
             if (typeof(whirlyTimer) !== 'undefined') {
               window.clearTimeout(whirlyTimer);
@@ -60,9 +60,18 @@ function _id_ify(id) {
             whirlyTimer = window.setTimeout(function() {
               $whirly.hide();
               whirlyTimer = undefined;
-            }, 1000);
+            }, 5000);
         });
 
+    }
+
+    function inline_whirly($site) {
+        var $whirly = $('<img class="whirly" style="display:inline">');
+        $site.append($whirly);
+        window.setTimeout(function() {
+            $whirly.remove();
+        }, 1000);
+        return $whirly;
     }
 
     // Find all modified values, and return key-values
@@ -107,10 +116,11 @@ function _id_ify(id) {
     }
 
     // Make an RPC call
-    function RPC(method, message, params, report) {
-        var rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
-
+    function RPC(method, message, params, report, $whirlyPlace) {
+        var rpcid, $w;
+        rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
         console.debug("Sending " + rpcid);
+        $w = inline_whirly($whirlyPlace);
         $.jsonRpc(
             json_rpc_url,
             {
@@ -120,6 +130,7 @@ function _id_ify(id) {
                 params: params,
                 error: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " failed");
+                    $w.remove;
                     $.pnotify({
                       title: "Error",
                       text: jsonResponse.error.message,
@@ -133,6 +144,7 @@ function _id_ify(id) {
                 success: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " OK");
                     report(jsonResponse.result);
+                    $w.remove();
                 }
             });
     }
@@ -310,7 +322,8 @@ function _id_ify(id) {
         RPC('check_current_value',
             'Check: '+ handler.spec.keys,
             params,
-            checker_reports );
+            checker_reports,
+            $node);
     }
 
     /*
@@ -327,12 +340,13 @@ function _id_ify(id) {
         // Generate reports
         var $div = $('<div class="message_block"></div>');
         $div.html(TML.render_reports(results.messages));
-        $.each(results.changes, function(key, value) {
-            $div.append('<div class="changes">'
-                        + key + ' = ' + value
-                        + '</div>');
-            
-        });
+        if (results.changes) {
+            $.each(results.changes, function(key, value) {
+                $div.append('<div class="changes">'
+                            + key + ' = ' + value
+                            + '</div>');
+            });
+        }
         // Enable any carry-on buttons we find
         $div.find('.wizard_button').each(function() {
             var data = $(this).data('wizard');
@@ -365,7 +379,8 @@ function _id_ify(id) {
                 RPC('wizard',
                     'Call ' + data.method,
                     params,
-                    function(result) { wizard_reports($node, result) });
+                    function(result) { wizard_reports($node, result) },
+                    $(this));
             });
         });
         // Reflect changed values back to the input elements and
@@ -426,7 +441,7 @@ function _id_ify(id) {
     }
 
     // Delegate for calling wizards once auth info is available
-    function call_wizard($node, fb) {
+    function call_wizard($node, fb, $whirlyPlace) {
         var handler = $node.data('value_handler'),
             params = {
               wizard: fb.wizard,
@@ -440,7 +455,8 @@ function _id_ify(id) {
         RPC('wizard',
             'Call ' + fb.method,
             params,
-            function(result) { wizard_reports($node, result) });
+            function(result) { wizard_reports($node, result) },
+            $whirlyPlace);
     }
 
     /*
@@ -501,7 +517,7 @@ function _id_ify(id) {
             $button.click(function() {
                 if (fb.auth == 1) {
                     auth_action = function() {
-                        call_wizard($node, fb);
+                        call_wizard($node, fb, $button);
                     };
                     $('#auth_note').html(spec.title);
                     $('#auth_prompt').dialog(
@@ -509,7 +525,7 @@ function _id_ify(id) {
                         fb.label + ' requires authentication');
                     $('#auth_prompt').dialog("open");
                 } else {
-                    call_wizard($node, fb);
+                    call_wizard($node, fb, $button);
                 }
             }).button();
             $node.append($button);
@@ -616,8 +632,13 @@ function _id_ify(id) {
 
     // Load the tab for a given section spec
     function load_tab(spec, $panel) {
+        var $tab;
+
         if ($panel.hasClass('spec_loaded'))
             return;
+
+        $tab = $('#TAB' + _id_ify(spec.headline));
+
         RPC('getspec',
             'Load: ' + spec.headline,
             {
@@ -631,7 +652,7 @@ function _id_ify(id) {
             },
             function(response) {
                 var $node = $('<div class="node"></div>'),
-                    $tab, $report;
+                    $report;
 
                 $panel.append($node);
                 $panel.addClass('spec_loaded');
@@ -639,7 +660,6 @@ function _id_ify(id) {
                 // Clean off errors and warnings that were bubbled
                 // up to here from higher level deep checks. We will
                 // perform a deep check on this tab once it's open.
-                $tab = $('#TAB' + _id_ify(spec.headline));
                 $tab .removeClass('errors')
                     .removeClass('warnings');
                  // Duplicate the spec.entry here; it's the only way
@@ -654,12 +674,15 @@ function _id_ify(id) {
                     add_desc(spec, $node);
 
                 load_section_specs(response, $node); /*SMELL load_section_specs is not defined yet */
+
                 // Check all the keys under this node.
                 RPC('check_current_value',
                     'Check: ' + spec.headline,
                     { keys : [ spec.headline ] },
-                    checker_reports);
-            }
+                    checker_reports,
+                    $tab);
+            },
+            $tab
         );
     }
 
@@ -943,7 +966,8 @@ function _id_ify(id) {
                      params,
                      function(results) {
                          wizard_reports($root, results);
-                     });
+                     },
+                    $(this));
              };
             $('#auth_note').html($("#webCheckAuthMessage").html());
             $('#auth_prompt').dialog(
@@ -979,7 +1003,8 @@ function _id_ify(id) {
                                          + path.join(' > ')
                                          + '</div>');
                         }
-                    });
+                    },
+                   $(this));
             });
 
         $('#showExpert').button({disabled: true});
@@ -1016,7 +1041,8 @@ function _id_ify(id) {
                             });
                             $('#saveButton').button('disable');
                         }
-                    });
+                    },
+                   $(this));
             };
             var changed = ':<ul>';
             if ($('#bootstrap_warning').length) {
@@ -1068,8 +1094,10 @@ function _id_ify(id) {
                 RPC('check_current_value',
                     'Check all',
                     { keys : [] },
-                    checker_reports);
-            });
+                    checker_reports,
+                    $(".ajax_whirly"));
+            },
+            $(".ajax_whirly"));
     });
 
     $(window).on('beforeunload', function() {

@@ -43,6 +43,16 @@ html body {
     display:none;
     width:16px;
     height:16px;
+    margin-left: 0.5em;
+    background-image:url(loader-bars.gif);
+    background-repeat:no-repeat;
+    background-position:bottom left;
+}
+
+.ajax_whirly {
+    display:none;
+    width:16px;
+    height:16px;
     background-image:url(loader-bars.gif);
     background-repeat:no-repeat;
     background-position:bottom left;

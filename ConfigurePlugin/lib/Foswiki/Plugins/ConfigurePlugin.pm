@@ -157,8 +157,11 @@ sub _JSONwrap {
         my $response = &$method( $request->params(), $reporter );
         use strict 'refs';
         unless ($response) {
-            die join( "\n",
-                map { "$_->{level}: $_->{text}" } $reporter->messages() );
+
+            # Should never get here
+            die $method . " "
+              . join( "\n",
+                map { "$_->{level}: $_->{text}" } @{ $reporter->messages() } );
         }
         return $response;
       }

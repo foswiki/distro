@@ -19,13 +19,6 @@ sub check_current_value {
         return;
     }
 
-    eval $value;
-    if ($@) {
-        $reporter->ERROR( 'Not a valid PERL value: '
-              . Foswiki::Configure::Reporter::stripStacktrace($@) );
-        return;
-    }
-
     _check_for_null( $value, $reporter );
 }
 

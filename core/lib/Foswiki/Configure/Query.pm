@@ -305,7 +305,7 @@ sub check_current_value {
     # Apply "set" values to $Foswiki::cfg
     eval { _getSetParams( $params, $root, $frep ); };
     if ( $frep->has_level('errors') ) {
-        return undef;
+        return [ { reports => $frep->messages() } ];
     }
 
     # Because we're running in a plugin, we already have LocalSite.cfg

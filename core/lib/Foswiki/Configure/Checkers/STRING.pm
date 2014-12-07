@@ -24,7 +24,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     my $value = $this->{item}->getExpandedValue();
-    if ( !defined $value || $value eq '' ) {
+    if ( !defined $value ) {
         my $check = $this->{item}->{CHECK}->[0];
         unless ( $check && $check->{nullok}[0] ) {
             $reporter->ERROR("Must be non-empty");

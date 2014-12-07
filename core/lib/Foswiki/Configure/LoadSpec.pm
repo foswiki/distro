@@ -606,7 +606,7 @@ sub addCfgValuesToSpec {
             # UIs
             my $value = eval "\$cfg->$spec->{keys}";
             ASSERT( !$@ ) if DEBUG;
-            $spec->{current_value} = $value;
+            $spec->{current_value} = $spec->encodeValue($value);
         }
 
         # Don't do this; it's not the case that the default value

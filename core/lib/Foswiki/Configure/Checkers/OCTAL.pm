@@ -30,11 +30,6 @@ sub check_current_value {
         $val = 0;
     }
 
-    if ( $val !~ /^\s*[0-7]*\s*$/ ) {
-        $reporter->ERROR("Number format error");
-        return;
-    }
-
     my $check = $this->{item}->{CHECK}->[0];
     if ($check) {
         if ( defined $check->{min} ) {
