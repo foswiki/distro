@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417313471" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417987515" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
@@ -149,6 +149,7 @@ The targets you will normally use are:
 | =release= | =build=, =pod= and package a release zip |
 | =upload= | =build=, =pod=, =release= and upload |
 | =manifest= | print a guess at the MANIFEST (Caution - omits the primary System/Extension.txt topic |
+| =gitignore= | print a guess at the .gitignore  |
 | <del>=history=</del> | <del>Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic.</del> Not functional on a git repository. |
 | =dependencies= | Find and print a best-guess dependencies list (for DEPENDENCIES) |
 
@@ -647,6 +648,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  1.82  (07 Dec 2014) | Foswikitask:Item13135: Add target for generation of .gitignore files. |
 |  1.81  (29 Nov 2014) | Foswikitask:Item11267: Update documentation for git migration. |
 |  1.8.0 (13 Feb 2014) | Foswikitask:Item12748: Support symbolic links and empty directories. |
 |  1.7.1 (8 May 2013) | Foswikitask:Item12492: expose test output while running tests Foswikitask:Item11851: minor bugfixes |
@@ -678,5 +680,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0.1 (31 Jan 2009) | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  1.0.0 (03 Dec 2008) | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1417313471"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1417313471"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1417987515"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1417987515"}%

@@ -1,3 +1,6 @@
+*,v
+*,pfv
+*.gz
 /BuildContrib.md5
 /BuildContrib.sha1
 /BuildContrib.tgz
@@ -5,3 +8,4 @@
 /BuildContrib.zip
 /BuildContrib_installer
 /BuildContrib_installer.pl
+

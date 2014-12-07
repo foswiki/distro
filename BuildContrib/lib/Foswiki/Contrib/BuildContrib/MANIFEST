@@ -5,6 +5,7 @@ lib/Foswiki/Contrib/BuildContrib.pm 0444 Dummy module for version strings
 lib/Foswiki/Contrib/BuildContrib/BaseBuild.pm 0444 Common functionality for build programs
 lib/Foswiki/Contrib/BuildContrib/build.pl 0444 Build script
 lib/Foswiki/Contrib/BuildContrib/Targets/manifest.pm 0444
+lib/Foswiki/Contrib/BuildContrib/Targets/gitignore.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/tidy.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/tracked.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/release.pm 0444

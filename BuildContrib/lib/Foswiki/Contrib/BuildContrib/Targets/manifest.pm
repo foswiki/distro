@@ -69,7 +69,7 @@ sub _manicollect {
     elsif (
            !-d
         && /^\w.*\w$/
-        && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
+        && !/^(TIDY|DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/
         && !/^$collector->{project}_installer(\.pl)?$/
 
