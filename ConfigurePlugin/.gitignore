@@ -1,7 +1,14 @@
 *.gz
-pub/System/ConfigurePlugin/resig.js
-pub/System/ConfigurePlugin/types.js
-pub/System/ConfigurePlugin/reset.css
+/ConfigurePlugin.md5
+/ConfigurePlugin.sha1
+/ConfigurePlugin.tgz
+/ConfigurePlugin.txt
+/ConfigurePlugin.zip
+/ConfigurePlugin_installer
+/ConfigurePlugin_installer.pl
 pub/System/ConfigurePlugin/configure.css
 pub/System/ConfigurePlugin/configure.js
 pub/System/ConfigurePlugin/render_tml.js
+pub/System/ConfigurePlugin/reset.css
+pub/System/ConfigurePlugin/resig.js
+pub/System/ConfigurePlugin/types.js

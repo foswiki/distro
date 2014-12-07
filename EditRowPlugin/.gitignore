@@ -1,4 +1,11 @@
 *.gz
-pub/System/EditRowPlugin/erp.js
+/EditRowPlugin.md5
+/EditRowPlugin.sha1
+/EditRowPlugin.tgz
+/EditRowPlugin.txt
+/EditRowPlugin.zip
+/EditRowPlugin_installer
+/EditRowPlugin_installer.pl
 pub/System/EditRowPlugin/TableSort.js
 pub/System/EditRowPlugin/erp.css
+pub/System/EditRowPlugin/erp.js
