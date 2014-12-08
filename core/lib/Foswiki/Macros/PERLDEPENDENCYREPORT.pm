@@ -12,21 +12,27 @@ use Foswiki::Configure::FileUtil   ();
 
 sub PERLDEPENDENCYREPORT {
     my ( $this, $params ) = @_;
-    my $allowed;
+    my $authorized;
     my $session = $Foswiki::Plugins::SESSION;
 
-    if ( defined $Foswiki::cfg{ConfigureFilter}
-        && length( $Foswiki::cfg{ConfigureFilter} ) )
+    if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
+        && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
     {
-        my $filter = eval { $Foswiki::cfg{ConfigureFilter} };
-        $allowed = $session->{user} =~ m/$filter/;
+        foreach my $authuser (
+            split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
+        {
+            if ( $session->{user} eq $authuser ) {
+                $authorized = 1;
+                last;
+            }
+        }
     }
     else {
-        $allowed = Foswiki::Func::isAnAdmin();
+        $authorized = Foswiki::Func::isAnAdmin();
     }
 
     return "Dependency report only accessible to authorized configure users."
-      unless $allowed;
+      unless $authorized;
 
     if ( defined $params->{_DEFAULT}
         && $params->{_DEFAULT} eq 'extensions' )

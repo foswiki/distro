@@ -29,7 +29,7 @@ sub check_current_value {
       )
       if ( scalar @admins lt 2
         && !$Foswiki::cfg{Password}
-        && !$Foswiki::cfg{ConfigureFilter} );
+        && !$Foswiki::cfg{FeatureAccess}{Configure} );
 
     if (
         $Foswiki::cfg{Password}

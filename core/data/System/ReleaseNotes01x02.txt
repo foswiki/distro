@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417999293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -206,8 +206,8 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
       * If not set, configure depends solely upon the session authentication
       * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
    * Configure can be restricted to individual users in or out of the AdminGroup.
-      * If a ={ConfigureFilter}= is NOT configured, then the current user must be in the AdminGroup in order to view or save the configuration.
-      * If ={ConfigureFilter}= rule is configured, then the current user must match the rule to be allowed access to configure, regardless of whether or not they are in the AdminGroup.
+      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the AdminGroup in order to view or save the configuration.
+      * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the AdminGroup.
 
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:

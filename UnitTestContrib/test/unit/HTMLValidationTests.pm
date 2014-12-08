@@ -51,7 +51,7 @@ sub loadExtraConfig {
 
     # $this - the Test::Unit::TestCase object
     $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
-    $Foswiki::cfg{ConfigureFilter} = '^(scum)$';
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'scum';
 
     $this->SUPER::loadExtraConfig( $context, @args );
 

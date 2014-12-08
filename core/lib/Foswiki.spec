@@ -609,10 +609,10 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 #  scripts.
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
-# **REGEX 80**
-# Filter-in regular expression that must be matched to access configure.
+# **STRING 80**
+# A list of users permitted to use the =bin/configure= configuration tool
 # If this is configured, then users attempting to access
-# configure are validated using this regex. (The user must still first
+# configure are validated against this list. (The user must still first
 # login using the normal Foswiki authentication). If configured, it is
 # applied as a replacement for testing the isAdmin status of the user.
 # This can be used to:
@@ -622,11 +622,10 @@ $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 # Because users with access to configure can install software on the server
 # and make changes that are potentially difficult to recover from, it is
 # strongly recommended that configure access be limited.   Examples:
-#    * Restrict configure to "JoeAdmin" and "BobAdmin": =^(JoeAdmin|BobAdmin)$=
-#    * Restrict to the sudo admin user:  =^(BaseUserMapping_333)$=
-#     (Also set the expert Password setting under the Passwords tab)
-#    * Completely unauthenticated access: =.*=
-$Foswiki::cfg{ConfigureFilter} = '';
+#    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdmin BobAdmin=
+#    * Restrict to the sudo admin user:  =BaseUserMapping_333=
+#       * (Also set the expert Password setting under the Passwords tab)
+$Foswiki::cfg{FeatureAccess}{Configure} = '';
 
 #---++ Passwords
 # Control how passwords are handled.

@@ -416,7 +416,7 @@ lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/KeyChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/KeyPasswordChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate.pm 0444
-lib/Foswiki/Configure/Checkers/ConfigureFilter.pm 0444
+lib/Foswiki/Configure/Checkers/FeatureAccess/Configure.pm 0444
 lib/Foswiki/Configure/Checkers/DATE.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444

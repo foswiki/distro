@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::ConfigureFilter;
+package Foswiki::Configure::Checkers::FeatureAccess::Configure;
 
 use strict;
 use warnings;
@@ -17,8 +17,6 @@ sub check_current_value {
       unless defined $Foswiki::Plugins::SESSION
       && eval "require Foswiki::Func";
 
-    return unless defined $Foswiki::cfg{ConfigureFilter};
-
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 
@@ -34,43 +32,42 @@ sub check_current_value {
 "$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
     ) if ( scalar @admins lt 2 && !$Foswiki::cfg{Password} );
 
-    my @filtered = grep( /$Foswiki::cfg{ConfigureFilter}/, @admins );
-    $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} as filtered by this filter contains no users"
-    ) unless ( scalar @filtered );
+    my @Authorized = split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} );
+    my $passed = '';   # Set to true if current user is allowed to use configure
 
-    my $user = join( ' ', @filtered );
-    $reporter->NOTE("AdminGroup Members with configure access: $user");
-    $reporter->NOTE(
-"Note that this filter matches against *all* users.  When this filter is set, users do not have to be in the $Foswiki::cfg{SuperAdminGroup} to access configure!"
-    );
-
-    unless ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
-        if ( $Foswiki::cfg{ConfigureFilter}
-            && Foswiki::Func::getCanonicalUserID() !~
-            m/$Foswiki::cfg{ConfigureFilter}/ )
-        {
-            $reporter->ERROR(
-"Current user is locked out by the configured filter, If you save the configuration, you'll lose access to configure!"
-            );
+    unless ( $Foswiki::cfg{isBOOTSTRAPPING}
+        || !$Foswiki::cfg{FeatureAccess}{Configure} )
+    {
+        foreach my $user (@Authorized) {
+            if ( $user eq Foswiki::Func::getCanonicalUserID() ) {
+                $passed = 1;
+                last;
+            }
         }
+        $reporter->ERROR(
+"Current user not in this list, and is locked out, If you save the configuration, you'll lose access to configure!"
+        ) unless ($passed);
     }
 
-    if (
-        (
-            $Foswiki::cfg{ConfigureFilter}
-            && Foswiki::Func::getCanonicalUserID() !~
-            m/$Foswiki::cfg{ConfigureFilter}/
-        )
+    if (   !$passed
         && !$Foswiki::cfg{Password}
-        && scalar @filtered < 2
-      )
+        && scalar @admins < 2 )
     {
         $reporter->WARN(
-"You have not set an admin Pasword.  Your $Foswiki::cfg{SuperAdminGroup} contains no users, or your filter eliminated all users in the $Foswiki::cfg{SuperAdminGroup}
-and your filter does not match your current ID "
+"You have not set an admin Pasword.  Your $Foswiki::cfg{SuperAdminGroup} contains no users, or this list eliminated all users in the $Foswiki::cfg{SuperAdminGroup}
+and your current ID "
               . Foswiki::Func::getCanonicalUserID()
-              . ": You *Must* have a usable ID matching this filter to access configure.  Do not save the configuration unless you are sure you have not locked yourself out of configure!"
+              . " is not included in this list: You *Must* have a usable ID in this list to access configure.  Do not save the configuration unless you are sure you have not locked yourself out of configure!"
+        );
+    }
+
+    if (   $Foswiki::cfg{Password}
+        && $Foswiki::cfg{FeatureAccess}{Configure}
+        && $Foswiki::cfg{FeatureAccess}{Configure} !~
+        /\bBaseUserMapping_333\b/ )
+    {
+        $reporter->WARN(
+"You have set a superuser password, but this user is not permitted to use configure.  Add BaseUserMapping_333 to this list if you want the superuser to access configure"
         );
     }
 

@@ -48,15 +48,22 @@ sub configure {
         }
     );
 
-    if ( defined $Foswiki::cfg{ConfigureFilter}
-        && length( $Foswiki::cfg{ConfigureFilter} ) )
+    if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
+        && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
     {
-        my $filter = eval { $Foswiki::cfg{ConfigureFilter} };
-        unless ( $session->{user} =~ m/$filter/ ) {
-            throw Foswiki::AccessControlException( 'VIEW',
-                $session->{user}, 'System', 'Configuration',
-                'Denied by {ConfigureFilter} Setting' );
+        my $authorized = '';
+        foreach my $authuser (
+            split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
+        {
+            if ( $session->{user} eq $authuser ) {
+                $authorized = 1;
+                last;
+            }
         }
+        throw Foswiki::AccessControlException( 'VIEW',
+            $session->{user}, 'System', 'Configuration',
+            'Denied by {FeatureAccess}{Configure} Setting' )
+          unless ($authorized);
     }
     else {
         unless ( Foswiki::Func::isAnAdmin() ) {

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1411624271" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417997193" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -20,14 +20,13 @@ requiring login access to the server.
 
 If your system has an existing !LocalSite.cfg, then you *must* be
 logged in to %WIKITOOLNAME% as an administrator, or as a user identified by the 
-={ConfigureFilter}= parameger before attempting to use
+={FeatureAccess}{Configure}= parameter before attempting to use
 this interface. If no !LocalSite.cfg exists, then you will automatically
-treated as an admin for the purposes of =configure=.
-
-<div class="foswikiAlert">%X% Caution:  The first save of the configuration
-will reset admin status and block further access to configure.  Be sure that
-you set the ={ConfigureFilter}= parameter or have added a registered user to
-the %USERSWEB%.AdminGroup before your first save of the configuration!</div>
+logged in as an admin.  Do not log out of Foswiki until you have done one of
+the following:
+   * Registered a user and added them to the AdminGroup
+   * Registered a user and added them to the ={FeatureAccess}{Configure}= list of users
+   * Added =BaseUserMapping_333 to ={FeatureAccess}{Configure}= and set a super user password in the expert setting ={Password}=
 
 Users of the =configure= interface access it through the CGI script in
 =bin/configure=. The UI is self-explanatory and needs no further introduction
@@ -35,7 +34,7 @@ here.
 
 Of interest to developers may be the JSON RPC interface provided by the
 plugin, which gives access to the Foswiki configuration to web clients
-(who must, of course, be authenticated as admins to make RPC calls).
+(who must, of course, meet the above criteria to make RPC calls).
 
 %$POD%
 

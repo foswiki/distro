@@ -130,14 +130,21 @@ sub _JSONwrap {
 
         if ( $Foswiki::cfg{isVALID} ) {
 
-            if ( defined $Foswiki::cfg{ConfigureFilter}
-                && length( $Foswiki::cfg{ConfigureFilter} ) )
+            if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
+                && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
             {
-                unless ( $session->{user} =~ m/$Foswiki::cfg{ConfigureFilter}/ )
+                my $authorized;
+                foreach my $authuser (
+                    split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
                 {
-                    die
-                      "You must have special permission to use this interface.";
+                    if ( $session->{user} eq $authuser ) {
+                        $authorized = 1;
+                        last;
+                    }
                 }
+                die
+"You must have special permission to use this interface.  Denied by {FeatureAccess}{Configure} Setting"
+                  unless ($authorized);
             }
             else {
                 # Check rights to use this interface - admins only
