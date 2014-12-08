@@ -35,6 +35,9 @@ sub test_getcfg {
             "{UnitTestContrib}{Configure}{REGEX}"
         ]
     };
+    $Foswiki::cfg{UnitTestContrib}{Configure}{STRING}  = 'STRING';
+    $Foswiki::cfg{UnitTestContrib}{Configure}{COMMAND} = 'COMMAND';
+    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX}   = '^regex$';
     my $reporter = Foswiki::Configure::Reporter->new();
     my $result = Foswiki::Configure::Query::getcfg( $params, $reporter );
     $this->assert( !$reporter->has_level('errors') );
@@ -445,7 +448,7 @@ sub test_generic_check_OCTAL {
     $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
     $r = $report->{reports}->[0];
     $this->assert_str_equals( 'errors', $r->{level} );
-    $this->assert_matches( qr/Number format/, $r->{text} );
+    $this->assert_matches( qr/Value must be no greater/, $r->{text} );
 
     $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '35';
     $report =
@@ -540,29 +543,24 @@ sub test_generic_check_PERL {
     my $this     = shift;
     my $reporter = Foswiki::Configure::Reporter->new();
     my @ui_path  = ( 'Extensions', 'UnitTestContrib', 'Configure' );
-    my $params   = { keys => ['{UnitTestContrib}{Configure}{PERL}'] };
+    my $params   = {
+        keys => ['{UnitTestContrib}{Configure}{PERL}'],
+        set  => { '{UnitTestContrib}{Configure}{PERL}' => 'punk junk' }
+    };
     my ( $report, $r );
 
-    # Can't use a set because of syntax errors
-    $Foswiki::cfg{UnitTestContrib}{Configure}{PERL} = 'punk junk';
     $report =
       Foswiki::Configure::Query::check_current_value( $params, $reporter );
 
-    # print STDERR Data::Dumper->Dump([$report]);
+    #print STDERR Data::Dumper->Dump([$report]);
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
-
-    # keys
-    $this->assert_str_equals( $params->{keys}->[0], $report->{keys} );
-
-    # path
-    $this->assert_deep_equals( \@ui_path, $report->{path} );
 
     # reports
     $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
     $r = $report->{reports}->[0];
     $this->assert_str_equals( 'errors', $r->{level} );
-    $this->assert_matches( qr/Not a valid PERL value/, $r->{text} );
+    $this->assert_matches( qr/was unreadable/, $r->{text} );
 }
 
 sub test_generic_check_REGEX_Item13077 {
@@ -581,7 +579,7 @@ sub test_generic_check_REGEX_Item13077 {
     $report =
       Foswiki::Configure::Query::check_current_value( $params, $reporter );
 
-    print STDERR Data::Dumper->Dump( [$report] );
+    #print STDERR Data::Dumper->Dump( [$report] );
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
 
