@@ -88,11 +88,13 @@ my $result = Getopt::Long::GetOptions(
     },
     'json'     => \&_scalar,
     'method=s' => \&_scalar,
+    'noprompt' => \&_scalar,
     'search=s' => \&_scalar,
     'save'     => \&_scalar,
     'set=s%'   => \%{ $params->{set} },
     'trace'    => \&_scalar,
     'wizard=s' => \&_scalar,
+    'expert'   => \&_scalar,
 );
 
 # Check parameters
@@ -151,13 +153,15 @@ sub _prompt {
     my ( $root, $keys, $default, $prompt, $opt ) = @_;
     print "\n";
 
-    if ($prompt) {
-        print $prompt;
-    }
-    else {
-        my $vob = $root->getValueObject($keys);
-        if ( $vob && $vob->{desc} ) {
-            print "$vob->{desc}\n";
+    unless ( $params->{expert} ) {
+        if ($prompt) {
+            print $prompt;
+        }
+        else {
+            my $vob = $root->getValueObject($keys);
+            if ( $vob && $vob->{desc} ) {
+                print "$vob->{desc}\n";
+            }
         }
     }
 
@@ -260,48 +264,55 @@ unless ( $Foswiki::cfg{isVALID} ) {
 #       here should also be in the BOOTSTRAP array.   And anything guessed in Load::bootstrapConfig
 #       should probably be verified here unless very certain that we guess corrrectly.
 
-    # Ask for missing parameters that cannot bootstrap in CLI
-    print "** Enter values for critical configuration items.\n";
-    print
-      "** type a new value or hit return to accept the value in brackets.\n";
-    _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
-    _prompt( $root, '{ScriptUrlPath}',  '/foswiki/bin' );
-    _prompt(
-        $root,
-        '{ScriptUrlPaths}{view}',
-        undef,
-'Enter optional short URL for view script, Press enter for shortest URLs,  Enter "none" to use full URLs.',
-        1
-    );
-    _prompt( $root, '{PubUrlPath}', '/foswiki/pub' );
+    unless ( $params->{expert} ) {
 
-    eval 'use Crypt::PasswdMD5';
-    unless ($@) {
-        _prompt( $root, '{Password}', undef,
-            "Enter a password for the 'admin' sudo account.\n" );
-        push( @{ $Foswiki::cfg{BOOTSTRAP} }, '{Password}' );
-    }
-    else {
+        # Ask for missing parameters that cannot bootstrap in CLI
+        print "** Enter values for critical configuration items.\n";
         print
-"*** Unable to set password - Module Crypt::PasswdMD5 is not available\n";
+"** type a new value or hit return to accept the value in brackets.\n";
     }
 
-    # And confirm the rest of the guesses
-    print
+    unless ( $params->{noprompt} ) {
+        _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
+        _prompt( $root, '{ScriptUrlPath}',  '/foswiki/bin' );
+        _prompt(
+            $root,
+            '{ScriptUrlPaths}{view}',
+            undef,
+'Enter optional short URL for view script, Press enter for shortest URLs,  Enter "none" to use full URLs.',
+            1
+        );
+        _prompt( $root, '{PubUrlPath}', '/foswiki/pub' );
+
+        eval 'use Crypt::PasswdMD5';
+        unless ($@) {
+            _prompt( $root, '{Password}', undef,
+                "Enter a password for the 'admin' sudo account.\n" );
+            push( @{ $Foswiki::cfg{BOOTSTRAP} }, '{Password}' );
+        }
+        else {
+            print
+"*** Unable to set password - Module Crypt::PasswdMD5 is not available\n";
+        }
+
+        # And confirm the rest of the guesses
+        print
 " The following directory settings have been guessed.  Press enter to confirm each setting:\n";
 
-    _prompt( $root, '{ScriptDir}',    $Foswiki::cfg{ScriptDir} );
-    _prompt( $root, '{ScriptSuffix}', $Foswiki::cfg{ScriptSuffix}, undef, 1 );
-    _prompt( $root, '{DataDir}',      $Foswiki::cfg{DataDir} );
-    _prompt( $root, '{PubDir}',       $Foswiki::cfg{PubDir} );
-    _prompt( $root, '{TemplateDir}',  $Foswiki::cfg{TemplateDir} );
-    _prompt( $root, '{LocalesDir}',   $Foswiki::cfg{LocalesDir} );
-    _prompt( $root, '{WorkingDir}',   $Foswiki::cfg{WorkingDir} );
-    _prompt( $root, '{ToolsDir}',     $Foswiki::cfg{ToolsDir} );
-    _prompt( $root, '{Store}{Implementation}',
-        $Foswiki::cfg{Store}{Implementation} );
-    _prompt( $root, '{Store}{SearchAlgorithm}',
-        $Foswiki::cfg{Store}{SearchAlgorithm} );
+        _prompt( $root, '{ScriptDir}', $Foswiki::cfg{ScriptDir} );
+        _prompt( $root, '{ScriptSuffix}', $Foswiki::cfg{ScriptSuffix},
+            undef, 1 );
+        _prompt( $root, '{DataDir}',     $Foswiki::cfg{DataDir} );
+        _prompt( $root, '{PubDir}',      $Foswiki::cfg{PubDir} );
+        _prompt( $root, '{TemplateDir}', $Foswiki::cfg{TemplateDir} );
+        _prompt( $root, '{LocalesDir}',  $Foswiki::cfg{LocalesDir} );
+        _prompt( $root, '{WorkingDir}',  $Foswiki::cfg{WorkingDir} );
+        _prompt( $root, '{ToolsDir}',    $Foswiki::cfg{ToolsDir} );
+        _prompt( $root, '{Store}{Implementation}',
+            $Foswiki::cfg{Store}{Implementation} );
+        _prompt( $root, '{Store}{SearchAlgorithm}',
+            $Foswiki::cfg{Store}{SearchAlgorithm} );
+    }
 
 }
 
@@ -376,6 +387,11 @@ Call checkers for the given key or section.
 No key|section means check all keys. You can have as many B<-check>
 options as you want.
 
+=item B<-expert>
+
+Use minimal prompting.  Instead of displaying each item's help text
+only the item key is in the prompt.
+
 =item B<-getcfg> [key]
 
 Report the value of key. B<-getcfg> can be given
@@ -396,6 +412,13 @@ wizard method to call (defaults to execute()). If B<-wizard> is not
 given then B<-method> is interpreted as the name of a checker
 method to call. The method will be called on all keys passed
 using B<-check>.
+
+=item B<-noprompt>
+
+If B<-noprompt> is given, bootstrapped configuration keys
+are written to the LocalSite.cfg.  Other required settings that are
+not possible to bootstrap need to be set individually:
+B<tools/configure -save -set {key}=value>
 
 =item B<-save>
 
