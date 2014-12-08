@@ -120,7 +120,8 @@ sub readConfig {
     # Read Foswiki.spec and LocalSite.cfg
     # (Suppress Foswiki.spec if already read)
 
-    _workOutOS();
+    # Old configs might not bootstrap the OS settings, so set if needed.
+    _workOutOS() unless ( $Foswiki::cfg{OS} && $Foswiki::cfg{DetailedOS} );
 
     my @files = qw( Foswiki.spec LocalSite.cfg );
     if ($noLocal) {
@@ -324,7 +325,7 @@ sub setBootstrap {
 
     # Bootstrap works out the correct values of these keys
     my @BOOTSTRAP =
-      qw( {DataDir} {DefaultUrlHost} {PubUrlPath} {ToolsDir} {WorkingDir}
+      qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {LocalesDir} {Store}{Implementation}
       {Store}{SearchAlgorithm} );
@@ -453,6 +454,9 @@ EPITAPH
     Foswiki::Configure::Load::readConfig( 0, 0, 1, 1 );
 
     _workOutOS();
+    print STDERR
+"AUTOCONFIG: Detected OS $Foswiki::cfg{OS}:  DetailedOS: $Foswiki::cfg{DetailedOS} \n"
+      if (TRAUTO);
 
     $Foswiki::cfg{isVALID} = 1;
     Foswiki::Configure::Load::setBootstrap();

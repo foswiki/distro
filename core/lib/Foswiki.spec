@@ -213,12 +213,18 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # should only need to override if there is something badly wrong with
 # those calculations*
 #
+# If these fields are empty, Foswiki will dynamically set then for each
+# transaction.  Foswiki 1.2 bootstrap will set them during initial configuraiton.
+#
+# If you move this Foswiki install to a different system & OS, you are recommended
+# to reconfigure to reapply OS dependent defaults.
+#
 # {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
 # $Foswiki::cfg{OS} = '';
 
 # **STRING 20 EXPERT**
 # The value of Perl $OS
-$Foswiki::cfg{DetailedOS} = '';
+# $Foswiki::cfg{DetailedOS} = '';
 
 # **NUMBER CHECK="min:-1" EXPERT**
 # Maximum number of backup versions of LocalSite.cfg to retain when changes
