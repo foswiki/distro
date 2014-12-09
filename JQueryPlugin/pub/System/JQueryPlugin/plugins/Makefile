@@ -27,6 +27,7 @@ SUBDIRS=\
   media \
   metadata \
   migrate \
+	mousewheel \
   placeholder \
   pnotify \
   popupwindow \
@@ -36,6 +37,7 @@ SUBDIRS=\
   serialscroll \
   shrinkurls \
   simplemodal \
+	sprintf \
   slimbox \
   superfish \
   supersubs \
@@ -46,6 +48,7 @@ SUBDIRS=\
   treeview \
   validate \
   wikiword  \
-  render
+  render \
+	stars
 
 -include ../Makefile.include

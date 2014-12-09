@@ -140,6 +140,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Migrate}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{MouseWheel}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -150,9 +153,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{QueryObject}{Enabled} = 1;
-
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Render}{Enabled} = 1;
@@ -171,6 +171,12 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Slimbox}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Sprintf}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Stars}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Superfish}{Enabled} = 1;
@@ -239,26 +245,28 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
 # the Foswiki distribution.
 
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
 
 # **BOOLEAN EXPERT**
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
 
 # **BOOLEAN EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Themeswitcher}{Enabled} = 0;
-
-# **BOOLEAN EXPERT**
-# Warning: this plugin is deprecated. Please use the tooltip plugin part of the jQuery-ui package.
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
-
-# **BOOLEAN EXPERT**
-# Warning: This plugin is deprecated. Use Corner instead
+# Warning: This plugin is deprecated. Use Corner instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
+
+# **BOOLEAN EXPERT**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 0;
 
 # **BOOLEAN EXPERT**
 # Warning: This plugin is deprecated. The shake effect is now part of the latest jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
+
+# **BOOLEAN EXPERT**
+# Warning: This plugin is deprecated. Please use jsrender.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
+
+# **BOOLEAN EXPERT**
+# Warning: this plugin is deprecated. Please use the tooltip plugin part of the jQuery-ui package.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
 
 1;

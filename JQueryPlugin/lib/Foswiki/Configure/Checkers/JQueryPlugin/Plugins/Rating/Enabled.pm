@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::Themeswitcher::Enabled;
+package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::Rating::Enabled;
 
 use warnings;
 use strict;
@@ -11,10 +11,9 @@ sub check {
     my $this = shift;
     my $warnings;
 
-    if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Themeswitcher}{Enabled} ) {
-        $warnings .= $this->ERROR(<<'HERE');
-Themeswitcher has been removed from Foswiki.  This should be disabled to avoid
-errors during Foswiki operation.
+    if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} ) {
+        $warnings .= $this->WARN(<<'HERE');
+This plugin is deprecated. Use Stars instead.
 HERE
     }
 
@@ -25,7 +24,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
