@@ -90,6 +90,44 @@ var foswiki = foswiki || {
   };
 
   /**
+   * Get pub url path for a specific file
+   */
+  function _getPubUrl(absolute, web, topic, file, params) {
+    var prefName = (absolute?"PUBURL":"PUBURLPATH"),
+        url, arr = [];
+
+    url = foswiki.getPreference(prefName) || '/';
+
+    if (typeof(web) !== 'undefined') {
+      url += "/"+web;
+    }
+
+    if (typeof(topic) !== 'undefined') {
+      url += "/"+topic;
+    }
+
+    if (typeof(file) !== 'undefined') {
+      url += "/"+file;
+    }
+
+    if (typeof(params) !== 'undefined') {
+      $.each(params, function(key, val) {
+        arr.push(key+"="+val);
+      });
+
+      url += (arr.length?"?"+arr.join("&"):"");
+    }
+
+    return url;
+  }
+  foswiki.getPubUrl = function(web, topic, file, params) {
+    return _getPubUrl(1, web, topic, file, params);
+  };
+  foswiki.getPubUrlPath = function(web, topic, params) {
+    return _getScriptUrl(0, script, web, topic, params);
+  };
+
+  /**
    * Get url path for a specific script
    */
   function _getScriptUrl(absolute, script, web, topic, params) {
@@ -122,7 +160,8 @@ var foswiki = foswiki || {
     }
 
     return url;
-  };
+  }
+
   foswiki.getScriptUrl = function(script, web, topic, params) {
     return _getScriptUrl(1, script, web, topic, params);
   };
@@ -162,64 +201,6 @@ var foswiki = foswiki || {
   foswiki.getElementsByClassName = function(inRootElem, inClassName, inTag) {
     var tag = inTag || '';
     return $(inRootElem).find(tag + "." + inClassName).get();
-  };
-
-  /**
-   * simplify ajax posting with Strikeone, embedded or no validation
-   * @param script: foswiki script name
-   * @param postData: data to be POSTed to script (don't forget data.web and data.topic)
-   * returns the $.ajax Promise object, so you can then chain the events onto it
-   */
-  foswiki.post = function(script, hash) {
-    var inputs, req, headers, calculateNewKey, newKey;
-
-    //try to get a validation key from a form
-    //we can do this only because all forms on a page get the same validation key
-    inputs = $("input[name=validation_key]")[0];
-    if (inputs) {
-      hash.validation_key = inputs.value;
-    } else {
-      //DO this only if there is no form we can grab one from
-      req = new XMLHttpRequest();
-      req.open('GET', document.location, false);
-      req.send(null);
-      headers = req.getAllResponseHeaders().toLowerCase();
-      //alert(headers);
-      hash.validation_key = req.getResponseHeader('X-Foswiki-Validation');
-    }
-
-    //call strikeone code if its loaded (wrongly assume we're not using strikeone if its not)
-    if (typeof(StrikeOne) === 'object') {
-      calculateNewKey = StrikeOne.calculateNewKey;
-      if (typeof(calculateNewKey) === 'function') {
-        hash.validation_key = calculateNewKey(hash.validation_key);
-      }
-    }
-    
-    return $.post(foswiki.getScriptUrl(1, script, hash.web, hash.topic, hash))
-      .complete(function(jqXHR, status) {
-        // distribute this new validation key to all input fields in the current DOM
-        newKey = jqXHR.getResponseHeader('X-Foswiki-Validation');
-        if (newKey) {
-          $("input[name=validation_key]").attr("value", '?' + newKey);
-        }
-      })
-      .error(function(event, data) {
-        if (event.status == 419) {
-          //the payload is a strikeone validation request, so try popping it up in a jqDialog
-          var entirehtml = jQuery(event.responseText).filter('.foswikiMain'),
-              last = entirehtml[0],
-              message = jQuery(last.innerHTML).filter('.container-fluid');
-
-          message.dialog({
-            height: 410,
-            width: 600,
-            modal: true,
-            title: 'confirm change'
-          });
-          jQuery('.s1js_available').show();
-        }
-      });
   };
 
   /**
