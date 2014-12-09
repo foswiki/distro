@@ -323,6 +323,12 @@ if ( $reporter->has_level('errors') ) {
 
 print $reporter->stringify();
 
+# Create a Logger instance and insert in to params hash
+# Note:  The configure should be bootstrapped before this step so that the
+# file system paths for the logger have been defined.
+
+_set_logger($params);
+
 # Perform the action
 
 if ($action) {
@@ -351,6 +357,36 @@ if ( $actions{save} ) {
     my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
 
     _reply($response);
+}
+
+=begin TML
+
+---++ ObjectMethod _set_logger()
+
+This code copied from Foswiki.pm, with changes.   It inserts the Logger into the params hash.
+
+=cut
+
+sub _set_logger {
+    my $params = shift;
+
+    unless ( $params->{logger} ) {
+        if ( $Foswiki::cfg{Log}{Implementation} eq 'none' ) {
+            $params->{logger} = Foswiki::Logger->new();
+        }
+        else {
+            eval "require $Foswiki::cfg{Log}{Implementation}";
+            if ($@) {
+                print STDERR "Logger load failed: $@";
+                $params->{logger} = Foswiki::Logger->new();
+            }
+            else {
+                $params->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
+            }
+        }
+    }
+
+    return;
 }
 
 1;

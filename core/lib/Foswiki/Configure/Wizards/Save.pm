@@ -130,7 +130,14 @@ Returns a wizard report.
 
 sub save {
     my ( $this, $reporter ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
+
+    my $logger;
+    if ($Foswiki::Plugins::SESSION) {
+        $logger = $Foswiki::Plugins::SESSION->logger;
+    }
+    elsif ( defined $this->param('logger') ) {
+        $logger = $this->param('logger');
+    }
 
     # Sort keys so it's possible to diff LSC files.
     local $Data::Dumper::Sortkeys = 1;
@@ -270,7 +277,7 @@ sub save {
         if (%orig_content) {
             $reporter->NOTE('| *Key* | *Old* | *New* |');
             _compareConfigs( $root, \%orig_content, \%Foswiki::cfg,
-                $reporter, '' );
+                $reporter, $logger, '' );
         }
     }
     else {
@@ -283,9 +290,7 @@ sub save {
 # $reporter is set to undef when recursing into a hash below the
 # Foswiki::Configure::Value level
 sub _compareConfigs {
-    my ( $spec, $o, $n, $reporter, $keypath ) = @_;
-
-    my $session = $Foswiki::Plugins::SESSION;
+    my ( $spec, $o, $n, $reporter, $logger, $keypath ) = @_;
 
     my $old = Foswiki::Configure::Reporter::uneval($o);
     my $new = Foswiki::Configure::Reporter::uneval($n);
@@ -301,7 +306,7 @@ sub _compareConfigs {
         }
         if ( $old ne $new ) {
             $old = "($vs->{default})" if $old eq 'undef' && $vs->{default};
-            _logAndReport( $reporter, $session, $keypath, $old, $new );
+            _logAndReport( $reporter, $logger, $keypath, $old, $new );
             return 0;
         }
         return 1;
@@ -311,7 +316,7 @@ sub _compareConfigs {
     if ( $o && $n && ref($o) ne ref($n) ) {
 
         # Both set, but different types. Stop the recursion here.
-        _logAndReport( $reporter, $session, $keypath, $old, $new );
+        _logAndReport( $reporter, $logger, $keypath, $old, $new );
         return 0;
     }
 
@@ -328,6 +333,7 @@ sub _compareConfigs {
                     $o->{$k},
                     $n->{$k},
                     $reporter,
+                    $logger,
                     $keypath . '{'
                       . Foswiki::Configure::LoadSpec::protectKey($k) . '}'
                 )
@@ -343,17 +349,18 @@ sub _compareConfigs {
         $o = [] unless defined $o;
         $n = [] unless defined $n;
         if ( scalar(@$o) != scalar(@$n) ) {
-            _logAndReport( $reporter, $session, $keypath, $old, $new );
+            _logAndReport( $reporter, $logger, $keypath, $old, $new );
             return 0;
         }
         for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
             unless (
                 _compareConfigs(
-                    $spec, $o->[$i], $n->[$i], $reporter, "$keypath\[$i\]"
+                    $spec,     $o->[$i], $n->[$i],
+                    $reporter, $logger,  "$keypath\[$i\]"
                 )
               )
             {
-                _logAndReport( $reporter, $session, $keypath, $old, $new );
+                _logAndReport( $reporter, $logger, $keypath, $old, $new );
                 return 0;
             }
         }
@@ -364,7 +371,7 @@ sub _compareConfigs {
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
-        _logAndReport( $reporter, $session, $keypath, $old, $new );
+        _logAndReport( $reporter, $logger, $keypath, $old, $new );
         return 0;
     }
 
@@ -372,9 +379,9 @@ sub _compareConfigs {
 }
 
 sub _logAndReport {
-    my ( $reporter, $session, $keypath, $old, $new ) = @_;
+    my ( $reporter, $logger, $keypath, $old, $new ) = @_;
 
-    $session->logger->log(
+    $logger->log(
         {
             level    => 'notice',
             action   => 'save',
@@ -382,7 +389,7 @@ sub _logAndReport {
             newvalue => $new,
             oldvalue => $old,
         }
-    ) if ( defined $session );
+    ) if ( defined $logger );
 
     # Truncate the change for the UI
     $old = Foswiki::Configure::Reporter::ellipsis( $old, CHANGE_LIMIT );
