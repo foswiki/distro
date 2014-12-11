@@ -165,7 +165,7 @@ sub genVariationKey {
     }
 
     # get cache_ignore pattern
-    my @ignoreParams = $request->param("cache_ignore");
+    my @ignoreParams = $request->multi_param("cache_ignore");
     push @ignoreParams,
       (
         "cache_expire",           "cache_ignore",
@@ -175,11 +175,11 @@ sub genVariationKey {
       );
     my $ignoreParams = join( "|", @ignoreParams );
 
-    foreach my $key ( sort $request->param() ) {
+    foreach my $key ( sort $request->multi_param() ) {
 
         # filter out some params that are not relevant
         next if $key =~ /^($ignoreParams)$/;
-        my @vals = $request->param($key);
+        my @vals = $request->multi_param($key);
         foreach my $val (@vals) {
             next unless defined $val;    # wtf?
             $variationKey .= '::' . $key . '=' . $val;
