@@ -145,7 +145,7 @@ sub _renameTopicOrAttachment {
                 }
                 return $topic;
             },
-            Foswiki::isTrue( $query->param('nonwikiword') )
+            Foswiki::isTrue( scalar $query->param('nonwikiword') )
         );
     }
 
@@ -1234,7 +1234,7 @@ sub _getReferringTopicsListFromURL {
 
     my $query = $session->{cgiQuery};
     my @result;
-    foreach my $topic ( $query->param('referring_topics') ) {
+    foreach my $topic ( $query->multi_param('referring_topics') ) {
         my ( $itemWeb, $itemTopic ) =
           $session->normalizeWebTopicName( '', $topic );
 

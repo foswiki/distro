@@ -60,7 +60,7 @@ sub process {
     my $minor     = 0;    # If true, this is a quiet save
     my $no_return = 0;    # if true, we want to finish editing after the action
     my $no_save   = 0;    # if true, we are cancelling
-    my $clicked = join( '', $query->param('erp_action') ) || '';
+    my $clicked = join( '', $query->multi_param('erp_action') ) || '';
     if ( $clicked =~ /^#?(quiet)?(save(Table|Row|Cell)Cmd)$/ ) {
         $action    = $2;
         $minor     = $1 ? 1 : 0;
@@ -110,10 +110,10 @@ sub process {
     }
     else {
         $text =~ s/\\\n//gs;
-        my @ps   = $query->param();
+        my @ps   = $query->multi_param();
         my $urps = {};
         foreach my $p (@ps) {
-            my @vals = $query->param($p);
+            my @vals = $query->multi_param($p);
 
             # We interpreted multi-value parameters as comma-separated
             # lists. This is what checkboxes, select+multi etc. use.

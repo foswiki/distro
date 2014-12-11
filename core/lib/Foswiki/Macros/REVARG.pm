@@ -16,7 +16,7 @@ sub REVARG {
     my $request = $this->{request};
     my $out     = '';
     if ($request) {
-        my $rev = Foswiki::Store::cleanUpRevID( $request->param('rev') );
+        my $rev = Foswiki::Store::cleanUpRevID( scalar $request->param('rev') );
         $out = '&rev=' . $rev if ($rev);
     }
     return $out;

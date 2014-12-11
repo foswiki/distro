@@ -1680,7 +1680,7 @@ sub normalizeWebTopicName {
 
    #SMELL: Item12567: Writing the separator as a character class for some reason
    # taints all the results including the data ouside the character class..
-    if ( $topic =~ m{^(.*)(?:\.|/)(.*?)$} ) {
+    if ( defined $topic && $topic =~ m{^(.*)(?:\.|/)(.*?)$} ) {
         $web   = $1;
         $topic = $2;
 

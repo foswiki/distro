@@ -2682,7 +2682,7 @@ sub verify_registerVerifyOKApproved {
     # need to verify that we issue an approval.
     my $query = Unit::Request->new(
         {
-            'code'   => [ $this->{session}->{request}->param('code') ],
+            'code'   => [ scalar $this->{session}->{request}->param('code') ],
             'action' => ['verify']
         }
     );
@@ -2820,7 +2820,7 @@ sub verify_registerVerifyOKDisapproved {
     # need to verify that we issue an approval.
     my $query = Unit::Request->new(
         {
-            'code'   => [ $this->{session}->{request}->param('code') ],
+            'code'   => [ scalar $this->{session}->{request}->param('code') ],
             'action' => ['verify']
         }
     );

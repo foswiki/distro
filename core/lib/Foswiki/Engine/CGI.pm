@@ -207,6 +207,12 @@ sub prepareBody {
     $CONSTRUCTOR_PID = $$;
 
     my $cgi = new CGI();
+    unless ( $cgi->can('multi_param') ) {
+        no warnings 'redefine';
+        print STDERR "REDEFINED CGI multi_param\n";
+        *CGI::multi_param = \&CGI::param;
+        use warnings 'redefine';
+    }
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
       if defined $err && $err =~ /\s*(\d{3})\s*(.*)/;
@@ -217,10 +223,10 @@ sub prepareBodyParameters {
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
-    my @plist = $this->{cgi}->param();
+    my @plist = $this->{cgi}->multi_param();
     foreach my $pname (@plist) {
-        my @values = map { "$_" } $this->{cgi}->param($pname);
-        $req->bodyParam( -name => $pname, -value => \@values );
+        my @values = map { "$_" } $this->{cgi}->multi_param($pname);
+        (undef) = $req->bodyParam( -name => $pname, -value => \@values );
         $this->{uploads}{$pname} = 1 if scalar $this->{cgi}->upload($pname);
     }
 }

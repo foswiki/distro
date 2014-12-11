@@ -135,48 +135,48 @@ sub test_multiple {
     my @multiple = ( 'foo', 'bar', 'baz' );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"multi" multiple="on"}%');
     $this->assert_str_equals( "foo\nbar\nbaz", "$str" );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"multi" multiple="on" separator=","}%');
     $this->assert_str_equals( "foo,bar,baz", "$str" );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"multi" multiple="on" separator=""}%');
     $this->assert_str_equals( "foobarbaz", "$str" );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"multi" multiple="-$item-" separator=" "}%');
     $this->assert_str_equals( "-foo- -bar- -baz-", "$str" );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"multi" multiple="-$item-" separator=""}%');
     $this->assert_str_equals( "-foo--bar--baz-", "$str" );
 
     $this->{request}
-      ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
+      ->multi_param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
       $this->{test_topicObject}->expandMacros(
         '%URLPARAM{"multi" multiple="-$percnt$item-" encode="none"}%');
     $this->assert_str_equals( "-%foo-\n-%bar-\n-%baz-", "$str" );
 
-    $this->{request}->param(
+    $this->{request}->multi_param(
         -name  => 'multi',
         -value => [ 'f!"£$' . "\n" . '{}[]o', 'b%^&*:@;\'r', 'b()_+-=<>?,./|z' ]
     );

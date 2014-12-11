@@ -93,7 +93,7 @@ sub new {
 
     if ( ref($initializer) eq 'HASH' ) {
         while ( my ( $key, $value ) = each %$initializer ) {
-            $this->param(
+            $this->multi_param(
                 -name  => $key,
                 -value => ref($value) eq 'ARRAY' ? [@$value] : [$value]
             );
@@ -380,7 +380,7 @@ future, so it could be possible to get query and body parameters independently.
 sub queryParam {
     my $this = shift;
     return if $this->method && $this->method eq 'POST';
-    return $this->param(@_);
+    return $this->multi_param(@_);
 }
 
 =begin TML
@@ -398,7 +398,7 @@ only by engines. Otherwise use param() method.
 
 sub bodyParam {
     my $this = shift;
-    return $this->param(@_);
+    return $this->multi_param(@_);
 }
 
 =begin TML
@@ -421,12 +421,34 @@ Resonably compatible with CGI.
 
 =cut
 
+sub multi_param {
+
+    my @list_of_params = param(@_);
+    return @list_of_params;
+}
+
 sub param {
-    my ( $this, @p ) = @_;
+    my ( $this, @p ) = (@_);
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     return @{ $this->{param_list} } unless defined $key;
+
+# list context can be dangerous so warn:
+# http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
+    if (wantarray) {
+        my ( $package, $filename, $line ) = caller;
+        if ( $package ne 'Foswiki::Request' ) {
+            die
+"Foswiki::Request::param called in list context from package $package line $line, declare as scalar, or call multi_param. ";
+        }
+    }
+    elsif ( defined $value[0] && ref $value[0] eq 'ARRAY' ) {
+        my ( $package, $filename, $line ) = caller;
+        warn
+"Foswiki::Request::param called in scalar context from package $package line $line, but parameter is multi-valued. ";
+    }
+
     if ( defined $value[0] ) {
         push @{ $this->{param_list} }, $key
           unless exists $this->{param}{$key};
@@ -638,7 +660,7 @@ sub load {
         }
     }
     foreach my $key (@plist) {
-        $this->param( -name => $key, -value => $param{$key} );
+        $this->multi_param( -name => $key, -value => $param{$key} );
     }
 }
 

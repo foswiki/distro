@@ -63,10 +63,10 @@ sub process {
     }
     else {
         $text =~ s/\\\n//gs;
-        my @ps   = $query->param();
+        my @ps   = $query->multi_param();
         my $urps = {};
         foreach my $p (@ps) {
-            my @vals = $query->param($p);
+            my @vals = $query->multi_param($p);
 
             # We interpreted multi-value parameters as comma-separated
             # lists. This is what checkboxes, select+multi etc. use.

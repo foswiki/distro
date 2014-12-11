@@ -57,12 +57,12 @@ sub init_edit {
 
     my $adminCmd   = $query->param('cmd')        || '';
     my $redirectTo = $query->param('redirectto') || '';
-    my $onlyWikiName  = Foswiki::isTrue( $query->param('onlywikiname') );
-    my $onlyNewTopic  = Foswiki::isTrue( $query->param('onlynewtopic') );
+    my $onlyWikiName  = Foswiki::isTrue( scalar $query->param('onlywikiname') );
+    my $onlyNewTopic  = Foswiki::isTrue( scalar $query->param('onlynewtopic') );
     my $formTemplate  = $query->param('formtemplate') || '';
     my $templateTopic = $query->param('templatetopic') || '';
     my $notemplateexpansion =
-      Foswiki::isTrue( $query->param('notemplateexpansion') );
+      Foswiki::isTrue( scalar $query->param('notemplateexpansion') );
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =

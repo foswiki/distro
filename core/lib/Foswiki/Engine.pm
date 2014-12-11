@@ -200,7 +200,7 @@ sub prepareQueryParameters {
         }
     }
     foreach my $param (@plist) {
-        $req->queryParam( $param, $params{$param} );
+        (undef) = $req->queryParam( $param, $params{$param} );
     }
 }
 

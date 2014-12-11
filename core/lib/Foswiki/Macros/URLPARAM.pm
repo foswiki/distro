@@ -25,7 +25,7 @@ sub URLPARAM {
     my $value = '';
     if ( $this->{request} ) {
         if ( Foswiki::isTrue($multiple) ) {
-            my @valueArray = $this->{request}->param($param);
+            my @valueArray = $this->{request}->multi_param($param);
             if (@valueArray) {
 
                 # join multiple values properly

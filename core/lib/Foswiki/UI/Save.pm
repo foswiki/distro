@@ -58,7 +58,7 @@ sub buildNewTopic {
     }
 
     # Prevent saving existing topic?
-    my $onlyNewTopic = Foswiki::isTrue( $query->param('onlynewtopic') );
+    my $onlyNewTopic = Foswiki::isTrue( scalar $query->param('onlynewtopic') );
     if ( $onlyNewTopic && $topicExists ) {
 
         # Topic exists and user requested oops if it exists
@@ -71,7 +71,7 @@ sub buildNewTopic {
     }
 
     # prevent non-Wiki names?
-    my $onlyWikiName = Foswiki::isTrue( $query->param('onlywikiname') );
+    my $onlyWikiName = Foswiki::isTrue( scalar $query->param('onlywikiname') );
     if (   ($onlyWikiName)
         && ( !$topicExists )
         && ( !Foswiki::isValidTopicName( $topicObject->topic ) ) )

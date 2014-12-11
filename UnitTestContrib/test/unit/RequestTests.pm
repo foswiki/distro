@@ -34,7 +34,7 @@ sub test_empty_new {
     $this->assert_str_equals( 0, scalar @list, '$req->header not empty' );
 
     @list = ();
-    @list = $req->param();
+    @list = $req->multi_param();
     $this->assert_str_equals( 0, scalar @list, '$req->param not empty' );
 
     my $ref = $req->cookies();
@@ -60,14 +60,17 @@ sub test_new_from_hash {
     my $req = new Foswiki::Request( \%init );
     $this->assert_str_equals(
         5,
-        scalar $req->param(),
+        scalar $req->multi_param(),
         'Wrong number of parameteres'
     );
-    $this->assert_str_equals( 's1', $req->param('simple'),
-        'Wrong parameter value' );
+    $this->assert_str_equals(
+        's1',
+        scalar $req->param('simple'),
+        'Wrong parameter value'
+    );
     $this->assert_str_equals(
         's2',
-        $req->param('simple2'),
+        scalar $req->param('simple2'),
         'Wrong parameter value'
     );
     $this->assert_str_equals(
@@ -75,12 +78,12 @@ sub test_new_from_hash {
         scalar $req->param('multi'),
         'Wrong parameter value'
     );
-    my @values = $req->param('multi');
+    my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number of values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
-    $this->assert_null( $req->param('undef'), 'Wrong parameter value' );
-    @values = $req->param('multi_undef');
+    $this->assert_null( scalar $req->param('undef'), 'Wrong parameter value' );
+    @values = $req->multi_param('multi_undef');
     $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
 }
 
@@ -104,19 +107,25 @@ EOF
         scalar $req->param(),
         'Wrong number of parameters'
     );
-    $this->assert_str_equals( 's1', $req->param('simple'),
-        'Wrong parameter value' );
     $this->assert_str_equals(
-        's2',
-        $req->param('simple2'),
+        's1',
+        scalar $req->param('simple'),
         'Wrong parameter value'
     );
-    my @values = $req->param('multi');
+    $this->assert_str_equals(
+        's2',
+        scalar $req->param('simple2'),
+        'Wrong parameter value'
+    );
+    my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number o values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
-    $this->assert_str_equals( '', $req->param('empty'),
-        'Wrong parameter value' );
+    $this->assert_str_equals(
+        '',
+        scalar $req->param('empty'),
+        'Wrong parameter value'
+    );
 }
 
 sub test_action {
@@ -218,9 +227,12 @@ sub test_queryString {
     $req->param( -name => 'simple2', -value => 's2' );
     $this->assert_matches( 'simple1=s1[;&]simple2=s2', $req->query_string,
         'Wrong query string' );
-    $req->param( -name => 'multi', -value => [qw(m1 m2)] );
-    $this->assert_matches( 'simple1=s1[;&]simple2=s2[;&]multi=m1[;&]multi=m2',
-        $req->query_string, 'Wrong query string' );
+    $req->multi_param( -name => 'multi', -value => [qw(m1 m2)] );
+    $this->assert_matches(
+        'simple1=s1[;&]simple2=s2[;&]multi=m1[;&]multi=m2',
+        scalar $req->query_string,
+        'Wrong query string'
+    );
 }
 
 sub perform_url_test {
@@ -233,7 +245,7 @@ sub perform_url_test {
     $req->path_info($path);
     $req->param( -name => 'simple1', -value => 's1 s1' );
     $req->param( -name => 'simple2', -value => 's2' );
-    $req->param( -name => 'multi',   -value => [qw(m1 m2)] );
+    $req->multi_param( -name => 'multi', -value => [qw(m1 m2)] );
     my $base = $secure ? 'https' : 'http';
     $base .= '://' . $host;
     $this->assert_str_equals( $base, $req->url( -base => 1 ),
@@ -331,17 +343,17 @@ sub test_query_param {
     my $req  = new Foswiki::Request("");
 
     $req->queryParam( -name => 'q1', -value => 'v1' );
-    my @result = $req->param('q1');
+    my @result = $req->multi_param('q1');
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( -name => 'q2', -values => [qw(v1 v2)] );
-    @result = $req->param('q2');
+    @result = $req->multi_param('q2');
     $this->assert_deep_equals( [qw(v1 v2)], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( 'p', qw(qv1 qv2 qv3) );
-    @result = $req->param('p');
+    @result = $req->multi_param('p');
     $this->assert_deep_equals( [qw(qv1 qv2 qv3)], \@result,
         'wrong value from queryParam()' );
 
@@ -353,7 +365,7 @@ sub test_query_param {
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong parameter name from queryParam()' );
 
-    @result = ( scalar $req->queryParam('nonexistent') );
+    @result = ( $req->queryParam('nonexistent') );
     $this->assert_deep_equals( [undef], \@result,
         'wrong parameter name from queryParam()' );
 
@@ -404,17 +416,17 @@ sub test_body_param {
     my $req  = new Foswiki::Request("");
 
     $req->bodyParam( -name => 'q1', -value => 'v1' );
-    my @result = $req->param('q1');
+    my @result = $req->multi_param('q1');
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong value from bodyParam()' );
 
     $req->bodyParam( -name => 'q2', -values => [qw(v1 v2)] );
-    @result = $req->param('q2');
+    @result = $req->multi_param('q2');
     $this->assert_deep_equals( [qw(v1 v2)], \@result,
         'wrong value from bodyParam()' );
 
     $req->bodyParam( 'p', qw(qv1 qv2 qv3) );
-    @result = $req->param('p');
+    @result = $req->multi_param('p');
     $this->assert_deep_equals( [qw(qv1 qv2 qv3)], \@result,
         'wrong value from bodyParam()' );
 
@@ -426,7 +438,7 @@ sub test_body_param {
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong parameter name from bodyParam()' );
 
-    @result = ( scalar $req->bodyParam('nonexistent') );
+    @result = ( $req->bodyParam('nonexistent') );
     $this->assert_deep_equals( [undef], \@result,
         'wrong parameter name from bodyParam()' );
 
@@ -523,10 +535,10 @@ sub test_delete {
     my $this = shift;
     my $req  = new Foswiki::Request("");
 
-    $req->param( -name => 'q2',   -values => [qw(v1 v2)] );
-    $req->param( -name => 'q1',   -value  => 'v1' );
-    $req->param( -name => 'null', -value  => 0 );
-    $req->param( 'p', qw(qv1 qv2 qv3) );
+    $req->multi_param( -name => 'q2', -values => [qw(v1 v2)] );
+    $req->param( -name => 'q1',   -value => 'v1' );
+    $req->param( -name => 'null', -value => 0 );
+    $req->multi_param( 'p', qw(qv1 qv2 qv3) );
     $req->param( -name => 'q3', -value => 'v3' );
     require File::Temp;
     my $tmp = File::Temp->new( UNLINK => 0 );
@@ -542,7 +554,7 @@ sub test_delete {
     );
     $req->uploads( \%uploads );
 
-    my @result = $req->param();
+    my @result = $req->multi_param();
     $this->assert_deep_equals( [qw(q2 q1 null p q3 file)],
         \@result, 'wrong returned parameter values' );
 
@@ -551,17 +563,17 @@ sub test_delete {
     close($tmp);
 
     $req->delete('q1');
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_deep_equals( [qw(q2 null p q3 file)], \@result,
         'wrong returned parameter values' );
 
     $req->Delete(qw(q2 q3 null));
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_deep_equals( [qw(p file)], \@result,
         'wrong returned parameter values' );
 
     $req->delete('file');
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_deep_equals( [qw(p)], \@result,
         'wrong returned parameter values' );
     $this->assert(
@@ -575,9 +587,9 @@ sub test_delete_all {
     my $this = shift;
     my $req  = new Foswiki::Request("");
 
-    $req->param( -name => 'q2', -values => [qw(v1 v2)] );
-    $req->param( -name => 'q1', -value  => 'v1' );
-    $req->param( 'p', qw(qv1 qv2 qv3) );
+    $req->multi_param( -name => 'q2', -values => [qw(v1 v2)] );
+    $req->param( -name => 'q1', -value => 'v1' );
+    $req->multi_param( 'p', qw(qv1 qv2 qv3) );
     $req->param( -name => 'q3', -value => 'v3' );
     require File::Temp;
     my $tmp = File::Temp->new( UNLINK => 0 );
@@ -593,7 +605,7 @@ sub test_delete_all {
     );
     $req->uploads( \%uploads );
 
-    my @result = $req->param();
+    my @result = $req->multi_param();
     $this->assert_deep_equals( [qw(q2 q1 p q3 file)], \@result,
         'wrong returned parameter values' );
 
@@ -602,12 +614,12 @@ sub test_delete_all {
     close($tmp);
 
     $req->deleteAll();
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_num_equals( 0, scalar @result, "deleteAll didn't work" );
 
-    $req->param( -name => 'q2', -values => [qw(v1 v2)] );
-    $req->param( -name => 'q1', -value  => 'v1' );
-    $req->param( 'p', qw(qv1 qv2 qv3) );
+    $req->multi_param( -name => 'q2', -values => [qw(v1 v2)] );
+    $req->param( -name => 'q1', -value => 'v1' );
+    $req->multi_param( 'p', qw(qv1 qv2 qv3) );
     $req->param( -name => 'q3', -value => 'v3' );
     $tmp = File::Temp->new( UNLINK => 0 );
     $req->param( file => "Temp.txt" );
@@ -619,7 +631,7 @@ sub test_delete_all {
 
     close($tmp);
     $req->delete_all();
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_num_equals( 0, scalar @result, "deleteAll didn't work" );
     $this->assert(
         !-e $tmp->filename,
@@ -667,10 +679,10 @@ sub test_header {
 sub test_save {
     my $this = shift;
     my $req  = new Foswiki::Request("");
-    $req->param( -name => 'simple',  -value => 's1' );
-    $req->param( -name => 'simple2', -value => 's2' );
-    $req->param( -name => 'multi',   -value => [qw(m1 m2)] );
-    $req->param( -name => 'undef',   -value => [undef] );
+    scalar $req->param( -name => 'simple',  -value => 's1' );
+    scalar $req->param( -name => 'simple2', -value => 's2' );
+    scalar $req->multi_param( -name => 'multi', -value => [qw(m1 m2)] );
+    (undef) = $req->multi_param( -name => 'undef', -value => [undef] );
     require File::Temp;
     my $tmp = File::Temp->new( UNLINK => 1 );
     $req->save($tmp);
@@ -706,22 +718,28 @@ EOF
     $req->load($tmp);
     $this->assert_str_equals(
         4,
-        scalar $req->param(),
+        scalar $req->multi_param(),
         'Wrong number of parameters'
     );
-    $this->assert_str_equals( 's1', $req->param('simple'),
-        'Wrong parameter value' );
     $this->assert_str_equals(
-        's2',
-        $req->param('simple2'),
+        's1',
+        scalar $req->param('simple'),
         'Wrong parameter value'
     );
-    my @values = $req->param('multi');
+    $this->assert_str_equals(
+        's2',
+        scalar $req->param('simple2'),
+        'Wrong parameter value'
+    );
+    my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number o values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
-    $this->assert_str_equals( '', $req->param('empty'),
-        'Wrong parameter value' );
+    $this->assert_str_equals(
+        '',
+        scalar $req->param('empty'),
+        'Wrong parameter value'
+    );
 }
 
 sub test_upload {

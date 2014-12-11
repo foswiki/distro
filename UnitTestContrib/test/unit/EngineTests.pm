@@ -198,10 +198,10 @@ sub _fillSimpleParam {
 sub _fillMultiParam {
     my $req = shift;
     $req->deleteAll();
-    $req->param( -name => 'p1', -value => [ 0, 0, 7 ] );
-    $req->param( -name => 'p2', -value => [ '0',      'v21' ] );
-    $req->param( -name => 'p+', -value => [ 'a.#<>;', "'<html>'" ] );
-    $req->param( -name => '0',  -value => [ '',       '' ] );
+    $req->multi_param( -name => 'p1', -value => [ 0, 0, 7 ] );
+    $req->multi_param( -name => 'p2', -value => [ '0',      'v21' ] );
+    $req->multi_param( -name => 'p+', -value => [ 'a.#<>;', "'<html>'" ] );
+    $req->multi_param( -name => '0',  -value => [ '',       '' ] );
     return $req;
 }
 
@@ -214,10 +214,10 @@ sub checkParam {
         [ $result->param ],
         'Wrong parameter names'
     );
-    foreach my $p ( $req->param ) {
+    foreach my $p ( $req->multi_param ) {
         $this->assert_deep_equals(
-            [ $req->param($p) ],
-            [ $result->param($p) ],
+            [ $req->multi_param($p) ],
+            [ $result->multi_param($p) ],
             'Wrong parameter value'
         );
     }

@@ -240,13 +240,13 @@ sub _checkApproval {
 
         # The registration has been denied; serve up denial feedback
         my $data = {
-            EmailAddress => $session->{request}->param('email'),
-            Referee      => $session->{request}->param('referee'),
+            EmailAddress => scalar $session->{request}->param('email'),
+            Referee      => scalar $session->{request}->param('referee'),
             WikiName     => Foswiki::Sandbox::untaint(
                 $session->{request}->param('wikiname') || 'UnknownUser',
                 \&Foswiki::Sandbox::validateTopicName
             ),
-            Feedback => $session->{request}->param('feedback')
+            Feedback => scalar $session->{request}->param('feedback')
         };
         my $err = _sendEmail( $session, 'registerdenied', $data );
         if ($err) {
@@ -433,9 +433,10 @@ sub bulkRegister {
     $log .= "----\n";
 
     my $logWeb;
-    my $logTopic = Foswiki::Sandbox::untaint( $query->param('LogTopic'),
-        \&Foswiki::Sandbox::validateTopicName )
-      || $topic . 'Result';
+    my $logTopic = Foswiki::Sandbox::untaint(
+        scalar $query->param('LogTopic'),
+        \&Foswiki::Sandbox::validateTopicName
+    ) || $topic . 'Result';
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
@@ -826,8 +827,10 @@ sub deleteUser {
     }
 
     if ( $removeTopic && $query->param('topicPrefix') ) {
-        $topicPrefix = Foswiki::Sandbox::untaint( $query->param('topicPrefix'),
-            \&Foswiki::Sandbox::validateTopicName );
+        $topicPrefix = Foswiki::Sandbox::untaint(
+            scalar $query->param('topicPrefix'),
+            \&Foswiki::Sandbox::validateTopicName
+        );
         throw Foswiki::OopsException(
             'register',
             web   => $webName,
@@ -875,10 +878,10 @@ sub addUserToGroup {
     my $web     = $session->{webName};
     my $user    = $session->{user};
 
-    my @userNames = $query->param('username');
+    my @userNames = $query->multi_param('username');
 
     my $groupName = $query->param('groupname');
-    my $create = Foswiki::isTrue( $query->param('create'), 0 );
+    my $create = Foswiki::isTrue( scalar $query->param('create'), 0 );
     if ( !$groupName or $groupName eq '' ) {
         my $userNames = scalar @userNames ? join( ',', @userNames ) : '';
         throw Foswiki::OopsException(
@@ -1034,7 +1037,7 @@ sub removeUserFromGroup {
     my $web     = $session->{webName};
     my $user    = $session->{user};
 
-    my @userNames = $query->param('username');
+    my @userNames = $query->multi_param('username');
     my $groupName = $query->param('groupname');
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
@@ -1982,12 +1985,12 @@ sub _getDataFromQuery {
 
     # get all parameters from the form
     my $data = {};
-    foreach my $key ( $query->param() ) {
+    foreach my $key ( $query->multi_param() ) {
         if ( $key =~ /^((?:Twk|Fwk)([0-9])(.*))/
             and ( defined( $query->param($key) ) ) )
         {
     #next if ($key =~ /LoginName$/ && !$Foswiki::cfg{Register}{AllowLoginName});
-            my @values   = $query->param($key);
+            my @values   = $query->multi_param($key);
             my $required = $2;
             my $name     = $3;
 

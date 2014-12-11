@@ -53,7 +53,7 @@ sub resetPassword {
         );
     }
 
-    my @userNames = $query->param('LoginName');
+    my @userNames = $query->multi_param('LoginName');
     unless (@userNames) {
         throw Foswiki::OopsException( 'register', def => 'no_users_to_reset' );
     }

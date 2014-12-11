@@ -118,12 +118,13 @@ sub _restSave {
     my $query    = Foswiki::Func::getCgiQuery();
 
     my ( $web, $topic ) =
-      Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+      Foswiki::Func::normalizeWebTopicName( undef,
+        scalar $query->param('topic') );
 
-    if ( $query->param('comment_target') ) {
+    if ( scalar $query->param('comment_target') ) {
         ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web,
-            $query->param('comment_target') );
+            scalar $query->param('comment_target') );
     }
 
     $web =

@@ -1864,9 +1864,9 @@ sub handler {
 
         # Copy existing values
         my ( @origSort, @origTable, @origUp );
-        @origSort  = $cgi->param('sortcol');
-        @origTable = $cgi->param('table');
-        @origUp    = $cgi->param('up');        # NOTE: internal parameter
+        @origSort  = $cgi->multi_param('sortcol');
+        @origTable = $cgi->multi_param('table');
+        @origUp    = $cgi->multi_param('up');        # NOTE: internal parameter
         $cgi->delete( 'sortcol', 'table', 'up' );
         $url = $cgi->url( -absolute => 1, -path => 1 ) . '?';
         my $queryString = $cgi->query_string();
@@ -1878,7 +1878,7 @@ sub handler {
         $cgi->param( -name => 'up',      -value => \@origUp )    if @origUp;
 
         $sortColFromUrl =
-          $cgi->param('sortcol');              # zero based: 0 is first column
+          $cgi->param('sortcol');    # zero based: 0 is first column
         if ( defined $sortColFromUrl && $sortColFromUrl !~ m/^[0-9]+$/ ) {
             $sortColFromUrl = 0;
         }

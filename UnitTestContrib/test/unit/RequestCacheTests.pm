@@ -43,15 +43,18 @@ sub test_simpleparams {
     $this->assert($uid);
     $req = new Foswiki::Request('');
     $cache->load( $uid, $req );
-    my @values = $req->param('multi');
+    my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number of values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
 
     # Item12956: undef parameters are written out as "empty".
-    $this->assert_str_equals( '', $req->param('undef'),
-        'Wrong parameter value' );
-    @values = $req->param('multi_undef');
+    $this->assert_str_equals(
+        '',
+        scalar $req->param('undef'),
+        'Wrong parameter value'
+    );
+    @values = $req->multi_param('multi_undef');
     $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
     $this->assert_str_equals( "BURP",      $req->method() );
     $this->assert_str_equals( "/bad/wolf", $req->path_info() );

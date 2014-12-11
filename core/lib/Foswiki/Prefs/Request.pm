@@ -53,7 +53,7 @@ sub set {
         next unless $key =~ /^(Local|Set|Unset)\+(.*)$/;
         my $type   = $1;
         my $name   = $2;
-        my @values = $request->param($key);
+        my @values = $request->multi_param($key);
         next unless @values;
         @values = grep { !/^$/ } @values if @values > 1;
         my $value = join( ", ", @values );
@@ -62,7 +62,7 @@ sub set {
 
         # convert a set to an unset if that's already default
         if ( $type =~ /Local|Set/ ) {
-            my @defaultValues = $request->param("Default+$name");
+            my @defaultValues = $request->multi_param("Default+$name");
             if (@defaultValues) {
                 @defaultValues = grep { !/^$/ } @defaultValues
                   if @defaultValues > 1;
