@@ -240,14 +240,14 @@ sub populateMetaFromQueryData {
 
     return unless $this->{name};
 
-    my %names = map { $_ => 1 } $query->param;
+    my %names = map { $_ => 1 } $query->multi_param;
 
     if ( $names{ $this->{name} } ) {
 
         # Field is present in the request
         $bPresent = 1;
         if ( $this->isMultiValued() ) {
-            my @values = $query->param( $this->{name} );
+            my @values = $query->multi_param( $this->{name} );
 
             if ( scalar(@values) == 1 && defined $values[0] ) {
                 @values = split( /,|%2C/, $values[0] );

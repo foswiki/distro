@@ -611,7 +611,7 @@ WARN
         # replace top revision with the text from the query, trying to
         # make it look as much like the original as possible. The query
         # text is expected to contain %META as well as text.
-        $topicObject->text( $query->param('text') );
+        $topicObject->text( scalar $query->param('text') );
 
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );

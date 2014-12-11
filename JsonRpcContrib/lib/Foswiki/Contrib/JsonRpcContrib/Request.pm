@@ -57,9 +57,9 @@ sub new {
     writeDebug("namespace=$namespace") if TRACE;
 
     # override json-rpc params using url params
-    foreach my $key ( $request->param() ) {
+    foreach my $key ( $request->multi_param() ) {
         next if $key =~ /^(POSTDATA|method|id|jsonrpc)$/;  # these are different
-        my @vals = map( fromUtf8($_), $request->param($key) );
+        my @vals = map( fromUtf8($_), $request->multi_param($key) );
         if ( scalar(@vals) == 1 ) {
             $this->param( $key => $vals[0] )
               ;    # set json-rpc params using url params
