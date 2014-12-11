@@ -51,10 +51,9 @@ sub _backupCurrentContent {
         return ($content) if ( $!{ENOENT} );    # Race: file disappeared
         die "Unable to read $path: $!\n";       # Serious error
     }
-
-    unless ( defined $Foswiki::cfg{MaxLSCBackups}
-        && $Foswiki::cfg{MaxLSCBackups} >= -1 )
-    {
+    $Foswiki::cfg{MaxLSCBackups} = 10
+      unless defined $Foswiki::cfg{MaxLSCBackups};
+    unless ( $Foswiki::cfg{MaxLSCBackups} >= -1 ) {
         $Foswiki::cfg{MaxLSCBackups} = 0;
         $reporter->CHANGED('{MaxLSCBackups}');
     }
@@ -164,7 +163,11 @@ sub save {
 
         # Eval the old LSC and extract the content (assuming we can)
         local %Foswiki::cfg;
-        eval $1;
+        {
+            our $FALSE = 0;
+            our $TRUE  = 1;
+            eval $1;
+        }
         if ($@) {
             print STDERR "Error reading existing $lsc: $@";
 
@@ -265,7 +268,10 @@ sub save {
         print F $new_content;
         close(F) or die "Close failed for $lsc: $!\n";
         umask($um);
-        if ( $backup && ( my $max = $Foswiki::cfg{MaxLSCBackups} ) >= 0 ) {
+        my $max = $Foswiki::cfg{MaxLSCBackups};
+        $max = -1 unless defined $max;    # Unlimited
+        if ( $backup && $max >= 0 ) {
+
             while ( @backups > $max ) {
                 my $n = pop @backups;
                 unlink "$lsc.$n";
@@ -412,6 +418,14 @@ sub _generateLSC {
 
     my $vs = $spec->getValueObject($keys);
     if ($vs) {
+        if ( !defined $datum || $datum eq '' ) {
+
+            # A null value and nullok will suppress the item in LSC
+            my $check = $vs->{CHECK}->[0];
+            if ( $check && $check->{nullok}[0] ) {
+                return ();
+            }
+        }
         my $d = Foswiki::Configure::Reporter::uneval($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }

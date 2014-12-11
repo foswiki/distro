@@ -86,6 +86,38 @@ sub test_changecfg {
             '{TempfileDir}' => '',
         }
     };
+
+    # Smoosh LSC
+    my $LSC = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
+    $this->assert( open( F, '>', $LSC ), $@ );
+    local $/ = undef;
+    print F <<'LSC';
+$Foswiki::cfg{UnitTestContrib}{Configure}{STRING} = 'Rope';
+$Foswiki::cfg{UnitTestContrib}{Configure}{BOOLEAN} = 0;
+$Foswiki::cfg{UnitTestContrib}{Configure}{COMMAND} = 'Instruction';
+$Foswiki::cfg{UnitTestContrib}{Configure}{DATE} = '23 Jan 2012';
+$Foswiki::cfg{UnitTestContrib}{Configure}{EMAILADDRESS} = 'oleg@spam.ru';
+$Foswiki::cfg{UnitTestContrib}{Configure}{OCTAL} = 333;
+$Foswiki::cfg{UnitTestContrib}{Configure}{PASSWORD} = 'pass';
+$Foswiki::cfg{UnitTestContrib}{Configure}{PATH} = 'road';
+$Foswiki::cfg{UnitTestContrib}{Configure}{SELECTCLASS} = 'Foswiki::Configure::Value';
+$Foswiki::cfg{UnitTestContrib}{Configure}{SELECT} = 'drive';
+$Foswiki::cfg{UnitTestContrib}{Configure}{URLPATH} = '/nowhere';
+$Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://google.com';
+$Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'hidden';
+$Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'iot';
+$Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'full';
+$Foswiki::cfg{UnitTestContrib}{Configure}{DEP_STRING} = 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx';
+$Foswiki::cfg{UnitTestContrib}{Configure}{DEP_PERL} = {
+    'string' => 'real$Foswiki::cfg{UnitTestContrib}{Configure}{URL}/man'
+};
+$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_HASH} = { a => 5, b => 6 };
+$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_ARRAY} = [ 5, 6 ];
+1;
+LSC
+    close F;
+    Foswiki::Configure::Load::readConfig( 0, 0 );
+
     my $wizard   = Foswiki::Configure::Wizards::Save->new($params);
     my $reporter = Foswiki::Configure::Reporter->new();
     $wizard->save($reporter);
@@ -115,12 +147,12 @@ sub test_changecfg {
         {
             level => 'notes',
             text =>
-              '| {UnitTestContrib}{Configure}{PERL_ARRAY} | ([1,2]) | [3,4] |',
+              '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |',
         },
         {
             level => 'notes',
             text =>
-'| {UnitTestContrib}{Configure}{PERL_HASH} | ({\'a\' => 1,\'b\' => 2}) | {\'pootle\' => 1} |',
+'| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |',
         },
         {
             level => 'notes',
@@ -138,15 +170,15 @@ q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
     $r = shift(@$ms);
     $this->assert_matches( qr/^\| \*Key/, $r->{text} );
     $this->assert_str_equals( 'notes', $r->{level} );
+    $r = shift(@$ms);
+    $this->assert_matches( qr/^\| {DetailedOS}/, $r->{text} );
+    $this->assert_str_equals( 'notes', $r->{level} );
 
     #print STDERR Data::Dumper->Dump([$ms]);
     $this->assert_deep_equals( $ms, $expected );
 
     # Check it was written correctly
-    open( F, '<',
-        Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg') )
-      || die $@;
-    local $/ = undef;
+    $this->assert( open( F, '<', $LSC ), $@ );
     my $c = <F>;
     close F;
 
