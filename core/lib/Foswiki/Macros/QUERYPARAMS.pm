@@ -23,7 +23,7 @@ sub QUERYPARAMS {
     my $encoding = $params->{encoding} || 'safe';
 
     my @list;
-    foreach my $name ( $this->{request}->param() ) {
+    foreach my $name ( $this->{request}->multi_param() ) {
 
         # Issues multi-valued parameters as separate hiddens
         my $value = $this->{request}->param($name);
