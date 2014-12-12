@@ -32,6 +32,14 @@ sub new {
     my ( $class, $session ) = @_;
 
     my $request = $session->{request};
+
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( $request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+
     my $this = bless( {}, $class );
 
     # get json-rpc request object
