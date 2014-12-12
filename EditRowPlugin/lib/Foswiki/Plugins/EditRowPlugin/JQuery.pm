@@ -35,7 +35,7 @@ sub new {
         css           => ["erp.css"],
         documentation => "$Foswiki::cfg{SystemWebName}.EditRowPlugin",
         javascript    => [ "erp.js", "TableSort.js" ],
-        dependencies  => [ 'UI', 'JEditable', "Theme" ]
+        dependencies  => [ 'UI', 'JEditable' ]
     );
 
     return $this;
