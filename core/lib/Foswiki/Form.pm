@@ -58,6 +58,9 @@ my %reservedFieldNames = map { $_ => 1 }
   forcenewrevision formtemplate onlynewtopic onlywikiname
   originalrev skin templatetopic text topic topicparent user );
 
+my @default_columns = qw/name type size value tooltip attributes default/;
+my %valid_columns = map { $_ => 1 } @default_columns;
+
 =begin TML
 
 ---++ ClassMethod new ( $session, $web, $topic, \@def )
@@ -220,7 +223,7 @@ sub fieldTitle2FieldName {
 # Returns array of arrays
 #   1st - list fields
 #   2nd - name, title, type, size, vals, tooltip, attributes
-#   Possible attributes are "M" (mandatory field)
+#   Possible attributes are "M" (mandatory field) and "H" (hidden)
 sub _parseFormDefinition {
     my $this = shift;
 
@@ -237,35 +240,65 @@ sub _parseFormDefinition {
         our @ISA = ('Error');
     }
 
-    # Support column reordering
-    my @indices   = qw/name type size value tooltip attributes default/;
+    # Valid column titles, in default order.
+    my @columns   = @default_columns;
     my $col       = 0;
     my $have_head = 0;
+    my $seen_head = 0;
 
     #    my @field     = ();
-    my %field   = ();
+    my %field = ();
+
     my $handler = sub {
         my $event = shift;
+        if ( $event eq 'th' ) {
+            if ($have_head) {
+
+                # A header on any row but the first is treated as data
+                $event = 'td';
+                $_[1] = "*$_[1]*";
+            }
+            else {
+                # Header row declaring column titles. This may re-order the
+                # columns.
+                my ( $pre, $data, $post ) = @_;
+                $data = lc($data);
+                $data =~ s/[\s:]//g;
+                $data = 'tooltip' if $data eq 'tooltipmessage';
+                $data = 'value'   if $data eq 'values';
+                $columns[ $col++ ] = $data if $valid_columns{$data};
+                $seen_head = 1;
+                return;
+            }
+        }
+
+        if ( $event eq 'td' ) {
+            my ( $pre, $data, $post ) = @_;
+
+            $data = '' unless defined $data;
+
+            $field{ $columns[$col] } = $data if $columns[$col];
+            $col++;
+            return;
+        }
+
         if ( $event eq 'close_table' ) {
 
             # Abort the parse after the first table has been read
             throw Foswiki::Form::ParseFinished;
         }
-        elsif ( $event eq 'th' ) {
-            my ( $pre, $data, $post ) = @_;
-            $data = lc($data);
-            $data =~ s/[\s:]//g;
-            $data = 'tooltip' if $data eq 'tooltipmessage';
-            $indices[ $col++ ];
-        }
-        elsif ( $event eq 'close_tr' ) {
-            $col = 0;
-            unless ($have_head) {
 
-        #er, so if there is no header on the table, we just assume its all good?
+        if ( $event eq 'close_tr' ) {
+            $col = 0;
+            if ( !$have_head && $seen_head ) {
+
+                # Closing the header row
                 $have_head = 1;
                 return;
+
+                # if !$seen_head it's a conventional data row
             }
+            $have_head = 1;    # Subsequent th cells treated as data
 
             if ( $field{type} ) {
                 $field{type} = lc( $field{type} );
@@ -327,12 +360,6 @@ sub _parseFormDefinition {
             %field = ();
 
             $this->{mandatoryFieldsPresent} ||= $fieldDef->isMandatory();
-        }
-        elsif ( $event eq 'td' ) {
-            my ( $pre, $data, $post ) = @_;
-
-            #push( @field, $data );
-            $field{ $indices[ $col++ ] } = $data || '' if ( $indices[$col] );
         }
     };
 
@@ -672,7 +699,7 @@ sub renderForDisplay {
     foreach my $fieldDef ( @{ $this->{fields} } ) {
         my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
-        my $fa = $fm->{attributes} || '';
+        my $fa = $fieldDef->{attributes} || '';
         unless ( $fa =~ /H/ ) {
             $hasAllFieldsHidden = 0;
             my $row = $rowTemplate;
@@ -711,10 +738,9 @@ sub _extractPseudoFieldDefs {
         # Fields are name, value, title, but there is no other type
         # information so we have to treat them all as "text" :-(
         my $fieldDef = new Foswiki::Form::FieldDefinition(
-            session    => $this->session,
-            name       => $field->{name},
-            title      => $field->{title} || $field->{name},
-            attributes => $field->{attributes} || ''
+            session => $this->session,
+            name    => $field->{name},
+            title   => $field->{title} || $field->{name}
         );
         push( @fieldDefs, $fieldDef );
     }

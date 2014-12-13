@@ -64,109 +64,97 @@ HERE
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'IssueName',
-            attributes => 'M',
-            title      => 'Issue Name',
-            value      => '_An issue_'
+            name  => 'IssueName',
+            title => 'Issue Name',
+            value => '_An issue_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'IssueDescription',
-            attributes => '',
-            title      => 'Issue Description',
-            value      => '---+ Example problem'
+            name  => 'IssueDescription',
+            title => 'Issue Description',
+            value => '---+ Example problem'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue1',
-            attributes => '',
-            title      => 'Issue 1:',
-            value      => '*Defect*'
+            name  => 'Issue1',
+            title => 'Issue 1:',
+            value => '*Defect*'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue2',
-            attributes => '',
-            title      => 'Issue 2:',
-            value      => 'Enhancement'
+            name  => 'Issue2',
+            title => 'Issue 2:',
+            value => 'Enhancement'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue3',
-            attributes => '',
-            title      => 'Issue 3:',
-            value      => 'Defect, None'
+            name  => 'Issue3',
+            title => 'Issue 3:',
+            value => 'Defect, None'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue4',
-            attributes => '',
-            title      => 'Issue 4:',
-            value      => 'Defect'
+            name  => 'Issue4',
+            title => 'Issue 4:',
+            value => 'Defect'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue5',
-            attributes => '',
-            title      => 'Issue 5:',
-            value      => 'Foo, Baz'
+            name  => 'Issue5',
+            title => 'Issue 5:',
+            value => 'Foo, Baz'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue6',
-            attributes => '',
-            title      => 'Issue 6',
-            value      => '2'
+            name  => 'Issue6',
+            title => 'Issue 6',
+            value => '2'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue7',
-            attributes => '',
-            title      => 'Issue 7',
-            value      => '2'
+            name  => 'Issue7',
+            title => 'Issue 7',
+            value => '2'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue8',
-            attributes => '',
-            title      => 'Issue 8',
-            value      => '2'
+            name  => 'Issue8',
+            title => 'Issue 8',
+            value => '2'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'State',
-            attributes => 'H',
-            title      => 'State',
-            value      => 'Invisible'
+            name  => 'State',
+            title => 'State',
+            value => 'Invisible'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Anothertopic',
-            attributes => '',
-            title      => 'Another topic',
-            value      => 'GRRR '
+            name  => 'Anothertopic',
+            title => 'Another topic',
+            value => 'GRRR '
         }
     );
 
@@ -178,107 +166,95 @@ HERE
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'IssueName',
-            attributes => 'M',
-            title      => 'Issue Name',
-            value      => '_An issue_'
+            name  => 'IssueName',
+            title => 'Issue Name',
+            value => '_An issue_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'IssueDescription',
-            attributes => '',
-            title      => 'IssueDescription',
-            value      => "| abc | 123 |\r\n| def | ghk |"
+            name  => 'IssueDescription',
+            title => 'IssueDescription',
+            value => "| abc | 123 |\r\n| def | ghk |"
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue1',
-            attributes => '',
-            title      => 'Issue1',
-            value      => '*no web*'
+            name  => 'Issue1',
+            title => 'Issue1',
+            value => '*no web*'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue2',
-            attributes => '',
-            title      => 'Issue2',
-            value      => ",   * abc\r\n   * def\r\n      * geh\r\n   * ijk"
+            name  => 'Issue2',
+            title => 'Issue2',
+            value => ",   * abc\r\n   * def\r\n      * geh\r\n   * ijk"
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue3',
-            attributes => '',
-            title      => 'Issue3',
-            value      => '_hello world_'
+            name  => 'Issue3',
+            title => 'Issue3',
+            value => '_hello world_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue4',
-            attributes => '',
-            title      => 'Issue4',
-            value      => ',   * high'
+            name  => 'Issue4',
+            title => 'Issue4',
+            value => ',   * high'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue5',
-            attributes => '',
-            title      => 'Issue5',
-            value      => 'Foo, Baz'
+            name  => 'Issue5',
+            title => 'Issue5',
+            value => 'Foo, Baz'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Issue6',
-            attributes => '',
-            title      => 'Issue6',
-            value      => '3'
+            name  => 'Issue6',
+            title => 'Issue6',
+            value => '3'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'State',
-            attributes => 'H',
-            title      => 'State',
-            value      => 'Invisible'
+            name  => 'State',
+            title => 'State',
+            value => 'Invisible'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => 'Anothertopic',
-            attributes => '',
-            title      => 'Another topic',
-            value      => 'GRRR '
+            name  => 'Anothertopic',
+            title => 'Another topic',
+            value => 'GRRR '
         }
     );
     $meta->putKeyed(
         FIELD => {
-            name       => 'ZeroString',
-            attributes => '',
-            title      => 'Zero',
-            value      => '0'
+            name  => 'ZeroString',
+            title => 'Zero',
+            value => '0'
         }
     );
     $meta->putKeyed(
         FIELD => {
-            name       => 'ZeroNumber',
-            attributes => '',
-            title      => 'Zero',
-            value      => 0
+            name  => 'ZeroNumber',
+            title => 'Zero',
+            value => 0
         }
     );
 
@@ -288,20 +264,22 @@ HERE
 
 sub setForm {
     my $this = shift;
+
+    # Note columns are *not* in default order
     Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef,
         <<'HERE' );
-| *Name*            | *Type*       | *Size* | *Values*      |
-| Issue Name        | text         | 40     |               |
-| State             | radio        |        | none          |
-| Issue Description | label        | 10     | 5             |
-| Issue 1           | select       |        |               |
-| Issue 2           | nuffin       |        |               |
-| Issue 3           | checkbox     |        |               |
-| Issue 4           | textarea     |        |               |
-| Issue 5           | select+multi | 3      | Foo, Bar, Baz |
-| Issue 6           | select+values | 1     | One=1, Two=2, Three=3, Four=4 | 
-| Issue 7           | checkbox+values | 1   | One=1, Two=2, Three=3, Four=4 | 
-| Issue 8           | radio+values | 1      | One=1, Two=2, Three=3, Four=4 | 
+| *Type*          | *Name*            | *Size* | *Values*  | *Attributes* |
+| text            | Issue Name        | 40 |               | M |
+| radio           | State             |    | none          | H |
+| label           | Issue Description | 10 | 5             | |
+| select          | Issue 1           |    |               | |
+| nuffin          | Issue 2           |    |               | |
+| checkbox        | Issue 3           |    |               | |
+| textarea        | Issue 4           |    |               | |
+| select+multi    | Issue 5           | 3  | Foo, Bar, Baz | |
+| select+values   | Issue 6           | 1  | One=1, Two=2, Three=3, Four=4 |  |
+| checkbox+values | Issue 7           | 1  | One=1, Two=2, Three=3, Four=4 |  |
+| radio+values    | Issue 8           | 1  | One=1, Two=2, Three=3, Four=4 |  |
 Topic is deliberately missing
 HERE
     return;
@@ -437,7 +415,7 @@ sub test_render_for_edit {
 <h3>Topic data</h3>
 <table class="foswikiFormTable" summary="Topic data">
 
-<tr><th>Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
+<tr><th>Issue Name<span class="foswikiAlert"> *</span></th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField foswikiMandatory" /></td></tr>
 <tr><th>State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
 <tr><th>Issue Description</th><td align="left"><input type="hidden"
 name="IssueDescription" value="---+ Example problem"  /><div class="foswikiFormLabel">
@@ -452,7 +430,7 @@ Defect</textarea></td></tr>
 <tr><th>Issue 6</th><td align="left"><select name="Issue6" class="foswikiSelect" size="1"><option value="1" class="foswikiOption">One</option><option value="2" selected="selected" class="foswikiOption">Two</option><option value="3" class="foswikiOption">Three</option><option value="4" class="foswikiOption">Four</option></select></td></tr>
 <tr><th>Issue 7</th><td align="left"><table><tr><td><label><input type="checkbox" name="Issue7" value="1"  title="1" class="foswikiCheckbox"/>One</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="2" checked="checked" title="2" class="foswikiCheckbox"/>Two</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="3"  title="3" class="foswikiCheckbox"/>Three</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="4"  title="4" class="foswikiCheckbox"/>Four</label></td></tr></table><input type="hidden" name="Issue7" value="" /></td></tr>
 <tr><th>Issue 8</th><td align="left"><table><tr><td><label><input type="radio" name="Issue8" value="1"  title="1" class="foswikiRadioButton"/>One</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="2" checked="checked" title="2" class="foswikiRadioButton"/>Two</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="3"  title="3" class="foswikiRadioButton"/>Three</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="4"  title="4" class="foswikiRadioButton"/>Four</label></td></tr></table></td></tr> 
-<tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table></div>
+<tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table><span class="foswikiAlert">*</span> indicates mandatory fields </div>
 HERE
 
     $expected =~ s/id="Example_problem">/><a name="Example_problem"><\/a>/g
@@ -489,15 +467,15 @@ sub test_nondefined_form {
 
     my $rawtext = <<'TOPIC';
 %META:FORM{name="NonExistantPluginTestForm"}%
-%META:FIELD{name="ExtensionName" attributes="" title="ExtensionName" value="Example"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="SkinPackage"}%
-%META:FIELD{name="TestedOnFoswiki" attributes="" title="TestedOnFoswiki" value=""}%
-%META:FIELD{name="TestedOnTWiki" attributes="" title="TestedOnTWiki" value=""}%
-%META:FIELD{name="TestedOnOS" attributes="" title="TestedOnOS" value="AnyOS"}%
-%META:FIELD{name="ShouldRunOnOS" attributes="" title="ShouldRunOnOS" value="AnyOS"}%
-%META:FIELD{name="DemoUrl" attributes="" title="DemoUrl" value="http://"}%
-%META:FIELD{name="DevelopedInSVN" attributes="" title="DevelopedInSVN" value="No"}%
-%META:FIELD{name="ModificationPolicy" attributes="" title="ModificationPolicy" value="ContactAuthorFirst"}%
+%META:FIELD{name="ExtensionName" title="ExtensionName" value="Example"}%
+%META:FIELD{name="TopicClassification" title="TopicClassification" value="SkinPackage"}%
+%META:FIELD{name="TestedOnFoswiki" title="TestedOnFoswiki" value=""}%
+%META:FIELD{name="TestedOnTWiki" title="TestedOnTWiki" value=""}%
+%META:FIELD{name="TestedOnOS" title="TestedOnOS" value="AnyOS"}%
+%META:FIELD{name="ShouldRunOnOS" title="ShouldRunOnOS" value="AnyOS"}%
+%META:FIELD{name="DemoUrl" title="DemoUrl" value="http://"}%
+%META:FIELD{name="DevelopedInSVN" title="DevelopedInSVN" value="No"}%
+%META:FIELD{name="ModificationPolicy" title="ModificationPolicy" value="ContactAuthorFirst"}%
 TOPIC
 
     Foswiki::Func::saveTopic( $web, $topic, undef, $rawtext );
@@ -678,28 +656,28 @@ HERE
         $topicObject->put( 'FORM', { name => 'FoswikiReleaseForm' } );
 
 #%META:FORM{name="FoswikiReleaseForm"}%
-#%META:FIELD{name="Summary" attributes="" title="Summary" value="This is the Foswiki patch release 1.0.10 released on 08 Sep 2010. Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.%0d%0a%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Important_Changes_since_Foswiki][changes from 1.0.9]]%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Foswiki_Patch_Release_1_0_9_Deta][list of tasks completed for 1.0.10]]%0d%0a%0d%0aIf you already run Foswiki 1.0.9 and you do not have any severe issues with it,%0d%0ayou are recommended to stay with 1.0.9 and wait for Foswiki 1.1.0 which we plan%0d%0ato release in October. We are going beta within a few days. Foswiki 1.1.0 is an%0d%0aexciting new release that you can all look forward to with some significant enhancements for both end users and application developers.%0d%0a%0d%0aThe reason for releasing 1.0.10 now is mainly that people installing Foswiki for the first time on Perl 5.12 are having severe issues with the installation. Foswiki 1.0.10 does not have any important enhancements compared to 1.0.9. Read the 1.0.10 [[System.ReleaseNotes01x00][release notes]] and review if an upgrade is desired"}%
-#%META:FIELD{name="DownloadSource" attributes="" title="DownloadSource" value="sourceforge"}%
-#%META:FIELD{name="OtherDownloads" attributes="" title="OtherDownloads" value="<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| Windows | 1.0.10 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/Foswiki-1.0.10-0-strawberry.exe][Foswiki-1.0.10-0-strawberry.exe]] | Foswiki v1.0.10.0 Windows installer (auto-setup) including [[http://strawberryperl.com][Strawberry Perl 5.12.1.0]], [[http://apache.org][Apache 2.2]] | |%0d%0a| Windows | 1.0.9 | %25ICON%7bdownload%7d%25 [[http://fosiki.com/FoswikiInstallers/FoswikiOnAStickv0.5.zip][Foswiki on a USB Stick]] | strawberry perl, no installation required (64MB v0.5) | |%0d%0a| <nobr>Mac OS X 10.5</nobr> <nobr>Mac OS X 10.6</nobr>| 1.0.9 | %25ICON%7bdownload%7d%25 [[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg][Foswiki-1.0.9-1.dmg]] ([[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg.asc][GPG]]) | Foswiki v1.0.9 Mac OS X 10.5/10.6 installer package | Support.FoswikiOnMacOSXLeopard |%0d%0a| Linux (debian) | 1.0.9 (plugins follow the Extensions web uploads) | [[http://fosiki.com/Foswiki_debian/][Unofficial Debian packages repository for Foswiki and extensions]] | Foswiki v.1.0.9 and 233 Extensions with dependencies. %25BR%25 _Works for Debian and Ubuntu._ | [[http://fosiki.com/Foswiki_debian/][Repository instructions]] |%0d%0a| Linux (shared host with ssh login) | 1.0.10-3 %25N%25 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz][Foswiki-1.0.10-SharedHosting-3.tgz]] ([[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz.md5][MD5]]) | tailored to shared hosting with shell access, this is Foswiki v.1.0.10 (including all patches for Support.KnownIssuesOfFoswiki01x00, currently [[Tasks.Item9699][LocalSite.cfg is continuously appended]]) and !FastCGI support using =mod_fcgid=  | Support.FoswikiOnLinuxSharedHostCommandShell |%0d%0a</sticky>%0d%0a%0d%0a%0d%0a---+++!! Other release packages%0d%0a%0d%0a<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| VM | 1.0.9 | %25ICON%7bdownload%7d%25 [[DownloadVirtualMachineImage][Virtual Machine Image]] | An easy-to-setup software appliance for VMware or !VirtualBox. Not recommended for professional installations. | Support.VirtualMachineImages |%0d%0a| - | latest SVN or any release | [[http://svn.foswiki.org/][Subversion-based install]] | Installs based on subversion: check out the latest version from the development trunk, or a specific release version | Development.SubversionBasedInstall |%0d%0a</sticky>"}%
-#%META:FIELD{name="NoUpgrade" attributes="" title="NoUpgrade" value=""}%
-#%META:FIELD{name="Release" attributes="" title="Release" value="1.0.10"}%
+#%META:FIELD{name="Summary" title="Summary" value="This is the Foswiki patch release 1.0.10 released on 08 Sep 2010. Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.%0d%0a%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Important_Changes_since_Foswiki][changes from 1.0.9]]%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Foswiki_Patch_Release_1_0_9_Deta][list of tasks completed for 1.0.10]]%0d%0a%0d%0aIf you already run Foswiki 1.0.9 and you do not have any severe issues with it,%0d%0ayou are recommended to stay with 1.0.9 and wait for Foswiki 1.1.0 which we plan%0d%0ato release in October. We are going beta within a few days. Foswiki 1.1.0 is an%0d%0aexciting new release that you can all look forward to with some significant enhancements for both end users and application developers.%0d%0a%0d%0aThe reason for releasing 1.0.10 now is mainly that people installing Foswiki for the first time on Perl 5.12 are having severe issues with the installation. Foswiki 1.0.10 does not have any important enhancements compared to 1.0.9. Read the 1.0.10 [[System.ReleaseNotes01x00][release notes]] and review if an upgrade is desired"}%
+#%META:FIELD{name="DownloadSource" title="DownloadSource" value="sourceforge"}%
+#%META:FIELD{name="OtherDownloads" title="OtherDownloads" value="<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| Windows | 1.0.10 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/Foswiki-1.0.10-0-strawberry.exe][Foswiki-1.0.10-0-strawberry.exe]] | Foswiki v1.0.10.0 Windows installer (auto-setup) including [[http://strawberryperl.com][Strawberry Perl 5.12.1.0]], [[http://apache.org][Apache 2.2]] | |%0d%0a| Windows | 1.0.9 | %25ICON%7bdownload%7d%25 [[http://fosiki.com/FoswikiInstallers/FoswikiOnAStickv0.5.zip][Foswiki on a USB Stick]] | strawberry perl, no installation required (64MB v0.5) | |%0d%0a| <nobr>Mac OS X 10.5</nobr> <nobr>Mac OS X 10.6</nobr>| 1.0.9 | %25ICON%7bdownload%7d%25 [[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg][Foswiki-1.0.9-1.dmg]] ([[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg.asc][GPG]]) | Foswiki v1.0.9 Mac OS X 10.5/10.6 installer package | Support.FoswikiOnMacOSXLeopard |%0d%0a| Linux (debian) | 1.0.9 (plugins follow the Extensions web uploads) | [[http://fosiki.com/Foswiki_debian/][Unofficial Debian packages repository for Foswiki and extensions]] | Foswiki v.1.0.9 and 233 Extensions with dependencies. %25BR%25 _Works for Debian and Ubuntu._ | [[http://fosiki.com/Foswiki_debian/][Repository instructions]] |%0d%0a| Linux (shared host with ssh login) | 1.0.10-3 %25N%25 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz][Foswiki-1.0.10-SharedHosting-3.tgz]] ([[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz.md5][MD5]]) | tailored to shared hosting with shell access, this is Foswiki v.1.0.10 (including all patches for Support.KnownIssuesOfFoswiki01x00, currently [[Tasks.Item9699][LocalSite.cfg is continuously appended]]) and !FastCGI support using =mod_fcgid=  | Support.FoswikiOnLinuxSharedHostCommandShell |%0d%0a</sticky>%0d%0a%0d%0a%0d%0a---+++!! Other release packages%0d%0a%0d%0a<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| VM | 1.0.9 | %25ICON%7bdownload%7d%25 [[DownloadVirtualMachineImage][Virtual Machine Image]] | An easy-to-setup software appliance for VMware or !VirtualBox. Not recommended for professional installations. | Support.VirtualMachineImages |%0d%0a| - | latest SVN or any release | [[http://svn.foswiki.org/][Subversion-based install]] | Installs based on subversion: check out the latest version from the development trunk, or a specific release version | Development.SubversionBasedInstall |%0d%0a</sticky>"}%
+#%META:FIELD{name="NoUpgrade" title="NoUpgrade" value=""}%
+#%META:FIELD{name="Release" title="Release" value="1.0.10"}%
         $topicObject->put( 'FIELD',
             { name => 'Release', value => '1.0.10' . $suffix } );
 
-#%META:FIELD{name="ReleaseTaskID" attributes="" title="ReleaseTaskID" value="1.0.10"}%
-#%META:FIELD{name="ReleaseMajor" attributes="" title="ReleaseMajor" value="1"}%
-#%META:FIELD{name="ReleaseMinor" attributes="" title="ReleaseMinor" value="0"}%
-#%META:FIELD{name="ReleasePatch" attributes="" title="ReleasePatch" value="10"}%
+        #%META:FIELD{name="ReleaseTaskID" title="ReleaseTaskID" value="1.0.10"}%
+        #%META:FIELD{name="ReleaseMajor" title="ReleaseMajor" value="1"}%
+        #%META:FIELD{name="ReleaseMinor" title="ReleaseMinor" value="0"}%
+        #%META:FIELD{name="ReleasePatch" title="ReleasePatch" value="10"}%
         $topicObject->put( 'FIELD',
             { name => 'ReleasePatch', value => $suffix } );
 
-#%META:FIELD{name="PluginsAPI" attributes="" title="PluginsAPI" value="2.0"}%
-#%META:FIELD{name="BuildDate" attributes="" title="BuildDate" value="2010-09-08"}%
-#%META:FIELD{name="PublishDate" attributes="" title="PublishDate" value="2010-09-08"}%
-#%META:FIELD{name="BuildSVNRev" attributes="" title="BuildSVNRev" value="8969"}%
-#%META:FIELD{name="BuildSVNBranch" attributes="" title="BuildSVNBranch" value="http://svn.foswiki.org/branches/Release01x00"}%
-#%META:FIELD{name="BuildGitCommit" attributes="H" title="BuildGitCommit" value=""}%
-#%META:FIELD{name="BuildGitRepo" attributes="H" title="BuildGitRepo" value=""}%
+#%META:FIELD{name="PluginsAPI" title="PluginsAPI" value="2.0"}%
+#%META:FIELD{name="BuildDate" title="BuildDate" value="2010-09-08"}%
+#%META:FIELD{name="PublishDate" title="PublishDate" value="2010-09-08"}%
+#%META:FIELD{name="BuildSVNRev" title="BuildSVNRev" value="8969"}%
+#%META:FIELD{name="BuildSVNBranch" title="BuildSVNBranch" value="http://svn.foswiki.org/branches/Release01x00"}%
+#%META:FIELD{name="BuildGitCommit" title="BuildGitCommit" value=""}%
+#%META:FIELD{name="BuildGitRepo" title="BuildGitRepo" value=""}%
         $topicObject->save();
         $topicObject->expandMacros(<<"HERE");
     %META{"form"}%
@@ -738,8 +716,8 @@ HERE
         'FoswikiReleaseForm' );
 
 #query can be called twice - once as a QuerySearch, and once as the regex search underlying it
-    print STDERR "HUH? "
-      . scalar(@Foswiki::Store::UnitTestFilter::changeStack) . "\n";
+#print STDERR "HUH? "
+#. scalar(@Foswiki::Store::UnitTestFilter::changeStack) . "\n";
     $this->assert( scalar(@Foswiki::Store::UnitTestFilter::changeStack) <= 2 );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );

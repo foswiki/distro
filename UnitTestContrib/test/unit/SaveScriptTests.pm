@@ -44,11 +44,11 @@ my $testtext1 = <<'HERE';
 A guest of this Foswiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
 %META:FORM{name="TestForm1"}%
-%META:FIELD{name="Select" attributes="" title="Select" value="Value_2"}%
-%META:FIELD{name="Radio" attributes="" title="Radio" value="3"}%
-%META:FIELD{name="Checkbox" attributes="" title="Checkbox" value="red"}%
-%META:FIELD{name="Textfield" attributes="" title="Textfield" value="Test"}%
-%META:FIELD{name="CheckboxandButtons" attributes="" title="CheckboxandButtons" value=""}%
+%META:FIELD{name="Select" title="Select" value="Value_2"}%
+%META:FIELD{name="Radio" title="Radio" value="3"}%
+%META:FIELD{name="Checkbox" title="Checkbox" value="red"}%
+%META:FIELD{name="Textfield" title="Textfield" value="Test"}%
+%META:FIELD{name="CheckboxandButtons" title="CheckboxandButtons" value=""}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" value="UserTopic"}%
 HERE
 

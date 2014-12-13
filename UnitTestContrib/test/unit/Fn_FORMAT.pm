@@ -219,10 +219,9 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Name",
-            attributes => "",
-            title      => "Name",
-            value      => "!AnnaAnchor"
+            name  => "Name",
+            title => "Name",
+            value => "!AnnaAnchor"
         }
     );
     $topicObject->save();

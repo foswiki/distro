@@ -313,10 +313,9 @@ sub populateMetaFromQueryData {
         $def = $this->createMetaKeyValues(
             $query, $meta,
             {
-                name       => $this->{name},
-                title      => $title,
-                value      => $value,
-                attributes => $this->{attributes},
+                name  => $this->{name},
+                title => $title,
+                value => $value
             }
         );
     }

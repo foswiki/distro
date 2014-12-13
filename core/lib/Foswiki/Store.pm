@@ -199,7 +199,7 @@ can call SUPER::getAttachmentURL)
 
 sub getAttachmentURL {
     my ( $this, %options ) = @_;
-    my $url = $Foswiki::cfg{PubUrlPath};
+    my $url = $Foswiki::cfg{PubUrlPath} || '';
     my @params;
 
     if ( $options{web} ) {

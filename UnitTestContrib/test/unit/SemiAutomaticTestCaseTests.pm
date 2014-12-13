@@ -41,8 +41,8 @@ text
 @%META:TOPICINFO{author="KennethLavrsen" date="1134597393" format="1.1" version="1.1"}%
 
 %META:FORM{name="SearchWebForm"}%
-%META:FIELD{name="TextItem" attributes="" title="Text Item" value="Value_1"}%
-%META:FIELD{name="NumberItem" attributes="" title="Number Item" value="3"}%
+%META:FIELD{name="TextItem" title="Text Item" value="Value_1"}%
+%META:FIELD{name="NumberItem" title="Number Item" value="3"}%
 @
 T1
 
@@ -79,8 +79,8 @@ text
 @%META:TOPICINFO{author="KennethLavrsen" date="1134599003" format="1.1" version="1.2"}%
 
 %META:FORM{name="SearchWebForm"}%
-%META:FIELD{name="TextItem" attributes="" title="Text Item" value="Value_2"}%
-%META:FIELD{name="NumberItem" attributes="" title="Number Item" value="2"}%
+%META:FIELD{name="TextItem" title="Text Item" value="Value_2"}%
+%META:FIELD{name="NumberItem" title="Number Item" value="2"}%
 @
 
 
@@ -123,8 +123,8 @@ text
 @%META:TOPICINFO{author="KennethLavrsen" date="1134597567" format="1.1" version="1.1"}%
 
 %META:FORM{name="SearchWebForm"}%
-%META:FIELD{name="TextItem" attributes="" title="Text Item" value="Value_3"}%
-%META:FIELD{name="NumberItem" attributes="" title="Number Item" value="1"}%
+%META:FIELD{name="TextItem" title="Text Item" value="Value_3"}%
+%META:FIELD{name="NumberItem" title="Number Item" value="1"}%
 @
 T3
 

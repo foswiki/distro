@@ -34,7 +34,6 @@ FORM
     $this->assert_str_equals( '30',   $f->{size} );
     $this->assert_str_equals( '',     $f->{value} );
     $this->assert_str_equals( '',     $f->{tooltip} );
-    $this->assert_str_equals( '',     $f->{attributes} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
 
     return;
@@ -70,7 +69,6 @@ FORM
     $this->assert_equals( 3, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'a,b,c', join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'Tippity', $f->{tooltip} );
-    $this->assert_str_equals( 'M',       $f->{attributes} );
     $this->assert_str_equals( '',        $f->{definingTopic} );
     $f = $def->getField('CheckyEgg');
     $this->assert_str_equals( 'checkbox',   $f->{type} );
@@ -79,7 +77,6 @@ FORM
     $this->assert_equals( 1, $f->{size} );
     $this->assert_str_equals( '1;2;3;4', join( ';', @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'Blip', $f->{tooltip} );
-    $this->assert_str_equals( '',     $f->{attributes} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
 
     $f = $def->getField('Thetitle');
@@ -290,7 +287,7 @@ FORM
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
     $topicObject->text( <<'FORM');
 %META:FORM{name="TestForm"}%
-%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
+%META:FIELD{name="Ecks" title="X" value="Blah"}%
 FORM
     $topicObject->save();
     $topicObject->finish();
@@ -316,7 +313,7 @@ sub test_makeFromMeta {
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
     $topicObject->text( <<'FORM');
 %META:FORM{name="NonExistantForm"}%
-%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
+%META:FIELD{name="Ecks" title="X" value="Blah"}%
 FORM
     $topicObject->save();
     $topicObject->finish();

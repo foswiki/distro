@@ -300,15 +300,14 @@ sub add_attachments {
 }
 
 sub put_field {
-    my ( $meta, $name, $attributes, $title, $value ) = @_;
+    my ( $meta, $name, $title, $value ) = @_;
 
     $meta->putKeyed(
         'FIELD',
         {
-            name       => $name,
-            attributes => $attributes,
-            title      => $title,
-            value      => $value
+            name  => $name,
+            title => $title,
+            value => $value
         }
     );
 
@@ -319,19 +318,19 @@ sub add_form_and_data {
     my ( $this, $web, $topic, $form ) = @_;
     my ($meta) = Foswiki::Func::readTopic( $web, $topic );
     $meta->put( 'FORM', { name => $form } );
-    put_field( $meta, 'IssueName', 'M', 'Issue Name', '_An issue_' );
+    put_field( $meta, 'IssueName', 'Issue Name', '_An issue_' );
     put_field(
         $meta, 'IssueDescription', '',
         'Issue Description',
         '---+ Example problem'
     );
-    put_field( $meta, 'Issue1',       '',  'Issue 1:',      '*Defect*' );
-    put_field( $meta, 'Issue2',       '',  'Issue 2:',      'Enhancement' );
-    put_field( $meta, 'Issue3',       '',  'Issue 3:',      'Defect, None' );
-    put_field( $meta, 'Issue4',       '',  'Issue 4:',      'Defect' );
-    put_field( $meta, 'Issue5',       '',  'Issue 5:',      'Foo, Baz' );
-    put_field( $meta, 'State',        'H', 'State',         'Invisible' );
-    put_field( $meta, 'Anothertopic', '',  'Another topic', 'GRRR ' );
+    put_field( $meta, 'Issue1',       'Issue 1:',      '*Defect*' );
+    put_field( $meta, 'Issue2',       'Issue 2:',      'Enhancement' );
+    put_field( $meta, 'Issue3',       'Issue 3:',      'Defect, None' );
+    put_field( $meta, 'Issue4',       'Issue 4:',      'Defect' );
+    put_field( $meta, 'Issue5',       'Issue 5:',      'Foo, Baz' );
+    put_field( $meta, 'State',        'State',         'Invisible' );
+    put_field( $meta, 'Anothertopic', 'Another topic', 'GRRR ' );
     $meta->save();
     $meta->finish();
 
@@ -414,6 +413,7 @@ sub verify_switchboard_function {
                                # Empty style, see Item11608
 s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
 s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
+s/^$testcase \(\d+:\d+\) Warning: <a> proprietary attribute "data-subscribe"\n?$//gm;
                 s/^\s*$//;
             }
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )

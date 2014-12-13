@@ -1342,28 +1342,25 @@ FORM
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Name",
-            attributes => "",
-            title      => "Name",
-            value      => "!AnnaAnchor"
+            name  => "Name",
+            title => "Name",
+            value => "!AnnaAnchor"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Groupe",
-            attributes => "",
-            title      => "Groupe",
-            value      => "Bollocks"
+            name  => "Groupe",
+            title => "Groupe",
+            value => "Bollocks"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Chinese",
-            attributes => "",
-            title      => "Chinese",
-            value      => "three"
+            name  => "Chinese",
+            title => "Chinese",
+            value => "three"
         }
     );
     $topicObject->text($text);
@@ -1606,37 +1603,33 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Field1",
-            attributes => "H",
-            title      => "A Field",
-            value      => "A Field"
+            name  => "Field1",
+            title => "A Field",
+            value => "A Field"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Field2",
-            attributes => "",
-            title      => "Another Field",
-            value      => "2"
+            name  => "Field2",
+            title => "Another Field",
+            value => "2"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Firstname",
-            attributes => "",
-            title      => "First Name",
-            value      => "Emma"
+            name  => "Firstname",
+            title => "First Name",
+            value => "Emma"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Lastname",
-            attributes => "",
-            title      => "First Name",
-            value      => "Peel"
+            name  => "Lastname",
+            title => "First Name",
+            value => "Peel"
         }
     );
     $topicObject->put(
@@ -1683,64 +1676,57 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldA",
-            attributes => "H",
-            title      => "B Field",
-            value      => "7"
+            name  => "FieldA",
+            title => "B Field",
+            value => "7"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldB",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "8"
+            name  => "FieldB",
+            title => "Banother Field",
+            value => "8"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Firstname",
-            attributes => "",
-            title      => "Pre Name",
-            value      => "John"
+            name  => "Firstname",
+            title => "Pre Name",
+            value => "John"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Lastname",
-            attributes => "",
-            title      => "Post Name",
-            value      => "Peel"
+            name  => "Lastname",
+            title => "Post Name",
+            value => "Peel"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "form",
-            attributes => "",
-            title      => "Blah",
-            value      => "form good"
+            name  => "form",
+            title => "Blah",
+            value => "form good"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FORM",
-            attributes => "",
-            title      => "Blah",
-            value      => "FORM GOOD"
+            name  => "FORM",
+            title => "Blah",
+            value => "FORM GOOD"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "NewField",
-            attributes => "",
-            title      => "Item10269",
-            value      => "Profile/Builder.TermForm"
+            name  => "NewField",
+            title => "Item10269",
+            value => "Profile/Builder.TermForm"
         }
     );
     $topicObject->putKeyed(
@@ -2080,46 +2066,41 @@ HERE
         $topicObject->putKeyed(
             'FIELD',
             {
-                name       => "FieldA",
-                attributes => "",
-                title      => "Banother Field",
-                value      => "$vA"
+                name  => "FieldA",
+                title => "Banother Field",
+                value => "$vA"
             }
         );
         $topicObject->putKeyed(
             'FIELD',
             {
-                name       => "FieldB",
-                attributes => "",
-                title      => "Banother Field",
-                value      => "$vB"
+                name  => "FieldB",
+                title => "Banother Field",
+                value => "$vB"
             }
         );
         $topicObject->putKeyed(
             'FIELD',
             {
-                name       => "FieldC",
-                attributes => "",
-                title      => "Banother Field",
-                value      => "$vC"
+                name  => "FieldC",
+                title => "Banother Field",
+                value => "$vC"
             }
         );
         $topicObject->putKeyed(
             'FIELD',
             {
-                name       => "FieldD",
-                attributes => "",
-                title      => "Banother Field",
-                value      => "$vD"
+                name  => "FieldD",
+                title => "Banother Field",
+                value => "$vD"
             }
         );
         $topicObject->putKeyed(
             'FIELD',
             {
-                name       => "FieldE",
-                attributes => "",
-                title      => "Banother Field",
-                value      => "$vE"
+                name  => "FieldE",
+                title => "Banother Field",
+                value => "$vE"
             }
         );
         $topicObject->text($text);
@@ -2811,7 +2792,7 @@ FORM
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
     $topicObject->put( 'FORM', { name => "TestForm" } );
     $topicObject->putKeyed( 'FIELD',
-        { name => "Ecks", attributes => "", title => "X", value => "Blah" } );
+        { name => "Ecks", title => "X", value => "Blah" } );
     $topicObject->save();
 
     my $actual = $topicObject->expandMacros(
@@ -2840,7 +2821,7 @@ FORM
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
     $topicObject->put( 'FORM', { name => "TestForm" } );
     $topicObject->putKeyed( 'FIELD',
-        { name => "Ecks", attributes => "", title => "X", value => "Blah" } );
+        { name => "Ecks", title => "X", value => "Blah" } );
     $topicObject->save();
 
     my $actual = $topicObject->expandMacros(
@@ -4894,10 +4875,9 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Name",
-            attributes => "",
-            title      => "Name",
-            value      => "Meta-Physics\nMarxism\nCrime\nSuicide\nPaganism."
+            name  => "Name",
+            title => "Name",
+            value => "Meta-Physics\nMarxism\nCrime\nSuicide\nPaganism."
         }
     );
     $topicObject->save();
@@ -5527,73 +5507,65 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldA",
-            attributes => "H",
-            title      => "B Field",
-            value      => "1234"
+            name  => "FieldA",
+            title => "B Field",
+            value => "1234"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldB",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "098"
+            name  => "FieldB",
+            title => "Banother Field",
+            value => "098"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldC",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "11"
+            name  => "FieldC",
+            title => "Banother Field",
+            value => "11"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Firstname",
-            attributes => "",
-            title      => "Pre Name",
-            value      => "Pedro"
+            name  => "Firstname",
+            title => "Pre Name",
+            value => "Pedro"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Lastname",
-            attributes => "",
-            title      => "Post Name",
-            value      => "Peal"
+            name  => "Lastname",
+            title => "Post Name",
+            value => "Peal"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "form",
-            attributes => "",
-            title      => "Blah",
-            value      => "form good"
+            name  => "form",
+            title => "Blah",
+            value => "form good"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FORM",
-            attributes => "",
-            title      => "Blah",
-            value      => "FORM GOOD"
+            name  => "FORM",
+            title => "Blah",
+            value => "FORM GOOD"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Date",
-            attributes => "",
-            title      => "Date",
-            value      => "12 Dec 2010"
+            name  => "Date",
+            title => "Date",
+            value => "12 Dec 2010"
         }
     );
     $topicObject->putKeyed(
@@ -5651,73 +5623,65 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldA",
-            attributes => "H",
-            title      => "B Field",
-            value      => "7"
+            name  => "FieldA",
+            title => "B Field",
+            value => "7"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldB",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "8"
+            name  => "FieldB",
+            title => "Banother Field",
+            value => "8"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldC",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "2"
+            name  => "FieldC",
+            title => "Banother Field",
+            value => "2"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Firstname",
-            attributes => "",
-            title      => "Pre Name",
-            value      => "John"
+            name  => "Firstname",
+            title => "Pre Name",
+            value => "John"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Lastname",
-            attributes => "",
-            title      => "Post Name",
-            value      => "Peel"
+            name  => "Lastname",
+            title => "Post Name",
+            value => "Peel"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "form",
-            attributes => "",
-            title      => "Blah",
-            value      => "form good"
+            name  => "form",
+            title => "Blah",
+            value => "form good"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FORM",
-            attributes => "",
-            title      => "Blah",
-            value      => "FORM GOOD"
+            name  => "FORM",
+            title => "Blah",
+            value => "FORM GOOD"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Date",
-            attributes => "",
-            title      => "Date",
-            value      => "15 Nov 2010"
+            name  => "Date",
+            title => "Date",
+            value => "15 Nov 2010"
         }
     );
     $topicObject->putKeyed(
@@ -5775,73 +5739,65 @@ HERE
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldA",
-            attributes => "H",
-            title      => "B Field",
-            value      => "2"
+            name  => "FieldA",
+            title => "B Field",
+            value => "2"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldB",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "-0.12"
+            name  => "FieldB",
+            title => "Banother Field",
+            value => "-0.12"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FieldC",
-            attributes => "",
-            title      => "Banother Field",
-            value      => "10"
+            name  => "FieldC",
+            title => "Banother Field",
+            value => "10"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Firstname",
-            attributes => "",
-            title      => "Pre Name",
-            value      => "Jason"
+            name  => "Firstname",
+            title => "Pre Name",
+            value => "Jason"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Lastname",
-            attributes => "",
-            title      => "Post Name",
-            value      => "Peel"
+            name  => "Lastname",
+            title => "Post Name",
+            value => "Peel"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "form",
-            attributes => "",
-            title      => "Blah",
-            value      => "form good"
+            name  => "form",
+            title => "Blah",
+            value => "form good"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "FORM",
-            attributes => "",
-            title      => "Blah",
-            value      => "FORM GOOD"
+            name  => "FORM",
+            title => "Blah",
+            value => "FORM GOOD"
         }
     );
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Date",
-            attributes => "",
-            title      => "Date",
-            value      => "30 Jan 2010"
+            name  => "Date",
+            title => "Date",
+            value => "30 Jan 2010"
         }
     );
     $topicObject->putKeyed(
@@ -6210,10 +6166,9 @@ sub test_format_tokens {
     $topicObject->putKeyed(
         'FIELD',
         {
-            name       => "Option",
-            attributes => "",
-            title      => "Some option",
-            value      => "Some long test I can truncate later"
+            name  => "Option",
+            title => "Some option",
+            value => "Some long test I can truncate later"
         }
     );
     $topicObject->save();

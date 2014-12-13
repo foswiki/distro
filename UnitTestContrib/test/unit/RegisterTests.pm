@@ -442,46 +442,41 @@ BODY
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'FirstName',
-            title      => '<nop>FirstName',
-            attributes => '',
-            value      => '',
+            name  => 'FirstName',
+            title => '<nop>FirstName',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'LastName',
-            title      => '<nop>LastName',
-            attributes => '',
-            value      => '',
+            name  => 'LastName',
+            title => '<nop>LastName',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Email',
-            title      => 'Email',
-            attributes => '',
-            value      => '',
+            name  => 'Email',
+            title => 'Email',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Name',
-            title      => 'Name',
-            attributes => '',
-            value      => '',
+            name  => 'Name',
+            title => 'Name',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Comment',
-            title      => 'Comment',
-            attributes => '',
-            value      => '',
+            name  => 'Comment',
+            title => 'Comment',
+            value => '',
         }
     );
 
@@ -530,46 +525,41 @@ BODY
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'FirstName',
-            title      => '<nop>FirstName',
-            attributes => '',
-            value      => '',
+            name  => 'FirstName',
+            title => '<nop>FirstName',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'LastName',
-            title      => '<nop>LastName',
-            attributes => '',
-            value      => '',
+            name  => 'LastName',
+            title => '<nop>LastName',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Email',
-            title      => 'Email',
-            attributes => '',
-            value      => '',
+            name  => 'Email',
+            title => 'Email',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Name',
-            title      => 'Name',
-            attributes => '',
-            value      => '',
+            name  => 'Name',
+            title => 'Name',
+            value => '',
         }
     );
     $m->putKeyed(
         'FIELD',
         {
-            name       => 'Comment',
-            title      => 'Comment',
-            attributes => '',
-            value      => '',
+            name  => 'Comment',
+            title => 'Comment',
+            value => '',
         }
     );
     $m->save();
