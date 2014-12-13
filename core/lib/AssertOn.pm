@@ -12,7 +12,8 @@ our $soft  = 0;
 sub import {
     $soft = 1
       if defined( $ENV{FOSWIKI_ASSERTS} ) && $ENV{FOSWIKI_ASSERTS} eq 'soft';
-    $SIG{'__WARN__'} = sub { die @_ };
+    $SIG{'__WARN__'} = sub { die @_ }
+      unless $soft;
     Assert->export_to_level( 1, @_ );
 }
 
