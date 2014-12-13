@@ -365,7 +365,7 @@ sub test_query_param {
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong parameter name from queryParam()' );
 
-    @result = ( $req->queryParam('nonexistent') );
+    @result = ( scalar $req->queryParam('nonexistent') );
     $this->assert_deep_equals( [undef], \@result,
         'wrong parameter name from queryParam()' );
 
@@ -378,32 +378,32 @@ sub test_query_param {
 
     $req->deleteAll();
     $req->queryParam( '0' => 'defined' );
-    @result = $req->param();
+    @result = $req->multi_param();
     $this->assert_deep_equals( ['0'], \@result,
         'wrong parameter names from queryParam()' );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( ['defined'], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( '0' => '' );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( [''], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( '0' => [ '', 0 ] );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( [ '', 0 ],
         \@result, 'wrong value from queryParam()' );
 
     $req->queryParam( '' => [ 0, '', 0 ] );
-    @result = $req->param('');
+    @result = $req->multi_param('');
     $this->assert_deep_equals( [ 0, '', 0 ],
         \@result, 'wrong value from queryParam()' );
 
     $req = new Foswiki::Request("");
     $req->method('POST');
     $req->queryParam( -name => 'q1', -value => 'v1' );
-    @result = $req->param('q1');
+    @result = $req->multi_param('q1');
     $this->assert_num_equals(
         0,
         scalar @result,
@@ -438,7 +438,7 @@ sub test_body_param {
     $this->assert_deep_equals( ['v1'], \@result,
         'wrong parameter name from bodyParam()' );
 
-    @result = ( $req->bodyParam('nonexistent') );
+    @result = ( scalar $req->bodyParam('nonexistent') );
     $this->assert_deep_equals( [undef], \@result,
         'wrong parameter name from bodyParam()' );
 
@@ -451,22 +451,22 @@ sub test_body_param {
     @result = $req->param();
     $this->assert_deep_equals( ['0'], \@result,
         'wrong parameter names from queryParam()' );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( ['defined'], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( '0' => '' );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( [''], \@result,
         'wrong value from queryParam()' );
 
     $req->queryParam( '0' => [ '', 0 ] );
-    @result = $req->param(0);
+    @result = $req->multi_param(0);
     $this->assert_deep_equals( [ '', 0 ],
         \@result, 'wrong value from queryParam()' );
 
     $req->queryParam( '' => [ 0, '', 0 ] );
-    @result = $req->param('');
+    @result = $req->multi_param('');
     $this->assert_deep_equals( [ 0, '', 0 ],
         \@result, 'wrong value from queryParam()' );
 }

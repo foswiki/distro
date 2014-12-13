@@ -37,13 +37,13 @@ sub init {
     $this->{queryString} = $request->queryString;
 
     my @params;
-    foreach my $name ( $request->param ) {
+    foreach my $name ( $request->multi_param ) {
         next if $name =~ /\b(slideshow|cover)\b/;
 
         my $key = _urlEncode($name);
         push @params,
           map { $key . "=" . _urlEncode( defined $_ ? $_ : '' ) }
-          $request->param($name);
+          scalar $request->param($name);
     }
 
     $this->{queryString} = join( ';', @params );
@@ -80,7 +80,8 @@ sub renderSlideShow {
     # SMELL: there should be a better block
 
     my $query = Foswiki::Func::getCgiQuery();
-    if ( $query && Foswiki::Func::isTrue( $query->param('slideshow') ) ) {
+    if ( $query && Foswiki::Func::isTrue( scalar $query->param('slideshow') ) )
+    {
 
         # in presentation mode
 

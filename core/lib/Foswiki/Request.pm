@@ -370,7 +370,7 @@ sub serverPort {
                                 name, [ $v1, $v2, ... ]                     
                                ] ) -> @paramNames | @values | $firstValue
 
-This methos is used by engines, during its prepare phase. Should not be used
+This method is used by engines, during its prepare phase. Should not be used
 anywhere else. Since bodyParam must exist and it has different semantics from
 param method, this one exists for symmetry, and could be modified in the 
 future, so it could be possible to get query and body parameters independently.
@@ -380,7 +380,7 @@ future, so it could be possible to get query and body parameters independently.
 sub queryParam {
     my $this = shift;
     return if $this->method && $this->method eq 'POST';
-    return $this->multi_param(@_);
+    return $this->param(@_);
 }
 
 =begin TML
@@ -398,7 +398,7 @@ only by engines. Otherwise use param() method.
 
 sub bodyParam {
     my $this = shift;
-    return $this->multi_param(@_);
+    return $this->param(@_);
 }
 
 =begin TML
@@ -428,7 +428,7 @@ sub multi_param {
 }
 
 sub param {
-    my ( $this, @p ) = (@_);
+    my ( $this, @p ) = @_;
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
@@ -438,15 +438,11 @@ sub param {
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
     if (wantarray) {
         my ( $package, $filename, $line ) = caller;
-        if ( $package ne 'Foswiki::Request' ) {
-            die
-"Foswiki::Request::param called in list context from package $package line $line, declare as scalar, or call multi_param. ";
+        if ( $package ne 'Foswiki::Request' && DEBUG ) {
+            ASSERT( 0,
+"Foswiki::Request::param called in list context from package $package, $filename line $line, declare as scalar, or call multi_param. "
+            );
         }
-    }
-    elsif ( defined $value[0] && ref $value[0] eq 'ARRAY' ) {
-        my ( $package, $filename, $line ) = caller;
-        warn
-"Foswiki::Request::param called in scalar context from package $package line $line, but parameter is multi-valued. ";
     }
 
     if ( defined $value[0] ) {
