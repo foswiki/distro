@@ -484,8 +484,11 @@ WARN
 
         # redirect to a sensible place (a topic that exists)
         my ( $w, $t ) = ( '', '' );
-        foreach my $test ( $topic, $query->param('topicparent'),
-            $Foswiki::cfg{HomeTopicName} )
+        foreach my $test (
+            $topic,
+            scalar $query->param('topicparent'),
+            $Foswiki::cfg{HomeTopicName}
+          )
         {
             ( $w, $t ) = $session->normalizeWebTopicName( $web, $test );
 

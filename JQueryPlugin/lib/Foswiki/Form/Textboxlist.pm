@@ -70,7 +70,7 @@ sub getOptions {
 
     # trick this in
     my @values          = ();
-    my @valuesFromQuery = $query->param( $this->{name} );
+    my @valuesFromQuery = $query->multi_param( $this->{name} );
     foreach my $item (@valuesFromQuery) {
 
         # Item10889: Coming from an "Warning! Confirmation required", often

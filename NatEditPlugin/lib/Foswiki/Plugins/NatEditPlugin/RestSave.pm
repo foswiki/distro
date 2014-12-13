@@ -27,7 +27,7 @@ sub handle {
 
     # transform to site charset
     foreach my $key ( $request->param() ) {
-        my @val = $request->param($key);
+        my @val = $request->multi_param($key);
 
         # hack to prevent redirecting
         if ( $key eq 'redirectto' && @val && $val[0] eq '' ) {
