@@ -420,7 +420,23 @@ sub check_current_value {
         }
     }
 
+  SPEC:
     foreach my $spec (@checko) {
+        foreach my $check ( @{ $spec->{CHECK} } ) {
+            next unless $check->{iff};
+            my $e = $check->{iff}[0];
+
+            # Expand {x} as $Foswiki::cfg{x}
+            $e =~ s/(({[^}]+})+)/\$Foswiki::cfg$1/g;
+            if ( $e =~ /\S/ ) {
+                my $only_if;
+                eval "\$only_if=$e";
+                die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@)
+                  if $@;
+                next SPEC unless $only_if;
+            }
+        }
         my $checker = Foswiki::Configure::Checker::loadChecker($spec);
         next unless $checker;
         ASSERT( $spec->{keys} ) if DEBUG;

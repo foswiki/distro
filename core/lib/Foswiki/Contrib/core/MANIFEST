@@ -420,6 +420,7 @@ lib/Foswiki/Configure/Checkers/FeatureAccess/Configure.pm 0444
 lib/Foswiki/Configure/Checkers/DATE.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
+lib/Foswiki/Configure/Checkers/DetailedOS.pm 0444
 lib/Foswiki/Configure/Checkers/DisplayTimeValues.pm 0444
 lib/Foswiki/Configure/Checkers/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444

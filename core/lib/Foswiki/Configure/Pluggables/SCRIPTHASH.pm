@@ -108,7 +108,7 @@ sub construct {
             # good idea - which it isn't. So don't.
             #default     => "'$default'",
             opts =>
-'FEEDBACK="label=\'Verify\';wizard=\'ScriptHash\';method=\'verify\';auth=1" CHECK="expand nullok notrail"',
+'FEEDBACK="label=\'Verify\';wizard=\'ScriptHash\';method=\'verify\';auth=1" CHECK="nullok notrail"',
         );
 
         push( @$settings, $value );

@@ -26,8 +26,8 @@ that attributes.
 In support of older .spec files, the following are also supported (though
 their usage is deprecated):
 
-   * Single-character attributes M and H. These are synonymous with
-     MANDATORY and HIDDEN.
+   * Single-character attribute H. This is synonymous with HIDDEN.
+   * Single-character attribute M is ignored.
    * Unquoted conditions - DISPLAY_IF and ENABLE_IF may be followed by a
      a space, and terminated by /DISPLAY_IF (or /ENABLE_IF) or the end of
      the string.
@@ -66,22 +66,37 @@ use Foswiki::Configure::Reporter ();
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
-    FEEDBACK        => { parse_val => '_FEEDBACK' },
     CHECK           => { parse_val => '_CHECK' },
     CHECKER         => {},
     CHECK_ON_CHANGE => {},
-    MANDATORY       => {},
-    MULTIPLE        => {},         # Allow multiple select
-    HIDDEN          => {},
-    SPELLCHECK      => {},
-    EXPERT          => {},
     DISPLAY_IF      => { openclose => 1 },
     ENABLE_IF       => { openclose => 1 },
+    EXPERT          => {},
+    FEEDBACK        => { parse_val => '_FEEDBACK' },
+    HIDDEN          => {},
+    MULTIPLE        => {},         # Allow multiple select
+    SPELLCHECK      => {},
 
     # Rename single character options (legacy)
-    M => 'MANDATORY',
     H => 'HIDDEN'
 };
+
+# Legal options for a CHECK. The number indicates the number of expected
+# parameters; -1 means '0 or more'
+our %CHECK_options = (
+    also     => -1,    # List of other items to check when this is changed
+    authtype => 1,     # for URLs
+    filter   => 1,     # filter exclude files when checking file permissions
+    iff      => 1,     # perl condition controlling when to check
+    max      => 1,     # max value
+    min      => 1,     # min value
+    notrail  => 0,     # ignore trailing / when checking URL
+    nullok   => 0,     # is undef OK?
+    parts    => -1,    # for URL
+    partsreq => -1,    # for URL
+    perms    => 1,     # file permissions
+    schemes  => -1,    # for URL
+);
 
 =begin TML
 
@@ -217,7 +232,7 @@ sub _CHECK {
         my @opts;
         if ( $str =~ s/^\s*:\s*// ) {
             do {
-                if ( $str =~ s/^(["'])(.*?)[^\\]\1// ) {
+                if ( $str =~ s/^(["'])(.*?[^\\])\1// ) {
                     push( @opts, $2 );
                 }
                 elsif ( $str =~ s/^([-+]?\d+)// ) {
@@ -231,9 +246,15 @@ sub _CHECK {
                 }
             } while ( $str =~ s/^\s*,\s*// );
         }
-        else {
-            push( @opts, 1 );
+        die "CHECK parse failed: unrecognised option '$name'"
+          unless ( defined $CHECK_options{$name} );
+        if ( $CHECK_options{$name} >= 0
+            && scalar(@opts) != $CHECK_options{$name} )
+        {
+            die
+"CHECK parse failed: wrong number of params to '$name' (expected $CHECK_options{$name}, saw @opts)";
         }
+        push( @opts, 1 ) unless scalar(@opts);
         $options{$name} = \@opts;
     }
     die "CHECK parse failed, expected name at $str in $ostr"

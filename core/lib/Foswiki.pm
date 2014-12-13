@@ -1770,8 +1770,7 @@ sub new {
    # Foswiki's behavior.
     $defaultUser = 'admin' if ( $Foswiki::cfg{isBOOTSTRAPPING} );
 
-    unless ( defined $Foswiki::cfg{TempfileDir} && $Foswiki::cfg{TempfileDir} )
-    {
+    unless ( $Foswiki::cfg{TempfileDir} ) {
 
         # Give it a sane default.
         if ( $^O eq 'MSWin32' ) {
@@ -1939,14 +1938,12 @@ sub new {
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
-    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because
-    # Foswiki runs with use strict and calling external programs that
-    # writes on the disk will fail unless Perl seens it as set to safe value.
-    if ( $Foswiki::cfg{SafeEnvPath} ) {
+    if ( defined $Foswiki::cfg{SafeEnvPath} ) {
         $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     }
     else {
-
+        # Default $ENV{PATH} must be untainted because
+        # Foswiki may be run with use strict.
         # SMELL: how can we validate the PATH?
         $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
     }

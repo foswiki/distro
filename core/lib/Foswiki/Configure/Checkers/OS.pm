@@ -8,17 +8,44 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    if ( defined $Foswiki::cfg{OS}
-        && $Foswiki::cfg{OS} !~ /^(UNIX|WINDOWS|VMS|DOS|MACINTOSH|OS2)$/ )
-    {
-        $reporter->WARN(
-            <<HERE
-Unrecognised operating system $Foswiki::cfg{OS}.
-Accepted types are: UNIX WINDOWS VMS DOS MACINTOSH OS2
-HERE
-        );
+    return unless $Foswiki::cfg{OS};    # Default
+    my $expected = 'UNIX';
+
+    if ( $^O =~ /darwin/i ) {           # MacOS X
+        $expected = 'UNIX';
+    }
+    elsif ( $^O =~ /Win/i ) {
+        $expected = 'WINDOWS';
+    }
+    elsif ( $^O =~ /vms/i ) {
+        $expected = 'VMS';
+    }
+    elsif ( $^O =~ /bsdos/i ) {
+        $expected = 'UNIX';
+    }
+    elsif ( $^O =~ /solaris/i ) {
+        $expected = 'UNIX';
+    }
+    elsif ( $^O =~ /dos/i ) {
+        $expected = 'DOS';
+    }
+    elsif ( $^O =~ /^MacOS$/i ) {
+
+        # MacOS 9 or earlier
+        $expected = 'MACINTOSH';
+    }
+    elsif ( $^O =~ /os2/i ) {
+        $expected = 'OS2';
+    }
+
+    if ( $Foswiki::cfg{OS} ne $expected ) {
+        $reporter->WARN( <<HMMM );
+Your chosen value conflicts with what Perl says the operating
+system is ($^O = $expected). If this wasn't intended then save a blank
+value and the setting will revert to the Perl default.
+HMMM
     }
 }
 
@@ -26,7 +53,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

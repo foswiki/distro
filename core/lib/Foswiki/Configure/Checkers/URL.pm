@@ -19,7 +19,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 #    * parts:scheme,authority,path,query,fragment
 #           Parts allowed in item
 #           Default: scheme,authority,path
-#    * notrail = remove trailing / from (https?) paths
+#    * notrail = disallow trailing / on (https?) paths
 #    * partsreq = Parts required in item
 #    * schemes = schemes allowd in item
 #           Default: http,https
@@ -187,8 +187,8 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 {
                     $reporter->ERROR("Path ($path) is not valid");
                 }
-                if ( $checks{notrail}[0] ) {
-                    $path =~ s,/$,,;
+                if ( $checks{notrail}[0] && $path =~ m{/$} ) {
+                    $reporter->ERROR("Trailing / not allowed");
                 }
             }    # Checks for other schemes?
         }
@@ -242,31 +242,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
 
     if ( eval "require URI;" ) {
         my $urio = URI->new($uri);
-        if ($urio) {
-            my $can   = $urio->canonical();
-            my $canon = '';
-            my $p     = $can->scheme;
-            $canon .= $p . ':'
-              if ( defined $p && $parts{scheme} );
-            $p = $can->authority;
-            $canon .= '//' . $p
-              if ( defined $p && $parts{authority} );
-            $p = $can->path;
-            if ( defined $p && $parts{path} ) {
-                $canon .= $p;
-                if ( $checks{notrail}[0] ) {
-                    $canon =~ s,/$,,;
-                }
-            }
-            $p = $can->query;
-            $canon .= '?' . $p
-              if ( defined $p && $parts{query} );
-            $p = $can->fragment;
-            $canon .= '#' . $p
-              if ( defined $p && $parts{fragment} );
-            $uri = $canon;
-        }
-        else {
+        unless ($urio) {
             $reporter->ERROR("Unable to parse $uri");
         }
     }

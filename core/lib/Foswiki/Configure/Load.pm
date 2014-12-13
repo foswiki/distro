@@ -50,11 +50,21 @@ our %remap = (
 );
 
 sub _workOutOS {
-    unless ( ( $Foswiki::cfg{DetailedOS} = $^O ) ) {
-        require Config;
-        $Foswiki::cfg{DetailedOS} = $Config::Config{'osname'};
+    unless ( $Foswiki::cfg{DetailedOS} ) {
+        $Foswiki::cfg{DetailedOS} = $^O;
+        unless ( $Foswiki::cfg{DetailedOS} ) {
+
+            # SMELL: the perlvar doc for $^O says "The value is identical
+            # to $Config{'osname'}" so this would appear redundant.
+            require Config;
+            $Foswiki::cfg{DetailedOS} = $Config::Config{'osname'};
+
+            # SMELL: is it really worth continuing if we still can't
+            # work it out? Proceed with a null string unless someone knows
+            # better.
+        }
     }
-    $Foswiki::cfg{OS} = 'UNIX';
+    return if $Foswiki::cfg{OS};
     if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
         $Foswiki::cfg{OS} = 'UNIX';
     }
@@ -67,14 +77,23 @@ sub _workOutOS {
     elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
         $Foswiki::cfg{OS} = 'UNIX';
     }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /solaris/i ) {
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
     elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
         $Foswiki::cfg{OS} = 'DOS';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {
+
+        # MacOS 9 or earlier
         $Foswiki::cfg{OS} = 'MACINTOSH';
     }
     elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
         $Foswiki::cfg{OS} = 'OS2';
+    }
+    else {
+        # Erm.....
+        $Foswiki::cfg{OS} = 'UNIX';
     }
 }
 
@@ -188,6 +207,7 @@ GOLLYGOSH
     }
 
     # Patch deprecated config settings
+    # TODO: remove this in version 2.0
     if ( exists $Foswiki::cfg{StoreImpl} ) {
         $Foswiki::cfg{Store}{Implementation} =
           'Foswiki::Store::' . $Foswiki::cfg{StoreImpl};
