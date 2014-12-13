@@ -147,64 +147,57 @@ sub set_up {
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueName",
-            attributes => "M",
-            title      => "Issue Name",
-            value      => "_An issue_"
+            name  => "IssueName",
+            title => "Issue Name",
+            value => "_An issue_"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueDescription",
-            attributes => "",
-            title      => "Issue Description",
-            value      => "---+ Example problem"
+            name  => "IssueDescription",
+            title => "Issue Description",
+            value => "---+ Example problem"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueType",
-            attributes => "",
-            title      => "Issue Type",
-            value      => "Defect"
+            name  => "IssueType",
+            title => "Issue Type",
+            value => "Defect"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History1",
-            attributes => "",
-            title      => "History1",
-            value      => "%SCRIPTURL%"
+            name  => "History1",
+            title => "History1",
+            value => "%SCRIPTURL%"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History2",
-            attributes => "",
-            title      => "History2",
-            value      => "%SCRIPTURL%"
+            name  => "History2",
+            title => "History2",
+            value => "%SCRIPTURL%"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History3",
-            attributes => "",
-            title      => "History3",
-            value      => '$percntSCRIPTURL%'
+            name  => "History3",
+            title => "History3",
+            value => '$percntSCRIPTURL%'
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History4",
-            attributes => "",
-            title      => "History4",
-            value      => '$percntSCRIPTURL%'
+            name  => "History4",
+            title => "History4",
+            value => '$percntSCRIPTURL%'
         }
     );
     Foswiki::Func::saveTopic( $testweb, $testtopic2, $to, $testtext2 );
@@ -224,46 +217,41 @@ sub set_up {
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueName",
-            attributes => "M",
-            title      => "Issue Name",
-            value      => "My first defect"
+            name  => "IssueName",
+            title => "Issue Name",
+            value => "My first defect"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueDescription",
-            attributes => "",
-            title      => "Issue Description",
-            value      => "Simple description of problem"
+            name  => "IssueDescription",
+            title => "Issue Description",
+            value => "Simple description of problem"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueType",
-            attributes => "",
-            title      => "Issue Type",
-            value      => "Defect"
+            name  => "IssueType",
+            title => "Issue Type",
+            value => "Defect"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History1",
-            attributes => "",
-            title      => "History1",
-            value      => "%SCRIPTURL%"
+            name  => "History1",
+            title => "History1",
+            value => "%SCRIPTURL%"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History3",
-            attributes => "",
-            title      => "History3",
-            value      => '$percntSCRIPTURL%'
+            name  => "History3",
+            title => "History3",
+            value => '$percntSCRIPTURL%'
         }
     );
     Foswiki::Func::saveTopic( $testweb, $testtopic3, $to, $testtext3 );
@@ -295,64 +283,57 @@ sub set_up {
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueName",
-            attributes => "M",
-            title      => "Issue Name",
-            value      => "_An issue_"
+            name  => "IssueName",
+            title => "Issue Name",
+            value => "_An issue_"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueDescription",
-            attributes => "",
-            title      => "Issue Description",
-            value      => "---+ Example problem"
+            name  => "IssueDescription",
+            title => "Issue Description",
+            value => "---+ Example problem"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "IssueType",
-            attributes => "",
-            title      => "Issue Type",
-            value      => "Defect"
+            name  => "IssueType",
+            title => "Issue Type",
+            value => "Defect"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History1",
-            attributes => "",
-            title      => "History1",
-            value      => "%SCRIPTURL%"
+            name  => "History1",
+            title => "History1",
+            value => "%SCRIPTURL%"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History2",
-            attributes => "",
-            title      => "History2",
-            value      => "%SCRIPTURL%"
+            name  => "History2",
+            title => "History2",
+            value => "%SCRIPTURL%"
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History3",
-            attributes => "",
-            title      => "History3",
-            value      => '$percntSCRIPTURL%'
+            name  => "History3",
+            title => "History3",
+            value => '$percntSCRIPTURL%'
         }
     );
     $to->putKeyed(
         'FIELD',
         {
-            name       => "History4",
-            attributes => "",
-            title      => "History4",
-            value      => '$percntSCRIPTURL%'
+            name  => "History4",
+            title => "History4",
+            value => '$percntSCRIPTURL%'
         }
     );
     Foswiki::Func::saveTopic( $testweb, $testtmpl, $to, $testtmpl1 );

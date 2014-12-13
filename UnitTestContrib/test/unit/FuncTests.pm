@@ -2757,7 +2757,7 @@ sub test_saveTopicTextEmbeddedMeta {
 and a trailing newline
 
 %META:FORM{name="TestForm"}%
-%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FIELD{name="FORM" title="Blah" value="FORM GOOD"}%
 %META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
 NONNY
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
