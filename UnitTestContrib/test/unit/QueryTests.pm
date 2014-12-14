@@ -40,8 +40,6 @@ sub skip {
             tests     => {
                 'QueryTests::verify_atoms_empty' =>
                   'Empty expressions are broken in Foswiki 1.1',
-                'QueryTests::verify_meta_dot_createinfo' =>
-                  'META:CREATEINFO is introduced in Foswiki 1.2',
                 'QueryTests::verify_array_integer_index' =>
                   'Multiple array indices are introduced in Foswiki 1.2',
                 'QueryTests::verify_boolean_uop_list' =>
@@ -366,12 +364,6 @@ sub verify_atoms_empty {
 sub verify_meta_dot {
     my $this = shift;
 
-#longhand to a topic that as more than one rev
-#    my ($anotherTopic) = Foswiki::Func::readTopic($this->{test_web}, 'AnotherTopic' );
-#    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
-#    $this->check( "'AnotherTopic'/META:CREATEINFO.date",        eval => $anotherTopicInfo->{date} );
-#return;
-
     $this->check( "META:FORM", eval => { name => 'TestForm' } );
     $this->check( "form",      eval => { name => 'TestForm' } );
     $this->check( "form.name", eval => 'TestForm' );
@@ -433,40 +425,6 @@ sub verify_meta_dot {
         eval       => undef
     );
 
-}
-
-sub verify_meta_dot_createinfo {
-    my $this = shift;
-    my ($anotherTopic) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic' );
-    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
-
-    $anotherTopic->getRev1Info('createdate');
-    my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.date",
-        eval => $anotherTopicInfoRev1->{date}
-    );
-
- #interestingly, format is not compulsory
- #    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.version",
-        eval => $anotherTopicInfoRev1->{version}
-    );
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.author",
-        eval => $anotherTopicInfoRev1->{author}
-    );
-    $this->check(
-        "'AnotherTopic'/createinfo.author",
-        eval => $anotherTopicInfoRev1->{author}
-    );
-
-    $this->assert(
-        $anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version},
-        $anotherTopicInfoRev1->{version} . ' < ' . $anotherTopicInfo->{version}
-    );
 }
 
 sub verify_array_integer_index {
