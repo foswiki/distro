@@ -703,7 +703,11 @@ sub getRevision {
     my ( $this, $version ) = @_;
 
     return $this->SUPER::getRevision($version) unless $version;
-    return $this->SUPER::getRevision($version) unless $this->noCheckinPending();
+    if ( !$version && !$this->noCheckinPending() ) {
+
+        # $version was not given and there's a checkin pending
+        return $this->SUPER::getRevision($version);
+    }
 
     $this->_ensureRead( $version, 0 );
 

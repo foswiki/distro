@@ -75,7 +75,6 @@ test/unit/HierarchicalWebsTests.pm 0644
 test/unit/HoistREsTests.pm 0644
 test/unit/InitFormTests.pm 0644
 test/unit/Iterator.pm 0644
-test/unit/LoadedRevTests.pm 0644
 test/unit/LoggerTests.pm 0644
 test/unit/ManageDotPmTests.pm 0644
 test/unit/MergeTests.pm 0644
