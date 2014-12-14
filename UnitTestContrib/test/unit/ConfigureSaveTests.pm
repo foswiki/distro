@@ -4,8 +4,8 @@
 
 package ConfigureSaveTests;
 
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use ConfigureTestCase;
+our @ISA = qw( ConfigureTestCase );
 
 use strict;
 use warnings;
@@ -14,52 +14,6 @@ use Error qw(:try);
 
 use Foswiki::Configure::Wizards::Save;
 use Foswiki::Configure::Reporter;
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
-
-# Set up the test fixture
-sub set_up {
-    my $this = shift;
-
-    $this->SUPER::set_up();
-    $this->{lscpath} =
-      Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
-    $this->{test_work_dir} = $Foswiki::cfg{WorkingDir};
-    if ( open( F, '<', $this->{lscpath} ) ) {
-        local $/ = undef;
-        my $c = <F>;
-        close F;
-        $this->{safe_lsc} = $c;
-    }
-    $Foswiki::Plugins::SESSION = $this->{session};
-}
-
-sub tear_down {
-    my $this = shift;
-
-    # make sure the correct config comes back
-    $Foswiki::cfg{ConfigurationFinished} = 0;
-    Foswiki::Configure::Load::readConfig( 0, 0 );
-
-    # Got to restore this, otherwise SUPER::tear_down will eat
-    # the one restored from LSC
-    $Foswiki::cfg{WorkingDir} = $this->{test_work_dir};
-
-    $this->SUPER::tear_down();
-
-    #print STDERR "Tearing down $this->{lscpath}\n";
-    if ( $this->{safe_lsc} ) {
-        open( F, '>', $this->{lscpath} );
-        print F $this->{safe_lsc};
-        close(F);
-    }
-    else {
-        unlink $this->{lscpath};
-    }
-}
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {
@@ -87,35 +41,6 @@ sub test_changecfg {
         }
     };
 
-    # Smoosh LSC
-    my $LSC = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
-    $this->assert( open( F, '>', $LSC ), $@ );
-    local $/ = undef;
-    print F <<'LSC';
-$Foswiki::cfg{UnitTestContrib}{Configure}{STRING} = 'Rope';
-$Foswiki::cfg{UnitTestContrib}{Configure}{BOOLEAN} = 0;
-$Foswiki::cfg{UnitTestContrib}{Configure}{COMMAND} = 'Instruction';
-$Foswiki::cfg{UnitTestContrib}{Configure}{DATE} = '23 Jan 2012';
-$Foswiki::cfg{UnitTestContrib}{Configure}{EMAILADDRESS} = 'oleg@spam.ru';
-$Foswiki::cfg{UnitTestContrib}{Configure}{OCTAL} = 333;
-$Foswiki::cfg{UnitTestContrib}{Configure}{PASSWORD} = 'pass';
-$Foswiki::cfg{UnitTestContrib}{Configure}{PATH} = 'road';
-$Foswiki::cfg{UnitTestContrib}{Configure}{SELECTCLASS} = 'Foswiki::Configure::Value';
-$Foswiki::cfg{UnitTestContrib}{Configure}{SELECT} = 'drive';
-$Foswiki::cfg{UnitTestContrib}{Configure}{URLPATH} = '/nowhere';
-$Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://google.com';
-$Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'hidden';
-$Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'iot';
-$Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'full';
-$Foswiki::cfg{UnitTestContrib}{Configure}{DEP_STRING} = 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx';
-$Foswiki::cfg{UnitTestContrib}{Configure}{DEP_PERL} = {
-    'string' => 'real$Foswiki::cfg{UnitTestContrib}{Configure}{URL}/man'
-};
-$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_HASH} = { a => 5, b => 6 };
-$Foswiki::cfg{UnitTestContrib}{Configure}{PERL_ARRAY} = [ 5, 6 ];
-1;
-LSC
-    close F;
     Foswiki::Configure::Load::readConfig( 0, 0 );
 
     my $wizard   = Foswiki::Configure::Wizards::Save->new($params);
@@ -161,7 +86,10 @@ q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
         }
     ];
     my $ms = $reporter->messages();
-    my $r  = shift(@$ms);
+
+    #print STDERR Data::Dumper->Dump([$ms]);
+
+    my $r = shift(@$ms);
     $this->assert_matches( qr/^Previous/, $r->{text} );
     $this->assert_str_equals( 'notes', $r->{level} );
     $r = shift(@$ms);
@@ -178,9 +106,15 @@ q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
     $this->assert_deep_equals( $ms, $expected );
 
     # Check it was written correctly
-    $this->assert( open( F, '<', $LSC ), $@ );
+    $this->assert( open( F, '<', $this->{lscpath} ), $@ );
+    local $/ = undef;
     my $c = <F>;
     close F;
+
+    # Check for expected messages
+    $this->assert_matches( qr/^# {'Test-Key'} was not found in .spec$/m,  $c );
+    $this->assert_matches( qr/^# {TestA} was not found in .spec$/m,       $c );
+    $this->assert_matches( qr/^# {TestB}{Ruin} was not found in .spec$/m, $c );
 
     # TODO: check backup succeeded
 

@@ -270,9 +270,9 @@ sub save {
         umask($um);
         my $max = $Foswiki::cfg{MaxLSCBackups};
         $max = -1 unless defined $max;    # Unlimited
-        if ( $backup && $max >= 0 ) {
+        if ($backup) {
 
-            while ( @backups > $max ) {
+            while ( $max >= 0 && @backups > $max ) {
                 my $n = pop @backups;
                 unlink "$lsc.$n";
             }

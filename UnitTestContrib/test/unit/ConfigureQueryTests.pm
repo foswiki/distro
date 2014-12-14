@@ -4,8 +4,8 @@ use warnings;
 
 package ConfigureQueryTests;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use ConfigureTestCase;
+our @ISA = qw( ConfigureTestCase );
 
 use strict;
 use warnings;
@@ -13,18 +13,6 @@ use Foswiki;
 use Error qw(:try);
 
 use Foswiki::Configure::Query;
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
-
-# Set up the test fixture
-sub set_up {
-    my $this = shift;
-    $this->SUPER::set_up();
-    $Foswiki::Plugins::SESSION = $this->{session};
-}
 
 sub test_getcfg {
     my $this   = shift;
@@ -35,9 +23,6 @@ sub test_getcfg {
             "{UnitTestContrib}{Configure}{REGEX}"
         ]
     };
-    $Foswiki::cfg{UnitTestContrib}{Configure}{STRING}  = 'STRING';
-    $Foswiki::cfg{UnitTestContrib}{Configure}{COMMAND} = 'COMMAND';
-    $Foswiki::cfg{UnitTestContrib}{Configure}{REGEX}   = '^regex$';
     my $reporter = Foswiki::Configure::Reporter->new();
     my $result = Foswiki::Configure::Query::getcfg( $params, $reporter );
     $this->assert( !$reporter->has_level('errors') );
@@ -47,8 +32,8 @@ sub test_getcfg {
         {
             UnitTestContrib => {
                 Configure => {
-                    STRING  => 'STRING',
-                    COMMAND => 'COMMAND',
+                    STRING  => 'Rope',
+                    COMMAND => 'Instruction',
                     REGEX   => '^regex$'
                 }
             }

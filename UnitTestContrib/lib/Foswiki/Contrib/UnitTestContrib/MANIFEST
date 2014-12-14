@@ -29,6 +29,7 @@ test/unit/CacheTests.pm 0644
 test/unit/ClientTests.pm 0644
 test/unit/ConfigureQueryTests.pm 0644
 test/unit/ConfigureSaveTests.pm 0644
+test/unit/ConfigureTestCase.pm 0644
 test/unit/DependencyTests.pm 0644
 test/unit/EmptyTests.pm 0644
 test/unit/EngineTests.pm 0644
