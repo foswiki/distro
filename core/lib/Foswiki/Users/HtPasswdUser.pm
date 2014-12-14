@@ -70,8 +70,9 @@ sub ClearCache {
     }
 }
 
-# Set TRACE to 1 to enable detailed trace of password activity
-use constant TRACE => 0;
+# Set TRACE to 1 to enable trace of password activity
+# Set TRACE to 2 for verbose auto-encoding report
+use constant TRACE => 1;
 
 sub new {
     my ( $class, $session ) = @_;
@@ -259,11 +260,14 @@ sub _readPasswd {
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
     my $tID;
+    my $pwcount = 0;
     while ( defined( $line = <$IN_FILE> ) ) {
+        next if ( substr( $line, 0, 1 ) eq '#' );
         chomp $line;
+        $pwcount++;
         my @fields = split( /:/, $line, 5 );
 
-        if (TRACE) {
+        if ( TRACE > 1 ) {
             print STDERR "\nSplit LINE $line\n";
             foreach my $f (@fields) { print STDERR "split: $f\n"; }
         }
@@ -287,7 +291,7 @@ sub _readPasswd {
                 $data->{$hID}->{pass}   = shift @fields;
                 $data->{$hID}->{emails} = shift @fields || '';
                 print STDERR "Auto ENCODING-1 $data->{$hID}->{enc} \n"
-                  if (TRACE);
+                  if ( TRACE > 1 );
                 next;
             }
 
@@ -323,21 +327,22 @@ sub _readPasswd {
                 $data->{$hID}->{pass} = $tPass;
                 $data->{$hID}->{emails} = shift @fields || '';
                 print STDERR "Auto ENCODING-2 $data->{$hID}->{enc} \n"
-                  if (TRACE);
+                  if ( TRACE > 1 );
                 next;
             }
 
             print STDERR "Fell through - must be htdigest-md5   "
               . length($tPass)
               . "--$tPass \n"
-              if (TRACE);
+              if ( TRACE > 1 );
 
             # Fell through - only thing left is digest encoding
             $data->{$hID}->{enc}    = 'htdigest-md5';
             $data->{$hID}->{realm}  = $tPass;
             $data->{$hID}->{pass}   = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
-            print STDERR "Auto ENCODING-3 $data->{$hID}->{enc} \n" if (TRACE);
+            print STDERR "Auto ENCODING-3 $data->{$hID}->{enc} \n"
+              if ( TRACE > 1 );
         }
 
         # Static configuration
@@ -350,10 +355,11 @@ sub _readPasswd {
             $data->{$hID}->{emails} = shift @fields || '';
             print STDERR
 "Static Encoding - $hID:  $data->{$hID}->{enc} pass $data->{$hID}->{pass} emails $data->{$hID}->{emails} \n"
-              if (TRACE);
+              if ( TRACE > 1 );
         }
     }
     close($IN_FILE);
+    print STDERR "Loaded $pwcount passwords\n" if (TRACE);
     $this->PasswordData($data);
     $this->PasswordTimestamp(
         ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9] );
@@ -367,8 +373,10 @@ sub _readPasswd {
 sub _dumpPasswd {
     my $db = shift;
     my @entries;
+    my $pwcount = 0;
     foreach my $login ( sort( keys(%$db) ) ) {
 
+        $pwcount++;
         my $entry = "$login:";
         if (
                $db->{$login}->{pass}
@@ -379,7 +387,7 @@ sub _dumpPasswd {
         {
             print STDERR
 "Writing realm - $db->{$login}->{enc} for $login pass ($db->{$login}->{pass})\n"
-              if (TRACE);
+              if ( TRACE > 1 );
 
             # htdigest format
             $entry .= "$Foswiki::cfg{AuthRealm}:";
@@ -389,6 +397,7 @@ sub _dumpPasswd {
         $entry .= $db->{$login}->{pass} . ':' . $db->{$login}->{emails};
         push( @entries, $entry );
     }
+    print STDERR "Saving $pwcount entries\n" if (TRACE);
     return join( "\n", @entries ) . "\n";
 }
 
@@ -414,7 +423,7 @@ EoT
     }
 
     my $content = _dumpPasswd($db);
-    print STDERR "CONTENT $content\n" if (TRACE);
+    print STDERR "CONTENT $content\n" if ( TRACE > 1 );
 
     my $oldMask = umask(077);    # Access only by owner
     my $fh;
@@ -782,7 +791,7 @@ sub findUserByEmail {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
