@@ -2,6 +2,16 @@
 package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
+use Foswiki::Request;
+
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
 
 use version; our $VERSION = version->declare("v3.0.7");
 our $RELEASE           = '24 Mar 2014';

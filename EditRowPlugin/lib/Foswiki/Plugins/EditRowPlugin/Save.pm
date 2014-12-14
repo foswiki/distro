@@ -28,13 +28,6 @@ sub process {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
 
-    # Backwards compatibility for Foswiki 1.1.x
-    unless ( $query->can('multi_param') ) {
-        no warnings 'redefine';
-        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
-        use warnings 'redefine';
-    }
-
     unless ($query) {
         print CGI::header( -status => 500 );
         return undef;

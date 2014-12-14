@@ -13,6 +13,16 @@ Container for jQuery and plugins
 
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
+use Foswiki::Request                        ();
+
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
 
 our $VERSION           = '6.00_004';
 our $RELEASE           = '6.00_004';

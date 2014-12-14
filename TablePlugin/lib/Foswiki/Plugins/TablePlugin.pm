@@ -7,6 +7,16 @@ package Foswiki::Plugins::TablePlugin;
 
 use strict;
 use warnings;
+use Foswiki::Request ();
+
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
 
 # Simple decimal version, use parse method, no leading "v"
 use version; our $VERSION = version->parse("1.142");

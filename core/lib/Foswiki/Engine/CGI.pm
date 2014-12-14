@@ -15,6 +15,7 @@ package Foswiki::Engine::CGI;
 use strict;
 use warnings;
 
+use CGI;
 use Foswiki::Engine ();
 our @ISA = ('Foswiki::Engine');
 
@@ -27,6 +28,12 @@ BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
+    }
+
+    unless ( CGI->can('multi_param') ) {
+        no warnings 'redefine';
+        *CGI::multi_param = \&CGI::param;
+        use warnings 'redefine';
     }
 }
 
@@ -207,12 +214,6 @@ sub prepareBody {
     $CONSTRUCTOR_PID = $$;
 
     my $cgi = new CGI();
-    unless ( $cgi->can('multi_param') ) {
-        no warnings 'redefine';
-        print STDERR "REDEFINED CGI multi_param\n";
-        *CGI::multi_param = \&CGI::param;
-        use warnings 'redefine';
-    }
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
       if defined $err && $err =~ /\s*(\d{3})\s*(.*)/;

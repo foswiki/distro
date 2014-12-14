@@ -18,7 +18,17 @@ use warnings;
 use Foswiki::Func       ();
 use Foswiki::Plugins    ();
 use Foswiki::Validation ();
-use Foswiki::Sandbox();
+use Foswiki::Request    ();
+use Foswiki::Sandbox    ();
+
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
 
 our $VERSION           = '9.00';
 our $RELEASE           = '9.00';

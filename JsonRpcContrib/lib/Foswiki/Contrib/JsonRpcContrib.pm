@@ -17,6 +17,16 @@ package Foswiki::Contrib::JsonRpcContrib;
 
 use strict;
 use warnings;
+use Foswiki::Request;
+
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
 
 =begin TML
 
