@@ -28,6 +28,39 @@ BEGIN {
     }
 }
 
+# Foswiki 1.1.9 didn't define findFirstOccurenceAttrs. Monkey-patch it.
+unless ( defined &Foswiki::Attrs::findFirstOccurenceAttrs ) {
+    *Foswiki::Attrs::findFirstOccurenceAttrs = sub {
+        my ( $macro, $text ) = @_;
+        return undef unless $text =~ /\%${macro}[%{]/s;
+        my @queue = split( /(%[A-Za-z0-9_]*{|}%|\%${macro}\%)/, $text );
+        my $eat   = 0;
+        my $eaten = '';
+        while ( scalar(@queue) ) {
+            my $token = shift @queue;
+            if ($eat) {
+                if ( $token =~ /^%[A-Za-z0-9_]*{$/ ) {
+                    $eat++;
+                }
+                elsif ( $eat && $token eq '}%' ) {
+                    $eat--;
+                    return $eaten if ( !$eat );
+                }
+                $eaten .= $token;
+            }
+            else {
+                if ( $token eq "\%${macro}%" ) {
+                    return '';
+                }
+                elsif ( $token eq "\%${macro}\{" ) {
+                    $eat = 1;
+                }
+            }
+        }
+        return '';
+      }
+}
+
 =begin TML
 
 ---++ ClassMethod new($table_class) -> $parser
