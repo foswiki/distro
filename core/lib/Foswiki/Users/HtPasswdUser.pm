@@ -72,7 +72,7 @@ sub ClearCache {
 
 # Set TRACE to 1 to enable trace of password activity
 # Set TRACE to 2 for verbose auto-encoding report
-use constant TRACE => 0;
+use constant TRACE => 1;
 
 sub new {
     my ( $class, $session ) = @_;
@@ -227,21 +227,26 @@ sub _unlockPasswdFile {
 # parallel reading. The caller must never request a shared lock
 # if there is already an exclusive lock.
 sub _readPasswd {
-    my ( $this, $lockShared ) = @_;
+    my ( $this, $lockShared, $noCache ) = @_;
 
-    if (   $Foswiki::cfg{Htpasswd}{DetectModification}
-        && $this->PasswordData()
-        && -e $Foswiki::cfg{Htpasswd}{FileName} )
-    {
-        my $fileTime = ( stat(_) )[9];
-        $this->ClearCache()
-          if ( $fileTime > $this->PasswordTimestamp() );
+    unless ($noCache) {
+
+        if (   $Foswiki::cfg{Htpasswd}{DetectModification}
+            && $this->PasswordData()
+            && -e $Foswiki::cfg{Htpasswd}{FileName} )
+        {
+            my $fileTime = ( stat(_) )[9];
+            $this->ClearCache()
+              if ( $fileTime > $this->PasswordTimestamp() );
+        }
+
+        return $this->PasswordData() if ( $this->PasswordData() );
     }
-
-    return $this->PasswordData() if ( $this->PasswordData() );
 
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
+        print STDERR
+          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n";
         return $data;
     }
 
@@ -398,6 +403,11 @@ sub _dumpPasswd {
         push( @entries, $entry );
     }
     print STDERR "Saving $pwcount entries\n" if (TRACE);
+
+    #   if ( $pwcount < 50 ) {
+    #        print STDERR Data::Dumper::Dumper( \@entries );
+    #        die "REFUSE To Save:  Less than 50 passwords\n";
+    #    }
     return join( "\n", @entries ) . "\n";
 }
 
@@ -602,7 +612,12 @@ sub fetchPass {
             }
         }
         catch Error with {
+            my $e = shift;
             $this->{error} = $!;
+            print STDERR "ERROR: failed to fetchPass - $! ($e)";
+            $this->{error} = 'unknown error in fetchPass'
+              unless ( $this->{error} && length( $this->{error} ) );
+            return undef;
         };
     }
     else {
@@ -630,7 +645,8 @@ sub setPassword {
         $lockHandle = _lockPasswdFile(LOCK_EX);
 
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd(0);
+        #  - Don't trust cache
+        my $db = $this->_readPasswd( 0, 1 );
 
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
@@ -649,8 +665,8 @@ sub setPassword {
     catch Error with {
         my $e = shift;
         $this->{error} = $!;
-        print STDERR "ERROR: failed to resetPassword - $! ($e)";
-        $this->{error} = 'unknown error in resetPassword'
+        print STDERR "ERROR: failed to setPassword - $! ($e)";
+        $this->{error} = 'unknown error in setPassword'
           unless ( $this->{error} && length( $this->{error} ) );
         return undef;
     }
@@ -672,7 +688,8 @@ sub removeUser {
         $lockHandle = _lockPasswdFile(LOCK_EX);
 
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd(0);
+        #  - Don't trust cache
+        my $db = $this->_readPasswd( 0, 1 );
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
@@ -683,7 +700,12 @@ sub removeUser {
         }
     }
     catch Error with {
-        $this->{error} = shift->{-text};
+        my $e = shift;
+        $this->{error} = $!;
+        print STDERR "ERROR: failed to removeUser - $! ($e)";
+        $this->{error} = 'unknown error in removeUser'
+          unless ( $this->{error} && length( $this->{error} ) );
+        return undef;
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
@@ -751,7 +773,8 @@ sub setEmails {
         $lockHandle = _lockPasswdFile(LOCK_EX);
 
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd(0);
+        #  - Don't trust cache
+        my $db = $this->_readPasswd( 0, 1 );
         unless ( $db->{$login} ) {
 
             # Make sure the user is in the auth system, by adding them with
