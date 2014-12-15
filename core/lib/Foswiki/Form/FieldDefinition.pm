@@ -40,11 +40,11 @@ sub new {
     my %attrs = @_;
     ASSERT( $attrs{session} ) if DEBUG;
 
-    $attrs{name}       ||= '';
-    $attrs{attributes} ||= '';
-    $attrs{tooltip}    ||= '';
-    $attrs{type}       ||= '';    # default
-    $attrs{size}       ||= '';
+    $attrs{name}        ||= '';
+    $attrs{attributes}  ||= '';
+    $attrs{description} ||= '';
+    $attrs{type}        ||= '';    # default
+    $attrs{size}        ||= '';
     $attrs{size} =~ s/^\s*//;
     $attrs{size} =~ s/\s*$//;
     $attrs{validModifiers} ||= [];
@@ -66,9 +66,13 @@ sub finish {
     my $this = shift;
 
     undef $this->{name};
-    undef $this->{attributes};
     undef $this->{type};
     undef $this->{size};
+    undef $this->{value};
+    undef $this->{description};
+    undef $this->{attributes};
+    undef $this->{default};
+
     undef $this->{session};
 }
 

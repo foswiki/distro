@@ -265,21 +265,21 @@ HERE
 sub setForm {
     my $this = shift;
 
-    # Note columns are *not* in default order
+    # Silly header row to make sure it's ignored
     Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef,
         <<'HERE' );
-| *Type*          | *Name*            | *Size* | *Values*  | *Attributes* |
-| text            | Issue Name        | 40 |               | M |
-| radio           | State             |    | none          | H |
-| label           | Issue Description | 10 | 5             | |
-| select          | Issue 1           |    |               | |
-| nuffin          | Issue 2           |    |               | |
-| checkbox        | Issue 3           |    |               | |
-| textarea        | Issue 4           |    |               | |
-| select+multi    | Issue 5           | 3  | Foo, Bar, Baz | |
-| select+values   | Issue 6           | 1  | One=1, Two=2, Three=3, Four=4 |  |
-| checkbox+values | Issue 7           | 1  | One=1, Two=2, Three=3, Four=4 |  |
-| radio+values    | Issue 8           | 1  | One=1, Two=2, Three=3, Four=4 |  |
+| *Moniker*         | *Font*          | *X* | *Emotions*    | *Nuts* | *Bolts* |
+| Issue Name        | text            | 40  |               |        |       M |
+| State             | radio           |     | none          |        |   H     |
+| Issue Description | label           | 10  | 5             | | |
+| Issue 1           | select          |     |               | | |
+| Issue 2           | nuffin          |     |               | | |
+| Issue 3           | checkbox        |     |               | | |
+| Issue 4           | textarea        |     |               | | |
+| Issue 5           | select+multi    | 3   | Foo, Bar, Baz | | |
+| Issue 6           | select+values   | 1   | One=1, Two=2, Three=3, Four=4 | | |
+| Issue 7           | checkbox+values | 1   | One=1, Two=2, Three=3, Four=4 | | |
+| Issue 8           | radio+values    | 1   | One=1, Two=2, Three=3, Four=4 | | |
 Topic is deliberately missing
 HERE
     return;

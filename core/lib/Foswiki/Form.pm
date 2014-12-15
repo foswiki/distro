@@ -58,7 +58,7 @@ my %reservedFieldNames = map { $_ => 1 }
   forcenewrevision formtemplate onlynewtopic onlywikiname
   originalrev skin templatetopic text topic topicparent user );
 
-my @default_columns = qw/name type size value tooltip attributes default/;
+my @default_columns = qw/name type size value description attributes default/;
 my %valid_columns = map { $_ => 1 } @default_columns;
 
 =begin TML
@@ -222,7 +222,7 @@ sub fieldTitle2FieldName {
 # Get definition from supplied topic text
 # Returns array of arrays
 #   1st - list fields
-#   2nd - name, title, type, size, vals, tooltip, attributes
+#   2nd - name, title, type, size, vals, description, attributes
 #   Possible attributes are "M" (mandatory field) and "H" (hidden)
 sub _parseFormDefinition {
     my $this = shift;
@@ -257,16 +257,22 @@ sub _parseFormDefinition {
                 # A header on any row but the first is treated as data
                 $event = 'td';
                 $_[1] = "*$_[1]*";
+
+                # Drop-through to 'td'
             }
             else {
-                # Header row declaring column titles. This may re-order the
-                # columns.
-                my ( $pre, $data, $post ) = @_;
-                $data = lc($data);
-                $data =~ s/[\s:]//g;
-                $data = 'tooltip' if $data eq 'tooltipmessage';
-                $data = 'value'   if $data eq 'values';
-                $columns[ $col++ ] = $data if $valid_columns{$data};
+                # Header row declaring column titles.
+
+                # This could re-order the columns based on the title,
+                # but is disabled due to compatibility issues.
+                #my ( $pre, $data, $post ) = @_;
+                #$data = lc($data);
+                #$data =~ s/[\s:]//g;
+                #$data =~ s/s$//g; # singularise
+                #$data = 'description' if $data =~ /^tooltip(message)?$/;
+                #$columns[ $col ] = $data if $valid_columns{$data};
+
+                $col++;
                 $seen_head = 1;
                 return;
             }
@@ -495,7 +501,7 @@ sub renderForEdit {
     foreach my $fieldDef ( @{ $this->{fields} } ) {
 
         my $value;
-        my $tooltip       = $fieldDef->{tooltip};
+        my $tooltip       = $fieldDef->{description};
         my $definingTopic = $fieldDef->{definingTopic};
         my $title         = $fieldDef->{title};
         my $tmp           = '';

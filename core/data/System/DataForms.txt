@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418649057" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -50,11 +50,11 @@ Topics can store data as name/value pairs, or form fields. The attributes of eac
 ---+++ The data form topic
 The data definition is defined in a TML table and looks like this:
 <verbatim class="tml">
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* | *Default* |
-| TopicTitle | text | 100 | | | H | |
+| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* | *Default* |
+| TopicTitle | text | 100 | | Title of the topic | H | |
 | Version | select | 1 | Version in SVN,Foswiki 1.1.4,Foswiki 1.1.3,Foswiki 1.1.2,Foswiki 1.1.1 | | | |
-| Status | select | 1 | Asked,More info required,Answered | | M | Asked |
-| Related Topics | textboxlist | | | | |
+| Status | select | 1 | Asked,More info required,Answered | Mandatory status | M | Asked |
+| Related Topics | textboxlist | | | | | |
 </verbatim>
 In the next section we'll go into the details of the table contents.
 
@@ -81,38 +81,32 @@ The data form table is a kind of spreadsheet:
    * Each row of the table specifies one form field
    * The table header defines what attributes of the form fields need to be specified
 
+The data form table contains up to 7 columns. The first three (Name, Type and Size) are required, the others are _optional_.
+   1 Name
+   2 Type
+   3 Size
+   4 _Values_
+   5 _Description_
+   6 _Attributes_
+   7 _Default_
 
 ---++++ Header row
-Each column name in the table header row is one element of an entry field:
+Data form tables often have an optional header row as a useful reminder of the column names:
 <verbatim class="tml">
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-</verbatim>
-
-Only  =Name=, =Type= and =Size= are required. So the minimum table has this header row:
-<verbatim class="tml">
-| *Name* | *Type* | *Size* |
-</verbatim>
-
-A simple form just supporting entry of a name and a date would be:
-<verbatim class="tml">
-| *Name* | *Type* | *Size* |
-| Name   | text   | 80     |
-| Date   | date   | 30     |
+| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* | *Default* |
 </verbatim>
 
 ---++++ Form field rows
-Each form field is defined by these attributes:
+One form field is defined by each row in the table.
 
 %TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
 | Name | The name of the form field; must be unique for that form. |
 | Type | The data type: text, date, single or multi-value, labels (read-only). The type also defines how form field data can be entered in the edit screen, such as text field or radio buttons. |
 | Size | The input size of the form field inputs on the edit screen. |
 | Values | For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values. |
-| Tooltip message | (hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view. |
-| Attributes | Whether the field is mandatory or hidden in view mode. |
+| Description | A message that describes the field. |
+| Attributes | Attributes controlling how the field is displayed. |
 | Default | %NEW% if there is a =default= column, its value (or lack of value) is used as the default for new fields. This allows you to default the value of =select=, =radio= and =checkbox= to something other than the first =values= element |
-
-As said, only  =Name=, =Type= and =Size= are required.
 
 #FormFieldAttributes
 ---+++ Form field attributes
@@ -123,7 +117,7 @@ The name of the form field.
    * A very few field names are reserved. If you try to use one of these names, Foswiki will automatically append an underscore to the name when the form is used. But do *not* use the field name ==undefined== (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
-   * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use =[<nop>[...]]= double bracket links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
+   * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use =[<nop>[...]]= double bracket links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field.
    * If you want the Field name to include embedded spaces, use the format =[&lt;nop&gt;[FieldName][Descriptive human-friendly Field Name]]=.
    * Leading and trailing spaces do not matter.
    
@@ -205,8 +199,8 @@ The generated HTML code reveals that the form values differ from the option labe
 ---+++++ Extending the range of form data types
 Some plugins add data types. For instance, [[%SYSTEMWEB%.JQueryPlugin][JQueryPlugin's]] sub-plugin [[%SYSTEMWEB%.JQueryPlugin][JQueryFarbtastic]] adds the data type =color=:
 <verbatim class='tml'>
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| MyColor | color | 10 | | | |
+| *Name*  | *Type* | *Size* |
+| MyColor | color | 10 |
 </verbatim>
 
 Example (click in the field to view):
@@ -242,8 +236,8 @@ If this column exists in the form definition, then it will be used to determine 
 ---+++++ How to retrieve values from other topics
 If you have rows defined like this:
 <verbatim class="tml">
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| AeroplaneManufacturers | select | | | | | 
+| *Name*  | *Type* | *Size* |
+| AeroplaneManufacturers | select | |
 </verbatim>
 ... Foswiki will look for the topic !AeroplaneManufacturers to get the possible values for the =select= field. 
 
@@ -266,7 +260,7 @@ A powerful way to populate selectable field values is by using [[%SYSTEMWEB%.Var
 
 For example, to create a list of documentation topics whose name contain "Wiki", you write:
 <verbatim class="tml">
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| *Name*  | *Type* | *Size* | *Values* |
 | Subject | select+multi | 10 | ,%SEARCH{ \
    "Wiki" \
    scope="topic" \
@@ -275,7 +269,7 @@ For example, to create a list of documentation topics whose name contain "Wiki",
    type="regex" \
    format="$topic" \
    separator=", " \
-}% | | |
+}% |
 </verbatim>
 Note the use of the backslash to be able to write the macro in a more readable way using multiple lines. The comma just before the =SEARCH= means "empty value" to make it possible to select none.
 
@@ -300,12 +294,12 @@ You are not expected to write these kind of search expressions yourself, but if 
 Some browsers may strip linefeeds from =text= fields when a topic is saved. If you need linefeeds in a field, make sure it is a =textarea=.
 </div>
 
----++++ Tooltip message
-(hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view.
+---++++ Description
+Description of the field. Sometimes used in help information.
 
 
 ---++++ Attributes
-Whether the field is mandatory or hidden in view mode.
+Whether the field is mandatory or hidden when viewed.
 
 %TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
 | =H= | Indicates that this field should not be shown in view mode. However, the field is available for editing and storing information. |
