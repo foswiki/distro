@@ -97,6 +97,9 @@ sub fixture_groups {
     my @scripts;
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
+        next
+          unless $script =~
+/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
         push( @scripts, $script );
         next if ( defined( &{$script} ) );
 
@@ -408,14 +411,24 @@ sub verify_switchboard_function {
             );
         }
         else {
-            for ($output) {    # Remove OK warnings
-                               # Empty title, no easy fix and harmless
-                               # Empty style, see Item11608
+            for ($output) {
+
+                # Remove OK warnings
+                # Empty title, no easy fix and harmless
+                # Empty style, see Item11608
 s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
 s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
-s/^$testcase \(\d+:\d+\) Warning: <a> proprietary attribute "data-subscribe"\n?$//gm;
+
+# Remove warnings about HTML5 not being covered by HTML::Tidy properly, see Item13134
+s/^$testcase \(\d+:\d+\) Warning: <a> proprietary attribute "data-.*"//gm;
+s/^$testcase \(\d+:\d+\) Warning: <meta> proprietary attribute "charset"//gm;
+s/^$testcase \(\d+:\d+\) Warning: <meta> lacks "content" attribute//gm;
+s/^$testcase \(\d+:\d+\) Warning: <[^>]+> proprietary attribute "class"//gm;
+
                 s/^\s*$//;
+
             }
+
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )
                 and ( $output =~ /<table> lacks "summary" attribute/ ) )
             {
