@@ -39,13 +39,20 @@ jQuery(function($) {
 
       if ($button.is(".jqUIDialogClose")) {
         button.click = function() {
-          $(this).dialog("close");
+          $this.dialog("close");
+        };
+      }
+
+      if ($button.is(".jqUIDialogDestroy")) {
+        button.click = function() {
+          $this.dialog("destroy");
+          $this.remove();
         };
       }
 
       if ($button.is(".jqUIDialogSubmit")) {
         button.click = function() {
-          $(this).find("form:first").submit();
+          $this.find("form:first").submit();
         };
       }
       $.extend(button, $button.metadata());

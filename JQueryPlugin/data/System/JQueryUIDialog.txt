@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1378463537" format="1.1" reprev="3" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418730020" format="1.1" reprev="3" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -83,6 +83,7 @@ In this case the dialog will alwas be fetched again from the backend using the g
 ---++ Button Click Actions
 When the button is clicked:
    * If the &lt;a&gt; element has the =jqUIDialogClose= class, then the dialog box will close.
+   * If the &lt;a&gt; element has the =jqUIDialogDestroy= class, then the dialog box will closed and destroyed (removed from DOM).
    * If the &lt;a&gt; element has the =jqUIDialogSubmit= class, then a form defined in the dialog box will be submitted.
    * If the &lt;a&gt; element has an href attribute, then the specified page will be loaded.
 
