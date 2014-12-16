@@ -1,6 +1,8 @@
-jQuery(function() {
-    $("#navigate").change(function(e) {
-	this.form.topic.value = this.options[this.selectedIndex].value;
-	this.form.submit();
-    });
+jQuery(function($) {
+  $("#navigate").change(function(e) {
+    var url = this.options[this.selectedIndex].value;
+    if (url) {
+      window.location.href = url;
+    }
+  });
 });
