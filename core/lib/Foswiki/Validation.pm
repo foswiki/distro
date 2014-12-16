@@ -300,12 +300,12 @@ sub validate {
 
     my $tmpl = $session->templates->readTemplate('validate');
 
-    if ( $query->param('response') ) {
+    if ( scalar $query->param('response') ) {
         my $cacheUID = $query->param('foswikioriginalquery');
         $query->delete('foswikioriginalquery');
         my $url;
         if ( $query->param('response') eq 'OK'
-            && isValidNonce( $cgis, $query->param('validation_key') ) )
+            && isValidNonce( $cgis, scalar $query->param('validation_key') ) )
         {
             if ( !$cacheUID ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
