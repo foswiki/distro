@@ -327,8 +327,8 @@ sub getRenderedVersion {
     # are embedded in the values provided to other tags. The only way to
     # do this correctly is to parse the HTML (bleagh!). So we just assume
     # they have been escaped.
-    $text =~ s/<(\/?\w+(:\w+)?)>/{$REMARKER$1}$REMARKER/g;
-    $text =~ s/<(\w+(:\w+)?(\s+.*?|\/)?)>/{$REMARKER$1}$REMARKER/g;
+    $text =~ s/<(\/?[\w\-]+(:[\w\-]+)?)>/{$REMARKER$1}$REMARKER/g;
+    $text =~ s/<([\w\-]+(:[\w\-]+)?(\s+.*?|\/)?)>/{$REMARKER$1}$REMARKER/g;
 
     # XML processing instruction only valid at start of text
     $text =~ s/^<(\?\w.*?\?)>/{$REMARKER$1}$REMARKER/g;
@@ -1603,9 +1603,6 @@ sub _externalLink {
                 $text =~ s/\@/'&#'.ord('@').';'/ge;
             }
         }
-    }
-    else {
-        $opt = ' target="_top"';
     }
     $text ||= $url;
 
