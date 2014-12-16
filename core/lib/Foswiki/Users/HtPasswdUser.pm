@@ -72,7 +72,7 @@ sub ClearCache {
 
 # Set TRACE to 1 to enable trace of password activity
 # Set TRACE to 2 for verbose auto-encoding report
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 sub new {
     my ( $class, $session ) = @_;
@@ -259,6 +259,8 @@ sub _readPasswd {
       . $this->PasswordTimestamp() . " \n"
       if (TRACE);
     my $IN_FILE;
+
+    local $/ = "\n";
 
     open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
