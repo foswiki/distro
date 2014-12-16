@@ -231,9 +231,10 @@ sub stringify {
 ---++ ObjectMethod processChange($change, $db, $changeSet, $seenSet, $allSet)
    * =$change= - ref of a Foswiki::Contrib::Mailer::Change
    * =$db= - Foswiki::Contrib::MailerContrib::UpData database of parent references
-   * =$changeSet= - ref of a hash mapping emails to sets of changes
-   * =$seenSet= - ref of a hash recording indices of topics already seen
-   * =$allSet= - ref of a hash that maps topics to email addresses for news subscriptions
+   * =$changeSet= - ref of a hash mapping name&emails to sets of changes
+   * =$seenSet= - ref of a hash recording indices of topics already seen for
+                  each name&email addressee
+   * =$allSet= - ref of a hash that maps topics to name&email ids for news subscriptions
 Find all subscribers that are interested in the given change. Only the most
 recent change to each topic listed in the .changes file is retained. This
 method does _not_ change this object.
@@ -257,13 +258,26 @@ sub processChange {
         my $subs = $subscriber->isSubscribedTo( $topic, $db );
         if ( $subs && !$subscriber->isUnsubscribedFrom( $topic, $db ) ) {
 
-            unless (
-                Foswiki::Func::checkAccessPermission(
-                    'VIEW', $name, undef, $topic, $this->{web}, undef
-                )
-              )
-            {
-                print "$name has no permission to view $this->{web}.$topic\n"
+            # Check access to the old rev
+            my $cuid = Foswiki::Func::getCanonicalUserID($name);
+
+            # Check access is allowed to the most recent revision
+            my $to =
+              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic,
+                $change->{CURR_REV} );
+            unless ( $to->haveAccess( 'VIEW', $cuid ) ) {
+                print STDERR
+"$name has no permission to view r$change->{CURR_REV} of $web.$topic\n"
+                  if TRACE;
+                next;
+            }
+
+            $to =
+              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic,
+                $change->{BASE_REV} );
+            unless ( $to->haveAccess( 'VIEW', $cuid ) ) {
+                print STDERR
+"$name has no permission to view r$change->{BASE_REV} of $web.$topic\n"
                   if TRACE;
                 next;
             }
@@ -272,6 +286,7 @@ sub processChange {
             my $emails = $subscriber->getEmailAddresses();
             if ( $emails && scalar(@$emails) ) {
                 foreach my $email (@$emails) {
+                    my $id = "$name&$email";
 
                     # Skip this change if the subscriber is the author
                     # of the change, and we are not always sending
@@ -283,27 +298,27 @@ sub processChange {
                         )
                         && $authors{$email}
                       );
-                    print STDERR "\tusing email $email\n" if TRACE;
+                    print STDERR "\tusing email $email for $name\n" if TRACE;
                     if ( $subs->{options} &
                         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC
                       )
                     {
 
-                        #print "Add $email to allSet for $topic\n";
-                        push( @{ $allSet->{$topic} }, $email );
+                        #print "Add $id to allSet for $topic\n";
+                        push( @{ $allSet->{$topic} }, $id );
                     }
                     else {
-                        my $at = $seenSet->{$email}{$topic};
+                        my $at = $seenSet->{$id}{$topic};
                         if ($at) {
 
-                            #print "Merge $email to changeset for $topic\n";
-                            $changeSet->{$email}[ $at - 1 ]->merge($change);
+                            #print "Merge $id to changeset for $topic\n";
+                            $changeSet->{$id}[ $at - 1 ]->merge($change);
                         }
                         else {
 
-                            #print "Add $email to changeset for $topic\n";
-                            $seenSet->{$email}{$topic} =
-                              push( @{ $changeSet->{$email} }, $change );
+                            #print "Add $id to changeset for $topic\n";
+                            $seenSet->{$id}{$topic} =
+                              push( @{ $changeSet->{$id} }, $change );
                         }
                     }
                 }
@@ -321,7 +336,7 @@ sub processChange {
    * =$topic= - topic name
    * =$db= - Foswiki::Contrib::MailerContrib::UpData database
      of parent references
-   * =\%allSet= - ref of a hash that maps topics to email addresses
+   * =\%allSet= - ref of a hash that maps topics to name&email addresses
      for news subscriptions
 
 =cut
@@ -340,7 +355,7 @@ sub processCompulsory {
             my $emails = $subscriber->getEmailAddresses();
             if ($emails) {
                 foreach my $address (@$emails) {
-                    push( @{ $allSet->{$topic} }, $address );
+                    push( @{ $allSet->{$topic} }, "$name&$address" );
                 }
             }
         }

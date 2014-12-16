@@ -104,7 +104,7 @@ sub expandHTML {
         if ( defined &Foswiki::Func::summariseChanges ) {
             $this->{HTML_SUMMARY} =
               Foswiki::Func::summariseChanges( $this->{WEB}, $this->{TOPIC},
-                $this->{BASE_REV}, $this->{CURR_REV}, 1 );
+                $this->{BASE_REV}, $this->{CURR_REV}, 1, 1 );
         }
         else {
             $this->{HTML_SUMMARY} =
@@ -141,7 +141,7 @@ sub expandPlain {
         if ( defined &Foswiki::Func::summariseChanges ) {
             $s =
               Foswiki::Func::summariseChanges( $this->{WEB}, $this->{TOPIC},
-                $this->{BASE_REV}, $this->{CURR_REV}, 0 );
+                $this->{BASE_REV}, $this->{CURR_REV}, 0, 1 );
         }
         else {
             $s =

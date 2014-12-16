@@ -3439,7 +3439,7 @@ sub _summariseTextWithSearchContext {
 
 =begin TML
 
----++ ObjectMethod summariseChanges( $orev, $nrev, $tml) -> $text
+---++ ObjectMethod summariseChanges( $orev, $nrev, $tml, $nochecks) -> $text
 
 Generate a (max 3 line) summary of the differences between the revs.
 
@@ -3448,6 +3448,7 @@ Generate a (max 3 line) summary of the differences between the revs.
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs.
      If false will generate a summary suitable for use in plain text
     (mail, for example)
+   * =$nochecks= - if true, access control checks will be suppressed
 
 If there is only one rev, a topic summary will be returned.
 
@@ -3458,7 +3459,7 @@ In non-tml, lines are truncated to 70 characters. Differences are shown using + 
 =cut
 
 sub summariseChanges {
-    my ( $this, $orev, $nrev, $tml ) = @_;
+    my ( $this, $orev, $nrev, $tml, $nochecks ) = @_;
     my $summary  = '';
     my $session  = $this->session();
     my $renderer = $session->renderer();
@@ -3479,7 +3480,7 @@ sub summariseChanges {
     }
 
     my $ntext = '';
-    if ( $this->haveAccess('VIEW') ) {
+    if ( $nochecks || $this->haveAccess('VIEW') ) {
 
         # Only get the text if we have access to nrev
         $ntext = $this->text();
@@ -3498,7 +3499,7 @@ sub summariseChanges {
 
     my $oldTopicObject =
       Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
-    unless ( $oldTopicObject->haveAccess('VIEW') ) {
+    unless ( $nochecks || $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
         $oldTopicObject =

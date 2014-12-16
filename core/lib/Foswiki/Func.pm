@@ -2445,7 +2445,7 @@ sub eachChangeSince {
 
 =begin TML
 
----+++ summariseChanges($web, $topic, $orev, $nrev, $tml) -> $text
+---+++ summariseChanges($web, $topic, $orev, $nrev, $tml, $nochecks) -> $text
 Generate a summary of the changes between rev $orev and rev $nrev of the
 given topic.
    * =$web=, =$topic= - topic (required)
@@ -2453,6 +2453,7 @@ given topic.
    * =$nrev= - later rev (may be undef for the latest)
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs. if false will generate a summary suitable for use in plain text (mail, for example)
 Generate a (max 3 line) summary of the differences between the revs.
+   * =$nochecks= if true, will suppress access control checks. (*Since* 1.2.0)
 
 If there is only one rev, a topic summary will be returned.
 
@@ -2468,13 +2469,16 @@ text.
 =cut
 
 sub summariseChanges {
-    my ( $web, $topic, $orev, $nrev, $tml ) = @_;
+    my ( $web, $topic, $orev, $nrev, $tml, $nochecks ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
 
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->summariseChanges( Foswiki::Store::cleanUpRevID($orev),
-        Foswiki::Store::cleanUpRevID($nrev), $tml );
+    return $topicObject->summariseChanges(
+        Foswiki::Store::cleanUpRevID($orev),
+        Foswiki::Store::cleanUpRevID($nrev),
+        $tml, $nochecks
+    );
 }
 
 =begin TML

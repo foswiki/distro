@@ -18,6 +18,8 @@ use warnings;
 use URI ();
 use CGI qw(-any);
 
+use Assert;
+
 use Foswiki                                    ();
 use Foswiki::Plugins                           ();
 use Foswiki::Time                              ();
@@ -264,19 +266,19 @@ sub _processSubscriptions {
 
     my $timeOfLastChange = 0;
 
-    # Hash indexed on email address, each entry contains a hash
-    # of topics already processed in the change set for this email.
+    # Hash indexed on name&email address, each entry contains a hash
+    # of topics already processed in the change set for this name&email.
     # Each subhash maps the topic name to the index of the change
     # record for this topic in the array of Change objects for this
-    # email in %changeset.
+    # name&email in %changeset.
     my %seenset;
 
-    # Hash indexed on email address, each entry contains an array
+    # Hash indexed on name&email address, each entry contains an array
     # indexed by the index stored in %seenSet. Each entry in the array
     # is a ref to a Change object.
     my %changeset;
 
-    # Hash indexed on topic name, mapping to email address, used to
+    # Hash indexed on topic name, mapping to name&email address, used to
     # record simple newsletter subscriptions.
     my %allSet;
 
@@ -346,21 +348,36 @@ sub _stompI18N {
 }
 
 sub _loadUserPreferences {
-    my ( $email, $email2meta, $oldPrefs ) = @_;
+    my ( $name, $email, $email2meta, $oldPrefs ) = @_;
 
     my $meta = $email2meta->{$email};
     unless ( defined $meta ) {
         my @wn = Foswiki::Func::emailToWikiNames($email);
 
         # If the email maps to a single user, we can use their
-        # preferences
+        # preferences.
+        # First check sanity of mappings.
         if ( scalar(@wn) == 1 ) {
-            my ( $uw, $ut ) =
-              Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
-                $wn[0] );
-            $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $uw, $ut );
-            $email2meta->{$email} = $meta;
+            if ( $wn[0] ne $name ) {
+                my $mess = 'MailerContrib Warning: surprising mapping'
+                  . " $email => $wn[0] != $name";
+                Foswiki::Func::writeDebug($mess);
+            }
+            $name = $wn[0];
         }
+        elsif ( !grep { /^$name$/ } @wn ) {
+            my $mess =
+                'MailerContrib Warning: missing mapping'
+              . " $email => ("
+              . join( ',', @wn )
+              . ") != $name";
+            Foswiki::Func::writeDebug($mess);
+        }
+        my ( $uw, $ut ) =
+          Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+            $name );
+        $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $uw, $ut );
+        $email2meta->{$email} = $meta;
     }
     if ($meta) {
         foreach my $k (
@@ -403,10 +420,12 @@ sub _sendChangesMails {
 
     my $sentMails = 0;
 
-    foreach my $email ( keys %{$changeset} ) {
+    foreach my $name_email ( keys %{$changeset} ) {
+        print STDERR "Generating mails for $name_email\n";
+        my ( $name, $email ) = split( '&', $name_email, 2 );
 
         my %oldPrefs;
-        _loadUserPreferences( $email, $email2meta, \%oldPrefs );
+        _loadUserPreferences( $name, $email, $email2meta, \%oldPrefs );
 
         my $mail =
           Foswiki::Func::expandCommonVariables(
@@ -422,7 +441,7 @@ sub _sendChangesMails {
 
         $mail =~ s/%EMAILTO%/$email/g;
         $mail =~ s/%(HTML|PLAIN)_TEXT%/
-             _generateChangeDetail($email, $changeset, $1, $web)/ge;
+             _generateChangeDetail($name_email, $changeset, $1, $web)/ge;
         $mail =~ s/%LASTDATE%/$lastTime/ge;
 
         my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
@@ -456,23 +475,24 @@ sub _sendChangesMails {
 }
 
 sub _generateChangeDetail {
-    my ( $email, $changeset, $style, $web ) = @_;
+    my ( $name_email, $changeset, $style, $web ) = @_;
 
     my @ep = ( $Foswiki::cfg{HomeTopicName}, $web );
 
     my $template = Foswiki::Func::expandTemplate( $style . ':middle' );
     my $diff_tmpl;
     my $text = '';
+    my ( $name, $email ) = split( '&', $name_email, 2 );
     foreach my $change ( sort { $a->{TIME} cmp $b->{TIME} }
-        @{ $changeset->{$email} } )
+        @{ $changeset->{$name_email} } )
     {
         if ( $style eq 'HTML' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandHTML($template), @ep );
+                $change->expandHTML( $template, $name ), @ep );
         }
         elsif ( $style eq 'PLAIN' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandPlain($template), @ep );
+                $change->expandPlain( $template, $name ), @ep );
         }
 
         if ( $text =~ /%DIFF_TEXT%/ ) {
@@ -509,7 +529,7 @@ sub _sendNewsletterMails {
 }
 
 sub _sendNewsletterMail {
-    my ( $web, $topic, $emails, $email2meta, $options ) = @_;
+    my ( $web, $topic, $name_emails, $email2meta, $options ) = @_;
     my $wikiName = Foswiki::Func::getWikiName();
 
     # SMELL: this code is almost identical to PublishContrib
@@ -555,15 +575,15 @@ sub _sendNewsletterMail {
     # Handle standard formatting.
     $body =~ s/%TEXT%/$text/g;
 
-    my %targets = map { $_ => 1 } @$emails;
-
     my $sentMails = 0;
 
-    foreach my $email ( keys %targets ) {
+    foreach my $name_email (@$name_emails) {
+
+        my ( $name, $email ) = split( '&', $name_email, 2 );
 
         # Set up user prefs
         my %oldPrefs;
-        _loadUserPreferences( $email, $email2meta, \%oldPrefs );
+        _loadUserPreferences( $name, $email, $email2meta, \%oldPrefs );
 
         # Don't render the header, it is preformatted
         my $header =
