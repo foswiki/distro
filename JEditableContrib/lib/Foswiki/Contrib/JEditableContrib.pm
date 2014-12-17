@@ -12,7 +12,7 @@ our $SHORTDESCRIPTION =
 
 Call this from any other extension to include this plugin. For example,
 <verbatim>
-require Foswiki::Contrib::JEditableContrib ();
+require Foswiki::Contrib::JEditableContrib;
 Foswiki::Contrib::JEditableContrib::init();
 </verbatim>
 
