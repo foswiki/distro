@@ -84,7 +84,7 @@ sub handle {
                   . "/rest/ImagePlugin/resize?topic=$web.$topic;file=$attachment->{name};size=48x48>&crop=northwest";
             }
 
-            foreach my $key ( sort keys $attachment ) {
+            foreach my $key ( sort keys %{$attachment} ) {
                 $record->{$key} = $attachment->{$key};
             }
 
