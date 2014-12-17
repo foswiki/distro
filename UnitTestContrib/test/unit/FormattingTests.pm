@@ -524,7 +524,7 @@ ACTUAL
 #sub test_squabbedUrlAltTextOldUndocumentedUse {
 #    my $this     = shift;
 #    my $expected = <<EXPECTED;
-#<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}" target="_top">Alt <nop>TextAlt</a>
+#<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
 #EXPECTED
 #
 #    my $actual = <<ACTUAL;
@@ -808,7 +808,7 @@ ACTUAL
 sub test_wikiWordInsideHttpLink {
     my $this     = shift;
     my $expected = <<EXPECTED;
-<a href="http://google.com/" target="_top">There is a <nop>WikiWord inside an external link</a>
+<a href="http://google.com/">There is a <nop>WikiWord inside an external link</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -822,7 +822,7 @@ ACTUAL
 sub test_wikiWordInsideFileLink {
     my $this     = shift;
     my $expected = <<EXPECTED;
-<a href="file://tmp/pam.gif" target="_top">There is a <nop>WikiWord inside a file: link</a>
+<a href="file://tmp/pam.gif">There is a <nop>WikiWord inside a file: link</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -850,7 +850,7 @@ ACTUAL
 sub test_wikiWordInsideRelative {
     my $this     = shift;
     my $expected = <<EXPECTED;
-<a href="/somewhere/on/this/host" target="_top">There is a <nop>WikiWord inside a relative link</a>
+<a href="/somewhere/on/this/host">There is a <nop>WikiWord inside a relative link</a>
 EXPECTED
 
     my $actual = <<'ACTUAL';
@@ -874,7 +874,7 @@ ACTUAL
     $this->do_test( $expected, $actual );
 
     $expected = <<EXPECTED;
-<a href="http://foswiki.org" target="_top">blah http<nop>://foswiki.org blah</a>
+<a href="http://foswiki.org">blah http<nop>://foswiki.org blah</a>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -883,7 +883,7 @@ ACTUAL
     $this->do_test( $expected, $actual );
 
     $expected = <<EXPECTED;
-<a href="http://foswiki.org" target="_top">http://foswiki.org</a>
+<a href="http://foswiki.org">http://foswiki.org</a>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -1310,7 +1310,7 @@ sub test_protocols {
 
     foreach my $url ( keys %urls ) {
         my $expected = $urls{$url} || <<EXPECTED;
-<a href="$url" target="_top">$url</a>
+<a href="$url">$url</a>
 EXPECTED
 
         # URL in text
@@ -1387,7 +1387,7 @@ ACTUAL
 sub test_externalLinkWithSpacedUrl {
     my $this     = shift;
     my $expected = <<EXPECTED;
-<a href="http://foswiki.org/Some\%20File\%20WikiWord\%20And\%20Spaces.txt" target="_top">topic</a>
+<a href="http://foswiki.org/Some\%20File\%20WikiWord\%20And\%20Spaces.txt">topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1399,7 +1399,7 @@ ACTUAL
 sub test_externalLinkWithSpacedQuery {
     my $this     = shift;
     my $expected = <<EXPECTED;
-<a href="http://foswiki.org/Some\%20Spaces.txt?query=blah%20blah&another=blah%20blah;andlast" target="_top">topic</a>
+<a href="http://foswiki.org/Some\%20Spaces.txt?query=blah%20blah&another=blah%20blah;andlast">topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1840,7 +1840,7 @@ ACTUAL
 sub test_externalLinkWithImageNotUrl {
     my $this     = shift;
     my $expected = <<'EXPECTED';
-<a href="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif" target="_top">foswiki-logo.gif</a>
+<a href="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif">foswiki-logo.gif</a>
 EXPECTED
 
     my $actual = <<'ACTUAL';
