@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1412000932" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418802662" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Tips Of the Day Include
 
