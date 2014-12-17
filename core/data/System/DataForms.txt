@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418649057" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418790324" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -33,6 +33,8 @@ Then you are ready to enter data values for each topic.
 Optional further steps are:
    1. Create a template topic so that new topics based on that template have the form already added - see [[%SYSTEMWEB%.TemplateTopics][Template topics]].
    1. Build an HTML form to create new topics based on that template topic, or to pass field values from the HTML form to the data form.
+   1. Expand form fields into the text using the =%<nop>FORMFIELD%= macro - see [[%SYSTEMWEB%.VarFORMFIELD][VarFORMFIELD]]
+   1. Create a custom View Template to display your data. See [[%SYSTEMWEB%.SkinTemplates][SkinTemplates]] and [[%SYSTEMWEB%.AutoViewTemplatePlugin][AutoViewTemplatePlugin]].
    1. Build a search to create a report from the stored data
 
 
@@ -420,5 +422,5 @@ See [[%SYSTEMWEB%.VarSEARCH][SEARCH]] for an overview of =SEARCH= parameters, an
 %STOPINCLUDE%
 
 ---
-*Related Topics:* %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.TemplateTopics, %SYSTEMWEB%.FAQAnApplicationWithWikiForm
+*Related Topics:* %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.TemplateTopics, %SYSTEMWEB%.FAQAnApplicationWithWikiForm, %SYSTEMWEB%.VarFORMFIELD, %SYSTEMWEB%.SkinTemplates
 <!-- %JQREQUIRE{"chili"}% -->
