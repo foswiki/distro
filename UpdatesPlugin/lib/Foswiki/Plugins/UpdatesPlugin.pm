@@ -26,7 +26,7 @@ our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
 
-use constant DEBUG => 0;    # Set to 1 to enable debug mode
+use constant TRACE => 0;    # Set to 1 to enable debug mode
 
 sub initPlugin {
 
@@ -39,7 +39,7 @@ sub initPlugin {
     my $request = Foswiki::Func::getRequestObject();
     my $cookie;
 
-    $cookie = $request->cookie("FOSWIKI_UPDATESPLUGIN") unless DEBUG;
+    $cookie = $request->cookie("FOSWIKI_UPDATESPLUGIN") unless TRACE;
 
     return 1 if defined($cookie) && $cookie <= 0;    # 0: DoNothing
 
@@ -53,7 +53,7 @@ sub initPlugin {
     Foswiki::Plugins::JQueryPlugin::createPlugin("tmpl");
 
     my $jsFile =
-      (DEBUG) ? 'jquery.updates.uncompressed.js' : 'jquery.updates.js';
+      (TRACE) ? 'jquery.updates.uncompressed.js' : 'jquery.updates.js';
 
     my $configureUrl = $Foswiki::cfg{Plugins}{UpdatesPlugin}{ConfigureUrl}
       || Foswiki::Func::getScriptUrl( undef, undef, "configure" );
@@ -72,7 +72,7 @@ JS
     Foswiki::Func::registerRESTHandler(
         'check',
         sub {
-            return getCore( shift, debug => DEBUG )->handleRESTCheck(@_);
+            return getCore( shift, debug => TRACE )->handleRESTCheck(@_);
         },
         authenticate => 0,       # Safe.  initPlugin bails if user not an admin.
         validate     => 0,       # Doesn't update.
