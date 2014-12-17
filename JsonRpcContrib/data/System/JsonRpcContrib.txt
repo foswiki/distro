@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1304090140" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1418801119" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -224,6 +224,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  17 Dec 2014: | added support for gzip compression of http response |
 |  28 Aug 2014: | don't use DEBUG constant to toggle local debug messages as it conflicts with Assert.pm |
 |  11 Dec 2013: | removed dependency on JSON::XS |
 |  30 May 2013: | added support for serialising objects, and rewrote some of the documentation (Foswiki:Main/CrawfordCurrie) |

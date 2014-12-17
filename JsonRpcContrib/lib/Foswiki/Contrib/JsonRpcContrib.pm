@@ -17,7 +17,7 @@ package Foswiki::Contrib::JsonRpcContrib;
 
 use strict;
 use warnings;
-use Foswiki::Request;
+use Foswiki::Request ();
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
@@ -34,8 +34,8 @@ BEGIN {
 
 =cut
 
-our $VERSION           = '2.12';
-our $RELEASE           = '2.12';
+our $VERSION           = '2.20';
+our $RELEASE           = '2.20';
 our $SHORTDESCRIPTION  = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;

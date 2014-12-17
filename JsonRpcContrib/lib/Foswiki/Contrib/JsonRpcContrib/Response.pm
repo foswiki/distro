@@ -43,14 +43,28 @@ sub print {
     my $class   = shift;
     my $session = shift;
 
-    my $this = $class->new( $session, @_ );
+    my $this     = $class->new( $session, @_ );
+    my $response = $this->{session}->{response};
+    my $text     = $this->encode();
+    my $hopts    = {
+        'status' => $this->code() ? 500 : 200,
+        'Content-Type' => 'text/plain',
+    };
 
-    $this->{session}->{response}->header(
-        -status => $this->code() ? 500 : 200,
-        -type => 'text/plain',
-    );
+    my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';
+    $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
 
-    $this->{session}->{response}->print( $this->encode() );
+    if ( $Foswiki::cfg{HttpCompress} || $ENV{'SPDY'} ) {
+        $hopts->{'Content-Encoding'} = $encoding;
+        $hopts->{'Vary'}             = 'Accept-Encoding';
+
+        require Compress::Zlib;
+        $text = Compress::Zlib::memGzip($text);
+    }
+
+    $response->setDefaultHeaders($hopts);
+
+    $response->print($text);
 }
 
 ##############################################################################
