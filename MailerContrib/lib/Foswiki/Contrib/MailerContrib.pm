@@ -421,7 +421,6 @@ sub _sendChangesMails {
     my $sentMails = 0;
 
     foreach my $name_email ( keys %{$changeset} ) {
-        print STDERR "Generating mails for $name_email\n";
         my ( $name, $email ) = split( '&', $name_email, 2 );
 
         my %oldPrefs;
