@@ -1,1 +1,1 @@
-Foswiki::Plugins::JQueryPlugin,>=0.5,perl,Required.
+Foswiki::Plugins::JQueryPlugin,>=6.00,perl,Required.

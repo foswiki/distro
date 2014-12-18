@@ -1,5 +1,5 @@
 Foswiki::Contrib::JSCalendarContrib,>0,perl,Javascript calendar module
-Foswiki::Plugins::JQueryPlugin,>=4.00,perl,JQuery
+Foswiki::Plugins::JQueryPlugin,>=6.00,perl,JQuery
 Foswiki::Contrib::JEditableContrib,>0,perl,Required, JQuery plugin
 JSON,>=0,cpan,Required, for REST
 ONLYIF (not(eval('require Foswiki::Tables::Table')))

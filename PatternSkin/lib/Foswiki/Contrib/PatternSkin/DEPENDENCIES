@@ -1,4 +1,4 @@
-Foswiki::Plugins::JQueryPlugin,>=1.3,perl,Required
+Foswiki::Plugins::JQueryPlugin,>=6.00,perl,Required
 Foswiki::Plugins::TwistyPlugin,>=1.000,perl,Required
 Foswiki::Plugins::TablePlugin,>0,perl,Required
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
