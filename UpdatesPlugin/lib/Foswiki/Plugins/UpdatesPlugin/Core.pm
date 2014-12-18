@@ -236,7 +236,9 @@ sub getInstalled {
 
         foreach my $thing ( split( /\s*,\s*/, $list ) ) {
             next unless $thing =~ /^([a-zA-Z0-9_]+)$/;
-            next if $thing =~ /$this->{excludePattern}/;
+            next
+              if defined $this->{excludePattern}
+              && $thing =~ /$this->{excludePattern}/;
 
             my $mn  = $1;
             my $mod = "Foswiki::Contrib::$mn";
@@ -258,7 +260,9 @@ sub getInstalled {
         # SMELL: hack assumes structure of plugins controller object
         my $controller = $this->{session}{plugins};
         foreach my $plugin ( @{ $controller->{plugins} } ) {
-            next if $plugin->{name} =~ /$this->{excludePattern}/;
+            next
+              if defined $this->{excludePattern}
+              && $plugin->{name} =~ /$this->{excludePattern}/;
 
             my $release = eval "\$$plugin->{module}::RELEASE" || '%$RELEASE';
 
