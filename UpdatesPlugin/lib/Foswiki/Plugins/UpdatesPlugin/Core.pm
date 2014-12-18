@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2014 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -101,12 +101,13 @@ sub handleRESTCheck {
         if ($result) {
             push @outdatedPlugins, $extName;
             print STDERR
-"ext=$extName, installed=$installed, available=$release/$version result=$result\n"
+"UPDATE: $extName: installed: $installed, available release=$release, available version=$version\n"
               if $this->{debug};
         }
     }
 
-    printRESTResponse( $response, 200, JSON::to_json( \@outdatedPlugins ) );
+    printRESTResponse( $response, 200,
+        JSON::to_json( \@outdatedPlugins, { pretty => 1 } ) );
 
     return;
 }
@@ -224,8 +225,7 @@ sub getInstalled {
 
 # First get contribs and skins by poking into the System web. The versions returned
 # may include %$RELEASE% if this is a pseudo-install
-        print STDERR "performing local SEARCH in $Foswiki::cfg{SystemWebName}\n"
-          if $this->{debug};
+# print STDERR "performing local SEARCH in $Foswiki::cfg{SystemWebName}\n" if $this->{debug};
 
         my $list = Foswiki::Func::expandCommonVariables(
                 '{%SEARCH{"1" nosearch="on" nototal="on" web="'
@@ -246,7 +246,7 @@ sub getInstalled {
             unless ($@) {
 
                 my $release = eval "\$Foswiki::Contrib::${mn}::RELEASE"
-                  || '%$RELEASE';
+                  || '0';
 
     #print STDERR "found extension $mn, release = $release\n" if $this->{debug};
 

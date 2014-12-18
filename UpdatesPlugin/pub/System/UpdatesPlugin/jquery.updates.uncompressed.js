@@ -1,3 +1,11 @@
+/*
+ * jquery.updates plugin 0.30
+ *
+ * Copyright (c) 2011-2014 Foswiki Contributors http://foswiki.org
+ *
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ */
 (function($) {
 
   // global defaults
@@ -21,6 +29,7 @@
     }
 
     self.init();
+    self.loadPluginInfo();
 
     return self;
   };
@@ -34,7 +43,7 @@
     }
 
     if (typeof(self.options.endpointUrl) === 'undefined') {
-      self.options.endpointUrl = foswiki.getPreference("SCRIPTURL") + "/rest" + foswiki.getPreference("SCRIPTSUFFIX") + "/UpdatesPlugin/check";
+      self.options.endpointUrl = foswiki.getScriptUrl("rest", "UpdatesPlugin", "check");
     }
 
     // events
@@ -43,7 +52,6 @@
     });
 
     $(document).bind("forceRefresh.foswikiUpdates", function() {
-      //console.log("called forceRefresh");
       $.cookie(self.options.cookieName, null, {expires: -1, path:'/'});
       self.loadPluginInfo();
     });
@@ -52,13 +60,7 @@
       self.displayPluginInfo();
     });
       
-    // add some click actions to the thing
-    $("#foswikiUpdatesPerform").live("click", function() {
-      window.location.href = self.options.configureUrl;
-      return false;
-    });
-
-    $("#foswikiUpdatesIgnore").live("click", function() {
+    $(document).on("click", "#foswikiUpdatesIgnore", function() {
       // setting the cookie to zero...means ignore and don't search again
       $.cookie(self.options.cookieName, 0, {
         expires: self.options.cookieExpires, 
@@ -116,23 +118,23 @@
 
   // displays internal state using a nice info box at the top of the page
   FoswikiUpdates.prototype.displayPluginInfo = function() {
-    var self = this;
+    var self = this, elem;
 
     $(".foswikiUpdateMessage").remove(); // ... the old one if there
 
     // ... and add a new one
-    $("#foswikiUpdatesTmpl").tmpl([{
+    elem = $("#foswikiUpdatesTmpl").render([{
       nrPlugins:self.numberOutdatedPlugins,
+      cookieExpires:self.options.cookieExpires,
       configureUrl:self.options.configureUrl
-    }]).prependTo("body").fadeIn();
+    }]);
+
+    $(elem).prependTo("body").fadeIn();
   };
 
   // document ready things
   $(function() {
-    if (typeof(foswikiUpdates) === 'undefined') {
-      foswikiUpdates = new FoswikiUpdates();
-      $(document).trigger("refresh.foswikiUpdates");
-    }
+    foswikiUpdates = foswikiUpdates || new FoswikiUpdates();
   });
 
 })(jQuery);

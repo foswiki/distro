@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1356278781" format="1.1" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1418920507" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -14,16 +14,18 @@ tool, or delay it until later.
 
 ---++ Usage
 
-Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for
+Click below button to force checking foswiki.org for
 extension updates. If your wiki requires updating, a message will be displayed
 at the top of the page.
+
+%BUTTON{"%MAKETEXT{"Search for updates"}%" id="forceCheck" icon="bricks"}%
 
 <literal>
 <script>
 jQuery(function($) {
   $("#forceCheck").click(function() {
     $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
-    window.location.href = '%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%#pageTop';
+    window.location.href = '%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%';
     return false;
   });
 });
@@ -64,7 +66,7 @@ to prevent disclosing them to the outside world.
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
 |  Author(s): | Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie |
-|  Copyright: | &copy; Foswiki Contributors 2011  |
+|  Copyright: | &copy; Foswiki Contributors 2011-2014  |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
@@ -73,4 +75,4 @@ This plugin was initially developed during a collaborative design and coding ses
 |  Home page: | Foswiki:Extensions/%TOPIC% |
 |  Support: | Foswiki:Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="logo.png" attr="h"}%
+%META:FILEATTACHMENT{name="logo.png" attachment="logo.png" attr="h" comment="" date="1418920507" size="53676" user="ProjectContributor" version="1"}%

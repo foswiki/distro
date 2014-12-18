@@ -1,41 +1,19 @@
-%TMPL:DEF{"messagetmpl"}%<script id="foswikiUpdatesTmpl" type="text/x-jquery-tmpl"> 
+%TMPL:DEF{"messagetmpl"}%<script id="foswikiUpdatesTmpl" type="text/x-jsrender"> 
 <div class="foswikiBroadcastMessage foswikiUpdatesMessage">
-  <table>
-    <tr>
-      <td>
-        %X% 
-        %MAKETEXT{
-          "Info: [_1] extension(s) on your Foswiki can be updated." 
-          args="${nrPlugins}"
-          }%
-      </td>
-      <td>
-        <a href="%SCRIPTURL{configure}%"><img src='%ICONURL{choice-yes}%' /> %MAKETEXT{"Upgrade"}%</a>
-        %BUTTON{"%MAKETEXT{"Ignore for 7 days"}%" id="foswikiUpdatesIgnore" icon="cross"}%
-        %CLEAR%
-      </td>
-    </tr>
-  </table>
+%JQICON{"error"}%
+%MAKETEXT{"Warning: [_1] extension(s) on your Foswiki can be updated." args="{{:nrPlugins}}"}%
+<a href="%SCRIPTURL{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
+<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a>
+%CLEAR%
 </div>
 </script>%TMPL:END%
 
-%TMPL:DEF{"css"}%<literal>
-<style>
+%TMPL:DEF{"css"}%<style type="text/css">
 .foswikiUpdatesMessage {
   display:none;
-  position:absolute;
-  top:4px;
-  left: 10px;
-  right:10px;
   z-index:10000;
 }
-.foswikiUpdatesMessage td {
-  padding-right:1em;
+.foswikiUpdatesMessage a {
+  margin-left: 1em;
 }
-.foswikiUpdatesMessage #foswikiUpdatesIgnore .jqButtonIcon {
-  background-repeat: no-repeat;
-  padding-left: 20px;
-  margin-left: 26px;
-}
-</style>
-</literal>%TMPL:END%
+</style>%TMPL:END%

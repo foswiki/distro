@@ -1,2 +1,9 @@
 *.gz
 pub/System/UpdatesPlugin/jquery.updates.js
+UpdatesPlugin.md5
+UpdatesPlugin.sha1
+UpdatesPlugin.tgz
+UpdatesPlugin.txt
+UpdatesPlugin.zip
+UpdatesPlugin_installer
+UpdatesPlugin_installer.pl

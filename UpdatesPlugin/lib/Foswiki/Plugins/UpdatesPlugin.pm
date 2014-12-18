@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011-2013 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2014 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,8 +20,8 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION           = '0.30';
-our $RELEASE           = '0.30';
+our $VERSION           = '1.00';
+our $RELEASE           = '1.00';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
@@ -50,7 +50,7 @@ sub initPlugin {
     my $messageTmpl = Foswiki::Func::expandTemplate("messagetmpl");
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("cookie");
-    Foswiki::Plugins::JQueryPlugin::createPlugin("tmpl");
+    Foswiki::Plugins::JQueryPlugin::createPlugin("render");
 
     my $jsFile =
       (TRACE) ? 'jquery.updates.uncompressed.js' : 'jquery.updates.js';
@@ -59,13 +59,13 @@ sub initPlugin {
       || Foswiki::Func::getScriptUrl( undef, undef, "configure" );
 
     Foswiki::Func::addToZone( "head", "UPDATESPLUGIN::META", <<META);
-<meta name="foswiki.UPDATESPLUGIN::CONFIGUREURL" content="configureUrl" />
+<meta name="foswiki.UPDATESPLUGIN::CONFIGUREURL" content="$configureUrl" />
 $css
 $messageTmpl
 META
 
     Foswiki::Func::addToZone( "script", "UPDATESPLUGIN::JS",
-        <<JS, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::COOKIE, JQUERYPLUGIN::TMPL" );
+        <<JS, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::COOKIE, JQUERYPLUGIN::RENDER" );
 <script src="%PUBURLPATH%/%SYSTEMWEB%/UpdatesPlugin/$jsFile"></script>
 JS
 
