@@ -317,7 +317,7 @@ sub getRenderedVersion {
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
-    $text =~ s/^>(.*?)$/'&gt;'.CGI::cite( {}, $1 ).CGI::br()/gem;
+    $text =~ s/^>(.*?)$/'&gt;<cite>$1<\/cite><br \/>/gm;
 
     # locate isolated < and > and translate to entities
     # Protect isolated <!-- and -->
@@ -356,10 +356,8 @@ sub getRenderedVersion {
 
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
     # user-defined anchors is not sensible.
-    $text =~ s/^(\#$Foswiki::regex{wikiWordRegex})/
-      CGI::span({
-          id => $anchors->add( $1 )
-         }, '')/geom;
+    $text =~
+s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/geom;
 
     # Headings
     # '<h6>...</h6>' HTML rule
@@ -371,8 +369,7 @@ sub getRenderedVersion {
       _makeAnchorHeading($this, $2, length($1), $anchors)/geo;
 
     # Horizontal rule
-    my $hr = CGI::hr();
-    $text =~ s/^---+/$hr/gm;
+    $text =~ s/^---+/<hr \/>/gm;
 
     # Now we really _do_ need a line loop, to process TML
     # line-oriented stuff.
@@ -1196,7 +1193,7 @@ sub _emitTR {
         # implicit untaint is OK, because we are just taking topic data
         # and rendering it; no security step is bypassed.
         if (/^\s*\*(.*)\*\s*$/) {
-            $cells .= CGI::th( \%attr, CGI::strong( {}, " $1 " ) ) . "\n";
+            $cells .= CGI::th( \%attr, "<strong> $1 </strong>" ) . "\n";
         }
         else {
             $cells .= CGI::td( \%attr, " $_ " ) . "\n";
@@ -1212,8 +1209,8 @@ sub _fixedFontText {
     # preserve white space, so replace it by '&nbsp; ' patterns
     $text =~ s/\t/   /g;
     $text =~ s|((?:[\s]{2})+)([^\s])|'&nbsp; ' x (length($1) / 2) . $2|eg;
-    $text = CGI->b($text) if $embolden;
-    return CGI->code($text);
+    $text = '<b>' . $text . '</b>' if $embolden;
+    return '<code>' . $text . '</code>';
 }
 
 # Build an HTML &lt;Hn> element with suitable anchor for linking
