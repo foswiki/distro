@@ -1,12 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1411635527" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418920693" format="1.1" version="1"}%
 %META:TOPICPARENT{name="NatEditPlugin"}%
 ---+ %TOPIC%
 Help text for the NatEditPlugin editor
 
 %STARTINCLUDE%
-<font color="#333333" size="-1">
 %INCLUDE{"%SYSTEMWEB%.WikiSyntaxSummary"}%
-</font> 
 ---+++ %MAKETEXT{"Plugins"}%
 <table cellpadding="10">
 <tr>
