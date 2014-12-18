@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418904668" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -56,32 +56,17 @@ We are going to create a new topic from scratch first, before having a look at t
    * Click the ==[Create New Topic]== link in the main menu; it is normally located on the left side of a page. A new page will open where you put the name of the new topic you are going to create. This name will also be used to link from one topic to another. For example, the name of this topic is %TOPIC%.
    * Enter a name for the new topic (preferably a WikiWord), for example =MyFirstTopic= (if it says that this topic already exists, just choose a different one). After that, click =[OK]=.
 
-See also the following screenshot:
 #ExampleCreateForm
-<form name="newtopicform" id="newtopicform">
+<form action="%SCRIPTURLPATH{"edit"}%/%SANDBOXWEB%" >
+<input type="hidden" name="nonwikiword"  value="on" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---+++ !!Topic name:
-<p>
 <input type="text" class="foswikiInputField" name="topic" id="topic" size="40"  value="" />
-</p><p><input type="checkbox" id="nonwikiword" name="nonwikiword"  /><label for="nonwikiword">Allow non WikiWord for the new topic name</label><br /> It's usually best to choose a WikiWord for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed.</p>
+
 </div>
 <div class="foswikiFormStep">
----+++ !!Topic parent:
-<p>
-<input type='text' size='40' name='topicparent' class='foswikiInputField' value='WebHome' />&nbsp;<span class='foswikiUnvisited'><a id='pickparent' href='#ExampleCreateForm'>Pick from a list</a></span>
-</p>
-</div>
-<div class="foswikiFormStep">
----+++ !!Use template:
-<p>
-<select name="templatetopic" class="foswikiSelect"><option value="">Default template</option></select> 
-</p>
-</div>
-<div class="foswikiFormStep">
-<p>
-<input id="submit" type="submit" class="foswikiSubmit" value='Create this topic' />
-</p>
+<input type="submit" class="foswikiSubmit" value='Create this topic' />
 </div>
 </div>
 </form>
