@@ -4,7 +4,7 @@
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
 
 %STARTINCLUDE%<noautolink>
-<div class="siteToolsSitemap jqUITooltip" data-theme="info" data-arrow="true" data-position="top" data-delay="0">
+<div class="siteMap jqUITooltip" data-theme="info" data-arrow="true" data-position="top" data-delay="0">
 %SEARCH{ 
 	"'1'"
 	topic="%WEBPREFSTOPIC%" 
@@ -13,23 +13,26 @@ This table is updated automatically based on <nop>WebPreferences settings of the
 	nototal="on" 
 	nosearch="on" 
 	format="<div class='row'>
-      <div class='foswikiRight'>
-        [[$web.WebSearch][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif\" title=\"Search this web\" />]]
-        [[$web.WebChanges][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif\" title=\"Recent changes in this web\" />]]
-        [[$web.%NOTIFYTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif\" title=\"Get notified of changes to this web\" />]]
-        [[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" title=\"Preferences of this web\" />]]
+      <div class='tools'>
+        [[$web.WebSearch][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif' title='Search this web' />]]
+        [[$web.WebChanges][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif' title='Recent changes in this web' />]]
+        [[$web.%NOTIFYTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif' title='Get notified of changes to this web' />]]
+        [[$web.%WEBPREFSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif' title='Preferences of this web' />]]
         $percentIF{\"istopic '$web.%STATISTICSTOPIC%'\" 
           then=\"[[$web.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]\"
           else=\"<!-- -->\"
         }$percent
-        [[$web.WebTopicList][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif\" title=\"Bullet list of all topics\" />]]
-        [[$web.WebIndex][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif\" title=\"Index of all topics\" />]]
+        [[$web.WebTopicList][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif' title='Bullet list of all topics' />]]
+        $percentIF{\"istopic '$web.WebIndex'\"
+          then=\"[[$web.WebIndex][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif' title='Index of all topics' />]]\"
+          else=\"<!-- -->\"
+        }$percent
       </div>
       <h4>
-        <div class='webBgColor' style=\"background-color:$percentEXPAND{\"$dollarpercentWEBBGCOLOR$dollarpercent\" scope=\"$web.$topic\"}$percent\" ></div>
+        <div class='webBgColor' style='background-color:$percentEXPAND{\"$dollarpercentWEBBGCOLOR$dollarpercent\" scope=\"$web.$topic\"}$percent' ></div>
         [[$web.%HOMETOPIC%][$web]]
       </h4>
-      $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent 
+      $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent <!-- -->
       %CLEAR%
     </div>$n<hr />$n"
     pager="on"
@@ -41,30 +44,34 @@ This table is updated automatically based on <nop>WebPreferences settings of the
 %ADDTOZONE{"head" 
   id="%WEB%::%TOPIC%::CSS"
   text="<style type='text/css'>
-    .siteToolsSitemap {
+    .siteMap {
       max-width:800px;
     }
-    .siteToolsSitemap h4 {
+    .siteMap h4 {
       margin-bottom:0;
     }
-    .siteToolsSitemap .row {
+    .siteMap .tools {
+      float:right;
+      margin:0 0 0.5em 0.5em;
+    }
+    .siteMap .row {
       padding-left:26px;
     }
-    .siteToolsSitemap .webBgColor {
+    .siteMap .webBgColor {
       margin:0 5px 0 -26px;
       display:inline-block;
       width:16px;
       height:16px;
       vertical-align:text-bottom;
     }
-    .siteToolsSitemap img {
+    .siteMap img {
       width:16px;
       height:16px;
       border:none;
       margin:0 .5em 0 0;
       vertical-align:middle;
     }
-    .siteToolsSitemap ul
+    .siteMap ul
     {
       list-style-image:none;
       list-style-position:outside;
@@ -72,7 +79,7 @@ This table is updated automatically based on <nop>WebPreferences settings of the
       margin:1em 0;
       padding:0;
     }
-    .siteToolsSitemap li
+    .siteMap li
     {
       display:inline;
       margin:0 .5em 0 0;
