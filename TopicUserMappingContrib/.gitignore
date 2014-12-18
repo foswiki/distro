@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/TopicUserMappingContrib.md5
+/TopicUserMappingContrib.sha1
+/TopicUserMappingContrib.tgz
+/TopicUserMappingContrib.txt
+/TopicUserMappingContrib.zip
+/TopicUserMappingContrib_installer
+/TopicUserMappingContrib_installer.pl

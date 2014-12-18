@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1418802901" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -63,12 +63,27 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2012 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2014 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|                      | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page |
+|  4.50 (18 Dec 2014)  | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page<br />\
+                         Foswikitask:Item13106: removed blockquote where possible<br />\
+                         Foswikitask:Item13027: Most try..catch clauses were catching Error::Simple, which is effective only for catching Foswiki-specific exceptions<br />\
+                         Foswikitask:Item12952: remove non-existent Config.spec<br />\
+                         Foswikitask:Item11737: Change hardcoded =Main= to =%<nop>USERSWEB%= Replace =System= with =%<nop>SYSTEMWEB%= <br />\
+                         Foswikitask:Item11705: Multiple fixes to BulkRegistration<br />\
+                         Foswikitask:Item12823: add auto-generated header to various plugins sending email<br />\
+                         Foswikitask:Item12207: Add function to remove users, generally for SPAM cleanup |
+|  4.3.7 (31 Jan 2013) | Foswikitask:Item12329: Document core change: Code that deletes stale registrations needs it's own expiration timer. |
+|  4.3.6 (28 Nov 2012) | Foswikitask:Item11281: Don't filter user names beginning with "Web" from BulkResetPassword <br />\
+                         Foswikitask:Item11923: Better logging of changes to group membership. <br />\
+                         Foswikitask:Item12003: FAQRebuildingWikiUsersTopic creates an invalid Main.WikiUsers topic <br />\
+                         Foswikitask:Item12006: Don't generate edit links for Main.NobodyGroup <br />\
+                         Foswikitask:Item11965: Correct "undefined variable" errors in mailnotify <br />\
+                         Foswikitask:Item11746: Change email address instructions were incorrect <br />\
+                         Foswikitask:Item11267: Convert to perl version strings. |
 |  4.3.5 (06 Apr 2012) | Foswikitask:Item652, Foswikitask:Item710, Foswikitask:Item2196: Cleanup partial registrations after failure.%BR%\
                          Foswikitask:Item10238: Allow UI to create empty groups<br /> \
                          Foswikitask:Item11196: Add error messages translations for registraion and group UI errors<br /> \

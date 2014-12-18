@@ -1,36 +1,33 @@
 # Release manifest for TopicUserMappingContrib
 !noci
 data/System/TopicUserMappingContrib.txt 0644 Documentation
-lib/Foswiki/Contrib/TopicUserMappingContrib.pm 0444 Perl module
-lib/Foswiki/Users/TopicUserMapping.pm 0444 Perl module
-
-data/Main/RegistrationAgent.txt 0644
-data/Main/UserListHeader.txt 0644
+lib/Foswiki/Contrib/TopicUserMappingContrib.pm 0444
+lib/Foswiki/Users/TopicUserMapping.pm 0444
+data/Main/GroupTemplate.txt 0644
 data/Main/NobodyGroup.txt 0644
+data/Main/RegistrationAgent.txt 0644
+data/Main/UserHomepageHeader.txt 0644
 data/Main/UserList.txt 0644
 data/Main/UserListByDateJoined.txt 0644
-data/Main/UserHomepageHeader.txt 0644
 data/Main/UserListByLocation.txt 0644
-data/Main/GroupTemplate.txt 0644
-
-data/System/DefaultUserRegistration.txt 0644
-data/System/UserRegistration.txt 0644
-data/System/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
-data/System/ChangeEmailAddress.txt 0644
-data/System/BulkResetPassword.txt 0644
-data/System/UserSetting.txt 0644
-data/System/UserForm.txt 0644 Default form attached to a user topic
-data/System/UserFormHelp.txt 0644 Included help topic
-data/System/NewUserTemplate.txt 0644 Default new user topic template
-data/System/ResetPassword.txt 0644
-data/System/ChangePassword.txt 0644
+data/Main/UserListHeader.txt 0644
 data/System/BulkRegistration.txt 0644
-data/System/LoginName.txt 0644
-data/System/UserToolsCategory.txt 0644
-data/System/ManagingUsers.txt 0644
+data/System/BulkResetPassword.txt 0644
+data/System/ChangeEmailAddress.txt 0644
+data/System/ChangePassword.txt 0644
+data/System/DefaultUserRegistration.txt 0755
 data/System/FAQRebuildingWikiUsersTopic.txt 0644
-
-pub/System/UserRegistration/js.js 0644
+data/System/LoginName.txt 0644
+data/System/ManagingUsers.txt 0644
+data/System/NewUserTemplate.txt 0644
+data/System/ResetPassword.txt 0644
+data/System/TopicUserMappingContrib.txt 0644
+data/System/UserForm.txt 0644
+data/System/UserFormHelp.txt 0755
+data/System/UserRegistration.txt 0644
+data/System/UserSetting.txt 0644
+data/System/UserToolsCategory.txt 0644
+data/System/UsersTemplate.txt 0644
 pub/System/DefaultUserRegistration/validate.js 0644
-
-tools/upgrade_emails.pl 0444 Upgrade emails in topics to password database
+pub/System/UserRegistration/js.js 0644
+tools/upgrade_emails.pl 0755 Upgrade emails in topics to password database
