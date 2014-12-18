@@ -19,7 +19,11 @@ sub fixture_groups {
     my @page;
 
     foreach my $dir (@INC) {
-        if ( opendir( my $D, File::Spec->catdir( $dir, 'Foswiki', 'Cache' ) ) )
+        if (
+            opendir(
+                my $D, File::Spec->catdir( $dir, 'Foswiki', 'PageCache' )
+            )
+          )
         {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
@@ -28,18 +32,19 @@ sub fixture_groups {
                 local $ENV{PATH} = $1;
                 ($alg) = $alg =~ /^(.*)$/ms;
 
-                if ( eval "require Foswiki::Cache::$alg; 1;" ) {
+                if ( eval "require Foswiki::PageCache::$alg; 1;" ) {
                     no strict 'refs';
                     *{$alg} = sub {
                         my $this = shift;
-                        $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::' . $alg;
+                        $Foswiki::cfg{CacheManager} =
+                          'Foswiki::PageCache::' . $alg;
                     };
                     use strict 'refs';
                     push( @page, $alg );
                 }
                 else {
                     print STDERR
-"Cannot test Foswiki::Cache::$alg\nCompilation error when trying to 'require' it\n";
+"Cannot test Foswiki::PageCache::$alg\nCompilation error when trying to 'require' it\n $@";
                 }
             }
             closedir($D);
@@ -51,13 +56,13 @@ sub fixture_groups {
 }
 
 sub DBFileMeta {
-    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
+    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::PageCache::DB_File';
 
     return;
 }
 
 sub BDBMeta {
-    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::BDB';
+    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::PageCache::BDB';
 
     return;
 }
