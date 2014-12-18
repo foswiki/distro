@@ -13,7 +13,7 @@ our %cache = ();
 our $current;
 
 our $VERSION           = '2.01';
-our $RELEASE           = '2.01';
+our $RELEASE           = '18 Dec 2014';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
 our $doneHeader        = 0;
