@@ -2839,7 +2839,8 @@ sub attach {
     # which indeed - SMELL - is possible
     $this->loadVersion() unless $this->latestIsLoaded();
     ASSERT( $this->latestIsLoaded(), $this->getPath() ) if DEBUG;
-    ASSERT( $this->{_loadedRev},     $this->getPath() ) if DEBUG;
+
+    #ASSERT( $this->{_loadedRev},     $this->getPath() ) if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {
 
@@ -2974,8 +2975,8 @@ sub attach {
             $this->{_session}->{store}->recordChange(
                 verb => $arev > 1 ? 'update' : 'insert',
                 cuid => $opts{author},
-                revision   => $this->{_loadedRev},
-                path       => $this->getPath(),
+                revision => $this->{_loadedRev} || 1,
+                path => $this->getPath(),
                 attachment => $opts{name},
                 comment    => "add $arev"
             );
