@@ -1630,26 +1630,27 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
-sub test_tableTerminatesList {
+sub test_tableDoesNotTerminateList {
     my $this = shift;
 
     my $expected = <<EXPECTED;
- <ul>
-<li> List item
-</li></ul>
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
-<td>  b  </td>
-</tr><tr ><td>  2  </td>
-<td>  3  </td>
-</tr><tr ><td>  ok  </td>
-<td>  bad  </td>
-</tr></tbody></table>
+<ul>
+  <li> List item
+    <table class="foswikiTable"><tbody><tr ><td>  a  </td>
+    <td>  b  </td>
+    </tr><tr ><td>  2  </td>
+    <td>  3  </td>
+    </tr><tr ><td>  ok  </td>
+    <td>  bad  </td>
+    </tr></tbody></table>
+  </li>
+</ul>
 EXPECTED
     my $actual = <<ACTUAL;
    * List item
-| a | b |
-| 2 | 3 |
-| ok | bad |
+     | a | b |
+     | 2 | 3 |
+     | ok | bad |
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -1658,7 +1659,7 @@ sub test_simpleTable {
     my $this = shift;
 
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<table class="foswikiTable"><tbody><tr ><td>  a  </td>
 <td>  b  </td>
 </tr><tr ><td>  2  </td>
 <td>  3  </td>
@@ -1679,7 +1680,7 @@ sub test_tableHeadRow {
 
     # SMELL: <th><strong> is redundant -  <th> implies centered and bold.
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><thead><tr ><th><strong> a </strong></th>
+<table class="foswikiTable"><thead><tr ><th><strong> a </strong></th>
 <th><strong> b </strong></th>
 </tr></thead><tbody><tr ><td>  2  </td>
 <td>  3  </td>
@@ -1702,7 +1703,7 @@ sub test_tableEmbeddedHead {
   # Also should a row using *bold* markup that is neither a header or footer row
   # be emitted with <th> markup rather than <td>?
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<table class="foswikiTable"><tbody><tr ><td>  a  </td>
 <td>  b  </td>
 </tr><tr ><th><strong>  2  </strong></th>
 <th><strong>  3  </strong></th>
@@ -1725,7 +1726,7 @@ sub test_tableSingleBoldCell {
  # Also should a cell using *bold* markup that is neither a header or footer row
  # be emitted with <th> markup rather than <td>?
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<table class="foswikiTable"><tbody><tr ><td>  a  </td>
 <td>  b  </td>
 </tr><tr ><th><strong>  2  </strong></th>
 <td>  3  </td>
@@ -1745,7 +1746,7 @@ sub test_tableFootRow {
     my $this = shift;
 
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1">
+<table class="foswikiTable">
 <tfoot><tr ><th><strong>  ok  </strong></th>
 <th><strong>  bad  </strong></th>
 </tr></tfoot><tbody><tr ><td> a </td>
@@ -1766,7 +1767,7 @@ sub test_tableHeadFoot {
     my $this = shift;
 
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><thead><tr ><th><strong> a </strong></th>
+<table class="foswikiTable"><thead><tr ><th><strong> a </strong></th>
 </tr><tr ><th><strong> b </strong></th>
 </tr></thead><tfoot><tr ><th><strong> ok </strong></th>
 </tr><tr ><th><strong> bad </strong></th>

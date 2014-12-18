@@ -13,6 +13,7 @@ use strict;
 use warnings;
 use Assert;
 use Error qw(:try);
+use CGI ();
 
 use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
@@ -385,13 +386,6 @@ sub getRenderedVersion {
         # Table: | cell | cell |
         # allow trailing white space after the last |
         if ( $line =~ m/^(\s*)\|.*\|\s*$/ ) {
-
-            if ($isList) {
-
-                # Table start should terminate previous list
-                _addListItem( $this, \@result, '', '', '', '' );
-                $isList = 0;
-            }
 
             unless ($tableRow) {
 
@@ -1143,14 +1137,7 @@ sub _addTHEADandTFOOT {
         }
         $i--;
     }
-    $lines->[ $i++ ] = CGI::start_table(
-        {
-            class       => 'foswikiTable',
-            border      => 1,
-            cellspacing => 0,
-            cellpadding => 0
-        }
-    );
+    $lines->[ $i++ ] = "<table class='foswikiTable'>";
 
     if ($headLines) {
         splice( @$lines, $i++,            0, '<thead>' );
