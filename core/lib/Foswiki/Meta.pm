@@ -2321,7 +2321,7 @@ sub move {
           Foswiki::Meta->load( $this->{_session}, $this->web,
             $Foswiki::cfg{WebPrefsTopicName} );
         my $to =
-          Foswiki::Meta->new( $this->{_session}, $to->web,
+          Foswiki::Meta->load( $this->{_session}, $to->web,
             $Foswiki::cfg{WebPrefsTopicName} );
         $this->{_session}->{store}->recordChange(
             cuid     => $cUID,
@@ -2838,8 +2838,8 @@ sub attach {
     # make sure we don't save a half-loaded topic stub...
     # which indeed - SMELL - is possible
     $this->loadVersion() unless $this->latestIsLoaded();
-    ASSERT( $this->latestIsLoaded(), $this->getPath() ) if DEBUG;
 
+    #ASSERT( $this->latestIsLoaded(), $this->getPath() ) if DEBUG;
     #ASSERT( $this->{_loadedRev},     $this->getPath() ) if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {

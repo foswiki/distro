@@ -2349,8 +2349,9 @@ EOF
             path_info        => "/Renamed$this->{test_web}/WebHome"
         }
     );
+    my ( $text, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert( Foswiki::Func::webExists("RENAMED$this->{test_web}") );
     $this->assert( !Foswiki::Func::webExists("Renamed$this->{test_web}") );
 

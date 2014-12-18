@@ -454,7 +454,6 @@ sub _renameWeb {
             Foswiki::UI::checkWebExists( $session, $newParentWeb,
                 $Foswiki::cfg{WebPrefsTopicName}, 'rename' );
         }
-
         if ( $session->webExists($newWeb) ) {
             throw Foswiki::OopsException(
                 'attention',

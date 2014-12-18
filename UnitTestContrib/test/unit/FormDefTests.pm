@@ -33,7 +33,7 @@ FORM
     $this->assert_str_equals( 'Date', $f->{title} );
     $this->assert_str_equals( '30',   $f->{size} );
     $this->assert_str_equals( '',     $f->{value} );
-    $this->assert_str_equals( '',     $f->{tooltip} );
+    $this->assert_str_equals( '',     $f->{description} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
 
     return;
@@ -68,7 +68,7 @@ FORM
     $this->assert_equals( 4, $f->{maxSize} );
     $this->assert_equals( 3, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'a,b,c', join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Tippity', $f->{tooltip} );
+    $this->assert_str_equals( 'Tippity', $f->{description} );
     $this->assert_str_equals( '',        $f->{definingTopic} );
     $f = $def->getField('CheckyEgg');
     $this->assert_str_equals( 'checkbox',   $f->{type} );
@@ -76,7 +76,7 @@ FORM
     $this->assert_str_equals( 'Checky Egg', $f->{title} );
     $this->assert_equals( 1, $f->{size} );
     $this->assert_str_equals( '1;2;3;4', join( ';', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Blip', $f->{tooltip} );
+    $this->assert_str_equals( 'Blip', $f->{description} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
 
     $f = $def->getField('Thetitle');
@@ -351,7 +351,7 @@ FORM
     $this->assert_equals( 6, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( ',0,One,2,III,Four',
         join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Various values', $f->{tooltip} );
+    $this->assert_str_equals( 'Various values', $f->{description} );
     $def->finish();
 
     return;
