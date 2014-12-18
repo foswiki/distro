@@ -30,7 +30,7 @@ package Foswiki::Plugins::ConfigurePlugin;
 
 use strict;
 use warnings;
-use version; our $VERSION = version->declare("v1.0.0_001");
+our $VERSION = '1.01';
 use Assert;
 
 use Foswiki::Contrib::JsonRpcContrib ();
@@ -42,7 +42,7 @@ use Foswiki::Configure::Checker      ();
 use Foswiki::Configure::Wizard       ();
 use Foswiki::Configure::Query        ();
 
-our $RELEASE          = '25 Sep 2014';
+our $RELEASE          = '18 Dec 2014';
 our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;

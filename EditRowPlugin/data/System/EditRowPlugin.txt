@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404876093" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418949874" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -261,10 +261,19 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Author(s): | Crawford Currie http://c-dot.co.uk |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
-|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2013 Foswiki Contributors |
+|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.0.7 (28 Apr 2014) | Foswiki:Tasks/Item12814 disable edit on tables with no macro Foswiki:Tasks/Item128120 fix row moving, zero-width edit boxes on Chromium, and header clearing on table edit close. Foswiki:Tasks/Item12871: support StrikeOne validation and clean REST authentication checking |
+|  3.100 (18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
+                         Foswikitask:Item13125: Support Request multi_param<br />\
+                         Foswikitask:Item13115: Don't require JQuery theme<br />\
+                         Foswikitask:Item12953: an empty table with a header row was crashing<br />\
+                         Foswikitask:Item12952: Spec changes for new configure<br />\
+                         Foswikitask:Item11737: Replace Sandbox with =%<nop>SANDBOXWEB%= <br />\
+                         Foswikitask:Item12839: Update rest authority for EditRowPlugin |
+|  3.0.7 (28 Apr 2014) | Foswiki:Tasks/Item12814 disable edit on tables with no macro<br />\
+                         Foswiki:Tasks/Item128120 fix row moving, zero-width edit boxes on Chromium, and header clearing on table edit close.<br />\
+                         Foswiki:Tasks/Item12871: support StrikeOne validation and clean REST authentication checking |
 |  3.0.6 (13 Nov 2013) | Foswiki:Tasks/Item11920 syntax error in JS was causing failure on IE 7 |
 |  3.0.5 (12 Nov 2013) | Foswiki:Tasks/Item12654: Fixed interactive row moving, add wait cursor during REST request |
 |  3.0.4 (11 Nov 2013) | Foswiki:Tasks/Item12132: Workaround for CSS problem in PatternSkin |
@@ -296,12 +305,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1404876093" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1404876093" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1418949874" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%

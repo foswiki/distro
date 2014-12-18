@@ -1,22 +1,12 @@
-# Plugin for Foswiki
-#
-# Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
-# All Rights Reserved.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# This piece of software is licensed under the GPLv2.
-
+# See bottom of file for license and copyright information
 package Foswiki::Plugins::AutoViewTemplatePlugin;
 
 use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-use version; our $VERSION = version->declare("v1.2.0");
-our $RELEASE           = '2012-10-10';
+our $VERSION           = '1.20';
+our $RELEASE           = '2014-12-18';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -169,7 +159,8 @@ sub _getTemplateFromTemplateExistence {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

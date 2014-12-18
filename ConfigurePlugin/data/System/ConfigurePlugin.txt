@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417997193" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418948242" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -51,6 +51,6 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.0.0 (29 May 2013): | Initial version |
+|  1.01 (18 Dec 2014): | Initial version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |

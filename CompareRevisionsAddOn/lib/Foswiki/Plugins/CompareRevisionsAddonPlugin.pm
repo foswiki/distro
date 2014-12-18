@@ -18,8 +18,8 @@ use warnings;
 use Foswiki;
 
 # Keep this in sync with CompareRevsionsAddOn
-our $VERSION = '1.112';
-our $RELEASE = '1.112';
+our $VERSION = '1.113';
+our $RELEASE = '1.113';
 
 # Name of this Plugin, only used in this module
 our $pluginName = 'CompareRevisionsAddonPlugin';

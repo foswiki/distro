@@ -72,16 +72,20 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package.  Use "v1.2.3" format for releases,  and
-# "v1.2.3_001" for "alpha" versions. The v prefix is required.
+# *must* exist in this package. For best compatibility, the simple quoted decimal
+# version '1.00' is preferred over the triplet form 'v1.0.0'.
+
+# For triplet format, The v prefix is required, along with "use version".
 # These statements MUST be on the same line.
+#  use version; our $VERSION = 'v1.2.3_001';
 # See "perldoc version" for more information on version strings.
 #
 # Note:  Alpha versions compare as numerically lower than the non-alpha version
 # so the versions in ascending order are:
-#   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
+#   v1.2.1_001 -> v1.2.2 -> v1.2.2_001 -> v1.2.3
+#   1.21_001 -> 1.22 -> 1.22_001 -> 1.23
 #
-use version; our $VERSION = version->declare("v1.0.0_001");
+our $VERSION = '1.00';
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.

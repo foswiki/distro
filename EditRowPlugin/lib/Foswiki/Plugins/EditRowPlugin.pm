@@ -13,8 +13,8 @@ BEGIN {
     }
 }
 
-use version; our $VERSION = version->declare("v3.0.7");
-our $RELEASE           = '24 Mar 2014';
+our $VERSION           = '3.100';
+our $RELEASE           = '18 Dec 2014';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 

@@ -1,5 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1415506139" format="1.1" version="1"}%
----+ Compare Revisions Add-On
+%META:TOPICINFO{author="ProjectContributor" date="1418946862" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -139,6 +138,9 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  18 Dec 2014 (1.113)  | Foswikitask:Item13068: Remove the CompareRevisionsAddOn demo, don't ship revision history<br />\
+                          Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>/
+                          Foswikitask:Item12875: Implement controls on access to topic History |
 |  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson. Convert to simple decimal version. |
 |  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
 |  23 Oct 2013 (1.1.11) | Foswikitask:Item12423: fix double encoding in header on UTF-8 sites |
@@ -175,8 +177,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Dependencies: | %$DEPENDENCIES% |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
-
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1415506139" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1415506139" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1418946862" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1418946862" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%

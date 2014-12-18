@@ -13,8 +13,8 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 # Please use major.minor
-use version; our $VERSION = version->declare("v2.2");
-our $RELEASE = '25 Apr 2014';
+our $VERSION = '2.3';
+our $RELEASE = '18 Dec 2014';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
