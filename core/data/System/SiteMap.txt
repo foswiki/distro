@@ -4,11 +4,7 @@
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
 
 %STARTINCLUDE%<noautolink>
-<table class="foswikiTable siteToolsSitemap jqUITooltip" data-theme="info" data-arrow="true" data-position="top" data-delay="0">
-<tr>
-<th>Web</th>
-<th>Action</th>
-</tr>
+<div class="siteToolsSitemap jqUITooltip" data-theme="info" data-arrow="true" data-position="top" data-delay="0">
 %SEARCH{ 
 	"'1'"
 	topic="%WEBPREFSTOPIC%" 
@@ -16,41 +12,57 @@ This table is updated automatically based on <nop>WebPreferences settings of the
 	type="query" 
 	nototal="on" 
 	nosearch="on" 
-	format="<tr>
-    <td>
-      <div style='padding-left:20px'>
-        <img src=\"%ICONURL{web-bg}%\" style=\"margin:0 0 0 -20px;background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\" />
-        <b>[[$web.%HOMETOPIC%][$web]]</b> %BR%
-        $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent $pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)
+	format="<div class='row'>
+      <div class='foswikiRight'>
+        [[$web.WebSearch][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif\" title=\"Search this web\" />]]
+        [[$web.WebChanges][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif\" title=\"Recent changes in this web\" />]]
+        [[$web.%NOTIFYTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif\" title=\"Get notified of changes to this web\" />]]
+        [[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" title=\"Preferences of this web\" />]]
+        $percentIF{\"istopic '$web.%STATISTICSTOPIC%'\" 
+          then=\"[[$web.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]\"
+          else=\"<!-- -->\"
+        }$percent
+        [[$web.WebTopicList][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif\" title=\"Bullet list of all topics\" />]]
+        [[$web.WebIndex][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif\" title=\"Index of all topics\" />]]
       </div>
-    </td>
-    <td>
-      [[$web.WebSearch][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif\" title=\"Search this web\" />]]
-      [[$web.WebChanges][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif\" title=\"Recent changes in this web\" />]]
-      [[$web.%NOTIFYTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif\" title=\"Get notified of changes to this web\" />]]
-      [[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" title=\"Preferences of this web\" />]]
-      $percntIF{\"istopic '$web.%STATISTICSTOPIC%'\" 
-        then=\"[[$web.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]\"
-        else=\"<!-- -->\"
-      }$percnt
-      [[$web.WebTopicList][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif\" title=\"Bullet list of all topics\" />]]
-      [[$web.WebIndex][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif\" title=\"Index of all topics\" />]]
-    </td>
-    </tr>"
+      <h4>
+        <div class='webBgColor' style=\"background-color:$percentEXPAND{\"$dollarpercentWEBBGCOLOR$dollarpercent\" scope=\"$web.$topic\"}$percent\" ></div>
+        [[$web.%HOMETOPIC%][$web]]
+      </h4>
+      $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent 
+      %CLEAR%
+    </div>$n<hr />$n"
     pager="on"
     pagesize="%DEFAULTPAGESIZE%"
 }%
-</table>
+</div>
 </noautolink>
 %JQREQUIRE{"ui::tooltip"}%
 %ADDTOZONE{"head" 
   id="%WEB%::%TOPIC%::CSS"
   text="<style type='text/css'>
+    .siteToolsSitemap {
+      max-width:800px;
+    }
+    .siteToolsSitemap h4 {
+      margin-bottom:0;
+    }
+    .siteToolsSitemap .row {
+      padding-left:26px;
+    }
+    .siteToolsSitemap .webBgColor {
+      margin:0 5px 0 -26px;
+      display:inline-block;
+      width:16px;
+      height:16px;
+      vertical-align:text-bottom;
+    }
     .siteToolsSitemap img {
       width:16px;
       height:16px;
       border:none;
       margin:0 .5em 0 0;
+      vertical-align:middle;
     }
     .siteToolsSitemap ul
     {

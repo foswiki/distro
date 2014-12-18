@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418908591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
@@ -39,7 +39,7 @@ Each topic has:
       * [[ManagingTopics#RevisionRollback][revert to older versions]]
    * containing web
       * every topic must be contained within a web
-      * list of webs at WebsTable
+      * list of webs at SiteMap
    * [[MetaData][meta-data]]
       * hidden contextual data stored within each topic
       * Example: parent topic
@@ -135,4 +135,4 @@ See [[ManagingWebs]]
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" version="1" date="1416592876" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="diagram.png" version="1" date="1418908610" user="ProjectContributor"}%

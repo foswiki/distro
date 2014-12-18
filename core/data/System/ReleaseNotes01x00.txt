@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418908548" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.0.10 - 08 Sep 2010
 
@@ -132,7 +132,7 @@ As part of the first Foswiki product release, various topics and terms were chan
 | TWikiUsersGuide | UsersGuide |
 | TWikiVariablesQuickStart | MacrosQuickStart |
 | TWikiVariables | Macros |
-| TWikiWebsTable | WebsTable |
+| TWikiWebsTable | <nop>WebsTable |
 | TWikiRegistrationAgent | RegistrationAgent |
 
 TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandFor have been removed. </noautolink>
