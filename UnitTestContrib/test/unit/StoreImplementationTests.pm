@@ -50,8 +50,9 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $Foswiki::cfg{Site}{Locale} = 'en_US.utf-8';
-    $Foswiki::cfg{UseLocale} = 1;
+    $Foswiki::cfg{Site}{Locale}               = 'en_US.utf-8';
+    $Foswiki::cfg{UseLocale}                  = 1;
+    $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 0;
 
     $this->{tmpdatafile} = "$Foswiki::cfg{TempfileDir}/testfile.gif";
     ASSERT( open( my $FILE, '>', $this->{tmpdatafile} ) );
@@ -74,9 +75,12 @@ sub tear_down {
     # {sut} is still active
     $this->removeWeb( $this->{t_web} )
       if ( $this->{sut}->webExists( $this->{t_web} ) );
+
     $this->removeWeb( $this->{t_web2} )
       if ( $this->{sut}->webExists( $this->{t_web2} ) );
+
     unlink( $this->{tmpdatafile} );
+
     $this->SUPER::tear_down();
 
     return;
@@ -307,19 +311,19 @@ sub verify_moveTopic {
       Foswiki::Meta->new( $this->{session}, $this->{t_web},
         $this->{t_topic} . 'a' );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
     $meta->finish();
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web},
         $this->{t_topic} . 'b' );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
     $meta->finish();
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web},
         $this->{t_topic} . 'c' );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
     $meta->finish();
 
     $meta =
@@ -418,7 +422,7 @@ sub verify_repRevTopic {
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $meta->text("Web 1 Topic 1 Test 3");
-    $this->{sut}->saveTopic( $meta, $deffo_cuid, { forcenewrevision => 1 } );
+    $meta->saveAs( author => $deffo_cuid, forcenewrevision => 1 );
     $info = $this->{sut}->getVersionInfo($meta);
     $this->assert_num_equals( 2, $info->{version} );
     $this->assert_str_equals( $deffo_cuid, $info->{author} );
@@ -436,6 +440,8 @@ sub verify_repRevTopic {
     $this->assert_str_equals( $deffo_cuid, $info->{author} );
 }
 
+# Change tests won't work in 1.2 because the recordChange calls have
+# moved to Foswiki::Meta
 sub verify_eachChange {
     my $this = shift;
     my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
@@ -446,11 +452,11 @@ sub verify_eachChange {
     my $start = time();
     my $meta = Foswiki::Meta->new( $this->{session}, $web, "ClutterBuck" );
     $meta->text("One");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
     $meta->finish();
     $meta = Foswiki::Meta->new( $this->{session}, $web, "PiggleNut" );
     $meta->text("One");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
 
     # Wait a second
     sleep(1);
@@ -458,11 +464,11 @@ sub verify_eachChange {
     $meta->finish();
     $meta = Foswiki::Meta->new( $this->{session}, $web, "ClutterBuck" );
     $meta->text("One");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->saveAs();
     $meta->finish();
     $meta = Foswiki::Meta->new( $this->{session}, $web, "PiggleNut" );
-    $meta->text("Two");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->text("Two Two Two");
+    $meta->saveAs();
     my $change;
     my $it = $this->{sut}->eachChange( $meta, $start );
     $this->assert( $it->hasNext() );
@@ -509,6 +515,7 @@ sub verify_openAttachment {
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $meta->text("One");
+    $meta->saveAs();
     $meta->attach(
         name    => "testfile.gif",
         file    => $this->{tmpdatafile},
@@ -519,7 +526,7 @@ sub verify_openAttachment {
         file    => "$this->{tmpdatafile}2",
         comment => "a comment"
     );
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+
     $meta->finish();
 
     $meta =
@@ -550,6 +557,8 @@ sub verify_eachAttachment {
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $meta->text("One");
+    $meta->saveAs();
+
     $meta->attach(
         name    => "testfile.gif",
         file    => $this->{tmpdatafile},
@@ -560,7 +569,7 @@ sub verify_eachAttachment {
         file    => $this->{tmpdatafile},
         comment => "a comment"
     );
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+
     $meta->finish();
 
     $meta =
@@ -774,7 +783,7 @@ sub verify_copyAttachment {
 
 sub verify_moveWeb {
     my $this = shift;
-
+    $this->assert( !-e '/home/foswiki/git/core/data/TemporaryStoreTestsWeb2' );
     $this->_makeWeb();
     my $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
     $meta->text("1 2 3");
@@ -791,8 +800,11 @@ sub verify_moveWeb {
     );
     $meta->finish();
 
+    $this->assert( !-e '/home/foswiki/git/core/data/TemporaryStoreTestsWeb2' );
     my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web} );
     my $to = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web2} );
+
+    $this->assert( !$this->{sut}->webExists( $this->{t_web2} ) );
     $this->{sut}->moveWeb( $from, $to, $this->{test_user_cuid} );
 
     $this->assert( !$this->{sut}->webExists( $this->{t_web} ) );

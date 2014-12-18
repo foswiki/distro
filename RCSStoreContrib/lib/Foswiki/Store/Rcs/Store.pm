@@ -43,6 +43,7 @@ use Foswiki          ();
 use Foswiki::Meta    ();
 use Foswiki::Sandbox ();
 use Foswiki::Serialise();
+use JSON;
 
 BEGIN {
 
@@ -52,6 +53,8 @@ BEGIN {
         import locale();
     }
 }
+
+our $json = JSON->new->pretty(0);
 
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
@@ -157,15 +160,7 @@ sub readTopic {
             else {
                 push @validAttachmentsFound, $foundAttachment;
 
-                #this record should be ignored by the .changes file
-                $this->recordChange(
-                    _handler => $handler,
-                    cuid => $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
-                    revision      => 0,
-                    verb          => 'autoattach',
-                    newmeta       => $topicObject,
-                    newattachment => $foundAttachment
-                );
+                # SMELL: how do we tell Meta what happened?
             }
         }
 
@@ -193,16 +188,6 @@ sub moveAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
-        $this->recordChange(
-            _handler      => $handler,
-            cuid          => $cUID,
-            revision      => 0,
-            verb          => 'update',
-            oldmeta       => $oldTopicObject,
-            oldattachment => $oldAttachment,
-            newmeta       => $newTopicObject,
-            newattachment => $newAttachment
-        );
     }
 }
 
@@ -217,18 +202,12 @@ sub copyAttachment {
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
         $oldAttachment );
-    if ( $handler->storedDataExists() ) {
-        $handler->copyAttachment( $this, $newTopicObject->web,
-            $newTopicObject->topic, $newAttachment );
-        $this->recordChange(
-            _handler      => $handler,
-            cuid          => $cUID,
-            revision      => 0,
-            verb          => 'insert',
-            newmeta       => $newTopicObject,
-            newattachment => $newAttachment
-        );
-    }
+    return undef unless $handler->storedDataExists();
+
+    my $rev =
+      $handler->copyAttachment( $this, $newTopicObject->web,
+        $newTopicObject->topic, $newAttachment );
+    return $rev;
 }
 
 sub attachmentExists {
@@ -248,34 +227,6 @@ sub moveTopic {
     my $rev = $handler->getLatestRevisionID();
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
-
-    if ( $newTopicObject->web ne $oldTopicObject->web ) {
-
-        # Record that it was moved away
-        $this->recordChange(
-            _handler => $handler,
-
-            cuid     => $cUID,
-            revision => $rev,
-            verb     => 'update',
-            oldmeta  => $oldTopicObject,
-            newmeta  => $newTopicObject
-        );
-
-    }
-
-    $handler =
-      $this->getHandler( $newTopicObject->web, $newTopicObject->topic, '' );
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid     => $cUID,
-        revision => $rev,
-        verb     => 'update',
-        oldmeta  => $oldTopicObject,
-        newmeta  => $newTopicObject
-    );
-
 }
 
 sub moveWeb {
@@ -284,20 +235,6 @@ sub moveWeb {
 
     my $handler = $this->getHandler( $oldWebObject->web );
     $handler->moveWeb( $newWebObject->web );
-
-    # We have to log in the new web, otherwise we would re-create the dir with
-    # a useless .changes. See Item9278
-    $handler = $this->getHandler( $newWebObject->web );
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid     => $cUID,
-        revision => 0,
-        more     => 'Moved from ' . $oldWebObject->web,
-        verb     => 'update',
-        oldmeta  => $oldWebObject,
-        newmeta  => $newWebObject
-    );
 }
 
 sub testAttachment {
@@ -434,15 +371,6 @@ sub saveAttachment {
         $options->{forcedate} );
 
     my $rev = $handler->getLatestRevisionID();
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid          => $cUID,
-        revision      => $rev,
-        verb          => $verb,
-        newmeta       => $topicObject,
-        newattachment => $name
-    );
 
     return $rev;
 }
@@ -477,17 +405,6 @@ sub saveTopic {
         $cUID, $options->{forcedate}
     );
 
-    my $extra = $options->{minor} ? 'minor' : '';
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid     => $cUID,
-        revision => $nextRev,
-        more     => $extra,
-        verb     => $verb,
-        newmeta  => $topicObject
-    );
-
     # reload the topic object
     $topicObject->unload();
     $topicObject->loadVersion();
@@ -510,14 +427,6 @@ sub repRev {
     );
 
     my $rev = $handler->getLatestRevisionID();
-    $this->recordChange(
-        _handler => $handler,
-        cuid     => $cUID,
-        revision => $rev,
-        more     => 'minor, reprev',
-        verb     => 'update',
-        newmeta  => $topicObject
-    );
 
     # reload the topic object
     $topicObject->unload();
@@ -542,15 +451,6 @@ sub delRev {
 
     # restore last topic from repository
     $handler->restoreLatestRevision($cUID);
-
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid     => $cUID,
-        revision => $rev,
-        verb     => 'update',
-        newmeta  => $topicObject
-    );
 
     # reload the topic object
     $topicObject->unload();
@@ -612,33 +512,150 @@ sub topicExists {
     return $handler->storedDataExists();
 }
 
+sub _readChanges {
+    my ( $file, $web ) = @_;
+
+    my $all_lines = Foswiki::Sandbox::untaintUnchecked(
+        Foswiki::Store::Rcs::Handler->readFile($file) );
+
+    # Look at the first line to deduce format
+    if ( $all_lines =~ /^\[/s ) {
+        my $changes = $json->decode($all_lines);
+
+        print STDERR "Corrupt $file: $@\n" if ($@);
+        foreach my $entry (@$changes) {
+            if ( $entry->{path} && $entry->{path} =~ /^(.*)\.(.*)$/ ) {
+                $entry->{topic} = $2;
+            }
+            elsif ( $entry->{oldpath} && $entry->{oldpath} =~ /^(.*)\.(.*)$/ ) {
+                $entry->{topic} = $2;
+            }
+            $entry->{user} =
+                $Foswiki::Plugins::SESSION
+              ? $Foswiki::Plugins::SESSION->{users}
+              ->getWikiName( $entry->{cuid} )
+              : $entry->{cuid};
+            $entry->{more} =
+              ( $entry->{minor} ? 'minor ' : '' ) . ( $entry->{comment} || '' );
+        }
+        return @$changes;
+    }
+
+    # Decode the mess that was the old changes format
+    my @changes;
+    foreach my $line ( split( /[\r\n]+/, $all_lines ) ) {
+        my @row = split( /\t/, $line );
+
+        # Old (pre 1.2) format
+
+        # Create a hash for this line
+        my %row = (
+            topic => Foswiki::Sandbox::untaint(
+                $row[0], \&Foswiki::Sandbox::validateTopicName
+            ),
+            user     => $row[1],
+            time     => $row[2] || 0,
+            revision => $row[3] || 1,
+            more     => $row[4] || '',
+        );
+
+        # Fill in 1.2 fields
+        if ( $row{revision} > 1 ) {
+            $row{verb} = 'update';
+        }
+        else {
+            $row{verb} = 'insert';
+        }
+        $row{minor} = ( $row{more} =~ /minor/ );
+        $row{cuid} =
+            $Foswiki::Plugins::SESSION
+          ? $Foswiki::Plugins::SESSION->{users}
+          ->getCanonicalUserID( $row{user} )
+          : $row{user};
+        $row{path} = $web;
+        $row{path} .= ".$row{topic}" if $row{topic};
+        $row{comment} = $row{more};
+        if ( $row{more} =~ /Moved from (\w+)/ ) {
+            $row{oldpath} = $1;
+        }
+        if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
+            $row{attachment} = $1;
+        }
+        unshift( @changes, \%row );
+    }
+    return @changes;
+}
+
+# Record a change in the web history
+sub recordChange {
+    my ( $this, %args ) = @_;
+
+    if (DEBUG) {
+        if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+            ASSERT( ( caller || 'undef' ) eq __PACKAGE__ );
+        }
+        else {
+            ASSERT( ( caller || 'undef' ) ne __PACKAGE__ );
+        }
+        ASSERT( $args{verb} );
+        ASSERT( $args{cuid} );
+        ASSERT( $args{revision} );
+        ASSERT( $args{path} );
+        ASSERT( !defined $args{more} );
+        ASSERT( !defined $args{user} );
+    }
+
+    #    my ( $meta, $cUID, $rev, $more ) = @_;
+    #    $more ||= '';
+
+    # Support for Foswiki < 1.2
+
+    my $web = $args{path};
+    if ( $web =~ /\./ ) {
+        ($web) = Foswiki->normalizeWebTopicName( undef, $web );
+    }
+
+    # Can't log changes in a non-existent web
+    return unless ( -d "$Foswiki::cfg{DataDir}/$web" );
+
+    my $file = "$Foswiki::cfg{DataDir}/$web/.changes";
+    my @changes;
+    my $text = '';
+    my $t    = time;
+    if ( -e $file ) {
+        @changes = _readChanges( $file, $web );
+        my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
+        while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
+            shift(@changes);
+        }
+    }
+
+    # Add the new change to the end of the file
+    $args{time} = time;
+    push( @changes, \%args );
+    $text = $json->encode( \@changes );
+    Foswiki::Store::Rcs::Handler->saveFile( $file, $text );
+}
+
+# Implement Foswiki::Store
+sub eachChange {
+    my ( $this, $meta, $since ) = @_;
+
+    my $file = "$Foswiki::cfg{DataDir}/" . $meta->web . "/.changes";
+    require Foswiki::ListIterator;
+
+    my @changes;
+    if ( -r $file ) {
+        @changes = reverse grep { $_->{time} >= $since } _readChanges($file);
+    }
+    return Foswiki::ListIterator->new( \@changes );
+}
+
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
 
     my $handler = $this->getHandler( $web, $topic );
     return $handler->getLatestRevisionTime();
-}
-
-sub eachChange {
-    my ( $this, $webObject, $time ) = @_;
-
-    my $handler = $this->getHandler( $webObject->web );
-    return $handler->eachChange($time);
-}
-
-sub recordChange {
-    my ( $this, %args ) = @_;
-    ASSERT( $args{_handler} );
-
-    # Only log when deleting topics or attachment, otherwise we would re-create
-    # an empty directory with just a .changes. See Item9278
-    return
-      if ( $args{verb} eq 'remove'
-        && $args{oldmeta}
-        && !defined( $args{oldmeta}->topic ) );
-
-    #as the handlers are already known, pass a ref to it in the args
-    $args{_handler}->recordChange(%args);
 }
 
 sub eachAttachment {
@@ -699,16 +716,6 @@ sub remove {
     if ($attachment) {
         $more .= ': ' . $attachment;
     }
-    $this->recordChange(
-        _handler => $handler,
-
-        cuid          => $cUID,
-        revision      => 0,
-        more          => $more,
-        verb          => 'remove',
-        oldmeta       => $topicObject,
-        oldattachment => $attachment
-    );
 }
 
 sub query {

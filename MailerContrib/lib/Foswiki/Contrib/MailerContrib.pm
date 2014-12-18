@@ -286,6 +286,7 @@ sub _processSubscriptions {
     my $it = Foswiki::Func::eachChangeSince( $web, $timeOfLastNotify + 1 );
     while ( $it->hasNext() ) {
         my $change = $it->next();
+        next if $change->{minor};
         next if $change->{more} && $change->{more} =~ /minor/;
 
         next unless Foswiki::Func::topicExists( $web, $change->{topic} );

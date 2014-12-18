@@ -63,7 +63,8 @@ BEGIN {
     }
 }
 
-our $STORE_FORMAT_VERSION = '1.1';
+# Version number of the store API
+our $STORE_FORMAT_VERSION = '1.2';
 
 =begin TML
 
@@ -160,8 +161,8 @@ relative to the the page being rendered (if that makes sense for the
 store implementation).
 
 %options are:
-   * =web= - name of the web for the URL, defaults to $session->{webName}
-   * =topic= - name of the topic, defaults to $session->{topicName}
+   * =web= - name of the web for the URL
+   * =topic= - name of the topic
    * =attachment= - name of the attachment, defaults to no attachment
    * =topic_version= - version of topic to retrieve attachment from
    * =attachment_version= - version of attachment to retrieve
@@ -705,13 +706,25 @@ sub getApproxRevTime {
 
 =begin TML
 
----++ ObjectMethod eachChange( $web, $time ) -> $iterator
+---++ ObjectMethod eachChange( $meta, $time ) -> $iterator
 
-Get an iterator over the list of all the changes in the given web between
+Get an iterator over the list of all the changes between
 =$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
 guaranteed to return any changes that occurred before (now -
 {Store}{RememberChangesFor}). Changes are returned in most-recent-first
 order.
+
+=$meta= may be a web or a topic. If it's a web, then all changes for all
+topics within that web will be iterated. If it's a topic, only changes
+for that topic (since the topic name was first used) will be iterated.
+Each change is returned as a reference to a hash containing the fields
+documented for =recordChange()=.
+
+Store implementors should note that if compatibility with Foswiki < 1.2 is
+required, the following additional fields must be returned:
+   * =topic= - name of the topic the change occurred to
+   * =user= - wikiname of the changing user
+   * =more= - formatted string indicating if the change was minor or not
 
 =cut
 
@@ -725,22 +738,18 @@ sub eachChange {
 ---++ ObjectMethod recordChange(%args)
 Record that the store item changed, and who changed it, and why
 
-This is a private method to be called only from the store internals,
-but it can be used by  $Foswiki::Cfg{Store}{ImplementationClasses} to
-chain in to eveavesdrop on Store events
-
-   * cuid - who is making the change
-   * revision - the revision of the topic or attachment that the change appears in
-   * verb - the action - one of
+   * =verb= - the action - one of
       * =update= - a web, topic or attachment has been modified
       * =insert= - a web, topic or attachment is being inserted
       * =remove= - a topic or attachment is being removed
-      * =autoattach= - special case of =insert= for autoattachments
-   * newmeta - Foswiki::Meta object for the new object (not remove)
-   * newattachment - attachment name (not remove)
-   * oldmeta - Foswiki::Meta object for the origin of a move (move, remove only)
-   * oldattachment - origin of move (move, remove only)
-   * more - descriptive text containing store-specific flags
+   * =cuid= - who is making the change
+   * =revision= - the revision of the topic that the change appears in
+   * =path= - canonical web.topic path for the affected object
+   * =attachment= - attachment name (optional)
+   * =oldpath= - canonical web.topic path for the origin of a move/rename
+   * =oldattachment= - origin of move
+   * =minor= - boolean true if this change is flagged as minor
+   * =comment= - descriptive text
 
 =cut
 

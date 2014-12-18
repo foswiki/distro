@@ -2406,14 +2406,34 @@ Use it as follows:
         $web, time() - 7 * 24 * 60 * 60); # the last 7 days
     while ($iterator->hasNext()) {
         my $change = $iterator->next();
-        # $change is a perl hash that contains the following fields:
-        # topic => topic name
-        # user => wikiname - wikiname of user who made the change
-        # time => time of the change
-        # revision => revision number *after* the change
-        # more => more info about the change (e.g. 'minor')
+        ...
     }
 </verbatim>
+=$change= is a reference to a hash containing the following fields:
+   * =verb= - the action - one of
+      * =update= - a web, topic or attachment has been modified
+      * =insert= - a web, topic or attachment is being inserted
+      * =remove= - a topic or attachment is being removed
+   * =time= - time of the change, in epoch-secs
+   * =cuid= - canonical UID of the user who is making the change
+   * =revision= - the revision of the topic that the change appears in
+   * =path= - web.topic path for the affected
+   * =attachment= - attachment name (optional)
+   * =oldpath= - web.topic path for the origin of a move
+   * =oldattachment= - origin of move
+   * =minor= - boolean true if this change is flagged as minor
+   * =comment= - descriptive text
+
+The following additional fields are *deprecated* and will be removed
+in Foswiki 2.0:
+   * =more= - formatted string indicating if the change was minor or not
+   * =topic= - name of the topic the change occurred to
+   * =user= - wikiname of the user who made the change
+These additional fields
+
+If you are writing an extension that requires compatibility with
+Foswiki < 1.2 only the =more=, =revision=, =time=, =topic= and =user=
+can be assumed.
 
 =cut
 
@@ -2424,23 +2444,7 @@ sub eachChangeSince {
     ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
 
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-
-    # eachChange returns changes with cUIDs. these have to be mapped
-    # to wikinames per the Foswiki::Func 'spec' (changes used to be stored
-    # with wikinames)
-    require Foswiki::Iterator::ProcessIterator;
-    require Foswiki::Users::BaseUserMapping;
-    return new Foswiki::Iterator::ProcessIterator(
-        $webObject->eachChange($time),
-        sub {
-            my $n = shift;
-            $n->{user} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
-              unless defined $n->{user};
-            $n->{user} =
-              $Foswiki::Plugins::SESSION->{users}->getWikiName( $n->{user} );
-            return $n;
-        }
-    );
+    return $webObject->eachChange($time);
 }
 
 =begin TML

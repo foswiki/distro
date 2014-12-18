@@ -31,6 +31,7 @@ use warnings;
 use File::Copy            ();
 use File::Copy::Recursive ();
 use Fcntl qw( :DEFAULT :flock );
+use JSON ();
 
 use Foswiki::Store ();
 our @ISA = ('Foswiki::Store');
@@ -39,6 +40,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki                                ();
+use Foswiki::Store                         ();
 use Foswiki::Meta                          ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
@@ -46,6 +48,8 @@ use Foswiki::Users::BaseUserMapping        ();
 use Foswiki::Serialise                     ();
 
 my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
+
+our $json = JSON->new->pretty(0);
 
 BEGIN {
 
@@ -150,17 +154,17 @@ sub moveAttachment {
             _historyDir( $oldTopicObject, $oldAtt ),
             _historyDir( $newTopicObject, $newAtt )
         );
-
-        $this->recordChange(
-            _meta         => $oldTopicObject,
-            cuid          => $cUID,
-            revision      => 0,
-            verb          => 'update',
-            oldmeta       => $oldTopicObject,
-            oldattachment => $oldAtt,
-            newmeta       => $newTopicObject,
-            newattachment => $newAtt
-        );
+        if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+            $this->recordChange(
+                cuid          => $cUID,
+                revision      => -1,
+                verb          => 'update',
+                oldpath       => $oldTopicObject->getPath(),
+                oldattachment => $oldAtt,
+                path          => $newTopicObject->getPath(),
+                attachment    => $newAtt
+            );
+        }
     }
 }
 
@@ -185,15 +189,15 @@ sub copyAttachment {
             _historyDir( $oldTopicObject, $oldAtt ),
             _historyDir( $newTopicObject, $newAtt )
         );
-
-        $this->recordChange(
-            _meta         => $oldTopicObject,
-            cuid          => $cUID,
-            revision      => 0,
-            verb          => 'insert',
-            newmeta       => $newTopicObject,
-            newattachment => $newAtt
-        );
+        if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+            $this->recordChange(
+                cuid       => $cUID,
+                revision   => -1,
+                verb       => 'insert',
+                path       => $newTopicObject->getPath(),
+                attachment => $newAtt
+            );
+        }
     }
 }
 
@@ -223,28 +227,24 @@ sub moveTopic {
     if ( -e $pub ) {
         _moveFile( $pub, _getPub($newTopicObject) );
     }
-
-    if ( $newTopicObject->web ne $oldTopicObject->web ) {
-
-        # Record that it was moved away
+    if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+        if ( $newTopicObject->web ne $oldTopicObject->web ) {
+            $this->recordChange(
+                cuid     => $cUID,
+                revision => $rev,
+                verb     => 'update',
+                oldpath  => $oldTopicObject->getPath(),
+                path     => $newTopicObject->getPath()
+            );
+        }
         $this->recordChange(
-            _meta    => $oldTopicObject,
             cuid     => $cUID,
             revision => $rev,
             verb     => 'update',
-            oldmeta  => $oldTopicObject,
-            newmeta  => $newTopicObject
+            oldpath  => $oldTopicObject->getPath(),
+            path     => $newTopicObject->getPath()
         );
     }
-
-    $this->recordChange(
-        _meta    => $newTopicObject,
-        cuid     => $cUID,
-        revision => $rev,
-        verb     => 'update',
-        oldmeta  => $oldTopicObject,
-        newmeta  => $newTopicObject
-    );
 }
 
 # Implement Foswiki::Store
@@ -265,17 +265,19 @@ sub moveWeb {
         _moveFile( $oldbase, $newbase );
     }
 
-    # We have to log in the new web, otherwise we would re-create the dir with
-    # a useless .changes. See Item9278
-    $this->recordChange(
-        _meta    => $newWebObject,
-        cuid     => $cUID,
-        revision => 0,
-        more     => 'Moved from ' . $oldWebObject->web,
-        verb     => 'update',
-        oldmeta  => $oldWebObject,
-        newmeta  => $newWebObject
-    );
+    if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+
+      # We have to log in the new web, otherwise we would re-create the dir with
+      # a useless .changes. See Item9278
+        $this->recordChange(
+            cuid     => $cUID,
+            revision => -1,
+            more     => 'Moved from ' . $oldWebObject->web,
+            verb     => 'update',
+            oldpath  => $oldWebObject->getPath(),
+            path     => $newWebObject->getPath()
+        );
+    }
 }
 
 # Implement Foswiki::Store
@@ -422,16 +424,6 @@ sub saveAttachment {
     my $mf = _metaFile( $meta, $name, $rn );
     _writeMetaFile( $mf, $cUID, $comment );
 
-    $this->recordChange(
-        _meta         => $meta,
-        cuid          => $cUID,
-        revision      => $rn,
-        more          => $options->{minor} ? 'minor' : undef,
-        verb          => $verb,
-        newmeta       => $meta,
-        newattachment => $name
-    );
-
     return $rn;
 }
 
@@ -471,16 +463,17 @@ sub saveTopic {
     my $mf = _metaFile( $meta, undef, $rn );
     _writeMetaFile( $mf, $cUID, $options->{comment} );
 
-    my $extra = $options->{minor} ? 'minor' : '';
+    if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+        my $extra = $options->{minor} ? 'minor' : '';
 
-    $this->recordChange(
-        _meta    => $meta,
-        cuid     => $cUID,
-        revision => $rn,
-        more     => $extra,
-        verb     => $verb,
-        newmeta  => $meta
-    );
+        $this->recordChange(
+            cuid     => $cUID,
+            revision => $rn,
+            more     => $extra,
+            verb     => $verb,
+            path     => $meta->getPath()
+        );
+    }
 
     return $rn;
 }
@@ -519,17 +512,16 @@ sub repRev {
           or die "PlainFile: could not touch $hf: $!";
     }
 
-    my @log = ( 'minor', 'reprev', $options{operation} || 'save' );
-
-    $this->recordChange(
-        _meta    => $meta,
-        cuid     => $cUID,
-        revision => $rn,
-        more     => join( ', ', @log ),
-        verb     => 'update',
-        oldmeta  => $meta,
-        newmeta  => $meta
-    );
+    if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+        $this->recordChange(
+            cuid     => $cUID,
+            revision => $rn,
+            minor    => 1,
+            comment  => 'reprev',
+            verb     => 'update',
+            path     => $meta->getPath()
+        );
+    }
 
     return $rn;
 }
@@ -568,13 +560,14 @@ sub delRev {
     $meta->unload();
     $meta->loadVersion();
 
-    $this->recordChange(
-        _meta    => $meta,
-        cuid     => $cUID,
-        revision => $rev,
-        verb     => 'update',
-        newmeta  => $meta
-    );
+    if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+        $this->recordChange(
+            cuid     => $cUID,
+            revision => $rev,
+            verb     => 'update',
+            path     => $meta->getPath()
+        );
+    }
 
     return $rev;
 }
@@ -614,7 +607,10 @@ sub webExists {
     return 0 unless defined $web;
     $web =~ s#\.#/#go;
 
-    return -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} );
+    return 1 if ( -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
+
+    #ASSERT(!-d _getData( $web ), $web) if DEBUG;
+    return 0;
 }
 
 # Implement Foswiki::Store
@@ -634,52 +630,6 @@ sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
 
     return ( stat( _latestFile( $web, $topic ) ) )[9] || 0;
-}
-
-# Implement Foswiki::Store
-sub eachChange {
-    my ( $this, $meta, $since ) = @_;
-
-    my $file = _getData( $meta->web ) . '/.changes';
-    require Foswiki::ListIterator;
-
-    if ( -r $file ) {
-
-        # Could use a LineIterator to avoid reading the whole
-        # file, but it hardly seems worth it.
-        my @changes =
-          map {
-
-            # Create a hash for this line
-            {
-                topic => Foswiki::Sandbox::untaint(
-                    $_->[0], \&Foswiki::Sandbox::validateTopicName
-                ),
-                user     => $_->[1],
-                time     => $_->[2],
-                revision => $_->[3],
-                more     => $_->[4]
-            };
-          }
-          grep {
-
-            # Filter on time
-            $_->[2] && $_->[2] >= $since
-          }
-          map {
-
-            # Split line into an array
-            my @row = split( /\t/, $_, 5 );
-            \@row;
-          }
-          reverse split( /[\r\n]+/, _readFile($file) );
-
-        return Foswiki::ListIterator->new( \@changes );
-    }
-    else {
-        my $changes = [];
-        return Foswiki::ListIterator->new($changes);
-    }
 }
 
 # Implement Foswiki::Store
@@ -782,27 +732,27 @@ sub remove {
         _rmtree( _getPub($meta) );
     }
 
+    return unless ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 );
+
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes.
     if ($attachment) {
         $this->recordChange(
-            _meta         => $meta,
             cuid          => $cUID,
-            revision      => 0,
+            revision      => -1,
             more          => 'Deleted attachment ' . $attachment,
             verb          => 'remove',
-            oldmeta       => $meta,
+            oldpath       => $meta->getPath(),
             oldattachment => $attachment
         );
     }
     elsif ( my $topic = $meta->topic ) {
         $this->recordChange(
-            _meta         => $meta,
             cuid          => $cUID,
-            revision      => 0,
+            revision      => -1,
             more          => 'Deleted ' . $topic,
             verb          => 'remove',
-            oldmeta       => $meta,
+            oldpath       => $meta->getPath(),
             oldattachment => $attachment
         );
     }
@@ -1135,46 +1085,141 @@ sub _writeMetaFile {
     _saveFile( $mf, join( "\n", map { defined $_ ? $_ : '' } @_ ) );
 }
 
+sub _readChanges {
+    my ( $file, $web ) = @_;
+
+    my $all_lines = Foswiki::Sandbox::untaintUnchecked( _readFile($file) );
+
+    # Look at the first line to deduce format
+    if ( $all_lines =~ /^\[/s ) {
+        my $changes = $json->decode($all_lines);
+
+        print STDERR "Corrupt $file: $@\n" if ($@);
+        foreach my $entry (@$changes) {
+            if ( $entry->{path} && $entry->{path} =~ /^(.*)\.(.*)$/ ) {
+                $entry->{topic} = $2;
+            }
+            elsif ( $entry->{oldpath} && $entry->{oldpath} =~ /^(.*)\.(.*)$/ ) {
+                $entry->{topic} = $2;
+            }
+            $entry->{user} =
+                $Foswiki::Plugins::SESSION
+              ? $Foswiki::Plugins::SESSION->{users}
+              ->getWikiName( $entry->{cuid} )
+              : $entry->{cuid};
+            $entry->{more} =
+              ( $entry->{minor} ? 'minor ' : '' ) . ( $entry->{comment} || '' );
+        }
+        return @$changes;
+    }
+
+    # Decode the mess that was the old changes format
+    my @changes;
+    foreach my $line ( split( /[\r\n]+/, $all_lines ) ) {
+        my @row = split( /\t/, $line );
+
+        # Old (pre 1.2) format
+
+        # Create a hash for this line
+        my %row = (
+            topic => Foswiki::Sandbox::untaint(
+                $row[0], \&Foswiki::Sandbox::validateTopicName
+            ),
+            user     => $row[1],
+            time     => $row[2] || 0,
+            revision => $row[3] || 1,
+            more     => $row[4] || '',
+        );
+
+        # Fill in 1.2 fields
+        if ( $row{revision} > 1 ) {
+            $row{verb} = 'update';
+        }
+        else {
+            $row{verb} = 'insert';
+        }
+        $row{minor} = ( $row{more} =~ /minor/ );
+        $row{cuid} =
+            $Foswiki::Plugins::SESSION
+          ? $Foswiki::Plugins::SESSION->{users}
+          ->getCanonicalUserID( $row{user} )
+          : $row{user};
+        $row{path} = $web;
+        $row{path} .= ".$row{topic}" if $row{topic};
+        $row{comment} = $row{more};
+        if ( $row{more} =~ /Moved from (\w+)/ ) {
+            $row{oldpath} = $1;
+        }
+        if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
+            $row{attachment} = $1;
+        }
+        unshift( @changes, \%row );
+    }
+    return @changes;
+}
+
 # Record a change in the web history
 sub recordChange {
-    my $this = shift;
-    my %args = @_;
-    $args{more} ||= '';
-    ASSERT( $args{cuid} ) if DEBUG;
-    ASSERT( defined $args{more} ) if DEBUG;
+    my ( $this, %args ) = @_;
+
+    if (DEBUG) {
+        if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
+            ASSERT( ( caller || 'undef' ) eq __PACKAGE__ );
+        }
+        else {
+            ASSERT( ( caller || 'undef' ) ne __PACKAGE__ );
+        }
+        ASSERT( $args{verb} );
+        ASSERT( $args{cuid} );
+        ASSERT( $args{revision} );
+        ASSERT( $args{path} );
+        ASSERT( !defined $args{more} );
+        ASSERT( !defined $args{user} );
+    }
 
     #    my ( $meta, $cUID, $rev, $more ) = @_;
     #    $more ||= '';
 
-    my $file = _getData( $args{_meta}->web ) . '/.changes';
-    my @changes;
-    my $text = '';
-    my $t    = time;
+    # Support for Foswiki < 1.2
 
+    my $web = $args{path};
+    if ( $web =~ /\./ ) {
+        ($web) = Foswiki->normalizeWebTopicName( undef, $web );
+    }
+
+    # Can't log changes in a non-existent web
+    return unless ( -d _getData($web) );
+
+    my $file = _getData($web) . '/.changes';
+    my @changes;
     if ( -e $file ) {
-        my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
-        my $fh;
-        open( $fh, '<', $file )
-          or die "PlainFile: failed to read $file: $!";
-        local $/ = "\n";
-        my $head = 1;
-        while ( my $line = <$fh> ) {
-            chomp($line);
-            if ($head) {
-                my @row = split( /\t/, $line, 4 );
-                next if ( $row[2] < $cutoff );
-                $head = 0;
-            }
-            $text .= "$line\n";
+        @changes = _readChanges( $file, $web );
+
+        # Trim old entries
+        my $cutoff = time - $Foswiki::cfg{Store}{RememberChangesFor};
+        while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
+            shift(@changes);
         }
-        close($fh);
     }
 
     # Add the new change to the end of the file
-    $text .= $args{_meta}->topic || '.';
-    $text .= "\t$args{cuid}\t$t\t$args{revision}\t$args{more}\n";
+    $args{time} = time;
+    push( @changes, \%args );
+    _saveFile( $file, $json->encode( \@changes ) );
+}
 
-    _saveFile( $file, $text );
+# Implement Foswiki::Store
+sub eachChange {
+    my ( $this, $meta, $since ) = @_;
+
+    my $file = "$Foswiki::cfg{DataDir}/" . $meta->web . "/.changes";
+    require Foswiki::ListIterator;
+
+    my @changes;
+    if ( -r $file ) {
+        @changes = reverse grep { $_->{time} >= $since } _readChanges($file);
+    }
+    return Foswiki::ListIterator->new( \@changes );
 }
 
 # Read an entire file

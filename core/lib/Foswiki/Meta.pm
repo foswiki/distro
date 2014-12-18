@@ -122,6 +122,8 @@ BEGIN {
     }
 }
 
+our $VERSION = 1.2;
+
 our $reason;
 
 # Version for the embedding format (increment when embedding format changes)
@@ -890,11 +892,15 @@ sub populateNewWeb {
                     comment => $sfa->{comment}
                 };
             }
-            $to->saveAs( $this->{_web}, $topic, ( forcenewrevision => 1 ) );
+            $to->saveAs(
+                web              => $this->{_web},
+                topic            => $topic,
+                forcenewrevision => 1
+            );
 
             # copy fileattachments
             while ( my ( $fa, $sfa ) = each %attfh ) {
-                $session->{store}->saveAttachment(
+                my $arev = $session->{store}->saveAttachment(
                     $to, $fa,
                     $sfa->{fh},
                     $sfa->{user},
@@ -905,6 +911,15 @@ sub populateNewWeb {
                     }
                 );
                 close( $sfa->{fh} );
+                ASSERT($arev) if DEBUG;
+                $this->{_session}->{store}->recordChange(
+                    verb       => 'insert',
+                    cuid       => $sfa->{user},
+                    revision   => $to->{_loadedRev},
+                    path       => $to->getPath(),
+                    attachment => $fa,
+                    comment    => "add $arev"
+                );
             }
         }
     }
@@ -1032,13 +1047,36 @@ sub eachAttachment {
 
 ---++ ObjectMethod eachChange( $time ) -> $iterator
 
-Get an iterator over the list of all the changes in the web between
+Get an iterator over the list of all the changes to the object between
 =$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
 guaranteed to return any changes that occurred before (now -
 {Store}{RememberChangesFor}). Changes are returned in most-recent-first
 order.
 
-Only valid for a web.
+If the object is a web, changes for all topics within that web will be
+iterated. If it's a topic, then all changes to the topic will be iterated.
+
+Each element of the iterator is a reference to a hash:
+   * =verb= - the action - one of
+      * =update= - a web, topic or attachment has been modified
+      * =insert= - a web, topic or attachment is being inserted
+      * =remove= - a topic or attachment is being removed
+   * =time= - epoch-secs time of the change
+   * =cuid= - who is making the change
+   * =revision= - the revision of the topic that the change appears in
+   * =path= - canonical web.topic path for the affected object
+   * =attachment= - attachment name (optional)
+   * =oldpath= - canonical web.topic path for the origin of a move/rename
+   * =oldattachment= - origin of move
+   * =minor= - boolean true if this change is flagged as minor
+   * =comment= - descriptive text
+
+Stores must return the following fields if compatibility with Foswiki < 1.2
+is required.
+   * =topic= - name of the topic the change occurred to
+   * =more= - formatted string indicating if the change was minor or not
+   * =user= - wikiname of the changing user
+The fields are *deprecated* and should not be used by core.
 
 =cut
 
@@ -1956,7 +1994,7 @@ sub save {
     my $signal;
     my $newRev;
     try {
-        $newRev = $this->saveAs( $this->{_web}, $this->{_topic}, %opts );
+        $newRev = $this->saveAs(%opts);
     }
     catch Error with {
         $signal = shift;
@@ -2002,7 +2040,7 @@ sub save {
 
 Save the current topic to a store location. Only works on topics.
 *without* invoking plugins handlers.
-   * =$web.$topic= - where to move to
+   * =$web.$topic= - where to move to (defaults to web.topic in the object)
    * =%options= - Hash of options, may include:
       * =forcenewrevision= - force an increment in the revision number,
         even if content doesn't change.
@@ -2025,16 +2063,13 @@ Returns the saved revision number.
 # SMELL: arguably save should only be permitted if the loaded rev
 # of the object is the same as the latest rev.
 sub saveAs {
-    my $this = shift;
+    my ( $this, %opts ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $newWeb   = shift;
-    my $newTopic = shift;
-    ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
-    my %opts = @_;
+    $this->{_web}   = $opts{web}   if $opts{web};
+    $this->{_topic} = $opts{topic} if $opts{topic};
+
     my $cUID = $opts{author} || $this->{_session}->{user};
-    $this->{_web}   = $newWeb   if $newWeb;
-    $this->{_topic} = $newTopic if $newTopic;
     _assertIsTopic($this) if DEBUG;
 
     unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {
@@ -2076,6 +2111,14 @@ sub saveAs {
                     $this->setRevisionInfo(%$info);
                     $this->{_session}->{store}->repRev( $this, $cUID, %opts );
                     $this->{_loadedRev} = $currentRev;
+                    $this->{_session}->{store}->recordChange(
+                        verb     => 'update',
+                        cuid     => $cUID,
+                        revision => $currentRev,
+                        path     => $this->getPath(),
+                        minor    => 1,
+                        comment  => 'reprev',
+                    );
                     return $currentRev;
                 }
             }
@@ -2092,6 +2135,14 @@ sub saveAs {
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
         $this->{_loadedRev}      = $nextRev;
         $this->{_latestIsLoaded} = 1;
+
+        $this->{_session}->{store}->recordChange(
+            cuid     => $cUID,
+            revision => $nextRev,
+            verb     => $nextRev == 1 ? 'insert' : 'update',
+            path     => $this->getPath(),
+            minor    => $opts{minor},
+        );
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2234,12 +2285,19 @@ sub move {
 
             # save the metadata change without logging
             $this->saveAs(
-                $this->{_web}, $this->{_topic},
                 dontlog => 1,    # no statistics
             );
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
+            $this->{_session}->{store}->recordChange(
+                cuid     => $cUID,
+                revision => $to->{_loadedRev},
+                verb     => 'update',
+                oldpath  => $from->getPath(),
+                path     => $to->getPath()
+            );
+
         }
         finally {
             $from->_atomicUnlock($cUID);
@@ -2257,6 +2315,22 @@ sub move {
           if DEBUG;
         $this->_atomicLock($cUID);
         $this->{_session}->{store}->moveWeb( $this, $to, $cUID );
+
+        # Record the web move as a move of the WebPreferences topic
+        my $from =
+          Foswiki::Meta->load( $this->{_session}, $this->web,
+            $Foswiki::cfg{WebPrefsTopicName} );
+        my $to =
+          Foswiki::Meta->new( $this->{_session}, $to->web,
+            $Foswiki::cfg{WebPrefsTopicName} );
+        $this->{_session}->{store}->recordChange(
+            cuid     => $cUID,
+            revision => $to->{_loadedRev},
+            verb     => 'update',
+            oldpath  => $from->getPath(),
+            path     => $to->getPath(),
+            comment  => 'moved_web'
+        );
 
         # No point in unlocking $this - it's moved!
         $to->_atomicUnlock($cUID);
@@ -2300,6 +2374,13 @@ sub deleteMostRecentRevision {
     $this->_atomicLock($cUID);
     try {
         $rev = $this->{_session}->{store}->delRev( $this, $cUID );
+        $this->{_session}->{store}->recordChange(
+            cuid     => $cUID,
+            revision => $rev,
+            verb     => 'update',
+            path     => $this->getPath
+        );
+
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2506,7 +2587,7 @@ Use with great care! Removes all trace of the given web, topic
 or attachment from the store, possibly including all its history.
 
 Also does not ensure consistency of the store 
-(for eg, if you delete an attachment, it does not update the intopic META)
+(for eg, if you delete an attachment, it does not update the in-topic META)
 
 =cut
 
@@ -2532,8 +2613,16 @@ sub removeFromStore {
               . $this->{_topic} . '.'
               . $attachment );
     }
-
     $store->remove( $this->{_session}->{user}, $this, $attachment );
+    $this->{_session}->{store}->recordChange(
+        verb => 'remove',
+        cuid => $this->{_session}->{user},
+
+        # revision = -1 when removing webs
+        revision => $this->{_loadedRev} || -1,
+        path => $this->getPath(),
+        attachment => $attachment
+    );
 }
 
 =begin TML
@@ -2746,8 +2835,11 @@ sub attach {
     my $plugins = $this->{_session}->{plugins};
     _assertIsAttachment( $this, $opts{name} ) if DEBUG;
 
-# make sure we don't save a half-loaded topic stub...which indeed - smell - is possible
+    # make sure we don't save a half-loaded topic stub...
+    # which indeed - SMELL - is possible
     $this->loadVersion() unless $this->latestIsLoaded();
+    ASSERT( $this->latestIsLoaded(), $this->getPath() ) if DEBUG;
+    ASSERT( $this->{_loadedRev},     $this->getPath() ) if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {
 
@@ -2769,6 +2861,8 @@ sub attach {
             user       => $opts{author} || $this->{_session}->{user},     # cUID
             comment    => defined $opts{comment} ? $opts{comment} : '',
         };
+
+        my $handlers_called = 0;
 
         if (  !$opts{nohandlers}
             && $plugins->haveHandlerFor('beforeAttachmentSaveHandler') )
@@ -2820,12 +2914,8 @@ sub attach {
                 $attrs->{tmpFilename} = $fh->filename();
             }
 
-            if (  !$opts{nohandlers}
-                && $plugins->haveHandlerFor('beforeAttachmentSaveHandler') )
-            {
-                $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
-                    $this->{_topic}, $this->{_web} );
-            }
+            $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
+                $this->{_topic}, $this->{_web} );
 
             # Have to assume it's changed, even if it hasn't.
             open( $attrs->{stream}, '<', $attrs->{tmpFilename} )
@@ -2834,6 +2924,8 @@ sub attach {
             $opts{stream} = $attrs->{stream};
 
             delete $attrs->{tmpFilename};
+
+            $handlers_called = 1;
         }
 
         if (  !$opts{nohandlers}
@@ -2850,37 +2942,56 @@ sub attach {
             $opts{stream} = $attrs->{stream};
             seek( $opts{stream}, 0, 0 );    # seek to beginning
             binmode( $opts{stream} );
+
+            $handlers_called = 1;
         }
 
-        # Force reload of the latest version
-        $this = $this->load() unless $this->latestIsLoaded();
+        if ($handlers_called) {
 
-    # Note that latestIsLoaded may still be false if the topic doesn't exist yet
+            # Force reload of the latest version
+            # Note that latestIsLoaded may still be false if the
+            # topic doesn't exist yet
+            $this->unload();
+            $this->loadVersion();
+        }
+
+        $opts{author} ||= $this->{_session}->{user};
 
         my $error;
         try {
-            $this->{_session}->{store}
+            my $arev =
+              $this->{_session}->{store}
               ->saveAttachment( $this, $opts{name}, $opts{stream},
-                $opts{author} || $this->{_session}->{user}, \%opts );
+                $opts{author}, \%opts );
+
+            $attrs->{version} = $arev;
+            $attrs->{path}    = $opts{filepath} if defined $opts{filepath};
+            $attrs->{size}    = $opts{filesize} if defined $opts{filesize};
+            $attrs->{date} = defined $opts{filedate} ? $opts{filedate} : time();
+
+            # Note that there will be two events; the attachment save,
+            # followed by the topic update
+            $this->{_session}->{store}->recordChange(
+                verb => $arev > 1 ? 'update' : 'insert',
+                cuid => $opts{author},
+                revision   => $this->{_loadedRev},
+                path       => $this->getPath(),
+                attachment => $opts{name},
+                comment    => "add $arev"
+            );
+
+            if (  !$opts{nohandlers}
+                && $plugins->haveHandlerFor('afterAttachmentSaveHandler') )
+            {
+
+                # *Deprecated* handler
+                $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
+                    $this->{_topic}, $this->{_web} );
+            }
         }
         finally {
             $this->fireDependency();
         };
-
-        my $fileVersion = $this->getLatestRev( $opts{name} );
-        $attrs->{version} = $fileVersion;
-        $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
-        $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
-        $attrs->{date}    = defined $opts{filedate} ? $opts{filedate} : time();
-
-        if (  !$opts{nohandlers}
-            && $plugins->haveHandlerFor('afterAttachmentSaveHandler') )
-        {
-
-            # *Deprecated* handler
-            $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
-                $this->{_topic}, $this->{_web} );
-        }
     }
     else {
 
@@ -3059,7 +3170,6 @@ sub moveAttachment {
         my $fileAttachment = $this->get( 'FILEATTACHMENT', $name );
         $this->remove( 'FILEATTACHMENT', $name );
         $this->saveAs(
-            undef, undef,
             dontlog => 1,                # no statistics
             comment => 'lost ' . $name
         );
@@ -3079,10 +3189,20 @@ sub moveAttachment {
         }
 
         $to->saveAs(
-            undef, undef,
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
+
+        $this->{_session}->{store}->recordChange(
+            cuid          => $cUID,
+            revision      => $to->{_loadedRev},
+            verb          => 'update',
+            oldpath       => $this->getPath(),
+            oldattachment => $name,
+            path          => $to->getPath(),
+            attachment    => $newName
+        );
+
     }
     finally {
         $to->_atomicUnlock($cUID);
@@ -3156,11 +3276,20 @@ sub copyAttachment {
         }
 
         $to->saveAs(
-            undef, undef,
             author  => $cUID,
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
+        $this->{_session}->{store}->recordChange(
+            verb          => 'copy',
+            cuid          => $cUID,
+            revision      => $to->{_loadedRev},
+            oldpath       => $from->getPath(),
+            oldattachment => $name,
+            path          => $to->getPath(),
+            attachment    => $newName
+        );
+
     }
     finally {
         $to->_atomicUnlock($cUID);

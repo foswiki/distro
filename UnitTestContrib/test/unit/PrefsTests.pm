@@ -38,13 +38,15 @@ sub set_up {
 
     try {
         my $webObject =
-          $this->populateNewWeb( $TWiki::cfg{SystemWebName}, $original );
+          $this->populateNewWeb( $Foswiki::cfg{SystemWebName}, $original );
         $webObject->finish();
         my ($m) =
           Foswiki::Func::readTopic( $original,
-            $TWiki::cfg{SitePrefsTopicName} );
-        $m->saveAs( $TWiki::cfg{SystemWebName},
-            $TWiki::cfg{SitePrefsTopicName} );
+            $Foswiki::cfg{SitePrefsTopicName} );
+        $m->saveAs(
+            web   => $Foswiki::cfg{SystemWebName},
+            topic => $Foswiki::cfg{SitePrefsTopicName}
+        );
     }
     catch Foswiki::AccessControlException with {
         $this->assert( 0, shift->stringify() );

@@ -889,8 +889,7 @@ sub _install {
                     $ok = 0
                       unless $this->_installAttachments( $reporter, $dir,
                         "$web/$topic", "$tweb/$ttopic", $meta );
-                    $meta->saveAs( $tweb, $ttopic, %opts )
-                      unless $this->option('SIMULATE');
+                    $meta->saveAs(%opts) unless $this->option('SIMULATE');
                 }
                 next;
             }

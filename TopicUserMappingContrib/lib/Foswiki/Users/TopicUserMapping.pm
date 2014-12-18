@@ -1055,7 +1055,8 @@ sub _writeGroupTopic {
     #TODO: should also consider securing the new topic?
     my $user = $this->{session}->{user};
     $groupTopicObject->saveAs(
-        $groupWeb, $groupName,
+        web              => $groupWeb,
+        topic            => $groupName,
         author           => $user,
         forcenewrevision => ( $groupName eq $Foswiki::cfg{SuperAdminGroup} )
         ? 1
