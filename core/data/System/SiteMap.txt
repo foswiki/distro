@@ -1,47 +1,30 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418906416" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418974752" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ <nop>%WIKITOOLNAME% Sitemap
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
 
 %STARTINCLUDE%<noautolink>
 <div class="siteMap jqUITooltip" data-theme="info" data-arrow="true" data-position="top" data-delay="0">
-%SEARCH{ 
-	"'1'"
-	topic="%WEBPREFSTOPIC%" 
-	web="all" 
-	type="query" 
-	nototal="on" 
-	nosearch="on" 
-	format="<div class='row'>
-      <div class='tools'>
-        [[$web.WebSearch][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif' title='Search this web' />]]
-        [[$web.WebChanges][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif' title='Recent changes in this web' />]]
-        [[$web.%NOTIFYTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif' title='Get notified of changes to this web' />]]
-        [[$web.%WEBPREFSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif' title='Preferences of this web' />]]
-        $percentIF{\"istopic '$web.%STATISTICSTOPIC%'\" 
-          then=\"[[$web.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]\"
-          else=\"<!-- -->\"
-        }$percent
-        [[$web.WebTopicList][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif' title='Bullet list of all topics' />]]
-        $percentIF{\"istopic '$web.WebIndex'\"
-          then=\"[[$web.WebIndex][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif' title='Index of all topics' />]]\"
-          else=\"<!-- -->\"
-        }$percent
-      </div>
-      <h4>
-        <div class='webBgColor' style='background-color:$percentEXPAND{\"$dollarpercentWEBBGCOLOR$dollarpercent\" scope=\"$web.$topic\"}$percent' ></div>
-        [[$web.%HOMETOPIC%][$web]]
-      </h4>
-      $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent <!-- -->
-      %CLEAR%
-    </div>$n<hr />$n"
-    pager="on"
-    pagesize="%DEFAULTPAGESIZE%"
+%SEARCH{
+	"1"
+	topic="%WEBPREFSTOPIC%"
+	web="all"
+	type="query"
+	nototal="on"
+	nosearch="on"
+	format="$percentIF{\"'$percentEXPAND{\"$dollarpercentSITEMAPLIST$dollarpercnt\" scope=\"$web.$topic\" }$percent' != 'off'\"
+      then=\"$dollarpercentINCLUDE{\\"%WEB%.%TOPIC%\\" section=\\"renderweb\\"
+              web=\\"$web\\"
+            }$dollarpercent\"
+      else=\"<!-- -->\"
+  }$percnt"
+  pager="on"
+  pagesize="%DEFAULTPAGESIZE%"
 }%
+<hr />
 </div>
 </noautolink>
-%JQREQUIRE{"ui::tooltip"}%
-%ADDTOZONE{"head" 
+%JQREQUIRE{"ui::tooltip"}%%ADDTOZONE{"head"
   id="%WEB%::%TOPIC%::CSS"
   text="<style type='text/css'>
     .siteMap {
@@ -88,5 +71,31 @@ This table is updated automatically based on <nop>WebPreferences settings of the
     </style>"
 }%
 %STOPINCLUDE%
+<verbatim class="foswikiHidden">
+%STARTSECTION{"renderweb"}%<hr />
+<div class='row'>
+  <div class='tools'>
+    [[%web%.WebSearch][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif' title='Search this web' />]]
+    [[%web%.WebChanges][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif' title='Recent changes in this web' />]]
+    [[%web%.%NOTIFYTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif' title='Get notified of changes to this web' />]]
+    [[%web%.%WEBPREFSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif' title='Preferences of this web' />]]
+    %IF{"istopic '%web%.%STATISTICSTOPIC%'"
+      then="[[%web%.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]"
+      else="<!-- -->"
+    }%
+    [[%web%.WebTopicList][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif' title='Bullet list of all topics' />]]
+    %IF{"istopic '%web%.WebIndex'"
+      then="[[%web%.WebIndex][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif' title='Index of all topics' />]]"
+      else="<!-- -->"
+    }%
+  </div>
+  <h4>
+    <div class='webBgColor' style='background-color:%EXPAND{"$percentWEBBGCOLOR$percent" scope="%web%.%WEBPREFSTOPIC%"}%' ></div>
+    [[%web%.%HOMETOPIC%][%web%]]
+  </h4>
+  %EXPAND{"$percentWEBSUMMARY$percent" scope="%web%.%WEBPREFSTOPIC%"}% <!-- -->
+  %CLEAR%
+</div>%ENDSECTION{"renderweb"}%
+</verbatim>
 
 Related admin pages: %SYSTEMWEB%.AdminToolsCategory
