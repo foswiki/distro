@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315161866" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418962146" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -72,6 +72,9 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  18 Dec 2014 (1.6)   | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
+                         Foswikitask:Item12913: Fix some MANIFEST issues<br />\
+                         Foswikitask:Item11411: Implement Foswiki:Development.HtmlAttributesShouldUseSingleQuotes |
 |  13 Mar 2012 (1.5)   | added 119 GeoSilk icons |
 |  06 Apr 2012 (1.4.4) | Released with Foswiki 1.1.5. Foswikitask:Item11383 - remove redundant %<nop>REVARG% from templates. |
 |  12 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. Foswikitask:Item11341 - Add a Cog icon. |
@@ -101,9 +104,9 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
 
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1205882801" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1205882801" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1205882801" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1205882801" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1205882801" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1205882801" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1418962146" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1418962146" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1418962146" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1418962146" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1418962146" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1418962146" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%

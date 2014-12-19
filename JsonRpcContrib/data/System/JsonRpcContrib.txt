@@ -224,7 +224,9 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  17 Dec 2014: | added support for gzip compression of http response |
+|  17 Dec 2014: (2.20) | Foswikitask:Item13164: added support for gzip compression of http response<br />\
+                         Foswikitask:Item13125: CGI changes for multi_param calls<br />\
+                         Foswikitask:Item13065: Log jsonrpc events to Foswiki event.log |
 |  28 Aug 2014: | don't use DEBUG constant to toggle local debug messages as it conflicts with Assert.pm |
 |  11 Dec 2013: | removed dependency on JSON::XS |
 |  30 May 2013: | added support for serialising objects, and rewrote some of the documentation (Foswiki:Main/CrawfordCurrie) |

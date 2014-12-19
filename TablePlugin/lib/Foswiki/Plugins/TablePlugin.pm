@@ -19,7 +19,7 @@ BEGIN {
 }
 
 # Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("1.142");
+our $VERSION = '1.142';
 our $RELEASE = '1.142';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';

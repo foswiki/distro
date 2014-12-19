@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_999" comment="autosave" date="1356278775" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1418963640" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
@@ -83,6 +83,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+| 18 Dec 2014 (1.54) | Foswikitask:Item13099: fixed img button of date formfield, Delegated the PUBURL implementation to the store<br />\
+                       Foswikitask:Item12583: Convert back to simple decimal version strings. |
 |  13 Mar 2014 | Foswikitask:Item12070: fixed too many calls to =expandTML= |
 |  28 Nov 2012 | Foswikitask:Item12213: Button icon made transparent.  Foswikitask:Item11267: Convert to perl version strings.  |
 |  06 Apr 2012 | Foswikitask:Item11568: Re-introduce style options and updated default calendar style.%BR%\
@@ -116,5 +118,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 *Related Topics:* %USERSWEB%.SitePreferences
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1418963640" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1418963640" version="1"}%
