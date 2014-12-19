@@ -68,6 +68,11 @@ sub run {
         &FCGI::FAIL_ACCEPT_ON_INTR );
     my $manager;
 
+    # make sure some ENV vars are set
+    $ENV{"REQUEST_URI"} = '' unless defined $ENV{REQUEST_URI};
+    $ENV{"PATH_INFO"} = '' unless defined $ENV{PATH_INFO};
+    $ENV{"SCRIPT_NAME"} = 'foswiki.fcgi' unless defined $ENV{SCRIPT_NAME};
+
     if ($listen) {
         $args->{manager} ||= 'Foswiki::Engine::FastCGI::ProcManager';
         $args->{nproc}   ||= 1;
@@ -112,10 +117,8 @@ sub run {
     }
 
     my $localSiteCfg = $INC{'LocalSite.cfg'};
-    die "LocalSite.cfg is not loaded - Check permissions or run configure\n"
-      unless defined $localSiteCfg;
-
-    my $lastMTime = ( stat $localSiteCfg )[9];
+    my $lastMTime = 0;
+    $lastMTime = ( stat $localSiteCfg )[9] if defined $localSiteCfg;
 
     while ( $r->Accept() >= 0 ) {
         $manager && $manager->pm_pre_dispatch();
@@ -127,7 +130,9 @@ sub run {
             $this->finalize( $res, $req );
         }
 
-        my $mtime = ( stat $localSiteCfg )[9];
+        my $mtime = 0;
+        $mtime = ( stat $localSiteCfg )[9] if defined $localSiteCfg;
+
         if ( $mtime > $lastMTime || $hupRecieved ) {
             $r->LastCall();
             if ($manager) {
@@ -140,7 +145,7 @@ sub run {
         $manager && $manager->pm_post_dispatch();
     }
     reExec() if $hupRecieved;
-    closeSocket($sock);
+    closeSocket();
 }
 
 sub preparePath {
