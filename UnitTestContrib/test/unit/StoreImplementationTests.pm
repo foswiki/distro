@@ -783,7 +783,6 @@ sub verify_copyAttachment {
 
 sub verify_moveWeb {
     my $this = shift;
-    $this->assert( !-e '/home/foswiki/git/core/data/TemporaryStoreTestsWeb2' );
     $this->_makeWeb();
     my $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
     $meta->text("1 2 3");
@@ -800,7 +799,6 @@ sub verify_moveWeb {
     );
     $meta->finish();
 
-    $this->assert( !-e '/home/foswiki/git/core/data/TemporaryStoreTestsWeb2' );
     my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web} );
     my $to = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web2} );
 
