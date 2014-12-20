@@ -549,11 +549,11 @@ sub _readChanges {
         # Old (pre 1.2) format
 
         # Create a hash for this line
-        my %row = (
-            topic => Foswiki::Sandbox::untaint(
-                shift(@row), \&Foswiki::Sandbox::validateTopicName
-            )
-        );
+        my %row;
+
+        $row{topic} =
+          Foswiki::Sandbox::untaint( shift(@row),
+            \&Foswiki::Sandbox::validateTopicName );
         $row{user}     = shift(@row);
         $row{time}     = shift(@row) || 0;
         $row{revision} = shift(@row) || 1;
@@ -633,44 +633,31 @@ sub recordChange {
     my $text = '';
     my $t    = time;
 
-    if ( $Foswiki::cfg{RCS}{TabularChangeFormat} ) {
-        my @changes =
-          map {
-            my @row = split( /\t/, $_ );
-            \@row
-          }
-          split( /[\r\n]+/, Foswiki::Store::Rcs::Handler->readFile($file) );
-
-        # Forget old stuff
-        my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
-        while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
+    if ( -e $file ) {
+        @changes = _readChanges( $file, $web );
+        my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
+        while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
             shift(@changes);
         }
+    }
 
-        # Add the new change to the end of the file
-        push(
-            @changes,
-            [
-                $topic, $args{cuid},
-                $t,     $args{revision},
-                $json->encode( \%args )
-            ]
-        );
+    # Add the new change to the end of the file
+    $args{time} = time;
+    push( @changes, \%args );
+
+    if ( $Foswiki::cfg{RCS}{TabularChangeFormat} ) {
+        $args{topic} ||= $topic;
+        foreach (@changes) {
+            my $hash = $_;
+            $_ = [
+                $hash->{topic},    $hash->{cuid}, $hash->{time},
+                $hash->{revision}, $json->encode($hash)
+            ];
+        }
 
         $text = join( "\n", map { join( "\t", @$_ ) } @changes );
     }
     else {
-        if ( -e $file ) {
-            @changes = _readChanges( $file, $web );
-            my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
-            while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
-                shift(@changes);
-            }
-        }
-
-        # Add the new change to the end of the file
-        $args{time} = time;
-        push( @changes, \%args );
         $text = $json->encode( \@changes );
     }
 
