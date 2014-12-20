@@ -32,6 +32,12 @@ $Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 # blank on other platforms.
 $Foswiki::cfg{RCS}{ExtOption} = '';
 
+# **BOOLEAN EXPERT**
+# Switches on/off the generation of tabular format .changes files that can
+# be read by Foswiki 1.1. Required for sites where the same data is being
+# used by both versions.
+$Foswiki::cfg{RCS}{TabularChangeFormat} = 0;
+
 # **REGEX**
 # Perl regular expression matching suffixes valid on plain text files
 # Defines which attachments will be treated as ASCII in RCS. This is a
@@ -120,3 +126,4 @@ $Foswiki::cfg{RCS}{breaklockCmd} =
 # RcsWrap delete a specific revision.
 $Foswiki::cfg{RCS}{delRevCmd} =
   '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%';
+

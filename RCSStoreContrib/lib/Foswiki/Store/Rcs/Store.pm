@@ -551,37 +551,47 @@ sub _readChanges {
         # Create a hash for this line
         my %row = (
             topic => Foswiki::Sandbox::untaint(
-                $row[0], \&Foswiki::Sandbox::validateTopicName
-            ),
-            user     => $row[1],
-            time     => $row[2] || 0,
-            revision => $row[3] || 1,
-            more     => $row[4] || '',
+                shift(@row), \&Foswiki::Sandbox::validateTopicName
+            )
         );
+        $row{user}     = shift(@row);
+        $row{time}     = shift(@row) || 0;
+        $row{revision} = shift(@row) || 1;
+        $row{more}     = shift(@row);
 
-        # Fill in 1.2 fields
-        if ( $row{revision} > 1 ) {
-            $row{verb} = 'update';
+        # Try and decode 'more', for compatibility mode
+        my $ok = 0;
+        if ( $row{more} ) {
+            eval {
+                my $decoded = $json->decode( $row{more} );
+                while ( my ( $k, $v ) = each %$decoded ) {
+                    $row{$k} = $v;
+                }
+                $ok = 1;
+            };
         }
-        else {
-            $row{verb} = 'insert';
+        if ( !$ok ) {
+
+            # Couldn't decode more as JSON. Fill in 1.2 fields
+            if ( $row{revision} > 1 ) {
+                $row{verb} = 'update';
+            }
+            else {
+                $row{verb} = 'insert';
+            }
+            $row{minor} = ( $row{more} =~ /minor/ );
+            $row{cuid}  = $row{user};
+            $row{path}  = $web;
+            $row{path} .= ".$row{topic}" if $row{topic};
+            $row{comment} = $row{more};
+            if ( $row{more} =~ /Moved from (\w+)/ ) {
+                $row{oldpath} = $1;
+            }
+            if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
+                $row{attachment} = $1;
+            }
         }
-        $row{minor} = ( $row{more} =~ /minor/ );
-        $row{cuid} =
-            $Foswiki::Plugins::SESSION
-          ? $Foswiki::Plugins::SESSION->{users}
-          ->getCanonicalUserID( $row{user} )
-          : $row{user};
-        $row{path} = $web;
-        $row{path} .= ".$row{topic}" if $row{topic};
-        $row{comment} = $row{more};
-        if ( $row{more} =~ /Moved from (\w+)/ ) {
-            $row{oldpath} = $1;
-        }
-        if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
-            $row{attachment} = $1;
-        }
-        unshift( @changes, \%row );
+        push( @changes, \%row );
     }
     return @changes;
 }
@@ -609,10 +619,10 @@ sub recordChange {
     #    $more ||= '';
 
     # Support for Foswiki < 1.2
-
-    my $web = $args{path};
+    my $web   = $args{path};
+    my $topic = '.';
     if ( $web =~ /\./ ) {
-        ($web) = Foswiki->normalizeWebTopicName( undef, $web );
+        ( $web, $topic ) = Foswiki->normalizeWebTopicName( undef, $web );
     }
 
     # Can't log changes in a non-existent web
@@ -622,18 +632,48 @@ sub recordChange {
     my @changes;
     my $text = '';
     my $t    = time;
-    if ( -e $file ) {
-        @changes = _readChanges( $file, $web );
-        my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
-        while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
+
+    if ( $Foswiki::cfg{RCS}{TabularChangeFormat} ) {
+        my @changes =
+          map {
+            my @row = split( /\t/, $_ );
+            \@row
+          }
+          split( /[\r\n]+/, Foswiki::Store::Rcs::Handler->readFile($file) );
+
+        # Forget old stuff
+        my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
+        while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
             shift(@changes);
         }
+
+        # Add the new change to the end of the file
+        push(
+            @changes,
+            [
+                $topic, $args{cuid},
+                $t,     $args{revision},
+                $json->encode( \%args )
+            ]
+        );
+
+        $text = join( "\n", map { join( "\t", @$_ ) } @changes );
+    }
+    else {
+        if ( -e $file ) {
+            @changes = _readChanges( $file, $web );
+            my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
+            while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
+                shift(@changes);
+            }
+        }
+
+        # Add the new change to the end of the file
+        $args{time} = time;
+        push( @changes, \%args );
+        $text = $json->encode( \@changes );
     }
 
-    # Add the new change to the end of the file
-    $args{time} = time;
-    push( @changes, \%args );
-    $text = $json->encode( \@changes );
     Foswiki::Store::Rcs::Handler->saveFile( $file, $text );
 }
 
