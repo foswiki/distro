@@ -849,10 +849,11 @@ sub getPerlLocation {
 
 =begin TML
 
----++ StaticMethod rewriteShebang($file, $newShebang )
+---++ StaticMethod rewriteShebang($file, $newShebang, $taint )
 
 Rewrite the #! (shebang) line of the target script
-with the specified script name.
+with the specified script name. Clear any taint flag
+by default, or set it if $taint is true.
 
 This is used in 2 places:
  - The Package installer - used when installing extensions
@@ -873,15 +874,20 @@ sub rewriteShebang {
     my $contents = <$fh>;
     close $fh;
 
+    # Pull out the first line,  parse it into the script (match)  and arguments
     my $firstline = substr( $contents, 0, index( $contents, "\n" ) );
     my ( $match, $args ) =
       $firstline =~ m/^#\!\s*(.*?perl[^\s]*)(\s?-w?T?w?)?.*?$/ms;
-    $match = '' unless $match;
-    $match = '' if ( $match =~ m/env perl/ );
-    $args = '' unless $args;
+    $match ||= '';
+    $args  ||= '';
     my $newargs = $args;
 
-    if ( defined $taint ) {
+    return "Not a perl script" unless ($match);
+
+    if ( $newShebang =~ m/env perl/ ) {
+        $newargs = '';    # No arguments possible when using env perl
+    }
+    elsif ( defined $taint ) {
         if ($args) {
             if ($taint) {
                 $newargs .= 'T' unless ( $args =~ m/T/ );
@@ -893,8 +899,7 @@ sub rewriteShebang {
         }
     }
 
-    return "Not a perl script" unless ($match);
-
+    # Find position of existing args, and replace with new arguments
     my $argsIdx = index( $contents, $args );
     if ($argsIdx) {
         substr( $contents, $argsIdx, length($args) ) = "$newargs";

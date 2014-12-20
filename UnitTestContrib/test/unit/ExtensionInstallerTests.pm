@@ -690,9 +690,13 @@ sub test_Util_rewriteShebang {
     );
     _doRewriteTest(
         $this, $tempdir, '#! /usr/bin/env perl ',
-        '/usr/bin/perl',
-        '#! /usr/bin/perl ',
-        'Not a perl script'
+        '/usr/bin/perl', '#! /usr/bin/perl ',
+    );
+    _doRewriteTest(
+        $this, $tempdir,
+        '#! /usr/bin/perl -wT ',
+        '/usr/bin/env perl',
+        '#! /usr/bin/env perl ',
     );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT ',
         '/my/bin/perl', '#! /my/bin/perl -wT ' );
@@ -701,6 +705,13 @@ sub test_Util_rewriteShebang {
         '#!/usr/bin/perl -wT',
         'C:\Program Files\Active State\perl.exe',
         '#! C:\Program Files\Active State\perl.exe -wT'
+    );
+    _doRewriteTest(
+        $this, $tempdir,
+        '#!/usr/bin/env perl',
+        'C:\Program Files\Active State\perl.exe',
+        '#! C:\Program Files\Active State\perl.exe -T',
+        '', 1
     );
     _doRewriteTest( $this, $tempdir,
         '#! C:\Program Files\Active State\perl.exe -wT',
@@ -760,6 +771,20 @@ sub test_Util_rewriteShebang {
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl',
         '/usr/bin/perl', '#! /usr/bin/perl -T',
         undef, 1 );
+    _doRewriteTest(
+        $this, $tempdir, '#!/usr/bin/env perl',
+        '/usr/bin/perl', '#! /usr/bin/perl -T',
+        undef, 1
+    );
+
+    # Even if Taint requested, don't set -T for env perl
+    _doRewriteTest(
+        $this, $tempdir,
+        '#!/usr/bin/perl -wT',
+        '/usr/bin/env perl',
+        '#! /usr/bin/env perl',
+        undef, 1
+    );
     _doRewriteTest(
         $this, $tempdir,
         '#!/usr/bin/perl -wT',
