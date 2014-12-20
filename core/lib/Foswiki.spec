@@ -2093,17 +2093,17 @@ $Foswiki::cfg{MaxLSCBackups} = 10;
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work (don't
 # change it unless you are certain that you know what you are doing!)
-# $Foswiki::cfg{SystemWebName} = 'System';
+$Foswiki::cfg{SystemWebName} = 'System';
 
 # **STRING 20 CHECK='nullok' EXPERT**
 # Name of the web used as a trashcan (where deleted topics are moved)
 # If you change this setting, you must make sure the web exists.
-# $Foswiki::cfg{TrashWebName} = 'Trash';
+$Foswiki::cfg{TrashWebName} = 'Trash';
 
 # **STRING 20 CHECK='nullok' EXPERT**
 # Name of the web used as a scratchpad or temporary workarea for users to
 # experiment with Foswiki topics.
-# $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+$Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
 # **STRING 20  CHECK='nullok' EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
@@ -2111,7 +2111,7 @@ $Foswiki::cfg{MaxLSCBackups} = 10;
 # use Foswiki and *manually* rename the existing topic.*
 # (don't change it unless you are *certain* that you know what
 # you are doing!)
-# $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
+$Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
 # **STRING 70 EXPERT**
 # Web.TopicName of the site-level local preferences topic. If this topic
