@@ -130,7 +130,7 @@ function _id_ify(id) {
                 params: params,
                 error: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " failed");
-                    $w.remove;
+                    $w.remove();
                     $.pnotify({
                       title: "Error",
                       text: jsonResponse.error.message,
@@ -291,7 +291,7 @@ function _id_ify(id) {
                     $whine.addClass(id + '_report');
                     $whine.addClass('message_block');
                     $reports.append($whine);
-                };
+                }
                 // If the key block isn't loaded yet,
                 // bubble_checker_reports will annotate
                 // the path leading to it
@@ -379,7 +379,7 @@ function _id_ify(id) {
                 RPC('wizard',
                     'Call ' + data.method,
                     params,
-                    function(result) { wizard_reports($node, result) },
+                    function(result) { wizard_reports($node, result); },
                     $(this));
             });
         });
@@ -455,7 +455,7 @@ function _id_ify(id) {
         RPC('wizard',
             'Call ' + fb.method,
             params,
-            function(result) { wizard_reports($node, result) },
+            function(result) { wizard_reports($node, result); },
             $whirlyPlace);
     }
 
@@ -745,8 +745,8 @@ function _id_ify(id) {
 
     // Add a description, splitting into summary and body if appropriate.
     function add_desc(entry, $node) {
-        var m;
-        if (m = /^((?:.|\n)*?)\.\s+((?:.|\n)+)$/.exec(entry.desc)) {
+        var m = /^((?:.|\n)*?)\.\s+((?:.|\n)+)$/.exec(entry.desc);
+        if (m) {
             var $description = $('<div class="description">'
                              + TML.render(m[1])
                              + '&nbsp;</div>');

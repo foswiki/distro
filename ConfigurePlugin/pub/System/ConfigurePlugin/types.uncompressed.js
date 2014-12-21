@@ -105,7 +105,7 @@ var Types = {};
           else if (this.spec.current_value == '1')
               this.spec.current_value = 1;
 
-          if (this.spec.current_value != 0) {
+          if (this.spec.current_value !== 0) {
               this.$ui.attr('checked', true);
           }
           if (this.spec.extraClass) {
