@@ -12,6 +12,8 @@ use Foswiki::Func                             ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 
+use constant TRACE => 0;
+
 use constant {
 
     # Row-only buttons
@@ -474,7 +476,6 @@ sub _getColsFromURPs {
 }
 
 # Action on whole table saved
-
 # URL params:
 #    * erp_cell_<tableid>_<rowno>_<colno>
 sub saveTableCmd {
@@ -483,10 +484,11 @@ sub saveTableCmd {
     # Whole table (sans header and footer rows)
     my $end = $this->totalRows() - $this->getFooterRows();
     if ( $end <= 0 ) {
-        $end = 0;
+        Foswiki::Func::writeDebug("Fabricate new table") if TRACE;
 
         # Fabricating a new table. Sniff the URL params to determine
         # the number of new rows
+        $end = 0;
         my $count = scalar( @{ $this->{colTypes} } );
         my $rowSeen;
         do {
@@ -501,15 +503,15 @@ sub saveTableCmd {
                 }
             }
         } while ($rowSeen);
+
+        # Fall through to commit the content
     }
 
-    # Why did I do this? Header rows should not change; the url params don't
-    # contain values for them. This code seems superfluous, but I didn't explain
-    # it :-(
-    #    for ( my $i = $this->getHeaderRows() ; $i < $end ; $i++ ) {
-    #        my $cols = $this->_getColsFromURPs( $urps, $i );
-    #        $this->{rows}->[$i]->setRow($cols);
-    #    }
+    # Change / set the table content
+    for ( my $i = $this->getHeaderRows() ; $i < $end ; $i++ ) {
+        my $cols = $this->_getColsFromURPs( $urps, $i );
+        $this->{rows}->[$i]->setRow($cols);
+    }
 }
 
 # Action on row saved

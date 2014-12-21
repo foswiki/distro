@@ -79,7 +79,7 @@ sub process {
 
         if (TRACE) {
             require Data::Dumper;
-            print STDERR Data::Dumper->Dump( [$urps], ['GET'] );
+            Foswiki::Func::writeDebug( Data::Dumper->Dump( [$urps], ['GET'] ) );
         }
       LINE:
         foreach my $table (@$content) {

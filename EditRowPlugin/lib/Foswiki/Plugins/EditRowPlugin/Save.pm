@@ -75,6 +75,10 @@ sub process {
         $no_return = 1;
     }
 
+    Foswiki::Func::writeDebug(
+        "ERP: SAVE $action, $active_topic for $active_user")
+      if TRACE;
+
     if (
         $action ne 'cancelCmd'
         && !Foswiki::Func::checkAccessPermission(
@@ -136,7 +140,8 @@ sub process {
 
         if (TRACE) {
             require Data::Dumper;
-            print STDERR Data::Dumper->Dump( [$urps], [$action] );
+            Foswiki::Func::writeDebug(
+                Data::Dumper->Dump( [$urps], [$action] ) );
         }
 
       LINE:
@@ -153,6 +158,7 @@ sub process {
                 if (   $active_topic eq $urps->{erp_topic}
                     && $urps->{erp_table} eq $table->getID() )
                 {
+                    Foswiki::Func::writeDebug("Performing $action") if TRACE;
                     eval { $result = $table->$action($urps); };
                     if ($@) {
                         throw Error::Simple $@ unless $ajax;
