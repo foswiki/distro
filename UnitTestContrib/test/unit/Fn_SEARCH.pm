@@ -27,6 +27,7 @@ use Foswiki::Search();
 use Foswiki::Search::InfoCache();
 use English qw( -no_match_vars );
 use Error qw( :try );
+use HTML::Entities;
 
 use File::Spec qw(case_tolerant)
   ; #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
@@ -50,10 +51,12 @@ sub set_up {
     my ($this) = shift;
     $this->SUPER::set_up(@_);
 
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+
     my $timestamp = time();
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'OkTopic' );
+      Foswiki::Func::readTopic( $this->{test_web}, 'OkÆTopic' );
     $topicObject->text("BLEEGLE blah/matchme.blah");
     $topicObject->save( forcedate => $timestamp + 120 );
     $topicObject->finish();
@@ -64,6 +67,11 @@ sub set_up {
     ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'OkBTopic' );
     $topicObject->text("BLEEGLE dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SomeOtherÆØÅTopic' );
+    $topicObject->text("forrin speak");
+    $topicObject->save( forcedate => $timestamp + 720 );
     $topicObject->finish();
 
     ($topicObject) =
@@ -201,12 +209,12 @@ sub verify_simple {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     return;
 }
@@ -229,10 +237,10 @@ sub verify_b {
     # Test regex with \b, used in rename searches
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\bmatc[h]me\b" type="regex" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+'%SEARCH{"\bmatc[h]me\b" type="regex" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -249,9 +257,9 @@ sub verify_topicName {
 '%SEARCH{"Ok.*" type="regex" scope="topic" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     return;
 }
@@ -264,9 +272,9 @@ sub verify_regex_trivial {
 '%SEARCH{"blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     return;
 }
@@ -281,9 +289,9 @@ sub verify_literal {
 '%SEARCH{"blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     return;
 }
@@ -298,9 +306,9 @@ sub verify_keyword {
 '%SEARCH{"blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     return;
 }
@@ -315,8 +323,8 @@ sub verify_word {
         '%SEARCH{"blah" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
 
     # 'blah' is in OkATopic, but not as a word
     $this->assert_does_not_match( qr/OkBTopic/, $result, $result );
@@ -555,7 +563,7 @@ sub _septic {
     $sep  = defined $sep ? "separator=\"$sep\"" : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
-"%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%"
+"%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" excludetopic=\"Some*\" format=\"\$topic\" $head $foot $sep}%"
       );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -570,7 +578,7 @@ sub test_no_header_no_footer_no_separator_with_results {
     $this->_septic( 0, 0, undef, 1, <<'EXPECT');
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 EXPECT
 
     return;
@@ -587,7 +595,7 @@ EXPECT
 sub test_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 0, "", 1, <<'EXPECT');
-OkATopicOkBTopicOkTopic
+OkATopicOkBTopicOkÆTopic
 EXPECT
 
     return;
@@ -604,7 +612,7 @@ EXPECT
 sub test_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 0, ",", 1, <<'EXPECT');
-OkATopic,OkBTopic,OkTopic
+OkATopic,OkBTopic,OkÆTopic
 EXPECT
 
     return;
@@ -615,7 +623,7 @@ sub test_no_header_no_footer_with_nl_separator_with_results {
     $this->_septic( 0, 0, '$n', 1, <<'EXPECT');
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 EXPECT
 
     return;
@@ -635,7 +643,7 @@ sub test_no_header_with_footer_no_separator_with_results {
     $this->_septic( 0, 1, undef, 1, <<'EXPECT');
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 FOOT
 EXPECT
 
@@ -653,7 +661,7 @@ EXPECT
 sub test_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, "", 1, <<'EXPECT');
-OkATopicOkBTopicOkTopicFOOT
+OkATopicOkBTopicOkÆTopicFOOT
 EXPECT
 
     return;
@@ -670,7 +678,7 @@ EXPECT
 sub test_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, ",", 1, <<'EXPECT');
-OkATopic,OkBTopic,OkTopicFOOT
+OkATopic,OkBTopic,OkÆTopicFOOT
 EXPECT
 
     return;
@@ -684,7 +692,7 @@ sub test_with_header_with_footer_no_separator_with_results {
 HEAD
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 FOOT
 EXPECT
 
@@ -702,7 +710,7 @@ EXPECT
 sub test_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, "", 1, <<'EXPECT');
-HEADOkATopicOkBTopicOkTopicFOOT
+HEADOkATopicOkBTopicOkÆTopicFOOT
 EXPECT
 
     return;
@@ -719,7 +727,7 @@ EXPECT
 sub test_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, ",", 1, <<'EXPECT');
-HEADOkATopic,OkBTopic,OkTopicFOOT
+HEADOkATopic,OkBTopic,OkÆTopicFOOT
 EXPECT
 
     return;
@@ -741,7 +749,7 @@ sub test_with_header_no_footer_no_separator_with_results {
 HEAD
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 EXPECT
 
     return;
@@ -758,7 +766,7 @@ EXPECT
 sub test_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, "", 1, <<'EXPECT');
-HEADOkATopicOkBTopicOkTopic
+HEADOkATopicOkBTopicOkÆTopic
 EXPECT
 
     return;
@@ -775,7 +783,7 @@ EXPECT
 sub test_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, ",", 1, <<'EXPECT');
-HEADOkATopic,OkBTopic,OkTopic
+HEADOkATopic,OkBTopic,OkÆTopic
 EXPECT
 
     return;
@@ -794,7 +802,7 @@ sub test_no_header_no_footer_with_nl_separator {
     $this->_septic( 0, 0, '$n', 1, <<'EXPECT');
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 EXPECT
 
     return;
@@ -862,9 +870,10 @@ sub verify_regex_match {
 '%SEARCH{"match" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -879,9 +888,10 @@ sub verify_literal_match {
 '%SEARCH{"match" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -896,9 +906,10 @@ sub verify_keyword_match {
 '%SEARCH{"match" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -913,9 +924,10 @@ sub verify_word_match {
 '%SEARCH{"match" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/OkBTopic/,             $result );
+    $this->assert_does_not_match( qr/OkATopic/,             $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -932,9 +944,10 @@ sub verify_regex_matchme {
 '%SEARCH{"matchme" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -949,9 +962,10 @@ sub verify_literal_matchme {
 '%SEARCH{"matchme" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -966,9 +980,10 @@ sub verify_keyword_matchme {
 '%SEARCH{"matchme" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/OkBTopic/,  $result );
+    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -983,9 +998,10 @@ sub verify_word_matchme {
 '%SEARCH{"matchme" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/,             $result );
+    $this->assert_does_not_match( qr/OkATopic/,             $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -1002,9 +1018,10 @@ sub verify_minus_regex {
 '%SEARCH{"matchme -dont" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/OkBTopic/,             $result );
+    $this->assert_does_not_match( qr/OkATopic/,             $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -1019,9 +1036,10 @@ sub verify_minus_literal {
 '%SEARCH{"matchme -dont" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/OkBTopic/,             $result );
+    $this->assert_does_not_match( qr/OkATopic/,             $result );
+    $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
 }
@@ -1036,7 +1054,7 @@ sub verify_minus_keyword {
 '%SEARCH{"matchme -dont" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1053,7 +1071,7 @@ sub verify_minus_word {
 '%SEARCH{"matchme -dont" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1072,7 +1090,7 @@ sub verify_slash_regex {
 '%SEARCH{"blah/matchme.blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1089,7 +1107,7 @@ sub verify_slash_literal {
 '%SEARCH{"blah/matchme.blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1106,7 +1124,7 @@ sub verify_slash_keyword {
 '%SEARCH{"blah/matchme.blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1123,7 +1141,7 @@ sub verify_slash_word {
 '%SEARCH{"blah/matchme.blah" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkTopic/, $result );
+    $this->assert_matches( qr/OkÆTopic/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1142,9 +1160,9 @@ sub verify_quote_regex {
 '%SEARCH{"\"BLEEGLE dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/OkBTopic/,  $result );
 
     return;
 }
@@ -1159,9 +1177,9 @@ sub verify_quote_literal {
 '%SEARCH{"\"BLEEGLE dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/OkBTopic/,  $result );
 
     return;
 }
@@ -1176,7 +1194,7 @@ sub verify_quote_keyword {
 '%SEARCH{"\"BLEEGLE dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkTopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/, $result );
     $this->assert_matches( qr/OkBTopic/, $result );
     $this->assert_matches( qr/OkATopic/, $result );
 
@@ -1191,8 +1209,8 @@ sub verify_quote_word {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"\"BLEEGLE dont\"" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
-    $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkÆTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/,  $result );
     $this->assert_matches( qr/OkBTopic/, $result );
 
     return;
@@ -1202,13 +1220,13 @@ sub verify_SEARCH_3860 {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%SEARCH{"BLEEGLE" topic="OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
+%SEARCH{"BLEEGLE" topic="OkÆTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
     my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%SEARCH{"BLEEGLE" topic="OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
+%SEARCH{"BLEEGLE" topic="OkÆTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
@@ -1375,12 +1393,13 @@ sub test_footer_with_ntopics {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
+'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic" excludetopic="SomeOther*"}%'
       );
 
     $this->assert_str_equals(
-        join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
-        $result );
+        join( "\n", sort qw(OkATopic OkBTopic OkÆTopic) ) . "\nTotal found: 3",
+        $result
+    );
 
     return;
 }
@@ -1411,7 +1430,7 @@ sub test_footer_with_ntopics_empty_format {
 '%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
       );
 
-    $this->assert_str_equals( "Total found: 3", $result );
+    $this->assert_str_equals( "Total found: 4", $result );
 
     return;
 }
@@ -1422,26 +1441,26 @@ sub test_nofinalnewline {
     # nofinalnewline="off"
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
+'%SEARCH{"name~\'OkÆTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
       );
 
-    $this->assert_str_equals( "OkTopic\n", $result );
+    $this->assert_str_equals( "OkÆTopic\n", $result );
 
     # nofinalnewline="on"
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
+'%SEARCH{"name~\'OkÆTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
       );
 
-    $this->assert_str_equals( "OkTopic", $result );
+    $this->assert_str_equals( "OkÆTopic", $result );
 
     # nofinalnewline should default be on
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic"}%'
+'%SEARCH{"name~\'OkÆTopic\'" type="query"  nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_str_equals( "OkTopic", $result );
+    $this->assert_str_equals( "OkÆTopic", $result );
 
     return;
 }
@@ -1501,7 +1520,7 @@ sub test_format_tokens_topic_truncated {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" format="I found $topic(5,...)"}%'
+'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" format="I found $topic(5,...)" excludetopic="SomeOther*"}%'
       );
 
     $this->assert_str_equals(
@@ -1761,7 +1780,8 @@ HERE
 
 # NOTE: most query ops are tested in Fn_IF.pm, and are not re-tested here
 
-my $stdCrap = 'type="query" nonoise="on" format="$topic" separator=" "}%';
+my $stdCrap =
+'type="query" nonoise="on" format="$topic" separator=" " excludetopic="Some*"}%';
 
 sub verify_parentQuery {
     my $this = shift;
@@ -2300,7 +2320,7 @@ sub test_pattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
       );
     $this->assert_matches( qr/Xdontmatchme\.Y/, $result );
     $this->assert_matches( qr/Xdont.matchmeY/,  $result );
@@ -2333,7 +2353,7 @@ sub test_badpattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
       );
 
     # If (??{ is evaluated, the topics should match:
@@ -2483,15 +2503,15 @@ sub verify_getTopicList {
         {},
         'no filters, all topics in test_web',
         [
-            'OkATopic', 'OkBTopic',
-            'OkTopic',  'TestTopicSEARCH',
-            'WebPreferences'
+            'OkATopic',        'OkBTopic',
+            'OkÆTopic',       'SomeOtherÆØÅTopic',
+            'TestTopicSEARCH', 'WebPreferences'
         ],
     );
     $this->_getTopicList(
         '_default',
         {},
-        'no filters, all topics in test_web',
+        'no filters, all topics in default web',
         [
             'WebAtom',           'WebChanges',
             'WebCreateNewTopic', 'WebHome',
@@ -2507,7 +2527,7 @@ sub verify_getTopicList {
         $this->{test_web},
         { includeTopics => 'Ok*' },
         'comma separated list',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
     $this->_getTopicList(
         '_default',
@@ -2526,10 +2546,10 @@ sub verify_getTopicList {
     #comma separated list specifed for inclusion
     $this->_getTopicList(
         $this->{test_web},
-        { includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic' },
+        { includeTopics => 'TestTopicSEARCH,OkÆTopic,NoSuchTopic' },
         'comma separated list',
-        [ 'OkTopic', 'TestTopicSEARCH' ],
-        'Foswiki,<,1.2' => [ 'TestTopicSEARCH', 'OkTopic' ],
+        [ 'OkÆTopic', 'TestTopicSEARCH' ],
+        'Foswiki,<,1.2' => [ 'TestTopicSEARCH', 'OkÆTopic' ],
     );
     $this->_getTopicList(
         '_default',
@@ -2542,14 +2562,14 @@ sub verify_getTopicList {
     #excludes
     $this->_getTopicList(
         $this->{test_web},
-        { excludeTopics => 'NoSuchTopic,OkBTopic' },
+        { excludeTopics => 'NoSuchTopic,OkBTopic,SomeOtherÆØÅTopic' },
         'no filters, all topics in test_web',
-        [ 'OkATopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences' ],
+        [ 'OkATopic', 'OkÆTopic', 'TestTopicSEARCH', 'WebPreferences' ],
     );
     $this->_getTopicList(
         '_default',
         { excludeTopics => 'WebSearch' },
-        'no filters, all topics in test_web',
+        'no filters, all topics in default web',
         [
             'WebAtom',           'WebChanges',
             'WebCreateNewTopic', 'WebHome',
@@ -2566,16 +2586,16 @@ sub verify_getTopicList {
         { includeTopics => '*' },
         'all topics, using wildcard',
         [
-            'OkATopic', 'OkBTopic',
-            'OkTopic',  'TestTopicSEARCH',
-            'WebPreferences'
+            'OkATopic',        'OkBTopic',
+            'OkÆTopic',       'SomeOtherÆØÅTopic',
+            'TestTopicSEARCH', 'WebPreferences'
         ],
     );
     $this->_getTopicList(
         $this->{test_web},
         { includeTopics => 'Ok*' },
         'Ok* topics, using wildcard',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
     $this->_getTopicList(
         $this->{test_web},
@@ -2593,7 +2613,7 @@ sub verify_getTopicList {
             casesensitive => 0
         },
         'case insensitive ok* topics, using wildcard',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
 
     if ( File::Spec->case_tolerant() ) {
@@ -2631,9 +2651,9 @@ sub verify_getTopicList {
         },
         'all topics, using wildcard',
         [
-            'OkATopic', 'OkBTopic',
-            'OkTopic',  'TestTopicSEARCH',
-            'WebPreferences'
+            'OkATopic',        'OkBTopic',
+            'OkÆTopic',       'SomeOtherÆØÅTopic',
+            'TestTopicSEARCH', 'WebPreferences'
         ],
     );
     $this->_getTopicList(
@@ -2643,7 +2663,7 @@ sub verify_getTopicList {
             excludeTopics => 'okatopic'
         },
         'Ok* topics, using wildcard',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
     $this->_getTopicList(
         $this->{test_web},
@@ -2663,7 +2683,7 @@ sub verify_getTopicList {
             casesensitive => 0
         },
         'case insensitive ok* topics, using wildcard',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
 
     $this->_getTopicList(
@@ -2674,7 +2694,7 @@ sub verify_getTopicList {
             casesensitive => 1
         },
         'case sensitive okatopic topic 2',
-        [ 'OkBTopic', 'OkTopic' ],
+        [ 'OkBTopic', 'OkÆTopic' ],
     );
 
     $this->_getTopicList(
@@ -2685,7 +2705,7 @@ sub verify_getTopicList {
             casesensitive => 1
         },
         'case sensitive okatopic topic 3',
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        [ 'OkATopic', 'OkBTopic', 'OkÆTopic' ],
     );
 
     $this->_getTopicList(
@@ -2696,7 +2716,7 @@ sub verify_getTopicList {
             casesensitive => 0
         },
         'case insensitive okatopic topic',
-        [ 'OkBTopic', 'OkTopic' ],
+        [ 'OkBTopic', 'OkÆTopic' ],
     );
 
     return;
@@ -2712,8 +2732,9 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected =
+      '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -2728,16 +2749,18 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected =
+      '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected =
+      '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
     #topic scope
@@ -2746,7 +2769,7 @@ sub verify_casesensitivesetting {
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -2762,7 +2785,7 @@ sub verify_casesensitivesetting {
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -2770,7 +2793,7 @@ sub verify_casesensitivesetting {
 '%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkÆTopic';
     $this->assert_str_equals( $expected, $actual );
 
     return;
@@ -4013,6 +4036,10 @@ sub _cut_the_crap {
     $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
     $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
     $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
+    $result =
+      HTML::Entities::encode_entities(
+        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result ),
+        '^\n\x20-\x25\x27-\x7e' );
     return $result;
 }
 
@@ -4031,7 +4058,7 @@ NEW - <a href="">DATE - TIME</a> by !WikiGuest
 <nop>BLEEGLE dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
@@ -4068,7 +4095,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 <a href="">OkBTopic</a>
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
@@ -4090,7 +4117,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 <nop>BLEEGLE dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
@@ -4118,7 +4145,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 
 
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
@@ -4140,7 +4167,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 <nop>BLEEGLE dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
@@ -4168,7 +4195,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 <nop>BLEEGLE dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
@@ -4196,7 +4223,7 @@ NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGue
 <nop>BLEEGLE dont.matchmeblah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
-<a href="">OkTopic</a>
+<a href="">Ok&AElig;Topic</a>
 <nop>BLEEGLE blah/matchme.blah
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
@@ -4214,6 +4241,15 @@ CRUD
     my $result2 =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
+    $result =
+      HTML::Entities::encode_entities(
+        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result ),
+        '^\n\x20-\x25\x27-\x7e' );
+    $result2 =
+      HTML::Entities::encode_entities(
+        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result2 ),
+        '^\n\x20-\x25\x27-\x7e' );
+
     $this->assert_html_equals( $result, $result2 );
 
     return;
@@ -4243,10 +4279,10 @@ sub verify_search_type_word {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="word" excludetopic="SomeOther*"}%'
       );
-    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences',
-        $result );
+    $this->assert_str_equals(
+        'OkATopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $minus_dontcount = $#list;
     $this->assert( $minus_dontcount == 3 );
@@ -4255,10 +4291,10 @@ sub verify_search_type_word {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="word" excludetopic="SomeOther*"}%'
       );
-    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences',
-        $result );
+    $this->assert_str_equals(
+        'OkATopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $bang_dontcount = $#list;
     $this->assert( $bang_dontcount == 3 );
@@ -4274,10 +4310,10 @@ sub verify_search_type_word {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word" excludetopic="Some*"}%'
       );
     $this->assert_str_equals(
-        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+        'OkATopic,OkBTopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
@@ -4309,9 +4345,9 @@ sub verify_search_type_keyword {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword" excludetopic="SomeOther*"}%'
       );
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+    $this->assert_str_equals( 'OkÆTopic,TestTopicSEARCH,WebPreferences',
         $result );
     @list = split( /,/, $result );
     my $minus_dontcount = $#list;
@@ -4321,9 +4357,9 @@ sub verify_search_type_keyword {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword" excludetopic="SomeOther*"}%'
       );
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+    $this->assert_str_equals( 'OkÆTopic,TestTopicSEARCH,WebPreferences',
         $result );
     @list = split( /,/, $result );
     my $bang_dontcount = $#list;
@@ -4340,10 +4376,10 @@ sub verify_search_type_keyword {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals(
-        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+        'OkATopic,OkBTopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
@@ -4356,7 +4392,7 @@ sub verify_search_type_literal {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
     my @list = split( /,/, $result );
@@ -4365,7 +4401,7 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
     @list = split( /,/, $result );
     $this->assert_str_equals( '', $result );
@@ -4375,7 +4411,7 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( '', $result );
     @list = split( /,/, $result );
@@ -4384,9 +4420,9 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+    $this->assert_str_equals( 'OkÆTopic,TestTopicSEARCH,WebPreferences',
         $result );
     @list = split( /,/, $result );
     my $bang_dontcount = $#list;
@@ -4394,7 +4430,7 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( '', $result );
     @list = split( /,/, $result );
@@ -4403,10 +4439,10 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals(
-        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+        'OkATopic,OkBTopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
@@ -4419,7 +4455,7 @@ sub verify_search_type_regex {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="regex" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
     my @list = split( /,/, $result );
@@ -4438,7 +4474,7 @@ sub verify_search_type_regex {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="regex" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( '', $result );
     @list = split( /,/, $result );
@@ -4447,9 +4483,9 @@ sub verify_search_type_regex {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="regex" excludetopic="Some*"}%'
       );
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+    $this->assert_str_equals( 'OkÆTopic,TestTopicSEARCH,WebPreferences',
         $result );
     @list = split( /,/, $result );
     my $bang_dontcount = $#list;
@@ -4457,7 +4493,7 @@ sub verify_search_type_regex {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals( '', $result );
     @list = split( /,/, $result );
@@ -4466,10 +4502,10 @@ sub verify_search_type_regex {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex" excludetopic="SomeOther*"}%'
       );
     $this->assert_str_equals(
-        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+        'OkATopic,OkBTopic,OkÆTopic,TestTopicSEARCH,WebPreferences', $result );
     @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
@@ -5837,13 +5873,15 @@ sub test_orderTopic {
     my $search =
         '%SEARCH{".*" type="regex" scope="topic" web="'
       . $this->{test_web}
-      . '" format="$topic" separator="," nonoise="on" ';
+      . '" format="$topic" separator="," nonoise="on" '
+      . 'excludetopic="SomeOtherÆØÅTopic" ';
     my $result;
 
     #DEFAULT sort=topic..
     $result = $this->{test_topicObject}->expandMacros( $search . '}%' );
     $this->assert_str_equals(
-"OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
+
+"OkATopic,OkBTopic,OkÆTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
         $result
     );
 
@@ -5851,7 +5889,7 @@ sub test_orderTopic {
     $result =
       $this->{test_topicObject}->expandMacros( $search . 'order="topic"}%' );
     $this->assert_str_equals(
-"OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
+"OkATopic,OkBTopic,OkÆTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
         $result
     );
 
@@ -5859,7 +5897,7 @@ sub test_orderTopic {
       $this->{test_topicObject}
       ->expandMacros( $search . 'order="topic" reverse="on"}%' );
     $this->assert_str_equals(
-"WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,OkBTopic,OkATopic",
+"WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkÆTopic,OkBTopic,OkATopic",
         $result
     );
 
@@ -5869,7 +5907,7 @@ sub test_orderTopic {
       ->expandMacros( $search . 'order="created" format="$topic"}%' );
 
     $this->assert_str_equals(
-"QueryTopicTwo,QueryTopicThree,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
+"QueryTopicTwo,QueryTopicThree,QueryTopic,WebPreferences,TestTopicSEARCH,OkÆTopic,OkATopic,OkBTopic",
         $result
     );
 
@@ -5878,7 +5916,7 @@ sub test_orderTopic {
       ->expandMacros( $search . 'order="created" reverse="on"}%' );
 
     $this->assert_str_equals(
-"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicThree,QueryTopicTwo",
+"OkBTopic,OkATopic,OkÆTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicThree,QueryTopicTwo",
         $result
     );
 
@@ -5887,7 +5925,7 @@ sub test_orderTopic {
       $this->{test_topicObject}->expandMacros( $search . 'order="modified"}%' );
 
     $this->assert_str_equals(
-"QueryTopicThree,QueryTopic,QueryTopicTwo,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
+"QueryTopicThree,QueryTopic,QueryTopicTwo,WebPreferences,TestTopicSEARCH,OkÆTopic,OkATopic,OkBTopic",
         $result
     );
 
@@ -5897,7 +5935,7 @@ sub test_orderTopic {
 
 #be very careful with this test and the one above - the change in order between QueryTopicTwo,QueryTopic is due to them having the same date, so its sorting by topicname
     $this->assert_str_equals(
-"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicTwo,QueryTopicThree",
+"OkBTopic,OkATopic,OkÆTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicTwo,QueryTopicThree",
         $result
     );
 
@@ -5907,9 +5945,9 @@ sub test_orderTopic {
       $this->{test_topicObject}->expandMacros(
         $search . 'order="editby" format="$topic ($wikiname)"}%' );
 
-#    $this->assert_str_equals( "QueryTopicThree (Gerald),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)", $result );
+#    $this->assert_str_equals( "QueryTopicThree (Gerald),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkÆTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)", $result );
 #    $this->assert_str_equals(
-#"QueryTopicThree (Gerald),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)",
+#"QueryTopicThree (Gerald),OkÆTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)",
 #        $result
 #    );
 #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
@@ -5924,9 +5962,9 @@ qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopic \(simon\),QueryTopicTwo 
       $this->{test_topicObject}->expandMacros(
         $search . 'order="editby" reverse="on" format="$topic ($wikiname)"}%' );
 
-#    $this->assert_str_equals( "QueryTopic (simon),QueryTopicTwo (admin),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicThree (Gerald)", $result );
+#    $this->assert_str_equals( "QueryTopic (simon),QueryTopicTwo (admin),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkÆTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicThree (Gerald)", $result );
 #    $this->assert_str_equals(
-#"QueryTopic (simon),QueryTopicTwo (admin),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicThree (Gerald)",
+#"QueryTopic (simon),QueryTopicTwo (admin),OkÆTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicThree (Gerald)",
 #        $result
 #    );
 #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
@@ -5943,9 +5981,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldA)" format="$topic ($formfield(FieldA))"}%'
       );
 
-#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)", $result );
+#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)", $result );
 #    $this->assert_str_equals(
-#"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)",
+#"OkÆTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)",
 #        $result
 #    );
     $this->assert_matches(
@@ -5958,9 +5996,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldA)" reverse="on" format="$topic ($formfield(FieldA))"}%'
       );
 
-#$this->assert_str_equals( "QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+#$this->assert_str_equals( "QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
+"QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -5970,9 +6008,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldB)" format="$topic ($formfield(FieldB))"}%'
       );
 
-#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)", $result );
+#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)", $result );
     $this->assert_str_equals(
-"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)",
+"OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)",
         $result
     );
 
@@ -5981,9 +6019,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldB)" reverse="on" format="$topic ($formfield(FieldB))"}%'
       );
 
-#$this->assert_str_equals( "QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+#$this->assert_str_equals( "QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
+"QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -5993,9 +6031,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldC)" format="$topic ($formfield(FieldC))"}%'
       );
 
-#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)", $result );
+#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)", $result );
     $this->assert_str_equals(
-"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)",
+"OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)",
         $result
     );
 
@@ -6004,9 +6042,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(FieldC)" reverse="on" format="$topic ($formfield(FieldC))"}%'
       );
 
-#$this->assert_str_equals( "QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+#$this->assert_str_equals( "QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
+"QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -6016,9 +6054,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(Firstname)" format="$topic ($formfield(Firstname))"}%'
       );
 
-#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)", $result );
+#$this->assert_str_equals( "OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)", $result );
     $this->assert_str_equals(
-"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)",
+"OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)",
         $result
     );
 
@@ -6027,9 +6065,9 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(Firstname)" reverse="on" format="$topic ($formfield(Firstname))"}%'
       );
 
-#$this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+#$this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
+"QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -6039,7 +6077,7 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%' );
 
     $this->assert_str_equals(
-"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
+"OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
         $result
     );
 
@@ -6049,7 +6087,7 @@ qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree
       );
 
     $this->assert_str_equals(
-"QueryTopic (12 Dec 2010),QueryTopicTwo (15 Nov 2010),QueryTopicThree (30 Jan 2010),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
+"QueryTopic (12 Dec 2010),QueryTopicTwo (15 Nov 2010),QueryTopicThree (30 Jan 2010),OkATopic (),OkBTopic (),OkÆTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -6063,14 +6101,14 @@ sub verify_bad_order {
     my $search =
         '%SEARCH{".*" type="regex" scope="topic" web="'
       . $this->{test_web}
-      . '" format="$topic" separator="," nonoise="on" ';
+      . '" format="$topic" separator="," nonoise="on"  excludetopic="Some*"';
     my $result =
       $this->{test_topicObject}
       ->expandMacros( $search . 'order="formfield()"}%' );
 
     # Should get the default search order (or an error message, perhaps?)
     $this->assert_str_equals(
-"OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
+"OkATopic,OkBTopic,OkÆTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
         $result
     );
 
@@ -6115,13 +6153,14 @@ footer: \$web=$this->{test_web}", $result
   pager="on"
   pagesize="4"
   pagerformat="pagerformat: $dollarweb=$web"
+  excludetopic="*Other*"
 }%'
     );
 
     $this->assert_str_equals(
         "   1 OkATopic
    1 OkBTopic
-   1 OkTopic
+   1 OkÆTopic
    1 TestTopicSEARCH
 pagerformat: \$web=$this->{test_web}", $result
     );
@@ -6354,7 +6393,7 @@ sub test_minus_scope_all {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+'%SEARCH{"-Virtual" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
     my $expected = <<'EXPECT';
@@ -6363,7 +6402,7 @@ NoBeer
 NoLife
 OkATopic
 OkBTopic
-OkTopic
+OkÆTopic
 SomeBeer
 TestTopicSEARCH
 WebPreferences
@@ -6372,7 +6411,7 @@ EXPECT
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+'%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
     $expected = <<'EXPECT';
@@ -6388,7 +6427,7 @@ EXPECT
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"-Virtual Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+'%SEARCH{"-Virtual Beer" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
     $expected = <<'EXPECT';
@@ -6401,7 +6440,7 @@ EXPECT
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+'%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
     $expected = <<'EXPECT';
@@ -6554,7 +6593,7 @@ sub verify_multiple_order_fields {
         '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" '
           . $stdCrap );
     $this->assert_str_equals(
-'OkATopic OkBTopic OkTopic QueryTopic QueryTopicTwo TestTopicSEARCH WebPreferences',
+'OkATopic OkBTopic OkÆTopic QueryTopic QueryTopicTwo TestTopicSEARCH WebPreferences',
         $result
     );
 

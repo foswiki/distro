@@ -490,11 +490,11 @@ sub convertTopicPatternToRegex {
 
     # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
     my @arr =
-      map { s/[^\*\_\-\+$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
+      map { $_ = quotemeta($_); s/(^|(?<!\\))\\\*/\.\*/go; $_ }
       split( /(?:,\s*|\|)/, $topic );
+
     return '' unless (@arr);
 
-    # ( 'Web.*', 'FooBar' ) ==> "^(Web.*|FooBar)$"
     return '^(' . join( '|', @arr ) . ')$';
 }
 
