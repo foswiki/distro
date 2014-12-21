@@ -557,7 +557,7 @@ sub _readChanges {
         $row{user}     = shift(@row);
         $row{time}     = shift(@row) || 0;
         $row{revision} = shift(@row) || 1;
-        $row{more}     = shift(@row);
+        $row{more}     = shift(@row) || '';
 
         # Try and decode 'more', for compatibility mode
         my $ok = 0;
