@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1411624271" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419141850" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 
 ---+!! Perl dependencies for Foswiki and Extensions
@@ -22,6 +22,6 @@ requiring the highest minimum version is underlined.
 
 ---++ Foswiki extension dependencies
 
-%PERLDEPENDENCYREPORT{'extensions'}%
+%PERLDEPENDENCYREPORT{"extensions"}%
 </noautolink>
 

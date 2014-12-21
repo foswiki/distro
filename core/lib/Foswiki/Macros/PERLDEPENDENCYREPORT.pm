@@ -80,7 +80,8 @@ sub _analyzeExtensions {
       File::Spec->catfile( @dir, 'Foswiki', 'Contrib', 'core', 'DEPENDENCIES' );
 
     my %seen;
-    my $perlModules = _loadDEPENDENCIES( $from, 'core', \%seen );
+    my @mods;
+    my $perlModules = \@mods;
 
     foreach my $info ( values %seen ) {
         if ( $info->{usage} ) {
