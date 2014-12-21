@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417540527" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142127" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -371,13 +371,8 @@ $Foswiki::cfg{foobar} = 'some archaic root-level setting';
 #LinkingToConfigure
 ---+++ Linking to =configure=
 
-You can link to your =configure= settings by using the following:
+(As of Foswiki 1.2, it is no longer possible to directly link into Configure tabs.
 
-<verbatim class="tml">
-[[%SCRIPTURL{"configure"}%/#BathPlugin$Extensions][configure]]
-</verbatim>
-
-Replace =BathPlugin= with the name of your extension.
 
 #MaintainPlugins
 ---++ Maintaining Plugins

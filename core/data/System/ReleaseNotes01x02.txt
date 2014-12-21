@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417999293" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -174,13 +174,13 @@ users access the wiki through a proxy or other devices that might cause multiple
 
 With =UseIPMatching= enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
-There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
+There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure =Security And Authentication= tab]] interface.
 
 ---+++++ Optional Sessions for Guest users
 
 _EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
 However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
-[[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface for more information.
+[[%SCRIPTURLPATH{"configure"}%][configure =Security and Authentication= tab]] interface for more information.
 
 ---++++ Deprecated =AllowInlineScript= configuration setting removed
 

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarAUTHREALM
 ---+++ AUTHREALM -- authentication realm
-   * String defined as ={AuthRealm}= expert option in [[%SCRIPTURLPATH{"configure"}%#Login$SecurityAndAuthentication][configure]]. This is used in certain password encodings, and in login templates as part of the login prompt.
+   * String defined as ={AuthRealm}= expert option in [[%SCRIPTURLPATH{"configure"}%][configure]] =Security And Authentication= tab, =Login sub-tab.. This is used in certain password encodings, and in login templates as part of the login prompt.
    * Syntax: =%<nop>AUTHREALM%=
    * Expands to: %AUTHREALM%
    * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVARIABLE][SESSION_VARIABLE]]

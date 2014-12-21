@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1316588010" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419139372" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -18,7 +18,7 @@ Attributes are defined as a =TABLEPLUGIN_TABLEATTRIBUTES= [[%SYSTEMWEB%.Preferen
 
 ---+++ Specifying and overriding attributes
 Table attributes can be set in different ways. In top down order:
-   1 As default preference in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]].
+   1 As default preference in [[%SCRIPTURL{"configure"}%][Configure -> =Extensions= tab -> =TablePlugin= sub-tab]].
    1 As preference in a topic: =TABLEPLUGIN_TABLEATTRIBUTES=: =Set TABLEPLUGIN_TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
    1 As parameters to the =TABLE= macro: =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%=
 

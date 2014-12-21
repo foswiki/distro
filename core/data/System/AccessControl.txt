@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142127" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -282,7 +282,7 @@ If needed, you can further restrict access to selected webs with ALLOWWEBVIEW an
 ---++++ When using Template Login
 
 [[UserAuthentication#TemplateLogin][User authentication with TemplateLogin]] is enabled on your site.   To require login for *all* scripts:
-   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon= and =configure=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%#Login$SecurityAndAuthentication][configure]]. For a default Foswiki installation:
+   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon= and =configure=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%][configure]], =Security And Authentication= tab, =Login= sub-tab, For a default Foswiki installation:
 
    * Default (open) site:
 <verbatim>

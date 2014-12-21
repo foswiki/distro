@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417550116" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142238" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -33,7 +33,7 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 If you wish to limit the plugin to one or more webs, specifiy the list of Active Webs in one of the following ways.   This list is a comma-separates list of Web names.  A "Regular-expression" style wildcard can be used.  For
 example: =%USERSWEB%,%SANDBOXWEB%.*= would permit the %USERSWEB% web, %SANDBOXWEB%, including subwebs of %SANDBOXWEB%, or any web prefixed with %SANDBOXWEB%.
 
-   * [[%SCRIPTURL{"configure"}%#SubscribePlugin$Extensions][configure -> Extensions -> SubscribePlugin]]
+   * [[%SCRIPTURL{"configure"}%][configure -> =Extensions= tab -> =SubscribePlugin= sub-tab]]
       * ={Plugins}{SubscribePlugin}{ActiveWebs} = "%USERSWEB%,%SANDBOXWEB%.*=
    * As a standard preference setting, set in %USERSWEB%.SitePreferences or individual WebPreferences topics.
       * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = %USERSWEB%,%SANDBOXWEB%.*=
@@ -78,5 +78,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1417550116" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1417550116" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1419142238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1419142238" user="ProjectContributor" version="1"}%

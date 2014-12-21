@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419130075" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -22,7 +22,7 @@ Authentication isn't just to do with [[access control]]. %WIKITOOLNAME% uses aut
 
 Once a user is logged on, they can be remembered using a _Client Session_ stored in a cookie in the browser (or by other less elegant means if the user has disabled cookies). This avoids them having to log on again and again.
 
-%WIKITOOLNAME% user authentication is configured through the Security Settings pane in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
+%WIKITOOLNAME% user authentication is configured through the Security Settings pane in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security and Authentication= tab..
 
 Please note FileAttachments are not protected by %WIKITOOLNAME% User Authentication in a default configuration.
 
@@ -76,7 +76,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 
 ---++++ Enabling Template Login
 <div class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</div>
-   1 Using [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]]:
+   1 Using [[%SCRIPTURLPATH{"configure"}%][configure]] =Security And Authentication= tab
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
       <div class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</div>
@@ -203,7 +203,7 @@ For a number of reasons, it may not be possible to use cookies. In this case, %W
 If =$Foswiki::cfg{Sessions}{UseIPMatching}= is enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used 
 when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
-There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
+There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab.
 
 This option is enabled by default in Foswiki 1.2.  It should be disabled if mobile users encounter issues due to frequent IP address changes.  It is of
 limited value if the users access %WIKITOOLNAME% via a proxy or other device that causes multiple users to share the same IP address.
@@ -212,7 +212,7 @@ limited value if the users access %WIKITOOLNAME% via a proxy or other device tha
 
 _EXPERIMENTAL feature:_ In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is generally safe if guests have no ability to update.
 However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, (See VarSESSIONVAR) then guest sessions should be enabled. See the
-[[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface for more information.
+[[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab for more information.
 
 #UsernameVsLoginName
 ---++ Username vs. Login Username
@@ -225,7 +225,7 @@ This section applies only if you are using authentication with existing login na
 
    * *Foswiki Username:* Your name in WikiNotation, ex: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
 
-Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%#Registration$SecurityAndAuthentication][configure]]. The default is to use your WikiName as a login name.
+Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], =Security and Authentication= tab, =Registration= sub-tab. The default is to use your WikiName as a login name.
 
 <div class='foswikiHelp'>
 *NOTE:* *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
@@ -254,7 +254,7 @@ If the ={PasswordManager}= does not support password changing, ChangeEmailAddres
 #IndividualScripts
 ---++ Controlling access to individual scripts
 You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.  %T% Any scripts listed as requiring authentication will not be usable by the Guest user.  If you require that %USERSWEB%.WikiGuest be allowed to edit topics on your site, =edit= and =save= must be removed from the list of scripts requiring authentication.
-   * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%#Login$SecurityAndAuthentication][configure]]
+   * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%][configure]] =Security and Authentication= tab, =Login= sub-tab.
    * For Apache Login, add/remove the script from =bin/.htaccess=, or from the !FilesMatch line in the Apache configuration.
 #HowTo
 ---++ How to choose an authentication method

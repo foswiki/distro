@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
 
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTINCLUDE%
@@ -63,7 +63,7 @@ See SiteToolStatistics for detailed configuration and customization information.
 ---++ Log Files
 
 Foswiki generates an event log which is used by the statistics script
-   * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%#LoggingAndStatistics][configure]]
+   * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%][configure]] =Logging and Statistics= tab.
    * The file name is =events.log= Old events are archived as =events.&lt;year&gt;&lt;month&gt;=
    * Example path name: =working/logs/events.log=
    * Each access gets logged as: %BR%
@@ -100,7 +100,7 @@ See also [[%SYSTEMWEB%.InstallationGuidePart2#EmailConfig]]
 
 Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
-The preferred place to configure e-mail is in the [[%SCRIPTURLPATH{"configure"}%#MailAndProxies][configure "Mail and Proxies" tab]] tool (=LocalSite.cfg=). The configure tool fully documents these setting.
+The preferred place to configure e-mail is in the [[%SCRIPTURLPATH{"configure"}%][configure =Mail= tab]] tool (=LocalSite.cfg=). The configure tool fully documents these setting.
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
@@ -109,11 +109,11 @@ The notify e-mail uses the default =changes.tmpl= template, or a skin if activat
 ---++++ Legacy and current configuration
 
 <div class="foswikiHelp">
-%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki.
+%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki.   *These settings are no longer used and have been removed*.
 </div>
 
 %TABLE{sort="off"}%
-| *Parameter* | *[[%SCRIPTURLPATH{"configure"}%#MailAndProxies][configure]]<br />(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br />(Legacy)* | *Default* | *Description* |
+| *Parameter* | *[[%SCRIPTURLPATH{"configure"}%][configure]]<br />(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br />(Legacy)* | *Default* | *Description* |
 | Global enable | ={EnableEmail}= | _n/a_ | =enabled= | Globally enable/disable email support. |
 | Extermal mail program | ={MailProgram}=  | _n/a_ | ='/usr/sbin/sendmail -t -oi -oeq'= | E-mail program used when Net:SMTP is unavailable |
 | Mail relay host | ={SMTP}{MAILHOST}= | =SMTPMAILHOST= | _not set_ | Destination SMTP Server used to receive and relay email. Net::SMTP is disabled if this is not set. |

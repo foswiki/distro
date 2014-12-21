@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419139037" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -26,7 +26,7 @@ To simplify your upgrades, do not modify =%SYSTEMWEB%.DefaultPreferences=. Inste
 
 To see the available preferences that can be set, look through =[[%SYSTEMWEB%.DefaultPreferences]]=.
 
-If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the ={SitePrefsTopicName}= setting (visible when Expert mode is enabled). It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=.
+If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the ={SitePrefsTopicName}= setting (visible when Expert mode is enabled). *It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=*.
 
 ---++++ Select the desired security level
 
@@ -34,7 +34,7 @@ Foswiki has a many security features that can be enabled/disabled and adjusted t
 
 In many cases enabling a security feature prevents other features. It is a balance that the administrator has to choose depending on the purpose of the Foswiki installation (confidential vs public knowledge), the type of installation (intranet vs internet), and your type of business.
 
-A new administrator is encouraged to read Foswiki:Support.SecurityFeatures which gives a walkthrough of the different security aspects and how to set the appropriate configuration settings. Note that that some security settings are only visible in configure in "expert mode" which you enter by clicking the "Yes, I've read all the documentation" button at the top of the configure screen.
+A new administrator is encouraged to read Foswiki:Support.SecurityFeatures which gives a walkthrough of the different security aspects and how to set the appropriate configuration settings. Note that that some security settings are only visible in configure in "expert mode" which you enter by clicking the "Show expert options" button at the top of the configure screen.
 
 #EmailConfig
 ---++++ Enable Email Notification

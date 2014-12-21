@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419139236" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -101,7 +101,7 @@ The existence of the <nop>UserName topic should also prevent that user name from
 
 ---++ Other registration controls
 
-Registration process is configured at %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication
+Registration process is configured at %SCRIPTURL{"configure"}% =Security and Authentication= tab, =Registration= sub-tab.
 
 ---+++ Confirmation
 
@@ -116,7 +116,7 @@ Normally Foswiki does not require unique email addresses. Multiple users can reg
 
 Normally any email domain can be used for registration.  Set the _expert_ setting ={Register}{EmailFilter}= to restrict the domains usable for registration.  See the configure help for more details.
 
-See the configure help at %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication for more details.
+See the configure help at %SCRIPTURL{"configure"}% =Security and Authentication= tab, =Registration= sub-tab, for more details.
 
 ---++ Customizing registration Emails.
 Foswiki's Registration can send 3 emails whose output is governed by templates:
@@ -202,7 +202,7 @@ any files that are replaced when Foswiki is upgraded.
    4 _optional_ Copy and modify the the Wiki admin notification - =templates/registernotifyadmin.tmpl= to =templates/registernotifyadmin.approval.tmpl=
    5 Create a new template to override the registration response to the user:  =templates/messages.approval.tmpl=
    6 Edit your [[%LOCALSITEPREFS%]] topic and enable the new skin, and set the %<nop>REGISTRATIONAPPROVAL% and %<nop>REGISTRATIONAPPROVALEMAIL% variables
-   7 Enable confirmation email messages using %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication to enable ={Register}{NeedVerification}=
+   7 Enable confirmation email messages using %SCRIPTURL{"configure"}% =Security and Authentication= tab =Registration= sub-tab to enable ={Register}{NeedVerification}=
    8 Also, set the ={Register}{ExpireAfter}= setting to a value long enough to ensure that the approver has a chance to process the request before it expires.
 
 The following examples assume that Step 1 chose =approval= as the skin name.  And the registration notifications sent to the user and Wiki admin do not need to be modified.
@@ -317,4 +317,7 @@ Pending registration requests are stored in the
 ---
 *Related Topics:* AdminDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="%USERSWEB%.AdminGroup"}%
+
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="details"}%
+%META:PREFERENCE{name="PERMSET_CHANGE_DETAILS" title="PERMSET_CHANGE_DETAILS" type="Local" value="Main.AdminGroup"}%

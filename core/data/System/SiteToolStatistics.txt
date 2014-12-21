@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419139420" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Site Statistics
 %TOC%
@@ -93,10 +93,10 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 ---+++ Controlling access to the statistics script
 By default, the statistics script may be run by anyone, however the user must have =CHANGE= permission on the <nop>%STATISTICSTOPIC% topic. Statistics generation can create a significant workload on the server. In order to further restrict statistics generation:
 
-   * Add =statistics= to the [[%SCRIPTURL{"statistics"}%#Login$SecurityAndAuthentication][ ={AuthScripts}= list]] (This is now the default on Foswiki 1.1.4). This is required to prevent unauthenticated guest users from running =statistics=.
+   * Add =statistics= to the [[%SCRIPTURL{"configure"}%][configure]] =Security and Authentication= tab, =Login= sub-tab.(This is now the default on Foswiki 1.1.4). This is required to prevent unauthenticated guest users from running =statistics=.
       * If using Apache authentication, be sure to add it to the Apache configuration.
    * If desired, create a Group for users that should be permitted to run the statistics script, or use the !AdminGroup.
-   * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics][Configure: Logging and Statistics]] and set ={Stats}{StatisticsGroup}= to the group permitted to run statistics.
+   * Visit [[%SCRIPTURL{"configure"}%][configure]] =Logging and Statistics= tab, and set ={Stats}{StatisticsGroup}= to the group permitted to run statistics.
       * Note: Regardless of this setting, members of the !AdminGroup can always run statistics.
 
 ---+++ Configuring for automatic operation
@@ -136,15 +136,15 @@ When running from the command line or a cron job, you can pass parameters to the
 As of release 1.1.4 of Foswiki, the !WebStatistics topics are no longer shipped by default. The =bin/statistics= script can automatically create the required topics when enabled in the configuration, or when requested by URL Parameter =autocreate=1=.
 
    * If you want the Statistics topic to be automatically created whenever needed, in every web
-      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Always=
+      * Visit [[%SCRIPTURL{"configure"}%]] =Logging and Statistics= tab, and set ={Stats}{AutoCreateTopic}= to =Always=
 
    * If you want to manually add the <nop>%STATISTICSTOPIC% topic to a subset of webs
-      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Permitted=
+      * Visit [[%SCRIPTURL{"configure"}%]] =Logging and Statistics= tab, and set ={Stats}{AutoCreateTopic}= to =Permitted=
       * Use the below form to run =statistics= on one or more webs.
       * or add =-autocreate 1= to the statistics script as shown above.
 
    * If yow want to prohibit autocreate of <nop>%STATISTICSTOPIC% topics
-      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Prohibited=
+      * Visit [[%SCRIPTURL{"configure"}%]] =Logging and Statistics= and set ={Stats}{AutoCreateTopic}= to =Prohibited=
       * Note:  This is the default behavior.
 
 ---+++ Generating statistics manually by URL
@@ -201,5 +201,4 @@ Each <nop>%STATISTICSTOPIC% topic will continue to grow, a new row added every m
 %SEARCH{"." type="regex" topic="%STATISTICSTOPIC%*" excludetopic="%BASETOPIC%" scope="topic" nonoise="on" header="*Other Statistics Topics:*" format="   * $web.$topic"}%
 </verbatim>
 Following these steps will start a fresh statistics topic with a clean revision history.
-
 
