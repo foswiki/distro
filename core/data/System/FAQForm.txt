@@ -1,17 +1,22 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
-| *Name:*| *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
+%META:TOPICINFO{author="ProjectContributor" date="1419208502" format="1.1" version="1"}%
+| *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
 | <nop>TopicTitle  | text | 80 | | | H |
 | TopicClassification | select | 1 | | Classify a topic | |
 | Topic Summary | text | 80 | | Short summary of feature/bug/idea | |
 | Interested Parties | text | 80 | | Use for tracking and show key interested people | |
 | Related Topics | textboxlist | 40 | %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?contenttype=text/plain;skin=text;section=topics | Please add links to related topics | |
-
 <verbatim class="tml">
-%STARTSECTION{"topics"}%%SEARCH{
-    "lc(name)=~lc('.*%URLPARAM{"q"}%.*')"
-    web="%SYSTEMWEB%,%USERSWEB%"
-    type="query"
-    nonoise="on"
-    format="<literal>$web.$topic</literal>"
-}%%ENDSECTION{"topics"}%</verbatim>
+%STARTSECTION{"topics"}%<literal><noautolink>%SEARCH{
+  t="lc(name)~lc('*%URLPARAM{"term" default="somethingTAHTNevErExists"}%*')"
+  "1"
+  topic="*%URLPARAM{"term" default="somethingTaHTNeVERexists"}%*"
+  type="query"
+  nonoise="on"
+  header="["
+  format="\"$topic\""
+  separator=", "
+  footer="]"
+  web="%URLPARAM{"web" default="%WEB%"}%"
+}%</noautolink></literal>%ENDSECTION{"topics"}%
+</verbatim>
 <!-- %JQREQUIRE{"chili"}% -->
