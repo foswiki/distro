@@ -35,7 +35,15 @@ sub GROUPINFO {
 
     my $it;    #erator
     my @rows;
+
     if ($group) {
+        if ( $group =~ m/[\.\/]/ ) {    # Contains a web/topic separator
+            ( my $web, $group ) =
+              Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+                $group );
+            return '' unless ( $web eq $Foswiki::cfg{UsersWebName} );
+        }
+
         $it = $this->{users}->eachGroupMember( $group, { expand => $expand } );
         $format = '$wikiusername' unless defined $format;
     }

@@ -100,6 +100,33 @@ sub test_withName {
     return;
 }
 
+sub test_withQualifiedName {
+    my $this = shift;
+
+    my $ui =
+      $this->{test_topicObject}
+      ->expandMacros("%GROUPINFO{\"$this->{users_web}.GropeGroup\"}%");
+    $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/,   $ui );
+    $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui );
+    my @u = split( /,/, $ui );
+    $this->assert_equals( 2, scalar(@u) );
+
+    $ui =
+      $this->{test_topicObject}
+      ->expandMacros("%GROUPINFO{\"$this->{users_web}/GropeGroup\"}%");
+    $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/,   $ui );
+    $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui );
+    @u = split( /,/, $ui );
+    $this->assert_equals( 2, scalar(@u) );
+
+    $ui =
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPINFO{"Sandbox.GropeGroup"}%');
+    $this->assert_equals( '', $ui );
+
+    return;
+}
+
 sub test_withShow {
     my $this = shift;
 

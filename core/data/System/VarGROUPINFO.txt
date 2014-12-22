@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417318221" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419285005" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGROUPINFO
----+++ GROUPINFO{"name"} -- retrieve details about a group
+---+++ GROUPINFO{"groupname"} -- retrieve details about a group
    * Syntax: =%<nop>GROUPINFO%=
       * Expands to: comma-separated list of all groups
    * Syntax: =%<nop>GROUPINFO{"groupname"}%=
-      * Expands to: comma-separated list of users in that group
+      * Expands to: comma-separated list of users in the requested group.  =groupname= can optionally be qualified with the =%USERSWEB%= prefix, any other web prefix will return an empty list.
    * Parameters:
      | =format= | Format of a single user or group in the list. \
 <ul> \
