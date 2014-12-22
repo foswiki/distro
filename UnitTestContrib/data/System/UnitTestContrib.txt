@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1419223229" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !UnitTestContrib
 <!--
@@ -49,7 +50,7 @@ It will not run if it can't find the !TestCases web, or if the Foswiki:Extension
 ---++ Browser-in-the-loop tests
 
 Tests derived from =FoswikiSeleniumTestCase= use [[http://seleniumhq.org/projects/remote-control/][Selenium Remote Control]] to exercise Foswiki via one or more browsers.
-These tests only execute if one or more browsers are [[%SCRIPTURLPATH{"configure"}%#UnitTestContrib$Extensions][configured]] in $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers},
+These tests only execute if one or more browsers are [[%SCRIPTURLPATH{"configure"}%][configured Extensions tab -> UnitTestContrib sub-tab]] in $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers},
 which tells the perl Selenium client (Test::WWW::Selenium, available from CPAN) where to find the !SeleniumRC server for each browser and how the server should launch the browser.
 The default value is blank (i.e. no browsers), so these tests are skipped by default.
 If any browsers are specified, then each test derived from =FoswikiSeleniumTestCase= is executed via each browser.
@@ -89,7 +90,7 @@ Use the =SeleniumConfigTests= to verify your configuration.
    1 Download Selenium Remote Control (from http://seleniumhq/download)
    1 Extract selenium-server.jar
    1 Run =java -jar selenium-server.jar= as a user that may run firefox
-   1 Open [[%SCRIPTURLPATH{"configure"}%#UnitTestContrib$Extensions][configure]]
+   1 Open [[%SCRIPTURLPATH{"configure"}%][configure]] Extensions tab, UnitTestContrib sub-tab
       * Set =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}= to =={ FF => {} }==
       * Set =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username}= and =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password}= to a valid username and password
    1 Go to =foswiki/test/unit= and run <noautolink> =perl -T ../bin/TestRunner.pl SeleniumConfigTests= </noautolink>
@@ -116,4 +117,4 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1419223229" attr="h" comment="" version="1"}%

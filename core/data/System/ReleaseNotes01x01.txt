@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419222721" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.5
@@ -356,7 +356,7 @@ See %BUGS%/Item10176. On releases prior to Foswiki 1.1.3 it was possible that th
 ---+++ JQueryPlugin update to jQuery 1.4.3
 
 On releases prior to Foswiki 1.1.3, JQueryPlugin shipped with jQuery 1.3.2 enabled. It now uses 1.4.3, and some Foswiki javascript will no longer work correclty with 1.3.2 and earlier. As a result, upgraders will need to
-   1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configure]] under Extensions -> JQueryPlugin to =1.4.4=
+   1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%][configure]] under Extensions tab -> JQueryPlugin sub-tab to =1.4.4=
    1 [[UpgradeGuide#ManagingBrowserCache][Clear browser cache]]
    1 test non-default plugins and any custom jQuery javascript code for compatibility with jQuery 1.4.3.
 

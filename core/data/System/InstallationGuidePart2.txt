@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419139037" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419222721" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -175,12 +175,12 @@ Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhan
 
 ---++++ Installing extensions
 Extensions can be installed using any of several different methods:
-   * the [[%SCRIPTURL{configure}%#Extensions][configure]] web interface
+   * the [[%SCRIPTURL{configure}%][configure]] web interface under the Extensions tab
    * the generic shell installer =tools/extension_installer=
    * by manually downloading the extension zip or tar file
 %X%Caution: Users of the debian =.deb= packages should only use the debian tools when installing extensions.
 
-The simplest way is to visit [[%SCRIPTURL{configure}%#Extensions][configure:Extensions]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+The simplest way is to visit [[%SCRIPTURL{configure}%][configure -> Extensions tab]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used

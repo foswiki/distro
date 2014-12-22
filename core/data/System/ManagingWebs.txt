@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419220348" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -66,8 +66,8 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 				%TWISTYTOGGLE{id="infoOnSubWebs"}%<div class="foswikiHelp">
 					<h4>About sub-webs</h4>
 					<p>
-						You can only create (Hierarchical) sub-webs if the ={EnableHierarchicalWebs}= setting in
-						[[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.
+						You can only create (Hierarchical) sub-webs if the ={EnableHierarchicalWebs}= _expert_ setting under the
+						[[%SCRIPTURLPATH{"configure"}%][configure -> =Store= Tab]] is enabled.
 						%IF{
 							"{EnableHierarchicalWebs}"
 							then="%GREEN% sub-webs are currently enabled (default) %ENDCOLOR%."

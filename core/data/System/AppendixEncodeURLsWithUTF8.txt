@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419222721" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 #EncodeURLsUTF8
@@ -35,7 +35,7 @@ The code automatically detects whether a URL is UTF-8 or not, taking care to avo
 
 The main point is that you can use Foswiki with international characters in WikiWords without changing your browser setup from the default, and you can also still use Foswiki using non-UTF-8 URLs.  This works on any Perl version from 5.005_03 onwards.  You can have different users using different URL formats transparently on the same server.
 
-UTF-8 URLs are automatically converted to the current [[%SCRIPTURLPATH{"configure"}%#Locale$Internationalisation][{Site}{Charset}]], using modules such as CPAN:Encode if needed.
+UTF-8 URLs are automatically converted to the current [[%SCRIPTURLPATH{"configure"}%]] Internationalisation tab, Locale sub-tab, in ={Site}{Charset}= using modules such as CPAN:Encode if needed.
 
 Foswiki generates the whole page in the site charset, e.g. ISO-8859-1 or EUC-JP, but the browser dynamically UTF-8 encodes the attachment's URL when it's used.  Since Apache serves attachment downloads without Foswiki being involved, Foswiki's code can't do its UTF-8 decoding trick, so Foswiki URL-encodes such URLs in ISO-8859-1 or whatever when generating the page, to bypass this URL encoding, ensuring that the URLs and filenames seen by Apache remain in the site charset.
 

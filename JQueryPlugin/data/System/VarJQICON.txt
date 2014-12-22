@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419223229" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICON
 ---+++ JQICON{"name" ...} -- render an image 
-   * This renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configured]] in ={JQueryPlugin}{IconSearchPath}= and
+   * This renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%][configured]] Extensions tab, JQueryPlugin sub-tab in ={JQueryPlugin}{IconSearchPath}= and
      defaults to FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons'. The named icon will be picked
      found first on this path of topics where icons are attached to. 
      When the name of the icon starts with =fa-= like in =fa-bold= then icons are taken from the [[http://fontawesome.io/icons/][font-awesome]] iconset.
