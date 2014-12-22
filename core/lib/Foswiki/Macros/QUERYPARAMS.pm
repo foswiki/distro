@@ -26,15 +26,17 @@ sub QUERYPARAMS {
     foreach my $name ( $this->{request}->multi_param() ) {
 
         # Issues multi-valued parameters as separate hiddens
-        my $value = $this->{request}->param($name);
-        $value = '' unless defined $value;
-        $name  = $this->ENCODE( { type => $encoding, _DEFAULT => $name } );
-        $value = $this->ENCODE( { type => $encoding, _DEFAULT => $value } );
+        my @values = $this->{request}->multi_param($name);
+        foreach my $value (@values) {
+            $value = '' unless defined $value;
+            $name  = $this->ENCODE( { type => $encoding, _DEFAULT => $name } );
+            $value = $this->ENCODE( { type => $encoding, _DEFAULT => $value } );
 
-        my $entry = $format;
-        $entry =~ s/\$name/$name/g;
-        $entry =~ s/\$value/$value/;
-        push( @list, $entry );
+            my $entry = $format;
+            $entry =~ s/\$name/$name/g;
+            $entry =~ s/\$value/$value/;
+            push( @list, $entry );
+        }
     }
     return join( $separator, @list );
 }

@@ -39,6 +39,27 @@ sub test_default {
         "foo=&#60;evil script&#62;&#39;&#34;&#37;\nfee=free", "$str" );
 }
 
+sub test_multi {
+    my $this = shift;
+
+    my $str;
+
+    # test multiple parameters
+
+    $str = $this->{test_topicObject}->expandMacros('%QUERYPARAMS%');
+    $this->assert_str_equals( '', "$str" );
+
+    $this->{request}->param( -name => 'foo', -value => ( 'beer', 'free' ) );
+    $str = $this->{test_topicObject}->expandMacros('%QUERYPARAMS%');
+    $this->assert_matches( qr/foo=free/, "$str" );
+    $this->assert_matches( qr/foo=beer/, "$str" );
+    $this->assert_equals( length($str), 17 );
+
+    $this->{request}->param( -name => 'foo', -value => ( 'beer', 'beer' ) );
+    $str = $this->{test_topicObject}->expandMacros('%QUERYPARAMS%');
+    $this->assert_matches( qr/^foo=beer\nfoo=beer$/, "$str" );
+}
+
 sub test_encode {
     my $this = shift;
 
