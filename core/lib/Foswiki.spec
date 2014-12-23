@@ -1768,20 +1768,16 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # Basic settings controlling if and how Foswiki handles email including the
 # identity of the sender.
 
-# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" **
-# Enable email globally.  Un-check this option to disable all outgoing
-# email from Foswiki.
-#
 # Before you run auto-configuration, you must have provided a minimum of
-# information in the settings here. At least your {SMTP}{MAILHOST} is required
-# if you are using SMTP (and possibly your {SMTP}{SENDERHOST}.
+# information in the below settings. At least your {SMTP}{MAILHOST} is required
+# if you are using SMTP.
 #
 # Auto-configure Email may change configuration settings (it will tell you
 # what it changed.) These settings will only be made permanent when you save
 # the configuration.
-$Foswiki::cfg{EnableEmail} = $FALSE;
 
 # **EMAILADDRESS 30 FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
+# After Auto-configure finishes, press this button to send a test message.
 # Wiki administrator's e-mail address. For example =webmaster@example.com=
 # Must be a single valid email address.
 $Foswiki::cfg{WebMasterEmail} = '';
@@ -1807,14 +1803,6 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30**
-# Mail domain sending mail. SMTP requires that you identify yourself.
-# This option specifies a string to pass to the mail host as your mail
-# domain. If not given, then EHLO/HELO will not be sent to the mail host,
-# which may result in your connection being rejected.
-# Example: foswiki.your.company.
-$Foswiki::cfg{SMTP}{SENDERHOST} = '';
-
-# **STRING 30**
 # Username for SMTP. Only required if your mail server requires authentication.
 # If this is left blank, Foswiki will not attempt to authenticate the mail
 # sender.
@@ -1824,6 +1812,13 @@ $Foswiki::cfg{SMTP}{Username} = '';
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
+# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" **
+# Enable email globally.  Un-check this option to disable all outgoing
+# email from Foswiki.
+$Foswiki::cfg{EnableEmail} = $FALSE;
+
+
+#
 #---++ Signed Email (S/MIME)
 # Settings for S/MIME-signed email.
 # Configure signing of outgoing email. (Secure/Multipurpose Internet
@@ -1955,8 +1950,12 @@ $Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
 # MIME format mail messages on standard input, and mails them.
 $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
-# **STRING 30 EXPERT \
-#          DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
+# **BOOLEAN DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
+# Set this option on to enable email debugging.
+# Output will go to the webserver error log.
+$Foswiki::cfg{SMTP}{Debug} = 0;
+
+# **STRING 30 DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
 # Flags passed to the mail program.
 # Used when a {MailProgram} is selected and {SMTP}{Debug} is enabled.
 # Flags are in addition to any specified with
@@ -1970,12 +1969,16 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 # to be read and writable by the webserver for the duration of any
 # testing.
 
-$Foswiki::cfg{SMTP}{DebugFlags} = '-X /dev/stderr';
+$Foswiki::cfg{SMTP}{DebugFlags} = '';
 
-# **BOOLEAN DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod}=~/Net::SMTP/'"**
-# Set this option on to enable debug
-# mode in SMTP. Output will go to the webserver error log.
-$Foswiki::cfg{SMTP}{Debug} = 0;
+# **STRING 30 \
+#           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**
+# Mail domain sending mail. SMTP requires that you identify yourself.
+# This option specifies a string to pass to the mail host as your mail
+# domain. If not given, then EHLO/HELO will not be sent to the mail host,
+# which may result in your connection being rejected.
+# Example: foswiki.your.company.
+$Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **BOOLEAN \
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**

@@ -270,6 +270,7 @@ sub _setMailProgram {
 ID
 
     _setConfig( $reporter, '{Email}{MailMethod}', 'MailProgram' );
+    _setConfig( $reporter, '{SMTP}{DebugFlags}',  $cfg->{debug} );
     _setConfig( $reporter,
         '{MailProgram}', "$path/$cfg->{file} $cfg->{flags}" );
 
