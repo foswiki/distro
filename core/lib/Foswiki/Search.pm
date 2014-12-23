@@ -21,6 +21,7 @@ use Foswiki::Search::ResultSet        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::Iterator::PagerIterator  ();
+use Foswiki::Render                   ();
 use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();

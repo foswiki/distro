@@ -1371,7 +1371,9 @@ THIS
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/ms, $text );
 
-    my $ss = '/view' . $Foswiki::cfg{ScriptSuffix} . '/';
+    my $ss =
+        $Foswiki::cfg{ScriptUrlPath} . '/view'
+      . $Foswiki::cfg{ScriptSuffix} . '/';
     $ss = $Foswiki::cfg{ScriptUrlPaths}{view} . '/'
       if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} );
     $this->assert_matches( qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s,
