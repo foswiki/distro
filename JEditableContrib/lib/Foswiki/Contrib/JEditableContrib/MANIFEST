@@ -4,5 +4,5 @@ lib/Foswiki/Contrib/JEditableContrib.pm 0644 Perl module
 lib/Foswiki/Contrib/JEditableContrib/JEDITABLE.pm 0644 Perl module
 lib/Foswiki/Contrib/JEditableContrib/Config.spec 0644 Configuration info
 lib/Foswiki/Plugins/JEditableContribPlugin.pm 0644 Plugin stub
-pub/System/JEditableContrib/jquery.jeditable_src.js
-pub/System/JEditableContrib/jquery.jeditable.js
+pub/System/JEditableContrib/jquery.jeditable_src.js 0644
+pub/System/JEditableContrib/jquery.jeditable.js 0644

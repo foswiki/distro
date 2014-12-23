@@ -10,4 +10,5 @@ pub/System/SlideShowPlugin/slideshow.uncompressed.js 0644
 pub/System/SlideShowPlugin/slideshow.css 0644
 pub/System/SlideShowPlugin/slideshow.css.gz 0644
 pub/System/SlideShowPlugin/slideshow.uncompressed.css 0644
+pub/System/SlideShowPlugin/Makefile 0644
 templates/view.slideshow.tmpl 0444

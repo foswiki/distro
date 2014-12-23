@@ -146,9 +146,10 @@ if (@lost) {
       . " files were found in $cvs, but are not in MANIFEST:\n";
     print join( "\n", @lost, '' );
 }
-else {
-    print "All files in MANIFEST are checked in.\n";
-}
+
+#else {
+#    print "All files in MANIFEST are checked in.\n";
+#}
 my @found = sort grep { !delete $alt{$_} } keys %man;
 if (@found) {
     my $found = scalar @found;
@@ -157,6 +158,7 @@ if (@found) {
       . " were found in MANIFEST, but not in $cvs:\n";
     print join( "\n", @found, '' );
 }
-else {
-    print "All files in MANIFEST are in $cvs.\n";
-}
+
+#else {
+#    print "All files in MANIFEST are in $cvs.\n";
+#}
