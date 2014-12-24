@@ -1284,6 +1284,22 @@ escaped:
 THERE
     },
     {
+     #
+     #SMELL: This test should fail.  The actual Wysiwyg editor operation expands
+     # the href="%TOPIC%" and save converts the TML to [[TopicName][%TOPIC%]]
+     # which is incorrect.  The test fails to show the issue.
+     #
+        exec => ROUNDTRIP | TML2HTML | HTML2TML,
+        name => 'squabsWithVars3',
+        html => <<HERE,
+<p><a class='TMLlink' href="%TOPIC%">%TOPIC%</a>
+</p>
+HERE
+        tml => <<'THERE',
+[[%TOPIC%]]
+THERE
+    },
+    {
         exec => ROUNDTRIP,
         name => 'squabsWithWikiWordsAndLink',
         html => $LINKON
