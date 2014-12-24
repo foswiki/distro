@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1419387356" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -75,6 +76,24 @@ button to show the expert settings.
 Go to =Store Settings=:
    * ={StoreImpl}=: adjust to =RcsLite=
    * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
+
+---+++ =mod_perl+ configuration tuning
+
+=mod_perl= limits the size of attachments to 64M by default.  Set the
+=APREQ2_ReadLimit= to the maximum expected upload to permit larger
+attachments.
+
+Note that this should be kept in sync with the Foswiki =ATTACHFILESIZELIMIT=,
+set in %USERSWEB%.SitePreferences, default taken from
+%SYSTEMWEB%.SitePreferences.
+<verbatim>
+<IfModule mod_perl.c>
+   PerlSwitches -wT
+   # mod_perl_startup.pl must exist, otherwise Apache will not start.
+   PerlRequire "/var/www/foswiki/tools/mod_perl_startup.pl"
+   APREQ2_ReadLimit  104857600
+</IfModule>
+</verbatim>
 
 ---++ Known Issues
 
