@@ -12,6 +12,7 @@ use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::Reporter ();
 use Foswiki::Configure::Checker  ();
 use Foswiki::Configure::Wizard   ();
+use Foswiki::Sandbox             ();
 
 use constant TRACE_CHECK => 0;
 
@@ -41,6 +42,7 @@ sub _getSetParams {
     my ( $params, $root, $reporter ) = @_;
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
+            $v = Foswiki::Sandbox::untaintUnchecked($v);
             if ( defined $v && $v ne '' ) {
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;

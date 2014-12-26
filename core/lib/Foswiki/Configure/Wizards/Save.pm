@@ -21,6 +21,7 @@ use File::Spec                   ();
 use Foswiki::Configure::Load     ();
 use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::FileUtil ();
+use Foswiki::Sandbox             ();
 
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
@@ -230,13 +231,13 @@ sub save {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             if ( defined $v && $v ne '' ) {
                 my $spec  = $root->getValueObject($k);
-                my $value = $v;
+                my $value = Foswiki::Sandbox::untaintUnchecked($v);
                 if ($spec) {
                     eval { $value = $spec->decodeValue($value) };
                     if ($@) {
                         $reporter->ERROR(
 "SAVE ABORTED: Could not interpret new value for $k: "
-                              . Foswiki::Configure::Reporter::stripStackTrace(
+                              . Foswiki::Configure::Reporter::stripStacktrace(
                                 $@) );
                         return undef;
                     }
