@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419827636" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ ATOM News Feeds
 
@@ -6,15 +6,14 @@
 
 There are several ways to find out what's new in each web:
    1. Visit WebChanges to see recent changes
-   1. Subscribed in WebNotify get notified of recent changes by e-mail
-   1. Use a news readers such as Foswiki:Extensions.HeadlinesPlugin to display the recent changes
+   1. Subscribe in WebNotify to get notified of recent changes by e-mail
+   1. Use a news reader such as Foswiki:Extensions/HeadlinesPlugin to display the recent changes
       * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
-      * Learn more at WebRssBase and Foswiki:Support.SupplementalDocuments
 
 ---++ ATOM Feed Usage
 
-   * The URL for an RSS feed is =%SCRIPTURL{view}%/&lt;web&gt;/WebAtom=
-   * For this <nop>%WEB% web it is %SCRIPTURL{view}%/%WEB%/WebAtom
+   * The URL for an Atom feed is =%SCRIPTURL{"view"}%/&lt;web&gt;/WebAtom=
+   * For this <nop>%WEB% web it is %SCRIPTURL{"view"}%/%WEB%/WebAtom
    * You can also create a custom feed based on a search. Add a =search=value= parameter to the URL, e.g. %SCRIPTURL{"view"}%/%WEB%/WebAtom?search=plugin is a what's new feed about Plugins.
 
 ---++ ATOM Feed Internals
@@ -43,15 +42,19 @@ Below part is included by each <nop>WebAtom topic:
 <id>%SCRIPTURL{"view"}%/%BASEWEB%</id>
 <rights>%WEBRSSCOPYRIGHT%</rights>%CALC{$SET(c,0)}%
 %SEARCH{
-   "%URLPARAM{"search" encode="quote" default=".*" }%" 
-   web="%BASEWEB%" 
-   type="regex" 
-   nosearch="on" 
-   order="modified" 
-   reverse="on" 
-   nototal="on" 
-   limit="16" 
-   format="$percentCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percent<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"
+  "%URLPARAM{"search" encode="quote" default=".*" }%"
+  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  nosearch="on"
+  order="modified"
+  reverse="on"
+  nototal="on"
+  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
+  date="%URLPARAM{"date" encode="quote" default="" }%"
+  format="$percentCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percent<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"
 }%
 %STOPINCLUDE%
 </verbatim>
