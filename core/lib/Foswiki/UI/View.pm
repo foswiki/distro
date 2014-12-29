@@ -260,6 +260,10 @@ sub view {
     }
     else {    # Topic does not exist yet
         $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+# If user would not be able to access the topic, don't reveal that it does not exist
+        Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+
         $indexableView = 0;
         $session->enterContext('new_topic');
         $response->status(404);
