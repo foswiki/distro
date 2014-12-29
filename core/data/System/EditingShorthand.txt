@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592999" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419825408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
@@ -188,6 +188,7 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 | a. | Lowercase letters | a, b, c, d... |
 | I. | Uppercase Roman Numerals | I, II, III, IV... |
 | i. | Lowercase Roman Numerals | i, ii, iii, iv... |
+%X% Note that while type characters =A=, =a=, =I= and =i= must be entered exactly as specified, numbers can be any single digit 0-9. It is recommended for future compatibility that only the number 1 be used for numbered type lists.
 </td><td>
 <verbatim class="tml">
    1. Sushi
