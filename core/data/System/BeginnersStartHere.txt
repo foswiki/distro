@@ -7,8 +7,6 @@ This is a short introduction to Foswiki.
 
 ---++!! A short introduction to Foswiki
 
-%TOC%
-
 ---++ What is a Wiki?
 <img src="%ATTACHURL%/hula.gif" alt="Hula girl"  width="113" height="111" align="right" />
 The basic function of Foswiki is a Wiki (if that helps!)
@@ -22,32 +20,32 @@ A Wiki is like a web site, except that you can edit the content in your browser
 
 ---++ Foswiki Wiki
 <img src="%ATTACHURL%/whiteboard.gif" alt="Whiteboard" width="240" height="160" align="right" />
-Foswiki implements the basic Wiki idea of a shared whiteboard
+Foswiki implements the Wiki idea of a shared whiteboard
 
    * Anyone can add content<br />... or change what is written<br />... or change the organisation of the content
    * Whatever you write is<br />... nicely presented<br />... remembered... and never forgotten
-   * Write using state-of-the-art What-You-See-Is-What-You-Get (WYSIWYG) text editing <br />... or you can use a simple <em>topic markup language</em> that is quick to learn and easy to remember <br />... or you can use full HTML for complex formatting tasks
+   * Write using What-You-See-Is-What-You-Get (WYSIWYG) text editing <br />... or you can use plain text with a simple <em>topic markup language</em> that is quick to learn and easy to remember <br />... or you can use full HTML for complex formatting tasks
 
-Foswiki is _also_ an "application platform" that lets you quickly build and use your own online applications.
+Foswiki is _also_ an "application platform" that lets you quickly build and use your own online applications <br />... and can be extended using an open _plugins_ architecture <br /> ... with _hundreds_ of user-contributed extensions already available off-the-shelf
 
 Foswiki is an Open-Source development on http://foswiki.org/
    * governed by the Foswiki Association
-   * with over 100 regular volunteer contributors in many countries
-   * <u>F</u>ree <u>o</u>pen <u>s</u>ource wiki
+   * many volunteer contributors in many countries
+   * <u>FOS</u>Wiki = <u>F</u>ree <u>O</u>pen <u>S</u>ource Wiki
 
 ---++ Foswiki features
 Foswiki builds on the original Wiki concept, and adds features that make it very useful in a business environment.
-   * *Revision control* of all pages, so a record of every change to every page is kept
+   * *Revision control* of all pages, so a record of changes to every page is kept
      <table><tr><td valign="top"></td><td><td style="background-color:#D0D0D0">%BLACK%r6 &lt; r5 &lt; r4 &lt; r3 &lt; r2%ENDCOLOR%</td></tr></table>
    * *Powerful macros* allow _users_ to build and use their own online applications
-   * *Highly configurable* look and feel, through use of templates
+   * *Highly configurable* look and feel, through use of templates and macros
    * *Plugins interface* eases
       * customisation
       * extension
       * integration of existing applications
    * *Hundreds of extensions* support additional features and integrate third party applications
-      * download from the [[Foswiki:Extensions][Foswiki Extensions website]] (like Android marketplace)
-   * *Strong security*
+      * download from the [[Foswiki:Extensions][Foswiki Extensions website]] (like iTunes&trade;)
+   * *Secure and robust*
 
 ---++ Applications of basic Foswiki
 Foswiki can be used as:
@@ -102,11 +100,12 @@ The header of a Foswiki page is generally highlighted, and will usually contain 
    </tr>
 </table>
 
+(this is just an example. *Your* header will look _much_ better :-) )
 ---++ The menu - part 1
 
 The menu, normally located either on the right or the left side of the content, or sometimes at the top, usually includes a toolbox and a web section.
 
-The Toolbox section contains these items
+The Toolbox section usually contains these items
 
 <ul style="list-style-type:none;">
 <li> *Toolbox* </li>
@@ -137,7 +136,7 @@ The Webs section lists all the webs that you can access
 
 A web is a collection of pages that are related closely together
 
-The %USERSWEB% contains all the user home pages. The %SYSTEMWEB% contains documentation for Foswiki and all extensions. The %SANDBOXWEB% is a playground area.
+The %USERSWEB% web contains all the user home pages. The %SYSTEMWEB% web contains documentation for Foswiki and all extensions. The %SANDBOXWEB% web is a playground area.
 
 Your wiki may contain any number of webs, and webs can contain other webs.
 
@@ -145,7 +144,7 @@ Your wiki may contain any number of webs, and webs can contain other webs.
 
 Besides the Tools and Webs sections it is common to add your own links to important places.
 
-These menu points can be different from web to web.
+These menu entries can be different from web to web.
 
 <ul style="list-style-type:none;">
 <li> *Myco* </li>
@@ -164,32 +163,33 @@ Edit | Attach | Print version | History: r2 < r1 | Backlinks | View wiki text | 
 </td></tr>
 </table>
 
-   * The Edit control takes you to an interactive page where you can change the page content using an advanced editor
+   * The Edit control takes you to an interactive page where you can change the page content using a [[http://www.tinymce.com/][WYSIWYG]] editor
    * The Attach link lets you attach files
    * Print version shows the page without any menus or top bars - for printing on paper
    * History allows you to see older versions and what changed from version to version
    * Backlinks shows which other pages link to this page
-   * View Wiki Text is for viewing the raw markup
-   * Edit Wiki Text is for editing the raw markup in a simple text editor
+   * View Wiki Text is for viewing the topic using _topic markup language_
+   * Edit Wiki Text is for editing the topic using _topic markup language_ in a simple text editor
    * More topic actions - takes you to a menu of less-frequently-used features
 
 ---++ Editing Pages
-   * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is an %BLUE%<u>OblateSpheroid</u>%ENDCOLOR%<br />But you know for a fact it is flat! ;-)
+   * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is %BLUE%flat%ENDCOLOR%<br />But you know that it is really an Oblate Spheroid! ;-)
    * You've clicked the edit link, and an edit page has appeared.
-      * Depending on your site configuration and with some luck, you will see a WYSIWYG-editor and can start writing right away.
-      * But it _might_ happen that it doesn't look much like what was on the page before - it's full of strange hieroglyphics!
-<code>_Everyone_ <nop>*knows* that <nop>=the world= is an Oblate<nop>Spheroid</code>
+      * Depending on your site configuration, you will probably see a WYSIWYG editor and can start writing right away, just like you would in a text processor.
+      * But if you clicked on the "Edit Wiki Text" link, what you see doesn't look much like what was on the page before.
+<code>_Everyone_ <nop>*knows* that <nop>=the world= is a %<nop>BLUE%flat%<nop>ENCDCOLOR%</code>
    * Now what?
 
 ---++ What's in a page
-   * The hieroglyphics are what's known as "Topic Markup Language" or "Text Formatting"
+   * The hieroglyphics are what's known as "Topic Markup Language"
    * They are a really simple way of telling the browser how you want the page to look
    * You don't have to use them
-      * Foswiki understands pages in plain text just fine.<br /><br /> <code>Actually it is perfectly and absolutely flat</code><br /><br /> appears as <br /><br /> Actually it is perfectly and absolutely flat
+      * Foswiki understands pages in plain text just fine.<br /><br /> <code>Actually it is an Oblate Spheroid</code><br /><br /> appears as <br /><br /> Actually it is an Oblate Spheroid
+   * Or you can just use the WYSIYG editor
 
----++ Formatting just makes pages prettier
+---++ The hieroglyphs just make pages prettier
 ... and easier to read<br /><br />
-<code>_Actually_ it is <nop>*perfectly* and <nop>__absolutely__ flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and __absolutely__ flat
+<code>_Actually_ it is an <nop>*Oblate* <nop>__Spheroid__</code><br /><br /> appears as <br /><br /> _Actually_ it is an *Oblate* __Spheroid__
    * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
    * The best thing to do is just to type until you get stuck
       * then follow the link on the edit page to the help.
@@ -228,11 +228,12 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * %<nop>RED% .... %<nop>ENDCOLOR% will change the colour of the enclosed text. Lots of colours are available (%RED%%<nop>RED%%ENDCOLOR%, %GREEN%%<nop>GREEN%%ENDCOLOR%, %BLUE%%<nop>BLUE%%ENDCOLOR% etc)
 
 ---++ Wiki<nop>Words
+<img src="%ATTACHURLPATH%/camel.png" style="width:200px;float:right" />
    * One special hieroglyph that is *very important* is a WikiWord
-      * a word that starts with uppercase, then some lowercase, then more uppercase (a.k.a <nop>CamelCase)
+      * a word that starts with uppercase, then some lowercase, then more uppercase (this is known as <nop>CamelCase)
    * This has a special meaning to Foswiki. If it matches the name of another topic, Foswiki will automatically create a link to that page for you.
-   * If there is no such page, then the word is highlighted and has a question mark put after the word, LikeThis
-   * If you click on the question mark, then Foswiki will invite you to create that page.
+   * If there is no such page, then the word is highlighted differently, LikeThis
+   * If you click on the word, then Foswiki will invite you to create that page.
 
    * This lets you enter the names of topics you _think_ should exist, but don't yet
       * You, or someone else, can always come along later and click on the question mark!
@@ -248,7 +249,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
 
 ---++ More formatting
    * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
-   * _If you are a real masochist, you can even enter raw HTML_!
+   * _If you are an HTML expert, you can even enter raw HTML_!
    * *Important* to _disable_ unwanted formatting, use =&lt;nop&gt;=
       * <code>&lt;nop&gt;_word_</code> appears as <nop>_word_
 
@@ -380,7 +381,7 @@ The Foswiki development team acknowledges a huge debt of gratitude to the
 founder of TWiki, and wishes him well in his commercial exploits.
 
 ---++ Getting more information
-Foswiki has been developed for over ten years, and there's
+Foswiki has been worked on for over fifteen years, and there's
 a lot of it. It can be daunting at first, so don't try to learn the whole
 thing in one go. The best way to start is to use it, and when you need to do
 something new, browse this web or look for examples online.
@@ -406,3 +407,4 @@ __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWe
 %META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1394884251" size="2270" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1394884253" size="1506" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1394884254" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1394884254" size="1687" user="ProjectContributor" version="1"}%
