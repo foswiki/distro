@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419905144" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -245,6 +245,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 		"{EnableHierarchicalWebs}"
 		then="recurse=\"%URLPARAM{"recurse" encode="quote"}%\""
 	}%
+    topic="%URLPARAM{"searchtopic" encode="quote"}%"
 	excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
 	nosearch="%URLPARAM{"nosearch" encode="quote"}%"
 	casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
