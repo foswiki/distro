@@ -353,6 +353,18 @@ Note that this method replaces =getCgiQuery= (which is a synonym for this
 method). Code that is expected to run with pre-1.1 versions of Foswiki
 can continue to call =getCgiQuery= for as long as necessary.
 
+*Caution:* Direct use of the CGI parameters can introduce security vulnerabilities.
+Any parameters from the URL should be carefully validated, and encoded for safety
+before displaying the data back to the user.
+
+Example:
+<verbatim>
+   my $query    = Foswiki::Func::getRequestObject();
+   my @cgiparms = $query->param();               # Get list of all URL Parameter names
+   my $parm1    = $query->param('parm1');        # Get a scalar value (Returns 1st value if multiple valued)
+   my @multi    = $query->multi_param('parm2');  # Get multi-valued parameter
+</verbatim>
+
 *Since:* 31 Mar 2009
 
 =cut
