@@ -21,7 +21,6 @@ use File::Spec                   ();
 use Foswiki::Configure::Load     ();
 use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::FileUtil ();
-use Foswiki::Sandbox             ();
 
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
@@ -230,8 +229,8 @@ sub save {
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             if ( defined $v && $v ne '' ) {
-                my $spec  = $root->getValueObject($k);
-                my $value = Foswiki::Sandbox::untaintUnchecked($v);
+                my $spec = $root->getValueObject($k);
+                my ($value) = $v =~ m/^(.*)$/s;    #UNTAINT
                 if ($spec) {
                     eval { $value = $spec->decodeValue($value) };
                     if ($@) {
