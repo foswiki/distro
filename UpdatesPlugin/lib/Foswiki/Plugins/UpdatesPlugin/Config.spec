@@ -22,4 +22,3 @@ $Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions} = '';
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{ConfigureUrl} = '$Foswiki::cfg{ScriptUrlPath}/configure$Foswiki::cfg{ScriptSuffix}';
 
 1;
-

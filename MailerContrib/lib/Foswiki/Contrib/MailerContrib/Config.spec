@@ -18,3 +18,4 @@ $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} = $TRUE;
 # A comma-separated list of user preference names that will be respected
 # when sending out emails.
 $Foswiki::cfg{MailerContrib}{RespectUserPrefs} = 'LANGUAGE';
+1;

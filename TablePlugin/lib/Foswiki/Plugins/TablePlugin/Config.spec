@@ -6,3 +6,4 @@ $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign
 # **BOOLEAN**
 # Enable debugging (debug messages will be written to data/debug.txt)
 $Foswiki::cfg{Plugins}{TablePlugin}{Debug} = 0;
+1;

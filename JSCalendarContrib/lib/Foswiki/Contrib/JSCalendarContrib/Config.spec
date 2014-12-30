@@ -9,3 +9,4 @@ $Foswiki::cfg{JSCalendarContrib}{lang} = "en";
 # **STRING 20**
 # Default format of the calendar
 $Foswiki::cfg{JSCalendarContrib}{format} = "%e %b %Y";
+1;

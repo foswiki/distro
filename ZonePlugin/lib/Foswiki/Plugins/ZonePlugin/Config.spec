@@ -15,5 +15,4 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = 0;
 # will move the content to the BODY zone while anything else is put into the HEAD
 # zone.
 $Foswiki::cfg{ZonePlugin}{Warnings} = 0;
-
-
+1;

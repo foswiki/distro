@@ -20,5 +20,4 @@ $Foswiki::cfg{HomePagePlugin}{HostnameMapping} = {
     'http://blog.org' => 'Blog',
     'http://www.blog.org' => 'Blog.Www',
     };
-
-
+1;

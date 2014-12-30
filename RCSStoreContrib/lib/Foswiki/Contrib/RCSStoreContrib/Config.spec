@@ -126,4 +126,4 @@ $Foswiki::cfg{RCS}{breaklockCmd} =
 # RcsWrap delete a specific revision.
 $Foswiki::cfg{RCS}{delRevCmd} =
   '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%';
-
+1;

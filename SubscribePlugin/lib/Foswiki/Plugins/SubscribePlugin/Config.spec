@@ -7,4 +7,4 @@
 # Caution:  On webs with extremely large or complex WebNotify topics, the rendering of the Subscribe or Unsubscribe
 # link can take an inordinate amount of time. 
 $Foswiki::cfg{Plugins}{SubscribePlugin}{ActiveWebs} = '';
-
+1;

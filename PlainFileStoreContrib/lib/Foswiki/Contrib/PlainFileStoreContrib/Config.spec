@@ -8,3 +8,4 @@
 # programs. The use of text files makes it easy to implement 'out of band'
 # processing, as well as taking maximum advantage of filestore caching. This
 # is the reference implementation of a store.</dd></dl>
+1;

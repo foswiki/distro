@@ -15,3 +15,4 @@ $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 # even if this option is true, access controls will still be checked when
 # a comment is saved.
 $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+1;
