@@ -226,6 +226,50 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
     $this->assert_html_equals( $expected, $res2 );
 }
 
+sub test_Item11353 {
+    my $this = shift;
+
+    my $url = $this->{session}->getScriptUrl( 0, 'view' );
+
+    my $text = <<'HERE';
+---+ A level 1 head!line
+<!--
+---++ Followed by a commented level 2! headline
+-->
+---++!! Another level 2 headline
+HERE
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
+    $topicObject->save();
+
+    my $text2 = <<HERE;
+%TOC{"$this->{test_web}.$this->{test_topic}"}%
+HERE
+    my ($topicObject2) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} . "2" );
+    $topicObject2->text($text2);
+    $topicObject->save();
+    my $res2 = $topicObject2->expandMacros($text2);
+    $res2 = $topicObject->renderTML($res2);
+    $topicObject->finish();
+
+    #return;
+
+    my $expected = <<HTML;
+<div class="foswikiToc" id="foswikiTOC"> <ul>
+<li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a>
+</li></ul>
+</div>
+HTML
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected =~
+s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class="foswikiToc">/;
+        $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
+    }
+    $this->assert_html_equals( $expected, $res2 );
+}
+
 sub test_Item2458 {
     my $this = shift;
 

@@ -83,6 +83,7 @@ sub TOC {
     my %junk;
     $text = Foswiki::takeOutBlocks( $text, 'verbatim', \%junk );
     $text = Foswiki::takeOutBlocks( $text, 'pre',      \%junk );
+    $text =~ s/<!--.*?-->//sg;    #Brute force,  Remove html comments
 
     my $maxDepth = $params->{depth};
     $maxDepth ||= $session->{prefs}->getPreference('TOC_MAX_DEPTH')
@@ -97,11 +98,8 @@ sub TOC {
       || '';
     $title = CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
 
-    my $highest  = 99;
-    my $result   = '';
-    my $verbatim = {};
-    $text = Foswiki::takeOutBlocks( $text, 'verbatim', $verbatim );
-    $text = Foswiki::takeOutBlocks( $text, 'pre',      $verbatim );
+    my $highest = 99;
+    my $result  = '';
 
     # Find URL parameters
     my $query   = $session->{request};
