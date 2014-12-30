@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1419905449" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -41,7 +41,7 @@ Example screenshot of the topic history with !HistoryPlugin enabled and working 
 __Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
    * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
    | *File:* | *Description:* |
 %$MANIFEST%
    * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
@@ -70,14 +70,14 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  31 Jul 2010: | 1.6 Paul Harvey: Foswikitask:Item9415 - Documentation updates | 
 |  09 Feb 2009: | 1.5 Kenneth Lavrsen: Small cosmetic updates. Changed the author name to non liked to avoid bogus links to Main.loginname. Changed some CSS names to Foswiki that I missed in 1.4 |
 |  08 Dec 2008: | 1.4 Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0 | 
-|  09 Dec 2007: | 1.3 Kenneth Lavrsen: Restored the features that were lost in revision 1.1 including: Showing comments made by !RevCommentPlugin, selection of render styles "interweave" and "side by side" provided by !CompareRevisionsAddOn, and link to rdiff history. Restored compatibility with TWiki-4.1 which means removing the dependency of 4.2 only CSS feature. Updated the default rev format to 4.X format. |
+|  09 Dec 2007: | 1.3 Kenneth Lavrsen: Restored the features that were lost in revision 1.1 including: Showing comments made by !RevCommentPlugin, selection of render styles "interweave" and "side by side" provided by !CompareRevisionsAddOn, and link to rdiff history. Restored compatibility with older releases, which means removing the dependency of 4.2 only CSS feature. Updated the default rev format to 4.X format. |
 |  13 Nov 2007: | 1.2 Michael Daum: removed cruft from plugin, \
-                  updates to use modern TWiki APIs, \
+                  updates to use modern APIs, \
                   added some more flexibility to create a diff interface, \
                   removed plugin topic options |
-|  07 Nov 2007: | 1.1 Arthur Clemens: updated to TWiki 4.2; improved user interface.  |
+|  07 Nov 2007: | 1.1 Arthur Clemens: improved user interface.  |
 |  19 Jan 2007: | 1.002 Corrected coding error that causes the plugin to fail with HISTORY tag in topic |
-|  9 Apr 2006: | 1.001 Updated for new <nop>PatternSkin in [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00x02][TWikiRelease04x00x02]] |
+|  9 Apr 2006: | 1.001 Updated for new <nop>PatternSkin |
 |  17 Feb 2005: | Initial version |
 |  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.024 |
 |  CPAN Dependencies: | none |
@@ -87,4 +87,4 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
-%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1404914085" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1419905636" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
