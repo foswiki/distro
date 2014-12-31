@@ -338,6 +338,9 @@ BEGIN {
     }
     else {
         $system_message = Foswiki::Configure::Load::bootstrapConfig();
+        $system_message =
+          '<div class="foswikiHelp"> ' . $system_message . '</div>'
+          if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ /CGI/i );
         eval 'require Foswiki::Plugins::ConfigurePlugin';
         die
 "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"

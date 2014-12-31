@@ -17,6 +17,8 @@ package Foswiki::Contrib::RCSStoreContrib;
 use strict;
 use warnings;
 
+use Foswiki::Configure::Load;
+
 # $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.  Two version formats are supported:
 #
@@ -99,7 +101,8 @@ sub bootstrapStore {
     {
 
         print STDERR
-"AUTOCONFIG: Unable to use RCSStore: ,pfv files were found in data or pub, which indicates this installation is already configured for PlainFileStore e.g. $hit\n";
+"AUTOCONFIG: Unable to use RCSStore: ,pfv files were found in data or pub, which indicates this installation is already configured for PlainFileStore e.g. $hit\n"
+          if (Foswiki::Configure::Load::TRAUTO);
         if (
             Foswiki::Configure::FileUtil::findFileOnTree(
                 $Foswiki::cfg{DataDir}, qr/,v$/, qr/,pfv$/ )
@@ -118,7 +121,8 @@ sub bootstrapStore {
     # are the last resort. Default to RcsLite, it's the most portable.
     unless ( $Foswiki::cfg{Store}{Implementation} ) {
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
-        print STDERR "AUTOCONFIG: Store configured for RcsLite\n";
+        print STDERR "AUTOCONFIG: Store configured for RcsLite\n"
+          if (Foswiki::Configure::Load::TRAUTO);
     }
 }
 

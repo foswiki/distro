@@ -17,6 +17,7 @@ package Foswiki::Configure::Load;
 use strict;
 use warnings;
 use Cwd qw( abs_path );
+use Assert;
 use File::Basename;
 use File::Spec;
 
@@ -171,28 +172,31 @@ sub readConfig {
     }
 
     for my $file (@files) {
-        unless ( my $return = do $file ) {
+        print STDERR "Applying configuration from $file\n" if DEBUG;
+        my $return = do $file;
+
+        unless ( defined $return && $return eq '1' ) {
+
             my $errorMessage;
             if ($@) {
-                $errorMessage = "Failed to 'do' $file: $@";
-                print STDERR "$errorMessage \n";
-                next;
+                $errorMessage = "Failed to parse $file: $@";
+                warn "couldn't parse $file: $@" if $@;
             }
-            next if $file =~ /Config\.spec$/;
+            next if ( !DEBUG && ( $file =~ /Config\.spec$/ ) );
             if ( not defined $return ) {
-                print STDERR
-"Could not 'do' $file: $! \n - This might be okay if file LocalSite.cfg does not exist in a new installation.\n";
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
                     # LocalSite.cfg doesn't exist, which is OK
-                    $errorMessage = "Could not 'do' $file: $!";
+                    warn "couldn't do $file: $!";
+                    $errorMessage = "Could not do $file: $!";
                 }
                 $validLSC = 0;
             }
             elsif ( not $return eq '1' ) {
-                print STDERR
+                warn
                   "Running file $file returned  unexpected results: $return \n";
-                $errorMessage = "Could not 'do' $file" unless $return;
+                $errorMessage =
+                  "Running file $file returned unexpected results: $return";
             }
             if ($errorMessage) {
                 die <<GOLLYGOSH;
@@ -485,13 +489,16 @@ EPITAPH
     # is no localisation in a default cfg derived from Foswiki.spec
     my $vp = $Foswiki::cfg{ScriptUrlPaths}{view} || '';
     my $system_message = <<BOOTS;
- *WARNING !LocalSite.cfg could not be found, or failed to load.* %BR%This
-Foswiki is running using a bootstrap configuration worked
-out by detecting the layout of the installation. Any requests made to this
-Foswiki will be treated as requests made by an administrator with full rights
-to make changes! You should either:
-   * correct any permissions problems with an existing !LocalSite.cfg (see the webserver error logs for details), or
-   * visit [[%SCRIPTURL{configure}%?VIEWPATH=$vp][configure]] as soon as possible to generate a new one.
+*WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
+This Foswiki is running using a bootstrap configuration worked
+out by detecting the layout of the installation.%BR%To complete the bootstrap process you should either:
+   * Restore the missing !LocalSite.cfg from a backup, *or*
+   * Complete the new Foswiki installation:
+      * visit [[%SCRIPTURL{configure}%?VIEWPATH=$vp][configure]] and save a new configuration.
+      * Register a user and add it to the AdminGroup
+%BR% *You have been logged in as a temporary administrator.*
+Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
+Your temporary administrator rights will "stick" until you've logged out from this session.
 BOOTS
 
     if ($warn) {
@@ -544,7 +551,8 @@ sub _bootstrapStoreSettings {
         $Foswiki::cfg{Store}{SearchAlgorithm} =
           'Foswiki::Store::SearchAlgorithms::PurePerl';
         print STDERR
-"AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n";
+"AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n"
+          if (TRAUTO);
     }
     else {
         # SMELL: The fork to `grep goes into a loop in the unit tests
@@ -559,7 +567,8 @@ sub _bootstrapStoreSettings {
             `grep -V 2>&1`;
             if ($!) {
                 print STDERR
-"AUTOCONFIG: Unable to find a valid 'grep' on the path. Forcing PurePerl search\n";
+"AUTOCONFIG: Unable to find a valid 'grep' on the path. Forcing PurePerl search\n"
+                  if (TRAUTO);
                 $Foswiki::cfg{Store}{SearchAlgorithm} =
                   'Foswiki::Store::SearchAlgorithms::PurePerl';
             }
@@ -567,7 +576,8 @@ sub _bootstrapStoreSettings {
                 $Foswiki::cfg{Store}{SearchAlgorithm} =
                   'Foswiki::Store::SearchAlgorithms::Forking';
                 print STDERR
-                  "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n";
+                  "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n"
+                  if (TRAUTO);
             }
             $ENV{PATH} = $x;    # re-taint
         }

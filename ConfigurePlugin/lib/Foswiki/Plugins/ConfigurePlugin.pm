@@ -105,7 +105,8 @@ sub initPlugin {
             $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
             $Foswiki::Plugins::SESSION->getLoginManager()
               ->setSessionValue( 'VIEWPATH', $viewpath );
-            print STDERR "AUTOCONFIG: Applied viewpath $viewpath from URL\n";
+            print STDERR "AUTOCONFIG: Applied viewpath $viewpath from URL\n"
+              if (Foswiki::Configure::Load::TRAUTO);
         }
         else {
             $viewpath =
@@ -114,7 +115,8 @@ sub initPlugin {
             if ( defined $viewpath ) {
                 $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
                 print STDERR
-                  "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n";
+                  "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n"
+                  if (Foswiki::Configure::Load::TRAUTO);
             }
         }
     }

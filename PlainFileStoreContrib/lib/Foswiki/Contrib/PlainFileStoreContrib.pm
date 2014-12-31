@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::FileUtil;
+use Foswiki::Configure::Load;
 
 our $VERSION          = '1.3';
 our $RELEASE          = '2013-02-28';
@@ -52,7 +53,8 @@ sub bootstrapStore {
     {
 
         print STDERR
-"AUTOCONFIG: Unable to use PlainFileStore: ,v files were found in data or pub, which indicates this installation is already configured for RCS e.g. $hit\n";
+"AUTOCONFIG: Unable to use PlainFileStore: ,v files were found in data or pub, which indicates this installation is already configured for RCS e.g. $hit\n"
+          if (Foswiki::Configure::Load::TRAUTO);
 
         # See if there is any evidence of PlainFileStore
         if (
@@ -77,7 +79,8 @@ sub bootstrapStore {
         || $Foswiki::cfg{Store}{Implementation} =~ /^Foswiki::Store::Rcs/ )
     {
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
-        print STDERR "AUTOCONFIG: Store configured for PlainFile\n";
+        print STDERR "AUTOCONFIG: Store configured for PlainFile\n"
+          if (Foswiki::Configure::Load::TRAUTO);
     }
 }
 
