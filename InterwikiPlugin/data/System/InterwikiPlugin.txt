@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1412365793" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420039754" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -9,26 +9,34 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 
 %TOC%
 
----++ Syntax Rules
+---++ Link Syntax Rules
 
    * Enter ==ExternalSite:Page== to create a link that points to the ==Page== on the ==ExternalSite== server.
       * If ==Page== contains spaces, it can be enclosed in single or double quotes. Example: ==MySite:'My Photo.jpg'==.  Special characters contained within the quotes are URL encoded.
    * Enter ==[<nop>[ExternalSite:Page][any label]]== to specify a custom label.
    * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic or as specified by the =INTERWIKIPLUGIN_RULESTOPIC= topic list.
-   * Add and edit aliases in %SYSTEMWEB%.InterWikis.
-      * Each entry must be 3 or 4 columns of format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
-      * Site aliases must start with an upper case letter and may contain alphanumeric letters.
-      * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
-      * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
+
+---++ Definition Syntax Rules
+
+Add and edit aliases in %SYSTEMWEB%.InterWikis.%STARTSECTION{"aliasformat"}%
+   * Each entry must be 3 or 4 columns of format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
+   * The Alias must start with an upper case letter and may contain alphanumeric characters.
+   * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
+   * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
+   * The Tooltip Text must __not__ contain:
+      * any HTML tags (including ==&lt;nop&gt;== escape code),
+      * any internal %SYSTEMWEB%.WikiWord links
+      * any external links.
+      * Hint: Escape =='WikiWords'== and =='$page'==.
       * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
 <div class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
-
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 </div>
 
 <div class="foswikiHelp">
 %H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
 </div>
+%ENDSECTION{"aliasformat"}%
 
 ---++ <nop>%TOPIC% Settings
 
@@ -37,14 +45,14 @@ You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][pr
 | *Preference* | *Use to* | *Default* |
 | =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#AddingYourOwn for more details | %SYSTEMWEB%.InterWikis |
 | =INTERWIKIPLUGIN_INTERLINKFORMAT= | Set the interlink format | =&lt;a class="interwikiLink" href="$url" title="$tooltip" class="interwikiLink"&gt;&lt;noautolink&gt;$label&lt;/noautolink&gt;&lt;/a&gt;= |
-The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
+The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%STARTSECTION{"formattokens"}%
      | *Token* | *Meaning* |
      | $site | Site alias |
      | $page | Page (part after colon) |
      | $url | Site URL (might contain $page) |
      | $label | Equal to $site:$page |
      | $tooltip | Tooltip message |
-
+%ENDSECTION{"formattokens"}%
 
 ---++ Plugin Installation Instructions
 
