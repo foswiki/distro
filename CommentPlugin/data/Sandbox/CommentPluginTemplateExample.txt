@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1274992098" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420148640" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 ---+!! Template Example
 
-Example template topic for [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+Example template topic for [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 
 
 <verbatim>

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1304087511" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420154378" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki "2012" Site Skin
 
-This is a remix of the [[System.PatternSkinThemeFatWilly][Foswiki Site]] theme for patternskin, using the new 2012 foswiki System.ProjectLogos. 
+This is a remix of the [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki Site]] theme for patternskin, using the new 2012 foswiki %SYSTEMWEB%.ProjectLogos.
 
 This is just a stopgap for now, Arthur is working on a real skin :)
 
@@ -24,10 +24,10 @@ This is just a stopgap for now, Arthur is working on a real skin :)
    * Local DISPLAY_PATTERNSKIN_COLUMNS = %CALC{"$SUBSTITUTE(%PATTERNSKIN_COLUMNS%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
    * Local DISPLAY_PATTERNSKIN_THEME_VARIANT = %CALC{"$SUBSTITUTE(%PATTERNSKIN_THEME_VARIANT%, %PUBURLPATH%/%SYSTEMWEB%/, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
    * Local DISPLAY_PATTERNSKIN_NAVIGATION_TOPIC = %CALC{"$SUBSTITUTE(%PATTERNSKIN_NAVIGATION_TOPIC%, %SYSTEMWEB%, $NOP(%<nop>SYSTEMWEB%))"}%
-   
-   
--->   
-   
+
+
+-->
+
 <form action="%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%">
 <input type="hidden" name="viewtheme" value="1" />
 <input type="hidden" name="layout" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/layout.css" />
@@ -58,7 +58,7 @@ This is just a stopgap for now, Arthur is working on a real skin :)
 %INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
     override="%WEB%.%TOPIC%"
-    sectionlist="themesettings"    
+    sectionlist="themesettings"
     section="newtopic"
     defaultweb="%MAINWEB%"
     newtopic="%WIKINAME%"

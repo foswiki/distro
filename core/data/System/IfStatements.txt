@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420154378" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -20,8 +20,8 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | =istopic= | =istopic 'X'= is true if topic 'X' exists |
 | =isweb= | =isweb 'X'= is true if web 'X' exists |
 | =ingroup= | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
-| =defined= | True if a [[PreferenceSettings][preference setting]] or url parameter of this name is defined. |
-| =isempty= | True if a [[PreferenceSettings][preference setting]], url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
+| =defined= | True if a [[PreferenceSettings][preference setting]] or URL parameter of this name is defined. |
+| =isempty= | True if a [[PreferenceSettings][preference setting]], URL parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
 | =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes: ='= or ="=. |
 
 The =%<nop>IF%= statement is deliberately kept simple. In particular, note that there is no way to conditionally execute a Set statement. If you need more sophisticated control over formatting, then consider using the SpreadSheetPlugin.
@@ -75,7 +75,7 @@ Note that macro =URLPARAM= is evaluated before the =IF= macro, therefore the exp
 
 Example:
 <verbatim class="tml">
-url param t is %IF{
+URL param t is %IF{
    "0 < $t and $t < 1000"
    then="in"
    else="out of"
@@ -126,12 +126,12 @@ Be careful when you test for an empty value: if the URL parameter is not defined
 | %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"defined scope" then='true'}%'}% |
 | is empty \
 | =$scope=''= \
-| %IF{"$paramtest=1 and $noparam=1" then='%IF{"$scope=''" else='false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%'}%'}% \
+| %IF{"$paramtest=1 and $noparam=1" then="%IF{"$scope=''" else="false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%"}%"}% \
 | %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope=''" then='true'}%'}% \
 | %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope=''" else='false'}%'}% |
 | is not empty \
 | =$scope!=''= \
-| %IF{"$paramtest=1 and $noparam=1" then='%IF{"$scope!=''" then='true %RED%NOTE: value is undefined, so also \\'not empty\\'%ENDCOLOR%'}%'}% \
+| %IF{"$paramtest=1 and $noparam=1" then="%IF{"$scope!=''" then="true %RED%NOTE: value is undefined, so also \\'not empty\\'%ENDCOLOR%"}%"}% \
 | %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope!=''" else='false'}%'}% \
 | %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope!=''" then='true'}%'}% |
 | has value =text= \
@@ -241,7 +241,7 @@ TablePlugin is %IF{
 Example:
 <verbatim class="tml">
 You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
+You %IF{"'%SANDBOXWEB%.TestTopic' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB%.TestTopic.
 You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
 </verbatim>
 
@@ -250,8 +250,8 @@ You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox we
 
 Example:
 <verbatim class="tml">
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%.
-Web Sandbox %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%.
+Topic %SANDBOXWEB%.TestTopic %IF{"istopic '%SANDBOXWEB%.TestTopic'" then="exists" else="does not exist"}%.
+Web %SANDBOXWEB% %IF{"isweb '%SANDBOXWEB%'" then="exists" else="does not exist"}%.
 </verbatim>
 
 ---+++ Group membership

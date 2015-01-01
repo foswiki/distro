@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1308332134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420148306" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 %MAKETEXT{"The [_1] web is the sandbox you can use for testing. Everybody is welcome to add or delete some stuff. It is recommended to walk through the [_2] to get a jumpstart on the [_3] tool. A good rule of thumb is to add at the end of the page and sign and date it with your [_4]." args="<b><nop>%WEB%</b>,%SYSTEMWEB%.TwentyMinuteTutorial,<nop>%WIKITOOLNAME%,%SYSTEMWEB%.WikiName"}%
 
 <!--
-To include a custom "create new topic" form on a page, see System.WebCreateNewTopicComponents
+To include a custom "create new topic" form on a page, see %SYSTEMWEB%.WebCreateNewTopicComponents
 -->
 %TWISTY{
   link="%BUTTON{"%MAKETEXT{"Create New Topic"}%" icon="add"}%%CLEAR%" 

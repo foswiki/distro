@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419938319" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! %TOPIC%
 
@@ -256,7 +256,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * An ordinary URL pasted into text will appear as a link - http://www.google.com
       * You can also prettify URLs using square brackets:
          * =[<nop>[http://www.google.com/][Google]]= appears as [[http://www.google.com/][Google]]
-   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[System.Macros][%SYSTEMWEB%.Macros]] for full details.
+   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[%SYSTEMWEB%.Macros][%SYSTEMWEB%.Macros]] for full details.
 
 ---++ More formatting
    * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
@@ -387,13 +387,13 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1394884241" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1394884243" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1394884244" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1394884246" size="2394" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1394884248" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1394884249" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1394884251" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1394884253" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1394884254" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1419938319" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1420147851" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1420147851" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1420147851" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1420147851" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1420147851" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1420147851" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1420147851" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1420147851" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1420147851" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1420147851" size="1687" user="ProjectContributor" version="1"}%

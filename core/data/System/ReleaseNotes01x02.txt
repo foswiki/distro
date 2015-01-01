@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -232,7 +232,7 @@ macro to generate singe quotes by default.  This has no impact unless the
 
 In order to simplify migration, a new =quote== parameter has been added to the
 ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
-quotes delimiters.  See System.VarICON for more details.
+quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 
 ---++ Foswiki Release 1.2 Details
 

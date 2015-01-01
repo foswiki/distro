@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419310881" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installation Guide
 
@@ -166,7 +166,7 @@ The configure tool should generally be restricted to a very small subset of user
 #AuthenticationOfUsers
 ---+++ Step 7: Authentication
 
-Authentication of users means their activity can be tracked, and access to your site can be controlled. *This is particularly important for sites that are publicly accessible on the web.*  You are strongly encouraged to read [[System.UserAuthentication][%SYSTEMWEB%.UserAuthentication]] and Foswiki:Support.UserAuthenticationSupplement for further information about managing users and access controls for your Foswiki site.
+Authentication of users means their activity can be tracked, and access to your site can be controlled. *This is particularly important for sites that are publicly accessible on the web.*  You are strongly encouraged to read [[%SYSTEMWEB%.UserAuthentication][%SYSTEMWEB%.UserAuthentication]] and Foswiki:Support.UserAuthenticationSupplement for further information about managing users and access controls for your Foswiki site.
 
 The most common authentication methods used for public Foswiki installations are Template Login and Apache Login. They have the following relative advantages:
    * Template Login can be set up without any web server configuration, and users can log off without restarting the browser. As the login page is just a Wiki page, you can customize it to suit your needs.
@@ -224,15 +224,15 @@ To add an initial administrator to the =AdminGroup=, perform the following steps
    * Go to the =[[%USERSWEB%.AdminGroup]]= topic and select the "internal admin login" link. Login using the password you set on the =configure= page.
    * After you have logged in as the internal admin, view the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the %USERSWEB%.AdminGroup. You do _not_ need to edit the topic.
 
-Any member of the %USERSWEB%.AdminGroup can add subsequent members — you do not have to use the internal admin login.
+Any member of the %USERSWEB%.AdminGroup can add subsequent members, you do not have to use the internal admin login.
 
-To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[System.AccessControls][%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
+To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[%SYSTEMWEB%.AccessControls][%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
 
 ---+++ Congratulations!
 
 You now have set up your Foswiki installation! At this point you can start creating and editing pages. See InstallationGuidePart2 to proceed with further tailoring your site.
 
-In order to keep your user, group, and site configuration information separate from the actual content of your site, it is recommended that you create a new web in which your site's pages will reside. See [[System.ManagingWebs][%SYSTEMWEB%.ManagingWebs]] for more information on Wiki webs and how to create one.
+In order to keep your user, group, and site configuration information separate from the actual content of your site, it is recommended that you create a new web in which your site's pages will reside. See [[%SYSTEMWEB%.ManagingWebs][%SYSTEMWEB%.ManagingWebs]] for more information on Wiki webs and how to create one.
 
 #TroubleshootingInstall
 ---++ Troubleshooting
@@ -240,7 +240,7 @@ In order to keep your user, group, and site configuration information separate f
 If you are having problems with your installation, try the following:
 
    * Run the =configure= script and ensure you have resolved all errors and are satisfied that you understand any warnings.
-   * Review the [[System.PerlDependencyReport][%SYSTEMWEB%.PerlDependencyReport]] and sure all dependencies are correctly resolved.
+   * Review the [[%SYSTEMWEB%.PerlDependencyReport][%SYSTEMWEB%.PerlDependencyReport]] and sure all dependencies are correctly resolved.
    * Consult the topics at Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
    * Ask for help on [[Foswiki:Community.InternetRelayChat][IRC]] (irc.freenode.net, channel #foswiki). There are often a number of people waiting to help.
    * Ask a question in the Foswiki:Support web
