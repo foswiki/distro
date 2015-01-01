@@ -84,7 +84,7 @@ sub test_validateAttachmentName {
     return;
 }
 
-sub _shittify {
+sub _sanitize {
     my ( $a, $b ) = Foswiki::Sandbox::sanitizeAttachmentName(shift);
     return $a;
 }
@@ -124,11 +124,11 @@ sub test_sanitizeAttachmentName {
     my $this = shift;
 
     # Check that leading paths are stripped
-    $this->assert_str_equals( "abc", _shittify("abc") );
-    $this->assert_str_equals( "abc", _shittify("./abc") );
-    $this->assert_str_equals( "abc", _shittify("\\abc") );
-    $this->assert_str_equals( "abc", _shittify("//abc") );
-    $this->assert_str_equals( "abc", _shittify("\\\\abc") );
+    $this->assert_str_equals( "abc", _sanitize("abc") );
+    $this->assert_str_equals( "abc", _sanitize("./abc") );
+    $this->assert_str_equals( "abc", _sanitize("\\abc") );
+    $this->assert_str_equals( "abc", _sanitize("//abc") );
+    $this->assert_str_equals( "abc", _sanitize("\\\\abc") );
 
     # Check that "certain characters" are munched
     my $crap = '';
@@ -141,7 +141,7 @@ sub test_sanitizeAttachmentName {
     $this->assert_num_equals( 51, length($crap) );
     my $x = $crap =~ / / ? '_' : '';
     $this->assert_str_equals( "pick_me${x}pick_me",
-        _shittify("pick me${crap}pick me") );
+        _sanitize("pick me${crap}pick me") );
     my %junkset = (
         '<script>'       => 'script',
         '%3cscript%3e'   => '3cscript3e',
@@ -161,7 +161,7 @@ sub test_sanitizeAttachmentName {
         #"foo\x9ffoo" => 'foofoo', # C1 Control
     );
     while ( my ( $junk, $filtered ) = each %junkset ) {
-        $this->assert_str_equals( $filtered, _shittify($junk) );
+        $this->assert_str_equals( $filtered, _sanitize($junk) );
     }
 
     # Check that the upload filter is applied.
@@ -172,16 +172,16 @@ sub test_sanitizeAttachmentName {
          | pl
          | py
          | cgi ))$)x;
-    $this->assert_str_equals( ".htaccess.txt", _shittify(".htaccess") );
+    $this->assert_str_equals( ".htaccess.txt", _sanitize(".htaccess") );
     for my $i (qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI)) {
         my $j = "bog.$i";
         my $y = "$j.txt";
-        $this->assert_str_equals( $y, _shittify($j) );
+        $this->assert_str_equals( $y, _sanitize($j) );
     }
     for my $i (qw(php phtm shtml PHP PHTM SHTML)) {
         my $j = "bog.$i.s";
         my $y = "$j.txt";
-        $this->assert_str_equals( $y, _shittify($j) );
+        $this->assert_str_equals( $y, _sanitize($j) );
     }
 
     return;

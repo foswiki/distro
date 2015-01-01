@@ -517,7 +517,7 @@ NONNY
         )
     );
 
-    # This should fail and return an oopsUrl (FFS, what a shit spec)
+    # This should fail and return an oopsUrl (FFS, what a poor spec)
     my $oopsURL =
       Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'Gasp' );
     $this->assert($oopsURL);

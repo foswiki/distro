@@ -125,7 +125,7 @@ sub _includeProtocol {
     eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
     if ($@) {
         return $this->_includeWarning( $control->{warn}, 'bad_include_path',
-            "FUCKED UP $handler for " . $control->{_DEFAULT} );
+            "BROKEN $handler for " . $control->{_DEFAULT} );
     }
     else {
         $handler = 'Foswiki::IncludeHandlers::' . $handler;

@@ -41,7 +41,7 @@ sub set_up {
 
 }
 
-# The spec of the "webs" and "subwebs" parameters are utterly fucked.
+# The spec of the "webs" and "subwebs" parameters are utterly broken.
 # "webs" specifies a set of webs to consider. If it is undefined, then it
 # defaults to all root level webs. Otherwise it is treated as an ordered
 # list of web names. There are two pseudo-webs that can be included in this

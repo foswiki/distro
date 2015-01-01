@@ -25,7 +25,6 @@ BEGIN {
 
 sub new {
     my ( $class, $message, $expr, $at ) = @_;
-    Carp::confess "FUCK" if $message =~ /PPOPOO/;
     if ( defined $expr && length($expr) ) {
         $message .= " in '$expr'";
     }

@@ -4043,7 +4043,7 @@ sub _cut_the_crap {
     return $result;
 }
 
-sub test_no_format_no_shit {
+sub test_no_format_no_junk {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');

@@ -110,8 +110,8 @@ THIS
 
 sub test_old_new_3 {
     my $this = shift;
-    my $in   = '%ENCODE{"spreadsheet" old="ee,sp" new="i,"}%';
-    my $out  = 'readshit';
+    my $in   = '%ENCODE{"spreadsheet" old="heet,sp" new="tuf,"}%';
+    my $out  = 'readstuf';
     $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
