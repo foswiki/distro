@@ -172,7 +172,6 @@ sub readConfig {
     }
 
     for my $file (@files) {
-        print STDERR "Applying configuration from $file\n" if DEBUG;
         my $return = do $file;
 
         unless ( defined $return && $return eq '1' ) {
