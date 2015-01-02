@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! Wiki - culture, concepts and principles
 
@@ -6,37 +6,39 @@
 
 ---++ General concept and idea of wikis
 ---+++ What is a wiki?
-"A wiki is a page or collection of Web pages designed to enable anyone who accesses it to contribute or modify content, using a simplified markup language. Wikis are often used to create collaborative websites and to power community websites. The collaborative encyclopedia [[http://wikipedia.org][Wikipedia]] is one of the best-known wikis. Wikis are used in business to provide intranets and Knowledge Management systems" [[%TOPIC%#CiteReference][<sup>1</sup>]]. 
+"A wiki is a page or collection of Web pages designed to enable anyone who accesses it to contribute or modify content, using a simplified markup language. Wikis are often used to create collaborative websites and to power community websites. The collaborative encyclopedia [[http://wikipedia.org][Wikipedia]] is one of the best-known wikis. Wikis are used in business to provide intranets and Knowledge Management systems" (from [[http://en.wikipedia.org/wiki/Wiki][Wikipedia]]). 
 
-Originally, the word "wiki" is hawaiian and means "fast" or "quick" [[%TOPIC%#CiteReference][<sup>2</sup>]]. According to Ward Cunningham, the developer of the first wiki software called [[http://c2.com/cgi/wiki?WikiWikiWeb][WikiWikiWeb]], the name was chosen "as an alliterative substitute for quick and thereby avoided naming this stuff quick-web" [[%TOPIC%#CiteReference][<sup>3</sup>]].
+Originally, the word "wiki" is [[http://wehewehe.org/gsdl2.5/cgi-bin/hdict?e=q-0hdict--00-0-0--010---4----den--0-000lpm--1en-Zz-1---Zz-1-home-wiki--00031-0000escapewin-00&a=q&d=D21021][hawaiian]] and means "fast" or "quick". According to Ward Cunningham, the developer of the first wiki software called [[http://c2.com/cgi/wiki?WikiWikiWeb][WikiWikiWeb]], the name was [[http://c2.com/cgi/wiki?WikiHistory][chosen]] "as an alliterative substitute for quick and thereby avoided naming this stuff quick-web".
 
 ---+++ The idea behind wikis
-As mentioned above, the idea behind wikis is that anybody can create and edit content of a wiki page, using a simplified markup language. 
+As mentioned above, the original idea behind wikis was that anybody can create and edit content of a wiki page, using a simplified markup language. 
 
-A markup language is a language that combines text with additional anotations that have an impact of the presentation of the text itself once it is displayed. An example for markup language is HTML (Hypertext Markup Language) that is the basis for the majority of internet websites. In conjunction with wikis, the markup language is reduced to a few simple annotations that easily allow any user to format a wiki page. The markup language used on this %WIKITOOLNAME% site is called TML which stands for Topic Markup Language. For detailed information, see [[wiki syntax]].
+A markup language is a language that combines text with additional anotations that have an impact of the presentation of the text itself once it is displayed. An example for markup language is HTML (Hypertext Markup Language) that is the basis for the majority of internet websites. In conjunction with wikis, the markup language is reduced to a few simple annotations that easily allow any user to format a wiki page. These days, of course, [[http://en.wikipedia.org/wiki/WYSIWYG][WYSIWYG]] editors can be used to simplify interaction with the wiki.
 
-According to its founder, the basic principles of a wiki are [[%TOPIC%#CiteReference][<sup>4</sup>]]:
+According to its founder, the [[http://c2.com/cgi/wiki?WhyWikiWorks][basic principles of a wiki]] are:
    * "Any information can be altered or deleted by anyone. Wiki pages represent consensus because it's much easier to !DeleteInsults and remove !WikiSpam than indulge them. What remains generates new ideas by the iteractive integration of multiple points of view.
    * Anyone can play. This sounds like a recipe for low signal - Wiki gets hit by the great unwashed as often as any other site - but !FromFertilizerComeFlowers. Only good players have a desire to keep playing.
-   * Wiki is not !WysiWyg. It's an intelligence test of sorts to be able to edit a wiki page. It's not rocket science, but it doesn't appeal to the !VideoAddicts. If it doesn't appeal, they don't participate, which leaves those of us who read and write to get on with rational discourse.
    * Wiki doesn't work in real time. People take time to think, sometimes days or weeks, before they follow up some edit. So what people write is often well-considered."
 
-To avoid malicious intents of manipulation of contents, a wiki normally comes with a revision control system that backs up any changes that are done to a topic and that can be recovered at any time, if necessary.
+---++ How is Foswiki different?
 
----++ Historical background
----+++ History of wikis
-The first wiki, [[http://c2.com][WikiWikiWeb]], was dated online on March 25, 1995. Soon clones were published, probably the first by Patrick Mueller written in REXX for OS/2. Cunningham himself wrote a version of wiki that could host its own source code called !WikiBase.
+That all sounds very well, but it doesn't take account of the constraints and requirements we encounter in the modern business environment. Foswiki has been contributed to by people with many years of experience in many industries, so it implements a lot of essential features beyond what is described above, such as:
+   * Strict access control
+   * Protection against phishing, spam, and other forms of malicious attack
+   * Change histories
+   * Integration with corporate information systems, such as LDAP
+   * Support for state-of-the-art web servers
+   * Integration with corporate database solutions
+   * Support for all industry standard browsers
+   * WYSIWYG editing
 
-Another one was !CvWiki, developed by Peter Merel in 1997. It was the first wiki clone that had a functioning transclusion and backlinks. Besides it was fully integrated with a revision control system that permited basically unlimited tracking of changes.
+Here are just a few of the ways we have seen Foswiki being used in enterprise environments:
+   * As a document management system, where wiki content is developed by a teamof people. For example, the documentation for a product might be done in a wiki, with contributions from design, engineering, sales, and even post-sales support through the lifecycle of the product. Wikipedia is an example of this model.
+   * As a collaborative discussion platform, where someone posts an article that is then iteratively discussed - rather like a blog, though in a more fluid and freeform way.
+   * As an integration platform, where other tools - for example, issue trackers, translation platform, web services - can be brought together to provide a single coordinated interface for users.
+   * As a training development platform, to develop interactive training
+   * As a customer support database, where customers can directly interact with their issues (subject to access control) and communicate though the system with the support team
 
-Today there is a variety of wikis, one of them being the wiki you are presently looking at.
+For more ideas on how a wiki can be used - and there are many - visit the Foswiki extensions web at http://foswiki.org/Extensions. 
 
----+++ History of Foswiki
-Foswiki is the latest in a line of Perl wiki implementations that started with the !JosWiki clone in the late 1990's. For a full history of Foswiki, visit the [[http://foswiki.org][Foswiki website]].
-
-#CiteReference
----++ Bibliography
-   1. <u>Wiki</u>. 2008. Wikipedia, the free encyclopedia. 17 Nov. 2008 %BR% [[http://en.wikipedia.org/wiki/Wiki][<http://en.wikipedia.org/wiki/Wiki>]].
-   1. <u>wiki</u>. 2008. Hawaiian Dictionaries. 17 Nov. 2008 %BR% [[http://wehewehe.org/gsdl2.5/cgi-bin/hdict?e=q-0hdict--00-0-0--010---4----den--0-000lpm--1en-Zz-1---Zz-1-home-wiki--00031-0000escapewin-00&a=q&d=D21021][<http://wehewehe.org/gsdl2.5/cgi-bin/hdict?e=q-0hdict--00-0-0--010---4----den--0-000lpm--1en-Zz-1---Zz-1-home-wiki--00031-0000escapewin-00&a=q&d=D21021>]]
-   1. <u>Wiki History</u>. 2008. Cunningham & Cunningham, Inc. 17 Nov. 2008 %BR% [[http://c2.com/cgi/wiki?WikiHistory][<http://c2.com/cgi/wiki?WikiHistory>]]
-   1. <u>Why Wiki Works</u>. 2008. Cunningham & Cunningham, Inc. 17 Nov. 2008 %BR% [[http://c2.com/cgi/wiki?WhyWikiWorks][<http://c2.com/cgi/wiki?WhyWikiWorks>]]
+There are many wiki implementations in the world today, but Foswiki stands apart from the others in it's raw power and flexibility. The basic wiki platform has been refined and improved over the years, while hundreds of contributed modules enhance it's functionality in many different domains, mainly oriented towards business applications. 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418904668" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -8,10 +8,10 @@ This step-by-step, hands-on tutorial gets you up to speed with all the Foswiki b
 %STARTINCLUDE%
 
 ---++ 1. Get set...
-Open two browser windows, so that you can follow these steps in one window, while trying things out in the other.
+Open two browser windows, so that you can follow these steps in one window while trying things out in the other.
 
 ---++ 2. Take a quick tour...
-A Foswiki site is divided into webs; each one usually represents one area of collaboration. You can navigate the webs from each web page; by default, those links are located either in the upper part of a page, below the site logo or in the menu on the right hand side. 
+A Foswiki site is divided into areas called _webs_. Usually webs represent one area of collaboration. Most Foswiki sites have links to the available webs on every page, in the lower part of the menu on the left hand side. 
    * Each web has hyperlinked topics, displayed as pages in your browser.
    * The home page in each web is the %HOMETOPIC% topic.
    * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together.

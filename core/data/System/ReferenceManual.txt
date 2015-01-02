@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Reference Manual
 
 _Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki - the Free and Open Source Wiki._
 
 All manual sections in one big page:
-   * [[CompleteDocumentation][Complete Documentation]] (1MB size, almost 200 printed pages)
+   * [[CompleteDocumentation][Complete Documentation]] (1MB size, over 200 printed pages. Only use this if you require a printed copy.)
 
 Manual sections in separate pages:
    1. [[System Requirements]]

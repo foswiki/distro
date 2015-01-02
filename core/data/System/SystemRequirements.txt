@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417371840" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -12,48 +12,14 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 
 | *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
-| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl !RcsLite. <br /> If using an RCS-based store, then install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
-| Other external programs | =fgrep, egrep= |
-| Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
+| External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
----++ Perl Modules
+Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run.
 
-A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
-
-The following CPAN modules are not shipped with Foswiki. Note that Foswiki extensions may add additional requirements.
-Modules marked as Required may still be optional if certain default core features are not used.
-
-| *Module* | *Required/Optional* | *Description* |
-| CPAN:Algorithm::Diff | Required | |
-| CPAN:B::Deparse | Required | |
-| CPAN:CGI | Required | Versions 2.89, 3.37, 3.43, and 3.47 should be avoided for I18N. Most version from 3.15 and onwards should work. Note: As of perl 5.19.7, CGI is no longer shipped with perl core and must be installed using CPAN. |
-| CPAN:CGI::Cookie | Required | Version >=1.24 (part of CGI) |
-| CPAN:CGI::Util | Required | Installs as part of CGI. |
-| CPAN:Crypt::PasswdMD5 | Required | Used for admin password hash and .htpasswd encoding |
-| CPAN:Data::Dumper | Required | |
-| CPAN:Digest::MD5 | Required | |
-| CPAN:Encode | Required | Used for international characters |
-| CPAN:Error | Required | Version >=0.15 |
-| CPAN:File::Copy::Recursive | Required | Used by !PlainFileStore and !DBIStore |
-| CPAN:HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
-| CPAN:HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
-| CPAN:HTML::Tree | Required | Used by CompareRevisionsAddOn. |
-| CPAN:JSON | Required | Used by Configure and JsonRpcContrib |
-| CPAN:URI | Required | Used by MailerContrib for email notifications of topic changes. |
-| CPAN:LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
-| CPAN:version | Required | version >= 0.77 required for module version checks |
-| CPAN:Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
-| CPAN:Win32::Console | Optional | May be required for Internationalization on Windows |
-| CPAN:Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
-| CPAN:Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
-| CPAN:Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
-
-Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
-<verbatim class="bash">
-perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
-</verbatim>
-For more detailed dependency information, try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
+Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test all dependencies and alert you when any are missing.
+ 
+If you have problems with any dependencies, use the =tools/dependencies_installer.pl= perl script, which makes perl module installation easier. Run it with option =-h= to understand the basics.
 
 Foswiki ships with a copy of =CGI::Session= in order to run the =configure= script.
 
@@ -70,7 +36,7 @@ they were put into an additional extension. See Foswiki:Extensions.CpanContrib. 
 Install apache and rcs ==apt-get install apache2 rcs==
 
 | *Perl Module* | *Package to install* | *Notes* |
-| Algorith::Diff | =libalgorithm-diff-perl= |
+| Algorithm::Diff | =libalgorithm-diff-perl= |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
 | Encode | =libencode-perl= (maybe required if your version is outdated) |
 | Error | =liberror-perl= |
@@ -96,11 +62,11 @@ After expanding the Foswiki archive, change the ownership of the files:
 Install apache2, rcs, and perl-CPAN
 
 | *Perl Module* | *Package to install* | *Notes* |
-| File::Copy::Recursive | (FIXME) | |
+| File::Copy::Recursive | =perl-File-Copy-Recursive= | |
 | HTML::Parser | =perl-HTML-Parser= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =perl-HTML-Tree= | |
-| JSON | (FIXME) | |
+| JSON | =perl-JSON= | |
 | LWP | =perl-libwww-perl= | |
 | version | | Must be version 0.77 or newer |
 | Digest::SHA | =perl-Digest-SHA= | |
@@ -122,11 +88,11 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
 | Error | =dev-perl/Error= | |
-| File::Copy::Recursive | (FIXME) | |
+| File::Copy::Recursive | =dev-perl/File-Copy-Recursive= | |
 | HTML::Parser | =dev-perl/HTML-Parser= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =dev-perl/HTML-Tree= | |
-| JSON | (FIXME) | |
+| JSON | =dev-perl/JSON= | |
 | LWP | =dev-perl/libwww-perl= | |
 | version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
 | Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
