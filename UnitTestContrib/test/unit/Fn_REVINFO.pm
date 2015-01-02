@@ -190,6 +190,22 @@ sub test_formatUser {
     return;
 }
 
+sub test_std_escapes {
+    my $this = shift;
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
+    my $ui = $topicObject->expandMacros(
+        '%REVINFO{format="$username$comma $wikiname $lt$wikiusername$gt"}%');
+    $this->assert_str_equals(
+"$this->{test_user_login}, $this->{test_user_wikiname} <$this->{users_web}\.$this->{test_user_wikiname}>",
+        $ui
+    );
+    $topicObject->finish();
+
+    return;
+}
+
 sub test_compatibility1 {
     my $this = shift;
 
