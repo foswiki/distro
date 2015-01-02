@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420165291" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarWEBLIST
 ---+++ WEBLIST{"format"} -- index of all webs
@@ -7,9 +7,9 @@
    * Supported parameters:
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
-     | ="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only) | =$name= |
+     | ="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only).  The standard [[format tokens]] may also be used. | =$name= |
      | =format="format"= | (Alternative to above) | =$name= |
-     | =separator=", "= | Line separator | =$n= (new line) |
+     | =separator=", "= | Line separator | =$n= (new line).  Standard [[format tokens]] may also be used. |
      | =web=""= | if you specify =$web= in format, it will be replaced with this value. | none |
      | =webs="public"=   | Comma separated list of webs to consider. This list can include two pseudo-webs, =public= which expands to all non-hidden and =webtemplate= which expands to the names of all template webs.%BR% *NOTE:* Administrators will see all webs, not just the public ones | =public= |
      | =subwebs="%SANDBOXWEB%"=   | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | =""= |

@@ -90,6 +90,16 @@ sub test_no_format_no_separator {
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
+sub test_no_format_escaped_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}
+      ->expandMacros('%WEBLIST{separator="$comma$n"}%');
+    $this->assert_str_equals( join( ",\n", @allWebs ), $text );
+}
+
 sub test_no_format_with_separator {
     my $this = shift;
 
@@ -159,6 +169,13 @@ sub test_format {
       ->expandMacros('%WEBLIST{format="$name:$qname:$web" web="sponge"}%');
     $this->assert_str_equals( join( "\n", map { "$_:\"$_\":sponge" } @allWebs ),
         $text );
+
+    # format="format" Using standard escapes
+    $text =
+      $this->{test_topicObject}->expandMacros(
+        '%WEBLIST{format="$dollarname=$name$comma$qname:$web" web="sponge"}%');
+    $this->assert_str_equals(
+        join( "\n", map { "\$name=$_,\"$_\":sponge" } @allWebs ), $text );
 }
 
 sub test_subwebs {

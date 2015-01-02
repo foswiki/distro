@@ -30,7 +30,7 @@ sub WEBLIST {
     $format ||= '$name';
 
     my $separator = $params->{separator} || "\n";
-    $separator =~ s/\$n/\n/;
+    $separator = Foswiki::expandStandardEscapes($separator);
 
     my $selection = $params->{selection} || '';
     $selection =~ s/\,/ /g;
@@ -68,6 +68,7 @@ sub WEBLIST {
         $line         =~ s/\$indentedname/$indenteditem/g;
         my $mark = ( $selection =~ / \Q$item\E / ) ? $marker : '';
         $line =~ s/\$marker/$mark/g;
+        $line = Foswiki::expandStandardEscapes($line);
         push( @items, $line );
     }
     return join( $separator, @items );
