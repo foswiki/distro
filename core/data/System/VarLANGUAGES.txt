@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420159218" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLANGUAGES
 ---+++ LANGUAGES -- list available languages
@@ -9,13 +9,14 @@
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =format=     | format for each item. See below for format tokens available in the format string. | ="   * $langname"= |
-     | =separator=  | separator between items. | ="\n"= (newline) |
+     | =separator=  | separator between items. | ="\n"= (newline) Note: The standard [[format tokens]] can also be used here. |
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
      | =selection="%<nop>LANGUAGE%"= | Current language to be selected in list | =(none)= |
-   * =format= tokens:
+   * =format= tokens: (In addition to these tokens, the standard [[format tokens]] can also be used)
      %TABLE{sort="off"}%
      | *Token* | *Meaning* |
      | =$langname= | language's name, as informed by the translators |
      | =$langtag= | language's tag. Ex: =en=, =pt-br=, etc. |
+     | =$marker= | Marker will be substituted only when the item matches the selection. |
    * Example: =&lt;select&gt;%<nop>LANGUAGES{format="&lt;option $marker value='$langtag'>$langname&lt;/option&gt;" selection="%<nop>LANGUAGE%"}%&lt;/select&gt;= creates an option list of the available languages with the current language selected
 

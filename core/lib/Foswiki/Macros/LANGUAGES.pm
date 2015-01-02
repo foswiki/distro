@@ -39,6 +39,7 @@ sub LANGUAGES {
         $result .= $item;
         $i++;
     }
+    $result = Foswiki::expandStandardEscapes($result);
 
     return $result;
 }
@@ -47,7 +48,7 @@ sub LANGUAGES {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
