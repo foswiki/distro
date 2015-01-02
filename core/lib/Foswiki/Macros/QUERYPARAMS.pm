@@ -19,8 +19,18 @@ sub QUERYPARAMS {
       defined $params->{format}
       ? $params->{format}
       : '$name=$value';
+
+    # escape tokens so we can expand $dollar early
+    $format =~ s/\$name/\$\01/g;
+    $format =~ s/\$value/\$\02/g;
+
     my $separator = defined $params->{separator} ? $params->{separator} : "\n";
     my $encoding = $params->{encoding} || 'safe';
+
+    # Expand standard escapes early.  We must not expand escapes contained
+    # in the param data.
+    $format    = Foswiki::expandStandardEscapes($format);
+    $separator = Foswiki::expandStandardEscapes($separator);
 
     my @list;
     foreach my $name ( $this->{request}->multi_param() ) {
@@ -33,8 +43,8 @@ sub QUERYPARAMS {
             $value = $this->ENCODE( { type => $encoding, _DEFAULT => $value } );
 
             my $entry = $format;
-            $entry =~ s/\$name/$name/g;
-            $entry =~ s/\$value/$value/;
+            $entry =~ s/\$\01/$name/g;
+            $entry =~ s/\$\02/$value/;
             push( @list, $entry );
         }
     }

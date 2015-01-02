@@ -220,10 +220,17 @@ sub test_stdescapes_not_expanded {
     my $str;
 
     $this->{request}->param( -name => 'percent', -value => '$percnt' );
+    $this->{request}->param( -name => 'dollar',  -value => '$dollar' );
     $str =
-      $this->{test_topicObject}
-      ->expandMacros('%QUERYPARAMS{format="$name is equal to $value"}%');
-    $this->assert_str_equals( 'percent is equal to $percnt', "$str" );
+      $this->{test_topicObject}->expandMacros(
+'%QUERYPARAMS{format="$dollarname $name is equal to $dollarvalue $value" separator="$n"}%'
+      );
+    my $expected = <<'FOO';
+$name percent is equal to $value $percnt
+$name dollar is equal to $value $dollar
+FOO
+    chomp $expected;
+    $this->assert_str_equals( $expected, "$str" );
 
 }
 
