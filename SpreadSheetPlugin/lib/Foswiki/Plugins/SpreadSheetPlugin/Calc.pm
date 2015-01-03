@@ -20,7 +20,12 @@ my $debug;
 my @tableMatrix;
 my $cPos;
 my $rPos;
-my $escToken    = "\0";
+my $escToken = "\0";
+my $escComma =
+  "\1";    # Single char escapes so that size functions work as expected
+my $escOpenP    = "\2";
+my $escCloseP   = "\3";
+my $escNewLn    = "\4";
 my %varStore    = ();
 my $dontSpaceRE = "";
 
@@ -132,6 +137,9 @@ sub _doCalc {
     my ($theAttributes) = @_;
     my $text = &Foswiki::Func::extractNameValuePair($theAttributes);
 
+    # Escape commas, parenthesis and newlines in tripple quoted strings
+    $text =~ s/'''(.*?)'''/_escapeString($1)/ges;
+
     # Add nesting level to parenthesis,
     # e.g. "A(B())" gets "A-esc-1(B-esc-2(-esc-2)-esc-1)"
     my $level = 0;
@@ -144,6 +152,22 @@ sub _doCalc {
         $tableMatrix[$rPos][$cPos] = $text;
     }
 
+    # Restore escaped strings
+    $text =~ s/$escComma/,/g;
+    $text =~ s/$escOpenP/\(/g;
+    $text =~ s/$escCloseP/\)/g;
+    $text =~ s/$escNewLn/\n/g;
+
+    return $text;
+}
+
+# =========================
+sub _escapeString {
+    my ($text) = @_;
+    $text =~ s/,/$escComma/g;
+    $text =~ s/\(/$escOpenP/g;
+    $text =~ s/\)/$escCloseP/g;
+    $text =~ s/\n/$escNewLn/g;
     return $text;
 }
 
@@ -1742,7 +1766,7 @@ m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})[\.
         $day  = $3;
         $hour = $4;
         $min  = $5;
-        $sec  = $6;          # Note: $day is in fact doy
+        $sec  = $6;    # Note: $day is in fact doy
     }
     elsif ( $theText =~
 m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})|
@@ -2065,7 +2089,7 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2001-2012 Peter Thoeny, peter@thoeny.org and
+Copyright (C) 2001-2014 Peter Thoeny, peter@thoeny.org and
 TWiki Contributors.
 
 This program is free software; you can redistribute it and/or

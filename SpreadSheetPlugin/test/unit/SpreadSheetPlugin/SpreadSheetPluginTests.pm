@@ -411,33 +411,65 @@ sub test_FORMATGMTIME {
         $this->CALC('$FORMATGMTIME(0, $day $mon $year - $hour $min $sec)') );
     $this->assert_equals( '31 Dec 1969 - 23 59 59',
         $this->CALC('$FORMATGMTIME(-1, $day $mon $year - $hour $min $sec)') );
-    $this->assert_equals( '19 Jan 2038 - 03 14 08',
-        $this->CALC('$FORMATGMTIME(2147483648, $day $mon $year - $hour $min $sec)') );
-    $this->assert_equals( '13 Dec 1901 - 20 45 51',
-        $this->CALC('$FORMATGMTIME(-2147483649, $day $mon $year - $hour $min $sec)') );
+    $this->assert_equals(
+        '19 Jan 2038 - 03 14 08',
+        $this->CALC(
+            '$FORMATGMTIME(2147483648, $day $mon $year - $hour $min $sec)')
+    );
+    $this->assert_equals(
+        '13 Dec 1901 - 20 45 51',
+        $this->CALC(
+            '$FORMATGMTIME(-2147483649, $day $mon $year - $hour $min $sec)')
+    );
 
-    $this->assert_equals( '2004-W53-6',
-        $this->CALC('$FORMATGMTIME($TIME(2005-01-01), $isoweek($year-W$wk-$day))') );
-    $this->assert_equals( '2009-W01-1',
-        $this->CALC('$FORMATGMTIME($TIME(2008-12-29), $isoweek($year-W$wk-$day))') );
+    $this->assert_equals(
+        '2004-W53-6',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2005-01-01), $isoweek($year-W$wk-$day))')
+    );
+    $this->assert_equals(
+        '2009-W01-1',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2008-12-29), $isoweek($year-W$wk-$day))')
+    );
 }
 
 sub test_FORMATTIME {
     my ($this) = @_;
 
-    $this->assert_equals( '1970/01/01 00:00:00 GMT',
-        $this->CALC('$FORMATTIME(0, $year/$month/$day $hour:$minute:$second GMT)') );
-    $this->assert_equals( '1969/12/31 23:59:59 GMT',
-        $this->CALC('$FORMATTIME(-1, $year/$month/$day $hour:$minute:$second GMT)') );
-    $this->assert_equals( '2038/01/19 03:14:08 GMT',
-        $this->CALC('$FORMATTIME(2147483648, $year/$month/$day $hour:$minute:$second GMT)') );
-    $this->assert_equals( '1901/12/13 20:45:51 GMT',
-        $this->CALC('$FORMATTIME(-2147483649, $year/$month/$day $hour:$minute:$second GMT)') );
+    $this->assert_equals(
+        '1970/01/01 00:00:00 GMT',
+        $this->CALC(
+            '$FORMATTIME(0, $year/$month/$day $hour:$minute:$second GMT)')
+    );
+    $this->assert_equals(
+        '1969/12/31 23:59:59 GMT',
+        $this->CALC(
+            '$FORMATTIME(-1, $year/$month/$day $hour:$minute:$second GMT)')
+    );
+    $this->assert_equals(
+        '2038/01/19 03:14:08 GMT',
+        $this->CALC(
+'$FORMATTIME(2147483648, $year/$month/$day $hour:$minute:$second GMT)'
+        )
+    );
+    $this->assert_equals(
+        '1901/12/13 20:45:51 GMT',
+        $this->CALC(
+'$FORMATTIME(-2147483649, $year/$month/$day $hour:$minute:$second GMT)'
+        )
+    );
 
-    $this->assert_equals( '2004-W53-6 GMT',
-        $this->CALC('$FORMATTIME($TIME(2005-01-01 gmt), $isoweek($year-W$wk-$day) GMT)') );
-    $this->assert_equals( '2009-W01-1 GMT',
-        $this->CALC('$FORMATTIME($TIME(2008-12-29 gmt), $isoweek($year-W$wk-$day) GMT)') );
+    $this->assert_equals(
+        '2004-W53-6 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2005-01-01 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
+    $this->assert_equals(
+        '2009-W01-1 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2008-12-29 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
 
 }
 
@@ -1239,10 +1271,8 @@ sub test_T {
 sub test_TIME {
     my ($this) = @_;
 
-    $this->assert_equals( '0',
-        $this->CALC('$TIME(1970/01/01 GMT)') );
-    $this->assert_equals( '-31536000',
-        $this->CALC('$TIME(1969/01/01 GMT)') );
+    $this->assert_equals( '0',         $this->CALC('$TIME(1970/01/01 GMT)') );
+    $this->assert_equals( '-31536000', $this->CALC('$TIME(1969/01/01 GMT)') );
     $this->assert_equals( '0',
         $this->CALC('$TIME(1970/01/01 - 00:00:00 GMT)') );
     $this->assert_equals( '-1',
@@ -1252,10 +1282,8 @@ sub test_TIME {
     $this->assert_equals( '-2147483649',
         $this->CALC('$TIME(1901/12/13 - 20:45:51 GMT)') );
 
-    $this->assert_equals( '1066089600',
-        $this->CALC('$TIME(2003/10/14 GMT)') );
-    $this->assert_equals( '1066089600',
-        $this->CALC('$TIME(DOY2003.287)') );
+    $this->assert_equals( '1066089600', $this->CALC('$TIME(2003/10/14 GMT)') );
+    $this->assert_equals( '1066089600', $this->CALC('$TIME(DOY2003.287)') );
 
     $this->assert_equals(
         $this->CALC('$TIME(2003/12/31 - 23:59:59)'),
@@ -1263,14 +1291,22 @@ sub test_TIME {
     );
 
     # test year in 2 digit notation (00..79 => 20xx, 80..99 => 19xx)
-    $this->assert_equals( '338947200',  # 28 Sep 1980
-        $this->CALC('$TIME(28 Sep 80 GMT)') );
-    $this->assert_equals( '938476800',  # 28 Sep 1999
-        $this->CALC('$TIME(28 Sep 99 GMT)') );
-    $this->assert_equals( '970099200',  # 28 Sep 2000
-        $this->CALC('$TIME(28 Sep 00 GMT)') );
-    $this->assert_equals( '3463084800', # 28 Sep 2079
-        $this->CALC('$TIME(28 Sep 79 GMT)') );
+    $this->assert_equals(
+        '338947200',    # 28 Sep 1980
+        $this->CALC('$TIME(28 Sep 80 GMT)')
+    );
+    $this->assert_equals(
+        '938476800',    # 28 Sep 1999
+        $this->CALC('$TIME(28 Sep 99 GMT)')
+    );
+    $this->assert_equals(
+        '970099200',    # 28 Sep 2000
+        $this->CALC('$TIME(28 Sep 00 GMT)')
+    );
+    $this->assert_equals(
+        '3463084800',    # 28 Sep 2079
+        $this->CALC('$TIME(28 Sep 79 GMT)')
+    );
 }
 
 sub test_TIMEADD {
@@ -1300,25 +1336,75 @@ sub test_TIMEDIFF {
     $this->assert_equals( '1.5',
         $this->CALC('$TIMEDIFF($TIME(), $EVAL($TIME()+90), minute)') );
 
-    $this->assert_equals( '1',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), years)') ) );
-    $this->assert_equals( '16',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), month)') ) );
-    $this->assert_equals( '487',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), days)') ) );
-    $this->assert_equals( '11688',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), hours)') ) );
-    $this->assert_equals( '701280',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), minutes)') ) );
-    $this->assert_equals( '42076800',
-        int( $this->CALC('$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), seconds)') ) );
+    $this->assert_equals(
+        '1',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), years)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '16',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), month)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '487',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), days)')
+        )
+    );
+    $this->assert_equals(
+        '11688',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), hours)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '701280',
+        int(
+            $this->CALC(
+'$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), minutes)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '42076800',
+        int(
+            $this->CALC(
+'$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), seconds)'
+            )
+        )
+    );
 
-    $this->assert_equals( '18',
-        int( $this->CALC('$TIMEDIFF($TIME(1990/1/1 GMT), $TIME(2008/1/1 GMT), year)') ) );
-    $this->assert_equals( '38',
-        int( $this->CALC('$TIMEDIFF($TIME(1970/1/1 GMT), $TIME(2008/1/1 GMT), year)') ) );
-    $this->assert_equals( '58',
-        int( $this->CALC('$TIMEDIFF($TIME(1950/1/1 GMT), $TIME(2008/1/1 GMT), year)') ) );
+    $this->assert_equals(
+        '18',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1990/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
+    $this->assert_equals(
+        '38',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1970/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
+    $this->assert_equals(
+        '58',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1950/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
 }
 
 sub test_TODAY {
@@ -1405,6 +1491,20 @@ sub test_XOR {
     $this->assert( $this->CALC('$XOR(1, 1, 1)') == 1 );
     $this->assert( $this->CALC('$XOR(1, joe, 1)') == 0 );
     $this->assert( $this->CALC('$XOR(10, 1)') == 0 );
+}
+
+sub test_triple_quote_escape {
+    my ($this) = @_;
+
+    $this->assert_equals( 'Good, early day',
+        $this->CALC("\$SUBSTITUTE('''Good, early morning''', morning, day)") );
+    $this->assert_equals( '(word)',
+        $this->CALC("\$SUBSTITUTE('''(text)''', text, word)") );
+
+    #Any strings with newlines need to be handled by the registered tag.
+    my $actual = Foswiki::Func::expandCommonVariables(
+        "%CALCULATE{\"\$SUBSTITUTE('''a\n(b)\nc''', b, word)\"}%");
+    $this->assert_equals( "a\n(word)\nc", $actual );
 }
 
 # deprecated and undocumented

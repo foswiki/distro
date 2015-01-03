@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302471516" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420253308" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 
@@ -33,21 +33,29 @@ The formula next to "Total" is ==%<nop>CALC{"$SUM( $ABOVE() )"}%==. <br /> (you 
 
 ---++ Syntax Rules
 
-The action of this Plugin is triggered by the ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.
+The action of this Plugin is triggered two macros:
+   * The ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.  This macro processes tables above it on the page, but must not span multiple lines.
+   * The ==%<nop>CALCULATE{"..."}%== macro can span multiple lines, but does not process tables on the page.
 
+For both macros:
    * Built-in function are of format ==$FUNCNAME(parameter)==
    * Functions may be nested, e.g. ==%<nop>CALC{"$SUM( R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0) )"}%==
    * Functions are evaluated from left to right, and from inside to outside if nested
    * The function parameter can be text; a mathematical formula; a cell address; or a range of cell addresses
    * Multiple parameters form a list; they are separated by a comma, followed by optional space, e.g. ==%<nop>CALC{"$SUM( 3, 5, 7 )"}%==
+   * Strings can be triple-quoted =='''some, string'''==.   This allows commas, parenthesis and newlines to be processed literally, rather than as part of the function syntax.
+      * e.g. ==%<nop>CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%== evaluates to:
+      * ==%CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%==
+   * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
+
+   For the ==%<nop>CALC{"..."}%== macro only:
    * A table cell can be addressed as ==R1:C1==. Table address matrix:
      | ==R1:C1== | ==R1:C2== | ==R1:C3== | ==R1:C4== |
      | ==R2:C1== | ==R2:C2== | ==R2:C3== | ==R2:C4== |
    * A table cell range is defined by two cell addresses separated by ==".."==, e.g. "row 1 through 20, column 3" is: ==R1:C3..R20:C3==
-   * Lists can refer to values and/or table cell ranges, e.g. ==%<nop>CALC{"$SUM( 3, 5, $T(R1:C7), R1:C11..R1:C15 )"}%==
+   * Lists can refer to table cell ranges, as well as values, e.g. ==%<nop>CALC{"$SUM( 3, 5, $T(R1:C7), R1:C11..R1:C15 )"}%==
    * Formulae can only reference cells in the current or preceeding row of the current table; they may not reference cells below the current table row
    * Formulae can also be placed outside of tables; they can reference cells in the preceeding table
-   * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
 
 ---++ Built-in Functions
 
