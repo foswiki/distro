@@ -300,6 +300,7 @@ my $Function = {
                         $max = 1 if ( $max <= 0 );
                         rand($max);
                        },
+    RANDSTRING       => \&_RANDSTRING,
     REPEAT           => \&_REPEAT,
     REPLACE          => \&_REPLACE,
     RIGHT            => sub {
@@ -1109,6 +1110,49 @@ sub _BITXOR {
         }
     }
     return $result;
+}
+
+# =========================
+sub _RANDSTRING {
+    my ($theAttr) = @_;
+    my ( $chars, $format ) = split( /,\s*/, $theAttr, 2 );
+    $chars = '' unless defined($chars);
+    $chars =~ s/(.)\.\.(.)/_expandRange($1, $2)/ge;
+    my @pool = split( //, $chars );
+    @pool = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' ) unless ( scalar @pool );
+    my $num = 0;
+    $format = '' unless defined($format);
+
+    if ( $format =~ m/^([0-9]*)$/ ) {
+        $num    = _getNumber($format);
+        $num    = 8 if ( $num < 1 );
+        $num    = 1024 if ( $num > 1024 );
+        $format = 'x' x $num;
+    }
+    else {
+        $num = length($format);
+    }
+    my $result;
+    foreach my $ch ( split( //, $format ) ) {
+        if ( $ch eq 'x' ) {
+            $result .= $pool[ rand @pool ];
+        }
+        else {
+            $result .= $ch;
+        }
+    }
+    return $result;
+}
+
+# =========================
+sub _expandRange {
+    my ( $lowCh, $highCh ) = @_;
+    my $text =
+      "$1$2";    # in case out of range, return just low char and high char
+    if ( ord $highCh > ord $lowCh ) {
+        $text = join( '', ( $lowCh .. $highCh ) );
+    }
+    return $text;
 }
 
 ##########################

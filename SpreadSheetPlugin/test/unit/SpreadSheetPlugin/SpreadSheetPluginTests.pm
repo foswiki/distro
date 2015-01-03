@@ -982,6 +982,20 @@ sub test_RAND {
     }
 }
 
+sub test_RANDSTRING {
+    my ($this) = @_;
+    for ( 1 .. 20 ) {
+        $this->assert( length( $this->CALC('$RANDSTRING()') ) == 8 );
+        $this->assert(
+            $this->CALC('$RANDSTRING()') ne $this->CALC('$RANDSTRING()') );
+        $this->assert_matches(
+            qr/^[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4}$/,
+            $this->CALC(
+                "\$RANDSTRING(A..NP..Z1..9, '''xxxx,xxxx,xxxx,xxxx''')")
+        );
+    }
+}
+
 sub test_REPEAT {
     my ($this) = @_;
     $this->assert( $this->CALC('$REPEAT(/\, 5)') eq q{/\\/\\/\\/\\/\\} );

@@ -414,7 +414,7 @@ This function has two modes of operation.
 ---+++ LISTRAND( list ) -- get one random element of a list
    * Syntax: ==$LISTRAND( list )==
    * Example: ==%<nop>CALC{"$LISTRAND(Apple, Orange, Apple, Kiwi)"}%== returns one of the four elements
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTREVERSE
 ---+++ LISTREVERSE( list ) -- opposite order of a list
@@ -432,7 +432,7 @@ This function has two modes of operation.
 ---+++ LISTSHUFFLE( list ) -- shuffle element of a list in random order
    * Syntax: ==$LISTSHUFFLE( list )==
    * Example: ==%<nop>CALC{"$LISTSHUFFLE(Apple, Orange, Apple, Kiwi)"}%== returns the four elements in random order
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSORT
 ---+++ LISTSORT( list ) -- sort a list
@@ -568,6 +568,14 @@ This function has two modes of operation.
    * Random number, evenly distributed between 0 and ==max==, or 0 and 1 if max is not specified
    * Syntax: ==$RAND( max )==
    * Related: =[[#FuncEVAL][$EVAL()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=
+
+#FuncRANDSTRING
+---+++ RANDSTRING( set, format ) -- random string & password generator
+   * Generate a random string from a ==set== of characters; the set may contain sequences like ==a..z==; default is ==a..zA..Z0..9_==. The ==format== defines the string length or the output format; specify a number to indicate the length of the random string; default is ==8== characters. Alternatively, specify a format string with ==x== as placeholders for random characters, such ==xxxx-xxxx-xxxx-xxxx==.
+   * Syntax: ==$RANDSTRING( _set_, _format_ )==
+   * Example: ==%<nop>CALCULATE{$RANDSTRING()}%== returns a random string with 8 characters composed of alphanumeric characters and underscores
+   * Example: ==%<nop>CALCULATE{$RANDSTRING(A..NP..Z1..9, xxxx-xxxx-xxxx-xxxx)}%== returns four sets of random strings, separated by dashes, where each set has four characters composed of uppercase letters and numbers, excluding letter O and number 0
+   * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncREPEAT][$REPEAT()]]=
 
 #FuncREPEAT
 ---+++ REPEAT( text, num ) -- repeat text a number of times
@@ -887,7 +895,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  31 Jan 2014: | Foswikitask:Item12739: fixed use of uninitialized value |
+|  02 Jan 2015: | Foswikitask:Item12739: fixed use of uninitialized value, Add triple-quote for escaped strings,  Add RANDSTRING() function |
 |  05 Nov 2012: | Foswikitask:Item8417: add VarCALCULATE macro to be used within the normal macro evaluation order. (name chosen for comaptibility ) |
 |  15 Oct 2012: | Foswikitask:Item12153: Use proper format of %<nop>SCRIPTURL% in CALC demo. |
 |  06 Apr 2012: (1.1.6) | Foswikitask:Item11523 - support $comma, $sp in SUBSTITUTE, REPLACE.<br />\
