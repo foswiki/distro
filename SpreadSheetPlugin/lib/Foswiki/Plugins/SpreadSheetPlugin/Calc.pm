@@ -43,6 +43,7 @@ my %mon2num;
     my $count = 0;
     %mon2num = map { $_ => $count++ } @monArr;
 }
+my $recurseFunc = \&_recurseFunc;
 
 # =========================
 sub init {
@@ -135,10 +136,23 @@ sub CALC {
 # =========================
 sub _doCalc {
     my ($theAttributes) = @_;
+
     my $text = &Foswiki::Func::extractNameValuePair($theAttributes);
 
     # Escape commas, parenthesis and newlines in tripple quoted strings
     $text =~ s/'''(.*?)'''/_escapeString($1)/ges;
+
+    # For better performance, use a function reference when calling the recurse
+    # functions, instead of an "if" statement within the &$recurseFunc function
+    if ( $text =~ /\n/ ) {
+
+# recursively evaluate functions, and remove white space around functions and parameters
+        $recurseFunc = \&_recurseFuncCutWhitespace;
+    }
+    else {
+# recursively evaluate functions without removing white space (compatible with old spec)
+        $recurseFunc = \&_recurseFunc;
+    }
 
     # Add nesting level to parenthesis,
     # e.g. "A(B())" gets "A-esc-1(B-esc-2(-esc-2)-esc-1)"
@@ -192,11 +206,21 @@ sub _recurseFunc {
 
     # Handle functions recursively
     $_[0] =~
-      s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/_doFunc($1,$3)/geo;
+s/\$([A-Z]+[A-Z0-9]*)$escToken([0-9]+)\((.*?)$escToken\2\)/_doFunc($1,$3)/geos;
 
     # Clean up unbalanced mess
     $_[0] =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
-    return $_[0];
+}
+
+# =========================
+sub _recurseFuncCutWhitespace {
+
+    # Handle functions recursively
+    $_[0] =~
+s/\s*\$([A-Z]+[A-Z0-9]*)$escToken([0-9]+)\(\s*(.*?)\s*$escToken\2\)\s*/_doFunc($1,$3)/geos;
+
+    # Clean up unbalanced mess
+    $_[0] =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
 }
 
 #<<<  do not let perltidy touch this
@@ -207,7 +231,7 @@ my $Function = {
     # ADDLIST
     AND              => \&_AND,
     AVERAGE          => \&_AVERAGE,
-    # BIN2DEC
+    BIN2DEC          => \&_BIN2DEC,
     BITXOR           => \&_BITXOR,
     CEILING          => \&_CEILING,
     CHAR             => \&_CHAR,
@@ -215,9 +239,9 @@ my $Function = {
     COLUMN           => sub { $cPos + ( $_[0] || 0 ) + 1 },
     COUNTITEMS       => \&_COUNTITEMS,
     COUNTSTR         => \&_COUNTSTR,
-    # DEC2BIN
-    # DEC2HEX
-    # DEC2OCT
+    DEC2BIN          => \&_DEC2BIN,
+    DEC2HEX          => \&_DEC2HEX,
+    DEC2OCT          => \&_DEC2OCT,
     DEF              => \&_DEF,
     EMPTY            => sub { ( length($_[0]) ) ? 0 : 1 },
     EVAL             => sub { _safeEvalPerl($_[0]) },
@@ -241,7 +265,7 @@ my $Function = {
     # HASHEACH - Evaluate & update each element
     # HASHEXISTS - Test if hash exists
     # HASHREVERSE - Swap keys and values
-    # HEX2DEC
+    HEX2DEC          => \&_HEX2DEC,
     HEXDECODE        => \&_HEXDECODE,
     HEXENCODE        => sub { uc( unpack( "H*", $_[0] ) ) },
     IF               => \&_IF,
@@ -259,7 +283,7 @@ my $Function = {
     LENGTH           => sub { length( $_[0] ) },
     LIST             => sub { _listToDelimitedString(_getList($_[0])) },
     # LIST2HASH
-    # LISTEACH
+    LISTEACH         => \&_LISTMAP,
     LISTIF           => \&_LISTIF,
     LISTITEM         => \&_LISTITEM,
     LISTJOIN         => \&_LISTJOIN,
@@ -283,7 +307,7 @@ my $Function = {
     NOEXEC           => sub { $_[0] },
     NOP              => \&_NOP,
     NOT              => sub { ( _getNumber( $_[0] )) ? 0 : 1 },
-    # OCT2DEC
+    OCT2DEC          => \&_OCT2DEC,
     ODD              => sub { _getNumber( $_[0] ) % 2 },
     OR               => \&_OR,
     PERCENTILE       => \&_PERCENTILE,
@@ -371,8 +395,8 @@ sub _doFunc {
         "- SpreadSheetPlugin::Calc::_doFunc: $theFunc( $theAttr ) start")
       if $debug;
 
-    unless ( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC|WHILE)$/ ) {
-        _recurseFunc($theAttr);
+    unless ( $theFunc =~ /^(IF|LISTEACH|LISTIF|LISTMAP|NOEXEC|WHILE)$/ ) {
+        &$recurseFunc($theAttr);
     }
 
     # else: delay the function handler to after parsing the parameters,
@@ -434,7 +458,8 @@ sub _EXEC {
     $_[0] =~ s/([\(\)])/_addNestingLevel($1, \$level)/ge;
 
 # execute functions in attribute recursively and clean up unbalanced parenthesis
-    return _recurseFunc( $_[0] );
+    &$recurseFunc( $_[0] );
+    return $_[0];
 }
 
 # =======================
@@ -444,7 +469,7 @@ sub _IF {
     my ( $condition, $str1, $str2 ) = _properSplit( $_[0], 3 );
 
 # with delay, handle functions in condition recursively and clean up unbalanced parenthesis
-    _recurseFunc($condition);
+    &$recurseFunc($condition);
     $condition =~ s/^\s*(.*?)\s*$/$1/;
     my $result = _safeEvalPerl($condition);
     unless ( $result =~ /^ERROR/ ) {
@@ -457,7 +482,7 @@ sub _IF {
         $result = "" unless ( defined($result) );
 
 # with delay, handle functions in result recursively and clean up unbalanced parenthesis
-        _recurseFunc($result);
+        &$recurseFunc($result);
 
     }    # else return error message
     return $result;
@@ -490,7 +515,7 @@ sub _WHILE {
 # with delay, handle functions in condition recursively and clean up unbalanced parenthesis
         my $cond = $condition;
         $cond =~ s/\$counter/$i/g;
-        _recurseFunc($cond);
+        &$recurseFunc($cond);
         $cond =~ s/^\s*(.*?)\s*$/$1/;
         my $res = _safeEvalPerl($cond);
         if ( $res =~ /^ERROR/ ) {
@@ -503,7 +528,7 @@ sub _WHILE {
 
 # with delay, handle functions in result recursively and clean up unbalanced parenthesis
         $res =~ s/\$counter/$i/g;
-        _recurseFunc($res);
+        &$recurseFunc($res);
         $result .= $res;
     }
     return $result;
@@ -538,6 +563,63 @@ sub _CEILING {
         $result += 1;
     }
     return $result;
+}
+
+# =========================
+sub _BIN2DEC {
+
+    $_[0] =~ s/[^0-1]//g;    # only binary digits
+    $_[0] ||= 0;
+    return oct( '0b' . $_[0] );
+}
+
+# =========================
+sub _DEC2BIN {
+
+    my ( $num, $size ) = _getListAsInteger( $_[0] );
+    $num ||= 0;
+    my $format = '%';
+    $format .= '0' . $size if ($size);
+    $format .= 'b';
+    return sprintf( $format, $num );
+}
+
+# =========================
+sub _HEX2DEC {
+
+    $_[0] =~ s/[^0-9A-Fa-f]//g;    # only hex numbers
+    $_[0] ||= 0;
+    return hex( $_[0] );
+}
+
+# =========================
+sub _DEC2HEX {
+
+    my ( $num, $size ) = _getListAsInteger( $_[0] );
+    $num ||= 0;
+    my $format = '%';
+    $format .= '0' . $size if ($size);
+    $format .= 'X';
+    return sprintf( $format, $num );
+}
+
+# =========================
+sub _OCT2DEC {
+
+    $_[0] =~ s/[^0-7]//g;    # only octal digits
+    $_[0] ||= 0;
+    return oct( $_[0] );
+}
+
+# =========================
+sub _DEC2OCT {
+
+    my ( $num, $size ) = _getListAsInteger( $_[0] );
+    $num ||= 0;
+    my $format = '%';
+    $format .= '0' . $size if ($size);
+    $format .= 'o';
+    return sprintf( $format, $num );
 }
 
 # =========================
@@ -874,7 +956,7 @@ sub _LISTIF {
     $str = "" unless ( defined($str) );
 
 # with delay, handle functions in result $str and clean up unbalanced parenthesis
-    _recurseFunc($str);
+    &$recurseFunc($str);
 
     my $item = qw{};
     my $eval = qw{};
@@ -887,7 +969,7 @@ sub _LISTIF {
         $i++;
         s/\$index/$i/g;
         s/\$item/$item/g;
-        _recurseFunc($_);
+        &$recurseFunc($_);
         $eval = _safeEvalPerl($_);
         if ( $eval =~ /^ERROR/ ) {
             $_ = $eval;
@@ -946,7 +1028,7 @@ sub _LISTMAP {
     $str    = "" unless ( defined($str) );
 
 # with delay, handle functions in $str recursively and clean up unbalanced parenthesis
-    _recurseFunc($str);
+    &$recurseFunc($str);
 
     my $item = qw{};
     my $i    = 0;
@@ -956,7 +1038,7 @@ sub _LISTMAP {
         $i++;
         s/\$index/$i/g;
         $_ .= $item unless (s/\$item/$item/g);
-        _recurseFunc($_);
+        &$recurseFunc($_);
         $_
     } _getList($str);
     return _listToDelimitedString(@arr);

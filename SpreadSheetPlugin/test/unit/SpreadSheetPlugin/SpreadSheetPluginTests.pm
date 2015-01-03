@@ -174,6 +174,28 @@ EXPECT
     $this->assert_equals( $expected, $actual );
 }
 
+sub test_CALCULATE {
+    my ($this) = @_;
+    my $macro = <<'DONE';
+%CALCULATE{
+  $LISTJOIN(
+      $n,
+      $LISTEACH(
+         | $index | $item |,
+         one, two, three
+      )
+  )
+}%
+DONE
+    my $actual   = Foswiki::Func::expandCommonVariables($macro);
+    my $expected = <<'DONE';
+| 1 | one |
+| 2 | two |
+| 3 | three |
+DONE
+    $this->assert_equals( $expected, $actual );
+}
+
 sub test_CEILING {
     my ($this) = @_;
     $this->assert( $this->CALC('$CEILING(5)') == 5 );
@@ -259,6 +281,67 @@ TABLE
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );
+}
+
+sub test_DEC2BIN {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2BIN(12)'),    '1100' );
+    $this->assert_equals( $this->CALC('$DEC2BIN(100)'),   '1100100' );
+    $this->assert_equals( $this->CALC('$DEC2BIN(100,8)'), '01100100' );
+
+    # Width is a minimum, values not truncated.
+    $this->assert_equals( $this->CALC('$DEC2BIN(100,4)'), '1100100' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2BIN(A4)'), '0' );
+}
+
+sub test_BIN2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$BIN2DEC(A121)'), '3' );
+
+    # SMELL: invalid characters removed,  remaining characters converted
+    $this->assert_equals( $this->CALC('$BIN2DEC(1100100)'), '100' );
+
+}
+
+sub test_DEC2HEX {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2HEX(12)'),    'C' );
+    $this->assert_equals( $this->CALC('$DEC2HEX(100)'),   '64' );
+    $this->assert_equals( $this->CALC('$DEC2HEX(100,4)'), '0064' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2HEX(A4)'), '0' );
+}
+
+sub test_HEX2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$HEX2DEC(E)'),  '14' );
+    $this->assert_equals( $this->CALC('$HEX2DEC(64)'), '100' );
+    $this->assert_equals( $this->CALC('$HEX2DEC(A5)'), '165' );
+
+    # SMELL: non-hex characters are removed, then converted to decimal
+    $this->assert_equals( $this->CALC('$HEX2DEC(1G5)'), '21' );
+}
+
+sub test_DEC2OCT {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2OCT(12)'),    '14' );
+    $this->assert_equals( $this->CALC('$DEC2OCT(100)'),   '144' );
+    $this->assert_equals( $this->CALC('$DEC2OCT(100,4)'), '0144' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2OCT(A4)'), '0' );
+}
+
+sub test_OCT2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$OCT2DEC(021)'), '17' );
+    $this->assert_equals( $this->CALC('$OCT2DEC(64)'),  '52' );
+
+    # SMELL: non-hex characters are removed, then converted to decimal
+    $this->assert_equals( $this->CALC('$OCT2DEC(1G5)'), '13' );
 }
 
 sub test_DEF {
