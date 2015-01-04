@@ -244,6 +244,9 @@ sub getRenderedVersion {
     $text =
       $this->_takeOutProtected( $text, qr/<script\b.*?<\/script>/si, 'script',
         $removed );
+    $text =
+      $this->_takeOutProtected( $text, qr/<style\b.*?<\/style>/si, 'style',
+        $removed );
 
     # Remove the sticky tags (used in WysiwygPlugin's TML2HTML conversion)
     # since they could potentially break a browser.
@@ -548,6 +551,7 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
         \&verbatimCallBack );
     $text =~ s|\n?<nop>\n$||o;    # clean up clutch
 
+    $this->_putBackProtected( \$text, 'style',  $removed );
     $this->_putBackProtected( \$text, 'script', $removed );
     Foswiki::putBackBlocks( \$text, $removed, 'literal', '' );
     $this->_putBackProtected( \$text, 'literal', $removed );
