@@ -50,7 +50,7 @@ Designed by: Crawford Currie
 ---++ Bold Text with URL
 ---+++ Expected
 <!-- expected BOLD LINK -->
-<strong>reminded about <a target="_top" href="http://www.koders.com">http://www.koders.com</a></strong>
+<strong>reminded about <a href="http://www.koders.com">http://www.koders.com</a></strong>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -415,12 +415,12 @@ LinkBoxes
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
-<a href="file:///\\somesite.local\data\somesite\Shared%20Docs\Software%20Projects\Soft%20AAbBC\system_design\imaging\AAbBC%20Imaging%20Glossary.doc" target="_top">Spaced File</a>
+<a href="file:///\\somesite.local\data\somesite\Shared%20Docs\Software%20Projects\Soft%20AAbBC\system_design\imaging\AAbBC%20Imaging%20Glossary.doc" >Spaced File</a>
 <p />
 escaped:
 [<nop>[wiki syntax]]
 <p />
-<a href="/relative/URL" target="_top">relative url</a>
+<a href="/relative/URL" >relative url</a>
 <p />
 <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/FilterRubbishFromThelink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">filter%rubbish;from'thelink</a>
 <!-- /expected -->
@@ -445,7 +445,7 @@ escaped:
 <!-- expected expand PROTOCOL -->
 <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">syntax</a>
 <p />
-<a href="http://gnu.org" target="_top">GNU</a>
+<a href="http://gnu.org" >GNU</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -556,11 +556,11 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 <tbody>
  <tr>
   <td>
-   <a  target="_top" href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
+   <a  href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
  </tr>
  <tr>
   <td>
-   <a  target="_top" href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
+   <a  href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
  </tr>
 </tbody>
 </table>
