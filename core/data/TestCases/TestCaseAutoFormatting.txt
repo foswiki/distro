@@ -295,7 +295,7 @@ WikiWordAfterList
 ---+++ Expected
 <!-- expected SIMPLE TABLE -->
 <p />
-<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable><thead><tr><th> <strong>L</strong> </th><th> <strong>C</strong> </th><th> <strong>R</strong> </th></tr></thead>
+<table class=foswikiTable><thead><tr><th> <strong>L</strong> </th><th> <strong>C</strong> </th><th> <strong>R</strong> </th></tr></thead>
 <tbody>
 <tr><td>  A2  </td><td align="center">	2	</td><td align="right">	2  </td></tr>
 
@@ -307,7 +307,7 @@ WikiWordAfterList
 </tbody>
 </table>
 <p />
-<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable> <tbody><tr><td> ^ </td><td>  six  </td><td>  six  </td></tr>
+<table class=foswikiTable> <tbody><tr><td> ^ </td><td>  six  </td><td>  six  </td></tr>
 </tbody>
 </table>
 <p />
@@ -495,7 +495,7 @@ nowt!%USERSWEB%
 ---++ Complex table
 ---+++ Expected
 <!-- expected expand COMPLEX TABLE -->
-<table cellpadding="0" cellspacing="0" border="1" class=foswikiTable>
+<table class=foswikiTable>
 <thead>
 <tr>
   <th><strong>A0 all rows</strong></th>
@@ -552,7 +552,7 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---++ Link in a table
 ---+++ Expected
 <!-- expected GOOGLE -->
-<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable>
+<table class=foswikiTable>
 <tbody>
  <tr>
   <td>

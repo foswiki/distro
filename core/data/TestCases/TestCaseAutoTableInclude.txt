@@ -13,7 +13,7 @@ Designed by: Crawford Currie
 <!-- /actual -->
 ---+ Expected
 <!-- expected -->
-<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<table class="foswikiTable">
   <tbody>
 	<tr>
 		<td> Content </td>
@@ -21,7 +21,7 @@ Designed by: Crawford Currie
   </tbody>
 </table>
 <p />
-<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<table class="foswikiTable">
   <tbody>
 	<tr>
 		<td> Content </td>

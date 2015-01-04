@@ -352,7 +352,7 @@ Note that there is no separator after last item and the only newline is the one 
 ---+++ Expected
 <!-- expected  5 format="<nop>$topic" separator=", " header="| <nop>$web | " footer="|$n" -->
 
-<table border=1 cellpadding=0 cellspacing=0 class=foswikiTable>
+<table class=foswikiTable>
 <tbody>
 <tr><td> <nop>Main </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
 <tr><td> <nop>Sandbox </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
@@ -383,7 +383,7 @@ Note that there is no separator after last item and the only newline is the one 
 
 ---+++ Expected
 <!-- expected  5 Compatibility Maintained when no separator is defined -->
-<table border=1 cellpadding=0 cellspacing=0 class=foswikiTable>
+<table class=foswikiTable>
 <tbody>
 <tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
 <tr><td> Main </td><td> WebHome </td></tr>

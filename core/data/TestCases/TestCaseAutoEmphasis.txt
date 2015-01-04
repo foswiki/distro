@@ -469,7 +469,7 @@ before =aa =bb= cc= after
 Note: Cairo gets the first row wrong, by any sensible definition.
 ---+++ CASE IN_TABLE
 <!-- expected A_IN_TABLE -->
-<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<table class="foswikiTable">
 <tbody>
 <tr><td> <code>* _ __ = ==</code> </td><td> <code>* _ __ = ==</code> </td></tr>
 <tr><td> <code>aa</code> </td><td> <code>bb</code> </td></tr>
@@ -922,7 +922,7 @@ before *aa *bb* cc* after
 Note: Cairo gets the first row wrong, by any sensible definition.
 ---+++ CASE IN_TABLE
 <!-- expected B_IN_TABLE -->
-<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<table class="foswikiTable">
 <thead>
 <tr><th> <strong>_ * __ = ==</strong> </th><th> <strong>_ * __ = ==</strong> </th></tr>
 <tr><th> <strong>aa</strong> </th><th> <strong>bb</strong> </th></tr>
@@ -1442,7 +1442,7 @@ before _aa _bb_ cc_ after
 Note: Cairo gets the first row wrong, by any sensible definition.
 ---+++ CASE IN_TABLE
 <!-- expected C_IN_TABLE -->
-<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<table class="foswikiTable">
 <tbody>
 <tr><td> <em>* = == _ __</em> </td><td> <em>* = == _ __</em> </td></tr>
 <tr><td> <em>aa</em> </td><td> <em>bb</em> </td></tr>
