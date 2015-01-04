@@ -327,6 +327,131 @@ EXPECTED
 
 }
 
+sub test_EscapeInStyles {
+    my $this = shift;
+
+    $this->createNewFoswikiSession();
+
+    #need to be in view script context for tooltips to be processed.
+    Foswiki::Func::getContext()->{view} = 1;
+
+    my $topicText = <<TOPIC;
+<style type="text/css">
+.cell_red { background-color: #f44 !important; }
+.cell_yellow { background-color: #ff4 !important; }
+.cell_green { background-color: #4f4 !important; }
+</style>
+Some other text
+TOPIC
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($topicText);
+
+    my $rendered =
+      Foswiki::Func::renderText( $topicObject->text(), $topicObject->web,
+        $topicObject->topic );
+
+    my $tml = $topicObject->renderTML( $topicObject->text() );
+
+    $this->assert_str_equals( $topicText, $tml . "\n" );
+
+}
+
+sub test_GeneralEscaping {
+    my $this = shift;
+
+    $this->createNewFoswikiSession();
+
+    #need to be in view script context for tooltips to be processed.
+    Foswiki::Func::getContext()->{view} = 1;
+
+    my $topicText = <<'TOPIC';
+
+   * WebPreferences
+   * !WebPreferences
+   * (!WebPreferences)
+
+   * %RED%
+   * !%RED%
+   * (!%RED%)
+
+   * notAWikiWord
+   * !notAWikiWord
+   * (!notAWikiWord)
+
+   * joe@example.com
+   * !joe@example.com
+   * (!joe@example.com)
+
+   * <code> A != B </code>
+
+   * %WEB%.%TOPIC%
+   * !WEB%.!%TOPIC%
+
+   * !*Bold* *Bold*
+   * !=Code= =Code=
+   * !_Italics_ _Italics_
+
+Some other text
+TOPIC
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($topicText);
+
+    my $scriptUrl =
+      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
+        'view' );
+    $scriptUrl =~ s/\/$this->{test_topic}//;    # Remove the topic
+
+    my $expanded = Foswiki::Func::expandCommonVariables(
+        $topicObject->text(), $topicObject->topic,
+        $topicObject->web,    $topicObject
+    );
+    my $rendered =
+      Foswiki::Func::renderText( $expanded, $topicObject->web,
+        $topicObject->topic );
+
+    $this->assert_html_equals( <<"EXPECTED", $rendered . "\n" );
+ <ul>
+ <li> <a href="${scriptUrl}/WebPreferences">WebPreferences</a>
+ </li> <li> <nop>WebPreferences
+ </li> <li> (<nop>WebPreferences)
+ </li></ul> 
+ <p></p> <ul>
+ <li> <span class='foswikiRedFG'>
+ </li> <li> &#37;RED%
+ </li> <li> (!<span class='foswikiRedFG'>)
+ </li></ul> 
+ <p></p> <ul>
+ <li> notAWikiWord
+ </li> <li> <nop>notAWikiWord
+ </li> <li> (<nop>notAWikiWord)
+ </li></ul> 
+ <p></p> <ul>
+ <li> <a href="mailto&#58;joe&#64;example&#46;com">joe&#64;example.com</a>
+ </li> <li> <nop>joe\@example.com
+ </li> <li> (<nop>joe\@example.com)
+ </li></ul> 
+ <p></p> <ul>
+ <li> <code> A <nop>= B </code>
+ </li></ul> 
+ <p></p> <ul>
+ <li> <a href="${scriptUrl}/TestTopicRenderTests">TestTopicRenderTests</a>
+ </li> <li> <nop>WEB%.!TestTopicRenderTests
+ </li></ul> 
+ <p></p> <ul>
+ <li> <nop>*Bold* <strong>Bold</strong>
+ </li> <li> <nop>=Code= <code>Code</code>
+ </li> <li> <nop>_Italics_ <em>Italics</em>
+ </li></ul> 
+ <p></p>
+ Some other text
+EXPECTED
+
+}
+
 sub _cut_the_crap {
 
     #from Fn_SEARCH::cut_the_crap
