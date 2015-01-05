@@ -93,8 +93,15 @@ sub test_SUBSCRIBE_2 {
         },
         $d
     );
+
+    my $scriptUrl =
+      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
+        'rest' );
+    $scriptUrl =~ s/\/$this->{test_topic}//;
+    $scriptUrl =~ s/\/$this->{test_web}//;
+
     $this->assert_html_equals( <<HTML, $subscribe );
-<a class="subscribe_link" href="http://daphne.foswiki/git/core/bin/rest/SubscribePlugin/subscribe" rel="nofollow" title="Unsubscribe from this topic">Unsubscribe</a>
+<a class="subscribe_link" href="${scriptUrl}/SubscribePlugin/subscribe" rel="nofollow" title="Unsubscribe from this topic">Unsubscribe</a>
 HTML
 }
 
