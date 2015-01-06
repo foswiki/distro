@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420579521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSEARCH
 
@@ -10,8 +10,13 @@
      | *Parameter:* | *Description:* | *Default:* |
      | ="text"= | Search term. Is a keyword search, literal search, regular expression search, or query, depending on the =type= parameter. SearchHelp has more | required |
      | =search="text"= | (Alternative to above) | N/A |
-     | =web="Name"= <br /> =web="%USERSWEB%, Know"= <br /> =web="all"= | Comma-separated list of webs to search. You can specifically *exclude* webs from an =all= search using a minus sign - for example, =web="all,-Secretweb"=. The special word =all= means all webs that do *not* have the =NOSEARCHALL= preference set to =on= in their %WEBPREFSTOPIC%. Note that [[AccessControl][AccessControls]] are respected when searching webs; it is *much* better to use them than =NOSEARCHALL=. Wildcards are not currently supported for web names. | Current web |
-     | =topic="%WEBPREFSTOPIC%"= <br /> =topic="*Bug"= | Limit search to topics: A topic, a topic with asterisk wildcards, or a list of topics separated by comma. *Note* this is a list of *topic names* and must *not* include web names. | All topics in a web |
+     | =web="Name"= <br /> =web="%USERSWEB%, Know"= <br /> =web="all"= | Comma-separated list of webs to search.\
+     The special word =all= means all webs that do *not* have the =NOSEARCHALL= preference set to =on= in their %WEBPREFSTOPIC%.<br />\
+     You can specifically *exclude* webs from an =all= search using a minus sign - for example, =web="all,-Secretweb"=.\
+     Caution: The ="all,-Secretweb"= syntax does _not_ exclude subwebs of the excluded web.   It applies to only a single web.  See Foswikitask:Item8893\
+     [[AccessControl][AccessControls]] are respected when searching webs; it is *much* better to use them than =NOSEARCHALL=. Wildcards are not currently supported for web names.<br />\
+     | Current web |
+     | =topic="%WEBPREFSTOPIC%"= <br /> =topic="*Bug"= | Limit search to topics: A topic, a topic with asterisk wildcards, or a list of topics separated by comma. *Note* this is a list of *topic names* and must *not* include web names. Adding a topic restriction to a search can greatly improve the search performance. | All topics in a web |
      | =excludetopic="Web*"= <br /> =excludetopic="%HOMETOPIC%, <nop>WebChanges"= | Exclude topics from search: A topic, a topic with asterisk wildcards, or a list of topics separated by comma. *Note* this is a list of *topic names* and must *not* include web names. | None |
      | =scope="topic"= <br /> =scope="text"= <br /> =scope="all"= | Search topic name (title); the text (body) of topic; or all (title and body) | ="text"= |
      | =type="keyword"= <br /> =type="word"= <br /> =type="literal"= <br /> =type="regex"= <br /> =type="query"= | Control how the search is performed when =scope="text"= or =scope="all"= <hr /> =keyword=: use Google-like controls as in =soap "web service" -shampoo=; searches word parts: using the example, topics with "soapsuds" will be found as well, but topics with "shampoos" will be excluded <hr /> =word=: identical to =keyword= but searches whole words: topics with "soapsuds" will not be found, and topics with "shampoos" will not be excluded <hr /> =literal=: search for the exact string, like =web service= <hr /> =regex=: use a RegularExpression search like =soap;web service;!shampoo=; to search on whole words use =\bsoap\b= <hr /> =query=: [[query search]] of form fields and other meta-data, like =(Firstname='Emma' OR Firstname='John') AND Lastname='Peel'= | =%<nop>SEARCHVAR- DEFAULTTYPE%= [[DefaultPreferences][preferences]] setting (%SEARCHVARDEFAULTTYPE%) |
