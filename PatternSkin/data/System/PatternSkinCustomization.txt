@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1303098887" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420558706" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
@@ -82,7 +82,7 @@ view
             %SYSTEMWEB%.WebBottomBar or %SYSTEMWEB%.WebBottomBarExample
 </verbatim>
 
-Note that =WebTopBar= is not used per web, but it's either pulled from %SYSTEMWEB%.WebTopBar, or, if it doesn't exist, from %SYSTEMWEB%.WebTopBarExample.
+Note that =WebTopBar= is not used per web, but it's either pulled from %IF{"istopic 'WebTopBar'" else="!"}WebTopBar, or, if it doesn't exist, from %SYSTEMWEB%.WebTopBarExample.
 
 ---++ Logo
 
@@ -126,19 +126,26 @@ To change only the web logo image to site-wide, in [[%LOCALSITEPREFS%]] set:
    * Set <nop>WEBLOGOIMG = %<nop>WIKILOGOIMG%
 </pre>
 
+---++ Top bar
+
+---+++ Customizing the Top bar
+
+Foswiki ships with %SYSTEMWEB%.WebTopBarExample.   In order to tailor the Top
+bar, navigate to %SYSTEMWEB%.WebTopBarExample and use the =More topic actions=
+link to copy it to %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar.  Note that although the name suggest
+that this is "per web",  the %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar is a site-wide setting.
+
 ---+++ My logo does not fit the top bar
 
-See [[#TopBarChangeHeight][I want to change the height of the top bar]]
+See _I want to change the height of the top bar_ in the [[PatternSkinCssCookbook#HeightTopBar][PatternSkinCssCookbook]]
 
 ---+++ I want to change the white space above and below the logo
 
-Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding is 11px.
-
----++ Top bar
+Change the table style in topic %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar. The default top padding is 11px.
 
 ---+++ The search box won't find topics in other webs
 
-In %SYSTEMWEB%.WebTopBar you can find the line:
+In %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar you can find the line:
 <verbatim class="tml">
 <input type="hidden" name="web" value="%BASEWEB%" />
 </verbatim>
@@ -185,7 +192,7 @@ Redefine =WEBHEADERBGCOLOR= in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% in
 
 If you have localization enabled, you will also see a language dropdown box at the far right.
 
-You can remove these items from %SYSTEMWEB%.WebTopBar.
+You can remove these items from %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar.
 
 ---+++ I want to hide the top bar
 
