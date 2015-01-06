@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420518401" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installation Guide
 
@@ -88,6 +88,8 @@ perl -I ..\lib  rewriteshebang.pl</verbatim>
 The script will determine the location of the Perl interpreter and will prompt to update both the bin and tools scripts in a single step.   The changed files will be reported, and it is safe to rerun the script.
 
 If you get an error about perl command not found,  the you need to find where your perl command is installed.  For example: =C:\path\to\perl -I ..\lib rewriteshebang.pl=
+
+%T% If you plan to do extension development, it's suggested to include the =--taint= switch to enable taint checking in your perl scripts. This helps find unvalidated variables that might represent security issues.
 
 ---+++ Step 4: Configure the web server
 

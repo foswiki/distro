@@ -320,6 +320,11 @@ Prints a brief help message and exits.
 
 Prints the manual page and exits.
 
+=item B<-t|--taint>
+
+Enables the -T (Taint checking) flag in the Perl command line.  By default any -T flag in the script shebang lines will be removed.  It is recommended that developers enable this option to have perl check for unvalidated parameters. 
+Note that taint checking is not compatible with use of Locales,  and has an approximate 10% performance penalty.
+
 =back
 
 =head1 DESCRIPTION

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420517675" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -41,6 +41,7 @@ The following is a high level view of the upgrade procedure:
 
    1 *Prepare* for all upgrade steps.
    1 *Install the new Foswiki version* and configure it with the same settings as the old version.
+      * %T% Windows server users: Don't forget to rerun =tools/rewriteshebang.pl= to fix up the Perl locations
    1 *Install any additional extensions* (Plugins) used by your old installation. Make sure to use the latest Foswiki versions.
    1 *Copy all the non-default webs* from the old installation to the new one.
    1 *Copy the users, groups, and site customizations* from the old installation to the =%USERSWEB%= web in the new installation, including all user topics.
