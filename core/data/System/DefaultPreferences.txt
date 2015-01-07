@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420558706" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -165,6 +165,8 @@ be removed from Foswiki 1.2.0.
       * Set SEARCHSTOPWORDS = a, all, am, an, and, any, as, at, b, be, by, c, d, e, for, from, g, h, how, i, i'm, i.e., in, is, isn't, it, it's, its, j, k, l, m, n, o, of, on, or, p, q, r, s, t, that, that's, the, this, to, u, v, w, was, wasn't, what, what's, when, where, who, who's, will, with, x, y, z
    * Default page size for Index topics - such as WebIndex, WebSearch
       * Set DEFAULTPAGESIZE = 50
+
+<div class="foswikiHelp">%T% Customize the Search and Jump boxes at the top of the page by customizing the !WebTopBar.  See [[PatternSkinCustomization#Top_bar]] and WebTopBarExample.</div>
 
 ---+++ E-mail Settings
 
