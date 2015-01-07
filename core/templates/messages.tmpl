@@ -24,11 +24,11 @@ registermessages.tmpl
 %{==============================================================================}%
 %TMPL:DEF{"merge_notice"}%
 ---+++ %MAKETEXT{"Topic was merged"}%
-%MAKETEXT{"Rev [_1] was saved by [_2], while you were still editing." args="%PARAM1%, %USERSWEB%.%PARAM2%"}%
+%MAKETEXT{"Rev [_1] was edited by [_2] while you were still editing, and saved as Rev [_3]." args="%PARAM1%, %USERSWEB%.%PARAM2%, %PARAM3%"}%
 
-%MAKETEXT{"Those changes have been merged with yours to create Rev [_1]. Text fields will have been merged, but other data such as form fields may have overwritten the other users changes. Please inspect the topic to make sure it is OK, especially if you made any changes to form fields." args="%PARAM3%"}%
+%MAKETEXT{"Those changes have been merged with yours to create Rev [_1]. Text fields will have been merged, but other data such as form fields may have overwritten the other users changes. Please inspect the topic to make sure it is OK, especially if you made any changes to form fields." args="%PARAM4%"}%
 
-%MAKETEXT{"Confirm your changes using Foswiki's ~[~[[_1]~]~[topic history comparison tool (diff)~]~]." args="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?rev1=%PARAM1%;rev2=%PARAM3%"}%
+%MAKETEXT{"Confirm your changes using Foswiki's ~[~[[_1]~]~[topic history comparison tool (diff)~]~]." args="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?rev1=%PARAM1%;rev2=%PARAM4%"}%
 
 %TMPL:P{"oktopicaction"}%
 %TMPL:END%

@@ -660,6 +660,12 @@ WARN
         );
     };
 
+    # Final version created during merge.
+    if ($merged) {
+        my $savedInfo = $topicObject->getRevisionInfo();
+        push @$merged, $savedInfo->{version};
+    }
+
     if ($attachments) {
         foreach $a ( @{$attachments} ) {
             try {
