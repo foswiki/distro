@@ -584,6 +584,13 @@ sub createTables {
 
     #writeDebug("building new database");
 
+    $this->_createPagesTable;
+    $this->_createDepsTable;
+}
+
+sub _createPagesTable {
+    my $this = shift;
+
     $this->{dbh}->do(<<HERE);
       create table $this->{pagesTable} (
         topic varchar(255),
@@ -601,6 +608,10 @@ HERE
 
     $this->{dbh}
       ->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
+}
+
+sub _createDepsTable {
+    my $this = shift;
 
     $this->{dbh}->do(<<HERE);
         create table $this->{depsTable} (
@@ -617,7 +628,6 @@ HERE
     $this->{dbh}->do(
 "create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
     );
-
 }
 
 =begin TML

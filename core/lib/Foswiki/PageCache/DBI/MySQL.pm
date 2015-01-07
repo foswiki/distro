@@ -46,6 +46,48 @@ sub new {
     return $this->init;
 }
 
+sub _createPagesTable {
+    my $this = shift;
+
+    $this->{dbh}->do(<<HERE);
+      create table $this->{pagesTable} (
+        topic varchar(255) COLLATE latin1_bin,
+        variation varchar(1024) COLLATE latin1_bin,
+        md5 char(32),
+        contenttype varchar(255),
+        lastmodified varchar(255),
+        etag varchar(255),
+        status int,
+        location varchar(255),
+        expire int,
+        isdirty int
+  )
+HERE
+
+    $this->{dbh}
+      ->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
+}
+
+sub _createDepsTable {
+    my $this = shift;
+
+    $this->{dbh}->do(<<HERE);
+        create table $this->{depsTable} (
+          from_topic varchar(255) COLLATE latin1_bin,
+          variation varchar(1024) COLLATE latin1_bin,
+          to_topic varchar(255) COLLATE latin1_bin
+        )
+HERE
+
+    # SMELL: this would have been nice to auto-delete deps while deleting pages.
+    # works fine in postgresql, not so in sqlite and mysql.
+    # foreign key (from_topic) references pages (topic) on delete cascade
+
+    $this->{dbh}->do(
+"create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
+    );
+}
+
 1;
 
 __END__
