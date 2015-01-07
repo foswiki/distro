@@ -433,6 +433,9 @@ var FoswikiTiny = {
     },
 
     getRESTURL: function(fn) {
+        if (fn == 'upload') {
+            return this.getScriptURL('upload');
+        }
         return this.getScriptURL('rest') + "/WysiwygPlugin/" + fn;
     },
 
