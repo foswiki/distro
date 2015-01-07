@@ -639,6 +639,18 @@ sub checkValidationKey {
         # be prompted.
         Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
             $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
+
+        # Write a new validation code into the response
+        my $context =
+          $session->{request}->url( -full => 1, -path => 1, -query => 1 )
+          . time();
+        my $cgis = $session->getCGISession();
+        if ($cgis) {
+            my $nonce =
+              Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
+            $session->{response}
+              ->pushHeader( 'X-Foswiki-Validation' => $nonce );
+        }
     }
 }
 

@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" date="1420668577" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarNONCE
+---+++ NONCE
+
+*DEVELOPERS ONLY*
+
+This macro is used to generate a 'nonce', a unique key that identifies the
+source of a request in order to block some kinds of cyber attack.
+See http://foswiki.org/Support/HowToIntegrateWithRequestValidation
+for more information.

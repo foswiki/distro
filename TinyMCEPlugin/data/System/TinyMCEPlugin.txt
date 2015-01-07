@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420668577" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -81,9 +81,9 @@ Below is the default configuration. If it is to be modified, it should be copied
     then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
 "foswiki_plugin_urls" : {
-    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
-    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
-    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js" },
+    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin.js",
+    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.js",
+    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.js" },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
     "PUBURLPATH" : "%PUBURLPATH%",
@@ -179,10 +179,7 @@ Below is the default configuration. If it is to be modified, it should be copied
       then="\\"skin_variant\\" : \\"%STARTSECTION{"MCESKIN_VARIANT"}%silver%ENDSECTION{"MCESKIN_VARIANT"}%\\",$dollarn"
     }%"
 }%"keep_styles" : false,
-"content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{
-    "$TINYMCEPLUGIN_DEBUG"
-    then="_src"
-}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+"content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 %ENDSECTION{"TINYMCEPLUGIN_INIT"}%
 </verbatim>
 %ENDTWISTY%
@@ -421,6 +418,6 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1404914085" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1404914085" attr="h" user="ProjectContributor" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1404914085" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1420668577" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1420668577" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1420668577" user="ProjectContributor" comment="" version="1"}%

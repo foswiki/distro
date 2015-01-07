@@ -124,11 +124,13 @@ sub _SUBSCRIBE {
                 subscribe_topic      => "$web.$topic",
                 subscribe_subscriber => $who,
                 subscribe_remove     => $unsubscribe,
-                validation_key       => '?' . _getNonce($session)
+                validation_key       => '?%NONCE%'
             }
         )
     );
-    $tmpl =~ s/\$restparams/$data/g;
+
+    # Add nonce, required for Foswiki < 1.2
+    $tmpl =~ s/\%NONCE\%/_getNonce($session)/ge;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
         'Foswiki::Plugins::SubscribePlugin::JQuery' );

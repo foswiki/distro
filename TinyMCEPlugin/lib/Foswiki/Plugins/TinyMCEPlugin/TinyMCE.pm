@@ -74,9 +74,6 @@ sub new {
 sub renderJS {
     my ( $this, $text ) = @_;
 
-    $text =~ s/\.js$/_src.js/
-      if ( $this->{debug} )
-      || ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') );
     $text .= '?version=' . $this->{version} if ( $this->{version} =~ '$Rev$' );
     $text =
       "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";

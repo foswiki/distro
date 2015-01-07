@@ -242,6 +242,7 @@ BEGIN {
         MAKETEXT             => undef,
         META                 => undef,                              # deprecated
         METASEARCH           => undef,                              # deprecated
+        NONCE                => undef,
         PERLDEPENDENCYREPORT => undef,
         NOP =>
 
@@ -786,7 +787,7 @@ sub writeCompletePage {
     my ( $this, $text, $pageType, $contentType ) = @_;
     $contentType ||= 'text/html';
 
-    my $cgis = $this->getCGISession();
+    my $cgis = $this->{users}->getCGISession();
     if (   $cgis
         && $contentType eq 'text/html'
         && $Foswiki::cfg{Validation}{Method} ne 'none' )
