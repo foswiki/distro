@@ -78,6 +78,11 @@ sub upload {
             my $e = shift;
             $status  = 403;
             $message = 'ERROR: ' . $e->stringify();
+        }
+        catch Foswiki::ValidationException with {
+            my $e = shift;
+            $status  = 403;
+            $message = 'ERROR: ' . $e->stringify();
         };
         if ( $status < 400 ) {
             $message = 'OK ' . $message;
