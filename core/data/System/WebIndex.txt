@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420689155" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
+---+ %MAKETEXT{"Detailed topic list for [_1] Web" args="%BASEWEB%"}%
 %SEARCH{
     "'1'" 
     scope="topic" 
