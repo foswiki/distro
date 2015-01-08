@@ -69,7 +69,7 @@ sub upload {
         }
         catch Foswiki::OopsException with {
             my $e = shift;
-            $status = $e->{status};
+            $status  = $e->{status};
             $message = $e->stringify();
         }
         catch Foswiki::AccessControlException with {
@@ -82,7 +82,7 @@ sub upload {
             $status  = 403;
             $message = $e->stringify();
         };
-        $message = (( $status < 400 ) ? 'OK' : 'ERROR') . ": $message";
+        $message = ( ( $status < 400 ) ? 'OK' : 'ERROR' ) . ": $message";
 
         $session->{response}->header(
             -status => $status,

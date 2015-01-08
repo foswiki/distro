@@ -633,7 +633,7 @@ sub checkValidationKey {
     {
         throw Foswiki::ValidationException( $session->{request}->action() );
     }
-    if ( defined($nonce) && !$session->{request}->param('preserve_vk')) {
+    if ( defined($nonce) && !$session->{request}->param('preserve_vk') ) {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted. Note that if preserve_vk is provided we don't
