@@ -82,6 +82,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =defaultweb= | a default value for web, which is over-ridden by specifying either a web in the =topic= param above, or in the url location (used for selecting a web in a webform) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
+| =preserve_vk= | part of cross-site scripting protection. Normally a validation key is expired once it has been used once. However non-HTML5 browsers can't handle this, so the validation key has to be preserved for re-use. | |
 | _&lt;any name&gt;_ | Any other parameter name passed to the script is passed through for possible use by the script.  This is _typically_ only applicable to the =edit=, =save= and =view= scripts. | |
 
 Where revision parameters are required, individual versions are identified by positive, non-zero integers. Versions start with 1 and are sequencial. For compatibility reasons, Some scripts accept revision numbers with '1.' (or even 'r1.') prepended to the number, but this usage is deprecated and should be corrected when encountered.

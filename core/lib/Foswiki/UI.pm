@@ -633,10 +633,12 @@ sub checkValidationKey {
     {
         throw Foswiki::ValidationException( $session->{request}->action() );
     }
-    if ( defined($nonce) ) {
+    if ( defined($nonce) && !$session->{request}->param('preserve_vk')) {
 
         # Expire the nonce. If the user tries to use it again, they will
-        # be prompted.
+        # be prompted. Note that if preserve_vk is provided we don't
+        # expire the nonce - this is to support browsers that don't
+        # implement FormData in javascript (such as IE8)
         Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
             $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
 
@@ -652,6 +654,7 @@ sub checkValidationKey {
               ->pushHeader( 'X-Foswiki-Validation' => $nonce );
         }
     }
+    $session->{request}->delete('preserve_vk');
 }
 
 =begin TML

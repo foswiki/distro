@@ -70,23 +70,20 @@ sub upload {
         catch Foswiki::OopsException with {
             my $e = shift;
             $status = $e->{status};
-            if ( $status >= 400 ) {
-                $message = 'ERROR: ' . $e->stringify();
-            }
+            $message = $e->stringify();
         }
         catch Foswiki::AccessControlException with {
             my $e = shift;
             $status  = 403;
-            $message = 'ERROR: ' . $e->stringify();
+            $message = $e->stringify();
         }
         catch Foswiki::ValidationException with {
             my $e = shift;
             $status  = 403;
-            $message = 'ERROR: ' . $e->stringify();
+            $message = $e->stringify();
         };
-        if ( $status < 400 ) {
-            $message = 'OK ' . $message;
-        }
+        $message = (( $status < 400 ) ? 'OK' : 'ERROR') . ": $message";
+
         $session->{response}->header(
             -status => $status,
             -type   => 'text/plain'
