@@ -236,11 +236,13 @@ sub handleRequest {
     if ( $req->header('X-Foswiki-Tickle') ) {
         my $data = {
             SCRIPT_NAME => $ENV{SCRIPT_NAME},
-            VERSION     => $Foswiki::VERSION,
+            VERSION     => $Foswiki::VERSION->stringify(),
             RELEASE     => $Foswiki::RELEASE,
         };
         my $res = new Foswiki::Response();
         $res->header( -type => 'application/json', -status => '200' );
+
+        # Need to allow_blessed since VERSION is a version object.
         my $d = JSON->new->allow_nonref->encode($data);
         $res->print($d);
         return $res;

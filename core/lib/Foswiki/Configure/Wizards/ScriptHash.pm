@@ -131,29 +131,36 @@ sub verify {
             last;
         }
 
-        my $target = $Foswiki::cfg{ScriptUrlPaths}{$script}
-          || "$Foswiki::cfg{ScriptUrlPath}/$script"
-          . ( $Foswiki::cfg{ScriptSuffix} || '' );
-
-        if ( $info->{SCRIPT_NAME} eq $target ) {
-            $reporter->NOTE("Server received the expected path (=$target=)");
+        my $target = $Foswiki::cfg{ScriptUrlPaths}{$script};
+        unless ( defined $target ) {
+            $target = "$Foswiki::cfg{ScriptUrlPath}/$script"
+              . ( $Foswiki::cfg{ScriptSuffix} || '' );
         }
-        elsif ( $script eq 'view' ) {
+        my $ptarget = ($target) ? $target : 'empty';
+
+        if ( $script eq 'view' ) {
             if ( $info->{SCRIPT_NAME} eq $Foswiki::cfg{ScriptUrlPath} ) {
                 $reporter->NOTE(
 "Server received =$info->{SCRIPT_NAME}=, which is the value of {ScriptUrlPaths}{$script}.  This indicates that short(er) URLs are active and functioning correctly."
                 );
             }
+            elsif ( $info->{SCRIPT_NAME} eq $target ) {
+                $reporter->NOTE(
+                    "Server received the expected path: (=$ptarget=) ");
+            }
             else {
                 $reporter->ERROR(
-"Server received =$info->{SCRIPT_NAME}=, but the expected path is =$Foswiki::cfg{ScriptUrlPath}=.
-Changing {ScriptUrlPaths}{view} to =$info->{SCRIPT_NAME}= will probably correct this error. (Server may be configured for Shorter URLs.)"
+"Server received =($info->{SCRIPT_NAME})=, but the configured path to =view= is =($Foswiki::cfg{ScriptUrlPath})=.
+Changing {ScriptUrlPaths}{view} to =($info->{SCRIPT_NAME})= will probably correct this error. (Server may be configured for Shorter URLs.)"
                 );
             }
         }
+        elsif ( $info->{SCRIPT_NAME} eq $target ) {
+            $reporter->NOTE("Server received the expected path: (=$ptarget=) ");
+        }
         else {
             $reporter->ERROR(
-"Server received =$info->{SCRIPT_NAME}=, but the expected path is =$target=.
+"Server received (=$info->{SCRIPT_NAME}=), but the expected path is =($ptarget)=.
 The correct setting for $keys is probably =$info->{SCRIPT_NAME}=.  (Server may be configured for Shorter URLs.)"
             );
         }
