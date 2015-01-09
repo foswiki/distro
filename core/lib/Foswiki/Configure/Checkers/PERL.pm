@@ -12,8 +12,7 @@ sub check_current_value {
 
     my $value = $this->{item}->getRawValue();
     if ( !defined $value ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
+        unless ( $this->CHECK_option('undefok') ) {
             $reporter->ERROR('May not be undefined');
         }
         return;

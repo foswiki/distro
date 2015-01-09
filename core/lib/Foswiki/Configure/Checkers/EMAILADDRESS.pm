@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::EMAILADDRESS;
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
 #    list:delim (default ',\\\\s*')
-#    nullok
+#    undefok
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
@@ -19,29 +19,17 @@ use constant NOREDIRECT => 0;
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
+    my $value = $this->checkExpandedValue($reporter);
+    return unless defined $value;
 
-    my $value = $this->{item}->getExpandedValue();
-    if ( !defined $value ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("Cannot be undefined");
-        }
-        return;
-    }
-    $value = $this->{item}->getExpandedValue();
-
-    my $check = $this->{item}->{CHECK}->[0] || {};
-
-    my $nullok = $check->{nullok}[0] || 0;
-    my $list = $check->{list}[0];
+    my $list = $this->CHECK_option('list');
 
     my @addrs;
     @addrs = split( /,\s*/, $value ) if ( defined $list );
     push @addrs, $value unless ( defined $list );
 
     $reporter->ERROR("An e-mail address is required")
-      unless ( @addrs || $nullok );
+      unless ( @addrs || $this->CHECK_option('undefok') );
 
     foreach my $addr (@addrs) {
         $reporter->WARN("\"$addr\" does not appear to be an e-mail address")

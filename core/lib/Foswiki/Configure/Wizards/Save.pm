@@ -199,19 +199,25 @@ sub save {
     }
 
     my %save;
-    foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
-        eval("(\$save$key)=\$Foswiki::cfg$key=~/^(.*)\$/");
-        ASSERT( !$@, $@ ) if DEBUG;
-        delete $Foswiki::cfg{BOOTSTRAP};
-    }
 
     # Clear out the configuration and re-initialize it either
     # with or without the .spec expansion.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
+        foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
+            eval("(\$save$key)=\$Foswiki::cfg$key=~/^(.*)\$/");
+            ASSERT( !$@, $@ ) if DEBUG;
+            delete $Foswiki::cfg{BOOTSTRAP};
+        }
+
         %Foswiki::cfg = ();
 
         # Read without expansions but with the .spec
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+
+        # apply bootstrapped settings
+        # print STDERR join( '', _generateLSC( $root, \%save, '', $reporter ) );
+        eval( join( '', _generateLSC( $root, \%save, '', $reporter ) ) );
+        die "Internal error: $@" if ($@);
     }
     else {
         %Foswiki::cfg = ();
@@ -220,16 +226,11 @@ sub save {
         Foswiki::Configure::Load::readConfig( 1, 1 );
     }
 
-    # apply bootstrapped settings
-    # print STDERR join( '', _generateLSC( $root, \%save, '', $reporter ) );
-    eval( join( '', _generateLSC( $root, \%save, '', $reporter ) ) );
-    die "Internal error: $@" if ($@);
-
     # Get changes from 'set' *without* expanding values
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
-            if ( defined $v && $v ne '' ) {
-                my $spec = $root->getValueObject($k);
+            my $spec = $root->getValueObject($k);
+            if ( defined $v ) {
                 my ($value) = $v =~ m/^(.*)$/s;    #UNTAINT
                 if ($spec) {
                     eval { $value = $spec->decodeValue($value) };
@@ -248,9 +249,14 @@ sub save {
                     eval "undef \$Foswiki::cfg$k";
                 }
             }
-            else {
+            elsif ($spec->CHECK_option('nullok')) {
                 eval "undef \$Foswiki::cfg$k";
             }
+            else {
+                $reporter->ERROR(
+"SAVE ABORTED: undef given as value for $k, but the spec is not undefok");
+                return undef;
+           }
             ASSERT( !$@, $@ ) if DEBUG;
         }
     }
@@ -306,11 +312,11 @@ sub _compareConfigs {
     if ($vs) {
 
         #print STDERR "REPORT ON $vs->{keys} $old $new\n";
-        if ( $vs->{typename} eq 'PASSWORD' ) {
-            $old = '_[redacted]_';
-            $new = '_[redacted]_';
-        }
         if ( $old ne $new ) {
+            if ( $vs->{typename} eq 'PASSWORD' ) {
+                $old = '_[redacted]_';
+                $new = '_[redacted]_';
+            }
             $old = "($vs->{default})" if $old eq 'undef' && $vs->{default};
             _logAndReport( $reporter, $logger, $keypath, $old, $new );
             return 0;
@@ -418,13 +424,16 @@ sub _generateLSC {
 
     my $vs = $spec->getValueObject($keys);
     if ($vs) {
-        if ( !defined $datum || $datum eq '' ) {
 
-            # A null value and nullok will suppress the item in LSC
-            my $check = $vs->{CHECK}->[0];
-            if ( $check && $check->{nullok}[0] ) {
-                return ();
-            }
+        if ( !defined $datum ) {
+
+            # An undef value and undefok will suppress the item in LSC
+            return () if $vs->CHECK_option('undefok');
+
+        } elsif ( $datum eq '' ) {
+
+            # Treat '' as undef unless emptyok
+            return () unless $vs->CHECK_option('emptyok');
         }
         my $d = Foswiki::Configure::Reporter::uneval($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );

@@ -41,14 +41,12 @@ sub checkEnabled {
         return;
     }
 
-    my $check = $this->{item}->{CHECK};
-
-    if ( defined $value && $check ) {
-        my $filter = $check->{filter}[0];
+    if ( defined $value ) {
+        my $filter = $this->CHECK_option('filter');
         $reporter->ERROR("Password contains illegal characters")
           if ( defined $filter && $value =~ qr{$filter} );
 
-        my $min = $check->{min}[0];
+        my $min = $this->CHECK_option('min');
         $reporter->ERROR("Password must be at least $min characters long")
           if ( defined $min && length($value) < $min );
     }

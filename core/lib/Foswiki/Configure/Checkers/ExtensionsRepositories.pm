@@ -16,14 +16,8 @@ use Foswiki::Configure::Checkers::URL ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
-
-    my $replist = $this->{item}->getExpandedValue();
-
-    unless ($replist) {
-        $reporter->NOTE("No repositories specified");
-        return;
-    }
+    my $replist = $this->checkExpandedValue($reporter);
+    return unless defined $replist;
 
     my @list;
     while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {

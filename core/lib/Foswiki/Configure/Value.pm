@@ -91,12 +91,17 @@ our %CHECK_options = (
     max      => 1,     # max value
     min      => 1,     # min value
     notrail  => 0,     # ignore trailing / when checking URL
-    nullok   => 0,     # is undef OK?
+    undefok  => 0,     # is undef OK?
+    emptyok  => 0,     # is '' OK?
     parts    => -1,    # for URL
     partsreq => -1,    # for URL
     perms    => 1,     # file permissions
     schemes  => -1,    # for URL
 );
+
+our %rename_options = (
+    nullok => 'undefok'
+    );
 
 =begin TML
 
@@ -246,6 +251,7 @@ sub _CHECK {
                 }
             } while ( $str =~ s/^\s*,\s*// );
         }
+        $name = $rename_options{$name} if exists $rename_options{$name};
         die "CHECK parse failed: unrecognised option '$name'"
           unless ( defined $CHECK_options{$name} );
         if ( $CHECK_options{$name} >= 0

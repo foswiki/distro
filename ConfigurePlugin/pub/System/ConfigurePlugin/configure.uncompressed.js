@@ -535,6 +535,16 @@ function _id_ify(id) {
         }
     }
 
+    function CHECK_option(spec, option) {
+        if (!spec.CHECK)
+            return null;
+        if (spec.CHECK.length == 0)
+            return null;
+        if (!spec.CHECK[0][option])
+            return null;
+        return spec.CHECK[0][option][0];
+    }
+
     // Load a key node UI
     function load_ui($node) {
         var spec = $node.data('spec.entry'),
@@ -562,7 +572,7 @@ function _id_ify(id) {
             $pending.remove();
         }
 
-        if (spec.UNDEFINEDOK == 1) {
+        if (CHECK_option(spec, 'undefok') === 1) {
             // If undefined is OK, then we add a checkbox that
             // needs to be clicked to see the value input.
             // if it isn't checked, the value is undefined; if it
@@ -582,7 +592,7 @@ function _id_ify(id) {
                 }
                 update_modified_default( $node );
             }).show();
-            // Add a null_if handler to intercent the currentValue
+            // Add a null_if handler to intercept the currentValue
             // of the keys (see types.js)
             handler.null_if = function () {
                 return !$butt.attr("checked");

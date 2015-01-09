@@ -352,46 +352,51 @@ sub warnAboutWindowsBackSlashes {
 
 =begin TML
 
----++ PROTECTED ObjectMethod showExpandedValue($reporter)
+---++ PROTECTED ObjectMethod checkExpandedValue($reporter)
 
-Return the expanded value of a parameter as a note for display.
+Report the expanded value of a parameter. Return the expanded value.
 
 =cut
 
-sub showExpandedValue {
+sub checkExpandedValue {
     my ( $this, $reporter ) = @_;
 
-    my $field = $this->{item}->getExpandedValue();
-    if ( defined $field ) {
-        if ( ref($field) ) {
-            $field = $this->{item}->encodeValue($field);
-            if ( $field =~ /\n/ ) {
-                $reporter->NOTE( 'Expands to: <verbatim>',
-                    $field, '</verbatim>' );
-            }
-            else {
-                $reporter->NOTE("Expands to: =$field=");
-            }
+    my $value = $this->{item}->getExpandedValue();
+    my $field = $value;
+
+    if ( !defined $field ) {
+        if (!$this->CHECK_option('undefok')) {
+            $reporter->ERROR("May not be undefined");
         }
-        elsif ( $field ne '' ) {
-            if ( $field =~ /\n/ ) {
-                $reporter->NOTE( 'Expands to: <verbatim>',
-                    $field, '</verbatim>' );
-            }
-            else {
-                $reporter->NOTE("Expands to: =$field=");
-            }
-        }
-        else {
-            $reporter->NOTE("Expands to ''");
-        }
+        $field = 'undef';
+    }
+
+    if ( $field eq '' && !$this->CHECK_option('emptyok')) {
+        $reporter->ERROR("May not be empty");
+    }
+
+    if ( ref($field) ) {
+        $field = $this->{item}->encodeValue($field);
+    }
+
+    if ( $field =~ /\n/ ) {
+        $reporter->NOTE( 'Expands to: <verbatim>',
+                         $field, '</verbatim>' );
+    }
+    elsif ($field eq '') {
+        $reporter->NOTE("Expands to: '' (empty)");
     }
     else {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->NOTE("$this->{item}->{keys} is undefined");
-        }
+        $reporter->NOTE("Expands to: =$field=");
     }
+    return $value;
+}
+
+sub CHECK_option {
+    my ($this, $opt) = @_;
+    my $check = $this->{item}->{CHECK}->[0];
+    return undef unless $check;
+    return $check->{$opt}[0];
 }
 
 1;

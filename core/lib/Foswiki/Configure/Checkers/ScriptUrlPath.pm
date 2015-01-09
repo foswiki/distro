@@ -13,6 +13,7 @@ sub check_current_value {
     # Check Script URL Path against REQUEST_URI
     $this->SUPER::check_current_value($reporter);
 
+    # SMELL: doesn't this duplicate notrail?
     if ( $this->{item}->getExpandedValue() =~ /\/+$/ ) {
         $reporter->WARN('A trailing / is not recommended');
     }

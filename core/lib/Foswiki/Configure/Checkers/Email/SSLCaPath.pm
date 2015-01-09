@@ -20,7 +20,7 @@ sub check_current_value {
     if ( $file && !-r $file ) {
         $reporter->ERROR("Unable to read $file");
     }
-    my $path = $this->{item}->getExpandedValue();
+    my $path = $this->checkExpandedValue();
     if ($path) {
         if ( !( -d $path && -r _ ) ) {
             $reporter->ERROR(

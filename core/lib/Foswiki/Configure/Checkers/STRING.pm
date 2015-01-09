@@ -23,26 +23,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $value = $this->{item}->getExpandedValue();
-    if ( !defined $value ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("Must be non-empty");
-        }
-        return;
-    }
-    $value = $this->{item}->getExpandedValue();
+    my $value = $this->checkExpandedValue();
+    return unless defined $value;
 
     my $len = length($value);
 
-    my $check = $this->{item}->{CHECK}->[0] || {};
-    return unless ($check);
+    my $min = $this->CHECK_option('min');
+    my $max = $this->CHECK_option('max');
 
-    my $min = $check->{min}[0];
-    my $max = $check->{max}[0];
-
-    my $accept = $check->{accept};
-    my $filter = $check->{filter};
+    my $accept = $this->CHECK_option('accept');
+    my $filter = $this->CHECK_option('filter');
 
     if ( defined $min && $len < $min ) {
         $reporter->ERROR("Length must be at least $min");
@@ -52,7 +42,7 @@ sub check_current_value {
     }
     else {
         my $ok = 1;
-        if ( defined $accept ) {
+        if ($accept) {
             $ok = 0;
             foreach my $are (@$accept) {
                 if ( $value =~ $are ) {
@@ -61,7 +51,7 @@ sub check_current_value {
                 }
             }
         }
-        if ( $ok && defined $filter ) {
+        if ( $ok && $filter ) {
             foreach my $fre (@$filter) {
                 if ( $value =~ $fre ) {
                     $ok = 0;

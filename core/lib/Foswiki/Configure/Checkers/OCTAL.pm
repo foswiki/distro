@@ -7,7 +7,7 @@ package Foswiki::Configure::Checkers::OCTAL;
 #  CHECK="option option:val option:val,val,val"
 #    min: value in specified radix
 #    max: value in specified radix
-#    nullok
+#    undefok
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
@@ -19,29 +19,21 @@ our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
-    my $val = $this->{item}->getExpandedValue();
 
-    if ( !defined $val ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("A value must be given (may not be undefined)");
-            return;
-        }
-        $val = 0;
+    my $val = $this->checkExpandedValue();
+    return unless defined $val;
+
+    my $min = $this->CHECK_option('min');
+    if ( defined $min ) {
+        my $v = eval "0$min";
+        $reporter->ERROR("Value must be at least $min")
+          if ( defined $v && $val < $v );
     }
-
-    my $check = $this->{item}->{CHECK}->[0];
-    if ($check) {
-        if ( defined $check->{min} ) {
-            my $v = eval "0$check->{min}[0]";
-            $reporter->ERROR("Value must be at least $check->{min}[0]")
-              if ( defined $v && $val < $v );
-        }
-        if ( defined $check->{max} ) {
-            my $v = eval "0$check->{max}[0]";
-            $reporter->ERROR("Value must be no greater than $check->{max}[0]")
-              if ( defined $v && $val > $v );
-        }
+    my $max = $this->CHECK_option('max');
+    if ( defined $max ) {
+        my $v = eval "0$max";
+        $reporter->ERROR("Value must be no greater than $max")
+          if ( defined $v && $val > $v );
     }
 }
 

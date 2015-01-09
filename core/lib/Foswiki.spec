@@ -63,7 +63,7 @@
 # to return the {DefaultUrlHost}.
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URILIST EXPERT CHECK='nullok \
+# **URILIST EXPERT CHECK='undefok \
 #              parts:scheme,authority \
 #              authtype:hostip' **
 # If your host has aliases (such as both =www.mywiki.net= and =mywiki.net=
@@ -94,12 +94,12 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **STRING 10**
+# **STRING 10 CHECK="emptyok"**
 # Suffix of Foswiki CGI scripts. For example, .cgi or .pl.
 # You may need to set this if your webserver requires an extension.
-$Foswiki::cfg{ScriptSuffix} = '';
+#$Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='nullok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" **
+# **URLPATH CHECK='undefok emptyok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" **
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script,
 # including any suffix.
@@ -182,13 +182,13 @@ $Foswiki::cfg{ScriptSuffix} = '';
 #      are pending verification.
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH CHECK="nullok" EXPERT**
+# **PATH CHECK="undefok" EXPERT**
 # This is used to override the default system temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It is normally set automatically in the code.
 # $Foswiki::cfg{TempfileDir} = '';
 
-# **PATH EXPERT CHECK='nullok'**
+# **PATH EXPERT CHECK='undefok'**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key
@@ -202,7 +202,7 @@ $Foswiki::cfg{ScriptSuffix} = '';
 #    * Windows Cygwin Perl - Path separator is ':'. The Windows system
 #      directory is required on the path. Use '/' not '\' in pathnames.
 #      Typical setting is =/cygdrive/c/windows/system32=
-# $Foswiki::cfg{SafeEnvPath} = '';
+# $Foswiki::cfg{SafeEnvPath} = undef;
 
 #############################################################################
 #---+ Security and Authentication
@@ -270,7 +270,7 @@ $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 # {Sessions}{MapIP2SID}).
 $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 
-# **STRING 20 CHECK='nullok' EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
+# **STRING 20 CHECK='undefok' EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
 # By default the Foswiki session cookie is only accessible by the host which
 # sets it. To change the scope of this cookie you can set this to any other
 # value (ie. company.com). Make sure that Foswiki can access its own cookie.
@@ -838,7 +838,7 @@ $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 # email address.
 $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 
-# **REGEX 80 EXPERT**
+# **REGEX 80 CHECK="emptyok" EXPERT**
 # This regular expression can be used to block certain email addresses
 # from being used for registering users.  It can be used to block some
 # of the more common wikispam bots. If this regex matches the entered
@@ -1036,19 +1036,19 @@ $Foswiki::cfg{AccessibleENV} =
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).
 
-# **URL 30 CHECK='nullok parts:scheme,authority,path,user,pass  \
+# **URL 30 CHECK='undefok emptyok parts:scheme,authority,path,user,pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
 #              authtype:hostip' **
 # Hostname or address of the proxy server.
 # If your proxy requires authentication, simply put it in the URL, as in:
 # http://username:password@proxy.your.company.
-$Foswiki::cfg{PROXY}{HOST} = '';
+$Foswiki::cfg{PROXY}{HOST} = undef;
 
-# **STRING 30 CHECK='nullok'**
+# **STRING 30 CHECK='undefok emptyok'**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
-$Foswiki::cfg{PROXY}{PORT} = '';
+$Foswiki::cfg{PROXY}{PORT} = undef;
 
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect
@@ -1193,14 +1193,14 @@ $Foswiki::cfg{WarningFileName} = '';
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/log%DATE%.txt=
 $Foswiki::cfg{LogFileName} = '';
 
-# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {ConfigureLogFileName}"**
+# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {ConfigureLogFileName}" CHECK="undefok"**
 # Log file recording configuration changes when using the Compatibility logger
 # If =%DATE%= is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.
 #
 # To use the Compatibility logger, set this to a valid file path and name.
 #
-$Foswiki::cfg{ConfigureLogFileName} = '';
+$Foswiki::cfg{ConfigureLogFileName} = undef;
 
 #---++ Statistics
 # Statistics are usually assembled by a cron script
@@ -2068,14 +2068,14 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 #---+ Miscellaneous
 # Miscellaneous expert options.
 
-# **STRING 20 CHECK='nullok' EXPERT**
+# **STRING 20 CHECK='undefok' EXPERT**
 # The name of the host operating system. This is automatically calculated
 # in the code. You should only need to override if your Perl doesn't provide
 # the value of $^O or $Config::Config{'osname'} (an exceptional
 # situtation never yet encountered)
 # $Foswiki::cfg{DetailedOS} = '';
 
-# **STRING 20 CHECK='nullok' EXPERT**
+# **STRING 20 CHECK='undefok' EXPERT**
 # One of UNIX WINDOWS VMS DOS MACINTOSH OS2
 # This is automatically calculated in the code based on the value of
 # {DetailedOS}. It is used to group OS's into generic groups based on their
@@ -2083,7 +2083,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 #
 # $Foswiki::cfg{OS} = '';
 
-# **NUMBER CHECK="min:-1 nullok" EXPERT**
+# **NUMBER CHECK="min:-1 undefok" EXPERT**
 # Maximum number of backup versions of LocalSite.cfg to retain when changes
 # are saved.  Enables you to recover quickly from accidental changes.
 # 0 does not save any backup versions.  -1 does not limit the number of
@@ -2091,24 +2091,24 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # parameter is non-zero, you will be unable to save the configuration.
 $Foswiki::cfg{MaxLSCBackups} = 10;
 
-# **STRING 20 CHECK='nullok' EXPERT**
+# **STRING 20 EXPERT**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work (don't
 # change it unless you are certain that you know what you are doing!)
 $Foswiki::cfg{SystemWebName} = 'System';
 
-# **STRING 20 CHECK='nullok' EXPERT**
+# **STRING 20 EXPERT**
 # Name of the web used as a trashcan (where deleted topics are moved)
 # If you change this setting, you must make sure the web exists.
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
-# **STRING 20 CHECK='nullok' EXPERT**
+# **STRING 20 EXPERT**
 # Name of the web used as a scratchpad or temporary workarea for users to
 # experiment with Foswiki topics.
 $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
-# **STRING 20  CHECK='nullok' EXPERT**
+# **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # *If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.*

@@ -12,12 +12,12 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $value = $this->{item}->getExpandedValue();
-
     return
-      unless ( $Foswiki::cfg{EnableEmail}
-        && $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
-        && $value );
+        unless ( $Foswiki::cfg{EnableEmail}
+                 && $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/);
+
+    my $value = $this->checkExpandedValue();
+    return unless defined $value;
 
     my $hi = hostInfo($value);
     if ( $hi->{error} ) {

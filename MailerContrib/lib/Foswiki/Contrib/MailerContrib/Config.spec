@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ MailerContrib
-# **REGEX**
+# **REGEX CHECK="undefok emptyok"**
 # Define the regular expression that an email address entered in WebNotify
 # must match to be identified as a legal email by the notifier. You can use
 # this expression to - for example - filter email addresses on your company
@@ -14,7 +14,7 @@ $Foswiki::cfg{MailerContrib}{EmailFilterIn} = '';
 # Remove IMG tags in notification mails.
 $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} = $TRUE;
 
-# **STRING 80**
+# **STRING 80 CHECK="undefok emptyok"**
 # A comma-separated list of user preference names that will be respected
 # when sending out emails.
 $Foswiki::cfg{MailerContrib}{RespectUserPrefs} = 'LANGUAGE';

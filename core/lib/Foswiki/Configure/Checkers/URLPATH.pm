@@ -12,16 +12,8 @@ use Foswiki::Configure::Checkers::URL ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
-
-    my $value = $this->{item}->getExpandedValue();
-    if ( !defined $value ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("Cannot be undefined");
-        }
-        return;
-    }
+    my $value = $this->checkExpandedValue($reporter);
+    return unless defined $value;
 
     my %check = ();
     if ( scalar( @{ $this->{item}->{CHECK} } ) > 0 ) {

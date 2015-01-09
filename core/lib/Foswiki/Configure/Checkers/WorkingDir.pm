@@ -11,12 +11,11 @@ use Foswiki::Configure::FileUtil ();
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
-    my $d = $this->{item}->getExpandedValue();
 
-    if ( !$d ) {
-        $reporter->ERROR("Must be defined");
-    }
-    elsif ( -d $d ) {
+    my $d = $this->checkExpandedValue();
+    return unless defined $d;
+
+    if ( -d $d ) {
         my $path   = $d . '/' . time;
         my $report = Foswiki::Configure::FileUtil::checkCanCreateFile($path);
         if ($report) {

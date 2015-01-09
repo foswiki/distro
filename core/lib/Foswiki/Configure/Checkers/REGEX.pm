@@ -11,17 +11,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
+    my $str = $this->checkExpandedValue($reporter);
+    return unless defined $str;
 
-    my $str = $this->{item}->getExpandedValue();
-
-    if ( !defined $str ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("Must be non-empty");
-        }
-        return;
-    }
     eval { qr/$str/ };
     if ($@) {
         my $msg = Foswiki::Configure::Reporter::stripStacktrace($@);

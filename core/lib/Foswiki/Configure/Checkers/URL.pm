@@ -15,7 +15,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 #
 # CHECK options:
 #    * expand = expand $Foswiki::cfg variables in value
-#    * nullok = allow item to be empty
+#    * undefok = allow item to be empty
 #    * parts:scheme,authority,path,query,fragment
 #           Parts allowed in item
 #           Default: scheme,authority,path
@@ -44,11 +44,11 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
     my $keys = $this->{item}->{keys};
 
-    $this->showExpandedValue($reporter);
+    my $val = $this->checkExpandedValue($reporter);
 
     checkURI(
         $reporter,
-        $this->{item}->getExpandedValue(),
+        $val,
         %{ $this->{item}->{CHECK}->[0] || {} }
     );
 }
@@ -63,7 +63,7 @@ sub checkURI {
     my ( $reporter, $uri, %checks ) = @_;
 
     unless ( defined $uri ) {
-        $reporter->ERROR("Not a valid URI") unless $checks{nullok}[0];
+        $reporter->ERROR("Not a valid URI") unless $checks{undefok}[0];
         return;
     }
 
@@ -78,7 +78,7 @@ sub checkURI {
 
     $uri =~ s/^\s*(.*?)\s*$/$1/ if defined $uri;
 
-    return if ( !( defined $uri && length($uri) ) && $checks{nullok}[0] );
+    return if ( !( defined $uri && length($uri) ) && $checks{undefok}[0] );
 
     unless ( $uri =~ $uriRE ) {
         $reporter->ERROR("Syntax error: $uri is not a valid URI");

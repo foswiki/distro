@@ -8,7 +8,7 @@ package Foswiki::Configure::Checkers::NUMBER;
 #    radix: (2-36), specified in decimal.
 #    min: value in specified radix
 #    max: value in specified radix
-#    nullok
+#    undefok
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
@@ -21,15 +21,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->{item}->getExpandedValue();
-    if ( !defined $val ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("A value must be given (may not be undefined)");
-            return;
-        }
-        $val = 0;
-    }
+    my $val = $this->checkExpandedValue();
+    return unless defined $val;
 
     if ( $val !~ /^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/ ) {
         $reporter->ERROR("Number format error");

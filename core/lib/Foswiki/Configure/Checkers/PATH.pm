@@ -28,16 +28,8 @@ use Foswiki::Configure::FileUtil ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
-
-    my $path = $this->{item}->getExpandedValue();
-    if ( !defined $path ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("A value must be given (may not be undefined)");
-        }
-        return;
-    }
+    my $path = $this->checkExpandedValue($reporter);
+    return unless defined $path;
 
     foreach my $check ( @{ $this->{item}->{CHECK} } ) {
         my $perms = $check->{perms};

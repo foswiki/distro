@@ -15,12 +15,7 @@ sub check_current_value {
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
-    my $file = $this->{item}->getExpandedValue();
-    if ( !defined $file ) {
-        $reporter->ERROR("A value must be given (may not be undefined)");
-        return;
-    }
-
+    my $file = $this->checkExpandedValue();
     if ($file) {
         unless ( $file =~ m,^([\w_./]+)$, ) {
             return $this->ERROR("Invalid characters in $file");

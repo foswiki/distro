@@ -10,22 +10,20 @@ our @ISA = ('Foswiki::Configure::Checkers::URL');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $d = $this->{item}->getExpandedValue();
-    if ($d) {
-        $this->SUPER::check_current_value($reporter);
+    my $d = $this->checkExpandedValue();
+    return unless $d;
+    $this->SUPER::check_current_value($reporter);
 
-        my $host = $ENV{HTTP_HOST};
-        if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,^https?://$host,i ) {
-            $reporter->WARN( 'Current setting does not match HTTP_HOST ',
-                $host );
-            $reporter->NOTE(
-                    'If the URL hostname is correct, set this to =http://'
-                  . $host
-                  . '= or if using SSL, =https://'
-                  . $host . '= '
-                  . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' =PermittedRedirectHostUrls=.'
-            );
-        }
+    my $host = $ENV{HTTP_HOST};
+    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,^https?://$host,i ) {
+        $reporter->WARN( 'Current setting does not match HTTP_HOST ', $host );
+        $reporter->NOTE(
+                'If the URL hostname is correct, set this to =http://'
+              . $host
+              . '= or if using SSL, =https://'
+              . $host . '= '
+              . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' =PermittedRedirectHostUrls=.'
+        );
     }
 }
 

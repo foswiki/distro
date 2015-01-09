@@ -7,7 +7,7 @@ package Foswiki::Configure::Checkers::DATE;
 #  CHECK="option option:val option:val,val,val"
 #    zone: utc or local - default timezone
 #    raw   Return raw user input (don't normalize to ISO format)
-#    nullok
+#    undefok
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
@@ -22,21 +22,11 @@ our @ISA = qw/Foswiki::Configure::Checker/;
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    $this->showExpandedValue($reporter);
+    my $value = $this->checkExpandedValue($reporter);
+    return unless defined $value;
 
-    my $checks = $this->{item}->{CHECK}->[0] || {};
-
-    my $zone      = $checks->{zone}[0] || 'utc';
-    my $normalize = !$checks->{raw}[0];
-    my $value     = $this->{item}->getExpandedValue();
-
-    if ( !defined $value ) {
-        my $check = $this->{item}->{CHECK}->[0];
-        unless ( $check && $check->{nullok}[0] ) {
-            $reporter->ERROR("Must be non-empty");
-        }
-        return;
-    }
+    my $zone      = $this->CHECK_option('zone') || 'utc';
+    my $normalize = !$this->CHECK_option('raw');
 
     if ( $value =~ /\S/ ) {
         my $binval = Foswiki::Time::parseTime( $value, $zone eq 'local' );
@@ -52,7 +42,7 @@ sub check_current_value {
             $reporter->ERROR("Unrecognized format for date");
         }
     }
-    elsif ( !$checks->{nullok}[0] ) {
+    elsif ( !$this->CHECK_option('emptyok') ) {
         $reporter->ERROR('A date/time must be provided for this item');
     }
 }
