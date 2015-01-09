@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419220348" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420822701" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -15,7 +15,6 @@
     #createWeb .additionalSettings .foswikiActionFormStepSign {display:none;}
     #createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
     #createWeb .additionalSettings .foswikiFormStep {padding:5px 10px;}
-    .twistyTrigger {font-weight:bold;}
 </style>"}%
 <!-- %JQREQUIRE{"popupwindow"}% -->
 
@@ -26,7 +25,7 @@ A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to sto
 Other webs can be created as needed.
 
 %TWISTY{
-  link="%BUTTON{"List all Webs" icon="add"}%%CLEAR%"
+  link="%JQICON{"application_cascade"}% List all Webs"
   mode="div"
 }%
 <div class="foswikiHelp">
