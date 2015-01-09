@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420154378" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420814724" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -236,7 +236,7 @@ TablePlugin is %IF{
 </verbatim>
 
 ---+++ Access permissions
-<verbatim class="tml">%IF{"'TOPIC' allows 'ACCESS'" then="THEN" else="ELSE"}%</verbatim>
+<verbatim class="tml">%IF{"'SOME TOPIC' allows 'ACCESS'" then="THEN" else="ELSE"}%</verbatim>
 
 Example:
 <verbatim class="tml">
@@ -246,7 +246,7 @@ You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox we
 </verbatim>
 
 ---+++ Topic existence
-<verbatim class="tml">%IF{"istopic 'TOPIC'" then="THEN" else="ELSE"}%</verbatim>
+<verbatim class="tml">%IF{"istopic 'SOME TOPIC'" then="THEN" else="ELSE"}%</verbatim>
 
 Example:
 <verbatim class="tml">
@@ -277,6 +277,9 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =authenticated= | a user is authenticated |
 | =body_text=  | when the body text is being processed in a view (useful in plugin handlers) |
 | =can_login= | current environment supports login |
+| =can_render_meta= | set by CompareRevisionsAddOn Compare.pm |
+| =can_remember_login= | Template Login: Controls rendering of "remember login" checkbox. |
+| =no_auto_complete_login= | Template Login: Prevents browser from remembering password |
 | =changes= | in changes script (see CommandAndCGIScripts) |
 | =command_line= | the running script was run from the command line, and not from CGI |
 | =diff= | in rdiff script (see CommandAndCGIScripts) |
@@ -288,6 +291,7 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =isadmin= | current user has admin rights |
 | =login= and =logon= | in login / logon script (see CommandAndCGIScripts) |
 | =manage= | in manage script (see CommandAndCGIScripts) |
+| =mandatoryfields= | if any fields in form have mandatory attribute. |
 | =mirror= | if this is a mirror |
 | =new_topic= | if the topic doesn't already exist |
 | =oops= | in oops script (see CommandAndCGIScripts) |
@@ -304,6 +308,7 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =search= | in search script (see CommandAndCGIScripts) |
 | =static= | in a script that generates static content, such as PDF generation. Extensions should avoid rendering edit markup in this context. |
 | =statistics= | in statistics script (see CommandAndCGIScripts) |
+| =sudo_login= | if user is currently running with sudo admin authority |
 | =SUPPORTS_PARA_INDENT= | render supports the paragraph indent syntax |
 | =SUPPORTS_PREF_SET_URLS= | Preferences can be set in the URL |
 | =textareas_hijacked= | provided for use by editors that highjack textareas, and want to signal this fact. This is used by skins, for example, so they can suppress extra controls when textareas have been hijacked. |
