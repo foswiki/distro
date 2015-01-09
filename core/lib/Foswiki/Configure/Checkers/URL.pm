@@ -46,11 +46,7 @@ sub check_current_value {
 
     my $val = $this->checkExpandedValue($reporter);
 
-    checkURI(
-        $reporter,
-        $val,
-        %{ $this->{item}->{CHECK}->[0] || {} }
-    );
+    checkURI( $reporter, $val, %{ $this->{item}->{CHECK}->[0] || {} } );
 }
 
 sub _list2hash {

@@ -249,14 +249,15 @@ sub save {
                     eval "undef \$Foswiki::cfg$k";
                 }
             }
-            elsif ($spec->CHECK_option('nullok')) {
+            elsif ( $spec->CHECK_option('nullok') ) {
                 eval "undef \$Foswiki::cfg$k";
             }
             else {
                 $reporter->ERROR(
-"SAVE ABORTED: undef given as value for $k, but the spec is not undefok");
+"SAVE ABORTED: undef given as value for $k, but the spec is not undefok"
+                );
                 return undef;
-           }
+            }
             ASSERT( !$@, $@ ) if DEBUG;
         }
     }
@@ -430,7 +431,8 @@ sub _generateLSC {
             # An undef value and undefok will suppress the item in LSC
             return () if $vs->CHECK_option('undefok');
 
-        } elsif ( $datum eq '' ) {
+        }
+        elsif ( $datum eq '' ) {
 
             # Treat '' as undef unless emptyok
             return () unless $vs->CHECK_option('emptyok');

@@ -25,7 +25,7 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my $zone      = $this->CHECK_option('zone') || 'utc';
+    my $zone = $this->CHECK_option('zone') || 'utc';
     my $normalize = !$this->CHECK_option('raw');
 
     if ( $value =~ /\S/ ) {

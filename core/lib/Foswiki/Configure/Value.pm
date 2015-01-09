@@ -99,9 +99,7 @@ our %CHECK_options = (
     schemes  => -1,    # for URL
 );
 
-our %rename_options = (
-    nullok => 'undefok'
-    );
+our %rename_options = ( nullok => 'undefok' );
 
 =begin TML
 
