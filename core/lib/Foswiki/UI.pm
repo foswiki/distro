@@ -233,6 +233,7 @@ sub handleRequest {
     # attempt to verify that the requested function is available on
     # this Foswiki. Respond with the serialised dispatcher, and
     # finish the request.
+    # Need to stringify since VERSION is a version object.
     if ( $req->header('X-Foswiki-Tickle') ) {
         my $data = {
             SCRIPT_NAME => $ENV{SCRIPT_NAME},
@@ -242,7 +243,6 @@ sub handleRequest {
         my $res = new Foswiki::Response();
         $res->header( -type => 'application/json', -status => '200' );
 
-        # Need to allow_blessed since VERSION is a version object.
         my $d = JSON->new->allow_nonref->encode($data);
         $res->print($d);
         return $res;
