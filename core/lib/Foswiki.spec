@@ -270,7 +270,7 @@ $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 # {Sessions}{MapIP2SID}).
 $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 
-# **STRING 20 CHECK='undefok' EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
+# **STRING 20 CHECK='undefok emptyok' EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
 # By default the Foswiki session cookie is only accessible by the host which
 # sets it. To change the scope of this cookie you can set this to any other
 # value (ie. company.com). Make sure that Foswiki can access its own cookie.
@@ -784,7 +784,7 @@ $Foswiki::cfg{Register}{NeedVerification} = $FALSE;
 # to an approval system.
 $Foswiki::cfg{Register}{NeedApproval} = $FALSE;
 
-# **STRING 40**
+# **STRING 40 CHECK="undefok emptyok"**
 # Comma-separated list of WikiNames of users who are able to approve
 # new registrations. These referees will be sent an email when a new
 # user verifies their registration. The referee must click a link in
@@ -1057,7 +1057,7 @@ $Foswiki::cfg{PROXY}{PORT} = undef;
 # public (internet) sites are strongly recommended to install
 # [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]]
 
-# **STRING 50**
+# **STRING 50 CHECK="undefok emptyok"**
 # Text added to e-mail addresses to prevent spambots from grabbing
 # addresses. For example set to 'NOSPAM' to get fred@user.co.ru
 # rendered as fred@user.coNOSPAM.ru
@@ -1222,7 +1222,7 @@ $Foswiki::cfg{Stats}{TopContrib} = 10;
 # the previous behavior and is the default.
 $Foswiki::cfg{Stats}{AutoCreateTopic} = 'Prohibited';
 
-# **STRING 20**
+# **STRING 20 CHECK="undefok emptyok"**
 # If this is set to the name of a Group, then the statistics script will only
 # run for members of the specified  and the AdminGroup.  Example:
 # Set to =AdminGroup= to restrict statistics to  administrators.

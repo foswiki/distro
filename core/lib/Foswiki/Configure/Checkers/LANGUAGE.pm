@@ -22,7 +22,7 @@ sub check_current_value {
 
     return unless ( $Foswiki::cfg{UserInterfaceInternationalisation} );
 
-    my $enabled = $this->checkExpandedValue();
+    my $enabled = $this->checkExpandedValue($reporter);
     return unless $enabled;
 
     my $dir = $Foswiki::cfg{LocalesDir};

@@ -12,7 +12,7 @@ use Foswiki::Configure::FileUtil ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $d = $this->checkExpandedValue();
+    my $d = $this->checkExpandedValue($reporter);
     return unless defined $d;
 
     if ( -d $d ) {

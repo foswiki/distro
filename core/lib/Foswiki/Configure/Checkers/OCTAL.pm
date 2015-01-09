@@ -20,7 +20,7 @@ our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->checkExpandedValue();
+    my $val = $this->checkExpandedValue($reporter);
     return unless defined $val;
 
     my $min = $this->CHECK_option('min');

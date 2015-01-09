@@ -16,7 +16,7 @@ sub check_current_value {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
     }
 
-    my $ld = $this->checkExpandedValue();
+    my $ld = $this->checkExpandedValue($reporter);
     return unless defined $ld;
 
     ($ld) = $ld =~ m/^(.*)$/;    # Untaint

@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checkers::URL');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $d = $this->checkExpandedValue();
+    my $d = $this->checkExpandedValue($reporter);
     return unless $d;
     $this->SUPER::check_current_value($reporter);
 

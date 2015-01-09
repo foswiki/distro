@@ -23,7 +23,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $value = $this->checkExpandedValue();
+    my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
     my $len = length($value);

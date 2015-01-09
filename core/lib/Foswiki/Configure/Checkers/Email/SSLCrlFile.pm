@@ -13,7 +13,7 @@ sub check_current_value {
 
     return '' unless ( $Foswiki::cfg{Email}{SSLCheckCRL} );
 
-    my $value = $this->checkExpandedValue();
+    my $value = $this->checkExpandedValue($reporter);
 
     # TODO: move this to a wizard?
     #    unless ( $value || $Foswiki::cfg{Email}{SSLCaPath} ) {

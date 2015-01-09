@@ -15,7 +15,7 @@ sub check_current_value {
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
-    my $file = $this->checkExpandedValue();
+    my $file = $this->checkExpandedValue($reporter);
     if ($file) {
         unless ( $file =~ m,^([\w_./]+)$, ) {
             return $this->ERROR("Invalid characters in $file");

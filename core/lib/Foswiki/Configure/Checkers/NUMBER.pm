@@ -21,7 +21,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->checkExpandedValue();
+    my $val = $this->checkExpandedValue($reporter);
     return unless defined $val;
 
     if ( $val !~ /^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/ ) {
