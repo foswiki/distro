@@ -7,15 +7,24 @@ use warnings;
 use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::Plugins::JQueryPlugin     ();
 use Foswiki::Func                      ();
+use JSON                               ();
+
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
-    $this->{size} ||= 0;
-    $this->{size} =~ s/\D//g;
-    $this->{size} ||= 0;
-    $this->{size} = 4 if ( $this->{size} < 1 );
+
+    my $options = $this->getOptions();
+    if ( $options && @$options ) {
+        $this->{size} = scalar(@$options);
+    }
+    else {
+        $this->{size} ||= 0;
+        $this->{size} =~ s/\D//g;
+        $this->{size} ||= 0;
+        $this->{size} = 5 if ( $this->{size} < 1 );
+    }
 
     return $this;
 }
@@ -24,6 +33,17 @@ sub finish {
     my $this = shift;
     $this->SUPER::finish();
     undef $this->{valueMap};
+    undef $this->{json};
+}
+
+sub json {
+    my $this = shift;
+
+    unless ( $this->{json} ) {
+        $this->{json} = JSON->new->allow_nonref;
+    }
+
+    return $this->{json};
 }
 
 sub getOptions {
@@ -32,14 +52,6 @@ sub getOptions {
     my $options = $this->{_options};
     return $options if $options;
     $options = $this->SUPER::getOptions();
-
-    unless (@$options) {
-        for ( my $i = 1 ; $i <= $this->{size} ; $i++ ) {
-            push @$options, $i;
-        }
-        $this->{_options} = $options;
-        return $options;
-    }
 
     if ( $this->{type} =~ /\+values/ ) {
         $this->{valueMap} = ();
@@ -63,28 +75,36 @@ sub getOptions {
     return $options;
 }
 
+sub getDataValues {
+    my $this = shift;
+
+    my $options = $this->getOptions();
+    my @vals    = ();
+
+    foreach my $val (@$options) {
+        if ( $this->{type} =~ /\+values/ && defined( $this->{valueMap}{$val} ) )
+        {
+            push @vals, { $this->{valueMap}{$val} => $val };
+        }
+        else {
+            push @vals, $val;
+        }
+    }
+
+    return '' unless @vals;
+    return "data-values='" . $this->json->encode( \@vals ) . "'";
+}
+
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
 
-    my @vals    = ();
-    my $options = $this->getOptions();
-    foreach my $val (@$options) {
-        if ( $this->{type} =~ /\+values/ && defined( $this->{valueMap}{$val} ) )
-        {
-            push @vals, '{"' . $val . '":"' . $this->{valueMap}{$val} . '"}';
-        }
-        else {
-            push @vals, '"' . $val . '"';
-        }
-    }
-    my $dataVals = '';
-    $dataVals = join( ", ", @vals ) if @vals;
-
     my $result =
 "<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
-      . $dataVals . ">";
+      . "data-num-stars='"
+      . $this->{size} . "' "
+      . $this->getDataValues() . ">";
 
     return ( '', $result );
 }
@@ -105,13 +125,11 @@ sub renderDisplayValue {
 
     my @htmlAttrs = ();
 
-#    if (defined $this->{valueMap}) {
-#      push @htmlAttrs, "data-values='[\"".join('", "', @{$this->getOptions()})."\"]";
-#    }
-
     return
 "<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
-      . join( " ", @htmlAttrs ) . ">";
+      . "data-num-stars='"
+      . $this->{size} . "' "
+      . $this->getDataValues() . ">";
 }
 
 1;

@@ -110,9 +110,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Foswiki}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{FluidFont}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 1;
-
-# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -245,10 +242,13 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
 # the Foswiki distribution.
 
-
 # **BOOLEAN EXPERT**
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
+
+# **BOOLEAN**
+# Warning: this plugin is deprecated. Please use CSS. See http://colorzilla.com/gradient-editor/.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 0;
 
 # **BOOLEAN EXPERT**
 # Warning: This plugin is deprecated. Use Corner instead.

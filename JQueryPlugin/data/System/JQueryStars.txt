@@ -1,0 +1,117 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1420807369" format="1.1" reprev="2" version="2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"stars"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Flexible and non-obstructive star rating. This plugin turns an HTML =&lt;input>= element into a star rating widget.
+The design is heavily influenced by [[%SYSTEMWEB%.JQueryRating]] by Fyneworks.com bit requries considerably less HTML markup
+which is of advantage with high precision ratings.
+
+Features:
+
+   * arbitrary number of stars
+   * arbitrary precision of star rating by splitting each star
+   * mouse wheel support
+   * non-obstructive integration using CSS and HTML5 
+
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+There are two ways to make use of this plugin, either as part of a [[%SYSTEMWEB%.DataForms][DataForm definition]] (see [[#Formfield_61rating_61][Formfield =rating=]]) 
+or writing HTML yourself.
+
+<verbatim class="tml">
+%JQREQUIRE{"stars"}%
+
+<input class='jqStars' 
+       value='...'
+       name='...'
+       data-num-stars='...'
+       data-split='...'
+       data-values='...'
+       disabled />
+</verbatim>
+
+   * any =input= element with a CSS class =jqStars= will be initialized automatically
+   * =value= defines the initial value of the star rating
+   * the =disabled= property flags the =input= element as read-only
+   * the =data-num-stars= parameter specifies the maximum number of stars
+   * the =data-split= parameter specifies the precision of a sub-star rating by numbers of parts each star is split up
+   * the =data-values= parameter may optionally provide a json object of values to be selected
+
+The json object in =data-values= can either be a plain array of values such as in
+
+<verbatim class="html">
+<input class="jqStars" 
+       value="I like it" 
+       data-values='["very low", "low", "substandard", "standard", "superior", "I like it", "quite good", "good", "very good", "excellent"]' 
+/>
+</verbatim>
+
+... or an array of objects of the form ={"label": "value"}=:
+
+<verbatim class="html">
+<input class="jqStars" 
+       value="e" 
+       data-values='[{"very low":"a"}, {"low":"b"}, {"substandard":"c"}, {"standard":"d"}, {"superior":"e"}, {"I like it":"f"}, {"quite good":"g"}, {"good":"i"}, {"very good":"j"}, {"excellent":"k"}]' 
+/>
+</verbatim>
+
+---++ Formfield =rating=
+
+The jquery stars plugin is used to implement a =rating= formfield. Here are some examples:
+
+| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* |
+| Rating1 | rating | 5 | | | |
+| Rating2 | rating | 1 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
+| Rating3 | rating | 10 | | | split:2 | 
+| Rating4 | rating+values | 1 | very low=1, low=2, substandard=3, standard=4, superior=5, I like it=6, quite good=7, good=8, very good=9, excellent=10  | | |
+
+   * Rating1 defines a simple numeric 5 star rating
+   * Rating2 defines a simple scheme using named categories.
+   * Rating3 defines a 10 star rating by increments of 0.5 steps
+   * Rating4 defines a numeric rating where each value is mapped to a named category
+
+The =Size= column specifies the number of stars. If =Values= are defined as well, their number will overwrite the =Size= value.
+Note, that the =Attributes= column will be used to parametrize the jquery.stars plugin. 
+
+---++ Examples
+%JQREQUIRE{"stars"}%
+
+---+++ default settings
+<input class="jqStars"  value="0" />
+
+---+++ read only
+<input class="jqStars" value="2" disabled />
+
+<input class="jqStars" value="2.5" disabled />
+
+<input class="jqStars" value="2.5" data-split="2" disabled />
+
+---+++ 10 stars
+
+<input class="jqStars" data-num-stars="10" />
+
+---+++ 10 stars, split 10
+
+<input class="jqStars" value="4.2" data-num-stars="10" data-split="10" />
+
+---+++ 10 stars, split 100
+
+<input class="jqStars" value="5.25" data-num-stars="10" data-split="100" />
+
+---+++ named values
+
+<input class="jqStars" value="I like it" data-values='["very low", "low", "substandard", "standard", "superior", "I like it", "quite good", "good", "very good", "excellent"]' />
+
+---+++ mapped values
+
+<input class="jqStars" value="e" data-values='[{"very low":"a"}, {"low":"b"}, {"substandard":"c"}, {"standard":"d"}, {"superior":"e"}, {"I like it":"f"}, {"quite good":"g"}, {"good":"i"}, {"very good":"j"}, {"excellent":"k"}]' />

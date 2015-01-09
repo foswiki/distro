@@ -42,7 +42,7 @@ Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> 
     <title>Hello World</title>
   </head>
   <body>
-    <font size="24px">Hello World</font>
+    <h1>Hello World</h1>
   </body>
 </html>
 

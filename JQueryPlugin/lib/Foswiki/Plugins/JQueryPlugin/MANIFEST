@@ -42,6 +42,7 @@ data/System/JQueryShake.txt 0644
 data/System/JQueryShrinkUrls.txt 0644
 data/System/JQuerySimpleModal.txt 0644
 data/System/JQuerySlimbox.txt 0644
+data/System/JQueryStars.txt 0644
 data/System/JQuerySuperfish.txt 0644
 data/System/JQuerySupersubs.txt 0644
 data/System/JQueryTabpane.txt 0644
@@ -68,11 +69,12 @@ data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Gradient/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Rating/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
