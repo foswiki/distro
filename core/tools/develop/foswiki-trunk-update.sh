@@ -68,9 +68,12 @@ cp -a $PROD/data/System/FoswikiSiteChanges.txt* $ROOT/core/data/System/.
 cp -a $PROD/data/System/WebTopBar* $ROOT/core/data/System/.
 
 # Modify Foswiki.pm to show the last revision
-REV=`git log --abbrev=12 --format=format:%h:%ci -1`
+REV=`git log --abbrev=12 --format=format:"Commit: %h - %ci" -1`
+BR=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/Branch: \1/'`
+
 cd $ROOT/core/lib
-sed -e "s/\(RELEASE = '\)/\1GIT: $REV: /" Foswiki.pm > Foswiki.pm.new
+# Default string $RELEASE = 'Foswiki-1.2.0 GIT';
+sed -e "s/\(RELEASE = .*\)';/\1: $BR $REV';/" Foswiki.pm > Foswiki.pm.new
 mv Foswiki.pm.new Foswiki.pm
 
 # Make sure we have links to all non-existing webs to trunk
