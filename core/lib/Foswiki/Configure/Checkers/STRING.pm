@@ -28,11 +28,11 @@ sub check_current_value {
 
     my $len = length($value);
 
-    my $min = $this->CHECK_option('min');
-    my $max = $this->CHECK_option('max');
+    my $min = $this->{item}->CHECK_option('min');
+    my $max = $this->{item}->CHECK_option('max');
 
-    my $accept = $this->CHECK_option('accept');
-    my $filter = $this->CHECK_option('filter');
+    my $accept = $this->{item}->CHECK_option('accept');
+    my $filter = $this->{item}->CHECK_option('filter');
 
     if ( defined $min && $len < $min ) {
         $reporter->ERROR("Length must be at least $min");

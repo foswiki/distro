@@ -404,6 +404,29 @@ sub decodeValue {
     return $value;
 }
 
+=begin TML
+
+---++ ObjectMethod CHECK_option($keyname) -> $value
+
+Return the first value of the first CHECK option that contains
+the key =$opt=
+
+e.g. if we have =CHECK="a b" CHECK="c d=99 e"= in the .spec
+then =CHECK_option('c')= will return true and
+=CHECK_option('d')= will return =99=
+
+=cut
+
+sub CHECK_option {
+    my ( $this, $opt ) = @_;
+    foreach my $check ( @{ $this->{CHECK} } ) {
+        if ( $check->{$opt} ) {
+            return $check->{$opt}[0];
+        }
+    }
+    return undef;
+}
+
 # Implements Foswiki::Configure::item
 sub search {
     my ( $this, $re ) = @_;

@@ -22,14 +22,14 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my $list = $this->CHECK_option('list');
+    my $list = $this->{item}->CHECK_option('list');
 
     my @addrs;
     @addrs = split( /,\s*/, $value ) if ( defined $list );
     push @addrs, $value unless ( defined $list );
 
     $reporter->ERROR("An e-mail address is required")
-      unless ( @addrs || $this->CHECK_option('undefok') );
+      unless ( @addrs || $this->{item}->CHECK_option('undefok') );
 
     foreach my $addr (@addrs) {
         $reporter->WARN("\"$addr\" does not appear to be an e-mail address")

@@ -25,8 +25,8 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my $zone = $this->CHECK_option('zone') || 'utc';
-    my $normalize = !$this->CHECK_option('raw');
+    my $zone = $this->{item}->CHECK_option('zone') || 'utc';
+    my $normalize = !$this->{item}->CHECK_option('raw');
 
     if ( $value =~ /\S/ ) {
         my $binval = Foswiki::Time::parseTime( $value, $zone eq 'local' );
@@ -42,7 +42,7 @@ sub check_current_value {
             $reporter->ERROR("Unrecognized format for date");
         }
     }
-    elsif ( !$this->CHECK_option('emptyok') ) {
+    elsif ( !$this->{item}->CHECK_option('emptyok') ) {
         $reporter->ERROR('A date/time must be provided for this item');
     }
 }

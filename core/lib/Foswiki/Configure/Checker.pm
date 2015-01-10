@@ -352,7 +352,7 @@ sub warnAboutWindowsBackSlashes {
 
 =begin TML
 
----++ PROTECTED ObjectMethod checkExpandedValue($reporter)
+---++ PROTECTED ObjectMethod checkExpandedValue($reporter) -> $value
 
 Report the expanded value of a parameter. Return the expanded value.
 
@@ -365,13 +365,13 @@ sub checkExpandedValue {
     my $field = $value;
 
     if ( !defined $field ) {
-        if ( !$this->CHECK_option('undefok') ) {
+        if ( !$this->{item}->CHECK_option('undefok') ) {
             $reporter->ERROR("May not be undefined");
         }
         $field = 'undef';
     }
 
-    if ( $field eq '' && !$this->CHECK_option('emptyok') ) {
+    if ( $field eq '' && !$this->{item}->CHECK_option('emptyok') ) {
         $reporter->ERROR("May not be empty");
     }
 
@@ -389,13 +389,6 @@ sub checkExpandedValue {
         $reporter->NOTE("Expands to: =$field=");
     }
     return $value;
-}
-
-sub CHECK_option {
-    my ( $this, $opt ) = @_;
-    my $check = $this->{item}->{CHECK}->[0];
-    return undef unless $check;
-    return $check->{$opt}[0];
 }
 
 1;

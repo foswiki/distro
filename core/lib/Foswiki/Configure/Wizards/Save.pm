@@ -249,7 +249,7 @@ sub save {
                     eval "undef \$Foswiki::cfg$k";
                 }
             }
-            elsif ( $spec->CHECK_option('nullok') ) {
+            elsif ( $spec->{item}->CHECK_option('nullok') ) {
                 eval "undef \$Foswiki::cfg$k";
             }
             else {
@@ -430,14 +430,14 @@ sub _generateLSC {
 
             # An undef value and undefok will suppress the item in LSC
             return ()
-              if ( $vs->can('CHECK_option') && $vs->CHECK_option('undefok') );
+              if ( $vs->{item}->CHECK_option('undefok') );
 
         }
         elsif ( $datum eq '' ) {
 
             # Treat '' as undef unless emptyok
             return ()
-              if ( $vs->can('CHECK_option') && $vs->CHECK_option('emptyok') );
+              if ( $vs->{item}->CHECK_option('emptyok') );
         }
         my $d = Foswiki::Configure::Reporter::uneval($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
