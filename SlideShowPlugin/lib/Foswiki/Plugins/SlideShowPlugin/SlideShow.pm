@@ -28,7 +28,7 @@ sub init {
 
     $this->{defaultTemplateTopic} =
       Foswiki::Func::getPreferencesValue("SLIDESHOWPLUGIN_TEMPLATE")
-      || "SlideShowPlugin";
+      || "$Foswiki::cfg{SystemWebName}.SlideShowPlugin";
 
     my %params = Foswiki::Func::extractParameters($args);
     $this->{params} = \%params;

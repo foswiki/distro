@@ -15,8 +15,8 @@ BEGIN {
     }
 }
 
-use version; our $VERSION = version->declare("v2.2.0");
-our $RELEASE = '2.2.0';
+our $VERSION = 2.20;
+our $RELEASE = '2.20';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;
