@@ -20,9 +20,16 @@ Note the =configure= page mentioned in this section is accessed by visiting =[[%
 
 On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
 
-By default bootstrap sets it to =Foswiki::Store::SearchAlgorithms::PurePerl=.  This is the most compatible option. If you install Foswiki in Linux or any other Unix type operating system, and are not using =mod_perl=, you can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
+By default bootstrap attempts to pick the best implementation for your system. You can optimize search by choosing algorithms as follows:
+   * Windows servers and mod_perl installations should choose =Foswiki::Store::SearchAlgorithms::PurePerl=
+   * Linux or any other Unix type operating system not using =mod_perl=, can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
+   * If for some reason grep / egrep is not found on default path, bootstrap will choose PurePerl.  You can still use Forking search if desired by manually setting the paths to =grep= and =egrep= in the configuration.
 
 If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
+
+There are several other options available for search tools via the [[http://foswiki.org/Extensions][Extensions web]], including:
+   * Foswiki:Extensions.NativeSearchContrib - The Foswiki PurePerl search implemented in C. (compiler required)
+   * Foswiki:Extensions.SolrPlugin - An indexed search based on the [[http://lucene.apache.org][Lucene]] Java search library.  It runs on a separate Tomcat or jetty serverlet container.
 
 ---+++ Site configuration and maintenance
 
@@ -155,7 +162,7 @@ tools/configure -save -set {WebMasterEmail}='user@email.com'
 tools/configure -save -set {SMTP}{MAILHOST}='smtpserver.email.com'
 tools/configure -save -set {SMTP}{Username}='userid'
 tools/configure -save -set {SMTP}{Password}='password'
-tools/configure -wizard AutoConfigureEmail -method autoconfigure
+tools/configure -save -wizard AutoConfigureEmail -method autoconfigure
 </verbatim>
 
 ---+++ Customizing your site

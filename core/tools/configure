@@ -130,12 +130,6 @@ if ( $action =~ /^get/ && scalar( keys %{ $params->{set} } ) ) {
     exit 1;
 }
 
-if ( $params->{save} ) {
-    delete $params->{save};
-    $params->{wizard} = 'Save';
-    $params->{method} = 'save';
-}
-
 if ( $params->{set}{'{Password}'} ) {
     $params->{set}{'{Password}'} =
       _setPassword( 'admin', $params->{set}{'{Password}'} );
@@ -333,13 +327,30 @@ _set_logger($params);
 
 if ($action) {
     $action = "Foswiki::Configure::Query::$action";
-    no strict 'refs';
 
-    #print STDERR Data::Dumper->Dump([$params], [$action]);
+    no strict 'refs';
     my $response = &$action( $params, $reporter );
     use strict 'refs';
 
     _reply($response);
+
+    # Copy the changes into the "set" hash to be applied by save.
+    if ( keys $response->{changes} ) {
+        if ( $actions{save} ) {
+            $params->{set} = $response->{changes};
+        }
+        else {
+            print STDERR
+"Changes made by $params->{wizard} wizard, but -save option not requested.  Nothing saved.\n";
+            print STDERR
+"Rerun the $params->{wizard} with the -save option to update the configuration.\n";
+
+            #print STDERR Data::Dumper::Dumper( \$response->{changes} );
+        }
+    }
+    else {
+        print STDERR "No configuration changes made by $params->{wizard}\n";
+    }
 }
 
 if ( $actions{save} ) {
