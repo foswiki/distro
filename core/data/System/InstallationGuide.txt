@@ -130,6 +130,8 @@ Different script execution mechanisms are disabled in different ways; see your w
 #ConfigureFoswiki
 ---+++ Step 5: Configure Foswiki
 
+<div class="foswikiHelp">%T% If you do not want to or are unable to configure from the web interface, there is an alternate command line configuration documented in [[InstallationGuidePart2#ConfiguringFoswikiManually]]</div>
+
 <div class="foswikiHelp"> *Start your configuration by browsing to the default view URL for your site.* This will Bootstrap your configuration and help Foswiki determine whether or not you are using Short URLs. It also logs you in as a the admin user. Don't close your browser until you've gone through the configuration process and registered your first user.</div>
    * *Follow the link to configure rendered in the Bootstrap banner.* (Do not manually enter the =bin/configure= URL or Foswiki will not correctly detect the URL configuration).
    * Make any required changes, and save the settings, whether or not you needed to make any changes.
