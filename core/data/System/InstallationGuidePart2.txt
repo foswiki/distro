@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419222721" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421005555" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -14,6 +14,15 @@ To make it easier to follow the instructions in this section, you can view this 
 All of the Foswiki documentation can also be found online in the [[%SYSTEMWEB%.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
 
 Note the =configure= page mentioned in this section is accessed by visiting =[[%SCRIPTURL{"configure"}%]]= your web browser.
+
+#SearchAlgorithm
+---+++ Choose an appropriate search algorithm for your Operating System
+
+On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
+
+By default bootstrap sets it to =Foswiki::Store::SearchAlgorithms::PurePerl=.  This is the most compatible option. If you install Foswiki in Linux or any other Unix type operating system, and are not using =mod_perl=, you can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
+
+If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
 
 ---+++ Site configuration and maintenance
 
@@ -82,30 +91,72 @@ Foswiki supports displaying national (non-ASCII) characters, and using different
 #ConfiguringFoswikiManually
 ---++++ Configuring Foswiki manually (without using the =configure= page)
 
-It is highly recommended that you configure Foswiki by using your browser to access the =configure= page. However, if you are unable to get the =configure= page to display (for example, if a dependency is missing), or for some reason you do not wish to use the =configure= page, then you can configure Foswiki manually
+Foswiki 1.2 includes a shell based configuration tool that can be run from a
+server command-line login.  It will bootstrap the configuration, and prompt
+for settings as required.   Here is an example of using it for an interactive
+command line bootstrap:
 
-Perform the following steps to manually configure Foswiki:
-   * Copy the file =lib/Foswiki.spec= to =lib/LocalSite.cfg=
-   * Remove the # in front of the following settings, and ensure that they are set to the correct values: Note: The settings must not reference other $Foswiki::cfg variables.<sticky><verbatim class="perl">
-   $Foswiki::cfg{DefaultUrlHost}
-   $Foswiki::cfg{ScriptUrlPath}
-   $Foswiki::cfg{ScriptDir}
-   $Foswiki::cfg{PubUrlPath}
-   $Foswiki::cfg{PubDir}
-   $Foswiki::cfg{DataDir}
-   $Foswiki::cfg{ToolsDir}
-   $Foswiki::cfg{TemplateDir}
-   $Foswiki::cfg{LocalesDir}
-   $Foswiki::cfg{WorkingDir}
-   $Foswiki::cfg{OS}</verbatim></sticky>
+<verbatim>
+$ tools/configure -save
 
-   * Make sure the following settings are defined:<sticky><verbatim class="perl">
-   $Foswiki::cfg{LoginManager}
-   $Foswiki::cfg{WebMasterEmail}
-   $Foswiki::cfg{SMTP}{MAILHOST}
-   $Foswiki::cfg{SMTP}{SENDERHOST}</verbatim></sticky>
+LocalSite.cfg load failed
+AUTOCONFIG: Found Bin dir: /var/www/foswiki/distro/core/tools, Script name:
+configure using FindBin
+AUTOCONFIG: PubDir = /var/www/foswiki/distro/core/pub 
+AUTOCONFIG: DataDir = /var/www/foswiki/distro/core/data 
+AUTOCONFIG: WorkingDir = /var/www/foswiki/distro/core/working 
+AUTOCONFIG: ToolsDir = /var/www/foswiki/distro/core/tools 
+AUTOCONFIG: TemplateDir = /var/www/foswiki/distro/core/templates 
+AUTOCONFIG: LocalesDir = /var/www/foswiki/distro/core/locale 
+AUTOCONFIG: ScriptDir = /var/www/foswiki/distro/core/bin 
+AUTOCONFIG: Unable to use PlainFileStore: ,v files were found in data or pub,
+which indicates this installation is already configured for RCS e.g.
+/var/www/foswiki/distro/core/data/WFWeb/WebChanges.txt,v
+AUTOCONFIG: Store configured for RcsLite
+AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking
+AUTOCONFIG: Detected OS UNIX:  DetailedOS: linux 
+** Enter values for critical configuration items.
+** type a new value or hit return to accept the value in brackets.
 
-   * Remove the line containing ==__END__== and everything following it.
+This is the root of all Foswiki URLs.
+For example, =http://myhost.com:123=
+(do not include the trailing slash.)
+
+{DefaultUrlHost} (http://localhost): http://myhost.com
+
+This is the 'cgi-bin' part of URLs used to access the Foswiki bin
+directory. For example =/foswiki/bin=.
+See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
+for more information on setting up Foswiki to use shorter script URLs.
+
+{ScriptUrlPath} (/foswiki/bin):   
+
+...
+</verbatim>
+
+It can also be run in a non-interactive mode, for use in automated deployment
+systems.
+
+<verbatim>
+tools/configure -save -noprompt
+tools/configure -save -set {DefaultUrlHost}='http://mysite.com' 
+tools/configure -save -set {ScriptUrlPath}='/bin'
+tools/configure -save -set {ScriptUrlPaths}{view}='' 
+tools/configure -save -set {PubUrlPath}='/pub' 
+tools/configure -save -set {Password}='adminpass' 
+</verbatim>
+
+Any configuration keys may be set using this tool.
+
+To run a wizard, for example autoconfiguration of email:
+
+<verbatim>
+tools/configure -save -set {WebMasterEmail}='user@email.com'
+tools/configure -save -set {SMTP}{MAILHOST}='smtpserver.email.com'
+tools/configure -save -set {SMTP}{Username}='userid'
+tools/configure -save -set {SMTP}{Password}='password'
+tools/configure -wizard AutoConfigureEmail -method autoconfigure
+</verbatim>
 
 ---+++ Customizing your site
 

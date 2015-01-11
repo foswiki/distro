@@ -146,7 +146,7 @@ Different script execution mechanisms are disabled in different ways; see your w
          * If you are running on a *nix server with a configured local mail transport agent, you can try pressing the [Autoconfigure Email] button now, if that fails, or you know it isn't available, continue filling out:
       * The ={SMTP}{MAILHOST}= should be set to your email server hostame: ex: =smtp.gmail.com=
       * On most systems, you will also have to configure ={SMTP}{Username}= and ={SMTP}{Password}=. These are used so that Foswiki can sign into the mail server for purposes of sending mail.
-      * *Click the [Autoconfigure Email] near the bottom of the page* This will probe the mail server to discover it's configuration, and will finish the configuration. If all goes will the settings will have been fine tuned for your mail server and email is automatically enabled.
+      * *Click the [Autoconfigure Email] near the bottom of the page* This will probe the mail server to discover it's configuration, and will finish the configuration. If all goes well, the settings will have been fine tuned for your mail server and email is automatically enabled.
       * *Click the [Send test email] button.* This will verify if the configuration is correct and able to send mail.
 
 #ProtectConfigure
@@ -155,7 +155,7 @@ Different script execution mechanisms are disabled in different ways; see your w
 The configure tool should generally be restricted to a very small subset of users.  There are several choices for how to protect configure:
 
    * *Restrict configure to members of the !AdminGroup:*
-      * This is the simplest configuration. You don't need to set anything special from within configure.
+      * This is the default configuration. You don't need to set anything special from within configure.
       * After you save your configuration, be sure to register a user and add them to the !AdminGroup before you log out from the initial super admin login. Once you log out, you'll be blocked from any further configure access unless you can log in as a user in the !AdminGroup. The default behaviour is that members of the !AdminGroup have access to =bin/configure=
 
    * *Restrict configure to a defined list of users:*
@@ -165,7 +165,7 @@ The configure tool should generally be restricted to a very small subset of user
 
    * *Define a "super user" ID and allow it access to configure*
       * Visit the "Security and Authentication" tab, "Passwords" tab. Enable "Expert" options. Set the ={Password}= field to a hashed =ApacheMD5= encoded password.
-      * Visit the "Security and Authentication" tab, "Access control" sub-tab. Ensure that ={FeatureAccess}{Configure}= lists includes =BaseUserMapping_333=, the internal representation of the "admin" superuser.
+      * Visit the "Security and Authentication" tab, "Access control" sub-tab. Ensure that ={FeatureAccess}{Configure}= lists includes =BaseUserMapping_333=, the internal representation of the "admin" super-user.
 
 #AuthenticationOfUsers
 ---+++ Step 7: Authentication
@@ -188,20 +188,8 @@ To make it easier to follow the instructions in this section, you can view this 
 
 %INCLUDE{"UserAuthentication" section="ApacheLogin" INSTALLGUIDE="1"}%
 
----++++ Testing your authentication configuration:
-%INCLUDE{"UserAuthentication" section="TESTING"}%
-
-#SearchAlgorithm
----+++ Step 8: Choose an appropriate search algorithm for your Operating System
-
-On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
-
-By default bootstrap sets it to =Foswiki::Store::SearchAlgorithms::PurePerl=.  This is the most compatible option. If you install Foswiki in Linux or any other Unix type operating system, and are not using =mod_perl=, you can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
-
-If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
-
 #DefineAdminUser
----+++ Step 9: Define the administrator user(s)
+---+++ Step 8: Define the administrator user(s)
 ---++++ About Administrators
 
 Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. Administrators also have access to configure unless further restricted.
@@ -212,7 +200,7 @@ By adding users to %USERSWEB%.AdminGroup:
    * Users with Admin rights will have routine access to topics that might normally be denied.
    * These users will be unable to test or demonstrate access controls.
    * Changes made are always attributed to a unique logged in user.
-   * Password sharing of the superuser admin password set in =bin/configure= is not required
+   * Password sharing of the super-user admin password set in =bin/configure= is not required
 
 By using the _internal admin login_:
    * You don't need to grant admin rights to individual users
@@ -245,14 +233,26 @@ or the AdminGroup, you can use the server command line to set a sudo password.
 
 Foswiki 1.2 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
    * *Default protection:* If nothing special is configured, any user in the %USERSWEB%.AdminGroup has full access to configure. There is no _admin_ super user, and no special protection.
-   * <b>Restrict to specific listed users:</b> List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered.  If you want the _admin_ super-user to also have access to configure, you need to include "BaseUserMapping_333" in that list.
+   * *Restrict to specific listed users:* List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered.  If you want the _admin_ super-user to also have access to configure, you need to include "BaseUserMapping_333" in that list.
 ---++++ Establishing a sudo super-user
 
-*Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
+%T% *Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
 
-There is an optional _special user_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in an expert parameter in the configuration. Foswiki 1.2 no longer enables the admin superuser by default. If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.
+There is an optional _special user_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in an expert parameter in the configuration. Foswiki 1.2 no longer enables the admin super-user by default. If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.
 
 Note that with the _sudo_ or internal admin login, it is not necessary to add other users to the !AdminGroup. However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
+
+---+++ Step 9. Save your configuration!
+
+Click the Save button in the upper right corner of the configuration page.
+This will create a new =lib/LocalSite.cfg=.
+
+Navigate back to your %USERSWEB%.WebHome page. You will still be logged in as a temporary Admin user.  Double check that your Admin Group and/or
+=bin/configure= settings for [Security and Authentication] [Access Control] and [Passwords] are correct before logging out from the temporary admin account established during bootstrap.
+
+---++++ Testing your authentication configuration:
+%INCLUDE{"UserAuthentication" section="TESTING"}%
+
 ---+++ Congratulations!
 
 You now have set up your Foswiki installation! At this point you can start creating and editing pages. See InstallationGuidePart2 to proceed with further tailoring your site.
