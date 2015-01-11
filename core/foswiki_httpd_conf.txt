@@ -1,7 +1,11 @@
 # Example httpd.conf file for Foswiki.
 #
 # You are recommended to use  http://foswiki.org/Support/ApacheConfigGenerator
-# to help you configure Apache.
+# to help you configure Apache. The ApacheConfigGenerator is set up to support
+# Short URLs and other important features.
+#
+# ### APACHE 2.4 Users.  This configuration requires mod_access_compat to be
+# enabled for backwards compatbility.  This is an Apache 2.2 configuration.
 #
 # You could also take a copy of this file and edit
 # the paths to match your installation. Most Linux distributions are setup so
@@ -65,7 +69,7 @@ BrowserMatchNoCase ^$ blockAccess
 # You can also set this environment variable for public sites, to
 # prevent Google and other search engines' bots. However, these tend
 # to index your site a lot less often than the Google Search Appliance.
-BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
+#BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
 
 
 # This specifies the options on the Foswiki scripts directory. The ExecCGI
@@ -82,17 +86,28 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     Options ExecCGI FollowSymLinks
     SetHandler cgi-script
 
-    # Password file for Foswiki users
-    AuthUserFile /var/www/foswiki/data/.htpasswd
-    AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
-    AuthType Basic
+# When using Apache type login the below blocks define the Foswiki scripts
+# that makes Apache ask the browser to authenticate, and the locations of
+# the Password files.  
 
-    #for htdigest password suport uncomment the following
+    # Password file for Foswiki users.  Uncomment if using Apache based login
+    #AuthUserFile /var/www/foswiki/data/.htpasswd
+    #AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+    #AuthType Basic
+
+    # Also uncomment this block for Apache login.  Be sure that all scripts that you want to  authenticate are matched here:
+    #  It is normal not to authenticate view, rest and jsonrpc.
+    #<FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|.*auth).*">
+    #    require valid-user
+    #</FilesMatch>
+
+    # For htdigest authentication suport uncomment the following block 
+    # as an alternative to the Password file block and replace
+    # {DefaultUrlHost} with your default URL host   http://yoursite.com
     #AuthDigestDomain / {DefaultUrlHost}
-    #AuthDigestFile {DataDir}/.htdigest
+    #AuthDigestFile /var/www/foswiki/data/.htdigest
     #BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On
     #AuthDigestProvider file
-    #AuthUserFile {DataDir}/.htpasswd
     # For "Digest" authentication to work properly, this string must match
     # the value of configuration variable $authRealm
     #AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
@@ -107,59 +122,6 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     # Alternatively if your users are all known to be registered you may want
     # to redirect them to the ResetPassword page.
     # ErrorDocument 401 /foswiki/bin/view/System/ResetPassword
-
-# Limit access to configure to specific IP addresses and or users.
-# Make sure configure is not open to the general public.
-# The configure script is designed for administrators only.
-# The script itself and the information it reveals can be abused by
-# attackers if not properly protected against public access
-
-# Replace JohnDoe with the login name of the administrator.  By default this
-# configuration will use the same password file as Foswiki.  So a user MUST
-# have been registered in data/.htpasswd before the "Require user" will pass.
-# If no user is registered, then access is only granted by IP address.
-# Or.. enable the optional configure digest authentication described below.
-
-<FilesMatch "^configure.*">
-    ErrorDocument 401 default
-    ErrorDocument 404 default
-    SetHandler cgi-script
-    Order Deny,Allow
-    Deny from all
-    Allow from 127.0.0.1 192.168.1.10
-    Require user JohnDoe
-    Satisfy Any
-
-    # The following optional configuration will further protect your
-    # configuration.  "admin" is default super user identification.
-    # A sample htdigest file is shipped with Foswiki in the installation
-    # directory:  htdigest-configure.txt.  It contains a single Userid "admin"
-    # with no password set.
-
-    # When the admin password is saved in configure, this file password will be synchronized.
-    # Note that only this specific file in the {WorkingDir}/configure is updated,  and if
-    # you choose to use it, it should be kept separate from the .htpasswd file
-    # in the data directory.
-
-    # Copy htdigest-configure.txt -> working/configure/.htdigest-confikgure.
-    # Then un-comment the below settings.
-    # And, for the initial login to configure, enter user admin, with no password.
-
-    #AuthType Digest
-    #AuthDigestProvider file
-    #AuthUserFile {WorkingDir}/configure/.htdigest-configure
-    #AuthName 'Foswiki System Configuration'
-    #BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On
-
-</FilesMatch>
-
-# When using Apache type login the following defines the Foswiki scripts
-# that makes Apache ask the browser to authenticate. It is correct that
-# scripts such as view, resetpasswd & passwd are not authenticated.
-# (un-comment to activate)
-#<FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
-#    require valid-user
-#</FilesMatch>
 
 </Directory>
 
