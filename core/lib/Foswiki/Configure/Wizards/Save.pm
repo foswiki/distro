@@ -430,14 +430,14 @@ sub _generateLSC {
 
             # An undef value and undefok will suppress the item in LSC
             return ()
-              if ( $vs->{item}->CHECK_option('undefok') );
+              if ( $vs->CHECK_option('undefok') );
 
         }
         elsif ( $datum eq '' ) {
 
             # Treat '' as undef unless emptyok
             return ()
-              if ( $vs->{item}->CHECK_option('emptyok') );
+              unless ( $vs->CHECK_option('emptyok') );
         }
         my $d = Foswiki::Configure::Reporter::uneval($datum);
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );

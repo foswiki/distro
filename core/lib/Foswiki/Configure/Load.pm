@@ -646,7 +646,9 @@ sub _bootstrapWebSettings {
 # configuration, then it will not be set correctly.
     my $path_info = $ENV{'PATH_INFO'}
       || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
-    print STDERR "AUTOCONFIG: REQUEST_URI is $ENV{REQUEST_URI} \n" if (TRAUTO);
+    print STDERR "AUTOCONFIG: REQUEST_URI is "
+      . ( $ENV{REQUEST_URI} || '(undef)' ) . "\n"
+      if (TRAUTO);
     print STDERR "AUTOCONFIG: SCRIPT_URI  is "
       . ( $ENV{SCRIPT_URI} || '(undef)' ) . " \n"
       if (TRAUTO);
