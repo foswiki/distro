@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420999946" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -6,13 +6,14 @@ Low client and server base requirements are core features that keep Foswiki wide
 
 %TOC{title="Contents"}%
 
+%STARTINCLUDE%
 ---++ Server Requirements
 
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
 
 | *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
-| External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= |
+| External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= (not required on Windows) |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
 Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run.
