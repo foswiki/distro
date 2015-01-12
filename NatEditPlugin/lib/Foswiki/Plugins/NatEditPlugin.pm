@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2014 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2015 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -130,6 +130,11 @@ sub beforeSaveHandler {
 
     unless ( defined $topicTitle ) {
         writeDebug("didn't get a TopicTitle, nothing do here");
+        return;
+    }
+
+    if ( $topicTitle =~ /X{10}|AUTOINC\d/ ) {
+        writeDebug("ignoring topic being auto-generated");
         return;
     }
 

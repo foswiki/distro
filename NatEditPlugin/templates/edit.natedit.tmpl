@@ -13,13 +13,13 @@
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- -->%TMPL:END%
 %TMPL:DEF{"contenttitle"}%<h1 class="natEditTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
-  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="$percntTMPL:P{\\"topictitle\\"}$percnt"}%]]" 
-  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%"
+  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="$percntTMPL:P{\\"topictitle\\" hideautoinc=\\"off\\"}$percnt"}%]]" 
+  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="off"}%"}%"
 }% (%TMPL:P{"titleaction"}%)</h1>%TMPL:END%
 %TMPL:DEF{"windowtitle"}%<title>(%TMPL:P{"titleaction"}%) <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%BASETOPIC%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
