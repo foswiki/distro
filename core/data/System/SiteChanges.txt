@@ -1,5 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421090223" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
+%IF{"context isadmin" then='<div class="foswikiHelp">%T% This topic can be resource intensive on a large site with a large public web.
+The Foswiki:Extensions.SolrPlugin can be used to replace this search with a high performing indexed search.  Large sites should
+consider installing the Solr serverlet and indexing system to improve
+performance.</div>'}%
+%BUTTON{
+  "%MAKETEXT{"Click here"}%"
+  icon="book"
+  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=content';"
+}% %MAKETEXT{"to load the content. *Caution* the search on this page can be very resource intensive. Only request the content if you really need it, otherwise review the WebChanges topic from each web."}%
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"content"}%
 ---+ %IF{
 	"defined web AND $web!='all'"
 	then="%MAKETEXT{"Recently changed topics in [_1] Web" args="$percntURLPARAM{$quotweb$quot default=$quotall$quot}$percnt"}%"
@@ -24,6 +36,7 @@
 </select>
 <input type="hidden" name="sinceReadable" value="%URLPARAM{"sinceReadable"}%" />
 <input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" />
+<input type="hidden" name="section" value="%URLPARAM{"section" default="0"}%" />
 <noscript>
 <input type="submit" class="foswikiButton" name="findChanges" value="%MAKETEXT{"Update"}%" />
 </noscript>
@@ -77,6 +90,7 @@
 <p>%MAKETEXT{"Specify =all= for all webs, or a comma separated list of webs from: [_1]" args="<code>%WEBLIST{"$name" separator="&#44; "}%</code>"}%</p>
 </div>
 <div class="foswikiFormStep">
+<input type="hidden" name="section" value="%URLPARAM{"section" default="0"}%" />
 <input type="submit" class="foswikiButton" name="listChanges" value="%MAKETEXT{"Update"}%" />
 </div>
 </div>
@@ -191,3 +205,5 @@
 </script></literal>"
 	requires="JavascriptFiles/foswikiPrefs"
 }%<!-- END DATE SELECTION -->
+%ENDSECTION{"content"}%
+</verbatim>
