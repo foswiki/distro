@@ -10,6 +10,13 @@ use Foswiki::Plugins::TablePlugin ();
 use Foswiki::Time;
 use Error qw(:try);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 my @curTable;
 my $translationToken;
 my $insideTABLE;
