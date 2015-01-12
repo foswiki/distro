@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1420807369" format="1.1" reprev="2" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420822060" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"stars"

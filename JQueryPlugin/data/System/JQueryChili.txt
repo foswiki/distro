@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419139145" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420822060" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"chili"
