@@ -53,7 +53,7 @@
         $('.subscribe_link').each(function() {
             var clink = $(this);
             var params = clink.data('subscribe');
-            clink.data('subscribe', eval(params));
+            clink.data('subscribe', params);
         });
     });
 })(jQuery);

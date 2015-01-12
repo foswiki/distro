@@ -11,8 +11,11 @@ sub NONCE {
     my $context =
       $this->{request}->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $cgis = $this->{users}->getCGISession();
-    return '' unless $cgis;
-    return Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
+    my $nonce =
+      $cgis
+      ? Foswiki::Validation::generateValidationKey( $cgis, $context, 1 )
+      : '';
+    return $nonce;
 }
 
 1;

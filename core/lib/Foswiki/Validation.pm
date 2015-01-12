@@ -103,7 +103,8 @@ Generate a new validation key. The key will time out after
      page plus the time. This should be unique for each rendered page.
    * =$strikeone= - if set, expect the nonce to be combined with the
      session secret before it is posted back.
-The validation key wcan then be used in a HTML form, or headers for RestPlugin API etc.
+The validation key can then be used in a HTML form, or headers for
+RestPlugin API etc.
 
 =cut
 
