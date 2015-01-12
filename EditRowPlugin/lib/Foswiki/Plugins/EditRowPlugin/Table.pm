@@ -445,7 +445,7 @@ sub getEditor {
 sub _getColsFromURPs {
     my ( $this, $urps, $row ) = @_;
     my $attrs    = $this->{attrs};
-    my $headRows = $attrs->{headerrows};
+    my $headRows = $attrs->{headerrows} || 0;
     my $count    = scalar( @{ $this->{rows}->[$row]->{cols} } );
     my $defs     = scalar( @{ $this->{colTypes} } );
     $count = $defs if $defs > $count;
