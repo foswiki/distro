@@ -590,7 +590,7 @@ sub _action_restoreRevision {
 
     # read the old topic
     my $rev          = $query->param('rev');
-    my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    my $requestedRev = Foswiki::Store::cleanUpRevID($rev);
 
     unless ($requestedRev) {
         throw Foswiki::OopsException(
