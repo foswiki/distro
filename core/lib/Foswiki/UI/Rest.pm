@@ -176,18 +176,7 @@ sub rest {
         $res->print($err);
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
-
-        $res->print(
-            "\nusage: ./rest /PluginName/restHandler param=value\n\n" . join(
-                "\n",
-                map {
-                    $_ . ' : '
-                      . join( ' , ', keys( %{ $restDispatch{$_} } ) )
-                } keys(%restDispatch)
-              )
-              . "\n\n"
-        ) if $session->inContext('command_line');
-
+        _listHandlers($res) if $session->inContext('command_line');
         throw Foswiki::EngineException( 400, $err, $res );
     }
 
@@ -203,6 +192,7 @@ sub rest {
             'ERROR: (404) Invalid REST invocation - '
           . $pathInfo
           . ' does not refer to a known handler';
+        _listHandlers($res) if $session->inContext('command_line');
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
         $res->print($err);
@@ -376,6 +366,16 @@ sub rest {
     }
 
     # Otherwise it's assumed that the handler dealt with the response.
+}
+
+sub _listHandlers {
+    $_[0]->print(
+        "\nusage: ./rest /PluginName/restHandler param=value\n\n"
+          . join( "\n",
+            map { $_ . ' : ' . join( ' , ', keys( %{ $restDispatch{$_} } ) ) }
+              keys(%restDispatch) )
+          . "\n\n"
+    );
 }
 
 1;
