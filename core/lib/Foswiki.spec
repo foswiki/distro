@@ -2406,7 +2406,7 @@ $Foswiki::cfg{ExtensionsRepositories} =
 # plugins in the TWiki and Foswiki libraries are reported here.  Also if a
 # TWiki plugin is enabled and the Foswik version is installed, this will
 # also be reported here.
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin,SlideShowPlugin';
 
 # **STRING 80 EXPERT**
 # Search path (web names) for plugin topics. Note that the current web
