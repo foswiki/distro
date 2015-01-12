@@ -335,7 +335,7 @@ if ($action) {
     _reply($response);
 
     # Copy the changes into the "set" hash to be applied by save.
-    if ( keys $response->{changes} ) {
+    if ( keys %{ $response->{changes} } ) {
         if ( $actions{save} ) {
             $params->{set} = $response->{changes};
         }
