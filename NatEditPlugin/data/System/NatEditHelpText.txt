@@ -4,7 +4,7 @@
 Help text for the NatEditPlugin editor
 
 %STARTSECTION{"default"}%
-The NatEditPlugin edits topic with two different available editors; The "Natural Editor" (!NatEdit),  and the !TinyMCE WYSIWYG Editor.  The Foswiki default is to use the !TinyMCE WYSIWYG editor, though this can be overridden
+The NatEditPlugin edits topic with two different available editors; The "Natural Editor" (!NatEdit),  and the !TinyMCE WYSIWYG Editor provided by the %SYSTEMWEB%.TinyMCEPlugin.  The Foswiki default is to use the !TinyMCE WYSIWYG editor, though this can be overridden
 by site preferences, and topic contents.
    * !NatEdit is intended to help you learn TML (Topic Markup Language, also called "wiki text") by providing you with GUI "assist" in writing TML pages. Pressing the GUI buttons at the top of the page will insert correctly formatted TML at the current cursor position in the document.
    * The !TinyMCE editor attempts to hide TML from the user, and you edit as if you were in a word processor.
@@ -14,9 +14,8 @@ by site preferences, and topic contents.
 |<img src="%ATTACHURLPATH%/tmce-editor.png" alt="tmce-editor.png" width='240' height='136' /> | <img src="%ATTACHURLPATH%/nat-editor.png" alt="nat-editor.png" width='246' height='144' /> |  <img src="%ATTACHURLPATH%/wikitext.png" alt="wikitext.png" width='88' height='63' /> |
 
 You can switch from !TinyMCE to !NatEdit by clicking the "wiki text" button on the right top bar of the !TinyMCE editor.  It is not currently possible to switch from !NatEdit to !TinyMCE.
-
-The rest of the below help text is specific to editing TML directly using NatEdit.
-<div class="foswikiHelp">%T%You can still enter TML into the TinyMCE editor,  but you must use the FORMAT
+*The rest of the below help text is specific to editing TML directly using !NatEdit.*
+<div class="foswikiHelp">%T%You can still enter TML into the !TinyMCE editor,  but you must use the FORMAT
 drop-down box to select "Protect On Save"  Or "Protect Forever".</div>
 %INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%%ENDSECTION{"default"}%
 
