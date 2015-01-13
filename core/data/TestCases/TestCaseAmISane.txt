@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1358570913" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421108862" format="1.1" version="1"}%
 
 
 Description: Manual trivial fast sanity checks for script functions. Do them in order, from the top down, as the save tests rely on eachother.
@@ -6,62 +6,67 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 | *Script* | *Description* | *Test* |
 | =configure= | The most basic sanity check | <a href="%SCRIPTURLPATH%/configure">click here</a> |
 | =changes= | Should redirect to changes | <a href="%SCRIPTURLPATH%/changes%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck">click here</a> |
-| =edit= | Simple edit (save to create) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?onlynewtopic=1&text=TEST%20PASSED%20-please%20save%20the%20topic"&t=%GMTIME{"$epoch"}%">click here</a> |
+| =edit= | Simple edit (save to create) | <a href='%SCRIPTURL{"edit"}%/%WEB%/QuickScriptsCheck?topicparent=TestCaseAmISane&onlynewtopic=1&text=TEST%20PASSED%20-please%20save%20the%20topic"&t=%GMTIME{"$epoch"}%'>click here</a> |
 | =edit= | Simple edit (don't save) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?t=%GMTIME{"$epoch"}%1">click here</a> |
 | =manage= | | |
 | =oops= | Tested by quietsave, below | |
 | =preview= | Should redirect to preview (save the topic - its used in later tests) | <form name="save0" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="preview"> \
   <input type="hidden" name="text" value="Cabbages And Kings WalrusMeat"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="newtopic" value=""> \
   <input type="hidden" name="originalrev" value=""> \
   <input type="hidden" name="settingstopic" value=""> \
   <input type="hidden" name="templatetopic" value=""> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
-| =rdiff=  | Compare WebHome 1.1 and 1.2 sequential | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WebHome?rev1=1&rev2=2">click here</a> |
-| =rdiff=  | Compare WebHome 1.1 and 1.2 side by side | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WebHome?rev1=1&rev2=2&render=sidebyside">click here</a> |
 | =save= | =action= = =save= Should redirect to view | <form name="save1" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="save"> \
   <input type="hidden" name="text" value="Save PASSED"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =save= | =action= = =checkpoint= (should come back to edit) | <form name="save2" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="checkpoint"> \
   <input type="hidden" name="text" value="Checkpoint-save PASSED"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =save= | =action= = =quietsave= (should redirect to view) | <form name="save3" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="quietsave"> \
   <input type="hidden" name="text" value="quietsave test PASSED"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
+| =rdiff=  | Compare WasteOfSpace 1.1 and 1.2 sequential | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WasteOfSpace?rev1=1&rev2=2">click here</a> |
+| =rdiff=  | Compare WasteOfSpace 1.1 and 1.2 side by side | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WasteOfSpace?rev1=1&rev2=2&render=sidebyside">click here</a> |
+| =compare=  | Compare WasteOfSpace 1.1 and 1.2 sequential | <a href="%SCRIPTURLPATH%/compare%SCRIPTSUFFIX%/TestCases/WasteOfSpace?rev1=1&rev2=2">click here</a> |
+| =compare=  | Compare WasteOfSpace 1.1 and 1.2 side by side | <a href="%SCRIPTURLPATH%/compare%SCRIPTSUFFIX%/TestCases/WasteOfSpace?rev1=1&rev2=2&render=sidebyside">click here</a> |
 | =repRev= | =action= = =quietsave=, =cmd= = =repRev= if you are in Main.AdminGroup should redirect to view, and you should see "repRev test PASSED", otherwise you will be denied. | <form name="save4" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="quietsave"> \
   <input type="hidden" name="cmd" value="repRev"> \
   <input type="hidden" name="text" value="repRev test PASSED"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =delRev= | =action= = =save=, =cmd= = =delRev= - should delete the top revision, if you are in Main.AdminGroup, otherwise you will be denied. | <form name="save5" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="quietsave"> \
   <input type="hidden" name="cmd" value="delRev"> \
   <input type="hidden" name="text" value="delRev test FAILED"> \
-  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="topicparent" value="TestCaseAmISane"> \
   <input type="hidden" name="forcenewrevision" value="1"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =search= | Search for the word "sanity" |<a href="%SCRIPTURLPATH%/search%SCRIPTSUFFIX%/TestCases/WasteOfSpace?search=sanity">click here</a> |
 | =statistics= | Should generate a statistics run, click link to review WebStatistics topic. | <form name="stats" action="%SCRIPTURLPATH{statistics}%/TestCases" method="post"> \
   <input type="hidden" name="webs" value="TestCases"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
-| =attach=, =upload= | Attach a file to topic WasteOfSpace | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace">click here</a> |
-| =rename= | Rename topic WasteOfSpace. Rename it within this web, and take care to clear the checkboxes so this topic doesn't get munged. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/WasteOfSpace">click here</a> |
+| | Save this topics attachments - =volcano.jpg= and =volcano-2.jpg= to your local file system.   You will use them in the next two steps. | |
+| =attach=, =upload= | Attach =volcano.jpg= to topic WasteOfSpace | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace">click here</a> |
+| =attach=, =upload= | Attach =volcano-2.jpg= as a new version of =volcano.jpg=. Create a link to the attachment. | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace?filename=volcano.jpg">click here</a> |
+| =rename= | Rename topic WasteOfSpace. Rename it to NotAWaste within this web, and take care to clear the checkboxes so this topic doesn't get munged. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/WasteOfSpace">click here</a> |
 | =rename= | Delete topic QuickScriptsCheck, checking refs within the current web _only_. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/QuickScriptsCheck?newweb=Trash&nonwikiword=on&currentwebonly=on">click here</a> |
 | =view= | Create non-existant (should redirect to create screen, which is an =oops= test) | <a href="%SCRIPTURLPATH%/view%SCRIPTSUFFIX%/%WEB%/DontCreateThisTopic">click here</a> |
-| =viewfile= | Click on the links to =viewfile= the images | <a href="%SCRIPTURLPATH%/viewfile%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=1">revision 1</a> <a href="%SCRIPTURLPATH%/viewfile/%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=2">revision2</a> |
+| =viewfile= | Click on the links to =viewfile= the images attached to NotAWaste | <a href="%SCRIPTURLPATH%/viewfile%SCRIPTSUFFIX%/%WEB%/NotAWaste?filename=volcano.jpg&rev=1">revision 1</a> <a href="%SCRIPTURLPATH%/viewfile/%SCRIPTSUFFIX%/%WEB%/NotAWaste?filename=volcano.jpg&rev=2">revision2</a> |
 
-%META:FILEATTACHMENT{name="volcano.jpg" attachment="volcano.jpg" attr="" comment="" date="1102080112" path="volcano.jpg" size="2637" tmpFilename="/usr/tmp/CGItemp3319" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="volcano.jpg" attachment="volcano.jpg" attr="" comment="" date="1421108862" path="volcano.jpg" size="2637" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="volcano-2.jpg" attachment="volcano-2.jpg" attr="" comment="" date="1421108862" path="volcano-2.jpg" size="2033" user="ProjectContributor" version="1"}%
