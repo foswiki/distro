@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420733674" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421115862" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -132,7 +132,7 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 | =template= | Allows you to specify a different skin template. Overrides any setting of =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]=. | |
 | =templatetopic= | %ICON{"wip"}% The name of the template topic, copied to get the initial content for a new topic. (see [[#NewTopicCreation][New topic creation]] below) | |
 | =text= | %ICON{"wip"}% Set the text to be edited. If this parameter is not given, the text is taken from the existing topic (if it exists) | |
-| =topicparent= | Sets the parent topic. | |
+| =topicparent= | Sets the parent topic. Set to =none= to remove parent. Set to topic name to change parent, leave empty to keep existing parent. | _keep existing parent_ |
 | _&lt;any name&gt;_ | This can be used in two ways; first, if the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. %ICON{"wip"}% Second, it can be expanded in the topic text during topic creation - see [[#NewTopicCreation][New topic creation]] below | |
 
 The following options are *only* available to the site Administrator.  They can "rewrite history" and should be used with caution only when absolutely necessary.
@@ -503,7 +503,7 @@ The =save= script performs a range of save-related functions.
 | =template= | The template to use to re-edit the topic when action is =checkpoint= | |
 | =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) (see [[#NewTopicCreation][New topic creation]] above) | |
 | =text= | New text of the topic | |
-| =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
+| =topicparent= | Sets the parent topic. Set to =none= to remove parent. Set to topic name to change parent, leave empty to keep existing parent. | _keep existing parent_ |
 | =Local+name= | create/set a local META:PREFERENCE called =name= | |
 | =Set+name= |  create/set a normal topic META:PREFERENCE called =name= | |
 | =Unset+name= | remove a META:PREFERENCE call =name= | |
