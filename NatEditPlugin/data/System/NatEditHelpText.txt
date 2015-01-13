@@ -1,6 +1,25 @@
-%META:TOPICINFO{author="ProjectContributor" date="1411635527" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421121667" format="1.1" version="1"}%
 %META:TOPICPARENT{name="NatEditPlugin"}%
 ---+ %TOPIC%
 Help text for the NatEditPlugin editor
 
-%STARTSECTION{"default"}%%INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%%ENDSECTION{"default"}%
+%STARTSECTION{"default"}%
+The NatEditPlugin edits topic with two different available editors; The "Natural Editor" (!NatEdit),  and the !TinyMCE WYSIWYG Editor.  The Foswiki default is to use the !TinyMCE WYSIWYG editor, though this can be overridden
+by site preferences, and topic contents.
+   * !NatEdit is intended to help you learn TML (Topic Markup Language, also called "wiki text") by providing you with GUI "assist" in writing TML pages. Pressing the GUI buttons at the top of the page will insert correctly formatted TML at the current cursor position in the document.
+   * The !TinyMCE editor attempts to hide TML from the user, and you edit as if you were in a word processor.
+
+%TABLE{sort="off"}%
+|  *!TinyMCE Editor*  |  *!NatEdit*  |  *Wikitext edit button*  |
+|<img src="%ATTACHURLPATH%/tmce-editor.png" alt="tmce-editor.png" width='240' height='136' /> | <img src="%ATTACHURLPATH%/nat-editor.png" alt="nat-editor.png" width='246' height='144' /> |  <img src="%ATTACHURLPATH%/wikitext.png" alt="wikitext.png" width='88' height='63' /> |
+
+You can switch from !TinyMCE to !NatEdit by clicking the "wiki text" button on the right top bar of the !TinyMCE editor.  It is not currently possible to switch from !NatEdit to !TinyMCE.
+
+The rest of the below help text is specific to editing TML directly using NatEdit.
+<div class="foswikiHelp">%T%You can still enter TML into the TinyMCE editor,  but you must use the FORMAT
+drop-down box to select "Protect On Save"  Or "Protect Forever".</div>
+%INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%%ENDSECTION{"default"}%
+
+%META:FILEATTACHMENT{name="tmce-editor.png" attachment="tmce-editor.png" attr="h" comment="" date="1421121530" path="tmce-editor.png" size="7634" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="nat-editor.png" attachment="nat-editor.png" attr="h" comment="" date="1421121563" path="nat-editor.png" size="7354" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikitext.png" attachment="wikitext.png" attr="h" comment="" date="1421121583" path="wikitext.png" size="1777" user="ProjectContributor" version="1"}%
