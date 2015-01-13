@@ -808,6 +808,10 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   topicParentField = self.form.find("input[name=topicparent]");
   actionValue = 'foobar';
 
+  if (topicParentField.val() === "") {
+    topicParentField.val("none"); // trick in unsetting the topic parent
+  }
+
   if (editAction === 'addform') {
     self.form.find("input[name='submitChangeForm']").val(editAction);
   }

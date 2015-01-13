@@ -26,20 +26,19 @@
 %{----------------------------------------------------------------------}%
 %TMPL:DEF{"formparameters"}%%TMPL:P{"formparameters:edit"}%%TMPL:END%
 %{----------------------------------------------------------------------}%
-%TMPL:DEF{"formparameters:edit"}%<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
-<input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
-<input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
-<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
-<input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
-<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
-<input type="hidden" name="settingstopic" value="%SETTINGSTOPIC%" />
-<input type="hidden" name="topicparent" value="%TOPICPARENT%" />
-<input type="hidden" name="newtopic" value="%NEWTOPIC%" />
-<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
-<input type="hidden" name="rev" value="%URLPARAM{"rev"}%" />
+%TMPL:DEF{"formparameters:edit"}%<input type="hidden" name="action" value="%URLPARAM{"action"}%" />
 <input type="hidden" name="cmd" value="%CMD%" />
+<input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
+<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
+<input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
+<input type="hidden" name="newtopic" value="%NEWTOPIC%" />
 <input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
-<input type="hidden" name="action" value="%URLPARAM{"action"}%" />%TMPL:END%
+<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
+<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
+<input type="hidden" name="rev" value="%URLPARAM{"rev"}%" />
+<input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
+<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
+<input type="hidden" name="topicparent" value="%TOPICPARENT%" />%TMPL:END%
 %{----------------------------------------------------------------------}%
 %TMPL:DEF{"sig"}%<div><div class="foswikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /></div><div class="foswikiClear"></div></div>%TMPL:END%
 %{----------------------------------------------------------------------}%

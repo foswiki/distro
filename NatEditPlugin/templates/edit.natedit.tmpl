@@ -26,6 +26,7 @@
 %TMPL:DEF{"content"}%<!-- -->
 %TMPL:P{"contenttitle"}%<!-- -->
 %TMPL:P{"formstart"}%<!-- -->
+%TMPL:P{"formparameters"}%<!-- -->
 %TMPL:P{"formattop"}%<!-- -->
 %TMPL:P{"tabpane"}%<!-- -->
 %TMPL:P{"bottomtopicactions"}%<!-- -->
@@ -37,27 +38,14 @@
 %TMPL:DEF{"formstart"}%<div class="ui-natedit-container">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%" method="post" validate="%TMPL:P{"validationrules"}%">
 <input type="submit" style="display:none" />
+<input type="hidden" name="submitChangeForm" value="" /> 
 <input type="hidden" name="topic" value="%WEB%.%TOPIC%" />
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
 <input type="hidden" name="action_checkpoint" value="" />
 <input type="hidden" name="action_preview" value="" />
 <input type="hidden" name="action_replaceform" value="" />
-<input type="hidden" name="action_save" value="" />
-<input type="hidden" name="action" value="%URLPARAM{"action"}%" />
-<input type="hidden" name="cmd" value="%CMD%" /> 
-<input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
-<input type="hidden" name="newtopic" value="%NEWTOPIC%" />
-<input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
-<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
-<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
-<input type="hidden" name="rev" value="%URLPARAM{"rev"}%" />
-<input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
-<input type="hidden" name="submitChangeForm" value="" /> 
-<input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
-<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
-<input type="hidden" name="topicparent" value="%URLPARAM{"topicparent"}%" />
-<input type="hidden" name="template" value="%URLPARAM{"template"}%" />%TMPL:END%
+<input type="hidden" name="action_save" value="" />%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" data-min-height="300" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
 
