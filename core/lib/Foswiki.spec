@@ -40,7 +40,8 @@
 # be browseable from the web - if you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
 
-# **URL CHECK="parts:scheme,authority \
+# **URL CHECK="noemptyok \
+#              parts:scheme,authority \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
 #              authtype:hostip" **
@@ -83,7 +84,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
-# **URLPATH CHECK="notrail" **
+# **URLPATH CHECK="emptyok notrail" **
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory. For example =/foswiki/bin=.
 # See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
@@ -117,7 +118,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
 
-# **URLPATH CHECK='notrail' **
+# **URLPATH CHECK='noemptyok notrail' **
 # This is the URL path used to link to attachments. For stores where
 # attachments are stored as files (such as PlainFile and RCSLite) then this
 # will normally be the URL path to the =pub= directory.
@@ -131,34 +132,34 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="perms:r" CHECK="perms:wD filter:'(,v|,pfv)$'" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r" CHECK="perms:wD filter:'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="filter:'(,v|,pfv)$' perms:rwDpd" CHECK="perms:r" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok filter:'(,v|,pfv)$' perms:rwDpd" CHECK="perms:r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rD" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="perms:rw" **
+# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
