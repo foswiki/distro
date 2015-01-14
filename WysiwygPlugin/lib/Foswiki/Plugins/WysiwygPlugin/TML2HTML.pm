@@ -861,7 +861,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             }
             $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
             if ( defined $result[-1] ) {
-                $result[-1] .= $line;
+                $result[-1] .= " "
+                  . $line
+                  ; # Item13207: add a whitespace here so that any following TML is recognized
                 $line = '';
             }
         }

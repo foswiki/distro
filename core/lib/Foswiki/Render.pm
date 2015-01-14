@@ -1138,7 +1138,7 @@ sub _addTHEADandTFOOT {
         }
         $i--;
     }
-    $lines->[ $i++ ] = "<table class='foswikiTable'>";
+    $lines->[ $i++ ] = " <table class='foswikiTable'>";
 
     if ($headLines) {
         splice( @$lines, $i++,            0, '<thead>' );
