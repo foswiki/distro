@@ -67,12 +67,18 @@ sub handle {
     $response->deleteHeader( "Location", "Status" );
     $response->pushHeader( "Status", $status );
 
-    # add validation key to HTTP header
-    my $cgis = $session->getCGISession();
-    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
-    my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
-    $response->pushHeader( 'X-Foswiki-Validation',
-        _generateValidationKey( $cgis, $context, $usingStrikeOne ) );
+    # add validation key to HTTP header, if required
+    unless ( $response->getHeader('X-Foswiki-Validation') ) {
+
+        my $cgis = $session->getCGISession();
+        my $context =
+          $request->url( -full => 1, -path => 1, -query => 1 ) . time();
+
+        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+
+        $response->pushHeader( 'X-Foswiki-Validation',
+            _generateValidationKey( $cgis, $context, $usingStrikeOne ) );
+    }
 
     return ( defined $error ) ? stringifyError($error) : '';
 }

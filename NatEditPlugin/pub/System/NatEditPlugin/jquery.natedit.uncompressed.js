@@ -921,10 +921,12 @@ $.NatEditor.prototype.initForm = function() {
               },
               complete: function(xhr, textStatus) {
                 var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
-                // patch in new nonce
-                $("input[name='validation_key']").each(function() {
-                  $(this).val("?" + nonce);
-                });
+                if (nonce) {
+                  // patch in new nonce
+                  $("input[name='validation_key']").each(function() {
+                    $(this).val("?" + nonce);
+                  });
+                }
                 document.title = origTitle;
                 $.unblockUI();
               }
