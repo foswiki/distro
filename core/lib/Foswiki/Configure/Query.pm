@@ -376,17 +376,16 @@ sub check_current_value {
         if ($v) {
             print STDERR "\t'$k' is a key\n" if TRACE_CHECK;
             push( @checko, $v );
-            if ( $params->{check_dependencies} ) {
+            if ( $params->{check_dependencies}
+                && defined $v->{CHECK}->{also} )
+            {
 
                 # Look at the CHECK="also:" explicit dependencies
-                foreach my $ch ( @{ $v->{CHECK} } ) {
-                    next unless $ch->{also};
-                    foreach my $dep ( @{ $ch->{also} } ) {
-                        next if $check{$dep};
-                        print STDERR "\t... has a check:also for $dep\n"
-                          if TRACE_CHECK;
-                        push( @keys, $dep ) unless $check{$dep};
-                    }
+                foreach my $dep ( @{ $v->{CHECK}->{also} } ) {
+                    next if $check{$dep};
+                    print STDERR "\t... has a check:also for $dep\n"
+                      if TRACE_CHECK;
+                    push( @keys, $dep ) unless $check{$dep};
                 }
             }
         }
@@ -423,9 +422,9 @@ sub check_current_value {
 
   SPEC:
     foreach my $spec (@checko) {
-        foreach my $check ( @{ $spec->{CHECK} } ) {
-            next unless $check->{iff};
-            my $e = $check->{iff}[0];
+        my $e = $spec->{CHECK}->{iff};
+        if ( defined $e ) {
+            $e = $e->[0];
 
             # Expand {x} as $Foswiki::cfg{x}
             $e =~ s/(({[^}]+})+)/\$Foswiki::cfg$1/g;
@@ -442,7 +441,7 @@ sub check_current_value {
         next unless $checker;
         ASSERT( $spec->{keys} ) if DEBUG;
         $reporter->clear();
-        $reporter->NOTE("Checking $spec-.{keys}") if $params->{trace};
+        $reporter->NOTE("Checking $spec->{keys}") if $params->{trace};
         $checker->check_current_value($reporter);
         my @path = $spec->getPath();
         pop(@path);    # remove keys

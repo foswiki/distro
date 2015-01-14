@@ -66,19 +66,20 @@ use Foswiki::Configure::Reporter ();
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
-    CHECK           => { parse_val => '_CHECK' },
+    CHECK           => { handler   => '_CHECK' },
     CHECKER         => {},
     CHECK_ON_CHANGE => {},
     DISPLAY_IF      => { openclose => 1 },
     ENABLE_IF       => { openclose => 1 },
     EXPERT          => {},
-    FEEDBACK        => { parse_val => '_FEEDBACK' },
+    FEEDBACK        => { handler   => '_FEEDBACK' },
     HIDDEN          => {},
     MULTIPLE        => {},         # Allow multiple select
     SPELLCHECK      => {},
 
     # Rename single character options (legacy)
-    H => 'HIDDEN'
+    H => 'HIDDEN',
+    M => { handler => '_MANDATORY' }
 };
 
 # Legal options for a CHECK. The number indicates the number of expected
@@ -90,7 +91,7 @@ our %CHECK_options = (
     iff      => 1,     # perl condition controlling when to check
     max      => 1,     # max value
     min      => 1,     # min value
-    notrail  => 0,     # ignore trailing / when checking URL
+    trail    => 0,     # ignore trailing / when checking URL
     undefok  => 0,     # is undef OK?
     emptyok  => 0,     # is '' OK?
     parts    => -1,    # for URL
@@ -134,7 +135,11 @@ sub new {
         #default    => undef,
         @options
     );
-    $this->{CHECK} ||= [];
+    $this->{CHECK} ||= {};
+    $this->{CHECK}->{undefok} = 0
+      unless defined $this->{CHECK}->{undefok};
+    $this->{CHECK}->{emptyok} = 1
+      unless defined $this->{CHECK}->{emptyok};    # required for legacy
 
     return $this;
 }
@@ -232,6 +237,14 @@ sub _CHECK {
     my %options;
     while ( $str =~ s/^\s*([a-zA-Z][a-zA-Z0-9]*)// ) {
         my $name = $1;
+        my $set  = 1;
+        if ( $name =~ s/^no//i ) {
+            $set = 0;    # negated option
+        }
+        $name = $rename_options{$name} if exists $rename_options{$name};
+        die "CHECK parse failed: unrecognised option '$name'"
+          unless ( defined $CHECK_options{$name} );
+
         my @opts;
         if ( $str =~ s/^\s*:\s*// ) {
             do {
@@ -249,21 +262,31 @@ sub _CHECK {
                 }
             } while ( $str =~ s/^\s*,\s*// );
         }
-        $name = $rename_options{$name} if exists $rename_options{$name};
-        die "CHECK parse failed: unrecognised option '$name'"
-          unless ( defined $CHECK_options{$name} );
         if ( $CHECK_options{$name} >= 0
             && scalar(@opts) != $CHECK_options{$name} )
         {
             die
 "CHECK parse failed: wrong number of params to '$name' (expected $CHECK_options{$name}, saw @opts)";
         }
-        push( @opts, 1 ) unless scalar(@opts);
-        $options{$name} = \@opts;
+        if ( !$set && scalar(@opts) != 0 ) {
+            die "CHECK parse failed: 'no$name' is not allowed";
+        }
+        if ( scalar(@opts) == 0 ) {
+            $this->{CHECK}->{$name} = $set;
+        }
+        else {
+            $this->{CHECK}->{$name} = \@opts;
+        }
     }
     die "CHECK parse failed, expected name at $str in $ostr"
       if $str !~ /^\s*$/;
-    push( @{ $this->{CHECK} }, \%options );
+}
+
+# M => CHECK="noemptyok noundefok"
+sub _MANDATORY {
+    my $this = shift;
+    $this->{CHECK}->{emptyok} = 0;
+    $this->{CHECK}->{undefok} = 0;
 }
 
 # A value is a leaf, so this is a NOP.
@@ -419,11 +442,10 @@ then =CHECK_option('c')= will return true and
 
 sub CHECK_option {
     my ( $this, $opt ) = @_;
-    foreach my $check ( @{ $this->{CHECK} } ) {
-        if ( $check->{$opt} ) {
-            return $check->{$opt}[0];
-        }
+    if ( ref( $this->{CHECK}->{$opt} ) eq 'ARRAY' ) {
+        return $this->{CHECK}->{$opt}->[0];
     }
+    return $this->{CHECK}->{$opt};
     return undef;
 }
 

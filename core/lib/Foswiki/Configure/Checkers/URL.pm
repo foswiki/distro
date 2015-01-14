@@ -19,7 +19,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 #    * parts:scheme,authority,path,query,fragment
 #           Parts allowed in item
 #           Default: scheme,authority,path
-#    * notrail = disallow trailing / on (https?) paths
+#    * trail = allow trailing / on (https?) paths
 #    * partsreq = Parts required in item
 #    * schemes = schemes allowd in item
 #           Default: http,https
@@ -46,7 +46,7 @@ sub check_current_value {
 
     my $val = $this->checkExpandedValue($reporter);
 
-    checkURI( $reporter, $val, %{ $this->{item}->{CHECK}->[0] || {} } );
+    checkURI( $reporter, $val, %{ $this->{item}->{CHECK} } );
 }
 
 sub _list2hash {
@@ -59,7 +59,7 @@ sub checkURI {
     my ( $reporter, $uri, %checks ) = @_;
 
     unless ( defined $uri ) {
-        $reporter->ERROR("Not a valid URI") unless $checks{undefok}[0];
+        $reporter->ERROR("Not a valid URI") unless $checks{undefok};
         return;
     }
 
@@ -68,13 +68,13 @@ sub checkURI {
     $checks{partsreq} ||= [qw/scheme authority/];
     $checks{schemes}  ||= [qw/http https/];
     $checks{authtype} ||= ['host'];
-    $checks{notrail}  ||= [0];
-    $checks{pass}     ||= [0];
-    $checks{user}     ||= $checks{pass}[0] ? [1] : [0];
+    $checks{trail} = 1             unless defined $checks{trail};
+    $checks{pass}  = 0             unless defined $checks{pass};
+    $checks{user}  = $checks{pass} unless defined $checks{user};
 
     $uri =~ s/^\s*(.*?)\s*$/$1/ if defined $uri;
 
-    return if ( !( defined $uri && length($uri) ) && $checks{undefok}[0] );
+    return if ( !( defined $uri && length($uri) ) && $checks{undefok} );
 
     unless ( $uri =~ $uriRE ) {
         $reporter->ERROR("Syntax error: $uri is not a valid URI");
@@ -110,9 +110,9 @@ sub checkURI {
             my $auth = $authority;
             if ( $auth =~ s/^([^:\@]+)(?::[^\@]+)?\@// ) {
                 my ( $user, $pass ) = ( $1, $2 );
-                if ( $checks{user}[0] ) {
+                if ( $checks{user} ) {
                     if ( defined $pass ) {
-                        unless ( $checks{pass}[0] ) {
+                        unless ( $checks{pass} ) {
                             $reporter->ERROR(
                                 "Embedded password is not permitted in $uri");
                         }
@@ -183,7 +183,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                 {
                     $reporter->ERROR("Path ($path) is not valid");
                 }
-                if ( $checks{notrail}[0] && $path =~ m{/$} ) {
+                if ( !$checks{trail} && $path =~ m{/$} ) {
                     $reporter->ERROR("Trailing / not allowed");
                 }
             }    # Checks for other schemes?

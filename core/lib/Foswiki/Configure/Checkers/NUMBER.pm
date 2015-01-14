@@ -29,15 +29,15 @@ sub check_current_value {
         return;
     }
 
-    my $check = $this->{item}->{CHECK}->[0] || {};
+    my $check = $this->{item}->{CHECK};
 
     if ( defined $check->{min} ) {
-        my $v = eval "$check->{min}[0]";
+        my $v = eval "$check->{min}";
         $reporter->ERROR("Value must be at least $check->{min}[0]")
           if ( defined $v && $val < $v );
     }
     if ( defined $check->{max} ) {
-        my $v = eval "$check->{max}[0]";
+        my $v = eval "$check->{max}";
         $reporter->ERROR("Value must be no greater than $check->{min}[0]")
           if ( defined $v && $val > $v );
     }

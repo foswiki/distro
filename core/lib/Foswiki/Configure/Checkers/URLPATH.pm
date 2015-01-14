@@ -15,10 +15,7 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my %check = ();
-    if ( scalar( @{ $this->{item}->{CHECK} } ) > 0 ) {
-        %check = %{ $this->{item}->{CHECK}->[0] };
-    }
+    my %check = %{ $this->{item}->{CHECK} };
 
     # Force the following 'options' to specialize URL to URLPATH.
     $check{parts} = [

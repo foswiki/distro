@@ -31,12 +31,8 @@ sub check_current_value {
     my $path = $this->checkExpandedValue($reporter);
     return unless defined $path;
 
-    foreach my $check ( @{ $this->{item}->{CHECK} } ) {
-        my $perms = $check->{perms};
-
-        next unless ($perms);
-        $perms = $perms->[0];
-
+    my $perms = $this->{item}->{CHECK}->{perms};
+    if ( defined $perms ) {
         if ( $perms =~ /F/ && !-f $path ) {
             if ( -d $path ) {
                 $reporter->ERROR(
@@ -80,30 +76,25 @@ sub validate_permissions {
     my $missingFile = 0;
     my @messages;
 
-    foreach my $check ( @{ $this->{item}->{CHECK} } ) {
-        my $perms  = $check->{perms};
-        my $filter = $check->{filter}[0];
+    my $perms = $this->{item}->{CHECK}->{perms};
+    if ( defined $perms ) {
+        $perms =~ s/d//g if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
-        if ($perms) {
-            my $checkPerms = $perms->[0];
-            $checkPerms =~ s/d//g if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
-
-            if ( $checkPerms =~ /F/ && !-f $path ) {
-                return $reporter->ERROR("$path is not a plain file");
-            }
-            if ( $checkPerms =~ /D/ && !-d $path ) {
-                return $reporter->ERROR("$path is not a directory");
-            }
-
-            my $report =
-              Foswiki::Configure::FileUtil::checkTreePerms( $path, $checkPerms,
-                filter => $filter );
-            $fileCount   += $report->{fileCount};
-            $fileErrors  += $report->{fileErrors};
-            $excessPerms += $report->{excessPerms};
-            $missingFile += $report->{missingFile};
-            push( @messages, @{ $report->{messages} } );
+        if ( $perms =~ /F/ && !-f $path ) {
+            return $reporter->ERROR("$path is not a plain file");
         }
+        if ( $perms =~ /D/ && !-d $path ) {
+            return $reporter->ERROR("$path is not a directory");
+        }
+
+        my $report =
+          Foswiki::Configure::FileUtil::checkTreePerms( $path, $perms,
+            filter => $this->{item}->{CHECK}->{filter} );
+        $fileCount   += $report->{fileCount};
+        $fileErrors  += $report->{fileErrors};
+        $excessPerms += $report->{excessPerms};
+        $missingFile += $report->{missingFile};
+        push( @messages, @{ $report->{messages} } );
     }
 
     my $dperm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );

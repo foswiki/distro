@@ -370,13 +370,8 @@ if ( $actions{save} ) {
     _reply($response);
 }
 
-=begin TML
-
----++ ObjectMethod _set_logger()
-
-This code copied from Foswiki.pm, with changes.   It inserts the Logger into the params hash.
-
-=cut
+# This code copied from Foswiki.pm, with changes.
+# It inserts the Logger into the params hash.
 
 sub _set_logger {
     my $params = shift;

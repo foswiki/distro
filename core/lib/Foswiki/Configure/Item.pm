@@ -151,12 +151,12 @@ sub _parseOptions {
         $spec = $spec->{$key};
 
         die "Bad option '$key' in .spec before $str" unless $spec;
+        my $val;
         if ( $str =~ s/^\s*=// ) {
-            my $val;
-            if ( $str =~ s/^\s*((["']).*?[^\\]\2)// ) {
+            if ( $str =~ s/^\s*(["'])(.*?[^\\])\1// ) {
 
-                # =string (must retain quotes)
-                $val = $1;
+                # =string
+                $val = $2;
             }
             elsif ( $str =~ s/^\s*([A-Z0-9]+)// ) {
 
@@ -166,42 +166,27 @@ sub _parseOptions {
             else {
                 die "Parse error when reading .spec options at $key=$str";
             }
-            if (   $spec
-                && defined $spec->{parse_val}
-                && !$Foswiki::Configure::LoadSpec::RAW_VALS )
-            {
-                my $fn = $spec->{parse_val};
-                $this->$fn($val);
-            }
-            else {
-
-                # Can shed quotes now
-                $val =~ s/^(["'])(.*)\1$/$2/;
-                if ( ref( $this->{$key} ) eq 'ARRAY' ) {
-                    push( @{ $this->{$key} }, $val );
-                }
-                else {
-                    $this->{$key} = $val;
-                }
-            }
-        }
-        elsif ($remove) {
-            delete $this->{$key};
         }
         elsif ( $spec->{openclose} ) {
             $str =~ s/^(.*?)(\/$key|$)//;
-            if ( defined $spec->{parse_val}
-                && !$Foswiki::Configure::LoadSpec::RAW_VALS )
-            {
-                my $fn = $spec->{parse_val};
-                $this->$fn( $str, $key );
-            }
-            else {
-                $this->{$key} = $1;
-            }
+            $val = $1;
         }
         else {
-            $this->{$key} = 1;
+            $val = 1;
+        }
+        if ($remove) {
+            delete $this->{$key};
+            $val = undef;
+        }
+
+        if ( defined $spec->{handler}
+            && !$Foswiki::Configure::LoadSpec::RAW_VALS )
+        {
+            my $fn = $spec->{handler};
+            $this->{key} = $this->$fn( $val, $key );
+        }
+        else {
+            $this->{$key} = $val;
         }
     }
     die "Parse failed at $str" unless $str =~ /^\s*$/;
