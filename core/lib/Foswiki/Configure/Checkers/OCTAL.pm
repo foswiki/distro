@@ -29,6 +29,7 @@ sub check_current_value {
         $reporter->ERROR("Value must be at least $min")
           if ( defined $v && $val < $v );
     }
+
     my $max = $this->{item}->CHECK_option('max');
     if ( defined $max ) {
         my $v = eval "0$max";

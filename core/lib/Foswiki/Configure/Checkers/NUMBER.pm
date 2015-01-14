@@ -29,17 +29,16 @@ sub check_current_value {
         return;
     }
 
-    my $check = $this->{item}->{CHECK};
-
-    if ( defined $check->{min} ) {
-        my $v = eval "$check->{min}";
-        $reporter->ERROR("Value must be at least $check->{min}[0]")
-          if ( defined $v && $val < $v );
+    my $min = $this->{item}->CHECK_option('min');
+    if ( defined $min ) {
+        $reporter->ERROR("Value must be at least $min")
+          if ( $val < $min );
     }
-    if ( defined $check->{max} ) {
-        my $v = eval "$check->{max}";
-        $reporter->ERROR("Value must be no greater than $check->{min}[0]")
-          if ( defined $v && $val > $v );
+
+    my $max = $this->{item}->CHECK_option('max');
+    if ( defined $max ) {
+        $reporter->ERROR("Value must be no greater than $max")
+          if ( $val > $max );
     }
 }
 
