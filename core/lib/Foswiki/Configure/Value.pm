@@ -476,13 +476,13 @@ sub find_also_dependencies {
     foreach my $slave ( split( /[\s,]+/, $this->{CHECK_ON_CHANGE} ) ) {
         my $vob = $root->getValueObject($slave);
         next unless ($vob);
-        my $check = $vob->{CHECK}->[0];
+        my $check = $vob->{CHECK};
         if ($check) {
             $check->{also} ||= [];
             push( @{ $check->{also} }, $slave );
         }
         else {
-            $vob->{CHECK}->[0] = { also => [$slave] };
+            $vob->{CHECK} = { also => [$slave] };
         }
     }
 }
