@@ -625,7 +625,7 @@ function _id_ify(id) {
             check_current_value($node, true);
         }).button({
             icons: {
-                primary: "default-icon"
+                primary: "ui-icon-arrowrefresh-1-w"
             },
             text: false
         }).hide();
@@ -847,7 +847,8 @@ function _id_ify(id) {
                     }
                     // Don't do this; configuration items are referred to
                     // using the {} syntax throughout the doc.
-                    //label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
+                    // Still it is noise looking ugly.
+                    label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
                     $node.append('<b class="keys">'
                                  + label
                                  + "</b><span class='ui-placeholder'></span>");
@@ -966,6 +967,7 @@ function _id_ify(id) {
             }
         });
 
+/*
         $('#webCheckButton').button().click(function() {
              auth_action = function() {
                  var params = {
@@ -984,6 +986,7 @@ function _id_ify(id) {
                 'option', 'title', 'Webserver authentication');
             $('#auth_prompt').dialog("open");
         });
+*/
 
         $('#closeSearchButton').button().click(function() {
             $('#searchResults').hide();

@@ -63,19 +63,44 @@ html body {
 
 
 /* A node in the spec tree */
+.node ul {
+  margin:0;
+  padding-left:1em;
+}
 .node .node {
-    padding-bottom: 0.5em;
-    margin-bottom:1em;
-    border-bottom:1px solid #eee;
+    padding:0.5em 0 0.5em 10em;
+    margin:0;
+    border-top:1px solid #eee;
+}
+.node .node:first {
+  border-top:0;
+}
+.ui-tabs-panel > .node {
+  padding-left:0;
+  border-top:0;
 }
 .node .keys {
-  margin-right:0.5em;
+  min-width:10em;
+  margin-left:-10em;
   display:inline-block;
 }
-.node .description,
-.node .reports {
-  color:gray;
-  margin:0.5em 0;
+.node .description {
+  padding:0 0 0.5em;
+  margin:0 0 1em;
+}
+.node .node input,
+.node .node button,
+.node .node .description,
+.node .node .reports {
+  margin:0.5em 0 0.5em 0.5em;
+}
+.node .reports, 
+.node .description {
+  color:#808080;
+}
+.node strong,
+.node b {
+  color:#444;
 }
 
 .value_modified {
@@ -193,10 +218,7 @@ p.one_line_report {
 .control_button {
     width: 20px !important;
     height: 20px !important;
-}
-
-.default-icon {
-    background-image: url("reset-icon.png") !important;
+    margin:0 0.5em;
 }
 
 .info-icon {
@@ -205,8 +227,8 @@ p.one_line_report {
 
 div.expert {
     background-image: url(expert.png);
-    padding-left: 60px !important;
-    background-position: left 45%;
+    padding-right: 60px !important;
+    background-position: right 0.5em;
     background-repeat: no-repeat;
 }
 
