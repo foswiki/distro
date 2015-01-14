@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1356278771" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1421231224" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -396,11 +396,12 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 ---++ Info
 
 | Author(s) | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
-| Copyright | &copy; 2008-2014 Gilmar Santos Jr and Foswiki Contributors |
+| Copyright | &copy; 2008-2015 Gilmar Santos Jr and Foswiki Contributors |
 | License: | [[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]] |
 | Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
+|  14 Jan 2015 | (1.00) Foswikitask:Item13010 - make checking =LocalSite.cfg= for changes optional so that it can be disabled for improved stability on high traffic sites |
 |  29 Aug 2014 | (0.97) Foswikitask:Item13010 - fixed instability running under FCGI::ProcManager |
 |  20 Feb 2014 | (0.96) Foswikitask:Item12755 - fixed socket not being closed properly on a reExec; work around error in FCGI.pm; added =quiet= parameter to suppress normal messages; fixed tainted pid filename; | 
 |  08 Sep 2011 | (0.95) Foswikitask:Item9957 - remove uninitialised value log message |

@@ -1,7 +1,7 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #

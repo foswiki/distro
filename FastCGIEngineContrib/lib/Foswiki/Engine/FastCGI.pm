@@ -12,11 +12,12 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 
 package Foswiki::Engine::FastCGI;
 
+use strict;
+use warnings;
+
 use Foswiki::Sandbox ();
 use Foswiki::Engine::CGI;
 our @ISA = qw( Foswiki::Engine::CGI );
-
-use strict;
 
 use FCGI;
 use POSIX qw(:signal_h);
@@ -116,7 +117,9 @@ sub run {
         $this->daemonize() if $args->{detach};
     }
 
-    my $localSiteCfg = $INC{'LocalSite.cfg'};
+    my $localSiteCfg;
+    $localSiteCfg = $INC{'LocalSite.cfg'} if $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg};
+
     my $lastMTime = 0;
     $lastMTime = ( stat $localSiteCfg )[9] if defined $localSiteCfg;
 
@@ -244,7 +247,7 @@ __END__
 FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 http://foswiki.org/
 
-Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 contributors. Foswiki contributors are listed in the AUTHORS file in the root
 of Foswiki distribution.
 

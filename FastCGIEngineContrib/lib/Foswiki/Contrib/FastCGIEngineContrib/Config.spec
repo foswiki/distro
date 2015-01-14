@@ -19,3 +19,10 @@ $Foswiki::cfg{FastCGIContrib}{MaxSize} = 0;
 # size control of child processes; high values may give you a slightly better overall performance.
 $Foswiki::cfg{FastCGIContrib}{CheckSize} = 10;
 
+# **BOOLEAN**
+# Switch on/off checking LocalSite.cfg for changes. Note that you might want to disable this check on sites with 
+# a lot of traffic for stability reasons. Instead you'll then have to restart the Foswiki fcgi backend manually as
+# required for any configuration change to LocalSite.cfg to take effect.
+$Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg} = 1;
+
+1;

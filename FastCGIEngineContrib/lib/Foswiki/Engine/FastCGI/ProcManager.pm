@@ -1,7 +1,7 @@
 # FastCGI Runtime Engine Component of Foswiki - The Free and Open Source Wiki,
 # http://foswiki.org/
 #
-# Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -28,10 +28,12 @@ automatically upon configuration change.
 
 package Foswiki::Engine::FastCGI::ProcManager;
 
+use strict;
+use warnings;
+
 use FCGI::ProcManager::Constrained;
 use Foswiki::Engine::FastCGI ();
 our @ISA = qw( FCGI::ProcManager::Constrained );
-use strict;
 
 sub sig_manager {
     my $this = shift;
