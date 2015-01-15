@@ -520,9 +520,10 @@ sub _readChanges {
 
     # Look at the first line to deduce format
     if ( $all_lines =~ /^\[/s ) {
-        my $changes = $json->decode($all_lines);
-
+        my $changes;
+        eval { $changes = $json->decode($all_lines); };
         print STDERR "Corrupt $file: $@\n" if ($@);
+
         foreach my $entry (@$changes) {
             if ( $entry->{path} && $entry->{path} =~ /^(.*)\.(.*)$/ ) {
                 $entry->{topic} = $2;
