@@ -897,6 +897,9 @@ function _id_ify(id) {
                     return false;
                 }
             });
+            if ($section.is("#root")) {
+              $children.addClass("ui-tabs-vertical ui-helper-clearfix");
+            }
         }
 
         $section.find('.node.load_ui').each(function() {
