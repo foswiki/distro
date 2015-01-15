@@ -523,8 +523,10 @@ sub _autoconfigSMTP {
 # at ../foswiki/distro/core/lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm line 302.
 # Foswiki::Configure::Wizards::AutoConfigureEmail::__ANON__("Operation 'OPEN' not supported on FCGI::Stream handle
 
-    open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
-    STDERR->autoflush(1);
+    unless ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+        open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
+        STDERR->autoflush(1);
+    }
 
     # Loop over methods - output %use if one succeeds
 
@@ -629,10 +631,12 @@ sub _autoconfigSMTP {
             %use = ();
         }
     }
-    close STDERR;
-    close $fd2;
-    open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
-    close $stderr;
+    unless ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+        close STDERR;
+        close $fd2;
+        open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
+        close $stderr;
+    }
     $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg;
     $reporter->NOTE("<verbatim>$tlog</verbatim>");
 

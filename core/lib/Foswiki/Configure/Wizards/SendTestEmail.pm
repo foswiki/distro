@@ -17,7 +17,7 @@ our @ISA = ('Foswiki::Configure::Wizard');
 
 # Use to disable stream redirection during $net->sendEmail. This is
 # required because Foswiki::Net doesn't use the Foswiki::Sandbox :-(
-use constant NOREDIRECT => 0;
+our $noredirect = 0;
 
 # WIZARD
 sub send {
@@ -41,9 +41,13 @@ sub send {
 
     Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
+    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+        $noredirect = 1;    # FCGI doesn't allow redirection of STDERR
+    }
+
     eval { _sendTestEmail( $Foswiki::cfg{WebMasterEmail}, $reporter ); };
     die $@ if $@;
-    return undef;    # return the report
+    return undef;           # return the report
 }
 
 # Send a test email to the address in the value
@@ -299,59 +303,59 @@ MAILTEST
         my ( $savedOut, $savedErr );
 
         die "Can't save STDERR: $!"
-          unless NOREDIRECT || open( $savedErr, '>&STDERR' );
+          unless ($noredirect) || open( $savedErr, '>&STDERR' );
 
         die "Can't close original STDERR: $!"
-          unless NOREDIRECT || close(STDERR);
+          unless ($noredirect) || close(STDERR);
 
         eval {
             # STDERR has been closed
             die "Can't capture STDERR: $!"
-              unless NOREDIRECT || open( STDERR, '+>', undef );
+              unless ($noredirect) || open( STDERR, '+>', undef );
 
             local $/ = undef;
             eval {
                 # STDERR has been captured
                 die "Can't save STDOUT: $!"
-                  unless NOREDIRECT || open( $savedOut, '>&STDOUT' );
+                  unless ($noredirect) || open( $savedOut, '>&STDOUT' );
 
                 die "Can't close original STDOUT: $!"
-                  unless NOREDIRECT || close(STDOUT);
+                  unless ($noredirect) || close(STDOUT);
 
                 eval {
                     # STDOUT has been closed
                     die "Can't capture STDOUT: $!"
-                      unless NOREDIRECT || open( STDOUT, '+>', undef );
+                      unless ($noredirect) || open( STDOUT, '+>', undef );
                     eval {
                         eval { $neterrors .= $net->sendEmail( $msg, 1 ); };
                         print $savedErr($@) if $@;
                         $neterrors .= $@ if $@;
 
                         die "Seek: STDOUT: $!"
-                          unless NOREDIRECT || seek( STDOUT, 0, 0 );
+                          unless ($noredirect) || seek( STDOUT, 0, 0 );
 
                         $stdout = <STDOUT>;
                     };
                     die( ( $@ || '' ) . " Can't close capturing STDOUT: $!" )
-                      unless NOREDIRECT || close(STDOUT);
+                      unless ($noredirect) || close(STDOUT);
                 };
 
                 die( ( $@ || '' ) . " Can't restore STDOUT: $!" )
-                  unless NOREDIRECT || open( STDOUT, '>&', $savedOut );
+                  unless ($noredirect) || open( STDOUT, '>&', $savedOut );
                 close $savedOut;
 
                 die "Seek: STDERR: $!"
-                  unless NOREDIRECT || seek( STDERR, 0, 0 );
-                $stderr = <STDERR> unless NOREDIRECT;
+                  unless ($noredirect) || seek( STDERR, 0, 0 );
+                $stderr = <STDERR> unless ($noredirect);
             };
 
             # Restore captured STDERR
             die( ( $@ || '' ) . " Can't close capturing STDERR: $!" )
-              unless NOREDIRECT || close(STDERR);
+              unless ($noredirect) || close(STDERR);
         };
         die( ( $@ || '' ) . " Can't restore saved STDERR: $!" )
-          unless NOREDIRECT || open( STDERR, '>&', $savedErr );
-        close $savedErr unless NOREDIRECT;
+          unless ($noredirect) || open( STDERR, '>&', $savedErr );
+        close $savedErr unless ($noredirect);
 
         # sendmail in debug mode echoes the entire message - twice.
         # We'll remove that from the log.

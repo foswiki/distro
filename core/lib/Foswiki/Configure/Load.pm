@@ -671,7 +671,7 @@ sub _bootstrapWebSettings {
 
     my $pfx;
 
-    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ && defined $ENV{PATH_INFO} ) {
 
 #PATH_INFO includes script  /view/System/WebHome,  REQUEST_URI is /System/WebHome.
         ($script) = $ENV{PATH_INFO} =~ m#^/([^/]+)/#;

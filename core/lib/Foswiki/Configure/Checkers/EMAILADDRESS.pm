@@ -14,8 +14,6 @@ use warnings;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
-use constant NOREDIRECT => 0;
-
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
