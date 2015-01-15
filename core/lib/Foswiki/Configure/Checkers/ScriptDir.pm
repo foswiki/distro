@@ -8,7 +8,7 @@ use Foswiki::Configure::Checkers::PATH ();
 our @ISA = ('Foswiki::Configure::Checkers::PATH');
 
 # Wizard method
-sub validate {
+sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     my $dir = $this->{item}->getExpandedValue();
