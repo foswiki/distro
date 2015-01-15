@@ -26,7 +26,7 @@ var AttachDlg = {
     // invoked on load from the body of the dialog
     // JQuery is *not* available, as we're in the DOM of the attach.htm
     init: function(ed) {
-        if (typeof($) == "undefined") {
+        if (typeof(jQuery) == "undefined") {
             var iframeBody = document.getElementsByTagName("body")[0];
             // Note this isn't the jQuery object, it's just a means of
             // accessing the DOM of this iframe
@@ -38,7 +38,7 @@ var AttachDlg = {
         }
 
         // Insert a link to the selected attachment in the text
-        $('#insert').click(function() {
+        $dlg('#insert').click(function() {
             AttachDlg.insert($dlg('#attachments_select').val());
         });
 
