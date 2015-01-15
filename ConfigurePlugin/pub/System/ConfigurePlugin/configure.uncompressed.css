@@ -65,7 +65,7 @@ a {
 .ajax_whirly {
     z-index:999;
     position:absolute;
-    bottom:-24px;
+    bottom:-2em;
     right:1em;
 }
 
@@ -78,7 +78,7 @@ a {
 .node .node {
     padding:0.5em 0 0.5em 10em;
     margin:0;
-    border-top:1px solid #eee;
+    border-top:1px solid #ddd;
 }
 .node .node:first {
   border-top:0;
@@ -119,8 +119,23 @@ a {
   margin-left:1em;
 }
 
+
 .value_modified {
-  background-color:#f0f0f0;
+  border-radius:2px;
+  border:1px solid #d1d1d1;
+  box-shadow:0 0 10px #f4f4f4;
+
+  /* http://colorzilla.com/gradient-editor/#ffffff+0,f4f4f4+100;Custom */
+  background: #f4f4f4; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f4f4f4)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f4f4f4 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%,#f4f4f4 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%,#f4f4f4 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%,#f4f4f4 100%); /* W3C */
+}
+.node.value_modified {
+  padding: 0.5em 1em 0.5em 11em;
 }
 
 .closed {
@@ -319,6 +334,7 @@ table.tml {
   float: left; 
   width: 18em; 
   border:0px;
+  border-bottom:1px solid #ddd;
   margin-left:-20em;
 }
 .ui-tabs-vertical > .ui-tabs-panel { 
@@ -332,7 +348,7 @@ table.tml {
 .ui-tabs-vertical > .ui-tabs-nav > li { 
   width: 100%; 
   border-width: 1px 0 0 0;
-  border-color:#eee;
+  border-color:#ddd;
   background:transparent;
   border-radius:0;
   margin:0;
