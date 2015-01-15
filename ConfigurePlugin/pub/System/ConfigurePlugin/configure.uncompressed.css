@@ -77,7 +77,7 @@ a {
 }
 .node .node {
     padding:0.5em 0 0.5em 10em;
-    margin:0;
+    margin:1em 0;
     border-top:1px solid #ddd;
 }
 .node .node:first {
@@ -260,7 +260,7 @@ p.one_line_report {
 div.expert {
     background-image: url(expert.png);
     padding-right: 60px !important;
-    background-position: right 0.5em;
+    background-position: 99% 0.5em;
     background-repeat: no-repeat;
 }
 
