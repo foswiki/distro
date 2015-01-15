@@ -59,8 +59,9 @@ a {
 }
 
 .ajax_whirly {
+    z-index:999;
     position:absolute;
-    bottom:-32px;
+    bottom:-24px;
     right:1em;
 }
 
@@ -336,6 +337,7 @@ table.tml {
 .ui-tabs-vertical > .ui-tabs-nav > li > a { 
   display:block; 
   padding:0;
+  float:none;
 }
 .ui-tabs-vertical > .ui-tabs-nav > li > a:before {
   background:initial;
