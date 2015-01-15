@@ -299,9 +299,10 @@ sub checkTreePerms {
         && $path =~ /$options{filter}/
         && !-d $path );
 
-    # Let's ignore Subversion directories
+    # Let's ignore Subversion and git directories
     return \%report if ( $path eq '_svn' );
     return \%report if ( $path eq '.svn' );
+    return \%report if ( $path eq '.git' );
 
     $options{maxFileErrors}  = 10 unless defined $options{maxFileErrors};
     $options{maxExcessPerms} = 10 unless defined $options{maxExcessPerms};

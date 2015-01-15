@@ -96,7 +96,7 @@ our %CHECK_options = (
     emptyok  => 0,     # is '' OK?
     parts    => -1,    # for URL
     partsreq => -1,    # for URL
-    perms    => 1,     # file permissions
+    perms    => -1,    # file permissions
     schemes  => -1,    # for URL
 );
 
