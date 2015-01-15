@@ -123,6 +123,10 @@ q:before, q:after {
   content:none;
 }
 
+a {
+  text-decoration:underline;
+}
+
 a:active,
 :focus {
   outline:0;
@@ -219,6 +223,11 @@ table ul,
 table ol {
   margin:0;
   padding:0 0 0 1.385em;
+}
+
+.foswikiLayoutTable td,
+.foswikiLayoutTable th {
+  padding:0.1538em 0.5769em 0.1538em 0em;
 }
 
 input[type=search],

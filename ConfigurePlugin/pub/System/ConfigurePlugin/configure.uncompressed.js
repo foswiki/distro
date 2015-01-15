@@ -120,7 +120,9 @@ function _id_ify(id) {
         var rpcid, $w;
         rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
         console.debug("Sending " + rpcid);
-        $w = inline_whirly($whirlyPlace);
+        if ($whirlyPlace) {
+          $w = inline_whirly($whirlyPlace);
+        }
         $.jsonRpc(
             json_rpc_url,
             {
@@ -130,7 +132,9 @@ function _id_ify(id) {
                 params: params,
                 error: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " failed");
-                    $w.remove();
+                    if ($w) {
+                      $w.remove();
+                    }
                     $.pnotify({
                       title: "Error",
                       text: jsonResponse.error.message,
@@ -144,7 +148,9 @@ function _id_ify(id) {
                 success: function(jsonResponse, textStatus, xhr) {
                     console.debug(rpcid + " OK");
                     report(jsonResponse.result);
-                    $w.remove();
+                    if ($w) {
+                      $w.remove();
+                    }
                 }
             });
     }
@@ -426,6 +432,7 @@ function _id_ify(id) {
         var $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
         $dlg.dialog({
+            title: "Validation",
             width: '60%',
             modal: true,
             buttons: {
@@ -602,7 +609,7 @@ function _id_ify(id) {
             check_current_value($node, true);
         }).button({
             icons: {
-                primary: "ui-icon-arrowreturn-1-w"
+                primary: "ui-icon-cancel"
             },
             text: false
         }).hide();
@@ -745,34 +752,27 @@ function _id_ify(id) {
 
     // Add a description, splitting into summary and body if appropriate.
     function add_desc(entry, $node) {
-        var m = /^((?:.|\n)*?)\.\s+((?:.|\n)+)$/.exec(entry.desc);
+        var m = /^((?:.|\n)*?\.)\s+((?:.|\n)+)$/.exec(entry.desc);
         if (m) {
             var $description = $('<div class="description">'
                              + TML.render(m[1])
                              + '&nbsp;</div>');
             $node.append($description);
-            var $more = $('<div class="closed">'
+            var $more = $('<span class="closed">'
                           + TML.render(m[2])
-                          + '</div>');
-            var $infob = $('<button class="control_button"></button>');
+                          + '</span>');
+            var $infob = $('<a class="more">... more</a>');
             $infob.click(function() {
-                if ($more.hasClass("closed")) {
-                    $more.removeClass("closed");
-                    $infob.button('option', 'icons',
-                                  { primary: 'ui-icon-triangle-1-s' });
+                if ($more.is(":visible")) {
+                    $more.hide()
+                    $infob.text("... more");
                 } else {
-                    $more.addClass("closed");
-                    $infob.button('option', 'icons',
-                                  { primary: 'ui-icon-triangle-1-e' });
+                    $more.show();
+                    $infob.text("... less");
                 }
-            }).button({
-                icons: {
-                    primary: 'ui-icon-triangle-1-e'
-                },
-                text: false
             });
-            $description.append($infob);
             $description.append($more);
+            $description.append($infob);
         } else {
             $node.append('<div class="description">'
                          + TML.render(entry.desc)
@@ -927,8 +927,6 @@ function _id_ify(id) {
 
         $('#auth_prompt').dialog({
             autoOpen: false,
-            height: 300,
-            width: 400,
             modal: true,
             buttons: {
                 "Confirm": function () {
@@ -943,8 +941,6 @@ function _id_ify(id) {
 
         $('#confirm_prompt').dialog({
             autoOpen: false,
-            height: 300,
-            width: 400,
             modal: true,
             buttons: {
                 "Confirm": function () {
@@ -1097,10 +1093,10 @@ function _id_ify(id) {
                 RPC('check_current_value',
                     'Check all',
                     { keys : [] },
-                    checker_reports,
-                    $(".ajax_whirly"));
-            },
-            $(".ajax_whirly"));
+                    checker_reports
+                );
+            }
+          );
     });
 
     $(window).on('beforeunload', function() {

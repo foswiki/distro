@@ -361,8 +361,13 @@ Report the expanded value of a parameter. Return the expanded value.
 sub checkExpandedValue {
     my ( $this, $reporter ) = @_;
 
+    my $raw   = $this->{item}->getRawValue();
     my $value = $this->{item}->getExpandedValue();
     my $field = $value;
+
+    if ( !defined $raw ) {
+        $raw = 'undef';
+    }
 
     if ( !defined $field ) {
         if ( !$this->{item}->CHECK_option('undefok') ) {
@@ -379,15 +384,23 @@ sub checkExpandedValue {
         $field = $this->{item}->encodeValue($field);
     }
 
-    if ( $field =~ /\n/ ) {
-        $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
+    #print STDERR "field=$field, raw=$raw\n";
+
+# SMELL: the following test is false always. Why is $raw being expanded even though it shoud not
+# e.g. for "$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}" $raw is "/bin/view" ...
+
+    if ( $field ne $raw ) {
+        if ( $field =~ /\n/ ) {
+            $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
+        }
+        elsif ( $field eq '' ) {
+            $reporter->NOTE("Expands to: '' (empty)");
+        }
+        else {
+            $reporter->NOTE("Expands to: =$field=");
+        }
     }
-    elsif ( $field eq '' ) {
-        $reporter->NOTE("Expands to: '' (empty)");
-    }
-    else {
-        $reporter->NOTE("Expands to: =$field=");
-    }
+
     return $value;
 }
 

@@ -57,10 +57,16 @@ configure.js script.
   <!-- Dialogs and messages -->
   <div id="auth_prompt" title="Requires authentication">
     <div id="auth_note"></div>
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"><br />
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br />
+    <table class="foswikiLayoutTable">
+      <tr>
+        <th>Username</th>
+        <td><input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"></td>
+      </tr>
+    </table>
   </div>
   <div id="webCheckAuthMessage" style="display:none">
     The web server <i>may</i> need authentication to check access to resources.

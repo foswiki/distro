@@ -6,6 +6,10 @@ html body {
   padding:1em;
 }
 
+a {
+  color:#333;
+}
+
 .header {
   margin:-1em -1em 2em;
   padding:2em;
@@ -39,6 +43,7 @@ html body {
   height: 1%;
 }
 
+.ajax_whirly,
 .whirly {
     display:none;
     width:16px;
@@ -50,12 +55,6 @@ html body {
 }
 
 .ajax_whirly {
-    display:none;
-    width:16px;
-    height:16px;
-    background-image:url(loader-bars.gif);
-    background-repeat:no-repeat;
-    background-position:bottom left;
     position:absolute;
     bottom:-32px;
     right:1em;
@@ -88,6 +87,10 @@ html body {
   padding:0 0 0.5em;
   margin:0 0 1em;
 }
+.node .control_button {
+  background:transparent;
+  border:0;
+}
 .node .node input,
 .node .node button,
 .node .node .description,
@@ -103,9 +106,12 @@ html body {
   color:#444;
 }
 
+.node .description .more {
+  margin-left:1em;
+}
+
 .value_modified {
-  background-color:#DEEBFA;
-  color:#005884;
+  background-color:#f0f0f0;
 }
 
 .closed {
@@ -205,6 +211,7 @@ p.one_line_report {
 }
 
 /* Shown if value has been modified in this session */
+/*
 .undo_button {
     width: 20px !important;
     height: 20px !important;
@@ -213,6 +220,7 @@ p.one_line_report {
 .undo-icon {
     background-image: url("undo-modified-icon.png") !important;
 }
+*/
 
 /* Button shown if value differs from default */
 .control_button {
