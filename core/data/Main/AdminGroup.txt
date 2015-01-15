@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1410387798" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421366007" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
@@ -8,20 +8,13 @@
 *How to add the first administrator* %BR%
 If you haven't previously set up an administrator, follow these steps:
    * *Note:* This help text will disappear once you have added a user to this group, so read it all before adding your first user.
-   1 Authenticate as the internal administrator:
-      * %ADMINLOGIN%
-   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#Administration][Administration]] section at the bottom of this page
-   1 Expand the "Add Member" twisty if necessary
-   1 Enter one or more users into the provided field;  eg. =<nop>JoeUser, <nop>JimUser=
-   1 Click the Add Member button
-   1 Return to this page by clicking the group name on the confirmation page.
-   1 [[%LOGOUTURL%][Logout]] from the internal administrator
-   1 Verify that new members show up properly in the group listing at [[%USERSWEB%.WikiGroups]]
-   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%LOCALSITEPREFS%]] have already been set to this group (<nop>AdminGroup), restricting edit of site-wide preferences to the Wiki Administrator Group
+%INCLUDE{"%SYSTEMWEB%.InstallationGuide" section="addadmin"}%
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
-Edit this topic to add a description to the AdminGroup
+Information on Administrators, and on how to use the AdminGroup is found in the [[%SYSTEMWEB%.InstallationGuide#DefineAdminUser][Installation Guide]]
+
+You can edit this topic to add a description to the AdminGroup
 
 %META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

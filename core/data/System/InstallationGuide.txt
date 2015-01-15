@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420999946" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421366007" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installation Guide
 
@@ -169,6 +169,9 @@ The configure tool should generally be restricted to a very small subset of user
       * Visit the "Security and Authentication" tab, "Passwords" tab. Enable "Expert" options. Set the ={Password}= field to a hashed =ApacheMD5= encoded password.
       * Visit the "Security and Authentication" tab, "Access control" sub-tab. Ensure that ={FeatureAccess}{Configure}= lists includes =BaseUserMapping_333=, the internal representation of the "admin" super-user.
 
+You must at least do one of the above before closing your browser or logging out from the temporary admin authority established during bootstrap.  Once you
+close your browser, you have to have a usable id to run configure or you'll need to add a super-user admin login using the command line.
+
 #AuthenticationOfUsers
 ---+++ Step 7: Authentication
 
@@ -211,13 +214,20 @@ By using the _internal admin login_:
    * Administrators have to share a common password, which is not considered a good security practice.
 
 ---++++ Adding users to the %USERSWEB%.AdminGroup
-
+%STARTSECTION{"addadmin"}%
 <div class="foswikiHelp">%T% *You should do this before closing the browser after the bootstrap process.* Once you close the browser you will lose your temporary admin status</div>
 
 To add an initial administrator to the =AdminGroup=, perform the following steps:
-   * If you have not registered a WikiName,  visit * %SYSTEMWEB%.UserRegistration and register a user.
-   * View the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the %USERSWEB%.AdminGroup. You do _not_ need to edit the topic.
+   * If you have not registered a %SYSTEMWEB%.WikiName,  visit %SYSTEMWEB%.UserRegistration and register a user, and then return to %USERSWEB%.AdminGroup.%IF{"context isadmin" else="
+   1 Authenticate as the internal administrator:
+      * %ADMINLOGIN%"}%
+   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#Administration][Administration]] section at the bottom of this %USERSWEB%.AdminGroup
+   1 Expand the "Add Member" twisty if necessary
+   1 Enter one or more users into the provided field;  eg. =<nop>JoeUser, <nop>JimUser=
+   1 Click the Add Member button
+   1 Return to the AdminGroup by clicking the group name on the confirmation page.
 
+%IF{"%BASETOPIC%='InstallationGuild'" then="   * View the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the %USERSWEB%.AdminGroup. You do _not_ need to edit the topic."}%
 Any member of the %USERSWEB%.AdminGroup can add subsequent members, you do not have to use the internal admin login.
 
 To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[System.AccessControls][%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
@@ -230,6 +240,7 @@ or the AdminGroup, you can use the server command line to set a sudo password.
    tools/configure -save -set {Password}="Desired super-user admin password"
 </verbatim>
 </div>
+%ENDSECTION{"addadmin"}%
 
 ---++++ Further protections on configure
 
