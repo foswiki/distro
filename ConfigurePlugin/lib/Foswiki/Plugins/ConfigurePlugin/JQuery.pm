@@ -24,8 +24,10 @@ sub new {
           [ 'resig.js', 'types.js', 'render_tml.js', 'configure.js' ],
         css          => ['configure.css'],
         dependencies => [
-            'JQUERYPLUGIN', 'UI',          'JsonRpc', 'UI::Tabs',
-            'pnotify',      'UI::Tooltip', 'UI::Dialog'
+            'JQUERYPLUGIN', 'JQUERYPLUGIN::THEME',
+            'UI',           'JsonRpc',
+            'UI::Tabs',     'pnotify',
+            'UI::Tooltip',  'UI::Dialog'
         ]
     );
 
