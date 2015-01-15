@@ -69,6 +69,15 @@ a {
     right:1em;
 }
 
+.node {
+  position:relative;
+}
+.node > .whirly {
+  position:absolute;
+  top: 0.5em;
+  right:0.5em;
+}
+
 
 /* A node in the spec tree */
 .node ul {

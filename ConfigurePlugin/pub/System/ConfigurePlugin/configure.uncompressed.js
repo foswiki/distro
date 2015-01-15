@@ -66,7 +66,7 @@ function _id_ify(id) {
     }
 
     function inline_whirly($site) {
-        var $whirly = $('<img class="whirly" style="display:inline">');
+        var $whirly = $('<img class="whirly" />');
         $site.append($whirly);
         window.setTimeout(function() {
             $whirly.remove();
@@ -250,7 +250,6 @@ function _id_ify(id) {
                 var $div = $('<div id="report_dialog"></div>');
                 $div.html(TML.render_reports(r.reports));
                 $div.dialog({
-                    width: '60%',
                     modal: true,
                     buttons: {
                         Close: function() {
@@ -433,7 +432,6 @@ function _id_ify(id) {
         $dlg.append($div);
         $dlg.dialog({
             title: "Validation",
-            width: '60%',
             modal: true,
             buttons: {
                 Close: function() {
@@ -922,7 +920,7 @@ function _id_ify(id) {
 
         json_rpc_url += foswiki.getPreference('scriptsuffix');
 
-        init_whirly();
+        //init_whirly();
 
         if (!bs) {
             $('#bootstrap_warning').remove();
