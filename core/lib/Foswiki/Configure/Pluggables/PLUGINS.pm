@@ -71,7 +71,7 @@ sub construct {
                 'STRING',
                 checker => 'PLUGIN_MODULE',
                 keys    => "{Plugins}{$plugin}{Module}",
-                default => "'$modules{$plugin}'",
+                default => "$modules{$plugin}",
                 EXPERT  => 1
             )
         );
