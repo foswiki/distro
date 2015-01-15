@@ -292,6 +292,8 @@ key) will be checked, and *not* the subkey.
 sub check_current_value {
     my ( $params, $frep ) = @_;
 
+    local %Foswiki::cfg = %Foswiki::cfg;
+
     # Load the spec files
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $frep );
