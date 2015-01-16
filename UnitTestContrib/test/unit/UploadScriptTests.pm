@@ -140,7 +140,7 @@ sub test_noredirect_param {
         noredirect       => 1,
         changeproperties => 0,
     );
-    $this->assert_matches( qr/^OK Flappadoodle.txt uploaded/ms, $result );
+    $this->assert_matches( qr/^OK: Flappadoodle.txt uploaded/ms, $result );
 
     return;
 }
