@@ -68,7 +68,7 @@ function _id_ify(id) {
 */
 
     function inline_whirly($site) {
-        var $whirly = $('<img class="whirly" />');
+        var $whirly = $('<span class="whirly" />');
         $site.append($whirly);
         window.setTimeout(function() {
             $whirly.remove();
@@ -686,10 +686,9 @@ function _id_ify(id) {
                 RPC('check_current_value',
                     'Check: ' + spec.headline,
                     { keys : [ spec.headline ] },
-                    checker_reports,
-                    $tab);
+                    checker_reports);
             },
-            $tab
+            $panel
         );
     }
 
