@@ -53,7 +53,6 @@ a {
 
 .ajax_whirly,
 .whirly {
-    display:none;
     width:16px;
     height:16px;
     margin-left: 0.5em;
@@ -67,6 +66,9 @@ a {
     position:absolute;
     bottom:-2em;
     right:1em;
+}
+.ui-button .whirly {
+  display:none; /* that's too much whirlery */
 }
 
 .node {

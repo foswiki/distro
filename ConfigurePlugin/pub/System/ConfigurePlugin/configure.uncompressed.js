@@ -43,10 +43,11 @@ function _id_ify(id) {
     var auth_action = function() {},
         confirm_action = function() {};
 
+/*
     function init_whirly() {
         var $whirly, whirlyTimer;
 
-        $whirly = $(".ajax_whirly");
+        $whirly = $('<div class="ajax_whirly"></div>').appendTo(".header");
         $(document).ajaxSend(function() {
             if (typeof(whirlyTimer) !== 'undefined') {
               window.clearTimeout(whirlyTimer);
@@ -60,10 +61,11 @@ function _id_ify(id) {
             whirlyTimer = window.setTimeout(function() {
               $whirly.hide();
               whirlyTimer = undefined;
-            }, 5000);
+            }, 1000);
         });
 
     }
+*/
 
     function inline_whirly($site) {
         var $whirly = $('<img class="whirly" />');
