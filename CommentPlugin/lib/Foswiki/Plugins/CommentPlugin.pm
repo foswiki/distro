@@ -119,12 +119,12 @@ sub _restSave {
 
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef,
-        scalar $query->param('topic') );
+        scalar( $query->param('topic') ) );
 
-    if ( scalar $query->param('comment_target') ) {
+    if ( $query->param('comment_target') ) {
         ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web,
-            scalar $query->param('comment_target') );
+            scalar( $query->param('comment_target') ) );
     }
 
     $web =

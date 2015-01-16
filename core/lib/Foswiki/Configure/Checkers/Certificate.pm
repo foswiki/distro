@@ -50,7 +50,7 @@ sub check {
 sub _loadCert {
     my $file = shift;
 
-    open( my $cf, '<', $file ) or return ( 1, scalar $! );
+    open( my $cf, '<', $file ) or return ( 1, scalar($!) );
     local $/;
     my $cert = <$cf>;
     close $cf;

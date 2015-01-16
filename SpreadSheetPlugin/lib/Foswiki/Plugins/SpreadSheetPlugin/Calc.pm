@@ -292,7 +292,7 @@ my $Function = {
     LISTRAND         => \&_LISTRAND,
     LISTREVERSE      => sub { _listToDelimitedString(reverse _getList($_[0])) },
     LISTSHUFFLE      => \&_LISTSHUFFLE,
-    LISTSIZE         => sub { scalar _getList($_[0]) },
+    LISTSIZE         => sub { scalar( _getList($_[0])) },
     LISTSORT         => \&_LISTSORT,
     LISTTRUNCATE     => \&_LISTTRUNCATE,
     LISTUNIQUE       => \&_LISTUNIQUE,
@@ -650,7 +650,7 @@ sub _FORMAT {
         $result = sprintf( "%0.${res}f", $value );
         my $temp = reverse $result;
         $temp =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
-        $result = "\$" . ( scalar reverse $temp );
+        $result = "\$" . ( scalar( reverse($temp) ) );
         $result = "(" . $result . ")" if $neg;
     }
 
@@ -659,7 +659,7 @@ sub _FORMAT {
         $result = sprintf( "%0.${res}f", $value );
         my $temp = reverse $result;
         $temp =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
-        $result = scalar reverse $temp;
+        $result = scalar( reverse($temp) );
     }
     elsif ( $format eq "PERCENT" ) {
         $result = sprintf( "%0.${res}f%%", $value * 100 );
@@ -991,7 +991,7 @@ sub _LISTITEM {
     $index = _getNumber($index);
     $str = "" unless ( defined($str) );
     my @arr  = _getList($str);
-    my $size = scalar @arr;
+    my $size = scalar(@arr);
     if ( $index && $size ) {
         $index-- if ( $index > 0 );    # documented index starts at 1
         $index = $size + $index
@@ -1047,7 +1047,7 @@ sub _LISTMAP {
 # =========================
 sub _LISTRAND {
     my @arr    = _getList( $_[0] );
-    my $size   = scalar @arr;
+    my $size   = scalar(@arr);
     my $result = '';
     if ( $size > 0 ) {
         my $i = int( rand($size) );
@@ -1059,7 +1059,7 @@ sub _LISTRAND {
 # =========================
 sub _LISTSHUFFLE {
     my @arr  = _getList( $_[0] );
-    my $size = scalar @arr;
+    my $size = scalar(@arr);
     if ( $size > 1 ) {
         for ( my $i = $size ; $i-- ; ) {
             my $j = int( rand( $i + 1 ) );
@@ -1092,7 +1092,7 @@ sub _LISTTRUNCATE {
     $index = int( _getNumber($index) );
     $str = "" unless ( defined($str) );
     my @arr    = _getList($str);
-    my $size   = scalar @arr;
+    my $size   = scalar(@arr);
     my $result = '';
     if ( $index > 0 ) {
         $index  = $size if ( $index > $size );
@@ -1170,7 +1170,7 @@ sub _BITXOR {
 # SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
 # which would require two operators.   An XOR with itself would clear the field not flip all the bits.
 # This should probably be called a BITNOT.
-    if ( scalar @arr == 1 ) {
+    if ( scalar(@arr) == 1 ) {
         use bytes;
         my $ff = chr(255) x length( $_[0] );
         $result = $_[0] ^ $ff;
@@ -1201,7 +1201,8 @@ sub _RANDSTRING {
     $chars = '' unless defined($chars);
     $chars =~ s/(.)\.\.(.)/_expandRange($1, $2)/ge;
     my @pool = split( //, $chars );
-    @pool = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' ) unless ( scalar @pool );
+    @pool = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' )
+      unless ( scalar(@pool) );
     my $num = 0;
     $format = '' unless defined($format);
 

@@ -1661,7 +1661,7 @@ sub _handleFONT {
     delete $atts{class} if defined $atts{class} && $atts{class} =~ /^\s*$/;
     delete $atts{style} if defined $atts{style} && $atts{style} =~ /^[\s;]*$/;
     delete $atts{color} if defined $atts{color};
-    if ( defined $colour && !scalar keys %atts ) {
+    if ( defined $colour && !scalar( keys(%atts) ) ) {
         my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);

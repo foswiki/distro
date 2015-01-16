@@ -34,7 +34,7 @@ sub buildNewTopic {
 
     my $query = $session->{request};
 
-    unless ( scalar( $query->param() ) ) {
+    unless ( $query->param() ) {
 
         # insufficient parameters to save
         throw Foswiki::OopsException(
@@ -58,7 +58,8 @@ sub buildNewTopic {
     }
 
     # Prevent saving existing topic?
-    my $onlyNewTopic = Foswiki::isTrue( scalar $query->param('onlynewtopic') );
+    my $onlyNewTopic =
+      Foswiki::isTrue( scalar( $query->param('onlynewtopic') ) );
     if ( $onlyNewTopic && $topicExists ) {
 
         # Topic exists and user requested oops if it exists
@@ -71,7 +72,8 @@ sub buildNewTopic {
     }
 
     # prevent non-Wiki names?
-    my $onlyWikiName = Foswiki::isTrue( scalar $query->param('onlywikiname') );
+    my $onlyWikiName =
+      Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
     if (   ($onlyWikiName)
         && ( !$topicExists )
         && ( !Foswiki::isValidTopicName( $topicObject->topic ) ) )
@@ -125,8 +127,9 @@ sub buildNewTopic {
         unless ( $templateWeb && $templateTopic ) {
             throw Foswiki::OopsException(
                 'attention',
-                def    => 'invalid_topic_parameter',
-                params => [ $query->param('templatetopic'), 'templatetopic' ]
+                def => 'invalid_topic_parameter',
+                params =>
+                  [ scalar( $query->param('templatetopic') ), 'templatetopic' ]
             );
         }
         unless ( $session->topicExists( $templateWeb, $templateTopic ) ) {
@@ -486,7 +489,7 @@ WARN
         my ( $w, $t ) = ( '', '' );
         foreach my $test (
             $topic,
-            scalar $query->param('topicparent'),
+            scalar( $query->param('topicparent') ),
             $Foswiki::cfg{HomeTopicName}
           )
         {
@@ -614,7 +617,7 @@ WARN
         # replace top revision with the text from the query, trying to
         # make it look as much like the original as possible. The query
         # text is expected to contain %META as well as text.
-        $topicObject->text( scalar $query->param('text') );
+        $topicObject->text( scalar( $query->param('text') ) );
 
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );

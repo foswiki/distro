@@ -88,7 +88,7 @@ sub save {
 
     if (TRACE_CACHE) {
         foreach my $name ( $req->param ) {
-            foreach my $value ( $req->param($name) ) {
+            foreach my $value ( $req->multi_param($name) ) {
                 $value = '' unless defined $value;
                 print STDERR "CACHE $uid> $name=$value\n";
             }

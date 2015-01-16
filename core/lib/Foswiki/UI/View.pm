@@ -355,7 +355,7 @@ sub view {
 
         # SMELL if multi-value is allowed here, this isn't correct,
         # but calling multi_param doesn't seem correct either.
-        push @qparams, $name => scalar $query->param($name);
+        push @qparams, $name => scalar( $query->param($name) );
     }
 
 # SMELL: %QUERYPARAMSTRING% isn't a documented macro, and is no longer used in core

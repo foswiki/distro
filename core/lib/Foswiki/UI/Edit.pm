@@ -57,12 +57,14 @@ sub init_edit {
 
     my $adminCmd   = $query->param('cmd')        || '';
     my $redirectTo = $query->param('redirectto') || '';
-    my $onlyWikiName  = Foswiki::isTrue( scalar $query->param('onlywikiname') );
-    my $onlyNewTopic  = Foswiki::isTrue( scalar $query->param('onlynewtopic') );
-    my $formTemplate  = $query->param('formtemplate') || '';
+    my $onlyWikiName =
+      Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
+    my $onlyNewTopic =
+      Foswiki::isTrue( scalar( $query->param('onlynewtopic') ) );
+    my $formTemplate  = $query->param('formtemplate')  || '';
     my $templateTopic = $query->param('templatetopic') || '';
     my $notemplateexpansion =
-      Foswiki::isTrue( scalar $query->param('notemplateexpansion') );
+      Foswiki::isTrue( scalar( $query->param('notemplateexpansion') ) );
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =
@@ -74,7 +76,8 @@ sub init_edit {
 
     my $revision;
     if ( defined $query->param('rev') ) {
-        $revision = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+        $revision =
+          Foswiki::Store::cleanUpRevID( scalar( $query->param('rev') ) );
         unless ($revision) {
 
             # Invalid request, remove it from the query.

@@ -30,7 +30,7 @@ sub check_current_value {
     }
     $reporter->WARN(
 "$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
-    ) if ( scalar @admins lt 2 && !$Foswiki::cfg{Password} );
+    ) if ( scalar(@admins) lt 2 && !$Foswiki::cfg{Password} );
 
     my @Authorized = split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} );
     my $passed = '';   # Set to true if current user is allowed to use configure
@@ -51,7 +51,7 @@ sub check_current_value {
 
     if (   !$passed
         && !$Foswiki::cfg{Password}
-        && scalar @admins < 2 )
+        && scalar(@admins) < 2 )
     {
         $reporter->WARN(
 "You have not set an admin Pasword.  Your $Foswiki::cfg{SuperAdminGroup} contains no users, or this list eliminated all users in the $Foswiki::cfg{SuperAdminGroup}

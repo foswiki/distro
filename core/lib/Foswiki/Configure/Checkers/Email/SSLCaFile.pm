@@ -24,7 +24,7 @@ sub check_current_value {
 
         if ( -r $file ) {
             $reporter->NOTE( "File was last modified "
-                  . ( scalar localtime( ( stat _ )[9] ) ) );
+                  . ( scalar( localtime( ( stat _ )[9] ) ) ) );
             _checkCaFile( $file, $reporter );
         }
         else {

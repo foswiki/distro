@@ -95,7 +95,7 @@ sub set {
 
     while ( my $k = shift(@params) ) {
         die "Uneven sized options hash " . join( ' ', caller )
-          unless scalar @params;
+          unless scalar(@params);
         my $v = shift @params;
         if ( $k eq 'opts' ) {
             $this->_parseOptions($v);

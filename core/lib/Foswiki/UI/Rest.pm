@@ -335,7 +335,7 @@ sub rest {
         # the endPoint and validating it early fails.
 
         # endPoint still supported for compatibility
-        my $target = $session->redirectto( scalar $req->param('endPoint') );
+        my $target = $session->redirectto( scalar( $req->param('endPoint') ) );
 
         if ( defined($target) ) {
             $session->redirect($target);

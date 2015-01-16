@@ -91,7 +91,7 @@ sub _loadKey {
     my $passkey  = shift;
     my $password = shift;
 
-    open( my $cf, '<', $file ) or return ( 1, scalar $! );
+    open( my $cf, '<', $file ) or return ( 1, scalar($!) );
     local $/;
     my $key = <$cf>;
     close $cf;

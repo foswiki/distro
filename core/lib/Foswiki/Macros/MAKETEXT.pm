@@ -49,7 +49,7 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
     my @args = split( /\s*,\s*/, $argsStr );
 
     # fill omitted args with empty strings
-    while ( ( scalar @args ) < $max ) {
+    while ( ( scalar(@args) ) < $max ) {
         push( @args, '' );
     }
 

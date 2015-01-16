@@ -131,7 +131,7 @@ sub statistics {
       || $session->{requestedWebName};
 
     my $recurse =
-      Foswiki::Func::isTrue( scalar $session->{request}->param('subwebs') );
+      Foswiki::Func::isTrue( scalar( $session->{request}->param('subwebs') ) );
 
     if ($webSet) {
 

@@ -43,7 +43,7 @@ sub init {
         my $key = _urlEncode($name);
         push @params,
           map { $key . "=" . _urlEncode( defined $_ ? $_ : '' ) }
-          scalar $request->param($name);
+          scalar( $request->param($name) );
     }
 
     $this->{queryString} = join( ';', @params );
@@ -80,7 +80,8 @@ sub renderSlideShow {
     # SMELL: there should be a better block
 
     my $query = Foswiki::Func::getCgiQuery();
-    if ( $query && Foswiki::Func::isTrue( scalar $query->param('slideshow') ) )
+    if ( $query
+        && Foswiki::Func::isTrue( scalar( $query->param('slideshow') ) ) )
     {
 
         # in presentation mode

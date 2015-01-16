@@ -45,7 +45,8 @@ sub restTmpl {
     my $topic        = $session->{topicName};
     my $contentType  = $request->param("contenttype");
     my $cacheControl = $request->param("cachecontrol");
-    my $doRender = Foswiki::Func::isTrue( scalar $request->param('render'), 0 );
+    my $doRender =
+      Foswiki::Func::isTrue( scalar( $request->param('render') ), 0 );
 
     $cacheControl = "max-age=28800" unless defined $cacheControl;
 

@@ -26,7 +26,7 @@ sub handle {
     my $request = $session->{request};
 
     # transform to site charset
-    foreach my $key ( $request->param() ) {
+    foreach my $key ( $request->multi_param() ) {
         my @val = $request->multi_param($key);
 
         # hack to prevent redirecting

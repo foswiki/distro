@@ -1316,7 +1316,7 @@ sub cacheQuery {
     my $this  = shift;
     my $query = $this->{request};
 
-    return '' unless ( scalar( $query->param() ) );
+    return '' unless ( $query->param() );
 
     # Don't double-cache
     return '' if ( $query->param('foswiki_redirect_cache') );

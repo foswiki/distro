@@ -145,7 +145,7 @@ sub _renameTopicOrAttachment {
                 }
                 return $topic;
             },
-            Foswiki::isTrue( scalar $query->param('nonwikiword') )
+            Foswiki::isTrue( scalar( $query->param('nonwikiword') ) )
         );
     }
 

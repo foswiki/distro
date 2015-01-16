@@ -981,8 +981,8 @@ sub _numRevisions {
     # then only rev 1 exists
     return 1 unless -e $dir;
 
-    _loadRevs( $revs, $dir ) unless scalar @$revs;
-    return 1 unless scalar @$revs;    # one implicit revision
+    _loadRevs( $revs, $dir ) unless scalar(@$revs);
+    return 1 unless scalar(@$revs);    # one implicit revision
 
     # If the head revision is inconsistent with the history,
     # then there's another implicit revision

@@ -501,7 +501,7 @@ sub _compare_extension_versions {
 
     # See if request is for anything > 0.  If so, return true.
     if (   $reqType eq 'tuple'
-        && scalar @btuple == 1
+        && scalar(@btuple) == 1
         && $btuple[0] == 0
         && $string_op eq 'gt' )
     {
@@ -524,7 +524,7 @@ sub _compare_extension_versions {
             return 0;
         }
 
-        if ( scalar @btuple != scalar @atuple || scalar @btuple != 3 ) {
+        if ( scalar(@btuple) != scalar(@atuple) || scalar(@btuple) != 3 ) {
 
             #print STDERR "Incorrectly formatted date in $aRELEASE or $b\n";
         }

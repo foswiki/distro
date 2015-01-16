@@ -1493,7 +1493,7 @@ sub count {
     _assertIsTopic($this) if DEBUG;
     my $data = $this->{$type};
 
-    return scalar @$data if ( defined($data) );
+    return scalar(@$data) if ( defined($data) );
 
     return 0;
 }
@@ -3659,7 +3659,8 @@ sub summariseChanges {
     my $prev     = '';
     my $ellipsis = $tml ? $SUMMARY_ELLIPSIS : '...';
     my $trunc    = $tml ? $SUMMARY_TMLTRUNC : $CHANGES_SUMMARY_PLAINTRUNC;
-    while ( scalar @$blocks && scalar(@revised) < $CHANGES_SUMMARY_LINECOUNT ) {
+    while ( scalar(@$blocks) && scalar(@revised) < $CHANGES_SUMMARY_LINECOUNT )
+    {
         my $block = shift(@$blocks);
         next unless $block =~ /\S/;
         my $trim = length($block) > $trunc;

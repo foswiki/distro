@@ -203,7 +203,7 @@ sub _getWebPrefsObj {
 
     $this->_pushWebInStack( $stack, $web );
     $part = join( '/', @path );
-    $level = scalar @path;
+    $level = scalar(@path);
     foreach (@websToAdd) {
         $part .= '/' if $part;
         $part .= $_;

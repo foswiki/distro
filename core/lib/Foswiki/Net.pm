@@ -851,7 +851,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         $this->_logMailError( 'die', "Can't send mail, missing recipient" );
     }
 
-    return unless ( scalar @to );
+    return unless ( scalar(@to) );
 
     # Change SMTP protocol recipient format from
     # "User Name <userid@domain>" to "userid@domain"
@@ -903,7 +903,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
             );
         }
     }
-    scalar @addrs
+    scalar(@addrs)
       or $this->_logMailError( 'die',
         "{SMTP}{MAILHOST} $host is invalid: server has no IP address" );
 
@@ -920,7 +920,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     $this->_logMailError(
         'debug',
-        ( scalar gmtime ),
+        ( scalar(gmtime) ),
         " UTC: Connecting to $host on port $port"
     ) if ($debug);
 

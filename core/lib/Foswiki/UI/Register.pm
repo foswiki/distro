@@ -240,13 +240,14 @@ sub _checkApproval {
 
         # The registration has been denied; serve up denial feedback
         my $data = {
-            EmailAddress => scalar $session->{request}->param('email'),
-            Referee      => scalar $session->{request}->param('referee'),
+            EmailAddress => scalar( $session->{request}->param('email') ),
+            Referee      => scalar( $session->{request}->param('referee') ),
             WikiName     => Foswiki::Sandbox::untaint(
-                $session->{request}->param('wikiname') || 'UnknownUser',
+                scalar( $session->{request}->param('wikiname') )
+                  || 'UnknownUser',
                 \&Foswiki::Sandbox::validateTopicName
             ),
-            Feedback => scalar $session->{request}->param('feedback')
+            Feedback => scalar( $session->{request}->param('feedback') )
         };
         my $err = _sendEmail( $session, 'registerdenied', $data );
         if ($err) {
@@ -434,7 +435,7 @@ sub bulkRegister {
 
     my $logWeb;
     my $logTopic = Foswiki::Sandbox::untaint(
-        scalar $query->param('LogTopic'),
+        scalar( $query->param('LogTopic') ),
         \&Foswiki::Sandbox::validateTopicName
     ) || $topic . 'Result';
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
@@ -828,7 +829,7 @@ sub deleteUser {
 
     if ( $removeTopic && $query->param('topicPrefix') ) {
         $topicPrefix = Foswiki::Sandbox::untaint(
-            scalar $query->param('topicPrefix'),
+            scalar( $query->param('topicPrefix') ),
             \&Foswiki::Sandbox::validateTopicName
         );
         throw Foswiki::OopsException(
@@ -881,9 +882,9 @@ sub addUserToGroup {
     my @userNames = $query->multi_param('username');
 
     my $groupName = $query->param('groupname');
-    my $create = Foswiki::isTrue( scalar $query->param('create'), 0 );
+    my $create = Foswiki::isTrue( scalar( $query->param('create') ), 0 );
     if ( !$groupName or $groupName eq '' ) {
-        my $userNames = scalar @userNames ? join( ',', @userNames ) : '';
+        my $userNames = scalar(@userNames) ? join( ',', @userNames ) : '';
         throw Foswiki::OopsException(
             'register',
             def    => 'no_group_specified_for_add_to_group',
@@ -957,7 +958,7 @@ sub addUserToGroup {
 
     my @failed;
     my @succeeded;
-    push @userNames, '<none>' if ( scalar @userNames == 0 );
+    push @userNames, '<none>' if ( scalar(@userNames) == 0 );
     foreach my $u (@userNames) {
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
@@ -991,7 +992,7 @@ sub addUserToGroup {
     }
     if ( @failed || !@succeeded ) {
         $session->logger->log( 'warning',
-            "failed: " . scalar @failed . " Succeeded " . scalar @succeeded );
+            "failed: " . scalar(@failed) . " Succeeded " . scalar(@succeeded) );
         throw Foswiki::OopsException(
             'register',
             web    => $web,
@@ -1792,7 +1793,7 @@ sub _validateRegistration {
         my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
         if ( $Foswiki::cfg{Register}{NeedVerification} ) {
             my @pending = _checkPendingRegistrations( $data->{Email}, $exp );
-            push @existingNames, @pending if scalar @pending;
+            push @existingNames, @pending if scalar(@pending);
         }
         if ( scalar(@existingNames) ) {
             $session->logger->log( 'warning',

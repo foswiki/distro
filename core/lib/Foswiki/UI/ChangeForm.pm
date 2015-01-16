@@ -109,7 +109,8 @@ sub generate {
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 
-    $text = CGI::hidden( -name => 'text', -value => scalar $q->param('text') );
+    $text =
+      CGI::hidden( -name => 'text', -value => scalar( $q->param('text') ) );
     $page =~ s/%TEXT%/$text/go;
 
     return $page;

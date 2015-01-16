@@ -260,7 +260,7 @@ sub option {
 
     sub WARN {
         my ( $this, @p ) = @_;
-        return unless scalar @p;
+        return unless scalar(@p);
         $this->{_reporter}->WARN(@p);
         unless ( $p[0] =~ s/^>/> *WARNING:* / ) {
             $p[0] = "> *WARNING:* ";
@@ -270,7 +270,7 @@ sub option {
 
     sub ERROR {
         my ( $this, @p ) = @_;
-        return unless scalar @p;
+        return unless scalar(@p);
         $this->{_reporter}->ERROR(@p);
         unless ( $p[0] =~ s/^>/> *ERROR:* / ) {
             $p[0] = "> *ERROR:* ";
@@ -459,7 +459,7 @@ HERE
     $reporter->WARN(
         "Don't forget to save your configuration to complete installation of "
           . join( ', ', keys %plugins ) )
-      if ( scalar keys %{ $reporter->changes() } );
+      if ( scalar( keys %{ $reporter->changes() } ) );
 
     $reporter->NOTE( "> Installation "
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
@@ -770,7 +770,7 @@ sub _install {
         $reporter->NOTE( "> Unpacking $tmpfilename..., Size: "
               . $sb->size
               . " Modified: "
-              . scalar localtime( $sb->mtime ) );
+              . scalar( localtime( $sb->mtime ) ) );
         ( $tmpdir, $err ) =
           Foswiki::Configure::FileUtil::unpackArchive($tmpfilename);
         if ($err) {
@@ -1057,7 +1057,7 @@ sub _createBackup {
         -e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
       );
 
-    unless ( scalar @files ) {           # Anything to backup?
+    unless ( scalar(@files) ) {          # Anything to backup?
         $reporter->NOTE("\t* Nothing to backup");
     }
     else {
@@ -1268,7 +1268,7 @@ sub uninstall {
         my ($plugName) = $file =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         push( @plugins, $plugName ) if $plugName;
     }
-    if ( scalar @unpackedFeedback ) {
+    if ( scalar(@unpackedFeedback) ) {
         $reporter->NOTE("> Removed files:");
         $reporter->NOTE(@unpackedFeedback);
     }
@@ -1295,7 +1295,7 @@ sub uninstall {
     $reporter->WARN(
         "Don't forget to save your configuration to complete removal of "
           . join( ', ', @plugins ) )
-      if ( scalar keys %{ $reporter->changes() } );
+      if ( scalar( keys %{ $reporter->changes() } ) );
 
     $reporter->NOTE( "> Removal "
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
@@ -1373,7 +1373,7 @@ sub loadInstaller {
         $reporter->WARN( "> Using local $file, Size: "
               . $sb->size
               . " Modified: "
-              . scalar localtime( $sb->mtime )
+              . scalar( localtime( $sb->mtime ) )
               . " for package manifest" );
     }
     else {

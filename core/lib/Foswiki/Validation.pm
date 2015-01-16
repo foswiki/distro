@@ -117,7 +117,7 @@ sub generateValidationKey {
     # Use scalar keys %$actions to ensure we generate a unique token
     # for each form on a page.
     my $nonce =
-      Digest::MD5::md5_hex( $context, $cgis->id(), scalar keys %$actions );
+      Digest::MD5::md5_hex( $context, $cgis->id(), scalar( keys %$actions ) );
     my $action = $nonce;
     if ($strikeone) {
 
@@ -301,12 +301,13 @@ sub validate {
 
     my $tmpl = $session->templates->readTemplate('validate');
 
-    if ( scalar $query->param('response') ) {
+    if ( $query->param('response') ) {
         my $cacheUID = $query->param('foswikioriginalquery');
         $query->delete('foswikioriginalquery');
         my $url;
         if ( $query->param('response') eq 'OK'
-            && isValidNonce( $cgis, scalar $query->param('validation_key') ) )
+            && isValidNonce( $cgis, scalar( $query->param('validation_key') ) )
+          )
         {
             if ( !$cacheUID ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );

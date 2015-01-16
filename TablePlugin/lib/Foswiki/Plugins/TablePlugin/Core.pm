@@ -171,7 +171,7 @@ sub _addDefaultStyles {
 
     # create CSS styles tables in general
     my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
-    _addHeadStyles( $HEAD_ID_DEFAULT_STYLE, @styles ) if scalar @styles;
+    _addHeadStyles( $HEAD_ID_DEFAULT_STYLE, @styles ) if scalar(@styles);
 }
 
 sub _resetReusedVariables {
@@ -235,7 +235,7 @@ sub _parseTableSpecificTableAttributes {
     my ( $id, @styles ) = _createCssStyles( 0, $tableSpecificAttrs );
     _debugData( "after _createCssStyles, id=$id; styles", \@styles );
 
-    _addHeadStyles( $id, @styles ) if scalar @styles;
+    _addHeadStyles( $id, @styles ) if scalar(@styles);
 
     return $currTablePre . '<nop>';
 }
@@ -364,7 +364,7 @@ sub _parseAttributes {
             push( @tableRulesList, $param );
         }
     }
-    $inCollection->{tableRules} = \@tableRulesList if scalar @tableRulesList;
+    $inCollection->{tableRules} = \@tableRulesList if scalar(@tableRulesList);
 
     # use 'rules' as table attribute only (not to define css styles)
     # but set to
@@ -1244,7 +1244,7 @@ sub _createCssStyles {
     # headeralign
     if ( defined $inAttrs->{headerAlignListRef} ) {
         my @headerAlign = @{ $inAttrs->{headerAlignListRef} };
-        if ( scalar @headerAlign == 1 ) {
+        if ( scalar(@headerAlign) == 1 ) {
             my $align = $headerAlign[0];
             my $attr  = 'text-align:' . $align;
             &$setAttribute( $tableSelector, 'th', $attr );
@@ -1265,7 +1265,7 @@ sub _createCssStyles {
     # dataAlign
     if ( defined $inAttrs->{dataAlignListRef} ) {
         my @dataAlign = @{ $inAttrs->{dataAlignListRef} };
-        if ( scalar @dataAlign == 1 ) {
+        if ( scalar(@dataAlign) == 1 ) {
             my $align = $dataAlign[0];
             my $attr  = 'text-align:' . $align;
             &$setAttribute( $tableSelector, 'td', $attr );
@@ -1305,7 +1305,7 @@ sub _createCssStyles {
 sub _addHeadStyles {
     my ( $inId, @inStyles ) = @_;
 
-    return if !scalar @inStyles;
+    return if !scalar(@inStyles);
 
     $styles->{seendIds}->{$inId} = 1;
     if ( $inId eq $HEAD_ID_DEFAULT_STYLE ) {
@@ -1362,14 +1362,15 @@ sub emitTable {
     _debug('emitTable');
 
     #Validate headerrows/footerrows and modify if out of range
-    if ( $combinedTableAttrs->{headerrows} > scalar @curTable ) {
+    if ( $combinedTableAttrs->{headerrows} > scalar(@curTable) ) {
         $combinedTableAttrs->{headerrows} =
-          scalar @curTable;    # limit header to size of table!
+          scalar(@curTable);    # limit header to size of table!
     }
     if ( $combinedTableAttrs->{headerrows} + $combinedTableAttrs->{footerrows} >
         @curTable )
     {
-        $combinedTableAttrs->{footerrows} = scalar @curTable -
+        $combinedTableAttrs->{footerrows} =
+          scalar(@curTable) -
           $combinedTableAttrs->{headerrows};    # and footer to whatever is left
     }
 
@@ -1816,16 +1817,16 @@ sub emitTable {
         "$singleIndent<thead>"
       . join( "", @headerRowList )
       . "$singleIndent</thead>";
-    $text .= $currTablePre . $thead if scalar @headerRowList;
+    $text .= $currTablePre . $thead if scalar(@headerRowList);
 
     my $tfoot =
         "$singleIndent<tfoot>"
       . join( "", @footerRowList )
       . "$singleIndent</tfoot>";
-    $text .= $currTablePre . $tfoot if scalar @footerRowList;
+    $text .= $currTablePre . $tfoot if scalar(@footerRowList);
 
     my $tbody;
-    if ( scalar @bodyRowList ) {
+    if ( scalar(@bodyRowList) ) {
         $tbody =
             "$singleIndent<tbody>"
           . join( "", @bodyRowList )
@@ -1839,7 +1840,7 @@ sub emitTable {
 "$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
     }
 
-    if ( scalar @messages ) {
+    if ( scalar(@messages) ) {
         $text =
             '<span class="foswikiAlert">'
           . Foswiki::Func::expandCommonVariables( join( "\n", @messages ) )

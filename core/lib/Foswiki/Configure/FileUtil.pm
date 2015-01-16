@@ -531,7 +531,7 @@ sub copytree {
             push( @e, copytree( "$from/$f", "$to/$f" ) );
         }
         closedir($d);
-        return @e if scalar @e;
+        return @e if scalar(@e);
     }
 
     unless ( -e $to ) {

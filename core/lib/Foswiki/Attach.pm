@@ -101,7 +101,7 @@ sub renderMetaData {
 
     my $rows            = '';
     my $row             = $templates->expandTemplate( 'ATTACH:files:row' . $A );
-    my $attachmentCount = scalar @attachments;
+    my $attachmentCount = scalar(@attachments);
     my $attachmentNum   = 1;
     foreach
       my $attachment ( sort { ( $a->{name} || '' ) cmp( $b->{name} || '' ) }

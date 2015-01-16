@@ -48,7 +48,7 @@ sub set {
     # Unset+MACRONAME Default+MACRONAME urlparams
     my $rules = [];
 
-    foreach my $key ( $request->param() ) {
+    foreach my $key ( $request->multi_param() ) {
 
         next unless $key =~ /^(Local|Set|Unset)\+(.*)$/;
         my $type   = $1;

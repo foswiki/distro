@@ -84,7 +84,7 @@ sub handlePopUpWindow {
           Foswiki::Func::normalizeWebTopicName( $web, $topic );
         $url = Foswiki::Func::getViewUrl( $normalizedWeb, $normalizedTopic );
         push( @queryParts, "template=$template" ) if defined $template;
-        $url .= '?' . join( ';', @queryParts ) if scalar @queryParts;
+        $url .= '?' . join( ';', @queryParts ) if scalar(@queryParts);
     }
 
     my $width  = $params->{width}  || '600';

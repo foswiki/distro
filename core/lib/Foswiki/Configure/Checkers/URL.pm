@@ -90,7 +90,7 @@ sub checkURI {
     my %partsreq = _list2hash( $checks{partsreq} );
 
     if ( $parts{scheme} ) {
-        if ( defined $scheme && scalar @{ $checks{schemes} } ) {
+        if ( defined $scheme && scalar( @{ $checks{schemes} } ) ) {
             my %s = _list2hash( $checks{schemes} );
             $reporter->ERROR("Scheme '$scheme' is not permitted in $uri")
               unless ( $s{ lc $scheme } );

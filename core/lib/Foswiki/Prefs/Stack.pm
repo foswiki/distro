@@ -85,7 +85,7 @@ Returns the size of the stack in number of levels.
 =cut
 
 sub size {
-    return scalar @{ $_[0]->{levels} };
+    return scalar( @{ $_[0]->{levels} } );
 }
 
 =begin TML

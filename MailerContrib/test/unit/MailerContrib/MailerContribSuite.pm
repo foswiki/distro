@@ -581,7 +581,7 @@ HERE
         mail    => 1
     );
 
-    $this->assert( !scalar @FoswikiFnTestCase::mails,
+    $this->assert( !scalar(@FoswikiFnTestCase::mails),
         "Should not send any mail!" );
 }
 
@@ -1135,7 +1135,7 @@ BLAH
 
         #verbose => 1
     );
-    $this->assert_num_equals( 1, scalar @FoswikiFnTestCase::mails );
+    $this->assert_num_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $m1 = $FoswikiFnTestCase::mails[0];
     $this->assert_matches( qr/To: test3\@example.com/s, $m1 );
     $this->assert( $m1 !~ /test1\@example.com/s );

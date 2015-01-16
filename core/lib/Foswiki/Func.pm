@@ -360,8 +360,7 @@ before displaying the data back to the user.
 Example:
 <verbatim>
    my $query    = Foswiki::Func::getRequestObject();
-   my @cgiparms = $query->param();               # Get list of all URL Parameter names
-   my $parm1    = $query->param('parm1');        # Get a scalar value (Returns 1st value if multiple valued)
+   my $single   = $query->param('parm1');        # Get a scalar value (Returns 1st value if multiple valued)
    my @multi    = $query->multi_param('parm2');  # Get multi-valued parameter
 </verbatim>
 

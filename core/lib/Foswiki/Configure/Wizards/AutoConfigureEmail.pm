@@ -640,7 +640,7 @@ sub _autoconfigSMTP {
     $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg;
     $reporter->NOTE("<verbatim>$tlog</verbatim>");
 
-    unless ( scalar keys %use ) {
+    unless ( scalar( keys %use ) ) {
         _diagnoseFailure( $noconnect, $allconnect, $reporter );
         return 0;
     }

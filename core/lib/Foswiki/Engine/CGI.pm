@@ -228,7 +228,7 @@ sub prepareBodyParameters {
     foreach my $pname (@plist) {
         my @values = map { "$_" } $this->{cgi}->multi_param($pname);
         (undef) = $req->bodyParam( -name => $pname, -value => \@values );
-        $this->{uploads}{$pname} = 1 if scalar $this->{cgi}->upload($pname);
+        $this->{uploads}{$pname} = 1 if scalar( $this->{cgi}->upload($pname) );
     }
 }
 

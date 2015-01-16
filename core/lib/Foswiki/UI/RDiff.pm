@@ -485,8 +485,10 @@ sub diff {
         $session->{prefs}->getPreference('DIFFCONTEXTLINES');
         $contextLines = 3 unless defined $contextLines;
     }
-    my $revHigh = Foswiki::Store::cleanUpRevID( scalar $query->param('rev1') );
-    my $revLow  = Foswiki::Store::cleanUpRevID( scalar $query->param('rev2') );
+    my $revHigh =
+      Foswiki::Store::cleanUpRevID( scalar( $query->param('rev1') ) );
+    my $revLow =
+      Foswiki::Store::cleanUpRevID( scalar( $query->param('rev2') ) );
 
     my $tmpl = $session->templates->readTemplate('rdiff');
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
@@ -510,7 +512,7 @@ sub diff {
     my ( $olderi, $neweri );                            # indexes into history
     if ( $diffType eq 'last' ) {
         $neweri = 0;
-        $olderi = ( scalar @history > 1 ) ? $neweri + 1 : 0;
+        $olderi = ( scalar(@history) > 1 ) ? $neweri + 1 : 0;
     }
     else {
         for ( my $i = 0 ; $i <= $#history ; $i++ ) {

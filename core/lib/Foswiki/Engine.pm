@@ -246,7 +246,7 @@ sub prepareCookies {
     my ( $this, $req ) = @_;
     eval { require CGI::Cookie };
     throw Error::Simple($@) if $@;
-    $req->cookies( scalar CGI::Cookie->parse( $req->header('Cookie') ) )
+    $req->cookies( scalar( CGI::Cookie->parse( $req->header('Cookie') ) ) )
       if $req->header('Cookie');
 }
 

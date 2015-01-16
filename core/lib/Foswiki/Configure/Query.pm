@@ -341,7 +341,7 @@ sub check_current_value {
         }
     }
 
-    if ( scalar @keys == 0 ) {
+    if ( scalar(@keys) == 0 ) {
         push( @keys, '' );
     }
 

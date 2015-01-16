@@ -16,7 +16,8 @@ sub REVTITLE {
     my $request = $this->{request};
     my $out     = '';
     if ($request) {
-        my $rev = Foswiki::Store::cleanUpRevID( scalar $request->param('rev') );
+        my $rev =
+          Foswiki::Store::cleanUpRevID( scalar( $request->param('rev') ) );
         $out = '(r' . $rev . ')' if ($rev);
     }
     return $out;

@@ -175,7 +175,7 @@ sub _action_createweb {
         throw Foswiki::OopsException(
             'attention',
             def    => 'invalid_web_name',
-            params => [ $query->param('baseweb') || '' ]
+            params => [ scalar( $query->param('baseweb') ) || '' ]
         );
     }
 
@@ -210,7 +210,7 @@ sub _action_createweb {
         ALLOWWEBCHANGE   => '%USERSWEB%.' . $me,
         ALLOWWEBRENAME   => '%USERSWEB%.' . $me,
     };
-    foreach my $p ( $query->param() ) {
+    foreach my $p ( $query->multi_param() ) {
         $opts->{ uc($p) } = $query->param($p);
     }
 
@@ -238,7 +238,7 @@ sub _action_createweb {
     my $newTopic = $query->param('newtopic');
 
     if ($newTopic) {
-        my $nonww = Foswiki::isTrue( $query->param('nonwikiword') );
+        my $nonww = Foswiki::isTrue( scalar( $query->param('nonwikiword') ) );
 
         # Validate
         $newTopic = Foswiki::Sandbox::untaint(
@@ -255,7 +255,7 @@ sub _action_createweb {
                 web    => $newWeb,
                 topic  => $newTopic,
                 def    => 'not_wikiword',
-                params => [ $query->param('newtopic') ]
+                params => [ scalar( $query->param('newtopic') ) ]
             );
         }
     }
@@ -296,9 +296,9 @@ sub _action_create {
     my $query = $session->{request};
 
     # distill web and topic from Web.Topic input
-    my ( $newWeb, $newTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $session->{webName},
-        $query->param('topic') );
+    my $newTopic = $query->param('topic');
+    ( my $newWeb, $newTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $session->{webName}, $newTopic );
 
     # Validate web name first so it can be used in topic oops.
     $newWeb = Foswiki::Sandbox::untaint(
@@ -334,7 +334,8 @@ sub _action_create {
             }
             unless (
                 Foswiki::isValidTopicName(
-                    $topic, Foswiki::isTrue( $query->param('nonwikiword') )
+                    $topic,
+                    Foswiki::isTrue( scalar( $query->param('nonwikiword') ) )
                 )
               )
             {

@@ -233,7 +233,7 @@ sub _get_extensions {
 
     $reporter->NOTE( "> Looked in " . join( ' ', @consultedLocations ) );
 
-    $reporter->ERROR( @{ $this->{errors} } ) if scalar @{ $this->{errors} };
+    $reporter->ERROR( @{ $this->{errors} } ) if scalar( @{ $this->{errors} } );
 
     if ( $set eq 'Installed' ) {
         $reporter->NOTE("> *Found $installedCount Installed extensions* ");
@@ -339,7 +339,7 @@ sub _get_extensions {
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
         $thd = "[[$ext->{data}$ext->{name}][$thd]]";
         $thd .= " <sup>[$ext->{repository}]</sup>"
-          if ( scalar @consultedLocations > 1 );
+          if ( scalar(@consultedLocations) > 1 );
 
         $reporter->NOTE(
             "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );

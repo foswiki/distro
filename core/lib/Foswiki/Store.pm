@@ -232,7 +232,7 @@ sub getAttachmentURL {
         push( @params, $k, $v );
     }
 
-    $url .= Foswiki::make_params(@params) if scalar @params;
+    $url .= Foswiki::make_params(@params) if scalar(@params);
 
     return $url;
 }

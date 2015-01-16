@@ -419,6 +419,17 @@ sub bodyParam {
 
 Resonably compatible with CGI.
 
+*NOTE* this method will assert if it is called in a list context. A list
+context might be:
+   * in a list of parameters e.g. =my_function( $query->param( ...=
+   * assigning to a list e.g. =my @l = $query->param(...=
+   * in a loop condition e.g. =foreach ($query->param(...=
+
+The following are *scalar* contexts:
+   * =defined($query->param( ...= is OK
+   * =lc($query->param( ...= is OK
+   * =... if ( $query->param( ...= is OK
+
 =cut
 
 sub multi_param {
@@ -436,9 +447,9 @@ sub param {
 
 # list context can be dangerous so warn:
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
-    if (wantarray) {
+    if ( DEBUG && wantarray ) {
         my ( $package, $filename, $line ) = caller;
-        if ( $package ne 'Foswiki::Request' && DEBUG ) {
+        if ( $package ne 'Foswiki::Request' ) {
             ASSERT( 0,
 "Foswiki::Request::param called in list context from package $package, $filename line $line, declare as scalar, or call multi_param. "
             );

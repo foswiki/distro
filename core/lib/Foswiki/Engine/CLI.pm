@@ -34,7 +34,7 @@ BEGIN {
 sub run {
     my $this = shift;
     my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified
-    while ( scalar @args ) {
+    while ( scalar(@args) ) {
         my $name;
         my $arg = shift @args;
         if ( $arg =~ /^-?([a-z0-9_]+)=(.*)$/i ) {
