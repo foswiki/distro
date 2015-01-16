@@ -101,7 +101,6 @@ a {
 .node .keys {
   min-width:10em;
   margin-left:-10em;
-  margin-right:0.5em;
   display:inline-block;
 }
 .node .description {
@@ -115,9 +114,8 @@ a {
 .header label {
   margin-right:0;
 }
-.node .node input {
-  margin:0.5em 0;
-}
+.node .node textarea,
+.node .node input,
 .node .node button,
 .node .node .description,
 .node .node .reports {
@@ -324,9 +322,9 @@ div.value_modified.expert:after {
     width: 350px;
 }
 
-textarea.report {
+textarea {
     width: 100%;
-    height: 40%;
+    height:10em;
 }
 
 table.tml {
