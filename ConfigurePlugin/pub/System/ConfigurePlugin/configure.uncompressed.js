@@ -580,7 +580,7 @@ function _id_ify(id) {
             id = 'UOK' + _id_ify(spec.keys);
             $node.append("<label for='"+id+"'></label>");
             $butt = $('<input type="checkbox" id="' + id + '">');
-            $butt.attr("title", "Enable this option to take a value");
+            $butt.attr("title", "If unchecked, " + spec.keys + " will be undefined. Check this box to give it a value.");
             $butt.click(function() {
                 if ( $(this).attr("checked") ) {
                     $ui.show();
