@@ -1602,55 +1602,6 @@ $Foswiki::cfg{FormTypes} = [
 #############################################################################
 #---+ Tuning
 
-#---++ Browser Cache
-# Settings for the browser cache are for experts only.
-
-# **PERL EXPERT**
-# Disable or change the HTTP Cache-Control header. Foswiki defaults to
-# =Cache-Control: max-age=0= which recomends to the browser that it should
-# ask foswiki if the topic has changed. If you have a web that does not change
-# (like System), you can get the browser to use its cache by setting
-# ={'System' => ''}=.
-# You can also set =max-age=28800= (for 8 hours), or any other of the
-# =Cache-Control= directives.
-# 
-# Setting the CacheControl to '' also allows you to manage this from your web
-# server (which will not over-ride the setting provided by the application),
-# thus enabling web server based caching policies. When the user receives a
-# browser-cache topic, they can force a refresh using ctrl-r
-# 
-# This hash must be explicitly set per web or sub-web.
-$Foswiki::cfg{BrowserCacheControl} = {};
-
-#---++ HTTP Compression
-# Settings controlling compression of the generated HTML, for experts only.
-
-# **BOOLEAN EXPERT**
-# Enable gzip/deflate page compression. Modern browsers can uncompress content
-# encoded using gzip compression. You will save a lot of bandwidth by
-# compressing pages. This makes most sense when enabling page caching as well
-# as these are stored in compressed format by default when {HttpCompress} is
-# enabled. Note that only pages without any 'dirty areas' will be compressed.
-# Any other page will be transmitted uncompressed.
-$Foswiki::cfg{HttpCompress} = $FALSE;
-
-#---++ HTML Page Layout
-# Settings controlling the layout of the generated HTML, for experts only.
-
-# **BOOLEAN EXPERT**
-# {MergeHeadAndScriptZones} is provided to maintain compatibility with
-# legacy extensions that use =ADDTOHEAD= to add =script= markup and require
-# content that is now in the =script= zone.
-# 
-# Normally, dependencies between individual =ADDTOZONE= statements are
-# resolved within each zone. However, if {MergeHeadAndScriptZones} is
-# enabled, then =head= content which requires an =id= that only exists
-# in =script= (and vice-versa) will be re-ordered to satisfy any dependency.
-#
-# WARNING: {MergeHeadAndScriptZones} will be removed from a future version
-# of Foswiki.
-$Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
-
 #---++ Cache
 # Foswiki includes built-in support for caching HTML pages. This can
 # dramatically increase performance, especially if there are a lot more page
@@ -1756,6 +1707,55 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username} = '';
 # **PASSWORD 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Database user password. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
+
+#---++ Browser Cache
+# Settings for the browser cache are for experts only.
+
+# **PERL EXPERT**
+# Disable or change the HTTP Cache-Control header. Foswiki defaults to
+# =Cache-Control: max-age=0= which recomends to the browser that it should
+# ask foswiki if the topic has changed. If you have a web that does not change
+# (like System), you can get the browser to use its cache by setting
+# ={'System' => ''}=.
+# You can also set =max-age=28800= (for 8 hours), or any other of the
+# =Cache-Control= directives.
+# 
+# Setting the CacheControl to '' also allows you to manage this from your web
+# server (which will not over-ride the setting provided by the application),
+# thus enabling web server based caching policies. When the user receives a
+# browser-cache topic, they can force a refresh using ctrl-r
+# 
+# This hash must be explicitly set per web or sub-web.
+$Foswiki::cfg{BrowserCacheControl} = {};
+
+#---++ HTTP Compression
+# Settings controlling compression of the generated HTML, for experts only.
+
+# **BOOLEAN EXPERT**
+# Enable gzip/deflate page compression. Modern browsers can uncompress content
+# encoded using gzip compression. You will save a lot of bandwidth by
+# compressing pages. This makes most sense when enabling page caching as well
+# as these are stored in compressed format by default when {HttpCompress} is
+# enabled. Note that only pages without any 'dirty areas' will be compressed.
+# Any other page will be transmitted uncompressed.
+$Foswiki::cfg{HttpCompress} = $FALSE;
+
+#---++ HTML Page Layout
+# Settings controlling the layout of the generated HTML, for experts only.
+
+# **BOOLEAN EXPERT**
+# {MergeHeadAndScriptZones} is provided to maintain compatibility with
+# legacy extensions that use =ADDTOHEAD= to add =script= markup and require
+# content that is now in the =script= zone.
+# 
+# Normally, dependencies between individual =ADDTOZONE= statements are
+# resolved within each zone. However, if {MergeHeadAndScriptZones} is
+# enabled, then =head= content which requires an =id= that only exists
+# in =script= (and vice-versa) will be re-ordered to satisfy any dependency.
+#
+# WARNING: {MergeHeadAndScriptZones} will be removed from a future version
+# of Foswiki.
+$Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 
 #############################################################################
 #---+ Mail
@@ -2077,96 +2077,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 #---+ Miscellaneous
 # Miscellaneous expert options.
 
-# **STRING 20 CHECK='undefok' EXPERT**
-# The name of the host operating system. This is automatically calculated
-# in the code. You should only need to override if your Perl doesn't provide
-# the value of $^O or $Config::Config{'osname'} (an exceptional
-# situtation never yet encountered)
-# $Foswiki::cfg{DetailedOS} = '';
-
-# **STRING 20 CHECK='undefok' EXPERT**
-# One of UNIX WINDOWS VMS DOS MACINTOSH OS2
-# This is automatically calculated in the code based on the value of
-# {DetailedOS}. It is used to group OS's into generic groups based on their
-# behaviours - for example, 
-#
-# $Foswiki::cfg{OS} = '';
-
-# **NUMBER CHECK="min:-1 undefok" EXPERT**
-# Maximum number of backup versions of LocalSite.cfg to retain when changes
-# are saved.  Enables you to recover quickly from accidental changes.
-# 0 does not save any backup versions.  -1 does not limit the number of
-# versions retained. Caution: If the directory is not writable and this
-# parameter is non-zero, you will be unable to save the configuration.
-$Foswiki::cfg{MaxLSCBackups} = 10;
-
-# **STRING 20 EXPERT**
-# Name of the web where documentation and default preferences are held. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work (don't
-# change it unless you are certain that you know what you are doing!)
-$Foswiki::cfg{SystemWebName} = 'System';
-
-# **STRING 20 EXPERT**
-# Name of the web used as a trashcan (where deleted topics are moved)
-# If you change this setting, you must make sure the web exists.
-$Foswiki::cfg{TrashWebName} = 'Trash';
-
-# **STRING 20 EXPERT**
-# Name of the web used as a scratchpad or temporary workarea for users to
-# experiment with Foswiki topics.
-$Foswiki::cfg{SandboxWebName} = 'Sandbox';
-
-# **STRING 20 EXPERT**
-# Name of site-level preferences topic in the {SystemWebName} web.
-# *If you change this setting you will have to
-# use Foswiki and *manually* rename the existing topic.*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
-
-# **STRING 70 EXPERT**
-# Web.TopicName of the site-level local preferences topic. If this topic
-# exists, any settings in it will *override* settings in
-# {SitePrefsTopicName}.
-#
-# You are *strongly* recommended to keep all your local changes in
-# a {LocalSitePreferences} topic rather than changing DefaultPreferences,
-# as it will make upgrading a lot easier.
-$Foswiki::cfg{LocalSitePreferences} =
-  '$Foswiki::cfg{UsersWebName}.SitePreferences';
-
-# **STRING 20 EXPERT**
-# Name of main topic in a web.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{HomeTopicName} = 'WebHome';
-
-# **STRING 20 EXPERT**
-# Name of preferences topic in a web.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
-
-# **STRING 20 EXPERT**
-# Name of topic in each web that has notification registrations.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
-
-# **STRING 20 EXPERT**
-# Name of the web where user and group topics are stored. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content including all user and group templates.  Note that
-# this web also houses the SitePreferences topic.
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{UsersWebName} = 'Main';
-
+#---++ Rendering control
 # **STRING 70x10 NOSPELLCHECK EXPERT**
 # A comma-separated list of generic file name templates that defines the order
 # in which templates are assigned to skin path components.
@@ -2225,6 +2136,14 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # CompareRevisionsAddOn.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
+# **PATH CHECK='perms:Fr' EXPERT**
+# Pathname to file that maps file suffixes to MIME types :
+# For Apache server set this to Apache's mime.types file pathname,
+# for example /etc/httpd/mime.types, or use the default shipped in
+# the Foswiki data directory.
+$Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
+
+#---++ Leases and Locking
 # **NUMBER CHECK="min:0" EXPERT**
 # If this is set to a > 0 value, and the revision control system
 # supports it, then if a second edit of the same topic
@@ -2260,16 +2179,97 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-# **PATH CHECK='perms:Fr' EXPERT**
-# Pathname to file that maps file suffixes to MIME types :
-# For Apache server set this to Apache's mime.types file pathname,
-# for example /etc/httpd/mime.types, or use the default shipped in
-# the Foswiki data directory.
-$Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
+#---++ Operating System related
+# **STRING 20 CHECK='undefok' EXPERT**
+# The name of the host operating system. This is automatically calculated
+# in the code. You should only need to override if your Perl doesn't provide
+# the value of $^O or $Config::Config{'osname'} (an exceptional
+# situtation never yet encountered)
+# $Foswiki::cfg{DetailedOS} = '';
 
-# **BOOLEAN EXPERT**
-# Enable tracebacks in error messages.  Used for debugging.
-# $Foswiki::cfg{DebugTracebacks} = '';
+# **STRING 20 CHECK='undefok' EXPERT**
+# One of UNIX WINDOWS VMS DOS MACINTOSH OS2
+# This is automatically calculated in the code based on the value of
+# {DetailedOS}. It is used to group OS's into generic groups based on their
+# behaviours - for example, 
+#
+# $Foswiki::cfg{OS} = '';
+
+# **NUMBER CHECK="min:-1 undefok" EXPERT**
+# Maximum number of backup versions of LocalSite.cfg to retain when changes
+# are saved.  Enables you to recover quickly from accidental changes.
+# 0 does not save any backup versions.  -1 does not limit the number of
+# versions retained. Caution: If the directory is not writable and this
+# parameter is non-zero, you will be unable to save the configuration.
+$Foswiki::cfg{MaxLSCBackups} = 10;
+
+#---++ Web and topic names
+# **STRING 20 EXPERT**
+# Name of the web used as a scratchpad or temporary workarea for users to
+# experiment with Foswiki topics.
+$Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# **STRING 20 EXPERT**
+# Name of the web where documentation and default preferences are held. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content, and upgrade scripts may no longer work (don't
+# change it unless you are certain that you know what you are doing!)
+$Foswiki::cfg{SystemWebName} = 'System';
+
+# **STRING 20 EXPERT**
+# Name of the web used as a trashcan (where deleted topics are moved)
+# If you change this setting, you must make sure the web exists.
+$Foswiki::cfg{TrashWebName} = 'Trash';
+
+# **STRING 20 EXPERT**
+# Name of the web where user and group topics are stored. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content including all user and group templates.  Note that
+# this web also houses the SitePreferences topic.
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{UsersWebName} = 'Main';
+
+# **STRING 20 EXPERT**
+# Name of site-level preferences topic in the {SystemWebName} web.
+# *If you change this setting you will have to
+# use Foswiki and *manually* rename the existing topic.*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
+
+# **STRING 70 EXPERT**
+# Web.TopicName of the site-level local preferences topic. If this topic
+# exists, any settings in it will *override* settings in
+# {SitePrefsTopicName}.
+#
+# You are *strongly* recommended to keep all your local changes in
+# a {LocalSitePreferences} topic rather than changing DefaultPreferences,
+# as it will make upgrading a lot easier.
+$Foswiki::cfg{LocalSitePreferences} =
+  '$Foswiki::cfg{UsersWebName}.SitePreferences';
+
+# **STRING 20 EXPERT**
+# Name of preferences topic in a web.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
+
+# **STRING 20 EXPERT**
+# Name of main topic in a web.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{HomeTopicName} = 'WebHome';
+
+# **STRING 20 EXPERT**
+# Name of topic in each web that has notification registrations.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 #############################################################################
 #---+ Extensions
