@@ -593,9 +593,9 @@ function _id_ify(id) {
             $butt.attr("title", "If unchecked, " + spec.keys + " will be undefined. Check this box to give it a value.");
             $butt.click(function() {
                 if ( $(this).attr("checked") ) {
-                    $ui.show();
+                    $ui.removeAttr("disabled");
                 } else {
-                    $ui.hide();
+                    $ui.attr("disabled", "disabled");
                 }
                 update_modified_default( $node );
             }).show();
@@ -605,7 +605,7 @@ function _id_ify(id) {
                 return !$butt.attr("checked");
             };
             if (typeof(spec.current_value) == 'undefined' || spec.current_value === null) {
-                $ui.hide();
+                $ui.attr("disabled", "disabled");
             } else {
                 $butt.attr("checked", "checked");
             }

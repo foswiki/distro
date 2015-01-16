@@ -312,6 +312,14 @@ input[type=submit]:active {
   background: linear-gradient(top, #ededed 0%,#ffffff 50%);
 }
 
+select[disabled],
+button[disabled],
+input[disabled],
+textarea[disabled] {
+  color:#cfcfcf;
+  background-color: #fafafa;
+}
+
 fieldset {
   padding:0em 0.5em 0.5em;
   border:1px #ccc solid;
