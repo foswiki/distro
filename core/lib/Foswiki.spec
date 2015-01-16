@@ -1768,28 +1768,31 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 #---++ Basic Setup
 # Basic settings controlling if and how Foswiki handles email including the
 # identity of the sender.
-
-# Before you run auto-configuration, you must have provided a minimum of
-# information in the below settings. At least your {SMTP}{MAILHOST} is required
-# if you are using SMTP.
-#
+# <br/><br/>
+# <ul><li>If your server is already able to send email, with a local agent like =sendmail=
+# or =ssmtp=, <br/>you can fill in ={WebMasterEmail}= and click the Auto-configure button.
+# It might just work.</li>
+# <li>If you want to send email directly from perl, you must provide
+# an ={SMTP}{MAILHOST}=. <br/>If your mail server requires authentication, you must also
+# supply ={SMTP}{Username}= and ={SMTP}{Password}= </li></ul>
+# <br/>
 # Auto-configure Email may change configuration settings (it will tell you
 # what it changed.) These settings will only be made permanent when you save
 # the configuration.
 
-# **EMAILADDRESS 30 FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
-# After Auto-configure finishes, press this button to send a test message.
+# **EMAILADDRESS 30**
 # Wiki administrator's e-mail address. For example =webmaster@example.com=
-# Must be a single valid email address.
+# Must be a single valid email address.  This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
 $Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30**
 # Wiki administrator's name address.
 # For use in mails (first name and last name, for example =Fred Smith=).
+#  This value is displayed using the =<nop>%WIKIWEBMASTERNAME%= macro.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **STRING 30 **
-# SMTP mail host for outgoing mail, if Net::SMTP is being used.
+# Optional mail host for outgoing mail, required if Net::SMTP is being used.
 # Examples: =mail.your.company= If the smtp server uses a different port
 # than the default 25, use the syntax =mail.your.company:portnumber=,
 # or omit it to allow autoconfiguration to attempt to discover it for you.
@@ -1803,21 +1806,26 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # auto-configuration.
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
-# **STRING 30**
+# **STRING 30 DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
 # Username for SMTP. Only required if your mail server requires authentication.
 # If this is left blank, Foswiki will not attempt to authenticate the mail
 # sender.
 $Foswiki::cfg{SMTP}{Username} = '';
 
-# **PASSWORD 30**
+# **PASSWORD 30 DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
-# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" **
+# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'" DISPLAY_IF="{WebMasterEmail}!=''"**
 # Enable email globally.  Un-check this option to disable all outgoing
-# email from Foswiki.
-$Foswiki::cfg{EnableEmail} = $FALSE;
+# email from Foswiki. If this option is enabled, email must be functional
+# for registration to be functional.
+#
+#
+# If you press the Auto-configure button, email will be automatically enabled if
+# autoconfiguration works. After Auto-configure finishes, press the "Send Test Email" button to send a test message.
 
+$Foswiki::cfg{EnableEmail} = $FALSE;
 
 #
 #---++ Signed Email (S/MIME)
