@@ -524,7 +524,7 @@ function _id_ify(id) {
             $button.click(function() {
                 if (fb.auth == 1) {
                     auth_action = function() {
-                        call_wizard($node, fb, $button);
+                        call_wizard($node, fb, $node);
                     };
                     $('#auth_note').html(spec.title);
                     $('#auth_prompt').dialog(
@@ -532,7 +532,7 @@ function _id_ify(id) {
                         fb.label + ' requires authentication');
                     $('#auth_prompt').dialog("open");
                 } else {
-                    call_wizard($node, fb, $button);
+                    call_wizard($node, fb, $node);
                 }
             }).button();
             $node.append($button);

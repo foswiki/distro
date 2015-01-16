@@ -56,10 +56,9 @@ a {
     display:inline-block;
     width:16px;
     height:16px;
-    margin-left: 0.5em;
     background-image:url(loader-bars.gif);
     background-repeat:no-repeat;
-    background-position:bottom left;
+    background-position:0 0;
 }
 
 .ajax_whirly {
@@ -68,17 +67,17 @@ a {
     bottom:-2em;
     right:1em;
 }
-.ui-button .whirly {
-  display:none; /* that's too much whirlery */
-}
 
 .node {
   position:relative;
 }
 .node > .whirly {
   position:absolute;
-  top: 0.5em;
-  left:0.5em;
+  top:2px;
+  left:0;
+}
+.node.value_modified > .whirly {
+  left:2px;
 }
 
 
@@ -92,7 +91,7 @@ a {
     margin:1em 0;
     border-top:1px solid #ddd;
 }
-.node .node:first {
+.node .node:first-child {
   border-top:0;
 }
 .ui-tabs-panel > .node {
@@ -102,6 +101,7 @@ a {
 .node .keys {
   min-width:10em;
   margin-left:-10em;
+  margin-right:0.5em;
   display:inline-block;
 }
 .node .description {
@@ -112,7 +112,12 @@ a {
   background:transparent;
   border:0;
 }
-.node .node input,
+.header label {
+  margin-right:0;
+}
+.node .node input {
+  margin:0.5em 0;
+}
 .node .node button,
 .node .node .description,
 .node .node .reports {
@@ -121,6 +126,9 @@ a {
 .node .reports, 
 .node .description {
   color:#444;
+}
+.node > .reports:first-child {
+  margin:0 !important;
 }
 .node strong,
 .node b {
@@ -213,6 +221,13 @@ p.one_line_report {
   color:#b22222;
 }
 
+.reports > .warnings:first-child,
+.reports > .errors:first-child ,
+.message_block > .warnings:first-child,
+.message_block > .errors:first-child {
+  margin-top:0;
+}
+
 .message_block > .changes {
   background-color:#DEEBFA;
   color:#005884;
@@ -246,18 +261,6 @@ p.one_line_report {
     float:right;
 }
 
-/* Shown if value has been modified in this session */
-/*
-.undo_button {
-    width: 20px !important;
-    height: 20px !important;
-}
-
-.undo-icon {
-    background-image: url("undo-modified-icon.png") !important;
-}
-*/
-
 /* Button shown if value differs from default */
 .control_button {
     width: 20px !important;
@@ -269,11 +272,20 @@ p.one_line_report {
     background-image: url("info-icon.png") !important;
 }
 
-div.expert {
+div.expert:after {
+    content: ' ';
+    display:block;
+    width:53px;
+    height:16px;
+    position:absolute;
+    top:0.5em;
+    right:0;
     background-image: url(expert.png);
-    padding-right: 60px !important;
-    background-position: 99% 0.5em;
+    background-position: 0 0;
     background-repeat: no-repeat;
+}
+div.value_modified.expert:after {
+  right:0.5em;
 }
 
 /* Hidden because it's *always* hidden */
@@ -336,6 +348,7 @@ table.tml {
 
 .ui-tabs .ui-tabs-panel {
   border-width:0;
+  padding:0;
   background:transparent;
 }
 .ui-tabs-vertical {
@@ -351,7 +364,7 @@ table.tml {
 }
 .ui-tabs-vertical > .ui-tabs-panel { 
   border-width:0 0 0 1px;
-  padding: 1em 0 0 1em;
+  padding: 0 0 0 1em;
   float:right;
   width:100%;
   min-height:50em;
