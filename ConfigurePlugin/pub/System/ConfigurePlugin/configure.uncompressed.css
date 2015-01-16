@@ -114,6 +114,7 @@ a {
 .header label {
   margin-right:0;
 }
+.node .node select,
 .node .node textarea,
 .node .node input,
 .node .node button,
