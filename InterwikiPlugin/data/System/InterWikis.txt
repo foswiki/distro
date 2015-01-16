@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420039754" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421440701" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InterwikiPlugin"}%
 ---+ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
@@ -10,7 +10,7 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
 
 ---+++ How to define Inter-Wiki Links
 
-Inter-wike links are defined in the tables below.  %INCLUDE{"%SYSTEMWEB%.InterwikiPlugin" section="aliasformat"}%
+Inter-wiki links are defined in the tables below.  %INCLUDE{"%SYSTEMWEB%.InterwikiPlugin" section="aliasformat"}%
 
 The optional INTERLINKFORMAT override can incorporate the following tokens
 which are expanded when the link is generated:%INCLUDE{"%SYSTEMWEB%.InterwikiPlugin" section="formattokens"}%
