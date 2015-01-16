@@ -327,8 +327,9 @@ will be intact)
 sub getRawValue {
     my ($this) = @_;
 
-    my $val = eval "\$Foswiki::cfg$this->{keys}";
-    ASSERT( !$@, $@ ) if DEBUG;
+    my $val;
+    eval "\$val = \"\$Foswiki::cfg$this->{keys}\"";
+
     return $val;
 }
 

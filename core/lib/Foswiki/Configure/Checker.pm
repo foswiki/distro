@@ -386,9 +386,6 @@ sub checkExpandedValue {
 
     #print STDERR "field=$field, raw=$raw\n";
 
-# SMELL: the following test is false always. Why is $raw being expanded even though it shoud not
-# e.g. for "$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}" $raw is "/bin/view" ...
-
     if ( $field ne $raw ) {
         if ( $field =~ /\n/ ) {
             $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
