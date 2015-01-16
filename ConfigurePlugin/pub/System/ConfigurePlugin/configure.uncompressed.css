@@ -364,10 +364,9 @@ table.tml {
 .ui-tabs-vertical > .ui-tabs-panel { 
   border-width:0 0 0 1px;
   padding: 0 0 0 1em;
-  float:right;
-  width:100%;
   min-height:50em;
-  margin-left:20em;
+  float:left;
+  width:100%;
 }
 .ui-tabs-vertical > .ui-tabs-nav > li { 
   width: 100%; 
@@ -385,7 +384,7 @@ table.tml {
   float:none;
 }
 .ui-tabs-vertical > .ui-tabs-nav > li > a:before {
-  background:initial;
+  background:transparent;
 }
 .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active { 
   background:#aaa;
