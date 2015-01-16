@@ -1,4 +1,5 @@
 *.gz
+*.jslint
 /ConfigurePlugin.md5
 /ConfigurePlugin.sha1
 /ConfigurePlugin.tgz

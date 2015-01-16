@@ -925,10 +925,11 @@ function _id_ify(id) {
     }
 
     function search(term) {
-      var $node = $('.searchResults'), $list;
+      var $node = $('.searchResults'), $list, $title;
 
       $list = $node.find('ol').empty();
-      $node.find('.searchTitle').text("Searching for '" + term + "'");
+      $node.find(".errors").remove();
+      $title = $node.find('.searchTitle').text("Searching for '" + term + "'");
       $node.show();
 
       RPC('search',
@@ -937,13 +938,20 @@ function _id_ify(id) {
         },
         function(response) {
           var i, hit, l = response.length;
-          for (i = 0; i < l; i++) {
-            hit = response[i].join(' > ');
-            hit = hit.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
-            $list.append('<li>' + hit + '</li>');
+          if (l) {
+            for (i = 0; i < l; i++) {
+              hit = response[i].join(' > ');
+              hit = hit.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
+              $list.append('<li>' + hit + '</li>');
+            }
+          } else {
+            $("<div class='errors'>nothing found</div>").insertAfter($list);
+            window.setTimeout(function() {
+              $('.searchResults').slideUp();
+            }, 1000);
           }
         },
-        $(this));
+        $title);
     }
 
     /*

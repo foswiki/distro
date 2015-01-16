@@ -188,6 +188,7 @@ p.one_line_report {
     margin: 0;
 }
 
+.searchResults > .errors,
 .reports > .warnings,
 .reports > .errors,
 .message_block > .warnings,
@@ -212,6 +213,7 @@ p.one_line_report {
   color:#c09853;
 }
 
+.searchResults > .errors,
 .reports > .errors,
 .message_block > .errors {
   background-image: url(errorsIcon.png);
