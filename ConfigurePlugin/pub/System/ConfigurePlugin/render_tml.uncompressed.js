@@ -158,9 +158,7 @@ var TML = {
 
             m = /^---(\++) (.*)$/.exec(line);
             if (m) {
-                lines[i] = '<h' + m[1].length + '>'
-                    + m[2]
-                    + '</h' + m[1].length + '>';
+                lines[i] = '<h' + m[1].length + '>' + m[2] + '</h' + m[1].length + '>';
             }
         }
 
@@ -184,16 +182,12 @@ var TML = {
     // Render a set of reports, each being a hash of
     // { level: text: }
     render_reports : function(reports) {
-        var i;
-        var curClass;
-        var html = '';
-        var pending = '';
+        var i, curClass, html = '', pending = '';
+
         for (i = 0; i < reports.length; i++) {
             if (reports[i].level !== curClass) {
                 if (pending.length > 0) {
-                    html += '<div class="' + curClass + '">'
-                        + TML.render(pending)
-                        + '</div>';
+                    html += '<div class="' + curClass + '">' + TML.render(pending) + '</div>';
                     pending = '';
                 }
                 curClass = reports[i].level;
@@ -201,9 +195,7 @@ var TML = {
             pending += reports[i].text + "\n";
         }
         if (pending.length > 0) {
-            html += '<div class="' + curClass + '">'
-                + TML.render(pending)
-                + '</div>';
+            html += '<div class="' + curClass + '">' + TML.render(pending) + '</div>';
         }
         return html;
     }

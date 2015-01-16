@@ -98,12 +98,13 @@ var Types = {};
           if (typeof(change_handler) !== "undefined") {
               this.$ui.change(change_handler);
           }
-          if (typeof(this.spec.current_value) == 'undefined')
+          if (typeof(this.spec.current_value) == 'undefined') {
               this.spec.current_value = 0;
-          else if (this.spec.current_value == '0')
+          } else if (this.spec.current_value == '0') {
               this.spec.current_value = 0;
-          else if (this.spec.current_value == '1')
+          } else if (this.spec.current_value == '1') {
               this.spec.current_value = 1;
+          }
 
           if (this.spec.current_value !== 0) {
               this.$ui.attr('checked', true);
@@ -131,12 +132,13 @@ var Types = {};
       },
 
       useVal: function(val) {
-          if (typeof(val) == 'undefined')
+          if (typeof(val) == 'undefined') {
               val = false;
-          else if (val  == '0')
+          } else if (val  == '0') {
               val = false;
-          else if ( val == '1')
+          } else if ( val == '1') {
               val = true;
+          }
           this.$ui.attr('checked', val );
       }
   });
@@ -169,8 +171,9 @@ var Types = {};
   Types.OCTAL = Types.BaseType.extend({
       // UI thinks in octal; everyone else in decimal
       useVal: function(val) {
-          if (typeof(val) === 'string')
-              val = parseInt(val);
+          if (typeof(val) === 'string') {
+              val = parseInt(val, 10);
+          }
           this.$ui.val(val.toString(8));
       },
 
@@ -232,7 +235,7 @@ var Types = {};
       },
 
       createUI: function(change_handler) {
-          var size = 1, m, sel, i, opt, options;
+          var size = 1, m, sel, i, opt, options, $option;
 
           if (this.spec.SIZE && (m = this.spec.SIZE.match(/\b(\d+)\b/))) {
               size = m[0];
@@ -252,7 +255,7 @@ var Types = {};
               sel = this._getSel(this.spec.current_value, this.spec.MULTIPLE);
               for (i = 0; i < this.spec.select_from.length; i++) {
                   opt = this.spec.select_from[i];
-                  var $option = $('<option>' + opt + '</option>');
+                  $option = $('<option>' + opt + '</option>');
                   if (sel[opt]) {
                       $option.attr('selected', 'selected');
                   }

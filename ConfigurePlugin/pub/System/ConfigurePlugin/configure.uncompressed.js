@@ -20,6 +20,10 @@ As per the GPL, removal of this notice is prohibited.
 User interface for Foswiki configuration. Uses the JsonRpc interface
 to interact with Foswiki.
 */
+
+/*jslint debug:true */
+/*global TML:false*/
+
 var json_rpc_url = "jsonrpc",
     jsonRpc_reqnum = 0,
     $FALSE = 0, // (May be) required for eval()ing values from FW
@@ -88,12 +92,14 @@ function _id_ify(id) {
     }
 
     function update_save_button() {
-        var count = $('.value_modified').length;
-        var mess = (count == 1) ? "1 change"
+        var count = $('.value_modified').length,
+            mess = (count == 1) ? "1 change"
             : (count > 0) ? count + " changes" : '';
+
         $('#saveButton').button('option', 'label', 'Save ' + mess);
-        if ( $('#bootstrap_warning').length > 0 )
+        if ( $('#bootstrap_warning').length > 0 ) {
             count++;
+        }
         $('#saveButton').button(count > 0 ? 'enable' : 'disable');
         
     }
@@ -227,8 +233,7 @@ function _id_ify(id) {
                         function() {
                             var s = (count == 1) ?
                                 level.substr(0, level.length - 1) : level;
-                            $whine = $('<div>' + path + ' > ' + r.keys
-                                       + ' has ' + count + ' ' + s + '</div>');
+                            $whine = $('<div>' + path + ' > ' + r.keys + ' has ' + count + ' ' + s + '</div>');
                             $whine.addClass(level);
                             $whine.addClass(id + '_report');
                             $(this).append($whine);
@@ -246,10 +251,11 @@ function _id_ify(id) {
         $('body').css('cursor','wait');
 
         $.each(results, function (index, r) {
+            var $div, id, has, $reports, $whine;
 
             if (!r.keys) {
                 // Report generic problems
-                var $div = $('<div id="report_dialog"></div>');
+                $div = $('<div id="report_dialog"></div>');
                 $div.html(TML.render_reports(r.reports));
                 $div.dialog({
                     modal: true,
@@ -265,10 +271,9 @@ function _id_ify(id) {
                 });
                 return;
             }
-            var id = _id_ify(r.keys),
-                has, $reports, $whine;
 
             // Remove all existing reports related to these keys
+            id = _id_ify(r.keys);
             $('.' + id + '_report').remove();
             $('.errors' + id).each(function() {
                 forget_checker_reports($(this), 'errors', id);
@@ -343,22 +348,23 @@ function _id_ify(id) {
 
     // Create a popup with reports, and apply changes
     function wizard_reports($node, results) {
+        var $div = $('<div class="message_block"></div>'),
+            $dlg;
+
         $('body').css('cursor','wait');
+
         // Generate reports
-        var $div = $('<div class="message_block"></div>');
         $div.html(TML.render_reports(results.messages));
         if (results.changes) {
             $.each(results.changes, function(key, value) {
-                $div.append('<div class="changes">'
-                            + key + ' = ' + value
-                            + '</div>');
+                $div.append('<div class="changes">' + key + ' = ' + value + '</div>');
             });
         }
+
         // Enable any carry-on buttons we find
         $div.find('.wizard_button').each(function() {
-            var data = $(this).data('wizard');
+            var data = $(this).data('wizard'), o, params;
             $(this).button().click(function() {
-                var o;
                 if (data.form) {
                     o = $.extend({}, data.args);
                     // Get wizard arguments from an optional form
@@ -372,9 +378,10 @@ function _id_ify(id) {
                             o[this.name] = this.value || '';
                         }
                     });
-                } else
+                } else {
                     o = data.args;
-                var params = {
+                }
+                params = {
                     wizard: data.wizard,
                     method: data.method,
                     args: o,
@@ -390,11 +397,13 @@ function _id_ify(id) {
                     $(this));
             });
         });
+
         // Reflect changed values back to the input elements and
         // run the checker on them
         $.each(results.changes, function(keys, value) {
             // Get the input for the keys, if it's there
-            var spotted = false;
+            var spotted = false, pendid, $pending, handler;
+
             $('#' + _id_ify(keys))
                 .closest('.node')
                 .each(function() {
@@ -408,14 +417,14 @@ function _id_ify(id) {
                 });
             if (!spotted) {
                 // It's not loaded yet, so record it for when it is
-                var pendid = 'pending' + _id_ify(keys);
-                var $pending = $('#' + pendid);
+                pendid = 'pending' + _id_ify(keys);
+                $pending = $('#' + pendid);
+
                 if ($pending.length === 0) {
-                    $pending = $('<div class="hidden_pending value_modified" id="'
-                                 + pendid + '"></div>');
+                    $pending = $('<div class="hidden_pending value_modified" id="' + pendid + '"></div>');
                     $('#root').append($pending);
                 }
-                var handler = {
+                handler = {
                     spec: { keys: keys },
                     currentValue: function() {
                         return value;
@@ -430,7 +439,8 @@ function _id_ify(id) {
                 update_save_button();
             }
         });
-        var $dlg = $('<div id="report_dialog"></div>');
+
+        $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
         $dlg.dialog({
             title: "Validation",
@@ -546,7 +556,7 @@ function _id_ify(id) {
     function load_ui($node) {
         var spec = $node.data('spec.entry'),
             handler_class = spec.typename, // Create the handler
-            handler, $ui, id, $butt, $button;
+            handler, $ui, id, $butt, $button, pendid, $pending;
 
         if (typeof(window.Types[handler_class]) !== "function") {
             handler_class = "BaseType";
@@ -562,14 +572,14 @@ function _id_ify(id) {
         $node.find(".ui-placeholder").replaceWith($ui);
 
         // Check for a pending value change from a wizard
-        var pendid = 'pending' + _id_ify(spec.keys);
-        var $pending = $('#' + pendid);
+        pendid = 'pending' + _id_ify(spec.keys);
+        $pending = $('#' + pendid);
         if ($pending.length) {
             handler.useVal($pending.data('value_handler').currentValue());
             $pending.remove();
         }
 
-        if (spec.CHECK['undefok'] === 1) {
+        if (spec.CHECK.undefok === 1) {
             // If undefined is OK, then we add a checkbox that
             // needs to be clicked to see the value input.
             // if it isn't checked, the value is undefined; if it
@@ -641,8 +651,9 @@ function _id_ify(id) {
     function load_tab(spec, $panel) {
         var $tab;
 
-        if ($panel.hasClass('spec_loaded'))
+        if ($panel.hasClass('spec_loaded')) {
             return;
+        }
 
         $tab = $('#TAB' + _id_ify(spec.headline));
 
@@ -677,8 +688,9 @@ function _id_ify(id) {
                 $report.attr('id', 'REP' + _id_ify(spec.headline));
                 $node.append($report);
 
-                if (spec.desc)
+                if (spec.desc) {
                     add_desc(spec, $node);
+                }
 
                 load_section_specs(response, $node); /*SMELL load_section_specs is not defined yet */
 
@@ -751,31 +763,30 @@ function _id_ify(id) {
 
     // Add a description, splitting into summary and body if appropriate.
     function add_desc(entry, $node) {
-        var m = /^((?:.|\n)*?\.)\s+((?:.|\n)+)$/.exec(entry.desc);
+        var m = /^((?:.|\n)*?\.)\s+((?:.|\n)+)$/.exec(entry.desc),
+            $description, $more, $infob;
+
         if (m) {
-            var $description = $('<div class="description">'
-                             + TML.render(m[1])
-                             + '&nbsp;</div>');
+            $description = $('<div class="description">' + TML.render(m[1]) + '&nbsp;</div>');
             $node.append($description);
-            var $more = $('<span class="closed">'
-                          + TML.render(m[2])
-                          + '</span>');
-            var $infob = $('<a class="more">... more</a>');
+            $more = $('<span class="closed">' + TML.render(m[2]) + '</span>');
+            $infob = $('<a class="more">... more</a>');
+
             $infob.click(function() {
                 if ($more.is(":visible")) {
-                    $more.hide()
+                    $more.hide();
                     $infob.text("... more");
                 } else {
                     $more.show();
                     $infob.text("... less");
                 }
             });
+
             $description.append($more);
             $description.append($infob);
+
         } else {
-            $node.append('<div class="description">'
-                         + TML.render(entry.desc)
-                         + '</div>');
+            $node.append('<div class="description">' + TML.render(entry.desc) + '</div>');
         }
         $node.append();
     }
@@ -799,8 +810,9 @@ function _id_ify(id) {
                 $node.data('spec.entry', entry);
                 if (entry.EXPERT && entry.EXPERT == 1) {
                     $node.addClass('expert');
-                    if ($('#showExpert').attr('checked') !== 'checked')
+                    if ($('#showExpert').attr('checked') !== 'checked') {
                         $node.addClass('hidden_expert');
+                    }
                 }
                 label = entry.LABEL;
                 if (typeof(entry.DISPLAY_IF) !== "undefined") {
@@ -838,9 +850,8 @@ function _id_ify(id) {
                     // using the {} syntax throughout the doc.
                     // Still it is noise looking ugly.
                     label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
-                    $node.append('<b class="keys">'
-                                 + label
-                                 + "</b><span class='ui-placeholder'></span>");
+                    $node.append('<b class="keys">' + label + "</b><span class='ui-placeholder'></span>");
+
                 } else if (entry.headline !== null) {
                     // unkeyed type e.g. BUTTON
                     id = _id_ify(entry.headline);
@@ -849,8 +860,9 @@ function _id_ify(id) {
                 $report = $('<div class="reports"></div>');
                 $report.attr('id', 'REP' + id);
                 $node.append($report);
-                if (entry.desc)
+                if (entry.desc) {
                     add_desc(entry, $node);
+                }
                 $section.append($node);
             }
         });
@@ -859,18 +871,19 @@ function _id_ify(id) {
         $.each(entries, function(index, entry) {
             if (entry.typename == "SECTION" && !created[entry.headline]) {
                 created[entry.headline] = true;
-                var $li = $('<li><a href="'
+                var $li = $('<li><a href="' +
                             // This URL could be anything; we're going to
                             // cancel it in the beforeLoad, below.
-                            + json_rpc_url
-                            + '"><span class="tab" id="'
-                            + 'TAB' + _id_ify(entry.headline) + '">'
-                            + entry.headline
-                            + '</span></a></li>');
+                            json_rpc_url +
+                            '"><span class="tab" id="' +
+                            'TAB' + _id_ify(entry.headline) + '">' +
+                            entry.headline +
+                            '</span></a></li>');
                 if (entry.EXPERT && entry.EXPERT == 1) {
                     $li.addClass('expert');
-                    if ($('#showExpert').attr('checked') !== 'checked')
+                    if ($('#showExpert').attr('checked') !== 'checked') {
                         $li.addClass('hidden_expert');
+                    }
                 }
                 $li.data('spec.entry', entry);
                 if ($children === null) {
@@ -987,8 +1000,9 @@ function _id_ify(id) {
                 },
                 text: false
             }).click(function() {
-                var search = $('#searchInput').val();
-                var $node = $('#searchResults');
+                var search = $('#searchInput').val(), 
+                    $node = $('#searchResults');
+
                 $node.find('.path').remove();
                 $node.prepend('<div>Search for: ' + search + '</div>');
                 $('#searchResults').show();
@@ -998,11 +1012,10 @@ function _id_ify(id) {
                         search: search
                     },
                     function(response) {
-                        for (var i = 0; i < response.length; i++) {
-                            var path = response[i];
-                            $node.append('<div class="path">'
-                                         + path.join(' > ')
-                                         + '</div>');
+                        var i, path;
+                        for (i = 0; i < response.length; i++) {
+                            path = response[i];
+                            $node.append('<div class="path">' + path.join(' > ') + '</div>');
                         }
                     },
                    $(this));
@@ -1111,8 +1124,7 @@ function _id_ify(id) {
                 var handler = $(this).data('value_handler');
                 changed += '   ' + handler.spec.keys + '\n';
             });
-            return 'You have unsaved changes:\n'
-                + changed +  'Are you really sure?\n'
+            return 'You have unsaved changes:\n' + changed +  'Are you really sure?\n';
         }
     });
 })(jQuery);
