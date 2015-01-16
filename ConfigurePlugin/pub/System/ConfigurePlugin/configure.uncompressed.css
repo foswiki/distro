@@ -397,3 +397,7 @@ table.tml {
 .ui-tabs-vertical > .ui-tabs-panel >  .node > .reports {
   display:none; /* SMELL: hide the first zing as it is redundant anyway ... better prevent it from rendereing in the first place ... if only I knew how */
 }
+
+.searchResults {
+  margin-bottom:2em;  
+}

@@ -37,9 +37,6 @@ configure.js script.
       <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> 
       <button id="saveButton">Save</button>
     </div>
-    <div id="searchResults">
-     <button id="closeSearchButton">Close</button>
-    </div>
     <div id="bootstrap_warning" class="foswikiAlert">
       <strong>Warning</strong> Foswiki is running in 'bootstrap' mode, which means
       that there is no existing configuration (LocalSite.cfg is missing or is
@@ -48,6 +45,11 @@ configure.js script.
       an admin (see 'Security and Authentication'), or you might lock yourself out
       from this interface.
     </div>
+  </div>
+  <div class="searchResults" style="display:none">
+   <h3 class="searchTitle"></h3>
+   <ol></ol>
+   <button id="closeSearchButton">Close</button>
   </div>
   <div id="root" class="main">
   </div>

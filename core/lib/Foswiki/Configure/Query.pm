@@ -173,8 +173,11 @@ sub search {
       unless defined $params->{search}
       && $params->{search} =~ /\S/;
 
+    my $re =
+      join( ".*", map { quotemeta($_) } split( /\s+/, $params->{search} ) );
+
     my %found;
-    foreach my $find ( $root->search( $params->{search} ) ) {
+    foreach my $find ( $root->search($re) ) {
         my @path = $find->getPath();
         $found{ join( '>', @path ) } = \@path;
     }

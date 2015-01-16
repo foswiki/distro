@@ -452,7 +452,7 @@ sub CHECK_option {
 # Implements Foswiki::Configure::item
 sub search {
     my ( $this, $re ) = @_;
-    if ( $this->{keys} =~ /$re/ ) {
+    if ( $this->{keys} =~ /$re/i ) {
         return ($this);
     }
     return ();

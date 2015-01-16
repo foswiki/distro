@@ -924,6 +924,28 @@ function _id_ify(id) {
         });
     }
 
+    function search(term) {
+      var $node = $('.searchResults'), $list;
+
+      $list = $node.find('ol').empty();
+      $node.find('.searchTitle').text("Searching for '" + term + "'");
+      $node.show();
+
+      RPC('search',
+        'Search: ' + term, {
+          search: term
+        },
+        function(response) {
+          var i, hit, l = response.length;
+          for (i = 0; i < l; i++) {
+            hit = response[i].join(' > ');
+            hit = hit.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
+            $list.append('<li>' + hit + '</li>');
+          }
+        },
+        $(this));
+    }
+
     /*
       Main Program (I suppose you can call it that)
     */
@@ -990,36 +1012,22 @@ function _id_ify(id) {
 */
 
         $('#closeSearchButton').button().click(function() {
-            $('#searchResults').hide();
+            $('.searchResults').hide();
         });
-        $('#searchResults').hide();
-        $('#searchButton').button(
-            {
-                icons: {
-                    primary: "ui-icon-search"
-                },
-                text: false
-            }).click(function() {
-                var search = $('#searchInput').val(), 
-                    $node = $('#searchResults');
 
-                $node.find('.path').remove();
-                $node.prepend('<div>Search for: ' + search + '</div>');
-                $('#searchResults').show();
-                RPC('search',
-                    'Search: ' + search,
-                    {
-                        search: search
-                    },
-                    function(response) {
-                        var i, path;
-                        for (i = 0; i < response.length; i++) {
-                            path = response[i];
-                            $node.append('<div class="path">' + path.join(' > ') + '</div>');
-                        }
-                    },
-                   $(this));
-            });
+        $('#searchButton').button({
+          icons: {
+            primary: "ui-icon-search"
+          },
+          text: false
+        }).click(function() {
+          search($("#searchInput").val());
+        });
+        $("#searchInput").keypress(function(ev) {
+          if (ev.which == 13) {
+            search($(this).val());
+          }
+        });
 
         $('#showExpert').button({disabled: true});
 

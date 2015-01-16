@@ -201,7 +201,7 @@ sub search {
     my ( $this, $re ) = @_;
 
     my @result = ();
-    push( @result, $this ) if $this->{headline} =~ /$re/;
+    push( @result, $this ) if $this->{headline} =~ /$re/i;
     foreach my $child ( @{ $this->{children} } ) {
         push( @result, $child->search($re) );
     }
