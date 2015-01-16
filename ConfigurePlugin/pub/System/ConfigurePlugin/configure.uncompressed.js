@@ -930,7 +930,7 @@ function _id_ify(id) {
       $list = $node.find('ol').empty();
       $node.find(".errors").remove();
       $title = $node.find('.searchTitle').text("Searching for '" + term + "'");
-      $node.show();
+      $node.slideDown();
 
       RPC('search',
         'Search: ' + term, {
@@ -1020,7 +1020,7 @@ function _id_ify(id) {
 */
 
         $('#closeSearchButton').button().click(function() {
-            $('.searchResults').hide();
+            $('.searchResults').slideUp();
         });
 
         $('#searchButton').button({
