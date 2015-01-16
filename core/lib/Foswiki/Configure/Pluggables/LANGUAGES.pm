@@ -66,12 +66,12 @@ sub construct {
 
         my $value = Foswiki::Configure::Value->new(
             'BOOLEAN',
+            LABEL      => $label,
             keys       => '{Languages}{' . $keys . '}{Enabled}',
-            desc       => "Enable $label",
             default    => 0,
             CHECKER    => 'LANGUAGE',
             DISPLAY_IF => "{UserInterfaceInternationalisation}",
-            opts       => 'CHECK="undefok emptyok"',
+            opts       => 'CHECK="emptyok"',
 
         );
         $langs{$label} = $value;

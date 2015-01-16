@@ -814,7 +814,6 @@ function _id_ify(id) {
                         $node.addClass('hidden_expert');
                     }
                 }
-                label = entry.LABEL;
                 if (typeof(entry.DISPLAY_IF) !== "undefined") {
                     on_ready.push(
                         add_dependency(
@@ -843,14 +842,12 @@ function _id_ify(id) {
                 if (typeof(entry.keys) !== "undefined") {
                     id = _id_ify(entry.keys);
                     $node.addClass("keyed");
-                    if (!label) {
-                        label = entry.keys;
+                    if (entry.LABEL) {
+                      label = '<b>'+entry.LABEL + ':</b><div class="keys">'+entry.keys+'</div>';
+                    } else {
+                      label = '<b>'+entry.keys + ':</b>';
                     }
-                    // Don't do this; configuration items are referred to
-                    // using the {} syntax throughout the doc.
-                    // Still it is noise looking ugly.
-                    label = label.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
-                    $node.append('<b class="keys">' + label + "</b><span class='ui-placeholder'></span>");
+                    $node.append('<div class="label">'+label+'</div><div class="ui-elem clearfix"><span class="ui-placeholder"></span></div>');
 
                 } else if (entry.headline !== null) {
                     // unkeyed type e.g. BUTTON
@@ -862,6 +859,9 @@ function _id_ify(id) {
                 $node.append($report);
                 if (entry.desc) {
                     add_desc(entry, $node);
+                }
+                if (entry.LABEL) {
+                  //$node.append('<div class="keys">Key: <code>'+entry.keys+'</code></div>');
                 }
                 $section.append($node);
             }
@@ -941,7 +941,6 @@ function _id_ify(id) {
           if (l) {
             for (i = 0; i < l; i++) {
               hit = response[i].join(' > ');
-              hit = hit.replace(/\}\{/g, "::").replace(/\{|\}/g, "");
               $list.append('<li>' + hit + '</li>');
             }
           } else {

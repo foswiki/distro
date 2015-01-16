@@ -96,7 +96,7 @@ a {
   padding-left:1em;
 }
 .node .node {
-    padding:0.5em 0 0.5em 10em;
+    padding:0.5em 0 0.5em 15em;
     margin:1em 0;
     border-top:1px solid #ddd;
 }
@@ -107,13 +107,22 @@ a {
   padding-left:0;
   border-top:0;
 }
-.node .keys {
-  min-width:10em;
-  margin-left:-10em;
+.node .label {
+  width:15em;
+  margin-left:-15em;
+  margin-top:3px;
   display:inline-block;
 }
+.node .keys {
+  color:#888;
+}
+.node .ui-elem {
+  margin:0 0 0.5em;
+  display:inline-block;
+  vertical-align:top;
+  width:99%;
+}
 .node .description {
-  padding:0 0 0.5em;
   margin:0 0 1em;
 }
 .node .control_button {
@@ -160,7 +169,7 @@ a {
   background: linear-gradient(to bottom, #ffffff 0%,#f4f4f4 100%); /* W3C */
 }
 .node.value_modified {
-  padding: 0.5em 1em 0.5em 11em;
+  padding: 0.5em 1em 0.5em 15.8em;
 }
 
 .closed {

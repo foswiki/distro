@@ -76,6 +76,7 @@ use constant ATTRSPEC => {
     HIDDEN          => {},
     MULTIPLE        => {},         # Allow multiple select
     SPELLCHECK      => {},
+    LABEL           => {},
 
     # Rename single character options (legacy)
     H => 'HIDDEN',

@@ -40,7 +40,7 @@
 # be browseable from the web - if you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
 
-# **URL CHECK="noemptyok \
+# **URL LABEL="Default Url Host" CHECK="noemptyok \
 #              parts:scheme,authority \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
@@ -50,7 +50,7 @@
 # (do not include the trailing slash.)
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN EXPERT LABEL="Force Default Url Host"**
 # Enable this parameter to force foswiki to ignore the hostname in the
 # URL entered by the user.  Foswiki will generate all links using the
 # {DefaultUrlHost}.
@@ -64,7 +64,7 @@
 # to return the {DefaultUrlHost}.
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URILIST EXPERT CHECK='undefok \
+# **URILIST LABEL="Permitted Redirect Host Urls" EXPERT CHECK='undefok \
 #              parts:scheme,authority \
 #              authtype:hostip' **
 # If your host has aliases (such as both =www.mywiki.net= and =mywiki.net=
@@ -84,23 +84,23 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
-# **URLPATH CHECK="emptyok notrail" **
+# **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory. For example =/foswiki/bin=.
 # See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# **PATH LABEL="Script Dir" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **STRING 10 CHECK="emptyok"**
+# **STRING 10 LABEL="Script Suffix" CHECK="emptyok"**
 # Suffix of Foswiki CGI scripts. For example, .cgi or .pl.
 # You may need to set this if your webserver requires an extension.
 #$Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='undefok emptyok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" **
+# **URLPATH LABEL="Script Url Path for View" CHECK='undefok emptyok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" **
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script,
 # including any suffix.
@@ -118,7 +118,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
 
-# **URLPATH CHECK='noemptyok notrail' **
+# **URLPATH LABEL="Pub Url Path" CHECK='noemptyok notrail' **
 # This is the URL path used to link to attachments. For stores where
 # attachments are stored as files (such as PlainFile and RCSLite) then this
 # will normally be the URL path to the =pub= directory.
@@ -132,34 +132,34 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
+# **PATH LABEL="Pub Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
+# **PATH LABEL="Data Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Tools Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Template Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Locales Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw" **
+# **PATH LABEL="Working Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -183,13 +183,13 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #      are pending verification.
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH CHECK="undefok" EXPERT**
+# **PATH LABEL="Tempfile Directory" CHECK="undefok" EXPERT**
 # This is used to override the default system temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It is normally set automatically in the code.
 # $Foswiki::cfg{TempfileDir} = '';
 
-# **PATH EXPERT CHECK='undefok'**
+# **PATH LABEL="Save PATH" EXPERT CHECK='undefok'**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key
@@ -212,7 +212,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #---++ Sessions
 # Sessions are how Foswiki tracks a user across multiple requests.
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Use Client Sessions"**
 # Control whether Foswiki will use persistent sessions.
 # A user's session id is stored in a cookie, and this is used to identify
 # the user for each request they make to the server.
@@ -225,7 +225,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # cons of using persistent sessions.
 $Foswiki::cfg{UseClientSessions} = 1;
 
-# **NUMBER 20 DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
+# **NUMBER 20 LABEL="Session Expiry" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
 # Set the session timeout, in seconds. The session will be cleared after this
 # amount of time without the session being accessed. The default is 6 hours
 # (21600 seconds).
@@ -243,7 +243,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # This setting is also used to set a lifetime for passthru redirect requests.
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
-# **NUMBER EXPERT DISPLAY_IF="{UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{UseClientSessions} && {LoginManager}=~/TemplateLogin$/'"**
+# **NUMBER LABEL="Cookie Expiry" EXPERT DISPLAY_IF="{UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{UseClientSessions} && {LoginManager}=~/TemplateLogin$/'"**
 # TemplateLogin only.
 # Normally the cookie that remembers a user session is set to expire
 # when the browser exits, but using this value you can make the cookie
@@ -259,7 +259,7 @@ $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 # One month is roughly equal to 2600000 seconds.
 $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
+# **BOOLEAN LABEL="IDs in Urls" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
 # Foswiki will normally use a cookie in
 # the browser to store the session ID. If the client has cookies disabled,
 # then Foswiki will not be able to record the session. As a fallback, Foswiki
@@ -271,7 +271,7 @@ $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 # {Sessions}{MapIP2SID}).
 $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 
-# **STRING 20 EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
+# **STRING 20 LABEL="Cookie Realm" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
 # By default the Foswiki session cookie is only accessible by the host which
 # sets it. To change the scope of this cookie you can set this to any other
 # value (ie. company.com). Make sure that Foswiki can access its own cookie.
@@ -279,7 +279,7 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # If empty, this defaults to the current host.
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
-# **BOOLEAN DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Use IP Matching" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # Enable this option to prevent a session from being accessed by
 # more than one IP Address. This gives some protection against session
 # hijack attacks.
@@ -296,7 +296,7 @@ $Foswiki::cfg{Sessions}{CookieRealm} = '';
 # IP Matching for security purposes, so it is now enabled by default.
 $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 
-# **BOOLEAN DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Enable Guest Sessions" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # On prior versions of Foswiki, every user is given their own CGI Session.
 # Disable this setting to block creation of session for guest users.
 #
@@ -305,7 +305,7 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 # that make use of session variables.
 $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Map IP to Session ID" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
 # clients IP address to a session ID. You can only use this if all
 # client IP addresses are known to be unique.
@@ -316,7 +316,7 @@ $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 # _off_.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
-# **OCTAL CHECK="min:000 max:777" EXPERT**
+# **OCTAL LABEL="Session-File Permission" CHECK="min:000 max:777" EXPERT**
 # File security for new session objects created by the login manager.
 # You may have to adjust these permissions to allow (or deny) users other
 # than the webserver user access session objects that Foswiki creates in
@@ -329,7 +329,7 @@ $Foswiki::cfg{Session}{filePermission} = 0600;
 # Validation is the process by which Foswiki validates that a request is
 # allowed by the site, and is not part of an attack on the site.
 
-# **SELECT strikeone,embedded,none **
+# **SELECT strikeone,embedded,none LABEL="Validation Method" **
 # By default Foswiki uses Javascript to perform "double submission" validation
 # of browser requests. This technique, called "strikeone", is highly
 # recommended for the prevention of cross-site request forgery (CSRF). See also
@@ -351,14 +351,14 @@ $Foswiki::cfg{Session}{filePermission} = 0600;
 #     be performed.
 $Foswiki::cfg{Validation}{Method} = 'strikeone';
 
-# **NUMBER EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="min:1 iff:'{Validation}{Method} ne q<none>'"**
+# **NUMBER LABEL="Validation Expiry" EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="min:1 iff:'{Validation}{Method} ne q<none>'"**
 # Validation keys are stored for a maximum of this amount of time before
 # they are invalidated. Time in seconds. A shorter time reduces the risk
 # of a hacker finding and re-using one of the keys, at the cost of more
 # frequent confirmation prompts for users.
 $Foswiki::cfg{Validation}{ValidForTime} = 3600;
 
-# **NUMBER EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="min:10 iff:'{Validation}{Method} ne q<none>'"**
+# **NUMBER LABEL="Maximum Keys per Session" EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="min:10 iff:'{Validation}{Method} ne q<none>'"**
 # The maximum number of validation keys to store in a session. There is one
 # key stored for each page rendered. If the number of keys exceeds this
 # number, the oldest keys will be force-expired to bring the number down.
@@ -367,7 +367,7 @@ $Foswiki::cfg{Validation}{ValidForTime} = 3600;
 # they have open simultaneously)
 $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="iff:'{Validation}{Method} ne q<none>'"**
+# **BOOLEAN LABEL="Expire Validation Key on Use" EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="iff:'{Validation}{Method} ne q<none>'"**
 # Expire a validation key immediately when it is used to validate the saving
 # of a page. This protects against an attacker evesdropping the communication
 # between browser and server and exploiting the keys sent from browser to
@@ -386,7 +386,7 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # Foswiki supports different ways of handling how a user asks, or is asked,
 # to log in.
 
-# **SELECTCLASS none,Foswiki::LoginManager::*Login* CHECK="also:{AuthScripts}"**
+# **SELECTCLASS none,Foswiki::LoginManager::*Login* CHECK="also:{AuthScripts}" LABEL="Login Manager"**
 # Select the login manager to use.
 #    * none - Don't support logging in, all users have access to everything.
 #    * Foswiki::LoginManager::TemplateLogin - Redirect to the login template,
@@ -399,11 +399,11 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # the Web Server configuration.
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Debug Login Manager" EXPERT**
 # Write debugging output to the webserver error log.
 $Foswiki::cfg{Trace}{LoginManager} = 0;
 
-# **STRING 100 DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'" CHECK_ON_CHANGE="{LoginManager}" **
+# **STRING 100 LABEL="Authenticated Scripts" DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'" CHECK_ON_CHANGE="{LoginManager}" **
 # Comma-separated list of scripts in the bin directory that require the user to
 # authenticate. This setting is used with TemplateLogin; any time an
 # unauthenticated user attempts to access one of these scripts, they will be
@@ -414,7 +414,7 @@ $Foswiki::cfg{Trace}{LoginManager} = 0;
 $Foswiki::cfg{AuthScripts} =
 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Legacy REST Security" EXPERT**
 # Foswiki 1.2 has removed the =rest= script from the list of {AuthScripts}.
 # Instead of providing blanket security for =rest=, each handler is now
 # responsible to set its individual requirements for 3 options:
@@ -424,7 +424,7 @@ $Foswiki::cfg{AuthScripts} =
 # Enable this setting to restore the original insecure defaults.
 $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 
-# **REGEX EXPERT**
+# **REGEX LABEL="Authenticated Scripts Pattern" EXPERT**
 # Regular expression matching the scripts that should be allowed to accept the 
 # =username= and =password= parameters other than the login script. Older
 # versions of Foswiki would accept the username and password parameter on any
@@ -433,41 +433,41 @@ $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 # =rest= and =restauth>> scripts, specify =/^(view|rest)(auth)?$/=
 $Foswiki::cfg{Session}{AcceptUserPwParam} = '^view(auth)?$';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Accept User Password on GET" EXPERT**
 # For backwards compatibility, enable this setting if you want
 # =username= and =password= parameters to be accepted on a GET request when
 # provided as part of the query string.  It is more secure to restrict login
 #  operations to POST requests only.
 $Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**
+# **BOOLEAN LABEL="Prevent from Remembering the User Password" EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**
 # Browsers typically remember your login and passwords to make authentication
 # more convenient for users. If your Foswiki is used on public terminals,
 # you can prevent this, forcing the user to enter the login and password
 # every time.
 $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**
+# **BOOLEAN LABEL="Allow Login 'Using Email Address" EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**
 # Allow a user to log in to foswiki using the email addresses known to the
 # password system (in addition to their username).
 $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} = 0;
 
-# **REGEX EXPERT**
+# **REGEX LABEL="Login Name Filter" EXPERT**
 # The perl regular expression used to constrain user login names. Some
 # environments may require funny characters in login names, such as \.
 # This is a filter *in* expression, so a login name must match this
 # expression or an error will be thrown and the login denied.
 $Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Default User Login" EXPERT**
 # Guest user's login name. You are recommended not to change this.
 $Foswiki::cfg{DefaultUserLogin} = 'guest';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Default User WikiName" EXPERT**
 # Guest user's wiki name. You are recommended not to change this.
 $Foswiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Admin User Login" EXPERT**
 # An internal admin user login name (matched with the configure password,
 # if set) which can be used as a temporary Admin login (see: Main.AdminUser).
 # This login name is additionally required by the install script for some addons
@@ -475,7 +475,7 @@ $Foswiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 # If you change this you risk making topics uneditable.
 $Foswiki::cfg{AdminUserLogin} = 'admin';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Admin User WikiName" EXPERT**
 # An admin user WikiName that is displayed for actions done by the
 # {AdminUserLogin}.
 # This is a special WikiName and should never be directly authenticated.
@@ -486,7 +486,7 @@ $Foswiki::cfg{AdminUserLogin} = 'admin';
 # register a user with this name!)
 $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Admin Group" EXPERT**
 # Group of users that can use special =?action=repRev= and =?action=delRev=
 # on =save= and ALWAYS have edit powers. See %SYSTEMWEB%.CompleteDocumentation
 # for an explanation of wiki groups. The default value "AdminGroup" is used
@@ -494,7 +494,7 @@ $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 # a really special reason to change this setting.
 $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Users TopicName"  EXPERT**
 # Name of topic in the {UsersWebName} web where registered users are listed.
 # Automatically maintained by the standard registration scripts.
 # *If you change this setting you will have to use Foswiki to*
@@ -506,7 +506,7 @@ $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 # The user mapping is used to map login names used with external
 # authentication systems to Foswiki user identities.
 
-# **SELECTCLASS Foswiki::Users::*UserMapping EXPERT**
+# **SELECTCLASS Foswiki::Users::*UserMapping LABEL="User Mapping Manager" EXPERT**
 # By default only two mappings are available, though other mappings *may*
 # be installed to support other authentication providers.
 #    * Foswiki::Users::TopicUserMapping - uses Foswiki user and group topics to
@@ -517,7 +517,7 @@ $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 #      *Does not support User registration*, and only works with TemplateLogin.
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
-# **BOOLEAN EXPERT DISPLAY_IF="{UserMappingManager}=='Foswiki::Users::TopicUserMapping'" CHECK="iff:'{UserMappingManager} =~ /:TopicUserMapping$/'"**
+# **BOOLEAN LABEL="Force Manage Emails" EXPERT DISPLAY_IF="{UserMappingManager}=='Foswiki::Users::TopicUserMapping'" CHECK="iff:'{UserMappingManager} =~ /:TopicUserMapping$/'"**
 # Enable this parameter to force the TopicUserMapping manager to directly
 # manage email addresses, and not pass management over to the PasswordManager.
 # When enabled, TopicUserMapping will store addresses in the user topics.
@@ -533,7 +533,7 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 #---++ Access Control
 # Control some features of how Foswiki handles access control settings.
 
-# **SELECTCLASS Foswiki::Access::*Access**
+# **SELECTCLASS Foswiki::Access::*Access LABEL="Access Control Implementation" **
 # Choose who can access the wiki.
 #    * =TopicACLAccess= is the normal foswiki ACL system, as documented
 #      in the setup guides.
@@ -548,7 +548,7 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 # for access permission, then it will not get blocked by these controls.
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT**
 # Optionally restore the deprecated empty =DENY= ACL behavior.
 # If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
 # "Deny nobody", which is equivalent to "Allow all".
@@ -560,7 +560,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # </verbatim>
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
-# **SELECT authenticated,acl,all EXPERT**
+# **SELECT authenticated,acl,all LABEL="Access to  RAW" EXPERT**
 # Choose which users will have access to the "raw" topic views.
 # Default is "authenticated",  so that guest users can not view the raw
 # topic contents.  This avoids indexing of raw topic context by bots and
@@ -572,7 +572,7 @@ $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 # </verbatim>
 $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 
-# **SELECT authenticated,acl,all EXPERT**
+# **SELECT authenticated,acl,all LABEL="Access to History" EXPERT**
 # Choose which users will have access to the topic history.
 # Default is "authenticated",  so that guest users can not view the topic
 # history. This can also reduce bot workload by denying web crawlers access
@@ -586,7 +586,7 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 #  scripts.
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
-# **STRING 80**
+# **STRING 80 LABEL="Access to Configure"**
 # A list of users permitted to use the =bin/configure= configuration tool
 # If this is configured, then users attempting to access
 # configure are validated against this list. (The user must still first
@@ -607,7 +607,7 @@ $Foswiki::cfg{FeatureAccess}{Configure} = '';
 #---++ Passwords
 # Control how passwords are handled.
 
-# **SELECTCLASS none,Foswiki::Users::*User**
+# **SELECTCLASS none,Foswiki::Users::*User LABEL="Password Manager"**
 # The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of
 # Foswiki.
@@ -632,19 +632,19 @@ $Foswiki::cfg{FeatureAccess}{Configure} = '';
 # any logged in user can then register to create  their Foswiki Based identity.
 $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
-# **NUMBER**
+# **NUMBER LABEL="Minimum Password Length"**
 # Minimum length for a password, for new registrations and password changes.
 # If you want to allow null passwords, set this to 0.
 $Foswiki::cfg{MinPasswordLength} = 7;
 
-# **PATH DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
+# **PATH LABEL="Password Filename" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
 # Path to the file that stores passwords, for the Foswiki::Users::HtPasswdUser
 # password manager. You can use the =htpasswd= Apache program to create a new
 # password file with the right encoding, however use caution, as it will remove
 # email addresses from an existing file.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
-# **PATH EXPERT DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
+# **PATH LABEL="Password Lock-Filename" EXPERT DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
 # Path to the lockfile for the password file.  This normally does not need
 # to be changed; however if two Foswiki installations share and update a
 # common password file it is critical that both use the same lockfile.
@@ -654,21 +654,21 @@ $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 $Foswiki::cfg{Htpasswd}{LockFileName} =
   '$Foswiki::cfg{WorkingDir}/htpasswd.lock';
 
-# **BOOLEAN EXPERT DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser/'"**
+# **BOOLEAN LABEL="Cache Passwords" EXPERT DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser/'"**
 # Enable this option on systems using =FastCGI, FCGID, or Mod_Perl= in
 # order to avoid reading the password file for every transaction.
 # It will cause the =HtPasswdUser= module to globally cache the password
 # file, reading it only once on initization.
 $Foswiki::cfg{Htpasswd}{GlobalCache} = $FALSE;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser$/'"**
+# **BOOLEAN LABEL="Detect Modification of Password File" EXPERT DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser$/'"**
 # Enable this option if the .htpasswd file can be updated either external to Foswiki
 # or by another Foswiki instance, and =GlobalCache= is enabled.  When enabled, Foswiki will verify the timestamp of
 # the file and will invalidate the cache if the file has been changed. This is only useful
 # if Foswiki is running in a =mod_perl= or =fcgi= envinroment.
 $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 
-# **SELECT bcrypt,'htdigest-md5','apache-md5',sha1,'crypt-md5',crypt,plain DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
+# **SELECT bcrypt,'htdigest-md5','apache-md5',sha1,'crypt-md5',crypt,plain LABEL="Password Encoding" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/'"**
 # Password encryption, for the =Foswiki::Users::HtPasswdUser= password
 # manager. This specifies the type of password hash to generate when
 # writing entries to =.htpasswd=. It is also used when reading password
@@ -714,13 +714,13 @@ $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 # the =.htpasswd= file.
 $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
 
-# **STRING 80 DISPLAY_IF="/htpasswd/i.test({PasswordManager}) && /md5$/.test({Htpasswd}{Encoding})"**
+# **STRING 80 LABEL="Authentication Realm" DISPLAY_IF="/htpasswd/i.test({PasswordManager}) && /md5$/.test({Htpasswd}{Encoding})"**
 # Authentication realm. You may need to change it
 # if you are sharing a password file with another application.
 $Foswiki::cfg{AuthRealm} =
 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.';
 
-# **BOOLEAN DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}!='plain'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser$/ && {Htpasswd}{Encoding} ne q<plain>'"**
+# **BOOLEAN LABEL="Auto-detect Password Encoding" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}!='plain'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser$/ && {Htpasswd}{Encoding} ne q<plain>'"**
 # Auto-detect the stored password encoding type.  Enable
 # this to allow migration from one encoding format to another format.
 # Note that this does add a small overhead to the parsing of the =.htpasswd=
@@ -729,15 +729,15 @@ $Foswiki::cfg{AuthRealm} =
 # mod_perl. This option is not compatible with =plain= text passwords.
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
-# **NUMBER DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
+# **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
 # Specify the cost that should be incured when computing the hash of a
 # password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256
 # iterations.
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
-# **PASSWORD EXPERT**
-# SuperAdmin password. (Legacy configuration).  If set, this password
+# **PASSWORD LABEL="Super Admin Password" EXPERT**
+# If set, this password
 # permits use of the "sudo" facility.  *As it is a "shared password",
 # this is no longer recommended per good security practices and is not
 # set by default.*  If you want to restore sudo access, set this field
@@ -755,7 +755,7 @@ $Foswiki::cfg{Password} = '';
 # Registration is the process by which new users register themselves with
 # Foswiki.
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Allow Login Names"**
 # If you want users to be able to use a login ID other than their
 # wikiname, you need to turn this on. It controls whether the 'LoginName'
 # box appears during the user registration process, and is used to tell
@@ -767,17 +767,17 @@ $Foswiki::cfg{Password} = '';
 # issues.
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Enable User Registration"**
 # Controls whether new user registration is available.
 # It will have no effect on existing users.
 $Foswiki::cfg{Register}{EnableNewUserRegistration} = $TRUE;
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Verify User Registration"**
 # Whether registrations must be verified by the user, by following
 # a link sent in an email to the user's registered email address
 $Foswiki::cfg{Register}{NeedVerification} = $FALSE;
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Approve User Registration"**
 # Whether registrations must be verified by a referee. The referees are
 # listed in the {Register}{Approvers} setting, by wikiname. Note that
 # the AntiWikiSpamPlugin supports automatic checking of registration
@@ -785,7 +785,7 @@ $Foswiki::cfg{Register}{NeedVerification} = $FALSE;
 # to an approval system.
 $Foswiki::cfg{Register}{NeedApproval} = $FALSE;
 
-# **STRING 40 CHECK="undefok emptyok"**
+# **STRING 40 LABEL="User Registration Approvers" CHECK="undefok emptyok"**
 # Comma-separated list of WikiNames of users who are able to approve
 # new registrations. These referees will be sent an email when a new
 # user verifies their registration. The referee must click a link in
@@ -794,7 +794,7 @@ $Foswiki::cfg{Register}{NeedApproval} = $FALSE;
 # administrator.
 $Foswiki::cfg{Register}{Approvers} = '';
 
-# **NUMBER 20 DISPLAY_IF="{Register}{NeedVerification} || {Register}{NeedApproval}"**
+# **NUMBER 20 LABEL="Registration Expiry" DISPLAY_IF="{Register}{NeedVerification} || {Register}{NeedApproval}"**
 # Set the pending registration timeout, in seconds. The pending registration
 # will be cleared after this amount of time. The default is 6 hours
 # (21600 seconds).
@@ -815,31 +815,31 @@ $Foswiki::cfg{Register}{Approvers} = '';
 # ={WorkingDir}/registration_approvals= directory.
 $Foswiki::cfg{Register}{ExpireAfter} = 21600;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Disable Password Confirmation" EXPERT**
 # Controls whether the user password has to be entered twice on the
 # registration page or not. The default is to require confirmation, in which
 # case the same password must be provided in the confirmation input.
 $Foswiki::cfg{Register}{DisablePasswordConfirmation} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Hide Password" EXPERT**
 # Hide password in registration email to the _user_.
 # Note that Foswiki sends administrators a separate confirmation.
 $Foswiki::cfg{Register}{HidePasswd} = $TRUE;
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Registration Agent WikiName" EXPERT**
 # The internal user that creates user topics on new registrations.
 # You are recommended not to change this.  Note that if the default
 # protection of the users web (Main) is changed, this user must have
 # write access to that web.
 $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Require Unique Email"**
 # Normally users can register multiple WikiNames using the same email address.
 # Enable this parameter to prevent multiple registrations using the same
 # email address.
 $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 
-# **REGEX 80 CHECK="emptyok" EXPERT**
+# **REGEX 80 LABEL="Email Filter" CHECK="emptyok" EXPERT**
 # This regular expression can be used to block certain email addresses
 # from being used for registering users.  It can be used to block some
 # of the more common wikispam bots. If this regex matches the entered
@@ -854,7 +854,7 @@ $Foswiki::cfg{Register}{EmailFilter} = '';
 #---++ Environment
 # Control some aspects of the environment Foswiki runs within.
 
-# **PERL**
+# **PERL LABEL="Accessible Configuration"**
 # Array of the names of configuration items that are available when using
 # %IF, %SEARCH and %QUERY{}%. Extensions can push into this array to extend
 # the set. This is done as a filter in because while the bulk of configuration
@@ -925,7 +925,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{AccessControlACL}{EnableDeprecatedEmptyDeny}'
 ];
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Allow URLs in INCLUDE"**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
 # to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
 # URLs. Only enable it if you are in an environment where a DoS attack is not
@@ -936,19 +936,19 @@ $Foswiki::cfg{AccessibleCFG} = [
 # external webpages (see Proxies).
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Display logged in unknown Users" EXPERT**
 # If a login name (or an internal user id) cannot be mapped to a wikiname,
 # then the user is unknown. By default the user will be displayed using
 # whatever identity is stored for them. For security reasons you may want
 # to obscure this stored id by setting this option to true.
 $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Deny '..' in INCLUDE" EXPERT**
 # Remove .. from %INCLUDE{filename}%, to stop includes
 # of relative paths.
 $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 
-# **REGEX EXPERT**
+# **REGEX LABEL="Upload Filter" EXPERT**
 # Regex used to detect illegal names for uploaded (attached) files.
 #
 # Normally your web server should be configured to control what can be
@@ -971,19 +971,19 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 #
 $Foswiki::cfg{UploadFilter} = '^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$';
 
-# **REGEX EXPERT**
+# **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,
 # include paths and skin names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
 $Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'\x26;|\x3c>\[\]#\x00-\x1f]/;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Force unsafe Regular Expressions" EXPERT**
 # If this is set, then the search module will use more relaxed
 # rules governing regular expressions searches.
 $Foswiki::cfg{ForceUnsafeRegexes} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Get Script Url from Request" EXPERT**
 # Build the path to /foswiki/bin from the URL that was used to get this
 # far. This can be useful when rewriting rules or redirection are used
 # to shorten URLs. Note that displayed links are incorrect after failed
@@ -991,7 +991,7 @@ $Foswiki::cfg{ForceUnsafeRegexes} = $FALSE;
 # doing, leave it alone.
 $Foswiki::cfg{GetScriptUrlFromCgi} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Drain STDIN" EXPERT**
 # Draining STDIN may be necessary if the script is called due to a
 # redirect and the original query was a POST. In this case the web
 # server is waiting to write the POST data to this script's STDIN,
@@ -1000,13 +1000,13 @@ $Foswiki::cfg{GetScriptUrlFromCgi} = $FALSE;
 # hangs.
 $Foswiki::cfg{DrainStdin} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Remove Port Number" EXPERT**
 # Remove port number from URL. If set, and a URL is given with a port
 # number for example http://my.server.com:8080/foswiki/bin/view, this will strip
 # off the port number before using the url in links.
 $Foswiki::cfg{RemovePortNumber} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Allow Redirect Url" EXPERT**
 # Allow the use of URLs in the =redirectto= parameter to the
 # =save= script, and in =topic= parameter to the
 # =view= script. *WARNING:* Enabling this feature makes it
@@ -1018,7 +1018,7 @@ $Foswiki::cfg{RemovePortNumber} = $FALSE;
 # disabled and set the {PermittedRedirectHostUrls}.
 $Foswiki::cfg{AllowRedirectUrl} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Use Path for Redirect Cache" EXPERT**
 # Some authentication systems do not allow parameters to be passed in
 # the target URL to be redirected to after authentication. In this case,
 # Foswiki can be configured to encode the address of the parameter cache
@@ -1026,7 +1026,7 @@ $Foswiki::cfg{AllowRedirectUrl} = $FALSE;
 # rewriting rules, this may not work.
 $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 
-# **REGEX EXPERT**
+# **REGEX LABEL="Accessible ENV" EXPERT**
 # Defines the filter-in regexp that must match the names of environment
 # variables that can be seen using the %ENV{}% macro. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
@@ -1037,7 +1037,7 @@ $Foswiki::cfg{AccessibleENV} =
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).
 
-# **URL 30 CHECK='undefok emptyok parts:scheme,authority,path,user,pass  \
+# **URL 30 LABEL="Proxy Host" CHECK='undefok emptyok parts:scheme,authority,path,user,pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
 #              authtype:hostip' **
@@ -1046,7 +1046,7 @@ $Foswiki::cfg{AccessibleENV} =
 # http://username:password@proxy.your.company.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
-# **STRING 30 CHECK='undefok emptyok'**
+# **STRING 30 LABEL="Proxy Port" CHECK='undefok emptyok'**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
 $Foswiki::cfg{PROXY}{PORT} = undef;
@@ -1058,13 +1058,13 @@ $Foswiki::cfg{PROXY}{PORT} = undef;
 # public (internet) sites are strongly recommended to install
 # [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]]
 
-# **STRING 50 CHECK="undefok emptyok"**
+# **STRING 50 LABEL="Email Padding" CHECK="undefok emptyok"**
 # Text added to e-mail addresses to prevent spambots from grabbing
 # addresses. For example set to 'NOSPAM' to get fred@user.co.ru
 # rendered as fred@user.coNOSPAM.ru
 $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Hide User Details"**
 # Normally Foswiki stores the user's sensitive information (such as their e-mail
 # address) in a database out of public view. This is to help prevent e-mail
 # spam and identity fraud.
@@ -1083,7 +1083,7 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # All other tokens are ignored for non-admin users.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Obfuscate Emails"**
 # By default Foswiki will also manipulate e-mail addresses to reduce the
 #  harvesting of e-mail addresses. Foswiki will encode all non-alphanumeric
 # characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64; 
@@ -1091,7 +1091,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # spambots from seeing the addresses.
 $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Robots are Welcome"**
 # By default, Foswiki doesn't do anything to stop robots, such as those used
 # by search engines, from visiting "normal view" pages.
 # If you disable this option, Foswiki will generate a META tag to tell robots
@@ -1105,7 +1105,7 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 #---++ Logging
 # Control how Foswiki handles logging, including location of logfiles.
 
-# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
+# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* LABEL="Logger Implemetation"**
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
 # for a large site, or even provide your own custom logger. Select the
@@ -1127,19 +1127,19 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 # a setting for ={WarningFileName}= in your LocalSite.cfg.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
 
-# **PATH**
+# **PATH LABEL="Log Directory"**
 # Directory where log files will be written.  Note that the Compatibility
 # Logger does not use this setting by default.
 $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 
-# **BOOLEAN DISPLAY_IF="/PlainFile::Obfuscating/i.test({Log}{Implementation})" CHECK="iff:'{Log}{Implementation} =~ /PlainFile::Obfuscating/'"**
+# **BOOLEAN LABEL="Obfuscate IP Addresses" DISPLAY_IF="/PlainFile::Obfuscating/i.test({Log}{Implementation})" CHECK="iff:'{Log}{Implementation} =~ /PlainFile::Obfuscating/'"**
 # The Obfuscating logger can either replace IP addresses with a hashed address
 # that cannot be easily reversed to the original IP,  or the IP address can
 # be completely masked as =x.x.x.x=.  Enable this parameter to replace
 # The IP address with the literal string =x.x.x.x=.
 $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = $FALSE;
 
-# **PERL EXPERT**
+# **PERL LABEL="Log Actions" EXPERT**
 # Whether or not to log different actions in the events log.
 # Information in the events log is used in gathering web statistics,
 # and is useful as an audit trail of Foswiki activity. Actions
@@ -1161,7 +1161,7 @@ $Foswiki::cfg{Log}{Action} = {
     viewfile => 1,
 };
 
-# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {DebugFileName}"**
+# **PATH LABEL="Debug Filename" DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {DebugFileName}"**
 # Log file for debug messages when using the Compatibility logger.
 # (Usually very low volume.) If =%DATE%= is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.
@@ -1172,7 +1172,7 @@ $Foswiki::cfg{Log}{Action} = {
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/debug%DATE%.txt=
 $Foswiki::cfg{DebugFileName} = '';
 
-# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {WarningFileName}"**
+# **PATH LABEL="Warning Filename" DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {WarningFileName}"**
 # Log file for Warnings when using the Compatibility logger.
 # (Usually low volume) If =%DATE%= is included in the file name, it gets
 # expanded to YYYYMM (year, month), causing a new log to be written each month.
@@ -1183,7 +1183,7 @@ $Foswiki::cfg{DebugFileName} = '';
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/warn%DATE%.txt=
 $Foswiki::cfg{WarningFileName} = '';
 
-# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {LogFileName}"**
+# **PATH LABEL="Log Filename" DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {LogFileName}"**
 # Log file recording web activity when using the Compatibility logger
 # (High volume). If =%DATE%= is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.
@@ -1194,7 +1194,7 @@ $Foswiki::cfg{WarningFileName} = '';
 # or Foswiki 1.1 logging directory =$Foswiki::cfg{Log}{Dir}/log%DATE%.txt=
 $Foswiki::cfg{LogFileName} = '';
 
-# **PATH DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {ConfigureLogFileName}" CHECK="undefok"**
+# **PATH LABEL="Configure Log Filename" DISPLAY_IF="/Compatibility/i.test({Log}{Implementation}) || {ConfigureLogFileName}" CHECK="undefok"**
 # Log file recording configuration changes when using the Compatibility logger
 # If =%DATE%= is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.
@@ -1206,15 +1206,15 @@ $Foswiki::cfg{ConfigureLogFileName} = undef;
 #---++ Statistics
 # Statistics are usually assembled by a cron script
 
-# **NUMBER CHECK="min:0" **
+# **NUMBER LABEL="Top Views" CHECK="min:0" **
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
 
-# **NUMBER CHECK="min:0" **
+# **NUMBER LABEL="Top Contributors" CHECK="min:0" **
 # Number of top contributors to show in statistics topic
 $Foswiki::cfg{Stats}{TopContrib} = 10;
 
-# **SELECT Prohibited, Allowed, Always**
+# **SELECT Prohibited, Allowed, Always LABEL="Auto-Create Topic"**
 # Set this parameter to =Allowed= if you want the statistics script to create a
 # missing WebStatistics topic only when the parameter =autocreate=1= is
 # supplied.
@@ -1223,14 +1223,14 @@ $Foswiki::cfg{Stats}{TopContrib} = 10;
 # the previous behavior and is the default.
 $Foswiki::cfg{Stats}{AutoCreateTopic} = 'Prohibited';
 
-# **STRING 20 CHECK="undefok emptyok"**
+# **STRING 20 LABEL="Statistics Group" CHECK="undefok emptyok"**
 # If this is set to the name of a Group, then the statistics script will only
 # run for members of the specified  and the AdminGroup.  Example:
 # Set to =AdminGroup= to restrict statistics to  administrators.
 # Default is un-set (anyone can run statistics).
 $Foswiki::cfg{Stats}{StatisticsGroup} = '';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Statistics TopicName" EXPERT**
 # Name of statistics topic.  Note:  If you change the name of the
 # statistics topic you must also rename the WebStatistics topic in each web,
 # and the DefaultWebStatistics topic in the System web (and possibly in
@@ -1242,7 +1242,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # Foswiki includes powerful features for internationalisation.
 
 #---++ Languages
-# **BOOLEAN**
+# **BOOLEAN LABEL="Inteface Internationalisation"**
 # Enable user interface internationalisation to present the user
 # interface in the users own language(s).
 # When  enabled, the following settings control the languages that are
@@ -1280,7 +1280,7 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # of the programs that Foswiki calls when your wiki content uses
 # international character sets.
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Use Locale" EXPERT**
 # Enable the use of {Site}{Locale}. WARNING: Perl locales are badly broken
 # in some versions of perl. For this reason locales are disabled in Foswiki.
 # If you enable them they can be made to work, but you will have to disable
@@ -1288,7 +1288,7 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # sets.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
-# **STRING 50 DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'"**
+# **STRING 50 LABEL="Site Locale" DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'"**
 # Site-wide locale - used by Foswiki and external programs such as grep, and to
 # specify the character set and language in which content must be presented
 # for the user's web browser.
@@ -1316,7 +1316,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 #      and external programs.
 $Foswiki::cfg{Site}{Locale} = 'en.utf8';
 
-# **STRING 50 **
+# **STRING 50 LABEL="Site Character Set" **
 # Set this to match your site locale (from 'locale -a')
 # whose character set is not supported by your available perl conversion module
 # (Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
@@ -1325,9 +1325,9 @@ $Foswiki::cfg{Site}{Locale} = 'en.utf8';
 # If you don't define it, it will automatically be defaulted to iso-8859-1
 # $Foswiki::cfg{Site}{CharSet} = undef;
 
-# **SELECT gmtime,servertime**
+# **SELECT gmtime,servertime LABEL="Display Time Values" **
 # Set the timezone (this only effects the display of times,
-# all internal storage is still in GMT). May be gmtime or servertimeA
+# all internal storage is still in GMT). May be gmtime or servertime
 # 
 # This item is also used by configure to test if your perl supports early dates.
 # Foswiki will still work fine on older versions of perl, but wiki
@@ -1335,7 +1335,7 @@ $Foswiki::cfg{Site}{Locale} = 'en.utf8';
 # =configure= tests if 1901-01-01 is handled by the perl localtime function.
 $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 
-# **SELECT '$day $month $year', '$year-$mo-$day', '$year/$mo/$day', '$year.$mo.$day'**
+# **SELECT '$day $month $year', '$year-$mo-$day', '$year/$mo/$day', '$year.$mo.$day' LABEL="Default Date Format"**
 # Set the default format for dates. The traditional Foswiki format is
 # '$day $month $year' (31 Dec 2007). The ISO format '$year-$mo-$day'
 # (2007-12-31) is recommended for non English language Foswikis. Note that $mo
@@ -1343,14 +1343,14 @@ $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 # English name of the month
 $Foswiki::cfg{DefaultDateFormat} = '$day $month $year';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Locale Regular Expressions" EXPERT**
 # Disable to force explicit listing of national chars in
 # regexes, rather than relying on locale-based regexes. Intended
 # for Perl 5.6 or higher on platforms with broken locales: should
 # only be disabled if you have locale problems.
 $Foswiki::cfg{Site}{LocaleRegexes} = $TRUE;
 
-# **STRING DISPLAY_IF="! {UseLocale} || ! {Site}{LocaleRegexes}"  CHECK="iff:'! {UseLocale} || ! {Site}{LocaleRegexes}'"**
+# **STRING LABEL="Upper National Characters" DISPLAY_IF="! {UseLocale} || ! {Site}{LocaleRegexes}"  CHECK="iff:'! {UseLocale} || ! {Site}{LocaleRegexes}'"**
 # If a suitable working locale is not available ({UseLocale}
 # is disabled), OR  you are using Perl 5.005 (with or without working
 # locales), OR {Site}{LocaleRegexes} is disabled, you can use WikiWords with
@@ -1366,11 +1366,11 @@ $Foswiki::cfg{Site}{LocaleRegexes} = $TRUE;
 # locales.
 $Foswiki::cfg{UpperNational} = '';
 
-# **STRING DISPLAY_IF=" ! {UseLocale}" CHECK="iff:'!{UseLocale}'"**
+# **STRING LABEL="Lower National Characters" DISPLAY_IF=" ! {UseLocale}" CHECK="iff:'!{UseLocale}'"**
 #
 $Foswiki::cfg{LowerNational} = '';
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Enable Plural to Singular"**
 # Change non-existent plural topic name to singular.
 # For example, =TestPolicies= to =TestPolicy=. Only works in English.
 $Foswiki::cfg{PluralToSingular} = $TRUE;
@@ -1380,11 +1380,11 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 #---++ Store Implementation
 # Foswiki supports different back-end store implementations.
 
-# **SELECTCLASS Foswiki::Store::* **
+# **SELECTCLASS Foswiki::Store::* LABEL="Store Implementation"**
 # Store implementation.
 # $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
-# **PERL EXPERT**
+# **PERL LABEL=""Implementation Classes" EXPERT**
 # Customisation of the Foswiki Store implementation. This allows
 # extension modules to hook into the store implementation at a very low level.
 # Full class names of customisations must be added to the list, in the order in
@@ -1392,13 +1392,13 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # implementation.
 $Foswiki::cfg{Store}{ImplementationClasses} = [];
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Enable Hierarchical Webs" EXPERT**
 # Set to enable (hierarchical) sub-webs. Without this setting, Foswiki will only
 # allow a single level of webs. If you set this, you can use
 # multiple levels, like a directory tree, webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-# **NUMBER CHECK="min:60" EXPERT**
+# **NUMBER LABEL=""Rember Changes For" CHECK="min:60" EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
 # histories, which always remember when a file changed. It only affects
 # the number of changes that are cached for fast access by the 'changes' and
@@ -1407,7 +1407,7 @@ $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 # of these scripts.
 $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 
-# **SELECTCLASS Foswiki::Store::SearchAlgorithms::***
+# **SELECTCLASS Foswiki::Store::SearchAlgorithms::* LABEL="Search Algorithm" **
 # This is the algorithm used to perform plain text (not query) searches.
 # Foswiki has two built-in search algorithms, both of which are designed to
 # work with the default flat-file database.
@@ -1431,7 +1431,7 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # may come with their own search algorithms.
 # $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
-# **SELECTCLASS Foswiki::Store::QueryAlgorithms::***
+# **SELECTCLASS Foswiki::Store::QueryAlgorithms::* LABEL="Query Algorithm" **
 # This is the algorithm used to perform query searches. The default Foswiki
 # algorithm (BruteForce) works well, but is not particularly fast (it is
 # based on plain-text searching). You may be able to select a different
@@ -1439,14 +1439,14 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # installed.
 $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
 
-# **SELECTCLASS Foswiki::Prefs::*RAM* EXPERT**
+# **SELECTCLASS Foswiki::Prefs::*RAM* LABEL="Preferences Backend" EXPERT**
 # The algorithm used to store preferences. The default algorithm reads
 # topics each time to access preferences. A caching algorithm that uses
 # BerkeleyDB is also available from the PrefsCachePlugin. This algorithm
 # is faster, but requires BerkeleyDB to be installed.
 $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
-# **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'"  CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
+# **COMMAND LABEL="Egrep Command" EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'"  CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
 # Full path to GNU-compatible egrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 # %CS{|-i}% will be expanded
@@ -1456,7 +1456,7 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 $Foswiki::cfg{Store}{EgrepCmd} =
   'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
-# **COMMAND EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
+# **COMMAND LABEL="Fgrep Command" EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
 # Full path to GNU-compatible fgrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{Store}{FgrepCmd} =
@@ -1465,7 +1465,7 @@ $Foswiki::cfg{Store}{FgrepCmd} =
 #---++ File system settings
 # Generic settings
 
-# **BOOLEAN EXPERT DISPLAY_IF="/Foswiki::Store::(Plain|Rcs)/.test({Store}{Implementation})" CHECK="iff:'{Store}{Implementation}=~/Foswiki::Store::(Plain|Rcs)/'"**
+# **BOOLEAN LABEL="Override Umask" EXPERT DISPLAY_IF="/Foswiki::Store::(Plain|Rcs)/.test({Store}{Implementation})" CHECK="iff:'{Store}{Implementation}=~/Foswiki::Store::(Plain|Rcs)/'"**
 # Some systems will override the default umask to a highly restricted setting,
 # which will block the application of the file and directory permissions.
 # If mod_suexec is enabled, the Apache umask directive will also be ignored.
@@ -1474,7 +1474,7 @@ $Foswiki::cfg{Store}{FgrepCmd} =
 # {Store}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 
-# **OCTAL CHECK="min:000 max:7777" EXPERT**
+# **OCTAL LABEL="Directory Permission" CHECK="min:000 max:7777" EXPERT**
 # File security for new directories created by stores.
 # Only used by store implementations that create plain files. You may have
 # to adjust these permissions to allow (or deny) users other than the
@@ -1483,7 +1483,7 @@ $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 # (for example 755 == rwxr-xr-x)
 $Foswiki::cfg{Store}{dirPermission} = 0755;
 
-# **OCTAL CHECK="min:000 max:7777" EXPERT **
+# **OCTAL LABEL="File Permission" CHECK="min:000 max:7777" EXPERT **
 # File security for new directories.
 # You may have
 # to adjust these permissions to allow (or deny) users other than the
@@ -1496,7 +1496,7 @@ $Foswiki::cfg{Store}{filePermission} = 0644;
 # Settings that control the available form fields types. Extensions may extend
 # the set of available types.
 
-# **PERL**
+# **PERL LABEL="Form Types"**
 # This setting is automatically updated by configure to list all the installed
 # FormField types. If you install an extension that adds new Form Field types,
 # you need to run configure for them to be registered.
@@ -1613,32 +1613,11 @@ $Foswiki::cfg{FormTypes} = [
 # as the cache also has some major disadvantages with respect to formatted
 # searches.
 
-# **BOOLEAN**
+# **BOOLEAN LABEL="Enable Page-Cache"**
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
-# Enable cache debug - UI::View and UI::Rest record debug messages.
-$Foswiki::cfg{Cache}{Debug} = $FALSE;
-
-# **PATH DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
-# Specify the directory where binary large objects will be stored.
-$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
-
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
-# List of those topics that have a manual dependency on every topic
-# in a web. Web dependencies can also be specified using the WEBDEPENDENCIES
-# preference, which overrides this setting.
-$Foswiki::cfg{Cache}{WebDependencies} =
-  'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
-
-# **REGEX DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
-# Exclude topics that match this regular expression from the dependency
-# tracker.
-$Foswiki::cfg{Cache}{DependencyFilter} =
-  '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|TWiki\..*';
-
-# **SELECTCLASS Foswiki::PageCache::DBI::* DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# **SELECTCLASS Foswiki::PageCache::DBI::* DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'" LABEL="Cache Implementation"**
 # Select the cache implementation. The default page cache implementation
 # is based on DBI (http://dbi.perl.org) which requires a working DBI driver to
 # connect to a database. This database will hold all cached data as well as the
@@ -1647,71 +1626,92 @@ $Foswiki::cfg{Cache}{DependencyFilter} =
 # database driver connecting to a real SQL engine.
 $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && /Foswiki::PageCache::DBI.*/.test({Cache}{Implementation}) " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation}=~/PageCache::DBI.*/'"**
+# **BOOLEAN LABEL="Debug Page-Cache" EXPERT DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# Enable cache debug - UI::View and UI::Rest record debug messages.
+$Foswiki::cfg{Cache}{Debug} = $FALSE;
+
+# **PATH LABEL="Cache Root Directory" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# Specify the directory where binary large objects will be stored.
+$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
+
+# **STRING 80 LABEL="Cache Web-Dependencies" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# List of those topics that have a manual dependency on every topic
+# in a web. Web dependencies can also be specified using the WEBDEPENDENCIES
+# preference, which overrides this setting.
+$Foswiki::cfg{Cache}{WebDependencies} =
+  'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
+
+# **REGEX LABEL="Dependency Filter" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# Exclude topics that match this regular expression from the dependency
+# tracker.
+$Foswiki::cfg{Cache}{DependencyFilter} =
+  '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|TWiki\..*';
+
+# **STRING 80 LABEL="Database Table Prefix" DISPLAY_IF="{Cache}{Enabled} && /Foswiki::PageCache::DBI.*/.test({Cache}{Implementation}) " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation}=~/PageCache::DBI.*/'"**
 # Prefix used naming tables and indexes generated in the database.
 $Foswiki::cfg{Cache}{DBI}{TablePrefix} = 'foswiki_cache';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /Generic$/'"**
+# **STRING 80 LABEL="DBI DSN" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /Generic$/'"**
 # Generic database driver. See the docu of your DBI driver for the exact syntax of the DSN parameter string.
 $Foswiki::cfg{Cache}{DBI}{DSN} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/ '"**
+# **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/ '"**
 # Database user name. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{Username} = '';
 
-# **PASSWORD 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/'"**
+# **PASSWORD 80 LABEL="Database Password" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/'"**
 # Database user password. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{Password} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::SQLite'" CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::SQLite$/'"**
+# **STRING 80 LABEL="Database Filename" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::SQLite'" CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::SQLite$/'"**
 # Name of the SQL
 $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
   '$Foswiki::cfg{WorkingDir}/sqlite.db';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/'"**
+# **STRING 80 LABEL="Database Host" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/'"**
 # Name or IP address of the database server
 $Foswiki::cfg{Cache}{DBI}{MySQL}{Host} = 'localhost';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
+# **STRING 80 LABEL="Database Port" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
 # Port on the database server to connect to
 $Foswiki::cfg{Cache}{DBI}{MySQL}{Port} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
+# **STRING 80 LABEL="Database Name" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
 # Name of the database on the server host.
 $Foswiki::cfg{Cache}{DBI}{MySQL}{Database} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
+# **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/ '"**
 # Database user name. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{MySQL}{Username} = '';
 
-# **PASSWORD 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL/ '"**
+# **PASSWORD 80 LABEL="Database Password" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL/ '"**
 # Database user password. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{MySQL}{Password} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
+# **STRING 80 LABEL="Database Host" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Name or IP address of the database server
-$Foswiki::cfg{Cache}{DBI}{MySQL}{Host} = 'localhost';
+$Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Host} = 'localhost';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
+# **STRING 80 LABEL="Database Port" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Port on the database server to connect to
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Port} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
+# **STRING 80 LABEL="Database Name" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Name of the database on the server host.
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Database} = '';
 
-# **STRING 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
+# **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Database user name. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username} = '';
 
-# **PASSWORD 80 DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
+# **PASSWORD 80 LABEL="Database Password" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::PostgreSQL$/ '"**
 # Database user password. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 
 #---++ Browser Cache
 # Settings for the browser cache are for experts only.
 
-# **PERL EXPERT**
+# **PERL LABEL="Browser Cache Control" EXPERT**
 # Disable or change the HTTP Cache-Control header. Foswiki defaults to
 # =Cache-Control: max-age=0= which recomends to the browser that it should
 # ask foswiki if the topic has changed. If you have a web that does not change
@@ -1731,7 +1731,7 @@ $Foswiki::cfg{BrowserCacheControl} = {};
 #---++ HTTP Compression
 # Settings controlling compression of the generated HTML, for experts only.
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Enable HTTP Compression" EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by
 # compressing pages. This makes most sense when enabling page caching as well
@@ -1743,7 +1743,7 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 #---++ HTML Page Layout
 # Settings controlling the layout of the generated HTML, for experts only.
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Enable Merge Head and Script Zones" EXPERT**
 # {MergeHeadAndScriptZones} is provided to maintain compatibility with
 # legacy extensions that use =ADDTOHEAD= to add =script= markup and require
 # content that is now in the =script= zone.
@@ -1780,18 +1780,18 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # what it changed.) These settings will only be made permanent when you save
 # the configuration.
 
-# **EMAILADDRESS 30**
+# **EMAILADDRESS 30 LABEL="Web-Master Email"**
 # Wiki administrator's e-mail address. For example =webmaster@example.com=
 # Must be a single valid email address.  This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
 $Foswiki::cfg{WebMasterEmail} = '';
 
-# **STRING 30**
+# **STRING 30 LABEL="Web-Master Name"**
 # Wiki administrator's name address.
 # For use in mails (first name and last name, for example =Fred Smith=).
 #  This value is displayed using the =<nop>%WIKIWEBMASTERNAME%= macro.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
-# **STRING 30 **
+# **STRING 30 LABEL="SMTP Host" **
 # Optional mail host for outgoing mail, required if Net::SMTP is being used.
 # Examples: =mail.your.company= If the smtp server uses a different port
 # than the default 25, use the syntax =mail.your.company:portnumber=,
@@ -1806,17 +1806,17 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # auto-configuration.
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
-# **STRING 30 DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
+# **STRING 30 LABEL="SMTP Username" DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
 # Username for SMTP. Only required if your mail server requires authentication.
 # If this is left blank, Foswiki will not attempt to authenticate the mail
 # sender.
 $Foswiki::cfg{SMTP}{Username} = '';
 
-# **PASSWORD 30 DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
+# **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
-# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'" DISPLAY_IF="{WebMasterEmail}!=''"**
+# **BOOLEAN LABEL="Enable Email" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'" DISPLAY_IF="{WebMasterEmail}!=''"**
 # Enable email globally.  Un-check this option to disable all outgoing
 # email from Foswiki. If this option is enabled, email must be functional
 # for registration to be functional.
@@ -1855,7 +1855,7 @@ $Foswiki::cfg{EnableEmail} = $FALSE;
 # The S/MIME Certificate information in the *Certificate Management*
 # section must be completed for CSR's to work correctly.
 #
-# **BOOLEAN \
+# **BOOLEAN LABEL="Enabe SMIME"\
 #   FEEDBACK="label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
 #                    This allows immediate use of signed email.'; \
@@ -1874,7 +1874,7 @@ $Foswiki::cfg{EnableEmail} = $FALSE;
 # Enable to sign all e-mails sent by Foswiki using S/MIME.
 $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
-# **PATH DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PATH LABEL="SMIME Certificate File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # Specify the file containing the administrator's X.509 certificate.  It
 # must be in PEM format.
 #
@@ -1886,7 +1886,7 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 
-# **PATH DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PATH LABEL="SMIME Key File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # Specify the file containing the private key corresponding to the
 # administrator's X.509 certificate. It must be in PEM format.
 #
@@ -1897,7 +1897,7 @@ $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeKeyFile} = '';
 
-# **PASSWORD 30 DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PASSWORD 30 LABEL="SMIME Key Password" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # If the file containing the certificate's private key is encrypted, specify
 # the password. Otherwise leave blank.
 #
@@ -1915,24 +1915,22 @@ $Foswiki::cfg{Email}{SmimeKeyPassword} = '';
 # The following parameters can be used to specify commonly used components
 # of the subject name for Certificate Signing Requests.
 
-# **STRING DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **STRING LABEL="Country Code" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # ISO country code (2 letters)
 $Foswiki::cfg{Email}{SmimeCertC} = '';
 
-# **STRING DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
-# State or Province
+# **STRING LABEL="State/Province" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 $Foswiki::cfg{Email}{SmimeCertST} = '';
 
-# **STRING DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **STRING LABEL="Location" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # Locality (city or town)
 $Foswiki::cfg{Email}{SmimeCertL} = '';
 
-# **STRING DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
-# Organization
+# **STRING LABEL="Organization " DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 $Foswiki::cfg{Email}{SmimeCertO} = '';
 
-# **STRING DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
-# Organizational unit. For example Department.
+# **STRING LABEL="Organization Unit" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# For example Department.
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
 
 #---++ Advanced Setup
@@ -1943,6 +1941,7 @@ $Foswiki::cfg{Email}{SmimeCertOU} = '';
 #          'Net::SMTP (TLS)',\
 #          'Net::SMTP (STARTTLS)',\
 #          MailProgram \
+#          LABEL="Mail Method"
 #          DISPLAY_IF="{EnableEmail}"  CHECK="iff:'{EnableEmail}'"**
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable, although Net::SMTP provides better
@@ -1954,17 +1953,17 @@ $Foswiki::cfg{Email}{SmimeCertOU} = '';
 # blank.  You'll be told if the server requires a username and password.
 $Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
 
-# **COMMAND DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
+# **COMMAND LABEL="Mail Program" DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
 # This needs to be a command-line program that accepts
 # MIME format mail messages on standard input, and mails them.
 $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
-# **BOOLEAN DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
+# **BOOLEAN LABEL="Debug SMTP" DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
 # Set this option on to enable email debugging.
 # Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
+# **STRING 30 LABEL="Debug Flags" DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} eq q<MailProgram>'"**
 # Flags passed to the mail program.
 # Used when a {MailProgram} is selected and {SMTP}{Debug} is enabled.
 # Flags are in addition to any specified with
@@ -1977,10 +1976,9 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 # for the client queue files (. =/var/spool/clientmqueue/=)
 # to be read and writable by the webserver for the duration of any
 # testing.
-
 $Foswiki::cfg{SMTP}{DebugFlags} = '';
 
-# **STRING 30 \
+# **STRING 30 LABEL="Sender Host"\
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**
 # Mail domain sending mail. SMTP requires that you identify yourself.
 # This option specifies a string to pass to the mail host as your mail
@@ -1989,14 +1987,14 @@ $Foswiki::cfg{SMTP}{DebugFlags} = '';
 # Example: foswiki.your.company.
 $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
-# **BOOLEAN \
+# **BOOLEAN LABEL="Enable Verify Server Certificate" \
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**
 # Verify that server's certificate contains the expected hostname when using 
 # an SSL (or STARTTLS) connection.
 # This verifies the identity of the server to which mail is sent.
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
-# **PATH EXPERT \
+# **PATH EXPERT LABEL="Certificate Authorities Filename" \
 #               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
@@ -2006,7 +2004,7 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 # be used.
 $Foswiki::cfg{Email}{SSLCaFile} = '';
 
-# **PATH EXPERT \
+# **PATH LABEL="Certificate Authorities Directory" EXPERT \
 #               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
@@ -2020,7 +2018,7 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 # Note that it can also contain Certificate Revocation Lists.
 $Foswiki::cfg{Email}{SSLCaPath} = '';
 
-# **BOOLEAN EXPERT \
+# **BOOLEAN LABEL="Enable Verify Certificate Revocation" EXPERT \
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Enable this option to verify that the server's certificate has not been
 # revoked by the issuing authority.  If you enable this option, you should
@@ -2029,14 +2027,14 @@ $Foswiki::cfg{Email}{SSLCaPath} = '';
 # a separate file {Email}{SSLCrlFile}, or in {Email}{SSLCaPath}.
 $Foswiki::cfg{Email}{SSLCheckCRL} = $FALSE;
 
-# **PATH EXPERT \
+# **PATH LABEL="Revoked Certificates Filename" EXPERT \
 #               DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLCheckCRL}"**
 # Specify a file containing all the revoked certificates (CRLs) from all
 # your CAs. If you trust more than a few CAs, it's probably better to use
 # {Email}{SSLCaPath}. Be sure to establish a periodic update mechanism.
 $Foswiki::cfg{Email}{SSLCrlFile} = '';
 
-# **PATH EXPERT \
+# **PATH LABEL="Client Certificate Filename" EXPERT \
 #             DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # If your email server requires a X.509 client certificate, specify the path
 # to the file that contains it.
@@ -2044,7 +2042,7 @@ $Foswiki::cfg{Email}{SSLCrlFile} = '';
 # It must be in PEM format.
 $Foswiki::cfg{Email}{SSLClientCertFile} = '';
 
-# **PATH EXPERT \
+# **PATH LABEL="Client Key Filename" EXPERT \
 #             DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientCertFile}.length"**
 # Specify the file containing the private key corresponding to the X.509
 # certificate used to connect to the server. It must be in PEM format.
@@ -2053,13 +2051,13 @@ $Foswiki::cfg{Email}{SSLClientCertFile} = '';
 # *it must NOT be readable by users!*
 $Foswiki::cfg{Email}{SSLClientKeyFile} = '';
 
-# **PASSWORD 30 EXPERT \
+# **PASSWORD 30 LABEL="Client Key Password" EXPERT \
 #            DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientKeyFile}.length"**
 # If the file containing the certificate's private key is encrypted, specify
 # the password. Otherwise leave blank.
 $Foswiki::cfg{Email}{SSLClientKeyPassword} = '';
 
-# **BOOLEAN EXPERT DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
+# **BOOLEAN LABEL="Enable Servertime in Email" EXPERT DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
