@@ -24,6 +24,15 @@ a {
   position:relative;
   box-shadow:0 6px 10px -6px rgba(0, 0, 0, 0.3) inset;
 }
+.header label {
+  margin-right:0;
+}
+.showExpertButton {
+  position:fixed;
+  bottom:1em;
+  left:1em;
+  z-index:999;
+}
 
 .top_level_buttons {
   float: right;
@@ -110,9 +119,6 @@ a {
 .node .control_button {
   background:transparent;
   border:0;
-}
-.header label {
-  margin-right:0;
 }
 .node .node select,
 .node .node textarea,
@@ -368,7 +374,7 @@ table.tml {
   padding: 0 0 0 1em;
   min-height:50em;
   float:left;
-  width:100%;
+  width:99%;
 }
 .ui-tabs-vertical > .ui-tabs-nav > li { 
   width: 100%; 

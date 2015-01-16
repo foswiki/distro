@@ -12,7 +12,7 @@ configure.js script.
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Foswiki Configuration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=yes" />
-  <meta name="robots" content="noindex" /> 
+  <meta name="robots" content="noindex" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,9 +32,9 @@ configure.js script.
   <div class="header clearfix">
     <img class="logo" src="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-logo.png" alt="Foswiki configure" height="60" />
     <div class="top_level_buttons">
-      <input type="text" style="width:30em" id="searchInput" title="Enter a string to search for"/>
-      <button id="searchButton" title="Search in titles and keys">Search</button> 
-      <input id="showExpert" type="checkbox"><label for="showExpert">Show expert options</label> 
+      <input type="text" style="width:30em" id="searchInput" placeholder="search for configuration items"/>
+      <button id="searchButton" title="Search in titles and keys">Search</button>
+      <input id="showExpert" type="checkbox"><label for="showExpert" class="showExpertButton">Show expert options</label>
       <button id="saveButton">Save</button>
     </div>
     <div id="bootstrap_warning" class="foswikiAlert">
@@ -76,7 +76,7 @@ configure.js script.
   <div id="saveMessage" style="display:none">
     Save changes to
   </div>
-<!-- 
+<!--
    This is Foswiki <tt>configure</tt>. From this interface you can access all the setup for your Foswiki. Use
    <button class="help_button control_button" name="info-icon"></button> to get help on an item.
    <button class="help_button control_button" name="undo-icon"></button> will undo any changes to the item.
