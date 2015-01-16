@@ -249,7 +249,7 @@ sub save {
                     eval "undef \$Foswiki::cfg$k";
                 }
             }
-            elsif ( $spec->{item}->CHECK_option('nullok') ) {
+            elsif ( $spec->CHECK_option('undefok') ) {
                 eval "undef \$Foswiki::cfg$k";
             }
             else {

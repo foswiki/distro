@@ -80,10 +80,10 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://localhost';
 # **STRING H CHECK="undefok"**
 # Default: H
 $Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'H';
-# **STRING EXPERT CHECK="nullok"**
+# **STRING EXPERT CHECK="undefok"**
 # Default: EXPERT
 $Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'EXPERT';
-# **PATH CHECK='nullok'**
+# **PATH CHECK='undefok'**
 # Default: empty
 # $Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'empty';
 # **STRING CHECK="undefok"**
