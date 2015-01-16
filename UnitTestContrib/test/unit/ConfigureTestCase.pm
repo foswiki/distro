@@ -55,6 +55,7 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://google.com';
 $Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'hidden';
 $Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'iot';
 $Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'full';
+$Foswiki::cfg{UnitTestContrib}{Configure}{undefok} = 'value';
 $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_STRING} = 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx';
 $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_PERL} = {
     'string' => 'real$Foswiki::cfg{UnitTestContrib}{Configure}{URL}/man'

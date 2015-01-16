@@ -17,6 +17,7 @@ use Foswiki::Configure::Reporter;
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {
+
     my $this   = shift;
     my $params = {
         set => {
@@ -37,7 +38,7 @@ sub test_changecfg {
             '{UnitTestContrib}{Configure}{REGEX}' => '(black|white)+',
 
             # Undeffable
-            '{TempfileDir}' => '',
+            '{UnitTestContrib}{Configure}{undefok}' => undef,
         }
     };
 
@@ -83,7 +84,12 @@ sub test_changecfg {
             level => 'notes',
             text =>
 q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
-        }
+        },
+        {
+            level => 'notes',
+            text =>
+              '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |',
+        },
     ];
     my $ms = $reporter->messages();
 

@@ -86,6 +86,9 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{EXPERT} = 'EXPERT';
 # **PATH CHECK='undefok'**
 # Default: empty
 # $Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'empty';
+# **STRING CHECK='undefok'**
+# Default: value
+$Foswiki::cfg{UnitTestContrib}{Configure}{undefok} = 'value';
 # **STRING CHECK="undefok"**
 # Should contain other items
 $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_STRING} = 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx';
