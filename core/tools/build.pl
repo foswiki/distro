@@ -46,21 +46,6 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
-    if ( my $gitdir = findPathToDir('.git') ) {
-        print "detected git installation at $gitdir\n";
-
- # Verify that all files are committed and all commits are pushed to github TODO
-        my $gitstatus = `git status -uno`;
-        unless ($nocheck) {
-            die
-"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
-              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-        }
-    }
-    else {
-        die "no .git dir detected, svn is ***OBSOLETE***, aborting!\n";
-    }
-
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
         if ( $name eq '-auto' ) {
@@ -81,6 +66,21 @@ sub new {
             $nocheck = 1;
             $name    = undef;
         }
+    }
+
+    if ( my $gitdir = findPathToDir('.git') ) {
+        print "detected git installation at $gitdir\n";
+
+ # Verify that all files are committed and all commits are pushed to github TODO
+        my $gitstatus = `git status -uno`;
+        unless ($nocheck) {
+            die
+"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
+        }
+    }
+    else {
+        die "no .git dir detected, svn is ***OBSOLETE***, aborting!\n";
     }
 
     print <<END;
@@ -396,8 +396,10 @@ sub stage_gendocs {
 
     # generate the POD documentation
     print "Building automatic documentation to $this->{tmpDir}...";
-    $this->cp( "$this->{tmpDir}/AUTHORS",
+    $this->cp( "$this->{basedir}/AUTHORS",
         "$this->{tmpDir}/pub/System/ProjectContributor/AUTHORS" );
+    $this->cp( "$this->{basedir}/pub/System/DocumentGraphics/viewtopic.png",
+        "$this->{tmpDir}/viewtopic.png" );
 
 #SMELL: these should probably abort the build if they return errors / oopies
 #replaced by the simpler INSTALL.html
