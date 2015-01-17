@@ -77,7 +77,7 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{URLPATH} = '/';
 # **URL CHECK="undefok"**
 # Default: http://localhost
 $Foswiki::cfg{UnitTestContrib}{Configure}{URL} = 'http://localhost';
-# **STRING H CHECK="undefok"**
+# **STRING H CHECK="noemptyok noundefok"**
 # Default: H
 $Foswiki::cfg{UnitTestContrib}{Configure}{H} = 'H';
 # **STRING EXPERT CHECK="undefok"**

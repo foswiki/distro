@@ -42,7 +42,7 @@ sub _getSetParams {
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
             ($v) = $v =~ m/^(.*)$/s;    # UNTAINT
-            if ( defined $v && $v ne '' ) {
+            if ( defined $v ) {
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;
                 if ($spec) {
@@ -57,7 +57,10 @@ sub _getSetParams {
                     }
                 }
                 if ( defined $value ) {
-                    eval "\$Foswiki::cfg$k=\$value";
+
+                 # This is needed to prevent expansion of embedded $Foswiki::cfg
+                 # variables during the eval.
+                    eval "\$Foswiki::cfg$k=join('',\$value)";
                 }
                 else {
                     eval "undef \$Foswiki::cfg$k";
@@ -75,9 +78,6 @@ sub _getSetParams {
                       . '</verbatim>' );
             }
         }
-
-        # Expand imported values
-        Foswiki::Configure::Load::expandValue( \%Foswiki::cfg );
     }
 }
 

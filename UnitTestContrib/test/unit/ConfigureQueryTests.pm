@@ -506,12 +506,12 @@ sub test_generic_check_PATH {
     #SMELL: expanded values not reported for type URL
 
     # reports
-    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
 
-    #$r = $report->{reports}->[0];
-    #$this->assert_str_equals( 'notes',                    $r->{level} );
-    #$this->assert_str_equals( 'Expands to: =blah punk\\junk=', $r->{text} );
     $r = $report->{reports}->[0];
+    $this->assert_str_equals( 'notes',                         $r->{level} );
+    $this->assert_str_equals( 'Expands to: =blah punk\\junk=', $r->{text} );
+    $r = $report->{reports}->[1];
     $this->assert_str_equals( 'warnings', $r->{level} );
     $this->assert_matches( qr/You should use/, $r->{text} );
 }
@@ -638,7 +638,7 @@ sub test_generic_check_STRING {
     $this->assert_deep_equals( \@ui_path, $report->{path} );
 
     # reports
-    $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
+    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
 
     $params->{set}->{'{UnitTestContrib}{Configure}{STRING}'} = 'x';
     $report =
@@ -660,7 +660,7 @@ sub test_generic_check_STRING {
     $this->assert_str_equals( 'errors', $r->{level} );
     $this->assert_matches( qr/Length must be at least/, $r->{text} );
 
-    # H does not have nullEXPERT has nullok
+    # H does not have undefok EXPERT has undefok
     $params = {
         keys => [
             '{UnitTestContrib}{Configure}{H}',
@@ -672,13 +672,12 @@ sub test_generic_check_STRING {
     $report =
       Foswiki::Configure::Query::check_current_value( $params, $reporter );
 
-    #print STDERR Data::Dumper->Dump([$report]);
     $this->assert_num_equals( 2, scalar @$report );
     $this->assert_str_equals( $params->{keys}->[0], $report->[0]->{keys} );
     $this->assert_num_equals( 1, scalar( @{ $report->[0]->{reports} } ) );
     $r = $report->[0]->{reports}->[0];
-    $this->assert_str_equals( 'errors',            $r->{level} );
-    $this->assert_str_equals( 'Must be non-empty', $r->{text} );
+    $this->assert_str_equals( 'errors',           $r->{level} );
+    $this->assert_str_equals( 'May not be empty', $r->{text} );
 
     $report = $report->[1];
     $this->assert_str_equals( $params->{keys}->[1], $report->{keys} );
@@ -775,12 +774,11 @@ sub test_generic_check_URLPATH {
     $this->assert_deep_equals( \@ui_path, $report->{path} );
 
     # reports
-    $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
+    $this->assert_num_equals( 2, scalar( @{ $report->{reports} } ) );
     $r = $report->{reports}->[0];
-
-    #$this->assert_str_equals( 'notes',                   $r->{level} );
-    #$this->assert_str_equals( 'Expands to: =punk junk=', $r->{text} );
-    #$r = $report->{reports}->[1];
+    $this->assert_str_equals( 'notes',                        $r->{level} );
+    $this->assert_str_equals( 'Expands to: =hunk punk junk=', $r->{text} );
+    $r = $report->{reports}->[1];
     $this->assert_str_equals( 'errors', $r->{level} );
     $this->assert_matches( qr/is not valid/, $r->{text} );
 }
