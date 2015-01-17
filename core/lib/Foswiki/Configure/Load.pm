@@ -494,7 +494,7 @@ out by detecting the layout of the installation.%BR%To complete the bootstrap pr
    * Restore the missing !LocalSite.cfg from a backup, *or*
    * Complete the new Foswiki installation:
       * visit [[%SCRIPTURL{configure}%?VIEWPATH=$vp][configure]] and save a new configuration.
-      * Register a user and add it to the AdminGroup
+      * Register a user and add it to the %USERSWEB%.AdminGroup
 %BR% *You have been logged in as a temporary administrator.*
 Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
 Your temporary administrator rights will "stick" until you've logged out from this session.

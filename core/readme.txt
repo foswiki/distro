@@ -54,7 +54,8 @@ There is a site support questions, run by Foswiki users for
 Foswiki users. Visit http://foswiki.org/Support if you have 
 any installation questions or questions about Foswiki 
 deployment; please do not contact the developers directly. You
-can also get support from fellow users on the IRC channel #foswiki
+can also get support from fellow users on the IRC channel #foswiki,
+visit http://irclogs.foswiki.org/ for a web based IRC client.
 
 
 Foswiki News, Development and Deployment
