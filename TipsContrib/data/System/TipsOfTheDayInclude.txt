@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418802662" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Tips Of the Day Include
 
@@ -7,7 +7,7 @@ This Page randomly picks a Tip of the day to display. The %HOMETOPIC% includes t
 %STARTINCLUDE%
 <div class="tipsOfTheDay"><div class="tipsOfTheDayContents">
 <strong class="tipsOfTheDayHeader">%ICON{tip}% Tip of the Day</strong>
-<div class="tipsOfTheDayText">%CALC{$SET(webtopic, $LISTRAND(%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %MAINWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" separator=", " format="$web.$topic" noheader="on" }%))$SET(pos, $FIND(., $GET(webtopic)))$SET(web, $REPLACE($GET(webtopic), $GET(pos), 100))$SET(topic, $REPLACE($GET(webtopic), 1, $GET(pos)))}%
+<div class="tipsOfTheDayText">%CALC{$SET(webtopic, $LISTRAND(%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %USERSWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" separator=", " format="$web.$topic" noheader="on" }%))$SET(pos, $FIND(., $GET(webtopic)))$SET(web, $REPLACE($GET(webtopic), $GET(pos), 100))$SET(topic, $REPLACE($GET(webtopic), 1, $GET(pos)))}%
 %CALC{$NOP(%)SEARCH{ \"^$GET(topic)$\" web=\"$GET(web)\" scope="topic" regex="on" nosearch=\"on\" noheader=\"on\" nototal=\"on\" limit=\"1\" format=\"<span class=\\"tipsOfTheDayTitle\\">[[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]</span><br /> $summary(100, noheader) [[$web.$topic][%MAKETEXT{"Read on"}%&nbsp;<img src=\\"%ICONURL{more-small}%\\" alt=\\"Read more\\" title=\\"Read on\\" />]]\"}$NOP(%)}%
 </div>
 </div>

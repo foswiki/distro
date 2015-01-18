@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419905449" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -86,5 +86,5 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
-%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1419905636" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
+__Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1421599902" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%

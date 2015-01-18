@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421005555" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -36,11 +36,11 @@ There are several other options available for search tools via the [[http://fosw
 #SetPreferences 
 ---++++ Set Foswiki Preferences
 
-Preferences for customizing many aspects of Foswiki are set by editing =%LOCALSITEPREFS%=. If a given preference is not set in =%LOCALSITEPREFS%=, then a default value is picked up from =[[%SYSTEMWEB%.DefaultPreferences]]=, if present, or, for extensions, from the extension topics.
+Preferences for customizing many aspects of Foswiki are set by editing =%LOCALSITEPREFS%=. If a given preference is not set in =%LOCALSITEPREFS%=, then a default value is picked up from =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=, if present, or, for extensions, from the extension topics.
 
-To simplify your upgrades, do not modify =%SYSTEMWEB%.DefaultPreferences=. Instead, copy any settings you want to change from =%SYSTEMWEB%.DefaultPreferences= to =%LOCALSITEPREFS%=.
+To simplify your upgrades, do not modify =%SYSTEMWEB%.%WIKIPREFSTOPIC%=. Instead, copy any settings you want to change from =%SYSTEMWEB%.%WIKIPREFSTOPIC%= to =%LOCALSITEPREFS%=.
 
-To see the available preferences that can be set, look through =[[%SYSTEMWEB%.DefaultPreferences]]=.
+To see the available preferences that can be set, look through =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=.
 
 If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the ={SitePrefsTopicName}= setting (visible when Expert mode is enabled). *It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=*.
 
@@ -73,7 +73,7 @@ To enable Foswiki to sign administrative e-mails:
    1 Using the =configure= script, change the following settings under *Mail and Proxies*:
       1 "Email Server" tab. Follow the directions under ={MailMethod}= and ={MailProgram}= to enable an external mail program such as _sendmail_. =Net::SMTP= is not supported.
          * ={SMTP}{MAILHOST}=, ={SMTP}{SENDERHOST}=, ={SMTP}{Username}= and ={SMTP}{Password}= are not used an may be deleted.
-         * If Foswiki variable =SMTPMAILHOST= is defined in =[[%USERSWEB%.SitePreferences]]= it should be removed.
+         * If Foswiki variable =SMTPMAILHOST= is defined in =[[%LOCALSITEPREFS%]]= it should be removed.
       1 "S/MIME" tab:
          * Enable the S/MIME checkbox
          * Enter the full path to the certificate file in the ={SmimeCertificateFile}= configuration variable
@@ -214,9 +214,9 @@ If your Foswiki site is publicly accessible, you need to decide which copyright 
 
 To change the copyright statement, perform the following steps:
 
-   * Copy the =WEBCOPYRIGHT= preference setting from [[%SYSTEMWEB%.DefaultPreferences]] to =%LOCALSITEPREFS%=. Change the value to your desired text. This value will be your new default across all webs.
-   * You can create a unique message for a specific web by setting the =WEBCOPYRIGHT= preference in the =WebPreferences= topic for the given web. For example, you could add a confidential classification to a web that has restricted access.
-   * The =WEBCOPYRIGHT= preference setting in [[%SYSTEMWEB%.WebPreferences]] covers the documentation that comes with Foswiki, and should not be changed.
+   * Copy the =WEBCOPYRIGHT= preference setting from [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] to =%LOCALSITEPREFS%=. Change the value to your desired text. This value will be your new default across all webs.
+   * You can create a unique message for a specific web by setting the =WEBCOPYRIGHT= preference in the =%WEBPREFSTOPIC%= topic for the given web. For example, you could add a confidential classification to a web that has restricted access.
+   * The =WEBCOPYRIGHT= preference setting in [[%SYSTEMWEB%.%WEBPREFSTOPIC%]] covers the documentation that comes with Foswiki, and should not be changed.
 
 ---++++ WYSIWYG vs Raw Edit
 

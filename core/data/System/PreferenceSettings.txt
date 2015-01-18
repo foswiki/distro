@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -10,12 +10,12 @@ Macros defined using preference settings are expanded by enclosing their name in
 A preference macro is always taken from the most current topic revision, even when accessing previous revisions of a topic.
 
 Preferences can be defined in a number of places:
-   1 %SYSTEMWEB%.DefaultPreferences (Foswiki upgrades overwrite this topic)
+   1 %SYSTEMWEB%.%WIKIPREFSTOPIC% (Foswiki upgrades overwrite this topic)
    1 In (some) plugin documentation topics. (Deprecated)
-   1 %USERSWEB%.SitePreferences
+   1 %LOCALSITEPREFS%
    1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
-   1 !WebPreferences
-   1 Sub-webs inherit the !WebPreferences of their parent
+   1 <nop>%WEBPREFSTOPIC% in each web.
+   1 Sub-webs inherit the <nop>%WEBPREFSTOPIC% of their parent
    1 In the topic being accessed
 In this list, =Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ in this case, the macro is locked to the value at that level; =set= statements at higher-numbered levels are ignored.
 
@@ -39,7 +39,7 @@ Spaces between the = sign and the value will be ignored. You can split a value o
 Whatever you include in your macro will be expanded on display, exactly as if it had been entered directly (though see Parameters, below).
 
 *Example: Create a custom logo macro* <br />
-   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's !WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
+   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's <nop>%WEBPREFSTOPIC% topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to %WEBPREFSTOPIC%, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in %WEBPREFSTOPIC%:
 <verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
 
 Preference settings are *case sensitive*.   (Foswiki by convention always writes settings in upper case.)
@@ -130,4 +130,4 @@ controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
 </div>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1416592876" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1421598394" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Sidebar background color
 To see if the background color really extends beyond the body, we make the body contents longer than the sidebar.
@@ -16,7 +16,7 @@ This line loads the extra style definition:
 <verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookSidebarBackground/sidebar.css
 </verbatim>
-You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic, or on a single page.
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic, or on a single page.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
@@ -121,5 +121,5 @@ dummy content to make this page longer
 dummy content to make this page longer
 
 <!-- %JQREQUIRE{"chili"}% -->
-%META:FILEATTACHMENT{name="sidebar.css" attr="" comment="css to give the sidebar a background color" date="1282772512"}%
+%META:FILEATTACHMENT{name="sidebar.css" attr="" user="ProjectContributor" comment="css to give the sidebar a background color" date="1421599902" version="1"}%
 

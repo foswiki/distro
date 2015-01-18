@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 
 ---+!! PatternSkinCssCookbook Recipe: Center the page
@@ -10,9 +10,9 @@ This line loads the extra style definition:
 <verbatim class="tml">
    * Set USERSTYLEURL = %ATTACHURLPATH%/centerpage.css
 </verbatim>
-You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic or on a single page.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1421599902" path="centerpage.css" size="259" user="ProjectContributor" version="1"}%

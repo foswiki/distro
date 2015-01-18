@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418963640" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
@@ -65,7 +65,7 @@ If the contrib is installed, you will see such a field here:
 ---+++ Customizing the appearance of the calendar
 
    * An administrator can customize the default appearance of the calendar using the =configure= interface to set the style and language options.
-   * Users can customize the appearance of the calendar, overriding the administrator's choices, either system-wide (at %LOCALSITEPREFS%), by web (at the !WebPreferences topic), and even or per-topic basis. To do that they need to define the following settings: 
+   * Users can customize the appearance of the calendar, overriding the administrator's choices, either system-wide (at %LOCALSITEPREFS%), by web (at the <nop>%WEBPREFSTOPIC% topic), and even or per-topic basis. To do that they need to define the following settings: 
       | *Setting* | *Default value* |
       | JSCALENDARCONTRIB_FORMAT | %e %b %Y |
       | JSCALENDARCONTRIB_STYLE | large |
@@ -115,8 +115,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
-*Related Topics:* %USERSWEB%.SitePreferences
+*Related Topics:* %LOCALSITEPREFS%
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1418963640" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1418963640" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1421599902" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1421599902" version="1"}%

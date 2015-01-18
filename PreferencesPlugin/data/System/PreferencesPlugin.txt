@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -57,6 +58,6 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
-*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.DataForms
+*Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, %SYSTEMWEB%.DataForms
 
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417407038" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -224,7 +224,7 @@ It is recommended to use the skin method, as it is easier to control, and requir
       * Make a copy of =templates/mailnotify.tmpl= called =templates/mailnotify.skiname.tmpl=. For example, =templates/mailnotify.pattern.tmpl=, and modify this copy to your need. If you use the !NatSkin simply use =templates/mailnotify.nat.tmpl= instead
 
    * Using a dummy skin name globally
-      * In [[%USERSWEB%.SitePreferences]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
+      * In [[%LOCALSITEPREFS%]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
       * Create a =templates/mailnotify.notifyskin.tmpl= with your tailorings
    
    * Using a dummy skin name per web
@@ -299,5 +299,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1417407038" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1417407085" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1421599902" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1421599902" attr="h" comment="" version="1"}%

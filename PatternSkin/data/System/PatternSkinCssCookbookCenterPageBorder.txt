@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Center the page with a border
 
@@ -9,7 +9,7 @@ This line loads the extra style definition:
 <verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookCenterPageBorder/centerpageborder.css
 </verbatim>
-You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic or on a single page.
 </div>
 
 Add the dynamic link to the logo image to the topic text:
@@ -47,5 +47,5 @@ You can always write a =&lt;style>= in a topic - all current browsers support th
 }%
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="centerpageborder.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="gradient_page.gif" attachment="gradient_page.gif" attr="" comment="background image" date="1141771401" path="gradient_page.gif" size="3854" stream="gradient_page.gif" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="centerpageborder.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1421599902" path="centerpage.css" size="259" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="gradient_page.gif" attachment="gradient_page.gif" attr="" comment="background image" date="1421599902" path="gradient_page.gif" size="3854" stream="gradient_page.gif" user="ProjectContributor" version="1"}%

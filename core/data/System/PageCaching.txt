@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417084395" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 ---+!! Page Caching
 
 %TOC%
@@ -20,8 +20,8 @@ want to tune the cache options for your site.
 
 When Foswiki generates a page, it may refer to a lot of content stored in the
 Foswiki database. For example, a topic 'MyTopic' may be rendered differently
-depending on a setting in !WebPreferences, which is itself a topic. If
-!WebPreferences were to be edited, then the cache of !MyTopic would have to be
+depending on a setting in the web's <nop>%WEBPREFSTOPIC%, which is itself a topic. If
+<nop>%WEBPREFSTOPIC% were to be edited, then the cache of !MyTopic would have to be
 regenerated, because the setting it depends on might have been changed during
 the edit. For an average page there are a large number of these _dependencies_
 that have to be tracked. This tracking has to be fast, so the cache uses a
@@ -129,14 +129,14 @@ First choice is to try and figure out how to make a page cacheable at least part
 If that doesn't work out or is simply to complicated to get right, a page or a complete web
 can be flagged to be non-cacheable all together. That way they won't ever end up in the cache store.
 
-This is achieved by using the preference variable =CACHEABLE= in a topic, the !SitePreferences or !WebPreferences like this:
+This is achieved by using the preference variable =CACHEABLE= in a topic, the %LOCALSITEPREFS% or any <nop>%WEBPREFSTOPIC% like this:
 
 <verbatim>
     * Set CACHEABLE = off
 </verbatim>
 
-Adding it to a single topic will prevent this page from being cached. Adding it to !WebPreferences will
-disable the page cache for the complete web. Adding it to !SitePreferences will switch off
+Adding it to a single topic will prevent this page from being cached. Adding it to <nop>%WEBPREFSTOPIC% will
+disable the page cache for the complete web. Adding it to %LOCALSITEPREFS% will switch off
 the page cache for the complete site. This makes sense only when switching _on_ the page cache explicitly for
 a subset of pages and webs again using
 

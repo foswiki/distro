@@ -111,7 +111,7 @@ our $SHORTDESCRIPTION = '%$CREATED_SHORTDESCRIPTION%';
 # is not recommended. Instead, leave $NO_PREFS_IN_TOPIC at 1 and use
 # =$Foswiki::cfg= entries, or if you want the users
 # to be able to change settings, then use standard Foswiki preferences that
-# can be defined in your %USERSWEB%.SitePreferences and overridden at the web
+# can be defined in your %USERSWEB%.%LOCALSITEPREFS% and overridden at the web
 # and topic level.
 #
 # %SYSTEMWEB%.DevelopingPlugins has details of how to define =$Foswiki::cfg=

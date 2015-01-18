@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DefaultPreferences"}%
 ---+ Shortcuts
 
@@ -12,6 +12,6 @@ format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+
 
 *See also:*
    * [[Macros]] - an alphabetical list of all macros
-   * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
+   * %WIKIPREFSTOPIC%#RenderingShortcuts - where shortcuts are defined 
    * [[Wiki syntax]] - summary of the topic markup language
    * [[StandardColors#ShortCuts]] - shortcuts for some standard colours

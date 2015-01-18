@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTINCLUDE%
@@ -109,7 +109,7 @@ The notify e-mail uses the default =changes.tmpl= template, or a skin if activat
 ---++++ Legacy and current configuration
 
 <div class="foswikiHelp">
-%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki.   *These settings are no longer used and have been removed*.
+%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.Make sure you delete that setting if you are using a %LOCALSITEPREFS% topic from a previous release of Foswiki.   *These settings are no longer used and have been removed*.
 </div>
 
 %TABLE{sort="off"}%

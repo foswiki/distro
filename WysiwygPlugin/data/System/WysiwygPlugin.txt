@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -254,4 +255,4 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1421599458" attr="h" comment="" version="1"}%

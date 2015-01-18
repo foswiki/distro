@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1421073102" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1421599902" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -30,7 +30,7 @@ jquery.natedit docu
 ---++ Configuration
 *PatternSkin:* %BR%
 To enable the <nop>NatEditPlugin add the identifier =natedit= to the =SKIN= 
-variable in %USERSWEB%.SitePreferences or WebPreferences, e.g.
+variable in %LOCALSITEPREFS% or %WEBPREFSTOPIC%, e.g.
 
 <pre>
    * <!-- -->Set SKIN = natedit,pattern
@@ -170,4 +170,4 @@ is sufficient.
 |  Perl Version: | - |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1421073102" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1421599902" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

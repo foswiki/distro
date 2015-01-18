@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1303098887" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
@@ -18,7 +18,7 @@ When customizing your Foswiki installation, you can either choose to completely 
 ---+++ When you need lots of graphic changes: Rewriting CSS
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic
-   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
+   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]] to your new files:
 <pre class="tml">
    * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
    * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -30,7 +30,7 @@ With CSS you cannot remove already defined classes, you can only add to it, or o
 Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preference settings]]: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
-   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =USERXXXURL= preferences):
+   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]] to your new files (below the =USERXXXURL= preferences):
 <pre class="tml">
    * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
    * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -41,9 +41,9 @@ Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preferen
    * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
 </pre>
 
-Instead of setting these preferences in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]], you can set these in your home topic, or in any other topic. Setting style URL preferences in:
-   * [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]]: the style is visible for all users, site-wide
-   * WebPreferences: the style is visible for all users in one web
+Instead of setting these preferences in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]], you can set these in your home topic, or in any other topic. Setting style URL preferences in:
+   * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]]: the style is visible for all users, site-wide
+   * %WEBPREFSTOPIC%: the style is visible for all users in one web
    * Home topic: the style is visible for that one user when viewing the site
    * Some other topic: the style is only visible in that one topic
 

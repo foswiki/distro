@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420999946" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -116,9 +116,9 @@ There are two registration scenarios that apply:
    $ Self-registration by Guest users:  The actual registration will be processed by the special internal user %USERSWEB%.RegistrationAgent.  Group topics must include an ALLOWTOPICCHANGE = %USERSWEB%.RegistrationAgent to be eligible for enrollment.
    $ Registration by logged-in users:  The registration form is filled out by some other logged-in user.  In this case, the %USERSWEB%.RegistrationAgent is *not* used for Group updates.  The current user must have ALLOWTOPICCHANGE permission for groups for them to be eligible for enrollment.
 
-Note: During registration, if it turns out that the current user or %USERSWEB%.RegistrationAgent doesn't have permission to update the group topic, the group update will be silently skipped.  The user will still be albe to register.
+Note: During registration, if it turns out that the current user or %USERSWEB%.RegistrationAgent doesn't have permission to update the group topic, the group update will be silently skipped.  The user will still be able to register.
 
-See DefaultPreferences#RegistrationOptions for further details.  Copy the settings into %USERSWEB%.SitePreferences to make them active.
+See %WIKIPREFSTOPIC%#RegistrationOptions for further details.  Copy the changed settings into %LOCALSITEPREFS% to make them active.
 
 #ApacheLogin
 ---+++ Enabling Apache Login
@@ -233,7 +233,7 @@ If your ={PasswordManager}= supports password changing, you can change and reset
    * The ChangePassword form ( ==Foswiki/ChangePassword== )
    * The ResetPassword form ( ==Foswiki/ResetPassword== )
 
-If the ={PasswordManager}= does not support password changing, the ChangePassword and ResetPassword will show a simple message. This message is defined iby the setting CHANGEPASSWORDDISABLEDMESSAGE in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
+If the ={PasswordManager}= does not support password changing, the ChangePassword and ResetPassword will show a simple message. This message is defined by the setting CHANGEPASSWORDDISABLEDMESSAGE in %SYSTEMWEB%.%WIKIPREFSTOPIC%. You can redefine this setting by copying it to %LOCALSITEPREFS% and change it to include a link to the password management website of your organisation.
 
 #ChangingEmails
 ---++ Changing E-mail Addresses

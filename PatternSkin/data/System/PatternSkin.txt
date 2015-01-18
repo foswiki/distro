@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1314382739" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -27,7 +27,7 @@ Pattern skin has quite some flexibility out of the box. Try one of the provided 
 %STARTSECTION{"copysettings"}%
 Do you want to keep these settings?
    * Copy the text below to [[%WIKIUSERNAME%][your personal topic]]
-   * If you are a site admin, copy the text to %USERSWEB%.SitePreferences (or !WebPreferences for per-web themes)
+   * If you are a site admin, copy the text to %LOCALSITEPREFS% (or <nop>%WEBPREFSTOPIC% for per-web themes)
 %ENDSECTION{"copysettings"}%
 -->
 
@@ -41,7 +41,7 @@ Do you want to keep these settings?
       * Test [[%TOPIC%?webheaderart=][(none)]] 
    1 Set =WEBBGCOLOR= (currently: =%WEBBGCOLOR%=)
    
-Set these variables site wide in [[%USERSWEB%.SitePreferences]].
+Set these variables site wide in [[%LOCALSITEPREFS%]].
 <!--
    * Local WEBHEADERART = %URLPARAM{"webheaderart" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif"}%
 -->
@@ -95,7 +95,7 @@ Add =pattern01x00= to your skin path, like this:
    * [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=pattern][Test if installed]]
    * For skin activation see [[%SYSTEMWEB%.Skins]]
 
-To set pattern skin as default (site wide) skin, use these settings in [[%MAINWEB%.SitePreferences]]:
+To set pattern skin as default (site wide) skin, use these settings in [[%LOCALSITEPREFS%]]:
    
    * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.
       * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
@@ -126,7 +126,7 @@ Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
    * FOSWIKI_COLORS_URL = %FOSWIKI_COLORS_URL%
    * SKIN = %SKIN%
 
-If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
+If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to non-existing files, check in %SYSTEMWEB%.%WIKIPREFSTOPIC% and in %LOCALSITEPREFS% that the following preferences do exist and that they are set to on:
 <verbatim class="tml">
    * %SYSTEMWEB%.PatternSkin settings:
       * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
@@ -134,7 +134,7 @@ If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to no
       * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css
 </verbatim>
 
-*NOTE:* customization of these values should be done in [[%USERSWEB%.SitePreferences]]
+*NOTE:* customization of these values should be done in [[%LOCALSITEPREFS%]]
 
 If this still does not work, contact the administrator who installs skins.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
 
@@ -16,7 +16,7 @@ Topic text is not affected by the choice of skin, though a skin can be defined t
 
 ---++ Changing the default skin
 
-%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site (via %USERSWEB%.SitePreferences), a single web (via its WebPreferences topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
+%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site (via %LOCALSITEPREFS%), a single web (via its %WEBPREFSTOPIC% topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
 
 ---++ Defining Skins
 
@@ -87,7 +87,7 @@ To create a customisation of the Pattern skin, where you _only_ want to remove t
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
 </verbatim>
-and then set =SKIN=yourlocal,pattern= in %USERSWEB%.SitePreferences, a particular web's WebPreferences, or in an individual topic, depending on the desired scope of the skin.
+and then set =SKIN=yourlocal,pattern= in %LOCALSITEPREFS%, a particular web's %WEBPREFSTOPIC%, or in an individual topic, depending on the desired scope of the skin.
 
 ---++ Settings in Skins
 
@@ -101,14 +101,14 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 | =%<nop>WIKILOGOURL%= | Link of page logo |
 | =%<nop>WIKILOGOIMG%= | Image URL of page logo |
 | =%<nop>WIKILOGOALT%= | Alt text of page logo |
-| =%<nop>WEBBGCOLOR%= | Web-specific background color, defined in the WebPreferences |
+| =%<nop>WEBBGCOLOR%= | Web-specific background color, defined in the %WEBPREFSTOPIC% |
 | =%<nop>WIKITOOLNAME%= | The name of your Foswiki site |
 | =%<nop>SCRIPTURL%= | The script URL of Foswiki |
 | =%<nop>SCRIPTURLPATH%= | The script URL path |
 | =%<nop>SCRIPTSUFFIX%= | The script suffix, ex: =.pl=, =.cgi= |
 | =%<nop>WEB%= | The name of the current web. |
 | =%<nop>TOPIC%= | The name of the current topic. |
-| =%<nop>WEBTOPICLIST%= | Common links of current web, defined in the WebPreferences. It includes a [[#GoBox][Go box]] |
+| =%<nop>WEBTOPICLIST%= | Common links of current web, defined in the %WEBPREFSTOPIC%. It includes a [[#GoBox][Go box]] |
 | =%<nop>TEXT%= | The topic text, e.g. the content that can be edited |
 | =%<nop>QUERY{"form.name"}%= | [[DataForms][DataForm]], if any |
 | =%<nop>QUERY{"attachments.name"}%= | FileAttachment list |
@@ -116,7 +116,7 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 | =%<nop>EDITTOPIC%= | Edit link |
 | =%<nop>REVTITLE%= | The revision title, if any, ex: =(r1.6)= |
 | =%<nop>REVINFO%= | Revision info, ex: =r1.6 - 24 Dec 2002 - 08:12 GMT - %WIKIUSERNAME%= |
-| =%<nop>WEBCOPYRIGHT%= | Copyright notice, defined in the WebPreferences |
+| =%<nop>WEBCOPYRIGHT%= | Copyright notice, defined in the %WEBPREFSTOPIC% |
 | =%<nop>BROADCASTMESSAGE%= | Broadcast message at the beginning of your view template, can be used to alert users of scheduled downtimes; can be set in %LOCALSITEPREFS% |
 
 ---++ Using Cascading Style Sheets

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Shorthand Basics
 %TOC%
@@ -22,7 +22,7 @@ If you can enter text, you're ready for Foswiki. With a few simple rules, you'll
 
    * To display colored text, enter:__ =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= to get %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%.
       * =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-      * DefaultPreferences defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
+      * %WIKIPREFSTOPIC% defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
 
    * To display headings, type (from the beginning of a line) three dashes (-), from one to six plus signs (+), a space, and your heading text.
       * The quantity of plus signs is related to the size of the heading - the more plus signs you use, the smaller the heading.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420154378" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -136,7 +136,7 @@ cp registernotify.tmpl registernotify.myskin.tmpl
 cp registerconfirm.tmpl registerconfirm.myskin.tmpl
 cp registernotifyadmin.tmpl registernotifyadmin.myskin.tmpl
 </verbatim>
-then add =myskin= to the beginning of the =SKIN= setting in %USERSWEB%.SitePreferences.
+then add =myskin= to the beginning of the =SKIN= setting in %LOCALSITEPREFS%.
 
 From this point on, your myskin templates will be used for the registration emails.
 

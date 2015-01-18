@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarTOC
 ---+++ TOC{"Topic"} -- table of contents
@@ -14,7 +14,7 @@
     | =align="..."= | Align at =left= or =right= side of the page | none |
     | =id="Some_id"= | Optional ID in case multiple TOCs are on the page and each TOC needs to be addressable with an anchor link. Allowed characters: =a-zA-Z0-9-_=, no spaces. %BR% \
 If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]]. | "foswikiTOC" |
-   * Default settings are defined in %SYSTEMWEB%.DefaultPreferences, and can be overridden in %USERSWEB%.SitePreferences:
+   * Default settings are defined in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overridden in %LOCALSITEPREFS%:
     <noautolink>
     %TABLE{sort="off" columnwidths="30%,50%,20%"}%
     | *Setting* | *Description* | *Value* |

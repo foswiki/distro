@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142238" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -35,7 +35,7 @@ example: =%USERSWEB%,%SANDBOXWEB%.*= would permit the %USERSWEB% web, %SANDBOXWE
 
    * [[%SCRIPTURL{"configure"}%][configure -> =Extensions= tab -> =SubscribePlugin= sub-tab]]
       * ={Plugins}{SubscribePlugin}{ActiveWebs} = "%USERSWEB%,%SANDBOXWEB%.*=
-   * As a standard preference setting, set in %USERSWEB%.SitePreferences or individual WebPreferences topics.
+   * As a standard preference setting, set in %LOCALSITEPREFS% or individual %WEBPREFSTOPIC% topics.
       * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = %USERSWEB%,%SANDBOXWEB%.*=
 
 The configure setting takes precedence over the topic based preference setting.
@@ -78,5 +78,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1419142238" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1419142238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%

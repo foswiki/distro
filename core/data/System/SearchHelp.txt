@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebSearch"}%
 ---+!! Search Help
 %STARTINCLUDE%
@@ -78,6 +78,6 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
    * =SEARCHSTOPWORDS=: List of stop words (common words and characters to exclude from a keyword search)
       * Currently =%SEARCHSTOPWORDS%=
 
-Define or change these settings in %USERSWEB%.SitePreferences.
+Define or change these settings in %LOCALSITEPREFS%.
 %ENDTWISTY%
 

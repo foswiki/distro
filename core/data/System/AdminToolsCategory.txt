@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Admin tools
 
@@ -11,7 +11,7 @@
 
    $ [[BulkRegistration]] : Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch
    $ [[BulkResetPassword]] : Administrators can use this topic to reset any number of user passwords
-   $ [[DefaultPreferences]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %USERSWEB%.SitePreferences
+   $ [[%WIKIPREFSTOPIC%]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %LOCALSITEPREFS%
    $ [[ManagingUsers]] : Register users on your Foswiki site; change/reset/install passwords; remove user accounts
    $ [[ManagingWebs]] : An introduction to webs. Includes the tool for the administrator to add new webs
    $ [[SiteMap]] : An overview of all the webs incl links to search, recent changes, and notifications. Mainly targetted for the administrators but can also be useful for the users

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420517675" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -175,7 +175,7 @@ Make sure the data and pub directories, as well as the files within them, are re
 
 If you have not already set your desired site-wide preferences, as described in the section "[[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
 
-If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.DefaultPreferences=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
+If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.%WIKIPREFSTOPIC%=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
 
 *If you are upgrading from TWiki*, note that the default location of the default preferences in TWiki is =&lt;old_system_web&gt;.<nop>TWiki<nop>Preferences=, and the default location of the site preferences is =Main.<nop>TWiki<nop>Preferences=. Transfer any customized preferences from these topics to the site preferences topic in your new installation.
 
@@ -219,7 +219,7 @@ Re-execute your test plan to verify that your Wiki applications and other key fu
 
 ---+++ Favicon
 
-The favicon is now configurable as a site preference or per-web preference. See =%SYSTEMWEB%.DefaultPreferences= for a description of the FAVICON preference. To set it for your site, add the FAVICON preference to your site preferences topic, =%USERSWEB%.SitePreferences= (or the topic you configured in your ={LocalSitePreferences}= setting in the =Miscellaneous settings= pane on the =configure= page). To set it for a web, add the FAVICON preference to the =<nop>Web<nop>Preferences= topic for that web.
+The favicon is now configurable as a site preference or per-web preference. See =%SYSTEMWEB%.%WIKIPREFSTOPIC%= for a description of the FAVICON preference. To set it for your site, add the FAVICON preference to your site preferences topic, =%LOCALSITEPREFS%= (or the topic you configured in your ={LocalSitePreferences}= setting in the =Miscellaneous settings= pane on the =configure= page). To set it for a web, add the FAVICON preference to the =<nop>Web<nop>Preferences= topic for that web.
 
 ---++ Important changes since TWiki 4.0.5
 
@@ -269,7 +269,7 @@ The WYSIWYG button has been removed.
 
 ---+++ NEWTOPICLINKSYMBOL removed
 
-The NEWTOPICLINKSYMBOL preference that was deprecated in TWiki 4.1 is no longer supported. To control the appearance of new links, set the NEWLINKFORMAT preference in [[%USERSWEB%.SitePreferences]] (see [[%SYSTEMWEB%.DefaultPreferences]] for more information on NEWLINKFORMAT).
+The NEWTOPICLINKSYMBOL preference that was deprecated in TWiki 4.1 is no longer supported. To control the appearance of new links, set the NEWLINKFORMAT preference in [[%LOCALSITEPREFS%]] (see [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] for more information on NEWLINKFORMAT).
 
 ---+++ !UserForm and !NewUserTemplate customization
 
@@ -311,7 +311,7 @@ An additional security feature has been added to Foswiki 1.0.5 so that saving da
 &lt;/form&gt;
 </pre>
 
-The template webs _default and _empty are frequent targets for spammers because these webs are normally not monitored very carefully by the community around a Foswiki installation. These webs are now write protected so on an administrator can edit topics in these webs. When an administrator creates a new web it is important to remember to remove the access restriction from the !WebPreferences in the new web.
+The template webs _default and _empty are frequent targets for spammers because these webs are normally not monitored very carefully by the community around a Foswiki installation. These webs are now write protected so on an administrator can edit topics in these webs. When an administrator creates a new web it is important to remember to remove the access restriction from the !%WEBPREFSTOPIC% in the new web.
 
 ---++ Important changes for the upgrader - since Foswiki 1.0.5
 

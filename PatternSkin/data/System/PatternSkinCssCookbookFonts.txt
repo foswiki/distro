@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Font variation
 
@@ -9,8 +9,8 @@ This line loads the extra style definition:
 <verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookFonts/fonts.css
 </verbatim>
-You can write this line in %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic or on a single page.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="fonts.css" attachment="fonts.css" attr="" comment="" date="1129333615" path="fonts.css" size="240" stream="fonts.css" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fonts.css" attachment="fonts.css" attr="" comment="" date="1421599902" path="fonts.css" size="240" stream="fonts.css" user="ProjectContributor" version="1"}%

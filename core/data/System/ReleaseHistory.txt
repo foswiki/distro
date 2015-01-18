@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Appendix A: Foswiki Development Time-line
@@ -670,7 +670,7 @@ See more details at TWikiReleaseNotes04x00
    * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini 
       * Forms to change/reset/install passwords, see ChangePassword & ResetPassword
    * *01 May 2001* - TWiki:Main.AndreaSterbini 
-      * The %MAINWEB%.AdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics.
+      * The %USERSWEB%.AdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics.
    * *01 May 2001* - TWiki:Main.JohnTalintyre 
       * Meta information format, see TWikiMetaData
    * *01 May 2001* - TWiki:Main.JohnTalintyre 

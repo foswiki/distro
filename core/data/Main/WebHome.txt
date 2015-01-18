@@ -1,12 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1269266213" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 ---+!! Welcome to the <nop>%USERSWEB% web 
 Congratulations, you have finished installing Foswiki.
 
 This site is running Foswiki release *%WIKIRELEASE%*, Plugin API version *%PLUGINVERSION{}%*
 
 To learn more about Foswiki, visit the [[%SYSTEMWEB%.WebHome][%SYSTEMWEB% web]]. Please ensure that the read/write
-permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.DefaultPreferences]] 
-and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of your new
+permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] 
+and [[%LOCALSITEPREFS%]]). Replace this text with a description of your new
 %IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
 ---++ <nop>%WEB% Web Utilities

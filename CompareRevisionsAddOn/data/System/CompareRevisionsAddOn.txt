@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418946862" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -148,7 +148,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
 |  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
                          Foswikitask:Item11755: Compare breaks characterset encoding. <br />\
-                         Foswikitask:Item11930: Read settings from Main.SitePreferences |
+                         Foswikitask:Item11930: Read settings from %LOCALSITEPREFS% |
 |  06 Apr 2012 (1.1.7) | Foswikitask:Item11445: References to Sandbos should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
 |  05 Dec 2011 (1.1.6) | Release with Foswiki 1.1.4 - minor code and documentation cleanup. |
 |  28 May 2011 (1.1.6) | Foswikitask:Item10803 - Fix invalid Foswiki configuration affecting !ApacheLogin users introduced in =1.1.4= |
@@ -179,5 +179,5 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1418946862" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1418946862" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1421599902" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1421599902" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%

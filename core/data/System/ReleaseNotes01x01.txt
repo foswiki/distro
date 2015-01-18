@@ -1,9 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419222721" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599048" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.5
+---+!! Foswiki Release 1.1.9
 
+%TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
+%ENDTWISTY{}%
 
 ---++ Foswiki - The Free and Open Source Wiki
 
@@ -19,6 +21,7 @@ Foswiki is released under the GNU General Public License.
 
 ---++ Foswiki Releases
 
+%TWISTY{showlink="Release 1.0 releases..." hidelink="hide Release 1.0"}%
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
    * Foswiki 1.0.1, 1.0.2 and 1.0.3 were released internally in the development community, but were never publicly released.
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and only very few minor enhancements.
@@ -28,28 +31,99 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
+%ENDTWISTY{}%
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
+   * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
+   * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
+   * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
+   * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 
 ---++ Pre-installed Extensions
 
 Foswiki 1.1 ships with the following:
 
    * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !PatchFoswikiContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
----++ Important changes since Foswiki 1.1.5
+---++ Important changes in Foswiki 1.1.9  (This release)
 
-Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+Release 1.1.9 fixes a number of important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
+   * The =%<nop>TOPICLIST%= macro now omits topics that cannot be read by the user.  Foswiki should not reveal the presence of topics to users who don't have the authority to view the topic.
+   * Login using url parameters has been restricted.  Details below..
 
----+++ Module version strings have been changed
+Release 1.1.9 addresses several issues that impact sites that have upgraded or will upgrade to newer versions of perl and CPAN modules.  We strongly
+recommend that foswiki be upgraded to 1.1.9 prior to updating to a new release of perl or CPAN modules.
+
+Two serious performance issues have been corrected.  The TablePlugin amassed CSS from all visited topics, growing with each view. And an error in SEARCH
+caused exponential growth of the search expressions which could cause out of memory issues on the server.  These could be especially severe for sites using
+FastCGI or Mod_Perl.
+
+See [[#Rel01x01x09Details]] for details.
+
+---+++ JQuery upgrade
+
+This release ships with several upgraded versions of JQuery, and changes the default release to version =1.8.3=.  It also replaces the deprecated JQuery
+Tooltip plugin with the new UI::Tooltip. Upgraders should visit =bin/configure= and make the following changes to the Jquery configuration:
+   * Update ={JQueryPlugin}{JQueryVersion}= to version =1.8.3=
+   * Disable ={JQueryPlugin}{Plugins}{Tooltip}{Enabled}= and
+   * Enable ={JQueryPlugin}{Plugins}{'UI::Tooltip'}{Enabled}=
+
+Note that although the jquery autocomplete plugin was replaced with ui::autocomplete back in Foswiki release 1.1.4, recent changes to jquery
+required some additional changes to some UI::Autocomplete examples.   See
+[[http://trac.foswiki.org/changeset/17042/branches/Release01x01/JQueryPlugin/data/System/JQueryAjaxHelper.txt][Revision 17042]] for details of this change.
+
+---+++ Changes to login using URL parameters
+
+All versions of foswiki previously allowed the username and password parameters to be provided on the URL. For ex:
+=bin/view/Myweb/SomeTopic?username=JoeUser;password=SEcrET=.   Foswiki 1.1.9 has been changed to further restrict login:
+   * username and password will only be accepted on POST type operations. a simple GET url with username and password will not accept the supplied credentials.
+      * The previous behaviour can be restored by enabling =$Foswiki::cfg{Session}{AcceptUserPwParamOnGET}= in the configuration
+   * username and password will only be accepted as login credentials on the =view=, =viewauth= and =login= scripts.
+      * Other scripts can be authorized by configuring =$Foswiki::cfg{Session}{AcceptUserPwParam}=
+
+---+++ Improved compatibility with Perl 5.18+
+
+Foswiki 1.1.9 has been tested with perl 5.18+.  Perl 5.18 has made a very significant change in how hash tables are randomized and stored.
+See [[http://search.cpan.org/dist/perl-5.18.0/pod/perldelta.pod#Hash_overhaul][5.18 perldelta]]
+for more information.   The change has had some minor impact on Foswiki, most of which were test failures, not core code issues, and were fixed in [[%BUGS%/Item12616][Item12616]].  It did however
+result in discovery of some core bugs that were also fixed.
+
+Sites upgrading to perl 5.18 should carefully test foswiki and review the open tasks at [[http://foswiki.org/Tasks/PlatformPerl518]].  Please report any new issues there.
+
+The following differences have been noticed when running under Perl 5.18, and have *not* been corrected:
+   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable. ([[%BUGS%/Item12618][Task Item12618]])
+   * The order of groups presented by =%USERINFO=  and =%GROUPINFO= macros is unpredictable. As a result, the order of groups listed by the Main.WikiGroups topic change on each page view. ([[%BUGS%/Item12635][Task Item12635]])
+   * The order of data in a =perl= formatted =%QUERY= result is unpredictable. (No plan to fix)
+
+Any data internally stored by Foswiki or extensions using a perl hash array will be presented in unpredictable order.
+
+---++ Important changes in Foswiki 1.1.8
+
+Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
+  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+Release 1.1.8 also includes a configuration checker that will report an error if a vulnerable version of Locale::Maketext is installed.
+
+See [[#Rel01x01x08Details]]
+
+---++ Important changes in Foswiki 1.1.7
+
+Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
+A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+Release 1.1.7 also includes a security fix for configure that reduces exposure of important passwords in confirmation and log messages.
+
+See [[#Rel01x01x07Details]]
+
+---+++ Module version strings and new module dependency in 1.1.6 and 1.1.7
 
 The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
 The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
@@ -58,8 +132,61 @@ The "RELEASE" string will continue to be more descriptive and can be displayed w
    * Sites using Perl 5.10.1 or newer have the correct version of version.
    * Sites on older versions of perl should install the latest =version= using CPAN or their system's package manager.
 
+<blockquote class="foswikiAlert"><b>%X% Before upgrading to Foswiki 1.1.6 or 1.1.7, verify that the installed version of CPAN:version is at least version =0.77=.   If not, upgrade CPAN:version before attempting to upgrade Foswiki!</b>  For example:
+<verbatim> perl -Mversion -e 'print "$version::VERSION\n"'
+0.9901
+</verbatim></blockquote>
+
 Note: Extensions may not have been upgraded to use the new 'dotted-decimal' version string format for dependency checking.
 If an extension includes a dependency on an SVN-style revision, Foswiki 1.1.6 assumes that the dependency is satisfied by a 'dotted-decimal' version.
+
+---+++ Wysiwyg / !TinyMCE Editor changes
+
+Release 1.1.6 changed the editor to treat all links as real HTML links in TMCE.  This had an annoying side effect: when a user changes the link text displayed in-line, the editor  _only_ updated the link text, and the target page was not changed.
+This even including auto-linked !WikiWords.  The editor will now save the original !WikiWord.  During the save, if the new link text is still a !WikiWord, and the link target still points to the original !WikiWord,  it will also be updated to match the new !WikiWord..
+   * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will now point to !ADifferentWikiWord, which is probably what the user intended.
+*Note:* This change required a setting change to the !TinyMCEPlugin Init setting found in System.TinyMCEPlugin.   If the =TINYMCEPLUGIN_INIT= settings have been customized, this change will need to be merged into your customized settings or the new behavior will be ignored.
+
+---+++ Force Default Host URL toggle
+
+Sites that use HTTP Proxies, load balancers and SSL Accelerators often modify the users original input URL. When this happens, Foswiki can generate incorrect links on the pages.  A new expert configuration parameter
+={ForceDefaultUrlHost}= can be enabled to force Foswiki to override the user entered URL with the ={DefaultUrlHost}= setting.
+
+---+++ New configuration parameter ={Register}{ExpireAfter}=
+
+Foswiki 1.1.6 added code to clean up expired pending registrations, and tied the request lifetime to the ={Sessions}{ExpireAfter}= timer. This is much too short, especially when registration requests are redirected to a 3rd party
+approver, as described in [[http://foswiki.org/Support/Faq12][FAQ 12]] and [[http://foswiki.org/System/ManagingUsers#Authentication_and_Access_Control][Managing Users]] documentation.
+
+[[%BUGS%/Item12329][Item12329]] breaks this out to a separate timer for registration requests.   Default is 21600 seconds (6 hours).  If this setting is not in the configuration, the code will fall back to the ={Sessions}{ExpireAfter}=
+timer, and if that is not configured, the default is 36000 (10 hours).  Extend this setting to a longer value to give the approver ample time to process the request.
+
+---+++ When upgrading, a new setting is needed for PatternSkin
+
+If you are upgrading an existing Foswiki system, verify the following:
+   * Ensure that !Main.SitePreferences or System.%WIKIPREFSTOPIC% have the setting for PATTERNSKIN_JQUERY_THEME.  <verbatim>   * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme</verbatim>
+   * Be sure to run through an edit / save cycle in [[%SCRIPTURL{"configure"}%][bin/configure]].
+
+The new =System.%WIKIPREFSTOPIC%= topic has this setting, but if you have customized you <nop>%WIKIPREFSTOPIC%, then this setting may need to be added.
+
+The save cycle of configure is necessary to register the new JQuery pattern theme in the configuration.  (If configure reports no changes,  make a minor change and save again, and configure will merge in the changed settings). Or edit the =LocalSite.cfg= file by hand and add
+
+<verbatim>
+$Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Url} =
+'$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/PatternSkinTheme/jquery-ui.css';
+$Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
+
+---+++ Font changes
+
+A change made in 1.1.6 changed the default size and family of the body font.  This change resulted in unexpected word wrap in tables that had column widths set to avoid wrapping.  Foswiki 1.1.7 reverts the font setting back to that of Foswiki 1.1.5.
+Changes to the skin that impact layout should not have been made in a patch release.
+
+---+++ Minor change to =Main.WebHome=
+
+The [[Main.WebHome]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
+
+---++ Important changes in Foswiki 1.1.6
+
+Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki. 
 
 ---+++ Default format of "New Topic" links has changed.
 
@@ -78,7 +205,7 @@ Be sure to run configure and verify that the JQuery version is set to one still 
    * The check for duplicate email regisrations is now applied to pending registrations.
    * Code has been added to remove stale registration approval requests.
 
----+++ Wysiwyg / TinyMCE Editor changes
+---+++ Wysiwyg / !TinyMCE Editor changes
 
 A number of changes have been made to make editing more "WYSIWYG" like:
    * All links are now represented as real HTML links in TMCE.  Editing the link text displayed in-line _only_ updates the link text, including auto-linked WikiWords. Click the link icon to update the actual link target.
@@ -126,16 +253,24 @@ disable Chili if your user community still is using the buggy browsers.
 
 ---+++ Markup within input fields are no longer rendered
 
-[[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal><code></b>,
+[[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal></code></b>,
 it would be renderd as <b><code>some &lt;strong&gt;marked&lt;strong&gt; text</code></b>.   Foswiki will no longer render the contents of input fields.
 
-This exposes an issue.  If input field content is manually protected (for ex. using <code>&lt;nop&gt;%<nop>WIKINAME%</code> to prevent the rendering, the resulting html will be corrupted.
-The unencoded &lt; and &gt; are not legal within <code>&lt;input&gt;</code> tag and need to be removed.   Foswiki used &lt;nop&gt; in two places, which may need to be edited if you have customzed them.
-   * <code>templates/login.tmpl</code> used a <code>&lt;nop&gt;</code> to protect a wikiname from expanding within the usernamefield
-   * <code>%<nop>SIGNATUREFORMAT%</code> in System.DefaultPreferences also protected the wikiname from expanding.
-Neither of these are required and should be removed.  The <code>&lt;nop&gt;</code> will break rendering of the login and edit pages.
+This exposes a potential issue.   If input field initial content is manually protected using the <code>&lt;literal&gt;</code> to prevent the rendering, the resulting html will be corrupted.
+Foswiki allows for <code>&lt;nop&gt;</code>, however any other unencoded &lt; and &gt; is not legal within <code>&lt;input&gt;</code> tag and must be removed.
 
----++ Important changes since Foswiki 1.1.4
+<verbatim>
+   <input ... text=' WikiWord *bold* text'>   previously was rendered,  on 1.1.6 will be shown exactly as written.
+   <input ... text='<nop>WikiWord' >     Is acceptable,  but the <nop> is unnecessary.
+   <input ... text='<literal>some *bold* text</literal' >   The <literal> tags MUST be removed
+</verbatim>
+
+---+++ Sandbox WebHome topic updated with improved validation of new topic name
+
+Foswiki upgrade packages and manual upgrade procedures typically do not upgrade any !WebHome topics. The 1.1.6 upgrade package will include a new !WebHome for the Sandbox web. If you upgrade manually, you should copy the =data/Sandbox/WebHome.txt= file from the full Foswiki distribution onto your system.
+If you have a customized Sandbox !WebHome topic, and use the upgrade package, you may need to revert back to your customized topic or re-customize the new version.
+
+---++ Important changes in Foswiki 1.1.5
 
 Release 1.1.5 is a security focused release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.
 
@@ -146,7 +281,7 @@ The Foswiki API version is incremented to version 2.2 in Foswiki 1.1.5 for the f
 
 ---+++ Improvements to User Registration
 
-   * The complete fix for [[http://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper =lib/Foswiki/Users.pm=, that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
+   * The complete fix for [[http://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper <code>lib/Foswiki/Users.pm</code> that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
    * The user registration and group management API calls now all return error messages describing any failures.  All errors are processed through MAKETEXT so that they are translated to the selected language.
    * New options can reject duplicate registrations using the same email, and can either white-list or black-list email domains from registering.
 
@@ -199,15 +334,15 @@ In order to force rotation and avoid extended web server response time:
 
 The plainfile logger will now report additional information on the rotation process, including displaying bad records to STDERR.   Edit =lib/Foswiki/Logger/Plainfile.pm= and change the line  =use constant TRACE => 0;= to use =constant TRACE => 1;= to enable more detailed debug messages.
 
----++ Important changes since Foswiki 1.1.3
+---++ Important changes in Foswiki 1.1.4
 
 ---+++ 1.1.3 may have changed some =form.name= MetaData to contain fully-qualified (with web name prefix) values
 In Foswiki 1.1.4 this problem has been fixed by [[%BUGS%/Item10874][Item10874]], however, users upgrading from 1.1.3 may wish to review the following information to determine if they need to take action on their existing SEARCHes or !DataForm topics.
-<div class="foswikiHelp">%I% Please note, you may be unaffected by %BUGS%/Item10874 if:
+<blockquote class="foswikiHelp">%I% Please note, you may be unaffected by %BUGS%/Item10874 if:
    * You have never used Foswiki 1.1.3
    * You are not [[%SYSTEMWEB%.QuerySearch][QuerySearching]] =form.name= MetaData for exact topic-only (without web prefix) values, or
    * Your users are not adding or changing DataForms on their topics via the edit screen's "add/change form" button, or
-   * Your installation is using Foswiki:Extensions.NatEditPlugin </div>
+   * Your installation is using Foswiki:Extensions.NatEditPlugin </blockquote>
 
 ---++++ Description
 Any topics which have had a [[%SYSTEMWEB%.DataForms][DataForm]] added or changed using the "Add/change form" button on the edit screen while running Foswiki 1.1.3 will now have "fully-qualified" Web.Topic names in the =form.name= %SYSTEMWEB%.MetaData even if the =WEBFORMS= preference variable omitted web prefixes from [[%SYSTEMWEB%.DataForms][DataForm]] topic names. In other words, if you were using a =WEBFORMS= preference which looked like this:%JQREQUIRE{"chili"}%
@@ -223,7 +358,7 @@ Having selected "MyForm", the =form.name= value is actually stored as =TheWeb/So
 <verbatim class="tml">%SEARCH{"form.name='MyForm' OR form.name='TheWeb/SomeSubWeb.MyForm'" type="query" ...}%</verbatim>
 
 Or a regex query:
-<verbatim class="tml">%SEARCH{"form.name=~'\bMyForm$'" type="query" ...}%</verbatim>
+<verbatim class="tml">%SEARCH{"form.name=~'\bMyForm$'" type="query" ...}%</verbatim></blockquote>
 
 Alternatively, the erroneous =form.name= values can be repaired by searching for and fixing them using one of the solutions detailed in %BUGS%/Item10874#Solution
 
@@ -268,7 +403,7 @@ The <nop>PasswordManager <code>Foswiki::Users::HtpasswdUser</code> has been enha
    * Cross-platform compatibility issues between Linux, Apple OSX and MS Windows have been resolved and <code>.htpasswd</code> files should be portable regardless of the selected encoding.
    * The <code>Crypt::PasswdMD5</code> CPAN module is required for the <code>apache-md5</code> encoding, as well as for better cross-platform compatibility.
 
-<div class="foswikiHelp">%X% Note:  It is *strongly* recommended that sites using the old default "crypt" encoding migrate to a stronger method.  The crypt method truncates passwords at 8 characters and silently discards the rest. For the highest security, choose htdigest-md5 encoding with Apache htdigest authentication.  If using Template authentication, if possible use a SSL client connection - HTTPS.</div>
+<blockquote class="foswikiHelp">%X% Note:  It is *strongly* recommended that sites using the old default "crypt" encoding migrate to a stronger method.  The crypt method truncates passwords at 8 characters and silently discards the rest. For the highest security, choose htdigest-md5 encoding with Apache htdigest authentication.  If using Template authentication, if possible use a SSL client connection - HTTPS.</blockquote>
 
 ---+++ Changes to User Registration topics [[%BUGS%/Item1539][Item1539]]
 
@@ -331,14 +466,14 @@ Also the SpreadSheetPlugin was synchronized with features added to the TWiki ver
 The changes to JSCalendarContrib made post 1.1.3, and released in JSCalendarContrib version 1.4.x have been reverted. The changes attempted to make dates stored in the formfields format per the requested JSCalendarContrib format. However it was incompatible with alternative date formats that were not understood by the core Foswiki time code.
 JSCalendarContrib saves dates in whatever format is set in the configuration ={JSCalendarContrib}{format}=.  If the format is changed, Foswiki makes no attempt to change the displayed format of existing dates.  The format can be updated by re-selecting the date using the calendar display.
 
----++ Important changes since Foswiki 1.1.2
+---++ Important changes in Foswiki 1.1.3
 
 ---+++ SEARCHDEFAULTTTYPE restored
 
 The default search type used in the WebSearch page was not carried forward from 1.0. to 1.1.   This option has been restored in 1.1.4, with some changes:
 
    * It only applies to the WebSearch and WebSearchAdvanced.  On Foswiki 1.0 it also applied to the =%SEARCH= macro.
-   * The (ignored) default in DefaultPreferences is =keyword=,  but on 1.1, WebSearch defaulted to =word=
+   * The (ignored) default in %WIKIPREFSTOPIC% is =keyword=,  but on 1.1, WebSearch defaulted to =word=
    * WebSearchAdvanced had a hardcoded default of =word= on both 1.0 and 1.1. This is changed to use the SEARCHDEFAULTTTYPE setting.
    * The historical mis-spelling =(SEARCHDEFAULT<b>T</b>TYPE)= is preserved.
 
@@ -347,7 +482,7 @@ The default search type used in the WebSearch page was not carried forward from 
 | 1.0 to 1.1.4 | Default type is =word=, configuration setting no longer used. | No Change | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
 | 1.1.x to 1.1.4 | No Change | Default changes from =word= to configured =%SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%=  | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
 
----++ Important Changes since Foswiki 1.1.2
+---++ Important Changes in Foswiki 1.1.2
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
 
@@ -356,7 +491,7 @@ See %BUGS%/Item10176. On releases prior to Foswiki 1.1.3 it was possible that th
 ---+++ JQueryPlugin update to jQuery 1.4.3
 
 On releases prior to Foswiki 1.1.3, JQueryPlugin shipped with jQuery 1.3.2 enabled. It now uses 1.4.3, and some Foswiki javascript will no longer work correclty with 1.3.2 and earlier. As a result, upgraders will need to
-   1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%][configure]] under Extensions tab -> JQueryPlugin sub-tab to =1.4.4=
+   1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configure]] under Extensions -> JQueryPlugin to =1.4.4=
    1 [[UpgradeGuide#ManagingBrowserCache][Clear browser cache]]
    1 test non-default plugins and any custom jQuery javascript code for compatibility with jQuery 1.4.3.
 
@@ -366,16 +501,16 @@ Foswiki 1.1 changed the logging format and the default location of the log files
 
 As of 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
 
----++ Important changes since Foswiki 1.0.10
+---++ Important changes in Foswiki 1.1.0
 
 Foswiki 1.1 has many improvements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
 
----+++ Adoption of the jQuery Javascript user interface framework
+---+++!! Adoption of the jQuery Javascript user interface framework
 Since Foswiki 1.1, the industry-standard [[http://jquery.com][jQuery Javascript user interface framework]] has been more closely integrated; the existing !JQueryPlugin is included into the core distribution. Reflecting the move to jQuery, the !BehaviourContrib has been removed from the core distribution; it is still available for download from Foswiki.org. The default !PatternSkin now depends on this jQuery framework.
 
 Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros that manage dependencies between Javascript modules, making use of this sophisticated toolset much easier. See Foswiki:Development.UpdatingExtensionsScriptZone on how to replace [[VarADDTOHEAD][ADDTOHEAD]] usage.
 
----++++ New macros enabled by jQuery
+---++++!! New macros enabled by jQuery
 
    * =BUTTON{"text" ...}= -- renders a nice button
    * =TABPANE{...}=, =ENDTABPANE=, =TAB{"text" ...}=, =ENDTAB= -- tabpane widget
@@ -388,7 +523,7 @@ Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZO
 
 See %SYSTEMWEB%.JQueryPlugin for details.
 
----+++ Powerful new =QUERY= macro
+---+++!! Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which:
    * supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements,
    * gives access to *all* meta-data, including that added by extensions,
@@ -397,20 +532,20 @@ A number of new features have been added with the goal of improving support for 
 
 Use of the ="formfield"= parameter to the =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future).
 
----+++ Re-architecting of the SEARCH macro
+---+++!! Re-architecting of the SEARCH macro
 To improve the speed, consistency and extendability of the most complex and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
 
----+++ FORMAT macro
+---+++!! FORMAT macro
 The extraction of the FormattedSearch system has made it possible to provide a Macro that allows users to render a list of topics into any =header=, =footer=, =format= style, using the same formatting controls as used by =[[VarSEARCH][SEARCH]]=. This macro will be further enhanced in future Foswiki releases and will play an increaingly important role as it is extended to format other types of object lists.
 
----+++ %USERSWEB%.WikiGroups have add & remove user interface
+---+++!! %USERSWEB%.WikiGroups have add & remove user interface
 !WikiGroups are now be edited using a much simpler HTML form.
 
 For developers additional API's have been added to the Foswiki code to allow these Forms to also be used for non-Foswiki user and group backends.
 
 With some configuration, Foswiki can also add users to groups on registration - either automatically, or allowing the users to select groups to join.
 
----+++ TinyMCEPlugin updates
+---+++!! TinyMCEPlugin updates
 TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
    * Smarter attach dialogue
    * Background autosave feature has been enabled (saves to local browser storage at 3 minute intervals)
@@ -419,13 +554,13 @@ TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additio
       * table rows/columns may be duplicated, cells merged/split
    * Customisation via the =TINYMCEPLUGIN_INIT= preference has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
 
----+++ Testing configuration variables in %IF
+---+++!! Testing configuration variables in %IF
 Prior to 1.1, =%<nop>IF= could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%<nop>SEARCH{type="query"= and the new [[VarQUERY][QUERY]] macro.
 
----+++ "Copy topic" now copies attachments
+---+++!! "Copy topic" now copies attachments
 The "Copy Topic" function in "More topic actions" now copies attachments as well as the topic text and form.
 
----+++ Tailoring of user registration made easier.
+---+++!! Tailoring of user registration made easier.
 
 The topic %SYSTEMWEB%.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
 
@@ -435,18 +570,18 @@ You can create a custom version of the UserRegistration form by first copying th
 
 A couple of common fields are hidden from normal view to make the registration page as simple as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
 
----+++ Easy tailoring of reset/change password and change email forms
+---+++!! Easy tailoring of reset/change password and change email forms
 
 The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
 
-If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword topics will show a simple message. This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
+If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword topics will show a simple message. This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= in %SYSTEMWEB%.%WIKIPREFSTOPIC%. You can redefine this setting by copying it to %LOCALSITEPREFS% and change it to include a link to the password management website of your organisation.
 
 ChangeEmailAddress will now guide the user to define the email address in the user topic when the !PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
 
----+++ TMPL:DEFs may now access previous (overridden) TMPL:DEF
+---+++!! TMPL:DEFs may now access previous (overridden) TMPL:DEF
 SkinTemplates authors are often limited by the fact that =%<nop>TMPL:DEF{"something"}%= statements override whatever DEF may have previously existed in the SKIN path. Now, when overriding these DEFs, SkinTemplates authors may access the previous definition using the new =%<nop>TMPL:PREV%= template token.
 
----+++ New Logging architecture and location for log files
+---+++!! New Logging architecture and location for log files
 The Foswiki logging architecture has been changed to make processing of the "current" logs easier, and the logs have been moved from the =data/= directory into =working/logs=.  The configuration of the logging files have also been updated.
 
 *If Foswiki detects the presence of the old logging configuration, it will continue to use the old files.  =configure= will issue warnings about the deprecated settings.*
@@ -459,15 +594,20 @@ The Foswiki logging architecture has been changed to make processing of the "cur
 | =foswiki-root/data/debug.txt= | =foswiki-root/working/logs/debug.log= | =foswiki-root/working/logs/debug.YYYYMM= |
 | =foswiki-root/data/configurationlog.txt= | =foswiki-root/working/logs/configure.log= | _The configuratiog log does not roll_  |
 
----++++ Migration considerations
+---++++!! Migration considerations
 
 Foswiki provides two Logger implementations selectable in =configure=.  =Foswiki::Logger::Plainfile= implements the new file naming conventions and locations.  =Foswiki::Logger::Compatibility= uses the old locations and settings.  The Compatibility logger is used if the old file locations are detected in the configuration.
 
 The primary use of the logs by Foswiki is for generation of Statistics. If changing to the new logger ( *strongly recommended* ) it is best to get a full statistics refresh prior to migration. Copy / rename the log files into their new location using the above table as a guide.  Manually edit =lib/LocalSite.cfg= to remove the obsolete parameters, and then run configure to verify the new settings.
 
----+++++ Logging Configuration
+---+++++!! Logging Configuration
 
-The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
+The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If the 1.0 Warning filename is found, the "compatibility" logger will be used even if the PlainFile logger is selected.
+
+<ul><li>As of Release 1.1.6, the Compatibility logger can be configured using the configure web interface.   On extremely busy systems with very large log files, the  Compaibility logger provides better performance at month end because it does not "rotate" the log files.
+<li>Some very old (pre-Foswiki) Extensions write directly to Log File configured in =$Foswiki::cfg{LogFileName}=. Foswiki will attempt to set a reasonable default value to maintain backwards compatibility.  It is recommended to configure this filename if you run old pre-Foswiki extensions that write directly to the log.
+</ul>
+
 <table>
 <tr>
 <td>
@@ -488,6 +628,9 @@ $Foswiki::cfg{ConfigurationLogName} = 'foswiki-root/data/configurationlog.txt';
 $Foswiki::cfg{DebugFileName} = 'foswiki-root/data/debug.txt';
 $Foswiki::cfg{LogFileName} = 'foswiki-root/data/log%DATE%.txt';
 $Foswiki::cfg{WarningFileName} = 'foswiki-root/data/warn%DATE%.txt';
+
+
+
 
 </verbatim>
 </td>
@@ -510,12 +653,15 @@ $Foswiki::cfg{Log}{Action} = {
           'upload' => 1,
           'attach' => 1
         };
+$Foswiki::cfg{DebugFileName} = '';
+$Foswiki::cfg{LogFileName} = '';
+$Foswiki::cfg{WarningFileName} = '';
 </verbatim>
 </td>
 </tr>
 </table>
 
----+++ Logging of access failures
+---+++!! Logging of access failures
 Configure and !TemplateLogin now log authentication failures to the event logs:
 
    * =working/logs/configure.log=
@@ -523,15 +669,15 @@ Configure and !TemplateLogin now log authentication failures to the event logs:
 
 It is possible to monitor these logs with a product like =fail2ban= which will set firewall filters due to excessive failures.
 
----+++ =configure= user interface revamp
+---+++!! =configure= user interface revamp
 Also included in 1.1 is a major improvement to the =configure= user interface, that clarifies and simplifies setting configuration options.
 
----+++ Configure file system checks
+---+++!! Configure file system checks
 The configuration tool =bin/configure= now performs extensive checks of file system permissions. The pub and data directories are checked to verify that all data files match the requested default permissions of =755= for directories and =644= for data files. Files with excess permissions are reported as a warning. Files with insufficient permissions are noted as an error.
 
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure. You are recommended to correct the file system permissions.
 
----+++ Newer modern icon set for Document Graphics
+---+++!! Newer modern icon set for Document Graphics
 To celebrate our new look, project and momentum, Foswiki now has a new ICON set to update the one shipped for the last 10 years. Using the !FamFamFam icon set, augmented with icons from other leading graphic artists.
 
 ---+++ Table Plugin has been improved
@@ -539,16 +685,16 @@ HTML formatting has been replaced by pure CSS rendering. You can however enable 
 
 Sorting has been improved so the plugin can now better handle mix of formats and even empty cells.
 
----+++ Notes for extension authors
+---+++!1 Notes for extension authors
 
----++++ API Enhancements
+---++++!! API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
    * =copyAttachment=
 
 New parameters can be found on:
    * =saveTopic= (=ignorepermissions=)
 
----++++ Deprecated handlers
+---++++!! Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
 
 The =redirectCGIQueryHandler= plugin handler has been deprecated (it is still available, but should not be used in new code and will be removed in a future release, so if you have been used it, you need to modify your code). This handler assumed a level of interaction with the CGI handling process that is dangerous if misused, and severely limits the flexibility and optimisations available to the core.
@@ -557,12 +703,12 @@ The =beforeAttachmentSaveHandler= and =afterAttachmentSaveHandler= plugin handle
 
 Deprecated handlers will continue to work as documented in 1.1 and for the immediate future, but will be removed in a future release. Extension authors are strongly recommended to implement the new handlers as soon as possible.
 
----++++ Deprecated Foswiki::Func functions
+---++++!! Deprecated Foswiki::Func functions
 The =readTopicText= and =saveTopicText= functions have been deprecated. Use =readTopic= and =saveTopic= instead. Both =readTopic= and =saveTopic= have always been available in Foswiki (and its predecessor) and are a lot safer. Existing code can usually be modified to eliminate these deprecated functions without difficulty.
 
 __Note:__ =readTopicText= had implicit access control checks. The replacement method, =readTopic= does not, so calling code must call =checkAccessPermission= explicitly.
 
----++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
+---++++!! Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
 Access checking has been moved from Store up to the Meta and Func routines. This was done to improve perfomance of the Store backend and simplify implementation of different stores e.g. using databases.
 
 Store was never part of the Foswiki or TWiki API. Extensions which violate this API and reference =Store::= functions directly could potentially have access that was previously blocked by Foswiki and/or may require other changes to be compatible with Foswiki 1.1.
@@ -571,7 +717,7 @@ Extension authors should first try to use the =Foswiki::Func= API. This is the p
 
 =Foswiki::Meta= should be used only if =Foswiki::Func= does not have a needed function. Note that =Foswiki::Meta= functions do not implicitly perform any access control checks. Callers of =Foswiki::Meta== should first use the =Foswiki::Meta::haveAccess= function to verify access for the planned actions. This was done by design to reduce repetitive access control checks and improve performance.
 
----++++ Tainting
+---++++!! Tainting
 The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when =FOSWIKI_ASSERTS= are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 
 <verbatim>
@@ -594,7 +740,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x00Details
 ---++ Foswiki Release 1.1.0 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item134][Item134]] | VIEW_TEMPLATE not copied from template |
@@ -615,8 +761,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item1378][Item1378]] | Popup-Window for new links in Rich-Text-Editor is too small. |
 | [[%BUGS%/Item1383][Item1383]] | Plugin Topic PREFERENCES still used in core plugins |
 | [[%BUGS%/Item1392][Item1392]] | (IE only) Cursor jumps to beginning unintendedly in WYSIWYG-editor |
-| [[%BUGS%/Item1394][Item1394]] | %PINK is converted in the Rich Text Editor |
-| [[%BUGS%/Item1415][Item1415]] | Change _default.WebPreferences to limit access to AdminGroup only |
+| [[%BUGS%/Item1394][Item1394]] | %<nop>PINK% is converted in the Rich Text Editor |
+| [[%BUGS%/Item1415][Item1415]] | Change _default.%WEBPREFSTOPIC% to limit access to AdminGroup only |
 | [[%BUGS%/Item1417][Item1417]] | Getting below a table in the Rich Text Editor is difficult / Disturbing cursor movements. |
 | [[%BUGS%/Item1448][Item1448]] | Change of the handling of unique anchor names in TOC |
 | [[%BUGS%/Item1470][Item1470]] | Be consistent and change "raw edit" to "edit wiki text" |
@@ -767,7 +913,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item8873][Item8873]] | Macros don't expand when used in topic preference settings |
 | [[%BUGS%/Item8875][Item8875]] | Multiple issues with new Package.pm installer |
 | [[%BUGS%/Item8884][Item8884]] | Deprecate template oopschangelanguage |
-| [[%BUGS%/Item8905][Item8905]] | Document DIFFRENDERSTYLE in DefaultPreferences |
+| [[%BUGS%/Item8905][Item8905]] | Document DIFFRENDERSTYLE in %WIKIPREFSTOPIC% |
 | [[%BUGS%/Item8913][Item8913]] | Calendar widget can't parse epoch seconds |
 | [[%BUGS%/Item8924][Item8924]] | Support export of arbitrary Foswiki preferences to Javascript |
 | [[%BUGS%/Item8925][Item8925]] | Strikeone setting is hidden in User Logins |
@@ -872,7 +1018,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9779][Item9779]] | More topic actions - view Revision does not work. |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item118][Item118]] | Would be nice if the password field auto-focus()'d when you save from /configure |
@@ -954,7 +1100,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item8696][Item8696]] | Implement add-to-zone and render-zone |
 | [[%BUGS%/Item8701][Item8701]] | Implement MakeUserRegistrationCustomizable |
 | [[%BUGS%/Item8704][Item8704]] | Improvements for GROUPINFO |
-| [[%BUGS%/Item8746][Item8746]] | Clean up WebPreferences |
+| [[%BUGS%/Item8746][Item8746]] | Clean up %WEBPREFSTOPIC% |
 | [[%BUGS%/Item8749][Item8749]] | Add beforeUploadHandler and afterUploadHandler, and deprecate beforeAttachementSaveHandler and afterAttachmentSaveHandler |
 | [[%BUGS%/Item8761][Item8761]] | Recode the search cgi to show view/%SYSTEMWEB%.WebSearch  |
 | [[%BUGS%/Item8789][Item8789]] | Add default CSS properties for images |
@@ -981,7 +1127,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9476][Item9476]] | Compress CSS files |
 | [[%BUGS%/Item9508][Item9508]] | Requirement for password confirmation in registration is a PITA |
 | [[%BUGS%/Item9514][Item9514]] | Replace foswikiPopUp CSS with JQuery POPUPWINDOW |
-| [[%BUGS%/Item9587][Item9587]] | !DataDir Checker should verify that WebPreferences topic exists |
+| [[%BUGS%/Item9587][Item9587]] | !DataDir Checker should verify that %WEBPREFSTOPIC% topic exists |
 | [[%BUGS%/Item9598][Item9598]] | Add <code>ignorepermissions</code> option to suppress acl checks in Func::saveTopic |
 | [[%BUGS%/Item9644][Item9644]] | Pass the Foswiki RELEASE & VERSION strings on to Extensions repository in configure when using install & update |
 </noautolink>
@@ -990,14 +1136,14 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x01Details
 ---++ Foswiki Patch Release 1.1.1 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item9569][Item9569]] | Non-trivial macros are rendered within verbatim blocks of included topics |
 | [[%BUGS%/Item9773][Item9773]] | Extension backup directories should be deleted after successful tar/zip archive |
 | [[%BUGS%/Item9788][Item9788]] | pub-htaccess.txt should mention symlinks |
 | [[%BUGS%/Item9799][Item9799]] | can't read null value from session_variable |
-| [[%BUGS%/Item9805][Item9805]] | Extension installer fails to install files into web with missing !WebPreferences |
+| [[%BUGS%/Item9805][Item9805]] | Extension installer fails to install files into web with missing <nop>%WEBPREFSTOPIC% |
 | [[%BUGS%/Item9807][Item9807]] | bin/configure should also auto-fix the shbang line of /tools/ scripts |
 | [[%BUGS%/Item9809][Item9809]] | ACLs broken in Foswiki 1.1.0 when passed a Group |
 | [[%BUGS%/Item9810][Item9810]] | WikiGroups interface does not allow to add existing Groups as members of a Group (nested Groups) and behaves inconsistently when adding them manually using "More actions" and "Edit settings for this topic" |
@@ -1032,7 +1178,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9890][Item9890]] | Attachments corrupted on Windows |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item8411][Item8411]] | Add registration approval described at Support.Question121 to core |
@@ -1042,7 +1188,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x02Details
 ---++ Foswiki Patch Release 1.1.2 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item1391][Item1391]] | =&lt;div&gt;= disappears in Rich-Text-Editor |
@@ -1060,7 +1206,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9948][Item9948]] | New Plugin API method =Foswiki::Meta::registerMETA= not working correctly |
 | [[%BUGS%/Item9952][Item9952]] | Bold & italics buttons aren't working with WysiwygPlugin |
 | [[%BUGS%/Item9953][Item9953]] | !TinyMCE JS error transitioning to !WikiText from fullscreen |
-| [[%BUGS%/Item9956][Item9956]] | Wysiwyg editor breaks the sample color in WebPreferences |
+| [[%BUGS%/Item9956][Item9956]] | Wysiwyg editor breaks the sample color in %WEBPREFSTOPIC% |
 | [[%BUGS%/Item9960][Item9960]] | Spurious JS errors |
 | [[%BUGS%/Item9963][Item9963]] | Overzealous use of =$percent= in plugins makes them incompatible with Foswiki 1.0.x |
 | [[%BUGS%/Item9970][Item9970]] | Cannot save the value 0 in a formfield |
@@ -1071,12 +1217,12 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9981][Item9981]] | Fix missing and redundant files |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 #Rel01x01x03Details
 ---++ Foswiki Patch Release 1.1.3 Details
 
----+++ Fixes
+---+++!! Fixes
 <noautolink>
 | [[%BUGS%/Item92][Item92]] | Need to give the admin a web UI to change user's hidden email address |
 | [[%BUGS%/Item770][Item770]] | there is no obvious way for an admin to see what webs exist when they are on ManagingWebs topic |
@@ -1158,7 +1304,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10207][Item10207]] | Update pattern js to work with ajax |
 | [[%BUGS%/Item10209][Item10209]] | rewriteshebang Failure with unexpected perl path input |
 | [[%BUGS%/Item10213][Item10213]] | Make sudo login more logical |
-| [[%BUGS%/Item10226][Item10226]] | Documentation of DefaultPreferences should mention SitePreferences |
+| [[%BUGS%/Item10226][Item10226]] | Documentation of %WIKIPREFSTOPIC% should mention SitePreferences |
 | [[%BUGS%/Item10243][Item10243]] | Installation Guide is outdated on admin user |
 | [[%BUGS%/Item10248][Item10248]] | TOC rendering wrong anchors for INCLUDEd content |
 | [[%BUGS%/Item10253][Item10253]] | IfStatements page does not tell about checking the value of configure setting |
@@ -1239,7 +1385,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10634][Item10634]] | Add a README in working/logs to make sure it is in the distrubution with the right access rights |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item1939][Item1939]] | Update INSTALL_INSTRUCTIONS |
@@ -1264,7 +1410,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x04Details
 ---++ Foswiki Patch Release 1.1.4 Details
 
----+++ Fixes
+---+++!! Fixes
 <noautolink>
 | [[%BUGS%/Item1200][Item1200]] | Unexpected result when link text contains email address  |
 | [[%BUGS%/Item1539][Item1539]] | Fields in %SYSTEMWEB%.UserRegistration still prefixed Twk## instead Fwk## |
@@ -1411,7 +1557,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11373][Item11373]] | Unable to add member to group if new member contained within another member. |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 <noautolink>
 | [[%BUGS%/Item9335][Item9335]] | extensions list in configure jumps around |
 | [[%BUGS%/Item9459][Item9459]] | Improved difference presentation in change notification emails (partial fix) |
@@ -1443,10 +1589,10 @@ to your =bin/LocalLib.cfg=.
 </noautolink>
 
 #Rel01x01x05Details
----++ Foswiki Patch Release 1.1.5
+---++ Foswiki Patch Release 1.1.5 Details
 <noautolink>
 
----+++ Fixes
+---+++!! Fixes
 
 | [[%BUGS%/Item652][Item652]] | Register can fail midway and leave the registration half done making re-registration impossible. |
 | [[%BUGS%/Item710][Item710]] | Registration failure due to email created topics but loses the password (deferred to 1.1) |
@@ -1492,6 +1638,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11444][Item11444]] | Document {WarningsAreErrors} in EmptyPlugin |
 | [[%BUGS%/Item11445][Item11445]] | SANDBOXWEB macro is undefined. |
 | [[%BUGS%/Item11446][Item11446]] | The rest script needs better endPoint handling |
+| [[%BUGS%/Item11448][Item11448]] | WYSIWYG-Editor: Table Cell Background Color and other table styling lost on save. |
 | [[%BUGS%/Item11450][Item11450]] | SpreadSheetPlugin $ABOVE() thinks rows are zero-based |
 | [[%BUGS%/Item11452][Item11452]] | MetaCache robustness: remove from cache on =$topicObject->finish()= |
 | [[%BUGS%/Item11453][Item11453]] | Convert RenderListPlugin to use preRenderingHandler |
@@ -1549,7 +1696,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11728][Item11728]] | GroupViewTemplate loads style definitions into head repeatedly |
 | [[%BUGS%/Item11730][Item11730]] | QUERY referencing the attachment fields can't access attachment 0 when there is only one attachment |
 
----+++ Enhancements
+---+++!! Enhancements
 
 | [[%BUGS%/Item8744][Item8744]] | =Sandbox= webname should be configurable in the same way that other default webs are configurable |
 | [[%BUGS%/Item10724][Item10724]] | Update to WYSIWYG Editor to TinyMCE 3.4.7 |
@@ -1574,7 +1721,245 @@ to your =bin/LocalLib.cfg=.
 
 </noautolink>
 
----
+#Rel01x01x06Details
+---++ Foswiki Patch Release 1.1.6 Details
+---+++!! Fixes
+
+<noautolink>
+
+| [[%BUGS%/Item1396][Item1396]] | Anchors and Links are not handled by WysiwygPlugin. |
+| [[%BUGS%/Item2306][Item2306]] | WebStatistics calculates wrong numbers. |
+| [[%BUGS%/Item8668][Item8668]] | Log changes shouldn't require user to edit LocalSite.cfg. |
+| [[%BUGS%/Item9305][Item9305]] | WysiwygPlugin ignores <code>NOAUTOLINK</code>. |
+| [[%BUGS%/Item9662][Item9662]] | Table borders look odd when you first insert a table using TinyMCE. |
+| [[%BUGS%/Item10685][Item10685]] | Func::createWeb fails to customize %WEBPREFSTOPIC% as documented. |
+| [[%BUGS%/Item11281][Item11281]] | BulkResetPassword filters out usernames that begin with Web. |
+| [[%BUGS%/Item11397][Item11397]] | Write EXPORTEDPREFERENCES as JSON instead of meta tags. |
+| [[%BUGS%/Item11480][Item11480]] | Contents of HTML input blocks should not be rendered as wikitext. |
+| [[%BUGS%/Item11537][Item11537]] | Broken links in WikiReferences. |
+| [[%BUGS%/Item11571][Item11571]] | Topic creator lacks feedback - Javascript disables the create button until the user makes a wikiword or clicks allow non wikiword. |
+| [[%BUGS%/Item11717][Item11717]] | Adding a comma to the JQueryTextboxList example (separator parameter) will fix the missing list.   |
+| [[%BUGS%/Item11722][Item11722]] | Verbatim block with class=foswikiHidden is hidden from edit. |
+| [[%BUGS%/Item11755][Item11755]] | compare breaks charset encodings. |
+| [[%BUGS%/Item11756][Item11756]] | Revision information is not displayed on bottom of page. |
+| [[%BUGS%/Item11760][Item11760]] | The "strikeone" javascript is loaded to the wrong zone |
+| [[%BUGS%/Item11767][Item11767]] | The *Copy topic* feature on *More topic actions* doesn't take over an existing parent/child setting. |
+| [[%BUGS%/Item11780][Item11780]] | Func::expandCommonVariables should ASSERT if called in initPlugin. |
+| [[%BUGS%/Item11784][Item11784]] | Wysiwyg no longer handles Foswiki Colors correctly. |
+| [[%BUGS%/Item11798][Item11798]] | Save/Cancel on Edit Topic Settings dialog fails with an error for non-English localizated sites. |
+| [[%BUGS%/Item11801][Item11801]] | Unable to install foswiki 1.1.5 debian package on ubuntu 12.04 due to unmet dependency. |
+| [[%BUGS%/Item11814][Item11814]] | HTML2TML breaks hrefs with URI encoding. |
+| [[%BUGS%/Item11818][Item11818]] | ! escaped WikiWords are shown as linking in Wysiwyg. |
+| [[%BUGS%/Item11819][Item11819]] | WysiwygPlugin / TinyMCEPlugin remove whitespace - hiddden newline spans are not preserved. |
+| [[%BUGS%/Item11821][Item11821]] | Default htpasswd encoding needs non-core CPAN module. |
+| [[%BUGS%/Item11854][Item11854]] | Configure shows empty error blocks. |
+| [[%BUGS%/Item11859][Item11859]] | Switching from raw to WYSIWYG and back, removes &lt;br />. |
+| [[%BUGS%/Item11872][Item11872]] | WysiwygPlugin interleaves &lt;div> tags between &lt;p> paragraph tabs.  This is not legal xhtml. |
+| [[%BUGS%/Item11860][Item11860]] | Search pager not working with zeroresults parameter passed to template. |
+| [[%BUGS%/Item11880][Item11880]] | Print view shows unexpanded TML line. |
+| [[%BUGS%/Item11884][Item11884]] | Unable to place cursor above a pre, verbatim, or blockquote at start of topic. |
+| [[%BUGS%/Item11898][Item11898]] | Remove id=nonwikiword from template module. |
+| [[%BUGS%/Item11909][Item11909]] | Sandbox topic creator doesn't prevent invalid topic names. Note special upgrade instructions. |
+| [[%BUGS%/Item11910][Item11910]] | Several issues with {Trace}{LoginManager}. |
+| [[%BUGS%/Item11911][Item11911]] | Expert settings no longer color marked. |
+| [[%BUGS%/Item11912][Item11912]] | hitting ctrl-i in tinymce appears to result in a 'funny square' char as well as italics. |
+| [[%BUGS%/Item11915][Item11915]] | WysiwygPlugin divides tables into multiple tables if a \ line continuation is not preceded by a space. |
+| [[%BUGS%/Item11918][Item11918]] | Instructions to block all explicit email from !WebHotify cause a regex failure in notify run. |
+| [[%BUGS%/Item11923][Item11923]] | Changes to AdminGroup by the group API should always force a new revision. |
+| [[%BUGS%/Item11927][Item11927]] | Fix for Item5464 incomplete.  Move or delete of an attachment still verifies TOPICRENAME and WEBRENAME permissions. |
+| [[%BUGS%/Item11928][Item11928]] | default values in radio and select formfields are a bad idea. |
+| [[%BUGS%/Item11929][Item11929]] | Serious performance problem when deleting topics. |
+| [[%BUGS%/Item11930][Item11930]] | CompareRevisionsAddOn only looks at %WEBPREFSTOPIC%, disregards SitePreferences for COMPARECONTEXT value. |
+| [[%BUGS%/Item11934][Item11934]] | viewfile needs to quote content disposition parameters. |
+| [[%BUGS%/Item11940][Item11940]] | rename script cannot be used from CLI.  Fails on several issues. |
+| [[%BUGS%/Item11945][Item11945]] | Log when missing/invalid formfield types are used, make dataform object cache more robust. |
+| [[%BUGS%/Item11948][Item11948]] | ModPerlEngineContrib sometimes 'Can't locate object method "stringify" via package "APR::Error"'. |
+| [[%BUGS%/Item11955][Item11955]] | Configure fails with new RCS version, <code>Argument "5.8.1" isn't numeric in numeric lt (&lt;)</code>. |
+| [[%BUGS%/Item11965][Item11965]] | MailNotify fails with perl "undefined value" errors, and needs better error reporting. |
+| [[%BUGS%/Item11981][Item11981]] | USERINFO: broken with FastCGI and <code>{AntiSpam}{HideUserDetails}</code>. |
+| [[%BUGS%/Item12002][Item12002]] | The lastest JQueryPlugin breaks edit mode of PatternSkin. |
+| [[%BUGS%/Item12003][Item12003]] | FAQRebuildingWikiUsersTopic creates a bad WikiUsers topic. |
+| [[%BUGS%/Item12006][Item12006]] | UserRegistration should not list NobodyGroup. |
+| [[%BUGS%/Item12008][Item12008]] | Unable to create a topic when its topicparent contains a '+' in its name. |
+| [[%BUGS%/Item12022][Item12022]] | Log rotation is too slow, causes timeouts on busy sites at the end of month. |
+| [[%BUGS%/Item12034][Item12034]] | Use "sub-web" consistently instead of a mxiture of Hierarchical, nested, and "sub" webs. |
+| [[%BUGS%/Item12040][Item12040]] | Logger.pm crashes with undefined Foswiki::Iterator if subclass doesn't implement eachEventSince. |
+| [[%BUGS%/Item12043][Item12043]] | WysiwygPlugin: [[WikiWord][WikiWord]] links not handled properly in noautolink sections. |
+| [[%BUGS%/Item12058][Item12058]] | Find emails should be case insensitive. |
+| [[%BUGS%/Item12072][Item12072]] | MailerContrib documents non-existent <code>user</code> arg, example cron invocations are broken. |
+| [[%BUGS%/Item12075][Item12075]] | CGI.pm won't check multivalued params specified in the query string correctly. |
+| [[%BUGS%/Item12077][Item12077]] | Unit tests appear to hang if Archive::Zip and zip/unzip tools are not installed. |
+| [[%BUGS%/Item12080][Item12080]] | Perl 5.16 deprecates <code>length ( @array )</code> - need to use scalar. |
+| [[%BUGS%/Item12086][Item12086]] | Removing of spurious lease files fails taint checking. |
+| [[%BUGS%/Item12092][Item12092]] | New topic link style should not have a question mark. |
+| [[%BUGS%/Item12094][Item12094]] | Change Configure password from salted MD5 to Apache APR1 type hash. |
+| [[%BUGS%/Item12095][Item12095]] | Template Login panel is not returning error messages to the user. |
+| [[%BUGS%/Item12105][Item12105]] | FastCGIEngineContrib may issue body before headers. |
+| [[%BUGS%/Item12115][Item12115]] | HttpCompress is incompatible with UseLocale. Flag error in config checker.. |
+| [[%BUGS%/Item12137][Item12137]] | Invalid regular expression entered by admin causes configure to crash. |
+| [[%BUGS%/Item12138][Item12138]] | Configure regexp checker broken. |
+| [[%BUGS%/Item12139][Item12139]] | Fix configuration checking of Regular Expressions, and add some missing checkers. |
+| [[%BUGS%/Item12152][Item12152]] | Context isadmin is broken. |
+| [[%BUGS%/Item12153][Item12153]] | SpreadSheetPlugin uses old style URL in calc demo. |
+| [[%BUGS%/Item12157][Item12157]] | Miscellaneous configure issues. |
+| [[%BUGS%/Item12158][Item12158]] | Installed plugins lines that reference non-enabled plugins are not links. |
+| [[%BUGS%/Item12166][Item12166]] | Search for * results in search crash. |
+| [[%BUGS%/Item12174][Item12174]] | rendering a label formfield does not respect noautolink and friends. |
+| [[%BUGS%/Item12182][Item12182]] | Better wording for "You are trying to viewfile an attachment that does not exist". |
+| [[%BUGS%/Item12188][Item12188]] | Login template shows NOTE div even when no NOTE defined. |
+| [[%BUGS%/Item12190][Item12190]] | Enable Chili highlighter by default. |
+| [[%BUGS%/Item12193][Item12193]] | RcsWrap coMustCopy litters /tmp with temporary files. |
+| [[%BUGS%/Item12194][Item12194]] | AuthRealm checker flags <code>$Foswiki::cfg</code> references as errors. |
+| [[%BUGS%/Item12195][Item12195]] | Chili display error with jquery-1.7.2 in IE7 and IE8. |
+| [[%BUGS%/Item12198][Item12198]] | Foswiki::Func::checkAccessPermission overrides meta text, and $text option is non-functional. |
+| [[%BUGS%/Item12199][Item12199]] | Improve rendering of <code>&lt;pre></code> blocks. |
+| [[%BUGS%/Item12201][Item12201]] | TinyMCE does not list all JQueryChili classes. |
+| [[%BUGS%/Item12205][Item12205]] | Registration accepts LoginName and then cannot access it. |
+| [[%BUGS%/Item12213][Item12213]] | Make button icon transparent. |
+| [[%BUGS%/Item12214][Item12214]] | Default jquery-ui theme overrides manual JQTHEME choice. |
+| [[%BUGS%/Item12235][Item12235]] | Temporary password generator doesn't honor MinPasswordLength. |
+| [[%BUGS%/Item12262][Item12262]] | !TopicUserMapping fails to find users if PasswordManager is set to none, and AllowLoginName is enabled. |
+| [[%BUGS%/Item12263][Item12263]] | Partial fix: Foswiki::Users::passwordError() only returns errors from the Base mapper.|
+| [[%BUGS%/Item12266][Item12266]] | Configure crashes with "Insecure Dependency" error if Working or Log directory are changed.|
+
+---+++!! Enhancements
+
+| [[%BUGS%/Item3830][Item3830]] | Script <code>bin/manage</code> should write a log file entry. |
+| [[%BUGS%/Item10089][Item10089]] | WysiwygPlugin should allow editors to work on double bracket links as <code>&lt;a></code> tags. |
+| [[%BUGS%/Item11175][Item11175]] | Upgrade JQueryPlugin to validation plugin version 1.9.0. |
+| [[%BUGS%/Item11592][Item11592]] | WYSIWYG doesn't protect newlines in GluePlugin macro syntax. |
+| [[%BUGS%/Item11740][Item11740]] | Create pattern theme for jqdialogs. |
+| [[%BUGS%/Item11742][Item11742]] | Remove all jquery versions prior to 1.7.1. |
+| [[%BUGS%/Item11771][Item11771]] | jqDialog has no feedback on error. |
+| [[%BUGS%/Item11802][Item11802]] | Update TMCE to 3.4.9. |
+| [[%BUGS%/Item11855][Item11855]] | Move Configure Proxies setting to Security and Authentication. |
+| [[%BUGS%/Item11889][Item11889]] | Add an option to conditionally not show close button in JQuery textboxlist. |
+| [[%BUGS%/Item11893][Item11893]] | Let breadcrumb's first component link to WIKIHOMEURL. |
+| [[%BUGS%/Item11904][Item11904]] | Split out logout code from LoginManager. |
+| [[%BUGS%/Item11917][Item11917]] | Update JQueryPlugin simplemodal plugin to version 1.4.2. |
+| [[%BUGS%/Item11935][Item11935]] | Set the umask explicitly while creating session files. |
+| [[%BUGS%/Item11985][Item11985]] | Duplicate email check does not check for pending registrations. |
+| [[%BUGS%/Item11986][Item11986]] | Need code to clear out old <code>registration_approval</code> requests.  |
+| [[%BUGS%/Item11993][Item11993]] | Upgrade JQueryPlugin livequery plugin. |
+| [[%BUGS%/Item12007][Item12007]] | Extensions.JSCalendarContrib: date form field tends to override default form button. |
+| [[%BUGS%/Item12017][Item12017]] | Add <code>%<nop>SITEMAPWHAT%</code> to default WebHome. |
+| [[%BUGS%/Item12079][Item12079]] | Twisty preferences are added to the wrong zone. |
+| [[%BUGS%/Item12081][Item12081]] | Insert a space into the shebang line of all scripts. Improves perlbrew usage. |
+| [[%BUGS%/Item12140][Item12140]] | Add auto checking by field type to <code>bin/configure</code>. |
+| [[%BUGS%/Item12211][Item12211]] | Configure will now save backup copies of the LocalSite.cfg file. |
+| [[%BUGS%/Item12215][Item12215]] | jquery.loader is visible briefly before javascript is executed. |
+| [[%BUGS%/Item12233][Item12233]] | Plugins should not render in-topic links for static context. |
+| [[%BUGS%/Item12234][Item12234]] | InterWikiPlugin should use metacpan.org for CPAN links,  also clean up dead links. |
+| [[%BUGS%/Item12267][Item12267]] | Convert from SVN Revisions to perl Version strings. |
+
+</noautolink>
+
+#Rel01x01x07Details
+---++ Foswiki Patch Release 1.1.7 Details
+<noautolink>
+---+++!! Fixes
+
+| [[%BUGS%/Item9357][Item9357]] | Login with illegal web results in Assert failure, or Uninitialized variable. |
+| [[%BUGS%/Item11546][Item11546]] | Can't locate object method "TopicObject", in Foswiki/Prefs.pm line 311. |
+| [[%BUGS%/Item11765][Item11765]] | Error message generated when creating a topic with a missing formtemplate topic pre-pends a web - even if there already is one. |
+| [[%BUGS%/Item12231][Item12231]] | <code>bin/configure</code> fails to close opened file handles. |
+| [[%BUGS%/Item12271][Item12271]] | Conditional dependency (ONLYIF option) is too restrictive to be all that useful. |
+| [[%BUGS%/Item12279][Item12279]] | Net::SMTP::SSL Email fails with SSL_verify_mode error on recent versions of IO::Socket::SSL |
+| [[%BUGS%/Item12285][Item12285]] | Resolve MAKETEXT vulnerabilities CVE-2012-6329 and CVE-2012-6330. |
+| [[%BUGS%/Item12297][Item12297]] | Conditional initializing a perl variable exposes a core perl bug. |
+| [[%BUGS%/Item12300][Item12300]] | Potential write on closed filehandle processing languages cache. |
+| [[%BUGS%/Item12301][Item12301]] | I18N->maketext calls in plugin init run before user language has been determined. |
+| [[%BUGS%/Item12310][Item12310]] | Update registration documentation and other documentation changes. |
+| [[%BUGS%/Item12330][Item12330]] | <code>bin/configure</code> crashes when run using cygwin perl. |
+| [[%BUGS%/Item12336][Item12336]] | Update docs for Func::addUserToGroup. |
+| [[%BUGS%/Item12337][Item12337]] | Remove dependency on version 4.0 of HTML::TreeBuilder. |
+| [[%BUGS%/Item12347][Item12347]] | Undeclared dependency on Crypt::PasswdMD5. |
+| [[%BUGS%/Item12351][Item12351]] | A font size change in 1.1.6 broke tuned table layouts with undesired word wrapping.  Restore 1.1.5 font size.|
+| [[%BUGS%/Item12353][Item12353]] | Add configuration checker for <code>MaxLSCBackups</code> - prevent crash if directory containing LocalSite.cfg is not writable. |
+| [[%BUGS%/Item12367][Item12367]] | Upload of filename containing special characters fails if redirected through strikeone validation. |
+| [[%BUGS%/Item12368][Item12368]] | <code>bin/configure</code> crashes with undefined input to <code>lc</code on some versions of Windows. |
+| [[%BUGS%/Item12371][Item12371]] | Request cache breaks when there is a POST parameter with empty name. |
+
+---+++!! Enhancements
+
+| [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
+| [[%BUGS%/Item11900][Item11900]] | Implement setting to force foswiki to return the !DefaultUrlHost regardless of original the input URL. |
+| [[%BUGS%/Item12324][Item12324]] | configure should not reveal password fields in confirmation messages and logs. |
+| [[%BUGS%/Item12329][Item12329]] | Code that deletes stale registrations needs it's own expiration timer.  Session timer is too short when manually approving registrations. |
+
+</noautolink>
+
+#Rel01x01x08Details
+---++ Foswiki Patch Release 1.1.8 Details
+<noautolink>
+---+++!! Fixes
+
+| [[%BUGS%/Item12382][Item12382]] | Unable to send more than one email using Net::SMTP::SSL due to code reusablity issue. |
+| [[%BUGS%/Item12391][Item12391]] | Fix CVE-2013-1666 vulnerability in MAKETEXT macro. |
+| [[%BUGS%/Item12398][Item12398]] | Configure crashes installing package with malformed manifest. |
+| [[%BUGS%/Item12408][Item12408]] | Documentation of template names on CompareRevisionsAddOn wiki page are wrong |
+
+</noautolink>
+
+#Rel01x01x09Details
+---++ Foswiki Patch Release 1.1.9 Details
+<noautolink>
+---+++ Fixes
+
+| [[%BUGS%/Item12064][Item12064]] | In data forms, buttons "Set all" and "Clear all" do nothing when clicked. |
+| [[%BUGS%/Item12084][Item12084]] | Can't use an undefined value as a symbol reference in =lib/Foswiki/Request/Upload.pm= when uploading an attachment. |
+| [[%BUGS%/Item12413][Item12413]] | Crash in Foswiki/Net.pm when using perl 5.16 and later. |
+| [[%BUGS%/Item12414][Item12414]] | File::Temp->tempfile() will cause die in upcoming release of File::Temp |
+| [[%BUGS%/Item12420][Item12420]] | Debian patches Locale::Maketext without incrementing the $VERSION |
+| [[%BUGS%/Item12423][Item12423]] | Wrong encoding for compare |
+| [[%BUGS%/Item12439][Item12439]] | SiteToolStatistics page requires login to view |
+| [[%BUGS%/Item12444][Item12444]] | Wysiwyg error: "Wide character in subroutine entry" |
+| [[%BUGS%/Item12446][Item12446]] | Dependency check is inconsistent with Perl version comparisons |
+| [[%BUGS%/Item12461][Item12461]] | Locale::MakeText warnings should be spelled correctly |
+| [[%BUGS%/Item12464][Item12464]] | ManagingTopics documentation for reverting a topic is wrong |
+| [[%BUGS%/Item12466][Item12466]] | SEARCH formfield method returning label instead of value in select+value fields |
+| [[%BUGS%/Item12471][Item12471]] | "Print on closed file handle" crash in configure checker when LocalSite.cfg cannot be written. |
+| [[%BUGS%/Item12474][Item12474]] | replace yuicompressor with a better state-of-the-art tool |
+| [[%BUGS%/Item12478][Item12478]] | Documentation incorrect for URLPARAM default= parameter. |
+| [[%BUGS%/Item12480][Item12480]] | Memory leak in TablePlugin amasses css styles from all visited pages |
+| [[%BUGS%/Item12482][Item12482]] | Incorrect derivation of value for 'lang' and 'xml:lang' attributes |
+| [[%BUGS%/Item12476][Item12476]] | Improved parsing of URLs |
+| [[%BUGS%/Item12491][Item12491]] | TOPICLIST does not respect access rights |
+| [[%BUGS%/Item12520][Item12520]] | add jquery-1.10.1 and jquery-2.0.2 bugfix releases |
+| [[%BUGS%/Item12526][Item12526]] | Bracketed links don't recognize all anchors generated for TML headings |
+| [[%BUGS%/Item12528][Item12528]] | wrong map while downgrading chars in wikiword's map |
+| [[%BUGS%/Item12555][Item12555]] | Improve wording for InterWiki Link Rules |
+| [[%BUGS%/Item12559][Item12559]] | scope in EXPAND messes up the topic context (hot fix available) |
+| [[%BUGS%/Item12567][Item12567]] | Version check in configure for JQuery plugins doesn't work correctly |
+| [[%BUGS%/Item12570][Item12570]] | Ordered Lists: type= needs to be removed and replaced with style="list-style-type:" |
+| [[%BUGS%/Item12585][Item12585]] | Missing configuration of {files_without_match} parameter/option in Search.pm |
+| [[%BUGS%/Item12589][Item12589]] | Login information (username or Password) left in Query or Cookie Data |
+| [[%BUGS%/Item12590][Item12590]] | Certain exceptions are rendered twice |
+| [[%BUGS%/Item12594][Item12594]] | Some keyword searces run exponentially longer with more topics in web. |
+| [[%BUGS%/Item12597][Item12597]] | Expand/Collapse all in TwistyPlugin behaves as a toggle |
+| [[%BUGS%/Item12599][Item12599]] | use jQuery-1.9x (not 2.0.x) for IE9  |
+| [[%BUGS%/Item12602][Item12602]] | force-load jquery-migrate when using jquery > 1.9.x |
+| [[%BUGS%/Item12604][Item12604]] | add web font mimetypes |
+| [[%BUGS%/Item12614][Item21614]] | Convert to modern CSS and JS Compressors: uglifyJS and minCSS (Foswiki build process) |
+| [[%BUGS%/Item12615][Item21615]] | CLI script parameter processing is inconsistent -parm=value vs. -parm value. |
+| [[%BUGS%/Item12616][Item12616]] | Issues introduced by perl 5.18 hash rewrite. |
+| [[%BUGS%/Item12631][Item12631]] | JQuery ui-autocomplete examples are not functional. |
+| [[%BUGS%/Item12632][Item12632]] | The upstream jquery-ui draggable module uses the wrong position of draggable elements in firefox. |
+| [[%BUGS%/Item12633][Item12633]] | JQuery ui-spinner not functional due to missing css. |
+| [[%BUGS%/Item12650][Item12650]] | Improve configure's handling of deprecated and removed JQuery plugins. |
+| [[%BUGS%/Item12652][Item12652]] | Configure fails to reveal EXPERT Items with warnings. |
+| [[%BUGS%/Item12653][Item12653]] | PatternSkin CSS rule makes jQuery icons disappear. |
+| [[%BUGS%/Item12658][Item12658]] | Skin dependencies are incorrectly resolved when installed from configure. |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item12345][Item12345]] | upgrade jquery and other 3rd party plugins. |
+| [[%BUGS%/Item12518][Item12518]] | add support for jquery-2.x without disturbing oldIEs. |
+| [[%BUGS%/Item12519][Item12519]] | upgrade superfish to latest version. |
+| [[%BUGS%/Item12600][Item12600]] | minor changes to jquery components. |
+</noautolink>
+
+
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
 -->

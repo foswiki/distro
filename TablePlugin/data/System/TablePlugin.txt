@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419139372" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -22,7 +22,7 @@ Table attributes can be set in different ways. In top down order:
    1 As preference in a topic: =TABLEPLUGIN_TABLEATTRIBUTES=: =Set TABLEPLUGIN_TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
    1 As parameters to the =TABLE= macro: =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%=
 
-The preference =TABLEPLUGIN_TABLEATTRIBUTES = ...= competely overrides previous preferences (for example in <nop>%MAINWEB%.SitePreferences or Configure):
+The preference =TABLEPLUGIN_TABLEATTRIBUTES = ...= competely overrides previous preferences (for example in %LOCALSITEPREFS% or Configure):
 <pre class="tml">
    * <nop>Set TABLEPLUGIN_TABLEATTRIBUTES = cellpadding="0" <span class="foswikiGrayText">&lt;&lt;&lt; this will remove previously set preferences and leave only 1 attribute</span>
 </pre>
@@ -154,7 +154,7 @@ You can override the default settings for the plugin by defining the following [
 -->
 | *Preference* | *Meaning* | *Default* |
 | TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | =all= |
-| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%][Configure Extensions tab, TablePlugin sub-tab]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%][Configure Extensions tab, TablePlugin sub-tab]], and can be set on site level in %LOCALSITEPREFS%, on web level in any <noautolink> %WEBPREFSTOPIC%</noautolink> or on topic level. | =tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
 
 
 ---++ <nop>TablePlugin and CSS
@@ -233,7 +233,7 @@ Foswikitask:Item8991: header-only table violates XHTML DTD. |
 |  03 Sep 2009 | 1.041: Kenneth Lavrsen: Fix for crash when cell contains the number 0. Allow sorting of negative numbers even when suffixed with unit. Treat whitespace as zero if pure numerical context. |
 |  02 Sep 2009 | 1.040: Kenneth Lavrsen: Fixed the fix of parsing date-time columns so that plain numbers are not interpreted as dates causing wrong sorting |
 |  03 Jun 2009 | 1.039: Michael Daum: fixed parsing date-time columns |
-|  19 Apr 2009 | 1.038: Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |
+|  19 Apr 2009 | 1.038: Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%LOCALSITEPREFS% instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |
 |  16 Dec 2008 | 1.037: Foswiki version |
 |  30 Sep 2008 | 1.035: Fix sorting of attachment date column.  |
 |  03 Aug 2008 | 1.034: TWiki 4.2.1 release version |

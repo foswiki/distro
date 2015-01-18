@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302480030" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
 
@@ -57,4 +57,4 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
-*Related Topics:* %USERSWEB%.SitePreferences
+*Related Topics:* %LOCALSITEPREFS%

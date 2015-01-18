@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599048" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -30,7 +30,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=table#foswikiAttachmentsTable= | Identifier for the attachment table  |
 |=.foswikiHorizontalList=        | Container around horizontal bullet list (=.foswikiHorizontalList ul=) |
 |=li.foswikiLast=                | Last element of a horizontal list  |
-|=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %USERSWEB%.SitePreferences  |
+|=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.%WIKIPREFSTOPIC%; custom set in %LOCALSITEPREFS%  |
 |=.foswikiNotification=          | Temporary alert, for instance after user actions; used as wrapper around =%<nop>FLASHNOTE%=  |
 |=.foswikiMessage=               | Permanent/semi-permanent message. |
 |=.foswikiContentHeader=         | Optional container around text placed above topic text  |

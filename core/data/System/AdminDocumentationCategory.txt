@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of Wiki Administrator Documentation
 
@@ -10,7 +10,7 @@
    $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
    $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts
    $ [[CountryList]] : List of countries used in the [[UserForm]]. Can also be used in Foswiki applications
-   $ [[DefaultPreferences]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %USERSWEB%.SitePreferences
+   $ [[%WIKIPREFSTOPIC%]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %LOCALSITEPREFS%
    $ [[DefaultUserRegistration]] : This topic defines the default user registration page. If a custom user registration page exists in %USERSWEB% web this will be used instead of this default. See the hidden comment in [[UserRegistration]] how to create a custom registration page
    $ [[FAQGnuGeneralPublicLicense]] : Brief explanation of GPL - the license under which Foswiki is distributed
    $ [[FAQRebuildingWikiUsersTopic]] : How to re-build your %USERSWEB%.WikiUsers topic if it is no longer current
@@ -61,7 +61,7 @@
    $ [[WebLeftBarPersonalTemplate]] : When a user creates his personal left bar, it is based on this template
    $ [[WebLeftBarSearch]] : This topic defines a section with search and jump feature which can be used in the left bar
    $ [[WebLeftBarWebsList]] : This topic lists all the webs in this site to be includes in a left bar
-   $ [[WebPreferences]] : This topic defines all the preferences for the current web. Each web has a WebPreferences topic
+   $ [[%WEBPREFSTOPIC%]] : This topic defines all the preferences for the current web. Each web has a %WEBPREFSTOPIC% topic
    $ [[WebRssBase]] : RSS News Feeds. This topic explains the RSS news feed feature and also contains the code includes by all the WebAtom topics in each web
    $ [[WebTopBarExample]] : This topic defines the default bottom bar in PatternSkin for the entire site. If you need to change it please read in PatternSkin how to tailor the bars so they do not get overwritten when you upgrade Foswiki
    $ [[WebTopicEditTemplate]] : This is the default topic template used when creating a new topic

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -223,7 +223,7 @@ If these preferences are set
    * locally (using _Local_ instead of _Set_) in a topic, or
    * in WebPreferences, or
    * in [[%LOCALSITEPREFS%]], or
-   * in [[%SYSTEMWEB%.DefaultPreferences]] (using _Set_),
+   * in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] (using _Set_),
 then the indicated templates will be chosen for =view= and =edit= respectively. The template search order remains as specified above.
 
 #TemplateSecurity

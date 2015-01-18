@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420668577" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -186,7 +186,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 
 Example:
    * Create <nop>%USERSWEB%.TinyMCEPlugin, copying the text above
-   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in %USERSWEB%.SitePreferences or <nop>MyWeb.WebPreferences:%BR%\
+   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in %LOCALSITEPREFS% or any <nop>%WEBPREFSTOPIC%:%BR%\
    <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = %USERSWEB%.TinyMCEPlugin</verbatim>
 
 ---+++ Settings
@@ -244,10 +244,10 @@ These plugins are enabled by default in the standard distribution of Foswiki.
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table][table]] | tablecontrols, [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table#Table_controls.2Fbuttons][others]] | Refer to !TinyMCE documentation | |
 
 ---+++ Additional Plugins 
-To enable extra plugins, set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your [[%USERSWEB%.SitePreferences]].
+To enable extra plugins, set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your [[%LOCALSITEPREFS%]].
 If the plugin also offers a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_ADDITIONAL_BUTTONS*= variables. 
 
-For example, to make use of the =emotions= and =wordcount= plugins add the following to [[%USERSWEB%.SitePreferences]]:
+For example, to make use of the =emotions= and =wordcount= plugins add the following to [[%LOCALSITEPREFS%]]:
 
 <pre class="tml">
 ---++ TinyMCE customisations
@@ -418,6 +418,6 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1420668577" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1420668577" attr="h" user="ProjectContributor" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1420668577" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1421599458" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1421599458" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1421599458" user="ProjectContributor" comment="" version="1"}%

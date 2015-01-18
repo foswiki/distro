@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1281633033" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Add New Tip Of The Day
 
@@ -6,11 +6,11 @@ There are *Custom Tips* maintained on your local %WIKITOOLNAME% installation, *O
 
 ---++ Add a Custom %WIKITOOLNAME% Tip
 
-Custom tips are located in the %MAINWEB% web. You can add custom tips that are specific to your installation and to your organization in general.
+Custom tips are located in the %USERSWEB% web. You can add custom tips that are specific to your installation and to your organization in general.
 
-<form name="newlocal" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%MAINWEB%/">
+<form name="newlocal" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%USERSWEB%/">
 <!--
-| Last topic:     | %CALC{$SET(ctopic, %SEARCH{ "CustomTipTopic[0-9]" scope="topic" web="%MAINWEB%" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ctopic)}% |
+| Last topic:     | %CALC{$SET(ctopic, %SEARCH{ "CustomTipTopic[0-9]" scope="topic" web="%USERSWEB%" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ctopic)}% |
 | Next available: | %CALC{$SET(cnext, $INT($VALUE($GET(ctopic)) + 1))$GET(cnext)}% |
 | Zero pad to 3:  | %CALC{$SET(cnext, $REPLACE(0000$GET(cnext),1,$INT(1 + $LENGTH($GET(cnext)))))$GET(cnext)}% |
 | New topic name: | %CALC{$SET(ctopic, CustomTipTopic$GET(cnext))$GET(ctopic)}% |

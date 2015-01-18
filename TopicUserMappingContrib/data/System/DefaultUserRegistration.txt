@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -344,7 +344,7 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 <!--
 	Optional field join group
 	
-	enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.SitePreferences topic to automatic, one, multiple.
+	enable by setting =REGISTRATIONGROUPTYPE= in the %LOCALSITEPREFS% topic to automatic, one, multiple.
 -->
 %STARTSECTION{"extraField_groups"}%%INCLUDE{"%TOPIC%" section="groups"}%%ENDSECTION{"extraField_groups"}%
 

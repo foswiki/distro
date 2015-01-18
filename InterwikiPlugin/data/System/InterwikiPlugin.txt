@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420039754" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -40,7 +40,7 @@ Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 
 ---++ <nop>%TOPIC% Settings
 
-You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %USERSWEB%.SitePreferences, or in !WebPreferences, or in individual topics.
+You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %LOCALSITEPREFS%, or in any <noautolink> %WEBPREFSTOPIC%,</noautolink> or in individual topics.
 
 | *Preference* | *Use to* | *Default* |
 | =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#AddingYourOwn for more details | %SYSTEMWEB%.InterWikis |

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %STARTINCLUDE%
 #VarENDCOLOR
 ---+++ ENDCOLOR -- end colored text
-   * =ENDCOLOR= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of shortcuts.<br/>
+   * =ENDCOLOR= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of shortcuts.<br/>
    *Example:*
    <pre class="tml">%<nop>GREEN% green text %<nop>ENDCOLOR%</pre>
    *Expands to:* %GREEN% green text %ENDCOLOR%
@@ -14,17 +14,17 @@
    nonoise="on"
    format="[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%$topic][$topic]]"
    separator=", "
-}%, [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+}%, [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
 %STOPINCLUDE%
 
 <!-- STOPINCLUDE to help HTML validation from CompleteDocumentation -->
 <verbatim style="display: none;">%STARTSECTION{"varcolor"}%
 #Var%color%
 ---+++ %color% -- start %CALC{"$LOWER(%color%)"}% colored text
-   * =%color%= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.<br/>
+   * =%color%= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.<br/>
    *Example:*
    <pre class="tml">%<nop>%color%% %CALC{"$LOWER(%color%)"}% text %<nop>ENDCOLOR%</pre>
    *Expands to:* %%color%% %CALC{"$LOWER(%color%)"}% text %ENDCOLOR%
    %STARTSECTION{"remember"}%<p></p><div class="foswikiHelp">%X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write <pre class="tml">%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%</pre></div>%ENDSECTION{"remember"}%
-*Related:* [[%IF{"'%includingtopic%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+*Related:* [[%IF{"'%includingtopic%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
 <!--%JQREQUIRE{"chili"}%-->%ENDSECTION{"varcolor"}%</verbatim>

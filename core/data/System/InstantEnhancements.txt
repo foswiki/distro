@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -62,7 +62,7 @@ For instance, if we want to write =%<nop>DOWN%= to get the %ICON{"arrowbdown"}% 
 </verbatim>
 If you have your own custom image that you want to use, attach it to [[%LOCALSITEPREFS%]] and write:
 <verbatim>
-   * Set DOWN = <img src="%PUBURL%/%USERSWEB%/SitePreferences/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
+   * Set DOWN = <img src="%PUBURLPATH%/%USERSWEB%/SitePreferences/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
 
 %I% There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.

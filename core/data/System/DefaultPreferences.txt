@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421366007" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -7,23 +7,23 @@ This topic defines *site-level* settings that apply to all users and webs on thi
 <div class="foswikiNotification">
 *%X% Note:* This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
 
-Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (this topic is pointed to by {LocalSitePreferences}, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface). Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings.
+Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (this topic is pointed to by ={LocalSitePreferences}=, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface). Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings.
 
 [[Macros#SettingPrefs][Read more]] on how to set preferences.
 </div>
 
 %TOC%
 
-#DefaultWebPreferences
+#Default%WEBPREFSTOPIC%
 ---++ Default Web Preferences
 
-<div calss="foswikiHelp"> %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web</div>
+<div calss="foswikiHelp"> %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the <nop>%WEBPREFSTOPIC% topic in each web</div>
 
 
    * Web-specific background color: (is overwritten by web preferences)
       * Set WEBBGCOLOR = #FFD8AA
 
-   * [[http://en.wikipedia.org/wiki/Favicon][favicon]]: Attach a =favicon.ico= to a web's WebPreferences or add a =FAVICON= setting to WebPreferences
+   * [[http://en.wikipedia.org/wiki/Favicon][favicon]]: Attach a =favicon.ico= to a web's %WEBPREFSTOPIC% or add a =FAVICON= setting to %WEBPREFSTOPIC%
       * Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico
 
    * Image, URL and alternate tooltip text of web's logo.
@@ -131,7 +131,7 @@ be removed from Foswiki 1.2.0.
    * Site name:
       * Set WIKITOOLNAME = Foswiki
 
-   * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
+   * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in <nop>%WEBPREFSTOPIC% for individual webs by defining these settings there.
       * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
       * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
@@ -220,7 +220,7 @@ be removed from Foswiki 1.2.0.
 
 ---++ Extension Settings
 
-   * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences)
+   * Skin overriding the default templates: (can be overwritten by %WEBPREFSTOPIC% and user preferences)
       * Set SKIN = natedit,pattern
 
    * *Note:* See SkinBrowser for currently installed skins

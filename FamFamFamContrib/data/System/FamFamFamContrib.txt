@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418962146" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -99,14 +99,14 @@ eg
 |  Contrib Home: | http://foswiki.org/Extensions/FamFamFamContrib |
 |  Feedback: | http://foswiki.org/Extensions/FamFamFamContribDev |
 
-__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
 
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1418962146" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1418962146" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1418962146" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1418962146" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1418962146" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1418962146" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1421599902" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1421599902" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1421599902" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1421599902" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1421599902" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1421599902" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%

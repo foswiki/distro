@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Plugins
 
@@ -45,7 +45,7 @@ The performance of the system depends to some extent on the number of plugins in
 %T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
 </div>
 
-Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
+Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %LOCALSITEPREFS% to disable those plugins everywhere, in the <nop>%WEBPREFSTOPIC% topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
 <pre class="tml">
    * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin, EditTablePlugin
 </pre>

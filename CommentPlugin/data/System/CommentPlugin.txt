@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419138856" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -43,7 +43,7 @@ will add comments in the current topic, directly below the =%COMMENT= tag.
 ---++++ Location relative to an anchor
 The =target= attribute may specify a web, and may also specify an anchor within the target topic; for example, 
 <verbatim class="tml">
-%COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
+%COMMENT{type="above" target="%USERSWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
 This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
 
@@ -234,7 +234,7 @@ Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by th
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
-These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in individual topics.
+These can be set in %LOCALSITEPREFS%, in each web's <noautolink> %WEBPREFSTOPIC%,</noautolink> or in individual topics.
 
 #Installation
 ---++ Installation Instructions
@@ -293,4 +293,4 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1418945490" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%

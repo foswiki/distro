@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419223229" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !UnitTestContrib
 <!--
@@ -113,8 +113,8 @@ working together to improve your wiki experience!
 |  Contrib Home | http://foswiki.org/Extensions/%TOPIC% |
 |  Support | http://foswiki.org/Support/%TOPIC% |
 
-__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1419223229" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1421599902" attr="h" comment="" version="1"}%

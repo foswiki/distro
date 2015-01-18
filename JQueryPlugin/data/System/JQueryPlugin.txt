@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421061947" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -257,7 +257,7 @@ reduce bandwidth and speed up interactive performance.
                   improved documentation; \
                   fixed IE error in treeview; \
                   added post method to async mode of treeview; \
-                  moved %CLEAR to %SYSTEM.DefaultPreferences |
+                  moved %CLEAR to %SYSTEM.%WIKIPREFSTOPIC% |
 |  28 May 2010: | (3.60) removed pointless TOGGLE module; \
                   reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module; \
                   fixed IE7 error with floats inside tabpanes; \

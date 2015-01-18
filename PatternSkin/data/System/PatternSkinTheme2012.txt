@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420154378" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki "2012" Site Skin
 
@@ -54,13 +54,13 @@ This is just a stopgap for now, Arthur is working on a real skin :)
 
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
----+++ set these theme settings on your user topic: %MAINWEB%.%WIKINAME%s
+---+++ set these theme settings on your user topic: %USERSWEB%.%WIKINAME%s
 %INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
     override="%WEB%.%TOPIC%"
     sectionlist="themesettings"
     section="newtopic"
-    defaultweb="%MAINWEB%"
+    defaultweb="%USERSWEB%"
     newtopic="%WIKINAME%"
 }%
 </div></div>

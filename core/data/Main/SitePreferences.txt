@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282166602" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 ---+!! %TOPIC%
 
 %ICON{"help"}% 
 %MAKETEXT{
    "Foswiki's default preferences are located in [_1], however settings defined here have override priority and should be used for local customisations."
-   args="[[%SYSTEMWEB%.DefaultPreferences]]"
+   args="[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]"
 }%
 
 %TOC%

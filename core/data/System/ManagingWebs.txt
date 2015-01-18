@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420822701" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -116,12 +116,12 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 							<h4>About template webs</h4>
 							<p>
 								There are two methods used to create a new web. %BR% First you can use a specially designed TemplateWeb. This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=). All topics in the template web will be copied into your new web. %BR%
-								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "WebHome" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the !WebPreferences of the new web. -->
+								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "WebHome" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the <nop>%WEBPREFSTOPIC% of the new web. -->
 							</p>
 *Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
    * A new web created using the =_default= or =_empty= template webs must have their access controls set before public use
-   * =_empty= is really empty (only has a !WebPreferences topic); normally you want to choose =_default=.
+   * =_empty= is really empty (only has a <nop>%WEBPREFSTOPIC% topic); normally you want to choose =_default=.
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
 </div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
 					</div><!--//col2-->
@@ -181,12 +181,12 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 
 ---++ In-depth info on Webs
 ---+++ Subweb preferences are inherited
-The [[preference settings]] of a subweb are inherited from the parent web and overridden locally. Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
+The [[preference settings]] of a subweb are inherited from the parent web and overridden locally. Preferences are ultimately inherited from the [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] topic.
 
 *Example Preference Inheritance for =%SANDBOXWEB%/TestWeb/SubWeb.SubWebTopic= topic:*
-   1 =%SYSTEMWEB%.DefaultPreferences= default settings
-   1 =%USERSWEB%.SitePreferences= site-wide settings inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
-   1 =%SANDBOXWEB%.%WEBPREFSTOPIC%= inherits from and overrides settings in =%USERSWEB%.SitePreferences=
+   1 =%SYSTEMWEB%.%WIKIPREFSTOPIC%= default settings
+   1 =%LOCALSITEPREFS%= site-wide settings inherits from and overrides settings in =%SYSTEMWEB%.%WIKIPREFSTOPIC%=
+   1 =%SANDBOXWEB%.%WEBPREFSTOPIC%= inherits from and overrides settings in =%LOCALSITEPREFS%=
    1 =%SANDBOXWEB%/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SANDBOXWEB%.%WEBPREFSTOPIC%=
    1 =%SANDBOXWEB%/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SANDBOXWEB%/TestWeb.%WEBPREFSTOPIC%=
    1 =%SANDBOXWEB%/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =%SANDBOXWEB%/TestWeb/SubWeb.%WEBPREFSTOPIC%=
@@ -203,7 +203,7 @@ Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. %IF{"{EnableHi
 You may only rename a web if you have the following permissions
    * You must be allowed to rename and changes topics in the web you want to rename
    * You must be allowed to rename topics in the parent web of the web you want to rename
-   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.SitePreferences]].
+   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%LOCALSITEPREFS%]].
    * If you move the web to another parent web you must be allowed to create and change topics in the new parent web. When you rename a web Foswiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the Foswiki installation it is generally best to let an administrator rename webs to avoid too many broken links.
 
 ---+++ Renaming the webs in the distribution

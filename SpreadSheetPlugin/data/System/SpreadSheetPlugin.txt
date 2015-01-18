@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420253308" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 
@@ -974,7 +974,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  20 Sep 2009: | Minor documentation update. trunk and release branch code synced (mainly perltidy - all functional changes have been in sync). |
 |  17 Sep 2009: | Foswikitask:Item2087: SpreadSheetPlugin forgets about zeros being floats as well |
 |  11 May 2009: | Fixed the calculation of WORKINGDAYS. Changed the default behavior of TIME back to not converting dates to GMT as this creates surprising effects for users living to the east of Greenwich. Added SPREADSHEETPLUGIN_TIMEISLOCAL so users depending on the old behavior keep the old behavior if TIME. Added the feature 'local' to TIME so conversion behavior can be used on demand. |
-|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
+|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%LOCALSITEPREFS% instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
 |  29 Mar 2009: | Added $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), and $INSERTSTRING() |
 |  06 Jan 2009: | Foswikitask:Item4835: Allow SUBSTITUTE and REPLACE to return values 0 and '' |
 |  16 Dec 2008: | Foswiki version - no new features |
@@ -1022,4 +1022,4 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
-*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
+*Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418949874" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -198,7 +198,7 @@ The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common
 Also, the plugin has a couple of its own settings:
 | =EDITROWPLUGIN_JS= | Usually the plugin expects to be able to use Javascript to generate controls. However sometimes users disable Javascript in the browser, so the plugin also generates a minimal set of fallback controls to give non-JS access to the main features, even if Javascript is disabled. You can use this preference to control whether Javascript is preferred, ignored, or assumed when generating the controls.<ul><li> =preferred= means "use JS if it's available, but keep the non-JS fallback controls visible", </li><li> =ignored= means "never use JS, only display the non-JS controls", </li><li> =assumed= means "assume that JS will be available in the browser, and don't display the fallback controls". </li></ul> You can control the setting on a per-table basis using the =js= parameter to the =EDITTABLE= macro. |
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
-These preferences can be defined in %USERSWEB%.SitePreferences, in !WebPreferences for an individual web, or in the topic.
+These preferences can be defined in %LOCALSITEPREFS%, in <noautolink> %WEBPREFSTOPIC% </noautolink>for an individual web, or in the topic.
 
 There is also a =configure= (expert) setting that allows you to change the name of the macro used to carry table editor parameters. This is usually =EDITTABLE= but can be changed to help work around problems with other plugins.
 
@@ -305,12 +305,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1418949874" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1418949874" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1421599902" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%

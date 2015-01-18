@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Hide the left bar
 
@@ -7,8 +7,8 @@ This line loads the extra style definition:
 <verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookNoLeftBar/hideleftbar.css
 </verbatim>
-You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic, or on a single page.
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic, or on a single page.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="hideleftbar.css" attr="" comment="css to hide the left bar" date="1129323328" }%
+%META:FILEATTACHMENT{name="hideleftbar.css" user="ProjectContributor" attr="" comment="css to hide the left bar" date="1421599902" version="1"}%
