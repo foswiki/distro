@@ -198,7 +198,7 @@ The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common
 Also, the plugin has a couple of its own settings:
 | =EDITROWPLUGIN_JS= | Usually the plugin expects to be able to use Javascript to generate controls. However sometimes users disable Javascript in the browser, so the plugin also generates a minimal set of fallback controls to give non-JS access to the main features, even if Javascript is disabled. You can use this preference to control whether Javascript is preferred, ignored, or assumed when generating the controls.<ul><li> =preferred= means "use JS if it's available, but keep the non-JS fallback controls visible", </li><li> =ignored= means "never use JS, only display the non-JS controls", </li><li> =assumed= means "assume that JS will be available in the browser, and don't display the fallback controls". </li></ul> You can control the setting on a per-table basis using the =js= parameter to the =EDITTABLE= macro. |
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
-These preferences can be defined in %LOCALSITEPREFS%, in <noautolink> %WEBPREFSTOPIC% </noautolink>for an individual web, or in the topic.
+These preferences can be defined in %LOCALSITEPREFS%, in <nop>%WEBPREFSTOPIC% for an individual web, or in the topic.
 
 There is also a =configure= (expert) setting that allows you to change the name of the macro used to carry table editor parameters. This is usually =EDITTABLE= but can be changed to help work around problems with other plugins.
 

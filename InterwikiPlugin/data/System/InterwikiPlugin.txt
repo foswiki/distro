@@ -40,7 +40,7 @@ Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 
 ---++ <nop>%TOPIC% Settings
 
-You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %LOCALSITEPREFS%, or in any <noautolink> %WEBPREFSTOPIC%,</noautolink> or in individual topics.
+You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %LOCALSITEPREFS%, or in any <nop>%WEBPREFSTOPIC%, or in individual topics.
 
 | *Preference* | *Use to* | *Default* |
 | =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#AddingYourOwn for more details | %SYSTEMWEB%.InterWikis |

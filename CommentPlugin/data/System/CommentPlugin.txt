@@ -234,7 +234,7 @@ Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by th
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
-These can be set in %LOCALSITEPREFS%, in each web's <noautolink> %WEBPREFSTOPIC%,</noautolink> or in individual topics.
+These can be set in %LOCALSITEPREFS%, in each web's <nop>%WEBPREFSTOPIC%, or in individual topics.
 
 #Installation
 ---++ Installation Instructions
