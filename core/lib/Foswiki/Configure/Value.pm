@@ -327,10 +327,9 @@ will be intact)
 sub getRawValue {
     my ($this) = @_;
 
-    my $val;
-    eval "\$val = \"\$Foswiki::cfg$this->{keys}\"";
+    # This can return undef, but that expected for keys that are undefok.
+    return eval("\$Foswiki::cfg$this->{keys}");
 
-    return $val;
 }
 
 =begin TML
