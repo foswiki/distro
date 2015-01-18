@@ -327,9 +327,21 @@ will be intact)
 sub getRawValue {
     my ($this) = @_;
 
-    # This can return undef, but that expected for keys that are undefok.
-    return eval("\$Foswiki::cfg$this->{keys}");
+    my $val;
 
+    if (DEBUG) {
+        my $path = \%Foswiki::cfg;
+        my $x    = $this->{keys};
+        my $p    = '$Foswiki::cfg';
+        while ( $x =~ s/^{(.*?)}// ) {
+            $path = $path->{$1};
+            $p .= "{$1}";
+            print STDERR "$this->{keys} is undefined at $p"
+              unless defined $path;
+        }
+    }
+
+    eval "\$val = \"\$Foswiki::cfg$this->{keys}\"";
 }
 
 =begin TML

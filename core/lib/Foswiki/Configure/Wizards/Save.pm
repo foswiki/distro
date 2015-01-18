@@ -226,14 +226,16 @@ sub save {
         Foswiki::Configure::Load::readConfig( 1, 1 );
     }
 
-    # Get changes from 'set' *without* expanding values
+    # Get changes from 'set' *without* expanding values.
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
+            $v =~ m/^(.*)$/s;
+            $v = $1;    # untaint
             my $spec = $root->getValueObject($k);
             if ( defined $v ) {
-                my ($value) = $v =~ m/^(.*)$/s;    #UNTAINT
+                $spec->{saving_value} = $v;
                 if ($spec) {
-                    eval { $value = $spec->decodeValue($value) };
+                    eval { $v = $spec->decodeValue($v) };
                     if ($@) {
                         $reporter->ERROR(
 "SAVE ABORTED: Could not interpret new value for $k: "
@@ -242,8 +244,8 @@ sub save {
                         return undef;
                     }
                 }
-                if ( defined $value ) {
-                    eval "\$Foswiki::cfg$k=\$value";
+                if ( defined $v ) {
+                    eval "\$Foswiki::cfg$k=\$v";
                 }
                 else {
                     eval "undef \$Foswiki::cfg$k";
@@ -251,6 +253,7 @@ sub save {
             }
             elsif ( $spec->CHECK_option('undefok') ) {
                 eval "undef \$Foswiki::cfg$k";
+                $spec->{saving_value} = undef;
             }
             else {
                 $reporter->ERROR(
@@ -439,7 +442,13 @@ sub _generateLSC {
             return ()
               unless ( $vs->CHECK_option('emptyok') );
         }
-        my $d = Foswiki::Configure::Reporter::uneval($datum);
+        my $d;
+        if ( exists $vs->{saving_value} ) {
+            $d = $vs->{saving_value};
+        }
+        else {
+            $d = Foswiki::Configure::Reporter::uneval($datum);
+        }
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
     elsif ( ref($datum) eq 'HASH' ) {

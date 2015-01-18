@@ -340,24 +340,25 @@ sub parse {
                 next;
             }
 
-            while ( $value !~ s/\s*;\s*$// ) {
+            # Read the value verbatim
+            while ( $value !~ s/\s*;\s*$//s ) {
+                $value .= "\n";
                 my $cont = <$fh>;
                 last unless defined $cont;
-                chomp $cont;
-                $cont =~ s/^\s+/ /;
-                unless ( $cont =~ /^#/ ) {
-                    $value .= $cont;
-                }
+                chomp($cont);
+                $value .= $cont;
             }
 
             # check it's a valid perl expression, ignoring uninitialised
             # variable warnings inside strings.
-            no warnings;
-            $value =~ /^(.*)$/;
-            eval $1;
-            $reporter->ERROR("$context: Cannot eval value '$value': $@") if $@;
+            $value =~ /^(.*)$/s;    # untaint
             $value = $1;
+            no warnings;
+            eval $value;
             use warnings;
+            $reporter->ERROR( "$context: Cannot eval value '$value': "
+                  . Foswiki::Reporter::stripStackTrace($@) )
+              if $@;
 
             if ( $open && $open->isa('SectionMarker') ) {
                 unless ($isEnhancing) {
@@ -385,7 +386,7 @@ sub parse {
             # This is the best way to retain perl formatting while
             # being sensitive to changes.
             ASSERT( UNTAINTED($value), $value ) if DEBUG;
-            $open->{default} = $open->encodeValue( eval $value );
+            $open->{default} = $value;
 
             $open->{keys} = $keys;
             unless ($isEnhancing) {
@@ -567,13 +568,9 @@ sub addSpecDefaultsToCfg {
         {
             # {default} stores a value string. Convert it to the
             # value suitable for storing in cfg
-            my $value = $spec->decodeValue( $spec->{default} );
-            if ( defined $value ) {
-                eval("\$cfg->$spec->{keys}=\$value");
-            }
-            else {
-                eval("undef \$cfg->$spec->{keys}");
-            }
+            print STDERR "Defaulting $spec->{keys}\n";
+            my $value = eval $spec->{default};
+            eval("\$cfg->$spec->{keys}=$spec->{default}");
         }
     }
 }

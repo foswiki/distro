@@ -335,7 +335,7 @@ if ($action) {
     _reply($response);
 
     # Copy the changes into the "set" hash to be applied by save.
-    if ( keys %{ $response->{changes} } ) {
+    if ( ref($response) eq 'HASH' && keys %{ $response->{changes} } ) {
         if ( $actions{save} ) {
             $params->{set} = $response->{changes};
         }
@@ -349,7 +349,7 @@ if ($action) {
         }
     }
     else {
-        print STDERR "No configuration changes made by $params->{wizard}\n";
+        print STDERR "No configuration changes made by $action\n";
     }
 }
 
