@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -116,7 +116,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 							<h4>About template webs</h4>
 							<p>
 								There are two methods used to create a new web. %BR% First you can use a specially designed TemplateWeb. This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=). All topics in the template web will be copied into your new web. %BR%
-								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "WebHome" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the <nop>%WEBPREFSTOPIC% of the new web. -->
+								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "%HOMETOPIC%" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the <nop>%WEBPREFSTOPIC% of the new web. -->
 							</p>
 *Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)

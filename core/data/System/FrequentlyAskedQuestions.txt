@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
@@ -33,7 +33,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
     nonoise="on"
     web="%SYSTEMWEB%,%USERSWEB%"
     format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
-    header="$n$n()FAQ topics found in [[$web.WebHome][$web]] web:$n$n"
+    header="$n$n()FAQ topics found in [[$web.%HOMETOPIC%][$web]] web:$n$n"
 }%
 
 ---++ More FAQs

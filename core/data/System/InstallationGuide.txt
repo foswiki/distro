@@ -260,7 +260,7 @@ Note that with the _sudo_ or internal admin login, it is not necessary to add ot
 Click the Save button in the upper right corner of the configuration page.
 This will create a new =lib/LocalSite.cfg=.
 
-Navigate back to your %USERSWEB%.WebHome page. You will still be logged in as a temporary Admin user.  Double check that your Admin Group and/or
+Navigate back to your %USERSWEB%.%HOMETOPIC% page. You will still be logged in as a temporary Admin user.  Double check that your Admin Group and/or
 =bin/configure= settings for [Security and Authentication] [Access Control] and [Passwords] are correct before logging out from the temporary admin account established during bootstrap.
 
 ---++++ Testing your authentication configuration:

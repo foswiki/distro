@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300477710" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+ !WebLeftBar Cookbook
 
@@ -9,7 +9,7 @@
 Each link is an item in a bullet list. So it can look like this:
 
    * *My links*
-      * WebHome
+      * %HOMETOPIC%
       * WebIndex
       * WebChanges
 
@@ -20,7 +20,7 @@ The list is formatted with CSS. To get an idea of the actual look, see the list 
 <div class="patternSideBar" style="position:relative; top:0; left:0; padding:0; margin:0; border:0;">
 <div class="patternLeftBarPersonal">
    * *My links*
-      * WebHome
+      * %HOMETOPIC%
       * WebIndex
       * WebChanges
 </div> 

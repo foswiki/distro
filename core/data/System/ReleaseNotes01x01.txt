@@ -180,9 +180,9 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
 A change made in 1.1.6 changed the default size and family of the body font.  This change resulted in unexpected word wrap in tables that had column widths set to avoid wrapping.  Foswiki 1.1.7 reverts the font setting back to that of Foswiki 1.1.5.
 Changes to the skin that impact layout should not have been made in a patch release.
 
----+++ Minor change to =Main.WebHome=
+---+++ Minor change to =%USERSWEB%.%HOMETOPIC%=
 
-The [[Main.WebHome]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
+The [[%USERSWEB%.%HOMETOPIC%]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
 
 ---++ Important changes in Foswiki 1.1.6
 
@@ -265,10 +265,10 @@ Foswiki allows for <code>&lt;nop&gt;</code>, however any other unencoded &lt; an
    <input ... text='<literal>some *bold* text</literal' >   The <literal> tags MUST be removed
 </verbatim>
 
----+++ Sandbox WebHome topic updated with improved validation of new topic name
+---+++ Sandbox %HOMETOPIC% topic updated with improved validation of new topic name
 
-Foswiki upgrade packages and manual upgrade procedures typically do not upgrade any !WebHome topics. The 1.1.6 upgrade package will include a new !WebHome for the Sandbox web. If you upgrade manually, you should copy the =data/Sandbox/WebHome.txt= file from the full Foswiki distribution onto your system.
-If you have a customized Sandbox !WebHome topic, and use the upgrade package, you may need to revert back to your customized topic or re-customize the new version.
+Foswiki upgrade packages and manual upgrade procedures typically do not upgrade any <nop>%HOMETOPIC% topics. The 1.1.6 upgrade package will include a new <nop>%HOMETOPIC% for the Sandbox web. If you upgrade manually, you should copy the =data/Sandbox/%HOMETOPIC%.txt= file from the full Foswiki distribution onto your system.
+If you have a customized Sandbox <nop>%HOMETOPIC% topic, and use the upgrade package, you may need to revert back to your customized topic or re-customize the new version.
 
 ---++ Important changes in Foswiki 1.1.5
 
@@ -1284,7 +1284,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10144][Item10144]] | Mistake in example in documentation of AutoViewTemplatePlugin |
 | [[%BUGS%/Item10147][Item10147]] | Foswiki::writeCompletePage deletes session ID cookie if page contains a form |
 | [[%BUGS%/Item10151][Item10151]] | Interwiki links do not work when destination topic contains parentheses |
-| [[%BUGS%/Item10154][Item10154]] | System web name hard-coded into WebHome text |
+| [[%BUGS%/Item10154][Item10154]] | System web name hard-coded into %HOMETOPIC% text |
 | [[%BUGS%/Item10156][Item10156]] | Delete template checks all checkboxes even if the warning text says it is not recommended to do so |
 | [[%BUGS%/Item10159][Item10159]] | FAILEDPLUGINS generates invalid HTML |
 | [[%BUGS%/Item10161][Item10161]] | 4.00 of JQueryPlugin breaks a number of Twisties on 1.1.2 |
@@ -1842,7 +1842,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11986][Item11986]] | Need code to clear out old <code>registration_approval</code> requests.  |
 | [[%BUGS%/Item11993][Item11993]] | Upgrade JQueryPlugin livequery plugin. |
 | [[%BUGS%/Item12007][Item12007]] | Extensions.JSCalendarContrib: date form field tends to override default form button. |
-| [[%BUGS%/Item12017][Item12017]] | Add <code>%<nop>SITEMAPWHAT%</code> to default WebHome. |
+| [[%BUGS%/Item12017][Item12017]] | Add <code>%<nop>SITEMAPWHAT%</code> to default %HOMETOPIC%. |
 | [[%BUGS%/Item12079][Item12079]] | Twisty preferences are added to the wrong zone. |
 | [[%BUGS%/Item12081][Item12081]] | Insert a space into the shebang line of all scripts. Improves perlbrew usage. |
 | [[%BUGS%/Item12140][Item12140]] | Add auto checking by field type to <code>bin/configure</code>. |

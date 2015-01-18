@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1311983319" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminUser"}%
 %ADDTOZONE{
 	"head"
@@ -16,7 +16,7 @@ Customise this topic; samples and ideas available at
 %SYSTEMWEB%.WebLeftBarCookbook.
 --> *My links:*
    * [[%USERSWEB%.AdminUser][My home page]]
-   * [[%SCRIPTURL{search}%/%BASEWEB%/WebHome?search=AdminUser;type=word;scope=text;reverse=on;casesensitive=on;order=modified;limit=50;zeroresults=on][AdminUser %BASEWEB% activities]]
+   * [[%SCRIPTURL{search}%/%BASEWEB%/%HOMETOPIC%?search=AdminUser;type=word;scope=text;reverse=on;casesensitive=on;order=modified;limit=50;zeroresults=on][AdminUser %BASEWEB% activities]]
    * [[%LOGOUTURL%][Logout]] 
 <a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%">edit</a>
 

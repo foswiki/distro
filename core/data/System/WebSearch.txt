@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419905144" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -271,7 +271,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 	"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'"
 	then="regex"
 	else="word"
-}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,%STATISTICSTOPIC%"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
+}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,%HOMETOPIC%,%STATISTICSTOPIC%"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
 
 
 %STARTSECTION{"querysearchexample"}%%IF{

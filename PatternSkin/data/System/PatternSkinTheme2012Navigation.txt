@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1328484070" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -18,31 +18,31 @@ Include meta navigation with:
 %STARTSECTION{"meta"}%<div id="patternTopBarButtons"><ul>
 %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="About" DESTTOPIC="WebHome" LABEL="About"
+    ID="" DESTWEB="About" DESTTOPIC="%HOMETOPIC%" LABEL="About"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Blog" DESTTOPIC="WebHome" LABEL="Blog"
+    ID="" DESTWEB="Blog" DESTTOPIC="%HOMETOPIC%" LABEL="Blog"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Extensions" DESTTOPIC="WebHome" LABEL="Extensions"
+    ID="" DESTWEB="Extensions" DESTTOPIC="%HOMETOPIC%" LABEL="Extensions"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="System" DESTTOPIC="WebHome" LABEL="Documentation"
+    ID="" DESTWEB="System" DESTTOPIC="%HOMETOPIC%" LABEL="Documentation"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Community" DESTTOPIC="WebHome" LABEL="Community"
+    ID="" DESTWEB="Community" DESTTOPIC="%HOMETOPIC%" LABEL="Community"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Development" DESTTOPIC="WebHome" LABEL="Development"
+    ID="" DESTWEB="Development" DESTTOPIC="%HOMETOPIC%" LABEL="Development"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Tasks" DESTTOPIC="WebHome" LABEL="Tasks"
+    ID="" DESTWEB="Tasks" DESTTOPIC="%HOMETOPIC%" LABEL="Tasks"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Download" DESTTOPIC="WebHome" LABEL="Download"
+    ID="" DESTWEB="Download" DESTTOPIC="%HOMETOPIC%" LABEL="Download"
 }% %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Support" DESTTOPIC="WebHome" LABEL="Support"
+    ID="" DESTWEB="Support" DESTTOPIC="%HOMETOPIC%" LABEL="Support"
 }%
 </ul><div class="foswikiClear"></div></div>%ENDSECTION{"meta"}%
 

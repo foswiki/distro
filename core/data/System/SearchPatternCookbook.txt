@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416593166" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 ---+!! Search Pattern Cookbook
 
@@ -203,7 +203,7 @@ The parent information is stored in the topic meta data. Do a SEARCH to find all
 <verbatim class="tml">
 %STARTSECTION{"solution7"}%
 %SEARCH{
-    "parent.name='WebHome'"
+    "parent.name='%HOMETOPIC%'"
     type="query"
     nonoise="on"
     header="*Children:* "

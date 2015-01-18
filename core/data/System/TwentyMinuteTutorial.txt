@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -52,7 +52,7 @@ There are two different ways to create a new topic:
 #FromScratch
 ---+++ 6.1 Create a topic from scratch
 We are going to create a new topic from scratch first, before having a look at the second alternative:
-   * Go to the [[%SANDBOXWEB%.WebHome][%SANDBOXWEB% web]]. This web provides and area where you can make changes and try it all out at will. 
+   * Go to the [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB% web]]. This web provides and area where you can make changes and try it all out at will. 
    * Click the ==[Create New Topic]== link in the main menu; it is normally located on the left side of a page. A new page will open where you put the name of the new topic you are going to create. This name will also be used to link from one topic to another. For example, the name of this topic is %TOPIC%.
    * Enter a name for the new topic (preferably a WikiWord), for example =MyFirstTopic= (if it says that this topic already exists, just choose a different one). After that, click =[OK]=.
 

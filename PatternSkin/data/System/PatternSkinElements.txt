@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -260,7 +260,7 @@ Numbered list:
 
 ---++ Links
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. [[%SYSTEMWEB%.WebHome]] Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum DoesNotExist Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. [[%SYSTEMWEB%.%HOMETOPIC%]] Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum DoesNotExist Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 
 
 ---+ Header
@@ -727,7 +727,7 @@ text="<style>
 <noautolink>
 </div><h2 id="Search_results"> Search results </h2>
 <div><span class='foswikiIcon'><img src='/pub/%SYSTEMWEB%/DocumentGraphics/rss-small.png' width='16' height='16' alt='rss-small' /></span>
- <a href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebRss?search=caching;type=word;excludetopic=WebSearch,WebHome,WebStatistics;web=System;recurse=;limit=all;scope=all;casesensitive=off'>Get notified on changes on this search</a></div>
+ <a href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebRss?search=caching;type=word;excludetopic=WebSearch,%HOMETOPIC%,WebStatistics;web=System;recurse=;limit=all;scope=all;casesensitive=off'>Get notified on changes on this search</a></div>
 <div class="foswikiSearchResultsHeader"><span>Searched: <b>caching</b></span>
 <span id="foswikiNumberOfResultsContainer"></span></div>
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at 01:55 (GMT)</h4>
@@ -823,4 +823,4 @@ text="<style>
 
 ---++ Links
 
-[[WebHome]] DoesNotExist
+[[%HOMETOPIC%]] DoesNotExist

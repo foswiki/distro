@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419222417" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
 <div style="float: right; width: 307px; padding-left: 1em;">
 #SystemWebFigure
-  <div style="padding-bottom: 1em;"> *Figure:* depiction of WebHome, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the %SYSTEMWEB% web</div>
+  <div style="padding-bottom: 1em;"> *Figure:* depiction of %HOMETOPIC%, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the %SYSTEMWEB% web</div>
   <img src="%ATTACHURLPATH%/diagram.png" width="307px" height="438px"/>
 </div>
 #TopicDefinition
@@ -117,7 +117,7 @@ Each web has:
       * provides a link to the [[ManagingWebs#RenameWeb][rename and delete web]] utility
    * %HOMETOPIC% topic
       * the home topic for the container web. It is also the default topic Foswiki will display if a user navigates to a web without specifying a topic name.
-   * Utility topics (from the [[_default.WebHome][_default]] template web):
+   * Utility topics (from the [[_default.%HOMETOPIC%][_default]] template web):
 %SEARCH{
   "1"
   type="query"
@@ -135,4 +135,4 @@ See [[ManagingWebs]]
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" version="1" date="1419222417" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="diagram.png" version="1" date="1421599902" user="ProjectContributor"}%

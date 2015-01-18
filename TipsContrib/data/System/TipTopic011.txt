@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Server side include
 
 To include the contents of a web page or Foswiki topic, use =%<nop>INCLUDE{"page"}%=.
 
 Examples:
-<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%INCLUDE{"%SYSTEMWEB%.WebHome"}%
+<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%INCLUDE{"System.WebHome"}%
 %INCLUDE{"WebHome"}%</verbatim>
 This example requires ={INCLUDE}{AllowURLs}= enabled in [[%SCRIPTURLPATH{"configure"}%][configure]] (disabled by default for security reasons):
 <verbatim class="tml">%INCLUDE{"http://www.google.com/"}%</verbatim> 

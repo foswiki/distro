@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300477710" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
 Include main navigation with:
@@ -20,7 +20,7 @@ Include meta navigation with:
     section="topbarbutton"
     ID=""
     DESTWEB="%USERSWEB%"
-    DESTTOPIC="WebHome"
+    DESTTOPIC="%HOMETOPIC%"
     LABEL="%USERSWEB%"
 }%
 %INCLUDE{
@@ -28,7 +28,7 @@ Include meta navigation with:
     section="topbarbutton"
     ID=""
     DESTWEB="%SYSTEMWEB%"
-    DESTTOPIC="WebHome"
+    DESTTOPIC="%HOMETOPIC%"
     LABEL="%SYSTEMWEB%"
 }%
 %INCLUDE{
@@ -36,7 +36,7 @@ Include meta navigation with:
     section="topbarbutton"
     ID=""
     DESTWEB="%SANDBOXWEB%"
-    DESTTOPIC="WebHome"
+    DESTTOPIC="%HOMETOPIC%"
     LABEL="%SANDBOXWEB%"
 }%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%

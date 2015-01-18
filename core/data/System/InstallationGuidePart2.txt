@@ -11,7 +11,7 @@ Once you have Foswiki installed and running, you can perform one or more of the 
 
 To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
-All of the Foswiki documentation can also be found online in the [[%SYSTEMWEB%.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
+All of the Foswiki documentation can also be found online in the [[%SYSTEMWEB%.%HOMETOPIC%][Foswiki documentation section]] (the "%SYSTEMWEB%" web) of the Foswiki web site.
 
 Note the =configure= page mentioned in this section is accessed by visiting =[[%SCRIPTURL{"configure"}%]]= your web browser.
 

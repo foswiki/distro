@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TablePlugin"}%
 #VarTABLE
 ---+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
@@ -61,7 +61,7 @@
 ---++++ Other attributes
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
-     | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="%USERSWEB%.WebHome"= |
+     | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="%USERSWEB%.%HOMETOPIC%"= |
 
 %ENDSECTION{"table_attributes"}%
    * Example:<verbatim class="tml">

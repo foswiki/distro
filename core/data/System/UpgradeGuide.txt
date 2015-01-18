@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -165,7 +165,7 @@ Activate, and if required, configure the installed extensions in =configure=.
    * If you are upgrading from Cairo and are using the Htpasswd login manager, run the =tools/upgrade_emails.pl= script to move the user emails out of the user topics and into the password file.
    * If you have customized =&lt;old_system_web&gt;.TWikiRegistration=, then modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
 
-*Copy over any topics and attachments you want to preserve from the %SANDBOXWEB% web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/%SANDBOXWEB%/= to =&lt;newwiki&gt;/data/%SANDBOXWEB%= and from =&lt;oldwiki&gt;/pub/%SANDBOXWEB%/= to =&lt;newwiki&gt;/pub/%SANDBOXWEB%= . Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The %SANDBOXWEB% web often contains work-in-progress topics that users will want to keep.
+*Copy over any topics and attachments you want to preserve from the %SANDBOXWEB% web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/%SANDBOXWEB%/= to =&lt;newwiki&gt;/data/%SANDBOXWEB%= and from =&lt;oldwiki&gt;/pub/%SANDBOXWEB%/= to =&lt;newwiki&gt;/pub/%SANDBOXWEB%= . Some pages you may wish to preserve are the =%HOMETOPIC%= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The %SANDBOXWEB% web often contains work-in-progress topics that users will want to keep.
 
 Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
 

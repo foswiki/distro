@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420814724" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -355,7 +355,7 @@ Test if the topic has an attachment with 'receipt' or 'Receipt' in the name:
 Test if a topic text contains a certain word:
 <verbatim class="tml">
 %IF{
-   "'%SYSTEMWEB%.WebHome'/lc(text)~'*welcome*'"
+   "'%SYSTEMWEB%.%HOMETOPIC%'/lc(text)~'*welcome*'"
    then="contains 'welcome'"
 }%
 </verbatim>

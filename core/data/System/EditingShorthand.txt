@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419825408" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
@@ -311,7 +311,7 @@ It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTE
 
 %SANDBOXWEB%.WebNotify
 
-%SANDBOXWEB%.WebHome
+%SANDBOXWEB%.%HOMETOPIC%
 
 %SANDBOXWEB%.Subweb.TopicName
 </verbatim>
