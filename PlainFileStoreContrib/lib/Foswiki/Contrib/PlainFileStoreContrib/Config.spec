@@ -1,5 +1,4 @@
 # ---+ Extensions
-# ---++ PlainFileStoreContrib
 # **ENHANCE {Store}{Implementation}**
 # <dl><dt>PlainFile</dt><dd>
 # (installed by the PlainFileStoreContrib) is just about the simplest store

@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ TWikiCompatibilityPlugin
-# **PERL**
+# **PERL LABEL="TWiki Web/Topic Name Conversion"**
 # a hash mapping TWiki's TWiki web topics to Foswiki's topics
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
     'ATasteOfTWiki' => 'BeginnersStartHere',
@@ -56,7 +56,7 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = 
 	'TWikiUserSetting' => 'UserSetting',
 	'TWikiUsersTemplate' => 'UsersTemplate',
 };
-# **PERL**
+# **PERL LABEL="Main-Web TopicName Conversion"**
 # a hash mapping TWiki's Main web topics to Foswiki's topics
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
     'TWikiAdminGroup' => 'AdminGroup',
@@ -70,8 +70,7 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
     'TWikiAdminUser' => 'AdminUser',
 };
 
-
-# **PERL**
+# **PERL LABEL="Web Search Path"**
 # Used by TWikiCompatibilityPlugin view and viewfile auto-compatibility.
 # if a topic or attachment is not found in one web, it will try the other.
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath} = {
