@@ -544,8 +544,12 @@ function _id_ify(id) {
                 } else {
                     call_wizard($node, fb, $node);
                 }
-            }).button();
-            $node.append($button);
+            }).button({
+              icons: {
+                  primary: "ui-icon-lightbulb"
+              }
+            });
+            $node.find(".button_box").append($button);
         }
         else {
             console.debug("Useless FEEDBACK on " + spec.keys);
@@ -556,7 +560,7 @@ function _id_ify(id) {
     function load_ui($node) {
         var spec = $node.data('spec.entry'),
             handler_class = spec.typename, // Create the handler
-            handler, $ui, id, $butt, $button, pendid, $pending;
+            handler, $ui, id, $butt, $button, pendid, $pending, $buttons;
 
         if (typeof(window.Types[handler_class]) !== "function") {
             handler_class = "BaseType";
@@ -579,6 +583,8 @@ function _id_ify(id) {
             $pending.remove();
         }
 
+        $buttons = $('<div class="button_box"></div>').insertAfter($ui);
+
         if (spec.CHECK.undefok === 1) {
             // If undefined is OK, then we add a checkbox that
             // needs to be clicked to see the value input.
@@ -588,17 +594,17 @@ function _id_ify(id) {
             // string types.
             $node.addClass('undefinedOK');
             id = 'UOK' + _id_ify(spec.keys);
-            $node.append("<label for='"+id+"'></label>");
-            $butt = $('<input type="checkbox" id="' + id + '">');
-            $butt.attr("title", "If unchecked, " + spec.keys + " will be undefined. Check this box to give it a value.");
+            $butt = $('<input type="checkbox" id="' + id + '">').appendTo($buttons);
             $butt.click(function() {
                 if ( $(this).attr("checked") ) {
                     $ui.removeAttr("disabled");
+                    $node.removeClass("disabled");
                 } else {
                     $ui.attr("disabled", "disabled");
+                    $node.addClass("disabled");
                 }
                 update_modified_default( $node );
-            }).show();
+            });
             // Add a null_if handler to intercept the currentValue
             // of the keys (see types.js)
             handler.null_if = function () {
@@ -606,13 +612,17 @@ function _id_ify(id) {
             };
             if (typeof(spec.current_value) == 'undefined' || spec.current_value === null) {
                 $ui.attr("disabled", "disabled");
+                $node.addClass("disabled");
             } else {
                 $butt.attr("checked", "checked");
             }
-            $ui.after($butt);
+            $butt.appendTo($buttons);
+            $("<label for='"+id+"'> enable</label>")
+              .attr("title", "If unchecked, " + spec.keys + " will be undefined. Check this box to give it a value.")
+              .appendTo($buttons);
         }
 
-        $button = $('<button class="undo_button control_button"></button>');
+        $button = $('<button class="undo_button control_button">undo</button>');
         $button.attr('title', 'Reset to configured value: ' + spec.current_value);
         $button.click(function() {
             handler.restoreCurrentValue();
@@ -620,12 +630,11 @@ function _id_ify(id) {
         }).button({
             icons: {
                 primary: "ui-icon-cancel"
-            },
-            text: false
+            }
         }).hide();
-        $ui.after($button);
+        $button.appendTo($buttons);
 
-        $button = $('<button class="default_button control_button"></button>');
+        $button = $('<button class="default_button control_button">reset</button>');
         $button.attr('title', 'Reset to default value: ' + spec['default']);
         $button.click(function() {
             handler.restoreDefaultValue();
@@ -633,10 +642,9 @@ function _id_ify(id) {
         }).button({
             icons: {
                 primary: "ui-icon-arrowrefresh-1-w"
-            },
-            text: false
+            }
         }).hide();
-        $ui.after($button);
+        $button.appendTo($buttons);
 
         if (spec.FEEDBACK) {
             $.each(spec.FEEDBACK, function(index, fb) {
@@ -1090,7 +1098,9 @@ function _id_ify(id) {
             $('#confirm_prompt').dialog("open");
         });
 
-        $(document).tooltip();
+        $(document).tooltip({
+          tooltipClass: 'info'
+        });
         $('.help_button').each(function() {
             $(this).button({
                 icons: {
@@ -1105,6 +1115,7 @@ function _id_ify(id) {
             'Load schema',
             { "get" : { "parent": { "depth" : 0 } }, "depth" : 0 },
             function(result) {
+                $root.empty().removeClass("loading");
                 load_section_specs(result, $root);
 
                 $('#showExpert').change(function() {

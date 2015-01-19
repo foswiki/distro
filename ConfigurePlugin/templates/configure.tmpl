@@ -32,7 +32,7 @@ configure.js script.
   <div class="header clearfix">
     <img class="logo" src="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-logo.png" alt="Foswiki configure" height="60" />
     <div class="top_level_buttons">
-      <input type="text" style="width:30em" id="searchInput" placeholder="search for configuration items"/>
+      <input type="text" style="width:30em" id="searchInput" placeholder="search"/>
       <button id="searchButton" title="Search in titles and keys">Search</button>
       <input id="showExpert" type="checkbox"><label for="showExpert" class="showExpertButton">Show expert options</label>
       <button id="saveButton">Save</button>
@@ -51,8 +51,7 @@ configure.js script.
    <ol></ol>
    <button id="closeSearchButton">Close</button>
   </div>
-  <div id="root" class="main">
-  </div>
+  <div id="root" class="main"><span class="splash">Loading ...</span></div>
   <!-- Dialogs and messages -->
   <div id="auth_prompt" title="Requires authentication">
     <div id="auth_note"></div>

@@ -125,14 +125,19 @@ a {
 .node .description {
   margin:0 0 1em;
 }
-.node .control_button {
+.node .ui-button {
   background:transparent;
   border:0;
+  margin:0 0.5em 0 0;
+}
+.button_box,
+.button_box .ui-button-text {
+  color:#999;
+  text-transform:lowercase;
 }
 .node .node select,
 .node .node textarea,
 .node .node input,
-.node .node button,
 .node .node .description,
 .node .node .reports {
   margin:0.5em 0 0.5em 0.5em;
@@ -152,7 +157,9 @@ a {
 .node .description .more {
   margin-left:1em;
 }
-
+.node.disabled button {
+  display:none !important;
+}
 
 .value_modified {
   border-radius:2px;
@@ -169,7 +176,8 @@ a {
   background: linear-gradient(to bottom, #ffffff 0%,#f4f4f4 100%); /* W3C */
 }
 .node.value_modified {
-  padding: 0.5em 1em 0.5em 15.8em;
+  padding: 0.5em 1em 0.5em 15.5em;
+  margin-left:-0.55em;
 }
 
 .closed {
@@ -277,10 +285,7 @@ p.one_line_report {
     float:right;
 }
 
-/* Button shown if value differs from default */
 .control_button {
-    width: 20px !important;
-    height: 20px !important;
     margin:0 0.5em;
 }
 
@@ -361,6 +366,20 @@ table.tml {
 #root {
   margin-left:20em;
 }
+#root.loading {
+  margin:0;
+}
+.splash {
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  margin-top:-1em;
+  font-size:4em;
+  font-weight:bold;
+  color:#e6e6e6;
+  text-align:center;
+}
 
 .ui-tabs .ui-tabs-panel {
   border-width:0;
@@ -380,7 +399,7 @@ table.tml {
 }
 .ui-tabs-vertical > .ui-tabs-panel { 
   border-width:0 0 0 1px;
-  padding: 0 0 0 1em;
+  padding: 0 0 0 1.5em;
   min-height:50em;
   float:left;
   width:99%;
