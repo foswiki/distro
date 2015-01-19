@@ -124,10 +124,12 @@ a {
   border-top:0;
 }
 .node .label {
-  width:15em;
+  width:14.5em;
   margin-left:-15em;
   margin-top:3px;
   display:inline-block;
+  overflow:hidden;
+  margin-right:0.5em;
 }
 .node .keys {
   color:#888;
@@ -146,17 +148,26 @@ a {
   border:0;
   margin:0 0.5em 0 0;
 }
+.button_box .ui-button-icon-primary {
+  left:0;
+}
+.button_box .ui-button-text {
+  padding-left:1.5em;
+}
 .button_box,
 .button_box .ui-button-text {
   color:#999;
   text-transform:lowercase;
+}
+.button_box label {
+  margin-right:1em;
 }
 .node .node select,
 .node .node textarea,
 .node .node input,
 .node .node .description,
 .node .node .reports {
-  margin:0.5em 0 0.5em 0.5em;
+  margin:0.5em 0;
 }
 .node .reports, 
 .node .description {

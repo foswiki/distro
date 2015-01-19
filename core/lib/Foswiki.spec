@@ -1874,7 +1874,7 @@ $Foswiki::cfg{EnableEmail} = $FALSE;
 # Enable to sign all e-mails sent by Foswiki using S/MIME.
 $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
-# **PATH LABEL="SMIME Certificate File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PATH LABEL="Certificate File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # Specify the file containing the administrator's X.509 certificate.  It
 # must be in PEM format.
 #
@@ -1886,7 +1886,7 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 
-# **PATH LABEL="SMIME Key File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PATH LABEL="Key File" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # Specify the file containing the private key corresponding to the
 # administrator's X.509 certificate. It must be in PEM format.
 #
@@ -1897,7 +1897,7 @@ $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeKeyFile} = '';
 
-# **PASSWORD 30 LABEL="SMIME Key Password" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
+# **PASSWORD 30 LABEL="Key Password" DISPLAY_IF="{Email}{EnableSMIME}" CHECK="iff:'{Email}{EnableSMIME}'"**
 # If the file containing the certificate's private key is encrypted, specify
 # the password. Otherwise leave blank.
 #
