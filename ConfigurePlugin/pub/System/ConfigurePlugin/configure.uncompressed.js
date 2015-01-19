@@ -682,7 +682,11 @@ function _id_ify(id) {
 
                 $panel.append($node);
                 $panel.addClass('spec_loaded');
+                if (spec.headline) {
+                  $node.append("<h2>"+spec.headline+"</h2>");
+                }
 
+if (0) {
                 // Clean off errors and warnings that were bubbled
                 // up to here from higher level deep checks. We will
                 // perform a deep check on this tab once it's open.
@@ -695,6 +699,7 @@ function _id_ify(id) {
                 $report = $('<div class="reports"></div>');
                 $report.attr('id', 'REP' + _id_ify(spec.headline));
                 $node.append($report);
+}
 
                 if (spec.desc) {
                     add_desc(spec, $node);
@@ -1138,6 +1143,10 @@ function _id_ify(id) {
                 );
             }
           );
+
+       //$("#ui-tabs-9 .ui-tabs:first").livequery(function() {
+       //   $(this).addClass("ui-tabs-vertical");
+       // });
     });
 
     $(window).on('beforeunload', function() {

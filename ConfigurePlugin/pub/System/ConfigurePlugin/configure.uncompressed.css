@@ -77,6 +77,22 @@ a {
     right:1em;
 }
 
+.node h2 {
+  margin-top:0;
+  border:0;
+  color:#339000;
+  color:#2375C5;
+}
+.node .node h2 { /* h3-ish */
+  font-size:1.2857em; /* 18px */
+  line-height: 1.1667em; /* 21px */
+  margin: 0 0 1.1667em; 
+}
+.node .node .node h2 { /* h4-ish */
+  font-size: 1.1429em; /* 16px */
+  line-height: 1.3125em; /* 21px */
+  margin: 0 0 1.3125em;
+}
 .node {
   position:relative;
 }
@@ -363,9 +379,6 @@ table.tml {
     border: 1px solid black;
 }
 
-#root {
-  margin-left:20em;
-}
 #root.loading {
   margin:0;
 }
@@ -389,6 +402,8 @@ table.tml {
 .ui-tabs-vertical {
   padding:0;
   background:transparent;
+  margin-left:20em;
+  position-relative;
 }
 .ui-tabs-vertical > .ui-tabs-nav { 
   float: left; 
@@ -396,6 +411,7 @@ table.tml {
   border:0px;
   border-bottom:1px solid #ddd;
   margin-left:-20em;
+  background:#fff;
 }
 .ui-tabs-vertical > .ui-tabs-panel { 
   border-width:0 0 0 1px;
@@ -430,8 +446,16 @@ table.tml {
 .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active > a {
   color:#fff;
 }
+.ui-tabs-vertical > .ui-tabs-panel > .node {
+  margin-top:0;
+  padding-top:0;
+}
 .ui-tabs-vertical > .ui-tabs-panel >  .node > .reports {
   display:none; /* SMELL: hide the first zing as it is redundant anyway ... better prevent it from rendereing in the first place ... if only I knew how */
+}
+
+.ui-tabs .ui-tabs-vertical {
+  top:-3em;
 }
 
 .searchResults {
