@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142127" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -72,8 +72,8 @@ The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic;
 
 <div class="foswikiHelp">
 %X% Foswiki has strict formatting rules. Settings *must* be entered as a bullet point.
-   * With the WikiText edttor, or in the Settings editor, make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
-   * When using the Wyswyg editor, create a bullet using the bullet button on the toolbar.
+   * With the TML editor, or in the Settings editor, make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
+   * When using the WYSIWYG editor, create a bullet using the bullet button on the toolbar.
 
 Background: A group topic is an empty topic with 3 hidden preference settings.
    * GROUP: Comma separated list of users and/or groups

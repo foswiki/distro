@@ -73,7 +73,6 @@ data/System/AppendixCascadingStyleSheets.txt 0644
 data/System/AppendixEncodeURLsWithUTF8.txt 0644
 data/System/BeginnersStartHere.txt 0644
 data/System/BookView.txt 0644
-data/System/BumpyWord.txt 0644
 data/System/ClassMethod.txt 0644
 data/System/CommandAndCGIScripts.txt 0644
 data/System/CompleteDocumentation.txt 0644
@@ -156,7 +155,6 @@ data/System/ReleaseNotes01x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
-data/System/ShortHand.txt 0644
 data/System/ShortcutMacros.txt 0644
 data/System/SiteChanges.txt 0644
 data/System/SiteMap.txt 0644
@@ -177,9 +175,9 @@ data/System/TextEditor.txt 0644
 data/System/TextFormattingRules.txt 0644
 data/System/TimBernersLee.txt 0644
 data/System/TimeSpecifications.txt 0644
-data/System/TML.txt 0644
 data/System/TopicClassification.txt 0644
 data/System/TopicDoesNotExistViewTemplate.txt 0644
+data/System/TopicMarkupLanguage.txt 0644
 data/System/TopicsAndWebs.txt 0644
 data/System/TwentyMinuteTutorial.txt 0644
 data/System/UpgradeGuide.txt 0644
@@ -357,12 +355,9 @@ data/System/WebTopicList.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WikiCulture.txt 0644
 data/System/WikiName.txt 0644
-data/System/WikiNotation.txt 0644
-data/System/WikiSyntax.txt 0644
-data/System/WikiSyntaxSummary.txt 0644
-data/System/WikiText.txt 0644
 data/System/WikiWikiClones.txt 0644
 data/System/WikiWord.txt 0644
+data/System/WYSIWYG.txt 0644
 data/System/YouAreHere.txt 0644
 data/Trash/TrashAttachment.txt 0644
 data/Trash/WebAtom.txt 0644

@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TextFormattingRules"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICPARENT{name="TML"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -371,7 +371,7 @@ ACRONYM
  *Forced Links:* %BR%
  You can create a forced internal link by enclosing words in double square brackets.
 %BR% 
-Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[wiki syntax]]= links to topic WikiSyntax.  You can also refer to a different web and use anchors.
+Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[wiki word]]= links to topic WikiWord.  You can also refer to a different web and use anchors.
 %BR%
 %T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
 </td><td>
@@ -395,19 +395,55 @@ escaped:
 </tr>
 <tr valign="top">
 <td>
- *Specific Links:* %BR%
- You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiSyntax) and URLs (e.g. http://foswiki.org/) are both supported.
+*Automatic links:* %BR%
+Typed-in URLs are linked automatically. Most standard protocols are supported; if yours is missing, it can be added by the site administrator.
+
+Email addresses are also linked automatically.
+</td>
+<td>
+<verbatim>
+   * file://foswiki.org
+   * ftp://foswiki.org
+   * gopher://foswiki.org
+   * https://foswiki.org
+   * http://foswiki.org
+   * irc://foswiki.org
+   * mailto:example@foswiki.org
+   * news://foswiki.org
+   * nntp://foswiki.org
+   * telnet://foswiki.org
+   * name@foswiki.org
+</verbatim>
+</td>
+<td>
+   * file://foswiki.org
+   * ftp://foswiki.org
+   * gopher://foswiki.org
+   * https://foswiki.org
+   * http://foswiki.org
+   * irc://foswiki.org
+   * mailto:example@foswiki.org
+   * news://foswiki.org
+   * nntp://foswiki.org
+   * telnet://foswiki.org
+   * name@foswiki.org
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Renamed Links:* %BR%
+ You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiWord) and URLs (e.g. http://foswiki.org/) are both supported.
 The rules described under *Forced Links* apply for internal link references.
  %BR% %T% Anchor names can be added as well, to create a link to a specific place in a topic.
 </td><td>
 <verbatim class="tml">
-[[WikiSyntax][wiki syntax]]
+[[WikiWord][wiki word]]
 
 [[http://gnu.org][GNU]]
 </verbatim>
 </td><td>
 
-[[WikiSyntax][wiki syntax]]
+[[WikiWord][wiki word]]
 
 [[http://gnu.org][GNU]]
 </td>
@@ -483,6 +519,20 @@ a@b.com
 [[mailto:?subject=Hi][Hi]]
 
 !a@b.com
+</td>
+</tr>
+<tr valign="top">
+<td>
+*Special characters:* %BR%
+Some characters are reserved for use by TML, but you can still display them in your output by using the HTML entities. You can also use HTML entities to display characters that are not supported by your site character set (e.g. special mathematical symbols). There's a complete list of named entities in [[http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references][Wikipedia]], and you can also use numerical entities to display any unicode character (e.g. Chinese script).
+</td>
+<td>
+<verbatim>
+&lt; &gt; &amp; &alefsym; &#x4eb9;
+</verbatim>
+</td>
+<td>
+&lt; &gt; &amp; &alefsym; &#x4eb9;
 </td>
 </tr>
 <tr valign="top">
@@ -664,14 +714,16 @@ required
 </pre>
 </td>
 <td>
----++ offset is 0
+---++!! offset is 0
 <ho off="1">
----++ H2 becomes H3
+---++!! H2 becomes H3
 <ho off="-1">
----++ offset was 1, so offset is now 0
+---++!! offset was 1, so offset is now 0
 </td>
 </tr>
 </table>
 <!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%
+---
+*Related Topics:* TopicMarkupLanguage, UsingHTML, WYSIWYG

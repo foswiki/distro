@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+---+!! What is !WYSIWYG?
+!WYSIWYG is an [[acronym]] for for "What You See Is What You Get". Foswiki allows you to edit content using a WYSIWYG editor. This editor lets you edit the topic as it will appear when you save the topic, just like a text processor.
+
+Foswiki is very powerful, and the WYSIWYG editor will not support all the features that are accessible through the TopicMarkupLanguage. Despite that it is the best editor to use for most people.
+
+---
+*Related Topics:* TopicMarkupLanguage, UsingHTML

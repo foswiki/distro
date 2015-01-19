@@ -1,20 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Collaboration Tips
-_Following you will find a short list of hints and recommendations that are considered basic knowledge when starting to edit existing topics._
-
-   * %WIKITOOLNAME% has a very simple [[WikiSyntax][text formatting shorthand]]. In any case, you won't go wrong if you simply:
-      * start each line without spaces
-      * separate paragraphs with a blank line 
-
-   * Run together capitalized words to form [[WikiWords][WikiWords]]:
-      * WikiWords automatically appear as hyperlinks
-      * make up meaningful, reasonably brief Wiki names - it can be a challenge (it'll sharpen you up!)
-      * WikiWords has name-creation tips that may help
+_A short list of hints and recommendations that are considered basic knowledge when starting to edit existing topics._
 
 #SignAndDate
    * If a *discussion* is going on:
-      * separate each follow-up with a space
+      * separate each follow-up with a blank line
       * add your WikiName and the date at the end. Example:%BR%
         =-- <nop>%WIKIUSERNAME% - %SERVERTIME{$day $mon $year}%=
       * OR, by all means, insert your comment where it seems to fit best:
@@ -36,9 +27,9 @@ _Following you will find a short list of hints and recommendations that are cons
 
    * Foswiki is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
 
-   * Check the source when you want to find out how something is formatted: click ==[Raw view]== on the toolbar.
+   * Check the source when you want to find out how something is formatted: click ==[View wiki text]== on the toolbar.
    * To see earlier versions, click either on ==[History]== (to see all previous versions of a topic) or click on the revision number you would like to see; the formatted revision version will be shown. 
-   * To see the source of a previous revision, click ==[More topic actions]==, then at =View previous topic revision=, enter the revision number, mark the =in raw text format= checkbox and click ==[View]==. A bit of HTML experience can't hurt, but you'll soon see with [[wiki syntax]] how far that is from necessary. 
+   * To see the source of a previous revision, click ==[More topic actions]==, then at =View previous topic revision=, enter the revision number, mark the =in raw text format= checkbox and click ==[View]==. A bit of HTML experience can't hurt, but you'll soon see with [[TopicMarkupLanguage][TML]] how far that is from necessary. 
 
 __Related Topics:__ UserDocumentationCategory
 

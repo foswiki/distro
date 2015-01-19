@@ -92,5 +92,5 @@ Other places where you can find answers to your questions:
    * CompleteDocumentation: All you need to know to install and configure Foswiki
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
-   * WikiSyntax, TextFormattingRules: A quick one-two guide to Foswiki shorthand basics
+   * TopicMarkupLanguage: Guide to Foswiki plain text shorthand
    * If you can't find an answer, ask a question - post it in the Foswiki:Support web, or ask on IRC at irc://irc.freenode.net/foswiki

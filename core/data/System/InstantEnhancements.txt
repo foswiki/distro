@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -71,7 +71,7 @@ Most images in DocumentGraphics are 16 x 16 pixels.
 
 ---++ Use the [[VarTOC][TOC]] macro to create table of contents
 
-The TOC macro generates a table of contents automagically from headers (defined like this: ==---++== , see WikiSyntax).
+The TOC macro generates a table of contents automagically from headers (defined like this: ==---++== , see EditingShorthand).
 
 For example, the table of contents at the top of _this_ page was generated
 using a TOC macro.

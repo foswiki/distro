@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_999" comment="autosave" date="1356278781" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---+!! !TinyMCE Editor Help Summary 
 <!--%STARTSECTION{"CSS"}%<style type="text/css" media="all">
@@ -110,18 +110,18 @@
 </table>
 </div>
 <div id="foswikiTinyMcePluginRawEditHelp" style="display:none">
-%INCLUDE{%SYSTEMWEB%.WikiSyntaxSummary}%
+%INCLUDE{%SYSTEMWEB%.EditingShorthand}%
 </div>
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="anchor.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="autosave.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="chili_formatting.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="clear_formatting.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="fullscreen.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="indent.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="link.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="outdent.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="table_contextmenu.png" attr="" comment="" version="1"}%
-%META:FILEATTACHMENT{name="unlink.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="anchor.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="autosave.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="chili_formatting.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="clear_formatting.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="Format_Drop_Down.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="fullscreen.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="indent.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="link.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="outdent.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="table_contextmenu.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="unlink.png" version="1" user="ProjectContributor" date="1421672966"}%

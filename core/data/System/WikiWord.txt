@@ -1,20 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is a !WikiWord?
-A !WikiWord consists of two or more words with initial capitals, run together. *WikiWords are topic names.* A Foswiki topic name always has a fixed format: two or more words with initial capitals, run together. Like the name of the current topic: *WikiWord*. When you type the name of a topic, you create a link to that topic. You type =%HOMETOPIC%= and on saving the page this becomes %HOMETOPIC%. It's as easy as that.
+A !WikiWord consists of two or more words with initial capitals, run together. WikiWords are used to refer to topics.
 
-When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
+*WikiWords refer to topics, and topic names are WikiWords*. When you type a !WikiWord, you create a link to that topic, or a link to create that topic if it doesn't exist yet. You type =%HOMETOPIC%= and on saving the page this becomes %HOMETOPIC%. It's as easy as that.
 
 !WikiWord linking is easy to use:
    * You don't have to know the full path to where the topic is stored - you just type the name
    * You don't need to write HTML
-   * Without HTML, the topic text is easier to read when editing
    * Easy linking leads to interesting texts with links placed in context
 
 !WikiWords are styled like this because:
    * It makes Wiki hyperlinks instantly recognizable
    * It leads to interesting Wiki topics
-   * It avoids the need to fiddle with HTML tags
    * It avoids over-general topics because at least two words are required
 
 <div class="foswikiHelp">%T% Note that Acronyms (words consisting of 3 or more upper-case letters) are also auto-linked, but _only_ if the topic already exists.  See ACRONYM.</div>
@@ -43,6 +41,10 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
     digit           = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 </verbatim>
 
+---++ Preventing automatic linking
+Sometimes you want to be able to enter a !WikiWord without the automatic
+linking. When editing in TML, simply put an exclamation mark (!) before the word. =!<nop>WikiWord !WikiWord= will be displayed as !WikiWord WikiWord.
+
 ---++ Good examples of !WikiWords
 
    * WikiWord
@@ -61,7 +63,7 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
 
 ---++ Variations in linking
 
-When you write the name of a topic, it becomes a link. There are more ways
+When you write a !WikiWord, it becomes a link. There are more ways
 
    * To write a custom *link label*, use bracket notation: =[<nop>[AccessControl][access control]]= - this becomes: [[AccessControl][access control]]
    * To link to a topic in *another web*, write: =%SANDBOXWEB%.WebSearch= - this becomes: %SANDBOXWEB%.WebSearch
@@ -74,7 +76,6 @@ When you write the name of a topic, it becomes a link. There are more ways
 ---++ Hints
    * Insert !WikiWords wherever you can. Rich linking helps to make a Wiki successful.
    * Be specific. All topics in a web share one name space. For example, instead of =FunctionalSpec= write =BreadSlicerFunctionalSpec= because other projects might also have a functional spec topic.
-   * To stop a !WikiWord from being turned into a hyperlink, insert an exclamation point immediately before the !WikiWord. For example, write =!<nop>SunOS= to get !SunOS.
    * Create topics with singular names. Plural <nop>WikiWords are automatically linked to the singular topic, i.e. the link WikiWords links to the topic WikiWord (works only in English).
    * Sometimes you have to be creative to find a good <nop>WikiName. Examples:
       * To create a topic about the the *Bread Slicer 1.2* product, use =BreadSlicer1dot2= or =BreadSlicer1pt2=, but not =BreadSlicer1.2=.
@@ -86,6 +87,6 @@ When you write the name of a topic, it becomes a link. There are more ways
    %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. Foswiki does not attempt to guess if a dot could be part of a topic name.</div>
 
 ---
-*Related Topics:* WikiSyntax, TextFormattingRules
+*Related Topics:* TopicMarkupLanguage
 <!--%JQREQUIRE{"chili"}%-->
 %STOPINCLUDE%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -37,7 +37,7 @@ The control strips at the top and/or bottom of the page have a collection of ico
    * ==[Attach]== - attach files to a topic (discussed later)
    * ==[Print version]== - goes to a stripped down version of the page, good for printing
    * ==[History]== - topics are under revision control - =History= shows you the complete change history of the topic, for example, who changed what and when
-   * ==[View wiki text]== - show the source text's WikiSyntax without editing the topic
+   * ==[View wiki text]== - show the source text's TopicMarkupLanguage without editing the topic
    * ==[More topic actions]== - topic additional controls, 
       * view, compare or restore a topic revision
       * rename/move
@@ -89,7 +89,7 @@ Now we will proceed to the second option of creating a topic - following a link 
 
 There are different ways of formatting text:
    1. *Using the WYSIWYG editor* - highlight and format text as you would do it in a normal text editor
-   1. *Using TML shorthand* - TML (<strong>T</strong>opic <strong>M</strong>arkup <strong>L</strong>anguage) is a very simple markup language. For additional information on editing topics and formatting text with TML, have a look at WikiSyntax, TextFormattingRules and TopicsAndWebs.
+   1. *Using TopicMarkupLanguage* - TML (<strong>T</strong>opic <strong>M</strong>arkup <strong>L</strong>anguage) is a very simple markup language.
 
 ---++ 7. Use your browser to upload files as page attachments...
  You can attach *any* type of file to a topic - documents, images, programs, whatever - where they can be opened, viewed, or downloaded.
@@ -113,5 +113,5 @@ That's it! You're now equipped with all the Foswiki essentials. You are ready to
 
 <div class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. _Don't worry about it._ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</div>
 
-*Related Topics:* UserDocumentationCategory, TopicsAndWebs, WikiSyntax
+*Related Topics:* UserDocumentationCategory, TopicsAndWebs, TopicMarkupLanguage
 %STOPINCLUDE% 

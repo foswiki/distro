@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -22,8 +22,8 @@ In this list, =Set= statements which occur at numerically higher locations overr
      <img src="%PUBURLPATH%/%WEB%/%TOPIC%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
 
 ---++ Writing preference settings
-Preference settings are written as a simple bullet. In TML, they are written
-as =3-spaces,asterisk,equals,value=
+Preference settings are written as a simple bullet. In TopicMarkupLanguage
+they are written as =3-spaces,asterisk,equals,value=
    <verbatim class="tml">   * Set MYSETTING = My setting value</verbatim>
 
 When using the Wysiwyg editor, click the "Bullet" button and write the setting

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of User Documentation
 
@@ -42,7 +42,7 @@
    $ [[SmiliesPlugin]] : Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon. This topic lists the smilies supported
    $ [[SpreadSheetPlugin]] : Foswiki Spreadsheet Plugin adds spreadsheet capabilities to Foswiki topics and many functions for manipulating numbers and text. See this topic for a full list of all the many functions in the CALC Macro
    $ [[TablePlugin]] : Table plugin enables control of the formatting of table incl column widths, styles, sorting etc.
-   $ [[TextFormattingRules]] : A complete table of all the text formatting rules
+   $ [[TopicMarkupLanguage]] : The language used when editing topics as plain text
    $ [[TimeSpecifications]] : Time formats recognised by Foswiki
    $ [[TinyMCEFrequentlyAskedQuestions]] : Frequently Asked Questions about the Tiny MCE WYSIWYG editor
    $ [[TinyMCEPlugin]] : Description of the Tiny MCE Editor which is the WYSIWYG Editor of Foswiki
@@ -55,8 +55,6 @@
    $ [[WelcomeGuest]] : A short introduction to a Foswiki based website
    $ [[FAQWhatIsWikiWiki]] : An explanation of this !WikiWiki thing
    $ [[WikiCulture]] : Wiki - culture, concepts and principles
-   $ [[WikiName]] : An introduction to the term WikiName
-   $ [[WikiSyntax]] : Easy to learn rules for editing text
    $ [[WikiWord]] : Explanation of the term WikiWord
 
 ---++ Related Topics

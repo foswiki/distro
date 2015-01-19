@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -216,7 +216,7 @@ This section applies only if you are using authentication with existing login na
 
    * *Login Username:* When you login to the intranet, you use your existing login username. This name is normally passed to Foswiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
 
-   * *Foswiki Username:* Your name in WikiNotation, ex: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
+   * *Foswiki Username:* Your name as a WikiWord, eg: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
 
 Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], =Security and Authentication= tab, =Registration= sub-tab. The default is to use your WikiName as a login name.
 

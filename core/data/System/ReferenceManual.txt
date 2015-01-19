@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Reference Manual
 
@@ -9,19 +9,19 @@ All manual sections in one big page:
 
 Manual sections in separate pages:
    1. [[System Requirements]]
-   1. [[InstallationGuide][Installation Guide]]
-   1. [[UpgradeGuide][Upgrade Guide]]
-   1. [[UserAuthentication][User Authentication]]
-   1. [[AccessControl][Access Control]]
-   1. [[TextFormattingRules][Formatting Rules]]
+   1. [[Installation Guide]]
+   1. [[Upgrade Guide]]
+   1. [[User Authentication]]
+   1. [[Access Control]]
+   1. [[Topic Markup Language]]
    1. [[Macros]]
    1. [[Template Topics]]
-   1. [[FormattedSearch][Formatted Search]]
-   1. [[FileAttachment][File Attachment]]
-   1. [[DataForms][Data Forms]]
+   1. [[Formatted Search]]
+   1. [[File Attachment]]
+   1. [[Data Forms]]
    1. [[Skin Templates]]
    1. [[Skins][Skins (visual layout)]]
-   1. [[MetaData]]
+   1. [[Meta Data]]
    1. [[ContributedAddOns][Contributed Add-Ons]]
    1. [[Contribs][Contribs]]
    1. [[Plugins][Plugins]]

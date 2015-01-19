@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarTOC
 ---+++ TOC{"Topic"} -- table of contents
-   * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in WikiSyntax (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
+   * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in TopicMarkupLanguage (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
    * Syntax: =%<nop>TOC%= OR =%<nop>TOC{"SomeTopic" ...}%=
    * Supported parameters:
     %TABLE{sort="off" columnwidths="30%,50%,20%"}%

@@ -1,20 +1,25 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ Glossary of Terms
 
-| *Term* | *Definition* |
-| Attachment | Any type of file that is uploaded via browser and attached to a _topic_, where it can be viewed and downloaded. [[FileAttachments][Details...]] |
-| Data Form | Form at the bottom of a page that can be filled in with additional info and classification for the particular topic [[DataForms][Details...]] |
-| Macro | Text strings of the form =%<nop>MACRO{}%= that are expanded into text, images, or any other type of embedded content; there are _system macros_ coded into the core, and more can be defined by Plugins. See [[Macros][Details...]] |
-| Page | A rendered web page. A page is composed of the _template/skin_ decoration and _topic_ content. |
-| Plugin | Prepackaged server-side extension that adds all sorts of additional functions. [[Plugins][Details...]] |
-| Preference | One of the site-wide, _web_ and single user-level [[%SYSTEMWEB%.PreferenceSettings][preference settings]] |
-| Site | An end-user installation accessible via the web. |
-| Skin | Skins define the header/footer layout of _pages_; topic text is not affected. Skins are typically enabled site-wide or per _web_. [[Skins][Details...]] |
-| Template | [[Template Topics]] set the default content for new _topics_. [[Skin Templates]] define how pages are rendered |
-| Topic | The content of a Wiki _page_, consisting of text, an optional _form_ and optional _attachments_. It has a WikiName that's unique within its _web_. [[TopicsAndWebs][Details...]] |
-| Web | A collection of _topics_ under a common name. Various features, like search, access privileges, Plugin availability, template design, can be controlled on a web-wide basis. [[ManagingWebs][Details...]] |
+   $ Attachment: Any type of file that is uploaded via browser and attached to a _topic_, where it can be viewed and downloaded. [[FileAttachments][Details...]]
+   $ Contrib: Any _Extension_ that is not a _Plugin_.
+   $ (Data) Form: Form displayed with each topic that can be filled in with additional information about the topic [[DataForms][Details...]]
+   $ Extension: Prepackaged server-side extension that extends the capabilities of the wiki in some way. [[Plugins]], [[Contribs]], and [[Skins]] are all Extensions.
+   $ Login name: The name which you use to [[LoginName][log in]]. This may be the same as your _WikiName_, or it may be another login identifier such as your corporate ID or email address.
+   $ Macro: Text strings of the form =%<nop>MACRO{}%= that are expanded into text, images, or any other type of embedded content; there are _system macros_ coded into the core, and more can be defined by Plugins. See [[Macros][Details...]]
+   $ Page: A Wiki page. A page is composed of the _template/skin_ decoration and _topic_ content.
+   $ Plugin: Type of Extension that adds some kind of interactive feature, such as a [[Macros][macro]]. [[Plugins][Details...]]
+   $ Preference: One of the site-wide, _web_ and single user-level [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
+   $ Site: An end-user installation accessible via the web.
+   $ Skin: Skins define the header/footer layout of _pages_, and the style in which the topic is presented in the browser. Skins are typically enabled site-wide or per _web_. [[Skins][Details...]]
+   $ Template: [[Template Topics]] set the default content for new _topics_. [[Skin Templates]] define how pages are rendered
+   $ <nop>TML: [[TML][Topic Markup Language]], a simple formatting shorthand that can be used when editing topics.
+   $ Topic: The content of a Wiki _page_, consisting of text, an optional _form_ and optional _attachments_. It has a WikiName that's unique within its _web_. [[TopicsAndWebs][Details...]]
+   $ Web: A collection of _topics_ under a common name. Various features, like search, access privileges, Plugin availability, template design, can be controlled on a web-wide basis. [[ManagingWebs][Details...]]
+   $ Wiki<nop>Name: The name of a user as a WikiWord, usually their first name and last names connected by a space e.g. <nop>JaneSmith [[WikiName][Details...]]
+
 %STOPINCLUDE%
 ---
 *Related Topics:* UserDocumentationCategory

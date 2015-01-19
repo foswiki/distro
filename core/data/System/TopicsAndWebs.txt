@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
@@ -17,13 +17,13 @@ A __Web__ is a collection of topics (and other webs, known as _subwebs_). Webs a
 Each topic has:
    * name
       * topics in a given web have unique names to identify them
-      * topics with a WikiWord name are automatically linked (as opposed to =[<nop>[forced bracketed links]]= - see [[WikiSyntax#Internal_and_external_links][WikiSyntax]] to learn more)
+      * topics with a WikiWord name are automatically linked (as opposed to =[<nop>[forced bracketed links]]= - see EditingShorthand to learn more)
       * there are restrictions on topic names; see [[#TopicNames][topic naming rules]]
       * a topic's _fully qualified_ name is prefixed with the _web_ it is contained in, for example the topic you're reading now may be referred to as [[%WEB%.%TOPIC%]]
          * _fully qualified_ names are used when a link is being made to a topic in another web
    * content
       * you're reading the topic text of %TOPIC% right now
-      * use WikiSyntax (see TextFormattingRules) and [[Macros][macros]] to write rich topic content
+      * use WYSIWYG or [[TopicMarkupLanguage][TML]] and [[Macros][macros]] to write rich topic content
    * [[FileAttachment][attachments]]
       * topics may have one or more file attachments
       * changes to attachments are automatically recorded
@@ -64,7 +64,7 @@ Foswiki makes it easy to add and edit topics or link between them.
 
 #TopicNames
 ---+++ Topic Names
-The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non-[[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[WikiSyntax#Internal_and_external_links][WikiSyntax]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
+The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non-[[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[EditingShorthand]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
 
    * The first letter of each "word" will be automatically capitalized
    * Spaces are compressed out of the topic name

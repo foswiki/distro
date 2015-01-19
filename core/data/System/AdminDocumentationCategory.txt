@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of Wiki Administrator Documentation
 
@@ -65,7 +65,6 @@
    $ [[WebRssBase]] : RSS News Feeds. This topic explains the RSS news feed feature and also contains the code includes by all the WebAtom topics in each web
    $ [[WebTopBarExample]] : This topic defines the default bottom bar in PatternSkin for the entire site. If you need to change it please read in PatternSkin how to tailor the bars so they do not get overwritten when you upgrade Foswiki
    $ [[WebTopicEditTemplate]] : This is the default topic template used when creating a new topic
-   $ [[WikiSyntaxSummary]] : This page provides online help for new users of Foswiki when editing a page
    $ [[WysiwygPluginSettings]] : Settings for WysiwygPlugin  that are common to most editor integrations 
 
 ---++ Related Topics

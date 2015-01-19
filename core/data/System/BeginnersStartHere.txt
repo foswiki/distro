@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! %TOPIC%
 
@@ -199,7 +199,7 @@ Edit | Attach | Print version | History: r2 &lt; r1 | Backlinks | View wiki text
 
 ... and easier to read<br /><br />
 <code>_Actually_ it is an <nop>*Oblate* <nop>__Spheroid__</code><br /><br /> appears as <br /><br /> _Actually_ it is an *Oblate* __Spheroid__
-   * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
+   * A full description of all the formatting can be found in the %SYSTEMWEB%.TopicMarkupLanguage.
    * The best thing to do is just to type until you get stuck
       * then follow the link on the edit page to the help.
 
@@ -260,7 +260,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[%SYSTEMWEB%.Macros][%SYSTEMWEB%.Macros]] for full details.
 
 ---++ More formatting
-   * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
+   * There's *lots* more formatting available, see %SYSTEMWEB%.TopicMarkupLanguage
    * _If you are an HTML expert, you can even enter raw HTML_!
    * *Important* to _disable_ unwanted formatting, use =&lt;nop&gt;=
       * =&lt;nop&gt;_word_= appears as <nop>_word_
@@ -388,14 +388,14 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1420222138" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1420222138" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1420222138" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1420222138" size="2394" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1420222138" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1420222138" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1420222138" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1420222138" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1420222138" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1420222138" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1421672966" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1421672966" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1421672966" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1421672966" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1421672966" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1421672966" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1421672966" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1421672966" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1421672966" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1421672966" size="1687" user="ProjectContributor" version="1"}%
 

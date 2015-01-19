@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -7,7 +7,7 @@
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 %SHORTDESCRIPTION%
 
-Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
+Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML ([[Topic Markup Language]] translator script. For WYSIWYG editing you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
 
 This plugin provides a generic framework that supports editing of topics using any browser-based HTML editor. It works by transforming TML into HTML for the editor, and then transforming HTML back into TML on save.
 
@@ -21,7 +21,7 @@ This plugin provides a generic framework that supports editing of topics using a
 ---++ Details
 ---+++ What's in the package
 The package includes the following pieces:
-   * TML (topic markup language) to HTML translator
+   * TML to HTML translator
    * HTML to TML translator (with stand-alone script)
    * Generic plugin for automating the translation during editing
 

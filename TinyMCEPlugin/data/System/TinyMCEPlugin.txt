@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -288,7 +288,7 @@ If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built bas
       * Description: The list symbol (number, bullet, etc) sometimes disappears from the item after being outdented. When this happens, it is also not possible to outdent the item another level.
       * Work-around: Position the cursor to the beginning of the line (where the symbol should appear) and press the enter key. The symbol should be restored and another outdent will be possible.
    * Foswikitask:Item9198 - After inserting new table at top of document: unable to position cursor above
-      * Work-around: Use 'Save and continue' or switch to WikiText and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
+      * Work-around: Use 'Save and continue' or switch to TML editing and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
    * Foswikitask:Item8085 - International characters (example, &Scaron;) are converted to HTML entities (IE. =&amp;Scaron;= or =&amp;#352;=)
       * Ensure you are using the latest version of WysiwygPlugin.
       * Work-around: Try changing the =TINYMCEPLUGIN_ENTITY_ENCODING= setting to =raw=. It's possible this may cause problems on older browsers.

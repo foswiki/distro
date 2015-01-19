@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---++ Using HTML
 
@@ -26,3 +26,5 @@ When using a WYSIWYG editor, you can just copy-paste directly into the editor, a
 be converted to [[wiki syntax]] automatically when you save.
 
 %STOPINCLUDE%
+---
+*Related Topics:* TopicMarkupLanguage, UsingHTML, WYSIWYG

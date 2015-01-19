@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically.
 
@@ -8,4 +8,4 @@ A set of pages of information that are open and free for anyone to edit as they 
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="So what is this <nop>WikiWiki thing exactly?"}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WikiCulture"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="WelcomeGuest, GoodStyle, FrequentlyAskedQuestions, WikiCulture"}%
