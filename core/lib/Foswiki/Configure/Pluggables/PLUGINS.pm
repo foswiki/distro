@@ -59,6 +59,7 @@ sub construct {
             @$settings,
             Foswiki::Configure::Value->new(
                 'BOOLEAN',
+                LABEL   => $plugin,
                 keys    => "{Plugins}{$plugin}{Enabled}",
                 CHECKER => 'PLUGIN_MODULE',
                 default => '0',                             # Not enabled
@@ -70,6 +71,7 @@ sub construct {
             Foswiki::Configure::Value->new(
                 'STRING',
                 checker => 'PLUGIN_MODULE',
+                LABEL   => "$plugin Module",
                 keys    => "{Plugins}{$plugin}{Module}",
                 default => "$modules{$plugin}",
                 EXPERT  => 1

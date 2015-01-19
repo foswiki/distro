@@ -91,7 +91,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **PATH LABEL="Script Dir" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# **PATH LABEL="Script Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
@@ -1384,7 +1384,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # Store implementation.
 # $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
-# **PERL LABEL=""Implementation Classes" EXPERT**
+# **PERL LABEL="Implementation Classes" EXPERT**
 # Customisation of the Foswiki Store implementation. This allows
 # extension modules to hook into the store implementation at a very low level.
 # Full class names of customisations must be added to the list, in the order in
@@ -1398,7 +1398,7 @@ $Foswiki::cfg{Store}{ImplementationClasses} = [];
 # multiple levels, like a directory tree, webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-# **NUMBER LABEL=""Rember Changes For" CHECK="min:60" EXPERT**
+# **NUMBER LABEL="Rember Changes For" CHECK="min:60" EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
 # histories, which always remember when a file changed. It only affects
 # the number of changes that are cached for fast access by the 'changes' and
@@ -1855,7 +1855,7 @@ $Foswiki::cfg{EnableEmail} = $FALSE;
 # The S/MIME Certificate information in the *Certificate Management*
 # section must be completed for CSR's to work correctly.
 #
-# **BOOLEAN LABEL="Enabe SMIME"\
+# **BOOLEAN LABEL="Enabe S/MIME"\
 #   FEEDBACK="label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
 #                    This allows immediate use of signed email.'; \
@@ -1941,7 +1941,7 @@ $Foswiki::cfg{Email}{SmimeCertOU} = '';
 #          'Net::SMTP (TLS)',\
 #          'Net::SMTP (STARTTLS)',\
 #          MailProgram \
-#          LABEL="Mail Method"
+#          LABEL="Mail Method" \
 #          DISPLAY_IF="{EnableEmail}"  CHECK="iff:'{EnableEmail}'"**
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable, although Net::SMTP provides better
@@ -2061,7 +2061,7 @@ $Foswiki::cfg{Email}{SSLClientKeyPassword} = '';
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
-# **REGEX 80 EXPERT DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
+# **REGEX 80 LABEL="Valid TLD" EXPERT DISPLAY_IF="{EnableEmail}" CHECK="iff:'{EnableEmail}'"**
 # This parameter is used to determine which Top Level domains are valid
 # when auto-linking email addresses.  It is also used by UserRegistration to
 # validate email addresses.  Note, this parameter _only_ controls
@@ -2076,7 +2076,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # Miscellaneous expert options.
 
 #---++ Rendering control
-# **STRING 70x10 NOSPELLCHECK EXPERT**
+# **STRING 70x10 LABEL="Template Path" NOSPELLCHECK EXPERT**
 # A comma-separated list of generic file name templates that defines the order
 # in which templates are assigned to skin path components.
 # The file name templates can either be absolute file names ending in ".tmpl"
@@ -2092,7 +2092,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 $Foswiki::cfg{TemplatePath} =
 '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
-# **STRING 120 EXPERT**
+# **STRING 120 LABEL="Link-Protocol Pattern" EXPERT**
 # List of protocols (URI schemes) that Foswiki will
 # automatically recognize in absolute links.
 # Add any extra protocols specific to your environment (for example, you might
@@ -2103,12 +2103,12 @@ $Foswiki::cfg{TemplatePath} =
 $Foswiki::cfg{LinkProtocolPattern} =
   '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
-# **NUMBER CHECK="min:2" EXPERT**
+# **NUMBER LABEL="Acronym Length" CHECK="min:2" EXPERT**
 # Length of linking acronyms.  Minumum number of consecutive upper case
 # characters required to be linked as an acronym.
 $Foswiki::cfg{AcronymLength} = 3;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN LABEL="Require Compatible Anchors" EXPERT**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
 # a URL using the =#anchor= syntax. The format of these anchors has
 # changed several times. If this option is set, Foswiki will generate extra
@@ -2119,11 +2119,11 @@ $Foswiki::cfg{AcronymLength} = 3;
 # links to the internals of pages to continue to work.
 $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
-# **NUMBER CHECK="min:0" **
+# **NUMBER LABEL="Number of Revisions" CHECK="min:0" **
 # How many links to other revisions to show in the bottom bar. 0 for all
 $Foswiki::cfg{NumberOfRevisions} = 4;
 
-# **NUMBER CHECK="min:1" EXPERT**
+# **NUMBER LABEL="Maximum Revisions in Diff" CHECK="min:1" EXPERT**
 # Set the upper limit of the maximum number of difference that will be
 # displayed when viewing the entire history of a page. The compared revisions
 # will be evenly spaced across the history of the page, for example if the
@@ -2134,7 +2134,7 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # CompareRevisionsAddOn.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
-# **PATH CHECK='perms:Fr' EXPERT**
+# **PATH LABEL="Mime-Types Filename" CHECK='perms:Fr' EXPERT**
 # Pathname to file that maps file suffixes to MIME types :
 # For Apache server set this to Apache's mime.types file pathname,
 # for example /etc/httpd/mime.types, or use the default shipped in
@@ -2142,7 +2142,7 @@ $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 
 #---++ Leases and Locking
-# **NUMBER CHECK="min:0" EXPERT**
+# **NUMBER LABEL="Replace If Edited Again Within" CHECK="min:0" EXPERT**
 # If this is set to a > 0 value, and the revision control system
 # supports it, then if a second edit of the same topic
 # is done by the same user within this number of seconds, a new
@@ -2151,7 +2151,7 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 # a new revision (as required by most formal development processes).
 $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 
-# **NUMBER CHECK="min:60" EXPERT **
+# **NUMBER LABEL="Lease Length" CHECK="min:60" EXPERT **
 # When a topic is edited, the user takes a "lease" on that topic.
 # If another user tries to also edit the topic while the lease
 # is still active, they will get a warning. Leases are released
@@ -2169,7 +2169,7 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # at the same time as the lease expires.
 $Foswiki::cfg{LeaseLength} = 3600;
 
-# **NUMBER CHECK="min:-1" EXPERT **
+# **NUMBER LABEL="Lease Length, forceful" CHECK="min:-1" EXPERT **
 # Even if the other users' lease has expired, then you can specify that
 # they should still get a (less forceful) warning about the old lease for
 # some additional time after the lease expired. You can set this to 0 to
@@ -2177,15 +2177,15 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-#---++ Operating System related
-# **STRING 20 CHECK='undefok' EXPERT**
+#---++ Operating System
+# **STRING 20 LABEL="Detailed OS" CHECK='undefok' EXPERT**
 # The name of the host operating system. This is automatically calculated
 # in the code. You should only need to override if your Perl doesn't provide
 # the value of $^O or $Config::Config{'osname'} (an exceptional
 # situtation never yet encountered)
 # $Foswiki::cfg{DetailedOS} = '';
 
-# **STRING 20 CHECK='undefok' EXPERT**
+# **STRING 20 LABEL="Operating System" CHECK='undefok' EXPERT**
 # One of UNIX WINDOWS VMS DOS MACINTOSH OS2
 # This is automatically calculated in the code based on the value of
 # {DetailedOS}. It is used to group OS's into generic groups based on their
@@ -2193,7 +2193,7 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 #
 # $Foswiki::cfg{OS} = '';
 
-# **NUMBER CHECK="min:-1 undefok" EXPERT**
+# **NUMBER LABEL="Maximum Backups LSC" CHECK="min:-1 undefok" EXPERT**
 # Maximum number of backup versions of LocalSite.cfg to retain when changes
 # are saved.  Enables you to recover quickly from accidental changes.
 # 0 does not save any backup versions.  -1 does not limit the number of
@@ -2202,24 +2202,24 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 $Foswiki::cfg{MaxLSCBackups} = 10;
 
 #---++ Web and topic names
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Sandbox WebName" EXPERT**
 # Name of the web used as a scratchpad or temporary workarea for users to
 # experiment with Foswiki topics.
 $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="System WebName" EXPERT**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work (don't
 # change it unless you are certain that you know what you are doing!)
 $Foswiki::cfg{SystemWebName} = 'System';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Trash WebName" EXPERT**
 # Name of the web used as a trashcan (where deleted topics are moved)
 # If you change this setting, you must make sure the web exists.
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Users WebName" EXPERT**
 # Name of the web where user and group topics are stored. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content including all user and group templates.  Note that
@@ -2228,7 +2228,7 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="DefaultPreferences TopicName" EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # *If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.*
@@ -2236,7 +2236,7 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
-# **STRING 70 EXPERT**
+# **STRING 70 LABEL="SitePreferences TopicName" EXPERT**
 # Web.TopicName of the site-level local preferences topic. If this topic
 # exists, any settings in it will *override* settings in
 # {SitePrefsTopicName}.
@@ -2247,7 +2247,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 $Foswiki::cfg{LocalSitePreferences} =
   '$Foswiki::cfg{UsersWebName}.SitePreferences';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="WebPreferences TopicName" EXPERT**
 # Name of preferences topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
@@ -2255,7 +2255,7 @@ $Foswiki::cfg{LocalSitePreferences} =
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Home TopicName" EXPERT**
 # Name of main topic in a web.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
@@ -2263,7 +2263,7 @@ $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 # you are doing!)
 $Foswiki::cfg{HomeTopicName} = 'WebHome';
 
-# **STRING 20 EXPERT**
+# **STRING 20 LABEL="Notification TopicName" EXPERT**
 # Name of topic in each web that has notification registrations.
 # *If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs*
@@ -2290,77 +2290,124 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # path are listed at the end and are flagged as errors in the
 # {PluginsOrder} check.
 
+# **BOOLEAN LABEL="PreferencesPlugin"
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} =
-  'Foswiki::Plugins::PreferencesPlugin';
+# **STRING EXPERT LABEL="PreferencesPlugin Module"**
+$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
+
+# **BOOLEAN LABEL="SmiliesPlugin"
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} =
-  'Foswiki::Plugins::SmiliesPlugin';
+# **STRING EXPERT LABEL="SmiliesPlugin Module"**
+$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} = 'Foswiki::Plugins::SmiliesPlugin';
+
+# **BOOLEAN LABEL="CommentPlugin"**
 $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{CommentPlugin}{Module} =
-  'Foswiki::Plugins::CommentPlugin';
+# **STRING EXPERT LABEL="CommentPlugin Module"**
+$Foswiki::cfg{Plugins}{CommentPlugin}{Module} = 'Foswiki::Plugins::CommentPlugin';
+
+# **BOOLEAN LABEL="SpreadSheetPlugin"**
 $Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} =
-  'Foswiki::Plugins::SpreadSheetPlugin';
+# **STRING EXPERT LABEL="SpreadSheetPlugin Module"**
+$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} = 'Foswiki::Plugins::SpreadSheetPlugin';
+
+# **BOOLEAN LABEL="InterwikiPlugin"**
 $Foswiki::cfg{Plugins}{InterwikiPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} =
-  'Foswiki::Plugins::InterwikiPlugin';
+# **STRING EXPERT LABEL="InterwikiPlugin Module"**
+$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} = 'Foswiki::Plugins::InterwikiPlugin';
+
+# **BOOLEAN LABEL="NatEditPlugin"**
 $Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} =
-  'Foswiki::Plugins::NatEditPlugin';
+# **STRING EXPERT LABEL="NatEditPlugin Module"**
+$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} = 'Foswiki::Plugins::NatEditPlugin';
+
+# **BOOLEAN LABEL="TablePlugin"**
 $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="TablePlugin Module"**
 $Foswiki::cfg{Plugins}{TablePlugin}{Module}  = 'Foswiki::Plugins::TablePlugin';
+
+# **BOOLEAN LABEL="EditRowPlugin"**
 $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{EditRowPlugin}{Module} =
-  'Foswiki::Plugins::EditRowPlugin';
+# **STRING EXPERT LABEL="EditRowPlugin Module"**
+$Foswiki::cfg{Plugins}{EditRowPlugin}{Module} = 'Foswiki::Plugins::EditRowPlugin';
+
+# **BOOLEAN LABEL="SlideShowPlugin"**
 $Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} =
-  'Foswiki::Plugins::SlideShowPlugin';
+# **STRING EXPERT LABEL="SlideShowPlugin Module"**
+$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} = 'Foswiki::Plugins::SlideShowPlugin';
+
+# **BOOLEAN LABEL="TwistyPlugin"**
 $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="TwistyPlugin Module"**
 $Foswiki::cfg{Plugins}{TwistyPlugin}{Module} = 'Foswiki::Plugins::TwistyPlugin';
+
+# **BOOLEAN LABEL="TinyMCEPlugin"**
 $Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} =
-  'Foswiki::Plugins::TinyMCEPlugin';
+# **STRING EXPERT LABEL="TinyMCEPlugin Module"**
+$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin';
+
+# **BOOLEAN LABEL="WysiwygPlugin"**
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} =
-  'Foswiki::Plugins::WysiwygPlugin';
+# **STRING EXPERT LABEL="WysiwygPlugin Module"**
+$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
+
+# **BOOLEAN LABEL="TWikiCompatibilityPlugin"**
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
-$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} =
-  'Foswiki::Plugins::TWikiCompatibilityPlugin';
+# **STRING EXPERT LABEL="TWikiCompatibilityPlugin Module"**
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
+
+# **BOOLEAN LABEL="AutoViewTemplatePlugin"**
 $Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} =
-  'Foswiki::Plugins::AutoViewTemplatePlugin';
+# **STRING EXPERT LABEL="AutoViewTemplatePlugin Module"**
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} = 'Foswiki::Plugins::AutoViewTemplatePlugin';
+
+# **BOOLEAN LABEL="CompareRevisionsAddon"**
 $Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} =
-  'Foswiki::Plugins::CompareRevisionsAddonPlugin';
+# **STRING EXPERT LABEL="CompareRevisionsAddonPlugin Module"**
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} = 'Foswiki::Plugins::CompareRevisionsAddonPlugin';
+
+# **BOOLEAN LABEL="HistoryPlugin"**
 $Foswiki::cfg{Plugins}{HistoryPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{HistoryPlugin}{Module} =
-  'Foswiki::Plugins::HistoryPlugin';
+# **STRING EXPERT LABEL="HistoryPlugin Module"**
+$Foswiki::cfg{Plugins}{HistoryPlugin}{Module} = 'Foswiki::Plugins::HistoryPlugin';
+
+# **BOOLEAN LABEL="JQueryPlugin"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="JQueryPlugin Module"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Module} = 'Foswiki::Plugins::JQueryPlugin';
+
+# **BOOLEAN LABEL="RenderListPlugin"**
 $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} =
-  'Foswiki::Plugins::RenderListPlugin';
+# **STRING EXPERT LABEL="RenderListPlugin Module"**
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
+
+# **BOOLEAN LABEL="MailerContribPlugin"**
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} =
-  'Foswiki::Plugins::MailerContribPlugin';
+# **STRING EXPERT LABEL="MailerContribPlugin Module"**
+$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
+
+# **BOOLEAN LABEL="SubscribePlugin"**
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{SubscribePlugin}{Module} =
-  'Foswiki::Plugins::SubscribePlugin';
+# **STRING EXPERT LABEL="SubscribePlugin Module"**
+$Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
+
+# **BOOLEAN LABEL="UpdatesPlugin"**
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} =
-  'Foswiki::Plugins::UpdatesPlugin';
+# **STRING EXPERT LABEL="UpdatesPlugin Module"**
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
 
+# **BOOLEAN LABEL="HomePagePlugin"**
 $Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
-  'Foswiki::Plugins::HomePagePlugin';
+# **STRING EXPERT LABEL="HomePagePlugin Module"**
+$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
 
+# **BOOLEAN LABEL="ConfigurePlugin"**
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} =
-  'Foswiki::Plugins::ConfigurePlugin';
+# **STRING EXPERT LABEL="ConfigurePlugin Module"**
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePlugin';
+
 
 #---+++ Install, Update or Remove extensions
-# **STRING 80 FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"  FEEDBACK="label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'" FEEDBACK="label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
+# **STRING 80 LABEL="Extensions Repositories" FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"  FEEDBACK="label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'" FEEDBACK="label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"**
 # Extensions Repositories Search List.
 # Foswiki extension repositories are just Foswiki webs that are organised in the
 # same way as the Extensions web on Foswiki.org. The 'Search for extensions'
@@ -2398,7 +2445,7 @@ $Foswiki::cfg{ExtensionsRepositories} =
 # *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
 
 #---+++ Configure how plugins are loaded by Foswiki
-# **STRING 80**
+# **STRING 80 LABEL="Plugins Order"**
 # Plugins evaluation order. If set to a comma-separated list of plugin names,
 # will change the execution order of plugins so the listed subset of plugins
 # are executed first. The default execution order is alphabetical on plugin
@@ -2415,7 +2462,7 @@ $Foswiki::cfg{ExtensionsRepositories} =
 # also be reported here.
 $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin,SlideShowPlugin';
 
-# **STRING 80 EXPERT**
+# **STRING 80 LABEL="Plugins Search Path" EXPERT**
 # Search path (web names) for plugin topics. Note that the current web
 # is searched last, after this list.   Most modern foswiki plugins do not
 # use the plugin topic for settings, and this setting is ignored. It is
