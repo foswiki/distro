@@ -35,8 +35,9 @@
 # This is because they *must* be defined in LocalSite.cfg, and *not* here.
 
 #############################################################################
-#---+ General path settings
-# *Security Note:* Only the URL paths listed should
+#---+ General settings
+#---++ Web URL and Paths
+# *Security Note:* Only the URL paths listed below should
 # be browseable from the web - if you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
 
@@ -91,10 +92,6 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **PATH LABEL="Script Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
-# This is the file system path used to access the Foswiki bin directory.
-# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
-
 # **STRING 10 LABEL="Script Suffix" CHECK="emptyok"**
 # Suffix of Foswiki CGI scripts. For example, .cgi or .pl.
 # You may need to set this if your webserver requires an extension.
@@ -115,9 +112,6 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # [[http://foswiki.org/Support/ShorterUrlCookbook][Shorter URL Cookbook]]
 # $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
-#! The following plugin must follow all other {ScriptUrlPaths} items
-# *SCRIPTHASH*
-
 # **URLPATH LABEL="Pub Url Path" CHECK='noemptyok notrail' **
 # This is the URL path used to link to attachments. For stores where
 # attachments are stored as files (such as PlainFile and RCSLite) then this
@@ -131,6 +125,16 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
+
+#! The following plugin must follow all other {ScriptUrlPaths} items
+# *SCRIPTHASH*
+
+# ---++ File System Paths
+# Configure the file system locations of key Foswiki directories here.  These are usually guessed 
+# correctly during bootstrap. Other file locations are configured within their related sections.
+# **PATH LABEL="Script Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# This is the file system path used to access the Foswiki bin directory.
+# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
 # **PATH LABEL="Pub Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
