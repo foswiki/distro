@@ -76,7 +76,13 @@ sub verify {
       . "/$script"
       . ( $Foswiki::cfg{ScriptSuffix} || '' );
 
-    $reporter->NOTE("Tracing access to =$url=");
+    my $target = $Foswiki::cfg{ScriptUrlPaths}{$script};
+    unless ( defined $target ) {
+        $target = "$Foswiki::cfg{ScriptUrlPath}/$script"
+          . ( $Foswiki::cfg{ScriptSuffix} || '' );
+    }
+
+    $reporter->NOTE("Tracing access to =$url=, $keys = '$target'");
 
     my $try     = 10;
     my %headers = (
@@ -131,11 +137,6 @@ sub verify {
             last;
         }
 
-        my $target = $Foswiki::cfg{ScriptUrlPaths}{$script};
-        unless ( defined $target ) {
-            $target = "$Foswiki::cfg{ScriptUrlPath}/$script"
-              . ( $Foswiki::cfg{ScriptSuffix} || '' );
-        }
         my $ptarget = ($target) ? $target : 'empty';
 
         if ( $script eq 'view' ) {

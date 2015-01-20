@@ -229,10 +229,10 @@ sub save {
     # Get changes from 'set' *without* expanding values.
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
-            $v =~ m/^(.*)$/s;
-            $v = $1;    # untaint
             my $spec = $root->getValueObject($k);
             if ( defined $v ) {
+                $v =~ m/^(.*)$/s;
+                $v = $1;                      # untaint
                 $spec->{saving_value} = $v;
                 if ($spec) {
                     eval { $v = $spec->decodeValue($v) };

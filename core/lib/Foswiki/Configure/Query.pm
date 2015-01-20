@@ -41,8 +41,8 @@ sub _getSetParams {
     my ( $params, $root, $reporter ) = @_;
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
-            ($v) = $v =~ m/^(.*)$/s;    # UNTAINT
             if ( defined $v ) {
+                ($v) = $v =~ m/^(.*)$/s;    # UNTAINT
                 my $spec  = $root->getValueObject($k);
                 my $value = $v;
                 if ($spec) {
