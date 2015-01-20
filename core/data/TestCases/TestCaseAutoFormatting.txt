@@ -411,7 +411,7 @@ LinkBoxes
 ---++ Square Brackets
 ---+++ Expected
 <!-- expected expand SQUABS -->
-<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/EditingShorthand?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">wiki syntax</a>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">wiki syntax</a>
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
@@ -443,13 +443,13 @@ escaped:
 ---++ Protocol Links
 ---+++ Expected
 <!-- expected expand PROTOCOL -->
-<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/EditingShorthand?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">syntax</a>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">syntax</a>
 <p />
 <a href="http://gnu.org" >GNU</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
-[[EditingShorthand][syntax]]
+[[WikiSyntax][syntax]]
 
 [[http://gnu.org][GNU]]
 <!-- /actual -->
