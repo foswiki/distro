@@ -99,6 +99,9 @@ IMPORTANT: $html is a perl internal string, *NOT* octets
 
 =cut
 
+my @protectedByAttr;
+my @ignoreAttr;
+
 sub convert {
     my ( $this, $text, $options ) = @_;
 
@@ -107,6 +110,64 @@ sub convert {
     my $opts = 0;
     $opts = WC::VERY_CLEAN
       if ( $options->{very_clean} );
+
+    # See the WysiwygPluginSettings for information on stickybits
+    my $pref = $options->{stickybits};
+    $pref = <<'DEFAULT' unless defined $pref;
+(?!img).*=id,lang,title,dir,on.*;
+a=accesskey,coords,shape,target;
+bdo=dir;
+br=clear;
+col=char,charoff,span,valign,width;
+colgroup=align,char,charoff,span,valign,width;
+dir=compact;
+div=align,style;
+dl=compact;
+font=size,face;
+h\d=align;
+hr=align,noshade,size,width;
+legend=accesskey,align;
+li=value;
+ol=compact,start,type;
+p=align;
+param=name,type,value,valuetype;
+pre=width;
+q=cite;
+table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
+tbody=align,char,charoff,valign;
+td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
+tfoot=align,char,charoff,valign;
+th=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
+thead=align,char,charoff,valign;
+tr=bgcolor,.*?background-color:.*,char,charoff,valign;
+ul=compact,type;
+DEFAULT
+
+    foreach my $def ( split( /;\s*/s, $pref ) ) {
+        my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
+        push(
+            @protectedByAttr,
+            {
+                tag   => qr/$re/i,
+                attrs => join( '|', split( /\s*,\s*/, $ats ) )
+            }
+        );
+    }
+
+    $pref = $options->{ignoreattrs};
+
+    if ( defined $pref ) {
+        foreach my $def ( split( /;\s*/s, $pref ) ) {
+            my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
+            push(
+                @ignoreAttr,
+                {
+                    tag   => qr/$re/i,
+                    attrs => join( '|', split( /\s*,\s*/, $ats ) )
+                }
+            );
+        }
+    }
 
     #print STDERR "input     [". WC::encode_specials($text). "]\n\n";
 
@@ -215,6 +276,40 @@ sub _closeTag {
         #print STDERR "Closing $tag\n";
         $this->_apply($tag);
     }
+}
+
+# Determine if sticky attributes prevent a tag being converted to
+# TML when this attribute is present.
+
+sub protectedByAttr {
+    my ( $tag, $attr ) = @_;
+
+    foreach my $row (@protectedByAttr) {
+        if ( $tag =~ /^$row->{tag}$/i ) {
+
+            if ( $attr =~ /^($row->{attrs})$/i ) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+# Determine if an attribute is to be ignored when deciding whether
+# to keep a tag as HTML or not.
+
+sub ignoreAttr {
+    my ( $tag, $attr ) = @_;
+
+    foreach my $row (@ignoreAttr) {
+        if ( $tag =~ /^$row->{tag}$/i ) {
+
+            if ( $attr =~ /^($row->{attrs})$/i ) {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 sub _text {

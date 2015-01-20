@@ -28,9 +28,10 @@ The default setting for this preference is defined within the plugin.
 It corresponds to =div, span=.
 
 This feature may be disabled by setting the preference to a single comma.
-Thi does _not_ guarantee that HTML markup will be removed; the conversion
+This does _not_ guarantee that HTML markup will be removed; the conversion
 of HTML tags to TML markup remains subject to the other controls provided
-by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= preference,
+by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= and
+=WYSIWYGPLUGIN_IGNOREATTRS= preferences,
 =&lt;sticky&gt;= blocks, =&lt;literal&gt;= blocks and the rules applied 
 to tables and lists.
 
@@ -124,5 +125,16 @@ in the plugin:
 -->
 
 If you edit using the plain-text editor, you can use the &lt;sticky&gt;..&lt;/sticky&gt; tags to delimit HTML (or TML) that you do *not* want to be WYSIWYG edited.
+
+---++++ WYSIWYGPLUGIN_IGNOREATTRS - Ignore tag attributes when deciding whether to keep a tag or not when converting HTML to TML. This is most useful when you
+have specific styling that you want to make sure you strip off.
+
+This preference takes the same format as =WYSIWYGPLUGIN_STICKYBITS=. It
+specifies tags and their attributes that are to be ignored when making the
+decision whether to keep the tag or not. For example, a =&lt;font face="Open Sans">= tag will normally be maintained in the TML. However setting
+=WYSIWYGPLUGIN_IGNOREATTRS= to =font=face= will result in it being removed.
+
+By default =WYSIWYGPLUGIN_IGNOREATTRS= is empty. =WYSIWYGPLUGIN_STICKYBITS=
+takes precedence over this setting.
 
 %STOPINCLUDE%

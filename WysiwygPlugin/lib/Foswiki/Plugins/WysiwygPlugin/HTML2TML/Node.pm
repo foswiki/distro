@@ -5,6 +5,21 @@
 # act to express format requirements - for example, the need to have a
 # newline before some text, or the need for a space. Whitespace is then
 # collapsed down to the minimum that satisfies the format requirements.
+#
+# 10,000 foot overview:
+# _handleTAG functions are called on the Node object, passing
+# in an options bitmask and receiving back a bitmask of flags
+# and some TML text. The expansion is recursive, so the
+# TML returned is the expansion of the entire DOM tree
+# under the node. If the TML test is undef, that is taken as a
+# signal that the node cannot be converted to TML, in which
+# case _defaultTag is used to expand it as HTML. _defaultTag
+# is itself recursive, so sub-nodes may well be expanded as
+# TML. The options flags, and the flags returned from the
+# _handle function, are used to steer the expansion. As well
+# as the flags, there are special characters dropped into the
+# TML, for example for non-breaking space, or space that can
+# be collapsed etc.
 
 # VERY IMPORTANT: ALL STRINGS STORED IN NODES ARE UNICODE
 # (perl character strings)
@@ -29,11 +44,12 @@ use warnings;
 
 use Foswiki::Func;    # needed for regular expressions
 use Assert;
+use HTML::Entities ();
 
-use vars qw( $reww );
-
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML     ();
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC ();
-use HTML::Entities                                ();
+
+our $reww;
 
 my %jqueryChiliClass = map { $_ => 1 }
   qw( cplusplus csharp css bash delphi html java js
@@ -461,9 +477,10 @@ sub _collapse {
             }
         }
 
- # Pressing return in a "foswikiDeleteMe" paragraph will cause the paragraph
- # to be split into a 2nd paragraph with the same class.   We only want to clean
- # the first one in the blockquote, and preserve the rest without the class.
+        # Pressing return in a "foswikiDeleteMe" paragraph will cause
+        # the paragraph to be split into a 2nd paragraph with the same
+        # class. We only want to clean the first one in the blockquote,
+        # and preserve the rest without the class.
         if (   $node->{tag} eq 'p'
             && $node->hasClass('foswikiDeleteMe')
             && $node->{parent}
@@ -727,11 +744,10 @@ sub _defaultTag {
 sub _isProtectedByAttrs {
     my $this = shift;
 
-    require Foswiki::Plugins::WysiwygPlugin::Handlers;
     foreach my $attr ( keys %{ $this->{attrs} } ) {
         next unless length( $this->{attrs}->{$attr} );    # ignore nulls
         return $attr
-          if Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             $this->{tag}, $attr );
     }
     return 0;
@@ -943,7 +959,7 @@ sub _isConvertableTable {
       if (
            defined $this->{attrs}->{style}
         && length $this->{attrs}->{style}
-        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+        && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             'style', $this->{attrs}
         )
       );
@@ -1060,7 +1076,7 @@ sub _isConvertableTableRow {
 
                   if (
                     $key eq 'style'
-                    && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+                    && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
                         $kid->{tag}, $atts{$key}
                     )
                   );
@@ -1669,9 +1685,22 @@ sub _handleFONT {
         }
     }
 
-    # Either the colour can't be mapped, or we can't do the conversion
-    # without loss of information
-    return ( 0, undef );
+    # Check if any of the attributes can be ignored
+    foreach my $a ( keys %atts ) {
+        delete $atts{$a}
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, $a );
+    }
+
+    if ( scalar( keys(%atts) ) ) {
+
+        # Either the colour can't be mapped, or we can't do the conversion
+        # without loss of attribute information
+        return ( 0, undef );
+    }
+
+    # We can ignore this
+    return $this->_flatten($options);
 }
 
 # FORM
@@ -1926,13 +1955,22 @@ sub _handleSPAN {
     #        delete $atts{style} if defined $atts{style};
     #    }
 
-    # ignore the span tag if there are no other attrs
-    if ( scalar( keys %atts ) == 0 ) {
-        return $this->_flatten($options);
+    # Check if any of the attributes can be ignored
+    foreach my $a ( keys %atts ) {
+        delete $atts{$a}
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, $a );
     }
 
-    # otherwise use the default generator.
-    return ( 0, undef );
+    if ( scalar( keys(%atts) ) ) {
+
+        # Either the colour can't be mapped, or we can't do the conversion
+        # without loss of attribute information
+        return ( 0, undef );
+    }
+
+    # We can ignore this
+    return $this->_flatten($options);
 }
 
 # STRIKE
@@ -1958,12 +1996,32 @@ sub _handleTABLE {
     #       print STDERR "Found TABLE Attr $key = $atts{$key} \n";
     #       }
 
-# Preserve HTML if non-default options are requested for padding, spacing, border.
+    # Preserve HTML if non-default options are requested for
+    # padding, spacing, border.
     return ( 0, undef )
-      if ( defined $atts{cellpadding} && $atts{cellpadding} ne '0' );
+      if (
+           defined $atts{cellpadding}
+        && $atts{cellpadding} ne '0'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'cellpadding'
+        )
+      );
     return ( 0, undef )
-      if ( defined $atts{cellspacing} && $atts{cellspacing} ne '1' );
-    return ( 0, undef ) if ( defined $atts{border} && $atts{border} ne '1' );
+      if (
+           defined $atts{cellspacing}
+        && $atts{cellspacing} ne '1'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'cellspacing'
+        )
+      );
+    return ( 0, undef )
+      if (
+           defined $atts{border}
+        && $atts{border} ne '1'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'border'
+        )
+      );
 
     #use Data::Dumper;
     #print STDERR Data::Dumper::Dumper( \%atts);
@@ -1971,7 +2029,7 @@ sub _handleTABLE {
     return 0
       if (
         defined $atts{style}
-        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+        && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             'table', $atts{style}
         )
       );
@@ -2011,7 +2069,9 @@ sub _handleVAR { return _flatten(@_); }
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Author: Crawford Currie http://c-dot.co.uk
+
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

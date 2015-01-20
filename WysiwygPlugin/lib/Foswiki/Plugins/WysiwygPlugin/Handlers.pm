@@ -181,6 +181,10 @@ sub TranslateHTML2TML {
     $opts{topic} ||= $Foswiki::Plugins::SESSION->{topicName};
 
     $opts{very_clean} = 1;    # aggressively polish saved HTML
+    $opts{stickybits} =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS');
+    $opts{ignoreattrs} =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_IGNOREATTRS');
 
     # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
 
@@ -523,70 +527,6 @@ sub TranslateTML2HTML {
     return $html;
 }
 
-# PACKAGE PRIVATE
-# Determine if sticky attributes prevent a tag being converted to
-# TML when this attribute is present.
-my @protectedByAttr;
-
-sub protectedByAttr {
-    my ( $tag, $attr ) = @_;
-
-    unless ( scalar(@protectedByAttr) ) {
-
-        # See the WysiwygPluginSettings for information on stickybits
-        my $protection =
-          Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS')
-          || <<'DEFAULT';
-(?!img).*=id,lang,title,dir,on.*;
-a=accesskey,coords,shape,target;
-bdo=dir;
-br=clear;
-col=char,charoff,span,valign,width;
-colgroup=align,char,charoff,span,valign,width;
-dir=compact;
-div=align,style;
-dl=compact;
-font=size,face;
-h\d=align;
-hr=align,noshade,size,width;
-legend=accesskey,align;
-li=value;
-ol=compact,start,type;
-p=align;
-param=name,type,value,valuetype;
-pre=width;
-q=cite;
-table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
-tbody=align,char,charoff,valign;
-td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
-tfoot=align,char,charoff,valign;
-th=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
-thead=align,char,charoff,valign;
-tr=bgcolor,.*?background-color:.*,char,charoff,valign;
-ul=compact,type;
-DEFAULT
-        foreach my $def ( split( /;\s*/s, $protection ) ) {
-            my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
-            push(
-                @protectedByAttr,
-                {
-                    tag   => qr/$re/i,
-                    attrs => join( '|', split( /\s*,\s*/, $ats ) )
-                }
-            );
-        }
-    }
-    foreach my $row (@protectedByAttr) {
-        if ( $tag =~ /^$row->{tag}$/i ) {
-
-            if ( $attr =~ /^($row->{attrs})$/i ) {
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 # Convert a perl string containing TML or HTML to the site charset,
 # handling any characters that can't be represented in the site charset
 # by converting them to entities.
@@ -726,10 +666,15 @@ sub REST_HTML2TML {
 
         $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     }
+
     my $tml = $html2tml->convert(
         $html,
         {
-            very_clean   => 1,
+            very_clean => 1,
+            stickybits =>
+              Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS'),
+            ignoreattrs =>
+              Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_IGNOREATTRS'),
             convertImage => \&_convertImage,
             rewriteURL   => \&postConvertURL,
             web          => $session->{webName},      # used by callbacks

@@ -40,7 +40,7 @@ There is also the advantage that the translator can be used to *import* HTML fro
 
 Both translators can be used directly from Perl scripts, for example to build your own stand-alone translators.
 
-A stand-alone convertor script for HTML to TML is included in the installation. It can be found in =tools/html2tml.pl=.
+A stand-alone convertor script for HTML to TML is included in the installation. It can be found in =tools/html2tml.pl=. Run it with a =--help= parameter to find out how to use it.
 
 ---+++ Integrating a HTML Editor
 The plugin can be used to integrate an HTML editor in a number of different ways.
