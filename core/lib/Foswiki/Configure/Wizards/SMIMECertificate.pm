@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Wizards::GenerateSMIMECertificate;
+package Foswiki::Configure::Wizards::SMIMECertificate;
 
 =begin TML
 
@@ -268,7 +268,7 @@ then installed.
 
 sub request_cert {
     my ( $this, $reporter ) = @_;
-    return generate_cert(
+    return $this->generate_cert(
         $reporter,
         {
             C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
