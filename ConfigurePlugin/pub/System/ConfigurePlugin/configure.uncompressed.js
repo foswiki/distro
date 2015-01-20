@@ -259,6 +259,7 @@ function _id_ify(id) {
                 $div.html(TML.render_reports(r.reports));
                 $div.dialog({
                     modal: true,
+                    width: 'auto',
                     buttons: {
                         Close: function() {
                             $div.dialog("close");
@@ -444,6 +445,7 @@ function _id_ify(id) {
         $dlg.append($div);
         $dlg.dialog({
             title: "Validation",
+            width: 'auto',
             modal: true,
             buttons: {
                 Close: function() {

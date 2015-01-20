@@ -144,15 +144,25 @@ a {
   margin:0 0 1em;
 }
 .node .ui-button {
-  background:transparent;
-  border:0;
   margin:0 0.5em 0 0;
 }
-.button_box .ui-button-icon-primary {
-  left:0;
+.node .ui-button-text {
+  text-shadow:0 0 transparent;
 }
-.button_box .ui-button-text {
-  padding-left:1.5em;
+.node .ui-button.ui-state-default {
+  background:transparent;
+  border:0;
+  border-radius:0;
+}
+.node .ui-button.ui-state-hover {
+  color:#ffffff;
+  background-color:#0055b5;
+}
+.node .ui-button.ui-state-hover .ui-button-text{
+  color:#ffffff;
+}
+.button_box {
+  margin-left:-0.5em;
 }
 .button_box,
 .button_box .ui-button-text {
@@ -282,6 +292,14 @@ p.one_line_report {
 .message_block > .changes {
   background-color:#DEEBFA;
   color:#005884;
+}
+
+#report_dialog {
+  min-width:30em;
+  max-width:50em;
+  min-height:30em;
+  max-height:50em;
+  overflow-y:auto;
 }
 
 .tab.warnings {
