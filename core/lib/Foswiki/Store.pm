@@ -203,6 +203,12 @@ sub getAttachmentURL {
     my $url = $Foswiki::cfg{PubUrlPath} || '';
     my @params;
 
+    if ( $options{topic} ) {
+        ( $options{web}, $options{topic} ) =
+          Foswiki::Func::normalizeWebTopicName( $options{web},
+            $options{topic} );
+    }
+
     if ( $options{web} ) {
         $url .= '/' . Foswiki::urlEncode( $options{web} );
         delete $options{web};
