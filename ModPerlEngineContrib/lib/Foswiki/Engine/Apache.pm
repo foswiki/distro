@@ -95,7 +95,11 @@ sub run {
 sub prepareConnection {
     my ( $this, $req ) = @_;
     $req->method( $this->{r}->method );
-    $req->remoteAddress( $this->{r}->connection->remote_ip );
+    $req->remoteAddress(
+        $this->{r}->connection->can('remote_ip') ?
+        $this->{r}->connection->remote_ip :
+        $this->{r}->connection->client_ip
+    );
     if ( $INC{'Apache2/ModSSL.pm'} ) {
         $req->secure( $this->{r}->connection->is_https ? 1 : 0 );
     }
