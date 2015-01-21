@@ -17,9 +17,10 @@ our @ISA = qw( TranslatorBase );
 use strict;
 use warnings;
 
-require Foswiki::Plugins::WysiwygPlugin;
-require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
-require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
+use Foswiki::Plugins::WysiwygPlugin;
+use Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML;
+use Foswiki::Plugins::WysiwygPlugin::Handlers;
 
 my $deleteme = '<p class="foswikiDeleteMe">&nbsp;</p>';
 

@@ -24,7 +24,6 @@ use Error qw( :try );
 
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin::Constants;
-use Foswiki::Plugins::WysiwygPlugin::Handlers;
 
 use strict;
 use warnings;
@@ -79,64 +78,52 @@ sub new {
 
 Convert a block of TML text into HTML.
 Options:
-   * expandVarsInURL is a reference to a static method:<br/>
+   * \&expandVarsInURL is a reference to a static function:<br/>
      expandVarsInURL($url, \%options) -> $url<br/>
      that expands selected variables in URLs so that, for example,
      <img> tags appear as pictures in the wysiwyg editor.
-   * xmltag is a reference to a hash. The keys are names of XML-like
+   * \&isKnownColour - pointer to a function that will determine if the
+     parameter maps to a known HTML colour e.g. BLACK -> black and return
+     the colour name if it does, or undef otherwise.
+   * \%xmltag is a reference to a hash. The keys are names of XML-like
      tags. The values are references to a function to determine if the
      content of the tag must be protected:<br/>
      fn($markup) -> $bool<br/>
      The $markup appears between the <tag></tag> delimiters.
      The functions may modify the markup.
-   * dieOnError makes convert throw an exception if a conversion fails.
+   * dieonerror makes convert throw an exception if a conversion fails.
      The default behaviour is to encode the whole topic as verbatim text.
+   * \@keeptags - gives an array of HTML tag names that are to have
+     the TMLhtml class added, to protect them during subsequent
+     HTML2TML conversion.
+   * \@keepblocks - gives an array of (lowercase) tag names of HTML block tags 
+     that are to be protected. Default is [ 'script', 'style' ]
+   * forcenoautolink can be set to a true value to apply NOAUTOLINK
+     across the entire conversion.
 
 =cut
 
 sub convert {
     my ( $this, $content, $options ) = @_;
 
-    $this->{opts} = $options;
-
     return '' unless $content;
 
-    my $disabled =
-      Foswiki::Plugins::WysiwygPlugin::wysiwygEditingDisabledForThisContent(
-        $content);
-    if ($disabled) {
+    $this->{opts} = $options;
 
-      # encode the content verbatim-style, so that the user has uncorrupted HTML
+    # Apply defaults to some options
+    $this->{opts}->{keepblocks} ||= [ 'script', 'style' ];
+    $this->{opts}->{keeptags}   ||= [ 'div',    'span' ];
+    $this->{opts}->{protectExistingTags} =
+      { map { $_ => 1 } @{ $this->{opts}->{keeptags} } };
+
+    if ( $this->{opts}->{protectall} ) {
+
+        # encode the content verbatim-style, so that the user has
+        # uncorrupted HTML
         $content =~ s/[$TT0$TT1$TT2]/?/go;
-        $content = CGI::div(
-            { class => 'WYSIWYG_WARNING foswikiBroadcastMessage' },
-            Foswiki::Func::renderText(
-                Foswiki::Func::expandCommonVariables( <<"WARNING" ) ) )
-*%MAKETEXT{"Conversion to HTML for WYSIWYG editing is disabled because of the topic content."}%*
-
-%MAKETEXT{"This is why the conversion is disabled:"}% $disabled
-
-%MAKETEXT{"(This message will be removed automatically)"}%
-WARNING
-          . CGI::div( { class => 'WYSIWYG_PROTECTED' },
-            _protectVerbatimChars($content) );
+        $content = _protectVerbatimChars($content);
     }
     else {
-        my $tagsToProtect = Foswiki::Func::getPreferencesValue(
-            'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS')
-          || 'div,span';
-        for my $tag ( split /[,\s]+/, $tagsToProtect ) {
-            next unless $tag =~ /^\w+$/;
-            $this->{protectExistingTags}->{$tag} = 1;
-        }
-
-        my $tagBlocksToProtect =
-          Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS')
-          || 'script,style';
-        foreach my $tag ( split /[,\s]+/, $tagBlocksToProtect ) {
-            next unless $tag =~ /^\w+$/;
-            $this->{protectExistingTagBlocks}->{$tag} = 1;
-        }
 
         # Convert TML to HTML for wysiwyg editing
 
@@ -154,7 +141,7 @@ WARNING
             # There should never be any of these in the text at this point.
             # If there are, then the conversion failed.
             die("Invalid characters in HTML after conversion: $fail")
-              if $options->{dieOnError};
+              if $options->{dieonerror};
 
             # Encode the original TML as verbatim-style HTML,
             # so that the user has uncorrupted TML, at least.
@@ -324,9 +311,16 @@ sub _processTags {
                 my $tag  = $3 . ( $4 || '' );
                 $tag = "$nl%$glue$tag%";
 
-              # The commented out lines disable PROTECTED for %SIMPLE% vars. See
-              # Bugs: Item4828 for the sort of problem this would help to avert.
-              #                if ($tag =~ /^\n?%\w+{.*}%/) {
+                # Item12341: Clean out protection classes from embedded
+                # HTML in the tag params. They are not needed because the
+                # containing span that delimits the macro already protects
+                # the params.
+                # SMELL: is TMLhtml the only one we have to deal with?
+                $tag =~ s/class='TMLhtml'//g;
+                $tag =~ s/\bTMLhtml\b//g;
+
+                # The commented out lines disable PROTECTED for %SIMPLE% vars.
+                # if ($tag =~ /^\n?%\w+{.*}%/) {
                 $stackTop =
                   pop(@stack) . $nl . $this->_liftOut( $tag, 'PROTECTED' );
 
@@ -424,8 +418,8 @@ sub _getRenderedVersion {
     # Remove PRE to prevent TML interpretation of text inside it
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
 
-    # protect some automatic sticky tags.
-    foreach my $stickyTag ( keys %{ $this->{protectExistingTagBlocks} } ) {
+    # protect some sticky block tags.
+    foreach my $stickyTag ( @{ $this->{opts}->{keepblocks} } ) {
         $text =~ s/(<(?i:$stickyTag)[^>]*>.*?<\/(?i:$stickyTag)>)/
           $this->_liftOut($1, 'PROTECTED')/geis;
     }
@@ -441,13 +435,15 @@ s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
     $text =~ s/(<img [^>]*>)/$this->_takeOutIMGTag($1)/gei;
     $text =~ s/<\/img>//gi;
 
+    # Protect HTML (including HTML that appears in tag params) with a
+    # special class
     $text =~
-s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') . $2 . ">"/ge;
+s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 . '>'/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
-      _getNamedColour($1, $2)#ge;
+      $this->_getNamedColour($1, $2)#ge;
 
     # let WYSIWYG-editable A tags untouched for the editor
     $text =~ s/(\<a
@@ -594,7 +590,6 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     # SMELL This next one should probably be split
     my $inDiv  = 0;         # True when within a div or blockquote
     my @result = ();
-    my $spi = Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
 
     foreach my $line ( split( /\n/, $text ) ) {
         my $tableEnded = 0;
@@ -722,7 +717,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
         }
-        elsif ($spi
+        elsif ($this->{opts}->{supportsparaindent}
             && $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o )
         {
 
@@ -902,13 +897,12 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     # restore NOAUTOLINK
     $text =~ s/$TT3(\/?noautolink)$TT3/<$1>/gi;
 
-    unless (
-        Foswiki::isTrue( Foswiki::Func::getPreferencesValue('NOAUTOLINK') ) )
-    {
+    unless ( $this->{opts}->{forcenoautolink} ) {
         my $removed = {};
         $text = Foswiki::takeOutBlocks( $text, 'noautolink', $removed );
 
- # Need to also include protected content marker as part of start wikiword delim
+        # Need to also include protected content marker as part of
+        # start wikiword delim
         my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
         $text =~
 s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
@@ -973,7 +967,7 @@ sub _liftOutSquab {
     # Handle colour tags specially (hack, hack, hackity-HACK!
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
-      _getNamedColour($1, $2)#oge;
+      $this->_getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
     my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
@@ -1054,15 +1048,13 @@ sub _hideWhitespace {
     );
 }
 
-sub _appendClassToTag {
-    my $this         = shift;
-    my $tagWithAttrs = shift;
-    my $class        = shift;
-    if ( $tagWithAttrs =~ /^\s*(\w+)/
-        and exists $this->{protectExistingTags}->{$1} )
-    {
-        $tagWithAttrs =~ s/(\sclass=)(['"])([^'"]*)\2/$1$2$3 $class$2/
-          or $tagWithAttrs .= " class='$class' ";
+sub _protectTag {
+    my ( $this, $tagWithAttrs, $class ) = @_;
+    if ( $tagWithAttrs =~ /^\s*(\w+)/ ) {
+        if ( $this->{opts}->{protectExistingTags}->{$1} ) {
+            $tagWithAttrs =~ s/(\sclass=)(['"])([^'"]*)\2/$1$2$3 $class$2/
+              or $tagWithAttrs .= " class='$class' ";
+        }
     }
     return $tagWithAttrs;
 }
@@ -1089,8 +1081,6 @@ sub _processTableRow {
     my @cols     = ();
     my $span     = 0;
     my $value    = '';
-
-    my $rowspanEnabled = Foswiki::Func::getContext()->{'TablePluginEnabled'};
 
     foreach ( split( /\|/, $row ) ) {
         my $attr = {};
@@ -1123,8 +1113,7 @@ sub _processTableRow {
             $attr->{style} = 'text-align: center';
         }
 
-        if (    $rowspanEnabled
-            and !$firstRow
+        if ( !$firstRow
             and /^(\s|<[^>]*>)*\^(\s|<[^>]*>)*$/ )
         {    # row span above
             $state->{rowspan}->[$colCount]++;
@@ -1269,18 +1258,13 @@ sub _emitTable {
 }
 
 sub _getNamedColour {
-    my ( $name, $t ) = @_;
-    my $epr = Foswiki::Func::getPreferencesValue($name);
-
-    # Match <font color="x" and style="color:x"
-    if (
-        defined $epr
-        && (   $epr =~ /color=["'](#?\w+)['"]/
-            || $epr =~ /color\s*:\s*(#?\w+)/
-            || $epr =~ /class=["']foswiki(${name})FG['"]/i )
-      )
-    {
-        return "<span class='WYSIWYG_COLOR' style='color:$1'>$t</span>";
+    my ( $this, $name, $t ) = @_;
+    my $fn = $this->{opts}->{isKnownColour};
+    if ( defined &$fn ) {
+        my $known = &$fn($name);
+        if ($known) {
+            return "<span class='WYSIWYG_COLOR' style='color:$known'>$t</span>";
+        }
     }
 
     # Can't map to a 'real' colour; leave the variables

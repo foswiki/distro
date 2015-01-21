@@ -393,42 +393,45 @@ TML
 <table border="1" cellpadding="0" cellspacing="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
 TML
     },
-    {
-        exec => TML2HTML | ROUNDTRIP,
-        name => 'simpleTable_NoTablePlugin',
-        setup =>
-          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<'HERE',
-<p>
-Before
-</p>
-<table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p class="WYSIWYG_NBNL"/><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
-<p>After</p>
-HERE
-        tml => <<'HERE',
-Before
-| *L* | *C* | *R* |
-| A2 |  2  |  2 |
-| A3 |  3  | 3  |
-| A4-6 | four | four |
-|^| five | five |
 
-|^| six | six |
-After
-
-HERE
-        finaltml => <<'HERE',
-Before
-| *L* | *C* | *R* |
-| A2 |  2  |  2 |
-| A3 |  3  | 3  |
-| A4-6 | four | four |
-| ^ | five | five |
-
-| ^ | six | six |
-After
-HERE
-    },
+# The handling of the rowspan carat is now defualt behaviour in 1.2, so
+# commented this out
+#    {
+#        exec => TML2HTML | ROUNDTRIP,
+#        name => 'simpleTable_NoTablePlugin',
+#        setup =>
+#          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+#        html => <<'HERE',
+#<p>
+#Before
+#</p>
+#<table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p class="WYSIWYG_NBNL"/><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
+#<p>After</p>
+#HERE
+#        tml => <<'HERE',
+#Before
+#| *L* | *C* | *R* |
+#| A2 |  2  |  2 |
+#| A3 |  3  | 3  |
+#| A4-6 | four | four |
+#|^| five | five |
+#
+#|^| six | six |
+#After
+#
+#HERE
+#        finaltml => <<'HERE',
+#Before
+#| *L* | *C* | *R* |
+#| A2 |  2  |  2 |
+#| A3 |  3  | 3  |
+#| A4-6 | four | four |
+#| ^ | five | five |
+#
+#| ^ | six | six |
+#After
+#HERE
+#    },
     {
         exec => HTML2TML,
         name => 'ttClassInTable_NoTablePlugin',
@@ -835,7 +838,7 @@ HTML
         name  => 'preserveDefaultExistingTags',
         setup => sub {
             Foswiki::Func::setPreferencesValue(
-                'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', '' );
+                'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', 'NONE' );
         },
         exec => ROUNDTRIP,
         tml  => <<'HERE',

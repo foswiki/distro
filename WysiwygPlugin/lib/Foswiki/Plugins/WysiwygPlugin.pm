@@ -150,7 +150,7 @@ sub _execute {
     my $fn = shift;
 
     eval "require Foswiki::Plugins::WysiwygPlugin::Handlers";
-    ASSERT( !$@ ) if DEBUG;
+    ASSERT( !$@, $@ ) if DEBUG;
     $fn = 'Foswiki::Plugins::WysiwygPlugin::Handlers::' . $fn;
     no strict 'refs';
     return &$fn(@_);

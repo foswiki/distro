@@ -180,7 +180,7 @@ sub TranslateHTML2TML {
     $opts{web}   ||= $Foswiki::Plugins::SESSION->{webName};
     $opts{topic} ||= $Foswiki::Plugins::SESSION->{topicName};
 
-    $opts{very_clean} = 1;    # aggressively polish saved HTML
+    $opts{very_clean} = 1;    # aggressively polish TML
     $opts{stickybits} =
       Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS');
     $opts{ignoreattrs} =
@@ -517,14 +517,75 @@ sub TranslateTML2HTML {
     $opts{topic}           ||= $Foswiki::Plugins::SESSION->{topicName};
     $opts{expandVarsInURL} ||= \&expandVarsInURL;
     $opts{xmltag}          ||= \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+    my $keepblocks =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS');
+    if ( defined $keepblocks && $keepblocks ne 'NONE' ) {
+        $opts{keepblocks} = [];
+        foreach my $tag ( split /[,\s]+/, $keepblocks ) {
+            push( @{ $opts{keepblocks} }, $tag );
+        }
+    }
+    my $keeptags =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS');
+    if ( defined $keeptags && $keeptags ne 'NONE' ) {
+        $opts{keeptags} = [];
+        foreach ( split( /[,\s]+/, $keeptags ) ) {
+            push( @{ $opts{keeptags} }, $_ );
+        }
+    }
+    $opts{forcenoautolink} =
+      Foswiki::isTrue( Foswiki::Func::getPreferencesValue('NOAUTOLINK') );
+    $opts{isKnownColour} = \&_isKnownColour;
+
+    # SMELL: WTF is this? - CDot
+    $opts{supportsparaindent} =
+      Foswiki::Func::getContext()->{SUPPORTS_PARA_INDENT};
+    my $disabled =
+      Foswiki::Plugins::WysiwygPlugin::wysiwygEditingDisabledForThisContent(
+        $_[0] );
+    $opts{protectall} = $disabled ? 1 : 0;
 
     my $html =
       $Foswiki::Plugins::WysiwygPlugin::tml2html->convert( $_[0], \%opts );
+
+    if ( $opts{protectall} ) {
+        $html = CGI::div(
+            { class => 'WYSIWYG_WARNING foswikiBroadcastMessage' },
+            Foswiki::Func::renderText(
+                Foswiki::Func::expandCommonVariables( <<"WARNING" ) ) )
+*%MAKETEXT{"Conversion to HTML for WYSIWYG editing is disabled because of the topic content."}%*
+
+%MAKETEXT{"This is why the conversion is disabled:"}% $disabled
+
+%MAKETEXT{"(This message will be removed automatically)"}%
+WARNING
+          . CGI::div( { class => 'WYSIWYG_PROTECTED' }, $html );
+    }
 
     # ASSERT $text is still encoded in the site charset
     _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
     return $html;
+}
+
+# Look in the Foswiki preferences to see if the named colour is
+# a preference mapped to an HTML colour
+sub _isKnownColour {
+    my $name = shift;
+
+    my $epr = Foswiki::Func::getPreferencesValue($name);
+
+    # Match <font color="x" and style="color:x"
+    if (
+        defined $epr
+        && (   $epr =~ /color=["'](#?\w+)['"]/
+            || $epr =~ /color\s*:\s*(#?\w+)/
+            || $epr =~ /class=["']foswiki(${name})FG['"]/i )
+      )
+    {
+        return $1;
+    }
+    return undef;
 }
 
 # Convert a perl string containing TML or HTML to the site charset,
