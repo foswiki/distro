@@ -188,8 +188,8 @@ DEFAULT
     $text =~ s/\&\#x3c;/\&lt;/goi;
     $text =~ s/\&\#62;/\&gt;/go;
     $text =~ s/\&\#x3e;/\&gt;/goi;
-    $text =~ s/\&\#39;/\&apos;/go;
-    $text =~ s/\&\#x27;/\&apos;/goi;
+    $text =~ s/\&\#39;/\&rsquo;/go;
+    $text =~ s/\&\#x27;/\&rsquo;/goi;
     $text =~ s/\&\#34;/\&quot;/go;
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
@@ -216,6 +216,7 @@ DEFAULT
     #print STDERR "Finished\n";
     $this->_apply(undef);
     $text = $this->{stackTop}->rootGenerate($opts);
+
     $text =~ s/\s+$/\n/s;
 
     return $text;
