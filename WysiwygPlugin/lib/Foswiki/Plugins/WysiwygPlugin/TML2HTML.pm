@@ -19,7 +19,6 @@ TML syntax is not supported.
 
 package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 
-use CGI qw( -any );
 use Error qw( :try );
 
 use Foswiki;
@@ -148,8 +147,7 @@ sub convert {
             my $originalContent = $_[1];
             $originalContent =~ s/[$TT0$TT1$TT2]/?/go;
             $originalContent = _protectVerbatimChars($originalContent);
-            $content =
-              CGI::div( { class => 'WYSIWYG_PROTECTED' }, $originalContent );
+            $content = "<div class='WYSIWYG_PROTECTED'>$originalContent</div>";
         }
     }
 
@@ -252,18 +250,15 @@ sub _dropIn {
     }
     return $thing->{text} if $thing->{tag} eq 'NONE';
 
-    my $method = 'CGI::' . $thing->{tag};
-
     $thing->{params} ||= {};
     $thing->{params} = _parseParams( $thing->{params} )
       if not ref $thing->{params};
     _addClass( $thing->{params}->{class}, $thing->{class} ) if $thing->{class};
 
-    no strict 'refs';
-
-    #print STDERR "RETURNED ",&$method( $thing->{params}, $text );
-    return &$method( $thing->{params}, $text );
-    use strict 'refs';
+    return
+        "<$thing->{tag}"
+      . _attrify( $thing->{params} )
+      . ">$text</$thing->{tag}>";
 }
 
 # Parse and convert macros. If we are not using span markers
@@ -484,8 +479,7 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 .
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
-    $text =~
-      s/^>(.*?)$/'&gt;'.CGI::cite( { class => 'TMLcite' }, $1 ).CGI::br()/gem;
+    $text =~ s/^>(.*?)$/&gt;<cite class='TMLcite'>$1<\/cite><br\/>/gm;
 
     # locate isolated < and > and translate to entities
     # Protect isolated <!-- and -->
@@ -651,11 +645,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             if ( $indicator =~ /#/ ) {
                 $class .= ' numbered';
             }
-            my $attrs = { class => $class };
-            my $fn = 'CGI::h' . length($indicator);
-            no strict 'refs';
-            $line = &$fn( $attrs, " $heading " );
-            use strict 'refs';
+            my $l = length($indicator);
+            $line = "<h$l class='$class'> $heading </h$l>";
 
         }
         elsif ( $line =~ /^\s*$/ ) {
@@ -1007,16 +998,16 @@ sub _protectMacrosInSquab {
 sub _handleMarkup {
 
     $_[0] =~ s(${WC::STARTWW}==([^\s]+?|[^\s].*?[^\s])==$WC::ENDWW)
-      (CGI::b(CGI::span({class => 'WYSIWYG_TT'}, $1)))gem;
+      (<b><span class='WYSIWYG_TT'>$1</span></b>)gm;
     $_[0] =~ s(${WC::STARTWW}__([^\s]+?|[^\s].*?[^\s])__$WC::ENDWW)
-      (CGI::b(CGI::i($1)))gem;
+      (<b><i>$1</i></b>)gm;
     $_[0] =~ s(${WC::STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$WC::ENDWW)
-      (CGI::b($1))gem;
+      (<b>$1</b>)gm;
 
     $_[0] =~ s(${WC::STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$WC::ENDWW)
-      (CGI::i($1))gem;
+      (<i>$1</i>)gm;
     $_[0] =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
-      (CGI::span({class => 'WYSIWYG_TT'}, $1))gem;
+      (<span class='WYSIWYG_TT'>$1</span>)gm;
 
 }
 
@@ -1170,9 +1161,7 @@ sub _emitTable {
     my ($state) = @_;
 
     my @result;
-    push( @result,
-        CGI::start_table( { border => 1, cellpadding => 0, cellspacing => 1 } )
-    );
+    push( @result, "<table border='1' cellpadding='0' cellspacing='1'>" );
 
     #Flush out any remaining rowspans
     for ( my $i = 0 ; $i < scalar( @{ $state->{rowspan} } ) ; $i++ ) {
@@ -1226,13 +1215,10 @@ sub _emitTable {
 
             $colCount++;
             next if ( $type eq 'Y' );
-            my $fn = 'CGI::' . $type;
-            no strict 'refs';
-            $rowtext .= &$fn( $attr, " $cell " );
-            use strict 'refs';
+            $rowtext .= "<$type" . _attrify($attr) . "> $cell </$type>";
         }    # foreach my $fcell ( @$row )
 
-        my $rowHTML = $state->{pre}->[$rowCount] . CGI::Tr($rowtext);
+        my $rowHTML = $state->{pre}->[$rowCount] . "<tr>$rowtext</tr>";
 
         my $isHeaderRow = ( $headerCellCount == $colCount );
         if ( !$isHeaderRow ) {
@@ -1253,7 +1239,7 @@ sub _emitTable {
 
     push @result, @headerRowList, @bodyRowList;
 
-    push @result, CGI::end_table();
+    push @result, "</table>";
     return @result;
 }
 
@@ -1553,9 +1539,9 @@ sub _emitTR {
             $attr->{style} = 'text-align: center';
         }
 
-        my $fn = "CGI::td";
+        my $fn = "td";
         if ( $cell =~ s/^\*(.+)\*$/$1/ ) {
-            $fn = "CGI::th";
+            $fn = "th";
         }
 
         $cell = ' ' . $cell if $cell =~ /^(?:\*|==?|__?)[^\s]/;
@@ -1578,11 +1564,24 @@ sub _emitTR {
         }
         unshift( @row, $tr[$i] );
     }
-    no strict 'refs';
-    return $pre
-      . CGI::Tr(
-        join( '', map { &{ $_->{fn} }( $_->{attr}, $_->{text} ) } @row ) );
-    use strict 'refs';
+    return
+      $pre . "<tr>"
+      . join( '',
+        map { "<$_->{fn}" . _attrify( $_->{attr} ) . ">$_->{text}</$_->{fn}>" }
+          @row )
+      . '</tr>';
+}
+
+sub _attrify {
+    my $attrs = shift;
+    my @a;
+    foreach my $k ( sort keys %$attrs ) {
+        my $v = HTML::Entities::encode_entities( $attrs->{$k} );
+        $v = HTML::Entities::encode_entities( $v, "'" ) if $v =~ /'/;
+        push( @a, "$k='$v'" );
+    }
+    return '' unless scalar @a;
+    return ' ' . join( ' ', @a );
 }
 
 1;
