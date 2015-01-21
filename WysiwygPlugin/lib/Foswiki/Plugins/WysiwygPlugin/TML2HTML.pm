@@ -419,6 +419,9 @@ sub _getRenderedVersion {
           $this->_liftOut($1, 'PROTECTED')/geis;
     }
 
+    # protect &nbsp by making it sticky
+    $text =~ s/(&nbsp;)/$this->_liftOut($1, 'STICKY')/ges;
+
     # Protect comments
     $text =~ s/(<!--.*?-->)/$this->_liftOut($1, 'PROTECTED')/ges;
 
