@@ -92,6 +92,14 @@ var Types = {};
 
   });
 
+  Types.STRING = Types.BaseType.extend({
+      restoreDefaultValue: function() {
+          var val = this.spec['default'];
+          val = val.substring(1, val.length - 1);
+          this.useVal(val);
+      }
+  });
+
   Types.BOOLEAN = Types.BaseType.extend({
       createUI: function(change_handler) {
           this.$ui = $('<input type="checkbox" id="' + _id_ify(this.spec.keys) + '" />');
@@ -143,7 +151,7 @@ var Types = {};
       }
   });
 
-  Types.PASSWORD = Types.BaseType.extend({
+  Types.PASSWORD = Types.STRING.extend({
       createUI: function(change_handler) {
           this._super(change_handler);
           this.$ui.attr('type', 'password');
@@ -152,7 +160,7 @@ var Types = {};
       }
   });
 
-  Types.REGEX = Types.BaseType.extend({
+  Types.REGEX = Types.STRING.extend({
       isDefault: function() {
           // String comparison, no eval
           return this.currentValue() == this.spec['default'];
@@ -182,12 +190,24 @@ var Types = {};
       }
   });
 
-  Types.PATHINFO = Types.BaseType.extend({
+  Types.PATHINFO = Types.STRING.extend({
       createUI: function(change_handler) {
           this._super(change_handler);
           this.$ui.attr('readonly', 'readonly');
           return this.$ui;
       }
+  });
+
+  Types.URL = Types.STRING.extend({
+  });
+
+  Types.URLPATH = Types.STRING.extend({
+  });
+
+  Types.DATE = Types.STRING.extend({
+  });
+
+  Types.EMAILADDRESS = Types.STRING.extend({
   });
 
   // This field is invisible, as it only exists to provide a hook

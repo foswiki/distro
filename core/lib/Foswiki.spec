@@ -85,7 +85,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
-# **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"
+# **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory. For example =/foswiki/bin=.
 # See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
