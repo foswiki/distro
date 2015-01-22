@@ -2036,11 +2036,14 @@ HERE
 
     #SMELL: Item10107 needs to be fixed.  This fails ROUNDTRIP
     {
-        exec => ROUNDTRIP | RTFAIL,
+        exec => ROUNDTRIP,
         name => 'Item10107',
         tml  => <<'TML',
-<span style='background-color: %WEBBGCOLOR%'> current color </span>
+<span style="background-color: %WEBBGCOLOR%"> current %TOPIC% color </span>
 TML
+        finaltml => <<'FINAL',
+<span style="background-color: %WEBBGCOLOR%"> current %TOPIC% color </span>
+FINAL
     },
 
     #SMELL: Item12341 needs to be fixed.  This fails ROUNDTRIP

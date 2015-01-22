@@ -459,6 +459,8 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 .
       s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
     $text =~ s/\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
 
+    $text =~ s/(<[^>]+>)/$this->_protectMacrosInHTML($1)/ge;
+
     # Convert Foswiki tags to spans outside protected text
     $text = $this->_processTags($text);
 
@@ -981,6 +983,14 @@ m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
         { tag => 'NONE', protect => 0, tmltag => 0 }
     );
 
+}
+
+sub _protectMacrosInHTML {
+    my $this = shift;
+    my $tag  = shift;
+
+    $tag =~ s/%/$TT3/g;
+    return $tag;
 }
 
 sub _protectMacrosInSquab {
