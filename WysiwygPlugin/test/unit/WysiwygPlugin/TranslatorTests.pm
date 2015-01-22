@@ -2045,7 +2045,7 @@ TML
 
     #SMELL: Item12341 needs to be fixed.  This fails ROUNDTRIP
     {
-        exec => TML2HTML | T2HFAIL,
+        exec => TML2HTML | ROUNDTRIP,
         name => 'Item12341',
         tml  => <<'TML',
 %SEARCH{
@@ -2053,8 +2053,14 @@ TML
   footer="</div>"
 }%
 TML
+        finaltml => <<'FINAL',
+%SEARCH{
+  header="<div class='foswikiNotification '><span class='foswikiAlert '>$percntX$percnt *some alert* </span>"
+  footer="</div>"
+}%
+FINAL
         html => <<'HTML',
-<p><span class="WYSIWYG_PROTECTED">%SEARCH{<br />&nbsp;&nbsp;header=&#34;&#60;div&nbsp;class=&#39;foswikiNotification&#39;&#62;&#60;span&nbsp;class=&#39;foswikiAlert&#39;&#62;$percntX$percnt&nbsp;*some&nbsp;alert*&nbsp;&#60;/span&#62;&#34;<br />&nbsp;&nbsp;footer=&#34;&#60;/div&#62;&#34;<br />}%</span>
+<p> <span class='WYSIWYG_PROTECTED'>%SEARCH{<br />&nbsp;&nbsp;header=&#34;&#60;div&nbsp;class=&#39;foswikiNotification&nbsp;&#39;&#62;&#60;span&nbsp;class=&#39;foswikiAlert&nbsp;&#39;&#62;$percntX$percnt&nbsp;*some&nbsp;alert*&nbsp;&#60;/span&#62;&#34;<br />&nbsp;&nbsp;footer=&#34;&#60;/div&#62;&#34;<br />}%</span>
 </p>
 HTML
     },
