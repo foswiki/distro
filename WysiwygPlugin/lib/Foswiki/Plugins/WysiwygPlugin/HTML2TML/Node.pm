@@ -715,7 +715,7 @@ sub _htmlParams {
 
             $v = join( ' ', @classes );
         }
-        my $q = $v =~ /"/ ? "'" : '"';
+        my $q = $v =~ /'/ ? '"' : "'";    # Default to single qutoes in html
         push( @params, $k . '=' . $q . $v . $q );
     }
     my $p = join( ' ', @params );

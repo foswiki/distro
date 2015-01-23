@@ -358,6 +358,11 @@ HERE
 $deleteme<p><pre class=\"foswikiHidden TMLverbatim\"><br />hidden&nbsp;verbatim<br /></pre>
 </p>
 HERE
+        finaltml => <<'HERE',
+<verbatim class='foswikiHidden'>
+hidden verbatim
+</verbatim>
+HERE
     },
     {
 
@@ -390,14 +395,14 @@ $deleteme<p><pre class=\"foswikiHidden TMLverbatim\"><br />Verbatim&nbsp;1<br />
 </p>
 HERE
         tml => <<'HERE',
-<verbatim class="foswikiHidden">
+<verbatim class='foswikiHidden'>
 Verbatim 1
 Line 2
-Line 3</verbatim> <verbatim class="html tml">
+Line 3</verbatim> <verbatim class='html tml'>
 Verbatim 2
 
 </verbatim>
-<verbatim class="tml html">
+<verbatim class='tml html'>
 
 Verbatim 3</verbatim>
 HERE
@@ -501,11 +506,11 @@ Not Centered
 <div align="center">TEST Centered text.</div>
 HERE
         finaltml => <<'HERE',
-<center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div>
+<center>Center Text</center><br /> <div style='text-align:center'>TEST Centered text.</div>
 
 Not Centered
 
-<div align="center">TEST Centered text.</div>
+<div align='center'>TEST Centered text.</div>
 HERE
     },
 
@@ -790,10 +795,10 @@ HERE
         name => 'centeredTableItem5955',
         html => <<"HTML",
 $deleteme
-<table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
+<table align='center' border='0'><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
 HTML
         tml => <<'TML',
-<table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
+<table align='center' border='0'><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
 TML
     },
     {
@@ -894,6 +899,17 @@ $deleteme<div class="foswikiHelp TMLhtml">
 </li>
 </ul><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div>
 HERE
+        finaltml => <<HERE,
+<div class='foswikiHelp'>
+<div class='jqTreeview'>
+   * list
+      * item
+      * item
+      * item
+</div>
+</div>
+HERE
+
     },
     {
         exec => ROUNDTRIP | TML2HTML | HTML2TML,
@@ -925,7 +941,7 @@ $deleteme<div class="jqTreeview TMLhtml">
 </p>
 HERE
         finaltml => <<'HERE',
-<div class="jqTreeview">
+<div class='jqTreeview'>
    * list
       * item
       * item
@@ -1553,17 +1569,17 @@ HERE
     {
         exec => TML2HTML | ROUNDTRIP,
         name => 'nestedPre',
-        html => '<p>
-Outside <pre class="foswikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbsp;&nbsp;</pre> Outside </p>',
-        tml => 'Outside <verbatim class="foswikiAlert">
+        html => "<p>
+Outside <pre class='foswikiAlert TMLverbatim'><br />&nbsp;&nbsp;Inside<br />&nbsp;&nbsp;</pre> Outside </p>",
+        tml => "Outside <verbatim class='foswikiAlert'>
   Inside
-  </verbatim> Outside',
+  </verbatim> Outside",
     },
     {
         name => 'verbatimWithClassForJqChili',
         exec => ROUNDTRIP,
         tml  => <<'HERE',
-<verbatim class="tml">
+<verbatim class='tml'>
 %STARTSECTION{"formfield"}%%FORMFIELD{
   "%URLPARAM{"formfield" default="does not exist"}%"
   topic="%URLPARAM{"source" default="does not exist"}%"
@@ -1630,9 +1646,9 @@ Snide
  Inside
  </pre>
  Outside',
-        tml => 'Outside <pre class="foswikiAlert">
+        tml => "Outside <pre class='foswikiAlert'>
  Inside
- </pre> Outside',
+ </pre> Outside",
     },
     {
         exec => HTML2TML,
@@ -1814,7 +1830,7 @@ Inside
 5 <span class="fr">francais</span>
 HERE
         tml => <<HERE,
-1 2 3 4 <span style="chanel">francais</span> 5 francais
+1 2 3 4 <span style='chanel'>francais</span> 5 francais
 HERE
     },
     {
@@ -1854,7 +1870,7 @@ hijk',
         html =>
 "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/TestTopic/T-logo-16x16.gif' /></p>",
         tml      => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
-        finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
+        finaltml => "<img src='%ATTACHURLPATH%/T-logo-16x16.gif' />",
     },
     {
         exec => TML2HTML | HTML2TML | ROUNDTRIP,
@@ -2034,7 +2050,16 @@ HERE
         html => "<p>fred <b>$PROTECTON%WIKINAME%$PROTECTOFF</b> fred</p>",
     },
 
-    #SMELL: Item10107 needs to be fixed.  This fails ROUNDTRIP
+    {
+        exec => ROUNDTRIP,
+        name => 'mixedQuotes',
+        tml  => <<'TML',
+<span style="background-color:'red' " font="times"> some text </span>
+TML
+        finaltml => <<'FINAL',
+<span font='times' style="background-color:'red' "> some text </span>
+FINAL
+    },
     {
         exec => ROUNDTRIP,
         name => 'Item10107',
@@ -2042,7 +2067,7 @@ HERE
 <span style="background-color: %WEBBGCOLOR%"> current %TOPIC% color </span>
 TML
         finaltml => <<'FINAL',
-<span style="background-color: %WEBBGCOLOR%"> current %TOPIC% color </span>
+<span style='background-color: %WEBBGCOLOR%'> current %TOPIC% color </span>
 FINAL
     },
 
@@ -2235,6 +2260,14 @@ HERE
 <p class="foswikiDeleteMe">&nbsp;</p><blockquote style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px"><p class="foswikiDeleteMe"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah
 <p class='WYSIWYG_NBNL'>blah
 </p></p></blockquote>
+HERE
+        finaltml => <<HERE,
+<blockquote style='margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px'>
+blah
+blah
+
+blah
+</blockquote>
 HERE
     },
     {
@@ -2883,7 +2916,7 @@ GLUED
 </p>
 HTML
         tml => <<'TML',
-<br id="foo" />
+<br id='foo' />
 TML
     },
     {
@@ -2956,7 +2989,7 @@ SPACED
         exec => ROUNDTRIP,
         name => 'ProtectAndSurvive',
         tml =>
-'<ul type="compact">Fred</ul><h1 align="right">HAH</h1><ol onclick="burp">Joe</ol>',
+"<ul type='compact'>Fred</ul><h1 align='right'>HAH</h1><ol onclick='burp'>Joe</ol>",
     },
     {
         name => 'Item4855',
@@ -3015,7 +3048,7 @@ THERE
         exec => TML2HTML | ROUNDTRIP,
         tml  => <<'BLAH',
 Blah
-<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
+<a href='%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%'>edit</a>
 Blah
 <a href="blah.com" qwerty='oops'>Unsupported attr</a>
 <a href='blah.com' target="_blank">Target supported</a>
@@ -3024,7 +3057,7 @@ BLAH
         html => '<p>
 Blah'
           . encodedWhitespace('n')
-          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>'
+          . "<span class='WYSIWYG_PROTECTED'>&#60;a&nbsp;href=&#39;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;\$epoch&#34;}%&#39;&#62;edit&#60;/a&#62;</span>"
           . encodedWhitespace('n') . 'Blah'
           . encodedWhitespace('n')
           . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;blah.com&#34;&nbsp;qwerty=&#39;oops&#39;&#62;</span>Unsupported attr<span class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
@@ -3036,11 +3069,11 @@ Blah'
 ',
         finaltml => <<'HERE',
 Blah
-<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
+<a href='%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%'>edit</a>
 Blah
 <a href="blah.com" qwerty='oops'>Unsupported attr</a>
-<a href="blah.com" target="_blank">Target supported</a>
-<a href="blah.com" target="_blank">Space delimited</a>
+<a href='blah.com' target='_blank'>Target supported</a>
+<a href='blah.com' target='_blank'>Space delimited</a>
 HERE
     },
     {
@@ -3081,7 +3114,7 @@ BLAH
 <a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
 BLAH
         finaltml => <<'BLAH',
-<a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+<a href='http://some.website.org/' target='_blank' title='Test'>Another html link</a>
 BLAH
         html => <<'BLAH',
 <p><a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
@@ -3255,6 +3288,9 @@ HERE
         tml => <<HERE,
 %RED%red%ENDCOLOR% %GREEN%green%ENDCOLOR% <font style="border:1;color:blue">blue</font> %YELLOW%yellow%ENDCOLOR% %BROWN%brown%ENDCOLOR%
 HERE
+        finaltml => <<HERE,
+%RED%red%ENDCOLOR% %GREEN%green%ENDCOLOR% <font style='border:1;color:blue'>blue</font> %YELLOW%yellow%ENDCOLOR% %BROWN%brown%ENDCOLOR%
+HERE
     },
     {
         name => 'Item4974',
@@ -3297,7 +3333,7 @@ HERE
 </td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
 HERE
         finaltml => <<'HERE',
-<table border="0"><tbody><tr><td>
+<table border='0'><tbody><tr><td>
 ---++ Argh
    * Ergh 
 </td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
@@ -3568,7 +3604,7 @@ HERE
 </table>
 HERE
         finaltml => <<'HERE'
-<table border="1" cellpadding="0" cellspacing="1">
+<table border='1' cellpadding='0' cellspacing='1'>
    <tbody>
       <tr>
          <td>A</td>

@@ -390,7 +390,7 @@ HTML
 <table cellspacing="1" cellpadding="0" border="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
 TML
         finaltml => <<'TML',
-<table border="1" cellpadding="0" cellspacing="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
+<table border='1' cellpadding='0' cellspacing='1'> <tr><td rowspan='2'>A</td><td rowspan='3'>B</td><td>X</td></tr> <tr><td rowspan='2'>C</td></tr> <tr><td>M</td></tr> </table>
 TML
     },
 
@@ -521,9 +521,9 @@ HERE
 </table>
 HERE
         tml => <<'HERE'
-<table border="1" cellpadding="0" cellspacing="1"> <tbody> <th><td style="border-color: #35c953; ">asdf</td></th> </tbody> </table>
+<table border='1' cellpadding='0' cellspacing='1'> <tbody> <th><td style='border-color: #35c953; '>asdf</td></th> </tbody> </table>
 
-<table border="1" cellpadding="0" cellspacing="1"> <tbody> <tr><td style="background-color: #e9154c;">asdf</td></tr> </tbody> </table>
+<table border='1' cellpadding='0' cellspacing='1'> <tbody> <tr><td style='background-color: #e9154c;'>asdf</td></tr> </tbody> </table>
 HERE
     },
     {
@@ -566,13 +566,13 @@ HERE
 </table>
 HERE
         tml => <<'HERE'
-<table border="0" cellpadding="0" cellspacing="1" style="background-color: #e9154c;"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+<table border='0' cellpadding='0' cellspacing='1' style='background-color: #e9154c;'> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan='2'>b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
 
-<table border="1" cellpadding="0" cellspacing="9"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+<table border='1' cellpadding='0' cellspacing='9'> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan='2'>b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
 
-<table border="1" cellpadding="3" cellspacing="1"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+<table border='1' cellpadding='3' cellspacing='1'> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan='2'>b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
 
-<table border="1" cellpadding="0" cellspacing="1" style="background-color: #e9154c;"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+<table border='1' cellpadding='0' cellspacing='1' style='background-color: #e9154c;'> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan='2'>b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
 HERE
     },
     {
@@ -791,7 +791,7 @@ HERE
 <table border="0"><tbody><tr><td><h2>Argh</h2><ul><li>Ergh&nbsp;</li></ul></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table>
 HERE
         tml => <<'HERE',
-<table border="0"><tbody><tr><td>
+<table border='0'><tbody><tr><td>
 ---++ Argh
    * Ergh 
 </td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
@@ -842,9 +842,9 @@ HTML
         },
         exec => ROUNDTRIP,
         tml  => <<'HERE',
-<div class="bumblebee">
+<div class='bumblebee'>
 
-| <span class="foo">apple *pie* slice</span> shelf |
+| <span class='foo'>apple *pie* slice</span> shelf |
 </div>
 HERE
     },
