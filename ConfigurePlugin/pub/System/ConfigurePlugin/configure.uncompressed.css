@@ -179,6 +179,9 @@ a {
 .node .node .reports {
   margin:0.5em 0;
 }
+.node .node .button_box input[type=checkbox] {
+  margin-left:0.5em;
+}
 .node .reports, 
 .node .description {
   color:#444;

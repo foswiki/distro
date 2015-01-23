@@ -1106,7 +1106,21 @@ if (0) {
         });
 
         $(document).tooltip({
-          tooltipClass: 'info'
+          tooltipClass: 'info',
+          show: {
+            effect:'show',
+            delay:500
+          },
+          hide: {
+            effect:'hide',
+            delay:200
+          },
+          track:true,
+          position: {
+            my: "left+15 top+15",
+            at: "left bottom",
+            collision: "flipfit"
+          }
         });
         $('.help_button').each(function() {
             $(this).button({
