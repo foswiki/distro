@@ -170,7 +170,7 @@ sub prepareBodyParameters {
 
     my @plist = $this->{query}->param();
     foreach my $pname (@plist) {
-        my @values = $this->{query}->param($pname);
+        my @values = $this->{query}->multi_param($pname);
         $req->bodyParam( -name => $pname, -value => \@values );
         $this->{uploads}->{$pname} = 1 if scalar $this->{query}->upload($pname);
     }
