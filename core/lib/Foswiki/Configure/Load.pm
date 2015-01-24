@@ -375,20 +375,27 @@ sub bootstrapConfig {
     # script (smells of a hack).
     %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
 
-    # Try to repair $Foswiki::cfg to a minimal configuration,
+    # Try to create $Foswiki::cfg in a minimal configuration,
     # using paths and URLs relative to this request. If URL
     # rewriting is happening in the web server this is likely
     # to go down in flames, but it gives us the best chance of
     # recovering. We need to guess values for all the vars that
-    # woudl trigger "undefined" errors
-    eval "require FindBin";
-    die "Could not load FindBin to support configuration recovery: $@"
-      if $@;
-    FindBin::again();    # in case we are under mod_perl or similar
-    $FindBin::Bin =~ /^(.*)$/;
-    my $bin = $1;
-    $FindBin::Script =~ /^(.*)$/;
-    my $script = $1;
+    # would trigger "undefined" errors
+    my $bin;
+    my $script = '';
+    if ( defined $ENV{FOSWIKI_SCRIPTS} ) {
+        $bin = $ENV{FOSWIKI_SCRIPTS};
+    }
+    else {
+        eval "require FindBin";
+        die "Could not load FindBin to support configuration recovery: $@"
+          if $@;
+        FindBin::again();    # in case we are under mod_perl or similar
+        $FindBin::Bin =~ /^(.*)$/;
+        $bin = $1;
+        $FindBin::Script =~ /^(.*)$/;
+        $script = $1;
+    }
     print STDERR
       "AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
       if (TRAUTO);
@@ -399,12 +406,6 @@ sub bootstrapConfig {
     print STDERR
       "AUTOCONFIG: Found SCRIPT SUFFIX $Foswiki::cfg{ScriptSuffix} \n"
       if ( TRAUTO && $Foswiki::cfg{ScriptSuffix} );
-
-    if ( defined $Foswiki::cfg{Engine}
-        && $Foswiki::cfg{Engine} ne 'Foswiki::Engine::CLI' )
-    {
-        _bootstrapWebSettings($script);
-    }
 
     my %rel_to_root = (
         DataDir    => { dir => 'data',   required => 0 },
@@ -589,7 +590,7 @@ sub _bootstrapStoreSettings {
 
 =begin TML
 
----++ StaticMethod _bootstrapWebSettings($script)
+---++ StaticMethod bootstrapWebSettings($script)
 
 Called by bootstrapConfig.  This handles the web environment specific settings only:
 
@@ -600,8 +601,13 @@ Called by bootstrapConfig.  This handles the web environment specific settings o
 
 =cut
 
-sub _bootstrapWebSettings {
+sub bootstrapWebSettings {
     my $script = shift;
+
+    # Cannot bootstrap the web side from CLI environments
+    return if ( $Foswiki::cfg{Engine} eq 'Foswiki::Engine::CLI' );
+
+    print STDERR "AUTOCONFIG: Bootstrap Phase 2 ENTERED\n" if (TRAUTO);
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
 

@@ -1835,6 +1835,12 @@ sub new {
     $initialContext->{SUPPORTS_PREF_SET_URLS} = 1;    # ?Set+, ?Local+ etc URLs
 
     $query ||= new Foswiki::Request();
+
+    # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
+    # has been parsed.
+    Foswiki::Configure::Load::bootstrapWebSettings( $query->action() )
+      if ( $Foswiki::cfg{isBOOTSTRAPPING} );
+
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
 
     if (SINGLE_SINGLETONS_TRACE) {

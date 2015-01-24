@@ -99,8 +99,9 @@ sub initPlugin {
     # Or if it's not in the query, recover it from the session variable.
     # (jsonrpc uses POSTs, so the URL param isn't there.
     my $query = Foswiki::Func::getRequestObject();
+    my $viewpath;
     if ( $Foswiki::cfg{isBOOTSTRAPPING} && defined $query ) {
-        my $viewpath = $query->param('VIEWPATH');
+        $viewpath = $query->param('VIEWPATH');
         if ( defined $viewpath ) {
             $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
             $Foswiki::Plugins::SESSION->getLoginManager()
@@ -118,6 +119,14 @@ sub initPlugin {
                   "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n"
                   if (Foswiki::Configure::Load::TRAUTO);
             }
+        }
+
+        # pubdir is calculated relative from the bin dir.  Now that we know that
+        # short URL's might be in use,  override the initial bootstrapped value
+        # with a better guess.
+        if ( defined $viewpath ) {
+            print STDERR "AUTOCONFIG: Adjust PubUrlPath relative to viewpath\n";
+            $Foswiki::cfg{PubUrlPath} = $viewpath . '/pub';
         }
     }
 
