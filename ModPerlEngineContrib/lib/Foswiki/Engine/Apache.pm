@@ -96,9 +96,9 @@ sub prepareConnection {
     my ( $this, $req ) = @_;
     $req->method( $this->{r}->method );
     $req->remoteAddress(
-        $this->{r}->connection->can('remote_ip') ?
-        $this->{r}->connection->remote_ip :
-        $this->{r}->connection->client_ip
+          $this->{r}->connection->can('remote_ip')
+        ? $this->{r}->connection->remote_ip
+        : $this->{r}->connection->client_ip
     );
     if ( $INC{'Apache2/ModSSL.pm'} ) {
         $req->secure( $this->{r}->connection->is_https ? 1 : 0 );
@@ -169,10 +169,31 @@ sub prepareBodyParameters {
     return unless $contentLength > 0;
 
     my @plist = $this->{query}->param();
-    foreach my $pname (@plist) {
-        my @values = $this->{query}->multi_param($pname);
-        $req->bodyParam( -name => $pname, -value => \@values );
-        $this->{uploads}->{$pname} = 1 if scalar $this->{query}->upload($pname);
+    if (@plist) {
+        foreach my $pname (@plist) {
+            my @values;
+            if ( $this->{query}->can('multi_param') ) {
+                @values = $this->{query}->multi_param($pname);
+            }
+            else {
+                @values = $this->{query}->param($pname);
+            }
+            $req->bodyParam( -name => $pname, -value => \@values );
+            $this->{uploads}->{$pname} = 1
+              if scalar $this->{query}->upload($pname);
+        }
+    }
+
+    # SMELL: There really ought to be a better way to accomplish this.
+    # Bit of a hack to support application/json.  It is an "upload" without a
+    # filename.  Apache2::Request however doesn't capture the data as POSTDATA.
+    # If this finds an unnamed body parameter of type application/json, it
+    # converts it to POSTDATA.
+    else {
+        if ( $req->header('Content-type') =~ m#application/json# ) {
+            $this->{query}->read( my $data, $contentLength );
+            $req->bodyParam( -name => 'POSTDATA', -value => $data );
+        }
     }
 }
 
