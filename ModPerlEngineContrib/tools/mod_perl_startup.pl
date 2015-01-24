@@ -32,7 +32,9 @@ BEGIN {
         last;
     }
     pop @path while $path[-1] eq '';
-    $path[-1] = 'lib';
+    $path[-1]             = 'bin';
+    $ENV{FOSWIKI_SCRIPTS} = File::Spec->catdir(@path);
+    $path[-1]             = 'lib';
     unshift @INC, File::Spec->catpath( $vol, File::Spec->catdir(@path) );
     push @path, qw(CPAN lib);
     unshift @INC, File::Spec->catpath( $vol, File::Spec->catdir(@path) );
