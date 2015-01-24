@@ -53,6 +53,13 @@ BEGIN {
     *queryClass = $@ ? sub { 'CGI' } : sub { 'Apache2::Request' };
 }
 
+sub new {
+    my $proto = shift;
+    my $class = ref($proto) || $proto;
+    my $this  = {};
+    return bless $this, $class;
+}
+
 sub OK { Apache2::Const::OK }
 
 1;
