@@ -763,7 +763,17 @@ sub installFromMANIFEST {
 
     open( my $df, '<', $manifest )
       or die "Cannot open manifest $manifest for reading: $!";
-    foreach my $file (<$df>) {
+    my @files = (<$df>);
+    close $df;
+
+    my $depfile = $manifest;
+    $depfile =~ s/MANIFEST/DEPENDENCIES/;
+    if ( -f $depfile ) {
+        $depfile =~ s/^$moduleDir\///;
+        push @files, $depfile . " 0644 \n";
+    }
+
+    foreach my $file (@files) {
         chomp($file);
         if ( $file =~ /^!include\s+(\S+)\s*$/ ) {
             my $incfile = $1;
@@ -805,7 +815,6 @@ sub installFromMANIFEST {
             }
         }
     }
-    close $df;
 
     if ( -d File::Spec->catdir( $moduleDir, 'test', 'unit', $module ) ) {
         opendir( $df,
