@@ -368,6 +368,10 @@ settings for operation when a LocalSite.cfg could not be found.
 
 sub bootstrapConfig {
 
+    print STDERR "AUTOCONFIG: Bootstrap Phase 1: "
+      . Data::Dumper::Dumper( \%ENV )
+      if (TRAUTO);
+
     # Failed to read LocalSite.cfg
     # Clear out $Foswiki::cfg to allow variable expansion to work
     # when reloading Foswiki.spec et al.
@@ -487,18 +491,10 @@ EPITAPH
 
     # Note: message is not I18N'd because there is no point; there
     # is no localisation in a default cfg derived from Foswiki.spec
-    my $vp = $Foswiki::cfg{ScriptUrlPaths}{view} || '';
     my $system_message = <<BOOTS;
 *WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
 This Foswiki is running using a bootstrap configuration worked
-out by detecting the layout of the installation.%BR%To complete the bootstrap process you should either:
-   * Restore the missing !LocalSite.cfg from a backup, *or*
-   * Complete the new Foswiki installation:
-      * visit [[%SCRIPTURL{configure}%?VIEWPATH=$vp][configure]] and save a new configuration.
-      * Register a user and add it to the %USERSWEB%.AdminGroup
-%BR% *You have been logged in as a temporary administrator.*
-Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
-Your temporary administrator rights will "stick" until you've logged out from this session.
+out by detecting the layout of the installation.
 BOOTS
 
     if ($warn) {
@@ -545,13 +541,18 @@ sub _bootstrapStoreSettings {
     #  - $Foswiki::cfg{Store}{SearchAlgorithm}
 
     # Set PurePerl search on Windows, or FastCGI systems.
-    if ( ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI/ )
-        || $^O eq 'MSWin32' )
+    if (
+        (
+               $Foswiki::cfg{Engine}
+            && $Foswiki::cfg{Engine} =~ m/(FastCGI|Apache)/
+        )
+        || $^O eq 'MSWin32'
+      )
     {
         $Foswiki::cfg{Store}{SearchAlgorithm} =
           'Foswiki::Store::SearchAlgorithms::PurePerl';
         print STDERR
-"AUTOCONFIG: Detected FastCGI or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n"
+"AUTOCONFIG: Detected FastCGI, mod_perl or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n"
           if (TRAUTO);
     }
     else {
@@ -607,7 +608,9 @@ sub bootstrapWebSettings {
     # Cannot bootstrap the web side from CLI environments
     return if ( $Foswiki::cfg{Engine} eq 'Foswiki::Engine::CLI' );
 
-    print STDERR "AUTOCONFIG: Bootstrap Phase 2 ENTERED\n" if (TRAUTO);
+    print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
+      . Data::Dumper::Dumper( \%ENV )
+      if (TRAUTO);
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
 
@@ -677,38 +680,22 @@ sub bootstrapWebSettings {
 
     my $pfx;
 
-    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ && defined $ENV{PATH_INFO} ) {
+    my $suffix =
+      ( defined $ENV{SCRIPT_URL}
+          && length( $ENV{SCRIPT_URL} ) < length($path_info) )
+      ? $ENV{SCRIPT_URL}
+      : $path_info;
 
-#PATH_INFO includes script  /view/System/WebHome,  REQUEST_URI is /System/WebHome.
-        ($script) = $ENV{PATH_INFO} =~ m#^/([^/]+)/#;
-        $script ||= '';
-        print STDERR
-"AUTOCONFIG: FCGI Parsed script $script from PATH_INFO $ENV{PATH_INFO} \n"
-          if (TRAUTO);
-        $pfx = $ENV{SCRIPT_NAME};
-        print STDERR
-          "AUTOCONFIG: FCGI set Prefix $pfx from \$ENV{SCRIPT_NAME}\n"
-          if (TRAUTO);
-    }
-    else {
-        my $suffix =
-          ( defined $ENV{SCRIPT_URL}
-              && length( $ENV{SCRIPT_URL} ) < length($path_info) )
-          ? $ENV{SCRIPT_URL}
-          : $path_info;
-
-        # Try to Determine the prefix of the script part of the URI.
-        if ( $ENV{SCRIPT_URI} && $ENV{SCRIPT_URL} ) {
-            if ( index( $ENV{SCRIPT_URI}, $Foswiki::cfg{DefaultUrlHost} ) eq 0 )
-            {
-                $pfx =
-                  substr( $ENV{SCRIPT_URI},
-                    length( $Foswiki::cfg{DefaultUrlHost} ) );
-                $pfx =~ s#$suffix$##;
-                print STDERR
+    # Try to Determine the prefix of the script part of the URI.
+    if ( $ENV{SCRIPT_URI} && $ENV{SCRIPT_URL} ) {
+        if ( index( $ENV{SCRIPT_URI}, $Foswiki::cfg{DefaultUrlHost} ) eq 0 ) {
+            $pfx =
+              substr( $ENV{SCRIPT_URI},
+                length( $Foswiki::cfg{DefaultUrlHost} ) );
+            $pfx =~ s#$suffix$##;
+            print STDERR
 "AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI and SCRIPT_URL\n"
-                  if (TRAUTO);
-            }
+              if (TRAUTO);
         }
     }
 
@@ -755,6 +742,27 @@ sub bootstrapWebSettings {
         print STDERR
           "AUTOCONFIG: Using PubUrlPath: $Foswiki::cfg{PubUrlPath} \n";
     }
+
+    # Note: message is not I18N'd because there is no point; there
+    # is no localisation in a default cfg derived from Foswiki.spec
+    my $vp = '';
+    $vp = '?VIEWPATH=' . $Foswiki::cfg{ScriptUrlPaths}{view}
+      if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} );
+    my $system_message = <<BOOTS;
+*WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
+This Foswiki is running using a bootstrap configuration worked
+out by detecting the layout of the installation.
+To complete the bootstrap process you should either:
+   * Restore the missing !LocalSite.cfg from a backup, *or*
+   * Complete the new Foswiki installation:
+      * visit [[%SCRIPTURL{configure}%$vp][configure]] and save a new configuration.
+      * Register a user and add it to the %USERSWEB%.AdminGroup
+%BR% *You have been logged in as a temporary administrator.*
+Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
+Your temporary administrator rights will "stick" until you've logged out from this session.
+BOOTS
+
+    return ( $system_message || '' );
 }
 
 =begin TML

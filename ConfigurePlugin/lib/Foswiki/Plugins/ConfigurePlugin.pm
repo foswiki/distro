@@ -124,7 +124,7 @@ sub initPlugin {
         # pubdir is calculated relative from the bin dir.  Now that we know that
         # short URL's might be in use,  override the initial bootstrapped value
         # with a better guess.
-        if ( defined $viewpath ) {
+        if ( defined $viewpath && $viewpath !~ m#/view# ) {
             print STDERR "AUTOCONFIG: Adjust PubUrlPath relative to viewpath\n";
             $Foswiki::cfg{PubUrlPath} = $viewpath . '/pub';
         }

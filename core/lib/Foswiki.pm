@@ -72,6 +72,7 @@ our $FALSE = 0;
 our $engine;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
 our $system_message;             # Important broadcast message from the system
+my $bootstrap_message = '';      # Bootstrap message.
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
@@ -338,10 +339,7 @@ BEGIN {
         $Foswiki::cfg{isVALID} = 1;
     }
     else {
-        $system_message = Foswiki::Configure::Load::bootstrapConfig();
-        $system_message =
-          '<div class="foswikiHelp"> ' . $system_message . '</div>'
-          if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ /CGI/i );
+        $bootstrap_message = Foswiki::Configure::Load::bootstrapConfig();
         eval 'require Foswiki::Plugins::ConfigurePlugin';
         die
 "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
@@ -1838,8 +1836,19 @@ sub new {
 
     # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
     # has been parsed.
-    Foswiki::Configure::Load::bootstrapWebSettings( $query->action() )
-      if ( $Foswiki::cfg{isBOOTSTRAPPING} );
+    if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
+        my $phase2_message =
+          Foswiki::Configure::Load::bootstrapWebSettings( $query->action() );
+        unless ($system_message) {    # Don't do this more than once.
+            $system_message =
+              ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ /CLI/i )
+              ? ( '<div class="foswikiHelp"> '
+                  . $bootstrap_message
+                  . $phase2_message
+                  . '</div>' )
+              : $bootstrap_message . $phase2_message;
+        }
+    }
 
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
 
