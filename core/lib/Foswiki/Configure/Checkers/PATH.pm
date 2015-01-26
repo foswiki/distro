@@ -71,7 +71,7 @@ sub check_current_value {
 sub validate_permissions {
     my ( $this, $reporter ) = @_;
 
-    my $path = eval "\$Foswiki::cfg$this->{item}->{keys}";
+    my $path = eval("\$Foswiki::cfg$this->{item}->{keys}");
 
     my $fileCount   = 0;
     my $fileErrors  = 0;

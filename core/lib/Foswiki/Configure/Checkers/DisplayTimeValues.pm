@@ -8,10 +8,10 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     use Time::Local;
-    eval ' Time::Local::timelocal(1,1,1,1,1,1901) ';
+    eval(' Time::Local::timelocal(1,1,1,1,1,1901) ');
 
     if ($@) {
         $reporter->WARN( <<BLAH );

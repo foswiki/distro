@@ -340,21 +340,19 @@ sub parse {
                 next;
             }
 
-            # Read the value verbatim
+            # Read the value verbatim, retaining internal \s
             while ( $value !~ s/\s*;\s*$//s ) {
-                $value .= "\n";
                 my $cont = <$fh>;
                 last unless defined $cont;
-                chomp($cont);
                 $value .= $cont;
             }
 
             # check it's a valid perl expression, ignoring uninitialised
             # variable warnings inside strings.
-            $value =~ /^(.*)$/s;    # untaint
+            $value =~ /^\s*(.*?)[\s;]*$/s;    # trim and untaint
             $value = $1;
             no warnings;
-            eval $value;
+            eval($value);
             use warnings;
             $reporter->ERROR( "$context: Cannot eval value '$value': "
                   . Foswiki::Reporter::stripStackTrace($@) )
@@ -385,8 +383,7 @@ sub parse {
             # Record the value *string*, internal formatting et al.
             # This is the best way to retain perl formatting while
             # being sensitive to changes.
-            ASSERT( UNTAINTED($value), $value ) if DEBUG;
-            $open->{default} = $value;
+            $open->{default} = $1;
 
             $open->{keys} = $keys;
             unless ($isEnhancing) {
@@ -536,7 +533,7 @@ sub protectKey {
     $k =~ s/'/\\'/g;    # escape '
     $k = "'$k'";
     if (DEBUG) {
-        eval $k;
+        eval($k);
         ASSERT( !$@, $k );
     }
     return $k;
@@ -569,7 +566,7 @@ sub addSpecDefaultsToCfg {
             # {default} stores a value string. Convert it to the
             # value suitable for storing in cfg
             print STDERR "Defaulting $spec->{keys}\n";
-            my $value = eval $spec->{default};
+            my $value = eval( $spec->{default} );
             eval("\$cfg->$spec->{keys}=$spec->{default}");
         }
     }
@@ -601,7 +598,7 @@ sub addCfgValuesToSpec {
 
             # Encode the value as something that can be handled by
             # UIs
-            my $value = eval "\$cfg->$spec->{keys}";
+            my $value = eval("\$cfg->$spec->{keys}");
             ASSERT( !$@ ) if DEBUG;
             $spec->{current_value} = $spec->encodeValue($value);
         }

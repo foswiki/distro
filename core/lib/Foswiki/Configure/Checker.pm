@@ -118,7 +118,7 @@ sub loadChecker {
                 )
               )
             {
-                eval "require $checkClass";
+                eval("require $checkClass");
                 unless ($@) {
                     $checkers{$chkmod} = $checkClass;
 
@@ -257,7 +257,7 @@ sub setItemValue {
     $keys ||= $this->{item}->{keys};
     ASSERT( $this->{reporter} ) if DEBUG;
 
-    eval "\$Foswiki::cfg$keys = \$value;";
+    eval("\$Foswiki::cfg$keys = \$value;");
     if ($@) {
         die "Unable to set value $value for $keys\n";
     }
@@ -270,7 +270,7 @@ sub getItemCurrentValue {
     my $this = shift;
     my $keys = shift || $this->{item}->{keys};
     ASSERT( $this->{reporter} ) if DEBUG;
-    my $value = eval "\$Foswiki::cfg$keys";
+    my $value = eval("\$Foswiki::cfg$keys");
     if ($@) {
         die "Unable to get value for $keys\n";
     }
@@ -287,7 +287,7 @@ sub getItemDefaultValue {
     ASSERT( $this->{reporter} ) if DEBUG;
 
     no warnings 'once';
-    my $value = eval "\$$Foswiki::Configure::defaultCfg->$keys";
+    my $value = eval("\$$Foswiki::Configure::defaultCfg->$keys");
     if ($@) {
         die "Unable to get default $value for $keys\n";
     }

@@ -433,25 +433,25 @@ HERE
 
     foreach my $plu ( sort { lc($a) cmp lc($b) } keys %plugins ) {
         my $clef = "{Plugins}{$plu}";
-        my $old  = eval "\$Foswiki::cfg${clef}{Enabled}";
+        my $old  = eval("\$Foswiki::cfg${clef}{Enabled}");
         if ( !$old ) {
             if ( $this->option('SIMULATE') ) {
                 $reporter->NOTE("\t* ${clef}{Enabled} = 1");
             }
             else {
-                eval "\$Foswiki::cfg${clef}{Enabled}=1";
+                eval("\$Foswiki::cfg${clef}{Enabled}=1");
                 $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
             }
         }
 
-        $old = eval "\$Foswiki::cfg${clef}{Module}";
+        $old = eval("\$Foswiki::cfg${clef}{Module}");
         if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
             if ( $this->option('SIMULATE') ) {
                 $reporter->NOTE(
                     "\t* ${clef}{Module} = 'Foswiki::Plugins::$plu'");
             }
             else {
-                eval "\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'";
+                eval("\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'");
                 $reporter->CHANGED("{Plugins}{$plu}{Module}");
             }
         }
@@ -486,13 +486,13 @@ HERE
         return 1
           unless $node->{keys}
           && exists $node->{default};
-        my $val = $node->decodeValue( eval $node->{default} );
+        my $val = $node->decodeValue( eval( $node->{default} ) );
         if ( $this->{simulated} ) {
             $this->{reporter}->NOTE( "\t* $node->{keys} = "
                   . Foswiki::Configure::Reporter::uneval($val) );
         }
         else {
-            eval "\$Foswiki::cfg$node->{keys}=\$val";
+            eval("\$Foswiki::cfg$node->{keys}=\$val");
             ASSERT( !$@, $@ ) if DEBUG;
             $this->{reporter}->CHANGED( $node->{keys} );
         }
@@ -1282,12 +1282,12 @@ sub uninstall {
     unless ( $this->option('SIMULATE') ) {
         foreach my $plu ( sort { lc($a) cmp lc($b) } @plugins ) {
             my $clef = "{Plugins}{$plu}";
-            if ( eval "exists \$Foswiki::cfg${clef}{Enabled}" ) {
-                eval "delete \$Foswiki::cfg${clef}{Enabled}";
+            if ( eval("exists \$Foswiki::cfg${clef}{Enabled}") ) {
+                eval("delete \$Foswiki::cfg${clef}{Enabled}");
                 $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
             }
-            if ( eval "exists \$Foswiki::cfg${clef}{Module}" ) {
-                eval "delete \$Foswiki::cfg${clef}{Module}";
+            if ( eval("exists \$Foswiki::cfg${clef}{Module}") ) {
+                eval("delete \$Foswiki::cfg${clef}{Module}");
                 $reporter->CHANGED("{Plugins}{$plu}{Module}");
             }
         }
@@ -1467,7 +1467,7 @@ sub _loadExits {
         $this->{_prepost_code} =~ /(.*)/sm;
         $this->{_prepost_code} = $1;    #yes, we must untaint
 
-        unless ( eval $this->{_prepost_code} . "; 1; " ) {
+        unless ( eval( $this->{_prepost_code} . "; 1; " ) ) {
             die "Couldn't load pre/post (un)install: $@";
         }
     }
@@ -1642,8 +1642,9 @@ sub checkDependencies {
     foreach my $dep ( @{ $this->{_dependencies} } ) {
 
         ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
-        my $required =
-          eval $trigger;    # Evaluate the trigger - if true, module is required
+
+        # Evaluate the trigger - if true, module is required
+        my $required = eval($trigger);
         if ($@) {
             push( @missing,
 "$dep->{module} **ERROR** -- ONLYIF \"$trigger\" condition failed to compile: contact developer -- $@ "

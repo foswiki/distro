@@ -62,7 +62,7 @@ my %decryptable = ( # Header code     decoder sub
 sub _decryptCPEM {
     my ( $format, $pem, $encryption, $iv, $passkey, $password ) = @_;
 
-    eval { require Convert::PEM; };
+    eval('require Convert::PEM');
     if ($@) {
         return status => [ WARNING =>
 "Unable to verify password $passkey: Please install Convert::PEM from CPAN.\n"
@@ -197,7 +197,7 @@ A lot of checking is done here to prevent mystery errors at runtime.
 sub validateKeys {
     my ( $this, $keys, $passkey, $reporter ) = @_;
 
-    my $value = eval "\$Foswiki::cfg$keys";
+    my $value = eval("\$Foswiki::cfg$keys");
     if ($@) {
         return $reporter->ERROR( "Can't evaluate current value of $keys: "
               . Foswiki::Configure::Reporter::stripStacktrace($@) );
@@ -206,7 +206,7 @@ sub validateKeys {
 # The default value may not have been available when the other defaulting is done.
 
     unless ( defined $value ) {
-        $value = eval "\$Foswiki::Configure::defaultCfg->$keys";
+        $value = eval("\$Foswiki::Configure::defaultCfg->$keys");
         if ($@) {
             return $reporter->ERROR(
                 "Can't evaluate default value of $keys: "
@@ -228,7 +228,7 @@ sub validateKeys {
 
     my $password;
     if ($passkey) {
-        $password = eval "\$Foswiki::cfg$passkey";
+        $password = eval("\$Foswiki::cfg$passkey");
         if ($@) {
             return $reporter->ERROR(
                 "Can't evaluate current value of $passkey: "
@@ -257,7 +257,7 @@ Key Information: %s %s %s key", $xpv, ucfirst $key->{encrypted}, $key->{type},
             $sev =~ /^([\w]+)$/ or die "Bad severity";
             $sev = lc $1;
 
-            eval "\$sev = \\\$${sev}s";
+            eval("\$sev = \\\$${sev}s");
             die "$@\n" if ($@);
             $$sev .= $msg;
         }

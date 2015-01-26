@@ -65,7 +65,7 @@ sub load {
     my $name = shift;
 
     my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
-    eval "require $modelName; ${modelName}::construct(\@_);";
+    eval("require $modelName; ${modelName}::construct(\@_);");
     die $@ if $@;
 }
 

@@ -11,13 +11,13 @@ use Foswiki::Configure::Dependency ();
 
 our @required = (
     {
-        name            => 'locale',
-        usage           => "Standard Perl locales module",
+        name           => 'locale',
+        usage          => "Standard Perl locales module",
         minimumVersion => 1,
     },
     {
-        name            => 'POSIX',
-        usage           => "Standard Perl POSIX module",
+        name           => 'POSIX',
+        usage          => "Standard Perl POSIX module",
         minimumVersion => 1,
     },
     {
@@ -29,16 +29,17 @@ our @required = (
 );
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless $Foswiki::cfg{UseLocale};
 
-    Foswiki::Configure::Dependency::checkPerlModules( @required );
+    Foswiki::Configure::Dependency::checkPerlModules(@required);
     foreach my $mod (@required) {
-        if (!$mod->{ok} && !$mod->{optional}) {
-            $reporter->ERROR($mod->{check_result});
-        } else {
-            $reporter->NOTE($mod->{check_result});
+        if ( !$mod->{ok} && !$mod->{optional} ) {
+            $reporter->ERROR( $mod->{check_result} );
+        }
+        else {
+            $reporter->NOTE( $mod->{check_result} );
         }
     }
 
@@ -76,7 +77,7 @@ HERE
     }
 
     # Check for d_setlocale in Config (same as 'perl -V:d_setlocale')
-    eval "use Config";
+    eval("use Config");
     if (
         !(
             exists $Config::Config{d_setlocale}

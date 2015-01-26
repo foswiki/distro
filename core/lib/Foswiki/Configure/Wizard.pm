@@ -50,7 +50,7 @@ sub loadWizard {
 
     my $class = 'Foswiki::Configure::Wizards::' . $name;
 
-    eval "require $class";
+    eval("require $class");
     die "Failed to load wizard $class: $@" if $@;
 
     return $class->new($param_source);

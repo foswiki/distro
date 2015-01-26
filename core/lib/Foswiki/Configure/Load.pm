@@ -217,8 +217,8 @@ GOLLYGOSH
         delete $Foswiki::cfg{StoreImpl};
     }
     foreach my $el ( keys %remap ) {
-        if ( eval 'exists $Foswiki::cfg' . $el ) {
-            eval <<CODE;
+        if ( ( eval("exists \$Foswiki::cfg$el") ) ) {
+            eval( <<CODE );
 \$Foswiki::cfg$remap{$el}=\$Foswiki::cfg$el;
 delete \$Foswiki::cfg$el;
 CODE
@@ -320,7 +320,7 @@ sub _expandValue {
 # $_[1] - $mode
 # $_[2] - $undef
 sub _handleExpand {
-    my $val = eval $_[0];
+    my $val = eval( $_[0] );
     die "Error expanding $_[0]: $@" if ($@);
 
     return $val                                      if ( defined $val );
@@ -384,6 +384,7 @@ sub bootstrapConfig {
     # rewriting is happening in the web server this is likely
     # to go down in flames, but it gives us the best chance of
     # recovering. We need to guess values for all the vars that
+
     # would trigger "undefined" errors
     my $bin;
     my $script = '';
@@ -391,7 +392,7 @@ sub bootstrapConfig {
         $bin = $ENV{FOSWIKI_SCRIPTS};
     }
     else {
-        eval "require FindBin";
+        eval( 'require FindBin' );
         die "Could not load FindBin to support configuration recovery: $@"
           if $@;
         FindBin::again();    # in case we are under mod_perl or similar
@@ -400,6 +401,7 @@ sub bootstrapConfig {
         $FindBin::Script =~ /^(.*)$/;
         $script = $1;
     }
+
     print STDERR
       "AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
       if (TRAUTO);

@@ -307,7 +307,7 @@ sub _autoconfigSMTP {
     $host = $Foswiki::cfg{SMTP}{MAILHOST};
 
     foreach my $module ( 'Net::SMTP', 'IO::Handle' ) {
-        eval "require $module";
+        eval("require $module");
         if ($@) {
             $reporter->WARN("$module is required to auto configure SMTP mail");
             return 0;
@@ -318,7 +318,7 @@ sub _autoconfigSMTP {
 
     # Make sure all SSL dependencies are available. If any fail, don't try SSL.
     foreach my $module ( 'Net::SSLeay', 'IO::Socket::SSL' ) {
-        eval "require $module";
+        eval("require $module");
         if ($@) {
             $reporter->WARN(
 "$module is required to auto configure SMTP mail over SSL, but it could not be loaded"

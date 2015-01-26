@@ -43,7 +43,7 @@ sub guess_locations {
             $guessed = 1;
         }
         else {
-            if ( eval 'require Mozilla::CA;' ) {
+            if ( eval('require Mozilla::CA;') ) {
                 $file = Mozilla::CA::SSL_ca_file();
                 if ($file) {
                     $reporter->NOTE("Obtained from Mozilla::CA");
@@ -96,7 +96,7 @@ sub validate {
 
     my ( $certs, $crls, $chashes, $rhashes, $errs ) = (0) x 4;
 
-    eval "require File::Spec;" or die "$@\n";
+    eval("require File::Spec") or die "$@\n";
 
     my $dh;
     unless ( opendir( $dh, $path ) ) {

@@ -37,7 +37,7 @@ s/(\$Foswiki::cfg$Foswiki::Configure::Load::ITEMREGEX)/_check_null($1)/geso;
 
 sub _check_null {
     my ( $str, $reporter ) = @_;
-    my $val = eval $str;
+    my $val = eval($str);
     if ($@) {
         $reporter->ERROR( "Expansion of embedded $str failed: "
               . Foswiki::Configure::Reporter::stripStacktrace($@) );

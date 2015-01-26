@@ -8,7 +8,7 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{Email}{EnableSMIME}
         && !$Foswiki::cfg{Email}{SmimeCertificateFile} )
@@ -18,8 +18,12 @@ sub check_current_value {
         my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
         Foswiki::Configure::Load::expandValue($keyfile);
         if ( !( -r $certfile && -r $keyfile ) ) {
+
             # SMELL: shell command
-            my $openSSLOk = eval { my $tmp = qx/openssl version 2>&1/; !$? };
+            my $openSSLOk = eval {
+                my $tmp = qx/openssl version 2>&1/;
+                !$?;
+            };
 
             if ($openSSLOk) {
                 $reporter->ERROR(

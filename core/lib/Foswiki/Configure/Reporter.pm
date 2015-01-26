@@ -119,7 +119,7 @@ Returns the reporter to allow chaining.
 
 sub CHANGED {
     my ( $this, $keys ) = @_;
-    $this->{changes}->{$keys} = uneval( eval "\$Foswiki::cfg$keys" );
+    $this->{changes}->{$keys} = uneval( eval("\$Foswiki::cfg$keys") );
     return $this;
 }
 

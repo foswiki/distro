@@ -105,7 +105,7 @@ Returns list of subjects.
 sub checkUsage {
     my ( $this, $keys, $usage, $reporter ) = @_;
 
-    my $value = eval "\$Foswiki::cfg$keys";
+    my $value = eval("\$Foswiki::cfg$keys");
     if ($@) {
         $reporter->ERROR( "Can't evaluate current value of $keys: "
               . Foswiki::Configure::Reporter::stripStacktrace($@) );
@@ -116,7 +116,7 @@ sub checkUsage {
     # the other defaulting is done.
 
     unless ( defined $value ) {
-        $value = eval "\$Foswiki::Configure::defaultCfg->$keys";
+        $value = eval("\$Foswiki::Configure::defaultCfg->$keys");
         if ($@) {
             $reporter->ERROR( "Can't evaluate default value of $keys: "
                   . Foswiki::Configure::Reporter::stripStacktrace($@) );

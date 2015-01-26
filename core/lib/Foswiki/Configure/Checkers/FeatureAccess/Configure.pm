@@ -15,7 +15,7 @@ sub check_current_value {
     # this option isn't interesting anyway.
     return
       unless defined $Foswiki::Plugins::SESSION
-      && eval "require Foswiki::Func";
+      && eval("require Foswiki::Func");
 
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;

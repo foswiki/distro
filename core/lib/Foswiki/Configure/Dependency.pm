@@ -281,7 +281,7 @@ sub compare_using_cpan_version {
     my $vb = shift;
     my $verB = ( $vb =~ /^v/ ) ? version->declare($vb) : version->parse($vb);
     my $comparison = "\$verA $op \$verB";
-    return eval $comparison;
+    return eval($comparison);
 }
 
 =begin TML
@@ -425,7 +425,7 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     else {
         $comparison = "'$a' $string_op '$b'";
     }
-    my $result = eval $comparison;
+    my $result = eval($comparison);
 
     #print STDERR "[$comparison]->$result;\n";
     return $result;
@@ -543,7 +543,7 @@ sub _compare_extension_versions {
     # Do the comparisons
     ( my $a, $b ) = _digitise_tuples( \@atuple, \@btuple );
     my $comparison = "'$a' $string_op '$b'";
-    my $result     = eval $comparison;
+    my $result     = eval($comparison);
 
     #print "[$comparison]->$result\n";
     return $result;
@@ -735,7 +735,7 @@ sub extractModuleVersion {
                 if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
                     my $exp = $1;
                     $exp =~ s/\$RELEASE/\$mod_release/g;
-                    eval "\$mod_version =~ $exp;";
+                    eval("\$mod_version =~ $exp;");
                     die "1-Failed to eval $1 from $_ in $file at line $.: $@\n"
                       if ($@);
                     last;
@@ -751,7 +751,7 @@ sub extractModuleVersion {
 /^\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/
                   )
                 {
-                    eval "\$mod_" . lc($1) . " = $2;";
+                    eval( "\$mod_" . lc($1) . " = $2;" );
                     die "2-Failed to eval $2 from $_ in $file at line $.: $@\n"
                       if ($@);
                     next;
@@ -759,7 +759,7 @@ sub extractModuleVersion {
                 next;
             }
             next unless (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(.*?);/);
-            eval "\$mod_version = $1;";
+            eval("\$mod_version = $1;");
 
     # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
             last;

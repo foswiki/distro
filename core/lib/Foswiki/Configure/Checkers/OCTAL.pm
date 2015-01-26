@@ -25,14 +25,14 @@ sub check_current_value {
 
     my $min = $this->{item}->CHECK_option('min');
     if ( defined $min ) {
-        my $v = eval "0$min";
+        my $v = eval("0$min");
         $reporter->ERROR("Value must be at least $min")
           if ( defined $v && $val < $v );
     }
 
     my $max = $this->{item}->CHECK_option('max');
     if ( defined $max ) {
-        my $v = eval "0$max";
+        my $v = eval("0$max");
         $reporter->ERROR("Value must be no greater than $max")
           if ( defined $v && $val > $v );
     }

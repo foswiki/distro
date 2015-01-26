@@ -138,7 +138,7 @@ sub _getListOfExtensions {
             );
 
             #see if its because LWP isn't installed..
-            eval { require LWP };
+            eval('require LWP');
             if ($@) {
                 push(
                     @{ $this->{errors} },

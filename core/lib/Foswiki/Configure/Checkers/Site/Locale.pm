@@ -15,7 +15,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{UseLocale} ) {
-        eval "use locale;use POSIX";
+        eval("use locale;use POSIX");
         if ($@) {
             return $this->WARN( 'Locales cannot be used. Error was: '
                   . Foswiki::Configure::Reporter::stripStacktrace($@) );

@@ -78,7 +78,7 @@ sub commit_new_value {
 
     # Automatic upgrade of work_areas
     my $existing = $Foswiki::cfg{Store}{WorkAreaDir} || '';
-    $existing =~ s/\$Foswiki::cfg({\w+})+/eval "$Foswiki::cfg$1"/ge;
+    $existing =~ s/\$Foswiki::cfg({\w+})+/eval( "$Foswiki::cfg$1")/ge;
     if ( $existing && -d $existing ) {
 
         # Try and move the contents of the old workarea

@@ -77,8 +77,10 @@ sub _have_vulnerable_maketext {
         version => ">=$maketext_minver",
     );
     my ($result) = $dep->checkDependency();
-    my $maketext_ver =
-      eval { require Locale::Maketext; $Locale::Maketext::VERSION; } || '';
+    my $maketext_ver = eval {
+        require Locale::Maketext;
+        $Locale::Maketext::VERSION;
+    } || '';
 
     return $result ? '' : <<"HERE";
 Your version of Locale::Maketext $maketext_ver may introduce a dangerous code injection security vulnerability. Upgrade to version $maketext_minver or newer. See [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][CVE-2012-6329]] for more advice.

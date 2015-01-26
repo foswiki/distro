@@ -341,7 +341,7 @@ sub getRawValue {
         }
     }
 
-    eval "\$val = \"\$Foswiki::cfg$this->{keys}\"";
+    eval("\$val = \"\$Foswiki::cfg$this->{keys}\"");
 }
 
 =begin TML
@@ -428,7 +428,7 @@ sub decodeValue {
         return $value;
     }
     elsif ( $this->{typename} eq 'PERL' ) {
-        my $value = eval $value;
+        my $value = eval($value);
         die $@ if $@;
         return $value;
     }

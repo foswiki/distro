@@ -140,7 +140,7 @@ sub findPackages {
 
     while ( scalar(@path) > 1 && @$places ) {
         my $pathel = shift(@path);
-        eval "\$pathel = qr/^($pathel)\$/";    # () to untaint
+        eval("\$pathel = qr/^($pathel)\$/");    # () to untaint
         my @newplaces;
 
         foreach my $place (@$places) {
@@ -161,7 +161,7 @@ sub findPackages {
 
     my @list;
     my $leaf = pop(@path);
-    eval "\$leaf = qr/$leaf\\.pm\$/";
+    eval("\$leaf = qr/$leaf\\.pm\$/");
     ASSERT( !$@, $@ ) if DEBUG;
 
     my %known;
@@ -602,7 +602,8 @@ Create an archive of the passed directory.
 
 sub createArchive {
     my ( $name, $dir, $delete, $test ) = @_;
-    eval { use File::Path qw(rmtree) };
+    eval('use File::Path qw(rmtree)');
+    ASSERT( !$@, $@ );
 
     my $file    = undef;
     my $results = '';
@@ -681,7 +682,7 @@ sub _zip {
     my $files   = shift;
     my $err;
 
-    eval 'use Archive::Zip ( )';
+    eval('use Archive::Zip ( )');
     unless ($@) {
         my $zip = Archive::Zip->new();
         unless ($zip) {
@@ -704,7 +705,7 @@ sub _tar {
     my $archive = shift;
     my $files   = shift;
 
-    eval 'use Archive::Tar ()';
+    eval('use Archive::Tar ()');
     unless ($@) {
         my $tgz = Archive::Tar->new();
         return 0 unless ($tgz);
@@ -754,7 +755,7 @@ sub unpackArchive {
 sub _unzip {
     my $archive = shift;
 
-    eval 'require Archive::Zip';
+    eval('require Archive::Zip');
     unless ($@) {
         my $zip;
         eval { $zip = Archive::Zip->new($archive); };
@@ -796,7 +797,7 @@ sub _untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    eval 'require Archive::Tar';
+    eval('require Archive::Tar');
 
     unless ($@) {
         my $tar;

@@ -95,7 +95,7 @@ var Types = {};
   Types.STRING = Types.BaseType.extend({
       restoreDefaultValue: function() {
           var val = this.spec['default'];
-          val = val.substring(1, val.length - 1);
+          val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
           this.useVal(val);
       }
   });

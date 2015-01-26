@@ -60,17 +60,17 @@ sub _getSetParams {
 
                  # This is needed to prevent expansion of embedded $Foswiki::cfg
                  # variables during the eval.
-                    eval "\$Foswiki::cfg$k=join('',\$value)";
+                    eval("\$Foswiki::cfg$k=join('',\$value)");
                 }
                 else {
-                    eval "undef \$Foswiki::cfg$k";
+                    eval("undef \$Foswiki::cfg$k");
                 }
                 if ( $params->{trace} ) {
                     $reporter->NOTE("Set $k");
                 }
             }
             else {
-                eval "undef \$Foswiki::cfg$k";
+                eval("undef \$Foswiki::cfg$k");
             }
             if ($@) {
                 $reporter->ERROR( '<verbatim>'
@@ -119,7 +119,7 @@ sub getcfg {
 
             # Avoid loading specs unless we are being asked for a key that's
             # not in LocalSite.cfg
-            unless ( eval "exists \$Foswiki::cfg$key" || $root ) {
+            unless ( eval("exists \$Foswiki::cfg$key") || $root ) {
                 $root = Foswiki::Configure::Root->new();
                 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
                 if ( $reporter->has_level('errors') ) {
@@ -128,11 +128,11 @@ sub getcfg {
                 Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root,
                     \%Foswiki::cfg );
             }
-            unless ( eval "exists \$Foswiki::cfg$key" ) {
+            unless ( eval("exists \$Foswiki::cfg$key") ) {
                 $reporter->ERROR("$key not defined");
                 return undef;
             }
-            eval "\$what->$key=\$Foswiki::cfg$key";
+            eval("\$what->$key=\$Foswiki::cfg$key");
             if ($@) {
                 $reporter->ERROR(
                     Foswiki::Configure::Reporter::stripStacktrace($@) );
@@ -363,7 +363,7 @@ sub check_current_value {
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         if ( $params->{with} ) {
             while ( my ( $k, $v ) = each %{ $params->{with} } ) {
-                eval "\$Foswiki::cfg$k=$v";
+                eval("\$Foswiki::cfg$k=$v");
             }
         }
         $deps = Foswiki::Configure::Load::findDependencies();
@@ -435,7 +435,7 @@ sub check_current_value {
             $e =~ s/(({[^}]+})+)/\$Foswiki::cfg$1/g;
             if ( $e =~ /\S/ ) {
                 my $only_if;
-                eval "\$only_if=$e";
+                eval("\$only_if=$e");
                 die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
                   . Foswiki::Configure::Reporter::stripStacktrace($@)
                   if $@;
@@ -543,7 +543,7 @@ sub wizard {
     # real type of the value. For the real type we have to use the
     # Value's encoder.
     my %new_values = map {
-        $_ => $root->getValueObject($_)->encodeValue( eval "\$Foswiki::cfg$_" )
+        $_ => $root->getValueObject($_)->encodeValue( eval("\$Foswiki::cfg$_") )
     } keys %{ $reporter->{changes} };
 
     return {

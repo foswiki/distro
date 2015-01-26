@@ -200,9 +200,9 @@ HERE
     $Foswiki::cfg{DETECTED}{UsingModPerl} = exists $ENV{MOD_PERL};
 
     $Foswiki::cfg{DETECTED}{ModPerlVersion} =
-      eval 'use mod_perl2; return $mod_perl2::VERSION';
+      eval('use mod_perl2; return $mod_perl2::VERSION');
     $Foswiki::cfg{DETECTED}{ModPerlVersion} =
-      eval 'use mod_perl; return $mod_perl::VERSION'
+      eval('use mod_perl; return $mod_perl::VERSION')
       if ($@);
 
     # Get the version of mod_perl if it's being used

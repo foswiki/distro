@@ -166,7 +166,7 @@ sub save {
         {
             our $FALSE = 0;
             our $TRUE  = 1;
-            eval $1;
+            eval($1);
         }
         if ($@) {
             print STDERR "Error reading existing $lsc: $@";
@@ -235,7 +235,7 @@ sub save {
                 $v = $1;                      # untaint
                 $spec->{saving_value} = $v;
                 if ($spec) {
-                    eval { $v = $spec->decodeValue($v) };
+                    eval { $v = $spec->decodeValue($v); };
                     if ($@) {
                         $reporter->ERROR(
 "SAVE ABORTED: Could not interpret new value for $k: "
@@ -245,14 +245,14 @@ sub save {
                     }
                 }
                 if ( defined $v ) {
-                    eval "\$Foswiki::cfg$k=\$v";
+                    eval("\$Foswiki::cfg$k=\$v");
                 }
                 else {
-                    eval "undef \$Foswiki::cfg$k";
+                    eval("undef \$Foswiki::cfg$k");
                 }
             }
             elsif ( $spec->CHECK_option('undefok') ) {
-                eval "undef \$Foswiki::cfg$k";
+                eval("undef \$Foswiki::cfg$k");
                 $spec->{saving_value} = undef;
             }
             else {

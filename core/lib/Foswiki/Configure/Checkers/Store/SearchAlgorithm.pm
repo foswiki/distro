@@ -10,7 +10,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Native$/ ) {
-        eval 'use Foswiki::Store::SearchAlgorithms::Native';
+        eval('use Foswiki::Store::SearchAlgorithms::Native');
         if ($@) {
             $reporter->ERROR(
 "Sorry, I could not find the required components for Native search. The error was: "

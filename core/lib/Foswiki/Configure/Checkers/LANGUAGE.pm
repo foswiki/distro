@@ -41,7 +41,7 @@ sub check_current_value {
         my $ok = -r "$dir/$lang.mo" && -M "$dir/$lang.po" >= -M "$dir/$lang.mo";
 
         unless ($ok) {
-            eval "require Locale::Msgfmt;";
+            eval("require Locale::Msgfmt;");
             if ($@) {
                 return $reporter->ERROR(
 "Locale::Msgfmt can not be loaded, unable to compile strings."
