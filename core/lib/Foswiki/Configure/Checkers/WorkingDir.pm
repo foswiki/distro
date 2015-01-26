@@ -4,6 +4,7 @@ package Foswiki::Configure::Checkers::WorkingDir;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki::Configure::Checkers::PATH ();
 our @ISA = ('Foswiki::Configure::Checkers::PATH');
 

@@ -16,6 +16,7 @@ use warnings;
 use Locale::Language ();
 use Locale::Country  ();
 
+use Assert;
 use Foswiki::Configure::Load  ();
 use Foswiki::Configure::Value ();
 

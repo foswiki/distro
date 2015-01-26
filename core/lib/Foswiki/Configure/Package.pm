@@ -1466,7 +1466,6 @@ sub _loadExits {
         }
         $this->{_prepost_code} =~ /(.*)/sm;
         $this->{_prepost_code} = $1;    #yes, we must untaint
-
         unless ( eval( $this->{_prepost_code} . "; 1; " ) ) {
             die "Couldn't load pre/post (un)install: $@";
         }

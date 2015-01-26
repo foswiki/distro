@@ -13,6 +13,7 @@ package Foswiki::Configure::Pluggables::FINDEXTENSIONS;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 

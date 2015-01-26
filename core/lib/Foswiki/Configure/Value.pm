@@ -327,12 +327,11 @@ will be intact)
 sub getRawValue {
     my ($this) = @_;
 
-    my $val;
-
     if (DEBUG) {
         my $path = \%Foswiki::cfg;
         my $x    = $this->{keys};
-        my $p    = '$Foswiki::cfg';
+        ASSERT( defined $x );
+        my $p = '$Foswiki::cfg';
         while ( $x =~ s/^{(.*?)}// ) {
             $path = $path->{$1};
             $p .= "{$1}";
@@ -341,7 +340,7 @@ sub getRawValue {
         }
     }
 
-    eval("\$val = \"\$Foswiki::cfg$this->{keys}\"");
+    return eval("\$Foswiki::cfg$this->{keys}");
 }
 
 =begin TML

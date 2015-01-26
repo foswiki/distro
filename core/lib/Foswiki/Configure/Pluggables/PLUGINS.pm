@@ -13,6 +13,7 @@ package Foswiki::Configure::Pluggables::PLUGINS;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki::Configure::Value    ();
 use Foswiki::Configure::FileUtil ();
 

@@ -4,6 +4,8 @@ package Foswiki::Configure::Checkers::LANGUAGE;
 use strict;
 use warnings;
 
+use Assert;
+
 require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 

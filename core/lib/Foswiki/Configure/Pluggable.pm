@@ -49,6 +49,8 @@ package Foswiki::Configure::Pluggable;
 use strict;
 use warnings;
 
+use Assert;
+
 =begin TML
 
 ---++ StaticMethod load($id)

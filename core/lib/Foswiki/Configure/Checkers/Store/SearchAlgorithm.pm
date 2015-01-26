@@ -6,6 +6,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 use strict;
 use warnings;
 
+use Assert;
+
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 

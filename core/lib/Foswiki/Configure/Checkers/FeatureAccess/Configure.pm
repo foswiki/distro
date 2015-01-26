@@ -4,6 +4,7 @@ package Foswiki::Configure::Checkers::FeatureAccess::Configure;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -16,7 +17,6 @@ sub check_current_value {
     return
       unless defined $Foswiki::Plugins::SESSION
       && eval("require Foswiki::Func");
-
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 

@@ -14,6 +14,8 @@ package Foswiki::Configure::Checkers::OCTAL;
 use strict;
 use warnings;
 
+use Assert;
+
 use Foswiki::Configure::Checkers::NUMBER ();
 our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 

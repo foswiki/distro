@@ -20,6 +20,7 @@ package Foswiki::Configure::Checkers::PATH;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 

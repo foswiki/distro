@@ -15,6 +15,7 @@ use warnings;
 use File::Spec ();
 use FindBin    ();
 
+use Assert;
 use Foswiki::Configure::LoadSpec ();
 
 sub construct {

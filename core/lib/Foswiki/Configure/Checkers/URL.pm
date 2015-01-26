@@ -236,7 +236,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
     }
     $fragment = '' unless ( defined $fragment );
 
-    if ( eval("require URI;") ) {
+    if ( eval('require URI') ) {
         my $urio = URI->new($uri);
         unless ($urio) {
             $reporter->ERROR("Unable to parse $uri");
