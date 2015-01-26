@@ -154,8 +154,8 @@ sub test_getspec_STRING {
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'STRING', $spec->{typename} );
-    $this->assert_str_equals( 'STRING', $spec->{default} );
+    $this->assert_str_equals( 'STRING',   $spec->{typename} );
+    $this->assert_str_equals( "'STRING'", $spec->{default} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{STRING}',
         $spec->{keys} );
     $this->assert_matches( qr/^When you press.*of report.*$/s, $spec->{desc} );
@@ -184,7 +184,7 @@ sub test_getspec_STRING {
     $spec = $spec->[0];
     $this->assert_str_equals( $params{get}->{keys}, $spec->{keys} );
     $this->assert_str_equals( 'PATH',               $spec->{typename} );
-    $this->assert_str_equals( 'empty',              $spec->{default} );
+    $this->assert_str_equals( "'empty'",            $spec->{default} );
 }
 
 sub test_getspec_REGEX {
