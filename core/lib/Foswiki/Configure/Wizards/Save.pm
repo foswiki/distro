@@ -443,7 +443,11 @@ sub _generateLSC {
               unless ( $vs->CHECK_option('emptyok') );
         }
         my $d;
-        if ( exists $vs->{saving_value} ) {
+        if ( exists $vs->{saving_value}
+            && $vs->isFormattedType() )
+        {
+
+            # This is used for the saving or formatted values, like PERL
             $d = $vs->{saving_value};
         }
         else {

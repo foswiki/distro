@@ -145,6 +145,13 @@ sub new {
     return $this;
 }
 
+# Return true if this value is one of the preformatted types. Values for
+# these types transfer verbatim from the UI to the LocalSite.cfg
+sub isFormattedType {
+    my $this = shift;
+    return $this->{typename} eq 'PERL';
+}
+
 sub parseTypeParams {
     my ( $this, $str ) = @_;
 
@@ -420,13 +427,7 @@ sub decodeValue {
     # Empty string always interpreted as undef
     return undef unless defined $value;
 
-    if ( $this->{typename} eq 'REGEX' ) {
-
-        # Regexes are stored as strings, because the conversion back
-        # and forth to regex objects is a PITA, and really a bit pointless.
-        return $value;
-    }
-    elsif ( $this->{typename} eq 'PERL' ) {
+    if ( $this->isFormattedType() ) {
         my $value = eval($value);
         die $@ if $@;
         return $value;
