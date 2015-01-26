@@ -1409,7 +1409,7 @@ $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 # 'statistics' scripts, and for use by extensions such as the change
 # notification mailer. It should be no shorter than the interval between runs
 # of these scripts.
-$Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
+$Foswiki::cfg{Store}{RememberChangesFor} = 2678400;
 
 # **SELECTCLASS Foswiki::Store::SearchAlgorithms::* LABEL="Search Algorithm" **
 # This is the algorithm used to perform plain text (not query) searches.
