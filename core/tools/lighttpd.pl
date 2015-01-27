@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 
 use strict;
 use File::Basename;
@@ -11,11 +11,13 @@ use Pod::Usage;
 my $__fastcgi = undef;
 my $__help    = undef;
 my $__port    = 8080;
+my $__server  = 'lighttpd';
 
 GetOptions(
-    'fastcgi|f' => \$__fastcgi,
-    'help|h'    => \$__help,
-    'port|p=i'  => \$__port,
+    'fastcgi|f'  => \$__fastcgi,
+    'help|h'     => \$__help,
+    'port|p=i'   => \$__port,
+    'server|s=s' => \$__server,
 );
 pod2usage(1) if $__help;
 
@@ -103,12 +105,17 @@ server.port = $__port
 # ipv6 support
 \$SERVER["socket"] == "[::]:$__port" { }
 
-server.errorlog = "$foswiki_core/working/tmp/error.log"
+server.errorlog = "$foswiki_core/working/logs/lighttpd.error.log"
 
 # mimetype mapping
 $mime_mapping
 
-url.rewrite-repeat = ( "^/?(index.*)?\$" => "/bin/view/Main" )
+# default landing page
+ url.rewrite-once = ( "^/?(index.*)?\$" => "/bin/view/Main/WebHome" )
+
+# short urls
+ url.rewrite-once += ( "^/([A-Z_].*)" => "/bin/view/\$1" )
+
 EOC
   ;
 
@@ -126,14 +133,6 @@ if ($__fastcgi) {
     )
 }
   ";
-
-    # the configure script must always be run as CGI
-    print CONF "
-\$HTTP[\"url\"] =~ \"^/bin/configure\" {
-    alias.url += ( \"/bin/configure\" => \"$foswiki_core/bin/configure\" )
-    cgi.assign = ( \"\" => \"\" )
-}
-  ";
 }
 else {
     print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }', "\n";
@@ -144,20 +143,52 @@ close(CONF);
 # print banner
 print "************************************************************\n";
 print "Foswiki Development Server\n";
-system('lighttpd -v 2>/dev/null');
+system("$__server -v 2>/dev/null");
+if ( $? == -1 ) {
+    print "failed to execute: $!\n";
+    exit;
+}
+elsif ( $? & 127 ) {
+    printf "child died with signal %d, %s coredump\n",
+      ( $? & 127 ), ( $? & 128 ) ? 'with' : 'without';
+    exit;
+}
+else {
+    my $ex = $? >> 8;
+    unless ( $ex == 0 ) {
+        printf "lighttpd exited with value %d\n", $ex;
+        print
+"Is lighttpd on the path.  Use -s option to specify lighttpd location.\n";
+        pod2usage(1);
+        exit;
+    }
+}
 print "Server root: $foswiki_core\n";
 print "************************************************************\n";
 print
-"Browse to http://localhost:$__port/bin/configure to configure your Foswiki\n";
-print
-"Browse to http://localhost:$__port/bin/view to start testing your Foswiki checkout\n";
+"Browse to http://localhost:$__port/ to start testing your Foswiki checkout\n";
 print "Hit Control-C at any time to stop\n";
 print "************************************************************\n";
+print " - Config file $conffile\n";
 
 # execute lighttpd
-system("lighttpd -f $conffile -D");
+system("$__server -f $conffile -D");
+if ( $? == -1 ) {
+    print "failed to execute: $!\n";
+    exit;
+}
+elsif ( $? & 127 ) {
+    printf "child died with signal %d, %s coredump\n",
+      ( $? & 127 ), ( $? & 128 ) ? 'with' : 'without';
+    exit;
+}
+else {
+    my $ex = $? >> 8;
+    printf "lighttpd exited with value %d\n", $ex;
+}
 
 # finalize
+print "Removing config file $conffile\n";
 system("rm -rf $conffile");
 
 __END__
@@ -169,8 +200,14 @@ lightpd.pl [options]
     Runs Foswiki with lighttpd.
 
     Options:
-        -f --fastcgi               Use FastCGI instead of plain CGI
-        -h --help                  Displays this help and exits
-        -p PORT, --port PORT       Runs the server in the given port.
-                                   (default: 8080)
+        -f --fastcgi                 Use FastCGI instead of plain CGI
+        -h --help                    Displays this help and exits
+        -p PORT, --port PORT         Runs the server in the given port.
+                                     (default: 8080)
+        -s /path/to/lighttpd ,
+        --server /path/to/lighttpd   Location to lighttpd if not on path
+                                     (default: lighttpd)
 
+    If lighttpd is not found on the default path, provide the complete path
+    to the server   eg.
+        lighttpd.pl --fastcgi --server /usr/sbin/lighttpd
