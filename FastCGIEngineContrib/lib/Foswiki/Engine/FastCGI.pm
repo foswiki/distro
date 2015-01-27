@@ -51,14 +51,13 @@ threads and fcgi backend processes that are allowed to be spawned by the web ser
 
 =cut
 
-
 our $sock = 0;
 
 sub run {
     my ( $this, $listen, $args ) = @_;
 
     # untaint pidfile
-    $args->{pidfile} = Foswiki::Sandbox::untaintUnchecked($args->{pidfile});
+    $args->{pidfile} = Foswiki::Sandbox::untaintUnchecked( $args->{pidfile} );
 
     if ($listen) {
         $sock = FCGI::OpenSocket( $listen, 100 )
@@ -70,8 +69,8 @@ sub run {
     my $manager;
 
     # make sure some ENV vars are set
-    $ENV{"REQUEST_URI"} = '' unless defined $ENV{REQUEST_URI};
-    $ENV{"PATH_INFO"} = '' unless defined $ENV{PATH_INFO};
+    $ENV{"REQUEST_URI"} = ''             unless defined $ENV{REQUEST_URI};
+    $ENV{"PATH_INFO"}   = ''             unless defined $ENV{PATH_INFO};
     $ENV{"SCRIPT_NAME"} = 'foswiki.fcgi' unless defined $ENV{SCRIPT_NAME};
 
     if ($listen) {
@@ -82,8 +81,8 @@ sub run {
         eval "use " . $args->{manager} . "; 1";
         unless ($@) {
             my $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
-            my $maxSize = $Foswiki::cfg{FastCGIContrib}{MaxSize} || 0;
-            my $checkSize = $Foswiki::cfg{FastCGIContrib}{CheckSize} || 10;
+            my $maxSize     = $Foswiki::cfg{FastCGIContrib}{MaxSize}     || 0;
+            my $checkSize   = $Foswiki::cfg{FastCGIContrib}{CheckSize}   || 10;
 
             $manager = $args->{manager}->new(
                 {
@@ -118,10 +117,29 @@ sub run {
     }
 
     my $localSiteCfg;
-    $localSiteCfg = $INC{'LocalSite.cfg'} if $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg};
-
     my $lastMTime = 0;
-    $lastMTime = ( stat $localSiteCfg )[9] if defined $localSiteCfg;
+    my $mtime     = 0;
+
+  # If $localSiteCfg is undefined, then foswiki is running in bootstrap mode.
+  # kill and restart the proc manager after every transaction, so that
+  # when the config file is saved, it gets used.   Note that on some high volume
+  # installations, LocalSite.cfg checking needs to be disabled.
+
+    if ( !defined $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+        || $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg} )
+    {
+
+        $localSiteCfg = $INC{'LocalSite.cfg'};
+        if ( defined $localSiteCfg ) {
+            $lastMTime = ( stat $localSiteCfg )[9];
+        }
+        else {
+            # Set $mtime to 1,  this causes a reinit after each transation
+            # and is changed to the LocalSite.cfg mtime once the file exists.
+            $mtime = 1;
+        }
+
+    }
 
     while ( $r->Accept() >= 0 ) {
         $manager && $manager->pm_pre_dispatch();
@@ -133,7 +151,6 @@ sub run {
             $this->finalize( $res, $req );
         }
 
-        my $mtime = 0;
         $mtime = ( stat $localSiteCfg )[9] if defined $localSiteCfg;
 
         if ( $mtime > $lastMTime || $hupRecieved ) {
@@ -169,7 +186,7 @@ sub preparePath {
     # way, SUPER::preparePath works fine.
 
     $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#
-      if $ENV{PATH_INFO};
+      if ( $ENV{PATH_INFO} && defined $Foswiki::cfg{ScriptUrlPath} );
 
     $this->SUPER::preparePath(@_);
 }
@@ -188,8 +205,12 @@ sub reExec {
     closeSocket();
 
     require Config;
-    $ENV{PERL5LIB} .= join $Config::Config{path_sep}, @INC;
-    $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+
+    #SMELL: This was growing PERL5LIB on every reExec.
+    #$ENV{PERL5LIB} .= join $Config::Config{path_sep}, @INC;
+
+    $ENV{PATH} = $Foswiki::cfg{SafeEnvPath}
+      if ( defined $Foswiki::cfg{SafeEnvPath} );
     my $perl = $Config::Config{perlpath};
     chdir $main::dir
       or die
