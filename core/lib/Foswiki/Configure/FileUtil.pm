@@ -81,9 +81,17 @@ sub findFileOnPath {
 
     $file =~ s(::)(/)g;
 
-    foreach my $dir (@INC) {
-        if ( -e "$dir/$file" ) {
-            return "$dir/$file";
+    foreach my $incdir (@INC) {
+
+        my ( $volume, $directories, $filename ) =
+          File::Spec->splitpath("$incdir/$file");
+        next unless ( -d $volume . $directories );
+        opendir( my $df, $volume . $directories ) || next;
+        my @files = grep { $_ eq $filename } readdir($df);
+        closedir($df);
+
+        if ( scalar @files ) {
+            return "$incdir/$file";
         }
     }
     return undef;
