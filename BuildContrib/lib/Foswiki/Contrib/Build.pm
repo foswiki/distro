@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2012 Foswiki Contributors
+# Copyright (C) 2004-2014 C-Dot Consultants - All rights reserved
+# Copyright (C) 2008-2014 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
