@@ -1792,6 +1792,21 @@ sub new {
     $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
     $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
+    # Make %ENV safer, preventing hijack of the search path. The
+    # environment is set per-query, so this can't be done in a BEGIN.
+    # This MUST be done before any external programs are run via Sandbox.
+    # or it will fail with taint errors.  See Item13237
+    if ( defined $Foswiki::cfg{SafeEnvPath} ) {
+        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+    }
+    else {
+        # Default $ENV{PATH} must be untainted because
+        # Foswiki may be run with the -T flag.
+        # SMELL: how can we validate the PATH?
+        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
+    }
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+
     if (   $Foswiki::cfg{WarningFileName}
         && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
     {
@@ -1955,19 +1970,6 @@ sub new {
 
     # Load (or create) the CGI session
     $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
-
-    # Make %ENV safer, preventing hijack of the search path. The
-    # environment is set per-query, so this can't be done in a BEGIN.
-    if ( defined $Foswiki::cfg{SafeEnvPath} ) {
-        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
-    }
-    else {
-        # Default $ENV{PATH} must be untainted because
-        # Foswiki may be run with use strict.
-        # SMELL: how can we validate the PATH?
-        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
-    }
-    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
     $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
     if (   $Foswiki::cfg{GetScriptUrlFromCgi}
