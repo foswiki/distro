@@ -565,7 +565,7 @@ sub addSpecDefaultsToCfg {
         {
             # {default} stores a value string. Convert it to the
             # value suitable for storing in cfg
-            print STDERR "Defaulting $spec->{keys}\n";
+            print STDERR "Defaulting $spec->{keys}\n" if TRACE;
             my $value = eval( $spec->{default} );
             eval("\$cfg->$spec->{keys}=$spec->{default}");
         }

@@ -51,7 +51,7 @@ sub test_changecfg {
     # Check report
     my $expected = [
         {
-            text  => "| {OS} | undef | \'$Foswiki::cfg{OS}\' |",
+            text  => "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |",
             level => 'notes'
         },
         {
@@ -83,7 +83,7 @@ sub test_changecfg {
         {
             level => 'notes',
             text =>
-q<| {UnitTestContrib}{Configure}{REGEX} | (^regex$) | '(black&#124;white)+' |>,
+q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>,
         },
         {
             level => 'notes',
