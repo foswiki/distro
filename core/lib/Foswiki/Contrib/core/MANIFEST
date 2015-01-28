@@ -155,6 +155,7 @@ data/System/ReleaseNotes01x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
+data/System/FoswikiServerInformation 0644
 data/System/ShortcutMacros.txt 0644
 data/System/SiteChanges.txt 0644
 data/System/SiteMap.txt 0644
@@ -284,6 +285,7 @@ data/System/VarSCRIPTURL.txt 0644
 data/System/VarSCRIPTURLPATH.txt 0644
 data/System/VarSEARCH.txt 0644
 data/System/VarSERVERTIME.txt 0644
+data/System/VarSERVERINFORMATION.txt 0644 Web server detailed execution environment 
 data/System/VarSESSIONID.txt 0644
 data/System/VarSESSIONVAR.txt 0644
 data/System/VarSESSIONVARIABLE.txt 0644
@@ -605,6 +607,7 @@ lib/Foswiki/Macros/RENDERZONE.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
 lib/Foswiki/Macros/REVINFO.pm 0444
 lib/Foswiki/Macros/REVTITLE.pm 0444
+lib/Foswiki/Macros/SERVERINFORMATION.pm 0444
 lib/Foswiki/Macros/SET.pm 0444
 lib/Foswiki/Macros/SEARCH.pm 0444
 lib/Foswiki/Macros/SHOWPREFERENCE.pm 0444

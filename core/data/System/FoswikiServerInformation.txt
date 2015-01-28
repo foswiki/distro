@@ -1,0 +1,21 @@
+%META:TOPICINFO{author="ProjectContributor" date="1422413722" format="1.1" version="1"}%
+%META:TOPICPARENT{name="InstallationGuide"}%
+
+---+!! Foswiki Server Information
+
+This topic lists the detailed server execution environment.  As this is
+sensitive information, it is only available to users with access to Configure.
+
+---++ Foswiki information
+
+| Foswiki Version | %WIKIVERSION% |
+| Foswiki Release | %WIKIRELEASE% |
+| Foswiki Plugin API | %PLUGINVERSION% |
+
+See Also:  PerlDependencyReport for details on the installed Perl CPAN modules and InstalledPlugins for diagnostics on the installed plugins.
+
+---++ General execution environment
+%SERVERINFORMATION{execution}%
+
+---++ Environment variables
+%SERVERINFORMATION{environment}%
