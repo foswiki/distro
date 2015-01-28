@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422456616" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -225,6 +225,12 @@ If these preferences are set
    * in [[%LOCALSITEPREFS%]], or
    * in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] (using _Set_),
 then the indicated templates will be chosen for =view= and =edit= respectively. The template search order remains as specified above.
+
+Note that the topic name specified as a template may need to be fully qualified with Web and !SubWeb. E.g.
+<verbatim>
+   * Set VIEW_TEMPLATE = Web/SubWeb.SpecificViewTemplate
+</verbatim>
+Also the qualification needs to be given in the form !Web/SubWeb.TopicTemplate as in the example; !Web/SubWeb/TopicTemplate does not work.
 
 #TemplateSecurity
 ---+++ Security and usability

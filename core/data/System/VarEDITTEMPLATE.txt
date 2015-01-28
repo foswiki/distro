@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1422456616" format="1.1" version="1"}%
+%META:TOPICPARENT{name="SkinTemplates"}%
+#VarEDITTEMPLATE
+---+++ EDIT_TEMPLATE -- Specify EDIT [[%SYSTEMWEB%.SkinTemplates][SkinTemplate]] topic preference
+   * This preference is used to specify a non-standard [[%SYSTEMWEB%.SkinTemplates][SkinTemplate]] with which to edit a topic.
+   * Example:
+<verbatim>
+      * Set EDIT_TEMPLATE = Web/SubWeb.SpecialEditTemplate
+</verbatim>
+   * Related: [[#VarVIEWTEMPLATE][VIEWTEMPLATE]]
