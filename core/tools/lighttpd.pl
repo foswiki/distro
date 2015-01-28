@@ -188,6 +188,8 @@ elsif ( $? & 127 ) {
 else {
     my $ex = $? >> 8;
     printf "lighttpd exited with value %d\n", $ex;
+    print "Is the FastCGIEngineContrib installed?\n"
+      if ( $ex == 255 );
 }
 
 # finalize
