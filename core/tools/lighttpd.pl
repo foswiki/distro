@@ -110,6 +110,9 @@ server.errorlog = "$foswiki_core/working/logs/lighttpd.error.log"
 # mimetype mapping
 $mime_mapping
 
+# SMELL: lighttpd on case insensitive file systems converts PATH_INFO to Lower Case!
+server.force-lowercase-filenames = "disable"
+
 # default landing page
  url.rewrite-once = ( "^/?(index.*)?\$" => "/bin/view/Main/WebHome" )
 
