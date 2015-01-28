@@ -430,18 +430,18 @@ sub decodeValue {
     return undef unless defined $value;
 
     if ( $this->isFormattedType() ) {
-        my $value = eval($value);
+        $value = eval($value);
         die $@ if $@;
-        return $value;
     }
     elsif ( $this->{typename} eq 'OCTAL' ) {
-        return oct($value);
+        $value = oct($value);
     }
     elsif ( $this->{typename} eq 'BOOLEAN' ) {
-        return $value ? 1 : 0;
+        $value = $value ? 1 : 0;
     }
 
-    # String or number, just sling it back
+    # else String or number, just sling it back
+
     return $value;
 }
 

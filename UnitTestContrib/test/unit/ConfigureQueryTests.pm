@@ -199,7 +199,7 @@ sub test_getspec_REGEX {
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
     $this->assert_str_equals( 'REGEX',                $spec->{typename} );
-    $this->assert_str_equals( '^regex$',              $spec->{default} );
+    $this->assert_str_equals( '\'^regex$\'',          $spec->{default} );
     $this->assert_str_equals( 'Default: \'^regex$\'', $spec->{desc} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{REGEX}',
         $spec->{keys} );
@@ -402,7 +402,7 @@ sub test_generic_check_OCTAL {
     my $params   = { keys => ['{UnitTestContrib}{Configure}{OCTAL}'] };
     my ( $report, $r );
 
-    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '123456789';
+    $params->{set}->{'{UnitTestContrib}{Configure}{OCTAL}'} = '1234567';
     $report =
       Foswiki::Configure::Query::check_current_value( $params, $reporter );
 
