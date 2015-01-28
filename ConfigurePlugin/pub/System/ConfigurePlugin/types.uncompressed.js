@@ -176,17 +176,35 @@ var Types = {};
       }
   });
 
-  Types.OCTAL = Types.BaseType.extend({
-      // UI thinks in octal; everyone else in decimal
-      useVal: function(val) {
-          if (typeof(val) === 'string') {
-              val = parseInt(val, 10);
-          }
-          this.$ui.val(val.toString(8));
-      },
+  Types.NUMBER = Types.BaseType.extend({
+      // Local first-line validator
+      createUI: function(change_handler) {
+          return this._super(function(evt) {
+              var val = $(this).val();
+              if (/^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(val)) {
+                  $(this).css('background-color', '');
+                  change_handler.call(this, evt);
+              } else {
+                  $(this).css('background-color', 'yellow');
+                  alert('"' + val + '" is not a valid number');
+              }
+          });
+      }
+  });
 
-      currentValue: function() {
-          return parseInt(this.$ui.val(), 8);
+  Types.OCTAL = Types.NUMBER.extend({
+      // Local first-line validator
+      createUI: function(change_handler) {
+          return this._super(function(evt) {
+              var val = $(this).val();
+              if (/^[0-7]+$/.test(val)) {
+                  $(this).css('background-color', '');
+                  change_handler.call(this, evt);
+              } else {
+                  $(this).css('background-color', 'yellow');
+                  alert('"' + val + '" is not a valid octal number');
+              }
+          });
       }
   });
 

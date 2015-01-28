@@ -363,6 +363,7 @@ sub checkExpandedValue {
 
     my $raw   = $this->{item}->getRawValue();
     my $value = $this->{item}->getExpandedValue();
+
     my $field = $value;
 
     if ( !defined $raw ) {

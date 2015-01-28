@@ -60,8 +60,8 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{EMAILADDRESS} = 'address@email.co';
 $Foswiki::cfg{UnitTestContrib}{Configure}{NUMBER} = 666;
 
 # **OCTAL LABEL="OCTAL" CHECK="min:30 max:70 undefok"**
-# Default: 429
-$Foswiki::cfg{UnitTestContrib}{Configure}{OCTAL} = 429;
+# Default: 035
+$Foswiki::cfg{UnitTestContrib}{Configure}{OCTAL} = 035;
 
 # **PASSWORD LABEL="PASSWORD"**
 # Default: PASSWORD

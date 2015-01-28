@@ -56,6 +56,10 @@ sub _getSetParams {
                         next;
                     }
                 }
+                else {
+                    $reporter->ERROR("$k was not found in any Config.spec");
+                    next;
+                }
                 if ( defined $value ) {
 
                  # This is needed to prevent expansion of embedded $Foswiki::cfg
@@ -335,7 +339,7 @@ sub check_current_value {
                     path    => [],
                     reports => [
                         {
-                            text  => "$k is not part of this .spec",
+                            text  => "$k was not found in any Config.spec",
                             level => 'errors'
                         }
                     ]
@@ -377,7 +381,7 @@ sub check_current_value {
         print STDERR "Find dependencies for $k\n" if TRACE_CHECK;
         next if $check{$k};    # already done?
         $check{$k} = 1;
-        my $v = _getValueSpec( $root, $k );
+        my $v = $root->getValueObject($k);
         if ($v) {
             print STDERR "\t'$k' is a key\n" if TRACE_CHECK;
             push( @checko, $v );
@@ -462,15 +466,6 @@ sub check_current_value {
     return \@report;
 }
 
-sub _getValueSpec {
-    my ( $root, $k ) = @_;
-    return undef unless $k;
-    my $v = $root->getValueObject($k);
-    return $v if $v;
-    return undef unless $k =~ s/{[^{}]+}$//;
-    return _getValueSpec($k);
-}
-
 =begin TML
 
 ---++ StaticMethod wizard(\%params, $reporter) -> \%response
@@ -542,9 +537,13 @@ sub wizard {
     # is encoded using Reporter::uneval, which knows nothing about the
     # real type of the value. For the real type we have to use the
     # Value's encoder.
-    my %new_values = map {
-        $_ => $root->getValueObject($_)->encodeValue( eval("\$Foswiki::cfg$_") )
-    } keys %{ $reporter->{changes} };
+    my %new_values;
+
+    foreach my $k ( keys %{ $reporter->{changes} } ) {
+        my $v = $root->getValueObject($k);
+        ASSERT( $v, "$k missing from Config.spec" ) if DEBUG;
+        $new_values{$k} = $v->encodeValue( eval("\$Foswiki::cfg$k") );
+    }
 
     return {
         changes  => \%new_values,
@@ -559,7 +558,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

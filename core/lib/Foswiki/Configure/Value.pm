@@ -346,7 +346,6 @@ sub getRawValue {
               unless defined $path;
         }
     }
-
     return eval("\$Foswiki::cfg$this->{keys}");
 }
 
@@ -405,6 +404,9 @@ sub encodeValue {
     elsif ( ref($value) ) {
         return Foswiki::Configure::Reporter::uneval($value);
     }
+    elsif ( $this->{typename} eq 'OCTAL' ) {
+        return sprintf( '0%o', $value );
+    }
     elsif ( $this->{typename} eq 'BOOLEAN' ) {
         return $value ? 1 : 0;
     }
@@ -431,6 +433,9 @@ sub decodeValue {
         my $value = eval($value);
         die $@ if $@;
         return $value;
+    }
+    elsif ( $this->{typename} eq 'OCTAL' ) {
+        return oct($value);
     }
     elsif ( $this->{typename} eq 'BOOLEAN' ) {
         return $value ? 1 : 0;

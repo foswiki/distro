@@ -28,13 +28,13 @@ Test changing a value
 sub test1 {
     my ( $this, $reporter ) = @_;
 
-    die "No username" unless $this->param('cfgusername');
-    die "No password" unless $this->param('cfgpassword');
+    $reporter->ERROR("No username") unless $this->param('cfgusername');
+    $reporter->ERROR("No password") unless $this->param('cfgpassword');
     $reporter->ERROR("This is an error");
     $reporter->WARN("This is a warning");
     $reporter->NOTE("This is a note");
-    $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'ROPE';
-    $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{STRING}');
+    $Foswiki::cfg{UnitTestContrib}{Configure}{STRING} = 'ROPE';
+    $reporter->CHANGED('{UnitTestContrib}{Configure}{STRING}');
     return undef;
 }
 
