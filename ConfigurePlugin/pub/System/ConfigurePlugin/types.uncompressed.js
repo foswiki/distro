@@ -95,7 +95,10 @@ var Types = {};
   Types.STRING = Types.BaseType.extend({
       restoreDefaultValue: function() {
           var val = this.spec['default'];
-          val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
+          if (val === 'undef')
+              val = null;
+          else
+              val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
           this.useVal(val);
       }
   });
@@ -142,7 +145,7 @@ var Types = {};
       useVal: function(val) {
           if (typeof(val) == 'undefined') {
               val = false;
-          } else if (val  == '0') {
+          } else if (val  == '0' || val == '$FALSE') {
               val = false;
           } else if ( val == '1') {
               val = true;
@@ -216,13 +219,22 @@ var Types = {};
       }
   });
 
+  Types.PATH = Types.STRING.extend({
+  });
+
   Types.URL = Types.STRING.extend({
+  });
+
+  Types.URILIST = Types.STRING.extend({
   });
 
   Types.URLPATH = Types.STRING.extend({
   });
 
   Types.DATE = Types.STRING.extend({
+  });
+
+  Types.COMMAND = Types.STRING.extend({
   });
 
   Types.EMAILADDRESS = Types.STRING.extend({
@@ -304,14 +316,15 @@ var Types = {};
       },
 
       useVal: function(val) {
+          val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
           var sel = this._getSel(val),
               sf = this.spec.select_from,
-              i, opt;
+              i;
 
           if (typeof(sf) !== "undefined") {
               i = 0;
               this.$ui.find('option').each(function() {
-                  opt = sf[i++];
+                  var opt = sf[i++];
                   if (sel[opt]) {
                       $(this).attr('selected', 'selected');
                   } else {

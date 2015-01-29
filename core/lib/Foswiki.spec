@@ -193,7 +193,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # created.  It is normally set automatically in the code.
 # $Foswiki::cfg{TempfileDir} = '';
 
-# **PATH LABEL="Save PATH" EXPERT CHECK='undefok'**
+# **PATH LABEL="Safe PATH" EXPERT CHECK='undefok'**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key
@@ -1109,7 +1109,7 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 #---++ Logging
 # Control how Foswiki handles logging, including location of logfiles.
 
-# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* LABEL="Logger Implemetation"**
+# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* LABEL="Logger Implementation"**
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
 # for a large site, or even provide your own custom logger. Select the

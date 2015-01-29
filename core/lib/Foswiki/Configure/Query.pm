@@ -62,9 +62,14 @@ sub _getSetParams {
                 }
                 if ( defined $value ) {
 
-                 # This is needed to prevent expansion of embedded $Foswiki::cfg
-                 # variables during the eval.
-                    eval("\$Foswiki::cfg$k=join('',\$value)");
+                    if ( $spec->isFormattedType() ) {
+                        eval("\$Foswiki::cfg$k=\$value");
+                    }
+                    else {
+                        # This is needed to prevent expansion of embedded
+                        # $Foswiki::cfg variables during the eval.
+                        eval("\$Foswiki::cfg$k=join('',\$value)");
+                    }
                 }
                 else {
                     eval("undef \$Foswiki::cfg$k");
