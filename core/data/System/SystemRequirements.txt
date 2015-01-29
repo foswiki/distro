@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420999946" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422503973" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -9,29 +9,28 @@ Low client and server base requirements are core features that keep Foswiki wide
 %STARTINCLUDE%
 ---++ Server Requirements
 
-Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
+Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX).  On Unix-like systems, it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
 
 | *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
 | External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= (not required on Windows) |
-| Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
-
-Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run.
+| Web server | Apache, Nginx and Lighttpd are all well supported; Apache sample configs are provided. For information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
+Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run, but start from your expected default "view" URL, so that Foswiki can figure out your URL scheme.
 
 Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test all dependencies and alert you when any are missing.
- 
+
 If you have problems with any dependencies, use the =tools/dependencies_installer.pl= perl script, which makes perl module installation easier. Run it with option =-h= to understand the basics.
 
-Foswiki ships with a copy of =CGI::Session= in order to run the =configure= script.
+The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (=CGI= has been removed from recent Perl versions), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
 
-The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (see note above), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
-
-There were once CPAN modules shipped with prior versions of Foswiki as a "last resort". Since they are needed only in rare situations,
-they were put into an additional extension. See Foswiki:Extensions.CpanContrib. Install this packages if cannot install Perl modules otherwise.
+Prior versions of Foswiki shipped with the important CPAN modules, for use as a "last resort". Since they are needed only in rare situations,
+they were put into an optional extension. See Foswiki:Extensions.CpanContrib. Install this packages if you cannot install Perl modules otherwise.
 
 ---++ Specific distribution details
+
 <noautolink>
 ---+++!! Ubuntu and other Debian derived distributions
+
 %TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
 
 Install apache and rcs ==apt-get install apache2 rcs==
@@ -50,14 +49,18 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | version | =libversion-perl= | Must be version 0.77 or newer |
 | Digest::SHA | =libdigest-sha-perl= | |
 | URI | =liburi-perl= | |
-| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
-
+| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64. Install using CPAN! |
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
+
+Apache user should issue the following commands:
+   $ =a2enmod cgi=: Enables CGI
+   $ =a2enmod access_compat=: Apache 2.4: Enables compatibility with foswiki example apache configurations.
 
 %ENDTWISTY{}%
 
 ---+++!! RedHat, SuSE, CentOS and other RPM based distributions
+
 %TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
 
 Install apache2, rcs, and perl-CPAN
@@ -73,7 +76,6 @@ Install apache2, rcs, and perl-CPAN
 | Digest::SHA | =perl-Digest-SHA= | |
 | URI | =perl-URI= | |
 | Authen::SASL | =perl-Authen-SASL= | |
-
 After expanding the Foswiki archive, change the ownership of the files:
    * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
    * Suse: =chown -R wwwrun:www /path/to/foswiki=
@@ -81,6 +83,7 @@ After expanding the Foswiki archive, change the ownership of the files:
 %ENDTWISTY{}%
 
 ---+++!! Gentoo (ebuild) based distributions
+
 %TWISTY{ showlink="Show Gentoo details" hidelink="Hide RPM details"}%
 
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
@@ -99,11 +102,10 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
 | URI | =dev-perl/URI= | |
 | Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
-| IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection:  STARTTLS or SSL |
-| Locale::Maketext | =perl-core/locale-maketext= | Included with perl core.  Versions older than 1.23 have security issues! |
+| IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection: STARTTLS or SSL |
+| Locale::Maketext | =perl-core/locale-maketext= | Included with perl core. Versions older than 1.23 have security issues! |
 | Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
-
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
 
@@ -117,14 +119,15 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
 
    * XHTML 1.0 Transitional compliant
    * Cookies, if persistent sessions are required
-   * Javascript, for edit/save/upload functionality <div class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</div>
+   * Javascript, is required for configure, edit save and upload functionality.  Foswiki is viewable without javascript.
 
-CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6+, Safari, Chrome and Firefox.
+CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default (Pattern) skin is tested on IE 6+, Safari, Chrome and Firefox.
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at Foswiki:Extensions.SkinPackage.
 
 %STOPINCLUDE%
 ---
+
 *Related Topics:* AdminDocumentationCategory
 
 <!--%JQREQUIRE{"chili"}%-->

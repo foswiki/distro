@@ -1,26 +1,27 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422501265" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Admin tools
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
-   * %ICON{wrench}% [[Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]], [[%SYSTEMWEB%.InstalledPlugins][Installed Plugins report]]
-   * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
+   * %ICON{wrench}% [[Site Tools]]: %WIKIPREFSTOPIC%, InterWikis, [[System.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
+   * %ICON{gear}% Server operation: [[%SCRIPTURLPATH{"configure"}%][Configure]], [[InstalledPlugins][Extensions & Diagnostics]], [[PerlDependencyReport][Perl Dependencies]]. [[FoswikiServerInformation][Server execution details]]
+   * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword, ChangeEmailAddress
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
 
 ---++ All Admin Tools Category topics
 
-   $ [[BulkRegistration]] : Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch
-   $ [[BulkResetPassword]] : Administrators can use this topic to reset any number of user passwords
-   $ [[%WIKIPREFSTOPIC%]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %LOCALSITEPREFS%
-   $ [[ManagingUsers]] : Register users on your Foswiki site; change/reset/install passwords; remove user accounts
-   $ [[ManagingWebs]] : An introduction to webs. Includes the tool for the administrator to add new webs
-   $ [[SiteMap]] : An overview of all the webs incl links to search, recent changes, and notifications. Mainly targetted for the administrators but can also be useful for the users
-   $ [[SitePermissions]] : Overview of permissions settings of the webs on this Foswiki site
-   $ [[SiteTools]] : Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and %STATISTICSTOPIC%, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targetted for the administrator
-   $ [[SkinBrowser]] : Skin Browser which allows you to can try out the Skins currently installed on this system
+   $ [[BulkRegistration]]: Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch
+   $ [[BulkResetPassword]]: Administrators can use this topic to reset any number of user passwords
+   $ [[%WIKIPREFSTOPIC%]]: This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %LOCALSITEPREFS%
+   $ [[ManagingUsers]]: Register users on your Foswiki site; change/reset/install passwords; remove user accounts
+   $ [[ManagingWebs]]: An introduction to webs. Includes the tool for the administrator to add new webs
+   $ [[SiteMap]]: An overview of all the webs incl links to search, recent changes, and notifications. Mainly targetted for the administrators but can also be useful for the users
+   $ [[SitePermissions]]: Overview of permissions settings of the webs on this Foswiki site
+   $ [[SiteTools]]: Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and %STATISTICSTOPIC%, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targetted for the administrator
+   $ [[SkinBrowser]]: Skin Browser which allows you to can try out the Skins currently installed on this system
 
 ---++ Related Topics
-   $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
-   $ [[UserDocumentationCategory]] : List of documents for the everyday user from beginner to advanced user
-   $ [[DeveloperDocumentationCategory]] : List of documents for application developers as well as developers of skins and extensions.
-   $ [[UserToolsCategory]] :  List of tools the user may need for setting and resetting passwords, changing email address etc.
+   $ [[AdminDocumentationCategory]]: List of documents relevant for the installer and administrator of the Foswiki installation
+   $ [[UserDocumentationCategory]]: List of documents for the everyday user from beginner to advanced user
+   $ [[DeveloperDocumentationCategory]]: List of documents for application developers as well as developers of skins and extensions.
+   $ [[UserToolsCategory]]: List of tools the user may need for setting and resetting passwords, changing email address etc.
