@@ -834,7 +834,7 @@ if (0) {
                         add_dependency(
                             entry.DISPLAY_IF, $node, function ($n, tf) {
                                 if (tf) {
-                                    // Display if not expert
+                                    // Display if condition OK
                                     $n.removeClass('hidden_di');
                                 } else {
                                     $n.addClass('hidden_di');
