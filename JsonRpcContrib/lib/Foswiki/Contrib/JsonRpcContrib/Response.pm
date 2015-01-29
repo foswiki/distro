@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2014 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2015 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ sub print {
     my $text     = $this->encode();
     my $hopts    = {
         'status' => $this->code() ? 500 : 200,
-        'Content-Type' => 'text/plain',
+        'Content-Type' => 'application/json',
     };
 
     my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';

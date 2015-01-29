@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1418801119" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1422525481" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -219,14 +219,15 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 -->
 
 |  Author(s): | Michael Daum |
-|  Copyright: | &copy; 2011-2014 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | &copy; 2011-2015 Michael Daum http://michaeldaumconsulting.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  17 Dec 2014: (2.20) | Foswikitask:Item13164: added support for gzip compression of http response<br />\
-                         Foswikitask:Item13125: CGI changes for multi_param calls<br />\
-                         Foswikitask:Item13065: Log jsonrpc events to Foswiki event.log |
+|  29 Jan 2015: | Foswikitask:Item13238: fix content-type of response |
+|  17 Dec 2014: | Foswikitask:Item13164: added support for gzip compression of http response<br />\
+                  Foswikitask:Item13125: CGI changes for multi_param calls<br />\
+                  Foswikitask:Item13065: Log jsonrpc events to Foswiki event.log |
 |  28 Aug 2014: | don't use DEBUG constant to toggle local debug messages as it conflicts with Assert.pm |
 |  11 Dec 2013: | removed dependency on JSON::XS |
 |  30 May 2013: | added support for serialising objects, and rewrote some of the documentation (Foswiki:Main/CrawfordCurrie) |
