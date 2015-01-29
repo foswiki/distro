@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1422496978" format="1.1" version="1"}%
+%META:TOPICPARENT{name="macros"}%
+#VarSERVERINFORMATION
+---+++ SERVERINFORMATION -- report detailed web server information
+Intended for use by installers / administrators, reports on the runtime
+information of the Foswiki installation,  including all environment variables
+and other execution related information.
+   * Syntax: =%<nop>SERVERINFORMATION%=
+   * Supported parameters:
+     %TABLE{sort="off"}%
+     | *Parameter:* | *Description:* | *Default:* |
+     | =environment= | Displays critical =%ENV= Environment variables. | _(Displayed if nothing set)_ |
+     | =execution= | Displays important execution details. |  _(Displayed if nothing set)_ |
+   * See also: %SYSTEMWEB%.FoswikiServerInformation

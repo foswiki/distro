@@ -155,7 +155,7 @@ data/System/ReleaseNotes01x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
-data/System/FoswikiServerInformation 0644
+data/System/FoswikiServerInformation.txt 0644
 data/System/ShortcutMacros.txt 0644
 data/System/SiteChanges.txt 0644
 data/System/SiteMap.txt 0644
@@ -173,7 +173,6 @@ data/System/SystemRequirements.txt 0644
 data/System/TemplateTopics.txt 0644
 data/System/TemplateWeb.txt 0644
 data/System/TextEditor.txt 0644
-data/System/TextFormattingRules.txt 0644
 data/System/TimBernersLee.txt 0644
 data/System/TimeSpecifications.txt 0644
 data/System/TopicClassification.txt 0644
@@ -211,6 +210,7 @@ data/System/VarCOVER.txt 0644
 data/System/VarDATE.txt 0644
 data/System/VarDISPLAYTIME.txt 0644
 data/System/VarEDITACTION.txt 0644
+data/System/VarEDITTEMPLATE.txt 0644
 data/System/VarENCODE.txt 0644
 data/System/VarENDCOLOR.txt 0644
 data/System/VarENDINCLUDE.txt 0644
@@ -315,6 +315,7 @@ data/System/VarUSERNAME.txt 0644
 data/System/VarUSERSWEB.txt 0644
 data/System/VarVAR.txt 0644
 data/System/VarVBAR.txt 0644
+data/System/VarVIEWTEMPLATE.txt 0644
 data/System/VarWEB.txt 0644
 data/System/VarWEBLIST.txt 0644
 data/System/VarWEBPREFSTOPIC.txt 0644
@@ -776,6 +777,7 @@ pub/System/BeginnersStartHere/Disney_logo.gif 0644
 pub/System/BeginnersStartHere/EpicGames_logo.gif 0644
 pub/System/BeginnersStartHere/Motorola_logo.gif 0644
 pub/System/BeginnersStartHere/SAP_logo.gif 0644
+pub/System/BeginnersStartHere/camel.png 0644
 pub/System/BeginnersStartHere/hula.gif 0644
 pub/System/BeginnersStartHere/lego.gif 0644
 pub/System/BeginnersStartHere/myco.gif 0644

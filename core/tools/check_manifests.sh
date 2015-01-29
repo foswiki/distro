@@ -1,4 +1,4 @@
-cd core && perl ../core/tools/check_manifest.pl
+perl tools/check_manifest.pl
 cd ../AutoViewTemplatePlugin && perl ../core/tools/check_manifest.pl
 cd ../CompareRevisionsAddOn && perl ../core/tools/check_manifest.pl
 cd ../CommentPlugin && perl ../core/tools/check_manifest.pl
