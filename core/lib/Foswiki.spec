@@ -1791,7 +1791,11 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # =<nop>%WIKIWEBMASTERNAME%= macro.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
-# **EMAILADDRESS 30 LABEL="Webmaster Email" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
+# **EMAILADDRESS 30 LABEL="Webmaster Email"\
+#         FEEDBACK="label='Auto-configure Email';\
+#                   title='Long running: Probes the possible email servers to find most secure connection';\
+#                   wizard='AutoConfigureEmail'; method='autoconfigure'"\
+#         FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
 # Wiki administrator (webmaster) e-mail address, used as the sender address
 # in emails sent by Foswiki. For example =webmaster@example.com=
 # Must be a single valid email address.
@@ -1800,7 +1804,10 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # If your server is already configured to send email, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
 $Foswiki::cfg{WebMasterEmail} = '';
 
-# **STRING 30 LABEL="SMTP Host" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'"**
+# **STRING 30 LABEL="SMTP Host"\
+#         FEEDBACK="label='Auto-configure Email';\
+#                   title='Long running: Probes the possible email servers to find most secure connection';\
+#                   wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Optional mail host for outgoing mail, required if Net::SMTP is being used.
 # Examples: =mail.your.company= If the smtp server uses a different port
 # than the default 25, use the syntax =mail.your.company:portnumber=,
@@ -1823,7 +1830,10 @@ $Foswiki::cfg{SMTP}{MAILHOST} = '';
 # sender.
 $Foswiki::cfg{SMTP}{Username} = '';
 
-# **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{SMTP}{MAILHOST}!=''" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'"**
+# **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{SMTP}{MAILHOST}!=''"\
+#         FEEDBACK="label='Auto-configure Email';\
+#                   title='Long running: Probes the possible email servers to find most secure connection';\
+#                   wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 

@@ -12,8 +12,6 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    return unless $Foswiki::cfg{EnableEmail};
-
     my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
     my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
     if ( $method =~ /^Net::SMTP/ ) {
