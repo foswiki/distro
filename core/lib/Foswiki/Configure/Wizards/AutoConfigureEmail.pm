@@ -20,22 +20,23 @@ use constant DEBUG_SSL => 1;
 use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
 # N.B. Below the block comment are not enabled placeholders
-# Search order (specify hash key):
-my @mtas = (qw/mailwrapper ssmtp sendmail/);
+# Search order (specify hash key).  Agents with custom sniffers
+# ( code => keys ) should be tried first.
+my @mtas = (qw/mailwrapper postfix ssmtp sendmail/);
 #<<<
 my %mtas = (
     sendmail => {
         name => 'sendmail',                 # Display name
         file => 'sendmail',                 # Executable file to look for in PATH
         regexp =>                           # Regexp to match basename from alias
-          qr/^(?:sendmail\.)?sendmail$/,
+          qr/^(?:sendmail\.)?sendmail$/,      # e.g. usr/sbin/sendmail -> ssmtp 
         flags => '-t -oi -oeq',             # Flags used for sending mail
         debug => '-X /dev/stderr',          # Additional flags to enable debug logs
     },
     ssmtp => {
         name   => 'sSMTP',
         file   => 'ssmtp',
-        regexp => qr/^(?:sendmail\.)?ssmtp$/,
+        regexp => qr/^(?:sendmail\.)?ssmtp$/,  # sendmail is alias for ssmtp
         flags  => '-t -oi -oeq',
         debug  => '-v',
     },
@@ -46,17 +47,20 @@ my %mtas = (
         code   =>                           # Callout to find actual program
          sub { return _mailwrapperConfig( @_ ); },
     },
+    postfix => {
+        name   => 'postfix',
+        file   => 'sendmail',
+        regexp => qr/^sendmail$/,           # Postfix doesn't use an alias, provides own sendmail
+        flags  => '-t -oi -oeq',
+        debug  => '',                       # Postfix restricts debug to superuser, otherwise -vv
+        code   =>
+         sub { return _sniffPostfix( @_ ); },
+    },
+
 # Below this comment, the keys aren't in @mtas, and hence aren't used (yet).  The data
 # is almost certainly wrong - these are simply placeholders.
 # As these are investigated, validated, add the keys to @mtas and move above this line.
 
-    postfix => {
-        name   => 'sendmail',
-        file   => 'postfix',
-        regexp => qr/^(?:sendmail\.)?postfix$/,
-        flags  => '',
-        debug  => '', #?? -v??
-    },
     qmail => {
         name   => 'qmail',
         file   => 'qmail',
@@ -152,7 +156,9 @@ sub _autoconfigProgram {
     my ( $mailp, $mailargs );
     my $path = $ENV{PATH};
 
-    # First, try special heuristics
+# First, try special heuristics.   This tests each MTA that provides a custom sniffer
+# through a coderef in the $cfg->{code} key.  If the sniffer code succeeds, it returns
+# the program that should be used to send email.
 
     foreach my $mta (@mtas) {
         my $cfg = $mtas{$mta} or next;
@@ -163,8 +169,10 @@ sub _autoconfigProgram {
         next unless ($mailp);
 
         my ( $prog, $ppath ) = File::Basename::fileparse($mailp);
-        $path = "$ppath:$path" if ($ppath);
+        $path = $ppath if ($ppath);
         $mailp = $prog;
+        _setMailProgram( $cfg, $path, $reporter );
+        return 1;
     }
 
     # Next, look for each mta on path
@@ -241,6 +249,26 @@ sub _mailwrapperConfig {
         }
     }
     close $cnf;
+    return;
+}
+
+# postfix provides a mostly compatible sendmail.  The debug flags
+# are NOT compatible, so need to detect a specifc postfix sendmail.
+#
+# Postfix docs recommend using postconf to find the correct location
+# for the sendmail command which can vary by installation.
+
+sub _sniffPostfix {
+    my $cfg = shift;
+    my $smprog;
+
+    if ( -x '/usr/sbin/postconf' ) {
+        $smprog = `/usr/sbin/postconf sendmail_path`;
+        if ( $smprog =~ m/sendmail_path\s?=\s?(.*)$/ ) {
+            $smprog = $1;
+            return $smprog if ( -x $smprog );
+        }
+    }
     return;
 }
 
