@@ -22,14 +22,20 @@ use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 # N.B. Below the block comment are not enabled placeholders
 # Search order (specify hash key).  Agents with custom sniffers
 # ( code => keys ) should be tried first.
-my @mtas = (qw/mailwrapper postfix ssmtp sendmail/);
+my @mtas = (qw/mailwrapper postfix ssmtp exim sendmail/);
+
+# Note: Standard sendmail options used:
+#  -t      Read the message for recipients  To: Cc: ...
+#  -oeq    Discard any error messages, just return on failure
+#  -oi     Ignore dots alone on lines by themselves in incoming messages.
+#          This should be set if you are reading data from a file.
 #<<<
 my %mtas = (
     sendmail => {
         name => 'sendmail',                 # Display name
         file => 'sendmail',                 # Executable file to look for in PATH
         regexp =>                           # Regexp to match basename from alias
-          qr/^(?:sendmail\.)?sendmail$/,      # e.g. usr/sbin/sendmail -> ssmtp 
+          qr/^(?:sendmail\.)?sendmail$/,      # e.g. usr/sbin/sendmail -> ssmtp
         flags => '-t -oi -oeq',             # Flags used for sending mail
         debug => '-X /dev/stderr',          # Additional flags to enable debug logs
     },
@@ -56,6 +62,13 @@ my %mtas = (
         code   =>
          sub { return _sniffPostfix( @_ ); },
     },
+    exim => {
+        name   => 'Exim4',
+        file   => 'exim4',
+        regexp => qr/^(?:sendmail\.)?exim4$/,
+        flags  => '-t -oi -oeq',
+        debug  => '-v',
+    },
 
 # Below this comment, the keys aren't in @mtas, and hence aren't used (yet).  The data
 # is almost certainly wrong - these are simply placeholders.
@@ -68,14 +81,6 @@ my %mtas = (
         flags  => '',
         debug  => '',
     },
-    exim => {
-        name   => 'Exim',
-        file   => 'exim',
-        regexp => qr/^(?:sendmail\.)?exim$/,
-        flags  => '',
-        debug  => '-v',
-    },
-
     # ... etc
 );
 #>>>
