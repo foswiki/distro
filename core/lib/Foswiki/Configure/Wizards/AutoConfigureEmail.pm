@@ -22,7 +22,7 @@ use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 # N.B. Below the block comment are not enabled placeholders
 # Search order (specify hash key).  Agents with custom sniffers
 # ( code => keys ) should be tried first.
-my @mtas = (qw/mailwrapper postfix ssmtp exim sendmail/);
+my @mtas = (qw/mailwrapper postfix ssmtp exim qmail sendmail/);
 
 # Note: Standard sendmail options used:
 #  -t      Read the message for recipients  To: Cc: ...
@@ -69,18 +69,18 @@ my %mtas = (
         flags  => '-t -oi -oeq',
         debug  => '-v',
     },
+    qmail => {
+        name   => 'qmail',
+        file   => 'sendmail',
+        regexp => qr/^(?:sendmail\.)?qmail-sendmail$/,
+        flags  => '-t -oi -oeq',
+        debug  => '',                       # Doesn't appear to have debug options
+    },
 
 # Below this comment, the keys aren't in @mtas, and hence aren't used (yet).  The data
 # is almost certainly wrong - these are simply placeholders.
 # As these are investigated, validated, add the keys to @mtas and move above this line.
 
-    qmail => {
-        name   => 'qmail',
-        file   => 'qmail',
-        regexp => qr/^(?:sendmail\.)?qmail$/,
-        flags  => '',
-        debug  => '',
-    },
     # ... etc
 );
 #>>>
