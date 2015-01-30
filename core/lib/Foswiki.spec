@@ -1780,6 +1780,11 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # an ={SMTP}{MAILHOST}=. <br/>If your mail server requires authentication, you must also
 # supply ={SMTP}{Username}= and ={SMTP}{Password}= </li></ul>
 # <br/>
+# When you supply a ={SMTP}{MAILHOST}=, Auto-configure will probe the server for the most secure
+# connection possible, trying STARTTLS, SSL, and then SMTP.  This can take an extended amount of
+# time, especially on Windows servers. Please be patient, or use the Advanced Settings tab
+# to manually configure the E-mail server connection.
+# <br/>
 # Auto-configure Email may change configuration settings (it will tell you
 # what it changed.) These settings will only be made permanent when you save
 # the configuration.
