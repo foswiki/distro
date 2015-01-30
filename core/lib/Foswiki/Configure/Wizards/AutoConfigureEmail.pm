@@ -77,7 +77,7 @@ my %mtas = (
 #>>>
 
 use constant ACCEPTMSG =>
-  "> Configuration accepted. Next step: Setup and test {WebMasterEmail}.";
+  "> Configuration accepted. Next step: Send a test email to {WebMasterEmail}.";
 
 # WIZARD
 sub autoconfigure {

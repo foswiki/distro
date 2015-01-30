@@ -22,14 +22,17 @@ sub check_current_value {
 
     my $list = $this->{item}->CHECK_option('list');
 
+    $reporter->ERROR("A valid e-mail address is required")
+      unless ( $value
+        || $this->{item}->CHECK_option('undefok')
+        || $this->{item}->CHECK_option('emptyok') );
+
     my @addrs;
     @addrs = split( /,\s*/, $value ) if ( defined $list );
     push @addrs, $value unless ( defined $list );
 
-    $reporter->ERROR("An e-mail address is required")
-      unless ( @addrs || $this->{item}->CHECK_option('undefok') );
-
     foreach my $addr (@addrs) {
+        next unless $addr;
         $reporter->WARN("\"$addr\" does not appear to be an e-mail address")
           unless (
             $addr =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );

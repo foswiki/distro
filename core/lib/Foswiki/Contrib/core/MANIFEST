@@ -432,7 +432,6 @@ lib/Foswiki/Configure/Checkers/Email/SSLClientCertFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLClientKeyFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
-lib/Foswiki/Configure/Checkers/EnableEmail.pm 0444
 lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
 lib/Foswiki/Configure/Checkers/FormTypes.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
@@ -492,6 +491,7 @@ lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
 lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
+lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterName.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444

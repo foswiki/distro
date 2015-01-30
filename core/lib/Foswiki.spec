@@ -1769,7 +1769,7 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # such as =sendmail=. Mail can be sent in plain text or over SSL. You can
 # set up S/MIME certificates to sign mails sent by Foswiki.
 
-#---++ Basic settings
+#---++ Basic settings & Auto-configure
 # Basic settings controlling if and how Foswiki handles email including the
 # identity of the sender.
 # <br/><br/>
@@ -1784,23 +1784,6 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # what it changed.) These settings will only be made permanent when you save
 # the configuration.
 
-# **BOOLEAN LABEL="Enable Email" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
-# Enable email globally.  Un-check this option to disable all outgoing
-# email from Foswiki. If this option is enabled, email must be functional
-# for registration to be functional.
-#
-#
-# If you press the Auto-configure button, email will be automatically enabled if
-# autoconfiguration works. After Auto-configure finishes, press the "Send Test Email" button to send a test message.
-$Foswiki::cfg{EnableEmail} = $FALSE;
-
-# **EMAILADDRESS 30 LABEL="Webmaster Email"**
-# Wiki administrator (webmaster) e-mail address, used as the sender address
-# in emails sent by Foswiki. For example =webmaster@example.com=
-# Must be a single valid email address.
-# This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
-$Foswiki::cfg{WebMasterEmail} = 'user@example.com';
-
 # **STRING 30 LABEL="Webmaster Name"**
 # Wiki administrator (webmaster) name.
 # For use in mails sent by Foswiki (first name and last name, for
@@ -1808,7 +1791,16 @@ $Foswiki::cfg{WebMasterEmail} = 'user@example.com';
 # =<nop>%WIKIWEBMASTERNAME%= macro.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
-# **STRING 30 LABEL="SMTP Host" DISPLAY_IF="{EnableEmail}"**
+# **EMAILADDRESS 30 LABEL="Webmaster Email" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'" FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
+# Wiki administrator (webmaster) e-mail address, used as the sender address
+# in emails sent by Foswiki. For example =webmaster@example.com=
+# Must be a single valid email address.
+# This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
+# <br/>
+# If your server is already configured to send email, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
+$Foswiki::cfg{WebMasterEmail} = '';
+
+# **STRING 30 LABEL="SMTP Host" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Optional mail host for outgoing mail, required if Net::SMTP is being used.
 # Examples: =mail.your.company= If the smtp server uses a different port
 # than the default 25, use the syntax =mail.your.company:portnumber=,
@@ -1821,20 +1813,28 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # For Gmail, set {SMTP}{MAILHOST} to =smtp.gmail.com=,
 # provide your gmail email address and password for authentication, and use
 # auto-configuration.
+#
+# After providing a server name, and optional username & password below, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation. 
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
-# **STRING 30 LABEL="SMTP Username" DISPLAY_IF="{EnableEmail}&&{SMTP}{MAILHOST}!=''"**
+# **STRING 30 LABEL="SMTP Username" DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
 # Username for SMTP. Only required if your mail server requires authentication.
 # If this is left blank, Foswiki will not attempt to authenticate the mail
 # sender.
 $Foswiki::cfg{SMTP}{Username} = '';
 
-# **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{EnableEmail}&&{SMTP}{MAILHOST}!=''"**
+# **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{SMTP}{MAILHOST}!=''" FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
 #---++ Advanced settings
 # These are settings for advanced or uncommon configurations, and for debugging.
+
+# **BOOLEAN LABEL="Enable Email" CHECK_ON_CHANGE="{WebMasterEmail}" CHECK="also:{WebMasterEmail}"**
+# Enable email globally.  Un-check this option to disable all outgoing
+# email from Foswiki. If this option is enabled, email must be functional
+# for registration to be functional.
+$Foswiki::cfg{EnableEmail} = $FALSE;
 
 # **SELECT 'Net::SMTP',\
 #          'Net::SMTP (SSL)',\
