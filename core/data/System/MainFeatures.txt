@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422595259" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! What makes Foswiki the ideal collaboration tool?
 <div class="explanation explanationBg">
@@ -96,15 +96,15 @@ Foswiki is an open, programmable collaboration platform <br />
 Foswiki is supported by a large number of volunteers who enjoy creating the best and most versatile Enterprise collaboration platform for free. We are always looking for fresh blood!
    * [[Foswiki:Community.HowYouCanHelp][How You Can Help]]
    * [[Foswiki:Community.WebHome][Community homepage]]
-   * Foswiki is being developed by task teams for [[Foswiki:Community.ReleaseTaskTeam][Release]], [[Foswiki:Community.SecurityTaskTeam][Security]], [[Foswiki:Community.UserExperienceTaskTeam][User Experience]], [[Foswiki:Community.TranslationTaskTeam][Translation]], [[Foswiki:Community.WysiwygTaskTeam][WYSIWYG editor]], [[Foswiki:Community.WebsiteFacilitatorTaskTeam][Website facilitator]], [[Foswiki:Community.DocumentationTaskTeam][Documentation]], [[Foswiki:Community.InfrastructureTaskTeam][Infrastructure]], [[Foswiki:Community.MarketingTaskTeam][Marketing]]
+   * Foswiki is being developed by task teams for [[Foswiki:Community.ReleaseTaskTeam][Release]], [[Foswiki:Community.SecurityTaskTeam][Security]], [[Foswiki:Community.InfrastructureTaskTeam][Infrastructure]]
+   * Foswiki source is hosted on [[https://github.com/foswiki/][GitHub]]
 %ENDSECTION{"col3"}%
 
 %STARTSECTION{"col4"}%---++ How the project is progressing
    * [[Foswiki:About.ProjectUpdate][Project update]] 
    * [[http://blog.foswiki.org][Foswiki Blog]]
    * [[Foswiki:About.FoswikiInTheNews][Foswiki in the news]]
-   * [[Foswiki:%SYSTEMWEB%.SiteChanges][Site activity of the last 24 hours]]
-   * [[http://trac.foswiki.org/timeline/][Overview of committed code changes]]
+   * See the [[http://foswiki.org/Development/ReleasePlan][Release Plan]]
 %ENDSECTION{"col4"}%
 </verbatim>
 
