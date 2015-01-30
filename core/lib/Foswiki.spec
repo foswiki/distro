@@ -740,7 +740,7 @@ $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 # iterations.
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
-# **PASSWORD LABEL="Super Admin Password" EXPERT**
+# **PASSWORD LABEL="Super Admin Password" EXPERT CHECK_ON_CHANGE="{FeatureAccess}{Configure}" CHECK="also:{FeatureAccess}{Configure}"**
 # If set, this password
 # permits use of the "sudo" facility.  *As it is a "shared password",
 # this is no longer recommended per good security practices and is not
