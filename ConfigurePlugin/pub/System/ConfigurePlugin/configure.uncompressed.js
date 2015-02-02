@@ -1,7 +1,7 @@
 /*
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -46,30 +46,6 @@ function _id_ify(id) {
 
     var auth_action = function() {},
         confirm_action = function() {};
-
-/*
-    function init_whirly() {
-        var $whirly, whirlyTimer;
-
-        $whirly = $('<div class="ajax_whirly"></div>').appendTo(".header");
-        $(document).ajaxSend(function() {
-            if (typeof(whirlyTimer) !== 'undefined') {
-              window.clearTimeout(whirlyTimer);
-            }
-            $whirly.show();
-        });
-        $(document).ajaxComplete(function() {
-            if (typeof(whirlyTimer) !== 'undefined') {
-              window.clearTimeout(whirlyTimer);
-            }
-            whirlyTimer = window.setTimeout(function() {
-              $whirly.hide();
-              whirlyTimer = undefined;
-            }, 1000);
-        });
-
-    }
-*/
 
     function inline_whirly($site) {
         var $whirly = $('<span class="whirly" />');
@@ -347,8 +323,35 @@ function _id_ify(id) {
       elements they affect (and checked).
     */
 
+    function wizard_started(params) {
+        var id = params.wizard + '_' + params.method;
+        var $dlg = $('#hogwarts');
+        var $div = $('<div class="wiz"></div>');
+        $div.addClass(id);
+        $div.text((params.wizard ? params.wizard + " " : '')
+                  + params.method + " ");
+        inline_whirly($div);
+        $dlg.append($div);
+        if (!$dlg.hasClass('ui-dialog-content')) {
+            $dlg.dialog({
+                title: "Active Wizards",
+                width: 'auto'
+            });
+        } else if (!$dlg.dialog('isOpen'))
+            $dlg.dialog('open');
+    }
+
+    function wizard_finished(params) {
+        var id = params.wizard + '_' + params.method;
+        var $dlg = $('#hogwarts');
+        $dlg.find('.' + id).remove();
+        if ($dlg.find('.wiz').length == 0) {
+            $dlg.dialog('close');
+        }
+    }
+
     // Create a popup with reports, and apply changes
-    function wizard_reports($node, results) {
+    function wizard_reports(params, $node, results) {
         var $div = $('<div class="message_block"></div>'),
             $dlg;
 
@@ -366,6 +369,8 @@ function _id_ify(id) {
         $div.find('.wizard_button').each(function() {
             var data = $(this).data('wizard'), o, params;
             $(this).button().click(function() {
+                var wiz;
+
                 if (data.form) {
                     o = $.extend({}, data.args);
                     // Get wizard arguments from an optional form
@@ -390,11 +395,11 @@ function _id_ify(id) {
                     cfgusername: $('#username').val(),
                     cfgpassword: $('#password').val()
                 };
-                
+                wizard_started(params);
                 RPC('wizard',
                     'Call ' + data.method,
                     params,
-                    function(result) { wizard_reports($node, result); },
+                    function(result) { wizard_reports(params, $node, result); },
                     $(this));
             });
         });
@@ -440,6 +445,7 @@ function _id_ify(id) {
                 update_save_button();
             }
         });
+        wizard_finished(params);
 
         $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
@@ -470,11 +476,11 @@ function _id_ify(id) {
               cfgusername: $('#username').val(),
               cfgpassword: $('#password').val()
           };
-
+        wizard_started(params);
         RPC('wizard',
             'Call ' + fb.method,
             params,
-            function(result) { wizard_reports($node, result); },
+            function(result) { wizard_reports(params, $node, result); },
             $whirlyPlace);
     }
 
@@ -1018,11 +1024,12 @@ if (0) {
                  var params = {
                      wizard: 'StudyWebserver',
                      method: 'report' };
+                     wizard_started(params);
                  RPC('wizard',
                      'Study webserver',
                      params,
                      function(results) {
-                         wizard_reports($root, results);
+                         wizard_reports(params, $root, results);
                      },
                     $(this));
              };
@@ -1060,12 +1067,12 @@ if (0) {
                     method: 'save',
                     set: find_modified_values()
                 };
-
+                wizard_started(params);
                 RPC('wizard',
                     'Save',
                     params,
                     function(results) {
-                        wizard_reports($root, results);
+                        wizard_reports(params, $root, results);
                         var erc = 0;
                         $.each(results.messages, function(index, rep) {
                             if (rep.level == 'errors') {
