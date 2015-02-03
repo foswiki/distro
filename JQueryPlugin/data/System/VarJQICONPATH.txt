@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284879813" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICONPATH
 ---+++ JQICONPATH{"name"} -- render the urlpath to an image 
    * This is a shortcut for 
      <verbatim class="tml">%JQICON{"name" format="$iconPath"}%</verbatim>
    * Example: =%JQICONPATH{"tick"}%=
-   * Related: [[VarJQICON]], [[VarICONURL]], JQueryPlugin
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarJQICON][JQICON]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], JQueryPlugin
 <!--%JQREQUIRE{"chili"}%-->

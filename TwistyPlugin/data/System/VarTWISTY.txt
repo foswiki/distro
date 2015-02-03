@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422978021" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TwistyPlugin"}%
 #VarTWISTY
 ---+++ TWISTY
@@ -36,7 +36,8 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
   "parent.name='TwistyPlugin'"
   type="query"
   topic="Var*"
+  excludetopic="%INCLUDINGTOPIC%"
   nonoise="on"
-  format="[[%IF{"'%includingtopic%'='Macros'" then="#"}%$topic][$topic]]"
+  format="[[%IF{"'%includingtopic%'='Macros'" then="#"}%$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
   separator=", "
 }%%ENDSECTION{"related"}% </verbatim> -->

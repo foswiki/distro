@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTABPANE
 ---+++ TABPANE{...} -- tabpane widget
@@ -40,5 +40,5 @@
      | minheight | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
      | class | extra class: use =simple= for a non-3D tabpane | | 
      | animate | (on/off) enables/disables animation of switching tabs | off |
-   * Related: [[VarTAB]], [[VarENDTAB]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTAB][TAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane
 <!--%JQREQUIRE{"chili"}%-->

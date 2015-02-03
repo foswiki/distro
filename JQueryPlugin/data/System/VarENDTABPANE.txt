@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1278071257" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarENDTABPANE
 ---+++ ENDTABPANE -- ending tag for tabpane widget
    * This closes a previously opened TABPANE.
    * no parameters
-   * Related: [[VarTAB]], [[VarENDTAB]], [[VarTABPANE]], JQueryPlugin, JQueryTabpane
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTAB][TAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTABPANE][TABPANE]], JQueryPlugin, JQueryTabpane

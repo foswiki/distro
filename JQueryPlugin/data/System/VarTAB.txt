@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTAB
 ---+++ TAB{"text" ...} -- tab inside a tabpane widget 
@@ -15,4 +15,4 @@
      | width | width of the tab area | auto |
      | height | height of the tab area | auto |
      | container | element where ajax content will be loaded; this is only used together with =url= | |
-   * Related: [[VarENDTAB]], [[VarTABPANE]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTABPANE][TABPANE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane

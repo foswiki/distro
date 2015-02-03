@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQREQUIRE
 ---+++ JQREQUIRE{"plugin, plugin, ... "} -- enable a plugin on the current page
@@ -13,6 +13,6 @@
      | *Parameter:* | *Description:* | *Default:* |
      | "plugin[, plugin, plugin]" | list of plugins to be loaded | |
      | warn | (on/off) allows you to switch off warnings when a plugin was not found | on |
-   * Related: JQueryPlugin, [[VarJQPLUGINS]], [[VarADDTOZONE]]
+   * Related: JQueryPlugin, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarJQPLUGINS][JQPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarADDTOZONE][ADDTOZONE]]
 
 

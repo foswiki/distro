@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1422978021" format="1.1" version="1"}%
 %STARTINCLUDE%
 #VarENDCOLOR
 ---+++ ENDCOLOR -- end colored text
@@ -12,7 +12,7 @@
    type="query"
    excludetopic="%TOPIC%"
    nonoise="on"
-   format="[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%$topic][$topic]]"
+   format="[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
    separator=", "
 }%, [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
 %STOPINCLUDE%
