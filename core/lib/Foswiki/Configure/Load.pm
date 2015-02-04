@@ -392,7 +392,7 @@ sub bootstrapConfig {
         $bin = $ENV{FOSWIKI_SCRIPTS};
     }
     else {
-        eval( 'require FindBin' );
+        eval('require FindBin');
         die "Could not load FindBin to support configuration recovery: $@"
           if $@;
         FindBin::again();    # in case we are under mod_perl or similar
@@ -607,12 +607,20 @@ Called by bootstrapConfig.  This handles the web environment specific settings o
 sub bootstrapWebSettings {
     my $script = shift;
 
-    # Cannot bootstrap the web side from CLI environments
-    return if ( $Foswiki::cfg{Engine} eq 'Foswiki::Engine::CLI' );
-
     print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
       . Data::Dumper::Dumper( \%ENV )
       if (TRAUTO);
+
+    # Cannot bootstrap the web side from CLI environments
+    if ( $Foswiki::cfg{Engine} eq 'Foswiki::Engine::CLI' ) {
+        $Foswiki::cfg{DefaultUrlHost} = 'http://localhost';
+        $Foswiki::cfg{ScriptUrlPath}  = '/bin';
+        $Foswiki::cfg{PubUrlPath}     = '/pub';
+        print STDERR
+          "AUTOCONFIG: Bootstrap Phase 2 bypassed! n/a in the CLI Environment\n"
+          if (TRAUTO);
+        return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
+    }
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
 
