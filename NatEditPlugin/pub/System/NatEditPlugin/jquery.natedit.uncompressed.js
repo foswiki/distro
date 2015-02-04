@@ -2609,6 +2609,10 @@ $.fn.natedit = function(opts) {
   // build main options before element iteration
   var thisOpts = $.extend({}, $.NatEditor.defaults, opts);
 
+  if (this.is(".foswikiWysiwygEdit") && typeof(tinyMCE) !== 'undefined') {
+    thisOpts.showToolbar = false;
+  }
+
   return this.each(function() {
     var natedit = new $.NatEditor(this, thisOpts);
   });
@@ -2625,7 +2629,6 @@ $(function() {
   $.NatEditor.defaults.scriptUrl = foswiki.getPreference("SCRIPTURL");
   $.NatEditor.defaults.pubUrl = foswiki.getPreference("PUBURL");
   $.NatEditor.defaults.signatureMarkup = ['-- ', '[['+foswiki.getPreference("WIKIUSERNAME")+']]', ' - '+foswiki.getPreference("SERVERTIME")];
-  $.NatEditor.defaults.showToolbar = typeof(tinyMCE) === 'undefined' ? true : false;
 
   // listen for natedit
   $(".natedit").livequery(function() {
