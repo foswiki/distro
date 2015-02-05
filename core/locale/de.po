@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 12:56+0000\n"
-"Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
-"Language-Team: Foswiki German Translation Team <none>\n"
+"PO-Revision-Date: 2015-02-05 16:31+0200\n"
+"Last-Translator: Jan <krueger@modell-aachen.de>\n"
+"Language-Team: German <http://fwtranslate.modell-aachen.de/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:109
 msgid "$actionName"
@@ -75,14 +76,12 @@ msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 wurde aus der Gruppe %2 entfernt."
+msgstr "%1 kann nicht aus %2 entfernt werden"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "Vielen Dank für Ihre Registrierung"
+msgstr "%1 hat die Registrierung verweigert."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
@@ -94,9 +93,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "Auf %1 gibt es eine Liste anderer Foswiki Benutzer."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 wurde mit der E-Mail %2 registriert"
+msgstr "%1 wurde mit der E-Mail %2 registriert und freigeschaltet"
 
 #: core/templates/messages.tmpl:321
 msgid ""
