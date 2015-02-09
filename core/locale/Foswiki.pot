@@ -1600,6 +1600,10 @@ msgstr ""
 msgid "Editable"
 msgstr ""
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -3842,6 +3846,10 @@ msgid ""
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -3859,10 +3867,6 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
-msgstr ""
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-msgid "TextFormatting"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:49

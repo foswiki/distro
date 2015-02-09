@@ -1761,6 +1761,10 @@ msgstr "Редагувати налаштування сторінки"
 msgid "Editable"
 msgstr "Редагувати таблицю"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -4213,6 +4217,10 @@ msgstr ""
 "\"WSDL\"=, а також словосполучення =\"web service\"=, без слова =\"shampoo"
 "\"=, введіть:"
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4233,11 +4241,6 @@ msgstr "У тексті сторінки"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "У тексті сторінки"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*Допомога по форматуванню:*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -6102,6 +6105,10 @@ msgstr "Проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Допомога по форматуванню:*"
 
 #~ msgid "&Edit text"
 #~ msgstr "Редагувати текст"

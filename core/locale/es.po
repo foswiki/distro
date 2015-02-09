@@ -1750,6 +1750,10 @@ msgstr "Editar las preferencias del tema"
 msgid "Editable"
 msgstr "Editar tabla"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr "Ehm, prefiero regrasar a la página anterior para corrigirla..."
@@ -4186,6 +4190,10 @@ msgstr ""
 "CONSEJO: Para buscar por todos los temas que contengan =\"SOAP\"=, =\"WSDL"
 "\"=, un =\"web service\"= literal, pero no =\"shampoo\"=, escriba:"
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4205,11 +4213,6 @@ msgstr "Cuerpo del Texto"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "Cuerpo del Texto"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*Ayuda de formato:*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -6109,6 +6112,10 @@ msgstr "vista"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Ayuda de formato:*"
 
 #~ msgid "&Edit text"
 #~ msgstr "&Editar texto"

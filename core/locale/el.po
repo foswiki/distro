@@ -1754,6 +1754,10 @@ msgstr "Επεξεργαστείτε τις ρυθμίσεις προτίμησ�
 msgid "Editable"
 msgstr "Επεξεργασία αυτού του πίνακα"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -4195,6 +4199,10 @@ msgstr ""
 "\"WSDL\" =, κυριολεκτικά = \"web service\" =, αλλά όχι = \"shampoo\" =, "
 "γράψτε:"
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4214,11 +4222,6 @@ msgstr "Σώμα κειμένου"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "Σώμα κειμένου"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*Βοήθεια Μορφοποίησης:*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -6103,6 +6106,10 @@ msgstr "προβολή"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Βοήθεια Μορφοποίησης:*"
 
 #~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 #~ msgstr "%1 - πλήρη τεκμηρίωση του Foswiki, από Γρήγορη Έναρξη έως Αναφορές"
