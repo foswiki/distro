@@ -27,6 +27,8 @@ sub preview {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
+    Foswiki::Func::setPreferencesValue( 'SCRIPTNAME', 'view' );
+
     # SMELL: it's probably not good to do this here, because a preview may
     # give enough time for a new topic with the same name to be created.
     # It would be better to do it only on an actual save.
@@ -62,6 +64,11 @@ sub preview {
 
     my $text = $topicObject->text() || '';
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
+
+    # Disarm any TOC's - they expand relative to the save script URL
+    my $msg = $session->i18n->maketext('TOC Disabled in preview.');
+    $text =~
+s/%TOC((?:{[^}]*?})?%)/<div class="foswikiBroadcastMessage">%RED%%<nop>TOC$1%ENDCOLOR% $msg<\/div>/g;
 
     # Load the template for the view
     my $content  = $text;
