@@ -1,6 +1,7 @@
 !noci
 data/System/BuildContrib.txt 0664 Description
 lib/Foswiki/Contrib/Build.pm 0444 Code module
+lib/Foswiki/Contrib/BuildContrib/DEPENDENCIES 0644
 lib/Foswiki/Contrib/BuildContrib.pm 0444 Dummy module for version strings
 lib/Foswiki/Contrib/BuildContrib/BaseBuild.pm 0444 Common functionality for build programs
 lib/Foswiki/Contrib/BuildContrib/build.pl 0444 Build script

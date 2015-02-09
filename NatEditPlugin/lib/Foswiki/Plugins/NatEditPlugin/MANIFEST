@@ -1,6 +1,7 @@
 data/System/NatEditHelpText.txt 0644
 data/System/NatEditPlugin.txt 0644
 data/System/NatEditWordHelpText.txt 0644
+lib/Foswiki/Plugins/NatEditPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/NatEditPlugin/Config.spec 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormList.pm 0644

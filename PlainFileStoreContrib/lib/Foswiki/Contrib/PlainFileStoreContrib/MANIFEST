@@ -1,5 +1,6 @@
 !noci
 data/System/PlainFileStoreContrib.txt 0644 Documentation page
+lib/Foswiki/Contrib/PlainFileStoreContrib/DEPENDENCIES 0644
 lib/Foswiki/Contrib/PlainFileStoreContrib.pm 0644 Perl module 
 lib/Foswiki/Store/PlainFile.pm 0644 Perl module 
 lib/Foswiki/Contrib/PlainFileStoreContrib/Config.spec 0444 Configuration
