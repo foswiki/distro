@@ -115,7 +115,10 @@ sub preview {
     # Disable links and inputs in the text
     # SMELL: This will break on <a name="blah />
     # XXX - Use a real HTML parser like HTML::Parser
-    $displayText =~ s#(<a\s[^>]*>)(.*?)(</a>)#_reTargetLink($1, $2, $3)#gies;
+    $displayText =~ s#(<a\s[^>]*>)(.*?)(</a>)#_disableLink($1, $2, $3)#gies
+      ;    # Disables base relative links
+    $displayText =~ s#(<a\s[^>]*>)(.*?)(</a>)#_reTargetLink($1, $2, $3)#gies
+      ;    # Retargets remaining links
     $displayText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
     $displayText =~ s(</?form(|\s.*?)>)()gis;
     $displayText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;
@@ -164,12 +167,24 @@ sub preview {
 sub _reTargetLink {
     my ( $one, $two, $three ) = @_;
 
-    if ( $one =~ m/\btarget=/i ) {
-        $one =~
+    unless ( $one =~ m/foswikiEmulatedLink/ ) {
+        if ( $one =~ m/\btarget=/i ) {
+            $one =~
 s/\btarget=(?:(?: \'[^\']*\' | \"[^\"]*\" | [^\'\"\s]+ )+)(.*?>)/target="_blank"$1/xi;
+        }
+        else {
+            $one =~ s/\bhref=/target="_blank" href=/;
+        }
     }
-    else {
-        $one =~ s/\bhref=/target="_blank" href=/;
+    return $one . $two . $three;
+}
+
+sub _disableLink {
+    my ( $one, $two, $three ) = @_;
+
+    if ( $one =~ /\bhref=['"][#?]/i ) {    #Anchors or relative links
+        $one   = "<span class=\"foswikiEmulatedLink\">";
+        $three = "</span>";
     }
     return $one . $two . $three;
 }
