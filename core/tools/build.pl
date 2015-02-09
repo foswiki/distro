@@ -407,14 +407,14 @@ sub stage_gendocs {
     print
 `cd $this->{basedir}/bin ; ./view -topic System.ReleaseHistory -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
     print
-`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes01x01 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x01.html`;
+`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes01x02 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x02.html`;
     print
 `cd $this->{basedir}/bin ; ./view -topic System.UpgradeGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/UpgradeGuide.html`;
     print
 `cd $this->{basedir}/bin ; ./view -topic System.InstallationGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
     $this->filter_txt(
-        "$this->{tmpDir}/ReleaseNotes01x01.html",
-        "$this->{tmpDir}/ReleaseNotes01x01.html"
+        "$this->{tmpDir}/ReleaseNotes01x02.html",
+        "$this->{tmpDir}/ReleaseNotes01x02.html"
     );
     print "Automatic documentation built\n";
 }

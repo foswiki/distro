@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423447213" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -146,8 +146,8 @@ methods may be more easily implemented in the future.  The default method is
 Two additional methods are now included which may be of help to the
 Administrator:
 
-   $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the AdminGroup.
-   $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the AdminGroup
+   $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the !AdminGroup.
+   $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the !AdminGroup
 
 <div class="foswikiHelp">%X% *Caution:* These controls are enforced at
 the ACL Level.  Extensions have the ability to ignore access controls.  If an
@@ -192,8 +192,8 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 | *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki.  Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuraiton. |
 
    * Configure is now a conventional "Foswiki Engine" based script.  This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
-      * You can register an initial user and add them to the AdminGroup while in "Bootstrap mode" before saving your initial configuration.
-   * Configure now requires JavaScript.
+      * You can register an initial user and add them to the !AdminGroup while in "Bootstrap mode" before saving your initial configuration.
+   * Configure now requires !JavaScript.
       * Configuration parameters are Checked and saved through ajax.
       * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
    * Performance
@@ -201,13 +201,13 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 
 ---++++ Changes to configure Authentication
 
-   * Configure requires that the user has logged in to Foswiki and is in the AdminGroup.
+   * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
       * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
-   * Configure can be restricted to individual users in or out of the AdminGroup.
-      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the AdminGroup in order to view or save the configuration.
-      * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the AdminGroup.
+   * Configure can be restricted to individual users in or out of the !AdminGroup.
+      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
+      * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the !AdminGroup.
 
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:

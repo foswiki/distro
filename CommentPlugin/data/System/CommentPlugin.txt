@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -45,7 +45,7 @@ The =target= attribute may specify a web, and may also specify an anchor within 
 <verbatim class="tml">
 %COMMENT{type="above" target="%USERSWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
-This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
+This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.EditingShorthand for more about Foswiki anchors.
 
 ---+++ Default templates
 Templates are used to define the "comment style" i.e. how comments appear in the page. The default is to add comments in "Blog like" style using bulleted lists, with the most recent comment at the top, but many other styles are available such as tables or Wiki thread mode comments. It is easy to define your own customer styles as well.
@@ -293,4 +293,4 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1423445948" user="ProjectContributor" version="1"}%

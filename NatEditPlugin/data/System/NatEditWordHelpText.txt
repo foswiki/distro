@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
 %META:TOPICPARENT{name="NatEditPlugin"}%
 ---+ %TOPIC%
 Help text for the NatEditPlugin editor
@@ -18,7 +18,7 @@ Help text for the NatEditPlugin editor
 <tr>
 <td valign="top">
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/EditingShorthand" target="_blank">%MAKETEXT{"EditingShorthand"}%</a> 
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros" target="_blank">%MAKETEXT{"Macros"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/DataForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
