@@ -1,6 +1,7 @@
 bin/foswiki.fcgi 0755
 data/System/FastCGIEngineContrib.txt 0644
 lib/FCGI/ProcManager/Constrained.pm 0644
+lib/Foswiki/Contrib/FastCGIEngineContrib/DEPENDENCIES 0644
 lib/Foswiki/Contrib/FastCGIEngineContrib/Config.spec 0644
 lib/Foswiki/Contrib/FastCGIEngineContrib.pm 0644
 lib/Foswiki/Engine/FastCGI.pm 0644
