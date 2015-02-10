@@ -6,9 +6,11 @@
 # run other tests
 # build a release tarball & upload...
 # Sven Dowideit Copyright (C) 2006-2011 All rights reserved.
+# Florian Schlichting Copyright (C) 2013-2015
 # gpl3 or later licensed.
 #
-# If you are Sven (used by Sven's automated nightly build system) - call with perl autoBuildFoswiki.pl -sven
+# If you are running an automated nightly build system, call with ./autoBuildFoswiki.pl --autobuild
+# to have output files copied to a webserver and a notification email sent
 # everyone else, can just run perl autoBuildFoswiki.pl
 #
 #
