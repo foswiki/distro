@@ -421,9 +421,14 @@ s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
 
 # Remove warnings about HTML5 not being covered by HTML::Tidy properly, see Item13134
 s/^$testcase \(\d+:\d+\) Warning: <a> proprietary attribute "data-.*"//gm;
+s/^$testcase \(\d+:\d+\) Warning: <textarea> proprietary attribute "data-.*?"//gm;
+s/^$testcase \(\d+:\d+\) Warning: <input> proprietary attribute "placeholder"//gm;
 s/^$testcase \(\d+:\d+\) Warning: <meta> proprietary attribute "charset"//gm;
 s/^$testcase \(\d+:\d+\) Warning: <meta> lacks "content" attribute//gm;
 s/^$testcase \(\d+:\d+\) Warning: <[^>]+> proprietary attribute "class"//gm;
+
+                # These elements are no longer suppported in HTML5
+s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute//gm;
 
                 s/^\s*$//;
 
