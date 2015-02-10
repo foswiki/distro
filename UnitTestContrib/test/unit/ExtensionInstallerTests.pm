@@ -15,6 +15,8 @@ use Foswiki::Configure::FileUtil ();
 use Foswiki::Configure::Package  ();
 use Foswiki::Configure::Reporter ();
 
+use Foswiki::Sandbox;
+
 my $reporter;
 
 sub skip {
@@ -1680,6 +1682,7 @@ sub test_Util_createArchive_shellTar {
     ( $file, $rslt ) =
       Foswiki::Configure::FileUtil::createArchive( "$extbkup", "$tempdir", '1',
         'tar' );
+    $file = Foswiki::Sandbox::untaintUnchecked($file);
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create tar archive" );
     $this->assert( ( !-e "$tempdir/$extbkup" ),
@@ -1705,12 +1708,12 @@ sub test_Util_createArchive_perlTar {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    #eval { require Archive::Tar; 1; } or do {
-    #    my $mess = $@;
-    #    $mess =~ s/\(\@INC contains:.*$//s;
-    #    $this->expect_failure("CANNOT RUN test for tar archive:  $mess");
-    #    $this->assert(0);
-    #};
+    eval { require Archive::Tar; 1; } or do {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure("CANNOT RUN test for tar archive:  $mess");
+        $this->assert(0);
+    };
 
     ( $file, $rslt ) =
       Foswiki::Configure::FileUtil::createArchive( "$extbkup", "$tempdir", '0',
@@ -1748,16 +1751,18 @@ sub test_Util_createArchive_perlZip {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    #eval { require Archive::Zip; 1; } or do {
-    #    my $mess = $@;
-    #    $mess =~ s/\(\@INC contains:.*$//s;
-    #    $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
-    #    $this->assert(0);
-    #};
+    eval { require Archive::Zip; 1; } or do {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
+        $this->assert(0);
+    };
 
     ( $file, $rslt ) =
       Foswiki::Configure::FileUtil::createArchive( "$extbkup", "$tempdir", '0',
         'Pzip' );
+    $this->assert( ( defined $file ),
+        "createArchive returned undefined filename" );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create Archive::Zip archive" );
     $this->assert( ( -e "$tempdir/$extbkup" ),
@@ -1925,9 +1930,48 @@ DONE
     $pkg->finish();
     undef $pkg;
 
+    return;
+}
+
+#
+# Verify error handling for the Package class
+#
+sub test_Package_errors_zip {
+    my $this = shift;
+    my $root = $this->{rootdir};
+
+    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    rmtree($tempdir);    # Clean up old files if left behind
+    mkpath($tempdir);
+
+    my $repository = {
+        name => 'Foswiki',
+        data => 'http://foswiki.org/Extensions/',
+        pub  => 'http://foswiki.org/pub/Extensions/'
+    };
+
     #
     # Verify error expanding .zip file
     #
+    my $extension = "MyPlugin";
+    _makePackage( $tempdir, $extension );
+
+    $reporter->clear();
+    my $pkg = Foswiki::Configure::Package->new(
+        root     => $root,
+        module   => 'MyPlugin',
+        DIR      => $tempdir,
+        USELOCAL => 1
+    );
+    $this->assert( $pkg->loadInstaller($reporter) );
+    $this->sniff();
+
+    eval { require Archive::Zip; 1; } or do {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
+    };
+
     $reporter->clear();
     $pkg = Foswiki::Configure::Package->new(
         root     => $root,
@@ -1942,11 +1986,10 @@ Test file data
 DONE
     $this->assert( !$pkg->install($reporter) );
     $this->sniff( errors => '(format error|unzip failed)' );
-    unlink $tempdir . "/MyPlugin.tgz";
+    unlink $tempdir . "/MyPlugin.zip";
     $pkg->finish();
     undef $pkg;
 
     return;
 }
-
 1;
