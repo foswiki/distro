@@ -83,11 +83,25 @@ sub set_up_for_verify {
     my $this = shift;
     $this->createNewFoswikiSession();
 
+    # SMELL:  We need to go through all this because File::Remove with a
+    # wildcard causes taint errors.   Logic copied from Foswiki.pm.
+    my $taintrt;
+    unless ( $Foswiki::cfg{UseLocale} ) {
+        eval { require Taint::Runtime; };
+        unless ($@) {
+
+            # Disable taint checking
+            my $taintrt = 1;
+            Taint::Runtime::_taint_stop();
+        }
+    }
+
     # Clean up here in case test was aborted
     File::Remove::remove( \1,
         "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}*" );
 
     unlink "$Foswiki::cfg{TempfileDir}/testfile.txt";
+    Taint::Runtime::_taint_start() if ($taintrt);
 
     return;
 }
