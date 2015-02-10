@@ -177,7 +177,7 @@ HERE
 sub test_isadmin {
     my $this = shift;
     my $testformat =
-'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE';
+'W$wikiusernameU$wikinameN$usernameE$emailsG:$groups:A$adminIA$isadminIG$isgroupE';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
     my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
@@ -186,9 +186,28 @@ HERE
     my $adminEmail = $Foswiki::cfg{WebMasterEmail} || 'email not set';
     my $adminusername =
       Foswiki::Func::wikiToUserName( $Foswiki::cfg{AdminUserWikiName} );
-    $this->assert_str_equals( <<"HERE", $ui );
-W$Foswiki::cfg{UsersWebName}.$Foswiki::cfg{AdminUserWikiName}U$Foswiki::cfg{AdminUserWikiName}N${adminusername}E${adminEmail}GAdminGroup, BaseGroup, FriendsOfFriendsOfGropeGroup, FriendsOfGropeGroupAtrueIAtrueIGfalseE
+    my $expected = <<"HERE";
+W$Foswiki::cfg{UsersWebName}.$Foswiki::cfg{AdminUserWikiName}U$Foswiki::cfg{AdminUserWikiName}N${adminusername}E${adminEmail}G:AdminGroup, BaseGroup, FriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup:AtrueIAtrueIGfalseE
 HERE
+    $this->assert_equals( length($ui), length($expected) );
+    $this->assert_matches( qr/GfalseE$/,      $ui );    # $isgroup
+    $this->assert_matches( qr/AtrueIAtrueIG/, $ui );    # $admin $isadmin
+
+    # Group memberships
+    $this->assert_matches( qr/\bAdminGroup\b/,                   $ui );
+    $this->assert_matches( qr/\bBaseGroup\b/,                    $ui );
+    $this->assert_matches( qr/\bFriendsOfGropeGroup\b/,          $ui );
+    $this->assert_matches( qr/\bFriendsOfFriendsOfGropeGroup\b/, $ui );
+
+    # Wikinames and usernames
+    $this->assert_matches(
+        qr/^W$Foswiki::cfg{UsersWebName}\.$Foswiki::cfg{AdminUserWikiName}U/,
+        $ui );
+    $this->assert_matches( qr/U$Foswiki::cfg{AdminUserWikiName}N/, $ui );
+    $this->assert_matches( qr/N${adminusername}E/,                 $ui );
+
+    #Email
+    $this->assert_matches( qr/E${adminEmail}G/, $ui );
 
     return;
 }

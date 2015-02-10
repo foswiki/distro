@@ -14,6 +14,7 @@ use Error qw(:try);
 
 use Foswiki::Configure::Wizards::Save;
 use Foswiki::Configure::Reporter;
+use Foswiki::Sandbox;
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {
@@ -125,6 +126,7 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     # TODO: check backup succeeded
 
     $c =~ s/^\$Foswiki::cfg/\$blah/gm;
+    $c = Foswiki::Sandbox::untaintUnchecked($c);
     my %blah;
     eval $c;
     %Foswiki::cfg = ();    #{ConfigurationFinished} = 0;

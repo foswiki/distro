@@ -9,6 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Foswiki::Configure::Dependency ();
+use Foswiki::Sandbox;
 use Error qw( :try );
 use Assert;
 
@@ -197,6 +198,7 @@ SMELL
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
+    $result = Foswiki::Sandbox::untaintUnchecked($result);
     $result = eval $result;
     $this->assert( !$@, $@ );
     $this->assert_deep_equals(
