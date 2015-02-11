@@ -119,7 +119,7 @@ This will also install [BuildContrib](http://foswiki.org/Extensions/BuildContrib
 
 The unit tests run with ASSERTS enabled, but the live web environment does not.  In order to enable ASSERTS, edit `bin/LocalLib.cfg` (If it's not there, create it by copying `bin/LocalLib.cfg.txt`) and un-comment the following line
 ```
-$ENV{FOSWIKI_ASSERTS} ` 1;
+$ENV{FOSWIKI_ASSERTS} = 1;
 ```
 
 This enables additional validation tests that will impact performance, but will catch some issues that might be missed during normal web usage.
@@ -127,10 +127,10 @@ This enables additional validation tests that will impact performance, but will 
 
 ### Use the CPAN modules shipped with Foswiki
 
-Foswiki ships with a number of CPAN modules that are used only when the underlying platform is missing the modules.  In order to test using the modules that are shipped with Foswiki, CPAN lib prepending should be enabled in <span>bin/LocalLib.cfg</span>by uncommenting the following line:
+Foswiki 1.2 no longer ships with CPAN modules. It is now recommended to use your system's package manager, or cpan to install dependencies. see http://foswiki.org/System/SystemRequirements.  In the event that you are unable to install the CPAN dependencies, pseudo-install the CpanContrib to get the 1.x style Foswiki specific dependencies. (CpanContrib is not yet released). In order to test these modules, CPAN lib prepending should be enabled in <span>bin/LocalLib.cfg</span>by uncommenting the following line:
 
 ```
-$CPANBASE ` '';                     # Uncommented: Default path prepended
+$CPANBASE = '';                     # Uncommented: Default path prepended
 ```
 
 .   See the comments in `bin/LocalLib.cfg.txt` for more details.
