@@ -232,7 +232,7 @@ sub test_Item11353 {
     my $url = $this->{session}->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
----+ A level 1 head!line
+---+ A level 1 head!line <!--1-->
 <!--
 ---++ Followed by a commented level 2! headline
 -->
@@ -254,11 +254,9 @@ HERE
     $res2 = $topicObject->renderTML($res2);
     $topicObject->finish();
 
-    #return;
-
     my $expected = <<HTML;
 <div class="foswikiToc" id="foswikiTOC"> <ul>
-<li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a>
+<li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line_60_33_45_451_45_45_62">A level 1 head!line <!--1--> </a>
 </li></ul>
 </div>
 HTML
