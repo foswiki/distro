@@ -168,6 +168,14 @@ if ($SvensAutomatedBuilds) {
 
     `cp ../../Foswiki-git.$foswikiBranch.log Foswiki-git.log`;
 
+    #create -latest links
+    opendir( my $dh, $foswikihome );
+    foreach my $file ( grep /Foswiki-.*auto/, readdir $dh ) {
+        my $link = $file;
+        $link =~ s/-auto\w+/-latest/;
+        symlink $file, $link;
+    }
+
     #push the files to the server
     `scp ../*/*.zip $webspace_scp$foswikiBranch/`;
     `scp ../*/*.tgz $webspace_scp$foswikiBranch/`;
