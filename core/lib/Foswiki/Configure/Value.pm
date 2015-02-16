@@ -342,8 +342,9 @@ sub getRawValue {
         while ( $x =~ s/^{(.*?)}// ) {
             $path = $path->{$1};
             $p .= "{$1}";
-            print STDERR "$this->{keys} is undefined at $p"
-              unless defined $path;
+
+            #print STDERR "$this->{keys} is undefined at $p"
+            #  unless defined $path;
         }
     }
     return eval("\$Foswiki::cfg$this->{keys}");
