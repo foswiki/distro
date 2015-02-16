@@ -71,8 +71,8 @@ else {
     print STDERR "using existing checkout, removing extra files" if $verbose;
     chdir($foswikiBranch);
     `git clean -fdx > ../Foswiki-git.$foswikiBranch.log`;
-`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout > ../Foswiki-git.$foswikiBranch.log`;
-`git status -s | grep '??' | cut -f2 -d' ' | xargs rm -rf > ../Foswiki-git.$foswikiBranch.log`;
+`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../Foswiki-git.$foswikiBranch.log`;
+`git status -s | grep '??' | cut -f2 -d' ' | xargs rm -rfv >> ../Foswiki-git.$foswikiBranch.log`;
     `git pull`;
 }
 chdir('core');
@@ -159,11 +159,22 @@ print "\n\n ready to build release\n" if $verbose;
 #   3. cd tools
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn
+`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../../Foswiki-git.$foswikiBranch.log`;
 chdir('lib');
 `export FOSWIKI_LIBS=$foswikihome/lib:$foswikihome/lib/CPAN/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
+
+    `cp ../../Foswiki-git.$foswikiBranch.log Foswiki-git.log`;
+
+    #create -latest links
+    opendir( my $dh, $foswikihome );
+    foreach my $file ( grep /Foswiki-.*auto/, readdir $dh ) {
+        my $link = $file;
+        $link =~ s/-auto\w+/-latest/;
+        symlink $file, $link;
+    }
 
     #push the files to the server
     `scp ../*/*.zip $webspace_scp$foswikiBranch/`;

@@ -128,6 +128,7 @@ sub _SUBSCRIBE {
             }
         )
     );
+    $tmpl =~ s/\%JSON_DATA\%/$data/g;
 
     # Add nonce, required for Foswiki < 1.2
     $tmpl =~ s/\%NONCE\%/_getNonce($session)/ge;
