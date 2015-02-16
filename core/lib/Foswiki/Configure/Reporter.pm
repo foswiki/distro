@@ -306,8 +306,11 @@ sub uneval {
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Indent   = $indent || 0;
     $datum = Data::Dumper->Dump( [$datum] );
-    $datum =~ s/^\$VAR1\s*=\s*//s;
     $datum =~ s/;\s*$//s;
+    if ( $datum =~ s/^(\$VAR\d+\s*=\s*)//s ) {
+        my $sp = ' ' x length($1);
+        $datum =~ s/^$sp//g;
+    }
     return $datum;
 }
 

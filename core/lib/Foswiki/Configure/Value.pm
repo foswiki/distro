@@ -402,7 +402,7 @@ sub encodeValue {
         return $value;
     }
     elsif ( ref($value) ) {
-        return Foswiki::Configure::Reporter::uneval($value);
+        return Foswiki::Configure::Reporter::uneval( $value, 2 );
     }
     elsif ( $this->{typename} eq 'OCTAL' ) {
         return sprintf( '0%o', $value );
