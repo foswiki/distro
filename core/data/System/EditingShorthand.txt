@@ -1,5 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1424017258" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TML"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
