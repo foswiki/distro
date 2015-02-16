@@ -28,20 +28,20 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-2.0.0, jquery-2.0.1, jquery-2.0.2, jquery-2.1.0, jquery-2.1.1, jquery-2.1.3 LABEL="JQuery Version"**
+# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-2.0.0, jquery-2.0.1, jquery-2.0.2, jquery-2.1.0, jquery-2.1.1, jquery-2.1.3**
 # Note that starting with jQuery-1.9.1 deprecated features have been removed. If you are experiencing
 # problems with plugins still using deprecated features then add the <code>migrate</code> plugin to the list
 # of plugins loaded by default (see above). Further note that starting with jQuery-2.0 support for Internet Explorer 6/7/8
 # has been dropped. Use jQuery-1.9 in case you still need to cover these browsers.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.1.3';
 
-# **SELECT , jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2 LABEL="JQuery Version for Old IEs"**
+# **SELECT , jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2**
 # Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
 # Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
 # library version for all browsers.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = 'jquery-1.11.2';
 
-# **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness LABEL="JQuery-UI Theme" **
+# **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
 # ---+++ JQuery UI Themes
