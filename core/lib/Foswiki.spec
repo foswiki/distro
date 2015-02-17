@@ -1505,102 +1505,102 @@ $Foswiki::cfg{Store}{filePermission} = 0644;
 # FormField types. If you install an extension that adds new Form Field types,
 # you need to run configure for them to be registered.
 $Foswiki::cfg{FormTypes} = [
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Radio',
-        'type'        => 'radio',
-        'size'        => 4
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Text',
-        'type'        => 'text',
-        'size'        => 10
-    },
-    {
-        'multivalued' => 1,
-        'class'       => 'Foswiki::Form::Checkbox',
-        'type'        => 'checkbox',
-        'size'        => 4
-    },
-    {
-        'multivalued' => 1,
-        'class'       => 'Foswiki::Form::Checkbox',
-        'type'        => 'checkbox+values',
-        'size'        => 4
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Color',
-        'type'        => 'color',
-        'size'        => ''
-    },
-    {
-        'multivalued' => '',
-        'class'       => 'Foswiki::Form::Select',
-        'type'        => 'select',
-        'size'        => 1
-    },
-    {
-        'multivalued' => 1,
-        'class'       => 'Foswiki::Form::Select',
-        'type'        => 'select+multi',
-        'size'        => 1
-    },
-    {
-        'multivalued' => '',
-        'class'       => 'Foswiki::Form::Select',
-        'type'        => 'select+values',
-        'size'        => 1
-    },
-    {
-        'multivalued' => 1,
-        'class'       => 'Foswiki::Form::Select',
-        'type'        => 'select+multi+values',
-        'size'        => 1
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Date',
-        'type'        => 'date',
-        'size'        => 20
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Label',
-        'type'        => 'label',
-        'size'        => ''
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::ListFieldDefinition',
-        'type'        => 'listfielddefinition',
-        'size'        => ''
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Rating',
-        'type'        => 'rating',
-        'size'        => 4
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::FieldDefinition',
-        'type'        => 'fielddefinition',
-        'size'        => ''
-    },
-    {
-        'multivalued' => 0,
-        'class'       => 'Foswiki::Form::Textarea',
-        'type'        => 'textarea',
-        'size'        => ''
-    },
-    {
-        'multivalued' => 1,
-        'class'       => 'Foswiki::Form::Textboxlist',
-        'type'        => 'textboxlist',
-        'size'        => ''
-    }
+  {
+    'class' => 'Foswiki::Form::Radio',
+    'multivalued' => 0,
+    'size' => 4,
+    'type' => 'radio'
+  },
+  {
+    'class' => 'Foswiki::Form::Text',
+    'multivalued' => 0,
+    'size' => 10,
+    'type' => 'text'
+  },
+  {
+    'class' => 'Foswiki::Form::Checkbox',
+    'multivalued' => 1,
+    'size' => 4,
+    'type' => 'checkbox'
+  },
+  {
+    'class' => 'Foswiki::Form::Checkbox',
+    'multivalued' => 1,
+    'size' => 4,
+    'type' => 'checkbox+values'
+  },
+  {
+    'class' => 'Foswiki::Form::Color',
+    'multivalued' => 0,
+    'size' => '',
+    'type' => 'color'
+  },
+  {
+    'class' => 'Foswiki::Form::Select',
+    'multivalued' => '',
+    'size' => 1,
+    'type' => 'select'
+  },
+  {
+    'class' => 'Foswiki::Form::Select',
+    'multivalued' => 1,
+    'size' => 1,
+    'type' => 'select+multi'
+  },
+  {
+    'class' => 'Foswiki::Form::Select',
+    'multivalued' => '',
+    'size' => 1,
+    'type' => 'select+values'
+  },
+  {
+    'class' => 'Foswiki::Form::Select',
+    'multivalued' => 1,
+    'size' => 1,
+    'type' => 'select+multi+values'
+  },
+  {
+    'class' => 'Foswiki::Form::Date',
+    'multivalued' => 0,
+    'size' => 20,
+    'type' => 'date'
+  },
+  {
+    'class' => 'Foswiki::Form::Label',
+    'multivalued' => 0,
+    'size' => '',
+    'type' => 'label'
+  },
+  {
+    'class' => 'Foswiki::Form::ListFieldDefinition',
+    'multivalued' => 0,
+    'size' => '',
+    'type' => 'listfielddefinition'
+  },
+  {
+    'class' => 'Foswiki::Form::Rating',
+    'multivalued' => 0,
+    'size' => 4,
+    'type' => 'rating'
+  },
+  {
+    'class' => 'Foswiki::Form::FieldDefinition',
+    'multivalued' => 0,
+    'size' => '',
+    'type' => 'fielddefinition'
+  },
+  {
+    'class' => 'Foswiki::Form::Textarea',
+    'multivalued' => 0,
+    'size' => '',
+    'type' => 'textarea'
+  },
+  {
+    'class' => 'Foswiki::Form::Textboxlist',
+    'multivalued' => 1,
+    'size' => '',
+    'type' => 'textboxlist'
+  }
 ];
 
 #############################################################################
