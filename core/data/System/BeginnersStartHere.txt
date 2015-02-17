@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424189575" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! %TOPIC%
 
@@ -92,7 +92,7 @@ The header of a Foswiki page is generally highlighted, and will usually contain 
 
 #HeaderSample
 
-<table border="0" cellpadding="5" cellspacing="0" style="width: 100%; background-color: #aaaaff; font-size: 18px;"> <tbody> <tr> <td valign="middle">%ATTACHURL%/myco.gif</td> <td align="right" valign="top">
+<table border="0" cellpadding="5" cellspacing="0" style="width: 100%; background-color: #aaaaff; font-size: 18px;"> <tbody> <tr> <td valign="middle"> %ATTACHURL%/myco.gif</td> <td align="right" valign="top">
           <form name="jumpForm">
               <input id="jumpFormField" type="text" name="topic" value="Jump" size="18" style="color:#888888;" />
           </form>
@@ -388,14 +388,14 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1421672966" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1421672966" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1421672966" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1421672966" size="2394" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1421672966" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1421672966" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1421672966" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1421672966" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1421672966" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1421672966" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1424189758" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1424189758" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1424189758" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1424189758" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1424189758" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1424189758" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1424189758" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1424189758" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1424189758" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1424189758" size="1687" user="ProjectContributor" version="1"}%
 
