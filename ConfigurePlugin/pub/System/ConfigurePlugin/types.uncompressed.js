@@ -176,7 +176,13 @@ var Types = {};
               this.spec.SIZE = "80x20";
           }
           return this._super(change_handler);
+      },
+      isDefault: function() {
+          var a = this.currentValue().trim(),
+              b = this.spec['default'].trim();
+          return a === b;
       }
+
   });
 
   Types.NUMBER = Types.BaseType.extend({

@@ -83,7 +83,14 @@ sub TOC {
     my %junk;
     $text = Foswiki::takeOutBlocks( $text, 'verbatim', \%junk );
     $text = Foswiki::takeOutBlocks( $text, 'pre',      \%junk );
+
+# Item11353.  Remove HTML comments, but not comments that are on the heading line itself
+# Comments on the line become part of the heading ID, so they are needed.
+# SMELL:  This is not perfect.  Multi-line comments that start on a heading
+# line are going have issues.
+    $text =~ s/^(---+.*?)<!--(.*?)$/_protectComments($1,$2)/mge;
     $text =~ s/<!--.*?-->//sg;    #Brute force,  Remove html comments
+    $text =~ s/\0/</g;            # restore "protected" comments
 
     my $maxDepth = $params->{depth};
     $maxDepth ||= $session->{prefs}->getPreference('TOC_MAX_DEPTH')
@@ -245,11 +252,22 @@ sub TOC {
     }
 }
 
+# Temporarily protect HTML comments that are on a ---+..  heading line.
+sub _protectComments {
+    my ( $left, $right ) = @_;
+    if ( $right =~ m/-->/ ) {
+        return $left . "\0!--" . $right;
+    }
+    else {
+        return $left . '<!..' . $right;
+    }
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

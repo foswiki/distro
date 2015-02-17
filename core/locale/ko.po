@@ -1673,6 +1673,10 @@ msgstr "토픽 설정 편집하기"
 msgid "Editable"
 msgstr "이 테이블 편집하기"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -4016,6 +4020,10 @@ msgid ""
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4034,11 +4042,6 @@ msgstr ""
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr ""
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*포맷팅 도움말:*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -5792,6 +5795,10 @@ msgstr "보기"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "당신의 확인이 요청된 이유입니다."
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*포맷팅 도움말:*"
 
 #~ msgid "&Edit text"
 #~ msgstr "본문 편집 (&E)"

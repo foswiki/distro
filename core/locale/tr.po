@@ -1640,6 +1640,10 @@ msgstr ""
 msgid "Editable"
 msgstr "Tablo Düzenle"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -3955,6 +3959,10 @@ msgstr ""
 "kelime grubunu içeren ve aynı zamanda  =\"shampoo\"= kelimesini içermeyen "
 "konuları aramak için : "
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -3974,10 +3982,6 @@ msgstr "Metin içinde"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "Metin içinde"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-msgid "TextFormatting"
-msgstr ""
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy

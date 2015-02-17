@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423445074" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -334,7 +334,7 @@ If these new countermeasures against CSRF creates problems for your users and yo
 ---+++ [[VarADDTOZONE][ADDTOZONE]] instead of [[VarADDTOHEAD][ADDTOHEAD]]
 Foswiki 1.1.0 introduces the concept of _zones_, realised by the [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros. Although [[VarADDTOHEAD][ADDTOHEAD]] will continue to work, there may be problems with Foswiki applications that use [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;...= markup to the page where dependencies have been required which are now added with =%<nop>ADDTOZONE{"script"...=.
 
-Foswiki treats the =head= and =script= zones of a page separately and won't be able to order these dependencies properly unless the ={MergeHeadAndScriptZones}= option is set in [[%SCRIPTURLPATH{"configure"}%][configure]]. *This feature will be removed in a future version of Foswiki.*
+Foswiki treats the =head= and =script= zones of a page separately and won't be able to order these dependencies properly unless the ={MergeHeadAndScriptZones}= option is set in %IF{"context command_line" then="=configure=" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%. *This feature will be removed in a future version of Foswiki.*
 
 See also Foswiki:Development.UpdatingExtensionsScriptZone, [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
 
@@ -343,10 +343,10 @@ Foswiki 1.1.x ships with JQueryPlugin by default. If you are upgrading from a 1.
    * The =foswiki= DOM object is no longer automatically populated from =&lt;meta .../&gt;= tags. See [[JQueryCodingStandards#Propagating_perl_settings_to_javascript][JQueryCodingStandards]] to learn about the new =foswiki.getPreference('SOMETHING');= method.
    * JQueryPlugin now uses the [[VarADDTOZONE][script zone]] to add =&lt;script&gt;...= markup. If your existing wiki applications used something like
    <verbatim class="tml">%JQREQUIRE{"cycle"}%%ADDTOHEAD{"MyApp" requires="JQUERYPLUGIN::CYCLE" text="<script..."}%</verbatim>
-   then this code will no longer be guaranteed to be ordered after the =JQUERYPLUGIN::CYCLE= markup, unless ={MergeHeadAndScriptZones}= has been enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. It needs to be re-written as per the instructions at Foswiki:Development.UpdatingExtensionsScriptZone. See also [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
+   then this code will no longer be guaranteed to be ordered after the =JQUERYPLUGIN::CYCLE= markup, unless ={MergeHeadAndScriptZones}= has been enabled in %IF{"context command_line" then="=configure=" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%. It needs to be re-written as per the instructions at Foswiki:Development.UpdatingExtensionsScriptZone. See also [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
 
----+++ JavascriptFiles and BehaviourContrib
-If you have written wiki applications or plugins that assumed the presence of certain Foswiki JS libraries, such as [[BehaviourContrib][behaviour]] (no longer shipped with Foswiki), [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikilib.js]], [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikiPref.js]], [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikiString.js]] etc. these should now be explicitly required into the page using <verbatim class="tml">%TMPL:P{"JavascriptFiles/foswikiPref"}%</verbatim> as instructed at Foswiki:Development.UsingADDTOZONE
+---+++ JavascriptFiles and !BehaviourContrib
+If you have written wiki applications or plugins that assumed the presence of certain Foswiki JS libraries, such as =behaviour= (no longer shipped with Foswiki), =%SYSTEMWEB%/JavascriptFiles/foswikilib.js=, =%SYSTEMWEB%/JavascriptFiles/foswikilib.js=, =%SYSTEMWEB%/JavascriptFiles/foswikilib.js= etc. these should now be explicitly required into the page using <verbatim class="tml">%TMPL:P{"JavascriptFiles/foswikiPref"}%</verbatim> as instructed at Foswiki:Development.UsingADDTOZONE
 
 ---+++ TinyMCEPlugin =TINYMCEPLUGIN_INIT= changes
 TinyMCEPlugin's configuration scheme has been reorganised. If you had a customised =TINYMCEPLUGIN_INIT= preference variable on Foswiki 1.0.x, it will need to be removed, re-built, replaced with a dedicated topic section or replaced with newly introduced preference variables for Foswiki 1.1.x. See [[TinyMCEPlugin#UpgradeFrom01x00][upgrade advice]] for more information.
@@ -370,4 +370,4 @@ The currently used log file is always the same name. They are renamed to somehth
 Due to fixes to the authentication session cookies when using =http= and =https=, your users may need to login again. This applies to both =TemplateLogin= and =ApacheLogin=.
 
 ---
-*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix <!--, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases-->
+*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix

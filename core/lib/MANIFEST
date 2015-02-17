@@ -6,6 +6,7 @@
 !include ../EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
 !include ../FamFamFamContrib/lib/Foswiki/Contrib/FamFamFamContrib
+!include ../FastCGIEngineContrib/lib/Foswiki/Contrib/FastCGIEngineContrib
 !include ../HistoryPlugin/lib/Foswiki/Plugins/HistoryPlugin
 !include ../HomePagePlugin/lib/Foswiki/Plugins/HomePagePlugin
 !include ../InterwikiPlugin/lib/Foswiki/Plugins/InterwikiPlugin
@@ -14,6 +15,7 @@
 !include ../JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin
 !include ../JsonRpcContrib/lib/Foswiki/Contrib/JsonRpcContrib
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
+!include ../ModPerlEngineContrib/lib/Foswiki/Contrib/ModPerlEngineContrib
 !include ../NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin
 !include ../PatternSkin/lib/Foswiki/Contrib/PatternSkin
 !include ../PlainFileStoreContrib/lib/Foswiki/Contrib/PlainFileStoreContrib

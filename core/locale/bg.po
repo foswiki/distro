@@ -1750,6 +1750,10 @@ msgstr "Редактиране настройките на тази страни
 msgid "Editable"
 msgstr "Редактиране на таблица"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -4147,6 +4151,10 @@ msgstr ""
 "СЪВЕТ: за да търсите за страници, съдържащи =\"SOAP\"=, =\"WSDL\"=, буквален "
 "текст =\"web service\"=, но не =\"shampoo\"=, напишете:"
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4166,11 +4174,6 @@ msgstr "Тялото на текста"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "Тялото на текста"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*Как да форматирате*"
 
 #: core/templates/registermessages.tmpl:49
 msgid "Thank you for approving this registration"
@@ -5942,6 +5945,10 @@ msgstr "виж"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Как да форматирате*"
 
 #~ msgid "&Edit text"
 #~ msgstr "Редактиране на текста"

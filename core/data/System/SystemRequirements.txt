@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422503973" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423433588" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -11,6 +11,7 @@ Low client and server base requirements are core features that keep Foswiki wide
 
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX).  On Unix-like systems, it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
 
+%TABLE{sort="off"}%
 | *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
 | External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= (not required on Windows) |
@@ -35,6 +36,7 @@ they were put into an optional extension. See Foswiki:Extensions.CpanContrib. In
 
 Install apache and rcs ==apt-get install apache2 rcs==
 
+%TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =libalgorithm-diff-perl= |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
@@ -65,6 +67,7 @@ Apache user should issue the following commands:
 
 Install apache2, rcs, and perl-CPAN
 
+%TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | File::Copy::Recursive | =perl-File-Copy-Recursive= | |
 | HTML::Parser | =perl-HTML-Parser= | |
@@ -88,6 +91,7 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 
+%TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |

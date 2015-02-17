@@ -1,4 +1,5 @@
 data/System/UpdatesPlugin.txt 0644
+lib/Foswiki/Plugins/UpdatesPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/UpdatesPlugin/Config.spec 0644
 lib/Foswiki/Plugins/UpdatesPlugin/Core.pm 0644
 lib/Foswiki/Plugins/UpdatesPlugin.pm 0644

@@ -1,9 +1,41 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
+<noautolink>
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
+---++ Foswiki Release 1.1.9 - 19 Nov 2013
+
+Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 43 fixes and 4 enhancements.
+
+---++ Foswiki Release 1.1.8 - 28 Feb 2013
+
+Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
+
+---++ Foswiki Release 1.1.7 - 01 Feb 2013
+
+Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
+
+---++ Foswiki Release 1.1.6 - 02 Dec 2012
+
+Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
+
+---++ Foswiki Release 1.1.5 - 10 Apr 2012
+
+Foswiki 1.1.5 was built 10 Apr 2012.  It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
+
+---++ Foswiki Release 1.1.4 - 20 Dec 2011
+
+Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
+
+---++ Foswiki Release 1.1.3 - 16 Apr 2011
+
+Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+
+---++ Foswiki Release 1.1.2 - 09 Nov 2010
+
+Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
 
 ---++ Foswiki Release 1.1.1 - 25 Oct 2010
 
@@ -380,7 +412,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | [[TWiki:Codev.DynamicFormOptionDefinitions][Dynamic form option definitions]] of DataForms with FormattedSearch | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
 | SEARCH enhancements with new parameters =excludeweb=, =newline=, =noempty=, =nofinalnewline=, =nonoise=, =recurse=, =zeroresults= | [[http://c-dot.co.uk][Crawford Currie]], [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | FormattedSearch enhancements with =$changes=, =$count=, =$formfield(name, 30, ...)=, =$summary(expandvar)=, =$summary(noheaders)=, =$summary(showvarnames)= | [[TWiki:Main.ColasNahaboo][ColasNahaboo]], [[http://c-dot.co.uk][Crawford Currie]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] |
-| New TWikiVariables [[TWikiVariables#VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[TWikiVariables#VarALLVARIABLES][ALLVARIABLES]], [[TWikiVariables#VarAUTHREALM][AUTHREALM]], [[TWikiVariables#VarEMAILS][EMAILS]], [[TWikiVariables#VarFAILEDPLUGINS][FAILEDPLUGINS]], [[TWikiVariables#VarHTTP][HTTP]], [[TWikiVariables#VarHTTPS][HTTPS]], [[TWikiVariables#VarICONURL][ICONURL]], [[TWikiVariables#VarICONURLPATH][ICONURLPATH]], [[TWikiVariables#VarIF][IF]], [[TWikiVariables#VarLANGUAGES][LANGUAGES]], [[TWikiVariables#VarLOCALSITEPREFS][LOCALSITEPREFS]], [[TWikiVariables#VarLOGIN][LOGIN]], [[TWikiVariables#VarLOGOUT][LOGOUT]], [[TWikiVariables#VarMAKETEXT][MAKETEXT]], [[TWikiVariables#VarMETA][META]], [[TWikiVariables#VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[TWikiVariables#VarQUERYSTRING][QUERYSTRING]], [[TWikiVariables#VarSTARTSECTION][STARTSECTION]]/[[TWikiVariables#VarENDSECTION][ENDSECTION]], [[TWikiVariables#VarSESSION_VARIABLE][SESSION_VARIABLE]], [[TWikiVariables#VarSESSIONID][SESSIONID]], [[TWikiVariables#VarSESSIONVAR][SESSIONVAR]], [[TWikiVariables#VarSPACEOUT][SPACEOUT]], [[TWikiVariables#VarUSERLANGUAGE][USERLANGUAGE]], [[TWikiVariables#VarWIKIHOMEURL][WIKIHOMEURL]] | [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.GregAbbas][GregAbbas]], [[TWiki:Main.PeterThoeny][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]], [[Foswiki:Main.WillNorris][WillNorris]] and many more |
+| New TWikiVariables =ACTIVATEDPLUGINS=, =ALLVARIABLES=, =AUTHREALM=, =EMAILS=, =FAILEDPLUGINS=, =HTTP=, =HTTPS=, =ICONURL=, =ICONURLPATH=, =IF=, =LANGUAGES=, =LOCALSITEPREFS=, =LOGIN=, =LOGOUT=, =MAKETEXT=, =META=, =PLUGINDESCRIPTIONS=, =QUERYSTRING=, =STARTSECTION/ENDSECTION=, =SESSION_VARIABLE=, =SESSIONID=, =SESSIONVAR=, =SPACEOUT=, =USERLANGUAGE=, =WIKIHOMEURL= | [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.GregAbbas][GregAbbas]], [[TWiki:Main.PeterThoeny][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]], [[Foswiki:Main.WillNorris][WillNorris]] and many more |
 | [[TWiki:Codev.TWikiFormWithHiddenType][TWiki form with hidden type]] and other form enhancements | [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | [[TWiki:Codev.SupportTopicSpecificTemplates][Support topic-specific templates]] for TWiki applications | [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | Direct save feature for one-click template-based topic creation | [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
@@ -666,7 +698,7 @@ See more details at TWikiReleaseNotes04x00
    * *01 Jun 2001* - TWiki:Main.PeterThoeny 
       * New =%<nop>URLPARAM{"name"}%= variable to query URL parameters. More in TWikiVariables.
    * *01 Jun 2001* - TWiki:Main.AndreaSterbini 
-      * API to extend TWiki, see [[TWikiPlugins#PluginAPI][TWikiPluginAPI]]
+      * API to extend TWiki, see TWikiPluginAPI
    * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini 
       * Forms to change/reset/install passwords, see ChangePassword & ResetPassword
    * *01 May 2001* - TWiki:Main.AndreaSterbini 
@@ -678,7 +710,7 @@ See more details at TWikiReleaseNotes04x00
    * *01 May 2001* - TWiki:Main.JohnTalintyre 
       * Ability to rename/move topics, ManagingTopics
    * *27 Mar 2001* - TWiki:Main.PeterThoeny 
-      * The table syntax has been enhanced to (i) render ==| <nop>*bold*<nop> |== cells as table headers, (ii) render space padded cells ==| center aligned |== and ==| right aligned |==, (iii) span multiple columns using ==| empty cells |||==. More in TextFormattingRules.
+      * The table syntax has been enhanced to (i) render ==| <nop>*bold*<nop> |== cells as table headers, (ii) render space padded cells ==| center aligned |== and ==| right aligned |==, (iii) span multiple columns using ==| empty cells |||==. More in EditingShorthand.
    * *25 Mar 2001* - TWiki:Main.PeterThoeny 
       * Security fix Questionable files like PHP scripts (executables) and ==.htaccess== files that are attached to a topic get a ==.txt== suffix appended to the file name. See also TWiki:Codev/FileAttachmentFilterSecurityAlert
    * *28 Feb 2001* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny 
@@ -735,7 +767,7 @@ See more details at TWikiReleaseNotes04x00
    * *19 Sep 2000* - TWiki:Main.PeterThoeny 
       * Fixed TWiki:Codev/AttachedNotificationLinksBug.
    * *18 Sep 2000* - TWiki:Main.ManpreetSingh, TWiki:Main.PeterThoeny 
-      * Added forced internal links. Write =[<nop>[text formatting FAQ]]= to get the link [[text formatting FAQ]] that points to topic TextFormattingFAQ.
+      * Added forced internal links. Write =[<nop>[Editing Shorthand]]= to get the link [[Editing Shorthand]] that points to topic EditingShorthand.
    * *19 Aug 2000* - TWiki:Main.PeterThoeny 
       * Ref-By link searches all webs (not just the current web.)
    * *16 Aug 2000* - TWiki:Main.PeterThoeny 
@@ -820,7 +852,7 @@ See more details at TWikiReleaseNotes04x00
 ---++ 01-Jul-1999 Release
 
    * *23 Jun 1999* - TWiki:Main.PeterThoeny 
-      * New TextFormattingRules to write __bold italic__ text by enclosing words with double underline characters.
+      * New EditingShorthand to write __bold italic__ text by enclosing words with double underline characters.
    * *23 Jun 1999* - TWiki:Main.PeterThoeny 
       * Separate wiki.pm into configuration (wikicfg.pm) and TWiki core (wiki.pm) . This is to ease the upgrade of TWiki installations, it also allows customized extensions to TWiki without affecting the TWiki core.
    * *21 May 1999* - TWiki:Main.DavidWarman 
@@ -906,3 +938,5 @@ The typical TWiki development flow...
    * TWiki:Codev.DocsToDo: feature documentation pending
    * TWiki:Codev.FeatureDocumented: documented feature
    * ReferenceManual: reference manual for the latest TWiki
+
+</noautolink>

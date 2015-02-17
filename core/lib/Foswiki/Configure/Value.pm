@@ -342,8 +342,9 @@ sub getRawValue {
         while ( $x =~ s/^{(.*?)}// ) {
             $path = $path->{$1};
             $p .= "{$1}";
-            print STDERR "$this->{keys} is undefined at $p"
-              unless defined $path;
+
+            #print STDERR "$this->{keys} is undefined at $p"
+            #  unless defined $path;
         }
     }
     return eval("\$Foswiki::cfg$this->{keys}");
@@ -402,7 +403,7 @@ sub encodeValue {
         return $value;
     }
     elsif ( ref($value) ) {
-        return Foswiki::Configure::Reporter::uneval($value);
+        return Foswiki::Configure::Reporter::uneval( $value, 2 );
     }
     elsif ( $this->{typename} eq 'OCTAL' ) {
         return sprintf( '0%o', $value );

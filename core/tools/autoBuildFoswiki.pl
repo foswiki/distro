@@ -1,14 +1,16 @@
 #! /usr/bin/perl -w
 #
-# Build a Foswiki Release from branches in the Foswiki  svn repository - see http://foswiki.org/Development/BuildingARelease
+# Build a Foswiki Release from branches in the Foswiki git repository - see http://foswiki.org/Development/BuildingARelease
 # checkout Foswiki Branch
 # run the unit tests
 # run other tests
 # build a release tarball & upload...
 # Sven Dowideit Copyright (C) 2006-2011 All rights reserved.
+# Florian Schlichting Copyright (C) 2013-2015
 # gpl3 or later licensed.
 #
-# If you are Sven (used by Sven's automated nightly build system) - call with perl autoBuildFoswiki.pl -sven
+# If you are running an automated nightly build system, call with ./autoBuildFoswiki.pl --autobuild
+# to have output files copied to a webserver and a notification email sent
 # everyone else, can just run perl autoBuildFoswiki.pl
 #
 #
@@ -27,6 +29,8 @@ my $webspace_scp =
   '~/public_html/foswiki/';            # path to webspace as understood by scp
 my $webspace_url = 'http://fschlich.userpage.fu-berlin.de/foswiki/'
   ;                                    # path to webspace for browsers
+my $localcfgdir =
+  '/home/f/fschlich/FOSWIKI/';  # path to additional local config (LocalLib.cfg)
 
 # options
 my $SvensAutomatedBuilds = 0;
@@ -42,7 +46,7 @@ GetOptions(
 ) or die "unknown option, use --autobuild, --stable, --verbose";
 
 if ($update) {
-`curl http://svn.foswiki.org/trunk/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
+`curl https://raw.githubusercontent.com/foswiki/distro/master/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
     exit;
 }
 
@@ -51,50 +55,44 @@ if ($verbose) {
     print STDERR "building branch $foswikiBranch\n";
 }
 
-# SVN checkout / update
+# GIT checkout / update
 unless ( -e $foswikiBranch ) {
     print STDERR "doing a fresh checkout\n" if $verbose;
-    if ( $foswikiBranch eq 'trunk' ) {
-        `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
-    }
-    else {
+`git clone https://github.com/foswiki/distro $foswikiBranch > Foswiki-git.$foswikiBranch.log`;
+    die "GIT clone failed" if $?;
+    chdir($foswikiBranch);
+    if ( $foswikiBranch ne 'trunk' ) {
+
         # check out a branch
-`svn co http://svn.foswiki.org/branches/$foswikiBranch > Foswiki-svn.log`;
+        `git checkout $foswikiBranch`;
     }
-    die "SVN checkout failed" if $?;
-    chdir( $foswikiBranch . '/core' );
 }
 else {
-
-    #TODO: should really do an svn revert..
-    print STDERR "using existing checkout, removing ? files" if $verbose;
+    print STDERR "using existing checkout, removing extra files" if $verbose;
     chdir($foswikiBranch);
-    `svn status | grep ? | sed 's/?/rm -rv/' | sh > Foswiki-svn.log`;
-    `svn up --accept 'theirs-full' >> Foswiki-svn.log`;
-    chdir('core');
+    `git clean -fdx > ../Foswiki-git.$foswikiBranch.log`;
+`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../Foswiki-git.$foswikiBranch.log`;
+`git status -s | grep '??' | cut -f2 -d' ' | xargs rm -rfv >> ../Foswiki-git.$foswikiBranch.log`;
+    `git pull`;
 }
+chdir('core');
 
 my $foswikihome = `pwd`;
 chomp($foswikihome);
 
-`mkdir -p working/tmp`;
-`chmod 777 working/tmp`;
-`chmod 777 lib`;
+# fix -T ignoring PERL5LIBS env, thus not finding my locally-installed libs :-(
+`[ -s $localcfgdir/LocalLib.cfg ] && cp $localcfgdir/LocalLib.cfg bin/`;
 
-#TODO: add a trivial and correct LocalSite.cfg
-`chmod -R 777 data pub`;
-
-`perl -wT pseudo-install.pl -A developer`;
+`./pseudo-install.pl developer`;
+`./pseudo-install.pl -A`;
 
 print "run unit tests\n" if $verbose;
-
-#TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
 
 # /usr/bin/time -v : -v print all stats, hopefully incl. max. res. memory usage
 #                    /usr/bin/time to avoid bash (1) internal 'time' command
 my $unitTests =
-"export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; /usr/bin/time -v perl ../bin/TestRunner.pl -tap -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
+"export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; /usr/bin/time -v perl ../bin/TestRunner.pl -tap -clean FoswikiSuite.pm > $foswikihome/Foswiki-UnitTests.log 2>&1";
 my $return    = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ( $errorcode == 0 ) {
@@ -161,11 +159,22 @@ print "\n\n ready to build release\n" if $verbose;
 #   3. cd tools
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn
+`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../../Foswiki-git.$foswikiBranch.log`;
 chdir('lib');
 `export FOSWIKI_LIBS=$foswikihome/lib:$foswikihome/lib/CPAN/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
+
+    `cp ../../Foswiki-git.$foswikiBranch.log Foswiki-git.log`;
+
+    #create -latest links
+    opendir( my $dh, $foswikihome );
+    foreach my $file ( grep /Foswiki-.*auto/, readdir $dh ) {
+        my $link = $file;
+        $link =~ s/-auto\w+/-latest/;
+        symlink $file, $link;
+    }
 
     #push the files to the server
     `scp ../*/*.zip $webspace_scp$foswikiBranch/`;

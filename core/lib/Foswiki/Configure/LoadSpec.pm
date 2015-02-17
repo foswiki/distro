@@ -340,6 +340,9 @@ sub parse {
                 next;
             }
 
+            # Restore initial \n for continued lines
+            $value .= "\n" unless $value =~ /\s*;\s*$/;
+
             # Read the value verbatim, retaining internal \s
             while ( $value !~ s/\s*;\s*$//s ) {
                 my $cont = <$fh>;

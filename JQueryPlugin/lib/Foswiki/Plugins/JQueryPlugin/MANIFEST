@@ -81,6 +81,7 @@ lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/JQueryPlugin/AUTOCOMPLETE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BGIFRAME.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BLOCKUI.pm 0644

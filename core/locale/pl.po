@@ -1744,6 +1744,10 @@ msgstr "Edycja ustawień strony"
 msgid "Editable"
 msgstr "Edycja tabeli"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
@@ -4195,6 +4199,10 @@ msgstr ""
 "Wskazówka: aby wyszukać wszystkie strony zawierające =\"SOAP\"=, =\"WSDL\"=, "
 "oraz dosłowne: =\"web service\"=, ale nie =\"shampoo\"=, wpisz:"
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4214,10 +4222,6 @@ msgstr "w zawartości"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "w zawartości"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-msgid "TextFormatting"
-msgstr "*Pomoc do zasad formatowania (TextFormatting):*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -6082,6 +6086,9 @@ msgstr "wyświetl"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "dlaczego jesteś pytany o potwierdzenie"
+
+#~ msgid "TextFormatting"
+#~ msgstr "*Pomoc do zasad formatowania (TextFormatting):*"
 
 #~ msgid "&Edit text"
 #~ msgstr "&Edycja tekstu"

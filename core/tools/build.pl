@@ -46,25 +46,25 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
-    if ( scalar(@ARGV) > 1 ) {
-        $name = pop(@ARGV);
-        if ( $name eq '-auto' ) {
+    while ( scalar(@ARGV) > 1 ) {
+        my $arg = pop(@ARGV);
+        if ( $arg eq '-auto' ) {
 
             #build a name from major.minor.patch.-auto.gitrev
             my $rev = `git rev-parse --short HEAD`;
+            chomp $rev;
             $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
+            $name =~ s/\s*$//g;
             $autoBuild = 1;
         }
-        if ( $name eq '-commit' ) {
+        if ( $arg eq '-commit' ) {
 
             # Commit the changes back to the repo
             $commit = 1;
-            $name   = undef;
         }
-        if ( $name eq '-nocheck' ) {
+        if ( $arg eq '-nocheck' ) {
 
             $nocheck = 1;
-            $name    = undef;
         }
     }
 
@@ -94,22 +94,26 @@ END
     my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
       split( '\n', `git tag` );
 
-    unless ($autoBuild) {
+    my $content;
+    open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
 
-        open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
+    {
         local $/ = undef;
-        my $content = <PM>;
+        $content = <PM>;
         close(PM);
+    }
 
-        my $VERSION;
-        my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
-        substr( $version, 0, 0, 'use version 0.77; ' )
-          if ( $version =~ /version/ );
-        eval $version if ($version);
+    my $VERSION;
+    my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
+    substr( $version, 0, 0, 'use version 0.77; ' )
+      if ( $version =~ /version/ );
+    eval $version if ($version);
 
-        my $RELEASE;
-        my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
-        eval $release if ($release);
+    my $RELEASE;
+    my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
+    eval $release if ($release);
+
+    unless ($autoBuild) {
 
         print <<END;
 
@@ -228,6 +232,17 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
             # This is a rebuild, just use the same name.
             $name = "$RELEASE";
         }
+    }
+    else {
+
+        my $rev = `git log --abbrev=12 --format=format:"Commit: %h - %ci" -1`;
+        my $br  = `git branch`;
+        ($br) = $br =~ m/^\* (.*)$/m;
+
+        $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1Branch: $br $rev$2/;
+        open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
+        print PM $content;
+        close(PM);
     }
 
     # make sure the project name (and hence the files we generate)
@@ -407,14 +422,14 @@ sub stage_gendocs {
     print
 `cd $this->{basedir}/bin ; ./view -topic System.ReleaseHistory -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
     print
-`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes01x01 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x01.html`;
+`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes01x02 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x02.html`;
     print
 `cd $this->{basedir}/bin ; ./view -topic System.UpgradeGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/UpgradeGuide.html`;
     print
 `cd $this->{basedir}/bin ; ./view -topic System.InstallationGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
     $this->filter_txt(
-        "$this->{tmpDir}/ReleaseNotes01x01.html",
-        "$this->{tmpDir}/ReleaseNotes01x01.html"
+        "$this->{tmpDir}/ReleaseNotes01x02.html",
+        "$this->{tmpDir}/ReleaseNotes01x02.html"
     );
     print "Automatic documentation built\n";
 }

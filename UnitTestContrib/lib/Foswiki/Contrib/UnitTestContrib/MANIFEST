@@ -1,5 +1,6 @@
 bin/test 0755
 data/System/UnitTestContrib.txt 0644
+lib/Foswiki/Contrib/UnitTestContrib/DEPENDENCIES 0644
 lib/Foswiki/Configure/Wizards/Test.pm 0444 Perl module
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/Config.spec 0644

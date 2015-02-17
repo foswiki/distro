@@ -1,5 +1,6 @@
 bin/jsonrpc 0755
 data/System/JsonRpcContrib.txt 0644
+lib/Foswiki/Contrib/JsonRpcContrib/DEPENDENCIES 0644
 lib/Foswiki/Contrib/JsonRpcContrib/Config.spec 0644
 lib/Foswiki/Contrib/JsonRpcContrib/Error.pm 0644
 lib/Foswiki/Contrib/JsonRpcContrib/JQueryPlugin.pm 0644

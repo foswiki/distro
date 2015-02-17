@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420147851" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1423625343" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -146,8 +146,8 @@ methods may be more easily implemented in the future.  The default method is
 Two additional methods are now included which may be of help to the
 Administrator:
 
-   $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the AdminGroup.
-   $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the AdminGroup
+   $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the !AdminGroup.
+   $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the !AdminGroup
 
 <div class="foswikiHelp">%X% *Caution:* These controls are enforced at
 the ACL Level.  Extensions have the ability to ignore access controls.  If an
@@ -192,8 +192,8 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 | *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki.  Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuraiton. |
 
    * Configure is now a conventional "Foswiki Engine" based script.  This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
-      * You can register an initial user and add them to the AdminGroup while in "Bootstrap mode" before saving your initial configuration.
-   * Configure now requires JavaScript.
+      * You can register an initial user and add them to the !AdminGroup while in "Bootstrap mode" before saving your initial configuration.
+   * Configure now requires !JavaScript.
       * Configuration parameters are Checked and saved through ajax.
       * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
    * Performance
@@ -201,13 +201,13 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 
 ---++++ Changes to configure Authentication
 
-   * Configure requires that the user has logged in to Foswiki and is in the AdminGroup.
+   * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
       * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
-   * Configure can be restricted to individual users in or out of the AdminGroup.
-      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the AdminGroup in order to view or save the configuration.
-      * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the AdminGroup.
+   * Configure can be restricted to individual users in or out of the !AdminGroup.
+      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
+      * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the !AdminGroup.
 
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
@@ -235,6 +235,57 @@ ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
 quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 
 ---++ Foswiki Release 1.2 Details
+
+---+++ New Features
+
+| *Feature* | *Summary* |
+| [[Foswiki:Development.AJAXOnDemandCheckersForConfigure][AJAXOnDemandCheckersForConfigure]] | Update configure to allow Ajax based (fast) checking |
+| [[Foswiki:Development.AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels |
+| [[Foswiki:Development.AddDefaultTopicParameterToINCLUDE][AddDefaultTopicParameterToINCLUDE]] | allow a list of topics to be specified so that we can use INCLUDE to allow customisation of shipped topic elements. |
+| [[Foswiki:Development.AddDefaultValueToSTARTSECTION][AddDefaultValueToSTARTSECTION]] | Add default value to STARTSECTION |
+| [[Foswiki:Development.AddENDINCLUDEandSTOPSECTION][AddENDINCLUDEandSTOPSECTION]] | Let's make an ENDINCLUDE to be consistent with ENDSECTION |
+| [[Foswiki:Development.AddNatEditToCore][AddNatEditToCore]] | Let's add NatEdit to the core |
+| [[Foswiki:Development.AddOperatorsToQueries][AddOperatorsToQueries]] | Add missing operators to query search and %IF |
+| [[Foswiki:Development.AddRegistrationValidationHandler][AddRegistrationValidationHandler]] | Add a plugins handler for registration validation |
+| [[Foswiki:Development.AddRequestSetToCore][AddRequestSetToCore]] | Add ?Set+ etc to the core |
+| [[Foswiki:Development.AddTimeFeaturesToAttachmentLinks][AddTimeFeaturesToAttachmentLinks]] | Add date formatting tokens to attachment links |
+| [[Foswiki:Development.AddUpdatesPluginToDefaultRelease][AddUpdatesPluginToDefaultRelease]] | Add UpdatesPlugin to default release |
+| [[Foswiki:Development.AddWebParamToAllCgiScripts][AddWebParamToAllCgiScripts]] | add a defaultweb= parameter to all cgi scripts |
+| [[Foswiki:Development.AdminApprovalOfNewUsers][AdminApprovalOfNewUsers]] | Should be able to audit new registrations |
+| [[Foswiki:Development.AllowGuestsToUseRESTAsDefault][AllowGuestsToUseRESTAsDefault]] | Remove =rest= from the default list of AuthScripts |
+| [[Foswiki:Development.CancelButtonsShouldUseViewScript][CancelButtonsShouldUseViewScript]] | Never POST to a save script for purposes of cancelling an update |
+| [[Foswiki:Development.ConsistentFormFieldValues][ConsistentFormFieldValues]] | Consistently displaying form field values |
+| [[Foswiki:Development.ControlFoswikiTemporaryFileLocations][ControlFoswikiTemporaryFileLocations]] | Explicitly control the storage location of temporary files used by Foswiki |
+| [[Foswiki:Development.DemandParseTables][DemandParseTables]] | Demand-parsing of tables would solve several outstanding problems |
+| [[Foswiki:Development.DeprecateApacheHtpasswdModule][DeprecateApacheHtpasswdModule]] | Deprecate ApacheHtpasswd Module |
+| [[Foswiki:Development.EngineContribsAsCoreExtensions][EngineContribsAsCoreExtensions]] | Ship FastCGIEngineContrib and ModPerlEngineContrib as core extensions |
+| [[Foswiki:Development.Enhancei18nArchitecture][Enhancei18nArchitecture]] | Enable internationalisation of plugins |
+| [[Foswiki:Development.EscapeTmlInEditor][EscapeTmlInEditor]] | Add a little UI to make it easier to escape TML |
+| [[Foswiki:Development.FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb][FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb]] | Fallback To Topic  When URL has Trailing Space And No Subweb exists but topic does |
+| [[Foswiki:Development.FasterAccessToCreatorData][FasterAccessToCreatorData]] | Store creator and create date in metadata to improve performance |
+| [[Foswiki:Development.HideIrrelevantConfigureOptions][HideIrrelevantConfigureOptions]] | Configure has too many options, and often they are irrelevant |
+| [[Foswiki:Development.HtmlAttributesShouldUseSingleQuotes][HtmlAttributesShouldUseSingleQuotes]] | HTML attributes should use single quotes |
+| [[Foswiki:Development.ImplementAddMeToAdminButton][ImplementAddMeToAdminButton]] | Implement the UI suggested by Crawford in the AddFurtherControlsOnSudo proposal |
+| [[Foswiki:Development.IncreaseCacheControlMaxAgeForSystemWeb][IncreaseCacheControlMaxAgeForSystemWeb]] | Increase =max-age= for static webs |
+| [[Foswiki:Development.IntroduceForceDefaultUrlHostToggle][IntroduceForceDefaultUrlHostToggle]] | Sometimes its necessary to force the hostname set in {DefaultUrlHost}. |
+| [[Foswiki:Development.LinksInPreview][LinksInPreview]] | It would be useful to have links enabled in edit previews |
+| [[Foswiki:Development.MakeStartPageCOnfigurable][MakeStartPageCOnfigurable]] | Add HomePagePlugin as a core extension |
+| [[Foswiki:Development.MoveCPANLibToSeparateContrib][MoveCPANLibToSeparateContrib]] | Move foswiki core lib/CPAN into its own CpanContrib |
+| [[Foswiki:Development.OneStepUserDeletion][OneStepUserDeletion]] | Create mechanism for easy user deletion - Move AntiWikiSpamPlugin remove user code to core. |
+| [[Foswiki:Development.PluggableAccessControlImplementation][PluggableAccessControlImplementation]] | Pluggable Access Control Implementation |
+| [[Foswiki:Development.ProtectConfigureUsingHtigestByDefault][ProtectConfigureUsingHtigestByDefault]] | Improve default protection of configure script |
+| [[Foswiki:Development.RedesignLoggerAPI][RedesignLoggerAPI]] | Modernize the Log API |
+| [[Foswiki:Development.RefactorACLCheckOnResultSetAsFilter][RefactorACLCheckOnResultSetAsFilter]] | Refactor ACL Check and Pager on ResultSet As Filter |
+| [[Foswiki:Development.RemoveDeprecatedEmptyDENYRule][RemoveDeprecatedEmptyDENYRule]] | Finish off the deprecation of the empty DENY* Rules started back on TWiki |
+| [[Foswiki:Development.RemoveTaintCheckingFromFoswiki][RemoveTaintCheckingFromFoswiki]] | Remove the -T flag from the foswiki scripts |
+| [[Foswiki:Development.ReplaceEditTablePluginWithEditRowPlugin][ReplaceEditTablePluginWithEditRowPlugin]] | replace edit table plugin with edit row plugin |
+| [[Foswiki:Development.RequirePerl588][RequirePerl588]] | Move to 5.8.8 for various reasons |
+| [[Foswiki:Development.ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the SubscribePlugin with Foswiki 1.2 |
+| [[Foswiki:Development.SupportBlockquoteAndIndenting][SupportBlockquoteAndIndenting]] | Support =&lt;blockquote&gt;= and paragraph indenting in TinyMCEPlugin |
+| [[Foswiki:Development.SupportShorterACRONYMS][SupportShorterACRONYMS]] | We need support in my company for two letter ACRONYMS |
+| [[Foswiki:Development.TopicAddressing][TopicAddressing]] | Consistent methods for breaking apart topic names/"addresses" |
+| [[Foswiki:Development.UnifyUnitTests][UnifyUnitTests]] | Move to a single Unit Test suite that runs on multiple branches. |
+| [[Foswiki:Development.Use401ForCookieAuth][Use401ForCookieAuth]] | Return 401 instead of 200 for auth failures |
 
 ---+++ Fixes
 

@@ -1683,6 +1683,10 @@ msgstr "編輯主題屬性設定"
 msgid "Editable"
 msgstr "編輯表格"
 
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
 msgstr "讓我返回更正此頁…"
@@ -4042,6 +4046,10 @@ msgstr ""
 "技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 逐字的 =\"web service\"=，但不包"
 "含 =\"shampoo\"=  的主題: "
 
+#: core/lib/Foswiki/UI/Preview.pm:69
+msgid "TOC Disabled in preview."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
 msgstr ""
@@ -4061,11 +4069,6 @@ msgstr "內容"
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
 msgstr "內容"
-
-#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
-msgid "TextFormatting"
-msgstr "*格式説明:*"
 
 #: core/templates/registermessages.tmpl:49
 #, fuzzy
@@ -5851,6 +5854,10 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*格式説明:*"
 
 #~ msgid "&Edit text"
 #~ msgstr "編輯(&E)"

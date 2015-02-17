@@ -1,5 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TML"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424017258" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -112,7 +111,7 @@ __Bold italic__
 <tr valign="top">
 <td>
  *Bold Fixed Font:* %BR%
- Words get shown in ==bold fixed font== by enclosing them in ==<nop>== double equal signs.
+ Words get shown in ==bold fixed font== by enclosing them in <sticky><code><b>==</b></code></sticky> double equal signs.
 </td><td>
 <verbatim class="tml">
 ==Bold fixed==
@@ -395,42 +394,6 @@ escaped:
 </tr>
 <tr valign="top">
 <td>
-*Automatic links:* %BR%
-Typed-in URLs are linked automatically. Most standard protocols are supported; if yours is missing, it can be added by the site administrator.
-
-Email addresses are also linked automatically.
-</td>
-<td>
-<verbatim>
-   * file://foswiki.org
-   * ftp://foswiki.org
-   * gopher://foswiki.org
-   * https://foswiki.org
-   * http://foswiki.org
-   * irc://foswiki.org
-   * mailto:example@foswiki.org
-   * news://foswiki.org
-   * nntp://foswiki.org
-   * telnet://foswiki.org
-   * name@foswiki.org
-</verbatim>
-</td>
-<td>
-   * file://foswiki.org
-   * ftp://foswiki.org
-   * gopher://foswiki.org
-   * https://foswiki.org
-   * http://foswiki.org
-   * irc://foswiki.org
-   * mailto:example@foswiki.org
-   * news://foswiki.org
-   * nntp://foswiki.org
-   * telnet://foswiki.org
-   * name@foswiki.org
-</td>
-</tr>
-<tr valign="top">
-<td>
  *Renamed Links:* %BR%
  You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiWord) and URLs (e.g. http://foswiki.org/) are both supported.
 The rules described under *Forced Links* apply for internal link references.
@@ -450,10 +413,48 @@ The rules described under *Forced Links* apply for internal link references.
 </tr>
 <tr valign="top">
 <td>
- *Prevent a Link:* %BR%
- Prevent a WikiWord from being linked by prepending it with an exclamation point.
+*Automatic links:* %BR%
+Typed-in URLs are linked automatically. Most standard protocols are supported; if yours is missing, it can be added by the site administrator.
 
-%T% Note that you can also use the &lt;nop&gt; tag, but _any_ markup adjacent to a wikiword will prevent automatic linking because the word is no longer space delimitied.
+URLs for images are automatically inserted inline.
+
+Email addresses are also linked automatically,  see further details below.
+
+%T% automatic linking of URLs and email addresses is _not_ blocked by the =noautolink= setting.
+</td>
+<td>
+<verbatim>
+   * file://foswiki.org
+   * ftp://foswiki.org
+   * https://foswiki.org
+   * http://foswiki.org
+   * mailto:example@foswiki.org
+   * news://foswiki.org
+   * nntp://foswiki.org
+   * telnet://foswiki.org
+   * name@foswiki.org
+   * %PUBURL%/System/ProjectLogos/foswiki-logo-icon.png
+</verbatim>
+</td>
+<td>
+   * file://foswiki.org
+   * ftp://foswiki.org
+   * https://foswiki.org
+   * http://foswiki.org
+   * mailto:example@foswiki.org
+   * news://foswiki.org
+   * nntp://foswiki.org
+   * telnet://foswiki.org
+   * name@foswiki.org
+   * %PUBURL%/System/ProjectLogos/foswiki-logo-icon.png
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Prevent an Automatic Link:* %BR%
+ Prevent a WikiWord, URL or image from being linked by prepending it with an exclamation point or =&lt;nop&gt;= tag.
+
+%T% Note that you can use the &lt;nop&gt; tag, but _any_ leading markup directly adjacent to a wikiword will prevent automatic linking because the word is no longer space delimitied.
 </td><td>
 <verbatim class="tml">
 !SunOS
@@ -463,6 +464,10 @@ The rules described under *Forced Links* apply for internal link references.
 <b>SomeWiki</b>
 
 =SomeWiki=
+
+<b>http://foswiki.org</b>
+
+_%PUBURL%/System/ProjectLogos/foswiki-logo-icon.png_
 </verbatim>
 </td><td>
 
@@ -473,13 +478,19 @@ The rules described under *Forced Links* apply for internal link references.
 <b>SomeWiki</b>
 
 =SomeWiki=
+
+<b>http://foswiki.org</b>
+
+_%PUBURL%/System/ProjectLogos/foswiki-logo-icon.png_
 </td>
 </tr>
 <tr valign="top">
 <td>
- *Disable Links:* %BR%
+ *Disable Automatic Linking:* %BR%
  You can disable automatic linking of WikiWords by surrounding text with =&lt;noautolink&gt;= and =&lt;/noautolink&gt;= tags.%BR%
-%H% It is possible to turn off all auto-linking with a NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+%H% You can also turn off WikiWord auto-linking with the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+
+The =noautolink= feature _only_ applies to !WikiWords.  It does not stop linking of URLs, or email addresses.
 </td><td>
 <verbatim class="tml">
  <noautolink>

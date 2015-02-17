@@ -1,5 +1,6 @@
 data/System/SubscribePlugin.txt 0664 Documentation
 data/System/VarSUBSCRIBE.txt 0664 Documentation
+lib/Foswiki/Plugins/SubscribePlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/SubscribePlugin.pm 0444 Perl module
 lib/Foswiki/Plugins/SubscribePlugin/Config.spec 0444 Configuration
 lib/Foswiki/Plugins/SubscribePlugin/JQuery.pm 0444 JQuery plugin
