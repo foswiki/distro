@@ -2607,6 +2607,16 @@ See also: expandVariablesOnTopicCreation
 *Caution:* This function needs all the installed plugins to have gone through initialization.
 Never call this function from within an initPlugin handler,  bad things happen.
 
+*Caution:* This function ultimately calls the following handlers:
+   * =beforeCommonTagsHandler=
+   * =commonTagsHandler=
+   * =registered macro handlers=
+   * =afterCommonTagsHandler=
+
+%X% *It is possible to create an infinite loop if expandCommonVariables is called in any of these handlers.* 
+It can be used, but care should be taken to ensure that the text being expanded does
+not cause this function to be called recursively.
+
 =cut
 
 sub expandCommonVariables {
