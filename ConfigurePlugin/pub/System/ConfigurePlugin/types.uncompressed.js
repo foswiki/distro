@@ -344,10 +344,6 @@ var Types = {};
           var a = this.currentValue().trim(),
               b = this.spec['default'].trim();
           b = b.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
-          if ( a !== b ) {
-              alert('(' + a + ') (' + b + ') compare');
-          }
-
           return a === b;
       }
   });
