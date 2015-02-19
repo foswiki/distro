@@ -94,6 +94,9 @@ pub/System/PatternSkinTheme/variant_foswiki_frame.css.gz 0644
 pub/System/PatternSkinTheme/variant_foswiki_noframe_src.css 0644
 pub/System/PatternSkinTheme/variant_foswiki_noframe.css 0644
 pub/System/PatternSkinTheme/variant_foswiki_noframe.css.gz 0644
+pub/System/PatternSkinTheme/variant_foswiki_navigation_src.css 0644
+pub/System/PatternSkinTheme/variant_foswiki_navigation.css 0644
+pub/System/PatternSkinTheme/variant_foswiki_navigation.css.gz 0644
 pub/System/PatternSkinTheme115/bg_button_gradient.gif 0644
 pub/System/PatternSkinTheme115/bg_buttoncancel_gradient.gif 0644
 pub/System/PatternSkinTheme115/bg_submit_gradient.gif 0644
