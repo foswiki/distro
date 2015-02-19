@@ -109,7 +109,7 @@ sub getcfg {
     my ( $params, $reporter ) = @_;
 
     # Reload Foswiki::cfg without expansions
-    local %Foswiki::cfg = ();
+    local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
     Foswiki::Configure::Load::readConfig( 1, 1 );
 
     my $keys = $params->{keys};    # expect a list
@@ -234,7 +234,7 @@ sub getspec {
     # Reload Foswiki::cfg without expansions so we get the unexpanded
     # values in the spec structure
     my $upper_cfg = \%Foswiki::cfg;
-    local %Foswiki::cfg = ();
+    local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
     if ( $upper_cfg->{isBOOTSTRAPPING} ) {
 
         # If we're bootstrapping, retain the values calculated in
@@ -368,7 +368,7 @@ sub check_current_value {
 
         # Reload Foswiki::cfg without expansions so we can find
         # string-embedded dependencies
-        local %Foswiki::cfg = ();
+        local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
         if ( $params->{with} ) {
             while ( my ( $k, $v ) = each %{ $params->{with} } ) {
