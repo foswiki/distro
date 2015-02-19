@@ -338,6 +338,13 @@ var Types = {};
                   }
               });
           }
+      },
+
+      isDefault: function() {
+          var a = this.currentValue().trim(),
+              b = this.spec['default'].trim();
+          b = b.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
+          return a === b;
       }
   });
 
