@@ -20,7 +20,6 @@ pub/System/PatternSkinTheme/jquery-ui.css
 pub/System/PatternSkinTheme/layout.css
 pub/System/PatternSkinTheme/style.css
 pub/System/PatternSkinTheme/variant_foswiki_frame.css
-pub/System/PatternSkinTheme/variant_foswiki_navigation.css
 pub/System/PatternSkinTheme/variant_foswiki_noframe.css
 pub/System/PatternSkinThemeFatWilly/colors.css
 pub/System/PatternSkinThemeFatWilly/column_none.css

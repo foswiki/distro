@@ -1,22 +1,23 @@
-%META:TOPICINFO{author="ProjectContributor" date="1311983319" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
+<ul>
 %IF{
   "context authenticated" 
-  then="%MAKETEXT{"Hello [_1]" args="<span class='foswikiUserName'>[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%%IF{"context isadmin" then=" (admin)"}%]]</span>"}%"
+  then="<li>%JQICON{"%IF{"context isadmin" then="user_red" else="user"}%"}%%MAKETEXT{"Hi, [_1]" args="<span class='foswikiUserName'>[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]</span></li>"}%"
 }%%IF{
   "$ LOGOUT != ''" 
-  then="%BR%<ul><li class='patternLogOut'>$percntLOGOUT$percnt</li></ul>"
+  then="<li class='patternLogOut'>%JQICON{"lock"}%$percntLOGOUT$percnt</li>"
 }%%IF{
   "$ LOGIN != '' and not context authenticated" 
-  then="<ul><li class='patternLogIn'>$percntLOGIN$percnt %IF{
+  then="<li class='patternLogIn'>%JQICON{"key"}% $percntLOGIN$percnt</li> %IF{
       "context registration_supported AND context registration_enabled" 
-      then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
-    }%</li></ul>"
-}%%IF{
-  "'%USERNAME%'!='guest'" 
-  then="<div class='patternLeftBarPersonalContent'>
-    $percntINCLUDE{\"%USERSWEB%.%WIKINAME%LeftBar\" 
-      warn=\"<ul><li><a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{"Create personal sidebar"}%</a></li></ul>\"
-    }$percnt</div>"
+      then="<li>%JQICON{"add"}%[[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]</li>"
+    }%"
+}%</ul>
+%IF{"'%USERNAME%'!='guest'"
+  then="$percntIF{\"istopic %USERSWEB%.%WIKINAME%LeftBar\" 
+    then=\"%<div class='patternLeftBarPersonalContent'>$dollarpercntINCLUDE{%USERSWEB%.%WIKINAME%LeftBar}$dollarpercnt</div>\"
+    else=\"<ul><li>%JQICON{"page_white_add"}%<a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{"Create personal sidebar"}%</a></li></ul>\"
+ }$percnt"
 }%</div>%STOPINCLUDE%

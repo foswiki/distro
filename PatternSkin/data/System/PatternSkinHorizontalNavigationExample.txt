@@ -1,16 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
 Include main navigation with:
 <verbatim class="tml">
 %INCLUDE{"HorizontalNavigationExample" section="main"}%
 </verbatim>
-
-Include meta navigation with:
-<verbatim class="tml">
-%INCLUDE{"HorizontalNavigationExample" section="meta"}%
-</verbatim>
-
 
 ---++ Include sections
 <verbatim class="tml">
@@ -51,23 +46,4 @@ Include meta navigation with:
     else="inactive"
 }%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
 
-
-%STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{
-    "context authenticated"
-    then='<li>%MAKETEXT{
-        "Hello [_1]"
-        args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"
-    }%</li>'
-}%%IF{
-    "$ LOGOUT != ''"
-    then='<li>%LOGOUT%</li>'
-}%%IF{
-    "$ LOGIN != '' and not context authenticated"
-    then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li>
-        <li>%LOGIN% %IF{
-            "context registration_supported AND context registration_enabled"
-            then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
-        }%</li>'
-}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
-</verbatim>
 <!-- %JQREQUIRE{"chili"}% -->

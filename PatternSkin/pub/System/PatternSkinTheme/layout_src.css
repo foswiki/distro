@@ -54,11 +54,6 @@ body {
 	float:right;
 	display:inline;
 }
-#patternTopBar {
-	position:absolute;
-	top:0px;
-	width:100%;
-}
 #patternBottomBar {
 	clear:both;
 	width:100%;
@@ -66,6 +61,18 @@ body {
 .foswikiContentFooter {
 	clear:both;
 }
+#patternTopBar {
+	height:75px; 
+	overflow:hidden;
+}
+#patternTopBarContents {
+	padding-top:12px;
+}
+
+.patternMetaMenu {
+  vertical-align:middle;
+}
+
 @media (max-width:870px) {
   .patternRevInfo,
   .patternMetaMenu form[name="changeLanguage"] {

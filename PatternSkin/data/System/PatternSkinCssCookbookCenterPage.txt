@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
-
 ---+!! PatternSkinCssCookbook Recipe: Center the page
 
 *This recipe shows how center the page horizontally and vertically.*
@@ -15,4 +14,4 @@ You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1421599902" path="centerpage.css" size="259" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1424373936" path="centerpage.css" size="259" user="ProjectContributor" version="1"}%

@@ -27,6 +27,7 @@
 	font-weight:bold;
 	text-decoration:none;
 }
+#patternTopBarButtons ul li a.active,
 #patternTopBarButtons ul li a:hover {
   background:#808080;
 }
@@ -529,22 +530,6 @@ tr.foswikiDiffDebug td {
 }
 
 /* common settings */
-.patternLeftBarPersonal li,
-li.patternLogOut,
-li.patternLogIn {
-   padding-left:13px;
-   background-position:0 .4em;
-   background-repeat:no-repeat;
-}
-.patternLeftBarPersonal li {
-   background-image:url(bullet-personal_sidebar.gif);
-}
-.patternLeftBarPersonal li.patternLogOut {
-   background-image:url(bullet-lock.gif);
-}
-.patternLeftBarPersonal li.patternLogIn {
-   background-image:url(bullet-lock.gif);
-}
 .patternShadow {
 	border:10px solid #fff;
 	margin-top:10px;

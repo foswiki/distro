@@ -837,6 +837,32 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 	border-style:none none solid none;
 }
+#patternTopBarButtons ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0 0 0 2em;
+	padding:0;
+  float:left;
+}
+
+#patternTopBarButtons li,
+#patternTopBarButtons ul li a {
+	line-height:31px;
+	height:31px;
+}
+
+#patternTopBarButtons li {
+	display:inline;
+	margin:0;
+	padding:0;
+	float:left;
+}
+#patternTopBarButtons ul li a {
+	display:block;
+	padding:0 1em;
+  margin-right:1px;
+}
 #patternBottomBar {
 	border-style:none;
 	margin-top:3em;
@@ -937,6 +963,13 @@ a:hover .foswikiAccessKey {
 }
 html>body #patternSideBarContents li { /* Mozilla */
 	overflow:visible;
+}
+#patternSideBarContents .patternLeftBarPersonal ul {
+  padding-left:21px;
+}
+#patternSideBarContents .patternLeftBarPersonal li img {
+  margin-left:-21px;
+  margin-right:5px;
 }
 
 /* form options in top bar */

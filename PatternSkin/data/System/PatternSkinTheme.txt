@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424364892" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme
 Default pattern skin theme.
@@ -12,7 +12,7 @@ Default pattern skin theme.
    * Local PATTERNSKIN_COLUMNS = %PUBURLPATH%/%COLUMNS_RELATIVE%
    * Local PATTERNSKIN_THEME_VARIANT_RELATIVE = %URLPARAM{"variant" default="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css"}%
    * Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
-   * Local PATTERNSKIN_NAVIGATION_TOPIC = %IF{"$'URLPARAM{variant}' ~ '*navigation*'" then="%URLPARAM{"navigation" default="System/PatternSkinNavigation"}%"}%
+   * Local PATTERNSKIN_NAVIGATION_TOPIC = %URLPARAM{"navigation"}%
 
    * Local DISPLAY_FOSWIKI_LAYOUT_URL = %CALCULATE{"$SUBSTITUTE(%FOSWIKI_LAYOUT_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
    * Local DISPLAY_FOSWIKI_STYLE_URL = %CALCULATE{"$SUBSTITUTE(%FOSWIKI_STYLE_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
@@ -26,7 +26,6 @@ Default pattern skin theme.
 <input type="hidden" name="layout" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css" />
 <input type="hidden" name="style" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css" />
 <input type="hidden" name="colors" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css" />
-<input type="hidden" name="navigation" value="%SYSTEMWEB%/PatternSkinNavigation" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---+++ Choose column
@@ -48,7 +47,18 @@ Default pattern skin theme.
 <optgroup label='Variant CSS options:'>
 <option value="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css">No frame (default)</option>
 <option value="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_frame.css">Frame</option>
-<option value="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_navigation.css">Navigation</option>
+</optgroup>
+</select>
+</div>
+<div class="foswikiFormStep">
+---+++ Show Navigation
+<select name="navigation" class="foswikiSelect">
+%IF{"$'URLPARAM{navigation}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"navigation"}%' selected='selected'>%URLPARAM{"navigation"}%</option></optgroup>"}%
+<optgroup label='Navigation Topics:'>
+<option value="">None</option>
+<option value="%SYSTEMWEB%/PatternSkinNavigation">Default</option>
+<option value="%SYSTEMWEB%/PatternSkinHorizontalNavigationExample">Example</option>
+<option value="%SYSTEMWEB%/PatternSkinThemeFatWillyNavigation">Foswiki.org</option>
 </optgroup>
 </select>
 </div>
