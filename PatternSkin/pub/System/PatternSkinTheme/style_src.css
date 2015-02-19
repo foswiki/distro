@@ -964,10 +964,10 @@ a:hover .foswikiAccessKey {
 html>body #patternSideBarContents li { /* Mozilla */
 	overflow:visible;
 }
-#patternSideBarContents .patternLeftBarPersonal ul {
+#patternSideBarContents #patternLeftBarUserActions {
   padding-left:21px;
 }
-#patternSideBarContents .patternLeftBarPersonal li img {
+#patternSideBarContents #patternLeftBarUserActions li img {
   margin-left:-21px;
   margin-right:5px;
 }

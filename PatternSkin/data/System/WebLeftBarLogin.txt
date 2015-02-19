@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
-<ul>
+<ul id="patternLeftBarUserActions">
 %IF{
   "context authenticated" 
   then="<li>%JQICON{"%IF{"context isadmin" then="user_red" else="user"}%"}%%MAKETEXT{"Hi, [_1]" args="<span class='foswikiUserName'>[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]</span></li>"}%"
