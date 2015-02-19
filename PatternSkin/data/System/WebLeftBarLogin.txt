@@ -16,8 +16,8 @@
     }%"
 }%</ul>
 %IF{"'%USERNAME%'!='guest'"
-  then="$percntIF{\"istopic %USERSWEB%.%WIKINAME%LeftBar\" 
-    then=\"%<div class='patternLeftBarPersonalContent'>$dollarpercntINCLUDE{%USERSWEB%.%WIKINAME%LeftBar}$dollarpercnt</div>\"
+  then="$percntIF{\"istopic '%USERSWEB%.%WIKINAME%LeftBar'\" 
+    then=\"<div class='patternLeftBarPersonalContent'>$dollarpercntINCLUDE{%USERSWEB%.%WIKINAME%LeftBar}$dollarpercnt</div>\"
     else=\"<ul><li>%JQICON{"page_white_add"}%<a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{"Create personal sidebar"}%</a></li></ul>\"
  }$percnt"
 }%</div>%STOPINCLUDE%
