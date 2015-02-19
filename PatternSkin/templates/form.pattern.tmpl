@@ -3,7 +3,7 @@
 %TMPL:DEF{"mandatory"}%<span class="foswikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% %TMPL:END%
 
 %TMPL:DEF{"repeatedformrows"}% %REPEAT%
-<tr><th>%ROWTITLE%%ROWEXTRA%</th><td align="left">%ROWVALUE%</td></tr>%REPEAT%<tr><th align="left" colspan="2">%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
+<tr><th>%ROWTITLE%%ROWEXTRA%</th><td style='text-align:left'>%ROWVALUE%</td></tr>%REPEAT%<tr><th style='text-align:left' colspan='2'>%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
 
 %TMPL:DEF{"formtail"}%%TMPL:P{context="mandatoryfields" then="mandatory"}%%TMPL:END%
 <div class="foswikiForm foswikiEditForm">

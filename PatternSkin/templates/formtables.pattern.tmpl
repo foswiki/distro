@@ -12,7 +12,7 @@
 
 
 %{ Each row }%
-%TMPL:DEF{FORM:display:row}%%TMPL:P{context="preview" "noal"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> $title </td><td> $value(display) </td></tr>%TMPL:P{context="preview" then="nonoal"}%%TMPL:END%
+%TMPL:DEF{FORM:display:row}%%TMPL:P{context="preview" "noal"}%<tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> $title </td><td> $value(display) </td></tr>%TMPL:P{context="preview" then="nonoal"}%%TMPL:END%
 
 
 %TMPL:DEF{FORM:display:rowcontents}%%TMPL:END%

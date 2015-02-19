@@ -13,6 +13,23 @@
    background:#eeedec;
    /* color can be overridden with WEBHEADERBGCOLOR in System/DefaultPreferences */
 }
+#patternTopBarButtons {
+  background-color:#bdbdbd;
+}
+#patternTopBarButtons ul {
+  border-left:1px solid #fff;
+}
+#patternTopBarButtons ul li {
+  border-right:1px solid #fff;
+}
+#patternTopBarButtons ul li a {
+  color:#fff;
+	font-weight:bold;
+	text-decoration:none;
+}
+#patternTopBarButtons ul li a:hover {
+  background:#808080;
+}
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {
    background:none;
@@ -337,6 +354,8 @@ a:hover .foswikiAccessKey {
 #patternSideBarContents .patternWebIndicator {
     border-color:#eee;
 }
+#patternTopBarContents b,
+#patternTopBarContents strong,
 #patternSideBarContents b,
 #patternSideBarContents strong {
     color:#333;
