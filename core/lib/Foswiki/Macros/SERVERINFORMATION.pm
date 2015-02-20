@@ -123,7 +123,11 @@ DONE
 
     # report the umask
     my $pUmask = sprintf( '%03o', umask() );
-    $report .= "| UMASK | $pUmask |\n";
+    my $override =
+      ( $Foswiki::cfg{Store}{overrideUmask} )
+      ? ' (Overridden by LocalSite.cfg)'
+      : '';
+    $report .= "| UMASK | $pUmask $override |\n";
 
     my $uid = getlogin() || getpwuid($>);
     my $user = 'userid: ' . ( $uid ? "*$uid*" : 'unknown' );
@@ -160,6 +164,7 @@ DONE
         "| File System | Case "
       . ( ( File::Spec->case_tolerant() ) ? 'Insensitive' : 'Sensitive' )
       . " |\n";
+    $report .= "| Engine | =$Foswiki::cfg{Engine}=  |\n";
     $report .= '</noautolink>';
 
     return $report;
