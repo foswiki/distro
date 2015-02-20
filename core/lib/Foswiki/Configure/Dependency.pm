@@ -246,7 +246,8 @@ sub studyInstallation {
     }
     else {
         ( $inst, $ver, $loc, $rel ) =
-          extractModuleVersion( $this->{module}, 'magic' );
+          extractModuleVersion( $this->{module},
+            $this->{module} =~ /(?:Foswiki|TWiki)/ );
     }
 
     if ($inst) {
