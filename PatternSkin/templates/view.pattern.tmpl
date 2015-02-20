@@ -21,7 +21,7 @@
 %TMPL:DEF{"attachmentstop"}%%TMPL:P{"attachmentsattop"}%%TMPL:END%
 %TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachmentsatbottom"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"top"}%<div class="patternTop"><span class="patternHomePath foswikiLeft">%TMPL:P{"breadcrumb"}%</span><span class="patternToolBar foswikiRight">%TMPL:P{"top:toolbarbuttons"}%</span><div class="foswikiClear"></div></div>%TMPL:END%
+}%%TMPL:DEF{"top"}%<div class="patternTop clear"><span class="patternHomePath foswikiLeft">%TMPL:P{"breadcrumb"}%</span><span class="patternToolBar foswikiRight">%TMPL:P{"top:toolbarbuttons"}%</span></div>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:P{context="SubscribePluginEnabled" then="activatable_subscribe"}%%TMPL:END%%{
 ---------------------------------------------------
@@ -74,6 +74,6 @@
         </span>"
 }%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"textareabuttons"}%<div class="foswikiClear"></div></div>%TMPL:END%%{
+}%%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine clear">%TMPL:P{"textareabuttons"}%</div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"horizontalnavigation"}%%IF{"istopic '%PATTERNSKIN_NAVIGATION_TOPIC%'" then="$percntINCLUDE{$quot%PATTERNSKIN_NAVIGATION_TOPIC%$quot section=$quotmain$quot warn=$quotoff$quot}$percnt"}%%TMPL:END%

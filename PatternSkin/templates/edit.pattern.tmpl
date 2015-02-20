@@ -37,13 +37,13 @@
 %TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% />%TMPL:END%
 
 
-%TMPL:DEF{"topicinfo"}%%TMPL:P{context="RevCommentPluginEnabled" then="revCommentPluginOptions"}%<hr /><div class="patternTopicActions foswikiFormStep"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div>%TMPL:P{"forcerevisioncheckbox"}%%TMPL:END%
+%TMPL:DEF{"topicinfo"}%%TMPL:P{context="RevCommentPluginEnabled" then="revCommentPluginOptions"}%<hr /><div class="patternTopicActions foswikiFormStep clear"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%</div></div>%TMPL:P{"forcerevisioncheckbox"}%%TMPL:END%
 
 
 %TMPL:DEF{"textarea"}%%IF{"{Validation}{Method}='strikeone'" then="<noscript>$percentTMPL:P{enable_js}$percent</noscript>"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<div class="foswikiClear"></div></div>%TMPL:END%
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine clear">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%</div>%TMPL:END%
 
 %TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%TMPL:P{"sig_format"}%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span>%TMPL:END%
 
@@ -74,9 +74,8 @@ noscript="hide"
 %TMPL:P{"toolbar"}%
 %TMPL:P{"textarea"}%
 <div class="foswikiFormSteps">
-<div class="foswikiFormStep">
+<div class="foswikiFormStep clear">
 %TMPL:P{"formbottom"}%
-<div class="foswikiClear"></div>
 </div>%TMPL:P{"topicinfo"}%
 </div>
 %TMPL:P{"formend"}%%TMPL:END%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424432594" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -559,33 +559,30 @@ Text before <span class='foswikiMessage'>This is important</span> text after.
 ---++ Horizontal list
 =.foswikiHorizontalList=
 
-<div class='foswikiHorizontalList'>
+<div class='foswikiHorizontalList clear'>
    1 ordered item 1
    1 ordered item 2
    1 ordered item 3
-<div class='foswikiClear'></div>
 </div>
 
-<div class='foswikiHorizontalList'>
+<div class='foswikiHorizontalList clear'>
    * unordered item 1
    * unordered item 2
    * unordered item 3
-<div class='foswikiClear'></div>
 </div>
 
-<div class='foswikiHorizontalList'>
+<div class='foswikiHorizontalList clear'>
 	<ul>
 		<li>unordered item 1</li>
 		<li>unordered item 2</li>
 		<li class='foswikiLast'>unordered item 3</li>
 	</ul>
-	<div class='foswikiClear'></div>
 </div>
 
 ---++ Tabs
 
 ---+++ Foswiki tabs
-<div class='foswikiTabs foswikiClearfix'>
+<div class='foswikiTabs clear'>
 	<ul>
 		<li class='foswikiActive'><a href='#tab1'>Tab 1</a></li>
 		<li><a href='#tab2'>Tab 2</a></li>
@@ -606,7 +603,7 @@ Regular text lorem ipsum dolor sit amet, <a href='#' title='test link'>test link
 </div>
 
 ---+++ Foswiki tabs without tab pane
-<div class='foswikiTabs foswikiClearfix'>
+<div class='foswikiTabs clear'>
 	<ul>
 		<li class='foswikiActive'><a href='#tab1'>Tab 1</a></li>
 		<li><a href='#tab2'>Tab 2</a></li>

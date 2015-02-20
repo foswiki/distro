@@ -10,7 +10,7 @@ Include main navigation with:
 ---++ Include sections
 <verbatim class="tml">
 %STARTSECTION{"main"}%<noautolink>
-<div id="patternTopBarButtons"><ul class="sf-menu">
+<div id="patternTopBarButtons"><ul class="sf-menu clear">
   %INCLUDE{"%TOPIC%" section="topbarbutton" DESTWEB="%USERSWEB%" DESTTOPIC="%HOMETOPIC%" LABEL="%JQICON{"fa-home" style="font-size:1.1em"}% %USERSWEB%"}%
   <li>[[%WIKIUSERNAME%][%JQICON{"fa-user"}% %MAKETEXT{"My Profile"}%]]</li>
   %IF{"istopic '%USERSWEB%.%WIKINAME%LeftBar'"
@@ -23,7 +23,7 @@ Include main navigation with:
         $percntINCLUDE{\"%TOPIC%\" section=\"webtools\"}$percnt
       </li>"
   }%<li><a>%JQICON{"fa-cloud"}% Webs</a>%INCLUDE{"%TOPIC%" section="webs"}%</li>
-</ul>%CLEAR%</div>
+</ul></div>
 %JQREQUIRE{"superfish"}%%ADDTOZONE{
   "script" 
   id="PATTERNMENU" 

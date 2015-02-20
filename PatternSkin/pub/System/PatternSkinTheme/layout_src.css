@@ -20,14 +20,25 @@ as this will break the design ***/
 body {
 
 }
-.clear {
-	clear:both;
-	/*** these next attributes are designed to keep the div
-	height to 0 pixels high, critical for Safari and Netscape 7 ***/
-	height:0px;
-	overflow:hidden;
-	line-height:1%;
-	font-size:0px;
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+.clear:after,
+.clearfix:after {
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.clear,
+.clearfix {
+  *zoom:1; /* IE7 hack */
+}
+* html .clear,
+* html .clearfix {
+  height: 1%;
 }
 #patternPage {
 	position:relative;

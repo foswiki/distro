@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424432594" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
@@ -9,7 +9,7 @@ Include main navigation with:
 
 ---++ Include sections
 <verbatim class="tml">
-%STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
+%STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul class="clear">
 %INCLUDE{
     "PatternSkinNavigation"
     section="topbarbutton"
@@ -34,6 +34,6 @@ Include main navigation with:
     DESTTOPIC="%HOMETOPIC%"
     LABEL="%SANDBOXWEB%"
 }%
-</ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
+</ul></div>%ENDSECTION{"main"}%
 
 <!-- %JQREQUIRE{"chili"}% -->

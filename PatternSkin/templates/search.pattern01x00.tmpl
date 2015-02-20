@@ -4,14 +4,14 @@
 	Legacy definitions to support Foswiki 1.0.x with newer PatternSkin
 }%
 
-%TMPL:DEF{"Foswiki01x00:result"}%<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div><div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div><div class="foswikiRight foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div><div class="foswikiClear"></div></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
+%TMPL:DEF{"Foswiki01x00:result"}%<div class="patternSearchResult"><div class="foswikiTopRow clear"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div><div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div><div class="foswikiRight foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->%TMPL:END%
 
 %TMPL:DEF{"Foswiki01x00:searched"}%<span class="patternSearched">%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>%TMPL:END%
 
 %TMPL:DEF{"Foswiki01x00:count"}%<div class="patternSearchResultCount">%MAKETEXT{"Number of topics:"}% <span class="foswikiSearchResultCount">%NTOPICS%</span></div><!--/patternSearchResultCount-->%TMPL:END%
 
-%TMPL:DEF{"Foswiki01x00:header"}%<h4 class="patternSearchResultsHeader" %TMPL:P{"Foswiki01x00:header:style:backgroundcolor"}%><span class="foswikiLeft">%TMPL:P{"Foswiki01x00:header:left"}%</span><span class="foswikiRight">%TMPL:P{"Foswiki01x00:header:right"}%</span><br class="foswikiClear" /></h4>%TMPL:END%
+%TMPL:DEF{"Foswiki01x00:header"}%<h4 class="patternSearchResultsHeader clear" %TMPL:P{"Foswiki01x00:header:style:backgroundcolor"}%><span class="foswikiLeft">%TMPL:P{"Foswiki01x00:header:left"}%</span><span class="foswikiRight">%TMPL:P{"Foswiki01x00:header:right"}%</span></h4>%TMPL:END%
 
 %TMPL:DEF{"Foswiki01x00:header:left"}%<b>%MAKETEXT{"Results from [_1] web" args="<nop>%WEB%"}%</b> %MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%%TMPL:END%
 
