@@ -18,116 +18,147 @@ our $distro;
 BEGIN {
     my ( $volume, $toolsDir, $action ) = File::Spec->splitpath(__FILE__);
     $toolsDir = '.' if $toolsDir eq '';
-    ($toolsDir) = Cwd::abs_path( $toolsDir ) =~ /(.*)/;
-    @INC = ($toolsDir, grep { $_ ne $toolsDir } @INC );
+    ($toolsDir) = Cwd::abs_path($toolsDir) =~ /(.*)/;
+    @INC = ( $toolsDir, grep { $_ ne $toolsDir } @INC );
     my $binDir = Cwd::abs_path( File::Spec->catdir( $toolsDir, "..", "bin" ) );
-    $distro = Cwd::abs_path( File::Spec->catdir( $toolsDir, "..//..", "" ) );
-    my ($setlib) = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' ) =~ /(.*)/;
+    $distro = Cwd::abs_path( File::Spec->catdir( $toolsDir, "../..", "" ) );
+    my ($setlib) =
+      File::Spec->catpath( $volume, $binDir, 'setlib.cfg' ) =~ /(.*)/;
     require $setlib;
 }
 
 sub slurp {
     my $file = shift;
-
-    # OK to return '' if file does not exist,
-    # but what if its another error? - probably OK as later write will fail anyway
-    open my $fh, '<', $file or return '';
-
-    local $/ = undef;
-    my $cont = <$fh>;
+    return undef if !-e $file;
+    open( my $fh, '<', $file ) or die "Failed to open $file";
+    my @content = <$fh>;
+    chomp(@content);
     close $fh;
-    return $cont;
+    return \@content;
 }
 
-sub mergeB {
-    my ( $bRef, $tag, $desc, @ignores) = @_;
-
-}
-sub writeB {
-    my ( $fh, $bRef );
-}
-
+# It was tempting to use File::Next or File::Find::Object but that's another dependency
 sub recurseDirectories {
-    my ($dir, $sub) = @_;
+    my ( $dirs, $nodeSub, $data, $exitSub, $depthLimit ) = @_;
 
-    my @dirs = ( glob("$dir/*") , glob("$dir/.*") );
+    my $depth = scalar @{$dirs} - 1;
 
-    for my $f (sort @dirs) {
-	next if $f =~ m{.*?/\.{1,2}$};
-        &$sub( $f );
-        recurseDirectories($f, $sub) if -d $f && !-l $f;
+    return if $depthLimit && $depth > $depthLimit;
+    my $thisDir = File::Spec->catdir( @{$dirs} );
+    my @leaves  = ();
+
+    $data->{leaves}[$depth] = {};
+    opendir( my $DH, $thisDir ) or die "Error: failed to open $thisDir $!";
+    while ( my $leaf = readdir $DH ) {
+        $data->{leaves}[$depth]{$leaf} = 1 if File::Spec->no_upwards($leaf);
     }
+    closedir($DH);
+
+    for my $leaf ( sort keys %{ $data->{leaves}[$depth] } ) {
+        if ( &$nodeSub( [ @{$dirs}, $leaf ], $data ) ) {
+            recurseDirectories( [ @{$dirs}, $leaf ],
+                $nodeSub, $data, $exitSub, $depthLimit );
+        }
+    }
+    &$exitSub( $dirs, $data );
 }
 
-chdir($distro);
-my $excludes = slurp(".git/info/excludes");
+my $max_foswiki_directory_depth = 33
+  ; # Recursion limit fail-safe, can be useful to set to a low-limit when debugging (less scanned)
+my $dinfo = { extensions => [] };
 
-my %block = ( $excludes =~ m/(?:\s*+\#\#Begin)\s*(\w+)\s+(.*?)(?:\n\#\#End)/gms );
-my @dirs = glob('*');
+print "Scanning for symlinks and extensions to exclude from git\n\n";
+recurseDirectories( [$distro], \&checkNode, $dinfo, \&exitDir,
+    $max_foswiki_directory_depth );
 
-my @symlinks;
-#my @nonDistroExtensions;
+sub checkNode {
+    my ( $dirs, $data ) = @_;
 
-#for my $d (sort @dirs) {
-#    push @nonDistroExtensions, "/$d/" if -d $d;
-#    push @symlinks, "/$d" if -l $d;
-#}
+    my $depth = scalar @{$dirs} - 1;
+    my $leaf  = $dirs->[$depth];
 
-recurseDirectories($distro, sub { push @symlinks, $_[0] if -l $_[0]; } );
+    return 0 if $dirs->[$depth] eq '.gitexcludes';
+    my $node = File::Spec->catdir( @{$dirs} );
 
-{
-    local $" = "\n";
-    print "@symlinks";
-}
-exit 0;
+    if ( $leaf eq '.git' ) {
+        push @{ $data->{extensions} }, $dirs->[1] if $depth == 2;
+        return 0;
+    }
 
-# mergeB(\%block, "Extra-Extensions", "Non Default Foswiki Extensions (are independently git managed)", @nonDistroExtensions);
-# mergeB(\%block, "Symlinks", "These are BuildContrib outputs and never part of a Foswiki repo", @symlinks);
+    if ( -l $node ) {
+        if ( $depth >= 1 && $data->{leaves}[1]{'.git'} )
+        {    # Capture symlinks of Extension
+            push @{ $data->{symlinks}[1] },
+              File::Spec->catdir( @{$dirs}[ 2 .. $depth ] );
+        }
+        else {
+            push @{ $data->{symlinks}[0] },
+              File::Spec->catdir( @{$dirs}[ 1 .. $depth ] )
+              ; # Capture all other symlinks as part of distro (core + coreExtensions)
+        }
+        return 0;
+    }
 
-writeB(\%block);
-
-$excludes = <<'HERE';
-##Begin Developer Your own local ignores
-What
-Ever
-Whims
-y like
-yall
-##End
-
-##Begin Symlinks These are BuildContrib outputs and never part of a Foswiki repo
-a
-b
-cv
-d
-##End
-
-##Begin Extra_Extensions Pseudo-Installed extensions under their own .git control
-1
-2
-3
-##End
-
-##Begin Symlinks These are logically build outputs and never part of a Foswiki repo
-za
-zb
-zcv
-zd
-##End
-
-
-HERE
-
-# print "$excludes";
-
-
-%block = ( $excludes =~ m/(?:\s*+\#\#Begin)\s*(\w+)\s+(.*?)(?:\n\#\#End)/gms );
-
-for my $tag (sort keys %block) {
-    print "(($tag))\n";
-    print $block{$tag};
-    print "\n-------\n";
+    return -d $node;
 }
 
-exit 0;
+sub exitDir {
+    my ( $dirs, $data ) = @_;
+    my $node  = File::Spec->catdir( @{$dirs} );
+    my $depth = scalar @{$dirs} - 1;
 
+    return if $depth > 1 || $depth == 1 && !$data->{leaves}[1]{'.git'};
+    print "Exit: $node\n";
+
+    my $location =
+      File::Spec->catdir( @{$dirs}[ 0 .. $depth ] )
+      ;    # either $distro or $distro/Extension
+
+    my $developer_excludes = slurp("$location/.gitexclude");
+    mkdir("$location/.git/info");
+    open( my $FH, '>', "$location/.git/info/exclude" )
+      or die "Cannot open $location/.git/info/exclude ($@)";
+
+    if ($developer_excludes) {
+        print $FH ".gitexclude\n";
+
+        add_exclude( $FH, $location, 'developer',
+            '# Developer specific copied from .gitexclude',
+            \$developer_excludes );
+    }
+
+    if ( $depth == 0 ) {
+        add_exclude(
+            $FH, $location, 'extensions',
+            '# Non-Core extensions to hide from distro',
+            \$data->{extensions}
+        );
+    }
+
+    add_exclude(
+        $FH, $location, 'symlinks',
+        '# Symlinks found at distro or distro/core level',
+        \$data->{symlinks}[$depth]
+    );
+    close($FH);
+}
+
+sub add_exclude {
+    my ( $fh, $location, $name, $header, $linkRefRef ) = @_;
+    no strict 'refs';
+    my @links = @{ ${$linkRefRef} };
+    use strict 'refs';
+
+    return unless @links;
+    print "    excludes ( $location, $name, " . ( scalar @links ) . ")\n";
+
+    my $slash = $name eq 'developer' ? '' : '/';
+
+    print $fh "#\n";
+    print $fh "$header\n";
+    print $fh "#\n";
+    for my $link (@links) {
+        print $fh "$slash$link\n";
+    }
+    ${$linkRefRef} = [];
+}

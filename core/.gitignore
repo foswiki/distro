@@ -1,0 +1,11 @@
+*,v
+*,pfv
+*.gz
+/working/**/events.*
+/working/**/error.*
+/working/**/cgisess_*
+/lib/LocalSite.cfg
+#
+# Open question whether to add or not, something to do with 'git clean' and the -x flag, ask GeorgeClark
+# /data/**/*.lease
+# /data/**/*.changes

@@ -1,3 +1,5 @@
+*,v
+*,pfv
 *.gz
 /JSCalendarContrib.md5
 /JSCalendarContrib.sha1
@@ -6,17 +8,3 @@
 /JSCalendarContrib.zip
 /JSCalendarContrib_installer
 /JSCalendarContrib_installer.pl
-pub/System/JSCalendarContrib/calendar-blue.css
-pub/System/JSCalendarContrib/calendar-blue2.css
-pub/System/JSCalendarContrib/calendar-brown.css
-pub/System/JSCalendarContrib/calendar-green.css
-pub/System/JSCalendarContrib/calendar-large.css
-pub/System/JSCalendarContrib/calendar-setup.js
-pub/System/JSCalendarContrib/calendar-system.css
-pub/System/JSCalendarContrib/calendar-tas.css
-pub/System/JSCalendarContrib/calendar-win2k-1.css
-pub/System/JSCalendarContrib/calendar-win2k-2.css
-pub/System/JSCalendarContrib/calendar-win2k-cold-1.css
-pub/System/JSCalendarContrib/calendar-win2k-cold-2.css
-pub/System/JSCalendarContrib/calendar.js
-pub/System/JSCalendarContrib/foswiki.js

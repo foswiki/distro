@@ -473,7 +473,6 @@ sub installModuleByName {
     }
     if ( $manifest && -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
-        update_gitignore_file($moduleDir);
     }
     else {
         $libDir = undef;
@@ -599,7 +598,7 @@ HERE
 sub do_commands {
     my ($commands) = @_;
 
-    #print $commands . "\n";
+    # print $commands . "\n";
     local $ENV{PATH} = untaint( $ENV{PATH} );
 
     return `$commands`;
@@ -1476,135 +1475,6 @@ sub exec_opts {
     return;
 }
 
-# input_files: a lookup hashref keyed by files relative to some moduleDir
-# old_rules: arrayref of lines in the exisiting moduleDir/.gitignore file
-# returns: array of old_rules appended with new files to ignore (that hopefully
-#          don't match any wildcard expressions in existing .gitignore)
-
-sub merge_gitignore {
-    my ( $input_files, $old_rules ) = @_;
-    my @merged_rules;
-    my @match_rules;
-    my %dropped_rules;
-
-    die "Bad parameter type (should be HASH): " . ref($input_files)
-      unless ( ref($input_files) eq 'HASH' );
-    die "Bad parameter type (should be ARRAY): " . ref($old_rules)
-      unless ( ref($old_rules) eq 'ARRAY' );
-
-    # @merged_rules is a version of @{$old_rules}, with any new files not
-    # matching existing wildcards, added to it
-    foreach my $old_rule ( @{$old_rules} ) {
-        chomp($old_rule);
-
-        # If the line is empty or a comment
-        if ( !$old_rule || $old_rule =~ /^\s*$/ || $old_rule =~ /^#/ ) {
-            push( @merged_rules, $old_rule );
-        }
-
-        # The line is a rule
-        else {
-            my $match_rule = $old_rule;
-
-            if ( $match_rule =~ /[\/\\]$/ ) {
-                $match_rule .= '*';
-            }
-
-            # If the line is a wildcard rule
-            if ( $match_rule =~ /\*/ ) {
-
-                # Normalise the rule
-                $old_rule   =~ s/^\s*//;
-                $old_rule   =~ s/\s*$//;
-                $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
-
-                # It's a wildcard
-                push( @match_rules,  $match_rule );
-                push( @merged_rules, $old_rule );
-            }
-
-            # The line is a path/filename
-            else {
-
-                # we're installing, so keep all the old rules, or
-                # we're uninstalling, so keep files not being uninstalled
-                if ($installing) {
-                    if ( !exists $input_files->{$old_rule} ) {
-                        push( @merged_rules, $old_rule );
-                    }
-                }
-                else {
-                    $dropped_rules{$old_rule} = 1;
-                }
-            }
-        }
-    }
-
-    # Append new files not matching an existing wildcard
-    if ($installing) {
-        foreach my $file ( keys %{$input_files} ) {
-            next if ( $file =~ m#/.git/# ); # git hooks files don't get ignored.
-            if ( $file && $file =~ /[^\s]/ && !$dropped_rules{$file} ) {
-                my $nmatch_rules = scalar(@match_rules);
-                my $matched;
-                my $i = 0;
-
-                while ( !$matched && $i < $nmatch_rules ) {
-                    my $regex = '^'
-                      . join( '.*',
-                        map { quotemeta($_) } split( /\*/, $match_rules[$i] ) )
-                      . '$';
-                    $regex = qr/$regex/;
-
-                    $i += 1;
-                    $matched = ( $file =~ $regex );
-                }
-                if ( !$matched ) {
-                    push( @merged_rules, $file );
-                }
-            }
-        }
-    }
-
-    return @merged_rules;
-}
-
-sub update_gitignore_file {
-    my ($moduleDir) = @_;
-
-    # Only create a .gitignore if we're really in a git repo.
-    if (
-        exists $generated_files{$moduleDir}
-        && (   -d File::Spec->catdir( $moduleDir, '.git' )
-            || -d File::Spec->catdir( $moduleDir, '..', '.git' ) )
-      )
-    {
-        my $ignorefile = File::Spec->catfile( $moduleDir, '.gitignore' );
-        my @lines;
-
-        if ( open( my $fh, '<', $ignorefile ) ) {
-            @lines = <$fh>;
-            close($fh);
-        }
-        else {
-            @lines = ('*.gz');
-        }
-        @lines = merge_gitignore( $generated_files{$moduleDir}, \@lines );
-        $ignorefile = untaint($ignorefile);
-        if ( open( my $fh, '>', $ignorefile ) ) {
-            foreach my $line ( sort @lines ) {
-                print $fh $line . "\n";
-            }
-            close($fh) or error("Couldn't close $ignorefile");
-        }
-        else {
-            error("Couldn't open $ignorefile for writing, $!");
-        }
-    }
-
-    return;
-}
-
 # install the githooks.  If called with a module name  (ie.  "CommentPlugin")
 # then we might be in a .git "superproject" structure,  so look for a .git/modules/$module/hooks
 # directory.   otherwise a final call at the end will install into the primary .git/hooks location
@@ -1695,8 +1565,10 @@ exec_opts();
 init_config();
 init_extensions_path();
 run();
-update_gitignore_file($basedir);
 update_githooks_dir($basedir) if ($githooks);
+
+my $geout = do_commands("perl $basedir/tools/git_excludes.pl");
+print "\n\n$geout\n";
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

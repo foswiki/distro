@@ -196,7 +196,27 @@ foreach my $k ( keys %$fileset ) {
     writeFile( "$def{MODULE}/$k", expandVars($data), $v->{mask} );
 }
 
+my $geout = do_commands("perl core/tools/git_excludes.pl");
+print STDERR "\n\n$geout\n";
+
 ### Utility subs.
+
+sub do_commands {
+    my ($commands) = @_;
+
+    # print $commands . "\n";
+    local $ENV{PATH} = untaint( $ENV{PATH} );
+
+    return `$commands`;
+}
+
+sub untaint {
+    no re 'taint';
+    $_[0] =~ /^(.*)$/;
+    use re 'taint';
+
+    return $1;
+}
 
 sub populateFrom {
     my ( $path, $root ) = @_;
