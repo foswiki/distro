@@ -7,7 +7,7 @@
 
 ---++ Appearance
 
-   * Set WEBBGCOLOR = #FFD8AA
+   * Set WEBBGCOLOR = #B9DAFF
    * Set SITEMAPLIST = on
    * Set WEBSUMMARY = %MAKETEXT{"Discover the details, and how to start your own site with Foswiki"}% - %MAKETEXT{"The Free and Open Source Wiki."}%
    * Set NOAUTOLINK = off
