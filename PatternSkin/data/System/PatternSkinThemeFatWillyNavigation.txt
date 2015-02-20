@@ -15,7 +15,7 @@ Include meta navigation with:
 
 ---++ Include sections
 <verbatim class="tml">
-%STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul class="clear">
+%STARTSECTION{"main"}%<div id="patternTopBarButtons" class="clear"><ul>
 %INCLUDE{
     "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="About" DESTTOPIC="%HOMETOPIC%" LABEL="About"

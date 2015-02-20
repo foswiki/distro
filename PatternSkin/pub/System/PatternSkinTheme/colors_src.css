@@ -19,19 +19,19 @@
   background-color:#777;
   color:#fff;
 }
-#patternTopBarButtons ul li a {
+#patternTopBarButtons a {
   color:#fff;
 	text-decoration:none;
   border:0;
 }
-#patternTopBarButtons > ul > li > a {
+#patternTopBarButtons a {
   font-weight:bold;
 }
 #patternTopBarButtons > ul > li > a.active {
   background-color:#4C94DB;
   color:#fff;
 }
-#patternTopBarButtons ul li a:hover {
+#patternTopBarButtons a:hover {
   background-color:#555;
   color:#fff;
 }
@@ -47,6 +47,7 @@
 }
 #patternTopBarButtons ul ul li a {
   color:#333;
+  font-weight:normal;
 }
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {

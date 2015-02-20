@@ -847,7 +847,7 @@ a:hover .foswikiAccessKey {
 }
 
 #patternTopBarButtons li,
-#patternTopBarButtons ul li a {
+#patternTopBarButtons a {
 	line-height:31px;
 	height:31px;
 }
@@ -861,7 +861,7 @@ a:hover .foswikiAccessKey {
 #patternTopBarButtons ul ul li {
   float:none;
 }
-#patternTopBarButtons ul li a {
+#patternTopBarButtons a {
 	display:block;
 	padding:0 1em;
 }

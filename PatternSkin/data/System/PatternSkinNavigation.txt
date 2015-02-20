@@ -10,7 +10,7 @@ Include main navigation with:
 ---++ Include sections
 <verbatim class="tml">
 %STARTSECTION{"main"}%<noautolink>
-<div id="patternTopBarButtons"><ul class="sf-menu clear">
+<div id="patternTopBarButtons" class="clear"><ul class="sf-menu">
   %INCLUDE{"%TOPIC%" section="topbarbutton" DESTWEB="%USERSWEB%" DESTTOPIC="%HOMETOPIC%" LABEL="%JQICON{"fa-home" style="font-size:1.1em"}% %USERSWEB%"}%
   <li>[[%WIKIUSERNAME%][%JQICON{"fa-user"}% %MAKETEXT{"My Profile"}%]]</li>
   %IF{"istopic '%USERSWEB%.%WIKINAME%LeftBar'"
