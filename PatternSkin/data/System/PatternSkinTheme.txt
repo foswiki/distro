@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme
 Default pattern skin theme.
@@ -51,13 +51,13 @@ Default pattern skin theme.
 </select>
 </div>
 <div class="foswikiFormStep">
----+++ Show Navigation
+---+++ Choose navigation 
 <select name="navigation" class="foswikiSelect">
 %IF{"$'URLPARAM{navigation}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"navigation"}%' selected='selected'>%URLPARAM{"navigation"}%</option></optgroup>"}%
 <optgroup label='Navigation Topics:'>
 <option value="">None</option>
 <option value="%SYSTEMWEB%/PatternSkinNavigation">Default</option>
-<option value="%SYSTEMWEB%/PatternSkinHorizontalNavigationExample">Example</option>
+<option value="%SYSTEMWEB%/PatternSkinHorizontalNavigationExample">Simple</option>
 <option value="%SYSTEMWEB%/PatternSkinThemeFatWillyNavigation">Foswiki.org</option>
 </optgroup>
 </select>

@@ -837,7 +837,7 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 	border-style:none none solid none;
 }
-#patternTopBarButtons ul {
+#patternTopBarButtons > ul {
 	list-style-image:none;
 	list-style-position:outside;
 	list-style-type:none;
@@ -856,12 +856,14 @@ a:hover .foswikiAccessKey {
 	display:inline;
 	margin:0;
 	padding:0;
-	float:left;
+  float:left;
+}
+#patternTopBarButtons ul ul li {
+  float:none;
 }
 #patternTopBarButtons ul li a {
 	display:block;
 	padding:0 1em;
-  margin-right:1px;
 }
 #patternBottomBar {
 	border-style:none;
@@ -947,13 +949,16 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 }
 .patternWebIndicator {
-	border-style:none none none solid;
-	border-width:7px;
-	padding:0 0 0 9px;
-	margin:0 0 1em -16px;
+  margin:0 -5px 1em;
 }
 .patternWebIndicator a {
 	font-weight:bold;
+  display:block;
+  padding:5px;
+}
+.patternWebIndicator a:hover {
+  text-decoration:none;
+  color:#333;
 }
 .patternLeftBarPersonalContent {
 	padding:1em 0 0 0;

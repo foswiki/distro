@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424376608" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin Navigation
 
@@ -10,7 +10,34 @@ Include main navigation with:
 ---++ Include sections
 <verbatim class="tml">
 %STARTSECTION{"main"}%<noautolink>
-<div id="patternTopBarButtons"><ul>
+<div id="patternTopBarButtons"><ul class="sf-menu">
+  %INCLUDE{"%TOPIC%" section="topbarbutton" DESTWEB="%USERSWEB%" DESTTOPIC="%HOMETOPIC%" LABEL="%JQICON{"fa-home" style="font-size:1.1em"}% %USERSWEB%"}%
+  <li>[[%WIKIUSERNAME%][%JQICON{"fa-user"}% %MAKETEXT{"My Profile"}%]]</li>
+  %IF{"istopic '%USERSWEB%.%WIKINAME%LeftBar'"
+    then="<li>[[%USERSWEB%.%WIKINAME%LeftBar][%JQICON{"fa-bookmark"}% %MAKETEXT{"My Links"}%]]$n$percntINCLUDE{\"%USERSWEB%.%WIKINAME%LeftBar\"}$percnt</li>"
+  }%%IF{"istopic '%USERSWEB%.WikiUsers'"
+    then="<li>[[%USERSWEB%.WikiUsers][%JQICON{"fa-users"}% Users]]</li>"
+  }%%IF{"'%BASEWEB%'!='%USERSWEB%'"
+    then="<li>
+        <a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%HOMETOPIC%' class='active'>%JQICON{"fa-thumb-tack"}% %BASEWEB%</a>
+        $percntINCLUDE{\"%TOPIC%\" section=\"webtools\"}$percnt
+      </li>"
+  }%<li><a>%JQICON{"fa-cloud"}% Webs</a>%INCLUDE{"%TOPIC%" section="webs"}%</li>
+</ul>%CLEAR%</div>
+%JQREQUIRE{"superfish"}%%ADDTOZONE{
+  "script" 
+  id="PATTERNMENU" 
+  topic="%WEB%.%TOPIC%" 
+  section="js" 
+  requires="JQUERYPLUGIN::SUPERFISH"
+}%%ADDTOZONE{"head" 
+   id="SUPERFISH::CSS" 
+   text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>"
+}%</noautolink>%ENDSECTION{"main"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"webs"}%<ul>
 %FORMAT{
   "%CALCULATE{"$LISTUNIQUE($SUBSTITUTE(%WEBLIST{
     webs="%USERSWEB%,public"
@@ -27,10 +54,21 @@ Include main navigation with:
       LABEL=\"$item\"
     }$percnt"
 }%
-</ul><div class="foswikiClear"></div></div>
-</noautolink>%ENDSECTION{"main"}%
+</ul>%ENDSECTION{"webs"}%
+</verbatim>
 
+<verbatim class="tml">
+%STARTSECTION{"webtools"}%<ul>
+  <li>[[%BASEWEB%.WebTopicList][%MAKETEXT{"Index"}%]]</li>
+  <li>[[%BASEWEB%.WebSearch][%MAKETEXT{"Search"}%]]</li>
+  <li>[[%BASEWEB%.WebChanges][%MAKETEXT{"Changes"}%]]</li>
+  <li>[[%BASEWEB%.WebNotify][%MAKETEXT{"Notifications"}%]]</li>
+  <li>[[%BASEWEB%.WebStatistics][%MAKETEXT{"Statistics"}%]]</li>
+  <li>[[%BASEWEB%.WebPreferences][%MAKETEXT{"Preferences"}%]]</li>
+</ul>%ENDSECTION{"webtools"}%
+</verbatim>
 
+<verbatim class="tml">
 %STARTSECTION{"topbarbutton"}%<li%IF{
     "'$ID' and '%ID%'!=''"
     then=" id=\"%ID%\""
@@ -39,6 +77,17 @@ Include main navigation with:
     then="active"
     else="inactive"
 }%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
+</verbatim>
 
+<verbatim class="tml">
+%STARTSECTION{"js"}%<script>
+jQuery(function($) {
+  $("#patternTopBarButtons > ul").superfish({
+    dropShadows: false, 
+    cssArrows: false,
+    speed:200
+  })
+});
+</script>%ENDSECTION{"js"}%
 
-<!-- %JQREQUIRE{"chili"}% -->
+!-- %JQREQUIRE{"chili"}% -->

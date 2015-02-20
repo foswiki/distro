@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
@@ -11,7 +11,7 @@ Include main navigation with:
 <verbatim class="tml">
 %STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
 %INCLUDE{
-    "%TOPIC%"
+    "PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%USERSWEB%"
@@ -19,7 +19,7 @@ Include main navigation with:
     LABEL="%USERSWEB%"
 }%
 %INCLUDE{
-    "%TOPIC%"
+    "PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%SYSTEMWEB%"
@@ -27,7 +27,7 @@ Include main navigation with:
     LABEL="%SYSTEMWEB%"
 }%
 %INCLUDE{
-    "%TOPIC%"
+    "PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%SANDBOXWEB%"
@@ -35,15 +35,5 @@ Include main navigation with:
     LABEL="%SANDBOXWEB%"
 }%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
-
-
-%STARTSECTION{"topbarbutton"}%<li%IF{
-    "'$ID' and '%ID%'!=''"
-    then=" id=\"%ID%\""}%>
-<a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
-    "'%DESTWEB%'='%WEB%'"
-    then="active"
-    else="inactive"
-}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
 
 <!-- %JQREQUIRE{"chili"}% -->

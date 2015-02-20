@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -17,52 +17,42 @@ Include meta navigation with:
 <verbatim class="tml">
 %STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="About" DESTTOPIC="%HOMETOPIC%" LABEL="About"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Blog" DESTTOPIC="%HOMETOPIC%" LABEL="Blog"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Extensions" DESTTOPIC="%HOMETOPIC%" LABEL="Extensions"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="%SYSTEMWEB%" DESTTOPIC="%HOMETOPIC%" LABEL="Documentation"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Community" DESTTOPIC="%HOMETOPIC%" LABEL="Community"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Development" DESTTOPIC="%HOMETOPIC%" LABEL="Development"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Tasks" DESTTOPIC="%HOMETOPIC%" LABEL="Tasks"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Download" DESTTOPIC="%HOMETOPIC%" LABEL="Download"
 }%
 %INCLUDE{
-    "%TOPIC%" section="topbarbutton"
+    "PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Support" DESTTOPIC="%HOMETOPIC%" LABEL="Support"
 }%
 </ul><div class="foswikiClear"></div></div>%ENDSECTION{"main"}%
-
-
-%STARTSECTION{"topbarbutton"}%<li%IF{
-    "'$ID' and '%ID%'!=''"
-    then=" id=\"%ID%\""
-}%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
-    "'%DESTWEB%'='%BASEWEB%'"
-    then="active"
-    else="inactive"
-}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
 
 
 %STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{
