@@ -347,19 +347,19 @@ sub test_render_formfield_with_form {
     my $text   = $meta->text;
     my $res    = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
 _An issue_
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 1 </td><td>
 *no web*
-</td></tr>SOUR<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>SOUR<tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 3 </td><td>
 _hello world_
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 4 </td><td>
 ,   * high
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+</td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 6 </td><td>
 Three </td></tr></table></div>
 HERE
     $meta->finish();
@@ -368,23 +368,23 @@ HERE
     $this->{session}->enterContext('preview');
     $res = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
 _An issue_
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Description </td><td>
 ---+ Example problem
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 1 </td><td>
 *Defect*
-</td></tr></noautolink>SOUR<noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr></noautolink>SOUR<noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 3 </td><td>
 Defect, None
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 4 </td><td>
 Defect
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 6 </td><td>
 Two 
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 7 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 7 </td><td>
 Two 
-</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 8 </td><td>
+</td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 8 </td><td>
 Two 
 </td></tr></noautolink>
 </table></div>
@@ -415,21 +415,21 @@ sub test_render_for_edit {
 <h3>Topic data</h3>
 <table class="foswikiFormTable" summary="Topic data">
 
-<tr><th>Issue Name<span class="foswikiAlert"> *</span></th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField foswikiMandatory" /></td></tr>
-<tr><th>State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
-<tr><th>Issue Description</th><td align="left"><input type="hidden"
+<tr><th>Issue Name<span class="foswikiAlert"> *</span></th><td style="text-align:left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField foswikiMandatory" /></td></tr>
+<tr><th>State</th><td style="text-align:left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
+<tr><th>Issue Description</th><td style="text-align:left"><input type="hidden"
 name="IssueDescription" value="---+ Example problem"  /><div class="foswikiFormLabel">
 ---+ Example problem
 </div></td></tr>
-<tr><th>Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
-<tr><th>Issue 2EXTRA</th><td align="left">SWEET</td></tr>
-<tr><th>Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
-<tr><th>Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
+<tr><th>Issue 1</th><td style="text-align:left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
+<tr><th>Issue 2EXTRA</th><td style="text-align:left">SWEET</td></tr>
+<tr><th>Issue 3</th><td style="text-align:left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
+<tr><th>Issue 4</th><td style="text-align:left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
 Defect</textarea></td></tr>
-<tr><th>Issue 5</th><td align="left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr>
-<tr><th>Issue 6</th><td align="left"><select name="Issue6" class="foswikiSelect" size="1"><option value="1" class="foswikiOption">One</option><option value="2" selected="selected" class="foswikiOption">Two</option><option value="3" class="foswikiOption">Three</option><option value="4" class="foswikiOption">Four</option></select></td></tr>
-<tr><th>Issue 7</th><td align="left"><table><tr><td><label><input type="checkbox" name="Issue7" value="1"  title="1" class="foswikiCheckbox"/>One</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="2" checked="checked" title="2" class="foswikiCheckbox"/>Two</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="3"  title="3" class="foswikiCheckbox"/>Three</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="4"  title="4" class="foswikiCheckbox"/>Four</label></td></tr></table><input type="hidden" name="Issue7" value="" /></td></tr>
-<tr><th>Issue 8</th><td align="left"><table><tr><td><label><input type="radio" name="Issue8" value="1"  title="1" class="foswikiRadioButton"/>One</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="2" checked="checked" title="2" class="foswikiRadioButton"/>Two</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="3"  title="3" class="foswikiRadioButton"/>Three</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="4"  title="4" class="foswikiRadioButton"/>Four</label></td></tr></table></td></tr> 
+<tr><th>Issue 5</th><td style="text-align:left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr>
+<tr><th>Issue 6</th><td style="text-align:left"><select name="Issue6" class="foswikiSelect" size="1"><option value="1" class="foswikiOption">One</option><option value="2" selected="selected" class="foswikiOption">Two</option><option value="3" class="foswikiOption">Three</option><option value="4" class="foswikiOption">Four</option></select></td></tr>
+<tr><th>Issue 7</th><td style="text-align:left"><table><tr><td><label><input type="checkbox" name="Issue7" value="1"  title="1" class="foswikiCheckbox"/>One</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="2" checked="checked" title="2" class="foswikiCheckbox"/>Two</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="3"  title="3" class="foswikiCheckbox"/>Three</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="4"  title="4" class="foswikiCheckbox"/>Four</label></td></tr></table><input type="hidden" name="Issue7" value="" /></td></tr>
+<tr><th>Issue 8</th><td style="text-align:left"><table><tr><td><label><input type="radio" name="Issue8" value="1"  title="1" class="foswikiRadioButton"/>One</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="2" checked="checked" title="2" class="foswikiRadioButton"/>Two</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="3"  title="3" class="foswikiRadioButton"/>Three</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="4"  title="4" class="foswikiRadioButton"/>Four</label></td></tr></table></td></tr> 
 <tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table><span class="foswikiAlert">*</span> indicates mandatory fields </div>
 HERE
 
@@ -491,40 +491,40 @@ Form definition 'NonExistantPluginTestForm' not found
 <div class="foswikiForm foswikiFormStep">
 <h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>
 <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> ExtensionName </td>
   <td> Example </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TopicClassification </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> TopicClassification </td>
   <td> SkinPackage </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnFoswiki </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> TestedOnFoswiki </td>
   <td>  </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnTWiki </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> TestedOnTWiki </td>
   <td>  </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnOS </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> TestedOnOS </td>
   <td> AnyOS </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ShouldRunOnOS </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> ShouldRunOnOS </td>
   <td> AnyOS </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> DemoUrl </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> DemoUrl </td>
   <td> http:// </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> DevelopedInSVN </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> DevelopedInSVN </td>
   <td> No </td>
  </tr>
- <tr valign='top'>
-  <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td>
+ <tr style='vertical-align:top'>
+  <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> ModificationPolicy </td>
   <td> ContactAuthorFirst </td>
  </tr>
 </table>
