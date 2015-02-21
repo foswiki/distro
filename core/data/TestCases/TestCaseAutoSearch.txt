@@ -357,7 +357,7 @@ Same as last test
 <h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from <nop>System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div> 
+<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
@@ -403,7 +403,7 @@ Same as last test
 <h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div> 
+<div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
@@ -413,7 +413,7 @@ Same as last test
 <h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div> 
+<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 

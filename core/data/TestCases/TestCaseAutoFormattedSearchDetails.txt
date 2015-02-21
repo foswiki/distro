@@ -38,7 +38,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
-<h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary"> %<noexpand>TWISTY{ link="" icon="add"}%" mode="div" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" section="js" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" ...</div></div>
@@ -48,7 +48,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div>
+<div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -62,7 +62,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
-<h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Welcome to the System Web This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, the ...</div></div>
@@ -72,7 +72,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div>
+<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * Set ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -149,7 +149,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
-<h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Welcome to the System Web This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, the ...</div></div>
@@ -158,7 +158,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div>
+<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -191,7 +191,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
-<h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " type "submit"}%</div></div>
@@ -200,7 +200,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = Sandbox test area to experiment in an unrestricted hands on web. ...</div></div>
+<div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set WEBSUMMARY = Sandbox test area to experiment in an unrestricted hands on web. ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
