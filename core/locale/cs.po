@@ -2227,7 +2227,7 @@ msgstr "Přesun článku do:"
 msgid "Move/Rename"
 msgstr "Přesunout/Přejmenovat"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "NOVÝ"
 
@@ -2263,7 +2263,7 @@ msgstr "Registrace nových uživatelů není podporována"
 msgid "New e-mails (space-separated list)"
 msgstr "Nové emailové adresy (mezerou oddělený seznam)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nový nebo změněný článek v %1, od %2:"
@@ -2886,7 +2886,7 @@ msgstr ""
 "Revize %1 byla uložena uživatelem %2, v době kdy Vy jste stále editoval."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Zkontrolujte poslední změny v:"
 
@@ -3202,8 +3202,8 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
 
@@ -3577,7 +3577,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Toto je také známé pod názvem Cross-site Request Forgery (CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Toto je automatický email od %1."
 

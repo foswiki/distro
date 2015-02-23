@@ -2289,7 +2289,7 @@ msgstr "Переместить тему в раздел:"
 msgid "Move/Rename"
 msgstr "Переместить/Переименовать"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "НОВАЯ"
 
@@ -2325,7 +2325,7 @@ msgstr "Регистрация новых пользователей не под
 msgid "New e-mails (space-separated list)"
 msgstr "Новые адреса электронной почты (список разделенный пробелами)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Новые или измененные темы в %1, после %2:"
@@ -2960,7 +2960,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Пока Вы продолжаете редактировать, %2 была сохранена редакция %1."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Обзор недавних изменений в:"
 
@@ -3283,8 +3283,8 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Подписаться / Отписаться от:"
 
@@ -3666,7 +3666,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Это называется «подделка межсайтовых запросов» или CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Это автоматическое уведомление от %1."
 

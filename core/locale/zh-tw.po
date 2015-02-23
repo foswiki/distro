@@ -2144,7 +2144,7 @@ msgstr "移動主題到子網:"
 msgid "Move/Rename"
 msgstr "移動/更名"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "新"
 
@@ -2180,7 +2180,7 @@ msgstr "不支援新用戶註冊"
 msgid "New e-mails (space-separated list)"
 msgstr "新郵件地址 (用空白區隔的清單)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "自 %2 起，%1 中新的或變更過的主題"
@@ -2786,7 +2786,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "在您編輯期間，用戶 %2 以版本 %1 存檔。"
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "檢查最近的變更："
 
@@ -3094,8 +3094,8 @@ msgid "Subscribe"
 msgstr "訂閱"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂："
 
@@ -3439,7 +3439,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "這就是跨站偽請求，或 CSRF。"
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "這是一封由 %1 自動發的送電子郵件。"
 

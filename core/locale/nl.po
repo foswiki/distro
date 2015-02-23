@@ -2269,7 +2269,7 @@ msgstr "Verplaats pagina naar web:"
 msgid "Move/Rename"
 msgstr "Verplaats/Hernoem"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "NIEUW"
 
@@ -2305,7 +2305,7 @@ msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
 msgid "New e-mails (space-separated list)"
 msgstr "Nieuwe e-mails (spatie-gescheiden lijst)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nieuwe of gewijzigde pagina&#39;s in %1, sinds %2:"
@@ -2935,7 +2935,7 @@ msgstr ""
 "Revisie %1 werd opgeslagen door %2 terwijl je nog aan het bewerken was."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Bekijk recente wijzigingen in:"
 
@@ -3254,8 +3254,8 @@ msgid "Subscribe"
 msgstr "Abonneren"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Aanmelden / Afmelden in:"
 
@@ -3645,7 +3645,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Dit staat ook bekend als Cross-site Request Forgery, of CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Dit is een geautomatiseerde e-mail van %1."
 

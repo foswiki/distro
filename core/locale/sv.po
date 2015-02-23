@@ -2245,7 +2245,7 @@ msgstr "Flytta sida till avdelning:"
 msgid "Move/Rename"
 msgstr "Flytta/Döp om"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "NY"
 
@@ -2281,7 +2281,7 @@ msgstr "Registrering av nya användare stöds inte"
 msgid "New e-mails (space-separated list)"
 msgstr "Nya e-postaddresser (avgränasde med mellanslag)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nya eller ändrade sidor i avdelningen %1, sedan %2:"
@@ -2903,7 +2903,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Version %1 sparades av %2 medan du redigerade."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Senast ändrade sidor"
 
@@ -3224,8 +3224,8 @@ msgid "Subscribe"
 msgstr "Prenumerera"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Prenumerera / avprenumerera i:"
 
@@ -3423,7 +3423,8 @@ msgstr "E-postadressen för detta konto godtogs inte."
 #: core/templates/messages.tmpl:343
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "E-postadressen för detta konto är redan registrerat av annan användare."
+msgstr ""
+"E-postadressen för detta konto är redan registrerat av annan användare."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3602,7 +3603,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Detta kallas också för Cross-site Request Forgery (CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Detta är ett automatgenererat meddelande från %1."
 

@@ -2290,7 +2290,7 @@ msgstr "Déplacer la page vers le web :"
 msgid "Move/Rename"
 msgstr "Déplacer/Renommer"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "NOUVEAU"
 
@@ -2326,7 +2326,7 @@ msgstr "L'inscription de nouveaux utilisateurs n'est pas supportée"
 msgid "New e-mails (space-separated list)"
 msgstr "Nouvelles adresses e-mail (séparées par des espaces)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Pages modifiées ou nouvellement créées dans %1, depuis %2 :"
@@ -2962,7 +2962,7 @@ msgstr ""
 "modifier la page."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Pages modifiées récemment dans :"
 
@@ -3293,8 +3293,8 @@ msgid "Subscribe"
 msgstr "Abonnement"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnement / Désabonnement de :"
 
@@ -3698,7 +3698,7 @@ msgstr ""
 "Forgery (CSRF), en français, falsification de requête inter-domaine. "
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Ceci un est un message automatique de %1."
 

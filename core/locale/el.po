@@ -2294,7 +2294,7 @@ msgstr "Μετακινήστε το θέμα στον ιστό:"
 msgid "Move/Rename"
 msgstr "Μετακίνηση / Μετονομασία"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "ΝΕΟ"
 
@@ -2330,7 +2330,7 @@ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζετα�
 msgid "New e-mails (space-separated list)"
 msgstr "Νέα e-mail (λίστα διαχωρισμένη με κενό)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Νέα ή αλλαγμένα θέματα στο %1, από την %2:"
@@ -2966,7 +2966,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Rev %1 was saved by %2, while you were still editing."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
 
@@ -3289,8 +3289,8 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Συνδρομή / Διαγφραφή Συνδρομής σε:"
 
@@ -3667,7 +3667,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Αυτό είναι ένα αυτοματοποιημένο e-mail από %1."
 

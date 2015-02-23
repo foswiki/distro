@@ -2287,7 +2287,7 @@ msgstr "Mover tema a la web:"
 msgid "Move/Rename"
 msgstr "Mover/Renombrar"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "NUEVO"
 
@@ -2323,7 +2323,7 @@ msgstr "Registro de usuarios nuevos no disponible"
 msgid "New e-mails (space-separated list)"
 msgstr "Nuevos correos electrónicos (lista separada por espacios)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Temas nuevos o cambiados en %1, desde %2:"
@@ -2956,7 +2956,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Revisión %1 fue guardada por %2, mientras usted estaba aún editando."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Revisar cambios recientes en:"
 
@@ -3280,8 +3280,8 @@ msgid "Subscribe"
 msgstr "Editar texto"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Subscribir / Cancelar subscripción en:"
 
@@ -3672,7 +3672,7 @@ msgstr ""
 "o CSRF por sus siglas en inglés."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Este es un correo electrónico automático de %1."
 

@@ -2287,7 +2287,7 @@ msgstr "Siirrä aihe verkkoon:"
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "UUSI"
 
@@ -2324,7 +2324,7 @@ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 msgid "New e-mails (space-separated list)"
 msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Uudet tai muokatut aiheet %1, sitten %2:"
@@ -2957,7 +2957,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Rev %1 tallennettu käyttäjän %2 toimesta muokkauksesi aikana."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
 
@@ -3278,8 +3278,8 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Merkitse / Peruuta:"
 
@@ -3647,7 +3647,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "Tämä on automaattinen sähköposti lähettäjältä %1"
 

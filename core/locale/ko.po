@@ -2226,7 +2226,7 @@ msgstr "토픽을 다음 Web 으로 이동하기:"
 msgid "Move/Rename"
 msgstr "이동/이름변경"
 
-#: core/lib/Foswiki/Search.pm:1184
+#: core/lib/Foswiki/Search.pm:1197
 msgid "NEW"
 msgstr "신규"
 
@@ -2262,7 +2262,7 @@ msgstr "새 사용자 등록 지원되지 않음"
 msgid "New e-mails (space-separated list)"
 msgstr "새 이메일 (스페이스로 구분된 목록)"
 
-#: MailerContrib/templates/mailnotify.tmpl:82
+#: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "%2 이후로 %1 내에서 신규 혹은 변경된 토픽:"
@@ -2881,7 +2881,7 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "수정 %1 은 %2 님이 귀하께서 편집 중 저장하셨습니다."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:85
+#: MailerContrib/templates/mailnotify.tmpl:86
 msgid "Review recent changes in:"
 msgstr "다음에서 최근 변경 내역 보기:"
 
@@ -3193,8 +3193,8 @@ msgid "Subscribe"
 msgstr "구독"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:88
-#: MailerContrib/templates/newsletter.tmpl:20
+#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "구독/ 구독취소 :"
 
@@ -3561,7 +3561,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "이는 사이트간 요청 사기, 혹은 CSRF 로도 알려져 있습니다."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:80
+#: MailerContrib/templates/mailnotify.tmpl:81
 msgid "This is an automated e-mail from %1."
 msgstr "%1 으로부터의 자동화된 이메일입니다."
 
