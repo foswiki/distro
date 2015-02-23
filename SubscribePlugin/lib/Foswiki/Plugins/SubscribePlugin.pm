@@ -98,15 +98,15 @@ sub _SUBSCRIBE {
         if ($unsubscribe) {
             $tmpl = $params->{formatunsubscribe}
               if ( $params->{formatunsubscribe} );
-            $actionName = 'Unsubscribe';
+            $actionName = $session->i18n->maketext('Unsubscribe');
             $urlparms{subscribe_remove} = 1;
         }
         else {
             $tmpl = $params->{format} if $params->{format};
-            $actionName = 'Subscribe';
+            $actionName = $session->i18n->maketext('Subscribe');
             $urlparms{subscribe_remove} = 0;
         }
-        $tmpl =~ s/\$action/%MAKETEXT{"$actionName"}%/g;
+        $tmpl =~ s/\$action/$actionName/g;
         $tmpl =~ s/\$wikiname/$who/g;
         $tmpl =~ s/\$topics/$topic/g;
     }
