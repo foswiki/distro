@@ -75,6 +75,7 @@ lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Rating/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/SimpleModal/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Supersub/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
@@ -640,6 +641,9 @@ pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css.gz 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.uncompressed.css 0644
+pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-megafish.css 0644
+pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-megafish.css.gz 0644
+pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-megafish.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/superfish/Makefile 0644
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.js 0644
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.js.gz 0644

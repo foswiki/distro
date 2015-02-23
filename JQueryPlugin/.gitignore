@@ -109,10 +109,12 @@ pub/System/JQueryPlugin/plugins/slimbox/slimbox2.init.js
 pub/System/JQueryPlugin/plugins/slimbox/slimbox2.js
 pub/System/JQueryPlugin/plugins/sprintf/git/
 pub/System/JQueryPlugin/plugins/sprintf/sprintf.js
+pub/System/JQueryPlugin/plugins/superfish/git/
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.css
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.js
+pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-megafish.css
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.js
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.css
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js

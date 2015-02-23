@@ -175,9 +175,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Stars}{Enabled} = 1;
 # **BOOLEAN LABEL="Superfish"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Superfish}{Enabled} = 1;
 
-# **BOOLEAN LABEL="Supersubs"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 1;
-
 # **BOOLEAN LABEL="Tabpane"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tabpane}{Enabled} = 1;
 
@@ -260,6 +257,10 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
 # **BOOLEAN LABEL="SimpleModal" EXPERT**
 # Warning: This plugin is deprecated. Please use ui::dialog, the jquery-ui dialog widget.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 0;
+
+# **BOOLEAN LABEL="Supersubs"**
+# Warning: This plugin is deprecated. The latest superfish module supersedes it.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Tmpl" EXPERT**
 # Warning: This plugin is deprecated. Please use jsrender.

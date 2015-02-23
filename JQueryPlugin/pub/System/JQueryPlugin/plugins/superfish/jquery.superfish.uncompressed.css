@@ -85,7 +85,7 @@
 	position: absolute;
 	top: 50%;
 	right: 1em;
-	*margin-top: -3px;
+	margin-top: -3px;
 	height: 0;
 	width: 0;
 	/* order of following 3 rules important for fallbacks to work */
