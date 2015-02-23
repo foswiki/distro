@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::Supersub::Enabled;
+package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::Supersubs::Enabled;
 
 use warnings;
 use strict;
