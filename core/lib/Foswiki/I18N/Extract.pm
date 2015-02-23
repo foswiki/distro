@@ -71,7 +71,7 @@ sub extract {
     local $_ = shift;
 
     # do existing extraction
-    $self->SUPER::extract( $file, $_ );
+    $self->SUPER::extract( $file, $_ ) unless ( $file =~ m/\.(txt|tmpl)$/ );
 
     my $line;
     my $doublequoted = '"(\\\"|[^"])*"';
