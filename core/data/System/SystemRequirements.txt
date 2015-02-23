@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423433588" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424716275" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -18,9 +18,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 | Web server | Apache, Nginx and Lighttpd are all well supported; Apache sample configs are provided. For information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run, but start from your expected default "view" URL, so that Foswiki can figure out your URL scheme.
 
-Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test all dependencies and alert you when any are missing.
-
-If you have problems with any dependencies, use the =tools/dependencies_installer.pl= perl script, which makes perl module installation easier. Run it with option =-h= to understand the basics.
+Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test critical dependencies and alert you when any are missing. For a detailed report, [[PerlDependencyReport][See PerlDependencyReport]].
 
 The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (=CGI= has been removed from recent Perl versions), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
 

@@ -943,7 +943,6 @@ templates/view.xml.tmpl 0444
 templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
 templates/viewtopicactionbuttons.tmpl 0444
-tools/dependencies_installer.pl 0555
 tools/extender.pl 0444
 tools/extension_installer 0555
 tools/geturl.pl 0555

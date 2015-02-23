@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421115862" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424716275" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -664,19 +664,6 @@ Note that this script is a generic version of the =_installer= script shipped wi
    * Download =SomePlugin_installer= and execute it from the Foswiki root directory
    * run =./tools/extension_installer !SomePlugin= - the extension will be downloaded and installed
    * Use the configure web interface to the Extensions Installer.
-
----+++ =dependencies_installer.pl=
-This script searches for missing Perl modules that should be available according to your Foswiki environment and offers installation via CPANPLUS or a supported package management system. It eases Perl module installation, which is part of a Foswiki installation, may be part of an extension installation or may need to follow upgrades. The script can be used to just provide an overview of Foswiki related perl modules in your installation by running it with option =-v=.
-
-For more details, execute it using option -h (help) or -m (manual):
-<verbatim>
-./dependencies_installer.pl -h
-Usage:
-    dependencies_installer.pl [-h|?|--help] [-m|--man] [-p|--print]
-    [-q|--questions] [-v|--verbose]
-
-[...]
-</verbatim>
 
 ---
 *Related Topics:* AdminDocumentationCategory, DeveloperDocumentationCategory
