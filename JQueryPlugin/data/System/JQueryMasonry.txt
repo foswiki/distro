@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315479654" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1424695107" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"masonry"
@@ -115,7 +115,6 @@ Sets options for plugin instance. Unlike passing options through .masonry(), usi
 
 Re-collects all item elements in their current order in the DOM.
 
-
 ---+++ reload
 
 <verbatim class="js">.masonry( 'reload' )</verbatim>
@@ -128,99 +127,83 @@ Convenience method for triggering reloadItems then .masonry(). Useful for prepen
 
 Removes specified item elements from Masonry instance and the DOM.
 
-
 ---++ Examples
 %JQREQUIRE{"Masonry"}%
 
 See more demos at http://masonry.desandro.com/
 
-<div class="wrap jqMasonry {columnWidth:100, itemSelector:'.box'}">
+<div class="wrap jqMasonry {itemSelector:'.box'}">
   <div class="box">
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
     Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna
     nibh, viverra non, semper suscipit, posuere a, pede.
   </div>
-
   <div class="box">
      Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
      sit amet orci.
   </div>
-
   <div class="box">
     Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
     vehicula
   </div>
-
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-
   <div class="box">
     adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
     mauris ut lectus.
   </div>
-
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-
   <div class="box">
     Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
   </div>
-
   <div class="box">
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
     Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna
     nibh, viverra non, semper suscipit, posuere a, pede.
   </div>
-
   <div class="box">
      Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
      sit amet orci.
   </div>
-
   <div class="box">
     Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
     vehicula
   </div>
-
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-
   <div class="box">
     adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
     mauris ut lectus.
   </div>
-
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-
   <div class="box">
     Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
   </div>
-
-  <br class="foswikiClear" />
+%CLEAR%
 </div>
 
 <literal>
 <style type="text/css">
 .box {
-    margin: 5px;
+    margin: 0 10px 10px 0;
     padding: 5px;
     background: #D8D5D2;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     float: left;
-    width:80px;
+    width:120px;
 }
 .wrap {
-    padding: 10px;
-    width:300px;
+    max-width:600px;
 }
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attachment="jQuery-Masonry.jpg" attr="h" comment="" date="1260559727" path="jQuery-Masonry.jpg" size="35840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attachment="jQuery-Masonry.jpg" attr="h" comment="" date="1424695107" path="jQuery-Masonry.jpg" size="35840" user="ProjectContributor" version="1"}%
