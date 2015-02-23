@@ -19,10 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.1.0\n"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:109
-msgid "$actionName"
-msgstr ""
-
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
@@ -4020,6 +4016,7 @@ msgstr "Versturen"
 msgid "Submitted content:"
 msgstr "Verstuurde gegevens:"
 
+#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:77
@@ -4804,6 +4801,7 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
+#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
