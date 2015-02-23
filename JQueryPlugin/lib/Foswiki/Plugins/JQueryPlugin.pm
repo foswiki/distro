@@ -24,8 +24,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '6.01';
-our $RELEASE           = '6.01';
+our $VERSION           = '6.10';
+our $RELEASE           = '23 Feb 2015';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 

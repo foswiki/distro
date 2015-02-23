@@ -1147,7 +1147,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   float: left; 
   text-decoration: none; 
   border:0px;
-  padding:0.2307em 0.6153em; /* 3px 8px */
+  padding:0.22em 0.6153em; /* 3px 8px */
 }
 .ui-tabs .ui-tabs-nav li a:before {
   background-repeat: no-repeat; 
@@ -1176,7 +1176,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active { 
   margin-bottom: 0;
-  padding-bottom: 0.5384em; /* 7px */
+  padding-bottom: 0.53em; /* 7px */
   border-bottom: 0 !important;
   border-color:#bcbcbc;
   background:#fff;

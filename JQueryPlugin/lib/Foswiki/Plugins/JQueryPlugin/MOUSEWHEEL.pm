@@ -31,7 +31,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Michael Daum http://michaeldaumconsulting.com
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

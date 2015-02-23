@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424697143" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -126,6 +126,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  23 Feb 2015: | (6.10) - Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
 |  12 Jan 2015: | (6.01) - Item13205: added jquery-1.11.2 and jquery-2.1.3 |
 |  29 Nov 2014: | (6.01) - Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
 |  25 Sep 2014: | (6.00) - Item13030: deprecate jquery.tmpl; added jsrender and a template loader |

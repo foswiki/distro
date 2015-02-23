@@ -1,7 +1,7 @@
 /*
  * jQuery WikiWord plugin 3.00
  *
- * Copyright (c) 2008-2014 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2015 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

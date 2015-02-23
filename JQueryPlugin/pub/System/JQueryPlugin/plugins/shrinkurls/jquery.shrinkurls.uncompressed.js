@@ -1,7 +1,7 @@
 /*
  * jQuery Shrinkurls plugin 2.01
  *
- * Copyright (c) 2007-2014 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2007-2015 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

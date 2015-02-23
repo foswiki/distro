@@ -3,7 +3,7 @@ jQuery(function($) {
 
   $(".jqUIResizable").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.metadata());
+        opts = $.extend({}, $this.data(), $this.metadata());
 
     $this.removeClass("jqUIResizable").resizable(opts);
   });
