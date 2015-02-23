@@ -85,7 +85,7 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 ---------------------------------------------------
 }%%TMPL:DEF{"webaction"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"bodyclassname"}%%TMPL:END%%{
+}%%TMPL:DEF{"bodyclassname"}%%IF{"'%TOPIC%' allows 'CHANGE'" then=" foswikiHasChangePermission" else=" foswikiHasNoChangePermission"}%%IF{"context authenticated" then=" foswikiLoggedIn" else=" foswikiGuest"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"bodystart"}%<body class="foswikiNoJs %TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
 #PageTop %TMPL:END%%{

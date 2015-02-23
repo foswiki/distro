@@ -13,6 +13,8 @@
 .foswikiMakeVisible {
 	display:inline;
 }
+
+a.foswikiMakeVisible,
 p.foswikiMakeVisible,
 h1.foswikiMakeVisible,
 h2.foswikiMakeVisible,

@@ -10,6 +10,7 @@ data/System/PatternSkinCssCookbookCenterPage.txt 0644
 data/System/PatternSkinCssCookbookCenterPageBorder.txt 0644
 data/System/PatternSkinCssCookbookEditTableStyle.txt 0644
 data/System/PatternSkinCssCookbookFonts.txt 0644
+data/System/PatternSkinCssCookbookHideActions.txt 0644
 data/System/PatternSkinCssCookbookNoLeftBar.txt 0644
 data/System/PatternSkinCssCookbookNoTopBar.txt 0644
 data/System/PatternSkinCssCookbookSidebarBackground.txt 0644
@@ -56,6 +57,8 @@ pub/System/PatternSkinCssCookbookCenterPageBorder/gradient_page.gif 0644
 pub/System/PatternSkinCssCookbookCenterPageBorder/striped_pageshadow.gif 0644
 pub/System/PatternSkinCssCookbookEditTableStyle/edittable.css 0644
 pub/System/PatternSkinCssCookbookFonts/fonts.css 0644
+pub/System/PatternSkinCssCookbookHideActions/hideguestaction.css 0644
+pub/System/PatternSkinCssCookbookHideActions/hideunauthaction.css 0644
 pub/System/PatternSkinCssCookbookNoLeftBar/hideleftbar.css 0644
 pub/System/PatternSkinCssCookbookNoTopBar/notopbar.css 0644
 pub/System/PatternSkinCssCookbookSidebarBackground/sidebar.css 0644

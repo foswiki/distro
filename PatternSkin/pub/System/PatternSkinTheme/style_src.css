@@ -1384,10 +1384,6 @@ pre ul:last-child,
 .foswikiButtonSmall.foswikiActive,
 .foswikiButtonLarge.foswikiActive,
 .foswikiButtonMini.foswikiActive,
-.foswikiButton > .foswikiRequiresChangePermission a:hover,
-.foswikiButtonSmall > .foswikiRequiresChangePermission a:hover,
-.foswikiButtonLarge > .foswikiRequiresChangePermission a:hover,
-.foswikiButtonMini > .foswikiRequiresChangePermission a:hover {
   color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #e6e6e6;
@@ -1415,10 +1411,6 @@ pre ul:last-child,
 .foswikiButtonSmall.foswikiActive .foswikiIcon,
 .foswikiButtonLarge.foswikiActive .foswikiIcon,
 .foswikiButtonMini.foswikiActive .foswikiIcon,
-.foswikiButton > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiIcon {
   color: #484848;
 }
 .foswikiButton:hover .foswikiCaret,
@@ -1429,10 +1421,6 @@ pre ul:last-child,
 .foswikiButtonSmall.foswikiActive .foswikiCaret,
 .foswikiButtonLarge.foswikiActive .foswikiCaret,
 .foswikiButtonMini.foswikiActive .foswikiCaret,
-.foswikiButton > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiCaret {
   border-top-color: rgba(72, 72, 72, 0.4);
 }
 .foswikiButton .foswikiAccessKey,

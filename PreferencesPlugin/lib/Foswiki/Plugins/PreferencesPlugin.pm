@@ -240,7 +240,7 @@ sub _generateEditButton {
     $text .= CGI::submit(
         -name  => 'edit',
         -value => 'Edit Preferences',
-        -class => 'foswikiButton'
+        -class => 'foswikiRequiresChangePermission foswikiButton'
     );
     $text .= CGI::end_form();
     $text =~ s/\n//sg;

@@ -1,0 +1,5 @@
+/* CSS Cookbook: PatternSkinCssCookbookHideActions */
+
+/* Hide action buttons for guests, and for logged in users without change permission */
+.foswikiHasNoChangePermission.foswikiLoggedIn .foswikiRequiresChangePermission { display: none; }
+.foswikiHasNoChangePermission.foswikiGuest .foswikiRequiresChangePermission { display: none; }

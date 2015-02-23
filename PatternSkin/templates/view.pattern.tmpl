@@ -4,7 +4,7 @@
 %TMPL:INCLUDE{"viewsidebar"}%
 %TMPL:DEF{"logo"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"bodyclassname"}%patternViewPage%IF{"defined raw" then=" patternRawViewPage"}%%TMPL:END%%{
+}%%TMPL:DEF{"bodyclassname"}%patternViewPage%IF{"'%TOPIC%' allows 'CHANGE'" then=" foswikiHasChangePermission" else=" foswikiHasNoChangePermission"}%%IF{"context authenticated" then=" foswikiLoggedIn" else=" foswikiGuest"}%%IF{"defined raw" then=" patternRawViewPage"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then="$percntTMPL:P{$quotscript:skintemplate:viewraw$quot}$percnt"}%%TMPL:END%%{
 ---------------------------------------------------

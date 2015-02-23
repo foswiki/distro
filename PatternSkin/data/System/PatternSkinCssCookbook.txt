@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424660268" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
@@ -102,6 +102,10 @@ Note: If using %<nop>WEBHEADERART% to customize the top bar, some =#patternTopBa
 ---+++ Setting !EditTablePlugin styles
 
 [[PatternSkinCssCookbookEditTableStyle][See example]]
+
+---+++ Hide Edit action buttons for unauthorized and/or guest users
+
+[[PatternSkinCssCookbookHideActions][See example]]
 
 ---++ Style sheet documentation
    * See %SYSTEMWEB%.PatternSkinCss for documentation of !PatternSkin CSS classes

@@ -2,17 +2,17 @@
 
 %TMPL:DEF{nowysiwyg}%;nowysiwyg=1%TMPL:END%
 
-%TMPL:DEF{"create_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a></span>%TMPL:END%
+%TMPL:DEF{"create_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a>%TMPL:END%
 
 
-%TMPL:DEF{"edit_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%" else="%MAKETEXT{"title='Edit this topic text' >Edit"}%" }% </a></span>%TMPL:END%
+%TMPL:DEF{"edit_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%" else="%MAKETEXT{"title='Edit this topic text' >Edit"}%" }% </a>%TMPL:END%
 
-%TMPL:DEF{"raw_edit_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a></span>%TMPL:END%
+%TMPL:DEF{"raw_edit_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a>%TMPL:END%
 
 %TMPL:DEF{"view_topic_link"}%<span><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a></span>%TMPL:END%
 
 
-%TMPL:DEF{"attach_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%" else="%MAKETEXT{"title='Attach an image or document to this topic'>Attach"}%" }%</a></span>%TMPL:END%
+%TMPL:DEF{"attach_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%" else="%MAKETEXT{"title='Attach an image or document to this topic'>Attach"}%" }%</a>%TMPL:END%
 
 %TMPL:DEF{"subscribe_link"}%<span>%SUBSCRIBE{format="<a href='$url' class='subscribe_link' data-subscribe='{\"validation_key\":\"%NONCE%\"}' rel='nofollow' %MAKETEXT{"title='Subscribe to this topic' accesskey='s'>&Subscribe"}%</a>" formatunsubscribe="<a href='$url' class='subscribe_link' data-subscribe='$restparams' rel='nofollow' %MAKETEXT{"title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"}%</a>"}%</span>%TMPL:END%
 
@@ -32,9 +32,9 @@
 %TMPL:DEF{"backlinks_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?template=backlinksweb' rel='nofollow' %MAKETEXT{"title='Search the [_1] Web for topics that link to here' accesskey='b'>&Backlinks" args="<nop>%BASEWEB%"}%</a></span>%TMPL:END%
 
 
-%TMPL:DEF{"history_rdiff_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"rdiff"}%/%BASEWEB%/%BASETOPIC%?type=history' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a></span>%TMPL:END%
+%TMPL:DEF{"history_rdiff_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"rdiff"}%/%BASEWEB%/%BASETOPIC%?type=history' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a>%TMPL:END%
 
-%TMPL:DEF{"history_history_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%?template=oopshistory' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a></span>%TMPL:END%
+%TMPL:DEF{"history_history_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%?template=oopshistory' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a>%TMPL:END%
 
 
 %TMPL:DEF{"raw_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?raw=on%REVARG%' rel='nofollow' %MAKETEXT{"title='View without formatting' accesskey='v'>&View wiki text"}%</a></span>%TMPL:END%

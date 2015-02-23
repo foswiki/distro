@@ -1,0 +1,64 @@
+%META:TOPICINFO{author="ProjectContributor" date="1424657010" format="1.1" version="1"}%
+%META:TOPICPARENT{name="PatternSkinCssCookbook"}%
+---+!! PatternSkinCssCookbook Recipe: Hide action buttons
+
+*This recipe shows how to hide the action buttons for unauthorised and/or guest users:*
+(Edit, Attach ...)
+
+Note that the solutions in thic cookbook do not hide links to missing topics and unknown
+!WikiWords.
+
+%TOC{title="There are two options:"}%
+
+---++ Hide buttons for logged in,  but unauthorized users
+
+This is the recommended approach.  Edit buttons will be visible for guests,
+and will be hidden if a logged in user does not have access.   This is the
+most "friendly" approach in that a guest can click any button (for ex. edit or
+attach) and will be prompted to log in.
+
+This line loads the extra style definition:
+<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
+   * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookHideActions/hideunauthaction.css
+</verbatim>
+
+---++ Hide buttons for guests, and for unauthorized users
+
+This requires guests to find and click the login button to authenticate before
+the buttons become visible.
+
+<div class='foswikiHelp'>%T% *Note:* This is not a good way to prevent search
+engines from following edit links.  The buttons are present, but are hidden
+using CSS.</div>
+
+This line loads the extra style definition:
+<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
+   * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookHideActions/hideguestaction.css
+</verbatim>
+
+
+<div class='foswikiHelp'>
+You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic or on a single page.
+</div>
+
+---++ Alternative CSS
+
+Another option is to leave the buttons present, but disabled.  The following
+CSS sets the opacity to 50%, and disables the button.
+<verbatim>
+/* Hide action buttons for guests, and for logged in users without change permission */
+.foswikiHasNoChangePermission.foswikiLoggedIn .foswikiRequiresChangePermission {
+   pointer-events: none;
+   cursor: default;
+   opacity: 0.5;
+  }
+.foswikiHasNoChangePermission.foswikiGuest .foswikiRequiresChangePermission {
+   pointer-events: none;
+   cursor: default;
+   opacity: 0.5;
+  }
+</verbatim>
+
+
+%META:FILEATTACHMENT{name="hideunauthaction.css" attachment="hideunauthaction.css" attr="" comment="" date="1424657010" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideguestaction.css" attachment="hideguestaction.css" attr="" comment="" date="1424657010" user="ProjectContributor" version="1"}%
