@@ -22,10 +22,6 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.1.0\n"
 
-#: JQueryPlugin/data/System/JQueryRender.txt:160
-msgid "!-- this is a comment --"
-msgstr ""
-
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:109
 msgid "$actionName"
 msgstr ""
@@ -454,22 +450,6 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: JQueryPlugin/data/System/JQueryRender.txt:150
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-msgid "/for"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:154
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-#: JQueryPlugin/data/System/JQueryRender.txt:157
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-msgid "/if"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid "/props"
-msgstr ""
-
 #: core/data/System/SiteChanges.txt:29
 msgid "1 hour ago"
 msgstr ""
@@ -502,104 +482,6 @@ msgstr ""
 msgid "6 hours ago"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryRender.txt:138
-msgid ": "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:136
-msgid ": ..."
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:50
-#: JQueryPlugin/data/System/JQueryRender.txt:71
-msgid ":#index+1"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:147
-msgid ":&nbsp;pathOrExpr "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:147
-msgid ":address.street"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-msgid ":altnickname"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:150
-msgid ":city"
-msgstr ""
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:124
-msgid ":file"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:111
-#: JQueryPlugin/data/System/JQueryRender.txt:118
-#: JQueryPlugin/data/System/JQueryRender.txt:50
-#: JQueryPlugin/data/System/JQueryRender.txt:72
-#, fuzzy
-msgid ":firstName"
-msgstr "Имя:"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid ":key"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:111
-#: JQueryPlugin/data/System/JQueryRender.txt:118
-#: JQueryPlugin/data/System/JQueryRender.txt:50
-#: JQueryPlugin/data/System/JQueryRender.txt:73
-msgid ":lastName"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:149
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-#, fuzzy
-msgid ":name"
-msgstr "Переименовать"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:154
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-#, fuzzy
-msgid ":nickname"
-msgstr "Название темы"
-
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
-msgid ":nrPlugins"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid ":prop"
-msgstr ""
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:106
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:134
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:15
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:5
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:92
-#, fuzzy
-msgid ":selection"
-msgstr "Действие"
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:120
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:143
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:88
-#, fuzzy
-msgid ":topic"
-msgstr "К теме:"
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:102
-msgid ":url"
-msgstr ""
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:116
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:84
-msgid ":web"
-msgstr ""
-
 #: core/data/System/WebChanges.txt:19
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -620,10 +502,6 @@ msgstr "только <em>в разделе %1 </em>"
 msgid "<em>in all public webs</em>"
 msgstr "<em>во всех общедоступных разделах</em>"
 
-#: JQueryPlugin/data/System/JQueryRender.txt:160
-msgid "<nop>!-- ... --"
-msgstr ""
-
 #: core/templates/registermessages.tmpl:63
 msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
@@ -640,14 +518,6 @@ msgstr ""
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:148
-msgid ">&nbsp;pathOrExpr "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:148
-msgid ">address.street"
 msgstr ""
 
 #: core/templates/messages.tmpl:233
@@ -1035,7 +905,7 @@ msgstr "Обратные ссылки на %1 во всех разделах"
 msgid "Bad password"
 msgstr "Плохой пароль"
 
-#: SubscribePlugin/templates/subscribe.tmpl:26
+#: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
 msgstr ""
 
@@ -1127,7 +997,7 @@ msgstr "Отменить редактирование и отказаться о
 msgid "Cancel upload"
 msgstr "Отменить"
 
-#: SubscribePlugin/templates/subscribe.tmpl:31
+#: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
 msgstr ""
 
@@ -1246,6 +1116,7 @@ msgstr "Изменен(ы):"
 #: MailerContrib/templates/mailnotify.tmpl:11
 #: PatternSkin/data/Main/WebLeftBarExample.txt:10
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/PatternSkinNavigation.txt:64
 #: PatternSkin/data/System/WebLeftBarExample.txt:11
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:7
 #: PatternSkin/data/_default/WebLeftBar.txt:8
@@ -1506,7 +1377,7 @@ msgstr "Создать новую тему"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:20
+#: PatternSkin/data/System/WebLeftBarLogin.txt:21
 msgid "Create personal sidebar"
 msgstr "Создать личную панель"
 
@@ -1817,7 +1688,7 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:86
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Enlarge edit box"
 msgstr "Расширить область редактирования"
 
@@ -2143,10 +2014,6 @@ msgstr ""
 msgid "Headings"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:6
-msgid "Hello %1"
-msgstr "Привет %1"
-
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
 msgstr "Привет, %1!"
@@ -2155,14 +2022,18 @@ msgstr "Привет, %1!"
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
 #: NatEditPlugin/templates/settings.natedit.tmpl:21
 #: NatEditPlugin/templates/settings.natedit.tmpl:24
-#: PatternSkin/data/System/PatternSkinElements.txt:634
-#: PatternSkin/data/System/PatternSkinElements.txt:648
-#: PatternSkin/data/System/PatternSkinElements.txt:662
-#: PatternSkin/data/System/PatternSkinElements.txt:708
+#: PatternSkin/data/System/PatternSkinElements.txt:631
+#: PatternSkin/data/System/PatternSkinElements.txt:645
+#: PatternSkin/data/System/PatternSkinElements.txt:659
+#: PatternSkin/data/System/PatternSkinElements.txt:705
 #: core/data/System/WebSearch.txt:179 core/data/System/WebSearch.txt:92
 #: core/templates/login.tmpl:55
 msgid "Help"
 msgstr "Помощь"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:7
+msgid "Hi, %1"
+msgstr ""
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -2450,6 +2321,7 @@ msgstr "Индекс"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:8
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
+#: PatternSkin/data/System/PatternSkinNavigation.txt:62
 #: PatternSkin/data/System/WebLeftBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:5
 #: PatternSkin/data/_default/WebLeftBar.txt:6
@@ -2769,7 +2641,7 @@ msgstr "Не определено действие, связанное с ком
 msgid "Missing or illegal web name"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:56
+#: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Изменить поиск"
@@ -2855,6 +2727,14 @@ msgstr "Переместить тему в раздел:"
 #: core/lib/Foswiki/UI/Rename.pm:1165
 msgid "Move/Rename"
 msgstr "Переместить/Переименовать"
+
+#: PatternSkin/data/System/PatternSkinNavigation.txt:17
+msgid "My Links"
+msgstr "Мои ссылки"
+
+#: PatternSkin/data/System/PatternSkinNavigation.txt:15
+msgid "My Profile"
+msgstr ""
 
 #: core/lib/Foswiki/Search.pm:1256
 msgid "NEW"
@@ -2970,7 +2850,7 @@ msgstr "Нет прав для просмотра %1"
 msgid "No previous revision exists."
 msgstr "Предыдущих редакций нет."
 
-#: SubscribePlugin/templates/subscribe.tmpl:16
+#: SubscribePlugin/templates/subscribe.tmpl:17
 #, fuzzy
 msgid "No topic to subscribe to"
 msgstr "Переместить тему в раздел:"
@@ -3039,6 +2919,7 @@ msgstr "Помощь по уведомлениям"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:11
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/PatternSkinNavigation.txt:65
 #: PatternSkin/data/System/WebLeftBarExample.txt:12
 #: PatternSkin/data/_default/WebLeftBar.txt:9
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
@@ -3049,7 +2930,7 @@ msgstr "Уведомления"
 msgid "Number of changes for each Web"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:55
+#: PatternSkin/templates/foswiki.pattern.tmpl:53
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3374,6 +3255,7 @@ msgstr ""
 #: NatEditPlugin/templates/settings.natedit.tmpl:15
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
+#: PatternSkin/data/System/PatternSkinNavigation.txt:67
 #: PatternSkin/data/System/WebLeftBarExample.txt:15
 #: PatternSkin/data/_default/WebLeftBar.txt:12
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:12
@@ -3480,10 +3362,8 @@ msgstr ""
 msgid "Refresh"
 msgstr "Обновить"
 
-#: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinTheme2012Navigation.txt:85
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
-#: PatternSkin/data/System/WebLeftBarLogin.txt:14
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/WebLeftBarLogin.txt:15
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3809,6 +3689,7 @@ msgstr "Сохранено в:"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:14
 #: PatternSkin/data/Main/WebLeftBarExample.txt:9
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/PatternSkinNavigation.txt:63
 #: PatternSkin/data/System/WebLeftBarExample.txt:10
 #: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:9
@@ -3999,10 +3880,6 @@ msgstr "Установить нового родителя"
 msgid "Set new topic parent"
 msgstr "Установить нового родителя для темы"
 
-#: PatternSkin/data/System/PatternSkinTheme2012.txt:77
-msgid "Set this Skin and theme for this User"
-msgstr ""
-
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
@@ -4017,7 +3894,7 @@ msgstr "Показать подсказку"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:86
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Shrink edit box"
 msgstr "Сжать окно редактирования"
 
@@ -4123,6 +4000,7 @@ msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
+#: PatternSkin/data/System/PatternSkinNavigation.txt:66
 #: PatternSkin/data/System/WebLeftBarExample.txt:14
 #: PatternSkin/data/_default/WebLeftBar.txt:11
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
@@ -4154,8 +4032,8 @@ msgstr "Применить"
 msgid "Submitted content:"
 msgstr "Предоставленные Вами сведения:"
 
-#: SubscribePlugin/templates/subscribe.tmpl:38
-#: SubscribePlugin/templates/subscribe.tmpl:5
+#: SubscribePlugin/templates/subscribe.tmpl:39
+#: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:77
 msgid "Subscribe"
 msgstr ""
@@ -4166,7 +4044,7 @@ msgstr ""
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Подписаться / Отписаться от:"
 
-#: SubscribePlugin/templates/subscribe.tmpl:5
+#: SubscribePlugin/templates/subscribe.tmpl:6
 #, fuzzy
 msgid "Subscribe to this topic"
 msgstr "Создать эту тему"
@@ -4203,7 +4081,7 @@ msgstr "Выводы по результатам поиска"
 msgid "Superscript"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:86
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Switch to monotype or propotional font"
 msgstr "Переключиться на моноширинный или пропорциональный шрифт"
 
@@ -4227,10 +4105,6 @@ msgstr ""
 "CОВЕТ: например, чтобы найти все страницы, содержащие слова =\"SOAP\"=, ="
 "\"WSDL\"=, а также словосочетание =\"web service\"=, без слова =\"shampoo"
 "\"=, введите:"
-
-#: core/lib/Foswiki/UI/Preview.pm:69
-msgid "TOC Disabled in preview."
-msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
@@ -4931,12 +4805,12 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/templates/subscribe.tmpl:11
-#: SubscribePlugin/templates/subscribe.tmpl:35
+#: SubscribePlugin/templates/subscribe.tmpl:12
+#: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
 msgstr ""
 
-#: SubscribePlugin/templates/subscribe.tmpl:11
+#: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr ""
 
@@ -5730,112 +5604,14 @@ msgstr "редактировать"
 msgid "edit form"
 msgstr "(редактировать форму)"
 
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-msgid "else"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-msgid "else ... "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-msgid "else altnickname"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:157
-msgid "else tmpl=\"noNicknameTemplate\""
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-msgid "else&nbsp;pathOrExpr2"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:157
-msgid "else&nbsp;tmpl&#61;nameOrExpr2 "
-msgstr ""
-
 #: core/templates/messages.tmpl:159
 msgid "fields are required."
 msgstr " - эти поля необходимо заполнить."
-
-#: JQueryPlugin/data/System/JQueryRender.txt:150
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-#, fuzzy
-msgid "for"
-msgstr "или"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:136
-msgid "for .."
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:150
-msgid "for billing.address"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:151
-msgid "for billing.address tmpl&#61;\"addressTmpl\" /"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-msgid "for members"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:150
-msgid "for&nbsp;pathOrExpr "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:151
-msgid "for&nbsp;pathOrExpr tmpl&#61;nameOrExpr /"
-msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "помощь"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:154
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-#: JQueryPlugin/data/System/JQueryRender.txt:159
-msgid "if"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:154
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-#, fuzzy
-msgid "if nickname"
-msgstr "Название темы"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:157
-msgid "if nickname tmpl&#61;\"nicknameTemplate\""
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:155
-msgid "if nickname tmpl&#61;\"nicknameTemplate\" /"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:156
-msgid "if&nbsp;..."
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:154
-msgid "if&nbsp;pathOrExpr "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:155
-msgid "if&nbsp;pathOrExpr tmpl&#61;nameOrExpr /"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:158
-msgid "if&nbsp;pathOrExpr1 "
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:157
-msgid "if&nbsp;pathOrExpr1&nbsp;tmpl&#61;nameOrExpr1 "
-msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5844,14 +5620,6 @@ msgstr ""
 #: core/templates/more.tmpl:140
 msgid "in raw text format"
 msgstr "в виде исходного текста"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:149
-msgid "include tmpl&#61;\"#addressTemplate\"/"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:149
-msgid "include&nbsp;tmpl&#61;nameOrExpr /"
-msgstr ""
 
 #: NatEditPlugin/templates/form.natedit.tmpl:4
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
@@ -5883,10 +5651,7 @@ msgstr ""
 msgid "now %1"
 msgstr "сейчас %1"
 
-#: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinTheme2012Navigation.txt:85
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
-#: PatternSkin/data/System/WebLeftBarLogin.txt:14
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
@@ -5899,26 +5664,6 @@ msgstr "или"
 #: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
 msgstr "предпросмотр"
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid "props"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid "props billing.address"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:153
-msgid "props billing.address tmpl&#61;\"addressTmpl\" /"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:152
-msgid "props pathOrExpr"
-msgstr ""
-
-#: JQueryPlugin/data/System/JQueryRender.txt:153
-msgid "props&nbsp;pathOrExpr tmpl&#61;nameOrExpr /"
-msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:123
 #, fuzzy
@@ -6133,6 +5878,37 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Имя:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Переименовать"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Название темы"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "К теме:"
+
+#~ msgid "Hello %1"
+#~ msgstr "Привет %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "или"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Название темы"
 
 #, fuzzy
 #~ msgid "TextFormatting"
@@ -6436,9 +6212,6 @@ msgstr ""
 
 #~ msgid "Move attachment to web:"
 #~ msgstr "Переместить файл в раздел:"
-
-#~ msgid "My Links"
-#~ msgstr "Мои ссылки"
 
 #~ msgid "Once registered you can login using your %1 and password."
 #~ msgstr ""
