@@ -153,13 +153,10 @@ sub dispatch {
         }
     }
 
-    $session->logger->log(
-        {
-            level    => 'info',
-            action   => 'jsonrpc',
-            webTopic => $session->{webName} . '.' . $session->{topicName},
-            extra    => $request->namespace() . ' ' . $request->method(),
-        }
+    $session->logEvent(
+        'jsonrpc',
+        $session->{webName} . '.' . $session->{topicName},
+        $request->namespace() . ' ' . $request->method()
     );
 
     # call
