@@ -153,11 +153,8 @@ sub dispatch {
         }
     }
 
-    $session->logEvent(
-        'jsonrpc',
-        $session->{webName} . '.' . $session->{topicName},
-        $request->namespace() . ' ' . $request->method()
-    );
+    Foswiki::Func::writeEvent( 'jsonrpc',
+        $request->namespace() . ' ' . $request->method() );
 
     # call
     my $code = 0;
