@@ -7,15 +7,17 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2014-01-15 09:34+0200\n"
-"Last-Translator: Chung-Han <dr3939@gmail.com>\n"
-"Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2015-02-25 04:53+0200\n"
+"Last-Translator: CH yang <dr3939@gmail.com>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-"
+"release-11/zh_TW/>\n"
+"Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Weblate 2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
@@ -46,7 +48,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "%1 (default)"
-msgstr "%1 (預設值)"
+msgstr "%1 (預設)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -73,7 +75,7 @@ msgstr "%1 加入 %2 群組。"
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
-msgstr "%1 無法自 %2 內移出"
+msgstr "%1 不能自 %2 移除"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -86,7 +88,7 @@ msgstr "%1 列出其他用戶"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 已使用電子郵件地址 %2 註冊且已確認"
+msgstr "%1 已使用電子郵件地址 %2 註冊並已認證"
 
 #: core/templates/messages.tmpl:578
 msgid ""
@@ -145,7 +147,7 @@ msgstr "%1 可能仍在編輯 %2 。"
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "子網 %2 內的更新 %1"
+msgstr "子網 %2 的近期更新 %1"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -276,7 +278,7 @@ msgstr "(刪除)"
 
 #: core/templates/messages.tmpl:725
 msgid "(disabled)"
-msgstr "(停用)"
+msgstr "(禁止)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
