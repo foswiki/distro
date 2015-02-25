@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423445074" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1424829314" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -12,10 +12,12 @@ _This guide covers upgrading from a previous version of Foswiki or TWiki (such a
 ---++ Overview
 
 Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier Foswiki versions are supported. Foswiki is designed to be 100% compatible with the content of TWiki sites, using the same markup language and supporting the same plugin API (through the use of a =TWikiCompatibilityPlugin=), thereby enabling a smooth transition from TWiki to Foswiki.
+Note however that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred.
 
 ---+++ Upgrade requirements
 
    * Please review the Foswiki:System.AdminSkillsAssumptions before you upgrade your site.
+   * Carefully review Foswiki:System.SystemRequirements. Foswiki no longer ships with CPAN libraries. CPAN dependencies must be installed prior to upgrade.
    * To upgrade from an old TWiki Release to the latest Foswiki production release, follow the instructions below.
    * Before upgrading, you may wish to make a backup of your topics.
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write.
@@ -23,11 +25,14 @@ Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier
 
 ---+++ Upgrading from TWiki to Foswiki
 
-You are strongly advised to read the Foswiki:System.ReleaseNotes01x00 (also available in an HTML file in the root of your installation), which contains a list of changes from TWiki 4.2.3 to Foswiki 1.0. A number of system topics and macros (formerly known as TWiki variables) have been renamed, to better describe their purpose and, where appropriate, to rebrand to the Foswiki name.
+You are strongly advised to read the Foswiki:System.ReleaseNotes01x00 which contains a list of changes from TWiki 4.2.3 to Foswiki 1.0. 
+A number of system topics and macros (formerly known as TWiki variables) have been renamed, to better describe their purpose and, 
+where appropriate, to rebrand to the Foswiki name. Also review changes documented in Foswiki:System.ReleaseNotes01x01 and 
+Foswiki:System.ReleaseNotes01x02  (the latter also available in an HTML file in the root of your installation), 
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations.   We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
    
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
@@ -65,7 +70,7 @@ The =configure= page mentioned in this document is accessible via your web brows
 
 ---+++ Prepare for all upgrade steps
 
-*Read the Foswiki:System.ReleaseNotes01x00* and *learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
+*Read the Foswiki:System.ReleaseNotes01x02* and *learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
 
 *Check that all the extensions (plugins, contribs, skins) used by your old installation are available with the new release.* Familiarize yourself with any new behaviour that you will have to adapt to or any configuration changes you will have to perform.
 
@@ -82,10 +87,10 @@ The =configure= page mentioned in this document is accessible via your web brows
 *Follow the installation instructions in INSTALL.html*, located in the root of the new installation. *Install the new release in a new directory.* Do not install on top of the old release.
    * For public or otherwise sensitive installations, ensure that your web server configuration is set to deny access to the new Foswiki installation for anyone except you.
    * *Configure Foswiki* using the =configure= page.
-      * *If you are upgrading from an older Foswiki release*, first copy your =&lt;oldwiki&gt;/lib/LocalSite.cfg= file to =&lt;newwiki&gt;/lib/LocalSite.cfg= in order to preserve your existing configuration settings. Alternatively, you can reconfigure the new installation from scratch (you can use your old =LocalSite.cfg= file as a reference).
+      * *If you are upgrading from an older Foswiki release*, first copy your =&lt;oldwiki&gt;/lib/LocalSite.cfg= file to =&lt;newwiki&gt;/lib/LocalSite.cfg= in order to preserve your existing configuration settings (Not recommended). Alternatively, you can reconfigure the new installation from scratch (you can use your old =LocalSite.cfg= file as a reference).
       * *If you are upgrading from a TWiki site*, you must reconfigure your Foswiki installation from scratch. You cannot copy over your old =LocalSite.cfg= file (though you can use it as a reference). Run =configure= and set the configuration values in the new installation to match those of the old installation.
       * Verify all of the configuration settings on the =configure= page, including any new settings added in the new version. Save the configuration after you have completed your changes.
-      * To wipe out all your settings and start configuring from a fresh installation, just delete the =&lt;newwiki&gt;/lib/LocalSite.cfg= file and run =configure=.
+      * To wipe out all your settings and start configuring from a fresh installation, just delete the =&lt;newwiki&gt;/lib/LocalSite.cfg= file and visit your default =view= URL. From there follow the link to =configure=.
    * Additional resources
       * Foswiki:System.InstallationGuide
       * Foswiki:Support.InstallingOnSpecificPlatforms
@@ -111,7 +116,7 @@ Check the plugin topics from your old TWiki/Foswiki installation and transfer th
 
 Commonly-customized plugin settings include the following:
    * =CommentPlugin= - DEFAULT_TYPE
-   * =EditTablePlugin= - CHANGEROWS, <nop>QUIETSAVE, EDITBUTTON
+   * =EditTablePlugin= *Deprecated! Replaced with EditRowPlugin* - CHANGEROWS, <nop>QUIETSAVE, EDITBUTTON
    * =InterwikiPlugin= - RULESTOPIC
    * =InterWikis= - If you added your own rules, make sure you copy over the rules to the new installation.
    * =SlideShowPlugin= - If you changed the embedded 'Default Slide Template', then copy your customed template to the topic in the new installation. You should prefer creating your own slide show template in a separate topic, so you will not have to take special steps over upgrades to preserve your modifications to the default slide template.
@@ -225,7 +230,7 @@ The favicon is now configurable as a site preference or per-web preference. See 
 
 ---+++ Supported Perl version
 
-To use Foswiki, you must use Perl 5.8 or higher. Foswiki no longer supports Perl version 5.6.x (the minimum version required for TWiki 4.0.5).
+To use Foswiki, you must use Perl 5.8.8 or higher. Foswiki no longer supports Perl version 5.6.x (the minimum version required for TWiki 4.0.5).
 
 ---+++ Template spec changed
 
@@ -288,7 +293,7 @@ The configuration setting ={WorkingDir}= in the =General path settings= pane on 
 The subdirectories within the working directory include the following:
 
    * =registration_approvals= &mdash; previously located in the data/ directory
-   * =tmp= &mdash; avoids security issues with using the /tmp directory
+   * =tmp= &mdash; avoids security issues with using the /tmp directory.  (This is not a =tmp= directory for general use.  =working/tmp= contains CGI Session files.
    * =work_areas= &mdash; previously located in the pub/ directory.
 
 Note: Remember to restrict access to this new directory when you upgrade.
@@ -297,9 +302,11 @@ If you have your own scheduled task to delete obsolete session files, note they 
    
 ---+++ New internal admin login
 
-Foswiki has a new _internal admin login_ feature that lets you login as a temporary administrator, using "admin" as your user name and the password for the =configure= page. The internal admin username can be configured in the ={AdminUserLogin}= setting in the =Security setup= pane on the =configure= page.
+Foswiki has a new _internal admin login_ feature that lets you login as a temporary administrator, using "admin" as your user name and a password set in =configure=.  It is an expert setting in the _Security and Authentication_ tab,  _Passwords_ sub-tab. The internal admin username can be configured in the ={AdminUserLogin}= setting in the =Security setup= pane on the =configure= page.  
 
-In order to add an initial user to the default ={SuperAdminGroup}=, [[%USERSWEB%.AdminGroup]], you must login as the internal admin user using the link on the [[%USERSWEB%.AdminGroup]] page.
+Note that as of Foswiki 1.2.0, the _internal admin login_ does not need to be configured.  If necessary to add one later, the new shell configure command =tools/configure= can be used to set a new password.
+
+In order to add an initial user to the default ={SuperAdminGroup}=, [[%USERSWEB%.AdminGroup]], you should add the user while you are still running with the bootstrap credentials. Otherwise you must login as the internal admin user using the link on the [[%USERSWEB%.AdminGroup]] page.
 
 ---++ Important changes for the upgrader - since Foswiki 1.0.4
 
@@ -360,7 +367,7 @@ Foswiki 1.1 uses a new configurable location for logs (a pluggable logging API h
 
 The currently used log file is always the same name. They are renamed to somehthing resembling the old scheme on a monthly basis automatically.
 
-<div>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x01#Release01x00Changes][release notes]]</div>
+<div>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x02#Release01x02Changes][release notes]]</div>
 
 #ManagingBrowserCache
 ---+++ Managing caches of static files during upgrade
