@@ -100,6 +100,14 @@ var Types = {};
           else
               val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
           this.useVal(val);
+      },
+      isDefault: function() {
+          // trim ' from the default
+          var val = this.spec['default'];
+          if (typeof(val) === 'string') {
+              val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
+          }
+          return this.currentValue() === val;
       }
   });
 

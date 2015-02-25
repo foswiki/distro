@@ -660,6 +660,9 @@ function _id_ify(id) {
             });
         }
 
+        // Attach handler to copy with the "visit site" button
+        $('body').trigger("configurecreate", _id_ify(spec.keys));
+
         update_modified_default($node);
     }
 
@@ -939,7 +942,7 @@ if (0) {
             load_ui($(this).removeClass('load_ui'));
         });
 
-       // Invoke any dependency handlers
+        // Invoke any dependency handlers
         $.each(on_ready, function(index, handler) {
             handler.call();
         });
@@ -1059,6 +1062,25 @@ if (0) {
         });
 
         $('#showExpert').button({disabled: true});
+
+        $('#visitSite').button();
+
+        $('body').on("configurecreate", function(event, id) {
+            if (id === 'i-DefaultUrlHost-'
+                || id === 'i-ScriptUrlPath-'
+                || id === 'i-ScriptSuffix-') {
+                $('#' + id).change(function() {
+                    var $vs = $('#visitSite');
+                    var url = $('#i-DefaultUrlHost-').val()
+                        + $('#i-ScriptUrlPath-').val()
+                        + '/view'
+                        + $('#i-ScriptSuffix-').val();
+                    $('#visitSite')
+                        .attr("href", url)
+                        .text(url);
+                });
+            }
+        });
 
         $('#saveButton').button({disabled: !bs}).click(function() {
             confirm_action = function() {
