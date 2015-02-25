@@ -965,15 +965,16 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # configuration in order to secure it. In this case, you can use this option
 # to detect filenames that present a security threat (e.g. that the webserver
 # might interpret as executables).
-# 
+#
 # *Note:* Make sure you update this list with any configuration or script
-# filetypes that are automatically run by your web server.
+# filetypes that are automatically run by your web server. The default setting
+# also renames files with trailing dot (.), which is silently discarded on windows.
 #
 # *Note:* this will only filter files during upload. It won't affect
 # files that were already uploaded, or files that were created directly
 # on the server.
 #
-$Foswiki::cfg{UploadFilter} = '^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$';
+$Foswiki::cfg{UploadFilter} = '^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,
@@ -2492,7 +2493,7 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 1;
 __END__
 #
-# Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #

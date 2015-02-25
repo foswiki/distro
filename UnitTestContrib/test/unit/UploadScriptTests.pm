@@ -264,6 +264,70 @@ sub test_illegal_upload {
     return;
 }
 
+sub test_illegal_upload_Item13048 {
+    my $this = shift;
+    local $/ = undef;
+    my $data = 'asdfasdf';
+    my ( $goodfilename, $badfilename ) =
+      Foswiki::Sandbox::sanitizeAttachmentName("\0.htaccess.");
+
+#my $hex = '';
+#foreach my $ch ( split ( //, "BAD: $badfilename  GOOD: $goodfilename" ) ) {
+#    $hex .= ( $ch lt "\x20" || $ch gt "\x7e" ) ? "\'" . unpack("H2",$ch) . "\'" : $ch;
+#    }
+#print STDERR "$hex \n";
+
+# Verify that the sanitize process:
+#  - Removes the leading binary zero
+#  - Converts the trailing (dot) to ..txt.  Windows silently strips trailing dot from filenames
+    $this->assert_str_equals( '.htaccess..txt', $goodfilename );
+
+    try {
+        $this->do_upload(
+            $badfilename,
+            $data,
+            undef,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+
+    # Test that filter is not case sensitive.
+    ( $goodfilename, $badfilename ) =
+      Foswiki::Sandbox::sanitizeAttachmentName(".HTAccess");
+
+  # Verify that the sanitize process detects .htaccess in a case insensitive way
+    $this->assert_str_equals( '.HTAccess.txt', $goodfilename );
+
+    try {
+        $this->do_upload(
+            $badfilename,
+            $data,
+            undef,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+
+    return;
+}
+
 sub test_illegal_propschange {
     my $this = shift;
     local $/ = undef;
