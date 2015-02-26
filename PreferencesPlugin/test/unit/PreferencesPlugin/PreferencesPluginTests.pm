@@ -243,7 +243,7 @@ HERE
     $this->assert_html_equals( <<"HTML", $result );
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
  <input type="hidden" name="prefsaction" value="edit"  />
- <input type="submit" name="edit" value="Edit Preferences" class="foswikiButton" />
+ <input type="submit" name="edit" value="Edit Preferences" class="foswikiRequiresChangePermission foswikiButton" />
 </form>
 HTML
 

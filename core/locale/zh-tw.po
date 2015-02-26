@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 17:32+0000\n"
-"Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
-"Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2015-02-25 04:54+0200\n"
+"Last-Translator: CH yang <dr3939@gmail.com>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 1.1.0\n"
+"X-Generator: Weblate 2.1\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -47,7 +48,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (預設)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -73,14 +74,12 @@ msgstr "%1 加入 %2 群組。"
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 由群組 %2 移出。"
+msgstr "%1 不能自 %2 移除"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "謝謝您註冊"
+msgstr "%1 無法註冊."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
@@ -92,9 +91,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 列出其他用戶"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 已使用電子郵件地址 %2 註冊"
+msgstr "%1 已使用電子郵件地址 %2 註冊並已認證"
 
 #: core/templates/messages.tmpl:321
 msgid ""
@@ -106,7 +104,7 @@ msgstr "%1 正被 %2 編輯中，限制將在 %3 後釋放。"
 msgid ""
 "%1 has been emailed to inform them that their registration has been "
 "successful"
-msgstr ""
+msgstr "註冊成功的通知已由電子郵件通知 %1"
 
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
@@ -158,19 +156,16 @@ msgid "%1 may still be editing %2."
 msgstr "%1 可能仍在編輯 %2 。"
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "子網 %2 內的更新 %1 "
+msgstr "子網 %2 的近期更新 %1"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "禁止新用戶註冊"
+msgstr "%1 註冊需要認證"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "禁止新用戶註冊"
+msgstr "%1 禁止註冊"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -208,9 +203,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "您的 %1.LoginName"
+msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -301,9 +295,8 @@ msgid "(delete)"
 msgstr "(刪除)"
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid "(disabled)"
-msgstr "編輯表格"
+msgstr "(禁止)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -351,9 +344,8 @@ msgid "(raw view)"
 msgstr "(檢示源碼)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(禁止訪問)"
+msgstr "(禁止轉址)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -384,7 +376,7 @@ msgstr "(忽略)"
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
-msgstr ""
+msgstr "*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
