@@ -75,7 +75,7 @@ lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Rating/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/SimpleModal/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Supersub/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Supersubs/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
