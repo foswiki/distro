@@ -388,6 +388,16 @@ sub parse {
             # being sensitive to changes.
             $open->{default} = $1;
 
+            # Configure treats all regular expressions as simple quoted string,
+            # Convert from qr/ /  notation to a simple quoted string
+            if ( $open->{typename} eq 'REGEX' && $open->{default} =~ m/^qr/ ) {
+                my $value = eval "$open->{default}";
+
+                # Strip off useless furniture (?^: ... )
+                $value =~ s/^\(\?\^:(.*)\)$/$1/;
+                $open->{default} = "$value";
+            }
+
             $open->{keys} = $keys;
             unless ($isEnhancing) {
                 $reporter->NOTE(
