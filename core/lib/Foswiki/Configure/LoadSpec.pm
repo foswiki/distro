@@ -68,6 +68,7 @@ use Foswiki::Configure::Item      ();
 use Foswiki::Configure::Load      ();
 use Foswiki::Configure::FileUtil  ();
 use Foswiki::Configure::Pluggable ();
+use Foswiki::Configure::Reporter  ();
 
 our $TRUE  = 1;    # Required for checking default value syntax
 our $FALSE = 0;
@@ -358,7 +359,7 @@ sub parse {
             eval($value);
             use warnings;
             $reporter->ERROR( "$context: Cannot eval value '$value': "
-                  . Foswiki::Reporter::stripStackTrace($@) )
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) )
               if $@;
 
             if ( $open && $open->isa('SectionMarker') ) {
@@ -390,12 +391,17 @@ sub parse {
 
             # Configure treats all regular expressions as simple quoted string,
             # Convert from qr/ /  notation to a simple quoted string
-            if ( $open->{typename} eq 'REGEX' && $open->{default} =~ m/^qr/ ) {
-                my $value = eval "$open->{default}";
+            if ( $open->{typename} eq 'REGEX' ) {
+                if ( $open->{default} =~ m/^qr/ ) {
+                    my $value = eval "$open->{default}";
 
-                # Strip off useless furniture (?^: ... )
-                $value =~ s/^\(\?\^:(.*)\)$/$1/;
-                $open->{default} = "$value";
+                    # Strip off useless furniture (?^: ... )
+                    $value =~ s/^\(\?\^:(.*)\)$/$1/;
+                    $open->{default} = "$value";
+                }
+                else {
+                    $open->{default} =~ s/\\\'/'/g;    # Un-escape single quotes
+                }
             }
 
             $open->{keys} = $keys;

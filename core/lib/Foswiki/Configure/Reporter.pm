@@ -299,8 +299,8 @@ sub uneval {
 
         # Strip off useless furniture (?^: ... )
         $datum =~ s/^\(\?\^:(.*)\)$/$1/;
-        $datum =~ s{/}{\\/}g;
-        return "qr/$datum/";
+        $datum =~ s{'}{\\'}g;
+        return "'$datum'";
     }
     local $Data::Dumper::Sortkeys = 1;
     local $Data::Dumper::Terse    = 1;

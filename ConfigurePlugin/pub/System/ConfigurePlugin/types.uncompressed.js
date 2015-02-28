@@ -98,14 +98,14 @@ var Types = {};
           if (val === 'undef')
               val = null;
           else
-              val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
+              val = val.replace(/^\s*(["'])(.*)\1\s*$/, "$2");
           this.useVal(val);
       },
       isDefault: function() {
           // trim ' from the default
           var val = this.spec['default'];
           if (typeof(val) === 'string') {
-              val = val.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
+              val = val.replace(/^\s*(["'])(.*)\1\s*$/, "$2");
           }
           return this.currentValue() === val;
       }
@@ -172,10 +172,6 @@ var Types = {};
   });
 
   Types.REGEX = Types.STRING.extend({
-      isDefault: function() {
-          // String comparison, no eval
-          return this.currentValue() == this.spec['default'];
-      }
   });
 
   Types.PERL = Types.BaseType.extend({
