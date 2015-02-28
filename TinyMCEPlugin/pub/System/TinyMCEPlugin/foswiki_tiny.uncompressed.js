@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2007 Crawford Currie http://wikiring.com and Arthur Clemens
-  Copyright (C) 2010 Foswiki Contributors http://foswiki.org
+  Copyright (C) 2010-2015 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
   This program is free software; you can redistribute it and/or
@@ -40,6 +40,11 @@ var FoswikiTiny = {
 
     expandVariables: function(url) {
         for (var i in FoswikiTiny.foswikiVars) {
+            // Don't expand macros that are not reversed during save
+            // Partial fix to Item13178
+            if ( i == 'WEB' ) continue;
+            if ( i == 'TOPIC' ) continue;
+            if ( i == 'SYSTEMWEB' ) continue;
             url = url.replace('%' + i + '%', FoswikiTiny.foswikiVars[i], 'g');
         }
         return url;
