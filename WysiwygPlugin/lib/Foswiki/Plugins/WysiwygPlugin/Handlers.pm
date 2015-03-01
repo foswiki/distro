@@ -284,7 +284,10 @@ sub modifyHeaderHandler {
 # in URLs only
 use vars qw( @VARS );
 
-# The set of macros that get "special treatment" in URLs
+# The set of macros that get "special treatment" in URLs,  They have to end up
+# sorted based on their expanded length.  To convert from URL to MACRO it has to
+# be based upon longest match.  So _populateVars replaces this with the appropriately
+# sorted array.
 @VARS = (
     '%ATTACHURL%',
     '%ATTACHURLPATH%',
@@ -320,12 +323,38 @@ sub _populateVars {
         )
     );
 
+    # Item13178: The mapping between URL and vars needs to be longest match
+    # so the list must be sorted by length of the value.  Also, null entries
+    # should be omitted from the mapping, as they cannot be reversed.
+    my %varh;
+    my @exph = @exp;
+    foreach my $k (@VARS) {
+        my $val = shift @exph;
+        $varh{$k} = $val if ( defined $val );
+    }
+
+    my @nvars;
+    my @nexp;
+
+    # Do the sort by lenght.
+    foreach
+      my $k ( sort { length( $varh{$b} ) <=> length( $varh{$a} ) } keys %varh )
+    {
+        next unless $varh{$k};    # Omit empty variables, can't be reversed.
+        push @nvars, $k;
+        push @nexp,  $varh{$k};
+    }
+
+    @VARS = @nvars;    # Replace the vars list with the length sorted list.
+
+    # and build the list of values in order of @nvars.
     for my $i ( 0 .. $#VARS ) {
         my $nvar = $VARS[$i];
         $opts->{match}[$i] = $nvar;
-        $exp[$i] ||= '';
+        $nexp[$i] ||= '';    # Avoid undefined issues.
     }
-    $opts->{exp} = \@exp;
+    $opts->{exp} = \@nexp;
+
 }
 
 # callback passed to the TML2HTML convertor on each
@@ -334,6 +363,7 @@ sub expandVarsInURL {
     my ( $url, $opts ) = @_;
 
     return '' unless $url;
+    my $orig = $url;
 
     _populateVars($opts);
     for my $i ( 0 .. $#VARS ) {
@@ -343,6 +373,7 @@ sub expandVarsInURL {
 }
 
 # callback passed to the HTML2TML convertor
+# See also foswiki_tiny.js in TinyMCEPlugin,  which performs similar functions.
 sub postConvertURL {
     my ( $url, $opts ) = @_;
 

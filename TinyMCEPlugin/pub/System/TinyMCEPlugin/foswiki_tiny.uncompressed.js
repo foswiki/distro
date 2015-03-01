@@ -38,14 +38,15 @@ var FoswikiTiny = {
         return FoswikiTiny.foswikiVars[name];
     },
 
+//  This URL expansion is reversed by WysiwygPlugin::Handlers::postConvertURL()
     expandVariables: function(url) {
         for (var i in FoswikiTiny.foswikiVars) {
             // Don't expand macros that are not reversed during save
-            // Partial fix to Item13178
-            if ( i == 'WEB' ) continue;
-            if ( i == 'TOPIC' ) continue;
-            if ( i == 'SYSTEMWEB' ) continue;
+            // Part of fix to Item13178
+            if ( i == 'WEB' || i == 'TOPIC' || i == 'SYSTEMWEB' ) continue;
+            if ( FoswikiTiny.foswikiVars[i] == '' ) continue;   // Empty variables are not reversable
             url = url.replace('%' + i + '%', FoswikiTiny.foswikiVars[i], 'g');
+            //console.log( 'expandVariables ' + i + ' expanded to ' + FoswikiTiny.foswikiVars[i] );
         }
         return url;
     },
@@ -343,10 +344,13 @@ var FoswikiTiny = {
         var orig = url;
         var pubUrl = FoswikiTiny.getFoswikiVar("PUBURL");
         var vsu = FoswikiTiny.getFoswikiVar("VIEWSCRIPTURL");
+        var su = FoswikiTiny.getFoswikiVar("SCRIPTURL");
         url = FoswikiTiny.expandVariables(url);
         if (onSave) {
             if ((url.indexOf(pubUrl + '/') != 0) && 
-                    (url.indexOf(vsu + '/') == 0)) {
+                    (url.indexOf(vsu + '/') == 0) &&
+                    (su.indexOf(vsu) != 0) // Don't substitute if short URLs for view.
+                    ) {
                 url = url.substr(vsu.length + 1);
                 url = url.replace(/\/+/g, '.');
                 if (url.indexOf(FoswikiTiny.getFoswikiVar('WEB') + '.') == 0) {

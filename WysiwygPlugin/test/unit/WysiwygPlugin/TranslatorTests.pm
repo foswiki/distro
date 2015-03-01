@@ -1008,6 +1008,24 @@ HERE
 HERE
     },
 
+    {
+        # Test for short URL for view
+        # SMELL: This will fail with "shortest" URLs  (empty SCRIPTURLPATH).
+        exec => ROUNDTRIP | HTML2TML,
+        name => 'corruptedLinks_Item13178_a',
+        tml  => "   * [[%SCRIPTURL%/configure][configure]]
+   * [[%SCRIPTURLPATH%/configure][configure]]
+   * [[SomeTopic][some topic]]",
+        html => <<"HERE",
+<ul>
+<li> <a class='TMLlink' href="$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/configure">configure</a>
+<li> <a class='TMLlink' href="$Foswiki::cfg{ScriptUrlPath}/configure">configure</a>
+<li> <a class='TMLlink' href="$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPaths}{view}/SomeTopic">some topic</a>
+</li>
+</ul>
+HERE
+    },
+
     # SMELL: No idea why we decode links,  but verify that it works anyway.
     #    {
     #        exec => ROUNDTRIP | TML2HTML | HTML2TML,
