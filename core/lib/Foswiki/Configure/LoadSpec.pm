@@ -391,17 +391,20 @@ sub parse {
 
             # Configure treats all regular expressions as simple quoted string,
             # Convert from qr/ /  notation to a simple quoted string
-            if ( $open->{typename} eq 'REGEX' ) {
-                if ( $open->{default} =~ m/^qr/ ) {
-                    my $value = eval "$open->{default}";
+            if (   $open->{typename} eq 'REGEX'
+                && $open->{default} =~ /^qr(.)(.*)\1$/ )
+            {
 
-                    # Strip off useless furniture (?^: ... )
-                    $value =~ s/^\(\?\^:(.*)\)$/$1/;
-                    $open->{default} = "$value";
+                # Convert a qr// into a quoted string
+
+                # Strip off useless furniture (?^: ... )
+                while ( $open->{default} =~ s/^\(\?\^:(.*)\)$/$1/ ) {
                 }
-                else {
-                    $open->{default} =~ s/\\\'/'/g;    # Un-escape single quotes
-                }
+
+                # Convert quoting for a single-quoted string. All we
+                # need to do is protect single quote
+                $open->{default} =~ s/'/\\\\'/g;
+                $open->{default} = "'" . $open->{default} . "'";
             }
 
             $open->{keys} = $keys;

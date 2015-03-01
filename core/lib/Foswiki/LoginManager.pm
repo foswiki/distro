@@ -1336,7 +1336,7 @@ sub isValidLoginName {
 
     # this function was erroneously marked as static
     ASSERT( !ref($name) ) if DEBUG;
-    return $name =~ /$Foswiki::cfg{LoginNameFilterIn}/;
+    return $name =~ m/$Foswiki::cfg{LoginNameFilterIn}/o;
 }
 
 =begin TML

@@ -215,7 +215,7 @@ sub validateAttachmentName {
         else {
 
             # Filter nasty characters
-            $component =~ s/$Foswiki::cfg{NameFilter}//g;
+            $component =~ s/$Foswiki::cfg{NameFilter}//go;
             push( @result, $component );
         }
     }
@@ -239,7 +239,7 @@ sub _cleanUpFilePath {
         if ( $component eq '..' ) {
             throw Error::Simple( 'relative path in filename ' . $string );
         }
-        elsif ( $component =~ /$Foswiki::cfg{NameFilter}/ ) {
+        elsif ( $component =~ m/$Foswiki::cfg{NameFilter}/o ) {
             throw Error::Simple( 'illegal characters in file name component "'
                   . $component
                   . '" of filename '

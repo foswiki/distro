@@ -1513,7 +1513,7 @@ sub _handleSquareBracketedLink {
     $link =~ s/\&\#[0-9]+\;//g;
 
     # Filter junk
-    $link =~ s/$Foswiki::cfg{NameFilter}+/ /g;
+    $link =~ s/$Foswiki::cfg{NameFilter}+/ /go;
 
     ASSERT( UNTAINTED($link) ) if DEBUG;
 
