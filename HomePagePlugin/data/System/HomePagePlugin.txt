@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418963640" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 ---+!! !HomePagePlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -53,10 +53,6 @@ __Note__ that this means that any URLs emailed to them will only be useful after
 Many thanks to the following sponsors for supporting this work:
    * Created for Blackfin inc.
 
-|  Author(s): | Foswiki:Main.SvenDowideit|
-|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012 Foswiki Contributors |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 | 1.22 (18 Dec 2014) | Foswikitask:Item12583: Use simple decimal version strings for better compatibility | 
 | 1.2.1 (16 Dec 2012) | Foswikitask:Item12297: Address perlcritic recommendation. |
@@ -65,6 +61,14 @@ Many thanks to the following sponsors for supporting this work:
 | 1.1.0 (July 2009) | add Expert hash allowing domain name based frontpage setting |
 | 1.0.0 (Feb 2009) | initial version |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/bin/view/Extensions/HomePagePlugin |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/HomePagePlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]]"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HomePagePlugin"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.SvenDowideit"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012 Foswiki Contributors"}%

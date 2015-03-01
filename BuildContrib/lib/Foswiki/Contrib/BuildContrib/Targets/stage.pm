@@ -19,6 +19,45 @@ use strict;
 
 our @stageFilters;
 
+sub form_repair {
+    my ( $this, $from, $to ) = @_;
+
+    $this->filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+
+            # Don't replace existing form
+            return $text if $text =~ /^\%META:FORM{/m;
+
+            # Extract form data from text
+            my %data = (
+                Author    => "ProjectContributor",
+                Release   => '%$RELEASE%',
+                Version   => '%$VERSION%',
+                Copyright => 'Foswiki Contributors, All Rights Reserved',
+                License =>
+'GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])',
+                Home    => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
+                Support => 'http://foswiki.org/Support/%$ROOTMODULE%'
+            );
+            my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
+            foreach my $field ( sort keys %data ) {
+                if ( $text =~
+s/\n\|\s*(?:Plugin\s+)?$field(?:\(s\))?:?\s*\|\s*(.*?)\s*\|\n/\n/i
+                  )
+                {
+                    $data{$field} = $1;
+                    $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
+                }
+                $form .= "\%META:FIELD{name=\"$field\" ";
+                $form .= "title=\"$field\" value=\"$data{$field}\"}%\n";
+            }
+            return $text . $form;
+        }
+    );
+}
+
 =begin TML
 
 ---++++ target_stage
@@ -30,6 +69,8 @@ sub target_stage {
     my $this    = shift;
     my $project = $this->{project};
 
+    push( @stageFilters,
+        { RE => qr/$project\.txt$/, filter => 'form_repair' } );
     push( @stageFilters, { RE => qr/\.txt$/, filter => 'filter_txt' } );
     push( @stageFilters, { RE => qr/\.pm$/,  filter => 'filter_pm' } );
 

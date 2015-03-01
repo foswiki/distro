@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 
@@ -946,10 +946,6 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Info
 
-|  Copyright: | Copyright (C) 2001-2014 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2014 Foswiki Contributors  |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  02 Jan 2015: | Foswikitask:Item12739: fixed use of uninitialized value, Add triple-quote for escaped strings,  Add RANDSTRING() function.<br />\
                   Add the base conversion functions: <noautolink> DEC2BIN() BIN2DEC() DEC2HEX() HEX2DEC() DEC2OCT() and OCT2DEC().</noautolink> <br />\
@@ -1018,8 +1014,15 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  01 Jun 2001: | Fixed insecure dependencies for $MIN() and $MAX() |
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2014 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

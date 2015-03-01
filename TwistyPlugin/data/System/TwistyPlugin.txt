@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -477,11 +477,6 @@ You can override some default settings in the plugin by setting the following [[
 
 ---++ Plugin Info
 
-|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
-|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014 |
-|  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  17 Jun 2014 | 1.62 Foswikitask:Item12597: Expand/Collapse all is acting as a toggle.<br />\
                       Foswikitask:Item12694 Default to fast animation speed.<br/>\
@@ -530,6 +525,13 @@ You can override some default settings in the plugin by setting the following [[
 |  11 Jun 2006 | 1.100 Added parameters =start=, =firststart=, =noscript= and =class=; complete !JavaScript rewrite for speed |
 |  12 Sep 2005 | 1.000 First Version |
 |  Dependencies: | None |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

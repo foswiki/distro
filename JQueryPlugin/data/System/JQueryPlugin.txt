@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424697143" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -121,10 +121,6 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Info
 |  Maintainer(s): | Michael Daum |
-|  Copyright: | 2007-2015 Foswiki Contributors http://foswiki.org |
-|  License: | GPL |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  23 Feb 2015: | (6.10) - Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
 |  12 Jan 2015: | (6.01) - Item13205: added jquery-1.11.2 and jquery-2.1.3 |
@@ -336,5 +332,12 @@ reduce bandwidth and speed up interactive performance.
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
 |  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2015 Foswiki Contributors http://foswiki.org"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

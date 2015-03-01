@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -64,11 +64,6 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2007-2014, Crawford Currie http://c-dot.co.uk %BR% &copy; 2008-2014 Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  3.2 (24 Nov 2014) | Foswikitask:Item12926: removed requirement for an HTML form wrapping the button |
@@ -76,7 +71,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  3.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
 |  2.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
 |  1.0 (03 Dec 2008) | Released for Foswiki |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1421599902" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1425223965" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1425223965" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk %BR% &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

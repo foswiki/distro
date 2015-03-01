@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -33,13 +34,18 @@ clashes with other extensions that may try to use the same name.
 
 ---++ Info
 
-|  Author: | %$CREATED_AUTHOR% |
-|  Copyright: | %$CREATEDYEAR%, %$CREATED_AUTHOR%, All Rights Reserved |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  1.0.0 (%$CREATEDATE%): | Initial version |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="%$CREATED_AUTHOR%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Copyright" value="%$CREATEDYEAR%, %$CREATED_AUTHOR%, All Rights Reserved"}%
+%META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+
+
+

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418920586" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -78,17 +78,20 @@ Many thanks to the following sponsors for supporting this work
    * [[http://c-dot.co.uk][C-Dot Consulting]]
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
-|  Author: | CrawfordCurrie http://c-dot.co.uk |
-|  Copyright: | &copy; 2012-2013 Crawford Currie |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  1.3 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
 |  1.2 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
 |  1.1 (30 Mar 2012) | Removed dependency on VC |
 |  1.0 (23 Mar 2012) | Initial version |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="CrawfordCurrie http://c-dot.co.uk"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2012-2013 Crawford Currie"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

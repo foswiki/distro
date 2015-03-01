@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -303,13 +303,9 @@ Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
                 &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
 |  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
@@ -408,8 +404,6 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | Foswiki:Extensions.%TOPIC% |
-|  Support: | Foswiki:Support.%TOPIC% |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
@@ -418,6 +412,15 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1421599458" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1421599458" attr="h" user="ProjectContributor" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1421599458" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1425223965" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1425223965" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1425223965" user="ProjectContributor" comment="" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support.%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

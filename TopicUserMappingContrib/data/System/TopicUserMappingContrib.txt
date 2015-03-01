@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -64,9 +64,6 @@ It's a part of the default distribution of the Foswiki Core.
 ---++ Contrib Info
 
 |  Contrib Author(s): | Copyright (C) 2007-2014 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  4.50 (18 Dec 2014)  | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page<br />\
                          Foswikitask:Item13106: removed blockquote where possible<br />\
@@ -120,3 +117,12 @@ It's a part of the default distribution of the Foswiki Core.
 |  Support: | http://foswiki.org/Support/%TOPIC% | 
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

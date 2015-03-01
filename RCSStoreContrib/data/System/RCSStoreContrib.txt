@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -24,14 +25,15 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 
 ---++ Info
 
-|  Author: | FoswikiContributor |
-|  Copyright &copy;: | Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  1.0.0 (10 May 2013): | Initial version, abstracted from core |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="FoswikiContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

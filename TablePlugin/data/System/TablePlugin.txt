@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -192,10 +192,6 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 ---++ Plugin Info
 
 %TABLE{columnwidths="10%,90%"}%
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2012 Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  28 May 2013 | 1.142: Foswikitask:Item12480 - memory leak amasses css styles from all visited pages |
 |  28 Nov 2012 | 1.141: Foswikitask:Item12233 - Don't generate table sort links when rendering static html. |
@@ -271,6 +267,13 @@ Foswikitask:Item8991: header-only table violates XHTML DTD. |
 |  29 Nov 2001 | PTh: Fixed Perl warnings |
 |  16 Nov 2001 | PTh: Added table border, cell spacing, cell padding, gif files |
 |  07 Oct 2001 | JT: Initial version |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2012 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

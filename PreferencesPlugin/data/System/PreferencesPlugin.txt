@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -33,10 +33,6 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) Foswiki:Main.ThomasWeigert and Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  23 Oct 2013 (1.1.5) | Foswikitask:Item12607: Document EDITBOX* settings ignored when cookie set |
 |  28 Nov 2012 (1.1.4) | Foswikitask:Item11267: Convert to perl version strings |
@@ -54,10 +50,17 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  26 May 2005: | Crawford Currie recoded to use code from Form.pm to render form fields. |
 |  08 May 2005: | Add plugin preference to define default input length  |
 |  07 May 2005: | Initial version |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, %SYSTEMWEB%.DataForms
 
 
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Foswiki:Main.ThomasWeigert and Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

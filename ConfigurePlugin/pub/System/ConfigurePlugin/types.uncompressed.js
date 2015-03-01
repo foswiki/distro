@@ -105,7 +105,13 @@ var Types = {};
           // trim ' from the default
           var val = this.spec['default'];
           if (typeof(val) === 'string') {
-              val = val.replace(/^\s*(["'])(.*)\1\s*$/, "$2");
+              if (/^\s*'.*'\s*$/.test(val)) {
+                  // We can't use eval because JS eval behaves differently
+                  // to perl eval of a single-quoted string. The currentValue
+                  // comes from a perl eval.
+                  val = val.replace(/^\s*'(.*)'\s*$/, "$1");
+                  val = val.replace(/\\'/g, "'");
+              }
           }
           return this.currentValue() === val;
       }

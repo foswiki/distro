@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
 
@@ -37,10 +37,6 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 
 ---++ Contrib Info
 
-|  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors, 2008-2012 Foswiki Contributors. |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  28 Nov 2012: | Version released with Foswiki 1.1.6. Convert to perl version strings. |
 |  06 Apr 2012: | Version released with Foswiki 1.1.5. Minor html cleanup and modernization. |
@@ -53,8 +49,15 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  04 Jan 2007: | Performance improvement |
 |  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
 |  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %LOCALSITEPREFS%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors, 2008-2012 Foswiki Contributors."}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

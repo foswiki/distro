@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -132,11 +132,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
 ---++ Add-On Info
 
-|  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  18 Dec 2014 (1.113)  | Foswikitask:Item13068: Remove the CompareRevisionsAddOn demo, don't ship revision history<br />\
                           Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>/
@@ -176,8 +172,16 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  20 Jan 2005 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1421599902" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1421599902" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1425223586" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1425223586" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

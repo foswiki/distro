@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -253,11 +253,6 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 ---++ Info
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2014 Foswiki:%SYSTEMWEB%.ProjectContributor |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | |
 |  2.3 ( 18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
                         Foswikitask:Item13125: CGI changes for multi-value parameters<br />\
@@ -290,7 +285,14 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  13 Jan 2009 | Foswikitask:Item736 - Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
 |  06 Mar 2002 | initial commit |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1423445948" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1425223965" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2014 Foswiki:%SYSTEMWEB%.ProjectContributor"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

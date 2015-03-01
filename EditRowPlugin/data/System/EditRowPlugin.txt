@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -258,11 +258,6 @@ Provides the vertical row editing interface like
 ---++ Plugin Info
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Author(s): | Crawford Currie http://c-dot.co.uk |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
-|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  3.100 (18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
                          Foswikitask:Item13125: Support Request multi_param<br />\
@@ -301,16 +296,23 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  2.0.0 (15 Feb 2009) | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
 |  Earlier version history can be found in the Subversion repository |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home Page: | http://foswiki.org/Extensions/EditRowPlugin |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1421599902" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1421599902" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1425223586" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

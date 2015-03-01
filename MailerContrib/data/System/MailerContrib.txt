@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -266,11 +266,7 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
    * [[http://wikigardens.com][WikiGardens]]
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright &copy;: | 2004, Wind River Systems; 2009-2014 Foswiki Contributors |
-|  License: | GPL |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | |
 |  2.81  (16 Jun 2014) | Foswiki:Tasks/Item12839: Fully specify the REST security parameters. Foswiki:Tasks/Item12943: notify REST handler crashes with invalid array ref. |
 |  2.80  (28 Apr 2014) | Foswiki:Tasks/Item8425: support relative links better. Foswiki:Tasks/Item11507: support changing LANGUAGE via user preferences |
@@ -296,8 +292,15 @@ Many thanks to the following sponsors for supporting this work:
 |  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
 |  8 Sep 2004 | 1.000 Initial (tm)wiki version |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1421599902" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1421599902" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1425223586" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1425223586" attr="h" comment="" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

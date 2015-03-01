@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 ---+!! !%TOPIC%
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -19,14 +20,15 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 
 ---++ Info
 
-|  Author(s): | Crawford Currie http://c-dot.co.uk |
-|  Copyright: | &copy; 2011 Foswiki Contributors |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/JEditableContrib"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JEditableContrib"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

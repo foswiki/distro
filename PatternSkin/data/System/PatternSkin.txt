@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424349634" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -168,12 +168,9 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---++ Skin Info
 
-|  Copyright: | &copy; 2004-2012 Arthur Clemens, Foswiki contributors |
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.png" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
-|  Version: | %$VERSION% | 
-|  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
 |  31 Oct 2012: | v.6.0.0: Updated styles for forms and form elements. Simpler login screen. Theme "115" provides legacy support. |
 |  26 May 2012: | v.5.5.1: !WebCreateNewTopicTemplate functionality moved to core. |
@@ -220,11 +217,19 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  28 Aug 2004: | v.1.0.9 - TWiki 3.0 (Cairo) RELEASE VERSION |
 |  08 Aug 2004: | Initial version (v1.0.0) |
 |  Dependencies: | Foswiki:Extensions/TwistyPlugin (automatically provided with Foswiki) |
-|  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% | %STOPINCLUDE%
+%STOPINCLUDE%
 
 
 ---++ Feedback
 
 Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOPIC%.
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Arthur Clemens"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004-2012 Arthur Clemens, Foswiki contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

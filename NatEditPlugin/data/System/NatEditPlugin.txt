@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1425223965" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -54,11 +54,7 @@ is sufficient.
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-|  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | |
 |  25 Sep 2014 | move templating to new jsrender replacing deprecated jquery.tmpl |
 |  12 Dec 2013 | rewrite all of the js code; make it themable using jquery-ui |
@@ -168,6 +164,14 @@ is sufficient.
 |  31 Mar 2007 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1421599902" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1425223965" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michael Daum"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

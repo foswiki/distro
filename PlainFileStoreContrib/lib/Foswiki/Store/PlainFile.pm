@@ -660,7 +660,7 @@ sub eachTopic {
     my @list =
       map { /^(.*)\.txt$/; $1; }
       sort
-      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+      grep { !/$Foswiki::cfg{NameFilter}/o && /\.txt$/ } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;

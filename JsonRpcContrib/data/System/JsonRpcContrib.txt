@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1422525481" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1425223586" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -218,11 +218,6 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
-|  Author(s): | Michael Daum |
-|  Copyright: | &copy; 2011-2015 Michael Daum http://michaeldaumconsulting.com |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  29 Jan 2015: | Foswikitask:Item13238: fix content-type of response |
 |  17 Dec 2014: | Foswikitask:Item13164: added support for gzip compression of http response<br />\
@@ -242,5 +237,12 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
                   fixed compatibility with various JSON cpan libraries |
 |  29 Apr 2011: | initial release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michael Daum"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2015 Michael Daum http://michaeldaumconsulting.com"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

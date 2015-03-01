@@ -256,7 +256,7 @@ sub _subscribe {
       if !(
         (
                $Foswiki::cfg{LoginNameFilterIn}
-            && $subscriber =~ m/($Foswiki::cfg{LoginNameFilterIn})/
+            && $subscriber =~ m/($Foswiki::cfg{LoginNameFilterIn})/o
         )
         || $subscriber =~ m/^([A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i
         || $subscriber =~ m/($Foswiki::regex{wikiWordRegex})/o

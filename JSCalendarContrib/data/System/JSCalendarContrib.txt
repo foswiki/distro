@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
@@ -77,11 +77,6 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Warning Do not merge trunk version of this contrib to release branch. It is currently not compatible. -->
 
-|  Author: | Foswiki:Main/CrawfordCurrie http://c-dot.co.uk |
-|  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 | Change History: | |
 | 18 Dec 2014 (1.54) | Foswikitask:Item13099: fixed img button of date formfield, Delegated the PUBURL implementation to the store<br />\
                        Foswikitask:Item12583: Convert back to simple decimal version strings. |
@@ -111,12 +106,19 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  27 Dec 2005 | updated to calendar version 1.0; set style for Safari to win2k-1|
 |  14 Aug 2004 | Separated out from !SharedCode module |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %LOCALSITEPREFS%
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1421599902" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1421599902" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1425223586" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1425223586" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main/CrawfordCurrie http://c-dot.co.uk"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

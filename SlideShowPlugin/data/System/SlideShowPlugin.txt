@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420905056" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -171,11 +171,6 @@ The part between the rulers defines the default format of a slide:
 
 ---++ Plugin info
 
-|  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2014 Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  10 Jan 2014: (2.20) | Foswikitask:Item13198. Fully qualify default template topic.<br />\
                          Foswikitask:Item12583: Revert to simple decimal version strings. |
@@ -204,5 +199,12 @@ The part between the rulers defines the default format of a slide:
 |  23 Nov 2002: | Added =%<nop>SLIDENAVLAST%= template keyword; using print Skin for presentation mode |
 |  19 Nov 2002: | Added "Start presentation" and "End presentation" buttons; added =%<nop>SLIDENAVFIRST%=, =%<nop>SLIDENAVPREV%=, =%<nop>SLIDENAVNEXT%= template keywords |
 |  17 Nov 2002: | Initial version |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

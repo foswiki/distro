@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -67,10 +67,6 @@ eg
 
 |  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
 |  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
-|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com |
-|  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  18 Dec 2014 (1.6)   | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
                          Foswikitask:Item12913: Fix some MANIFEST issues<br />\
@@ -104,9 +100,18 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
 
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1421599902" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1421599902" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1421599902" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1421599902" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1421599902" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1421599902" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1425223586" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1425223586" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1425223586" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1425223586" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1425223586" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1425223586" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

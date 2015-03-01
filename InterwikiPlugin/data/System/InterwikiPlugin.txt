@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -62,11 +62,6 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 
 ---++ Plugin Info
 
-|  Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2014 %SYSTEMWEB%.ProjectContributor |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
 |  24 May 2014: (1.20)  | Foswikitask:Item12819: Expand variables defined in !InterWiki links%BR% \
@@ -103,7 +98,13 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 |  12 Jun 2001: | Added optional tool tips (IE only); added the link rules topic name variable; added flexible link patterns; optional ==$page== in URL |
 |  10 Jun 2001: | Changed rules topic to table-based syntax |
 |  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2014 %SYSTEMWEB%.ProjectContributor"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/InterwikiPlugin"}%
 

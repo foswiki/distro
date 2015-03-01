@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1418920507" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1425223965" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -65,14 +65,16 @@ to prevent disclosing them to the outside world.
 -->
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
-|  Author(s): | Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie |
-|  Copyright: | &copy; Foswiki Contributors 2011-2014  |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="logo.png" attachment="logo.png" attr="h" comment="" date="1418920507" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attachment="logo.png" attr="h" comment="" date="1425223965" size="53676" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2014"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

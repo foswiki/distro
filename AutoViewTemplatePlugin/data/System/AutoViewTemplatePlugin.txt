@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302471867" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 
@@ -72,12 +72,6 @@ The following settings can be defined in configure
    * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
 %JQREQUIRE{"chili"}%
 -->
-|  Plugin Author: | Foswiki:Main.OliverKrueger |
-|  Copyright: | &copy; 2008-2009, Oliver Krueger |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Contributors: | Foswiki:Main.MichaelDaum |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  16 Dec 2012: | Version released with Foswiki 1.1.7. Foswikitask:Item12297: Minor perllcritic change.|
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
@@ -97,5 +91,13 @@ The following settings can be defined in configure
 |  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.026 |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Home: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Extensions/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.OliverKrueger, Foswiki:Main.MichaelDaum"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2009, Oliver Krueger"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
+
