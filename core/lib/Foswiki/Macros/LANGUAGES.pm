@@ -33,7 +33,7 @@ sub LANGUAGES {
         my $name = ${$languages}{$lang};
         $item =~ s/\$langname/$name/g;
         $item =~ s/\$langtag/$lang/g;
-        my $mark = ( $selection =~ / \Q$lang\E / ) ? $marker : '';
+        my $mark = ( $selection =~ m/ \Q$lang\E / ) ? $marker : '';
         $item =~ s/\$marker/$mark/g;
         $result .= $separator if $i;
         $result .= $item;

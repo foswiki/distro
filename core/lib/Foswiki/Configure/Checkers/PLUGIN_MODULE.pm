@@ -19,7 +19,7 @@ sub check_current_value {
 
     # NOTE: this checker is also invoked from the PLUGIN_ENABLED
     # checker, hence the /{Enabled}$/
-    $keys =~ /^{Plugins}{(.*)}{(Module|Enabled)}$/;
+    $keys =~ m/^{Plugins}{(.*)}{(Module|Enabled)}$/;
     ASSERT($1) if DEBUG;
     my $plug = $1;
     my $mod  = $Foswiki::cfg{Plugins}{$plug}{Module};

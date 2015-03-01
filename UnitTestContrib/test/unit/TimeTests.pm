@@ -70,7 +70,7 @@ sub list_tests {
 #can't call _any_ of the tests because set_up calls an unimplemented POSIX::tzset
 #verified on strawberry perl 5.12
 #TODO: needs more testing
-    if ( $Config{myuname} =~ /strawberry/i ) {
+    if ( $Config{myuname} =~ m/strawberry/i ) {
 
         eval { POSIX::tzset(); };
         if ($@) {
@@ -111,7 +111,7 @@ sub checkTime {
 
     $Foswiki::cfg{DisplayTimeValues} = 'servertime';
     $gmt =
-      $str =~ /(?:Z|[-+]\d\d(?::\d\d)?)/
+      $str =~ m/(?:Z|[-+]\d\d(?::\d\d)?)/
       ? timegm_nocheck( $s, $m, $h, $D, $M, $Y )
       : timelocal_nocheck( $s, $m, $h, $D, $M, $Y );
     $tt = Foswiki::Time::parseTime( $str, $dl );

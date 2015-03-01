@@ -68,7 +68,7 @@ sub status {
     if ($status) {
         ASSERT( !$this->{outputHasStarted}, 'Too late to change status' )
           if DEBUG;
-        $this->{status} = $status =~ /^\d{3}/ ? $status : undef;
+        $this->{status} = $status =~ m/^\d{3}/ ? $status : undef;
     }
     return $this->{status};
 }
@@ -417,7 +417,7 @@ sub redirect {
 
     $status = 302 unless $status;
     ASSERT(
-        $status =~ /^30\d( [^\r\n]*)?$/,
+        $status =~ m/^30\d( [^\r\n]*)?$/,
         "Not a valid redirect status: '$status'"
     ) if DEBUG;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );

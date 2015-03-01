@@ -40,10 +40,10 @@ sub construct {
         next unless ( $file =~ m/^([\w-]+)\.po$/ );
         my $lang = $1;
         my $keys = $lang;
-        $keys = "'$keys'" if $keys =~ /\W/;
+        $keys = "'$keys'" if $keys =~ m/\W/;
 
         my $label;
-        if ( $lang =~ /^(\w+)-(\w+)$/ ) {
+        if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
             my ( $lname, $cname ) = (
                 ( Locale::Language::code2language($1) || '' ),
                 ( Locale::Country::code2country($2)   || '' )

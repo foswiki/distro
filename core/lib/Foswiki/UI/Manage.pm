@@ -44,7 +44,7 @@ sub manage {
     my $action = $session->{request}->param('action');
 
     # Dispatch to action function
-    if ( defined $action && $action =~ /^([a-z]+)$/i ) {
+    if ( defined $action && $action =~ m/^([a-z]+)$/i ) {
         my $method = 'Foswiki::UI::Manage::_action_' . $1;
 
         if ( defined &$method ) {
@@ -461,7 +461,7 @@ sub _action_editSettings {
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
 
-    $tmpl =~ s/%TEXT%/$settings/o;
+    $tmpl =~ s/%TEXT%/$settings/;
 
     my $info = $topicObject->getRevisionInfo();
     $tmpl =~ s/%ORIGINALREV%/$info->{version}/g;
@@ -506,7 +506,7 @@ sub _action_saveSettings {
             # use in code that parses multiline settings line by line.
         $settings =~
 s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
-            (_parsePreferenceValue($newTopicObject, $1, $2, $3))mgeo;
+            (_parsePreferenceValue($newTopicObject, $1, $2, $3))mge;
 
         my $saveOpts = {};
         $saveOpts->{minor}            = 1;    # don't notify

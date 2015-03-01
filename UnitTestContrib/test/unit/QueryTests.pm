@@ -189,7 +189,7 @@ sub fixture_groups {
     foreach my $dir (@INC) {
         if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
             foreach my $alg ( readdir D ) {
-                next unless $alg =~ /^(\w*)\.pm$/;
+                next unless $alg =~ m/^(\w*)\.pm$/;
                 $alg = $1;
                 $qalgs{$alg} = 1;
             }

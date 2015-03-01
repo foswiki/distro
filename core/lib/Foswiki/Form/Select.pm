@@ -21,7 +21,7 @@ sub new {
 
     # Parse the size to get min and max
     $this->{size} ||= 1;
-    if ( $this->{size} =~ /^\s*(\d+)\.\.(\d+)\s*$/ ) {
+    if ( $this->{size} =~ m/^\s*(\d+)\.\.(\d+)\s*$/ ) {
         $this->{minSize} = $1;
         $this->{maxSize} = $2;
     }
@@ -68,7 +68,7 @@ sub getOptions {
         $this->{_options} = ();
         my $str;
         foreach my $val (@$vals) {
-            if ( $val =~ /^(.*[^\\])*=(.*)$/ ) {
+            if ( $val =~ m/^(.*[^\\])*=(.*)$/ ) {
                 $str = TAINT( $1 || '' );
                 my $descr = $this->{_descriptions}{$val};
                 $val = $2;
@@ -106,9 +106,9 @@ sub finish {
     return;
 }
 
-sub isMultiValued { return ( shift->{type} =~ /\+multi/ ); }
+sub isMultiValued { return ( shift->{type} =~ m/\+multi/ ); }
 
-sub isValueMapped { return ( shift->{type} =~ /\+values/ ); }
+sub isValueMapped { return ( shift->{type} =~ m/\+values/ ); }
 
 sub getDisplayValue {
     my ( $this, $value ) = @_;
@@ -148,7 +148,7 @@ sub renderForEdit {
             $params{value} = $option;
             $option = $this->{valueMap}{$option};
         }
-        $option =~ s/<nop/&lt\;nop/go;
+        $option =~ s/<nop/&lt\;nop/g;
         $choices .= CGI::option( \%params, $option );
     }
     my $size = scalar( @{ $this->getOptions() } );

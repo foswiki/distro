@@ -6,20 +6,20 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checkers::Certificate::KeyChecker ();
-our @ISA = ( 'Foswiki::Configure::Checkers::Certificate::KeyChecker' );
+our @ISA = ('Foswiki::Configure::Checkers::Certificate::KeyChecker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return
-      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLClientCertFile} );
 
     $reporter->ERROR("Key file must be specified")
       unless ( $Foswiki::cfg{Email}{SSLClientKeyFile} );
 
-    $this->SUPER::validateKeys(
-        $this->{item}->{keys}, '{Email}{SSLClientKeyPassword}', $reporter );
+    $this->SUPER::validateKeys( $this->{item}->{keys},
+        '{Email}{SSLClientKeyPassword}', $reporter );
 }
 
 1;

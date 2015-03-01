@@ -60,7 +60,7 @@ sub log {
     #    }
 
     if ( @_ > 4 ) {
-        unless ( $_[4] =~ /^AUTHENTICATION FAILURE/ ) {
+        unless ( $_[4] =~ m/^AUTHENTICATION FAILURE/ ) {
 
             if ( $Foswiki::cfg{Log}{Obfuscating}{MaskIP} ) {
                 $_[5] = 'x.x.x.x';

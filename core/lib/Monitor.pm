@@ -79,7 +79,7 @@ sub _mark {
 sub tidytime {
     my ( $a, $b ) = @_;
     my $s = timestr( timediff( $a, $b ) );
-    $s =~ /([\d.]+) wallclock secs.*([\d.]+) CPU/;
+    $s =~ m/([\d.]+) wallclock secs.*([\d.]+) CPU/;
     my ( $w, $c ) = ( $1, $2 );
     if ( defined $show_percent ) {
         $w = $w * 100.0 / $show_percent;
@@ -136,7 +136,7 @@ sub END {
 
     if ( scalar(@times) > 1 ) {
         my $ibm = timestr( timediff( $times[$#times]->[1], $times[0]->[1] ) );
-        if ( $ibm =~ /([\d.]+) wallclock/ ) {
+        if ( $ibm =~ m/([\d.]+) wallclock/ ) {
             $show_percent = $1;
         }
         print STDERR "\n\n| Event  | Delta | Abs | Mem |";
@@ -211,14 +211,14 @@ sub _monitorMethod {
     if ( !defined($method) ) {
         no strict "refs";
         foreach my $symname ( sort keys %{"${package}::"} ) {
-            next if ( $symname =~ /^ASSERT/ );
-            next if ( $symname =~ /^DEBUG/ );
-            next if ( $symname =~ /^UNTAINTED/ );
-            next if ( $symname =~ /^except/ );
-            next if ( $symname =~ /^otherwise/ );
-            next if ( $symname =~ /^finally/ );
-            next if ( $symname =~ /^try/ );
-            next if ( $symname =~ /^with/ );
+            next if ( $symname =~ m/^ASSERT/ );
+            next if ( $symname =~ m/^DEBUG/ );
+            next if ( $symname =~ m/^UNTAINTED/ );
+            next if ( $symname =~ m/^except/ );
+            next if ( $symname =~ m/^otherwise/ );
+            next if ( $symname =~ m/^finally/ );
+            next if ( $symname =~ m/^try/ );
+            next if ( $symname =~ m/^with/ );
             _monitorMethod( $package, $symname );
         }
     }

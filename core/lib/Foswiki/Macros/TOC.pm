@@ -158,7 +158,7 @@ sub TOC {
                 $text =~ s/\s*$//;
 
                 my $atext = $text;
-                $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//o;
+                $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//;
 
                 # Ignore empty headings
                 next unless $text;
@@ -204,13 +204,13 @@ sub TOC {
         $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;                   # '[[...][...]]'
         $text =~ s/\[\[(.*?)\]\]/$1/ge;                         # '[[...]]'
         $text =~ s/(^|[\s\(])($Foswiki::regex{webNameRegex})\.
-                   ($Foswiki::regex{wikiWordRegex})/$1<nop>$3/gox;
-        $text =~ s/(^|[\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/gox;
-        $text =~ s/(^|[\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;
+                   ($Foswiki::regex{wikiWordRegex})/$1<nop>$3/gx;
+        $text =~ s/(^|[\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/gx;
+        $text =~ s/(^|[\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/g;
 
         # Special case: 'Site:page' Interwiki link
         $text =~ s/(^|[\s\-\*\(])
-                   ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gox;
+                   ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gx;
 
         # Prevent duplicating id attributes
         $text =~ s/id=["'][^"']*?["']//gi;

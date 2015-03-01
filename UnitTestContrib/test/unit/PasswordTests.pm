@@ -802,7 +802,7 @@ sub test_ApacheHtpasswdUser_md5 {
 sub test_ApacheHtpasswdUser_crypt {
     my $this = shift;
 
-    if ( $^O =~ /^MSWin/i ) {
+    if ( $^O =~ m/^MSWin/i ) {
         $this->expect_failure();
         $this->annotate("CANNOT RUN ApacheHtpasswdUser_crypt TESTS on Windows");
     }

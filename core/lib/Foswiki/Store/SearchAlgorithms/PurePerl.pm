@@ -74,7 +74,7 @@ sub _search {
     # Convert GNU grep \< \> syntax to \b
     $searchString =~ s/(?<!\\)\\[<>]/\\b/g;
 
-    $searchString =~ s/^(.*)$/\\b$1\\b/go if $options->{'wordboundaries'};
+    $searchString =~ s/^(.*)$/\\b$1\\b/g if $options->{'wordboundaries'};
     my $doMatch;
     if ( $options->{casesensitive} ) {
         $doMatch = sub { $_[0] =~ m/$searchString/ };
@@ -119,7 +119,7 @@ sub _webQuery {
     # default scope is 'text'
     $options->{'scope'} = 'text'
       unless ( defined( $options->{'scope'} )
-        && $options->{'scope'} =~ /^(topic|all)$/ );
+        && $options->{'scope'} =~ m/^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
     if ( !defined($topicSet) ) {
@@ -142,7 +142,7 @@ sub _webQuery {
 
         # flag for AND NOT search
         my $invertSearch = 0;
-        $invertSearch = ( $tokenCopy =~ s/^\!//o );
+        $invertSearch = ( $tokenCopy =~ s/^\!// );
 
         # scope can be 'topic' (default), 'text' or "all"
         # scope='topic', e.g. Perl search on topic name:
@@ -164,10 +164,10 @@ sub _webQuery {
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
-                    $topicMatches{$webtopic} = 1 if ( $topic =~ /$qtoken/ );
+                    $topicMatches{$webtopic} = 1 if ( $topic =~ m/$qtoken/ );
                 }
                 else {
-                    $topicMatches{$webtopic} = 1 if ( $topic =~ /$qtoken/i );
+                    $topicMatches{$webtopic} = 1 if ( $topic =~ m/$qtoken/i );
                 }
             }
         }

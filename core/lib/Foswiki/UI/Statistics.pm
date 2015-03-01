@@ -104,7 +104,7 @@ sub statistics {
 
     my $logMonth;
     my $logYear;
-    if ( $logDate =~ /^(\d\d\d\d)(\d\d)$/ ) {
+    if ( $logDate =~ m/^(\d\d\d\d)(\d\d)$/ ) {
         $logYear  = $1;
         $logMonth = $2;
     }
@@ -281,20 +281,20 @@ sub _collectLogData {
         my ( $opName, $webTopic, $notes, $ip ) = @$line;
 
         # ignore events that are not statistically helpful
-        next if ( $notes && $notes =~ /dontlog/ );
+        next if ( $notes && $notes =~ m/dontlog/ );
 
 # ignore events statistics doesn't understand for now - idea: make a "top search phrase list"
         next
           if ( $opName
             && $opName =~
-            /search|renameweb|changepasswd|resetpasswd|sudo login|logout/ );
+            m/search|renameweb|changepasswd|resetpasswd|sudo login|logout/ );
 
         # .+ is used because topics name can contain stuff like
         # !, (, ), =, -, _ and they should have stats anyway
         if (   $webTopic
             && $opName
             && $webTopic =~
-/(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
+m/(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
           )
         {
             my $webName   = $1;
@@ -304,7 +304,7 @@ sub _collectLogData {
                 next if ( $topicName eq 'WebRss' );
                 next if ( $topicName eq 'WebAtom' );
                 $data->{statViewsRef}{$webName}++;
-                unless ( $notes && $notes =~ /\(not exist\)/ ) {
+                unless ( $notes && $notes =~ m/\(not exist\)/ ) {
                     $data->{viewRef}->{$webName}{$topicName}++;
                 }
 
@@ -325,7 +325,7 @@ sub _collectLogData {
 
                 # Pick up the old and new topic names
                 $notes =~
-/moved to ($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}|\w+)/o;
+m/moved to ($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}|\w+)/;
                 my $newTopicWeb  = $1;
                 my $newTopicName = $2;
 
@@ -348,7 +348,7 @@ sub _collectLogData {
             # ignore template webs.  (Regex copied from Foswiki::WebFilter)
             if ( defined $webTopic ) {
                 my ( $w, $t ) = split( /\./, $webTopic );
-                next if $w && $w =~ /(?:^_|\/_)/;
+                next if $w && $w =~ m/(?:^_|\/_)/;
             }
 
             $session->logger->log( 'debug',
@@ -493,10 +493,10 @@ sub _processWeb {
         $tmp = $lines[$x];
 
         # Check for existing line for this month+year
-        if ( $tmp =~ /$theLogMonthYear/ ) {
+        if ( $tmp =~ m/$theLogMonthYear/ ) {
             $idxStat = $x;
         }
-        elsif ( $tmp =~ /<\!\-\-statDate\-\->/ ) {
+        elsif ( $tmp =~ m/<\!\-\-statDate\-\->/ ) {
             $statLine = $tmp;
             $idxTmpl  = $x;
         }
@@ -562,7 +562,7 @@ sub _getTopList {
         $statValue = sprintf '%7d', $statValue;
 
         # Add new array item at end of array
-        if ( $topicName =~ /\./ ) {
+        if ( $topicName =~ m/\./ ) {
             $list[@list] = "$statValue $topicName";
         }
         else {
@@ -599,22 +599,22 @@ sub _printMsg {
     my ( $session, $msg ) = @_;
 
     if ( $session->inContext('command_line') ) {
-        $msg =~ s/&nbsp;/ /go;
+        $msg =~ s/&nbsp;/ /g;
     }
     else {
         if ( $msg =~ s/^\!// ) {
             $msg =
               CGI::h4( {}, CGI::span( { class => 'foswikiAlert' }, $msg ) );
         }
-        elsif ( $msg =~ /^[A-Z]/ ) {
+        elsif ( $msg =~ m/^[A-Z]/ ) {
 
             # SMELL: does not support internationalised script messages
             $msg =~ s/^([A-Z].*)/CGI::h3({},$1)/ge;
         }
         else {
             $msg =~ s/(\*\*\*.*)/CGI::span( { class=>'foswikiAlert' }, $1 )/ge;
-            $msg =~ s/^\s\s/&nbsp;&nbsp;/go;
-            $msg =~ s/^\s/&nbsp;/go;
+            $msg =~ s/^\s\s/&nbsp;&nbsp;/g;
+            $msg =~ s/^\s/&nbsp;/g;
             $msg .= CGI::br();
         }
         $msg =~

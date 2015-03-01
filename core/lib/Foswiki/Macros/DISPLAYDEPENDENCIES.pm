@@ -29,8 +29,8 @@ sub DISPLAYDEPENDENCIES {
     my $thisWeb;
     my $thisTopic;
     foreach my $dep ( sort @$deps ) {
-        next if $exclude && $dep =~ /$exclude/;
-        $dep =~ /^(.*)[\.\/](.*?)$/;
+        next if $exclude && $dep =~ m/$exclude/;
+        $dep =~ m/^(.*)[\.\/](.*?)$/;
         $thisWeb   = $1;
         $thisTopic = $2;
         my $text = $format;

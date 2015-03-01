@@ -58,7 +58,7 @@ sub parse {
         # but values need to be retainted
         $this->{headers}->{ lc($1) } = TAINT($2);
     }
-    if ( $httpHeader =~ /\S/ ) {
+    if ( $httpHeader =~ m/\S/ ) {
         $this->{code}    = 400;
         $this->{message} = "Unparseable headers in response: $httpHeader";
     }

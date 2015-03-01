@@ -503,7 +503,7 @@ Iterating over blocks for a single tag is easy. For example, to prepend a
 line number to every line of every pre block you might use this code:
 <verbatim>
 foreach my $placeholder ( keys %$map ) {
-    if( $placeholder =~ /^pre/i ) {
+    if( $placeholder =~ m/^pre/i ) {
         my $n = 1;
         $map->{$placeholder}{text} =~ s/^/$n++/gem;
     }

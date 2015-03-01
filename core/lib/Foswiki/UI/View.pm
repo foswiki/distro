@@ -319,7 +319,7 @@ sub view {
       || 'view';
 
     # Always use default view template for raw=debug, raw=all and raw=on
-    if ( $raw =~ /^(debug|all|on)$/ ) {
+    if ( $raw =~ m/^(debug|all|on)$/ ) {
         $template = 'view';
     }
 
@@ -338,7 +338,7 @@ sub view {
 
         # it's an indexable view type, there are no parameters
         # on the url, and robots are welcome. Remove the NOINDEX meta tag
-        $tmpl =~ s/<meta name="robots"[^>]*>//goi;
+        $tmpl =~ s/<meta name="robots"[^>]*>//gi;
     }
 
     # Show revisions around the one being displayed.
@@ -360,7 +360,7 @@ sub view {
 
 # SMELL: %QUERYPARAMSTRING% isn't a documented macro, and is no longer used in core
 # or core extensions. Maintained for legacy only.
-    if ( $tmpl =~ /%QUERYPARAMSTRING%/ ) {
+    if ( $tmpl =~ m/%QUERYPARAMSTRING%/ ) {
         my $qps = Foswiki::make_params(@qparams);
         $qps =~ s/^.*\?/;/; # remove any anchor (there should be none) and the ?
         $tmpl =~ s/%QUERYPARAMSTRING%/$qps/g;
@@ -421,13 +421,13 @@ sub view {
     # If minimalist is set, images and anchors will be stripped from text
     my $minimalist = 0;
     if ($contentType) {
-        $minimalist = ( $session->getSkin() =~ /\brss/ );
+        $minimalist = ( $session->getSkin() =~ m/\brss/ );
     }
-    elsif ( $session->getSkin() =~ /\brss/ ) {
+    elsif ( $session->getSkin() =~ m/\brss/ ) {
         $contentType = 'text/xml';
         $minimalist  = 1;
     }
-    elsif ( $session->getSkin() =~ /\bxml/ ) {
+    elsif ( $session->getSkin() =~ m/\bxml/ ) {
         $contentType = 'text/xml';
         $minimalist  = 1;
     }
@@ -443,7 +443,7 @@ sub view {
     );
 
     # Set page generation mode to RSS if using an RSS skin
-    if ( $session->getSkin() =~ /\brss/ ) {
+    if ( $session->getSkin() =~ m/\brss/ ) {
         $session->enterContext('rss');
         $session->enterContext('absolute_urls');
     }
@@ -511,7 +511,7 @@ sub _prepare {
 
     $text = $topicObject->expandMacros($text);
     $text = $topicObject->renderTML($text);
-    $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+    $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
     if ($minimalist) {
         $text =~ s/<img [^>]*>//gi;    # remove image tags

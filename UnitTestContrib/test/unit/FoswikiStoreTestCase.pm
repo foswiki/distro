@@ -16,7 +16,7 @@ our $rcs_installed;
 
 sub rcs_is_installed {
     if ( !defined($rcs_installed) ) {
-        $ENV{PATH} =~ /^(.*)$/ms;
+        $ENV{PATH} =~ m/^(.*)$/ms;
         local $ENV{PATH} = $1;    # untaint
         if ( eval { `co -V`; 1; } )    # Check to see if we have co
         {
@@ -65,8 +65,8 @@ sub fixture_groups {
         {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
-                next if $alg =~ /RcsWrap/ && !rcs_is_installed();
-                ($alg) = $alg =~ /^(.*)$/ms;    # untaint
+                next if $alg =~ m/RcsWrap/ && !rcs_is_installed();
+                ($alg) = $alg =~ m/^(.*)$/ms;    # untaint
                 eval "require Foswiki::Store::$alg;";
                 $this->assert( !$@, $@ );
                 my $algname = ref($this) . '_' . $alg;

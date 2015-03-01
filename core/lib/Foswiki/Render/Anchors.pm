@@ -128,9 +128,9 @@ sub make {
     my ($text) = @_;
 
     $text =~ s/^\s*(.*?)\s*$/$1/;
-    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//go;
+    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//g;
 
-    if ( $text =~ /^$Foswiki::regex{anchorRegex}$/ ) {
+    if ( $text =~ m/^$Foswiki::regex{anchorRegex}$/ ) {
 
         # accept, already valid -- just remove leading #
         return substr( $text, 1 );
@@ -165,7 +165,7 @@ sub make {
 
     # remove escape from escaped wikiWords
     $text =~
-      s/!($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})/$1/go;
+      s/!($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})/$1/g;
 
     # remove spaces
     $text =~ s/\s+/_/g;
@@ -180,7 +180,7 @@ sub make {
     $text =~ s/_*$//;
 
     # Ensure the anchor always starts with an [A-Za-z]
-    $text = 'A_' . $text unless $text =~ /^[A-Za-z]/;
+    $text = 'A_' . $text unless $text =~ m/^[A-Za-z]/;
 
     return $text;
 }

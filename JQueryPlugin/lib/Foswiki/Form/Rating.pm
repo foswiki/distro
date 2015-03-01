@@ -53,12 +53,12 @@ sub getOptions {
     return $options if $options;
     $options = $this->SUPER::getOptions();
 
-    if ( $this->{type} =~ /\+values/ ) {
+    if ( $this->{type} =~ m/\+values/ ) {
         $this->{valueMap} = ();
         $this->{_options} = ();
         my $str;
         foreach my $val (@$options) {
-            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
+            if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
                 $str = $1;
                 $val = $2;
                 $str =~ s/\\=/=/g;
@@ -82,7 +82,8 @@ sub getDataValues {
     my @vals    = ();
 
     foreach my $val (@$options) {
-        if ( $this->{type} =~ /\+values/ && defined( $this->{valueMap}{$val} ) )
+        if ( $this->{type} =~ m/\+values/
+            && defined( $this->{valueMap}{$val} ) )
         {
             push @vals, { $this->{valueMap}{$val} => $val };
         }

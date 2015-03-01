@@ -368,7 +368,7 @@ sub checkReferringTopics {
     $this->assert_str_equals( 'HASH', ref($refs) );
     if ($forgiving) {
         foreach my $k ( keys %{$refs} ) {
-            unless ( $k =~ /^$this->{test_web}/ ) {
+            unless ( $k =~ m/^$this->{test_web}/ ) {
                 delete( $refs->{$k} );
             }
         }

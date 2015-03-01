@@ -43,9 +43,9 @@ sub loadExtraConfig {
 
 #turn on the MongoDBPlugin so that the saved data goes into mongoDB
 #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
-        if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
-            or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
-            or ( $context =~ /MongoDB/ ) )
+        if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/MongoDB/ )
+            or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ m/MongoDB/ )
+            or ( $context =~ m/MongoDB/ ) )
         {
             $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
               'Foswiki::Plugins::MongoDBPlugin';
@@ -419,7 +419,7 @@ sub verify_isAnAdmin {
     my $iterator = Foswiki::Func::eachUser();
     while ( $iterator->hasNext() ) {
         my $u = $iterator->next();
-        $u =~ /.*\.(.*)/;
+        $u =~ m/.*\.(.*)/;
         $Foswiki::Plugins::SESSION->{user} = $u;
         my $sadmin = Foswiki::Func::isAnAdmin($u);
 

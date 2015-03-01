@@ -155,7 +155,7 @@ sub isFormattedType {
 sub parseTypeParams {
     my ( $this, $str ) = @_;
 
-    if ( $this->{typename} =~ /^(SELECT|BOOLGROUP)/ ) {
+    if ( $this->{typename} =~ m/^(SELECT|BOOLGROUP)/ ) {
 
         # SELECT types *always* start with a comma-separated list of
         # things to select from. These things may be words or wildcard
@@ -165,10 +165,10 @@ sub parseTypeParams {
             if ( $str =~ s/^(["'])(.*?)\1// ) {
                 push( @picks, $2 );
             }
-            elsif ( $str =~ s/^([-A-Za-z0-9:.*]+)// || $str =~ /(\s)*,/ ) {
+            elsif ( $str =~ s/^([-A-Za-z0-9:.*]+)// || $str =~ m/(\s)*,/ ) {
                 my $v = $1;
                 $v = '' unless defined $v;
-                if ( $v =~ /\*/ && $this->{typename} eq 'SELECTCLASS' ) {
+                if ( $v =~ m/\*/ && $this->{typename} eq 'SELECTCLASS' ) {
 
                     # Populate the class list
                     push( @picks,
@@ -216,7 +216,7 @@ sub _FEEDBACK {
         last unless $str =~ s/^\s*;//;
     }
 
-    die "FEEDBACK parse failed at $str" unless $str =~ /^\s*$/;
+    die "FEEDBACK parse failed at $str" unless $str =~ m/^\s*$/;
 
     push @{ $this->{FEEDBACK} }, \%fb;
 }
@@ -471,7 +471,7 @@ sub CHECK_option {
 # Implements Foswiki::Configure::item
 sub search {
     my ( $this, $re ) = @_;
-    if ( $this->{keys} =~ /$re/i ) {
+    if ( $this->{keys} =~ m/$re/i ) {
         return ($this);
     }
     return ();

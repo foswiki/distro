@@ -35,9 +35,9 @@ sub check_current_value {
         next unless $addr;
         $reporter->WARN("\"$addr\" does not appear to be an e-mail address")
           unless (
-            $addr =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );
+            $addr =~ m/^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );
 
-        # unless( $addr =~ /\s*[^@]+\@\S+\s*/ ); #'
+        # unless( $addr =~ m/\s*[^@]+\@\S+\s*/ ); #'
     }
 }
 

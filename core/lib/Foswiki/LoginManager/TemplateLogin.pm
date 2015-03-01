@@ -249,7 +249,7 @@ sub login {
                 # First extract the params, ignoring any trailing fragment.
                 if ( $origurl =~ s/\?([^#]*)// ) {
                     foreach my $pair ( split( /[&;]/, $1 ) ) {
-                        if ( $pair =~ /(.*?)=(.*)/ ) {
+                        if ( $pair =~ m/(.*?)=(.*)/ ) {
                             $query->param( $1, TAINT($2) );
                         }
                     }

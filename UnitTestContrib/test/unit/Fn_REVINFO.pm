@@ -40,7 +40,7 @@ sub test_basic {
 
     my $ui = $this->{test_topicObject}->expandMacros('%REVINFO%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{guest_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{guest_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -56,7 +56,7 @@ sub test_basic2 {
       Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -73,7 +73,7 @@ sub test_basic3 {
       Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO{topic="GlumDrop"}%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -91,7 +91,7 @@ sub test_thisWebVars {
     my $ui =
       $topicObject->expandMacros('%REVINFO{topic="%BASEWEB%.GlumDrop"}%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -109,7 +109,7 @@ sub BROKENtest_thisTopicVars {
       Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO{topic="%BASETOPIC%"}%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -127,7 +127,7 @@ sub BROKENtest_thisWebTopicVars {
     my $ui =
       $topicObject->expandMacros('%REVINFO{topic="%BASEWEB%.%BASETOPIC%"}%');
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -146,7 +146,7 @@ sub test_otherWeb {
         '%REVINFO{topic="GropeGroup" web="' . $this->{users_web} . '"}%',
     );
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -164,7 +164,7 @@ sub test_otherWeb2 {
     my $ui = $topicObject->expandMacros(
         '%REVINFO{topic="' . $this->{users_web} . '.GropeGroup"}%' );
     unless ( $ui =~
-/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
+m/^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
       )
     {
         $this->assert( 0, $ui );
@@ -322,7 +322,7 @@ sub test_42 {
           . $this->{test_web}
           . '.HappyPill" format="$username $wikiname $wikiusername"}%',
     );
-    $this->assert( $ui =~ /No permission to view/ );
+    $this->assert( $ui =~ m/No permission to view/ );
     $topicObject->finish();
 
     return;
@@ -372,7 +372,7 @@ BlessMySoul 4
 OFNIVER
 
     my $t = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
-    $this->assert( $t =~ /^\d+$/ && $t != 0, $t );
+    $this->assert( $t =~ m/^\d+$/ && $t != 0, $t );
 
     my $x = Foswiki::Time::formatTime( $t, '$hour:$min:$sec' );
     my $y = $topicObject->expandMacros('%REVINFO{"$time"}%');

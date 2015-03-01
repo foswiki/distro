@@ -86,7 +86,7 @@ iterator object:
 For example,
 <verbatim>
 my $it = new Foswiki::LineIterator("/etc/passwd");
-$it->{filter} = sub { $_[0] =~ /^.*?:/; return $1; };
+$it->{filter} = sub { $_[0] =~ m/^.*?:/; return $1; };
 $it->{process} = sub { return "User $_[0]"; };
 while ($it->hasNext()) {
     my $x = $it->next();

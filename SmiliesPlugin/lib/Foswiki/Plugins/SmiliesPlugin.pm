@@ -36,7 +36,7 @@ sub initPlugin {
 sub preRenderingHandler {
 
     if ( $_[0] =~
-        s/(\s|^)$cache{$current}{pattern}(?=\s|$)/_renderSmily($1,$2)/geo )
+        s/(\s|^)$cache{$current}{pattern}(?=\s|$)/_renderSmily($1,$2)/ge )
     {
         _addToZone();
     }
@@ -70,13 +70,13 @@ sub _loadSmilies {
     foreach my $line ( split( /\n/, $text || '' ) ) {
 
         # | smily | image | description |
-        if ( $line =~ /^\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$/ ) {
+        if ( $line =~ m/^\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$/ ) {
 
             my $alternatives = $1;
             my $image        = $2;
             my $desc         = $3;
 
-            if ( $alternatives =~ /^\*/ ) {
+            if ( $alternatives =~ m/^\*/ ) {
                 $state = 1;
                 next;
             }
@@ -99,7 +99,7 @@ sub _loadSmilies {
         }
     }
 
-    #$cache{$current}{pattern} =~ s/\|$//o;
+    #$cache{$current}{pattern} =~ s/\|$//;
     $cache{$current}{pattern} .= ")";
     $cache{$current}{pubUrl} = Foswiki::Func::getPubUrlPath() . "/$web/$topic";
 

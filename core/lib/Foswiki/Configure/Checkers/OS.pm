@@ -13,30 +13,30 @@ sub check_current_value {
     return unless $Foswiki::cfg{OS};    # Default
     my $expected = 'UNIX';
 
-    if ( $^O =~ /darwin/i ) {           # MacOS X
+    if ( $^O =~ m/darwin/i ) {          # MacOS X
         $expected = 'UNIX';
     }
-    elsif ( $^O =~ /Win/i ) {
+    elsif ( $^O =~ m/Win/i ) {
         $expected = 'WINDOWS';
     }
-    elsif ( $^O =~ /vms/i ) {
+    elsif ( $^O =~ m/vms/i ) {
         $expected = 'VMS';
     }
-    elsif ( $^O =~ /bsdos/i ) {
+    elsif ( $^O =~ m/bsdos/i ) {
         $expected = 'UNIX';
     }
-    elsif ( $^O =~ /solaris/i ) {
+    elsif ( $^O =~ m/solaris/i ) {
         $expected = 'UNIX';
     }
-    elsif ( $^O =~ /dos/i ) {
+    elsif ( $^O =~ m/dos/i ) {
         $expected = 'DOS';
     }
-    elsif ( $^O =~ /^MacOS$/i ) {
+    elsif ( $^O =~ m/^MacOS$/i ) {
 
         # MacOS 9 or earlier
         $expected = 'MACINTOSH';
     }
-    elsif ( $^O =~ /os2/i ) {
+    elsif ( $^O =~ m/os2/i ) {
         $expected = 'OS2';
     }
 

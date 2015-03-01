@@ -120,7 +120,7 @@ sub _findDependencies {
     return unless ( opendir( $dh, $dpath ) );
 
     foreach my $extn ( grep !/^\./, readdir $dh ) {
-        $extn =~ /^(.*)$/;
+        $extn =~ m/^(.*)$/;
         $extn = $1;
         my $dfile = File::Spec->catfile( $dpath, $extn, 'DEPENDENCIES' );
         next if ( $extns->{$dfile} || !-e $dfile );
@@ -220,10 +220,10 @@ sub _loadDEPENDENCIES {
         next unless ( scalar(@row) == 4 && $row[2] eq 'cpan' );
         my ( $cond, $ver ) = $row[1] =~ m/^([=<>!]*)(.*)$/;
         $cond ||= '>=';
-        $row[0] =~ /([\w:]+)/;    # check and untaint
+        $row[0] =~ m/([\w:]+)/;    # check and untaint
         my $modname = $1;
 
-        my ( $dispo, $usage ) = $row[3] =~ /^\s*(\w+)(?:[.,]\s*)?(.*)$/;
+        my ( $dispo, $usage ) = $row[3] =~ m/^\s*(\w+)(?:[.,]\s*)?(.*)$/;
 
         # There's weird stuff in DEPENDENCIES...
         # required => ERROR; recommended => WARN; default is NOTE

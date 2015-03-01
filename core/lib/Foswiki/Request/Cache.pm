@@ -124,7 +124,7 @@ sub load {
     my ( $this, $uid, $req ) = @_;
 
     ASSERT($uid) if DEBUG;
-    ASSERT( $uid =~ /^[a-f0-9]{32}$/ ) if DEBUG;
+    ASSERT( $uid =~ m/^[a-f0-9]{32}$/ ) if DEBUG;
 
     # Read cached post parameters
     my $F = new IO::File( $this->_cacheFile($uid), '<' );
@@ -143,7 +143,7 @@ sub load {
         if (TRACE_CACHE) {
             my $here = tell $F;
             while ( my $l = <$F> ) {
-                last if $l =~ /^=/;
+                last if $l =~ m/^=/;
                 print STDERR "CACHE $uid< " . Foswiki::urlDecode($l);
             }
             seek( $F, $here, 0 );
@@ -197,7 +197,7 @@ sub cleanup {
     my $D;
     return unless opendir( $D, $Foswiki::cfg{WorkingDir} . '/tmp/' );
     foreach my $e ( readdir $D ) {
-        next unless $e =~ /^passthru_([a-f0-9]{32})/;
+        next unless $e =~ m/^passthru_([a-f0-9]{32})/;
         my $f     = $Foswiki::cfg{WorkingDir} . '/tmp/' . $e;
         my @stat  = stat($f);
         my $mtime = $stat[9];
@@ -214,7 +214,7 @@ sub _cacheFile {
     my ( $this, $uid ) = @_;
 
     # Validate and untaint in one step
-    die "Illegal UID" unless $uid =~ /^([0-9a-z]{32})$/i;
+    die "Illegal UID" unless $uid =~ m/^([0-9a-z]{32})$/i;
     return $Foswiki::cfg{WorkingDir} . '/tmp/passthru_' . $1;
 }
 

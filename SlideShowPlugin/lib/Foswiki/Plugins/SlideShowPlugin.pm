@@ -38,7 +38,7 @@ sub initPlugin {
 
 sub commonTagsHandler {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
-    if ( $_[0] =~ /%SLIDESHOWSTART/ ) {
+    if ( $_[0] =~ m/%SLIDESHOWSTART/ ) {
         unless ($core) {
             require Foswiki::Plugins::SlideShowPlugin::SlideShow;
             $core = new Foswiki::Plugins::SlideShowPlugin::SlideShow();

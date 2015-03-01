@@ -207,7 +207,7 @@ sub extractParameters {
         # is: %VAR{ value }%
         $params{"_DEFAULT"} = $1 unless $1 eq "";
     }
-    return map { s/\\\0/\"/go; $_ } %params;
+    return map { s/\\\0/\"/g; $_ } %params;
 }
 
 sub huey {

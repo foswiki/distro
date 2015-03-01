@@ -98,8 +98,8 @@ DONE
         if ( $key eq 'HTTP_COOKIE' && $value ) {
 
             # url decode for readability
-            #$value =~ s/%7C/ | /go;
-            $value =~ s/%3D/=/go;
+            #$value =~ s/%7C/ | /g;
+            $value =~ s/%3D/=/g;
         }
         $value =~ s/\n/\\n/g if defined $value;
         $report .=
@@ -152,7 +152,7 @@ DONE
     $report .= "| Operating system | $n |\n";
 
     # Perl version and type
-    if ( $] =~ /^(\d+)\.(\d{3})(\d{3})$/ ) {
+    if ( $] =~ m/^(\d+)\.(\d{3})(\d{3})$/ ) {
         $n = sprintf( "%d.%d.%d", $1, $2, $3 );
     }
     else {

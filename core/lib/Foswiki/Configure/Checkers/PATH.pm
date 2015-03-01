@@ -37,7 +37,7 @@ sub check_current_value {
     my $perms = $this->{item}->CHECK_option('perms');
 
     if ( defined $perms ) {
-        if ( $perms =~ /F/ && !-f $path ) {
+        if ( $perms =~ m/F/ && !-f $path ) {
             if ( -d $path ) {
                 $reporter->ERROR(
                     "Value must be an existing file (not a directory)");
@@ -50,7 +50,7 @@ sub check_current_value {
             }
         }
 
-        if ( $perms =~ /D/ && !-d $path ) {
+        if ( $perms =~ m/D/ && !-d $path ) {
             if ( -f $path ) {
                 $reporter->ERROR(
                     "Value must be an existing directory (not a file)");
@@ -64,7 +64,7 @@ sub check_current_value {
         }
     }
 
-    if ( $path =~ /\\/ ) {
+    if ( $path =~ m/\\/ ) {
         $reporter->WARN('You should use c:/path style slashes, not c:\path');
     }
 }
@@ -90,10 +90,10 @@ sub validate_permissions {
         if ( defined $perms ) {
             $perms =~ s/d//g if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
-            if ( $perms =~ /F/ && !-f $path ) {
+            if ( $perms =~ m/F/ && !-f $path ) {
                 return $reporter->ERROR("$path is not a plain file");
             }
-            if ( $perms =~ /D/ && !-d $path ) {
+            if ( $perms =~ m/D/ && !-d $path ) {
                 return $reporter->ERROR("$path is not a directory");
             }
 
@@ -115,7 +115,7 @@ sub validate_permissions {
                   ? "a directory or file has insufficient permissions."
                   : "$fileErrors directories or files have insufficient permissions.";
                 my $storeMsg =
-                  ( $perms =~ /[df]/ )
+                  ( $perms =~ m/[df]/ )
                   ? "Verify that the Store expert settings of {Store}{filePermission} ($fperm) and {Store}{dirPermission} ($dperm) are correct for your environment, and correct the file permissions listed below"
                   : '';
                 $reporter->ERROR( <<ERRMSG, @messages )

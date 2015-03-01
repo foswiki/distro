@@ -69,8 +69,8 @@ sub preRenderingHandler {
     my $sort = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
       || 'all';
     return
-      unless ( $sort && $sort =~ /^(all|attachments)$/ )
-      || $_[0] =~ /%TABLE{.*?}%/;
+      unless ( $sort && $sort =~ m/^(all|attachments)$/ )
+      || $_[0] =~ m/%TABLE{.*?}%/;
 
     _readPluginSettings() if !%pluginAttributes;
 

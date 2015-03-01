@@ -3476,7 +3476,7 @@ foreach my $type (qw( ALLOW DENY )) {
     foreach my $action (qw( CHANGE VIEW )) {
         my $pref = $type . 'WEB' . $action;
         my $val = Foswiki::Func::getPreferencesValue( $pref, $web ) || '';
-        if( $val =~ /\S/ ) {
+        if( $val =~ m/\S/ ) {
             print "$pref is set to $val on $web\n";
         }
     }
@@ -3492,7 +3492,7 @@ sub permissionsSet {
         foreach my $action (qw( CHANGE VIEW RENAME )) {
             my $pref = $type . 'WEB' . $action;
             my $val = getPreferencesValue( $pref, $web ) || '';
-            return 1 if ( $val =~ /\S/ );
+            return 1 if ( $val =~ m/\S/ );
         }
     }
 
@@ -3669,7 +3669,7 @@ Return: =$oopsUrl=               Empty string if OK; the =$oopsUrl= for calling 
 my $text = Foswiki::Func::readTopicText( $web, $topic );
 
 # check for oops URL in case of error:
-if( $text =~ /^http.*?\/oops/ ) {
+if( $text =~ m/^http.*?\/oops/ ) {
     Foswiki::Func::redirectCgiQuery( $query, $text );
     return;
 }

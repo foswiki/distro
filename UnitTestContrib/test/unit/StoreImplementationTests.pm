@@ -214,7 +214,7 @@ sub verify_getRevisionDiff {
     my $expect;
 
     #print STDERR Data::Dumper->Dump([$diffs]);
-    unless ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) {
+    unless ( $Foswiki::cfg{Store}{Implementation} =~ m/RcsWrap/ ) {
 
         # RcsLite, PlainFile
         $expect = [

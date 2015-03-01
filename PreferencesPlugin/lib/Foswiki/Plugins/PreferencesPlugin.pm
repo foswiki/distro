@@ -75,16 +75,16 @@ sub beforeCommonTagsHandler {
         my $insidecomment  = 0;
         my $insideverbatim = 0;
         foreach my $token ( split /(<!--|-->|<\/?verbatim\b[^>]*>)/, $_[0] ) {
-            if ( !$insideverbatim and $token =~ /<!--/ ) {
+            if ( !$insideverbatim and $token =~ m/<!--/ ) {
                 $insidecomment++;
             }
-            elsif ( !$insideverbatim and $token =~ /-->/ ) {
+            elsif ( !$insideverbatim and $token =~ m/-->/ ) {
                 $insidecomment-- if ( $insidecomment > 0 );
             }
-            elsif ( $token =~ /<verbatim/ ) {
+            elsif ( $token =~ m/<verbatim/ ) {
                 $insideverbatim++;
             }
-            elsif ( $token =~ /<\/verbatim/ ) {
+            elsif ( $token =~ m/<\/verbatim/ ) {
                 $insideverbatim-- if ( $insideverbatim > 0 );
             }
             elsif ( !$insidecomment and !$insideverbatim ) {
@@ -183,9 +183,9 @@ sub _generateEditField {
     }
     unless ($html) {
 
-        if ( $value =~ /\n/ ) {
+        if ( $value =~ m/\n/ ) {
             my $rows = 1;
-            $rows++ while $value =~ /\n/g;
+            $rows++ while $value =~ m/\n/g;
 
             # No form definition and there are newlines, default to textarea
             $html = CGI::textarea(
@@ -283,7 +283,7 @@ sub _saveSet {
     if ($formDef) {
         my $fieldDef = _getField( $formDef, $name );
         my $type = $fieldDef->{type} || '';
-        if ( $type && $type =~ /^checkbox/ ) {
+        if ( $type && $type =~ m/^checkbox/ ) {
             my $val  = '';
             my $vals = $fieldDef->{value};
             foreach my $item (@$vals) {

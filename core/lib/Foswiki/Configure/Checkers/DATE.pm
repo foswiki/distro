@@ -28,7 +28,7 @@ sub check_current_value {
     my $zone = $this->{item}->CHECK_option('zone') || 'utc';
     my $normalize = !$this->{item}->CHECK_option('raw');
 
-    if ( $value =~ /\S/ ) {
+    if ( $value =~ m/\S/ ) {
         my $binval = Foswiki::Time::parseTime( $value, $zone eq 'local' );
         if ( defined $binval ) {
             if ($normalize) {    # undef uses configured display format

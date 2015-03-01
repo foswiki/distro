@@ -98,7 +98,7 @@ sub rest {
     # the path_info, but we *can* persuade Foswiki to ignore it.
     my $topic = $req->param('topic');
     if ($topic) {
-        unless ( $topic =~ /\.|\// ) {
+        unless ( $topic =~ m/\.|\// ) {
             $res->header( -type => 'text/html', -status => '400' );
             $err = 'ERROR: (400) Invalid REST invocation'
               . " - Invalid topic parameter $topic\n";

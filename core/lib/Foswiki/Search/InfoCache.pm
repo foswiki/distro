@@ -147,7 +147,7 @@ sub sortResults {
 
     #SMELL: duplicated code - removeme
     # Limit search results
-    if ( $limit =~ /(^\d+$)/o ) {
+    if ( $limit =~ m/(^\d+$)/ ) {
 
         # only digits, all else is the same as
         # an empty string.  "+10" won't work.
@@ -206,8 +206,8 @@ sub sortResults {
 
     }
     elsif (
-        $sortOrder =~ /^creat/ ||    # topic creation time
-        $sortOrder eq 'editby' ||    # author
+        $sortOrder =~ m/^creat/ ||    # topic creation time
+        $sortOrder eq 'editby' ||     # author
         $sortOrder =~ s/^formfield\(([^\)]+)\)$/$1/    # form field
       )
     {
@@ -281,13 +281,13 @@ sub sortTopics {
         if ($revSort) {
             @{$listRef} = map { $_->[1] }
               sort { $a->[0] cmp $b->[0] }
-              map { $_ =~ /^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
+              map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }
         else {
             @{$listRef} = map { $_->[1] }
               sort { $b->[0] cmp $a->[0] }
-              map { $_ =~ /^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
+              map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }
         ASSERT( $listRef->[0] ) if DEBUG;
@@ -301,7 +301,7 @@ sub sortTopics {
 
         my $info = $metacache->get($webtopic);
 
-        if ( $sortfield =~ /^creat/ ) {
+        if ( $sortfield =~ m/^creat/ ) {
 
             # The act of getting the info will cache it
             #$metacache->getRev1Info( $webtopic, $sortfield );
@@ -357,7 +357,7 @@ sub _compare {
     ASSERT( defined($y) ) if DEBUG;
 
     my $comparison;
-    if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
+    if ( $x =~ m/$NUMBER/ && $y =~ m/$NUMBER/ ) {
 
         # when sorting numbers do it largest first; this is just because
         # this is what date comparisons need.
@@ -372,10 +372,10 @@ sub _compare {
         # testing if pure number
         # We skip testing for dates the first character is not a digit
         # as all formats we recognise as dates are
-        if (   $x =~ /^\d/
-            && $x !~ /$NUMBER/o
-            && $y =~ /^\d/
-            && $y !~ /$NUMBER/o )
+        if (   $x =~ m/^\d/
+            && $x !~ /$NUMBER/
+            && $y =~ m/^\d/
+            && $y !~ /$NUMBER/ )
         {
             $datex = Foswiki::Time::parseTime($x);
             $datey = Foswiki::Time::parseTime($y) if $datex;
@@ -439,10 +439,10 @@ sub getOptionFilter {
 
     return sub {
         my $item = shift;
-        return 0 unless !$topicFilter || $item =~ /$topicFilter/;
+        return 0 unless !$topicFilter || $item =~ m/$topicFilter/;
         if ( defined $excludeTopics ) {
-            return 0 if $item =~ /$excludeTopics/;
-            return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
+            return 0 if $item =~ m/$excludeTopics/;
+            return 0 if !$casesensitive && $item =~ m/$excludeTopics/i;
         }
         return 1;
       }
@@ -466,7 +466,7 @@ sub getTopicListIterator {
     if (   $casesensitive
         && $options->{includeTopics}
         && $options->{includeTopics} =~
-        /^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ )
+        m/^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ )
     {
 
         # topic list without wildcards
@@ -490,7 +490,7 @@ sub convertTopicPatternToRegex {
 
     # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
     my @arr =
-      map { $_ = quotemeta($_); s/(^|(?<!\\))\\\*/\.\*/go; $_ }
+      map { $_ = quotemeta($_); s/(^|(?<!\\))\\\*/\.\*/g; $_ }
       split( /(?:,\s*|\|)/, $topic );
 
     return '' unless (@arr);

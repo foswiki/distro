@@ -189,7 +189,7 @@ sub _parseOptions {
             $this->{$key} = $val;
         }
     }
-    die "Parse failed at $str" unless $str =~ /^\s*$/;
+    die "Parse failed at $str" unless $str =~ m/^\s*$/;
 }
 
 =begin TML

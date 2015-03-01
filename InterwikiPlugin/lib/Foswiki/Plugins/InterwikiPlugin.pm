@@ -144,7 +144,7 @@ sub _link {
     $postfix ||= '';
 
     my $upage = $page;
-    if ( $page =~ /^['"](.*)["']$/ ) {
+    if ( $page =~ m/^['"](.*)["']$/ ) {
         $page  = $1;
         $upage = Foswiki::urlEncode($1);
     }
@@ -154,9 +154,9 @@ sub _link {
         my $tooltip = $interSiteTable{$site}{tooltip};
         my $url     = $interSiteTable{$site}{url};
 
-        #$url .= $page unless ( $url =~ /\$page/ );
+        #$url .= $page unless ( $url =~ m/\$page/ );
 
-        if ( $url =~ /\$page/ ) {
+        if ( $url =~ m/\$page/ ) {
             $url =~ s/\$page/$upage/g;
         }
         else {
@@ -168,7 +168,7 @@ sub _link {
 
             # [[...]] or [[...][...]] interwiki link
             $text = '';
-            if ( $postfix =~ /^\]\[([^\]]+)/ ) {
+            if ( $postfix =~ m/^\]\[([^\]]+)/ ) {
                 $label = $1;
             }
         }

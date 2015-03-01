@@ -207,7 +207,7 @@ sub _restSave {
                         # Pre 1.2.0 compatibility
                         my $html = Foswiki::Validation::addValidationKey( $cgis,
                             $context, 1 );
-                        $nonce = $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+                        $nonce = $1 if ( $html =~ m/value=['"]\?(.*?)['"]/ );
                     }
                     $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
                       if defined $nonce;

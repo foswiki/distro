@@ -53,7 +53,7 @@ sub fixture_groups {
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
 
         # jsonrpc and configure are registered, but do things differently
-        next if $script =~ /^(jsonrpc|configure).*/;
+        next if $script =~ m/^(jsonrpc|configure).*/;
 
         push( @groups, $script );
         next if ( defined( &{$script} ) );
@@ -130,7 +130,7 @@ sub call_UI_FN {
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
     my ( $header, $body );
-    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.*)$/s ) {
+    if ( $responseText =~ m/^(.*?)$CRLF$CRLF(.*)$/s ) {
         $header = $1;         # untaint is OK, it's a test
         $body   = $2;
     }
@@ -140,7 +140,7 @@ sub call_UI_FN {
     }
 
     my $status = 666;
-    if ( $header =~ /^Status: (\d*).*/ms ) {
+    if ( $header =~ m/^Status: (\d*).*/ms ) {
         $status = $1;
     }
 

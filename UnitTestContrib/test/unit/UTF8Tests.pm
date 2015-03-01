@@ -338,7 +338,7 @@ Timing += Unicode::UCD::num(n)
 Timing += n
     0.089103 wallclock secs ( 0.09 usr +  0.00 sys =  0.09 CPU) @ 7222222.22/s (n=650000)
     UTF8Tests::test_timing_maths_real_UCD
-Timing =~ /([\d+.-])/; += Unicode::UCD::num(..)
+Timing =~ m/([\d+.-])/; += Unicode::UCD::num(..)
     0.10401 wallclock secs ( 0.10 usr +  0.00 sys =  0.10 CPU) @ 50000.00/s (n=5000)
     UTF8Tests::test_timing_maths_real
 Timing += n.1
@@ -360,7 +360,7 @@ sub test_timing_maths_real_UCD {
         my $benchmark = timeit(
             $numcycles,
             sub {
-                pop(@numbers) =~ /^(|-)?(\d+)(\.(\d+))?$/;
+                pop(@numbers) =~ m/^(|-)?(\d+)(\.(\d+))?$/;
                 my $num = $1 . Unicode::UCD::num($2);
 
                 if ( defined $4 ) {
@@ -370,7 +370,7 @@ sub test_timing_maths_real_UCD {
             }
         );
 
-        print "Timing =~ /([\\d+\.-])/; += Unicode::UCD::num(..)\n\t"
+        print "Timing =~ m/([\\d+\.-])/; += Unicode::UCD::num(..)\n\t"
           . timestr($benchmark) . "\n";
     }
     else {

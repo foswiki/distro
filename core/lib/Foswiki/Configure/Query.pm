@@ -118,7 +118,7 @@ sub getcfg {
     if ( defined $keys && scalar(@$keys) ) {
         $what = {};
         foreach my $key (@$keys) {
-            unless ( $key =~ /^($Foswiki::Configure::Load::ITEMREGEX)$/ ) {
+            unless ( $key =~ m/^($Foswiki::Configure::Load::ITEMREGEX)$/ ) {
                 $reporter->ERROR("Bad key '$key'");
                 return undef;
             }
@@ -180,7 +180,7 @@ sub search {
     # An empty search isn't fatal, just uninteresting
     return []
       unless defined $params->{search}
-      && $params->{search} =~ /\S/;
+      && $params->{search} =~ m/\S/;
 
     my $re =
       join( ".*", map { quotemeta($_) } split( /\s+/, $params->{search} ) );
@@ -336,7 +336,7 @@ sub check_current_value {
             push( @keys, $k );
         }
         else {
-            $k = "'$k'" unless $k =~ /^\{.*\}$/;
+            $k = "'$k'" unless $k =~ m/^\{.*\}$/;
             push(
                 @report,
                 {
@@ -442,7 +442,7 @@ sub check_current_value {
 
             # Expand {x} as $Foswiki::cfg{x}
             $e =~ s/(({[^}]+})+)/\$Foswiki::cfg$1/g;
-            if ( $e =~ /\S/ ) {
+            if ( $e =~ m/\S/ ) {
                 my $only_if;
                 eval("\$only_if=$e");
                 die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
@@ -506,7 +506,7 @@ sub wizard {
 
     my $target;
     if ( defined $params->{wizard} ) {
-        unless ( $params->{wizard} =~ /^(\w+)$/ ) {    # untaint
+        unless ( $params->{wizard} =~ m/^(\w+)$/ ) {    # untaint
             $reporter->ERROR("Bad wizard");
             return undef;
         }
@@ -525,7 +525,7 @@ sub wizard {
         return undef;
     }
     my $method = $params->{method};
-    unless ( $method =~ /^(\w+)$/ ) {
+    unless ( $method =~ m/^(\w+)$/ ) {
         $reporter->ERROR("Bad method");
         return undef;
     }

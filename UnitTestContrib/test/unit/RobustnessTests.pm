@@ -134,12 +134,12 @@ sub test_sanitizeAttachmentName {
     my $crap = '';
     for ( 0 .. 255 ) {
         my $c = chr($_);
-        $crap .= $c if $c =~ /$Foswiki::cfg{NameFilter}/;
+        $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
     }
 
     #$this->assert_num_equals(80, length($crap));
     $this->assert_num_equals( 51, length($crap) );
-    my $x = $crap =~ / / ? '_' : '';
+    my $x = $crap =~ m/ / ? '_' : '';
     $this->assert_str_equals( "pick_me${x}pick_me",
         _sanitize("pick me${crap}pick me") );
     my %junkset = (

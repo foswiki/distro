@@ -214,10 +214,10 @@ sub _suffixToMimeType {
     my ($attachment) = @_;
 
     my $mimeType = 'text/plain';
-    if ( $attachment && $attachment =~ /\.([^.]+)$/ ) {
+    if ( $attachment && $attachment =~ m/\.([^.]+)$/ ) {
         my $suffix = $1;
         my $types  = Foswiki::readFile( $Foswiki::cfg{MimeTypesFileName} );
-        if ( $types =~ /^([^#]\S*).*?\s$suffix(?:\s|$)/im ) {
+        if ( $types =~ m/^([^#]\S*).*?\s$suffix(?:\s|$)/im ) {
             $mimeType = $1;
         }
     }

@@ -47,7 +47,7 @@ sub _checkResponse {
       unless $response->is_success;
 
     $this->{details} = $response->content();
-    if ( $this->{details} =~ /was checked and found to be valid/ ) {
+    if ( $this->{details} =~ m/was checked and found to be valid/ ) {
         return 1;
     }
 

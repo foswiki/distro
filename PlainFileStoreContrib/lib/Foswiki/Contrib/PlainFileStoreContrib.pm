@@ -76,7 +76,7 @@ sub bootstrapStore {
 # PlainFile is preferred over Rcs based stores,  so override any Rcs based store
 # Otherwise accept whatever store is configured.
     if (  !$Foswiki::cfg{Store}{Implementation}
-        || $Foswiki::cfg{Store}{Implementation} =~ /^Foswiki::Store::Rcs/ )
+        || $Foswiki::cfg{Store}{Implementation} =~ m/^Foswiki::Store::Rcs/ )
     {
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
         print STDERR "AUTOCONFIG: Store configured for PlainFile\n"

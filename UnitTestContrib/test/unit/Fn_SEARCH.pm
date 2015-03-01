@@ -106,7 +106,7 @@ sub fixture_groups {
     foreach my $dir (@INC) {
         if ( opendir( my $Dir, "$dir/Foswiki/Store/SearchAlgorithms" ) ) {
             foreach my $alg ( readdir $Dir ) {
-                next unless $alg =~ /^(.*)\.pm$/;
+                next unless $alg =~ m/^(.*)\.pm$/;
                 $alg = $1;
 
                 # skip forking search for now, its extremely broken
@@ -118,7 +118,7 @@ sub fixture_groups {
         }
         if ( opendir( my $Dir, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
             foreach my $alg ( readdir $Dir ) {
-                next unless $alg =~ /^(.*)\.pm$/;
+                next unless $alg =~ m/^(.*)\.pm$/;
                 $alg = $1;
                 $qalgs{$alg} = 1;
             }
@@ -165,9 +165,9 @@ sub loadExtraConfig {
 
 #turn on the MongoDBPlugin so that the saved data goes into mongoDB
 #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
-    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
-        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
-        or ( $context =~ /MongoDB/ ) )
+    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/MongoDB/ )
+        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ m/MongoDB/ )
+        or ( $context =~ m/MongoDB/ ) )
     {
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
           'Foswiki::Plugins::MongoDBPlugin';
@@ -192,8 +192,8 @@ sub tear_down {
     $this->SUPER::tear_down(@_);
 
     #need to clear the web every test?
-    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
-        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ ) )
+    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/MongoDB/ )
+        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ m/MongoDB/ ) )
     {
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()

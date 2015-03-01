@@ -65,11 +65,11 @@ sub _parse {
     my $gathering = 1;
 
     foreach my $tok ( split( /(<!--\s*\/?$tag.*?-->)/, $text ) ) {
-        if ( $tok =~ /<!--\s*$tag(.*?)-->/ ) {
+        if ( $tok =~ m/<!--\s*$tag(.*?)-->/ ) {
             $opt       = $1;
             $gathering = 1;
         }
-        elsif ( $tok =~ /<!--\s*\/$tag\s*-->/ ) {
+        elsif ( $tok =~ m/<!--\s*\/$tag\s*-->/ ) {
             throw Error::Simple(
                 "<!-- /$tag --> found without matching <!-- $tag --> $lastTok")
               unless ($gathering);
@@ -77,7 +77,7 @@ sub _parse {
             $gathering = 0;
         }
         elsif ($gathering
-            && $tok =~ /^<!--\/?\s*(expected|actual).*?-->$/ )
+            && $tok =~ m/^<!--\/?\s*(expected|actual).*?-->$/ )
         {
             throw Error::Simple(
                 "$tok encountered when in open <!-- $tag --> bracket");
@@ -115,7 +115,7 @@ sub _compareExpectedWithActual {
     for my $i ( 0 .. $#$actual ) {
         my $e  = $expected->[$i];
         my $et = $e->{text};
-        if ( $e->{options} =~ /\bagain\b/ ) {
+        if ( $e->{options} =~ m/\bagain\b/ ) {
             my $prev = $expected->[ $i - 1 ];
             $et = $prev->{text};
 
@@ -123,7 +123,7 @@ sub _compareExpectedWithActual {
             # previous text
             $e->{text} = $et;
         }
-        if ( $e->{options} =~ /\bexpand\b/ ) {
+        if ( $e->{options} =~ m/\bexpand\b/ ) {
             $et = Foswiki::Func::expandCommonVariables( $et, $topic, $web );
             $et =~ s/<noexpand>//g;
         }
@@ -224,7 +224,7 @@ sub postRenderingHandler {
     $t = $q->param('test') if ($q);
     $t = '' unless $t;
 
-    if ( $t eq 'compare' && $_[0] =~ /<!--\s*actual\s*-->/ ) {
+    if ( $t eq 'compare' && $_[0] =~ m/<!--\s*actual\s*-->/ ) {
         my ( $meta, $expected ) = Foswiki::Func::readTopic( $web, $topic );
         my $res = _compareExpectedWithActual(
             _parse( $expected, 'expected' ),

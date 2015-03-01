@@ -126,11 +126,11 @@ sub _upload {
         $fileName = $1;
     }
 
-    $fileComment =~ s/\s+/ /go;
-    $fileComment =~ s/^\s*//o;
-    $fileComment =~ s/\s*$//o;
-    $fileName    =~ s/\s*$//o;
-    $filePath    =~ s/\s*$//o;
+    $fileComment =~ s/\s+/ /g;
+    $fileComment =~ s/^\s*//;
+    $fileComment =~ s/\s*$//;
+    $fileName    =~ s/\s*$//;
+    $filePath    =~ s/\s*$//;
 
     Foswiki::UI::checkWebExists( $session, $web, $topic, 'attach files to' );
     Foswiki::UI::checkTopicExists( $session, $web, $topic, 'attach files to' );
@@ -188,7 +188,7 @@ sub _upload {
         my $maxSize = $session->{prefs}->getPreference('ATTACHFILESIZELIMIT')
           || 0;
         $maxSize =~ s/\s+$//;
-        $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
+        $maxSize = 0 unless ( $maxSize =~ m/([0-9]+)/ );
 
         if ( $maxSize && $fileSize > $maxSize * 1024 ) {
             throw Foswiki::OopsException(

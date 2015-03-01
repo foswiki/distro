@@ -1279,7 +1279,7 @@ sub test_moveAttachment {
     # Verify that the source topic contains the string "Wibble"
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
     Foswiki::Func::saveTopicText( $this->{test_web},  "TargetTopic", "Wibble" );
     Foswiki::Func::saveTopicText( $this->{test_web2}, "TargetTopic", "Wibble" );
@@ -1305,7 +1305,7 @@ sub test_moveAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
 # ###############
 # Move an attachment - from/to topic in the same web
@@ -1328,7 +1328,7 @@ sub test_moveAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
 # ###############
 # Move an attachment - to topic in a different web
@@ -1351,7 +1351,7 @@ sub test_moveAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
     $meta->finish();
 
     return;
@@ -1389,7 +1389,7 @@ sub test_copyAttachment {
     # Verify that the source topic contains the string "Wibble"
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
     Foswiki::Func::saveTopicText( $this->{test_web},  "TargetTopic", "Wibble" );
     Foswiki::Func::saveTopicText( $this->{test_web2}, "TargetTopic", "Wibble" );
@@ -1413,7 +1413,7 @@ sub test_copyAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
     # ###############
     # Move an attachment - from/to topic in the same web
@@ -1437,7 +1437,7 @@ sub test_copyAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
 
     # ###############
     # Copy an attachment - to topic in a different web
@@ -1462,7 +1462,7 @@ sub test_copyAttachment {
     $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
-    $this->assert( $text =~ m/Wibble/o );
+    $this->assert( $text =~ m/Wibble/ );
     $meta->finish();
 
     return;

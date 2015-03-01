@@ -31,7 +31,7 @@ sub new {
     my ( $class, $filter ) = @_;
     my $this = bless( {}, $class );
     foreach my $f (qw(user template public allowed)) {
-        $this->{$f} = ( $filter =~ /\b$f\b/ );
+        $this->{$f} = ( $filter =~ m/\b$f\b/ );
     }
     return $this;
 }
@@ -43,7 +43,7 @@ sub ok {
 
     return 1 if ( $web eq $session->{webName} );
 
-    return 0 if $this->{user} && $web =~ /(?:^_|\/_)/;
+    return 0 if $this->{user} && $web =~ m/(?:^_|\/_)/;
 
     return 0 if !$session->webExists($web);
 

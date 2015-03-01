@@ -568,7 +568,7 @@ sub validateRegistrationField {
 
     if (   ( lc( $_[1] ) eq 'username' )
         && length( $_[2] )
-        && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/o ) )
+        && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
     {
         throw Error::Simple("Invalid $_[1]");
     }

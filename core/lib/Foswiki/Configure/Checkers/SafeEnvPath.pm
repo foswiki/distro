@@ -48,7 +48,7 @@ sub check_current_value {
 
         # First, get the proposed path
         my @dirs =
-          ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} || $ENV{PATH} ) );
+          ( split( /$pathSep/, $Foswiki::cfg{SafeEnvPath} || $ENV{PATH} ) );
 
         # Check they exist
         my $found = 0;

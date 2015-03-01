@@ -32,7 +32,7 @@ HERE
             $err .= "   * is missing the configured script suffix ($ext).\n";
         }
         if (  !$ext
-            && $script =~ /(\..*)$/
+            && $script =~ m/(\..*)$/
             && $script !~ /\.cfg$/
             && $script !~ /\.fcgi$/ )
         {

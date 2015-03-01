@@ -9,35 +9,35 @@ use File::stat;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my @plugins   = split( /[\s,]+/, $Foswiki::cfg{PluginsOrder} );
     my $count     = 0;
     my $foundTWCP = 0;
 
     foreach my $plug (@plugins) {
-        unless ($plug =~ /^[A-Za-z0-9_]+Plugin$/) {
+        unless ( $plug =~ m/^[A-Za-z0-9_]+Plugin$/ ) {
             $reporter->ERROR("Invalid plugin name $plug");
             next;
         }
 
-        unless ($Foswiki::cfg{Plugins}{$plug}{Module}) {
+        unless ( $Foswiki::cfg{Plugins}{$plug}{Module} ) {
             $reporter->WARN("$plug has no {Plugins}{$plug}{Module}");
         }
 
         my $enabled = $Foswiki::cfg{Plugins}{$plug}{Enabled};
-        if ( $plug eq 'TWikiCompatibilityPlugin') {
+        if ( $plug eq 'TWikiCompatibilityPlugin' ) {
             $foundTWCP = 1;
-            if ($enabled ) {
+            if ($enabled) {
                 $reporter->WARN(
-                    "$plug must be first in the list for proper operation" )
-                    unless ( $count == 0 );
+                    "$plug must be first in the list for proper operation")
+                  unless ( $count == 0 );
             }
         }
         $count++;
         unless ($enabled) {
             unless ( $plug eq 'TWikiCompatibilityPlugin' ) {
-                $reporter->WARN( "$plug is not enabled or is not installed" );
+                $reporter->WARN("$plug is not enabled or is not installed");
             }
         }
     }

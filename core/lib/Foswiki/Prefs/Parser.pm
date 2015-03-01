@@ -47,7 +47,7 @@ sub parse {
     $text = '' unless defined $text;
 
     foreach ( split( "\n", $text ) ) {
-        if (m/$Foswiki::regex{setVarRegex}/os) {
+        if (m/$Foswiki::regex{setVarRegex}/s) {
             if ( defined $type ) {
                 $prefs->insert( $type, $key, $value );
             }
@@ -56,7 +56,7 @@ sub parse {
             $value = ( defined $3 ) ? $3 : '';
         }
         elsif ( defined $type ) {
-            if ( /^(   |\t)+ *[^\s]/ && !/$Foswiki::regex{bulletRegex}/o ) {
+            if ( /^(   |\t)+ *[^\s]/ && !/$Foswiki::regex{bulletRegex}/ ) {
 
                 # follow up line, extending value
                 $value .= "\n" . $_;
@@ -87,7 +87,7 @@ sub parse {
         my @fields = $topicObject->find('FIELD');
         foreach my $field (@fields) {
             my $attributes = $field->{attributes};
-            if ( $attributes && $attributes =~ /S/o ) {
+            if ( $attributes && $attributes =~ m/S/ ) {
                 my $value = $field->{value};
                 my $name  = $field->{name};
                 $prefs->insert( 'Set', 'FORM_' . $name, $value );

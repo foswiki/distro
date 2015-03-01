@@ -23,7 +23,7 @@ sub WEBLIST {
 
     # the web= parameter, *not* the web being listed
     my $web = $params->{web} || '';
-    $web =~ s#\.#/#go;
+    $web =~ s#\.#/#g;
 
     # Output format
     my $format = $params->{_DEFAULT} || $params->{'format'} || '$name';
@@ -40,7 +40,7 @@ sub WEBLIST {
 
     my @list = ();
     foreach my $aweb (@webslist) {
-        if ( $aweb =~ /^(public|webtemplate)$/ ) {
+        if ( $aweb =~ m/^(public|webtemplate)$/ ) {
             require Foswiki::WebFilter;
             my $filter;
             if ( $aweb eq 'public' ) {
@@ -66,7 +66,7 @@ sub WEBLIST {
         $indenteditem =~ s#/$##g;
         $indenteditem =~ s#\w+/#%TMPL:P{"webListIndent"}%#g;
         $line         =~ s/\$indentedname/$indenteditem/g;
-        my $mark = ( $selection =~ / \Q$item\E / ) ? $marker : '';
+        my $mark = ( $selection =~ m/ \Q$item\E / ) ? $marker : '';
         $line =~ s/\$marker/$mark/g;
         $line = Foswiki::expandStandardEscapes($line);
         push( @items, $line );

@@ -231,7 +231,7 @@ sub _prepareResponse {
     my @p = ();
 
     $this->{template} = "oops$this->{template}"
-      unless $this->{template} =~ /^oops/;
+      unless $this->{template} =~ m/^oops/;
     push( @p, template => $this->{template} );
     push( @p, def => $this->{def} ) if $this->{def};
     my $n = 1;

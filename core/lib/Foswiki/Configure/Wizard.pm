@@ -46,7 +46,7 @@ supports the =param()= method for getting parameter values.
 sub loadWizard {
     my ( $name, $param_source ) = @_;
 
-    ASSERT( $name =~ /^[A-Za-z][A-Za-z0-9]+$/ ) if DEBUG;
+    ASSERT( $name =~ m/^[A-Za-z][A-Za-z0-9]+$/ ) if DEBUG;
 
     my $class = 'Foswiki::Configure::Wizards::' . $name;
 

@@ -20,7 +20,7 @@ if ( delete $INC{'Foswiki/I18N.pm'} ) {
     @Foswiki::I18N::ISA = ();
     my $symtab = "Foswiki::I18N::";
     foreach my $symbol ( keys %{$symtab} ) {
-        next if $symbol =~ /\A[^:]+::\z/;
+        next if $symbol =~ m/\A[^:]+::\z/;
         delete $symtab->{$symbol};
     }
 }

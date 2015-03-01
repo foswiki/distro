@@ -202,7 +202,7 @@ sub getWebIterator {
     my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
 
     #get a complete list of webs to search
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my $searchAllFlag = ( $webNames =~ m/(^|[\,\s])(all|on)([\,\s]|$)/i );
     my @webs =
       Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
         $recurse, $searchAllFlag );
@@ -225,7 +225,7 @@ sub getWebIterator {
             return 0
               if ( $searchAllFlag
                 && !$isAdmin
-                && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
+                && ( $thisWebNoSearchAll || $web =~ m/^[\.\_]/ )
                 && $web ne $session->{webName} );
             return 1;
         },
@@ -440,7 +440,7 @@ sub getListOfWebs {
 
     if ($webName) {
         foreach my $web ( split( /[\,\s]+/, $webName ) ) {
-            $web =~ s#\.#/#go;
+            $web =~ s#\.#/#g;
 
             # the web processing loop filters for valid web names,
             # so don't do it here.
@@ -448,13 +448,13 @@ sub getListOfWebs {
                 $excludeWeb{$web} = 1;
             }
             else {
-                if (   $web =~ /^(all|on)$/i
+                if (   $web =~ m/^(all|on)$/i
                     || $Foswiki::cfg{EnableHierarchicalWebs}
                     && Foswiki::isTrue($recurse) )
                 {
                     my $webObject;
                     my $prefix = "$web/";
-                    if ( $web =~ /^(all|on)$/i ) {
+                    if ( $web =~ m/^(all|on)$/i ) {
                         $webObject = Foswiki::Meta->new($session);
                         $prefix    = '';
                     }

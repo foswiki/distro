@@ -141,7 +141,7 @@ sub handlesUser {
     else {
 
         # Used when (if) TopicUserMapping is subclassed
-        return 1 if ( defined $cUID && $cUID =~ /^($this->{mapping_id})/ );
+        return 1 if ( defined $cUID && $cUID =~ m/^($this->{mapping_id})/ );
     }
 
     # Check the login id to see if we know it
@@ -396,7 +396,7 @@ sub _maintainUsersTopic {
         if ($entry) {
             my ( $web, $name, $odate ) = ( '', '', '' );
             if ( $line =~
-/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*\w+\s*)?-\s*(.*)/
+m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*\w+\s*)?-\s*(.*)/
               )
             {
                 $web   = $1 || $Foswiki::cfg{UsersWebName};
@@ -407,10 +407,10 @@ sub _maintainUsersTopic {
                 # The admin may have changed the format at some point of time
                 # so we test with a generic format that matches all 4 formats.
                 $odate = ''
-                  unless $odate =~ /^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
+                  unless $odate =~ m/^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
                 $insidelist = 1;
             }
-            elsif ( $line =~ /^\s+\*\s([A-Z]) - / ) {
+            elsif ( $line =~ m/^\s+\*\s([A-Z]) - / ) {
 
                 #	* A - <a name="A">- - - -</a>^M
                 $name       = $1;
@@ -530,7 +530,7 @@ If there is no matching WikiName or LoginName, it returns undef.
 sub getWikiName {
     my ( $this, $cUID ) = @_;
     ASSERT($cUID) if DEBUG;
-    ASSERT( $cUID =~ /^$this->{mapping_id}/ ) if DEBUG;
+    ASSERT( $cUID =~ m/^$this->{mapping_id}/ ) if DEBUG;
 
     my $wikiname;
 
@@ -548,7 +548,7 @@ sub getWikiName {
         if ($wikiname) {
 
             # sanitise the generated WikiName
-            $wikiname =~ s/$Foswiki::cfg{NameFilter}//go;
+            $wikiname =~ s/$Foswiki::cfg{NameFilter}//g;
         }
     }
 
@@ -734,7 +734,7 @@ sub isGroup {
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
-    return 0 unless ( $user =~ /Group$/ );
+    return 0 unless ( $user =~ m/Group$/ );
 
    #actually test for the existance of this group
    #TODO: SMELL: this is still a lie, because it will claim that a
@@ -995,12 +995,12 @@ sub _writeGroupTopic {
             !defined $groupTopicObject->getPreference('VIEW_TEMPLATE')
             or $groupTopicObject->getPreference('VIEW_TEMPLATE') ne 'GroupView'
         )
-        or ( $text =~ /^---\+!! <nop>.*$/ )
-        or ( $text =~ /^(\t|   )+\* Set GROUP = .*$/ )
-        or ( $text =~ /^(\t|   )+\* Member list \(comma-separated list\):$/ )
-        or ( $text =~ /^(\t|   )+\* Persons\/group who can change the list:$/ )
-        or ( $text =~ /^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$/ )
-        or ( $text =~ /^\*%MAKETEXT{"Related topics:"}%.*$/ )
+        or ( $text =~ m/^---\+!! <nop>.*$/ )
+        or ( $text =~ m/^(\t|   )+\* Set GROUP = .*$/ )
+        or ( $text =~ m/^(\t|   )+\* Member list \(comma-separated list\):$/ )
+        or ( $text =~ m/^(\t|   )+\* Persons\/group who can change the list:$/ )
+        or ( $text =~ m/^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$/ )
+        or ( $text =~ m/^\*%MAKETEXT{"Related topics:"}%.*$/ )
       )
     {
         if ( !defined($allowChangeString) ) {
@@ -1374,7 +1374,7 @@ sub mapper_getEmails {
 
         # Now try the topic text
         foreach my $l ( split( /\r?\n/, $topicObject->text ) ) {
-            if ( $l =~ /^\s+\*\s+E-?mail:\s*(.*)$/mi ) {
+            if ( $l =~ m/^\s+\*\s+E-?mail:\s*(.*)$/mi ) {
 
                 # SMELL: implicit unvalidated untaint
                 push @addresses, split( /;/, $1 );
@@ -1692,7 +1692,7 @@ sub _loadMapping {
             #   * WikiGuest - guest - 10 Mar 2005
             #   * WikiGuest - 10 Mar 2005
             $text =~
-s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*(\S+)\s*)?-.*$/(_cacheUser( $this, $1, $2)||'')/gome;
+s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*(\S+)\s*)?-.*$/(_cacheUser( $this, $1, $2)||'')/gme;
         }
     }
     else {
@@ -1719,7 +1719,7 @@ sub _expandUserList {
 
     # comma delimited list of users or groups
     # i.e.: "%MAINWEB%.UserA, UserB, Main.UserC # something else"
-    $names =~ s/(<[^>]*>)//go;    # Remove HTML tags
+    $names =~ s/(<[^>]*>)//g;    # Remove HTML tags
 
     my @l;
     foreach my $ident ( split( /[\,\s]+/, $names ) ) {

@@ -66,30 +66,30 @@ sub _workOutOS {
         }
     }
     return if $Foswiki::cfg{OS};
-    if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
+    if ( $Foswiki::cfg{DetailedOS} =~ m/darwin/i ) {    # MacOS X
         $Foswiki::cfg{OS} = 'UNIX';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /Win/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/Win/i ) {
         $Foswiki::cfg{OS} = 'WINDOWS';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /vms/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/vms/i ) {
         $Foswiki::cfg{OS} = 'VMS';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/bsdos/i ) {
         $Foswiki::cfg{OS} = 'UNIX';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /solaris/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/solaris/i ) {
         $Foswiki::cfg{OS} = 'UNIX';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/dos/i ) {
         $Foswiki::cfg{OS} = 'DOS';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/^MacOS$/i ) {
 
         # MacOS 9 or earlier
         $Foswiki::cfg{OS} = 'MACINTOSH';
     }
-    elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
+    elsif ( $Foswiki::cfg{DetailedOS} =~ m/os2/i ) {
         $Foswiki::cfg{OS} = 'OS2';
     }
     else {
@@ -160,7 +160,7 @@ sub readConfig {
                   my $extension ( grep { !/^\./ && !/^Empty/ } readdir $d )
                 {
                     next if $read{$extension};
-                    $extension =~ /(.*)/;    # untaint
+                    $extension =~ m/(.*)/;    # untaint
                     my $file = "$dir/$subdir/$1/Config.spec";
                     next unless -e $file;
                     push( @files, $file );
@@ -181,7 +181,7 @@ sub readConfig {
                 $errorMessage = "Failed to parse $file: $@";
                 warn "couldn't parse $file: $@" if $@;
             }
-            next if ( !DEBUG && ( $file =~ /Config\.spec$/ ) );
+            next if ( !DEBUG && ( $file =~ m/Config\.spec$/ ) );
             if ( not defined $return ) {
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
@@ -311,7 +311,7 @@ sub _expandValue {
     else {
         1 while ( defined( $_[0] )
             && $_[0] =~
-            s/(\$Foswiki::cfg$ITEMREGEX)/_handleExpand($1, @_[1,2])/geso );
+            s/(\$Foswiki::cfg$ITEMREGEX)/_handleExpand($1, @_[1,2])/ges );
     }
 }
 
@@ -396,9 +396,9 @@ sub bootstrapConfig {
         die "Could not load FindBin to support configuration recovery: $@"
           if $@;
         FindBin::again();    # in case we are under mod_perl or similar
-        $FindBin::Bin =~ /^(.*)$/;
+        $FindBin::Bin =~ m/^(.*)$/;
         $bin = $1;
-        $FindBin::Script =~ /^(.*)$/;
+        $FindBin::Script =~ m/^(.*)$/;
         $script = $1;
     }
 
@@ -565,7 +565,7 @@ sub _bootstrapStoreSettings {
 
             # Untaint PATH so we can check for grep on the path
             my $x = $ENV{PATH};
-            $x =~ /^(.*)$/;
+            $x =~ m/^(.*)$/;
             $ENV{PATH} = $1;
             `grep -V 2>&1`;
             if ($!) {
@@ -815,7 +815,7 @@ sub findDependencies {
         }
     }
     else {
-        while ( $fwcfg =~ /\$Foswiki::cfg(({[^}]*})+)/g ) {
+        while ( $fwcfg =~ m/\$Foswiki::cfg(({[^}]*})+)/g ) {
             push( @{ $deps->{forward}->{$1} },       $keypath );
             push( @{ $deps->{reverse}->{$keypath} }, $1 );
         }

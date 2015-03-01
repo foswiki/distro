@@ -133,7 +133,7 @@ sub beforeSaveHandler {
         return;
     }
 
-    if ( $topicTitle =~ /X{10}|AUTOINC\d/ ) {
+    if ( $topicTitle =~ m/X{10}|AUTOINC\d/ ) {
         writeDebug("ignoring topic being auto-generated");
         return;
     }
@@ -191,7 +191,7 @@ sub beforeSaveHandler {
 
     # if it is a bullet setting, replace it.
     if ( $text =~
-s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n]))/$1$topicTitle$3/o
+s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n]))/$1$topicTitle$3/
       )
     {
         writeDebug("found old TopicTitle defined as a bullet setting: $2");
@@ -245,7 +245,7 @@ sub beforeEditHandler {
         # older ones get a quick and dirty approach
         my $result = Foswiki::Validation::addValidationKey( $cgis, $context,
             $useStrikeOne );
-        if ( $result =~ /value='(.*)'/ ) {
+        if ( $result =~ m/value='(.*)'/ ) {
             $nonce = $1;
         }
     }

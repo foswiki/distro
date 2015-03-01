@@ -294,8 +294,8 @@ sub initialiseUser {
             $this->{cUID2WikiName}->{$cUID} = $login;
 
             # needs to be WikiName safe
-            $this->{cUID2WikiName}->{$cUID} =~ s/$Foswiki::cfg{NameFilter}//go;
-            $this->{cUID2WikiName}->{$cUID} =~ s/\.//go;
+            $this->{cUID2WikiName}->{$cUID} =~ s/$Foswiki::cfg{NameFilter}//g;
+            $this->{cUID2WikiName}->{$cUID} =~ s/\.//g;
 
             $this->{login2cUID}->{$login} = $cUID;
             $this->{wikiName2cUID}->{ $this->{cUID2WikiName}->{$cUID} } = $cUID;

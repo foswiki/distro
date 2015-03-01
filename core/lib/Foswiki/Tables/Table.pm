@@ -644,7 +644,7 @@ sub parseFormat {
     $format =~ s/\$quot(\(\))?/\"/gs;
     $format =~ s/\$percnt(\(\))?/\%/gs;
     $format =~ s/\$dollar(\(\))?/\$/gs;
-    $format =~ s/<nop>//gos;
+    $format =~ s/<nop>//gs;
 
     foreach my $column ( split( /\|/, $format ) ) {
         my ( $type, $size, @values ) = split( /,/, $column );
@@ -670,13 +670,13 @@ sub parseFormat {
         }
 
         my $initial;
-        if ( $type =~ /^(text|label)/ ) {
+        if ( $type =~ m/^(text|label)/ ) {
             $initial = join( ',', @values );
         }
         elsif ( $type eq 'date' ) {
             $initial = shift @values;
         }
-        elsif ( $type =~ /^(radio|select|checkbox)/ && scalar(@values) ) {
+        elsif ( $type =~ m/^(radio|select|checkbox)/ && scalar(@values) ) {
             $initial = $values[0];
         }
         $initial = '' unless defined $initial;

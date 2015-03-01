@@ -47,7 +47,7 @@ sub getOptions {
         $this->{_options} = ();
         my $str;
         foreach my $val (@$vals) {
-            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
+            if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
                 $str = TAINT($1);
                 my $descr = $this->{_descriptions}{$val};
                 $val = $2;
@@ -82,7 +82,7 @@ sub getDefaultValue {
 # Checkbox store multiple values
 sub isMultiValued { return 1; }
 
-sub isValueMapped { return shift->{type} =~ /\+values/; }
+sub isValueMapped { return shift->{type} =~ m/\+values/; }
 
 sub getDisplayValue {
     my ( $this, $value ) = @_;

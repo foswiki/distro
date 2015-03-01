@@ -76,29 +76,29 @@ sub preview {
             # we can just pull it out and instantiate that small bit.
 
             $content = $session->templates->expandTemplate('content');
-            $content =~ s/%TEXT%/$text/go;
+            $content =~ s/%TEXT%/$text/g;
         }
     }
 
     my $tmpl = $session->templates->readTemplate('preview');
 
     if ( $saveOpts->{minor} ) {
-        $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;
+        $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/g;
     }
     else {
-        $tmpl =~ s/%DONTNOTIFYCHECKBOX%//go;
+        $tmpl =~ s/%DONTNOTIFYCHECKBOX%//g;
     }
     if ( $saveOpts->{forcenewrevision} ) {
-        $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%/checked="checked"/go;
+        $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%/checked="checked"/g;
     }
     else {
-        $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//go;
+        $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//g;
     }
     my $saveCmd = $query->param('cmd') || '';
-    $tmpl =~ s/%CMD%/$saveCmd/go;
+    $tmpl =~ s/%CMD%/$saveCmd/g;
 
     my $redirectTo = $query->param('redirectto') || '';
-    $tmpl =~ s/%REDIRECTTO%/$redirectTo/go;
+    $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     $formName ||= '';
     $tmpl =~ s/%FORMTEMPLATE%/$formName/g;
@@ -131,15 +131,15 @@ sub preview {
 
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
-    $tmpl =~ s/%TEXT%/$displayText/go;
+    $tmpl =~ s/%TEXT%/$displayText/g;
 
     # write the hidden form fields
-    $tmpl =~ s/%FORMFIELDS%/$formFields/go;
+    $tmpl =~ s/%FORMFIELDS%/$formFields/g;
 
     # SMELL: this should be done using CGI::hidden
     $text = Foswiki::entityEncode( $text, "\n" );
 
-    $tmpl =~ s/%HIDDENTEXT%/$text/go;
+    $tmpl =~ s/%HIDDENTEXT%/$text/g;
 
     $tmpl =~ s/<\/?(nop|noautolink)\/?>//gis;
 
@@ -147,19 +147,19 @@ sub preview {
     # so I'll do them as late as possible
     my $originalrev = $query->param('originalrev');    # rev edit started on
          #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
-    $tmpl =~ s/%ORIGINALREV%/$originalrev/go if ( defined($originalrev) );
+    $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
 
     my $templatetopic = $query->param('templatetopic');
 
     #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
-    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/go if ( defined($templatetopic) );
+    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g if ( defined($templatetopic) );
 
     #this one's worrying, its special, and not set much at all
-    #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/go;
+    #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
     my $newtopic = $query->param('newtopic');
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
-    $tmpl =~ s/%NEWTOPIC%/$newtopic/go if ( defined($newtopic) );
+    $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );
 ###
     $session->writeCompletePage($tmpl);
 }
@@ -182,7 +182,7 @@ s/\btarget=(?:(?: \'[^\']*\' | \"[^\"]*\" | [^\'\"\s]+ )+)(.*?>)/target="_blank"
 sub _disableLink {
     my ( $one, $two, $three ) = @_;
 
-    if ( $one =~ /\bhref=['"][#?]/i ) {    #Anchors or relative links
+    if ( $one =~ m/\bhref=['"][#?]/i ) {    #Anchors or relative links
         $one   = "<span class=\"foswikiEmulatedLink\">";
         $three = "</span>";
     }

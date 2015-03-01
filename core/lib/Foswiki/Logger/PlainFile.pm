@@ -161,7 +161,7 @@ sub log {
         # die to force the admin to get permissions correct
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
     }
-    if ( $level =~ /^(error|critical|alert|emergency)$/ ) {
+    if ( $level =~ m/^(error|critical|alert|emergency)$/ ) {
         print STDERR "$message\n";
     }
 }
@@ -309,7 +309,7 @@ sub _rotate {
     print STDERR "Current MONTH = $curMonth\n" if (TRACE);
 
     # After this check, don't check again for a month.
-    $curMonth =~ /(\d{4})(\d{2})/;
+    $curMonth =~ m/(\d{4})(\d{2})/;
     my ( $y, $m ) = ( $1, $2 + 1 );
     if ( $m > 12 ) {
         $m = '01';

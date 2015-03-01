@@ -152,7 +152,7 @@ sub setCommonFields {
             my $agentStr = $cgiQuery->user_agent();
             if ($agentStr) {
                 if ( $agentStr =~
-/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
+m/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
                   )
                 {
                     $_[0]->{agent} = $1;

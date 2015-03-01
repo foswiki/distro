@@ -32,14 +32,14 @@ BEGIN {
 unless ( defined &Foswiki::Attrs::findFirstOccurenceAttrs ) {
     *Foswiki::Attrs::findFirstOccurenceAttrs = sub {
         my ( $macro, $text ) = @_;
-        return undef unless $text =~ /\%${macro}[%{]/s;
+        return undef unless $text =~ m/\%${macro}[%{]/s;
         my @queue = split( /(%[A-Za-z0-9_]*{|}%|\%${macro}\%)/, $text );
         my $eat   = 0;
         my $eaten = '';
         while ( scalar(@queue) ) {
             my $token = shift @queue;
             if ($eat) {
-                if ( $token =~ /^%[A-Za-z0-9_]*{$/ ) {
+                if ( $token =~ m/^%[A-Za-z0-9_]*{$/ ) {
                     $eat++;
                 }
                 elsif ( $eat && $token eq '}%' ) {
@@ -160,7 +160,7 @@ sub early_line {
     my $attrs = Foswiki::Attrs->new($args);
 
     # Remember leading and trailing junk
-    my $ok = $line =~ /^(.*?)(\%$this->{macro}(?:\Q{$args}\E)?%)(.*)$/s;
+    my $ok = $line =~ m/^(.*?)(\%$this->{macro}(?:\Q{$args}\E)?%)(.*)$/s;
     ASSERT($ok) if DEBUG;
 
     push( @{ $this->{waiting} }, $1 ) if defined($1) && length($1);

@@ -8,11 +8,11 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     # Rename from old "Client" to new "LoginManager" - see Bugs:Item3375
     $Foswiki::cfg{LoginManager} =~ s/::Client::/::LoginManager::/;
-    if ( $Foswiki::cfg{LoginManager} =~ /ApacheLogin$/
+    if ( $Foswiki::cfg{LoginManager} =~ m/ApacheLogin$/
         && !$Foswiki::cfg{UseClientSessions} )
     {
         $reporter->WARN(<<'HERE');
@@ -26,7 +26,7 @@ authed, your old identity will pop up again.
 So you really need {UseClientSessions} enabled for a login to "stick".
 HERE
     }
-    if ( $Foswiki::cfg{LoginManager} =~ /TemplateLogin$/
+    if ( $Foswiki::cfg{LoginManager} =~ m/TemplateLogin$/
         && !$Foswiki::cfg{UseClientSessions} )
     {
         $reporter->WARN(<<'HERE');
@@ -35,7 +35,7 @@ will have to log in every time you access an authenticated page. To avoid
 this, you are recommended to turn {UseClientSessions} on.
 HERE
     }
-    if ( $Foswiki::cfg{LoginManager} =~ /ApacheLogin$/
+    if ( $Foswiki::cfg{LoginManager} =~ m/ApacheLogin$/
         && ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) )
     {
         $reporter->WARN(<<'HERE');

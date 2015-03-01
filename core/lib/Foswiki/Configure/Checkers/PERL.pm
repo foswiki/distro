@@ -34,7 +34,7 @@ sub _check_for_null {
         _check_for_null($_) foreach (@$value);
     }
     $value =~
-s/(\$Foswiki::cfg$Foswiki::Configure::Load::ITEMREGEX)/_check_null($1)/geso;
+s/(\$Foswiki::cfg$Foswiki::Configure::Load::ITEMREGEX)/_check_null($1)/ges;
 }
 
 sub _check_null {

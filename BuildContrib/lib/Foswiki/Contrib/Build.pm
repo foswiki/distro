@@ -210,7 +210,7 @@ sub new {
     my $n    = 0;
     my $done = 0;
     while ( $n <= $#ARGV ) {
-        if ( $ARGV[$n] =~ /^-/o ) {
+        if ( $ARGV[$n] =~ m/^-/ ) {
             $this->{ $ARGV[$n] } = 1;
         }
         else {
@@ -232,10 +232,10 @@ sub new {
     #SMELL: Hardcoded project classification
     # where the sub-modules live
     $this->{libdir} = $libpath;
-    if ( $this->{project} =~ /Plugin$/ ) {
+    if ( $this->{project} =~ m/Plugin$/ ) {
         $this->{libdir} .= "/$targetProject/Plugins";
     }
-    elsif ( $this->{project} =~ /(Contrib|Skin|AddOn)$/ ) {
+    elsif ( $this->{project} =~ m/(Contrib|Skin|AddOn)$/ ) {
         $this->{libdir} .= "/$targetProject/Contrib";
     }
 
@@ -270,7 +270,7 @@ sub new {
             $badVersion = 1 if ( $version =~ m/\$Date|\$Rev/ );
 
             substr( $version, 0, 0, 'use version 0.77; ' )
-              if ( $version =~ /version/ );
+              if ( $version =~ m/version/ );
 
             eval $version     if ($version);
             eval $release     if ($release);
@@ -359,9 +359,9 @@ sub new {
         $rawdeps .=
 "$dep->{name},$dep->{version},$dep->{trigger},$dep->{type},$dep->{description}\n";
         my $v = $dep->{version};
-        $v =~ s/&/&amp;/go;
-        $v =~ s/>/&gt;/go;
-        $v =~ s/</&lt;/go;
+        $v =~ s/&/&amp;/g;
+        $v =~ s/>/&gt;/g;
+        $v =~ s/</&lt;/g;
         my $cells =
             CGI::td( { align => 'left' }, $dep->{name} )
           . CGI::td( { align => 'left' }, $v )
@@ -533,7 +533,7 @@ sub _addDependency {
         my $b = $dep{version};
         $a =~ s/[<>=]//g;
         $b =~ s/[<>=]//g;
-        if ( $a =~ /^[0-9.]+$/ && $b =~ /^[0-9.]+$/ ) {
+        if ( $a =~ m/^[0-9.]+$/ && $b =~ m/^[0-9.]+$/ ) {
             if ( $a < $b ) {
                 $existing[0]->{version} = $dep{version};
             }
@@ -552,12 +552,12 @@ sub _loadDependenciesFrom {
     if ( -f $depsFile ) {
         open( PF, '<', $depsFile ) || die 'Failed to open ' . $depsFile;
         while ( my $line = <PF> ) {
-            if ( $line =~ /^\s*$/ || $line =~ /^\s*#/ ) {
+            if ( $line =~ m/^\s*$/ || $line =~ m/^\s*#/ ) {
             }
-            elsif ( $line =~ /^ONLYIF\s*(\(.*\))\s*$/ ) {
+            elsif ( $line =~ m/^ONLYIF\s*(\(.*\))\s*$/ ) {
                 $condition = $1;
             }
-            elsif ( $line =~ m/^(\w+)\s+(\w*)\s*(.*)$/o ) {
+            elsif ( $line =~ m/^(\w+)\s+(\w*)\s*(.*)$/ ) {
                 die "Badly formatted ONLYIF" if $1 eq 'ONLYIF';
                 $this->_addDependency(
                     name        => $1,
@@ -568,7 +568,7 @@ sub _loadDependenciesFrom {
                 );
                 $condition = 1;
             }
-            elsif ( $line =~ m/^([^,]+),([^,]*),\s*(\w*)\s*,\s*(.+)$/o ) {
+            elsif ( $line =~ m/^([^,]+),([^,]*),\s*(\w*)\s*,\s*(.+)$/ ) {
                 $this->_addDependency(
                     name        => $1,
                     version     => $2,
@@ -632,7 +632,7 @@ sub _get_repo_information {
                 if ( -f $file ) {
                     push @files, $file;
                 }
-                elsif ( $file =~ /\/$/ )
+                elsif ( $file =~ m/\/$/ )
                 {    # Directory, create if it does not exist
                     File::Path::mkpath($file);
                 }
@@ -655,7 +655,7 @@ sub _get_repo_information {
                     my $log = $this->sys_action( @command, @files );
                     my $getDate = 0;
                     foreach my $line ( split( "\n", $log ) ) {
-                        if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
+                        if ( $line =~ m/^Last Changed Rev: (\d+)/ ) {
                             $getDate = 0;
                             if ( $1 > $max ) {
                                 $max     = $1;
@@ -664,7 +664,7 @@ sub _get_repo_information {
                         }
                         elsif ($getDate
                             && $line =~
-/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
+m/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
                           )
                         {
                             $maxd = Foswiki::Time::parseTime(
@@ -678,14 +678,14 @@ sub _get_repo_information {
                 {
                     @command = qw(git log -1 --pretty=medium --date=iso --);
                     my $log = $this->sys_action( @command, @files );
-                    if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                    if ( $log =~ m/^\s+git-svn-id: \S+\@(\d+)\s/m ) {
                         $max = $1 if $1 > $max;
                     }
                     else {
                         die 'You have un-published changes.'
                           . ' Please "git svn dcommit"';
                     }
-                    if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
+                    if ( $log =~ m/^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
                         $maxd = Foswiki::Time::parseTime("$1T$2$3");
                     }
                 }
@@ -726,7 +726,7 @@ sub filter_file {
     open( $fh, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
     my $text = <$fh>;
-    $text = $this->$sub($text) unless $from =~ /Dependency.pm$/;
+    $text = $this->$sub($text) unless $from =~ m/Dependency.pm$/;
     close($fh);
 
     unless ( $this->{-n} ) {
@@ -744,15 +744,15 @@ sub ask {
     my $reply;
     local $/ = "\n";
 
-    $q .= '?' unless $q =~ /\?\s*$/;
+    $q .= '?' unless $q =~ m/\?\s*$/;
 
     my $yorn = 'y/n';
     if ( defined $default ) {
-        if ( $default =~ /y/i ) {
+        if ( $default =~ m/y/i ) {
             $default = 'yes';
             $yorn    = 'Y/n';
         }
-        elsif ( $default =~ /n/i ) {
+        elsif ( $default =~ m/n/i ) {
             $default = 'no';
             $yorn    = 'y/N';
         }
@@ -763,13 +763,13 @@ sub ask {
     print $q. ' [' . $yorn . '] ';
 
     while ( ( $reply = <STDIN> ) !~ /^[yn]/i ) {
-        if ( $reply =~ /^\s*$/ && defined($default) ) {
+        if ( $reply =~ m/^\s*$/ && defined($default) ) {
             $reply = $default;
             last;
         }
         print "Please answer yes or no\n";
     }
-    return ( $reply =~ /^y/i ) ? 1 : 0;
+    return ( $reply =~ m/^y/i ) ? 1 : 0;
 }
 
 sub prompt {
@@ -984,7 +984,7 @@ sub filter_txt {
 # Item10629: Must preserve version for CompareRevisionAddOnDemoTopic, or nothing to demo
             $text =~ s/^(%META:TOPICINFO{.*version=").*?(".*}%)$/${1}1$2/m
               unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
-            $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
+            $text =~ s/%\$(\w+)%/&_expand($this,$1)/ge;
             return $text;
         }
     );
@@ -1021,7 +1021,7 @@ sub filter_pm {
         $from, $to,
         sub {
             my ( $this, $text ) = @_;
-            $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gso;
+            $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gs;
             return $text;
         }
     );

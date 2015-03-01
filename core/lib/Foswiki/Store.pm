@@ -113,7 +113,7 @@ sub cleanUpRevID {
     my $rev = shift;
 
     # RCS format: 1.2, or plain integer: 2
-    if ( defined $rev && $rev =~ /^(?:\d+\.)?(\d+)$/ ) {
+    if ( defined $rev && $rev =~ m/^(?:\d+\.)?(\d+)$/ ) {
         return $1;
     }
 
@@ -234,7 +234,7 @@ sub getAttachmentURL {
         }
     }
     while ( my ( $k, $v ) = each %options ) {
-        next if $k eq 'absolute' || $k =~ /^_/;
+        next if $k eq 'absolute' || $k =~ m/^_/;
         push( @params, $k, $v );
     }
 

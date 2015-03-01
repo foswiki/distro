@@ -385,7 +385,7 @@ sub bulkRegister {
     foreach my $line ( split( /\r?\n/, $meta->text ) ) {
 
         # unchecked implicit untaint OK - this function is for admins only
-        if ( $line =~ /^\s*\|\s*(.*?)\s*\|\s*$/ ) {
+        if ( $line =~ m/^\s*\|\s*(.*?)\s*\|\s*$/ ) {
             if ($gotHdr) {
                 my $i = 0;
                 my %row = map { $fields[ $i++ ] => $_ } split( /\s*\|\s*/, $1 );
@@ -678,7 +678,7 @@ sub _requireConfirmation {
         my $app;
         $data->{EmailAddress} = '';
         while ( $app = pop @referees ) {
-            unless ( $app =~ /\@/ ) {
+            unless ( $app =~ m/\@/ ) {
                 $data->{Referee} = $app;
                 my $cUID = $session->{users}->getCanonicalUserID($app);
                 if ($cUID) {
@@ -1468,9 +1468,9 @@ sub _getRegFormAsTopicContent {
     foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         next if $SKIPKEYS{ $fd->{name} };
         my $title = $fd->{name};
-        $title =~ s/([a-z0-9])([A-Z0-9])/$1 $2/go;    # Spaced
+        $title =~ s/([a-z0-9])([A-Z0-9])/$1 $2/g;    # Spaced
         my $value = $fd->{value};
-        $value =~ s/[\n\r]//go;
+        $value =~ s/[\n\r]//g;
         $text .= "   * $title\: $value\n";
     }
     return $text;
@@ -1531,9 +1531,9 @@ sub _buildConfirmationEmail {
     $data->{Name} ||= $data->{WikiName};
     $data->{LoginName} = '' unless defined $data->{LoginName};
 
-    $templateText =~ s/%FIRSTLASTNAME%/$data->{Name}/go;
-    $templateText =~ s/%WIKINAME%/$data->{WikiName}/go;
-    $templateText =~ s/%EMAILADDRESS%/$data->{Email}/go;
+    $templateText =~ s/%FIRSTLASTNAME%/$data->{Name}/g;
+    $templateText =~ s/%WIKINAME%/$data->{WikiName}/g;
+    $templateText =~ s/%EMAILADDRESS%/$data->{Email}/g;
 
     my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
         $data->{WikiName} );
@@ -1563,7 +1563,7 @@ sub _buildConfirmationEmail {
         }
     }
     $templateText = $before . ( $after || '' );
-    $templateText =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+    $templateText =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
     # remove <nop> and <noautolink> tags
     return $templateText;
@@ -1878,7 +1878,7 @@ sub _sendEmail {
     foreach my $field ( keys %$data ) {
         my $f = uc($field);
         unless ( $text =~ s/\%$f\%/$data->{$field}/g ) {
-            unless ( $field =~ /^Password|form|webName/
+            unless ( $field =~ m/^Password|form|webName/
                 || !defined( $data->{$field} )
                 || $data->{$field} !~ /\W/ )
             {
@@ -1898,7 +1898,7 @@ sub _sendEmail {
 sub _codeFile {
     my ($code) = @_;
     ASSERT($code) if DEBUG;
-    throw Error::Simple("bad code") unless $code =~ /^(\w+)\.(\d+)$/;
+    throw Error::Simple("bad code") unless $code =~ m/^(\w+)\.(\d+)$/;
     return "$Foswiki::cfg{WorkingDir}/registration_approvals/$1.$2";
 }
 
@@ -1987,10 +1987,10 @@ sub _getDataFromQuery {
     # get all parameters from the form
     my $data = {};
     foreach my $key ( $query->multi_param() ) {
-        if ( $key =~ /^((?:Twk|Fwk)([0-9])(.*))/
+        if ( $key =~ m/^((?:Twk|Fwk)([0-9])(.*))/
             and ( defined( $query->param($key) ) ) )
         {
-    #next if ($key =~ /LoginName$/ && !$Foswiki::cfg{Register}{AllowLoginName});
+   #next if ($key =~ m/LoginName$/ && !$Foswiki::cfg{Register}{AllowLoginName});
             my @values   = $query->multi_param($key);
             my $required = $2;
             my $name     = $3;

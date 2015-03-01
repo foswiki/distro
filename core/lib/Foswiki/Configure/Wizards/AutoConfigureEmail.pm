@@ -419,7 +419,7 @@ sub _autoconfigSMTP {
         require Net::Domain;
         $hello = Net::Domain::hostfqdn();
         $hello = "[$hello]"
-          if ( $hello =~ /^(?:$IPv4Re|$IPv6ZidRe)$/ );
+          if ( $hello =~ m/^(?:$IPv4Re|$IPv6ZidRe)$/ );
         push @options, Hello => $hello;
     }
 
@@ -485,7 +485,7 @@ sub _autoconfigSMTP {
 
     if ($trySSL) {
         foreach my $method (@methods) {
-            if ( $method =~ /^(.*)-v$/ ) {
+            if ( $method =~ m/^(.*)-v$/ ) {
                 if (@$sslVerify) {
                     die "Invalid config for $method\n"
                       unless ( exists $config{$1} );
@@ -519,7 +519,7 @@ sub _autoconfigSMTP {
     # use the primary for those.  For others, consult /etc/services.
 
     $port = $hInfo->{port};
-    if ( $port && $port =~ /^\d+$/ ) {
+    if ( $port && $port =~ m/^\d+$/ ) {
         my $name = {
             25  => 'smtp(25)',
             587 => 'submission(587)',
@@ -531,7 +531,7 @@ sub _autoconfigSMTP {
             #            $name = "$name($port)" if ( defined $name );
             if ( defined $name ) {
                 $name = "$name($port)";
-                $name =~ /^(.*)$/;
+                $name =~ m/^(.*)$/;
                 $name = $1;
             }
         }
@@ -625,8 +625,8 @@ sub _autoconfigSMTP {
                 "${pad}Testing "
               . ( $cfg->{id} || uc($method) ) . " on "
               . (
-                  $port =~ /^\d+$/           ? "port $port\n"
-                : $port =~ /^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
+                  $port =~ m/^\d+$/           ? "port $port\n"
+                : $port =~ m/^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
                 : "$port port\n"
               );
             $verified = $cfg->{verify} || -1;
@@ -923,7 +923,7 @@ sub debug_text {
                 if ( $b64 =~ s/(.{76})/$1$cont/gms ) {
                     $multi = 1;
                 }
-                if ( $b64text =~ /[[:^print:]]/ ) {
+                if ( $b64text =~ m/[[:^print:]]/ ) {
                     my $n = 0;
                     $b64text =~
 s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
@@ -932,7 +932,7 @@ s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
                         chop $b64text;
                         $b64text .= $cont;
                     }
-                    unless ( $multi && $b64 =~ /$cont\z/ ) {
+                    unless ( $multi && $b64 =~ m/$cont\z/ ) {
                         $b64 .= $cont;
                         $multi = 1;
                     }
@@ -1317,9 +1317,10 @@ sub rspCode {
     my $smtp = shift;
 
     my $code = $smtp->code;
-    if ( $code =~ /^[245]/ && defined $smtp->supports('ENHANCEDSTATUSCODES') ) {
+    if ( $code =~ m/^[245]/ && defined $smtp->supports('ENHANCEDSTATUSCODES') )
+    {
         my $msg = $smtp->message;
-        if ( $msg =~ /^([245]\.\d{1,3}\.\d{1,3})\b/ ) {
+        if ( $msg =~ m/^([245]\.\d{1,3}\.\d{1,3})\b/ ) {
             return ( $code, $1 );
         }
     }
@@ -1350,7 +1351,8 @@ sub testServer {
         $smtp->reset;
 
         # 530 5.7.0 Auth req 540/550 5.7.1 no relay
-        if ( !( $code[0] =~ /^5[345]0$/ || $code[1] =~ /^(?:5\.7\.[01])$/ ) ) {
+        if ( !( $code[0] =~ m/^5[345]0$/ || $code[1] =~ m/^(?:5\.7\.[01])$/ ) )
+        {
             $tlog .=
 "${pad}Message setup failed, but authentication was not requested.\n";
             return ( -1, '' );
@@ -1458,7 +1460,7 @@ sub testServer {
 
         # 535 5.7.8 Authentication credentials invalid
 
-        if ( ( $code[0] =~ /^535$/ || $code[1] =~ /^(?:5\.7\.8)$/ ) ) {
+        if ( ( $code[0] =~ m/^535$/ || $code[1] =~ m/^(?:5\.7\.8)$/ ) ) {
             return (
                 2,
                 "$host rejected the supplied username and password.
@@ -1467,7 +1469,7 @@ Please verify that configured username and password are valid for $host.\n"
         }
 
         # 454 4.7.0 Temporary authentication failure
-        if ( ( $code[0] =~ /^454$/ || $code[1] =~ /^(?:4\.7\.0)$/ ) ) {
+        if ( ( $code[0] =~ m/^454$/ || $code[1] =~ m/^(?:4\.7\.0)$/ ) ) {
             return ( 3,
 "$host is unable to validate your credentials at this time.  Please try again later.\n"
             );
@@ -1525,8 +1527,8 @@ sub authScan {
     my @found;
     opendir( my $dh, $path ) or return @found;
     while ( defined( my $file = readdir($dh) ) ) {
-        next if ( $file =~ /^\./ );
-        next unless ( $file =~ /^([A-Z0-9_]+)\.pm$/ );
+        next if ( $file =~ m/^\./ );
+        next unless ( $file =~ m/^([A-Z0-9_]+)\.pm$/ );
         push @found, $1;
     }
     closedir $dh;

@@ -41,7 +41,7 @@ sub getOptions {
     return $this->{_options} if $this->{_options};
 
     my $vals = $this->SUPER::getOptions(@_);
-    if ( $this->{type} =~ /\+values/ ) {
+    if ( $this->{type} =~ m/\+values/ ) {
 
         # create a values map
 
@@ -49,7 +49,7 @@ sub getOptions {
         $this->{_options} = ();
         my $str;
         foreach my $val (@$vals) {
-            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
+            if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
                 $str = TAINT($1);
                 my $descr = $this->{_descriptions}{$val};
                 $val = $2;

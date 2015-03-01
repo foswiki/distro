@@ -80,8 +80,8 @@ sub _renderCellData {
         if ( $data =~ m/<\/?(th|td|table)\b/i ) {
 
             # data has <th> or <td>, need to fix ables
-            my $bTable = ( $data =~ s/(<table)/$1/gois )   || 0;
-            my $eTable = ( $data =~ s/(<\/table)/$1/gois ) || 0;
+            my $bTable = ( $data =~ s/(<table)/$1/gis )   || 0;
+            my $eTable = ( $data =~ s/(<\/table)/$1/gis ) || 0;
             while ( $eTable < $bTable ) {
                 $data .= CGI::end_table();
                 $eTable++;
@@ -96,7 +96,7 @@ sub _renderCellData {
         }
 
         # unhide html comments (<!-- --> type tags)
-        $data =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gos;
+        $data =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gs;
     }
     return $data;
 }
@@ -178,7 +178,7 @@ sub _renderSideBySide {
     }
 
     # unhide html comments (<!-- --> type tags)
-    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gos;
+    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gs;
 
     return $result;
 }
@@ -194,12 +194,12 @@ sub _renderDebug {
     my $result = '';
 
     #de-html-ize
-    $left  =~ s/&/&amp;/go;
-    $left  =~ s/</&lt;/go;
-    $left  =~ s/>/&gt;/go;
-    $right =~ s/&/&amp;/go;
-    $right =~ s/</&lt;/go;
-    $right =~ s/>/&gt;/go;
+    $left  =~ s/&/&amp;/g;
+    $left  =~ s/</&lt;/g;
+    $left  =~ s/>/&gt;/g;
+    $right =~ s/&/&amp;/g;
+    $right =~ s/</&lt;/g;
+    $right =~ s/>/&gt;/g;
 
     $result = CGI::Tr( {}, CGI::td( {}, 'type: ' . $diffType ) );
 
@@ -235,7 +235,7 @@ sub _renderDebug {
     }
 
     # unhide html comments (<!-- --> type tags)
-    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gos;
+    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gs;
 
     return $result;
 }
@@ -335,7 +335,7 @@ sub _renderSequential {
     }
 
     # unhide html comments (<!-- --> type tags)
-    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gos;
+    $result =~ s/<!--(.*?)-->/<pre>&lt;--$1--&gt;<\/pre>/gs;
 
     return $result;
 }
@@ -351,8 +351,8 @@ sub _renderRevisionDiff {
     #combine sequential array elements that are the same diffType
     my @diffArray = ();
     foreach my $ele (@$sdiffArray_ref) {
-        if (   ( @$ele[1] =~ /^\%META\:TOPICINFO/ )
-            || ( @$ele[2] =~ /^\%META\:TOPICINFO/ ) )
+        if (   ( @$ele[1] =~ m/^\%META\:TOPICINFO/ )
+            || ( @$ele[2] =~ m/^\%META\:TOPICINFO/ ) )
         {
 
 # do nothing, ignore redundant topic info
@@ -491,7 +491,7 @@ sub diff {
       Foswiki::Store::cleanUpRevID( scalar( $query->param('rev2') ) );
 
     my $tmpl = $session->templates->readTemplate('rdiff');
-    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+    $tmpl =~ s/\%META{.*?}\%//g;    # remove %META{'parent'}%
 
     # The template is split by up to 4 %REPEAT% tags. The sections are:
     # $before - text before any output
@@ -532,8 +532,8 @@ sub diff {
       int( ( $olderi - $neweri ) / $Foswiki::cfg{MaxRevisionsInADiff} + 0.5 );
     $step = 1 if $step < 1;
 
-    $before =~ s/%REVTITLE1%/$revTitleHigh/go;
-    $before =~ s/%REVTITLE2%/$revTitleLow/go;
+    $before =~ s/%REVTITLE1%/$revTitleHigh/g;
+    $before =~ s/%REVTITLE2%/$revTitleLow/g;
     $before = $topicObject->expandMacros($before);
     $before = $topicObject->renderTML($before);
 
@@ -609,8 +609,8 @@ sub diff {
         ) if DEBUG;
 
         my $diff = $difftmpl;
-        $diff =~ s/%REVTITLE1%/$rHigh/go;
-        $diff =~ s/%REVTITLE2%/$rLow/go;
+        $diff =~ s/%REVTITLE1%/$rHigh/g;
+        $diff =~ s/%REVTITLE2%/$rLow/g;
 
         my $rInfo  = '';
         my $rInfo2 = '';
@@ -658,9 +658,9 @@ sub diff {
         $text =
           _renderRevisionDiff( $session, $topicObject, $rd, $renderStyle );
 
-        $diff =~ s/%REVINFO1%/$rInfo/go;
-        $diff =~ s/%REVINFO2%/$rInfo2/go;
-        $diff =~ s/%TEXT%/$text/go;
+        $diff =~ s/%REVINFO1%/$rInfo/g;
+        $diff =~ s/%REVINFO2%/$rInfo2/g;
+        $diff =~ s/%TEXT%/$text/g;
         $page .= $diff;
         $rNewer += $step;
         $rOlder += $step;
@@ -705,16 +705,16 @@ sub diff {
             my $revInfo =
               $session->renderer->renderRevisionInfo( $topicObject, undef, $n );
             $tailResult .= $tail;
-            $tailResult =~ s/%REVTITLE%/$revTitle/go;
-            $tailResult =~ s/%REVINFO%/$revInfo/go;
+            $tailResult =~ s/%REVTITLE%/$revTitle/g;
+            $tailResult =~ s/%REVINFO%/$revInfo/g;
             $i += $step;
         }
     }
-    $after =~ s/%TAIL%/$tailResult/go;    # SMELL: unused in templates
+    $after =~ s/%TAIL%/$tailResult/g;    # SMELL: unused in templates
 
-    $after =~ s/%REVISIONS%/$revisions/go;
-    $after =~ s/%CURRREV%/$revHigh/go;
-    $after =~ s/%MAXREV%/$history[0]/go;
+    $after =~ s/%REVISIONS%/$revisions/g;
+    $after =~ s/%CURRREV%/$revHigh/g;
+    $after =~ s/%MAXREV%/$history[0]/g;
 
     $after = $topicObject->expandMacros($after);
     $after = $topicObject->renderTML($after);

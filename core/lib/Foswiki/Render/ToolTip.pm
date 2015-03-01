@@ -58,7 +58,7 @@ sub render {
     $tooltip =~ s/\$wikiusername/
       $users->webDotWikiName($info->{author}) || $info->{author}/ge;
 
-    if ( $tooltip =~ /\$summary/ ) {
+    if ( $tooltip =~ m/\$summary/ ) {
         my $summary;
         if ( $topicObject->haveAccess('VIEW') ) {
             $summary = $topicObject->text || '';

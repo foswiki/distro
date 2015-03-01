@@ -88,7 +88,7 @@ m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Fosw
     }
 
     # If link is only an anchor, leave it as is (Foswikitask:Item771)
-    return "[[$link][$label]]" if $link =~ /^#/;
+    return "[[$link][$label]]" if $link =~ m/^#/;
     return "[[$web.$link][$label]]";
 }
 
@@ -113,7 +113,7 @@ sub _includeWarning {
         else {
             $argument = shift;
         }
-        $warn =~ s/\$topic/$argument/go if $argument;
+        $warn =~ s/\$topic/$argument/g if $argument;
         return Foswiki::expandStandardEscapes($warn);
     }    # else fail silently
     return '';
@@ -387,7 +387,8 @@ sub INCLUDE {
     }
 
     # Filter out '..' from path to prevent includes of '../../file'
-    elsif ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./ ) {
+    elsif ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ m/\.\./ )
+    {
         $text =
           $this->_includeWarning( $control{warn}, 'bad_include_path',
             $control{_DEFAULT} );
@@ -403,7 +404,7 @@ sub INCLUDE {
         $control{inTopic} = $includingTopicObject->topic;
 
         # Protocol links e.g. http:, https:, doc:
-        if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
+        if ( $control{_DEFAULT} =~ m/^([a-z]+):/ ) {
             $text = $this->_includeProtocol( $1, \%control, $params );
         }
         else {
@@ -421,7 +422,7 @@ sub INCLUDE {
 
     # Apply any heading offset
     my $hoff = $params->{headingoffset};
-    if ( $hoff && $hoff =~ /^([-+]?\d+)$/ && $1 != 0 ) {
+    if ( $hoff && $hoff =~ m/^([-+]?\d+)$/ && $1 != 0 ) {
         my ( $off, $noff ) = ( 0 + $1, 0 - $1 );
         $text = "<ho off=\"$off\"/>\n$text\n<ho off=\"$noff\">";
     }

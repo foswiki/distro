@@ -56,11 +56,11 @@ sub _loadCert {
     close $cf;
 
     my @certs = (0);
-    $cert =~ s/\r//go;
+    $cert =~ s/\r//g;
 
     push @certs, decode_base64($1)
       while ( $cert =~
-/^-----BEGIN\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$(.*?)^-----END\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$/msog
+m/^-----BEGIN\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$(.*?)^-----END\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$/msg
       );
 
     return ( 1, "None found" ) unless ( @certs > 1 );
@@ -182,7 +182,7 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
             push @ans, map { ( split( /=/, $_, 2 ) )[1] }
               grep { /^(?:rfc822Name|x400Address)=(.?:.*)$/ } @$an;
         }
-        elsif ( $usage =~ /^(?:client|server|clientserver)$/ ) {
+        elsif ( $usage =~ m/^(?:client|server|clientserver)$/ ) {
             push @ans, map { ( split( /=/, $_, 2 ) )[1] }
               grep { /^(?:dNSName|iPAddress)=(?:.*)$/ } @$an;
             $hostnames = 1;
@@ -216,7 +216,7 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
     else {
         $notes .= " Expires " . gmtime($tm) . " UTC";
     }
-    $notes .= '<br />' unless ( $notes =~ />$/ );
+    $notes .= '<br />' unless ( $notes =~ m/>$/ );
 
     my %ku;
     %ku = map { $_ => 1 } @{ $x->KeyUsage } if ( $x->KeyUsage );
@@ -298,7 +298,7 @@ Issued by %s for %s<br />", ( $x->issuer_cn || 'Unknown issuer' ),
             else {
                 $notes .= " Expires " . gmtime($tm) . " UTC";
             }
-            $notes .= '<br />' unless ( $notes =~ />$/ );
+            $notes .= '<br />' unless ( $notes =~ m/>$/ );
 
             my %ku;
             %ku = map { $_ => 1 } @{ $x->KeyUsage } if ( $x->KeyUsage );

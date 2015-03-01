@@ -7,9 +7,9 @@ use strict;
 use warnings;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    return unless $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking$/;
+    return unless $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/Forking$/;
     Foswiki::Configure::FileUtil::checkGNUProgram(
         $Foswiki::cfg{Store}{FgrepCmd}, $reporter );
 }

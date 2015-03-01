@@ -263,7 +263,7 @@ sub handleRequest {
         $req->path_info($path_info);
     }
 
-    if ( defined $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
+    if ( defined $cache && $cache =~ m/^([a-f0-9]{32})$/ ) {
         require Foswiki::Request::Cache;
 
         # implicit untaint required, because $cache may be used in a filename.
@@ -369,7 +369,7 @@ sub _execute {
 
         $res = $session->{response};
 
-        unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {
+        unless ( defined $res->status() && $res->status() =~ m/^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();
             &$sub($session);
         }

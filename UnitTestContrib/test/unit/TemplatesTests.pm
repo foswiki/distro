@@ -64,7 +64,7 @@ sub set_up {
     $Foswiki::cfg{TemplatePath} =~
       s/\$Foswiki::cfg{TemplateDir}/$Foswiki::cfg{TemplateDir}/geo;
     $Foswiki::cfg{TemplatePath} =~
-      s/\$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{SystemWebName}/geo;
+      s/\$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{SystemWebName}/ge;
 
     return;
 }

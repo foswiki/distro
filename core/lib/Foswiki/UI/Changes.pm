@@ -73,7 +73,7 @@ sub changes {
         my $summary =
           $topicObject->summariseChanges( undef, $change->{revision}, 1 );
         my $thisChange = $eachChange;
-        $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
+        $thisChange =~ s/%TOPICNAME%/$change->{topic}/g;
         my $wikiuser =
             $change->{user}
           ? $session->{users}->webDotWikiName( $change->{user} )
@@ -82,8 +82,8 @@ sub changes {
             $change->{user}
           ? $session->{users}->getWikiName( $change->{user} )
           : '';
-        $thisChange =~ s/%AUTHOR%/$wikiuser/go;
-        $thisChange =~ s/\$wikiname/<nop>$wikiname/go;
+        $thisChange =~ s/%AUTHOR%/$wikiuser/g;
+        $thisChange =~ s/\$wikiname/<nop>$wikiname/g;
         my $time = Foswiki::Time::formatTime( $change->{time} );
         $change->{revision} = 1 unless $change->{revision};
         my $srev = 'r' . $change->{revision};
@@ -92,8 +92,8 @@ sub changes {
             $srev = CGI::span( { class => 'foswikiNew' }, 'NEW' );
         }
         $thisChange =~ s/%TIME%/$time/g;
-        $thisChange =~ s/%REVISION%/$srev/go;
-        $thisChange =~ s/%TEXTHEAD%/$summary/go;
+        $thisChange =~ s/%REVISION%/$srev/g;
+        $thisChange =~ s/%TEXTHEAD%/$summary/g;
         $page .= $thisChange;
         $done{ $change->{topic} } = 1;
     }

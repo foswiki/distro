@@ -99,7 +99,7 @@ sub fixture_groups {
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
         next
           unless $script =~
-/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
+m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
         push( @scripts, $script );
         next if ( defined( &{$script} ) );
 
@@ -212,8 +212,8 @@ sub call_UI_FN {
     # check STDERR is only a single line & that it contains that warning
     $this->assert(
         (
-            !$stderr || ( scalar( $stderr =~ /([\r\n]+)/g ) == 1
-                && $stderr =~ /error compiling class Foswiki::Form::Nuffin/ )
+            !$stderr || ( scalar( $stderr =~ m/([\r\n]+)/g ) == 1
+                && $stderr =~ m/error compiling class Foswiki::Form::Nuffin/ )
         ),
         "$SCRIPT_NAME errored: '$stderr'"
     ) if defined $stderr;
@@ -221,8 +221,8 @@ sub call_UI_FN {
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
     my ( $header, $body );
-    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.+)$/s
-        or ( $stdout && $stdout =~ /^(.*?)$CRLF$CRLF(.*)$/s ) )
+    if ( $responseText =~ m/^(.*?)$CRLF$CRLF(.+)$/s
+        or ( $stdout && $stdout =~ m/^(.*?)$CRLF$CRLF(.*)$/s ) )
     {
 
         # Response can be in stdout if the request is split, like for
@@ -236,7 +236,7 @@ sub call_UI_FN {
     }
 
     my $status = 666;
-    if ( $header =~ /^Status: (\d*).*/ms ) {
+    if ( $header =~ m/^Status: (\d*).*/ms ) {
         $status = $1;
     }
 
@@ -374,7 +374,7 @@ sub verify_switchboard_function {
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
-    unless ( $header =~ /Content-type: text\/html\b/i ) {
+    unless ( $header =~ m/Content-type: text\/html\b/i ) {
 
         # non-HTML script, no HTML to validate
         $this->{tidy}->clear_messages();
@@ -402,7 +402,7 @@ sub verify_switchboard_function {
 
         #TODO: disable missing DOCTYPE issues - we've been
         if ( defined( $expect_non_html{$SCRIPT_NAME} )
-            and ( $output =~ /missing <\!DOCTYPE> declaration/ ) )
+            and ( $output =~ m/missing <\!DOCTYPE> declaration/ ) )
         {
 
             #$this->expect_failure();
@@ -435,7 +435,7 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute//gm;
             }
 
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )
-                and ( $output =~ /<table> lacks "summary" attribute/ ) )
+                and ( $output =~ m/<table> lacks "summary" attribute/ ) )
             {
                 for ($output) { # Remove missing table summary attribute warning
 s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;

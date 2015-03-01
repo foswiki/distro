@@ -8,33 +8,35 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     my $e;
 
     my $tmpdir = $Foswiki::cfg{TempfileDir};
     Foswiki::Configure::Load::expandValue($tmpdir);
 
     unless ($tmpdir) {
-        File::Spec->tmpdir() =~ /^(.*)$/;
-        $tmpdir = $1; # untaint
+        File::Spec->tmpdir() =~ m/^(.*)$/;
+        $tmpdir = $1;    # untaint
 
-        $reporter->WARN('{TempfileDir} is not set (or is set to nothing).'
-                        . " Temporary files will be written to: =$tmpdir=");
+        $reporter->WARN( '{TempfileDir} is not set (or is set to nothing).'
+              . " Temporary files will be written to: =$tmpdir=" );
 
         $reporter->NOTE("Other possible alternatives:");
         $reporter->NOTE("   * Environment TMPDIR setting: =$ENV{TMPDIR}=")
-            if $ENV{TMPDIR};
+          if $ENV{TMPDIR};
         $reporter->NOTE("   * Environment TEMP setting: =$ENV{TEMP}=\n")
-            if $ENV{TEMP};
+          if $ENV{TEMP};
         $reporter->NOTE("   * Environment TMP setting: =$ENV{TMP}=\n")
-            if $ENV{TMP};
-        $reporter->NOTE("   * Alternate Foswiki suggested location: =$Foswiki::cfg{WorkingDir}/requestTmp=\n");
+          if $ENV{TMP};
+        $reporter->NOTE(
+"   * Alternate Foswiki suggested location: =$Foswiki::cfg{WorkingDir}/requestTmp=\n"
+        );
         $reporter->NOTE( "   * Perl detected temporary file location: ="
-                         . File::Spec->tmpdir()
-                         . "=");
+              . File::Spec->tmpdir()
+              . "=" );
     }
 
-    if ( $tmpdir =~ /^[\/\\]$/ ) {
+    if ( $tmpdir =~ m/^[\/\\]$/ ) {
         $reporter->ERROR( <<MSG);
 Temporary files may not be written to the system root directory.
 MSG
@@ -42,7 +44,8 @@ MSG
 
     unless ( -d $tmpdir ) {
         if ( -e $tmpdir ) {
-            return $reporter->ERROR("$tmpdir already exists, but is not a directory");
+            return $reporter->ERROR(
+                "$tmpdir already exists, but is not a directory");
         }
         elsif ( !mkdir( $tmpdir, oct(1777) ) ) {
             return $reporter->ERROR("Could not create $tmpdir");
@@ -66,7 +69,7 @@ HERE
         $tmp++;
     }
     $tmp = "$tmpdir/$tmp";
-    $tmp =~ /^(.*)$/;
+    $tmp =~ m/^(.*)$/;
     $tmp = $1;
 
     my $F;
@@ -77,7 +80,8 @@ HERE
 Cannot unlink '$tmp' ($!) - check that permissions are correct on the directory.
 HERE
         }
-    } else {
+    }
+    else {
         $reporter->ERROR(<<HERE);
 Cannot create a $tmp file in '$tmpdir' ($!) - check the directory exists, and that permissions are correct, and the filesystem is not full.
 HERE

@@ -100,7 +100,7 @@ sub init_edit {
     # or if we are using the 10X's or AUTOINC topic name for
     # dynamic topic names.
     my $breakLock = $query->param('breaklock') || '';
-    unless ( $breakLock || $topic =~ /X{10}/ || $topic =~ /AUTOINC\d+/ ) {
+    unless ( $breakLock || $topic =~ m/X{10}/ || $topic =~ m/AUTOINC\d+/ ) {
         my $lease = $topicObject->getLease();
         if ($lease) {
             my $who = $users->webDotWikiName( $lease->{user} );
@@ -215,7 +215,7 @@ sub init_edit {
         # we are restoring from a previous revision
         # be default check on the revision checkbox
         if ( $tmpl =~ m/%FORCENEWREVISIONCHECKBOX%/ ) {
-            $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%/checked="checked"/go;
+            $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%/checked="checked"/g;
         }
         else {
 
@@ -362,7 +362,7 @@ sub init_edit {
         else {
             $topicObject->remove('FORM');
         }
-        $tmpl =~ s/%FORMTEMPLATE%/$formTemplate/go;
+        $tmpl =~ s/%FORMTEMPLATE%/$formTemplate/g;
     }
 
     if ($adminCmd) {
@@ -400,7 +400,7 @@ sub init_edit {
 
         $rawText =~ s/^%META:TOPICINFO{.*?}%$//m;
         $topicObject->text($rawText);
-        $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go;
+        $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/g;
         $extraLog = "(Admin cmd=$adminCmd)";
     }
     else {
@@ -419,7 +419,7 @@ sub init_edit {
         }
     );
 
-    $tmpl =~ s/%CMD%/$adminCmd/go;
+    $tmpl =~ s/%CMD%/$adminCmd/g;
 
     # Take a copy of the new topic in case the rendering process
     # reloads it. This can happen if certain macros are present, and
@@ -481,7 +481,7 @@ sub init_edit {
     }
     $tmpl =~ s/%FORMFIELDS%/$formText/g;
 
-    $tmpl =~ s/%FORMTEMPLATE%//go;    # Clear if not being used
+    $tmpl =~ s/%FORMTEMPLATE%//g;    # Clear if not being used
 
     return ( $topicObject, $tmpl );
 }

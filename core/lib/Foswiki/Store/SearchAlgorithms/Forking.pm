@@ -188,7 +188,7 @@ sub _webQuery {
     # default scope is 'text'
     $options->{'scope'} = 'text'
       unless ( defined( $options->{'scope'} )
-        && $options->{'scope'} =~ /^(topic|all)$/ );
+        && $options->{'scope'} =~ m/^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
     if ( !defined($topicSet) ) {
@@ -211,7 +211,7 @@ sub _webQuery {
 
         # flag for AND NOT search
         my $invertSearch = 0;
-        $invertSearch = ( $tokenCopy =~ s/^\!//o );
+        $invertSearch = ( $tokenCopy =~ s/^\!// );
 
         # scope can be 'topic' (default), 'text' or "all"
         # scope='topic', e.g. Perl search on topic name:
@@ -232,13 +232,13 @@ sub _webQuery {
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
-                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/ );
-                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
+                    #push(@scopeTopicList, $topic) if ( $topic =~ m/$qtoken/ );
+                    $topicMatches{$topic} = 1 if ( $topic =~ m/$qtoken/ );
                 }
                 else {
 
-                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/i );
-                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
+                    #push(@scopeTopicList, $topic) if ( $topic =~ m/$qtoken/i );
+                    $topicMatches{$topic} = 1 if ( $topic =~ m/$qtoken/i );
                 }
             }
         }

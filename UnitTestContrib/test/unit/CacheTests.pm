@@ -28,9 +28,9 @@ sub fixture_groups {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
                 next if defined &{$alg};
-                $ENV{PATH} =~ /^(.*)$/ms;
+                $ENV{PATH} =~ m/^(.*)$/ms;
                 local $ENV{PATH} = $1;
-                ($alg) = $alg =~ /^(.*)$/ms;
+                ($alg) = $alg =~ m/^(.*)$/ms;
 
                 if ( eval "require Foswiki::PageCache::$alg; 1;" ) {
                     no strict 'refs';

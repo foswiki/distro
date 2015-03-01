@@ -14,7 +14,7 @@ sub check_current_value {
     $this->SUPER::check_current_value($reporter);
 
     # SMELL: doesn't this duplicate notrail?
-    if ( $this->{item}->getExpandedValue() =~ /\/+$/ ) {
+    if ( $this->{item}->getExpandedValue() =~ m/\/+$/ ) {
         $reporter->WARN('A trailing / is not recommended');
     }
 }

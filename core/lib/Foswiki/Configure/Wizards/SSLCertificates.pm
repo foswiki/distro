@@ -104,8 +104,8 @@ sub validate {
     }
     my %seen;
     while ( defined( my $file = readdir($dh) ) ) {
-        next if ( $file =~ /^\./ );
-        $file =~ /^([\w_.-]+)$/ or next;
+        next if ( $file =~ m/^\./ );
+        $file =~ m/^([\w_.-]+)$/ or next;
         $file = $1;
         my $filepath = File::Spec->catfile( $path, $file );
         unless ( -r $filepath ) {
@@ -121,7 +121,7 @@ sub validate {
         $certs++ if ( $type[0] );
         $crls++  if ( $type[1] );
 
-        if ( $file =~ /^([\da-f]{8})\.(r?)(\d+)$/ ) {
+        if ( $file =~ m/^([\da-f]{8})\.(r?)(\d+)$/ ) {
             if ($2) {
                 $rhashes++;
             }
@@ -196,7 +196,7 @@ sub _fileType {
     while (<$fh>) {
         if (/^-----BEGIN (.*)-----/) {
             my $hdr = $1;
-            if ( $hdr =~ /^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+            if ( $hdr =~ m/^(X509 |TRUSTED |)CERTIFICATE$/ ) {
                 $cert = 1;
                 last if ($crl);
             }
@@ -333,8 +333,8 @@ sub install_cert {
     $data = $1;
 
     unless ( defined $data
-        && $data =~ /^-----BEGIN CERTIFICATE-----/m
-        && $data =~ /^-----END CERTIFICATE-----/m )
+        && $data =~ m/^-----BEGIN CERTIFICATE-----/m
+        && $data =~ m/^-----END CERTIFICATE-----/m )
     {
         $reporter->ERROR("No certificate present");
         return;

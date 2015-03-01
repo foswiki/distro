@@ -154,7 +154,7 @@ sub genVariationKey {
       # SMELL: add a setting to make exclusion of session variables configurable
         next
           if $key =~
-/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash|release_lock)$/o;
+m/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash|release_lock)$/;
 
         #writeDebug("adding session key=$key");
 
@@ -178,7 +178,7 @@ sub genVariationKey {
     foreach my $key ( sort $request->multi_param() ) {
 
         # filter out some params that are not relevant
-        next if $key =~ /^($ignoreParams)$/;
+        next if $key =~ m/^($ignoreParams)$/;
         my @vals = $request->multi_param($key);
         foreach my $val (@vals) {
             next unless defined $val;    # wtf?
@@ -213,7 +213,7 @@ sub cachePage {
     my $request = $session->{request};
     my $web     = $session->{webName};
     my $topic   = $session->{topicName};
-    $web =~ s/\//./go;
+    $web =~ s/\//./g;
 
     writeDebug("called cachePage($web, $topic)");
 
@@ -224,7 +224,7 @@ sub cachePage {
     my $variationKey = $this->genVariationKey();
 
     # remove old entries
-    if ( $refresh =~ /^(on|cache|all)$/o ) {
+    if ( $refresh =~ m/^(on|cache|all)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -233,7 +233,7 @@ sub cachePage {
 
     # prepair page variation
     my $isDirty =
-      ( $data =~ /<dirtyarea[^>]*?>/ )
+      ( $data =~ m/<dirtyarea[^>]*?>/ )
       ? 1
       : 0;    # SMELL: only for textual content type
     my $etag         = '';
@@ -300,7 +300,7 @@ key based on the current session.
 sub getPage {
     my ( $this, $web, $topic ) = @_;
 
-    $web =~ s/\//./go;
+    $web =~ s/\//./g;
 
     writeDebug("getPage($web.$topic)");
 
@@ -316,7 +316,7 @@ sub getPage {
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
     }
-    return undef if $refresh =~ /^(on|cache|all|fire)$/;
+    return undef if $refresh =~ m/^(on|cache|all|fire)$/;
 
     # check cacheability
     return undef unless $this->isCacheable( $web, $topic );
@@ -389,7 +389,7 @@ sub isCacheable {
 
     # POSTs and HEADs aren't cacheable
     my $method = $session->{request}->method;
-    $isCacheable = 0 if $method && $method =~ /^(?:POST|HEAD)$/;
+    $isCacheable = 0 if $method && $method =~ m/^(?:POST|HEAD)$/;
 
     if ($isCacheable) {
 
@@ -422,17 +422,17 @@ sub addDependency {
     my ( $this, $depWeb, $depTopic ) = @_;
 
     # exclude invalid topic names
-    return unless $depTopic =~ /^[$Foswiki::regex{upperAlpha}]/o;
+    return unless $depTopic =~ m/^[$Foswiki::regex{upperAlpha}]/;
 
     # omit dependencies triggered from inside a dirtyarea
     my $session = $Foswiki::Plugins::SESSION;
     return if $session->inContext('dirtyarea');
 
-    $depWeb =~ s/\//\./go;
+    $depWeb =~ s/\//\./g;
     my $depWebTopic = $depWeb . '.' . $depTopic;
 
     # exclude unwanted dependencies
-    if ( $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o ) {
+    if ( $depWebTopic =~ m/^($Foswiki::cfg{Cache}{DependencyFilter})$/ ) {
 
 #writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}");
         return;
@@ -612,7 +612,7 @@ sub renderDirtyAreas {
 
     # expand dirt
     while ( $$text =~
-s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea($1, $2, $topicObj)/geos
+s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea($1, $2, $topicObj)/ges
       )
     {
         $found = 1;
@@ -621,7 +621,7 @@ s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea(
     $$text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis if $found;
 
     # remove any dirtyarea leftovers
-    $$text =~ s/<\/?dirtyarea>//go;
+    $$text =~ s/<\/?dirtyarea>//g;
 
     $session->leaveContext('dirtyarea');
 

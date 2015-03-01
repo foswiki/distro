@@ -79,7 +79,7 @@ sub preRenderingHandler {
 
     # Render here, not in commonTagsHandler so that lists produced by
     # Plugins, TOC and SEARCH can be rendered
-    if ( $_[0] =~ /%RENDERLIST/o ) {
+    if ( $_[0] =~ m/%RENDERLIST/ ) {
         unless ( $_[0] =~
 s/%RENDERLIST{(.*?)}%\s*(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
           )
@@ -97,7 +97,7 @@ sub handleRenderList {
     my ( $theAttr, $thePre, $theList ) = @_;
 
     $theAttr =~ s/ {3}/\t/gs;
-    $thePre =~ s/ {3}/\t/gs;
+    $thePre  =~ s/ {3}/\t/gs;
     $theList =~ s/ {3}/\t/gs;
 
     my $focus = &Foswiki::Func::extractNameValuePair( $theAttr, "focus" );
@@ -129,7 +129,7 @@ sub handleRenderList {
 sub renderIconList {
     my ( $theType, $theParams, $theFocus, $theDepth, $theText ) = @_;
 
-    $theText =~ s/^[\n\r]*//os;
+    $theText =~ s/^[\n\r]*//s;
     my @tree       = ();
     my $level      = 0;
     my $type       = "";
@@ -140,7 +140,7 @@ sub renderIconList {
         $level = length($1);
         $type  = $2;
         $text  = $3;
-        if ( ($theFocus) && ( $focusIndex < 0 ) && ( $text =~ /$theFocus/ ) ) {
+        if ( ($theFocus) && ( $focusIndex < 0 ) && ( $text =~ m/$theFocus/ ) ) {
             $focusIndex = scalar(@tree);
         }
         push( @tree, { level => $level, type => $type, text => $text } );
@@ -156,9 +156,9 @@ sub renderIconList {
         # highlight node with focus and remove links
         $text = $nref->{'text'};
         $text =~
-          s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/o;    # remove [[...][...]] link
-        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/o;    # remove [[...]] link
-        $text = "<b> $text </b>";                    # bold focus text
+          s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/;    # remove [[...][...]] link
+        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/;    # remove [[...]] link
+        $text = "<b> $text </b>";                   # bold focus text
         $nref->{'text'} = $text;
 
         # remove uncles and siblings below current node
@@ -191,7 +191,7 @@ sub renderIconList {
 
     # limit depth of tree
     my $depth = $theDepth;
-    unless ( $depth =~ s/.*?([0-9]+).*/$1/o ) {
+    unless ( $depth =~ s/.*?([0-9]+).*/$1/ ) {
         $depth = 0;
     }
     if ($theFocus) {
@@ -210,12 +210,12 @@ sub renderIconList {
         @tree = @tmp;
     }
 
-    $theParams =~ s/%PUBURL%/$pubUrl/go;
-    $theParams =~ s/%ATTACHURL%/$attachUrl/go;
-    $theParams =~ s/%WEB%/$installWeb/go;
-    $theParams =~ s/%MAINWEB%/Foswiki::Func::getMainWebname()/geo;
-    $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/geo;
-    $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/geo;
+    $theParams =~ s/%PUBURL%/$pubUrl/g;
+    $theParams =~ s/%ATTACHURL%/$attachUrl/g;
+    $theParams =~ s/%WEB%/$installWeb/g;
+    $theParams =~ s/%MAINWEB%/Foswiki::Func::getMainWebname()/ge;
+    $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/ge;
+    $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/ge;
     my ( $showLead, $width, $height, $iconSp, $iconT, $iconI, $iconL, $iconImg )
       = split( /, */, $theParams );
     $width  = 16          unless ($width);
@@ -275,14 +275,14 @@ sub renderIconList {
                 $text .= "<td valign=\"top\">$iconSp</td>\n";
             }
             elsif ( $tree[$i]->{'text'} =~
-                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+                m/^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
             {
 
                 # specific icon
                 $tree[$i]->{'text'} = $4;
                 $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
-                $icon =~ s/^icon\://o;
+                $icon =~ s/^icon\://;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
             }
@@ -299,14 +299,14 @@ sub renderIconList {
 
             # tree theme type
             if ( $tree[$i]->{'text'} =~
-                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+                m/^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
             {
 
                 # specific icon
                 $tree[$i]->{'text'} = $4;
                 $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
-                $icon =~ s/^icon\://o;
+                $icon =~ s/^icon\://;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
                 $text .=

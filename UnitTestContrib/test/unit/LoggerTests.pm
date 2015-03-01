@@ -251,15 +251,15 @@ sub fixture_groups {
     foreach my $dir (@INC) {
         if ( opendir( my $D, "$dir/Foswiki/Logger" ) ) {
             foreach my $alg ( readdir $D ) {
-                next unless $alg =~ /^(\w+)\.pm$/;
-                next if $alg =~ /Iterator\.pm$/;
+                next unless $alg =~ m/^(\w+)\.pm$/;
+                next if $alg =~ m/Iterator\.pm$/;
                 $algs{$1} = 1;
             }
             closedir($D);
         }
         if ( opendir( my $D, "$dir/Foswiki/Logger/PlainFile" ) ) {
             foreach my $alg ( readdir $D ) {
-                next unless $alg =~ /^(\w+)\.pm$/;
+                next unless $alg =~ m/^(\w+)\.pm$/;
                 $algs{$1} = 1;
             }
             closedir($D);
@@ -297,7 +297,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
     $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
     $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
@@ -314,7 +314,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
     $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
@@ -365,7 +365,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
     $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
     $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
@@ -382,7 +382,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
     $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
@@ -396,7 +396,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     my @levels =
-      ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/ )
+      ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/ )
       ? qw(debug info notice warning error critical alert emergency)
       : qw(debug info warning error critical alert emergency);
 
@@ -439,7 +439,7 @@ sub verify_LogDispatchCompatRoutines {
     $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
     $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
@@ -458,7 +458,7 @@ sub verify_LogDispatchCompatRoutines {
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     my @levels =
-      ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/ )
+      ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/ )
       ? qw(debug info notice warning error critical alert emergency)
       : qw(debug info warning error critical alert emergency);
     foreach my $level (@levels) {
@@ -469,7 +469,7 @@ sub verify_LogDispatchCompatRoutines {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
             && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
             && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
@@ -530,7 +530,7 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
             && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
             && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
@@ -599,7 +599,7 @@ sub verify_simpleWriteAndReplay {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
             && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
             && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
@@ -669,9 +669,9 @@ sub verify_simpleWriteAndReplayHashEventFilter {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = (
-            $Foswiki::cfg{Log}{Implementation} =~ /Obfuscat/
+            $Foswiki::cfg{Log}{Implementation} =~ m/Obfuscat/
               || ( $level eq 'info'
-                && $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+                && $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
                 && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x' )
         ) ? 'x.x.x.x' : '1.2.3.4';
 
@@ -741,7 +741,7 @@ sub verify_simpleWriteAndReplayHashInterface {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
             && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
             && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );

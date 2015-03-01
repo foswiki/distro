@@ -67,8 +67,8 @@ sub NO_IMPLEMENTED_YETfixture_groups {
         {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
-                next if $alg =~ /RcsWrap/ && !rcs_is_installed();
-                ($alg) = $alg =~ /^(.*)$/ms;    # untaint
+                next if $alg =~ m/RcsWrap/ && !rcs_is_installed();
+                ($alg) = $alg =~ m/^(.*)$/ms;    # untaint
                 $this->assert( eval "require Foswiki::Store::$alg; 1;" );
                 my $algname = ref($this) . '_' . $alg;
                 next if defined &{$algname};

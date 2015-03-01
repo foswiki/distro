@@ -269,7 +269,7 @@ sub _parseFormDefinition {
                 #$data = lc($data);
                 #$data =~ s/[\s:]//g;
                 #$data =~ s/s$//g; # singularise
-                #$data = 'description' if $data =~ /^tooltip(message)?$/;
+                #$data = 'description' if $data =~ m/^tooltip(message)?$/;
                 #$columns[ $col ] = $data if $valid_columns{$data};
 
                 $col++;
@@ -314,7 +314,7 @@ sub _parseFormDefinition {
             }
 
             my $vals = $field{value} || '';
-            if ( $vals =~ /%/ ) {
+            if ( $vals =~ m/%/ ) {
                 $vals = $this->expandMacros($vals);
             }
             $vals =~ s/<\/?(!|nop|noautolink)\/?>//g;
@@ -327,7 +327,7 @@ sub _parseFormDefinition {
             #repeat same again with {default}
             if ( exists( $field{default} ) ) {
                 my $vals = $field{default} || '';
-                if ( $vals =~ /%/ ) {
+                if ( $vals =~ m/%/ ) {
                     $vals = $this->expandMacros($vals);
                 }
                 $vals =~ s/<\/?(!|nop|noautolink)\/?>//g;
@@ -342,7 +342,7 @@ sub _parseFormDefinition {
 
             $field{title}         = $field{name};
             $field{definingTopic} = '';
-            if ( $field{title} =~ /\[\[(.+)\]\[(.+)\]\]/ ) {
+            if ( $field{title} =~ m/\[\[(.+)\]\[(.+)\]\]/ ) {
 
                 # use common defining topics with different field titles
                 $field{definingTopic} = fieldTitle2FieldName($1);
@@ -394,7 +394,7 @@ sub createField {
         $type,
         sub {
             my $class = ucfirst(shift);
-            $class =~ /^([a-zA-Z0-9_]*)/;    # cut off +buttons etc
+            $class =~ m/^([a-zA-Z0-9_]*)/;    # cut off +buttons etc
             return "Foswiki::Form::$1";
         }
     );
@@ -415,7 +415,7 @@ sub createField {
 sub _link {
     my ( $this, $string, $tooltip, $topic ) = @_;
 
-    $string =~ s/[\[\]]//go;
+    $string =~ s/[\[\]]//g;
 
     $topic ||= $string;
     my $defaultToolTip =
@@ -706,7 +706,7 @@ sub renderForDisplay {
         my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
         my $fa = $fieldDef->{attributes} || '';
-        unless ( $fa =~ /H/ ) {
+        unless ( $fa =~ m/H/ ) {
             $hasAllFieldsHidden = 0;
             my $row = $rowTemplate;
 

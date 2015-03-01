@@ -809,14 +809,14 @@ THIS
         using => 'ShortURLs' );
 
     # Check we got a 401
-    my ($status) = $text =~ /^Status: (\d+)\r?$/m;
+    my ($status) = $text =~ m/^Status: (\d+)\r?$/m;
     $this->assert_not_null( $status, "Request did not return a Status header" );
     $this->assert_equals( 401, $status,
         "Request should have returned a 401, not a $status" );
 
     # Extract what we've been redirected to
     my ($formAction) =
-      $text =~ /<form action='(.*?)' name='loginform' method='post'/m;
+      $text =~ m/<form action='(.*?)' name='loginform' method='post'/m;
     $this->assert_not_null( $formAction,
             "Request should have returned a 401 to $loginUrl\n"
           . "But it returned:\n$text" );
@@ -824,7 +824,7 @@ THIS
 
     # Check the foswiki_origin contains the view URL to this topic
     my ($origin) = $text =~
-      /^<input type="hidden" name="foswiki_origin" value="([^"]+)" \/>\r?$/m;
+      m/^<input type="hidden" name="foswiki_origin" value="([^"]+)" \/>\r?$/m;
     $this->assert_not_null( $origin,
         "No viewUrl (GET,view,$viewUrl) in foswiki_origin, got:\n$text" );
     $this->assert_equals( "GET,view,$viewUrl", $origin );

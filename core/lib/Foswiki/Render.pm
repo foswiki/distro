@@ -149,10 +149,10 @@ sub internalLink {
       = @_;
 
     # Webname/Subweb/ -> Webname/Subweb
-    $web =~ s/\/\Z//o;
+    $web =~ s/\/\Z//;
 
     if ( $linkText eq $web ) {
-        $linkText =~ s/\//\./go;
+        $linkText =~ s/\//\./g;
     }
 
     #WebHome links to tother webs render as the WebName
@@ -163,8 +163,8 @@ sub internalLink {
     }
 
     # Get rid of leading/trailing spaces in topic name
-    $topic =~ s/^\s*//o;
-    $topic =~ s/\s*$//o;
+    $topic =~ s/^\s*//;
+    $topic =~ s/\s*$//;
 
     # Allow spacing out, etc.
     # Plugin authors use $hasExplicitLinkLabel to determine if the link label
@@ -180,14 +180,14 @@ sub internalLink {
     # whole link, and first of each word. TODO: Try to turn this off,
     # avoiding spaces being stripped elsewhere
     $topic = ucfirst($topic);
-    $topic =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/go;
+    $topic =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/g;
 
     # If locales are in effect, the above conversions will taint the topic
     # name (Foswiki:Tasks:Item2091)
     $topic = Foswiki::Sandbox::untaintUnchecked($topic);
 
     # Add <nop> before WikiWord inside link text to prevent double links
-    $linkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/go;
+    $linkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/g;
     return _renderWikiWord( $this, $web, $topic, $linkText, $anchor,
         $linkIfAbsent, $keepWebPrefix, $params );
 }
@@ -269,13 +269,13 @@ sub getRenderedVersion {
 
     if ( $plugins->haveHandlerFor('insidePREHandler') ) {
         foreach my $region ( sort keys %$removed ) {
-            next unless ( $region =~ /^pre\d+$/i );
+            next unless ( $region =~ m/^pre\d+$/i );
             my @lines = split( /\r?\n/, $removed->{$region}{text} );
             my $rt = '';
             while ( scalar(@lines) ) {
                 my $line = shift(@lines);
                 $plugins->dispatch( 'insidePREHandler', $line );
-                if ( $line =~ /\n/ ) {
+                if ( $line =~ m/\n/ ) {
                     unshift( @lines, split( /\r?\n/, $line ) );
                     next;
                 }
@@ -298,7 +298,7 @@ sub getRenderedVersion {
         while ( scalar(@lines) ) {
             my $line = shift(@lines);
             $plugins->dispatch( 'outsidePREHandler', $line );
-            if ( $line =~ /\n/ ) {
+            if ( $line =~ m/\n/ ) {
                 unshift( @lines, split( /\r?\n/, $line ) );
                 next;
             }
@@ -360,16 +360,16 @@ sub getRenderedVersion {
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
     # user-defined anchors is not sensible.
     $text =~
-s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/geom;
+s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/gem;
 
     # Headings
     # '<h6>...</h6>' HTML rule
     $text =~ s/$Foswiki::regex{headerPatternHt}/
-      _makeAnchorHeading($this, $2, $1, $anchors)/geo;
+      _makeAnchorHeading($this, $2, $1, $anchors)/ge;
 
     # '----+++++++' rule
     $text =~ s/$Foswiki::regex{headerPatternDa}/
-      _makeAnchorHeading($this, $2, length($1), $anchors)/geo;
+      _makeAnchorHeading($this, $2, length($1), $anchors)/ge;
 
     # Horizontal rule
     $text =~ s/^---+/<hr \/>/gm;
@@ -427,13 +427,13 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
                 _addListItem( $this, \@result, 'dl', 'dd', '', $1 );
                 $isList = 1;
             }
-            elsif ( $line =~ s/^((\t|   )+)\* /<li> /o ) {
+            elsif ( $line =~ s/^((\t|   )+)\* /<li> / ) {
 
                 # Unnumbered list
                 _addListItem( $this, \@result, 'ul', 'li', '', $1 );
                 $isList = 1;
             }
-            elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+            elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> / ) {
 
                 # Indent pseudo-list
                 _addListItem( $this, \@result, '', 'div', 'foswikiIndent', $1 );
@@ -456,7 +456,7 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
                 _addListItem( $this, \@result, 'ol', 'li', '', $1 );
                 $isList = 1;
             }
-            elsif ( $isList && $line =~ /^(\t|   )+\s*\S/ ) {
+            elsif ( $isList && $line =~ m/^(\t|   )+\s*\S/ ) {
 
                 # indented line extending prior list item
                 push( @result, $line );
@@ -466,7 +466,7 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
                 $isList = 0;
             }
         }
-        elsif ( $isList && $line =~ /^(\t|   )+\s*\S/ ) {
+        elsif ( $isList && $line =~ m/^(\t|   )+\s*\S/ ) {
 
             # indented line extending prior list item; case where indent
             # starts with is at least 3 spaces or a tab, but may not be a
@@ -549,7 +549,7 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
     # replace verbatim with pre in the final output
     Foswiki::putBackBlocks( \$text, $removed, 'verbatim', 'pre',
         \&verbatimCallBack );
-    $text =~ s|\n?<nop>\n$||o;    # clean up clutch
+    $text =~ s|\n?<nop>\n$||;    # clean up clutch
 
     $this->_putBackProtected( \$text, 'style',  $removed );
     $this->_putBackProtected( \$text, 'script', $removed );
@@ -613,14 +613,14 @@ sub TML2PlainText {
 
     $text =~ s/\r//g;    # SMELL, what about OS10?
 
-    if ( $opts =~ /showmeta/ ) {
+    if ( $opts =~ m/showmeta/ ) {
         $text =~ s/%META:/%<nop>META:/g;
     }
     else {
         $text =~ s/%META:[A-Z].*?}%//g;
     }
 
-    if ( $opts =~ /expandvar/ ) {
+    if ( $opts =~ m/expandvar/ ) {
         $text =~ s/(\%)(SEARCH){/$1<nop>$2/g;    # prevent recursion
         $topicObject = Foswiki::Meta->new( $this->{session} )
           unless $topicObject;
@@ -632,11 +632,11 @@ sub TML2PlainText {
         my $wtn = $this->{session}->{prefs}->getPreference('WIKITOOLNAME')
           || '';
         $text =~ s/%WIKITOOLNAME%/$wtn/g;
-        if ( $opts =~ /showvar/ ) {
+        if ( $opts =~ m/showvar/ ) {
             $text =~ s/%(\w+({.*?}))%/$1/g;      # defuse
         }
         else {
-            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//go;    # remove
+            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//g;    # remove
         }
     }
 
@@ -649,7 +649,7 @@ sub TML2PlainText {
     $text =~ s/<!--.*?-->//gs;       # remove all HTML comments
     $text =~ s/<(?!nop)[^>]*>//g;    # remove all HTML tags except <nop>
     $text =~ s/\&[a-z]+;/ /g;        # remove entities
-    if ( $opts =~ /nohead/ ) {
+    if ( $opts =~ m/nohead/ ) {
 
         # skip headings on top
         while ( $text =~ s/^\s*\-\-\-+\+[^\n\r]*// ) { };    # remove heading
@@ -718,7 +718,7 @@ sub protectPlainText {
     # encoding (&#nnn;) is identical for first 256 characters.
     # I18N TODO: Convert to Unicode from any site character set.
     if (   $this->{session}->inContext('rss')
-        && $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859-?1$/i )
+        && $Foswiki::cfg{Site}{CharSet} =~ m/^iso-?8859-?1$/i )
     {
         $text =~ s/([\x7f-\xff])/"\&\#" . unpack( 'C', $1 ) .';'/ge;
     }
@@ -763,7 +763,7 @@ sub renderRevisionInfo {
     # nop if there are no format tokens
     return $value
       unless $value =~
-/\$(?:year|ye|wikiusername|wikiname|week|we|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
+m/\$(?:year|ye|wikiusername|wikiname|week|we|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
 
     my $users = $this->{session}->{users};
     if ($rrev) {
@@ -840,7 +840,7 @@ sub renderRevisionInfo {
       Foswiki::Time::formatTime($info->{date}, $1 )/ge;
 
     if ( $value =~
-/\$(?:year|ye|week|we|web|wday|username|tz|seconds|sec|rcs|month|mo|minutes|min|longdate|hours|hou|epoch|dow|day)/
+m/\$(?:year|ye|week|we|web|wday|username|tz|seconds|sec|rcs|month|mo|minutes|min|longdate|hours|hou|epoch|dow|day)/
       )
     {
         $value = Foswiki::Time::formatTime( $info->{date}, $value );
@@ -883,7 +883,7 @@ sub forEachLine {
     $options->{in_noautolink} = 0;
     my $newText = '';
     foreach my $line ( split( /([\r\n]+)/, $text ) ) {
-        if ( $line =~ /[\r\n]/ ) {
+        if ( $line =~ m/[\r\n]/ ) {
             $newText .= $line;
             next;
         }
@@ -937,7 +937,7 @@ sub breakName {
         $len = 1 if ( $len < 1 );
         my $sep = '- ';
         $sep = $params[1] if ( @params > 1 );
-        if ( $sep =~ /^\.\.\./i ) {
+        if ( $sep =~ m/^\.\.\./i ) {
 
             # make name shorter like 'ThisIsALongTop...'
             $text =~ s/(.{$len})(.+)/$1.../s;
@@ -1108,7 +1108,7 @@ sub _addTHEADandTFOOT {
     my $headLines = 0;
 
     while ( $i >= 0 && $lines->[$i] ne $TABLEMARKER ) {
-        if ( $lines->[$i] =~ /^\s*$/ ) {
+        if ( $lines->[$i] =~ m/^\s*$/ ) {
 
             # Remove blank lines in tables; they generate spurious <p>'s
             splice( @$lines, $i, 1 );
@@ -1225,7 +1225,7 @@ sub _makeAnchorHeading {
     # - Build '<nop><h1><a name='atext'></a> heading </h1>' markup
     # - Initial '<nop>' is needed to prevent subsequent matches.
     # filter '!!', '%NOTOC%'
-    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
+    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//;
 
     my $html =
         '<nop><h'
@@ -1329,10 +1329,10 @@ sub _renderExistingWikiWord {
         $this->{LINKTOOLTIPINFO} =
           $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO')
           || '';
-        if ( $this->{LINKTOOLTIPINFO} =~ /^on$/i ) {
+        if ( $this->{LINKTOOLTIPINFO} =~ m/^on$/i ) {
             $this->{LINKTOOLTIPINFO} = '$username - $date - r$rev: $summary';
         }
-        elsif ( $this->{LINKTOOLTIPINFO} =~ /^(off)?$/i ) {
+        elsif ( $this->{LINKTOOLTIPINFO} =~ m/^(off)?$/i ) {
             undef $this->{LINKTOOLTIPINFO};
         }
     }
@@ -1421,7 +1421,7 @@ sub _handleWikiWord {
     # true to keep web prefix for non-existing Web.TOPIC
     # Have to leave "web part" of ABR.ABR.ABR intact if topic not found
     $keepWeb =
-      (      $topic =~ /^$Foswiki::regex{abbrevRegex}$/o
+      (      $topic =~ m/^$Foswiki::regex{abbrevRegex}$/
           && $web ne $this->{session}->{webName} );
 
     # false means suppress link for non-existing pages
@@ -1446,10 +1446,10 @@ sub _escapeAutoLinks {
                            | $Foswiki::regex{abbrevRegex} )
                        )
                    | $Foswiki::regex{emailAddrRegex}
-                   )/<nop>$1/gox;
+                   )/<nop>$1/gx;
 
         # Explicit links
-        $text =~ s/($Foswiki::regex{linkProtocolPattern}):(?=\S)/$1<nop>:/go;
+        $text =~ s/($Foswiki::regex{linkProtocolPattern}):(?=\S)/$1<nop>:/g;
     }
     return $text;
 }
@@ -1513,7 +1513,7 @@ sub _handleSquareBracketedLink {
     $link =~ s/\&\#[0-9]+\;//g;
 
     # Filter junk
-    $link =~ s/$Foswiki::cfg{NameFilter}+/ /go;
+    $link =~ s/$Foswiki::cfg{NameFilter}+/ /g;
 
     ASSERT( UNTAINTED($link) ) if DEBUG;
 
@@ -1521,10 +1521,10 @@ sub _handleSquareBracketedLink {
     $link = ucfirst($link);
 
     # Collapse spaces and capitalise following letter
-    $link =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/go;
+    $link =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/g;
 
     # Get rid of remaining spaces, i.e. spaces in front of -'s and ('s
-    $link =~ s/\s//go;
+    $link =~ s/\s//g;
 
     # The link is used in the topic name, and if locales are in effect,
     # the above conversions will taint the name (Foswiki:Tasks:Item2091)
@@ -1545,7 +1545,7 @@ sub _handleSquareBracketedLink {
 sub _isImageLink {
     my ( $this, $url ) = @_;
 
-    return if $url =~ /<nop>/;
+    return if $url =~ m/<nop>/;
     $url =~ s/^\s+//;
     $url =~ s/\s+$//;
     if ( $url =~ m#^https?://[^?]*\.(?:gif|jpg|jpeg|png)$#i ) {
@@ -1565,7 +1565,7 @@ sub _externalLink {
         return $img;
     }
     my $opt = '';
-    if ( $url =~ /^mailto:/i ) {
+    if ( $url =~ m/^mailto:/i ) {
         if ( $Foswiki::cfg{AntiSpam}{EmailPadding} ) {
             $url =~ s/(\@[\w\_\-\+]+)(\.)
                      /$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/x;
@@ -1610,7 +1610,7 @@ sub _mailLink {
     my ( $this, $text ) = @_;
 
     my $url = $text;
-    return $text if $url =~ /^(?:!|\<nop\>)/;
+    return $text if $url =~ m/^(?:!|\<nop\>)/;
 
 #use Email::Valid             ();
 #my $tmpEmail = $url;
@@ -1629,7 +1629,7 @@ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escapeMailAddress( $2 ).$3/msie;
     return $text
       if ( $lenLeft > 64 || $lenRight > 254 || $lenLeft + $lenRight > 254 );
 
-    $url = 'mailto:' . $url unless $url =~ /^mailto:/i;
+    $url = 'mailto:' . $url unless $url =~ m/^mailto:/i;
     return _externalLink( $this, $url, $text );
 }
 
@@ -1659,7 +1659,7 @@ sub _adjustH {
     my $out = '';
     while ( scalar(@blocks) ) {
         my $i = shift(@blocks);
-        if ( $i =~ /^<ho(?:\s+off="([-+]?\d+)")?\s*\/?>$/i && $1 ) {
+        if ( $i =~ m/^<ho(?:\s+off="([-+]?\d+)")?\s*\/?>$/i && $1 ) {
             $off += $1;
         }
         else {
@@ -1714,7 +1714,7 @@ sub _putBackProtected {
     ASSERT( ref($map) eq 'HASH' ) if DEBUG;
 
     foreach my $placeholder ( keys %$map ) {
-        next unless $placeholder =~ /^$id\d+$/;
+        next unless $placeholder =~ m/^$id\d+$/;
         my $val = $map->{$placeholder}{text};
         $val = &$callback($val) if ( defined($callback) );
         $$text =~ s/<!--$REMARKER$placeholder$REMARKER-->/$val/;

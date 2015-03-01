@@ -100,7 +100,7 @@ sub _getListOfExtensions {
                 # status 400 for foswiki 1.0.0-1.0.9
                 if (    ( $response->code == 200 || $response->code == 400 )
                     and
-                    ( $response->content() =~ /<title>.*login.*<\/title>/i ) )
+                    ( $response->content() =~ m/<title>.*login.*<\/title>/i ) )
                 {
 
                     #TemplateAuth login required....
@@ -171,7 +171,7 @@ sub _studyRow {
     if ( !$data->{release} && $data->{version} ) {
 
         # See if we can pull the release ID from the generated %$VERSION%
-        if ( $data->{version} =~ /^\d+ \((.+)\)$/ ) {
+        if ( $data->{version} =~ m/^\d+ \((.+)\)$/ ) {
             $dep->{release} = $1;
         }
         else {
@@ -336,7 +336,7 @@ sub _get_extensions {
 
         # Do the title + actions row
         my $thd = $ext->{name} || 'Unknown';
-        $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+        $thd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
         $thd = "[[$ext->{data}$ext->{name}][$thd]]";
         $thd .= " <sup>[$ext->{repository}]</sup>"
           if ( scalar(@consultedLocations) > 1 );
@@ -348,7 +348,7 @@ sub _get_extensions {
         my @cols;
         foreach my $f ( @{ $tableHeads{$set} } ) {
             my $tdd = $ext->{$f} || '';
-            $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+            $tdd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
             if ( $f eq 'description' && $ext->{compatibility} ) {
                 $tdd .= "<br />$ext->{compatibility}";
             }
@@ -430,7 +430,7 @@ sub findRepositories {
     while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
         my ( $name, $value ) = ( $1, $2 );
         if ( $value =~
-            /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
+            m/^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
         {
             push(
                 @repositories,

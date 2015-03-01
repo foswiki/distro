@@ -440,10 +440,10 @@ sub verify_leases {
 # Handler used in next test
 sub beforeSaveHandler {
     my ( $text, $topic, $web, $meta ) = @_;
-    if ( $text =~ /CHANGETEXT/ ) {
+    if ( $text =~ m/CHANGETEXT/ ) {
         $_[0] =~ s/fieldvalue/text/;
     }
-    if ( $text =~ /CHANGEMETA/ ) {
+    if ( $text =~ m/CHANGEMETA/ ) {
         $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
     }
 

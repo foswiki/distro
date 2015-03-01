@@ -154,11 +154,11 @@ sub findPackages {
         foreach my $place (@$places) {
             if ( opendir( $dir, $place ) ) {
 
-                #next if ($place =~ /^\..*/);
+                #next if ($place =~ m/^\..*/);
                 foreach my $subplace ( readdir $dir ) {
                     next unless $subplace =~ $pathel;
 
-                    #next if ($subplace =~ /^\..*/);
+                    #next if ($subplace =~ m/^\..*/);
                     push( @newplaces, $place . '/' . $1 );
                 }
                 closedir $dir;
@@ -177,11 +177,11 @@ sub findPackages {
         if ( opendir( $dir, $place ) ) {
             foreach my $file ( readdir $dir ) {
                 next unless $file =~ $leaf;
-                next if ( $file =~ /^\..*/ );
-                next unless $file =~ /^(.*)\.pm$/;
+                next if ( $file =~ m/^\..*/ );
+                next unless $file =~ m/^(.*)\.pm$/;
                 my $module = "$place/$1";
                 $module =~ s./.::.g;
-                if ( $module =~ /($pattern)$/ ) {
+                if ( $module =~ m/($pattern)$/ ) {
                     push( @list, $1 ) unless $known{$1};
                     $known{$1} = 1;
                 }
@@ -304,7 +304,7 @@ sub checkTreePerms {
 
     return \%report
       if ( defined( $options{filter} )
-        && $path =~ /$options{filter}/
+        && $path =~ m/$options{filter}/
         && !-d $path );
 
     # Let's ignore Subversion and git directories
@@ -328,7 +328,7 @@ sub checkTreePerms {
         return \%report;
     }
 
-    if ( $perms =~ /d/ && -d $path ) {
+    if ( $perms =~ m/d/ && -d $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
         if ( $mode != $Foswiki::cfg{Store}{dirPermission} ) {
             my $omode = sprintf( '%04o', $mode );
@@ -360,7 +360,7 @@ sub checkTreePerms {
         }
     }
 
-    if ( $perms =~ /f/ && -f $path ) {
+    if ( $perms =~ m/f/ && -f $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
         if ( $mode != $Foswiki::cfg{Store}{filePermission} ) {
             my $omode = sprintf( '%04o', $mode );
@@ -392,8 +392,8 @@ sub checkTreePerms {
         }
     }
 
-    if (   $perms =~ /p/
-        && $path =~ /\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
+    if (   $perms =~ m/p/
+        && $path =~ m/\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
         && -d $path )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
@@ -446,15 +446,15 @@ sub _buildRWXMessageString {
     my ( $perms, $path ) = @_;
     my $message = '';
 
-    if ( $perms =~ /r/ && !-r $path ) {
+    if ( $perms =~ m/r/ && !-r $path ) {
         $message .= ' not readable';
     }
 
-    if ( $perms =~ /w/ && !-d $path && !-w $path ) {
+    if ( $perms =~ m/w/ && !-d $path && !-w $path ) {
         $message .= ' not writable';
     }
 
-    if ( $perms =~ /x/ && !-x $path ) {
+    if ( $perms =~ m/x/ && !-x $path ) {
         $message .= ' not executable';
     }
 
@@ -485,7 +485,7 @@ sub checkGNUProgram {
     {
 
         # SMELL: assumes no spaces in program pathnames
-        $prog =~ /^\s*(\S+)/;
+        $prog =~ m/^\s*(\S+)/;
         $prog = $1;
         my $diffOut = ( `$prog --version 2>&1` || "" );
         my $notFound = ( $? != 0 );
@@ -534,7 +534,7 @@ sub copytree {
         return ("Failed to copy $from: $!") unless opendir( $d, $from );
         my @e;
         foreach my $f ( grep { !/^\./ } readdir $d ) {
-            $f =~ /(.*)/;
+            $f =~ m/(.*)/;
             $f = $1;    # untaint
             push( @e, copytree( "$from/$f", "$to/$f" ) );
         }
@@ -568,7 +568,7 @@ sub listDir {
     my ( $dir, $dflag, $path ) = @_;
     $path  ||= '';
     $dflag ||= '';
-    $dir .= '/' unless $dir =~ /\/$/;
+    $dir .= '/' unless $dir =~ m/\/$/;
     my $d;
     my @names = ();
     if ( opendir( $d, "$dir$path" ) ) {
@@ -578,7 +578,7 @@ sub listDir {
             # a filename which, when passed to File::Copy, does something
             # evil. Check and untaint the filenames here.
             # SMELL: potential problem with unicode chars in file names? (yes)
-            if ( $f =~ /^([-\w.,]+)$/ ) {
+            if ( $f =~ m/^([-\w.,]+)$/ ) {
                 $f = $1;
                 if ( -d "$dir$path/$f" ) {
                     push( @names, "$path$f/" ) unless ($dflag);
@@ -618,7 +618,7 @@ sub createArchive {
     my $warn    = '';
 
     my $here = Cwd::getcwd();
-    $here =~ /(.*)/;
+    $here =~ m/(.*)/;
     $here = $1;    # untaint current dir name
 
     return ( undef, "Directory $dir/$name does not exist \n" )
@@ -740,7 +740,7 @@ sub unpackArchive {
 
     $dir ||= File::Temp::tempdir( CLEANUP => 1 );
     my $here = Cwd::getcwd();
-    $here =~ /(.*)/;
+    $here =~ m/(.*)/;
     $here = $1;    # untaint current dir name
     chdir($dir);
 
@@ -773,7 +773,7 @@ sub _unzip {
         my @members = $zip->members();
         foreach my $member (@members) {
             my $file = $member->fileName();
-            $file =~ /^(.*)$/;
+            $file =~ m/^(.*)$/;
             $file = $1;    #yes, we must untaint
             my $target = $file;
             my $dest   = Cwd::getcwd();
@@ -803,7 +803,7 @@ sub _unzip {
 sub _untar {
     my $archive = shift;
 
-    my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
+    my $compressed = ( $archive =~ m/z$/i ) ? 'z' : '';
 
     eval('require Archive::Tar');
 
@@ -930,13 +930,13 @@ sub rewriteShebang {
         && substr( $contents, $perlIdx - 1, 1 ) eq ' ' );
 
     my $mode = ( stat($file) )[2];
-    $file =~ /(.*)/;
+    $file =~ m/(.*)/;
     $file = $1;
     chmod( oct(600), "$file" );
     open( $fh, '>', $file ) || return "Rewrite shebang failed:  $!";
     print $fh $contents;
     close $fh;
-    $mode =~ /(.*)/;
+    $mode =~ m/(.*)/;
     $mode = $1;
     chmod( $mode, "$file" );
 

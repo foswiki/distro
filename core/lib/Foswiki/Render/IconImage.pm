@@ -45,9 +45,9 @@ sub render {
 
     $quote ||= '';
 
-    return $html if ( !$quote || $html =~ /$quote/ );
+    return $html if ( !$quote || $html =~ m/$quote/ );
 
-    if ( $html =~ /(['"])/ ) {
+    if ( $html =~ m/(['"])/ ) {
         my $q = $1;
         $html =~ s/$q/$quote/g;
     }

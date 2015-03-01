@@ -132,7 +132,7 @@ sub checkURI {
             else {
                 if ( $hi->{ipaddr} ) {
                     $reporter->ERROR("IP address is not permitted in $uri")
-                      unless ( $checks{authtype}[0] =~ /ip$/ );
+                      unless ( $checks{authtype}[0] =~ m/ip$/ );
                     $reporter->ERROR("IP address is required in $uri")
                       if ( $checks{authtype}[0] eq 'ip' );
                     $reporter->ERROR(
@@ -140,7 +140,7 @@ sub checkURI {
                     ) if ( !$IPv6Avail && $hi->{ipv6addr} );
                 }
                 else {
-                    if ( $checks{authtype}[0] =~ /^host/ ) {
+                    if ( $checks{authtype}[0] =~ m/^host/ ) {
                         if ( !$IPv6Avail && @{ $hi->{v6addrs} } ) {
                             if ( @{ $hi->{v4addrs} } ) {
                                 $reporter->NOTE(
@@ -176,7 +176,7 @@ sub checkURI {
 
     if ( $parts{path} ) {
         if ( defined $path ) {
-            if ( $scheme =~ /^https?$/i || !$parts{scheme} ) {
+            if ( $scheme =~ m/^https?$/i || !$parts{scheme} ) {
                 unless ( $path =~
 m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                   )
@@ -218,7 +218,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
 
     if ( $parts{fragment} ) {
         if ( defined $fragment ) {
-            if ( $scheme =~ /^https?$/i ) {
+            if ( $scheme =~ m/^https?$/i ) {
                 unless ( $fragment =~
                     m{^#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*$} )
                 {

@@ -340,10 +340,10 @@ sub _renameTopicOrAttachment {
 sub _safeTopicName {
     my ($topic) = @_;
 
-    $topic =~ s/\s//go;
+    $topic =~ s/\s//g;
     $topic = ucfirst $topic;    # Item3270
     $topic =~ s![./]!_!g;
-    $topic =~ s/($Foswiki::cfg{NameFilter})//go;
+    $topic =~ s/($Foswiki::cfg{NameFilter})//g;
 
     return $topic;
 }
@@ -684,7 +684,7 @@ sub _renameWeb {
     }
 
     my $new_url = '';
-    if (   $newWeb =~ /^$Foswiki::cfg{TrashWebName}\b/
+    if (   $newWeb =~ m/^$Foswiki::cfg{TrashWebName}\b/
         && $oldWeb !~ /^$Foswiki::cfg{TrashWebName}\b/ )
     {
 
@@ -933,7 +933,7 @@ sub _doReplace {
 
     # TWikibug:Item4661 If there is a web defined in the match, then
     # make sure there's a web defined in the replacement.
-    if ( $match =~ /\./ && $repl !~ /\./ ) {
+    if ( $match =~ m/\./ && $repl !~ /\./ ) {
         $repl = $web . '.' . $repl;
     }
     return $repl;
@@ -1067,7 +1067,7 @@ sub _newTopicOrAttachmentScreen {
             $search = $session->i18n->maketext('(skipped)');
         }
         else {
-            if ( $tmpl =~ /%GLOBAL_SEARCH%/ ) {
+            if ( $tmpl =~ m/%GLOBAL_SEARCH%/ ) {
                 $refs = _getReferringTopics( $session, $from, 1 );
                 $resultCount += keys %$refs;
                 foreach my $entry ( sort keys %$refs ) {
@@ -1080,9 +1080,9 @@ sub _newTopicOrAttachmentScreen {
                 }
             }
         }
-        $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
+        $tmpl =~ s/%GLOBAL_SEARCH%/$search/;
 
-        if ( $tmpl =~ /%LOCAL_SEARCH%/ ) {
+        if ( $tmpl =~ m/%LOCAL_SEARCH%/ ) {
             $refs = _getReferringTopics( $session, $from, 0 );
             $resultCount += keys %$refs;
             $search = '';
@@ -1094,9 +1094,9 @@ sub _newTopicOrAttachmentScreen {
             unless ($search) {
                 $search = ( $session->i18n->maketext('(none)') );
             }
-            $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
+            $tmpl =~ s/%LOCAL_SEARCH%/$search/g;
         }
-        $tmpl =~ s/%SEARCH_COUNT%/$resultCount/go;
+        $tmpl =~ s/%SEARCH_COUNT%/$resultCount/g;
     }
 
     $tmpl = $from->expandMacros($tmpl);
@@ -1142,9 +1142,9 @@ sub _newWebScreen {
         $toWeb = $renamedWeb;
     }
 
-    $tmpl =~ s/%NEW_PARENTWEB%/$newParent/go;
-    $tmpl =~ s/%NEW_SUBWEB%/$newSubWeb/go;
-    $tmpl =~ s/%TOPIC%/$Foswiki::cfg{HomeTopicName}/go;
+    $tmpl =~ s/%NEW_PARENTWEB%/$newParent/g;
+    $tmpl =~ s/%NEW_SUBWEB%/$newSubWeb/g;
+    $tmpl =~ s/%TOPIC%/$Foswiki::cfg{HomeTopicName}/g;
 
     my ( $movelocked, $refdenied, $reflocked ) = ( '', '', '' );
     $movelocked = join( ', ', @{ $infoRef->{movelocked} } )
@@ -1166,7 +1166,7 @@ sub _newWebScreen {
 
     my $submitAction =
       ( $movelocked || $reflocked ) ? $refresh_prompt : $submit_prompt;
-    $tmpl =~ s/%RENAMEWEB_SUBMIT%/$submitAction/go;
+    $tmpl =~ s/%RENAMEWEB_SUBMIT%/$submitAction/g;
 
     my $refs;
     my $search      = '';
@@ -1192,7 +1192,7 @@ sub _newWebScreen {
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );
     }
-    $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
+    $tmpl =~ s/%GLOBAL_SEARCH%/$search/;
 
     $refs = $infoRef->{referring}{refs0};
     $resultCount += keys %$refs;
@@ -1215,8 +1215,8 @@ sub _newWebScreen {
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );
     }
-    $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
-    $tmpl =~ s/%SEARCH_COUNT%/$resultCount/go;
+    $tmpl =~ s/%LOCAL_SEARCH%/$search/g;
+    $tmpl =~ s/%SEARCH_COUNT%/$resultCount/g;
 
     my $fromWebHome =
       new Foswiki::Meta( $session, $from->web, $Foswiki::cfg{HomeTopicName} );
@@ -1366,7 +1366,7 @@ sub _getReferenceRE {
 
                 # Optional web specifier - but *only* if the topic name
                 # is a wikiword
-                if ( $topic =~ /$Foswiki::regex{wikiWordRegex}/ ) {
+                if ( $topic =~ m/$Foswiki::regex{wikiWordRegex}/ ) {
 
                     # Bit of jigger-pokery at the front to avoid matching
                     # subweb specifiers

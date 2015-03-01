@@ -262,7 +262,7 @@ sub maketext {
     # into "internal representation" as expected by Foswiki::I18N::maketext
     @args = map { $this->fromSiteCharSet($_) } @args;
 
-    if ( $text =~ /^_/ && $text ne '_language_name' ) {
+    if ( $text =~ m/^_/ && $text ne '_language_name' ) {
         require CGI;
         import CGI();
 

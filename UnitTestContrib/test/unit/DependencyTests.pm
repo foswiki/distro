@@ -198,7 +198,7 @@ sub test_check_dep_version_with_rev {
     $this->assert_matches(
         qr/Foswiki::Contrib::UnitTestContrib::DateBasedRelease .* installed/,
         $message );
-    $this->assert( $message =~ /version (\d+) /, $message );
+    $this->assert( $message =~ m/version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
 }
@@ -219,7 +219,7 @@ sub test_check_dep_version_with_implied_svn {
         qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
         $message
     );
-    $this->assert( $message =~ /version (\d+) /, $message );
+    $this->assert( $message =~ m/version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
 }
@@ -240,7 +240,7 @@ sub test_check_dep_version_with_explicit_svn {
         qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
         $message
     );
-    $this->assert( $message =~ /version (\d+) /, $message );
+    $this->assert( $message =~ m/version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
 }
@@ -261,7 +261,7 @@ sub test_check_dep_version_with_unsatisfied_explicit_svn {
 qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version < r23 required/,
         $message
     );
-    $this->assert( $message =~ /version (\d+) /, $message );
+    $this->assert( $message =~ m/version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
 }
@@ -282,7 +282,7 @@ sub test_check_dep_version_with_unsatisfied_svn {
 qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version > 2000 required/,
         $message
     );
-    $this->assert( $message =~ /version (\d+) /, $message );
+    $this->assert( $message =~ m/version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
 }
@@ -982,13 +982,13 @@ sub test_compare_cpan_version_objects {
         my $ver1;
         my $ver2;
 
-        if ( $set->[1] =~ /v/ ) {
+        if ( $set->[1] =~ m/v/ ) {
             $ver1 = version->declare("$set->[1]");
         }
         else {
             $ver1 = version->parse("$set->[1]");
         }
-        if ( $set->[3] =~ /v/ ) {
+        if ( $set->[3] =~ m/v/ ) {
             $ver2 = version->declare("$set->[3]");
         }
         else {

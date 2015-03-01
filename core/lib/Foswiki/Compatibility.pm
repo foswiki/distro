@@ -64,7 +64,7 @@ sub _upgradeCategoryItem {
         for ( $i = 3 ; $i < $len ; $i++ ) {
             my $value = $cmd[$i];
             $svalue = $value;
-            if ( $src =~ /$value/ ) {
+            if ( $src =~ m/$value/ ) {
                 $catvalue = $svalue;
             }
         }
@@ -87,7 +87,7 @@ sub _upgradeCategoryItem {
             # I18N: FIXME - need to look at this, but since it's upgrading
             # old forms that probably didn't use I18N, it's not a high
             # priority.
-            if ( $src =~ /$value[^a-zA-Z0-9\.]/ ) {
+            if ( $src =~ m/$value[^a-zA-Z0-9\.]/ ) {
                 $catvalue .= ", " if ($catvalue);
                 $catvalue .= $svalue;
             }
@@ -100,7 +100,7 @@ sub _upgradeCategoryItem {
 
         #$scatname =~ s/[^a-zA-Z0-9]//g;
         # SMELL: unchecked implicit untaint?
-        $src =~ /<!---->(.*)<!---->/;
+        $src =~ m/<!---->(.*)<!---->/;
         if ($1) {
             $src = $1;
         }
@@ -151,8 +151,8 @@ sub upgradeCategoryTable {
         my $prefs     = $session->{prefs};
         my $webObject = Foswiki::Meta->new( $session, $web );
         my $listForms = $webObject->getPreference('WEBFORMS');
-        $listForms =~ s/^\s*//go;
-        $listForms =~ s/\s*$//go;
+        $listForms =~ s/^\s*//g;
+        $listForms =~ s/\s*$//g;
         my @formTemplates = split( /\s*,\s*/, $listForms );
         my $defaultFormTemplate = '';
         $defaultFormTemplate = $formTemplates[0] if (@formTemplates);
@@ -186,7 +186,7 @@ sub upgradeCategoryTable {
             foreach my $oldCatP (@items) {
                 my @oldCat = @$oldCatP;
                 my $name = $oldCat[0] || '';
-                $name =~ s/[^A-Za-z0-9_\.]//go;
+                $name =~ s/[^A-Za-z0-9_\.]//g;
                 if ( $name eq $fieldDef->{name} ) {
                     $value = $oldCat[2];
                     last;
@@ -234,11 +234,10 @@ sub _getOldAttachAttr {
         if ( !$filePath ) { $filePath = ''; }
 
         # SMELL: unchecked implicit untaint
-        $filePath =~ s/<TwkData value="(.*)">//go;
+        $filePath =~ s/<TwkData value="(.*)">//g;
         if   ($1) { $filePath = $1; }
         else      { $filePath = ''; }
-        $filePath =~
-          s/\%NOP\%//goi;    # delete placeholder that prevents WikiLinks
+        $filePath =~ s/\%NOP\%//gi; # delete placeholder that prevents WikiLinks
         ( $before, $fileSize, $after ) =
           split( /<(?:\/)*TwkFileSize>/, $atext );
         if ( !$fileSize ) { $fileSize = '0'; }
@@ -249,7 +248,7 @@ sub _getOldAttachAttr {
             $fileDate = '';
         }
         else {
-            $fileDate =~ s/&nbsp;/ /go;
+            $fileDate =~ s/&nbsp;/ /g;
             require Foswiki::Time;
             $fileDate = Foswiki::Time::parseTime($fileDate);
         }
@@ -262,7 +261,7 @@ sub _getOldAttachAttr {
             $fileUser = $users->getLoginName($fileUser) if $fileUser;
         }
         $fileUser ||= '';
-        $fileUser =~ s/ //go;
+        $fileUser =~ s/ //g;
         ( $before, $fileComment, $after ) =
           split( /<(?:\/)*TwkFileComment>/, $atext );
         if ( !$fileComment ) { $fileComment = ''; }
@@ -289,7 +288,7 @@ sub migrateToFileAttachmentMacro {
     $text .= $after if ($after);
     $atext = '' if ( !$atext );
 
-    if ( $atext =~ /<TwkNextItem>/ ) {
+    if ( $atext =~ m/<TwkNextItem>/ ) {
         my $line = '';
         foreach $line ( split( /<TwkNextItem>/, $atext ) ) {
             my (
@@ -320,7 +319,7 @@ sub migrateToFileAttachmentMacro {
         my $line = '';
         require Foswiki::Attrs;
         foreach $line ( split( /\r?\n/, $atext ) ) {
-            if ( $line =~ /%FILEATTACHMENT{\s"([^"]*)"([^}]*)}%/ ) {
+            if ( $line =~ m/%FILEATTACHMENT{\s"([^"]*)"([^}]*)}%/ ) {
                 my $name   = $1;
                 my $values = new Foswiki::Attrs($2);
                 $values->{name} = $name;
@@ -346,8 +345,8 @@ sub upgradeFrom1v0beta {
     my @attach = $meta->find('FILEATTACHMENT');
     foreach my $att (@attach) {
         my $date = $att->{date} || 0;
-        if ( $date =~ /-/ ) {
-            $date =~ s/&nbsp;/ /go;
+        if ( $date =~ m/-/ ) {
+            $date =~ s/&nbsp;/ /g;
             $date = Foswiki::Time::parseTime($date);
         }
         $att->{date} = $date;
@@ -418,7 +417,7 @@ sub makeCompatibleAnchors {
 sub _makeBadAnchorName {
     my ( $anchorName, $compatibilityMode ) = @_;
     if (  !$compatibilityMode
-        && $anchorName =~ /^$Foswiki::regex{anchorRegex}$/ )
+        && $anchorName =~ m/^$Foswiki::regex{anchorRegex}$/ )
     {
 
         # accept, already valid -- just remove leading #
@@ -430,7 +429,7 @@ sub _makeBadAnchorName {
     $anchorName =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
 
     # add an _ before bare WikiWords
-    $anchorName =~ s/($Foswiki::regex{wikiWordRegex})/_$1/go;
+    $anchorName =~ s/($Foswiki::regex{wikiWordRegex})/_$1/g;
 
     if ($compatibilityMode) {
 
@@ -443,10 +442,10 @@ sub _makeBadAnchorName {
     $anchorName =~ s/&#?[a-zA-Z0-9]+;//g;       # remove HTML entities
     $anchorName =~ s/&//g;                      # remove &
          # filter TOC excludes if not at beginning
-    $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/o;
+    $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/;
 
     # filter '!!', '%NOTOC%'
-    $anchorName =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
+    $anchorName =~ s/$Foswiki::regex{headerPatternNoTOC}//;
 
     # No matter what character set we use, the HTML standard does not allow
     # anything else than English alphanum characters in anchors

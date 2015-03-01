@@ -877,7 +877,7 @@ sub populateNewWeb {
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
-            next unless ( $sys || $topic =~ /^Web/ );
+            next unless ( $sys || $topic =~ m/^Web/ );
             my $to =
               Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
 
@@ -1140,7 +1140,7 @@ sub loadVersion {
     }
 
     # Is it already loaded?
-    ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
+    ASSERT( !($rev) or $rev =~ m/^\s*\d+\s*/ ) if DEBUG;   # looks like a number
     return $this->{_loadedRev}
       if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
 
@@ -1426,7 +1426,7 @@ sub remove {
     }
     else {
         foreach my $entry ( keys %$this ) {
-            unless ( $entry =~ /^_/ ) {
+            unless ( $entry =~ m/^_/ ) {
                 delete $this->{$entry};
             }
         }
@@ -1458,11 +1458,11 @@ sub copyFrom {
     _assertIsTopic($other) if DEBUG;
 
     if ($type) {
-        return if $type =~ /^_/;
+        return if $type =~ m/^_/;
         my @data;
         foreach my $item ( @{ $other->{$type} } ) {
             if ( !$filter
-                || ( $item->{name} && $item->{name} =~ /$filter/ ) )
+                || ( $item->{name} && $item->{name} =~ m/$filter/ ) )
             {
                 ASSERT( defined($item) ) if DEBUG;
                 my %datum = %$item;
@@ -1473,7 +1473,7 @@ sub copyFrom {
     }
     else {
         foreach my $k ( keys %$other ) {
-            unless ( $k =~ /^_/ ) {
+            unless ( $k =~ m/^_/ ) {
                 $this->copyFrom( $other, $k );
             }
         }
@@ -3088,7 +3088,7 @@ sub testAttachment {
 
     $this->addDependency();
 
-    $test =~ /(\w)/;
+    $test =~ m/(\w)/;
     $test = $1;
     if ( $test eq 'r' ) {
         return $this->haveAccess('VIEW');
@@ -3597,11 +3597,11 @@ sub summariseChanges {
     _assertIsTopic($this) if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
 
-    ASSERT( $nrev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
+    ASSERT( $nrev =~ m/^\s*\d+\s*/ ) if DEBUG;    # looks like a number
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
+    ASSERT( $orev =~ m/^\s*\d+\s*/ ) if DEBUG;    # looks like a number
     ASSERT( $orev >= 0 ) if DEBUG;
     ASSERT( $nrev >= $orev ) if DEBUG;
 
@@ -3662,7 +3662,7 @@ sub summariseChanges {
     while ( scalar(@$blocks) && scalar(@revised) < $CHANGES_SUMMARY_LINECOUNT )
     {
         my $block = shift(@$blocks);
-        next unless $block =~ /\S/;
+        next unless $block =~ m/\S/;
         my $trim = length($block) > $trunc;
         $block =~ s/^(.{$trunc}).*$/$1/ if ($trim);
         if ( $block =~ m/^[-+]/ ) {

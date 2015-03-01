@@ -111,7 +111,7 @@ sub hostInfo {
 
     my $result = { addrs => [], error => '', v4addrs => [], v6addrs => [], };
 
-    if ( $name =~ /^\[($IPv6ZidRe|$IPv4Re)\](?::(\d+))?$/ ) {
+    if ( $name =~ m/^\[($IPv6ZidRe|$IPv4Re)\](?::(\d+))?$/ ) {
         if ( defined $2 && ( $2 < 10 || $2 > 65535 ) ) {
             $result->{error} = "Invalid port number $2";
             return $result;
@@ -120,13 +120,13 @@ sub hostInfo {
         $result->{name} = $1;
         $result->{port} = $2;
     }
-    elsif ( $name =~ /^$IPv6ZidRe$/ ) {
+    elsif ( $name =~ m/^$IPv6ZidRe$/ ) {
         $result->{name} = $name;
-        $name =~ /^(.*)$/;
+        $name =~ m/^(.*)$/;
         $name = $1;
     }
     else {
-        if ( $name =~ /^([^:]+)(?::(\d+))?$/ ) {
+        if ( $name =~ m/^([^:]+)(?::(\d+))?$/ ) {
             if ( defined $2 && ( $2 < 10 || $2 > 65535 ) ) {
                 $result->{error} = "Invalid port number $2";
                 return $result;
@@ -142,7 +142,7 @@ sub hostInfo {
         }
     }
 
-    if ( $name =~ /^$IPv4Re$/ ) {
+    if ( $name =~ m/^$IPv4Re$/ ) {
         $result->{ipv4addr} = 1;
         $result->{ipaddr}   = 1;
         if ( !$opts->{unspec} && $result->{name} eq '0.0.0.0' ) {
@@ -150,10 +150,10 @@ sub hostInfo {
             return $result;
         }
     }
-    elsif ( $name =~ /^$IPv6ZidRe$/ ) {
+    elsif ( $name =~ m/^$IPv6ZidRe$/ ) {
         $result->{ipv6addr} = 1;
         $result->{ipaddr}   = 1;
-        unless ( $name =~ /$v6re/ ) {
+        unless ( $name =~ m/$v6re/ ) {
             $result->{error} = "This type of IPv6 address is not permitted";
             return $result;
         }
@@ -211,7 +211,7 @@ sub addrInfo {
 
     my $result = {};
 
-    $address =~ /^(.*)$/;
+    $address =~ m/^(.*)$/;
     $address = $1;
 
     # We don't take the trouble to ask DNS for multiple PTR records.

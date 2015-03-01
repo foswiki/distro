@@ -214,8 +214,8 @@ sub registerAccount {
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail =~ /^Subject:.*Registration for/m ) {
-                if ( $mail =~ /^To: .*\b$this->{new_user_email}\b/m ) {
+            if ( $mail =~ m/^Subject:.*Registration for/m ) {
+                if ( $mail =~ m/^To: .*\b$this->{new_user_email}\b/m ) {
                     $this->assert( !$done, $done . "\n---------\n" . $mail );
                     $done = $mail;
                 }
@@ -660,7 +660,7 @@ sub registerVerifyOk {
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $done = '';
     foreach my $mail (@FoswikiFnTestCase::mails) {
-        if ( $mail =~ /Your verification code is /m ) {
+        if ( $mail =~ m/Your verification code is /m ) {
             $this->assert( !$done, $done . "\n---------\n" . $mail );
             $done = $mail;
         }
@@ -846,8 +846,8 @@ sub _registerNoVerifyOk {
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail =~ /^Subject:.*Registration for/m ) {
-                if ( $mail =~ /^To: .*\b$this->{new_user_email}\b/m ) {
+            if ( $mail =~ m/^Subject:.*Registration for/m ) {
+                if ( $mail =~ m/^To: .*\b$this->{new_user_email}\b/m ) {
                     $this->assert( !$done, $done . "\n---------\n" . $mail );
                     $done = $mail;
                 }
@@ -970,8 +970,8 @@ sub verify_rejectDuplicateEmail {
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail =~ /^Subject:.*Registration for/m ) {
-                if ( $mail =~ /^To: .*\bjoe\@gooddomain.net\b/m ) {
+            if ( $mail =~ m/^Subject:.*Registration for/m ) {
+                if ( $mail =~ m/^To: .*\bjoe\@gooddomain.net\b/m ) {
                     $this->assert( !$done, $done . "\n---------\n" . $mail );
                     $done = $mail;
                 }
@@ -1232,8 +1232,8 @@ sub verify_rejectFilteredEmail {
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail =~ /^Subject:.*Registration for/m ) {
-                if ( $mail =~ /^To: .*\bjoe\@gooddomain.net\b/m ) {
+            if ( $mail =~ m/^Subject:.*Registration for/m ) {
+                if ( $mail =~ m/^To: .*\bjoe\@gooddomain.net\b/m ) {
                     $this->assert( !$done, $done . "\n---------\n" . $mail );
                     $done = $mail;
                 }
@@ -1853,15 +1853,15 @@ s/$this->{new_user_fullname} - $this->{new_user_wikiname} - $this->{new_user_ema
         $actual
     );
 
-    $this->assert( $actual =~ /^\s*\*\s*Email:\s*$this->{new_user_email}$/,
+    $this->assert( $actual =~ m/^\s*\*\s*Email:\s*$this->{new_user_email}$/,
         $actual );
-    $this->assert( $actual =~ /^\s*\*\s*CompanyName:\s*$/,         $actual );
-    $this->assert( $actual =~ /^\s*\*\s*CompanyURL:\s*$/,          $actual );
-    $this->assert( $actual =~ /^\s*\*\s*Country:\s*Saudi Arabia$/, $actual );
-    $this->assert( $actual =~ /^\s*\*\s*Comment:\s*$/,             $actual );
-    $this->assert( $actual =~ /^\s*\*\s*Password:\s*mypassword$/,  $actual );
-    $this->assert( $actual =~ /^\s*\*\s*LoginName:\s*$/,           $actual );
-    $this->assert( $actual =~ /^\s*\*\s*Name:\s*$this->{new_user_fullname}$/,
+    $this->assert( $actual =~ m/^\s*\*\s*CompanyName:\s*$/,         $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*CompanyURL:\s*$/,          $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*Country:\s*Saudi Arabia$/, $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*Comment:\s*$/,             $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*Password:\s*mypassword$/,  $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*LoginName:\s*$/,           $actual );
+    $this->assert( $actual =~ m/^\s*\*\s*Name:\s*$this->{new_user_fullname}$/,
         $actual );
 
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -2706,7 +2706,7 @@ sub verify_registerVerifyOKApproved {
                 qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m, $mail );
             $this->assert(
                 $mail =~
-                  /http:.*register\?action=approve;code=(.*?);referee=(\w*)$/m,
+                  m/http:.*register\?action=approve;code=(.*?);referee=(\w*)$/m,
                 $mail
             );
             $this->assert_equals( $this->{session}->{DebugVerificationCode},
@@ -2759,7 +2759,7 @@ sub verify_registerVerifyOKApproved {
        # Make sure the confirmations are sent; one to the user, one to the admin
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail =~ /^To: Wiki/m ) {
+            if ( $mail =~ m/^To: Wiki/m ) {
                 $this->assert_matches( qr/^To: Wiki Administrator/m, $mail );
             }
             else {
@@ -2843,7 +2843,7 @@ sub verify_registerVerifyOKDisapproved {
                 qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m, $mail );
             $this->assert(
                 $mail =~
-                  /http:.*register\?action=approve;code=(.*?);referee=(\w*)$/m,
+                  m/http:.*register\?action=approve;code=(.*?);referee=(\w*)$/m,
                 $mail
             );
             $this->assert_equals( $this->{session}->{DebugVerificationCode},

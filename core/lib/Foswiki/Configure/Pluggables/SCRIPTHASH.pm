@@ -40,20 +40,20 @@ sub construct {
     }
 
     foreach my $filename ( sort readdir($dh) ) {
-        next if $filename =~ /^\./;
+        next if $filename =~ m/^\./;
 
         # Foswiki.fcgi Doesn't follow suffix convention, and would never be
         # considered a foswiki action,  so just skip over the fcgi helper.
-        next if $filename =~ /^foswiki.fcgi$/;
+        next if $filename =~ m/^foswiki.fcgi$/;
 
         # validate and untaint
-        next unless $filename =~ /^([-A-Za-z_.]+)$/;
+        next unless $filename =~ m/^([-A-Za-z_.]+)$/;
         $filename = $1;
         my $script;
         my $default;
 
         if ( $Foswiki::cfg{ScriptSuffix} ) {
-            next unless $filename =~ /^(.*)$Foswiki::cfg{ScriptSuffix}$/;
+            next unless $filename =~ m/^(.*)$Foswiki::cfg{ScriptSuffix}$/;
             $script = $1;
             $default =
               "\$Foswiki::cfg{ScriptUrlPath}/$1\$Foswiki::cfg{ScriptSuffix}";

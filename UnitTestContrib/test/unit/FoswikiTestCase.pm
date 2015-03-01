@@ -196,17 +196,17 @@ my %foswiki_things = (
         my ($this) = @_;
 
         return ( $this->check_plugin_enabled('MongoDBPlugin')
-              || $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/
-              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ /MongoDB/ );
+              || $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/MongoDB/
+              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ m/MongoDB/ );
     },
     'ShortURLs' => sub {
         return ( exists $Foswiki::cfg{ScriptUrlPaths}{view}
               && defined $Foswiki::cfg{ScriptUrlPaths}{view}
-              && !( $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ ) );
+              && !( $Foswiki::cfg{ScriptUrlPaths}{view} =~ m/view$/ ) );
     },
     'unicode' => sub {
         return ( defined $Foswiki::cfg{Site}{CharSet}
-              && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?\d{1,2}$/i );
+              && $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?\d{1,2}$/i );
     },
     'PlatformWindows' => sub {
         return ( $Foswiki::cfg{OS} eq 'WINDOWS'
@@ -289,7 +289,7 @@ sub _check_using {
     my ( $this, $what ) = @_;
     my $result;
 
-    if ( $what =~ /^[^:]+Plugin$/ ) {
+    if ( $what =~ m/^[^:]+Plugin$/ ) {
         print STDERR "_check_using, plugin enabled\n" if TRACE;
         $result = $this->check_plugin_enabled($what);
     }
@@ -361,14 +361,14 @@ sub _check_dependency {
 
     # Eg. Foswiki::Plugins::ZonePlugin,>=3.1,perl
     # TODO: type?
-    if ( $what =~ /^([^,]+)\s*(,\s*([^,]+),([^,]+))?/ ) {
+    if ( $what =~ m/^([^,]+)\s*(,\s*([^,]+),([^,]+))?/ ) {
         require Foswiki::Configure::Dependency;
         my ( $module, $equality, $version ) = ( $1, $3, $4 );
         print STDERR "_check_dependency, testing $module "
           . ( $equality || '""' ) . ' '
           . ( $version  || '""' ) . "\n"
           if TRACE;
-        my $type = $module =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
+        my $type = $module =~ m/^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
         my $dep =
           defined $version
           ? Foswiki::Configure::Dependency->new(
@@ -627,7 +627,7 @@ sub set_up {
             chomp $extension;
 
             # Don't enable EmptyPlugin - Disabled by default
-            if ( $extension =~ /Plugin$/ && $extension ne 'EmptyPlugin' ) {
+            if ( $extension =~ m/Plugin$/ && $extension ne 'EmptyPlugin' ) {
                 unless ( exists $Foswiki::cfg{Plugins}{$extension}{Module} ) {
                     $Foswiki::cfg{Plugins}{$extension}{Module} =
                       'Foswiki::Plugins::' . $extension;
@@ -673,7 +673,7 @@ s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "ex
         foreach my $d ( grep { /^[A-Za-z]+Contrib$/ } readdir(F) ) {
             next unless -e "$home/lib/Foswiki/Contrib/$d/UnitTestSetup.pm";
             my $setup = "Foswiki::Contrib::$d" . '::UnitTestSetup';
-            $setup =~ /^(.*)$/;    # untaint
+            $setup =~ m/^(.*)$/;    # untaint
             eval "require $1" || die $@;
             $setup->set_up();
         }
@@ -686,7 +686,7 @@ s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "ex
     if ( $^O eq 'MSWin32' ) {
 
         #on windows, don't make a big old mess of c:\
-        $ENV{TEMP} =~ /(.*)/;
+        $ENV{TEMP} =~ m/(.*)/;
         $tempDirOptions{DIR} = $1;
     }
     $Foswiki::cfg{WorkingDir} = File::Temp::tempdir(%tempDirOptions);

@@ -108,7 +108,7 @@ unsafe operations.
 sub untaintUnchecked {
     my ($string) = @_;
 
-    if ( defined($string) && $string =~ /^(.*)$/s ) {
+    if ( defined($string) && $string =~ m/^(.*)$/s ) {
         return $1;
     }
     return $string;
@@ -134,7 +134,7 @@ sub untaint {
     return $datum unless defined $datum;
 
     # Untaint the datum before validating it
-    return undef unless $datum =~ /^(.*)$/s;
+    return undef unless $datum =~ m/^(.*)$/s;
     return &$method( $1, @_ );
 }
 
@@ -215,7 +215,7 @@ sub validateAttachmentName {
         else {
 
             # Filter nasty characters
-            $component =~ s/$Foswiki::cfg{NameFilter}//go;
+            $component =~ s/$Foswiki::cfg{NameFilter}//g;
             push( @result, $component );
         }
     }
@@ -239,7 +239,7 @@ sub _cleanUpFilePath {
         if ( $component eq '..' ) {
             throw Error::Simple( 'relative path in filename ' . $string );
         }
-        elsif ( $component =~ m/$Foswiki::cfg{NameFilter}/o ) {
+        elsif ( $component =~ m/$Foswiki::cfg{NameFilter}/ ) {
             throw Error::Simple( 'illegal characters in file name component "'
                   . $component
                   . '" of filename '
@@ -313,14 +313,14 @@ sub sanitizeAttachmentName {
     my $origName = $fileName;
 
     # Change spaces to underscore
-    $fileName =~ s/ /_/go;
+    $fileName =~ s/ /_/g;
 
     # See Foswiki.pm filenameInvalidCharRegex definition and/or Item11185
-    #$fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//go;
-    $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
+    #$fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+    $fileName =~ s/$Foswiki::cfg{NameFilter}//g;
 
     # Append .txt to some files
-    $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/goi;
+    $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/gi;
 
     # Untaint
     $fileName = untaintUnchecked($fileName);
@@ -340,10 +340,10 @@ sub _buildCommandLine {
         # Split single argument into its parts.  It may contain
         # multiple substitutions.
 
-        my @tmplarg = $tmplarg =~ /([^%]+|%[^%]+%)/g;
+        my @tmplarg = $tmplarg =~ m/([^%]+|%[^%]+%)/g;
         my @targs;
         for my $t (@tmplarg) {
-            if ( $t =~ /%(.*?)(?:\|([A-Z]))?%/ ) {
+            if ( $t =~ m/%(.*?)(?:\|([A-Z]))?%/ ) {
 
                 # implicit untaint of template OK
                 my ( $p, $flag ) = ( $1, $2 );
@@ -375,13 +375,13 @@ sub _buildCommandLine {
 
                         # Some command interpreters are too stupid to deal
                         # with filenames that start with a non-alphanumeric
-                        $param = "./$param" if $param =~ /^[^\w\/\\]/;
+                        $param = "./$param" if $param =~ m/^[^\w\/\\]/;
                         push @targs, $param;
                     }
                     elsif ( $flag eq 'N' ) {
 
                         # Generalized number.
-                        if ( $param =~ /^([0-9A-Fa-f.x+\-]{0,30})$/ ) {
+                        if ( $param =~ m/^([0-9A-Fa-f.x+\-]{0,30})$/ ) {
                             push @targs, $1;
                         }
                         else {
@@ -393,7 +393,7 @@ sub _buildCommandLine {
 
                         # "Harmless" string. Aggressively filter-in on unsafe
                         # platforms.
-                        if ( $SAFE || $param =~ /^[-0-9A-Za-z.+_]+$/ ) {
+                        if ( $SAFE || $param =~ m/^[-0-9A-Za-z.+_]+$/ ) {
                             push @targs, untaintUnchecked($param);
                         }
                         else {
@@ -500,7 +500,7 @@ sub sysCommand {
     return '' unless $template;
 
     # Implicit untaint OK; $template is safe
-    $template =~ /^(.*?)(?:\s+(.*))?$/;
+    $template =~ m/^(.*?)(?:\s+(.*))?$/;
     my $path  = $1;
     my $pTmpl = $2;
     my $cmd;
@@ -548,7 +548,7 @@ sub sysCommand {
             $data = <$handle>;
             close $handle;
             $exit = ( $? >> 8 );
-            if ( $exit == $key && $data =~ /$key: (.*)/ ) {
+            if ( $exit == $key && $data =~ m/$key: (.*)/ ) {
                 throw Error::Simple("exec of $template failed: $1");
             }
         }
@@ -593,7 +593,7 @@ sub sysCommand {
             close($readHandle);
             $pid = wait;    # wait for child process so we can get exit status
             $exit = ( $? >> 8 );
-            if ( $exit == $key && $data =~ /$key: (.*)/ ) {
+            if ( $exit == $key && $data =~ m/$key: (.*)/ ) {
                 throw Error::Simple( 'exec failed: ' . $1 );
             }
 
@@ -647,7 +647,7 @@ sub sysCommand {
               . $CMDQUOTE
               . join(
                 $CMDQUOTE . ' ' . $CMDQUOTE,
-                map { s/$CMDQUOTE/\\$CMDQUOTE/go; $_ } @args
+                map { s/$CMDQUOTE/\\$CMDQUOTE/g; $_ } @args
               ) . $CMDQUOTE;
         }
 

@@ -271,7 +271,7 @@ sub deletePage {
 
     #writeDebug("called deletePage($web, $topic)");
 
-    $web =~ s/\//./go;
+    $web =~ s/\//./g;
 
     my $webTopic = $web;
     $webTopic .= '.' . $topic if $topic;
@@ -459,7 +459,7 @@ See Foswiki::PageCache::fireDependency() for more.
 sub fireDependency {
     my ( $this, $web, $topic ) = @_;
 
-    $web =~ s/\//./go;
+    $web =~ s/\//./g;
     my $webTopic = $web . '.' . $topic;
 
     if (TRACE) {

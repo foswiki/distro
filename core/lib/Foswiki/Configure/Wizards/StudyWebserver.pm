@@ -70,8 +70,8 @@ sub report {
             if ( $key eq 'HTTP_COOKIE' && $value ) {
 
                 # url decode for readability
-                $value =~ s/%7C/ | /go;
-                $value =~ s/%3D/=/go;
+                $value =~ s/%7C/ | /g;
+                $value =~ s/%3D/=/g;
                 $decoded = ' _Cookie string decoded for readability_ ';
             }
             $value =~ s/\n/\\n/g;
@@ -139,7 +139,7 @@ sub report {
     # the install root.
     # UI.pm (now) computes the foswiki root the same way.
 
-    $FindBin::Bin =~ /(.*)/;
+    $FindBin::Bin =~ m/(.*)/;
     my $bin = $1;
 
     # In early initialization, we don't yet have LSC, so we will look there.
@@ -191,9 +191,9 @@ HERE
 
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
       ( exists $ENV{SERVER_SOFTWARE}
-          && ( $ENV{SERVER_SOFTWARE} =~ /mod_perl/ ) )
+          && ( $ENV{SERVER_SOFTWARE} =~ m/mod_perl/ ) )
       || ( exists $XENV->{ENV}->{SERVER_SOFTWARE}
-        && ( $XENV->{ENV}->{SERVER_SOFTWARE} =~ /mod_perl/ ) );
+        && ( $XENV->{ENV}->{SERVER_SOFTWARE} =~ m/mod_perl/ ) );
 
     # Detect whether we are actually running under mod_perl
     # - test for MOD_PERL alone, which is enough.
@@ -258,7 +258,7 @@ HERE
     $reporter->NOTE("| Operating system | $n |");
 
     # Perl version and type
-    if ( $] =~ /^(\d+)\.(\d{3})(\d{3})$/ ) {
+    if ( $] =~ m/^(\d+)\.(\d{3})(\d{3})$/ ) {
         $n = sprintf( "%d.%d.%d", $1, $2, $3 );
     }
     else {
@@ -285,7 +285,7 @@ HERE
 
     if ( $Foswiki::cfg{DETECTED}{ModPerlVersion} ) {
         if ( $Foswiki::cfg{DETECTED}{ModPerlVersion} =~
-            /^(\d+)\.(\d{3})(\d{3})$/ )
+            m/^(\d+)\.(\d{3})(\d{3})$/ )
         {
             $n = sprintf( "%d.%d.%d", $1, $2, $3 );
         }
@@ -309,7 +309,7 @@ HERE
     $reporter->NOTE("| mod_perl installation | $n |");
 
     # Check for a broken version of mod_perl 2.0
-    if ( $mpUsed && $Foswiki::cfg{DETECTED}{ModPerlVersion} =~ /1\.99_?11/ ) {
+    if ( $mpUsed && $Foswiki::cfg{DETECTED}{ModPerlVersion} =~ m/1\.99_?11/ ) {
 
         # Recommend mod_perl upgrade if using a mod_perl 2.0 version
         # with PATH_INFO bug (see Support.RegistryCookerBadFileDescriptor
@@ -355,8 +355,8 @@ sub _compareHashes {
                 next unless ( defined $_ );
 
                 # url decode for readability
-                s/%7C/ | /go;
-                s/%3D/=/go;
+                s/%7C/ | /g;
+                s/%3D/=/g;
                 $_ .= ' _Cookie string decoded for readability_ ';
             }
         }

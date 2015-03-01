@@ -14,7 +14,7 @@ sub check_current_value {
 
     return
       unless ( $Foswiki::cfg{EnableEmail}
-        && $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/ );
+        && $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/ );
 
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;

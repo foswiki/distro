@@ -11,7 +11,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     return ''
-      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     my $file = $Foswiki::cfg{Email}{SSLCaFile};

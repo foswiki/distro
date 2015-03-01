@@ -45,7 +45,7 @@ sub _notAvailable {
     # Disable TinyMCE if we are on a specialised edit skin
     my $skin = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_WYSIWYGSKIN');
     return "$skin is active"
-      if ( $skin && Foswiki::Func::getSkin() =~ /\b$skin\b/o );
+      if ( $skin && Foswiki::Func::getSkin() =~ m/\b$skin\b/ );
 
     return "No browser" unless $query;
 
@@ -55,7 +55,7 @@ sub _notAvailable {
     my $ua = Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_BAD_BROWSERS')
       || '(?i-xsm:Konqueror)';
     return 'Unsupported browser: ' . $query->user_agent()
-      if $ua && $query->user_agent() && $query->user_agent() =~ /$ua/;
+      if $ua && $query->user_agent() && $query->user_agent() =~ m/$ua/;
 
     # This should only ever happen on Foswiki 1.0.9 and earlier
     return 'TinyMCEPlugin requires ZonePlugin to be installed and enabled'

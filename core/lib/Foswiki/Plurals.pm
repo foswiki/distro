@@ -43,7 +43,7 @@ on a per-installation basis with $Foswiki::cfg{PluralToSingular}.
 
 sub singularForm {
     my ( $web, $pluralForm ) = @_;
-    $web =~ s#\.#/#go;
+    $web =~ s#\.#/#g;
 
     # Plural processing only if enabled in configure or one of the
     # distributed webs
@@ -51,7 +51,7 @@ sub singularForm {
       unless ( $Foswiki::cfg{PluralToSingular}
         or $web eq $Foswiki::cfg{UsersWebName}
         or $web eq $Foswiki::cfg{SystemWebName} );
-    return unless ( $pluralForm =~ /s$/ );
+    return unless ( $pluralForm =~ m/s$/ );
 
     # Topic name is plural in form
     my $singularForm = $pluralForm;

@@ -78,7 +78,7 @@ sub commonTagsHandler {
         # bail out, handler called from an %INCLUDE{}%
         return;
     }
-    unless ( $_[0] =~ /%CALC\{.*?\}%/ ) {
+    unless ( $_[0] =~ m/%CALC\{.*?\}%/ ) {
 
         # nothing to do
         return;

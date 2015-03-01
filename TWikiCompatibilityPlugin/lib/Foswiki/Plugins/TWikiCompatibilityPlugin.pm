@@ -120,7 +120,7 @@ sub augmentedTemplatePath {
         my @templatePath = ();
         foreach my $path (@cfgTemplatePath) {
             push( @templatePath, $path );
-            if ( $path =~ /^(.*)\$name(.*)$/ ) {
+            if ( $path =~ m/^(.*)\$name(.*)$/ ) {
 
                 #SMELL: hardcoded foswiki and twiki
                 push( @templatePath, "$1twiki$2" );

@@ -772,7 +772,7 @@ Present only for compatibility with CGI.
 
 sub https {
     my ( $this, $p ) = @_;
-    return !defined $p || $p =~ /^https$/i ? $this->secure : $this->http($p);
+    return !defined $p || $p =~ m/^https$/i ? $this->secure : $this->http($p);
 }
 
 =begin TML

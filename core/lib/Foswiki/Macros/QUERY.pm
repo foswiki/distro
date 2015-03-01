@@ -20,7 +20,7 @@ sub QUERY {
     my $expr = $params->{_DEFAULT};
     $expr = '' unless defined $expr;
     my $style = ucfirst( lc( $params->{style} || 'default' ) );
-    if ( $style =~ /[^a-zA-Z0-9_]/ ) {
+    if ( $style =~ m/[^a-zA-Z0-9_]/ ) {
         return "%RED%QUERY: invalid 'style' parameter passed%ENDCOLOR%";
     }
     $style = Foswiki::Sandbox::untaintUnchecked($style);

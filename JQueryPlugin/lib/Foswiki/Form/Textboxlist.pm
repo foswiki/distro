@@ -40,7 +40,7 @@ sub renderForEdit {
     my @values   = @{ $this->SUPER::getOptions() };
     my $metadata = '';
     if (@values) {
-        if ( scalar(@values) == 1 && $values[0] =~ /^https?:/ ) {
+        if ( scalar(@values) == 1 && $values[0] =~ m/^https?:/ ) {
             $metadata = "{autocomplete: '$values[0]'}";
         }
         else {

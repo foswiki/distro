@@ -89,14 +89,14 @@ sub generate {
           );
         $formList .= CGI::label( { for => $formElemId }, $formLabelContent );
     }
-    $page =~ s/%FORMLIST%/$formList/go;
+    $page =~ s/%FORMLIST%/$formList/g;
 
     my $parent = $q->param('topicparent') || '';
     $parent =
       Foswiki::Sandbox::untaint( $parent,
         \&Foswiki::Sandbox::validateTopicName )
       if $parent;
-    $page =~ s/%TOPICPARENT%/$parent/go;
+    $page =~ s/%TOPICPARENT%/$parent/g;
 
     my $redirectTo = $session->redirectto() || '';
     $page =~ s/%REDIRECTTO%/$redirectTo/g;
@@ -104,14 +104,14 @@ sub generate {
     my $text = '';
     $text = "<input type=\"hidden\" name=\"action\" value=\"$editaction\" />"
       if $editaction;
-    $page =~ s/%EDITACTION%/$text/go;
+    $page =~ s/%EDITACTION%/$text/g;
 
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 
     $text =
       CGI::hidden( -name => 'text', -value => scalar( $q->param('text') ) );
-    $page =~ s/%TEXT%/$text/go;
+    $page =~ s/%TEXT%/$text/g;
 
     return $page;
 }

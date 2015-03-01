@@ -198,7 +198,7 @@ sub list_tests {
         return;
     }
     foreach my $case ( Foswiki::Func::getTopicList('TestCases') ) {
-        next unless $case =~ /^TestCaseAuto/;
+        next unless $case =~ m/^TestCaseAuto/;
         my $test = 'SemiAutomaticTestCaseTests::test_' . $case;
         no strict 'refs';
         *{$test} = sub { shift->run_testcase($case) };

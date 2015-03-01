@@ -8,11 +8,11 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     # support upgrade from old configuration, where LowerNational and
     # UpperNational were stored as REGEX'es (now they are STRING's):
-    if ( $Foswiki::cfg{UpperNational} =~ /^\(\?-xism:(.*)\)$/ ) {
+    if ( $Foswiki::cfg{UpperNational} =~ m/^\(\?-xism:(.*)\)$/ ) {
         $Foswiki::cfg{UpperNational} = $1;
     }
 

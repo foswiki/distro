@@ -117,7 +117,7 @@ Is this field mandatory (required)?
 
 =cut
 
-sub isMandatory { return shift->{attributes} =~ /M/ }
+sub isMandatory { return shift->{attributes} =~ m/M/ }
 
 =begin TML
 
@@ -259,14 +259,14 @@ sub populateMetaFromQueryData {
             my %vset = ();
             foreach my $val (@values) {
                 $val ||= '';
-                $val =~ s/^\s*//o;
-                $val =~ s/\s*$//o;
+                $val =~ s/^\s*//;
+                $val =~ s/\s*$//;
 
                 # skip empty values
-                $vset{$val} = ( defined $val && $val =~ /\S/ );
+                $vset{$val} = ( defined $val && $val =~ m/\S/ );
             }
             $value = '';
-            my $isValues = ( $this->{type} =~ /\+values/ );
+            my $isValues = ( $this->{type} =~ m/\+values/ );
 
             foreach my $option ( @{ $this->getOptions() } ) {
                 $option =~ s/^.*?[^\\]=(.*)$/$1/ if $isValues;
@@ -389,7 +389,7 @@ sub renderForDisplay {
 
     if ( !$attrs->{showhidden} ) {
         my $fa = $this->{attributes} || '';
-        if ( $fa =~ /H/ ) {
+        if ( $fa =~ m/H/ ) {
             return '';
         }
     }
@@ -400,12 +400,12 @@ sub renderForDisplay {
     require Foswiki::Render;
 
     $format =~ s/\$title/$title/g;
-    if ( $format =~ /\$value\(display\)/ ) {
+    if ( $format =~ m/\$value\(display\)/ ) {
         my $vd = Foswiki::Render::protectFormFieldValue(
             $this->getDisplayValue($value), $attrs );
         $format =~ s/\$value\(display\)/$vd/g;
     }
-    if ( $format =~ /\$value/ ) {
+    if ( $format =~ m/\$value/ ) {
         my $v = Foswiki::Render::protectFormFieldValue( $value, $attrs );
         $format =~ s/\$value/$v/g;
     }

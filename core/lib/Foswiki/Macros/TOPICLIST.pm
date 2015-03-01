@@ -22,7 +22,7 @@ sub TOPICLIST {
     my $marker = $params->{marker} || 'selected="selected"';
 
     my $web = $params->{web} || $this->{webName};
-    $web =~ s#\.#/#go;
+    $web =~ s#\.#/#g;
 
     my $webObject = Foswiki::Meta->new( $this, $web );
     my $thisWebNoSearchAll =
@@ -47,7 +47,7 @@ sub TOPICLIST {
         $line =~ s/\$topic\b/$item/g;
         $line =~ s/\$name\b/$item/g;     # Undocumented, DO NOT REMOVE
         $line =~ s/\$qname/"$item"/g;    # Undocumented, DO NOT REMOVE
-        my $mark = ( $selection =~ / \Q$item\E / ) ? $marker : '';
+        my $mark = ( $selection =~ m/ \Q$item\E / ) ? $marker : '';
         $line =~ s/\$marker/$mark/g;
         $line = expandStandardEscapes($line);
         push( @items, $line );

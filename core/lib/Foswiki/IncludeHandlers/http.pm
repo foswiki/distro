@@ -112,13 +112,13 @@ sub INCLUDE {
     if ( !$response->is_error() ) {
         my $contentType = $response->header('content-type');
         $text = $response->content();
-        if ( $contentType =~ /^text\/html/ ) {
+        if ( $contentType =~ m/^text\/html/ ) {
             if ( !$control->{raw} ) {
                 $url =~ m!^([a-z]+:/*[^/]*)(/[^#?]*)!;
                 $text = _cleanupIncludedHTML( $text, $1, $2, $options );
             }
         }
-        elsif ( $contentType =~ /^text\/(plain|css)/ ) {
+        elsif ( $contentType =~ m/^text\/(plain|css)/ ) {
 
             # do nothing
         }
@@ -182,21 +182,21 @@ sub _rewriteURLInInclude {
     # leave out an eventual final non-directory component from the absolute path
     $theAbsPath =~ s/(.*?)[^\/]*$/$1/;
 
-    if ( $url =~ /^\// ) {
+    if ( $url =~ m/^\// ) {
 
         # fix absolute URL
         $url = $theHost . $url;
     }
-    elsif ( $url =~ /^\./ ) {
+    elsif ( $url =~ m/^\./ ) {
 
         # fix relative URL
         $url = $theHost . $theAbsPath . '/' . $url;
     }
-    elsif ( $url =~ /^$Foswiki::regex{linkProtocolPattern}:/o ) {
+    elsif ( $url =~ m/^$Foswiki::regex{linkProtocolPattern}:/ ) {
 
         # full qualified URL, do nothing
     }
-    elsif ( $url =~ /^#/ ) {
+    elsif ( $url =~ m/^#/ ) {
 
         # anchor. This needs to be left relative to the including topic
         # so do nothing

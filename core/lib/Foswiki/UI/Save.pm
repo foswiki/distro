@@ -152,7 +152,7 @@ sub buildNewTopic {
         foreach my $k ( keys %$ttom ) {
 
             # Skip internal fields and TOPICINFO, TOPICMOVED
-            unless ( $k =~ /^(_|TOPIC)/ ) {
+            unless ( $k =~ m/^(_|TOPIC)/ ) {
                 $topicObject->copyFrom( $ttom, $k );
             }
 
@@ -183,7 +183,7 @@ sub buildNewTopic {
         # from the template or the previous rev of the topic
         $text = $query->param('text');
         $text =~ s/\r//g;
-        $text .= "\n" unless $text =~ /\n$/s;
+        $text .= "\n" unless $text =~ m/\n$/s;
     }
 
     $text = '' unless defined $text;
@@ -279,7 +279,7 @@ sub buildNewTopic {
     }
 
     if ($ancestorRev) {
-        if ( $ancestorRev =~ /^(\d+)_(\d+)$/ ) {
+        if ( $ancestorRev =~ m/^(\d+)_(\d+)$/ ) {
             ( $ancestorRev, $ancestorDate ) = ( $1, $2 );
         }
         elsif ( $ancestorRev !~ /^\d+$/ ) {
@@ -385,7 +385,7 @@ sub expandAUTOINC {
     # Do not remove, keep as undocumented feature for compatibility with
     # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
     # of at least 10 x's XXXXXX with a next-in-sequence number.
-    if ( $topic =~ /X{10}/ ) {
+    if ( $topic =~ m/X{10}/ ) {
         my $n           = 0;
         my $baseTopic   = $topic;
         my $topicObject = Foswiki::Meta->new( $session, $web, $baseTopic );
@@ -399,7 +399,7 @@ sub expandAUTOINC {
 
     # Allow for more flexible topic creation with sortable names.
     # See Codev.AutoIncTopicNameOnSave
-    if ( $topic =~ /^(.*)AUTOINC(\d+)(.*)$/ ) {
+    if ( $topic =~ m/^(.*)AUTOINC(\d+)(.*)$/ ) {
         my $pre         = $1;
         my $start       = $2;
         my $pad         = length($start);
@@ -411,7 +411,7 @@ sub expandAUTOINC {
 
         while ( $it->hasNext() ) {
             my $tn = $it->next();
-            next unless $tn =~ /^${pre}(\d+)${post}$/;
+            next unless $tn =~ m/^${pre}(\d+)${post}$/;
             $start = $1 + 1 if ( $1 >= $start );
         }
         my $next = sprintf( "%0${pad}d", $start );
@@ -569,7 +569,7 @@ WARN
         # drop through
     }
 
-    if ( $saveaction =~ /^(del|rep)Rev$/ ) {
+    if ( $saveaction =~ m/^(del|rep)Rev$/ ) {
 
         # hidden, largely undocumented functions, used by administrators for
         # reverting spammed topics. These functions support rewriting
@@ -641,7 +641,7 @@ WARN
     my ( $saveOpts, $merged, $attachments ) =
       buildNewTopic( $session, $topicObject, 'save' );
 
-    if ( $saveaction =~ /^(save|checkpoint)$/ ) {
+    if ( $saveaction =~ m/^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
         $text = '' unless defined $text;
         $session->{plugins}

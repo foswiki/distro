@@ -196,7 +196,7 @@ sub setRow {
 
             # Restore the EDITCELL from the old value, if present
             if (   $val !~ /%EDITCELL{.*?}%/
-                && $this->{cols}->[$n]->{text} =~ /(%EDITCELL{.*?}%)/ )
+                && $this->{cols}->[$n]->{text} =~ m/(%EDITCELL{.*?}%)/ )
             {
                 $val .= $1;
             }

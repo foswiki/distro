@@ -467,19 +467,19 @@ INNER
     # Check the removed blocks (which have unpredictable numbers, as the
     # keys are generated when they are added to the removed hash)
     foreach my $k ( keys %{$removed} ) {
-        if ($k =~ /^literal/) {
+        if ($k =~ m/^literal/) {
             $tester->assert_str_equals("\nLITERAL\n", $removed->{$k}{'text'});
-        } elsif ($k =~ /^verbatim/) {
+        } elsif ($k =~ m/^verbatim/) {
             $tester->assert_str_equals("\nVERBATIM\n", $removed->{$k}{'text'});
-        } elsif ($k =~ /^pre/) {
+        } elsif ($k =~ m/^pre/) {
             $tester->assert_str_equals("\nPRE\n", $removed->{$k}{'text'});
-        } elsif ($k =~ /^head/) {
+        } elsif ($k =~ m/^head/) {
             $tester->assert_str_equals("<head>\nHEAD\n</head>",
                  $removed->{$k}{'text'});
-        } elsif ($k =~ /^script/) {
+        } elsif ($k =~ m/^script/) {
             $tester->assert_str_equals("<script>\nSCRIPT\n</script>",
                  $removed->{$k}{'text'});
-        } elsif ($k =~ /^textarea/) {
+        } elsif ($k =~ m/^textarea/) {
             $tester->assert_str_equals("<textarea>\nTEXTAREA\n</textarea>",
                   $removed->{$k}{'text'});
         }

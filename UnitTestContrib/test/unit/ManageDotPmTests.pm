@@ -1395,7 +1395,7 @@ s/($Foswiki::regex{setRegex}WEBSUMMARY\s*=).twinkle twinkle little star$/$1 /m;
         $this->assert( defined($1) );
 
         $this->assert_html_equals( $eText, $nText )
-          ;    #.($Foswiki::RELEASE =~ /1\.1\.0/?"\n":''));
+          ;    #.($Foswiki::RELEASE =~ m/1\.1\.0/?"\n":''));
     }
 
     return;
@@ -1728,7 +1728,7 @@ sub test_createEmptyWeb {
         $this->assert( defined($1) );
 
         $this->assert_html_equals( $eText, $nText )
-          ;    #.($Foswiki::RELEASE =~ /1\.1\.0/?"\n":''));
+          ;    #.($Foswiki::RELEASE =~ m/1\.1\.0/?"\n":''));
     }
 
     return;

@@ -129,10 +129,10 @@ sub _change {
     # Diff isn't terribly smart sometimes; it will generate changes
     # with a or b empty, which I would have thought should have
     # been accepts.
-    if ( $ai->[$a] =~ /\S/ ) {
+    if ( $ai->[$a] =~ m/\S/ ) {
 
         # there is some non-white text to delete
-        if ( $bi->[$b] =~ /\S/ ) {
+        if ( $bi->[$b] =~ m/\S/ ) {
 
             # this insert is replacing something with something
             $merged =
@@ -158,7 +158,7 @@ sub _change {
             }
         }
     }
-    elsif ( $bi->[$b] =~ /\S/ ) {
+    elsif ( $bi->[$b] =~ m/\S/ ) {
 
         # inserting new
         $merged =
@@ -266,7 +266,7 @@ sub _sChange {
     my $simpleInsert = 0;
 
     #print "DIFF Change ($ai->[$a]) ($bi->[$b]) \n";
-    if ( $ai->[$a] =~ /\S/ ) {
+    if ( $ai->[$a] =~ m/\S/ ) {
 
         # there is some non-white text to delete
         push( @$out, '-' . $ai->[$a] );
@@ -277,7 +277,7 @@ sub _sChange {
         $simpleInsert = 1;
     }
 
-    if ( !$simpleInsert && $bi->[$b] =~ /\S/ ) {
+    if ( !$simpleInsert && $bi->[$b] =~ m/\S/ ) {
 
         # this insert is replacing something with something
         push( @$out, '+' . $bi->[$b] );

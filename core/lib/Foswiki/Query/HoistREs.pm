@@ -268,14 +268,14 @@ sub _hoistEQ {
 #need to detect if its a field, or in a text, and if its a field, remove the ^$ chars...
 #or if there are no ^$, add .*'s if they are not present
             if ( $lhs->{regex} ne $PHOLD ) {
-                if (    ( not( $rhs =~ /^\^/ ) )
-                    and ( not( $rhs =~ /^\.\*/ ) ) )
+                if (    ( not( $rhs =~ m/^\^/ ) )
+                    and ( not( $rhs =~ m/^\.\*/ ) ) )
                 {
                     $rhs = '.*' . $rhs;
                 }
 
-                if (    ( not( $rhs =~ /\$$/ ) )
-                    and ( not( $rhs =~ /\.\*$/ ) ) )
+                if (    ( not( $rhs =~ m/\$$/ ) )
+                    and ( not( $rhs =~ m/\.\*$/ ) ) )
                 {
                     $rhs = $rhs . '.*';
                 }
@@ -321,7 +321,7 @@ sub _hoistDOT {
             if ( $Foswiki::Query::Node::aliases{$lhs} ) {
                 $lhs = $Foswiki::Query::Node::aliases{$lhs};
             }
-            if ( $lhs =~ /^META:/ ) {
+            if ( $lhs =~ m/^META:/ ) {
 
                 _monitor( "hoist DOT ", $node, " => $rhs" )
                   if MONITOR_HOIST;

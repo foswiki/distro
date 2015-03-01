@@ -144,7 +144,7 @@ sub parseTime {
     # or "31 Dec 2001"
     #TODO: allow /.: too
     if ( $date =~
-        /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+)(?::(\d+))?)?/i )
+        m/(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+)(?::(\d+))?)?/i )
     {
         my $year = $3;
 
@@ -161,9 +161,9 @@ sub parseTime {
     # ISO date 2001-12-31T23:59:59+01:00
     # Sven is going to presume that _all_ ISO dated must have a 'T' in them.
     if (
-        ( $date =~ /T/ )
+        ( $date =~ m/T/ )
         && ( $date =~
-/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
+m/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
         )
       )
     {
@@ -177,7 +177,7 @@ sub parseTime {
             if ( $tz eq 'Z' ) {
                 $tzadj = 0;    # Zulu
             }
-            elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
+            elsif ( $tz =~ m/([-+])(\d\d)(?::(\d\d))?/ ) {
                 $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
                 $tzadj -= 0;
             }
@@ -288,7 +288,7 @@ sub formatTime {
     $formatString   ||= '$longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
 
-    if ( $formatString =~ /http/i ) {
+    if ( $formatString =~ m/http/i ) {
         $outputTimeZone = 'gmtime';
     }
 
@@ -528,7 +528,7 @@ sub parseInterval {
 
     # if $theDate does not contain a '/': force it to do so.
     $interval = $interval . '/' . $interval
-      unless ( $interval =~ /\// );
+      unless ( $interval =~ m/\// );
 
     my ( $first, $last ) = split( /\//, $interval, 2 );
     my ( $start, $end );

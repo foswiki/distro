@@ -36,10 +36,10 @@ sub initPlugin {
       || Foswiki::Func::getPreferencesValue("SUBSCRIBEPLUGIN_ACTIVEWEBS");
 
     if ($activeWebs) {
-        $activeWebs =~ s/\s*\,\s*/\|/go;    # Change comma's to "or"
-        $activeWebs =~ s/^\s*//o;           # Drop leading spaces
-        $activeWebs =~ s/\s*$//o;           # Drop trailing spaces
-             #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//go
+        $activeWebs =~ s/\s*\,\s*/\|/g;    # Change comma's to "or"
+        $activeWebs =~ s/^\s*//;           # Drop leading spaces
+        $activeWebs =~ s/\s*$//;           # Drop trailing spaces
+             #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//g
              #  ;    # Filter any characters not valid in WikiWords
         Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0
           unless ( $WEB =~ qr/^($activeWebs)$/ );
@@ -168,7 +168,7 @@ sub _rest_subscribe {
         $text   = _template_text('no_subscribe_topic');
     }
     else {
-        $topics =~ /^(.*)$/;
+        $topics =~ m/^(.*)$/;
         $topics = $1;    # Untaint - we will check it later
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( undef, $topics );
@@ -226,7 +226,7 @@ sub _getNonce {
     else {
         # Pre 1.2.0 compatibility
         my $html = Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
-        return $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+        return $1 if ( $html =~ m/value=['"]\?(.*?)['"]/ );
         die "Internal Error";
     }
 }
@@ -256,10 +256,10 @@ sub _subscribe {
       if !(
         (
                $Foswiki::cfg{LoginNameFilterIn}
-            && $subscriber =~ m/($Foswiki::cfg{LoginNameFilterIn})/o
+            && $subscriber =~ m/($Foswiki::cfg{LoginNameFilterIn})/
         )
         || $subscriber =~ m/^([A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i
-        || $subscriber =~ m/($Foswiki::regex{wikiWordRegex})/o
+        || $subscriber =~ m/($Foswiki::regex{wikiWordRegex})/
       )
       || $subscriber eq $Foswiki::cfg{DefaultUserWikiName};
     $subscriber = $1;    # untaint

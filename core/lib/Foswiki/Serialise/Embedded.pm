@@ -119,14 +119,14 @@ sub read {
     if ( !$meta->count('TOPICINFO') ) {
 
         # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiAttachment-->/ ) {
+        if ( $text =~ m/<!--TWikiAttachment-->/ ) {
             require Foswiki::Compatibility;
             $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
                 $meta->{_session}, $meta, $text );
         }
 
         # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
+        if ( $text =~ m/<!--TWikiCat-->/ ) {
             require Foswiki::Compatibility;
             $text =
               Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
@@ -138,7 +138,7 @@ sub read {
 
         # This format used live at DrKW for a few months
         # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
+        if ( $text =~ m/<!--TWikiCat-->/ ) {
             $text =
               Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
                 $meta->{_web}, $meta->{_topic}, $meta, $text );
@@ -223,16 +223,16 @@ sub _writeTypes {
         @types = ();    # empty "not in list"
         foreach my $key ( keys %$meta ) {
             push( @types, $key )
-              unless ( exists $seen{$key} || $key =~ /^_/ );
+              unless ( exists $seen{$key} || $key =~ m/^_/ );
         }
     }
 
     foreach my $type (@types) {
-        next if ( $type =~ /^_/ );
+        next if ( $type =~ m/^_/ );
         my $data = $meta->{$type};
         next if !defined $data;
         foreach my $item (@$data) {
-            next if ( $item =~ /^_/ );
+            next if ( $item =~ m/^_/ );
             my $sep = '';
             $text .= '%META:' . $type . '{';
             my $name = $item->{name};
@@ -245,7 +245,7 @@ sub _writeTypes {
             }
             foreach my $key ( sort keys %$item ) {
 
-                #next if ($key =~ /^_/ );
+                #next if ($key =~ m/^_/ );
                 if ( $key ne 'name' ) {
                     $text .= $sep;
                     $text .= _writeKeyValue( $key, $item->{$key} );

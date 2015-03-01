@@ -125,7 +125,7 @@ sub newLeaf {
     my ( $class, $val, $type ) = @_;
 
     if (   $type == Foswiki::Infix::Node::NAME
-        && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i )
+        && $val =~ m/^({[A-Z][A-Z0-9_]*})+$/i )
     {
 
         # config var name, make sure it's accessible.
@@ -254,7 +254,7 @@ sub _getField {
         # Indexing an array object. The index will be one of:
         # 1. An integer, which is an implicit index='x' query
         # 2. A name, which is an implicit name='x' query
-        if ( $name =~ /^\d+$/ ) {
+        if ( $name =~ m/^\d+$/ ) {
 
             # Integer index
             return $data->[$name];

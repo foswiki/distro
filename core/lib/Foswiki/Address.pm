@@ -508,7 +508,7 @@ sub _parse {
         };
     }
     ASSERT(
-        ( !defined $opts->{rev} || $opts->{rev} =~ /^[-\+]?\d+$/ ),
+        ( !defined $opts->{rev} || $opts->{rev} =~ m/^[-\+]?\d+$/ ),
         "rev: '"
           . ( defined $opts->{rev} ? $opts->{rev} : 'undef' )
           . "' is numeric"
@@ -548,7 +548,7 @@ sub _parse {
                 $opts->{isA} = 'root';
             }
         }
-        elsif ( substr( $path, 0, 1 ) eq '\'' or $path =~ /\[/ ) {
+        elsif ( substr( $path, 0, 1 ) eq '\'' or $path =~ m/\[/ ) {
             $opts->{isA} = '*';
         }
     }
@@ -792,7 +792,7 @@ sub _atomiseAsAttachment {
 
     print STDERR "_atomiseAsAttachment():\n" if TRACE2;
     ASSERT($path) if DEBUG;
-    if ( my ( $lhs, $file ) = ( $path =~ /^(.*?)\/([^\/]+)$/ ) ) {
+    if ( my ( $lhs, $file ) = ( $path =~ m/^(.*?)\/([^\/]+)$/ ) ) {
         $that = $this->_atomiseAsTopic( $that, $lhs, $opts );
         $that->{tompath} = [ 'attachment', $file ];
         $that->{attachment} = $file;
@@ -853,7 +853,7 @@ sub _atomiseAsTOM {
     #        ... or at least use Regexp::Grammars
     # TODO: member selectors may only be on 1 or 2 keys, or array index
     if (
-        $path =~ /^
+        $path =~ m/^
             (                      #  1
                 '([^']+)'          #  2 'Web.Topic@123'
                 \s* \/ \s*
@@ -933,7 +933,7 @@ sub _atomiseAsTOM {
                 elsif ($6) {      # SomethingForm[n]
                     push( @tompath, $6 );
                     $doneselector = 1;
-                    ASSERT( $6 =~ /^\d+$/ ) if DEBUG;
+                    ASSERT( $6 =~ m/^\d+$/ ) if DEBUG;
                 }
                 elsif ($14) {
                     $tompath[-1]->{name} = $14;
@@ -960,7 +960,7 @@ sub _atomiseAsTOM {
             else {                           # SOMETHING[n]
                 ASSERT($6) if DEBUG;
                 push( @tompath, $6 );
-                ASSERT( $6 =~ /^\d+$/ ) if DEBUG;
+                ASSERT( $6 =~ m/^\d+$/ ) if DEBUG;
             }
             $doneselector = 1;
         }
@@ -981,7 +981,7 @@ sub _atomiseAsTOM {
             $that->{topic}   = $refAddr->{topic};
             $that->{rev}     = $refAddr->{rev};
             ASSERT(
-                ( !defined $that->{rev} || $that->{rev} =~ /^[-\+]?\d+$/ ),
+                ( !defined $that->{rev} || $that->{rev} =~ m/^[-\+]?\d+$/ ),
                 "rev '"
                   . ( defined $that->{rev} ? $that->{rev} : 'undef' )
                   . "' is numeric"
@@ -1136,7 +1136,7 @@ sub stringify {
                                         shift(@path);
                                     }
                                     else {
-                                        ASSERT( $path[0] =~ /^\d+$/ ) if DEBUG;
+                                        ASSERT( $path[0] =~ m/^\d+$/ ) if DEBUG;
                                         $this->{stringified} .= shift(@path);
                                     }
                                     $this->{stringified} .= ']';
@@ -1487,7 +1487,7 @@ sub isValid {
             $this->{isA} = {};
         }
         ASSERT(
-            ( !defined $this->{rev} || $this->{rev} =~ /^[-\+]?\d+$/ ),
+            ( !defined $this->{rev} || $this->{rev} =~ m/^[-\+]?\d+$/ ),
             "rev '"
               . ( defined $this->{rev} ? $this->{rev} : 'undef' )
               . "' is numeric"

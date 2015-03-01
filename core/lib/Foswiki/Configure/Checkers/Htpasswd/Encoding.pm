@@ -138,7 +138,7 @@ sub check_current_value {
 
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt-md5' ) {
         use Config;
-        if ( $Config{myuname} =~ /strawberry/i ) {
+        if ( $Config{myuname} =~ m/strawberry/i ) {
             my %mod = (
                 name => 'Crypt::PasswdMD5',
                 usage =>

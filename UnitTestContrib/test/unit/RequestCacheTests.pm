@@ -12,7 +12,8 @@ my %tempFileOptions = ( UNLINK => 0 );
 if ( $^O eq 'MSWin32' ) {
 
     #on windows, don't make a big old mess of c:\
-    $ENV{TEMP} =~ /(.*)/;
+
+    $ENV{TEMP} =~ m/(.*)/;
     $tempFileOptions{DIR} = $1;
 }
 

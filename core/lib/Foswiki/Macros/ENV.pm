@@ -18,9 +18,9 @@ sub ENV {
     return ''
       unless $key
       && defined $Foswiki::cfg{AccessibleENV}
-      && $key =~ /$Foswiki::cfg{AccessibleENV}/o;
+      && $key =~ m/$Foswiki::cfg{AccessibleENV}/;
     my $val;
-    if ( $key =~ /^HTTPS?_(\w+)/ ) {
+    if ( $key =~ m/^HTTPS?_(\w+)/ ) {
         $val = $this->{request}->header($1);
     }
     elsif ( $key eq 'REQUEST_METHOD' ) {

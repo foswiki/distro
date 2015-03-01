@@ -360,8 +360,8 @@ MAILTEST
         # sendmail in debug mode echoes the entire message - twice.
         # We'll remove that from the log.
 
-        if ( $Foswiki::cfg{MailProgram} =~ /(?:^|\b)sendmail(?:\b|$)/ ) {
-            if ( $stderr =~ /^(Please install an MTA.*)$/m ) {
+        if ( $Foswiki::cfg{MailProgram} =~ m/(?:^|\b)sendmail(?:\b|$)/ ) {
+            if ( $stderr =~ m/^(Please install an MTA.*)$/m ) {
                 $neterrors .= $1;
             }
             my $stampre = qr/^(?:\d+\s+(<<<|>>>)\s+)/;
@@ -375,13 +375,13 @@ MAILTEST
                 $line = shift @lines;
                 if ( $state == 0 ) {
                     $stderr .= "$line\n";
-                    if ( $line =~ /$stampre/ ) {
+                    if ( $line =~ m/$stampre/ ) {
                         $state = 1;
                     }
                     next;
                 }
                 if ( $state == 1 || $state == 3 ) {
-                    if ( $line =~ /$stampre$/ ) {
+                    if ( $line =~ m/$stampre$/ ) {
                         $stderr .= " ... Message contents ...\n";
                         $state++;
                         next;
@@ -393,7 +393,7 @@ MAILTEST
                     next if ( $line !~ /$stampre\[EOF\]$/ );
                     $state++;
                 }
-                last if ( $line =~ /$stampre\.$/ );
+                last if ( $line =~ m/$stampre\.$/ );
             }
             $stderr .= join( "\n", @lines );
         }

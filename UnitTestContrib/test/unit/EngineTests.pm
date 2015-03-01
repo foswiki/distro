@@ -45,7 +45,7 @@ sub set_up {
     if ( $^O eq 'MSWin32' ) {
 
         #on windows, don't make a big old mess of c:\
-        $ENV{TEMP} =~ /(.*)/;
+        $ENV{TEMP} =~ m/(.*)/;
         $tempDirOptions{DIR} = $1;
     }
     $Foswiki::cfg{WorkingDir} = File::Temp::tempdir(%tempDirOptions);

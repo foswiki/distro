@@ -61,7 +61,7 @@ sub GROUPINFO {
             #filter by show="" param
             next if ( ( $show eq 'allowchange' ) and ( not $change ) );
             next if ( ( $show eq 'denychange' )  and ($change) );
-            if ( $show =~ /allowchange\((.*)\)/ ) {
+            if ( $show =~ m/allowchange\((.*)\)/ ) {
                 next
                   if (
                     not $this->{users}->groupAllowsChange(
@@ -69,7 +69,7 @@ sub GROUPINFO {
                     )
                   );
             }
-            if ( $show =~ /denychange\((.*)\)/ ) {
+            if ( $show =~ m/denychange\((.*)\)/ ) {
                 next
                   if (
                     $this->{users}->groupAllowsChange(
@@ -101,7 +101,7 @@ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{us
             #filter by show="" param
             next if ( ( $show eq 'allowchange' ) and ( not $change ) );
             next if ( ( $show eq 'denychange' )  and ($change) );
-            if ( $show =~ /allowchange\((.*)\)/ ) {
+            if ( $show =~ m/allowchange\((.*)\)/ ) {
                 next
                   if (
                     not $this->{users}->groupAllowsChange(
@@ -109,7 +109,7 @@ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{us
                     )
                   );
             }
-            if ( $show =~ /denychange\((.*)\)/ ) {
+            if ( $show =~ m/denychange\((.*)\)/ ) {
                 next
                   if (
                     $this->{users}->groupAllowsChange(

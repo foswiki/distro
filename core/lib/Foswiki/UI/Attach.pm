@@ -63,7 +63,7 @@ sub attach {
       }
       unless ($args);
 
-    my $isHideChecked = ( $args->{attr} =~ /h/o ) ? 'checked' : '';
+    my $isHideChecked = ( $args->{attr} =~ m/h/ ) ? 'checked' : '';
 
     # SMELL: why log attach before post is called?
     # FIXME: Move down, log only if successful (or with error msg?)

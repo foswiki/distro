@@ -179,7 +179,7 @@ sub test_AUTOINC {
     $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
 
-        if ( $t =~ /^TestAuto0[01]$/ ) {
+        if ( $t =~ m/^TestAuto0[01]$/ ) {
             $seen++;
         }
         elsif ( !$old{$t} ) {
@@ -221,7 +221,7 @@ sub test_XXXXXXXXXX {
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
-        if ( $t =~ /^TestTopic[01]$/ ) {
+        if ( $t =~ m/^TestTopic[01]$/ ) {
             $seen++;
         }
         elsif ( !$old{$t} ) {

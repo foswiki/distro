@@ -85,7 +85,7 @@ sub initPlugin {
       map { $_ =~ s/^.*:://; $_ }
       grep { defined &{$_} }
       map  { "Foswiki::Configure::Query::$_" }
-      grep { $_ =~ /^[a-z]/ }
+      grep { $_ =~ m/^[a-z]/ }
       keys %Foswiki::Configure::Query::;
 
     foreach my $method (@methods) {

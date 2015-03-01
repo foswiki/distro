@@ -14,7 +14,7 @@ sub check_current_value {
 
     my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
     my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
-    if ( $method =~ /^Net::SMTP/ ) {
+    if ( $method =~ m/^Net::SMTP/ ) {
         if ( $host && $host !~ /^ ---/ ) {
             my $hi = hostInfo( $host, {} );
             if ( $hi->{error} ) {

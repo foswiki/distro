@@ -6,13 +6,13 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checkers::Certificate::ClientChecker ();
-our @ISA = ( 'Foswiki::Configure::Checkers::Certificate::ClientChecker' );
+our @ISA = ('Foswiki::Configure::Checkers::Certificate::ClientChecker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return
-      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLClientCertFile} );
 
     return $this->SUPER::check_current_value($reporter);

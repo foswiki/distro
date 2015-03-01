@@ -107,19 +107,20 @@ sub getBrowserName {
     # Identify the browser from the user agent string
     my $ua = $query->user_agent();
     if ($ua) {
-        $browserInfo{isMSIE} = $ua =~ /MSIE/;
-        $browserInfo{isMSIE5}   = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5/ );
-        $browserInfo{isMSIE5_0} = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5.0/ );
-        $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ /MSIE 6/;
-        $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ /MSIE 7/;
-        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ /MSIE 8/;
-        $browserInfo{isGecko}  = $ua =~ /Gecko/;   # Will also be true on Safari
-        $browserInfo{isSafari} = $ua =~ /Safari/;  # Will also be true on Chrome
-        $browserInfo{isOpera}  = $ua =~ /Opera/;
-        $browserInfo{isChrome} = $ua =~ /Chrome/;
-        $browserInfo{isMac}    = $ua =~ /Mac/;
-        $browserInfo{isNS7}  = $ua =~ /Netscape\/7/;
-        $browserInfo{isNS71} = $ua =~ /Netscape\/7.1/;
+        $browserInfo{isMSIE} = $ua =~ m/MSIE/;
+        $browserInfo{isMSIE5} = $browserInfo{isMSIE} && ( $ua =~ m/MSIE 5/ );
+        $browserInfo{isMSIE5_0} =
+          $browserInfo{isMSIE} && ( $ua =~ m/MSIE 5.0/ );
+        $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ m/MSIE 6/;
+        $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ m/MSIE 7/;
+        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ m/MSIE 8/;
+        $browserInfo{isGecko}  = $ua =~ m/Gecko/;  # Will also be true on Safari
+        $browserInfo{isSafari} = $ua =~ m/Safari/; # Will also be true on Chrome
+        $browserInfo{isOpera}  = $ua =~ m/Opera/;
+        $browserInfo{isChrome} = $ua =~ m/Chrome/;
+        $browserInfo{isMac}    = $ua =~ m/Mac/;
+        $browserInfo{isNS7}  = $ua =~ m/Netscape\/7/;
+        $browserInfo{isNS71} = $ua =~ m/Netscape\/7.1/;
     }
 
     # The order of these conditions is important, because browsers
@@ -201,46 +202,47 @@ sub wysiwygEditingDisabledForThisContent {
         $calls_ok =~ s/\s//g;
 
         my $ok = 1;
-        if (   $exclusions =~ /calls/
-            && $_[0] =~ /%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
+        if (   $exclusions =~ m/calls/
+            && $_[0] =~ m/%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
         {
             print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n"
               if (WHY);
             return "Text contains calls";
         }
-        if ( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
+        if ( $exclusions =~ m/(macros|variables)/ && $_[0] =~ m/%([A-Z_]+)%/s )
+        {
             print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n"
               if (WHY);
             return "Text contains macros";
         }
-        if (   $exclusions =~ /html/
-            && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/i )
+        if (   $exclusions =~ m/html/
+            && $_[0] =~ m/<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/i )
         {
             print STDERR "WYSIWYG_DEBUG: has html: $1\n"
               if (WHY);
             return "Text contains HTML";
         }
-        if ( $exclusions =~ /comments/ && $_[0] =~ /<[!]--/ ) {
+        if ( $exclusions =~ m/comments/ && $_[0] =~ m/<[!]--/ ) {
             print STDERR "WYSIWYG_DEBUG: has comments\n"
               if (WHY);
             return "Text contains comments";
         }
-        if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/i ) {
+        if ( $exclusions =~ m/pre/ && $_[0] =~ m/<pre\w/i ) {
             print STDERR "WYSIWYG_DEBUG: has pre\n"
               if (WHY);
             return "Text contains PRE";
         }
-        if ( $exclusions =~ /script/ && $_[0] =~ /<script\W/i ) {
+        if ( $exclusions =~ m/script/ && $_[0] =~ m/<script\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has script\n"
               if (WHY);
             return "Text contains script";
         }
-        if ( $exclusions =~ /style/ && $_[0] =~ /<style\W/i ) {
+        if ( $exclusions =~ m/style/ && $_[0] =~ m/<style\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has style\n"
               if (WHY);
             return "Text contains style";
         }
-        if ( $exclusions =~ /table/ && $_[0] =~ /<table\W/i ) {
+        if ( $exclusions =~ m/table/ && $_[0] =~ m/<table\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has table\n"
               if (WHY);
             return "Text contains table";
@@ -255,9 +257,9 @@ sub wysiwygEditingDisabledForThisContent {
     # Look for combinations of sticky and other markup that cause
     # problems together
     for my $tag ('literal') {
-        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
+        while ( $text =~ m/<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ( $inner =~ /<sticky\b[^>]*>/i ) {
+            if ( $inner =~ m/<sticky\b[^>]*>/i ) {
                 print STDERR "WYSIWYG_DEBUG: <sticky> inside <$tag>\n"
                   if (WHY);
                 return "&lt;sticky&gt; inside &lt;$tag&gt;";
@@ -276,9 +278,9 @@ sub wysiwygEditingDisabledForThisContent {
     # Look for combinations of verbatim and other markup that cause
     # problems together
     for my $tag ('literal') {
-        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
+        while ( $text =~ m/<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ( $inner =~ /$wasAVerbatimTag/i ) {
+            if ( $inner =~ m/$wasAVerbatimTag/i ) {
                 print STDERR "WYSIWYG_DEBUG: <verbatim> inside <$tag>\n"
                   if (WHY);
                 return "&lt;verbatim&gt; inside &lt;$tag&gt;";

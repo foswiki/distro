@@ -25,7 +25,7 @@ sub skip {
 
 sub early_line {
     my $this = shift;
-    if ( $_[0] =~ /EARLY_LINE_TRAP/ ) {
+    if ( $_[0] =~ m/EARLY_LINE_TRAP/ ) {
         $this->{out} .= "EL $_[0]\n";
         return 1;
     }

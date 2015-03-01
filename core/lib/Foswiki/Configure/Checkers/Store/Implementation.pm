@@ -19,7 +19,7 @@ EOF
         return;
     }
     elsif ( ( $^O eq 'MSWin32' )
-        and ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) )
+        and ( $Foswiki::cfg{Store}{Implementation} =~ m/RcsWrap/ ) )
     {
         $reporter->WARN(<<EOF);
 RcsWrap has poor performance on Windows. You are recommended to choose a different store implementation.

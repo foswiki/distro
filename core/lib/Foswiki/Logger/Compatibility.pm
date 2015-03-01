@@ -140,7 +140,7 @@ sub log {
     else {
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
     }
-    if ( $level =~ /^(error|critical|alert|emergency)$/ ) {
+    if ( $level =~ m/^(error|critical|alert|emergency)$/ ) {
         print STDERR "$message\n";
     }
 }
@@ -197,7 +197,7 @@ sub eachEventSince {
         # Find the year-month for the first time in the range
         my $logYear  = $lastLogYear;
         my $logMonth = $lastLogMonth;
-        if ( $log =~ /%DATE%/ ) {
+        if ( $log =~ m/%DATE%/ ) {
             $logYear =
               Foswiki::Time::formatTime( $time, '$year', 'servertime' );
             $logMonth = Foswiki::Time::formatTime( $time, '$mo', 'servertime' );
@@ -249,7 +249,7 @@ sub eachEventSince {
 sub _expandDATE {
     my ( $log, $time ) = @_;
     my $stamp = Foswiki::Time::formatTime( $time, '$year$mo', 'servertime' );
-    $log =~ s/%DATE%/$stamp/go;
+    $log =~ s/%DATE%/$stamp/g;
     return $log;
 }
 
@@ -275,7 +275,7 @@ sub _getLogsForLevel {
               || $defaultLogDir . 'configure%DATE%.txt';
         }
         else {
-            ASSERT( $lvl =~ /^(warning|error|critical|alert|emergency)$/ )
+            ASSERT( $lvl =~ m/^(warning|error|critical|alert|emergency)$/ )
               if DEBUG;
             $log = $Foswiki::cfg{WarningFileName}
               || $defaultLogDir . 'warn%DATE%.txt';

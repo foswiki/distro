@@ -98,7 +98,7 @@ sub _checkCRLFile {
     while (<$fh>) {
         if (/^-----BEGIN (.*)-----/) {
             my $hdr = $1;
-            if ( $hdr =~ /^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+            if ( $hdr =~ m/^(X509 |TRUSTED |)CERTIFICATE$/ ) {
                 $certs++;
             }
             elsif ( $hdr eq 'X509 CRL' ) {

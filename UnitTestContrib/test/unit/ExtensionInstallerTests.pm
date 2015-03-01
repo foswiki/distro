@@ -117,7 +117,7 @@ sub sniff {
             while ( $mi < scalar(@$messages) ) {
                 my $m = $messages->[ $mi++ ];
                 if ( $m->{level} eq $level ) {
-                    if ( $m->{text} =~ /$re/s ) {
+                    if ( $m->{text} =~ m/$re/s ) {
                         $found = 1;
                         last;
                     }

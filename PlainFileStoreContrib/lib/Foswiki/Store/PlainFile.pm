@@ -87,7 +87,7 @@ sub readTopic {
     # check that the requested revision actually exists
     my @revs = ();
     my $nr = _numRevisions( \@revs, $meta );
-    if ( defined $version && $version =~ /^\d+$/ ) {
+    if ( defined $version && $version =~ m/^\d+$/ ) {
         $version = $nr if ( $version == 0 || $version > $nr );
     }
     else {
@@ -605,7 +605,7 @@ sub webExists {
     my ( $this, $web ) = @_;
 
     return 0 unless defined $web;
-    $web =~ s#\.#/#go;
+    $web =~ s#\.#/#g;
 
     return 1 if ( -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
 
@@ -618,7 +618,7 @@ sub topicExists {
     my ( $this, $web, $topic ) = @_;
 
     return 0 unless defined $web && $web ne '';
-    $web =~ s#\.#/#go;
+    $web =~ s#\.#/#g;
     return 0 unless defined $topic && $topic ne '';
 
     return -e _latestFile( $web, $topic )
@@ -660,7 +660,7 @@ sub eachTopic {
     my @list =
       map { /^(.*)\.txt$/; $1; }
       sort
-      grep { !/$Foswiki::cfg{NameFilter}/o && /\.txt$/ } readdir($dh);
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -850,7 +850,7 @@ sub removeSpuriousLeases {
     if ( opendir( my $W, $webdir ) ) {
         foreach my $f ( readdir($W) ) {
             my $file = $webdir . $f;
-            if ( $file =~ /^(.*)\.lease$/ ) {
+            if ( $file =~ m/^(.*)\.lease$/ ) {
                 if ( !-e "$1,pfv" ) {
                     unlink($file);
                 }
@@ -1091,16 +1091,17 @@ sub _readChanges {
     my $all_lines = Foswiki::Sandbox::untaintUnchecked( _readFile($file) );
 
     # Look at the first line to deduce format
-    if ( $all_lines =~ /^\[/s ) {
+    if ( $all_lines =~ m/^\[/s ) {
         my $changes;
         eval { $changes = $json->decode($all_lines); };
         print STDERR "Corrupt $file: $@\n" if ($@);
 
         foreach my $entry (@$changes) {
-            if ( $entry->{path} && $entry->{path} =~ /^(.*)\.(.*)$/ ) {
+            if ( $entry->{path} && $entry->{path} =~ m/^(.*)\.(.*)$/ ) {
                 $entry->{topic} = $2;
             }
-            elsif ( $entry->{oldpath} && $entry->{oldpath} =~ /^(.*)\.(.*)$/ ) {
+            elsif ( $entry->{oldpath} && $entry->{oldpath} =~ m/^(.*)\.(.*)$/ )
+            {
                 $entry->{topic} = $2;
             }
             $entry->{user} =
@@ -1139,7 +1140,7 @@ sub _readChanges {
         else {
             $row{verb} = 'insert';
         }
-        $row{minor} = ( $row{more} =~ /minor/ );
+        $row{minor} = ( $row{more} =~ m/minor/ );
         $row{cuid} =
             $Foswiki::Plugins::SESSION
           ? $Foswiki::Plugins::SESSION->{users}
@@ -1148,10 +1149,10 @@ sub _readChanges {
         $row{path} = $web;
         $row{path} .= ".$row{topic}" if $row{topic};
         $row{comment} = $row{more};
-        if ( $row{more} =~ /Moved from (\w+)/ ) {
+        if ( $row{more} =~ m/Moved from (\w+)/ ) {
             $row{oldpath} = $1;
         }
-        if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
+        if ( $row{more} =~ m/Deleted attachment (\S+)/ ) {
             $row{attachment} = $1;
         }
         unshift( @changes, \%row );
@@ -1184,7 +1185,7 @@ sub recordChange {
     # Support for Foswiki < 1.2
 
     my $web = $args{path};
-    if ( $web =~ /\./ ) {
+    if ( $web =~ m/\./ ) {
         ($web) = Foswiki->normalizeWebTopicName( undef, $web );
     }
 
@@ -1254,7 +1255,7 @@ sub _openStream {
     }
     else {
         $path = _latestFile( $meta, $att );
-        _mkPathTo($path) if ( $mode =~ />/ );
+        _mkPathTo($path) if ( $mode =~ m/>/ );
     }
     unless ( open( $stream, $mode, $path ) ) {
         die("PlainFile: open stream $mode '$path' failed: $!");
@@ -1363,7 +1364,7 @@ sub _rmtree {
     my $D;
     if ( opendir( $D, $root ) ) {
         foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
-            $entry =~ /^(.*)$/;
+            $entry =~ m/^(.*)$/;
             $entry = $root . '/' . $1;
             if ( -d $entry ) {
                 _rmtree($entry);
@@ -1436,7 +1437,7 @@ sub _split {
     return \@list unless defined $_[0];
 
     my $nl = 1;
-    foreach my $i ( split( /(\n)/o, $_[0] ) ) {
+    foreach my $i ( split( /(\n)/, $_[0] ) ) {
         if ( $i eq "\n" ) {
             push( @list, '' ) if $nl;
             $nl = 1;

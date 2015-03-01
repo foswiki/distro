@@ -342,7 +342,7 @@ Checkers::PATH behaviour instead.
 
 sub warnAboutWindowsBackSlashes {
     my ( $this, $path ) = @_;
-    if ( $path =~ /\\/ ) {
+    if ( $path =~ m/\\/ ) {
         return $this->WARN(
                 'You should use c:/path style slashes, not c:\path in "'
               . $path
@@ -388,7 +388,7 @@ sub checkExpandedValue {
     #print STDERR "field=$field, raw=$raw\n";
 
     if ( $field ne $raw ) {
-        if ( $field =~ /\n/ ) {
+        if ( $field =~ m/\n/ ) {
             $reporter->NOTE( 'Expands to: <verbatim>', $field, '</verbatim>' );
         }
         elsif ( $field eq '' ) {

@@ -50,7 +50,7 @@ sub set {
 
     foreach my $key ( $request->multi_param() ) {
 
-        next unless $key =~ /^(Local|Set|Unset)\+(.*)$/;
+        next unless $key =~ m/^(Local|Set|Unset)\+(.*)$/;
         my $type   = $1;
         my $name   = $2;
         my @values = $request->multi_param($key);
@@ -61,7 +61,7 @@ sub set {
         #writeDebug("key=$key, value=$value");
 
         # convert a set to an unset if that's already default
-        if ( $type =~ /Local|Set/ ) {
+        if ( $type =~ m/Local|Set/ ) {
             my @defaultValues = $request->multi_param("Default+$name");
             if (@defaultValues) {
                 @defaultValues = grep { !/^$/ } @defaultValues

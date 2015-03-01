@@ -12,7 +12,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     return
-      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     my $file = $this->checkExpandedValue($reporter);
@@ -60,7 +60,7 @@ sub _checkCaFile {
     while (<$fh>) {
         if (/^-----BEGIN (.*)-----/) {
             my $hdr = $1;
-            if ( $hdr =~ /^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+            if ( $hdr =~ m/^(X509 |TRUSTED |)CERTIFICATE$/ ) {
                 $certs++;
             }
             elsif ( $hdr eq 'X509 CRL' ) {

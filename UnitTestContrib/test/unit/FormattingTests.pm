@@ -1961,7 +1961,7 @@ sub _check_rendered_linktext {
     $part = $1;
     $part = HTML::Entities::decode_entities($part);
     $part = $this->_uri_unescape($part);
-    $part =~ /^([^?#]*)(\?([^#]*))?(#(.*))?$/;
+    $part =~ m/^([^?#]*)(\?([^#]*))?(#(.*))?$/;
     my ( $address, $query, $fragment ) = ( $1, $3, $5 );
 
     if ( defined $expected->{address} ) {

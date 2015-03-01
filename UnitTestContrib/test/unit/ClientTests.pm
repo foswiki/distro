@@ -207,7 +207,7 @@ sub verify_sudo_login {
 
     $this->createNewFoswikiSession( undef, $query );
     $this->{session}->getLoginManager()->login( $query, $this->{session} );
-    my $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
+    my $script = $Foswiki::cfg{LoginManager} =~ m/Apache/ ? 'viewauth' : 'view';
     my $surly =
       $this->{session}
       ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );
@@ -234,7 +234,7 @@ sub verify_sudo_login {
 
     $this->createNewFoswikiSession( undef, $query );
     $this->{session}->getLoginManager()->login( $query, $this->{session} );
-    $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
+    $script = $Foswiki::cfg{LoginManager} =~ m/Apache/ ? 'viewauth' : 'view';
     $surly =
       $this->{session}
       ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );

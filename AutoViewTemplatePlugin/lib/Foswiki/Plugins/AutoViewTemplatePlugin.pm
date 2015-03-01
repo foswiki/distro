@@ -147,7 +147,7 @@ sub _getTemplateFromTemplateExistence {
     my ( $templateWeb, $templateTopic ) =
       Foswiki::Func::normalizeWebTopicName( $web, $formName );
 
-    $templateWeb =~ s/\//\./go;
+    $templateWeb =~ s/\//\./g;
     my $templateName = $templateWeb . '.' . $templateTopic;
     $templateName =~ s/Form$//;
     $templateName .= $isEditAction ? 'Edit' : 'View';

@@ -467,7 +467,7 @@ sub loadSession {
             my $auth = $session->{request}->http('X-Authorization');
             if ( defined $auth ) {
                 _trace( $this, "X-Authorization: $auth" );
-                if ( $auth =~ /^FoswikiBasic (.+)$/ ) {
+                if ( $auth =~ m/^FoswikiBasic (.+)$/ ) {
 
                     # If the user agent wishes to send the userid "Aladdin"
                     # and password "open sesame", it would use the following
@@ -475,7 +475,7 @@ sub loadSession {
                     # Authorization: Foswiki QWxhZGRpbjpvcGVuIHNlc2FtZQ==
                     require MIME::Base64;
                     my $cred = MIME::Base64::decode_base64($1);
-                    if ( $cred =~ /:/ ) {
+                    if ( $cred =~ m/:/ ) {
                         ( $login, $pass ) = split( ':', $cred, 2 );
                         _trace( $this,
 "Login credentials taken from query headers for further validation"
@@ -744,7 +744,7 @@ sub expireDeadSessions {
     foreach my $file ( readdir(D) ) {
 
         # Validate
-        next unless $file =~ /^((passthru|cgisess)_[0-9a-f]{32})$/;
+        next unless $file =~ m/^((passthru|cgisess)_[0-9a-f]{32})$/;
         $file = $1;    # untaint validated file name
 
         my @stat = stat("$Foswiki::cfg{WorkingDir}/tmp/$file");
@@ -915,8 +915,6 @@ sub userLoggedIn {
 
 ---++ ObjectMethod _myScriptURLRE ($thisl)
 
-
-
 =cut
 
 # get an RE that matches a local script URL
@@ -963,7 +961,7 @@ sub _rewriteURL {
 
     # If the URL has no colon in it, or it matches the local script
     # URL, it must be an internal URL and therefore needs the session.
-    if ( $url !~ /:/ || $url =~ /^$s/ ) {
+    if ( $url !~ /:/ || $url =~ m/^$s/ ) {
 
         # strip off the anchor
         my $anchor = '';
@@ -1005,7 +1003,7 @@ sub _rewriteFORM {
 
     my $s = _myScriptURLRE($this);
 
-    if ( $url !~ /:/ || $url =~ /^($s)/ ) {
+    if ( $url !~ /:/ || $url =~ m/^($s)/ ) {
         $rest .= CGI::hidden(
             -name  => $Foswiki::LoginManager::Session::NAME,
             -value => $this->{_cgisession}->id()
@@ -1046,18 +1044,18 @@ sub endRenderingHandler {
 
         # a href= rewriting
         $_[0] =~
-s/(<a[^>]*(?<=\s)href=(["']))(.*?)(\2)/$1.$this->_rewriteURL($3).$4/geoi;
+s/(<a[^>]*(?<=\s)href=(["']))(.*?)(\2)/$1.$this->_rewriteURL($3).$4/gei;
 
         # form action= rewriting
         # SMELL: Forms that have no target are also implicit internal
         # links, but are not handled. Does this matter>
         $_[0] =~
-s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3, $4)/geoi;
+s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3, $4)/gei;
     }
 
     # And, finally, the logon stuff
-    $_[0] =~ s/%SESSIONLOGON%/_dispLogon( $this )/geo;
-    $_[0] =~ s/%SKINSELECT%/_skinSelect( $this )/geo;
+    $_[0] =~ s/%SESSIONLOGON%/_dispLogon( $this )/ge;
+    $_[0] =~ s/%SKINSELECT%/_skinSelect( $this )/ge;
 }
 
 sub _loadCreateCGISession {
@@ -1336,7 +1334,7 @@ sub isValidLoginName {
 
     # this function was erroneously marked as static
     ASSERT( !ref($name) ) if DEBUG;
-    return $name =~ m/$Foswiki::cfg{LoginNameFilterIn}/o;
+    return $name =~ m/$Foswiki::cfg{LoginNameFilterIn}/;
 }
 
 =begin TML
@@ -1525,7 +1523,7 @@ sub _skinSelect {
     unshift( @skins, 'default' );
     my $options = '';
     foreach my $askin (@skins) {
-        $askin =~ s/\s//go;
+        $askin =~ s/\s//g;
         if ( $askin eq $skin ) {
             $options .=
               CGI::option( { selected => 'selected', name => $askin }, $askin );

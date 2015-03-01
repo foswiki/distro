@@ -187,7 +187,7 @@ sub _countPattern {
     try {
 
         # see: perldoc -q count
-        $count = () = $text =~ /$pattern/g;
+        $count = () = $text =~ m/$pattern/g;
     }
     catch Error with {
         $count = 0;
@@ -325,7 +325,7 @@ sub searchWeb {
     my $date     = $params{date}      || '';
     my $recurse  = $params{'recurse'} || '';
 
-    $baseWeb =~ s/\./\//go;
+    $baseWeb =~ s/\./\//g;
 
     $params{type} = 'regex' if ( $params{regex} );
 
@@ -394,8 +394,8 @@ sub searchWeb {
           #TODO: extract & merge with extraction of footer processing code below
                 my $result = $params{zeroresults};
 
-                $result =~ s/\$web/$baseWeb/gos;    # expand name of web
-                $result =~ s/([^\n])$/$1\n/os;      # add new line at end
+                $result =~ s/\$web/$baseWeb/gs;    # expand name of web
+                $result =~ s/([^\n])$/$1\n/s;      # add new line at end
 
                 # output footer of $web
                 $result =~ s/\$ntopics/0/gs;
@@ -403,10 +403,10 @@ sub searchWeb {
                 $result =~ s/\$index/0/gs;
 
                 #legacy SEARCH counter support
-                $result =~ s/%NTOPICS%/0/go;
+                $result =~ s/%NTOPICS%/0/g;
 
                 $result = Foswiki::expandStandardEscapes($result);
-                $result =~ s/\n$//os;               # remove trailing new line
+                $result =~ s/\n$//s;               # remove trailing new line
 
                 return $result;
             }
@@ -423,11 +423,11 @@ sub searchWeb {
     my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
     unless ($noSearch) {
         my $searchStr = $searchString;
-        $searchStr =~ s/&/&amp;/go;
-        $searchStr =~ s/</&lt;/go;
-        $searchStr =~ s/>/&gt;/go;
+        $searchStr =~ s/&/&amp;/g;
+        $searchStr =~ s/</&lt;/g;
+        $searchStr =~ s/>/&gt;/g;
 
-        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
+        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/g;
         &$callback( $cbdata, $tmplSearch );
     }
 
@@ -450,7 +450,7 @@ sub searchWeb {
             $searchResult =~ s/$separator$//s;    # remove separator at end
         }
         else {
-            $searchResult =~ s/\n$//os;           # remove trailing new line
+            $searchResult =~ s/\n$//s;            # remove trailing new line
         }
     }
 
@@ -497,7 +497,7 @@ sub loadTemplates {
 # SMELL: the only META tags in a template will be METASEARCH
 # Why the heck are they being filtered????
 #TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
-    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+    $tmpl =~ s/\%META{.*?}\%//g;    # remove %META{'parent'}%
 
     # Split template into 5 sections
     my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
@@ -546,11 +546,11 @@ sub loadTemplates {
 
     #nosummary="on" nosearch="on" noheader="on" nototal="on"
     if ($noSummary) {
-        $repeatText =~ s/%TEXTHEAD%//go;
-        $repeatText =~ s/&nbsp;//go;
+        $repeatText =~ s/%TEXTHEAD%//g;
+        $repeatText =~ s/&nbsp;//g;
     }
     else {
-        $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
+        $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/g;
     }
     $params->{format} ||= $repeatText;
 
@@ -598,7 +598,7 @@ sub formatResults {
     # Limit will still be needed for the application types of SEARCHES
     # even if pagesize is added as feature. Example for searching and listing
     # text from first 5 bullets in a formatted multiple type search
-    if ( $limit =~ /(^\d+$)/o ) {
+    if ( $limit =~ m/(^\d+$)/ ) {
 
         # only digits, all else is the same as
         # an empty string.  "+10" won't work.
@@ -822,7 +822,7 @@ sub formatResults {
 
             # Apply heading offset - posibly to each hit result independently
             if (   $params->{headingoffset}
-                && $params->{headingoffset} =~ /^([-+]?\d+)$/
+                && $params->{headingoffset} =~ m/^([-+]?\d+)$/
                 && $1 != 0 )
             {
                 my ( $off, $noff ) = ( 0 + $1, 0 - $1 );
@@ -873,26 +873,24 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-                            $processedfooter =~ s/\$web/$lastWebProcessed/gos
-                              ;    # expand name of web
+                            $processedfooter =~
+                              s/\$web/$lastWebProcessed/gs; # expand name of web
 
-     #                            $processedfooter =~
-     #                              s/([^\n])$/$1\n/os;    # add new line at end
-     # output footer of $web
+#                            $processedfooter =~      #                              s/([^\n])$/$1\n/s;    # add new line at end
+# output footer of $web
 
                             $processedfooter =~ s/\$ntopics/$ntopics/gs;
                             $processedfooter =~ s/\$nhits/$nhits/gs;
                             $processedfooter =~ s/\$index/$thits/gs;
 
                             #legacy SEARCH counter support
-                            $processedfooter =~ s/%NTOPICS%/$ntopics/go;
+                            $processedfooter =~ s/%NTOPICS%/$ntopics/g;
 
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
 
-         #                            $processedfooter =~
-         #                              s/\n$//os;    # remove trailing new line
+#                            $processedfooter =~          #                              s/\n$//s;    # remove trailing new line
 
                             $justdidHeaderOrFooter = 1;
                             &$callback( $cbdata, $processedfooter );
@@ -928,19 +926,19 @@ sub formatResults {
                 # strings, it needs to be expanded first.
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader =~ s/\$web/$web/gos;    # expand name of web
+                $processedheader =~ s/\$web/$web/gs;    # expand name of web
 
                 # add new line after the header unless separator is defined
                 # per Item1773 / SearchSeparatorDefaultHeaderFooter
                 unless ( defined $separator ) {
-                    $processedheader =~ s/([^\n])$/$1\n/os;
+                    $processedheader =~ s/([^\n])$/$1\n/s;
                 }
 
                 $headerDone = 1;
                 my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
                   || '\#FF00FF';
-                $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
-                $processedheader =~ s/%WEB%/$web/go;
+                $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/g;
+                $processedheader =~ s/%WEB%/$web/g;
                 $processedheader =~ s/\$ntopics/($ntopics-1)/gse;
                 $processedheader =~ s/\$nhits/($nhits-1)/gse;
                 $processedheader =~ s/\$index/($thits-1)/gs;
@@ -989,8 +987,8 @@ sub formatResults {
                 $format =~ s/\$date/\$longdate/gs;
 
                 # other tmpl based renderings
-                $format =~ s/%WEB%/\$web/go;
-                $format =~ s/%TOPICNAME%/\$topic/go;
+                $format =~ s/%WEB%/\$web/g;
+                $format =~ s/%TOPICNAME%/\$topic/g;
                 $format =~ s/%AUTHOR%/\$wikiusername/g;
 
                 # pass search options to summary parser
@@ -1109,9 +1107,9 @@ sub formatResults {
 
 #because $pager contains more $ntopics like format strings, it needs to be expanded first.
         $footer = $this->formatCommon( $footer, \%pager_formatting );
-        $footer =~ s/\$web/$web/gos;    # expand name of web
+        $footer =~ s/\$web/$web/gs;    # expand name of web
 
-        #        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
+        #        $footer =~ s/([^\n])$/$1\n/s;    # add new line at end
 
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
@@ -1119,9 +1117,9 @@ sub formatResults {
         $footer =~ s/\$index/$thits/gs;
 
         #legacy SEARCH counter support
-        $footer =~ s/%NTOPICS%/$ntopics/go;
+        $footer =~ s/%NTOPICS%/$ntopics/g;
 
-        #        $footer =~ s/\n$//os;             # remove trailing new line
+        #        $footer =~ s/\n$//s;             # remove trailing new line
 
         &$callback( $cbdata, $footer );
     }
@@ -1189,7 +1187,7 @@ sub formatResult {
     # render each item differently, based on SEARCH param 'itemview'
     if (   $item->topic
         && defined $itemView
-        && $itemView =~ /([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/o )
+        && $itemView =~ m/([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/ )
     {
 
         # brackets added to regex to allow $formfield(name)
@@ -1238,9 +1236,9 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
                 # defuse SEARCH in current topic to prevent loop
-                $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+                $text =~ s/%SEARCH{.*?}%/SEARCH{...}/g;
             }
-            $out =~ s/\$text/$text/gos;
+            $out =~ s/\$text/$text/gs;
         }
     }
     foreach my $key ( keys(%$nonTomKeys) ) {
@@ -1255,7 +1253,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         $srev = CGI::span( { class => 'foswikiNew' },
             ( $session->i18n->maketext('NEW') ) );
     }
-    $out =~ s/%REVISION%/$srev/o;
+    $out =~ s/%REVISION%/$srev/;
 
     if ($doBookView) {
 
@@ -1271,7 +1269,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         $text = $item->expandMacros($text);
         $text = $item->renderTML($text);
 
-        $out =~ s/%TEXTHEAD%/$text/go;
+        $out =~ s/%TEXTHEAD%/$text/g;
 
     }
     else {
@@ -1299,7 +1297,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
             $out =~
               s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1, 0 )/ges;
         }
-        $out =~ s/\r?\n/$newLine/gos if ($newLine);
+        $out =~ s/\r?\n/$newLine/gs if ($newLine);
 
         # If separator is not defined we default to \n
         # We also add new line after last search result but before footer
@@ -1317,15 +1315,15 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
 #and thus here, format is always set.
 #		elsif ($noSummary) {
 #		    #TODO: i think that means I've broken SEARCH{nosummary=on" with no format specified
-#		    $out =~ s/%TEXTHEAD%//go;
-#		    $out =~ s/&nbsp;//go;
+#		    $out =~ s/%TEXTHEAD%//g;
+#		    $out =~ s/&nbsp;//g;
 #		}
 #		else {
 #		    #SEARCH with no format and nonoise="off" or nosummary="off"
 #		    #TODO: BROKEN, need to fix the meaning of nosummary and nonoise in SEARCH
 #		    # regular search view
 #		    $text = $info->{tom}->summariseText( '', $text );
-#		    $out =~ s/%TEXTHEAD%/$text/go;
+#		    $out =~ s/%TEXTHEAD%/$text/g;
 #		}
     return $out;
 }
@@ -1394,7 +1392,7 @@ sub setup_callback {
             my $oldcallback = $params->{_callback};
 
             $text = $webObj->renderTML($text) if defined($webObj);
-            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
+            $text =~ s|</*nop/*>||gi;    # remove <nop> tag
             &$oldcallback( $cbdata, $text );
         };
     }

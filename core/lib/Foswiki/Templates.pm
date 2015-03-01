@@ -107,7 +107,7 @@ sub _expandTrivialTemplate {
     my ( $this, $text ) = @_;
 
     # SMELL: unchecked implicit untaint?
-    $text =~ /%TMPL\:P{(.*)}%/;
+    $text =~ m/%TMPL\:P{(.*)}%/;
     my $attrs = new Foswiki::Attrs($1);
 
     # Can't expand context-dependant templates
@@ -206,7 +206,7 @@ sub tmplP {
 
             # resolve dynamic lookups such as %TMPL:DEF{"LIBJS" name="%id%"}%
             my $pvalue = $this->{VARS}->{$template}->{params}->{$p};
-            $pvalue =~ s/\%(.*?)\%/$params->{$1}/go;
+            $pvalue =~ s/\%(.*?)\%/$params->{$1}/g;
             $val    =~ s/%$p%/$pvalue/ge;
         }
 
@@ -268,14 +268,14 @@ sub readTemplate {
                     $name,
 
                     # More info for overridable templates
-                    ( $name =~ /^(view|edit)$/ ) ? $name . '_TEMPLATE' : ''
+                    ( $name =~ m/^(view|edit)$/ ) ? $name . '_TEMPLATE' : ''
                 ]
             );
         }
     }
 
     # SMELL: unchecked implicit untaint?
-    while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
+    while ( $text =~ m/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
         $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/
           _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
     }
@@ -285,7 +285,7 @@ sub readTemplate {
         # no %TMPL's to process
 
         # SMELL: legacy - leading spaces to tabs, should not be required
-        $text =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
+        $text =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
         return $text;
     }
@@ -365,10 +365,10 @@ sub readTemplate {
     }
 
     # handle %TMPL:P{"..."}% recursively
-    $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
+    $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/ge;
 
     # SMELL: legacy - leading spaces to tabs, should not be required
-    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
+    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
     $this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
       if (TRACE);
@@ -382,11 +382,11 @@ sub _readTemplateFile {
 
     # SMELL: not i18n-friendly (can't have accented characters in template name)
     # zap anything suspicious
-    $name =~ s/[^A-Za-z0-9_,.\/]//go;
+    $name =~ s/[^A-Za-z0-9_,.\/]//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
-    if ( $name =~ /\.tmpl$/ ) {
+    if ( $name =~ m/\.tmpl$/ ) {
         my $text =
           _decomment(
             _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
@@ -397,7 +397,7 @@ sub _readTemplateFile {
 
     my $userdirweb  = $web;
     my $userdirname = $name;
-    if ( $name =~ /^(.+)\.(.+?)$/ ) {
+    if ( $name =~ m/^(.+)\.(.+?)$/ ) {
 
         # ucfirst taints if use locale is in force
         $userdirweb  = Foswiki::Sandbox::untaintUnchecked( ucfirst($1) );
@@ -490,9 +490,9 @@ sub _readTemplateFile {
                 $webName = $userdirweb;
                 $tmplName = $userdirname;
             }
-            $file =~ s/\$skin/$skin/go;
-            $file =~ s/\$web/$webName/go;
-            $file =~ s/\$name/$tmplName/go;
+            $file =~ s/\$skin/$skin/g;
+            $file =~ s/\$web/$webName/g;
+            $file =~ s/\$name/$tmplName/g;
 
 # sort priority is:
 # primary: if template path has 'skin' in it; so that skin templates are considered first

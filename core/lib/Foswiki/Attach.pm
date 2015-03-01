@@ -109,7 +109,7 @@ sub renderMetaData {
     {
         my $attrAttr = $attachment->{attr};
 
-        if ( !$attrAttr || ( $showAttr && $attrAttr =~ /^[$showAttr]*$/ ) ) {
+        if ( !$attrAttr || ( $showAttr && $attrAttr =~ m/^[$showAttr]*$/ ) ) {
             $rows .=
               _formatRow( $this, $topicObject, $attachment, $row,
                 $attachmentNum, ( $attachmentNum == $attachmentCount ) );
@@ -376,7 +376,7 @@ sub getAttachmentLink {
     # I18N: URL-encode the attachment filename
     my $fileURL = Foswiki::urlEncodeAttachment($attName);
 
-    if ( $attName =~ /\.(gif|jpg|jpeg|png)$/i ) {
+    if ( $attName =~ m/\.(gif|jpg|jpeg|png)$/i ) {
 
         # inline image
 
@@ -423,8 +423,8 @@ sub getAttachmentLink {
 
     # Expand \t and \n early (only in the format, not
     # in the comment) - TWikibug:Item4581
-    $fileLink =~ s/\\t/\t/go;
-    $fileLink =~ s/\\n/\n/go;
+    $fileLink =~ s/\\t/\t/g;
+    $fileLink =~ s/\\n/\n/g;
     $fileLink =~ s/\$comment/$fileComment/g;
     $fileLink =~ s/\$size/$imgSize/g;
     $fileLink =~ s/([^\n])$/$1\n/;
@@ -497,7 +497,7 @@ sub _OLDgifsize {
 
     if (   defined($GIF)
         && read( $GIF, $type, 6 )
-        && $type =~ /GIF8[7,9]a/
+        && $type =~ m/GIF8[7,9]a/
         && read( $GIF, $s, 4 ) == 4 )
     {
         ( $a, $b, $c, $d ) = unpack( 'C' x 4, $s );

@@ -684,7 +684,7 @@ sub _getMappedWebTopic {
     }
     $file =~ s#^data/Sandbox/#$sandbox/#;
 
-    my ( $tweb, $ttopic ) = $file =~ /^(?:data\/)?(.*)\/(\w+).txt$/;
+    my ( $tweb, $ttopic ) = $file =~ m/^(?:data\/)?(.*)\/(\w+).txt$/;
 
     return ( $tweb, $ttopic );
 }
@@ -806,7 +806,7 @@ sub _install {
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
 
-        if ( $file =~ /^(:?bin|tools)\/[^\/]+$/ ) {
+        if ( $file =~ m/^(:?bin|tools)\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::FileUtil::getPerlLocation();
             Foswiki::Configure::FileUtil::rewriteShebang( "$dir/$file",
                 $perlLoc )
@@ -854,7 +854,7 @@ sub _install {
             )
           )
         {
-            my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+            my ( $web, $topic ) = $file =~ m/^data\/(.*)\/(\w+).txt$/;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
 
             if ( Foswiki::Func::webExists($tweb) ) {
@@ -904,7 +904,7 @@ sub _install {
         }
 
         # Pick up all Config.spec's
-        if ( $file =~ /\/Config.spec$/ ) {
+        if ( $file =~ m/\/Config.spec$/ ) {
             Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter );
         }
         $reporter->NOTE("> ${simulated}Installed:  $file as $target");
@@ -1014,9 +1014,9 @@ sub _moveFile {
             }
         }
         if ( defined $perms ) {
-            $to =~ /(.*)/;
+            $to =~ m/(.*)/;
             $to = $1;    #yes, we must untaint
-            $perms =~ /(.*)/;
+            $perms =~ m/(.*)/;
             $perms = $1;    #yes, we must untaint
             chmod( oct($perms), $to );
         }
@@ -1083,7 +1083,7 @@ sub _createBackup {
                 #( stat($file) )[2];    # File::Copy doesn't copy permissions
                 File::Copy::copy( $file, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
-                $mode =~ /(.*)/;
+                $mode =~ m/(.*)/;
                 $mode = $1;    #yes, we must untaint
                 chmod( $mode, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
@@ -1128,9 +1128,9 @@ sub _setPermissions {
             my $mode = $this->{_manifest}->{$file}->{perms};
 
             if ($mode) {
-                $target =~ /(.*)/;
+                $target =~ m/(.*)/;
                 $target = $1;    #yes, we must untaint
-                $mode =~ /(.*)/;
+                $mode =~ m/(.*)/;
                 $mode = $1;      #yes, we must untaint
                 chmod( oct($mode), $target )
                   unless ( $this->option('SIMULATE') );
@@ -1464,7 +1464,7 @@ sub _loadExits {
         for (qw( preinstall postinstall preuninstall postuninstall )) {
             undef &{$_};
         }
-        $this->{_prepost_code} =~ /(.*)/sm;
+        $this->{_prepost_code} =~ m/(.*)/sm;
         $this->{_prepost_code} = $1;    #yes, we must untaint
         unless ( eval( $this->{_prepost_code} . "; 1; " ) ) {
             die "Couldn't load pre/post (un)install: $@";
@@ -1515,7 +1515,7 @@ sub _parseManifest {
     my ( $this, $line, $reporter ) = @_;
 
     my ( $file, $perms, $md5, $desc ) =    # New format
-      $line =~ /^(".+"|\S+)\s+(\d+)(?:\s+([a-f0-9]{32}))?\s+(.*)$/;
+      $line =~ m/^(".+"|\S+)\s+(\d+)(?:\s+([a-f0-9]{32}))?\s+(.*)$/;
 
     unless ($file) {                       # Old format, for legacy
         ( $file, $perms, $md5, $desc ) =
@@ -1533,7 +1533,7 @@ sub _parseManifest {
     my $tattach = '';
 
     if ( $file =~ m/^data\/.*/ ) {
-        ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
+        ( $tweb, $ttopic ) = $file =~ m/^data\/(.*)\/(.*?).txt$/;
         unless ( defined $tweb
             && defined $ttopic
             && length($tweb) > 0
@@ -1543,7 +1543,7 @@ sub _parseManifest {
         }
     }
     if ( $file =~ m/^pub\/.*/ ) {
-        ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(.*?)\/([^\/]+)$/;
+        ( $tweb, $ttopic, $tattach ) = $file =~ m/^pub\/(.*)\/(.*?)\/([^\/]+)$/;
         unless ( defined $tweb
             && defined $ttopic
             && defined $tattach
@@ -1640,7 +1640,7 @@ sub checkDependencies {
 
     foreach my $dep ( @{ $this->{_dependencies} } ) {
 
-        ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
+        ( my $trigger ) = $dep->{trigger} =~ m/^(.*)$/s;
 
         # Evaluate the trigger - if true, module is required
         my $required = eval($trigger);

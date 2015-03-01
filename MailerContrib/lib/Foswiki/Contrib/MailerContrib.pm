@@ -84,7 +84,7 @@ sub mailNotify {
     initContrib();
 
     foreach my $web ( Foswiki::Func::getListOfWebs('user ') ) {
-        if ( $web =~ /^($webstr)$/ && $web !~ /^($exwebstr)$/ ) {
+        if ( $web =~ m/^($webstr)$/ && $web !~ /^($exwebstr)$/ ) {
             _processWeb( $web, \%options );
         }
     }
@@ -287,7 +287,7 @@ sub _processSubscriptions {
     while ( $it->hasNext() ) {
         my $change = $it->next();
         next if $change->{minor};
-        next if $change->{more} && $change->{more} =~ /minor/;
+        next if $change->{more} && $change->{more} =~ m/minor/;
 
         next unless Foswiki::Func::topicExists( $web, $change->{topic} );
 
@@ -445,11 +445,11 @@ sub _sendChangesMails {
         $mail =~ s/%LASTDATE%/$lastTime/ge;
 
         my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
-        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/goei;
+        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/gei;
 
         # remove <nop> and <noautolink> tags
-        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
         _restorePreferences( \%oldPrefs );
 
@@ -495,7 +495,7 @@ sub _generateChangeDetail {
                 $change->expandPlain( $template, $name ), @ep );
         }
 
-        if ( $text =~ /%DIFF_TEXT%/ ) {
+        if ( $text =~ m/%DIFF_TEXT%/ ) {
             $diff_tmpl ||= Foswiki::Func::expandTemplate( $style . ':diff' );
 
             # Note: no macro expansion; this is a verbatim format
@@ -618,7 +618,7 @@ sub _sendNewsletterMail {
         $mail =~ s/%MAXREV%/$maxrev/g;
         $mail =~ s/%CURRREV%/$maxrev/g;
         $mail =~ s/%REVTITLE%//g;
-        $mail =~ s|( ?) *</*nop/*>\n?|$1|gois;
+        $mail =~ s|( ?) *</*nop/*>\n?|$1|gis;
 
         # Remove <base.../> tag
         $mail =~ s/<base[^>]+\/>//;
@@ -633,12 +633,12 @@ sub _sendNewsletterMail {
           . "/view/"
           . $web . "/"
           . $topic;
-        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-        $mail =~ s/%EMAILTO%/$email/go;
+        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/%EMAILTO%/$email/g;
 
         # remove <nop> and <noautolink> tags
-        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
         _restorePreferences( \%oldPrefs );
 

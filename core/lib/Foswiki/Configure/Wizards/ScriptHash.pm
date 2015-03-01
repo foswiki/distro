@@ -35,7 +35,7 @@ sub verify {
     my ( $this, $reporter ) = @_;
 
     my $keys = $this->param('keys');
-    $keys =~ /^(\{[^}]+\}\{[^}]+\})$/;
+    $keys =~ m/^(\{[^}]+\}\{[^}]+\})$/;
     $keys = $1;    # untaint
 
     require Foswiki::Net;
@@ -63,7 +63,7 @@ sub verify {
 
     my $script;
 
-    if ( $keys =~ /^\{ScriptUrlPaths\}\{([^}]+)\}$/ ) {
+    if ( $keys =~ m/^\{ScriptUrlPaths\}\{([^}]+)\}$/ ) {
         $script = $1;
     }
     else {

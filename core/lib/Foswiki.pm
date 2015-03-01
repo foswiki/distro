@@ -102,7 +102,7 @@ sub _getLibDir {
     $foswikiLibDir = $INC{'Foswiki.pm'};
 
     # fix path relative to location of called script
-    if ( $foswikiLibDir =~ /^\./ ) {
+    if ( $foswikiLibDir =~ m/^\./ ) {
         print STDERR
 "WARNING: Foswiki lib path $foswikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
         my $bin;
@@ -433,8 +433,7 @@ BEGIN {
         return $lang;
     };
 
-    # Set up pre-compiled regexes for use in rendering.  All regexes with
-    # unchanging variables in match should use the '/o' option.
+    # Set up pre-compiled regexes for use in rendering.
     # In the regex hash, all precompiled REs have "Regex" at the
     # end of the name. Anything else is a string, either intended
     # for use as a character class, or as a sub-expression in
@@ -468,7 +467,8 @@ BEGIN {
     # Note: qr// locks in regex modes (i.e. '-xism' here) - see Friedl
     # book at http://regex.info/.
 
-    $regex{linkProtocolPattern} = $Foswiki::cfg{LinkProtocolPattern};
+    $regex{linkProtocolPattern} = $Foswiki::cfg{LinkProtocolPattern}
+      || '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
     # Header patterns based on '+++'. The '###' are reserved for numbered
     # headers
@@ -489,7 +489,7 @@ BEGIN {
             [$regex{mixedAlphaNum}]*
        )xo;
     $regex{webNameBaseRegex} =
-      qr/[$regex{upperAlpha}]+[$regex{mixedAlphaNum}_]*/o;
+      qr/[$regex{upperAlpha}]+[$regex{mixedAlphaNum}_]*/;
     if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
         $regex{webNameRegex} = qr(
                 $regex{webNameBaseRegex}
@@ -499,13 +499,13 @@ BEGIN {
     else {
         $regex{webNameRegex} = $regex{webNameBaseRegex};
     }
-    $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/o;
-    $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}:._]+/o;
+    $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/;
+    $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[$regex{upperAlpha}]{$abbrevLength,}s?\b/o;
+    $regex{abbrevRegex} = qr/[$regex{upperAlpha}]{$abbrevLength,}s?\b/;
 
     $regex{topicNameRegex} =
-      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
+      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
 
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
@@ -551,17 +551,17 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 
     # Item11185: This is how things were before we began Operation Unicode:
     #
-    # $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/o;
+    # $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/;
     #
     # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
     # uses $Foswiki::cfg{NameFilter} instead.
     # See RobustnessTests::test_sanitizeAttachmentName
     #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/o;
+    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
 
     # Multi-character alpha-based regexes
-    $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/o;
+    $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/;
 
     # %TAG% name
     $regex{tagNameRegex} = '[A-Za-z][A-Za-z0-9_:]*';
@@ -611,7 +611,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
                     [\x80-\xBF][\x80-\xBF]
                 }xo;
 
-    $regex{validUtf8StringRegex} = qr/^(?:$regex{validUtf8CharRegex})+$/o;
+    $regex{validUtf8StringRegex} = qr/^(?:$regex{validUtf8CharRegex})+$/;
 
     # Check for unsafe search regex mode (affects filtering in) - default
     # to safe mode
@@ -679,7 +679,7 @@ sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
 
     # Detect character encoding of the full topic name from URL
-    return if ( $text =~ /^[\x00-\x7F]+$/ );
+    return if ( $text =~ m/^[\x00-\x7F]+$/ );
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
@@ -698,7 +698,7 @@ sub UTF82SiteCharSet {
     }
 
     # If site charset is already UTF-8, there is no need to convert anything:
-    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i ) {
+    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i ) {
 
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
@@ -713,7 +713,7 @@ sub UTF82SiteCharSet {
 
     # Convert into ISO-8859-1 if it is the site charset.  This conversion
     # is *not valid for ISO-8859-15*.
-    if ( $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859-?1$/i ) {
+    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^iso-?8859-?1$/i ) {
 
         # ISO-8859-1 maps onto first 256 codepoints of Unicode
         # (conversion from 'perldoc perluniintro')
@@ -866,8 +866,8 @@ sub writeCompletePage {
     # SMELL: can't compute; faking content-type for backwards compatibility;
     # any other information might become bogus later anyway
     # Validate format of content-type (defined in rfc2616)
-    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/o;
-    if ( $contentType =~ /($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/oi ) {
+    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/;
+    if ( $contentType =~ m/($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/i ) {
         $contentType = $1;
     }
     else {
@@ -894,7 +894,7 @@ sub writeCompletePage {
         }
 
         # remove <dirtyarea> tags
-        $text =~ s/<\/?dirtyarea[^>]*>//go;
+        $text =~ s/<\/?dirtyarea[^>]*>//g;
 
         # Check that the templates specified clean HTML
         if (DEBUG) {
@@ -1007,7 +1007,7 @@ sub generateHTTPHeaders {
             && (
                 (
                        $ENV{'HTTP_ACCEPT_ENCODING'}
-                    && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i
+                    && $ENV{'HTTP_ACCEPT_ENCODING'} =~ m/(x-gzip|gzip)/i
                 )
 
                 || $ENV{'SPDY'}
@@ -1157,7 +1157,7 @@ sub redirectto {
 
     return unless $redirecturl;
 
-    if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://#o ) {
+    if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://# ) {
 
         # assuming URL
         return $redirecturl if _isRedirectSafe($redirecturl);
@@ -1261,7 +1261,7 @@ sub redirect {
                 $url .= '?' . $this->{request}->query_string();
             }
             if ($existing) {
-                if ( $url =~ /\?/ ) {
+                if ( $url =~ m/\?/ ) {
                     $url .= ';';
                 }
                 else {
@@ -1377,7 +1377,7 @@ Check for a valid WikiWord or WikiName
 
 sub isValidWikiWord {
     my $name = shift || '';
-    return ( $name =~ m/^$regex{wikiWordRegex}$/o );
+    return ( $name =~ m/^$regex{wikiWordRegex}$/ );
 }
 
 =begin TML
@@ -1394,9 +1394,9 @@ sub isValidTopicName {
     my ( $name, $nonww ) = @_;
 
     return 0 unless defined $name && $name ne '';
-    return 1 if ( $name =~ m/^$regex{topicNameRegex}$/o );
+    return 1 if ( $name =~ m/^$regex{topicNameRegex}$/ );
     return 0 unless $nonww;
-    return 0 if $name =~ /$cfg{NameFilter}/o;
+    return 0 if $name =~ m/$cfg{NameFilter}/;
     return 1;
 }
 
@@ -1417,8 +1417,8 @@ when a nested web name is passed to it.
 sub isValidWebName {
     my $name = shift || '';
     my $sys = shift;
-    return 1 if ( $sys && $name =~ m/^$regex{defaultWebNameRegex}$/o );
-    return ( $name =~ m/^$regex{webNameRegex}$/o );
+    return 1 if ( $sys && $name =~ m/^$regex{defaultWebNameRegex}$/ );
+    return ( $name =~ m/^$regex{webNameRegex}$/ );
 }
 
 =begin TML
@@ -1432,7 +1432,7 @@ STATIC Check for a valid email address name.
 # Note: must work on tainted names.
 sub isValidEmailAddress {
     my $name = shift || '';
-    return $name =~ /^$regex{emailAddrRegex}$/o;
+    return $name =~ m/^$regex{emailAddrRegex}$/;
 }
 
 =begin TML
@@ -1452,7 +1452,7 @@ sub getSkin {
     if ( $this->{request} ) {
         $skins = $this->{request}->param('cover');
         if ( defined $skins
-            && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o )
+            && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ )
         {
 
             # Implicit untaint ok - validated
@@ -1463,7 +1463,7 @@ sub getSkin {
 
     $skins = $this->{prefs}->getPreference('COVER');
     if ( defined $skins
-        && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o )
+        && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ )
     {
 
         # Implicit untaint ok - validated
@@ -1474,7 +1474,7 @@ sub getSkin {
     $skins = $this->{request} ? $this->{request}->param('skin') : undef;
     $skins = $this->{prefs}->getPreference('SKIN') unless $skins;
 
-    if ( defined $skins && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o ) {
+    if ( defined $skins && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ ) {
 
         # Implicit untaint ok - validated
         $skins = $1;
@@ -1524,7 +1524,7 @@ sub getScriptUrl {
     unless ( defined($url) ) {
         $url = $Foswiki::cfg{ScriptUrlPath};
         if ($script) {
-            $url .= '/' unless $url =~ /\/$/;
+            $url .= '/' unless $url =~ m/\/$/;
             $url .= $script;
             if (
                 rindex( $url, $Foswiki::cfg{ScriptSuffix} ) !=
@@ -1965,11 +1965,11 @@ sub new {
         # useful than the default url host. This is because new CGI("")
         # assigns this host by default - it's a default setting, used
         # when there is nothing better available.
-        if ( $this->{urlHost} =~ /^(https?:\/\/)localhost$/i ) {
+        if ( $this->{urlHost} =~ m/^(https?:\/\/)localhost$/i ) {
             my $protocol = $1;
 
 #only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
-            if ( $Foswiki::cfg{DefaultUrlHost} =~ /^$protocol/i ) {
+            if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^$protocol/i ) {
                 $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
             }
         }
@@ -2018,7 +2018,7 @@ sub new {
         $pathInfo = $1;
         if ( $pathInfo =~ m|[./]| ) {
             ( $web, $topic ) = $this->normalizeWebTopicName( $web, $pathInfo );
-            $topicSpecified = ( $pathInfo =~ /$topic$/ );
+            $topicSpecified = ( $pathInfo =~ m/$topic$/ );
         }
         else {
             $web = $pathInfo;
@@ -2568,7 +2568,7 @@ sub parseSections {
     foreach
       my $bit ( split( /(%(?:START|STOP|END)SECTION(?:{.*?})?%)/, $text ) )
     {
-        if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
+        if ( $bit =~ m/^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
@@ -2590,7 +2590,7 @@ sub parseSections {
             foreach my $s (@list) {
                 if (   $s->{end} < 0
                     && $s->{type} eq $attrs->{type}
-                    && $s->{name} =~ /^_SECTION\d+$/ )
+                    && $s->{name} =~ m/^_SECTION\d+$/ )
                 {
                     $s->{end} = $offset;
                 }
@@ -2600,7 +2600,7 @@ sub parseSections {
             $sections{$id}  = $attrs;
             push( @list, $attrs );
         }
-        elsif ( $bit =~ /^%(?:END|STOP)SECTION(?:{(.*)})?%$/ ) {
+        elsif ( $bit =~ m/^%(?:END|STOP)SECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
@@ -2614,7 +2614,7 @@ sub parseSections {
                 foreach my $s ( reverse @list ) {
                     if (   $s->{end} == -1
                         && $s->{type} eq $attrs->{type}
-                        && $s->{name} =~ /^_SECTION\d+$/ )
+                        && $s->{name} =~ m/^_SECTION\d+$/ )
                     {
                         $attrs->{name} = $s->{name};
                         last;
@@ -2855,7 +2855,7 @@ sub urlEncodeAttachment {
 
     my $usingEBCDIC = ( 'A' eq chr(193) );    # Only true on EBCDIC mainframes
 
-    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i or $usingEBCDIC ) {
+    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i or $usingEBCDIC ) {
 
         # Just let browser do UTF-8 URL encoding
         return $text;
@@ -2961,12 +2961,12 @@ sub spaceOutWikiWord {
     # Both could have the value 0 so we cannot use simple = || ''
     $word = defined($word) ? $word : '';
     $sep  = defined($sep)  ? $sep  : ' ';
-    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$sep$2/go;
-    $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/go;
+    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$sep$2/g;
+    $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/g;
     $word =~
-s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
+      s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/g;
     $word =~
-s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$sep$2/go;
+s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$sep$2/g;
     return $word;
 }
 
@@ -3006,7 +3006,7 @@ sub innerExpandMacros {
     );
 
     # Escape ' !%VARIABLE%'
-    $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/go;
+    $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/g;
 
     # Make sure func works, for registered tag handlers
     if (SINGLE_SINGLETONS) {
@@ -3060,14 +3060,14 @@ sub takeOutBlocks {
     my $tagParams;
 
     foreach my $token ( split( /(<\/?$tag[^>]*>)/i, $intext ) ) {
-        if ( $token =~ /<$tag\b([^>]*)?>/i ) {
+        if ( $token =~ m/<$tag\b([^>]*)?>/i ) {
             $depth++;
             if ( $depth eq 1 ) {
                 $tagParams = $1;
                 next;
             }
         }
-        elsif ( $token =~ /<\/$tag>/i ) {
+        elsif ( $token =~ m/<\/$tag>/i ) {
             if ( $depth > 0 ) {
                 $depth--;
                 if ( $depth eq 0 ) {
@@ -3135,7 +3135,7 @@ sub putBackBlocks {
     $newtag = $tag if ( !defined($newtag) );
 
     foreach my $placeholder ( keys %$map ) {
-        if ( $placeholder =~ /^$tag\d+$/ ) {
+        if ( $placeholder =~ m/^$tag\d+$/ ) {
             my $params = $map->{$placeholder}{params} || '';
             my $val = $map->{$placeholder}{text};
             $val = &$callback($val) if ( defined($callback) );
@@ -3165,7 +3165,7 @@ sub _processMacros {
         || ( $text eq '' ) );
 
     #no tags to process
-    return $text unless ( $text =~ /%/ );
+    return $text unless ( $text =~ m/%/ );
 
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
@@ -3173,7 +3173,7 @@ sub _processMacros {
 
         # prevent recursive expansion that just has been detected
         # from happening in the error message
-        $text =~ s/%(.*?)%/$1/go;
+        $text =~ s/%(.*?)%/$1/g;
         return $text;
     }
 
@@ -3207,9 +3207,9 @@ sub _processMacros {
             # a bit of a hack, but it's hard to think of a better
             # way to do this without a full parse that takes % signs
             # in tag parameters into account.
-            if ( $stackTop =~ /}$/s ) {
+            if ( $stackTop =~ m/}$/s ) {
                 while ( scalar(@stack)
-                    && $stackTop !~ /^%$regex{tagNameRegex}\{.*}$/so )
+                    && $stackTop !~ /^%$regex{tagNameRegex}\{.*}$/s )
                 {
                     my $top = $stackTop;
 
@@ -3219,7 +3219,7 @@ sub _processMacros {
             }
 
             # /s so you can have newlines in parameters
-            if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/so ) {
+            if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
 
                 # SMELL: unchecked implicit untaint?
                 my ( $expr, $tag, $args ) = ( $1, $2, $3 );
@@ -3237,7 +3237,7 @@ sub _processMacros {
 
                     # Don't bother recursively expanding unless there are
                     # unexpanded tags in the result.
-                    unless ( $e =~ /%$regex{tagNameRegex}(?:{.*})?%/so ) {
+                    unless ( $e =~ m/%$regex{tagNameRegex}(?:{.*})?%/s ) {
                         $stackTop .= $e;
                         next;
                     }
@@ -3261,7 +3261,7 @@ sub _processMacros {
                    # we have to accept that %NOP can never be fixed. if it
                    # could, then we could uncomment the following:
 
-                    #if( $stackTop =~ /}$/ ) {
+                    #if( $stackTop =~ m/}$/ ) {
                     #    # %VAR{...}% case
                     #    # We need to push the unexpanded expression back
                     #    # onto the stack, but we don't want it to match the
@@ -3320,7 +3320,7 @@ sub _expandMacroOnTopicRendering {
 
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
-        if ( $args && $args =~ /\S/ ) {
+        if ( $args && $args =~ m/\S/ ) {
             my $attrs = new Foswiki::Attrs( $args, 0 );
 
             $e = $this->_processMacros(
@@ -3355,7 +3355,7 @@ sub _expandMacroOnTopicRendering {
         unless ( defined( $macros{$tag} ) ) {
 
             # Demand-load the macro module
-            die $tag unless $tag =~ /([A-Z_:]+)/i;
+            die $tag unless $tag =~ m/([A-Z_:]+)/i;
             $tag = $1;
             eval "require Foswiki::Macros::$tag";
             die $@ if $@;
@@ -3366,7 +3366,7 @@ sub _expandMacroOnTopicRendering {
         my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
         $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
     }
-    elsif ( $args && $args =~ /\S/ ) {
+    elsif ( $args && $args =~ m/\S/ ) {
 
         # Arbitrary %SOMESTRING{default="xxx"}% will expand to xxx
         # in the absence of any definition.
@@ -3401,7 +3401,7 @@ sub _expandMacroOnTopicCreation {
     # tags expanded here.
     return
       unless $_[0] =~
-      /^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
+m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }
@@ -3569,7 +3569,7 @@ sub expandMacros {
     # 'Special plugin tag' TOC hack, must be done after all other expansions
     # are complete, and has to reprocess the entire topic.
 
-    if ( $text =~ /%TOC(?:{.*})?%/ ) {
+    if ( $text =~ m/%TOC(?:{.*})?%/ ) {
         require Foswiki::Macros::TOC;
         $text =~ s/%TOC(?:{(.*?)})?%/$this->TOC($text, $topicObject, $1)/ge;
     }
@@ -3919,7 +3919,7 @@ sub expandStandardEscapes {
 
     # expand '$n()' and $n! to new line
     $text =~ s/\$n\(\)/\n/gs;
-    $text =~ s/\$n(?=[^$regex{mixedAlpha}]|$)/\n/gos;
+    $text =~ s/\$n(?=[^$regex{mixedAlpha}]|$)/\n/gs;
 
     # filler, useful for nested search
     $text =~ s/\$nop(\(\))?//gs;

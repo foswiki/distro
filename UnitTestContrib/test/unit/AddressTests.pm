@@ -293,7 +293,7 @@ sub gendata {
 
             if (    $web
                 and not $created{webpath}{$web}
-                and not $web =~ /Missing/ )
+                and not $web =~ m/Missing/ )
             {
                 print "gendata(): web $web\n" if TRACE;
                 Foswiki::Func::createWeb($web);
@@ -312,7 +312,7 @@ sub gentopics {
 
     print "gentopics(): Working on web $web\n" if TRACE;
     foreach my $topic ( @{ $range->{topics} } ) {
-        if ( $topic and not $topic =~ /^Missing/ ) {
+        if ( $topic and not $topic =~ m/^Missing/ ) {
             my $filedata = "This is file: $web.$topic";
 
             print "gentopics(): \tWorking on topic $topic\n" if TRACE;
@@ -330,7 +330,7 @@ HERE
                         {
                             my $attachment = $tompath->[1];
                             if ( defined $attachment
-                                and not $attachment =~ /^Missing/ )
+                                and not $attachment =~ m/^Missing/ )
                             {
                                 my $filepath =
                                   File::Spec->catfile(

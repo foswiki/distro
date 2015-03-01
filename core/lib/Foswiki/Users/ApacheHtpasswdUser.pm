@@ -48,7 +48,7 @@ sub new {
         );
     }
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
-        if ( $^O =~ /^MSWin/i ) {
+        if ( $^O =~ m/^MSWin/i ) {
             print STDERR "ERROR: {Htpasswd}{Encoding} setting : "
               . $Foswiki::cfg{Htpasswd}{Encoding}
               . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n";
@@ -224,7 +224,7 @@ sub setPassword {
     catch Error with {
         $this->{error} = $this->{apache}->error();
         $this->{error} = undef
-          if $this->{error} && $this->{error} =~ /assword not changed/;
+          if $this->{error} && $this->{error} =~ m/assword not changed/;
     };
 
     return $added;

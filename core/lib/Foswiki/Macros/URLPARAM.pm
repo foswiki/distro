@@ -34,7 +34,7 @@ sub URLPARAM {
                     @valueArray = map {
                         $item = $_;
                         $_    = $multiple;
-                        $_ .= $item unless (s/\$item/$item/go);
+                        $_ .= $item unless (s/\$item/$item/g);
                         expandStandardEscapes($_)
                     } @valueArray;
                 }
@@ -64,18 +64,18 @@ sub _handleURLPARAMValue {
 
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
-        if ( $encode =~ /^entit(y|ies)$/i ) {
+        if ( $encode =~ m/^entit(y|ies)$/i ) {
             $value = entityEncode($value);
         }
-        elsif ( $encode =~ /^quotes?$/i ) {
+        elsif ( $encode =~ m/^quotes?$/i ) {
             $value =~
-              s/\"/\\"/go;    # escape quotes with backslash (Bugs:Item3383 fix)
+              s/\"/\\"/g;    # escape quotes with backslash (Bugs:Item3383 fix)
         }
-        elsif ( $encode =~ /^(off|none)$/i ) {
+        elsif ( $encode =~ m/^(off|none)$/i ) {
 
             # no encoding
         }
-        elsif ( $encode =~ /^url$/i ) {
+        elsif ( $encode =~ m/^url$/i ) {
 
             # Legacy, see ENCODE
             #$value =~ s/\r*\n\r*/<br \/>/;

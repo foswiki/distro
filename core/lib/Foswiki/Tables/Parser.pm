@@ -153,7 +153,7 @@ sub parse {
                 next LINE;
             }
 
-            if ( $line =~ /^\s*\|.*(\|\s*|\\)$/ ) {
+            if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
 
                 print STDERR "interesting $line\n" if TRACE;
 

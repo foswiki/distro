@@ -133,7 +133,7 @@ sub sneakAttachmentsToTopic {
     #print STDERR "DEBUG: dir=$path\n";
 
     foreach my $file (@filenames) {
-        if ( $file =~ /\// ) {
+        if ( $file =~ m/\// ) {
             my @dirs = split( /\//, $file );
             pop(@dirs);
             foreach my $adir (@dirs) {

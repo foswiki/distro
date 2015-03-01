@@ -154,7 +154,7 @@ sub preload {
                         sub {
                             my $pn = shift;
                             throw Error::Simple('Bad debugenableplugins')
-                              unless $pn =~ /^[a-zA-Z0-9_]+$/;
+                              unless $pn =~ m/^[a-zA-Z0-9_]+$/;
                             return $pn;
                         }
                     )
@@ -550,7 +550,7 @@ sub _handleACTIVATEDPLUGINS {
             $text .= ( $web ? "$web." : '!' ) . "$plugin->{name}, ";
         }
     }
-    $text =~ s/\,\s*$//o;
+    $text =~ s/\,\s*$//;
     return $text;
 }
 

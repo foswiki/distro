@@ -95,7 +95,7 @@ sub new {
         || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' )
     {
         require Digest::MD5;
-        if ( $Foswiki::cfg{AuthRealm} =~ /\:/ ) {
+        if ( $Foswiki::cfg{AuthRealm} =~ m/\:/ ) {
             print STDERR
 "ERROR: the AuthRealm cannot contain a ':' (colon) as it corrupts the password file\n";
             throw Error::Simple(

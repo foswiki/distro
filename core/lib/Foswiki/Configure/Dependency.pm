@@ -195,7 +195,7 @@ $this->{module} version $this->{version} required
 -- $this->{type} $this->{notes}
 TINKYWINKY
     }
-    elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
+    elsif ( $this->{version} =~ m/^\s*([<>=]+)?\s*(.+)/ ) {
 
         # the version field is a condition
         my $op = $1 || '>=';
@@ -233,7 +233,7 @@ sub studyInstallation {
     my ( $inst, $ver, $loc, $rel );
 
     if ( !$this->{module} ) {
-        my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
+        my $lib = ( $this->{name} =~ m/Plugin$/ ) ? 'Plugins' : 'Contrib';
         foreach my $namespace (qw(Foswiki TWiki)) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
             ( $inst, $ver, $loc, $rel ) =
@@ -247,7 +247,7 @@ sub studyInstallation {
     else {
         ( $inst, $ver, $loc, $rel ) =
           extractModuleVersion( $this->{module},
-            $this->{module} =~ /(?:Foswiki|TWiki)/ );
+            $this->{module} =~ m/(?:Foswiki|TWiki)/ );
     }
 
     if ($inst) {
@@ -276,11 +276,11 @@ sub studyInstallation {
 sub compare_using_cpan_version {
 
     my $va   = shift;
-    my $verA = ( $va =~ /^v/ ) ? version->declare($va) : version->parse($va);
+    my $verA = ( $va =~ m/^v/ ) ? version->declare($va) : version->parse($va);
     my $op   = shift;
     $op = '==' if $op eq '=';
     my $vb = shift;
-    my $verB = ( $vb =~ /^v/ ) ? version->declare($vb) : version->parse($vb);
+    my $verB = ( $vb =~ m/^v/ ) ? version->declare($vb) : version->parse($vb);
     my $comparison = "\$verA $op \$verB";
     return eval($comparison);
 }
@@ -370,7 +370,7 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     $b = lc($b);
 
 # See if these are sane perl version strings,  if so we can use CPAN version to compare
-    if ( $a =~ /^$LAX$/ && $b =~ /^$LAX$/ ) {
+    if ( $a =~ m/^$LAX$/ && $b =~ m/^$LAX$/ ) {
 
 #print STDERR "$a and $b match LAX version rules, TEST $op ";
 #print STDERR ( compare_using_cpan_version( $a, $op, $b )) ? " - TRUE\n" : " - FALSE \n";
@@ -389,7 +389,7 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     # of digits between the two versions
     my ($maxDigits) =
       reverse
-      sort( map { length($_) } ( $a =~ /(\d+)/g ), ( $b =~ /(\d+)/g ), );
+      sort( map { length($_) } ( $a =~ m/(\d+)/g ), ( $b =~ m/(\d+)/g ), );
 
     # justify digit sequences so that they compare correctly.
     # E.g. '063' lt '103'
@@ -403,13 +403,13 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     # so append a high-value character to the
     # non-beta version if one version looks like
     # a beta and the other does not
-    if ( $a =~ /^$b$separator?beta/ ) {
+    if ( $a =~ m/^$b$separator?beta/ ) {
 
         # $a is beta of $b
         # $b should compare greater than $a
         $b .= $largest_char;
     }
-    elsif ( $b =~ /^$a$separator?beta/ ) {
+    elsif ( $b =~ m/^$a$separator?beta/ ) {
 
         # $b is beta of $a
         # $a should compare greater than $b
@@ -417,7 +417,7 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     }
 
     my $comparison;
-    if ( $a =~ /^(\d+)(\.\d*)?$/ && $b =~ /^(\d+)(\.\d*)?$/ ) {
+    if ( $a =~ m/^(\d+)(\.\d*)?$/ && $b =~ m/^(\d+)(\.\d*)?$/ ) {
         $op = '==' if $op eq '=';
         $a += 0;
         $b += 0;
@@ -575,63 +575,63 @@ sub _decodeReleaseString {
     $rel =~ s/^\s+//;
     $rel =~ s/\s+$//;
 
-    if ( $rel =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
+    if ( $rel =~ m/^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
 
         # ISO date
         @tuple = ( $1, $2, $3 );
         $form = 'date';
     }
-    elsif ( $rel =~ /^(\d+)\s+($MNAME)\s+(\d+).*$/io ) {
+    elsif ( $rel =~ m/^(\d+)\s+($MNAME)\s+(\d+).*$/i ) {
 
         # dd Mmm YYY date
         @tuple = ( $3, $M2N{ lc $2 }, $1 );
         $form = 'date';
     }
-    elsif ( $rel =~ /^([0-9]{4,5})$/ ) {
+    elsif ( $rel =~ m/^([0-9]{4,5})$/ ) {
 
         #print STDERR "matching a svn VERSION\n";
         # svn rev,  4-5 digit number
         @tuple = ($1);
         $form  = 'svn';
     }
-    elsif ( $rel =~ /^r([0-9]{1,6})$/ ) {
+    elsif ( $rel =~ m/^r([0-9]{1,6})$/ ) {
 
         # svn rev, a 1-6 digit number prefixed by 'r'
         @tuple = ($1);
         $form  = 'svn';
     }
-    elsif ( $rel =~ /^V?(\d+([-_.]\d+)*).*?$/i ) {
+    elsif ( $rel =~ m/^V?(\d+([-_.]\d+)*).*?$/i ) {
 
      # tuple e.g. 1.23.4   Note that a simple tuple could also be a low SVN rev.
         @tuple = split( /[-_.]/, $1 );
         $form = 'tuple';
     }
-    elsif ( $rel =~ /^\$Rev: (\d+)\s*\(.*\)$/ ) {
+    elsif ( $rel =~ m/^\$Rev: (\d+)\s*\(.*\)$/ ) {
 
         # 1234 (7 Aug 2009)
         # 1234 (2009-08-07)
         @tuple = ($1);
         $form  = 'svn';
     }
-    elsif ( $rel =~ /^\$Rev: (\d+).*\$$/ ) {
+    elsif ( $rel =~ m/^\$Rev: (\d+).*\$$/ ) {
 
         # $Rev: 1234$
         @tuple = ($1);
         $form  = 'svn';
     }
-    elsif ( $rel =~ /^\$Rev:?\s*\$.*$/ ) {
+    elsif ( $rel =~ m/^\$Rev:?\s*\$.*$/ ) {
 
         # $Rev$
         @tuple = ($MAXINT);
         $form  = 'svn';
     }
-    elsif ( $rel =~ /^\s?$/ ) {
+    elsif ( $rel =~ m/^\s?$/ ) {
 
         # Blank or empty version
         @tuple = (0);
         $form  = 'tuple';
     }
-    elsif ( $rel =~ /^Foswiki-(\d+([-_.]\d+)*).*?$/i ) {
+    elsif ( $rel =~ m/^Foswiki-(\d+([-_.]\d+)*).*?$/i ) {
         @tuple = split( /[-_.]/, $1 );
         $form = 'tuple';
     }
@@ -799,7 +799,7 @@ sub checkPerlModules {
         $mod->{disposition}    ||= 'required';
         $mod->{condition}      ||= '>=';
 
-        my $type = $mod->{name} =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
+        my $type = $mod->{name} =~ m/^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
 
         my $dep = Foswiki::Configure::Dependency->new(
             module  => $mod->{name},

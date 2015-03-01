@@ -8,7 +8,7 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     if ( !$Foswiki::cfg{AuthRealm} ) {
         return $this->ERROR(
@@ -20,7 +20,7 @@ sub check_current_value {
     Foswiki::Configure::Load::expandValue($authRealm);
 
     if (
-        ( $authRealm =~ /\:/ )
+        ( $authRealm =~ m/\:/ )
         and
 
         (

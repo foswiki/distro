@@ -98,11 +98,11 @@ sub _loadKey {
 
     my @keys = (0);
 
-    $key =~ s/\r//go;
+    $key =~ s/\r//g;
 
     my @key;
     while ( $key =~
-/^(-----BEGIN ((RSA|DSA) PRIVATE KEY)-----\n(?:(.*?\n)\n)?.*?^-----END (?:RSA|DSA) PRIVATE KEY-----$)/msgo
+m/^(-----BEGIN ((RSA|DSA) PRIVATE KEY)-----\n(?:(.*?\n)\n)?.*?^-----END (?:RSA|DSA) PRIVATE KEY-----$)/msg
       )
     {
         my ( $pem, $format, $type, $headers ) = ( $1, $2, $3, $4 );
@@ -144,7 +144,7 @@ sub _loadKey {
               [ ERROR => "Corrupt file: missing DEK-Info encryption header\n" ];
             next;
         }
-        unless ( $h{'DEK-Info'} =~ /([\w-]+),([[:xdigit:]]+)$/
+        unless ( $h{'DEK-Info'} =~ m/([\w-]+),([[:xdigit:]]+)$/
             && $decryptable{$1} )
         {
             push @key,
@@ -254,7 +254,7 @@ Key Information: %s %s %s key", $xpv, ucfirst $key->{encrypted}, $key->{type},
     if ( ( my $s = $key->{status} ) ) {
         while (@$s) {
             my ( $sev, $msg ) = splice( @$s, 0, 2 );
-            $sev =~ /^([\w]+)$/ or die "Bad severity";
+            $sev =~ m/^([\w]+)$/ or die "Bad severity";
             $sev = lc $1;
 
             eval("\$sev = \\\$${sev}s");

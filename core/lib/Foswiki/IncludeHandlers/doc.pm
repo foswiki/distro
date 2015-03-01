@@ -41,7 +41,7 @@ sub INCLUDE {
     $class =~ s/[a-z]+://;    # remove protocol
     $class ||= 'Foswiki';     # provide a reasonable default
 
-    #    return '' unless $class && $class =~ /^Foswiki/;
+    #    return '' unless $class && $class =~ m/^Foswiki/;
     $class =~ s/[^\w:]//g;
 
     my %publicPackages = map { $_ => 1 } _loadPublishedAPI();
@@ -71,21 +71,21 @@ sub INCLUDE {
     my $isa;
     my $inSuppressedMethod;
 
-    if ( $perl =~ /our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/ ) {
+    if ( $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/ ) {
         $isa = " ==is a== $1";
         $isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)#' ' . _doclink($1)#ge;
     }
     $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
     foreach my $line ( split( /\r?\n/, $perl ) ) {
-        if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
+        if ( $line =~ m/^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod              = 1;
             $inSuppressedMethod = 0;
         }
-        elsif ( $line =~ /^=cut/ ) {
+        elsif ( $line =~ m/^=cut/ ) {
             $inPod = 0;
         }
         elsif ($inPod) {
-            if ( $line =~ /^---\+(!!)?\s+package\s+\S+\s*$/ ) {
+            if ( $line =~ m/^---\+(!!)?\s+package\s+\S+\s*$/ ) {
                 if ($isa) {
                     $line .= $isa;
                     $isa = undef;
@@ -94,22 +94,22 @@ sub INCLUDE {
 s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
             }
             else {
-                $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#geo;
+                $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#ge;
             }
             if ( $line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= / ) {
                 $line =~ s/\s+[-=]>\s+/ &rarr; /;
-                if ( $publicOnly && $line =~ /Method=\s+_/ ) {
+                if ( $publicOnly && $line =~ m/Method=\s+_/ ) {
                     $inSuppressedMethod = 1;
                 }
             }
-            elsif ( $line =~ /^---/ ) {
+            elsif ( $line =~ m/^---/ ) {
                 $inSuppressedMethod = 0;
             }
             $pod .= "$line\n"
               unless $inSuppressedMethod;
         }
         if (  !$inSuppressedMethod
-            && $line =~ /(SMELL|FIXME|TODO)/
+            && $line =~ m/(SMELL|FIXME|TODO)/
             && $showSmells )
         {
             $howSmelly++;
@@ -200,10 +200,10 @@ sub _getPackSummary ($) {
     my $inPod     = 0;
     my $inPackage = 0;
     while ( my $line = <$PMFILE> ) {
-        if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
+        if ( $line =~ m/^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
-        elsif ( $line =~ /^=cut/ ) {
+        elsif ( $line =~ m/^=cut/ ) {
             @summary
               and last;
             $inPod = 0;
@@ -213,7 +213,7 @@ sub _getPackSummary ($) {
                 chomp($line);
                 push @summary, $line;
             }
-            if ( $line =~ /^---\+(!!)?\s+package\s+\S+\s*$/ ) {
+            if ( $line =~ m/^---\+(!!)?\s+package\s+\S+\s*$/ ) {
                 $inPackage = 1;
             }
         }
@@ -221,7 +221,7 @@ sub _getPackSummary ($) {
     close($PMFILE);
 
     while (@summary) {
-        if ( $summary[0] =~ /^\s*$/ ) {
+        if ( $summary[0] =~ m/^\s*$/ ) {
             shift @summary;
         }
         else {
@@ -246,7 +246,7 @@ sub _loadPublishedAPI {
     for my $line ( split /\r?\n/, $text ) {
 
 #| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
-        $line =~ /^\|\s*\[\[.*?PerlDoc.*?\]\[(.*?)\]\]/
+        $line =~ m/^\|\s*\[\[.*?PerlDoc.*?\]\[(.*?)\]\]/
           and push @ret, $1;
     }
     return @ret;

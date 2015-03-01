@@ -22,10 +22,10 @@ sub include_tests {
     my @list;
     opendir( DIR, "." ) || die "Failed to open .";
     foreach my $i ( sort readdir(DIR) ) {
-        next if $i =~ /^Empty/ || $i =~ /^\./;
-        if ( $i =~ /^Fn_[A-Z]+\.pm$/ || $i =~ /^.*Tests\.pm$/ ) {
+        next if $i =~ m/^Empty/ || $i =~ m/^\./;
+        if ( $i =~ m/^Fn_[A-Z]+\.pm$/ || $i =~ m/^.*Tests\.pm$/ ) {
             push( @list, $i )
-              unless $i =~ /EngineTests\.pm/;
+              unless $i =~ m/EngineTests\.pm/;
 
             # the engine tests break logging, so do them last
         }

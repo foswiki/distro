@@ -125,7 +125,7 @@ sub prepareQueryParameters {
 sub prepareHeaders {
     my ( $this, $req ) = @_;
     foreach my $header ( keys %ENV ) {
-        next unless $header =~ /^(?:HTTP|CONTENT|COOKIE)/i;
+        next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^HTTPS?_//;
         $req->header( $field => $ENV{$header} );
     }
@@ -216,7 +216,7 @@ sub prepareBody {
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
-      if defined $err && $err =~ /\s*(\d{3})\s*(.*)/;
+      if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
     $this->{cgi} = $cgi;
 }
 

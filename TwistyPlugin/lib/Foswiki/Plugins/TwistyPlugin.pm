@@ -185,7 +185,7 @@ sub _createId {
     my ( $params, $inWeb, $inTopic ) = @_;
 
     my $id = $params->{'id'} || "twistyId$inWeb$inTopic";
-    $id =~ s/\//subweb/go;
+    $id =~ s/\//subweb/g;
 
     # Ensure uniqueness, or at least try to
     my $remember = $params->{'remember'} || $prefRemember;
@@ -245,9 +245,9 @@ sub _twistyBtn {
          $params->{ $twistyControlState . 'imgleft' }
       || $params->{'imgleft'}
       || '';
-    $img      =~ s/['\"]//go;
-    $imgright =~ s/['\"]//go;
-    $imgleft  =~ s/['\"]//go;
+    $img      =~ s/['\"]//g;
+    $imgright =~ s/['\"]//g;
+    $imgleft  =~ s/['\"]//g;
     my $imgTag =
       ( $img ne '' ) ? '<img src="' . $img . '" border="0" alt="" />' : '';
     my $imgRightTag =
@@ -401,7 +401,7 @@ sub _readCookie {
     my $cgi    = CGI->new();
     my $cookie = $cgi->cookie('FOSWIKIPREF');
     my $tag    = $idTag;
-    $tag =~ s/^(.*)(hide|show|toggle)$/$1/go;
+    $tag =~ s/^(.*)(hide|show|toggle)$/$1/g;
     my $key = $TWISTYPLUGIN_COOKIE_PREFIX . $tag;
 
     return unless ( defined($key) && defined($cookie) );

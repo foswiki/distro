@@ -11,7 +11,7 @@ use Assert;
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Native$/ ) {
+    if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/Native$/ ) {
         eval('use Foswiki::Store::SearchAlgorithms::Native');
         if ($@) {
             $reporter->ERROR(
@@ -20,7 +20,7 @@ sub check_current_value {
         }
     }
     if (    ( $^O eq 'MSWin32' )
-        and ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking/ ) )
+        and ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/Forking/ ) )
     {
         $reporter->ERROR(<<EOF);
 Forking (grep based Search) does not work well on Windows, please use PurePerl.

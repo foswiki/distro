@@ -26,7 +26,7 @@ sub checkRCSProgram {
     my $err  = '';
     my $prog = $Foswiki::cfg{RCS}{$key} || '';
     $prog =~ s/^\s*(\S+)\s.*$/$1/;
-    $prog =~ /^(.*)$/;
+    $prog =~ m/^(.*)$/;
     $prog = $1;
     if ( !$prog ) {
         $err .= $key . ' is not set';
@@ -39,7 +39,7 @@ sub checkRCSProgram {
             # "Can't exec" has been observed on some systems,
             # despite perlop saying `` returns undef if the prog
             # can't be run. See Foswikitask:Item1011
-            && $version =~ /(\d+(\.\d+)+)/
+            && $version =~ m/(\d+(\.\d+)+)/
           )
         {
             $version = $1;
@@ -52,8 +52,8 @@ sub checkRCSProgram {
         # Item11955 - '5.8.1' < 5.7 results in a warning (non-numeric compare)
         # Best practice is to use CPAN:version, but isn't core until perl 5.10.
         # So instead let's make the comparison work by stripping out sub-decimal
-        ASSERT( REQUIRED_RCS_VERSION =~ /^\d+(\.\d+)?$/ ) if DEBUG;
-        if ( $version =~ /\D(\d+(\.\d+)?)/ && $1 < REQUIRED_RCS_VERSION ) {
+        ASSERT( REQUIRED_RCS_VERSION =~ m/^\d+(\.\d+)?$/ ) if DEBUG;
+        if ( $version =~ m/\D(\d+(\.\d+)?)/ && $1 < REQUIRED_RCS_VERSION ) {
 
             # RCS too old
             $err .=

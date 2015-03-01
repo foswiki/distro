@@ -66,7 +66,7 @@ sub _lookupIcon {
         # Found .gif attached to ICONTOPIC
         $path = $this->{_ICONSPACE}->getPath() . "/$choice.gif";
     }
-    elsif ( $choice =~ /\.([a-zA-Z0-9]+)$/ ) {
+    elsif ( $choice =~ m/\.([a-zA-Z0-9]+)$/ ) {
 
         #TODO: need to give this usage a chance at tmpl based icons too
         my $ext = $1;
@@ -87,7 +87,7 @@ sub _lookupIcon {
                             my $tok = shift;
                             die "Bad filetype $tok"
                               unless $tok =~
-                              /^[$Foswiki::regex{mixedAlphaNum}]+$/o;
+                              m/^[$Foswiki::regex{mixedAlphaNum}]+$/;
                             return $tok;
                         }
                     );

@@ -140,7 +140,7 @@ sub _loadSpecsFrom {
 
         next if $read->{$extension};
 
-        $extension =~ /(.*)/;
+        $extension =~ m/(.*)/;
         $extension = $1;    # untaint
         my $file = "$dir/$extension/Config.spec";
         next unless -e $file;
@@ -269,9 +269,9 @@ sub parse {
             my $cont = <$fh>;
             last unless defined $cont;
             chomp $cont;
-            $cont =~ s/^#// if ( $l =~ /^#/ );
+            $cont =~ s/^#// if ( $l =~ m/^#/ );
             $cont =~ s/^\s+/ /;
-            if ( $cont =~ /^#/ ) {
+            if ( $cont =~ m/^#/ ) {
                 $l .= '\\';
             }
             else {
@@ -279,10 +279,10 @@ sub parse {
             }
         }
 
-        last if ( $l =~ /^(1;|__[A-Z]+__)/ );
-        next if ( $l =~ /^\s*$/ || $l =~ /^\s*#!/ );
+        last if ( $l =~ m/^(1;|__[A-Z]+__)/ );
+        next if ( $l =~ m/^\s*$/ || $l =~ m/^\s*#!/ );
 
-        if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
+        if ( $l =~ m/^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
 
             # **STRING 30 EXPERT**
             if ( $open && !$isEnhancing ) {
@@ -323,7 +323,7 @@ sub parse {
         }
 
         elsif (
-            $l =~ /^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=\s*(.*?)$/ )
+            $l =~ m/^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=\s*(.*?)$/ )
         {
 
             # $Foswiki::cfg{Rice}{Brown} =
@@ -335,14 +335,14 @@ sub parse {
             if ( $keys eq '{WebMasterName}' ) {
                 ASSERT($open) if DEBUG;
             }
-            unless ( $keys =~ /^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
+            unless ( $keys =~ m/^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
                 $reporter->ERROR("$context: Invalid item specifier $keys");
                 $open = undef;
                 next;
             }
 
             # Restore initial \n for continued lines
-            $value .= "\n" unless $value =~ /\s*;\s*$/;
+            $value .= "\n" unless $value =~ m/\s*;\s*$/;
 
             # Read the value verbatim, retaining internal \s
             while ( $value !~ s/\s*;\s*$//s ) {
@@ -353,7 +353,7 @@ sub parse {
 
             # check it's a valid perl expression, ignoring uninitialised
             # variable warnings inside strings.
-            $value =~ /^\s*(.*?)[\s;]*$/s;    # trim and untaint
+            $value =~ m/^\s*(.*?)[\s;]*$/s;    # trim and untaint
             $value = $1;
             no warnings;
             eval($value);
@@ -392,7 +392,7 @@ sub parse {
             # Configure treats all regular expressions as simple quoted string,
             # Convert from qr/ /  notation to a simple quoted string
             if (   $open->{typename} eq 'REGEX'
-                && $open->{default} =~ /^qr(.)(.*)\1$/ )
+                && $open->{default} =~ m/^qr(.)(.*)\1$/ )
             {
 
                 # Convert a qr// into a quoted string
@@ -418,7 +418,7 @@ sub parse {
             $isEnhancing = 0;
         }
 
-        elsif ( $l =~ /^#\s*\*([A-Z]+)\*/ ) {
+        elsif ( $l =~ m/^#\s*\*([A-Z]+)\*/ ) {
 
             # *FINDEXTENSIONS* pluggable
             my $name   = $1;
@@ -467,7 +467,7 @@ sub parse {
             $isEnhancing = 0;
         }
 
-        elsif ( $l =~ /^#\s*---\+(\+*) *(.*?)$/ ) {
+        elsif ( $l =~ m/^#\s*---\+(\+*) *(.*?)$/ ) {
 
             # ---++ Section
             $sectionNum++;
@@ -490,7 +490,7 @@ sub parse {
             $isEnhancing = 0;
         }
 
-        elsif ( $l =~ /^#\s?(.*)$/ ) {
+        elsif ( $l =~ m/^#\s?(.*)$/ ) {
 
             # Bog standard comment
             $open->append( 'desc', $1 ) if $open;
@@ -546,7 +546,7 @@ safe for use as a perl hash index.
 
 sub protectKey {
     my $k = shift;
-    return $k if $k =~ /^[a-z_][a-z0-9_]*$/i;
+    return $k if $k =~ m/^[a-z_][a-z0-9_]*$/i;
 
     # Remove existing quotes, if there
     $k =~ s/^(["'])(.*)\1$/$2/i;

@@ -65,7 +65,7 @@ sub _handleHistory {
     my $nrev = $params->{nrev} ? $params->{nrev} : 10;
 
     if ($versions) {
-        $versions =~ /([0-9\-]*)(\.\.)*([0-9\-]*)/;
+        $versions =~ m/([0-9\-]*)(\.\.)*([0-9\-]*)/;
         if ( defined $1 && length $1 ) {
             $rev1 = $1;
         }
@@ -191,7 +191,7 @@ sub _handleHeadFoot {
         $text =~ s/\$next({.*?})//g;
     }
     else {
-        while ( $text =~ /\$next({(.*?)})/ ) {
+        while ( $text =~ m/\$next({(.*?)})/ ) {
             my $args = $2 || '';
 
             my $newrev1 = $rev2 < $maxrev ? $rev2 + 1 : $rev2;
@@ -218,7 +218,7 @@ sub _handleHeadFoot {
         $text =~ s/\$previous({.*?})//g;
     }
     else {
-        while ( $text =~ /\$previous({(.*?)})/ ) {
+        while ( $text =~ m/\$previous({(.*?)})/ ) {
             my $args = $2 || '';
 
             my $newrev2 = $rev1 > 1 ? $rev1 - 1 : 1;

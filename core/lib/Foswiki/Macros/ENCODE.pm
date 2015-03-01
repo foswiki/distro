@@ -65,19 +65,19 @@ sub ENCODE {
 
     $type ||= 'url';
 
-    if ( $type =~ /^entit(y|ies)$/i ) {
+    if ( $type =~ m/^entit(y|ies)$/i ) {
         return entityEncode($text);
     }
-    elsif ( $type =~ /^html$/i ) {
+    elsif ( $type =~ m/^html$/i ) {
         return entityEncode( $text, "\n\r" );
     }
-    elsif ( $type =~ /^quotes?$/i ) {
+    elsif ( $type =~ m/^quotes?$/i ) {
 
         # escape quotes with backslash (Bugs:Item3383 fix)
-        $text =~ s/\"/\\"/go;
+        $text =~ s/\"/\\"/g;
         return $text;
     }
-    elsif ( $type =~ /^url$/i ) {
+    elsif ( $type =~ m/^url$/i ) {
 
         # This is legacy, stretching back to 2001. Checkin comment was:
         # "Fixed URL encoding". At that time it related to the encoding of
@@ -87,7 +87,7 @@ sub ENCODE {
         # $text =~ s/\r*\n\r*/<br \/>/;
         return urlEncode($text);
     }
-    elsif ( $type =~ /^(off|none)$/i ) {
+    elsif ( $type =~ m/^(off|none)$/i ) {
 
         # no encoding
         return $text;

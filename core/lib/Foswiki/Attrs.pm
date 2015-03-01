@@ -114,7 +114,7 @@ sub _unfriendly {
         }
 
         # simple double-quoted value with no name, sets the default
-        elsif ( $string =~ s/^\s*\"(.*?)\"//os ) {
+        elsif ( $string =~ s/^\s*\"(.*?)\"//s ) {
             $this->{_DEFAULT} = $1
               unless defined( $this->{_DEFAULT} );
             $first = 0;
@@ -160,7 +160,7 @@ sub _friendly {
         }
 
         # simple single-quoted value with no name, sets the default
-        elsif ( $string =~ s/^[\s,]*'(.*?)'//os ) {
+        elsif ( $string =~ s/^[\s,]*'(.*?)'//s ) {
             $this->{_DEFAULT} = $1
               unless defined( $this->{_DEFAULT} );
         }
@@ -258,14 +258,14 @@ will return undef, because neither "%X%" nor "%X{}%" occur.
 
 sub findFirstOccurenceAttrs {
     my ( $macro, $text ) = @_;
-    return undef unless $text =~ /\%${macro}[%{]/s;
+    return undef unless $text =~ m/\%${macro}[%{]/s;
     my @queue = split( /(%[A-Za-z0-9_]*{|}%|\%${macro}\%)/, $text );
     my $eat   = 0;
     my $eaten = '';
     while ( scalar(@queue) ) {
         my $token = shift @queue;
         if ($eat) {
-            if ( $token =~ /^%[A-Za-z0-9_]*{$/ ) {
+            if ( $token =~ m/^%[A-Za-z0-9_]*{$/ ) {
                 $eat++;
             }
             elsif ( $eat && $token eq '}%' ) {
@@ -307,7 +307,7 @@ sub extractValue {
     if ($name) {
 
         # format is: %VAR{ ... name = "value" }%
-        if ( $str =~ /(^|[^\S])$name\s*=\s*\"([^\"]*)\"/ ) {
+        if ( $str =~ m/(^|[^\S])$name\s*=\s*\"([^\"]*)\"/ ) {
             $value = $2 if defined $2;    # distinguish between '' and "0"
         }
 
@@ -317,7 +317,7 @@ sub extractValue {
         # test if format: { "value" ... }
         # SMELL: unchecked implicit untaint?
         if ( $str =~
-            /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*([a-z0-9_]+\s*=\s*\"|$)/ )
+            m/(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*([a-z0-9_]+\s*=\s*\"|$)/ )
         {
 
             # is: %VAR{ "value" }%
@@ -327,7 +327,7 @@ sub extractValue {
             $value = $2 if defined $2;    # distinguish between '' and "0";
 
         }
-        elsif ( ( $str =~ /^\s*[a-z0-9_]+\s*=\s*\"([^\"]*)/ ) && ($1) ) {
+        elsif ( ( $str =~ m/^\s*[a-z0-9_]+\s*=\s*\"([^\"]*)/ ) && ($1) ) {
 
             # is: %VAR{ name = "value" }%
             # do nothing, is not a standalone var
@@ -339,7 +339,7 @@ sub extractValue {
             $value = $str;
         }
     }
-    $value =~ s/\\$MARKER/\"/go;    # resolve \"
+    $value =~ s/\\$MARKER/\"/g;    # resolve \"
     return $value;
 }
 

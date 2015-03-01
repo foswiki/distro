@@ -17,7 +17,7 @@ BEGIN {
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
-    if ( $this->{size} =~ /^\s*(\d+)x(\d+)\s*$/ ) {
+    if ( $this->{size} =~ m/^\s*(\d+)x(\d+)\s*$/ ) {
         $this->{cols} = $1;
         $this->{rows} = $2;
     }

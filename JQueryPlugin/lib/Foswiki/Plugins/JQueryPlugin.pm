@@ -364,7 +364,7 @@ sub handleJQueryIcon {
     my $iconClass;
 
     # fontawesome
-    if ( $iconName =~ /^fa\-/ ) {
+    if ( $iconName =~ m/^fa\-/ ) {
         $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
         $iconPath   = '';
         $iconClass  = "foswikiIcon jqIcon fa $iconName";
@@ -391,7 +391,7 @@ sub handleJQueryIcon {
     $img =~ s/\$iconStyle/style='$iconStyle'/g if $iconStyle;
     $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
     $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
-    $img =~ s/\$(iconAlt|iconTitle|iconStyle)//go;
+    $img =~ s/\$(iconAlt|iconTitle|iconStyle)//g;
 
     return $img;
 }
@@ -431,7 +431,7 @@ sub handleJQueryPlugins {
         $summary =~ s/^\s+//;
         $summary =~ s/\s+$//;
         my $tags = '';
-        if ( $theFormat =~ /\$tags/ ) {
+        if ( $theFormat =~ m/\$tags/ ) {
             my @lines = ();
             my @tags  = ();
             if ( ref( $plugin->{tags} ) ) {

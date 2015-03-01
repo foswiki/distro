@@ -159,7 +159,7 @@ sub save {
 
     my %orig_content;    # used so diff detects remapping of keys
 
-    if ( defined $old_content && $old_content =~ /^(.*)$/s ) {
+    if ( defined $old_content && $old_content =~ m/^(.*)$/s ) {
 
         # Eval the old LSC and extract the content (assuming we can)
         local %Foswiki::cfg;
@@ -204,7 +204,7 @@ sub save {
     # with or without the .spec expansion.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
-            eval("(\$save$key)=\$Foswiki::cfg$key=~/^(.*)\$/");
+            eval("(\$save$key)=\$Foswiki::cfg$key=~m/^(.*)\$/");
             ASSERT( !$@, $@ ) if DEBUG;
             delete $Foswiki::cfg{BOOTSTRAP};
         }

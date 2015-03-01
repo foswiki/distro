@@ -138,7 +138,7 @@ sub _initialise {
         # Build a RE for the operator. Note that operators
         # that end in \w are terminated with \b
         my $opre = quotemeta( $op->{name} );
-        $opre .= ( $op->{name} =~ /\w$/ ) ? '\b' : '';
+        $opre .= ( $op->{name} =~ m/\w$/ ) ? '\b' : '';
         if ( $op->{casematters} ) {
             $op->{InfixParser_RE} = qr/$opre/;
         }
@@ -151,7 +151,7 @@ sub _initialise {
             $this->{bracket_ops}->{ lc( $op->{name} ) } = $op;
 
             $opre = quotemeta( $op->{close} );
-            $opre .= ( $op->{close} =~ /\w$/ ) ? '\b' : '';
+            $opre .= ( $op->{close} =~ m/\w$/ ) ? '\b' : '';
             if ( $op->{casematters} ) {
                 $op->{InfixParser_closeRE} = qr/$opre/;
             }
@@ -204,7 +204,7 @@ sub _parse {
 
     throw Foswiki::Infix::Error("Empty expression")
       unless defined($expr);
-    $$input = "()" unless $$input =~ /\S/;
+    $$input = "()" unless $$input =~ m/\S/;
 
     my @opers  = ();
     my @opands = ();
@@ -214,7 +214,7 @@ sub _parse {
     print STDERR "Parse: $$input\n" if MONITOR_PARSER;
     my $lastTokWasOper = 1;
     try {
-        while ( $$input =~ /\S/ ) {
+        while ( $$input =~ m/\S/ ) {
             if ( $$input =~ s/^\s*($this->{standard_op_REs})// ) {
                 my $opname = $1;
                 my $op     = $this->{unary_ops}->{ lc($opname) }

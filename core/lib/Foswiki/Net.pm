@@ -447,10 +447,10 @@ sub _installMailHandler {
         # required.
 
         $this->{MAIL_HOST} ||= '';
-        $this->{MAIL_HOST} =~ /^(.*)$/;
+        $this->{MAIL_HOST} =~ m/^(.*)$/;
         $this->{MAIL_HOST} = $1;
 
-        $this->{MAIL_METHOD} =~ /^([\w:_()\s]+)$/ or    # Config or intruder
+        $this->{MAIL_METHOD} =~ m/^([\w:_()\s]+)$/ or    # Config or intruder
           die "Invalid {Email}{MailMethod} $this->{MAIL_METHOD}\n";
         $this->{MAIL_METHOD} = $1;
 
@@ -463,7 +463,7 @@ sub _installMailHandler {
             ) if ($Foswiki::IP::IPv6Avail);
 
             require IO::Socket::SSL
-              if ( $this->{MAIL_METHOD} =~ /\((?:TLS|SSL|STARTTLS)\)/ );
+              if ( $this->{MAIL_METHOD} =~ m/\((?:TLS|SSL|STARTTLS)\)/ );
         };
         if ($@) {
             $this->_logMailError( 'error', "Failed to load module: $@" );
@@ -561,7 +561,7 @@ sub sendEmail {
         }
         catch Error with {
             my $msg = shift->stringify();
-            ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
+            ( my $to ) = $text =~ m/^To:\s*(.*?)$/im;
 
             # Lines we threw are marked, already logged, and safe to return.
             # Unmarked lines came from SMTP or perl, and need to be logged.
@@ -574,7 +574,7 @@ sub sendEmail {
                 my $line = shift @lines;
                 if ( $line =~ s/^Foswiki MAIL:// ) {
                     $msg .= "$line\n";
-                    while ( @lines && $lines[0] =~ /^ -- / ) {
+                    while ( @lines && $lines[0] =~ m/^ -- / ) {
                         $msg .= shift(@lines) . "\n";
                     }
                 }
@@ -617,8 +617,8 @@ sub _fixLineLength {
     my ($addrs) = @_;
 
     # split up header lines that are too long
-    $addrs =~ s/(.{60}[^,]*,\s*)/$1\n        /go;
-    $addrs =~ s/\n\s*$//gos;
+    $addrs =~ s/(.{60}[^,]*,\s*)/$1\n        /g;
+    $addrs =~ s/\n\s*$//gs;
     return $addrs;
 }
 
@@ -669,7 +669,7 @@ sub _smimeSignMessage {
     if ($@) {
         $this->_logMailError( 'die',
                 "Cypt::SMIME is not available"
-              . ( $@ =~ /Can't locate/ ? '' : ": $@" )
+              . ( $@ =~ m/Can't locate/ ? '' : ": $@" )
               . ".  Mail will not be sent" );
     }
 
@@ -681,7 +681,7 @@ sub _smimeSignMessage {
 
     if (   exists $Foswiki::cfg{Email}{SmimeKeyPassword}
         && length $Foswiki::cfg{Email}{SmimeKeyPassword}
-        && $key =~ /^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
+        && $key =~ m/^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
     {
         my %h;
         %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
@@ -689,7 +689,7 @@ sub _smimeSignMessage {
         if (   $h{'Proc-Type'}
             && $h{'Proc-Type'} eq '4,ENCRYPTED'
             && $h{'DEK-Info'}
-            && $h{'DEK-Info'} =~ /^DES-EDE3-CBC,/ )
+            && $h{'DEK-Info'} =~ m/^DES-EDE3-CBC,/ )
         {
 
  #<<<
@@ -739,7 +739,7 @@ sub _sendEmailBySendmail {
     # send with sendmail
     my ( $header, $body ) = split( "\n\n", $text, 2 );
     $header =~
-s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
+s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geis;
 
     $text = "$header\n\n$body";    # rebuild message
 
@@ -747,7 +747,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
         $this->_smimeSignMessage($text);
 
         if ( $Foswiki::cfg{SMTP}{Debug} ) {    # Log only headers
-            $text =~ /^(.*?\r?\n\r?\n)/s;
+            $text =~ m/^(.*?\r?\n\r?\n)/s;
             $header = "$1 ... Message contents ...\n";
         }
     }
@@ -800,11 +800,11 @@ sub _sendEmailByNetSMTP {
     my ( $header, $body ) = split( "\n\n", $text, 2 );
 
     my @headerlines = split( /\r?\n/, $header );
-    $header =~ s/\nBCC\:[^\n]*//os;    #remove BCC line from header
+    $header =~ s/\nBCC\:[^\n]*//s;    #remove BCC line from header
     $header =~
-s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/geois;
+s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/geis;
 
-    $text = "$header\n\n$body";        # rebuild message
+    $text = "$header\n\n$body";       # rebuild message
 
     $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
 
@@ -812,9 +812,9 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     my @arr = grep( /^From: /i, @headerlines );
     if ( scalar(@arr) ) {
         $from = $arr[0];
-        $from =~ s/^From:\s*//io;
+        $from =~ s/^From:\s*//i;
         $from =~
-          s/.*<(.*?)>.*/$1/o;    # extract "user@host" out of "Name <user@host>"
+          s/.*<(.*?)>.*/$1/;    # extract "user@host" out of "Name <user@host>"
     }
     unless ($from) {
 
@@ -827,21 +827,21 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     my $tmp = '';
     if ( scalar(@arr) ) {
         $tmp = $arr[0];
-        $tmp =~ s/^To:\s*//io;
+        $tmp =~ s/^To:\s*//i;
         @arr = split( /,\s*/, $tmp );
         push( @to, @arr );
     }
     @arr = grep( /^CC: /i, @headerlines );
     if ( scalar(@arr) ) {
         $tmp = $arr[0];
-        $tmp =~ s/^CC:\s*//io;
+        $tmp =~ s/^CC:\s*//i;
         @arr = split( /,\s*/, $tmp );
         push( @to, @arr );
     }
     @arr = grep( /^BCC: /i, @headerlines );
     if ( scalar(@arr) ) {
         $tmp = $arr[0];
-        $tmp =~ s/^BCC:\s*//io;
+        $tmp =~ s/^BCC:\s*//i;
         @arr = split( /,\s*/, $tmp );
         push( @to, @arr );
     }
@@ -862,7 +862,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     my $smtp = 0;
     my ( $ssl, $tls, $starttls );
-    if ( $this->{MAIL_METHOD} =~ /\((SSL)|(TLS)|(STARTTLS)\)/ ) {
+    if ( $this->{MAIL_METHOD} =~ m/\((SSL)|(TLS)|(STARTTLS)\)/ ) {
         ( $ssl, $tls, $starttls ) = ( $1, $2, $3 );
     }
 
@@ -1032,7 +1032,7 @@ sub debug_text {
                 if ( $b64 =~ s/(.{76})/$1$cont/gms ) {
                     $multi = 1;
                 }
-                if ( $b64text =~ /[[:^print:]]/ ) {
+                if ( $b64text =~ m/[[:^print:]]/ ) {
                     my $n = 0;
                     $b64text =~
 s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
@@ -1041,7 +1041,7 @@ s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
                         chop $b64text;
                         $b64text .= $cont;
                     }
-                    unless ( $multi && $b64 =~ /$cont\z/ ) {
+                    unless ( $multi && $b64 =~ m/$cont\z/ ) {
                         $b64 .= $cont;
                         $multi = 1;
                     }
