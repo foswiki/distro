@@ -849,11 +849,12 @@ pub/System/PreviewBackground/previewbg.gif 0644
 pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
+pub/System/ProjectLogos/favicon-logo.ico 0644
 pub/System/ProjectLogos/foswiki-badge.png 0644
 pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
 pub/System/ProjectLogos/foswiki-logo-icon.png 0644
-pub/System/ProjectLogos/favicon-logo.ico 0644
+pub/System/ProjectLogos/foswiki-poweredby.gif 0644
 pub/System/Skins/js.js 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/base.css.gz 0644
