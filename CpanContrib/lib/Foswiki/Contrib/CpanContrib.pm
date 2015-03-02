@@ -28,7 +28,7 @@ use warnings;
 # so the versions in ascending order are:
 #   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
 #
-use version; our $VERSION = version->declare("v1.0.0_001");
+our $VERSION = '1.00';
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.
@@ -46,7 +46,8 @@ use version; our $VERSION = version->declare("v1.0.0_001");
 our $RELEASE = '15 Mar 2014';
 
 # One-line description of the module
-our $SHORTDESCRIPTION = 'CpanContrib ships basic CPAN modules Foswiki relies on.';
+our $SHORTDESCRIPTION =
+  'CpanContrib ships basic CPAN modules Foswiki relies on.';
 
 1;
 

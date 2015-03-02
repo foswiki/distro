@@ -30,7 +30,7 @@ use Assert;
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
-use version; our $VERSION = version->declare("v1.3");
+our $VERSION = '1.30';
 our $RELEASE = '16 May 2013';
 
 our %xmltag;
@@ -375,7 +375,7 @@ sub modifyHeaderHandler {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

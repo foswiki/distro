@@ -15,8 +15,8 @@ use Foswiki::Plugins ();    # For the API version
 
 use vars qw( @shelter );
 
-use version; our $VERSION = version->declare("v1.1.5");
-our $RELEASE = '1.1.5';
+our $VERSION = '1.15';
+our $RELEASE = '1.15';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -311,7 +311,7 @@ sub _saveSet {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

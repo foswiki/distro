@@ -3,15 +3,15 @@ package Foswiki::Contrib::TipsContrib;
 use strict;
 use warnings;
 
-use version; our $VERSION = version->declare("v1.2.0");
-our $RELEASE          = '1.2.0';
+our $VERSION          = '1.20';
+our $RELEASE          = '1.20';
 our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
