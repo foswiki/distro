@@ -209,7 +209,7 @@ END
     my $response = $userAgent->get("$url?raw=all");
     my $etype    = "Contrib";
     if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-        $etyle = $1 unless $1 eq 'AddOn';
+        $etype = $1 unless $1 eq 'AddOn';
     }
 
     my %form = (
@@ -279,7 +279,7 @@ END
         foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
             if ( open( IN_FILE, '<', $this->{basedir} . '/data/System/' . $f ) )
             {
-                %newform = ( text => <IN_FILE> );
+                my %newform = ( text => <IN_FILE> );
                 close(IN_FILE);
                 $f =~ s/\.txt$//;
                 $this->_uploadTopic( $userAgent, $user, $pass, $f, \%newform );
