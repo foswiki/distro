@@ -29,14 +29,17 @@
             // always done, irrespective of whether we are non-wikiwording
             // or not.
             var inputName = $('input[name=topic]', $form).val(),
-                nameFilterRegex = foswiki.getPreference('NAMEFILTER'),
-                re = new RegExp(nameFilterRegex, 'g'),
+                re = foswiki.getPreference('NAMEFILTER'),
                 userAllowsNonWikiWord = true,
                 finalName,
                 feedbackHeader,
                 feedbackText,
                 error,
                 cleanName = foswiki.String.trimSpaces(inputName);
+
+            if (typeof(re) === 'string') {
+                re = new RegExp(re, "g");
+            }
 
             /* Topic names of zero length are not allowed */
             if (inputName.length === 0) {

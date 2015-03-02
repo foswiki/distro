@@ -80,15 +80,18 @@ sub init {
     # add exported preferences to head
     my @prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
-        my $quote = ( $pref =~ /^NAMEFILTER$/ ) ? '/' : '"';
-        push @prefs,
-            '    "'
-          . $pref . '": '
-          . $quote
-          . '%ENCODE{"%'
-          . $pref
-          . '%" type="quote"}%'
-          . $quote . '';
+        if ( $pref eq 'NAMEFILTER' ) {
+            push @prefs,
+                '    "'
+              . $pref
+              . '": /%ENCODE{"%'
+              . $pref
+              . '%" type="quote"}%/g';
+        }
+        else {
+            push @prefs,
+              '    "' . $pref . '": "%ENCODE{"%' . $pref . '%" type="quote"}%"';
+        }
     }
     my $text =
 "<script type='text/javascript'>\njQuery.extend(foswiki, {\n \"preferences\": {\n"
