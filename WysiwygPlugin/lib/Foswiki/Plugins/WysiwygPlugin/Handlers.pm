@@ -336,7 +336,7 @@ sub _populateVars {
     my @nvars;
     my @nexp;
 
-    # Do the sort by lenght.
+    # Do the sort by length.
     foreach
       my $k ( sort { length( $varh{$b} ) <=> length( $varh{$a} ) } keys %varh )
     {
@@ -363,7 +363,6 @@ sub expandVarsInURL {
     my ( $url, $opts ) = @_;
 
     return '' unless $url;
-    my $orig = $url;
 
     _populateVars($opts);
     for my $i ( 0 .. $#VARS ) {
