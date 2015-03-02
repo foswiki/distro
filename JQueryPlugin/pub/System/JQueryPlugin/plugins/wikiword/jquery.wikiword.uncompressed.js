@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 3.00
+ * jQuery WikiWord plugin 3.01
  *
  * Copyright (c) 2008-2015 Foswiki Contributors http://foswiki.org
  *
@@ -80,21 +80,23 @@ $.wikiword = {
   /***********************************************************************
    * constructor
    */
-  build: function(source, options) {
+  build: function(options) {
    
     // build main options before element iteration
-    var opts = $.extend({}, $.wikiword.defaults, options),
-        $source = $(source);
+    var opts = $.extend({}, $.wikiword.defaults, options);
 
     // iterate and reformat each matched element
     return this.each(function() {
       var $this = $(this),
-          thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
+          thisOpts = $.extend({}, opts, $this.data(), $this.metadata()),
+          $source = $(thisOpts.source);
 
       // generate RegExp for filtered chars
-      if (typeof(thisOpts.allow) !== 'undefined') {
-        thisOpts.allowedRegex = new RegExp('['+thisOpts.allow+']+', "g");
-        thisOpts.forbiddenRegex = new RegExp('[^'+thisOpts.allow+']+', "g");
+      if (typeof(thisOpts.allowedRegex) === 'string') {
+        thisOpts.allowedRegex = new RegExp(thisOpts.allowedRegex, "g");
+      }
+      if (typeof(thisOpts.forbiddenRegex) === 'string') {
+        thisOpts.forbiddenRegex = new RegExp(thisOpts.forbiddenRegex, "g");
       }
 
       $source.change(function() {
@@ -159,9 +161,6 @@ $.wikiword = {
     // remove all forbidden chars
     result = result.replace(opts.forbiddenRegex, "");
 
-    // remove all spaces
-    result = result.replace(/\s/g, "");
-
     return result;
   },
 
@@ -172,8 +171,8 @@ $.wikiword = {
     suffix: '',
     prefix: '',
     initial: '',
-    allowedRegex: new RegExp('[a-zA-Z\\d]+', "g"),
-    forbiddenRegex: new RegExp('[^a-zA-Z\\d]+', "g")
+    allowedRegex: '[a-zA-Z\\d]+',
+    forbiddenRegex: '[^a-zA-Z\\d]+'
   }
 };
 
@@ -183,10 +182,7 @@ $.fn.wikiword = $.wikiword.build;
 /* init */
 $(function() {
   $(".jqWikiWord:not(.jqInitedWikiWord)").livequery(function() {
-    var $this = $(this), options;
-    $this.addClass("jqInitedWikiWord");
-    options = $.extend({}, $this.metadata());
-    $this.wikiword(options.source, options);
+    $(this).addClass("jqInitedWikiWord").wikiword();
   });
 });
 

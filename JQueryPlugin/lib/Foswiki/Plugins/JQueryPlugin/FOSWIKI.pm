@@ -29,7 +29,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Foswiki',
-            version    => '2.01',
+            version    => '2.02',
             author     => 'Michael Daum',
             homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript => ['jquery.foswiki.js'],
@@ -68,6 +68,7 @@ sub init {
         $prefs .= ', TWISTYANIMATIONSPEED'
           if $Foswiki::cfg{Plugins}{TwistyPlugin}
           {Enabled};    # can't use context during init
+
     }
 
     # init NAMEFILTER
@@ -79,8 +80,15 @@ sub init {
     # add exported preferences to head
     my @prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
+        my $quote = ( $pref =~ /^NAMEFILTER$/ ) ? '/' : '"';
         push @prefs,
-          '    "' . $pref . '": "%ENCODE{"%' . $pref . '%" type="quote"}%"';
+            '    "'
+          . $pref . '": '
+          . $quote
+          . '%ENCODE{"%'
+          . $pref
+          . '%" type="quote"}%'
+          . $quote . '';
     }
     my $text =
 "<script type='text/javascript'>\njQuery.extend(foswiki, {\n \"preferences\": {\n"
