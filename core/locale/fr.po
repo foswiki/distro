@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-11-07 14:43+0200\n"
-"Last-Translator: Raul F <RaulFRodriguez10@gmail.com>\n"
-"Language-Team: <fr@li.org>\n"
+"PO-Revision-Date: 2015-03-02 17:50+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -73,7 +74,7 @@ msgstr "%1 ne peut être retiré de %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "Page du groupe %1 mise à jour. "
+msgstr "Page de groupe %1 mise à niveau. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -82,7 +83,7 @@ msgstr "%1 a une liste des autres utilisateurs"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 a été approuvé·e et enregistré·e avec l'adresse e-mail %2"
+msgstr "%1 a été approuvé·e et inscrit·e avec l'adresse e-mail %2"
 
 #: core/templates/messages.tmpl:578
 msgid ""
@@ -143,11 +144,11 @@ msgstr "%2 est peut-être toujours en cours de modification par %1."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 pages modifiées récemment dans le Web %2"
+msgstr "%1 changements récents dans le Web %2"
 
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
-msgstr "%1 a été supprimé du groupe %2. "
+msgstr "%1 a été retiré du groupe %2. "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -172,11 +173,11 @@ msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:269
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 a été renommé ou déplacé depuis %2 vers %3 par %4"
+msgstr "%1 a été renommé ou déplacé de %2 le %3 par %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
-msgstr "[[%1.LoginName][NomDeConnexion]]"
+msgstr "%1.NomDeConnexion"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -220,7 +221,7 @@ msgstr "(=all= pour afficher toutes les pages)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
-msgstr "(Ce message sera supprimé automatiquement)"
+msgstr "(Ce message sera retiré automatiquement)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -317,7 +318,7 @@ msgstr "(code source)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(redirection refusée)"
+msgstr "(Redirection refusée)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -354,9 +355,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
-"*Administrateurs :* Vous pouvez changer l'adresse e-mail de l'utilisateur "
-"avec ce formulaire. Tapez le nom de connexion ou !NomWiki de l'utilisateur "
-"et la nouvelle adresse e-mail."
+"*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur en "
+"utilisant ce formulaire. Entrez le Login ou [[WikiName][NomDeConnection]] et "
+"la nouvelle adresse e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -385,14 +386,15 @@ msgid ""
 "before registering."
 msgstr ""
 "*Important :* les informations fournies via ce formulaire seront "
-"enregistrées dans une base de données du serveur web. Cette base de données "
+"enregistrées dans la base de données du serveur web. Cette base de données "
 "est accessible à quiconque peut accéder au serveur par l'Internet (les mots "
 "de passe seront cependant chiffrés, et les adresses e-mail seront affichées "
 "dans un format réduisant les risques de spam). Le pays dans lequel vous "
 "résidez, ou celui dans lequel le serveur se trouve, sont susceptibles "
-"d'avoir mis en place des lois régissant de telles bases de données. Si vous "
-"avez un doute, avant de vous inscrire, vous pouvez demander à %1 des détails "
-"concernant la politique de protection des données du présent site web."
+"d'avoir mis en place des lois régissant la protection des données "
+"personnelles. Si vous avez un doute, avant de vous inscrire, vous pouvez "
+"demander à %1 des détails concernant la politique de protection des données "
+"du présent serveur web."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -408,8 +410,8 @@ msgid ""
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriétés :* Vous pouvez modifier le commentaire et la visibilité (c'est-à-"
-"dire, le fait que le fichier attaché soit dissimulé ou non), sans envoyer de "
-"fichier, en cliquant sur \"Modifier seulement les propriétés\"."
+"dire, le fait que le fichier attaché soit dissimulé ou non), sans envoyer le "
+"moindre fichier, en cliquant sur \"Modifier seulement les propriétés\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -519,8 +521,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Confirmation requise !</strong> Appuyer sur OK pour confirmer que ce "
-"changement été intentionnel<br />Sinon, appuyer sur Annuler"
+"<strong>Confirmation requise !</strong> Cliquez sur OK pour confirmer que ce "
+"changement était intentionnel<br />Sinon cliquez sur Annuler"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -580,6 +582,7 @@ msgstr ""
 "vers %1."
 
 #: core/data/System/WebSearch.txt:91
+#, fuzzy
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -597,7 +600,7 @@ msgstr "Raccourcis clavier"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "Access keys:"
-msgstr "Raccourcis clavier:"
+msgstr "Raccourcis clavier :"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -623,11 +626,11 @@ msgstr "Ajouter formulaire"
 
 #: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
-msgstr "Ajouter membres"
+msgstr "Ajouter des membres"
 
 #: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
-msgstr "Ajouter membres..."
+msgstr "Ajouter des membres..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -644,7 +647,7 @@ msgstr "Ajouter des utilisateurs ou groupes à ce groupe"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Ajout d'une option %1 sur la page WebPreferences"
+msgstr "Ajout d'une variable %1 dans WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
