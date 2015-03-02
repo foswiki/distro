@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-07-17 14:01+0200\n"
-"Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
-"Language-Team: <fr@li.org>\n"
+"PO-Revision-Date: 2015-03-02 17:50+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -45,7 +46,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (défaut)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -64,22 +65,20 @@ msgstr "Web %1"
 
 #: core/templates/registermessages.tmpl:387
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 ajouté au groupe %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 a été déplacé depuis %2 vers %3 par %4"
+msgstr "%1 ne peut être retiré de %2"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "Merci de vous être inscrit·e"
+msgstr "%1 a refusé l'inscription."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "Page de groupe %1 mise à niveau. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -87,9 +86,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 a une liste des autres utilisateurs."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
+msgstr "%1 a été approuvé·e et inscrit·e avec l'adresse e-mail %2"
 
 #: core/templates/messages.tmpl:321
 msgid ""
@@ -102,6 +100,8 @@ msgid ""
 "%1 has been emailed to inform them that their registration has been "
 "successful"
 msgstr ""
+"Un e-mail a été adressé à %1 pour l'informer que son inscription a été "
+"effectuée avec succès"
 
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
@@ -130,23 +130,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 vaut actuellement %2"
 
 #: core/templates/messages.tmpl:319
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%2 est en cours de modification par %1."
+msgstr "%1 est en train d'éditer [[%2][%3]]."
 
 #: core/templates/registermessages.tmpl:284
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 fait partie d'au moins un groupe et ne peut donc être supprimé"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "%1 n'est pas un nom de formulaire valide"
 
 #: core/templates/messages.tmpl:117
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "%1 n'est pas une valeur valide pour le paramètre %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -158,24 +155,20 @@ msgid "%1 may still be editing %2."
 msgstr "%2 est peut-être toujours en cours de modification par %1."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 Pages modifiées récemment dans le Web %2"
+msgstr "%1 changements récents dans le Web %2"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "L'inscription de nouveaux utilisateurs est désactivée"
+msgstr "Inscription %1 à valider"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "L'inscription de nouveaux utilisateurs est désactivée"
+msgstr "Inscription de %1 refusée"
 
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 a été déplacé depuis %2 vers %3 par %4"
+msgstr "%1 a été retiré du groupe %2. "
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -199,14 +192,12 @@ msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render/Moved.pm:67
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 a été déplacé depuis %2 vers %3 par %4"
+msgstr "%1 a été renommé ou déplacé de %2 le %3 par %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Votre %1.NomDeConnexion"
+msgstr "%1.NomDeConnexion"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -217,9 +208,8 @@ msgid "&History"
 msgstr "&Historique"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#, fuzzy
 msgid "&Sequential"
-msgstr "À la suite"
+msgstr "À la &suite"
 
 #: core/templates/registermessages.tmpl:219
 msgid "'%1' is not a valid %2 "
@@ -251,7 +241,7 @@ msgstr "(=all= pour afficher toutes les pages)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Ce message sera retiré automatiquement)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -286,9 +276,8 @@ msgid "(changes)"
 msgstr "(modifications)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(autres fonctions)"
+msgstr "(comparer)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -299,9 +288,8 @@ msgid "(delete)"
 msgstr "(supprimer)"
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid "(disabled)"
-msgstr "Modifier le tableau"
+msgstr "(désactivé)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -349,9 +337,8 @@ msgid "(raw view)"
 msgstr "(code source)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(accès refusé)"
+msgstr "(Redirection refusée)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -383,6 +370,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur en "
+"utilisant ce formulaire. Entrez le Login ou [[WikiName][NomDeConnection]] et "
+"la nouvelle adresse e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -396,7 +386,6 @@ msgstr ""
 "fichier attaché sera celui fourni lors de l'envoi du fichier."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -408,14 +397,15 @@ msgid ""
 "before registering."
 msgstr ""
 "*Important :* les informations fournies via ce formulaire seront "
-"enregistrées dans une base de données sur le serveur Foswiki. Cette base de "
-"données est accessible à quiconque peut accéder au serveur par l'Internet "
-"(les mots de passe seront cependant chiffrés, et les adresses e-mail seront "
-"affichées dans un format réduisant les risques de spam). Le pays dans lequel "
-"vous résidez, ou celui dans lequel le serveur se trouve, sont susceptibles "
-"d'avoir mis en place des lois régissant de telles bases de données. Si vous "
-"avez un doute, avant de vous inscrire, vous pouvez demander à %1 des détails "
-"concernant la politique de protection des données du présent serveur Foswiki."
+"enregistrées dans la base de données du serveur web. Cette base de données "
+"est accessible à quiconque peut accéder au serveur par l'Internet (les mots "
+"de passe seront cependant chiffrés, et les adresses e-mail seront affichées "
+"dans un format réduisant les risques de spam). Le pays dans lequel vous "
+"résidez, ou celui dans lequel le serveur se trouve, sont susceptibles "
+"d'avoir mis en place des lois régissant la protection des données "
+"personnelles. Si vous avez un doute, avant de vous inscrire, vous pouvez "
+"demander à %1 des détails concernant la politique de protection des données "
+"du présent serveur web."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -426,15 +416,13 @@ msgstr ""
 "local_, c'est celui-là qui sera mis à jour ou ajouté."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriétés :* Vous pouvez modifier le commentaire et la visibilité (c'est-à-"
 "dire, le fait que le fichier attaché soit dissimulé ou non), sans envoyer le "
-"moindre fichier, en cliquant sur \"Modifier seulement les propriétés\" ; "
-"voir %1."
+"moindre fichier, en cliquant sur \"Modifier seulement les propriétés\"."
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -442,35 +430,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:29
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 heure"
 
 #: core/data/System/SiteChanges.txt:34
 msgid "1 week ago"
-msgstr ""
+msgstr "1 semaine"
 
 #: core/data/System/SiteChanges.txt:31
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 heures"
 
 #: core/data/System/SiteChanges.txt:35
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 semaines"
 
 #: core/data/System/SiteChanges.txt:32
 msgid "24 hours ago"
-msgstr ""
+msgstr "24 heures"
 
 #: core/data/System/SiteChanges.txt:33
 msgid "3 days ago"
-msgstr ""
+msgstr "3 jours"
 
 #: core/data/System/SiteChanges.txt:36
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4 semaines"
 
 #: core/data/System/SiteChanges.txt:30
 msgid "6 hours ago"
-msgstr ""
+msgstr "6 heures"
 
 #: core/data/System/WebChanges.txt:19
 msgid ""
@@ -496,18 +484,23 @@ msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
 msgstr ""
+"Il est possible d'informer <nop>%1 (%2) que son inscription a été refusée."
 
 #: core/templates/registermessages.tmpl:57
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
+"Un e-mail a été adressé à <nop>%1 <%2> l'informant que son inscription a été "
+"refusée"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Confirmation requise !</strong> Cliquez sur OK pour confirmer que ce "
+"changement était intentionnel<br />Sinon cliquez sur Annuler"
 
 #: core/templates/messages.tmpl:233
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -547,7 +540,6 @@ msgstr ""
 "lien si nécessaire."
 
 #: core/templates/messages.tmpl:366
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -555,7 +547,7 @@ msgid ""
 msgstr ""
 "Un nouveau mot de passe a été généré pour l'utilisateur ou l'utilisatrice %1 "
 "(nom wiki : %2), et a été envoyé à l'adresse utilisée pour votre "
-"inscription. Si votre adresse n'est plus valide, veuillez contacter %3"
+"inscription. Si votre adresse n'est plus valide, veuillez contacter %3."
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -570,14 +562,16 @@ msgstr ""
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
 msgstr ""
+"Votre approbation est nécessaire pour valider l'inscription d'un utilisateur"
 
 #: core/data/System/WebSearch.txt:89
+#, fuzzy
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 msgid "Abandon changes and exit"
-msgstr ""
+msgstr "Abandonner les changements et quitter"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -593,9 +587,8 @@ msgid "Access keys"
 msgstr "Raccourcis clavier"
 
 #: PatternSkin/templates/settings.pattern.tmpl:12
-#, fuzzy
 msgid "Access keys:"
-msgstr "Raccourcis clavier"
+msgstr "Raccourcis clavier :"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -603,30 +596,26 @@ msgid "Action"
 msgstr "Action"
 
 #: core/templates/messages.tmpl:379
-#, fuzzy
 msgid "Action %1: %2 by user %3."
-msgstr "Action %1 : %2."
+msgstr "Action %1: %2 par l'utilisateur %3."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
-msgstr "Action"
+msgstr "Actions"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
-#, fuzzy
 msgid "Add"
-msgstr "Ajouter une ligne"
+msgstr "Ajouter"
 
 #: core/data/Main/GroupViewTemplate.txt:202
 msgid "Add Members to"
-msgstr ""
+msgstr "Ajouter des membres à"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
-#, fuzzy
 msgid "Add a new form to <nop>%1"
-msgstr "Choisissez un nouveau formulaire pour %1"
+msgstr "Ajouter un nouveau formulaire à %1"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
@@ -634,23 +623,20 @@ msgid "Add form"
 msgstr "Ajouter formulaire"
 
 #: core/data/Main/GroupViewTemplate.txt:211
-#, fuzzy
 msgid "Add members"
-msgstr "Ajouter une ligne"
+msgstr "Ajouter des membres"
 
 #: core/data/Main/GroupViewTemplate.txt:162
 msgid "Add members..."
-msgstr ""
+msgstr "Ajouter des membres..."
 
 #: core/data/Main/GroupViewTemplate.txt:188
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Modifier les paramètres de cette page"
+msgstr "Ajouter des paramètres de gestion utilisateur à cette page."
 
 #: core/templates/messages.tmpl:220
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Ajoutant une variable %1 sur la page WebPreferences"
+msgstr "Ajout d'une variable %1 dans WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -661,9 +647,8 @@ msgid "Admin Maintenance"
 msgstr "Maintenance"
 
 #: core/data/Main/GroupViewTemplate.txt:160
-#, fuzzy
 msgid "Administration"
-msgstr "Authentification en tant qu'administrateur ou administratrice"
+msgstr "Administration"
 
 #: core/data/System/WebSearch.txt:86
 msgid "Advanced search"
