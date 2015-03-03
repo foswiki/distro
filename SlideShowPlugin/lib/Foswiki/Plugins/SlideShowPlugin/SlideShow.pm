@@ -150,7 +150,7 @@ sub renderSlideShow {
 "<div class='slideShowPane$isFirstClass$isLastClass' id='GoSlide"
                   . $slideNum
                   . "'>$slideText</div>";
-                $text .= "\n#AGoSlide$slideNum\n$slideText";
+                $text .= $slideText;
 
                 $text =~ s/%SLIDECOMMENT%/$slideComment/gs;
                 $slideNum++;
@@ -294,7 +294,7 @@ sub _urlEncode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

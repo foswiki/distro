@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425413930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -172,7 +172,8 @@ The part between the rulers defines the default format of a slide:
 ---++ Plugin info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  10 Jan 2014: (2.20) | Foswikitask:Item13198. Fully qualify default template topic.<br />\
+|  03 Mar 2015: (2.21) | Foswikitask:Item13281: improved printout |
+|  10 Jan 2014: (2.20) | Foswikitask:Item13198: Fully qualify default template topic.<br />\
                          Foswikitask:Item12583: Revert to simple decimal version strings. |
 |  28 Nov 2012: (2.1.6) | Foswikitask:Item11267: Convert to perl version strings. |
 |  06 Apr 2012: (2.1.5) | Foswiki:Main.RichMorin documentation cleanup%BR%\
@@ -202,7 +203,7 @@ The part between the rulers defines the default format of a slide:
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2015 Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

@@ -24,7 +24,7 @@ html {
   font-size:1.5em;
   line-height:1.5;
 }
-.slideText h1 {
+.slideText > h1 {
   font-size:1.6em;
   line-height:2.0;
   border-bottom:1px solid #eee;
@@ -54,4 +54,36 @@ html {
 /* pattern fixes */
 #patternScreen #patternPage {
   position:inherit;
+}
+
+@media print {
+  .slideShow {
+    position:relative;
+  }
+  .slideShowControls {
+    display:none;
+  }
+  .slideShowPane {
+    page-break-after:always;
+    padding:0;
+  }
+  .slideShowPane.slideShowLastSlide {
+    page-break-after:initial;
+  }
+  .slideShowFooter {
+    position:initial;
+  }
+  .slideShowNum {
+    position:absolute;
+    top:0;
+    right:0;
+    text-align:right;
+    color:#eee;
+  }
+  .slideText > h1 {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+  }
 }
