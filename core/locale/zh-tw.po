@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 04:44+0200\n"
+"PO-Revision-Date: 2015-03-04 05:21+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -1524,9 +1524,7 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
-msgstr ""
-"有關跨站假要求的詳細資料，與可能帶給你的危險，參見 [[%1][維基百科上跨站假要求"
-"的文章]]。"
+msgstr "有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽要求的文章]]。"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1825,7 +1823,7 @@ msgstr ""
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
-msgstr "%2 的圖片 %1 。"
+msgstr "%2 的圖片 %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -1942,7 +1940,7 @@ msgstr "到"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to first revision"
-msgstr "跳到第一個修訂版"
+msgstr "移至第一個版本"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
@@ -1955,7 +1953,7 @@ msgstr "關鍵字搜尋"
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
-msgstr "最後編輯者為"
+msgstr "最後的編輯者"
 
 #: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:171
 msgid "Last editor"
@@ -1963,7 +1961,7 @@ msgstr "最後編輯者"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Last modified"
-msgstr "最後修改時間"
+msgstr "最後的修改時間"
 
 #: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
@@ -1975,7 +1973,7 @@ msgstr "姓"
 
 #: core/templates/more.tmpl:182
 msgid "Latest revision: %1"
-msgstr "最新版本：%1"
+msgstr "最新版本: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
@@ -2110,7 +2108,7 @@ msgstr "更多..."
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr "更多功能：主題刪除或更名；設定父主題；查看和比較版本 (m)"
+msgstr "更多功能: 主題刪除或改名；設定父主題；查看和比較版本 (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2213,11 +2211,11 @@ msgstr "下一個"
 
 #: core/data/Main/GroupViewTemplate.txt:37
 msgid "No  members"
-msgstr "沒有成員"
+msgstr "無成員"
 
 #: core/data/System/SiteChanges.txt:50
 msgid "No changes"
-msgstr "無改變"
+msgstr "無變更"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
