@@ -258,7 +258,7 @@ unless ( $Foswiki::cfg{isVALID} ) {
 #       here should also be in the BOOTSTRAP array.   And anything guessed in Load::bootstrapConfig
 #       should probably be verified here unless very certain that we guess corrrectly.
 
-    unless ( $params->{expert} ) {
+    unless ( $params->{expert} || $params->{noprompt} ) {
 
         # Ask for missing parameters that cannot bootstrap in CLI
         print "** Enter values for critical configuration items.\n";

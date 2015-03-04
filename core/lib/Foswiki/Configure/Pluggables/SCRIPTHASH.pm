@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use File::Spec ();
-use FindBin    ();
 
 use Assert;
 use Foswiki::Configure::LoadSpec ();
@@ -22,17 +21,10 @@ sub construct {
     my ( $settings, $file, $line ) = @_;
 
     my $bindir = $Foswiki::cfg{ScriptDir};
-    unless ($bindir) {
-        $bindir = $FindBin::Bin;
-        unless ( -e "$bindir/setlib.cfg" ) {
-            $bindir =
-              Foswiki::Configure::FileUtil::findFileOnPath('../bin/setlib.cfg');
-            $bindir =~ s{/setlib.cfg$}{} if $bindir;
-        }
-    }
-    unless ($bindir) {
-        die "Unable to locate scripts directory";
-    }
+
+    # Early in bootstrap if no script directory available.
+    # Skip populating the SCRIPTHASH
+    return unless ($bindir);
 
     my $dh;
     unless ( opendir( $dh, $bindir ) ) {
