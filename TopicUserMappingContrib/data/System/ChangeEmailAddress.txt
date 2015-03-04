@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425488963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %MAKETEXT{"Change E-mail Address"}%
 
@@ -34,7 +34,7 @@
 <div class="foswikiFormStep">
 %TABLE{databg="transparent" tableborder="0" tablerules="none"}%
 | | %MAKETEXT{"Fields marked [_1] are required" args="=<span class='foswikiAlert'>*</span>="}% |
-|  %IF{"$USERNAME ingroup 'AdminGroup'" else="%MAKETEXT{"Your"}%"}% %MAKETEXT{"[_1].LoginName" args="%SYSTEMWEB%"}%: | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<span class="foswikiAlert">*</span>= |%IF{"$USERNAME ingroup 'XAdminGroup'" else="
+|  %IF{"$USERNAME ingroup 'AdminGroup'" then="%MAKETEXT{"[_1].LoginName" args="%SYSTEMWEB%"}%" else="%MAKETEXT{"Your [_1].LoginName" args="%SYSTEMWEB%"}%"}%: | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<span class="foswikiAlert">*</span>= |%IF{"$USERNAME ingroup 'XAdminGroup'" else="
 |  %MAKETEXT{"Password"}%: | <input %NOTMODIFYABLE% type=\"password\" name=\"oldpassword\" value=\"%URLPARAM{oldpassword}%\" size=\"40\" class=\"foswikiInputField\" /> =<span class=\"foswikiAlert\">*</span>= |"}%
 |  %MAKETEXT{"New e-mails (space-separated list)"}%: | <input type="text" name="email" size="40" class="foswikiInputField" /> =<span class="foswikiAlert">*</span>= |
 </div>
