@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 18:08+0200\n"
+"PO-Revision-Date: 2015-03-04 18:18+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -820,9 +820,8 @@ msgid "Attachments"
 msgstr "Anhänge"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Anhänge von %1"
+msgstr "Anhänge %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
