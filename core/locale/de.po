@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-25 14:56+0200\n"
-"Last-Translator: Michael <daum@michaeldaumconsulting.com>\n"
-"Language-Team: Foswiki German Translation Team <none>\n"
+"PO-Revision-Date: 2015-03-04 18:08+0200\n"
+"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -527,8 +528,9 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Bestätigung erforderlich!</strong>Drücken Sie OK wenn diese Änderung "
-"beabsichtigt ist<br />Ansonsten drücken Sie Abbrechen"
+"<strong>Bestätigung erforderlich!</strong><span>Drücken Sie OK, wenn Sie "
+"diese Änderung wirklich beabsichtigt haben</span><span>Ansonsten drücken Sie "
+"Abbrechen</span>"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -632,12 +634,14 @@ msgid "Add form"
 msgstr "Formular hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:240
+#, fuzzy
 msgid "Add members"
-msgstr "Mitglieder hinzufügen"
+msgstr "Benutzer hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:171
+#, fuzzy
 msgid "Add members..."
-msgstr "Mitglieder hinzufügen..."
+msgstr "Benutzer hinzufügen..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -646,7 +650,7 @@ msgstr "Zeile hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "Einstellungen für das Benutzer Management zu diesem Topic hinzufügen."
+msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -739,8 +743,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Eine bösartige Person könnte versuchen unter Ihrer Identität und ohne Ihr "
-"Wissen Inhalte im Wiki zu ändern."
+"Es besteht ein Risiko, dass jemand versucht, unter Ihrer Identität und ohne "
+"Ihr Wissen Inhalte in Ihrem Wiki zu ändern."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -766,7 +770,7 @@ msgstr "Datei anhängen"
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"Ein Bild oder Dokument an dieses Topic anhängen; existierende Anhänge "
+"Ein Bild oder Dokument an dieses Topic anhängen; vorhandene Anhänge "
 "verwalten (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
