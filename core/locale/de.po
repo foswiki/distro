@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-02-05 16:48+0200\n"
+"PO-Revision-Date: 2015-03-04 18:08+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
-"Language-Team: German <http://fwtranslate.modell-aachen.de/projects/foswiki/"
-"distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (Standard)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -166,9 +166,8 @@ msgid "%1 registration approval required"
 msgstr "Registrierungen auf %1 müssen manuell freigeschaltet werden"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "Entschuldigung, die Registrierung wurde temporär abgeschaltet"
+msgstr "Registrierung für %1 abgewiesen"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -494,21 +493,25 @@ msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
 msgstr ""
+"<nop>%1 (%2) kann per E-Mail benachrichtigt werden, dass die Registrierung "
+"abgelehnt wurde."
 
 #: core/templates/registermessages.tmpl:57
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
+"<nop>%1 <%2> wurde per E-Mail benachrichtigt, dass die Registrierung "
+"abgelehnt wurde"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Bestätigung erforderlich!</strong><span>Drücken Sie OK wenn diese "
-"Änderung beabsichtigt ist</span><span>Ansonsten drücken Sie Abbrechen</span>"
+"<strong>Bestätigung erforderlich!</strong><span>Drücken Sie OK, wenn Sie "
+"diese Änderung wirklich beabsichtigt haben</span><span>Ansonsten drücken Sie "
+"Abbrechen</span>"
 
 #: core/templates/messages.tmpl:233
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -549,15 +552,14 @@ msgstr ""
 "Sie den Verweis."
 
 #: core/templates/messages.tmpl:366
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Ein neues vom System erzeugtes Passwort für den Login Namen '%1' (!WikiName "
-"%2) wurde an ihre registrierte E-Mail gesendet. Falls ihre E-Mail Adresse "
-"nicht länger gültig ist, setzen Sie sich bitte mit %3 in Kontakt"
+"Ein neues vom System erzeugtes Passwort für den Login-Namen '%1' (!WikiName "
+"%2) wurde an Ihre registrierte E-Mail-Adresse gesendet. Falls ihre E-Mail-"
+"Adresse nicht mehr gültig ist, nehmen Sie bitte mit %3 Kontakt auf."
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -572,14 +574,13 @@ msgstr ""
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr ""
+msgstr "Die Registrierung eines Benutzers muss freigeschaltet werden"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
 msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
-#, fuzzy
 msgid "Abandon changes and exit"
 msgstr "Änderungen verwerfen und verlassen"
 
@@ -606,14 +607,12 @@ msgid "Action"
 msgstr "Aktion"
 
 #: core/templates/messages.tmpl:379
-#, fuzzy
 msgid "Action %1: %2 by user %3."
-msgstr "Aktion %1: %2."
+msgstr "Aktion %1: %2 durch Benutzer %3."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
-msgstr "Aktion"
+msgstr "Aktionen"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -622,7 +621,7 @@ msgstr "hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:202
 msgid "Add Members to"
-msgstr ""
+msgstr "Benutzer hinzufügen zu"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -645,9 +644,8 @@ msgid "Add members..."
 msgstr "Benutzer hinzufügen..."
 
 #: core/data/Main/GroupViewTemplate.txt:188
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Für dieses Topic Einstellungen bearbeiten"
+msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen"
 
 #: core/templates/messages.tmpl:220
 msgid "Adding a %1 preference in WebPreferences"
@@ -662,9 +660,8 @@ msgid "Admin Maintenance"
 msgstr "Administrative Pflege"
 
 #: core/data/Main/GroupViewTemplate.txt:160
-#, fuzzy
 msgid "Administration"
-msgstr "Administrator Login"
+msgstr "Administration"
 
 #: core/data/System/WebSearch.txt:86
 msgid "Advanced search"
@@ -709,9 +706,8 @@ msgid "All public webs"
 msgstr "Alle öffentlichen Webs"
 
 #: core/templates/foswiki.tmpl:45
-#, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "Nicht <nop>WikiWörter als Topic Namen erlauben"
+msgstr "Nur <nop>WikiWort als neuen Topic-Namen erlauben"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -741,13 +737,12 @@ msgstr ""
 "Benutzer gesperrt ist."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
 "Es besteht ein Risiko, dass jemand versucht, unter Ihrer Identität und ohne "
-"Ihr Wissen Inhalte von %1 zu ändern."
+"Ihr Wissen Inhalte in Ihrem Wiki zu ändern."
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
@@ -770,11 +765,11 @@ msgstr "Datei anhängen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Ein Bild oder Dokument an dieses Topic anhängen' accesskey='a'>&Anhang"
+"Ein Bild oder Dokument an dieses Topic anhängen; vorhandene Anhänge "
+"verwalten (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
