@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 04:32+0200\n"
+"PO-Revision-Date: 2015-03-04 04:44+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -1433,8 +1433,7 @@ msgstr "輸入 Wiki 管理員或依 %1 設定登入"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
-msgstr ""
-"輸入 [[%SYSTEMWEB%.WikiWord][WikiWord]] 主題名，或開啟允許非 WikiWord 選項。"
+msgstr "輸入 WikiWord 為主題名或是點選允許非 WikiWord 選項。"
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
