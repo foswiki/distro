@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 04:35+0200\n"
+"PO-Revision-Date: 2015-03-04 05:23+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -1560,16 +1560,12 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "輸入 Wiki 管理員或依 %1 設定登入"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
-msgstr ""
-"請返回瀏覽器的上一頁，並選擇一個 %1.WikiWord 的主題名，或是點選 \"允許非"
-"WikiWord\"選項。"
+msgstr "輸入 WikiWord 為主題名或是點選允許非 WikiWord 選項。"
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Enter users or groups to add to this group"
-msgstr "將用戶自群組中刪除"
+msgstr "輸入使用者或群組加入這個群組"
 
 #: core/templates/messages.tmpl:481
 msgid "Error encountered loading the plugin. See errors below."
@@ -1607,12 +1603,10 @@ msgid "Errors"
 msgstr "錯誤"
 
 #: core/templates/registermessages.tmpl:374
-#, fuzzy
 msgid "Errors adding members to group"
 msgstr "增加使用者至群組錯誤"
 
 #: core/templates/registermessages.tmpl:423
-#, fuzzy
 msgid "Errors removing members from groups"
 msgstr "移除群組使用者錯誤"
 
@@ -1674,7 +1668,6 @@ msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
-#, fuzzy
 msgid "First"
 msgstr "名"
 
@@ -1683,12 +1676,11 @@ msgid "First name"
 msgstr "名"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-#, fuzzy
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
-msgstr "有關跨站假要求的詳細資料，與可能帶給你的危險，參見"
+msgstr "有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽要求的文章]]。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1700,9 +1692,8 @@ msgid "Forgotten your password?"
 msgstr "忘記密碼?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
-#, fuzzy
 msgid "Form"
-msgstr "表單資料"
+msgstr "表單"
 
 #: core/templates/messages.tmpl:197
 msgid "Form Definition %1 missing"
@@ -1734,14 +1725,12 @@ msgid "Format selected text"
 msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
-#, fuzzy
 msgid "Formatted Search"
-msgstr "修改搜尋:"
+msgstr "格式化搜尋"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
-#, fuzzy
 msgid "Formula"
-msgstr "表單資料"
+msgstr "公式"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -1898,9 +1887,8 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "目前禁用次子網，您無法建立巢狀子網。"
 
 #: core/data/System/ManagingTopics.txt:98
-#, fuzzy
 msgid "History"
-msgstr "歷史(&H)"
+msgstr "歷史"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
@@ -2082,9 +2070,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "%2 的子網 %1 。"
+msgstr "%2 的圖片 %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2132,18 +2119,16 @@ msgid "Incorrect Password"
 msgstr "不正確的密碼"
 
 #: core/templates/registermessages.tmpl:307
-#, fuzzy
 msgid "Incorrect Prefix"
-msgstr "不正確的 %1"
+msgstr "不正確的字首"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 腳本的參數錯誤"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
-#, fuzzy
 msgid "Indent"
-msgstr "索引"
+msgstr "縮排"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:8
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
@@ -2206,9 +2191,8 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
-#, fuzzy
 msgid "Insert an attachment"
-msgstr "刪除附件"
+msgstr "插入附件"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
@@ -2290,9 +2274,8 @@ msgid "Jump"
 msgstr "到"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "還原主題至這個版本"
+msgstr "移至第一個版本"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
@@ -2312,24 +2295,21 @@ msgid "Keyword search"
 msgstr "關鍵字搜尋"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "Last"
 msgstr "姓"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "最後編輯者"
+msgstr "最後的編輯者"
 
 #: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
 msgid "Last editor"
 msgstr "最後編輯者"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Last modified"
-msgstr "最後修改時間"
+msgstr "最後的修改時間"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
@@ -2340,9 +2320,8 @@ msgid "Last name"
 msgstr "姓"
 
 #: core/templates/more.tmpl:179
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(修訂版 %1)"
+msgstr "最新版本: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Leave %1"
@@ -2464,9 +2443,8 @@ msgid "More Actions on Topic %1"
 msgstr "主題 %1 的更多功能"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
-#, fuzzy
 msgid "More character formats"
-msgstr "源碼模式"
+msgstr "多字格式"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -2481,9 +2459,8 @@ msgid "More tools"
 msgstr ""
 
 #: core/data/System/TopicsAndWebs.txt:50
-#, fuzzy
 msgid "More topic actions"
-msgstr "更多主題功能..."
+msgstr "更多主題功能"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:88
@@ -2497,13 +2474,10 @@ msgstr "更多..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr ""
-"title='主題刪除或改名；設定父主題；查看和比較版本' accesskey='m'>更多主題功能"
-"(&M)"
+msgstr "更多功能: 主題刪除或改名；設定父主題；查看和比較版本 (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2511,9 +2485,8 @@ msgid "Move"
 msgstr "移動"
 
 #: core/templates/renamedelete.tmpl:9
-#, fuzzy
 msgid "Move %1 to Trash Web"
-msgstr "移動到子網:"
+msgstr "%1 移到垃圾子網"
 
 #: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
@@ -2577,9 +2550,8 @@ msgid "New User Registration disabled"
 msgstr "禁止新用戶註冊"
 
 #: core/templates/registermessages.tmpl:27
-#, fuzzy
 msgid "New User Registration failed"
-msgstr "禁止新用戶註冊"
+msgstr "新用戶註冊失敗"
 
 #: core/templates/registermessages.tmpl:7
 msgid "New User Registration not supported"
@@ -2611,9 +2583,8 @@ msgid "New topic name %1 is not a %2"
 msgstr "新主題名 %1 不是 %2"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
-#, fuzzy
 msgid "New user registration is disabled on this site."
-msgstr "禁止新用戶註冊"
+msgstr "本站禁止新用戶註冊。"
 
 #: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
@@ -2632,14 +2603,12 @@ msgid "No"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:51
-#, fuzzy
 msgid "No  members"
-msgstr "成員"
+msgstr "無成員"
 
 #: core/data/System/SiteChanges.txt:69
-#, fuzzy
 msgid "No changes"
-msgstr "(變更)"
+msgstr "無變更"
 
 #: core/templates/more.tmpl:205
 msgid "No child topics"
@@ -2647,9 +2616,8 @@ msgstr "無子主題"
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
-#, fuzzy
 msgid "No group name specified"
-msgstr "未指定群組名稱 GroupName"
+msgstr "未指定群組名稱"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
@@ -2664,9 +2632,8 @@ msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
-#, fuzzy
 msgid "No topic to subscribe to"
-msgstr "無主題更新。"
+msgstr "無主題訂閱至"
 
 #: core/templates/renamebase.tmpl:45
 msgid "No topics to update."
@@ -2694,7 +2661,6 @@ msgid "Not sure this is right, please confirm!"
 msgstr "不確定是否正確，請確認！"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Notation"
 msgstr "通知"
 
@@ -2754,9 +2720,8 @@ msgid "Number of topics: %1"
 msgstr "主題數量: %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
-#, fuzzy
 msgid "Numbered list"
-msgstr "主題數量:"
+msgstr "編號列表"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "OEmbed"
