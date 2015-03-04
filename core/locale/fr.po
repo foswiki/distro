@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-02 17:50+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-04 23:37+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
 "Language: fr\n"
@@ -79,7 +79,7 @@ msgstr "Page de groupe %1 mise à niveau. "
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 a une liste des autres utilisateurs"
+msgstr "%1 a une liste des autres utilisateurs de Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
@@ -107,7 +107,7 @@ msgstr "Accueil %1"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 est un nom de web non valide"
+msgstr "%1 est un nom invalide pour un nouveau web"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -205,7 +205,7 @@ msgstr "(connexion sur %1)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
-msgstr "(%1 validation)"
+msgstr "(validation de %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -528,7 +528,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Pour des raisons de sécurité, l'extension =.txt= est ajoutée à certains noms "
-"de fichiers."
+"de fichiers"
 
 #: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
@@ -582,7 +582,6 @@ msgstr ""
 "vers %1."
 
 #: core/data/System/WebSearch.txt:91
-#, fuzzy
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -684,7 +683,7 @@ msgid ""
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "Après validation de ce formulaire, vous recevrez un e-mail contenant votre "
-"nouveau mot de passe généré automatiquement, ainsi qu'un lien vers une page "
+"nouveau mot de passe *généré automatiquement*, ainsi qu'un lien vers la page "
 "où vous pourrez le modifier."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
@@ -733,8 +732,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Il y a un risque qu'une personne mal intentionnée tente d'utiliser votre "
-"identité pour changer le contenu sur de votre wiki à votre insu."
+"Une personne malintentionnée peut tenter d'utiliser votre identité pour "
+"changer le contenu de votre wiki à votre insu."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -791,7 +790,7 @@ msgstr "La suppression du fichier joint a échoué"
 
 #: core/lib/Foswiki/UI/Rename.pm:172
 msgid "Attachment does not exist."
-msgstr "Le fichier attaché n'existe pas."
+msgstr "Ce fichier attaché n'existe pas."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
@@ -803,7 +802,7 @@ msgstr "Le déplacement du fichier joint a échoué"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
-msgstr "Nom du fichier attaché:"
+msgstr "Nom du fichier attaché :"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -812,7 +811,7 @@ msgstr "Fichiers attachés"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 msgid "Attachments %1"
-msgstr "Fichiers attachés %1"
+msgstr "Fichiers attachés à %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -978,7 +977,7 @@ msgstr "Modifier seulement les propriétés et commentaires"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
-msgstr "Modifier depuis"
+msgstr "Modification depuis"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1189,7 +1188,7 @@ msgstr "Impossible de trouver le modèle (template)"
 
 #: core/templates/messages.tmpl:613
 msgid "Could not perform search. Error was: %1"
-msgstr "Impossible d'effectuer la recherche. L'erreur est :%1."
+msgstr "Impossible d'effectuer la recherche. L'erreur est : %1"
 
 #: core/templates/messages.tmpl:368
 msgid "Could not save %1."
@@ -1507,13 +1506,13 @@ msgstr "L'e-mail a été désactivé sur cette installation de Foswiki"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Enlarge edit box"
-msgstr "Agrandir le cadre d'édition."
+msgstr "Agrandir le cadre d'édition"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
 "Pour changer d'identité, entrez un nouveau nom de connexion ainsi que son "
-"mot de passe."
+"mot de passe"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1590,7 +1589,7 @@ msgstr "Échec de l'insertion de l'URL %1"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
-msgstr "Les champs marqués par des %1 sont obligatoires"
+msgstr "Remplir les champs marqués par des %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
@@ -1776,7 +1775,7 @@ msgstr "Historique"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
-msgstr "Il est possible d'attacher votre photo"
+msgstr "Comment attacher votre photo ?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
@@ -1888,7 +1887,7 @@ msgstr ""
 #: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
-"Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit,"
+"Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "If you enter a different name, make sure the topic exists."
@@ -2176,7 +2175,7 @@ msgstr "Connectez vous avec votre nom de connexion et mot de passe"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
-msgstr "Nom de connexion"
+msgstr "Connexion"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2506,8 +2505,8 @@ msgstr "Mettre à jour uniquement les pages liées dans le web %1"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
-"Argh: nous n\\'avons pu vous authentifier. Réessayez, ou [[%1][réinitialisez "
-"votre mot de passe]]."
+"Argh : nous n\\'avons pu vous authentifier. Réessayez, ou [[%1]["
+"réinitialisez votre mot de passe]]."
 
 #: core/templates/renamedelete.tmpl:20
 msgid "Optionally change attachment name:"
@@ -3084,7 +3083,7 @@ msgstr "Note de sécurité :"
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
 "Pour consulter la liste des utilisateurs, consultez %1. Pour créer votre "
-"propre compte, inscrivez-vous sur %2. "
+"propre compte, inscrivez-vous sur %2."
 
 #: core/templates/messages.tmpl:382
 msgid "See %1 for information about Form Definitions."
@@ -3364,7 +3363,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
-msgstr "Cet utilisateur a déjà été activé"
+msgstr "Cet utilisateur a déjà été activé "
 
 #: core/templates/messages.tmpl:309
 msgid ""
@@ -3420,7 +3419,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:475
 msgid "The =%1= script can only be called with POST method."
-msgstr "Le script =%1= peut être appelé seulement avec la méthode POST"
+msgstr "Le script =%1= peut être appelé seulement avec la méthode POST."
 
 #: core/templates/messages.tmpl:167
 msgid "The Administrator has disabled new user registration."
@@ -3483,8 +3482,8 @@ msgid ""
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 "Les pages sélectionnées seront mises à jour (un autre formulaire va "
-"s'afficher qui _finalement_ vous permettra de renommer les pages qui étaient "
-"verrouillées)"
+"s'afficher, pour que vous puissiez _éventuellement_ renommer les pages qui "
+"étaient verrouillées)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -3539,8 +3538,8 @@ msgstr "Le fichier a été attaché avec succès à la page %1."
 #: core/templates/messages.tmpl:446
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
-"Les pages suivantes sont bloquées parce qu'en cours de modification ; elles "
-"ne peuvent donc être déplacées."
+"Les pages suivantes sont bloquées et ne peuvent pas être déplacées car elles "
+"sont en cours de modification :"
 
 #: core/templates/messages.tmpl:452
 msgid "The following topics refer to topics in this web, but are being edited:"
@@ -3597,7 +3596,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:391
 msgid "The topic is in an old format"
-msgstr "La page est dans un format obsolète."
+msgstr "La page est dans un format obsolète"
 
 #: core/templates/messages.tmpl:256
 msgid "The two passwords you entered do not match."
@@ -4485,7 +4484,7 @@ msgstr "Votre"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
-msgstr "Votre [[%1.LoginName][NomDeConnexion]]"
+msgstr "Votre %1.NomDeConnexion"
 
 #: core/templates/messages.tmpl:225
 msgid ""
@@ -4635,6 +4634,7 @@ msgid "access not allowed on web"
 msgstr "l'accès à ce web est interdit"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
+#, fuzzy
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
