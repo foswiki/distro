@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-02-25 04:53+0200\n"
+"PO-Revision-Date: 2015-03-04 04:32+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -453,7 +453,7 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr "1 小時前"
+msgstr "一小時前"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
@@ -507,19 +507,17 @@ msgstr "<em>在所有公開的子網</em>"
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
-msgstr "<strong>需要確認！</strong>按 OK 確認變更<br />若否按取消"
+msgstr "<strong>需要確認！</strong>按 OK 確認此變更是故意的<br/>否按取消"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "因安全考量，部分檔案加上 =.txt= 的副檔名"
+msgstr "因安全考量，部分檔案會加上 =.txt= 的副檔名"
 
 #: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr ""
-"Foswiki 網站分成多個子網；每個子網包含一個主題/合作計劃。您想瀏覽的 %2 子網不"
-"存在。"
+msgstr "Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 子網不存在。"
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -530,7 +528,7 @@ msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組�
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
-msgstr "確認的電子郵件已寄往 %1 "
+msgstr "確認的電子郵件已寄往 %1"
 
 #: core/templates/messages.tmpl:642 core/templates/messages.tmpl:652
 msgid ""
@@ -614,7 +612,7 @@ msgstr "加一列"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "為這個主題增加使用者管理選項。"
+msgstr "為本主題增加使用者管理設定。"
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -695,8 +693,7 @@ msgstr "若本主題被其他用戶鎖住，將會出現錯誤頁提示。"
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr ""
-"在您不知情的情況下，駭客可能試著以您的登入身份變更您網頁的內容。<span class="
+msgstr "在您不知情的狀況下，有人可能試著以您的登入身份變更您網頁的內容。"
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -719,7 +716,7 @@ msgstr "附加新檔"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
-msgstr "為主題增加圖片或文件附件；管理附件檔案 (a)"
+msgstr "為這個主題增加圖片或檔案；管理現存附件 (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -915,7 +912,7 @@ msgstr "類別"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
-msgstr "變更電子信箱"
+msgstr "改變電子信箱"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -973,7 +970,7 @@ msgstr "變更者:"
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
-msgstr "改變"
+msgstr "改變於"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1174,7 +1171,7 @@ msgstr "未指定建立且群組不存在"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
-msgstr "建立個人側欄"
+msgstr "建立個人的側欄"
 
 #: core/templates/messages.tmpl:660
 msgid "Create the topic"
@@ -1384,7 +1381,7 @@ msgstr "編輯這個表格"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
 msgid "Edit this topic text (e)"
-msgstr "編輯主題內容 (e)"
+msgstr "編輯本主題內文 (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
