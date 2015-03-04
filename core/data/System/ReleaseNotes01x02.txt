@@ -1,9 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423625343" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425446703" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2 - not released yet
+---+!! Foswiki Release 1.2.0 (alpha)
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
 
+%TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
+%ENDTWISTY{}%
 
 ---++ Foswiki - The Free and Open Source Wiki
 
@@ -13,12 +15,13 @@ Foswiki is a wiki: fundamentally, a website with editable web pages. It looks li
 
 Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.1 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work under Foswiki. Since the start of the Foswiki project there have been several releases of TWiki, However there have been very few functionality changes, and the useful changes have all been tracked in Foswiki, so topics and wiki applications supported by TWiki should also work with Foswiki.
+Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.2 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work under Foswiki. Since the start of the Foswiki project there have been several releases of TWiki, However there have been very few functionality changes, and the useful changes have all been tracked in Foswiki, so topics and wiki applications supported by TWiki should also work with Foswiki.
 
 Foswiki is released under the GNU General Public License.
 
 ---++ Foswiki Releases
 
+%TWISTY{showlink="Release 1.0 releases..." hidelink="hide Release 1.0"}%
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
    * Foswiki 1.0.1, 1.0.2 and 1.0.3 were released internally in the development community, but were never publicly released.
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and only very few minor enhancements.
@@ -28,20 +31,36 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
+%ENDTWISTY{}%
+%TWISTY{showlink="Release 1.1 releases..." hidelink="hide Release 1.1"}%
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
-   * %RED Foswiki 1.2 %ENDCOLOR%
+   * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
+   * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+   * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
+   * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
+   * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
+   * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
+   * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
+   * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
+%ENDTWISTY{}%
+   * %RED% Foswiki 1.2.0 %ENDCOLOR%
 
 ---++ Pre-installed Extensions
 
 Foswiki 1.2 is shipped with the following:
 
-   * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !ConfigurePlugin, !EditRowPlugin, !EmptyPlugin, !HistoryPlugin, !HomePagePlugin, !InterwikiPlugin, !JQueryPlugin, !NatEditPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !SubscribePlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !UpdatesPlugin, !WysiwygPlugin
+   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !FastCGIEngineContrib, !JEditableContrib, !JSCalendarContrib, !JsonRpcContrib, !MailerContrib, !ModPerlEngineContrib, !PlainFileStoreContrib, !RCSStoreContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x02Changes
+---++ Changes in requirements
+<div class="foswikiHelp">
+   * !JavaScript is now required for most operation other than simple page views.
+   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules.</div>
+
 ---++ Deprecations
 
    * The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed.  Links must be written as =[<nop>[url][title]]= format if a title is desired.
@@ -201,7 +220,7 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 
 ---++++ Changes to configure Authentication
 
-   * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup.
+   * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup, or is identified as an authorized configure user.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
       * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
@@ -234,12 +253,17 @@ In order to simplify migration, a new =quote== parameter has been added to the
 ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
 quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 
+---+++ Major changes to the Foswiki Store subsystem.
+
+The Foswiki Store has been restructured into separate pluggable store implementations.  Foswiki 1.2 ships with two store backends:
+   * RCSStoreContrib:  This implements the RCSWrap and RCSLite "Revision Control System"  based stores, compatible with prior versions of Foswiki and TWiki.
+   * PlainFileStoreContrib:  A new plain file store that saves topic and attachment as timestamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performming_ than the RCS store.  Existing topics can be migrated to the new store.   *Store formats may not be mixed.  One store must be* selected.
+
 ---++ Foswiki Release 1.2 Details
 
 ---+++ New Features
 
 | *Feature* | *Summary* |
-| [[Foswiki:Development.AJAXOnDemandCheckersForConfigure][AJAXOnDemandCheckersForConfigure]] | Update configure to allow Ajax based (fast) checking |
 | [[Foswiki:Development.AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels |
 | [[Foswiki:Development.AddDefaultTopicParameterToINCLUDE][AddDefaultTopicParameterToINCLUDE]] | allow a list of topics to be specified so that we can use INCLUDE to allow customisation of shipped topic elements. |
 | [[Foswiki:Development.AddDefaultValueToSTARTSECTION][AddDefaultValueToSTARTSECTION]] | Add default value to STARTSECTION |
@@ -252,6 +276,7 @@ quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 | [[Foswiki:Development.AddUpdatesPluginToDefaultRelease][AddUpdatesPluginToDefaultRelease]] | Add UpdatesPlugin to default release |
 | [[Foswiki:Development.AddWebParamToAllCgiScripts][AddWebParamToAllCgiScripts]] | add a defaultweb= parameter to all cgi scripts |
 | [[Foswiki:Development.AdminApprovalOfNewUsers][AdminApprovalOfNewUsers]] | Should be able to audit new registrations |
+| [[Foswiki:Development.AJAXOnDemandCheckersForConfigure][AJAXOnDemandCheckersForConfigure]] | Update configure to allow Ajax based (fast) checking |
 | [[Foswiki:Development.AllowGuestsToUseRESTAsDefault][AllowGuestsToUseRESTAsDefault]] | Remove =rest= from the default list of AuthScripts |
 | [[Foswiki:Development.CancelButtonsShouldUseViewScript][CancelButtonsShouldUseViewScript]] | Never POST to a save script for purposes of cancelling an update |
 | [[Foswiki:Development.ConsistentFormFieldValues][ConsistentFormFieldValues]] | Consistently displaying form field values |
