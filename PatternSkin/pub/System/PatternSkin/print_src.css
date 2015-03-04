@@ -1,314 +1,385 @@
-	/* Layout */
-	body {
-		margin:0;
-		padding:0;
-	}
-	#patternScreen,
-	#patternPageShadow, 
-	#patternPage,
-	#patternOuter {
-		margin:0;
-		padding:0;
-		top:0;
-		border:none;
-		float:none;
-	}
-	#patternMain {
-		width:100%;
-		float:none;
-		display:inline;
-		overflow:visible;
-	}
-	
-	/* no left bar */
-	#patternSideBar {
-		display:none;
-	}
-	#patternWrapper {
-		height:1%;
-	}
-	
-	/* no top bar */
-	#patternTopBar,
-	#patternClearHeaderCenter,
-	#patternClearHeaderLeft,
-	#patternClearHeaderRight,
-	#patternTopBarContentsOuter {
-		display:none;
-	}
-	
-	/* hide bits of the gui */
-	.patternTopicAction,
-	.patternToolBar,
-	.patternToolBarBottom,
-	.patternHomePath img,
-	.patternHomePathTitle,
-	.foswikiActionFormStepSign {
-		display:none;
-	}
-	
-	#patternMainContents {
-		margin:0;
-		padding:1em 2em;
-	}
-	#patternBottomBar {
-		border:none;
-	}
-	.patternTopicFooter {
-		margin:1em 0 0 0;
-	}
-	
-	/* hide attachment twisty controls */
-	#attachmentsshow,
-	#attachmentshide {
-		display:none;
-	}
-	
-	/* make sure that overflowing content is visible */
-	pre,
-	html>body pre {
-		overflow:visible !important;
-	}
+body {
+  margin: 0;
+  padding: 0;
+}
 
-	/*Some rules about Page breaks */
-	h1, h2, h3, h4, h5, h6 {
-		page-break-after:avoid;
-		page-break-inside:avoid;
-	}
-	img {
-		page-break-inside:avoid;
-		page-break-after:avoid;
-	}
-	blockquote, table, pre {
-		page-break-inside:avoid;
-	}
-	ul, ol, dl {
-		page-break-before:avoid;
-	}
-	
-	/* hide plugins */
-	.commentPlugin {
-		display:none;
-	}
-	.twistyTrigger {
-		display:none;
-	}
-	.editTableEditImageButton {
-		display:none;
-	}
-	
-	/* Colors */
-	html body {
-		background-color:#fff;
-	}
-	h2, h3, h4, h5, h6 {
-		background-color:transparent;
-	}
-	#patternBottomBar {
-		background-color:transparent;
-	}
-	
-	pre, code, tt {
-		color:#5b4221;
-	}
-	.foswikiTable th {
-		border-style:solid;
-		border-width:0 0 1px 1px;
-		border-color:#ccc;
-		color:#000;
-	}
-	.foswikiTable th a:link,
-	.foswikiTable th a:visited,
-	.foswikiTable th a font,
-	.foswikiAttachments .foswikiTable th a:link,
-	.foswikiAttachments .foswikiTable th a:visited,
-	.foswikiAttachments .foswikiTable th a font {
-		color:#000;
-		text-decoration:none;
-	}
-	:visited,
-	.foswikiTopic a:visited {
-		color:#06c;
-		background-color:transparent;
-	}
-	.foswikiAttachments,
-	.patternContent .foswikiAttachments,
-	.foswikiForm,
-	.patternContent .foswikiForm {
-		background-color:#fff;
-	}
-	.patternRevInfo,
-	.foswikiGrayText {
-		color:#666; /*T7*/
-	}
-	.patternRevInfo a:link,
-	.patternRevInfo a:visited
-	.foswikiGrayText a:link,
-	.foswikiGrayText a:visited {
-		color:#666; /*T7*/
-	}
+#patternScreen,
+#patternPageShadow,
+#patternPage,
+.patternViewPage #patternOuter {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  border: none;
+  float: none;
+}
 
-	
-	/* define custom print styles here */
+#patternMain {
+  width: auto;
+  float: none;
+  display: inline;
+  overflow: visible;
+}
 
+/* no left bar */
+#patternSideBar {
+  display: none;
+}
+
+#patternWrapper {
+  height: 1%;
+}
+
+/* no top bar */
+#patternTopBarButtons,
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter {
+  display: none;
+}
+
+/* hide bits of the gui */
+.patternTop,
+.patternTopicAction,
+.patternTopicActions,
+.patternToolBar,
+.patternToolBarBottom,
+.patternHomePath img,
+.patternHomePathTitle,
+.foswikiContentFooter + .foswikiFormSteps,
+.foswikiActionFormStepSign {
+  display: none;
+}
+
+#patternMainContents {
+  margin: 0;
+  padding: 1em 2em;
+}
+
+#patternBottomBar {
+  display: none;
+}
+
+.patternTopicFooter {
+  margin: 1em 0 0 0;
+}
+
+/* hide attachment twisty controls */
+#attachmentsshow,
+#attachmentshide {
+  display: none;
+}
+
+/* make sure that overflowing content is visible */
+pre,
+html>body pre {
+  overflow: visible !important;
+}
+
+/*Some rules about Page breaks */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  page-break-after: avoid;
+  page-break-inside: avoid;
+}
+
+img {
+  page-break-inside: avoid;
+  page-break-after: avoid;
+}
+
+blockquote,
+table,
+pre {
+  page-break-inside: avoid;
+}
+
+ul,
+ol,
+dl {
+  page-break-before: avoid;
+}
+
+/* hide plugins */
+.commentPlugin {
+  display: none;
+}
+
+.twistyTrigger {
+  display: none;
+}
+
+.editTableEditImageButton {
+  display: none;
+}
+
+/* Colors */
+html body {
+  background-color: #fff;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  background-color: transparent;
+}
+
+#patternBottomBar {
+  background-color: transparent;
+}
+
+pre,
+code,
+tt {
+  color: #5b4221;
+}
+
+.foswikiTable th {
+  border-style: solid;
+  border-width: 0 0 1px 1px;
+  border-color: #ccc;
+  color: #000;
+}
+
+.foswikiTable th a:link,
+.foswikiTable th a:visited,
+.foswikiTable th a font,
+.foswikiAttachments .foswikiTable th a:link,
+.foswikiAttachments .foswikiTable th a:visited,
+.foswikiAttachments .foswikiTable th a font {
+  color: #000;
+  text-decoration: none;
+}
+
+:visited,
+.foswikiTopic a:visited {
+  color: #06c;
+  background-color: transparent;
+}
+
+.foswikiAttachments,
+.patternContent .foswikiAttachments,
+.foswikiForm,
+.patternContent .foswikiForm {
+  background-color: #fff;
+}
+
+.patternRevInfo,
+.foswikiGrayText {
+  color: #666;
+  /*T7*/
+}
+
+.patternRevInfo a:link,
+.patternRevInfo a:visited .foswikiGrayText a:link,
+.foswikiGrayText a:visited {
+  color: #666;
+  /*T7*/
+}
+
+/* define custom print styles here */
 @media print {
-	/* Layout */
-	body {
-		margin:0;
-		padding:0;
-	}
-	#patternScreen,
-	#patternPageShadow, 
-	#patternPage,
-	#patternOuter {
-		margin:0;
-		padding:0;
-		top:0;
-		border:none;
-		float:none;
-	}
-	#patternMain {
-		width:100%;
-		float:none;
-		display:inline;
-		overflow:visible;
-	}
-	
-	/* no left bar */
-	#patternSideBar {
-		display:none;
-	}
-	#patternWrapper {
-		height:1%;
-	}
-	
-	/* no top bar */
-	#patternTopBar,
-	#patternClearHeaderCenter,
-	#patternClearHeaderLeft,
-	#patternClearHeaderRight,
-	#patternTopBarContentsOuter {
-		display:none;
-	}
-	
-	/* hide bits of the gui */
-	.patternTopicAction,
-	.patternToolBar,
-	.patternToolBarBottom,
-	.patternHomePath img,
-	.patternHomePathTitle,
-	.foswikiActionFormStepSign {
-		display:none;
-	}
-	
-	#patternMainContents {
-		margin:0;
-		padding:1em 2em;
-	}
-	#patternBottomBar {
-		border:none;
-	}
-	.patternTopicFooter {
-		margin:1em 0 0 0;
-	}
-	
-	/* hide attachment twisty controls */
-	#attachmentsshow,
-	#attachmentshide {
-		display:none;
-	}
-	
-	/* make sure that overflowing content is visible */
-	pre,
-	html>body pre {
-		overflow:visible !important;
-	}
+  /* Layout */
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-	/*Some rules about Page breaks */
-	h1, h2, h3, h4, h5, h6 {
-		page-break-after:avoid;
-		page-break-inside:avoid;
-	}
-	img {
-		page-break-inside:avoid;
-		page-break-after:avoid;
-	}
-	blockquote, table, pre {
-		page-break-inside:avoid;
-	}
-	ul, ol, dl {
-		page-break-before:avoid;
-	}
-	
-	/* hide plugins */
-	.commentPlugin {
-		display:none;
-	}
-	.twistyTrigger {
-		display:none;
-	}
-	.editTableEditImageButton {
-		display:none;
-	}
-	
-	/* Colors */
-	html body {
-		background-color:#fff;
-	}
-	h2, h3, h4, h5, h6 {
-		background-color:transparent;
-	}
-	#patternBottomBar {
-		background-color:transparent;
-	}
-	
-	pre, code, tt {
-		color:#5b4221;
-	}
-	.foswikiTable th {
-		border-style:solid;
-		border-width:0 0 1px 1px;
-		border-color:#ccc;
-		color:#000;
-	}
-	.foswikiTable th a:link,
-	.foswikiTable th a:visited,
-	.foswikiTable th a font,
-	.foswikiAttachments .foswikiTable th a:link,
-	.foswikiAttachments .foswikiTable th a:visited,
-	.foswikiAttachments .foswikiTable th a font {
-		color:#000;
-		text-decoration:none;
-	}
-	:visited,
-	.foswikiTopic a:visited {
-		color:#06c;
-		background-color:transparent;
-	}
-	.foswikiAttachments,
-	.patternContent .foswikiAttachments,
-	.foswikiForm,
-	.patternContent .foswikiForm {
-		background-color:#fff;
-	}
-	.patternRevInfo,
-	.foswikiGrayText {
-		color:#666; /*T7*/
-	}
-	.patternRevInfo a:link,
-	.patternRevInfo a:visited
-	.foswikiGrayText a:link,
-	.foswikiGrayText a:visited {
-		color:#666; /*T7*/
-	}
-	/* Item11035 */
-	html, body {
-	    height: auto;
-	}
-	#patternFloatWrap {
-	    float: none;
-	}
-	
-	/* define custom print styles here */
+  #patternScreen,
+  #patternPageShadow,
+  #patternPage,
+  #patternOuter {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    border: none;
+    float: none;
+  }
 
+  #patternMain {
+    width: 100%;
+    float: none;
+    display: inline;
+    overflow: visible;
+  }
+
+  /* no left bar */
+  #patternSideBar {
+    display: none;
+  }
+
+  #patternWrapper {
+    height: 1%;
+  }
+
+  /* no top bar */
+  #patternTopBar,
+  #patternClearHeaderCenter,
+  #patternClearHeaderLeft,
+  #patternClearHeaderRight,
+  #patternTopBarContentsOuter {
+    display: none;
+  }
+
+  /* hide bits of the gui */
+  .patternTopicAction,
+  .patternToolBar,
+  .patternToolBarBottom,
+  .patternHomePath img,
+  .patternHomePathTitle,
+  .foswikiActionFormStepSign {
+    display: none;
+  }
+
+  #patternMainContents {
+    margin: 0;
+    padding: 1em 2em;
+  }
+
+  #patternBottomBar {
+    border: none;
+  }
+
+  .patternTopicFooter {
+    margin: 1em 0 0 0;
+  }
+
+  /* hide attachment twisty controls */
+  #attachmentsshow,
+  #attachmentshide {
+    display: none;
+  }
+
+  /* make sure that overflowing content is visible */
+  pre,
+  html>body pre {
+    overflow: visible !important;
+  }
+
+  /*Some rules about Page breaks */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  img {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+
+  blockquote,
+  table,
+  pre {
+    page-break-inside: avoid;
+  }
+
+  ul,
+  ol,
+  dl {
+    page-break-before: avoid;
+  }
+
+  /* hide plugins */
+  .commentPlugin {
+    display: none;
+  }
+
+  .twistyTrigger {
+    display: none;
+  }
+
+  .editTableEditImageButton {
+    display: none;
+  }
+
+  /* Colors */
+  html body {
+    background-color: #fff;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    background-color: transparent;
+  }
+
+  #patternBottomBar {
+    background-color: transparent;
+  }
+
+  pre,
+  code,
+  tt {
+    color: #5b4221;
+  }
+
+  .foswikiTable th {
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    border-color: #ccc;
+    color: #000;
+  }
+
+  .foswikiTable th a:link,
+  .foswikiTable th a:visited,
+  .foswikiTable th a font,
+  .foswikiAttachments .foswikiTable th a:link,
+  .foswikiAttachments .foswikiTable th a:visited,
+  .foswikiAttachments .foswikiTable th a font {
+    color: #000;
+    text-decoration: none;
+  }
+
+  :visited,
+  .foswikiTopic a:visited {
+    color: #06c;
+    background-color: transparent;
+  }
+
+  .foswikiAttachments,
+  .patternContent .foswikiAttachments,
+  .foswikiForm,
+  .patternContent .foswikiForm {
+    background-color: #fff;
+  }
+
+  .patternRevInfo,
+  .foswikiGrayText {
+    color: #666;
+    /*T7*/
+  }
+
+  .patternRevInfo a:link,
+  .patternRevInfo a:visited .foswikiGrayText a:link,
+  .foswikiGrayText a:visited {
+    color: #666;
+    /*T7*/
+  }
+
+  /* Item11035 */
+  html,
+  body {
+    height: auto;
+  }
+
+  #patternFloatWrap {
+    float: none;
+  }
+
+  /* define custom print styles here */
 }
