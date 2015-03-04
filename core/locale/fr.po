@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-02 17:50+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"PO-Revision-Date: 2015-03-04 23:52+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +83,7 @@ msgstr "Page de groupe %1 mise à niveau. "
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 a une liste des autres utilisateurs."
+msgstr "%1 a une liste des autres utilisateurs de Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
@@ -119,7 +119,7 @@ msgstr "Accueil %1"
 
 #: core/templates/messages.tmpl:108
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 est un nom de web invalide"
+msgstr "%1 est un nom invalide pour un nouveau web"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -225,7 +225,7 @@ msgstr "(connexion sur %1)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
-msgstr "(%1 validation)"
+msgstr "(validation de %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -506,7 +506,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Pour des raisons de sécurité, l'extension =.txt= est ajoutée à certains noms "
-"de fichiers."
+"de fichiers"
 
 #: core/templates/messages.tmpl:403 core/templates/messages.tmpl:414
 msgid ""
@@ -565,7 +565,6 @@ msgstr ""
 "Votre approbation est nécessaire pour valider l'inscription d'un utilisateur"
 
 #: core/data/System/WebSearch.txt:89
-#, fuzzy
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -667,7 +666,6 @@ msgid "After submitting this form your password will be changed."
 msgstr "Après validation de ce formulaire, votre mot de passe sera modifié."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
@@ -678,26 +676,25 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ah, non !"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
-msgstr ""
+msgstr "Aligner à gauche"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
-msgstr ""
+msgstr "Aligner à droite"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
 msgstr "Tous les webs publics"
 
 #: core/templates/foswiki.tmpl:45
-#, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr ""
-"Forcer le choix, pour cette page, d'un nom qui n'est pas un <nop>MotWiki "
-"(<nop>WikiWord)"
+"Seul un <nop>MotWiki (<nop>WikiWord) est accepté pour le nouveau nom de la "
+"page"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -708,9 +705,8 @@ msgstr ""
 "UserRegistration et choisir un nom de connexion différent."
 
 #: core/lib/Foswiki/UI/Rename.pm:212
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Un fichier attaché portant ce nom existe déjà sur cette page"
+msgstr "Un fichier attaché portant ce nom existe déjà sur cette page."
 
 #: core/templates/messages.tmpl:173
 msgid ""
@@ -728,13 +724,12 @@ msgstr ""
 "d'autre."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Il y a un risque que quelqu'un tente d'utiliser votre identité pour changer "
-"le contenu sur %1 à votre insu."
+"Une personne malintentionnée peut tenter d'utiliser votre identité pour "
+"changer le contenu de votre wiki à votre insu."
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
@@ -752,18 +747,16 @@ msgid "Attach"
 msgstr "Attacher"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Attacher un nouveau fichier"
+msgstr "Attacher un fichier"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Attacher une image ou un document à cette page' "
-"accesskey='a'>&Attacher"
+"Attacher une image ou un document à cette page ; gérer des fichiers déjà "
+"attachés (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -793,23 +786,20 @@ msgid "Attachment delete failed"
 msgstr "La suppression du fichier joint a échoué"
 
 #: core/lib/Foswiki/UI/Rename.pm:179
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "Ce fichier attaché n'existe pas"
+msgstr "Ce fichier attaché n'existe pas."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Fichiers attachés"
+msgstr "Historique du fichier attaché"
 
 #: core/templates/messages.tmpl:47
 msgid "Attachment move failed"
 msgstr "Le déplacement du fichier joint a échoué"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Fichier attaché"
+msgstr "Nom du fichier attaché :"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -817,7 +807,6 @@ msgid "Attachments"
 msgstr "Fichiers attachés"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
 msgstr "Fichiers attachés à %1"
 
@@ -883,7 +872,7 @@ msgstr "Mot de passe erroné"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "Erreur sur l'abonné '%1'"
 
 #: core/templates/messages.tmpl:132
 msgid "Base web %1 is missing or does not exist"
@@ -891,11 +880,11 @@ msgstr "Le web de base %1 n'existe pas"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr ""
+msgstr "Bloc de citation"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
-msgstr ""
+msgstr "Gras"
 
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
@@ -903,7 +892,7 @@ msgstr "Dans le titre et dans le texte"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
-msgstr ""
+msgstr "Liste à puce"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -926,12 +915,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Modification (CHANGE) non permise par %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "Modification (CHANGE) non permise pour %1 par %2"
 
 #: core/templates/messages.tmpl:362 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
@@ -970,13 +959,12 @@ msgid "Cancel editing and discard changes"
 msgstr "Annuler et abandonner les modifications"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
-#, fuzzy
 msgid "Cancel upload"
-msgstr "Annuler"
+msgstr "Annuler le téléversement"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "Modification impossible de l'abonnement : %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
@@ -1000,12 +988,11 @@ msgstr "Catégories"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
-msgstr ""
+msgstr "Aligner au centre"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "Adresse e-mail :"
+msgstr "Changer l'adresse e-mail"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1013,26 +1000,23 @@ msgstr "Changer de mot de passe"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Le changement ne peut être effectué"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Modifier seulement les propriétés et commentaires"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
-#, fuzzy
 msgid "Change e-mail address"
-msgstr "Adresse e-mail invalide"
+msgstr "Modifier l'adresse e-mail"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
-#, fuzzy
 msgid "Change form"
-msgstr "Modifier depuis :"
+msgstr "Modifier le formulaire"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Modifier depuis :"
+msgstr "Modification depuis"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1066,7 +1050,7 @@ msgstr "Modifier seulement les propriétés"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr ""
+msgstr "Modifier le formulaire actuel de <nop>%1"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
@@ -1078,9 +1062,8 @@ msgstr "Modifié par"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Modifié"
+msgstr "Modifié le"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1105,6 +1088,8 @@ msgstr "Modifications entre r%1 et r%2"
 #: core/templates/messages.tmpl:285
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Vérifiez vos paramètres de configuration pour {TemplateDir} et "
+"{TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1128,7 +1113,7 @@ msgstr "Choisissez un nouveau formulaire pour %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:151
 msgid "Choose files"
-msgstr ""
+msgstr "Choisir les fichiers"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
@@ -1138,7 +1123,7 @@ msgstr "Désélectionner toutes"
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
 msgid "Click here"
-msgstr ""
+msgstr "Cliquez ici"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
@@ -1157,7 +1142,7 @@ msgstr "Fermer"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "Couleur"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
@@ -1165,11 +1150,11 @@ msgstr "La couleur %1 a un format invalide"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "Colonnes"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
-msgstr ""
+msgstr "Entrez"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1287,7 +1272,7 @@ msgstr "Impossible de trouver le modèle (template)"
 
 #: core/templates/messages.tmpl:372
 msgid "Could not perform search. Error was: %1"
-msgstr "Impossible d'effectuer la recherche. L'erreur est :%1."
+msgstr "Impossible d'effectuer la recherche. L'erreur est : %1"
 
 #: core/templates/messages.tmpl:183
 msgid "Could not save %1."
@@ -1664,13 +1649,13 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Enlarge edit box"
-msgstr "Agrandir le cadre d'édition."
+msgstr "Agrandir le cadre d'édition"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
 "Pour changer d'identité, entrez un nouveau nom de connexion ainsi que son "
-"mot de passe."
+"mot de passe"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1773,7 +1758,7 @@ msgstr "Échec de l'insertion de l'URL %1"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
-msgstr "Il est nécessaire de remplir les champs marqués par des %1"
+msgstr "Remplir les champs marqués par des %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
 #, fuzzy
@@ -2040,7 +2025,7 @@ msgstr ""
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
-msgstr "Il est possible d'attacher votre photo"
+msgstr "Comment attacher votre photo ?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
@@ -2151,7 +2136,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:97
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
-"Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit,"
+"Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 #, fuzzy
@@ -2989,8 +2974,8 @@ msgstr "Pages filles dans le web %1"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
-"Argh: nous n\\'avons pu vous authentifier. Réessayez, ou [[%1][réinitialiser "
-"votre mot de passe]]."
+"Argh : nous n\\'avons pu vous authentifier. Réessayez, ou [[%1]["
+"réinitialisez votre mot de passe]]."
 
 #: core/templates/renamedelete.tmpl:23
 #, fuzzy
@@ -3762,7 +3747,7 @@ msgstr "Note de sécurité :"
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
 "Pour consulter la liste des utilisateurs, consultez %1. Pour créer votre "
-"propre compte, inscrivez-vous sur %2. "
+"propre compte, inscrivez-vous sur %2."
 
 #: core/templates/messages.tmpl:198
 msgid "See %1 for information about Form Definitions."
@@ -4153,7 +4138,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:103
 msgid "That user has already been activated "
-msgstr "Cet utilisateur a déjà été activé"
+msgstr "Cet utilisateur a déjà été activé "
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
@@ -4218,7 +4203,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:296
 msgid "The =%1= script can only be called with POST method."
-msgstr "Le script =%1= peut être appelé seulement avec la méthode POST"
+msgstr "Le script =%1= peut être appelé seulement avec la méthode POST."
 
 #: core/templates/registermessages.tmpl:19
 msgid "The Administrator has disabled new user registration."
@@ -4278,8 +4263,8 @@ msgid ""
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 "Les pages sélectionnées seront mises à jour (un autre formulaire va "
-"s'afficher, pour que vous puissiez renommer les pages qui étaient "
-"verrouillées)"
+"s'afficher, pour que vous puissiez _éventuellement_ renommer les pages qui "
+"étaient verrouillées)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -4333,8 +4318,8 @@ msgstr "Le fichier a été attaché avec succès à la page %1."
 #: core/templates/messages.tmpl:267
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
-"Les pages suivantes sont bloquées parce qu'en cours de modification ; elles "
-"ne peuvent donc être déplacées."
+"Les pages suivantes sont bloquées et ne peuvent pas être déplacées car elles "
+"sont en cours de modification :"
 
 #: core/templates/messages.tmpl:273
 msgid "The following topics refer to topics in this web, but are being edited:"
@@ -4396,7 +4381,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:207
 msgid "The topic is in an old format"
-msgstr "La page est dans un format obsolète."
+msgstr "La page est dans un format obsolète"
 
 #: core/templates/registermessages.tmpl:177
 msgid "The two passwords you entered do not match."
@@ -5564,6 +5549,7 @@ msgid "access not allowed on web"
 msgstr "l'accès à ce web est interdit"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
+#, fuzzy
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
@@ -5801,7 +5787,8 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Chercher, dans le Web %1, les liens pointant ici' accesskey='b'>We&b"
+"title='Chercher, dans le Web %1, les liens pointant ici' accesskey='b'>Liens "
+"entrants (&b)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
