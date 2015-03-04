@@ -213,7 +213,7 @@ msgstr "%1 は %3 に %4 で %2 から 移動します"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr "あなたの %1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -876,7 +876,7 @@ msgstr "%1にある使用可のテンプレート"
 msgid "Back to topic"
 msgstr "トピックに戻ります"
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr "バックリンク"
 
@@ -887,6 +887,11 @@ msgstr "%2ウェブの中の%1へのバックリンク"
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "全てのウェブの中の%1へのバックリンク"
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+#, fuzzy
+msgid "Backlinks:"
+msgstr "バックリンク"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -1084,8 +1089,8 @@ msgid "Change topic"
 msgstr "トピックを変更します"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
-msgstr "変更者："
+msgid "Changed by:"
+msgstr "変更元："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
@@ -1388,7 +1393,8 @@ msgid "Current location:"
 msgstr "現在の位置："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+#, fuzzy
+msgid "Current password:"
 msgstr "現在のパスワード"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -2153,11 +2159,11 @@ msgstr "登録に対して何か疑問がございましたら %1宛てにメー
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2704,10 +2710,6 @@ msgstr ""
 msgid "NEW"
 msgstr "新"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 #, fuzzy
 msgid "Name of copy"
@@ -2716,6 +2718,10 @@ msgstr "トピック数:"
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
 msgstr "新ウェブ名が失われました"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 #, fuzzy
@@ -2740,7 +2746,8 @@ msgid "New User Registration not supported"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+#, fuzzy
+msgid "New e-mails (space-separated list):"
 msgstr "新メールアドレス(スペースで区切るリスト)"
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2752,13 +2759,14 @@ msgstr "%2後、%1にある新規作成又は変更のトピック"
 msgid "New parent web:"
 msgstr "新親ウェブ:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-msgid "New password"
-msgstr "新パスワード"
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+#, fuzzy
+msgid "New password:"
+msgstr "新パスワード"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -3002,10 +3010,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 msgid "Password"
 msgstr "パスワード"
 
@@ -3021,6 +3026,12 @@ msgstr "パスワードは変更できません"
 #: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
 msgstr "パスワードの変更に失敗しました"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+#, fuzzy
+msgid "Password:"
+msgstr "パスワード"
 
 #: core/templates/registermessages.tmpl:127
 #, fuzzy
@@ -3262,7 +3273,7 @@ msgstr "ウェブ検索"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 #, fuzzy
-msgid "Question"
+msgid "Question:"
 msgstr "バージョン"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3563,7 +3574,8 @@ msgid "Return to [_0] and supply a WikiName or Login Name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-msgid "Retype new password"
+#, fuzzy
+msgid "Retype new password:"
 msgstr "新パスワードを再度入力してください"
 
 #: core/templates/messages.tmpl:27
@@ -3789,7 +3801,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr "まず、ユーザーをグループ %1から削除してください"
 
 #: core/templates/more.tmpl:101
@@ -4523,7 +4535,7 @@ msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
-msgid "Title"
+msgid "Title:"
 msgstr "トピックタイトル"
 
 #: core/templates/registerapprove.tmpl:12
@@ -4884,11 +4896,11 @@ msgid "Users cannot be removed from %1"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -5312,7 +5324,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-msgid "Your %1.LoginName"
+#, fuzzy
+msgid "Your %1.LoginName:"
 msgstr "あなたの %1.LoginName"
 
 #: core/templates/registermessages.tmpl:147
@@ -5781,6 +5794,9 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Changed by"
+#~ msgstr "変更者："
 
 #, fuzzy
 #~ msgid "/props"
@@ -7161,9 +7177,6 @@ msgstr ""
 
 #~ msgid "(More options in WebSearch)"
 #~ msgstr "(もっと多くの検索オプション)"
-
-#~ msgid "Changed by:"
-#~ msgstr "変更元："
 
 #~ msgid "Choose a new form template"
 #~ msgstr "新フォームテンプレートを選択してください"

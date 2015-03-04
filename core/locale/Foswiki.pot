@@ -188,7 +188,7 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -782,7 +782,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr ""
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr ""
 
@@ -792,6 +792,10 @@ msgstr ""
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+msgid "Backlinks:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:226
@@ -978,7 +982,7 @@ msgid "Change topic"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+msgid "Changed by:"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
@@ -1265,7 +1269,7 @@ msgid "Current location:"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+msgid "Current password:"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -1970,11 +1974,11 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2474,16 +2478,16 @@ msgstr ""
 msgid "NEW"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
 msgstr ""
 
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
 msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
@@ -2507,7 +2511,7 @@ msgid "New User Registration not supported"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+msgid "New e-mails (space-separated list):"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2519,12 +2523,12 @@ msgstr ""
 msgid "New parent web:"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-msgid "New password"
-msgstr ""
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+msgid "New password:"
 msgstr ""
 
 #: core/templates/messages.tmpl:84
@@ -2755,10 +2759,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 msgid "Password"
 msgstr ""
 
@@ -2773,6 +2774,11 @@ msgstr ""
 #: core/templates/registermessages.tmpl:166
 #: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+msgid "Password:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:127
@@ -2992,7 +2998,7 @@ msgid "Query Search"
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
-msgid "Question"
+msgid "Question:"
 msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3269,7 +3275,7 @@ msgid "Return to [_0] and supply a WikiName or Login Name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-msgid "Retype new password"
+msgid "Retype new password:"
 msgstr ""
 
 #: core/templates/messages.tmpl:27
@@ -3478,7 +3484,7 @@ msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:233
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr ""
 
 #: core/templates/more.tmpl:101
@@ -4152,7 +4158,7 @@ msgid ""
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-msgid "Title"
+msgid "Title:"
 msgstr ""
 
 #: core/templates/registerapprove.tmpl:12
@@ -4490,11 +4496,11 @@ msgid "Users cannot be removed from %1"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -4879,7 +4885,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-msgid "Your %1.LoginName"
+msgid "Your %1.LoginName:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:147

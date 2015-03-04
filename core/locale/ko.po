@@ -197,7 +197,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr "당신의 %1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -827,7 +827,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "토픽으로 돌아가기"
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr ""
 
@@ -837,6 +837,10 @@ msgstr ""
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+msgid "Backlinks:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:226
@@ -1028,7 +1032,8 @@ msgid "Change topic"
 msgstr "토픽 변경"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "다음 내용에 의해 변경됨"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
@@ -1327,7 +1332,8 @@ msgid "Current location:"
 msgstr "현재 위치:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+#, fuzzy
+msgid "Current password:"
 msgstr "현재 비밀번호"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -2057,11 +2063,11 @@ msgstr "등록과 관련하여 문의사항이 있으면, %1 에게 이메일로
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr "문의사항이 있으면, %1 에게 연락하십시오."
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2589,10 +2595,6 @@ msgstr ""
 msgid "NEW"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 #, fuzzy
 msgid "Name of copy"
@@ -2600,6 +2602,10 @@ msgstr "토픽의 수:"
 
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
 msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
@@ -2624,7 +2630,7 @@ msgid "New User Registration not supported"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+msgid "New e-mails (space-separated list):"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2636,13 +2642,14 @@ msgstr ""
 msgid "New parent web:"
 msgstr "새로운 부모 Web:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-msgid "New password"
-msgstr "새로운 비밀번호"
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+#, fuzzy
+msgid "New password:"
+msgstr "새로운 비밀번호"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -2882,10 +2889,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 msgid "Password"
 msgstr "비밀번호"
 
@@ -2901,6 +2905,12 @@ msgstr "비밀번호 변경이 불가능합니다."
 #: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
 msgstr "비밀번호 초기화가 실패했습니다."
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+#, fuzzy
+msgid "Password:"
+msgstr "비밀번호"
 
 #: core/templates/registermessages.tmpl:127
 #, fuzzy
@@ -3130,7 +3140,7 @@ msgstr "빠른 검색"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 #, fuzzy
-msgid "Question"
+msgid "Question:"
 msgstr "버전"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3423,7 +3433,8 @@ msgid "Return to [_0] and supply a WikiName or Login Name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-msgid "Retype new password"
+#, fuzzy
+msgid "Retype new password:"
 msgstr "새 비밀번호 확인:"
 
 #: core/templates/messages.tmpl:27
@@ -3644,7 +3655,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr "먼저 그룹 %1 에서 사용자를 삭제하십시오."
 
 #: core/templates/more.tmpl:101
@@ -4333,7 +4344,7 @@ msgid ""
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-msgid "Title"
+msgid "Title:"
 msgstr ""
 
 #: core/templates/registerapprove.tmpl:12
@@ -4687,11 +4698,11 @@ msgid "Users cannot be removed from %1"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -5090,7 +5101,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-msgid "Your %1.LoginName"
+#, fuzzy
+msgid "Your %1.LoginName:"
 msgstr "당신의 %1.LoginName"
 
 #: core/templates/registermessages.tmpl:147

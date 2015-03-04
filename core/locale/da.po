@@ -211,7 +211,7 @@ msgstr "%1 blev flyttet fra %2 den %3 af %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr "Dit %1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -882,7 +882,7 @@ msgstr "Tilgængelige formular-skabeloner i %1-webbet"
 msgid "Back to topic"
 msgstr "Tilbage til siden"
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr "Referencer"
 
@@ -893,6 +893,11 @@ msgstr "Referencer til %1 fra %2 webbet"
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "Referencer til %1 fra alle offentlige webs"
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+#, fuzzy
+msgid "Backlinks:"
+msgstr "Referencer"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -1090,7 +1095,8 @@ msgid "Change topic"
 msgstr "Opdatér side"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Ændret af"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
@@ -1399,7 +1405,8 @@ msgid "Current location:"
 msgstr "Nuværende lokation:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+#, fuzzy
+msgid "Current password:"
 msgstr "Nuværende password:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -2176,11 +2183,11 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2710,16 +2717,16 @@ msgstr ""
 msgid "NEW"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
 msgstr ""
 
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
 msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
@@ -2746,7 +2753,7 @@ msgid "New User Registration not supported"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+msgid "New e-mails (space-separated list):"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2758,14 +2765,14 @@ msgstr ""
 msgid "New parent web:"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-#, fuzzy
-msgid "New password"
-msgstr "Forkert password"
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+#, fuzzy
+msgid "New password:"
+msgstr "Forkert password"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -3007,10 +3014,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 #, fuzzy
 msgid "Password"
 msgstr "Forkert password"
@@ -3029,6 +3033,12 @@ msgstr ""
 #, fuzzy
 msgid "Password reset failed"
 msgstr "Nulstilling af Foswiki-passwordet for %1"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+#, fuzzy
+msgid "Password:"
+msgstr "Forkert password"
 
 #: core/templates/registermessages.tmpl:127
 msgid "Passwords disabled"
@@ -3265,7 +3275,7 @@ msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 #, fuzzy
-msgid "Question"
+msgid "Question:"
 msgstr "Version"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3563,7 +3573,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 #, fuzzy
-msgid "Retype new password"
+msgid "Retype new password:"
 msgstr "Skift password"
 
 #: core/templates/messages.tmpl:27
@@ -3786,7 +3796,7 @@ msgstr ""
 #   $by)
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr "%1 blev flyttet fra %2 den %3 af %4"
 
 #: core/templates/more.tmpl:101
@@ -4488,7 +4498,7 @@ msgid ""
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-msgid "Title"
+msgid "Title:"
 msgstr ""
 
 #: core/templates/registerapprove.tmpl:12
@@ -4858,11 +4868,11 @@ msgid "Users cannot be removed from %1"
 msgstr "%1 blev flyttet fra %2 den %3 af %4"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -5259,7 +5269,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 #, fuzzy
-msgid "Your %1.LoginName"
+msgid "Your %1.LoginName:"
 msgstr "Dit %1.LoginName"
 
 #: core/templates/registermessages.tmpl:147

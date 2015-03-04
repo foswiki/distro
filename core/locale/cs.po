@@ -202,7 +202,7 @@ msgstr "uživatel  %4 přesunul %1 z %2 do %3"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr "Vaše %1.PřihlašovacíJméno"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -866,7 +866,7 @@ msgstr "Dostupné šablony pro web %1:"
 msgid "Back to topic"
 msgstr "Zpět na článek"
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr "Zpětné odkazy"
 
@@ -877,6 +877,11 @@ msgstr "Zpětné odkazy na %1 v %2 Webu"
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "Zpětné odkazy na %1 ve všech Webech"
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+#, fuzzy
+msgid "Backlinks:"
+msgstr "Zpětné odkazy"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -1073,7 +1078,8 @@ msgid "Change topic"
 msgstr "Změna článku"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Změněno uživatelem"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
@@ -1378,7 +1384,8 @@ msgid "Current location:"
 msgstr "Nyní jste zde:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+#, fuzzy
+msgid "Current password:"
 msgstr "Současné heslo"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -2147,11 +2154,11 @@ msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1."
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2692,10 +2699,6 @@ msgstr ""
 msgid "NEW"
 msgstr "NOVÝ"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 #, fuzzy
 msgid "Name of copy"
@@ -2704,6 +2707,10 @@ msgstr "Jméno kopie:"
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
 msgstr "Chybí jméno nového webu"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2727,7 +2734,8 @@ msgid "New User Registration not supported"
 msgstr "Registrace nových uživatelů není podporována"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+#, fuzzy
+msgid "New e-mails (space-separated list):"
 msgstr "Nové emailové adresy (mezerou oddělený seznam)"
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2739,13 +2747,14 @@ msgstr "Nový nebo změněný článek v %1, od %2:"
 msgid "New parent web:"
 msgstr "Nový nadřízený web"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-msgid "New password"
-msgstr "Nové heslo"
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+#, fuzzy
+msgid "New password:"
+msgstr "Nové heslo"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -2993,10 +3002,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 msgid "Password"
 msgstr "Heslo"
 
@@ -3012,6 +3018,12 @@ msgstr "Heslo nemohlo být změněno"
 #: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
 msgstr "Znovunastavení hesla bylo neúspěšné"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+#, fuzzy
+msgid "Password:"
+msgstr "Heslo"
 
 #: core/templates/registermessages.tmpl:127
 #, fuzzy
@@ -3252,7 +3264,7 @@ msgstr "Hledání pomocí dotazu"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 #, fuzzy
-msgid "Question"
+msgid "Question:"
 msgstr "Verze"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3552,7 +3564,8 @@ msgid "Return to [_0] and supply a WikiName or Login Name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-msgid "Retype new password"
+#, fuzzy
+msgid "Retype new password:"
 msgstr "Zopakujte Vaše nové heslo"
 
 #: core/templates/messages.tmpl:27
@@ -3777,7 +3790,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
 
 #: core/templates/more.tmpl:101
@@ -4515,7 +4528,7 @@ msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
-msgid "Title"
+msgid "Title:"
 msgstr "Název článku"
 
 #: core/templates/registerapprove.tmpl:12
@@ -4878,11 +4891,11 @@ msgid "Users cannot be removed from %1"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -5314,7 +5327,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-msgid "Your %1.LoginName"
+#, fuzzy
+msgid "Your %1.LoginName:"
 msgstr "Vaše %1.PřihlašovacíJméno"
 
 #: core/templates/registermessages.tmpl:147

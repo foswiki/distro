@@ -210,7 +210,7 @@ msgstr "%1 перемещена из %2 в %3 пользователем %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
-msgid "%1.LoginName"
+msgid "%1.LoginName:"
 msgstr "Ваше [[%1.LoginName][ИмяПользователя]]"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
@@ -885,7 +885,7 @@ msgstr "Доступные шаблоны в разделе %1:"
 msgid "Back to topic"
 msgstr "Вернуться к теме"
 
-#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87
 msgid "Backlinks"
 msgstr "Обратные ссылки"
 
@@ -896,6 +896,11 @@ msgstr "Обратные ссылки на %1 в разделе %2"
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "Обратные ссылки на %1 во всех разделах"
+
+#: core/templates/viewtopicactionbuttons.tmpl:101
+#, fuzzy
+msgid "Backlinks:"
+msgstr "Обратные ссылки"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -1096,7 +1101,8 @@ msgid "Change topic"
 msgstr "Изменить тему"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Изменен(ы) "
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
@@ -1406,7 +1412,8 @@ msgid "Current location:"
 msgstr "Текущее размещение:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-msgid "Current password"
+#, fuzzy
+msgid "Current password:"
 msgstr "Текущий пароль"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
@@ -2185,11 +2192,11 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
 msgstr "Если у вас есть какие-либо вопросы, пожалуйста, свяжитесь с %1"
 
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
@@ -2736,10 +2743,6 @@ msgstr ""
 msgid "NEW"
 msgstr "НОВАЯ"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
-msgid "Name"
-msgstr ""
-
 #: core/templates/more.tmpl:31
 #, fuzzy
 msgid "Name of copy"
@@ -2748,6 +2751,10 @@ msgstr "Имя копии:"
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
 msgstr "Отсутствует имя нового раздела"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2771,7 +2778,8 @@ msgid "New User Registration not supported"
 msgstr "Регистрация новых пользователей не поддерживается"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
-msgid "New e-mails (space-separated list)"
+#, fuzzy
+msgid "New e-mails (space-separated list):"
 msgstr "Новые адреса электронной почты (список разделенный пробелами)"
 
 #: MailerContrib/templates/mailnotify.tmpl:84
@@ -2783,13 +2791,14 @@ msgstr "Новые или измененные темы в %1, после %2:"
 msgid "New parent web:"
 msgstr "Новый родительский раздел:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-msgid "New password"
-msgstr "Новый пароль"
-
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid "New password did not match existing password for this user"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+#, fuzzy
+msgid "New password:"
+msgstr "Новый пароль"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -3035,10 +3044,7 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
-#: PatternSkin/templates/login.pattern.tmpl:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:67
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
 msgid "Password"
 msgstr "Пароль"
 
@@ -3054,6 +3060,12 @@ msgstr "Пароль не может быть изменён"
 #: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
 msgstr "Не удалось сбросить пароль"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+#, fuzzy
+msgid "Password:"
+msgstr "Пароль"
 
 #: core/templates/registermessages.tmpl:127
 #, fuzzy
@@ -3306,7 +3318,7 @@ msgstr "Запросный поиск"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 #, fuzzy
-msgid "Question"
+msgid "Question:"
 msgstr "Версия"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -3608,7 +3620,8 @@ msgid "Return to [_0] and supply a WikiName or Login Name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-msgid "Retype new password"
+#, fuzzy
+msgid "Retype new password:"
 msgstr "Введите новый пароль повторно"
 
 #: core/templates/messages.tmpl:27
@@ -3834,7 +3847,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
-msgid "Select members to remove from this group"
+msgid "Select members to remove from this group:"
 msgstr "Сначала удалите пользователя из групп(ы) %1."
 
 #: core/templates/more.tmpl:101
@@ -4586,7 +4599,7 @@ msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
-msgid "Title"
+msgid "Title:"
 msgstr "Заголовок темы"
 
 #: core/templates/registerapprove.tmpl:12
@@ -4951,11 +4964,11 @@ msgid "Users cannot be removed from %1"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-msgid "Users who may edit"
+msgid "Users who may edit:"
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-msgid "Users who may view"
+msgid "Users who may view:"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:316
@@ -5395,7 +5408,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-msgid "Your %1.LoginName"
+#, fuzzy
+msgid "Your %1.LoginName:"
 msgstr "Ваше [[%1.LoginName][ИмяПользователя]]"
 
 #: core/templates/registermessages.tmpl:147
