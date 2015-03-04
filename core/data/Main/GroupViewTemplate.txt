@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417294557" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
@@ -230,7 +230,7 @@ then='
      <input type=\"hidden\" name=\"action\" value=\"removeUserFromGroup\" />
      <div class=\"foswikiFormSteps\">
      <div class=\"foswikiFormStep\">
-     <h3>%MAKETEXT{"Select members to remove from this group"}%:</h3>"
+     <h3>%MAKETEXT{"Select members to remove from this group:"}%</h3>"
    format="<label style=\"display:block\">
       <input type=\"checkbox\" name=\"username\" value=\"$wikiname\" /> <nop>$wikiname
       </label>"

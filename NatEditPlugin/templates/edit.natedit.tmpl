@@ -114,7 +114,7 @@
   <input type="hidden" name="Default+PERMSET_VIEW_DETAILS" value="" />
   <input type="hidden" name="Default+PERMSET_CHANGE_DETAILS" value="" />
   <div class="foswikiFormStep ui-natedit-view-perms">
-    <h3>%MAKETEXT{"Users who may view"}%:</h3>
+    <h3>%MAKETEXT{"Users who may view:"}%</h3>
     <label title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>
       <input type="radio" class="foswikiRadioButton" data-perm-type="view" name="Local+PERMSET_VIEW" value="default" %IF{"$'PERMSET_VIEW'='default' OR isempty 'PERMSET_VIEW'" then="checked"}% /> 
       %MAKETEXT{"Default"}%
@@ -150,7 +150,7 @@
     </div>
   </div>
   <div class="foswikiFormStep ui-natedit-change-perms">
-    <h3>%MAKETEXT{"Users who may edit"}%:</h3>
+    <h3>%MAKETEXT{"Users who may edit:"}%</h3>
     <label title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>
       <input type="radio" class="foswikiRadioButton" data-perm-type="change" name="Local+PERMSET_CHANGE" value="default" %IF{"$'PERMSET_CHANGE'='default' OR isempty 'PERMSET_CHANGE'" then="checked"}% /> 
       %MAKETEXT{"Default"}%

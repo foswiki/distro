@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
@@ -62,14 +62,14 @@ You can create your own local FAQ topics specific to your site. If you create yo
     <h2>Create a new FAQ topic</h2>
   </div>
   <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Title"}%:</h3>
+    <h3>%MAKETEXT{"Title:"}%</h3>
     <input type="text" class="foswikiInputField" id="faqsummary" name="TopicTitle" size="32" />
     <div class="foswikiFormDescription foswikiGrayText">
       Give this FAQ a descriptive title, e.g. "Explanation of ..." 
     </div>
   </div>
   <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Question"}%:</h3>
+    <h3>%MAKETEXT{"Question:"}%</h3>
     <input type="text" class="foswikiInputField" id="faqsummary" name="TopicSummary" size="32" value="" />
     <div class="foswikiFormDescription foswikiGrayText">
       Summarize your question in a few simple words, e.g. "I did this ..., how do I ..."

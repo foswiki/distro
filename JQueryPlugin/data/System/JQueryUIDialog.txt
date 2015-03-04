@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418730020" format="1.1" reprev="3" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -149,11 +149,11 @@ $("#mydialog").bind("dialogclose", function() {
 <!-- position:'top' would be nicer but doesn't work for some reasons -->
   <table class='foswikiLayoutTable'>
     <tr>
-      <th>%MAKETEXT{"Name"}%:</th>
+      <th>%MAKETEXT{"Name:"}%</th>
       <td><input type="text" size="50" name="name" class="foswikiInputField" /></td>
     </tr>
     <tr>
-      <th>%MAKETEXT{"Password"}%:</th>
+      <th>%MAKETEXT{"Password:"}%</th>
       <td><input type="password" size="50" name="password" class="foswikiInputField" /></td>
     </tr>
   </table>
