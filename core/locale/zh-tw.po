@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-02-25 04:54+0200\n"
+"PO-Revision-Date: 2015-03-04 04:35+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -423,35 +423,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:29
 msgid "1 hour ago"
-msgstr ""
+msgstr "一小時前"
 
 #: core/data/System/SiteChanges.txt:34
 msgid "1 week ago"
-msgstr ""
+msgstr "1 週前"
 
 #: core/data/System/SiteChanges.txt:31
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 小時前"
 
 #: core/data/System/SiteChanges.txt:35
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 週前"
 
 #: core/data/System/SiteChanges.txt:32
 msgid "24 hours ago"
-msgstr ""
+msgstr "24小時前"
 
 #: core/data/System/SiteChanges.txt:33
 msgid "3 days ago"
-msgstr ""
+msgstr "3天前"
 
 #: core/data/System/SiteChanges.txt:36
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4週前"
 
 #: core/data/System/SiteChanges.txt:30
 msgid "6 hours ago"
-msgstr ""
+msgstr "6小時前"
 
 #: core/data/System/WebChanges.txt:19
 msgid ""
@@ -477,34 +477,29 @@ msgstr "<em>在所有公開的子網</em>"
 msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
-msgstr ""
+msgstr "<nop>%1 (%2) 會以電郵通知他們的註冊已被拒絕。"
 
 #: core/templates/registermessages.tmpl:57
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
-msgstr ""
+msgstr "<nop>%1 <%2> 已經以電郵通知他們的註冊已被拒絕"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
-msgstr ""
-"<strong>需要確認！</strong><span>按 OK 確認此變更</span><span>若否按取消</"
-"span>"
+msgstr "<strong>需要確認！</strong>按 OK 確認此變更是故意的<br/>否按取消"
 
 #: core/templates/messages.tmpl:233
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "因安全考量，部分檔案加上 =.txt= 的副檔名"
+msgstr "因安全考量，部分檔案會加上 =.txt= 的副檔名"
 
 #: core/templates/messages.tmpl:403 core/templates/messages.tmpl:414
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr ""
-"Foswiki 網站分成多個子網；每個子網包含一個主題/合作計劃。您想瀏覽的 %2 子網不"
-"存在。"
+msgstr "Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 子網不存在。"
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -515,7 +510,7 @@ msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組�
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1284
 msgid "A confirmation e-mail has been sent to %1"
-msgstr "確認的電子郵件已寄往 %1 "
+msgstr "確認的電子郵件已寄往 %1"
 
 #: core/templates/messages.tmpl:407 core/templates/messages.tmpl:418
 msgid ""
@@ -526,14 +521,11 @@ msgstr ""
 "與 %1 相似的主題在另一個子網內。請確認子網名沒有拼錯；必要時請修正連結。"
 
 #: core/templates/messages.tmpl:366
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
-msgstr ""
-"系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱，若您的註冊信"
-"箱失效，請聯繫 %3"
+msgstr "系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信箱失效，請聯繫 %3。"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -578,12 +570,10 @@ msgid "Action"
 msgstr "功能"
 
 #: core/templates/messages.tmpl:379
-#, fuzzy
 msgid "Action %1: %2 by user %3."
-msgstr "功能 %1: %2."
+msgstr "功能 %1: %2 由使用者 %."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
 msgstr "功能"
 
@@ -593,15 +583,13 @@ msgid "Add"
 msgstr "增加"
 
 #: core/data/Main/GroupViewTemplate.txt:202
-#, fuzzy
 msgid "Add Members to"
-msgstr "成員"
+msgstr "增加成員至"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
-#, fuzzy
 msgid "Add a new form to <nop>%1"
-msgstr "為 %1 選個新表單"
+msgstr "為 <nop>%1 加一個新表單"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
@@ -609,19 +597,16 @@ msgid "Add form"
 msgstr "增加表單"
 
 #: core/data/Main/GroupViewTemplate.txt:211
-#, fuzzy
 msgid "Add members"
-msgstr "成員"
+msgstr "增加成員"
 
 #: core/data/Main/GroupViewTemplate.txt:162
-#, fuzzy
 msgid "Add members..."
-msgstr "增加使用者…"
+msgstr "增加成員…"
 
 #: core/data/Main/GroupViewTemplate.txt:188
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "編輯本主題的設定…"
+msgstr "為本主題增加使用者管理設定。"
 
 #: core/templates/messages.tmpl:220
 msgid "Adding a %1 preference in WebPreferences"
@@ -636,9 +621,8 @@ msgid "Admin Maintenance"
 msgstr "管理員維護"
 
 #: core/data/Main/GroupViewTemplate.txt:160
-#, fuzzy
 msgid "Administration"
-msgstr "註冊"
+msgstr "管理"
 
 #: core/data/System/WebSearch.txt:86
 msgid "Advanced search"
@@ -678,9 +662,8 @@ msgid "All public webs"
 msgstr "所有公開的子網"
 
 #: core/templates/foswiki.tmpl:45
-#, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "允許新主題名稱使用非<nop>WikiWord"
+msgstr "新主題名稱只能使用 <nop>WikiWord"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -704,12 +687,10 @@ msgid ""
 msgstr "若本主題被其他用戶鎖住，將會出現錯誤頁提示。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr ""
-"在您不知情的情況下，有人可能試著以您的登入身份變更您網頁的內容。<span class="
+msgstr "在您不知情的狀況下，有人可能試著以您的登入身份變更您網頁的內容。"
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
@@ -730,10 +711,9 @@ msgstr "附加新檔"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
-msgstr "title='為這個主題增加圖片或檔案' accesskey='a'>增加附件(&A)"
+msgstr "為這個主題增加圖片或檔案；管理現存附件 (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -784,9 +764,8 @@ msgid "Attachments"
 msgstr "附件 "
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "%1 的附件"
+msgstr "附件 %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -932,9 +911,8 @@ msgid "Cancel editing and discard changes"
 msgstr "取消編輯並放棄變更"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
-#, fuzzy
 msgid "Cancel upload"
-msgstr "取消"
+msgstr "取消上傳"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
@@ -965,9 +943,8 @@ msgid "Center align"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "電子信箱"
+msgstr "改變電子信箱"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -982,12 +959,10 @@ msgid "Change comment and properties only"
 msgstr "只變更評論及屬性"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
-#, fuzzy
 msgid "Change e-mail address"
-msgstr "電子郵件地址錯誤"
+msgstr "改變電子信箱"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
-#, fuzzy
 msgid "Change form"
 msgstr "改自"
 
@@ -1039,9 +1014,8 @@ msgstr "變更者:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "已變更"
+msgstr "改變於"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1133,9 +1107,8 @@ msgid "Comment"
 msgstr "評論"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
-#, fuzzy
 msgid "Commenting is disabled for static viewing"
-msgstr "非瀏覽模式，禁止評論"
+msgstr "靜態瀏覽模式禁止評論"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
 msgid "Commenting is disabled when not in view context"
@@ -1179,9 +1152,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "模式："
+msgstr "內文"
 
 #: core/templates/messages.tmpl:277
 msgid "Continue and try to rename web?"
@@ -1266,14 +1238,12 @@ msgid "Create a new group"
 msgstr "建立新群組"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
-#, fuzzy
 msgid "Create a new table"
-msgstr "建立新群組"
+msgstr "建立新表格"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
-#, fuzzy
 msgid "Create account"
-msgstr "建立群組"
+msgstr "建立帳號"
 
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
@@ -1285,9 +1255,8 @@ msgstr "建立新的熱門問答主題"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
-#, fuzzy
 msgid "Create new topic"
-msgstr "建立新的熱門問答主題"
+msgstr "建立新主題"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
@@ -1295,9 +1264,8 @@ msgid "Create not specified and group does not exist"
 msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:21
-#, fuzzy
 msgid "Create personal sidebar"
-msgstr "編輯個人資料"
+msgstr "建立個人的側欄"
 
 #: core/templates/messages.tmpl:427
 msgid "Create the topic"
@@ -1346,9 +1314,8 @@ msgstr "除錯"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:120
 #: NatEditPlugin/templates/edit.natedit.tmpl:156
-#, fuzzy
 msgid "Default"
-msgstr "預設範本"
+msgstr "預設"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Default template"
@@ -1379,14 +1346,12 @@ msgid "Describe the file so other people know what it is."
 msgstr "檔案說明，方便其他人瞭解檔案內容。"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "問題"
+msgstr "描述"
 
 #: core/data/System/WebIndex.txt:3
-#, fuzzy
 msgid "Detailed topic list for %1 Web"
-msgstr "在%1子網中的子主題"
+msgstr "%1 子網內的詳細主題清單"
 
 #: core/lib/Foswiki/Form.pm:422
 msgid "Details in separate window"
@@ -1428,9 +1393,8 @@ msgid "Do not show attachment in table"
 msgstr "表格內不顯示附件"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:16
-#, fuzzy
 msgid "Documentation"
-msgstr "目前位置:"
+msgstr "文件"
 
 #: core/data/System/WebSearch.txt:209
 msgid "Don't show:"
@@ -1507,9 +1471,8 @@ msgid "Edit"
 msgstr "編輯"
 
 #: core/data/System/VarMAKETEXT.txt:61
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,分鐘) "
+msgstr "編輯 %*(%1,檔案)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1529,18 +1492,16 @@ msgstr "編輯本主題的設定…"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "編輯這個主題"
+msgstr "編輯本主題內文 (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "編輯主題屬性設定"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:48
-#, fuzzy
 msgid "Editable"
-msgstr "編輯表格"
+msgstr "可編輯"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
