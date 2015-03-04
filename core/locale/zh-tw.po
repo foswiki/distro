@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-04 05:23+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,7 +246,7 @@ msgstr "(*建議：*上傳您的圖片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -376,7 +376,9 @@ msgstr "(忽略)"
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
-msgstr "*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電郵。"
+msgstr ""
+"*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電"
+"郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -465,11 +467,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>個，<a href='%6' rel='nofollow'>1000</a>個主"
 "題，<a href='%7' rel='nofollow'>所有主題</a>"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
 msgstr "只<em>在 %1 子網</em>中"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
 msgstr "<em>在所有公開的子網</em>"
 
@@ -499,7 +501,9 @@ msgstr "因安全考量，部分檔案會加上 =.txt= 的副檔名"
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr "Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 子網不存在。"
+msgstr ""
+"Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 "
+"子網不存在。"
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -525,7 +529,9 @@ msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
-msgstr "系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信箱失效，請聯繫 %3。"
+msgstr ""
+"系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信"
+"箱失效，請聯繫 %3。"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -811,7 +817,7 @@ msgstr " %1 子網可用的範本"
 msgid "Back to topic"
 msgstr "回到主題"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
 msgid "Backlinks"
 msgstr "反向連結"
 
@@ -1049,7 +1055,7 @@ msgstr "選擇的主題，文中連結將更改為新主題。"
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "選定的主題，文中連結將更改為新子網。"
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "在%1子網中的子主題"
 
@@ -1122,7 +1128,7 @@ msgstr "未登入，禁止評論"
 msgid "Commenting is disabled while running from the command line"
 msgstr "命令列模式中，禁止評論"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -1167,7 +1173,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:556
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1308,7 +1314,7 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "除錯"
 
@@ -1333,11 +1339,11 @@ msgstr "刪除"
 msgid "Delete attachment"
 msgstr "刪除附件"
 
-#: core/templates/more.tmpl:50
+#: core/templates/more.tmpl:51
 msgid "Delete topic"
 msgstr "刪除主題"
 
-#: core/templates/more.tmpl:60
+#: core/templates/more.tmpl:61
 msgid "Delete topic..."
 msgstr "刪除主題..."
 
@@ -1663,7 +1669,7 @@ msgstr "檔案已用其他名稱上傳"
 msgid "Find similar topics"
 msgstr "尋找相似主題"
 
-#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
@@ -1680,7 +1686,9 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
-msgstr "有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽要求的文章]]。"
+msgstr ""
+"有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽"
+"要求的文章]]。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -2319,7 +2327,7 @@ msgstr "最後修改時間"
 msgid "Last name"
 msgstr "姓"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "最新版本: %1"
 
@@ -2521,7 +2529,7 @@ msgstr "我的連結"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1256
+#: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "新"
 
@@ -2590,7 +2598,7 @@ msgstr "本站禁止新用戶註冊。"
 msgid "New web name:"
 msgstr "新子網名稱:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "新版本:"
 
@@ -2610,7 +2618,7 @@ msgstr "無成員"
 msgid "No changes"
 msgstr "無變更"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "No child topics"
 msgstr "無子主題"
 
@@ -2627,7 +2635,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "無瀏覽 %1 的權限"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
@@ -2747,7 +2755,7 @@ msgstr "OK，這仍是我！"
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "舊版本:"
 
@@ -2764,7 +2772,7 @@ msgstr "只有 %1 的成員允許使用這些功能。"
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
 msgid "Only update linked topics in %1 web"
 msgstr "只更新 %1 子網中的連結"
 
@@ -2789,7 +2797,7 @@ msgstr "輸入不同的附件名稱（非必要）:"
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "選項"
 
@@ -3232,11 +3240,11 @@ msgstr "改名失敗"
 msgid "Rename or move %1"
 msgstr "主題改名或移動為 %1"
 
-#: core/templates/more.tmpl:69
+#: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "主題改名或移動"
 
-#: core/templates/more.tmpl:77
+#: core/templates/more.tmpl:78
 msgid "Rename or move topic..."
 msgstr "主題改名或移動…"
 
@@ -3286,7 +3294,7 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "重設或設定密碼並非由 Foswiki 處理"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "還原…"
@@ -3305,19 +3313,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "還原主題"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "還原主題"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "還原主題至版本:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "還原主題至這個版本"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3325,7 +3333,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 #, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "因主題內容禁止在 WYSIWYG 編輯中轉換成 HTML。 "
@@ -3383,7 +3391,7 @@ msgstr "修訂版"
 msgid "Revision history of %1"
 msgstr "%1 的版本歷史"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "修訂版"
 
@@ -3462,7 +3470,7 @@ msgid "Search all webs"
 msgstr "搜尋所有子網 "
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "Search all webs for topics that link to here"
 msgstr "搜尋在所有子網中連結至此的主題"
 
@@ -3495,7 +3503,7 @@ msgstr "搜尋結果"
 msgid "Search string"
 msgstr "搜尋字串"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
 msgstr "在 %1 子網中搜尋連結至此的主題"
 
@@ -3580,7 +3588,7 @@ msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 msgid "Select members to remove from this group"
 msgstr "將用戶自群組中刪除"
 
-#: core/templates/more.tmpl:100
+#: core/templates/more.tmpl:101
 msgid "Select topic parent"
 msgstr "選擇父主題"
 
@@ -3601,7 +3609,7 @@ msgstr "不支援新用戶註冊"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "連續的"
 
@@ -3609,11 +3617,11 @@ msgstr "連續的"
 msgid "Set all"
 msgstr "設定所有"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "設定新父主題 "
 
-#: core/templates/more.tmpl:96
+#: core/templates/more.tmpl:97
 msgid "Set new topic parent"
 msgstr "設定新父主題"
 
@@ -3636,7 +3644,7 @@ msgstr "修訂版 %1 - %2 (出自 %3)"
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "並列"
 
@@ -4229,7 +4237,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:558
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -4681,7 +4689,7 @@ msgstr "檢視主題完整修訂史"
 msgid "View difference"
 msgstr "檢視差異"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "檢視差異"
@@ -4696,7 +4704,7 @@ msgstr "檢視範本"
 msgid "View later"
 msgstr "檢視範本"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "檢視主題的前一個版本"
 
@@ -4704,12 +4712,12 @@ msgstr "檢視主題的前一個版本"
 msgid "View raw text without formatting"
 msgstr "檢視源碼"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "檢視修訂版:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "檢視修訂版:"
 
@@ -5054,9 +5062,6 @@ msgid "You will receive an e-mail when your registration has been approved"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "Your"
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -5265,7 +5270,7 @@ msgstr "説明"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "源碼模式"
 

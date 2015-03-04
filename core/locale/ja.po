@@ -257,7 +257,7 @@ msgstr "(*提案:* あなたのトピックに関するピクチャをアップ�
 msgid "(=all= to show all topics)"
 msgstr "(=全て= 全てのトピックを表示します)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
 msgstr "(このメッセージは自動に取り去れます。)"
 
@@ -487,11 +487,11 @@ msgstr ""
 "<a href='%5' rel='nofollow'>500件</a>, <a href='%6' rel='nofollow'>1000件</"
 "a> topics, <a href='%7' rel='nofollow'>全ての更新トピック</a>"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
 msgstr "<em> %1 ウェブ</em> のみにあります"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
 msgstr "全てのパブリックウェブにあります"
 
@@ -876,7 +876,7 @@ msgstr "%1にある使用可のテンプレート"
 msgid "Back to topic"
 msgstr "トピックに戻ります"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
 msgid "Backlinks"
 msgstr "バックリンク"
 
@@ -1125,7 +1125,7 @@ msgstr "チェックされたトピックが更新され、新しいトピック
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "チェックされたトピックが更新され、新しいウェブ名へリンクされます"
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
 
@@ -1199,7 +1199,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "バージョン比較"
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:556
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1400,7 +1400,7 @@ msgstr "日付"
 msgid "Dear %1"
 msgstr "尊敬する %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -1426,11 +1426,11 @@ msgstr "削除"
 msgid "Delete attachment"
 msgstr "添付ファイルを削除します"
 
-#: core/templates/more.tmpl:50
+#: core/templates/more.tmpl:51
 msgid "Delete topic"
 msgstr "トピックを削除します"
 
-#: core/templates/more.tmpl:60
+#: core/templates/more.tmpl:61
 msgid "Delete topic..."
 msgstr "トピックを削除..."
 
@@ -1786,7 +1786,7 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
 
@@ -2486,7 +2486,7 @@ msgstr "最新更新時間"
 msgid "Last name"
 msgstr "名："
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(改訂 %1)"
@@ -2700,7 +2700,7 @@ msgstr "マイリンク"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1256
+#: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "新"
 
@@ -2772,7 +2772,7 @@ msgstr ""
 msgid "New web name:"
 msgstr "新ウェブ名:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "新バージョン："
 
@@ -2793,7 +2793,7 @@ msgstr ""
 msgid "No changes"
 msgstr "(変更)"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "No child topics"
 msgstr "子トピック無し"
 
@@ -2810,7 +2810,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr " %1を見る権限がありません"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "前のトピックバージョンが存在しません"
 
@@ -2934,7 +2934,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "古いバージョン"
 
@@ -2951,7 +2951,7 @@ msgstr "%1のメンバーのみこの操作を行うことが許可されます"
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
@@ -2979,7 +2979,7 @@ msgstr "又は違うトピック名をご入力ください："
 msgid "Optionally enter a different topic name:"
 msgstr "又は違うトピック名をご入力ください："
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "変更"
@@ -3433,11 +3433,11 @@ msgstr "リネームに失敗しました"
 msgid "Rename or move %1"
 msgstr "トピックをリネーム又は移動します"
 
-#: core/templates/more.tmpl:69
+#: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "トピックをリネーム又は移動します"
 
-#: core/templates/more.tmpl:77
+#: core/templates/more.tmpl:78
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "トピックをリネーム又は移動します"
@@ -3490,7 +3490,7 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "回復"
@@ -3509,19 +3509,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "保存して閉じます"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "トピックを回復します"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "トピックを改訂版に回復します"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "トピックをこの改訂版に回復します"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3529,7 +3529,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3588,7 +3588,7 @@ msgstr "改訂"
 msgid "Revision history of %1"
 msgstr "%1 のバージョンヒストリー"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "改訂"
 
@@ -3667,7 +3667,7 @@ msgid "Search all webs"
 msgstr "全てのウェブを検索します"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "Search all webs for topics that link to here"
 msgstr "全てのウェブからここへリンクされるトピックを検索します"
 
@@ -3705,7 +3705,7 @@ msgstr "(検索結果)"
 msgid "Search string"
 msgstr "検索する文字列"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
 msgstr "%1ウェブからここへリンクされるトピックを検索します"
 
@@ -3792,7 +3792,7 @@ msgstr ""
 msgid "Select members to remove from this group"
 msgstr "まず、ユーザーをグループ %1から削除してください"
 
-#: core/templates/more.tmpl:100
+#: core/templates/more.tmpl:101
 #, fuzzy
 msgid "Select topic parent"
 msgstr "親トピックを選択してください："
@@ -3814,7 +3814,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -3822,11 +3822,11 @@ msgstr "シーケンシャル"
 msgid "Set all"
 msgstr "全て設定"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "新しい親トピックを設定します"
 
-#: core/templates/more.tmpl:96
+#: core/templates/more.tmpl:97
 msgid "Set new topic parent"
 msgstr "新しい親トピックを設定します"
 
@@ -3848,7 +3848,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "並列"
 
@@ -4461,7 +4461,7 @@ msgstr ""
 "これはごみ箱です。ここでトピックをオンデリートすることができます。削除された"
 "添付ファイルは TrashAttachment にあります"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:558
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4928,7 +4928,7 @@ msgstr "トータルトピックヒストリーを確認します"
 msgid "View difference"
 msgstr "差異を確認します"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "差異を確認します"
@@ -4943,7 +4943,7 @@ msgstr "テンプレートを確認します"
 msgid "View later"
 msgstr "テンプレートを確認します"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "前のトピックバージョンを確認します"
 
@@ -4951,12 +4951,12 @@ msgstr "前のトピックバージョンを確認します"
 msgid "View raw text without formatting"
 msgstr "ファーマットされていない元のテキストを確認します"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "改訂を確認します"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "改訂を確認します"
 
@@ -5310,9 +5310,6 @@ msgid "You will receive an e-mail when your registration has been approved"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "Your"
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -5529,7 +5526,7 @@ msgstr "ヘルプ"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "元のテキストフォーマット"
 

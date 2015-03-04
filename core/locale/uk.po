@@ -259,7 +259,7 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr "(введіть =all= для виводу без обмежень)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -494,11 +494,11 @@ msgstr ""
 "rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> теми, <a "
 "href='%7' rel='nofollow'>всі зміни</a>"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
 msgstr "тільки <em>у розділі %1 </em>"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
 msgstr "<em>у всіх загальнодоступних розділах</em>"
 
@@ -883,7 +883,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "Повернутися до теми"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
 msgid "Backlinks"
 msgstr "Зворотні посилання"
 
@@ -1136,7 +1136,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Текст відмічених тем буде оновлений так, щоб вказувати на нове ім'я розділу."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Дочірні теми в розділі %1"
 
@@ -1211,7 +1211,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Порівняти редакції"
 
@@ -1258,7 +1258,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:556
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1413,7 +1413,7 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Любий(а) %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Відладка"
 
@@ -1439,11 +1439,11 @@ msgstr "Вилучити"
 msgid "Delete attachment"
 msgstr "Вилучити файл"
 
-#: core/templates/more.tmpl:50
+#: core/templates/more.tmpl:51
 msgid "Delete topic"
 msgstr "Вилучити тему"
 
-#: core/templates/more.tmpl:60
+#: core/templates/more.tmpl:61
 msgid "Delete topic..."
 msgstr "Вилучити тему..."
 
@@ -1804,7 +1804,7 @@ msgstr "Файл був завантажений з іншим ім'ям"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
 msgstr "Знайти теми, що посилаються на %1 ..."
 
@@ -2513,7 +2513,7 @@ msgstr "Часу останньої зміни"
 msgid "Last name"
 msgstr "Прізвище:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(редакція)"
@@ -2725,7 +2725,7 @@ msgstr "Мої посилання"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1256
+#: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "НОВА"
 
@@ -2797,7 +2797,7 @@ msgstr ""
 msgid "New web name:"
 msgstr "Нове ім'я розділу:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Молодша редакція:"
 
@@ -2818,7 +2818,7 @@ msgstr ""
 msgid "No changes"
 msgstr "(зміни)"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "No child topics"
 msgstr "Немає дочерніх тим"
 
@@ -2835,7 +2835,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Немає прав для перегляду %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr ""
 
@@ -2961,7 +2961,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Старша редакція:"
 
@@ -2978,7 +2978,7 @@ msgstr "Тільки членам %1 дозволено виконати цю д
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "Дочірні теми в розділі %1"
@@ -3006,7 +3006,7 @@ msgstr "Введіть іншу назву теми, якщо це необхі�
 msgid "Optionally enter a different topic name:"
 msgstr "Введіть іншу назву теми, якщо це необхідно:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Дія"
@@ -3470,11 +3470,11 @@ msgstr "Не вдалося перейменувати"
 msgid "Rename or move %1"
 msgstr "Перейменувати або перемістити тему"
 
-#: core/templates/more.tmpl:69
+#: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "Перейменувати або перемістити тему"
 
-#: core/templates/more.tmpl:77
+#: core/templates/more.tmpl:78
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "Перейменувати або перемістити тему"
@@ -3527,7 +3527,7 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Відновити"
@@ -3546,19 +3546,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Відновити тему"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Відновити тему"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr ""
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr ""
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3566,7 +3566,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3625,7 +3625,7 @@ msgstr "Редакція"
 msgid "Revision history of %1"
 msgstr "Історія версій %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Редакції"
 
@@ -3705,7 +3705,7 @@ msgid "Search all webs"
 msgstr ""
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "Search all webs for topics that link to here"
 msgstr "Знайти по всіх розділах теми, що посилаються сюди"
 
@@ -3743,7 +3743,7 @@ msgstr "(результат пошуку)"
 msgid "Search string"
 msgstr "Рядок пошуку"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Шукати у розділі %1 теми, що посилаються на цю"
 
@@ -3831,7 +3831,7 @@ msgstr ""
 msgid "Select members to remove from this group"
 msgstr "Спочатку вилучте користувача з груп(и) %1."
 
-#: core/templates/more.tmpl:100
+#: core/templates/more.tmpl:101
 #, fuzzy
 msgid "Select topic parent"
 msgstr "Встановити нового батька для теми"
@@ -3852,7 +3852,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Послідовно"
 
@@ -3860,11 +3860,11 @@ msgstr "Послідовно"
 msgid "Set all"
 msgstr "Встановити все"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr ""
 
-#: core/templates/more.tmpl:96
+#: core/templates/more.tmpl:97
 msgid "Set new topic parent"
 msgstr "Встановити нового батька для теми"
 
@@ -3886,7 +3886,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "У дві колонки"
 
@@ -4508,7 +4508,7 @@ msgstr ""
 "Це Звалище. Тут Ви можете відновити раніше вилучені теми; вилучені файли "
 "знаходяться в TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:558
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4977,7 +4977,7 @@ msgstr "Проглянути повну історію змін сторінки
 msgid "View difference"
 msgstr "Подивитися відмінності"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Подивитися відмінності"
@@ -4992,7 +4992,7 @@ msgstr "Проглянути шаблони"
 msgid "View later"
 msgstr "Проглянути шаблони"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Проглянути попередню редакцію"
 
@@ -5000,12 +5000,12 @@ msgstr "Проглянути попередню редакцію"
 msgid "View raw text without formatting"
 msgstr "Проглянути початковий текст, без форматування"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Молодша редакція:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr ""
 
@@ -5370,9 +5370,6 @@ msgid "You will receive an e-mail when your registration has been approved"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "Your"
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -5590,7 +5587,7 @@ msgstr "допомога"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "у вигляді початкового тексту"
 

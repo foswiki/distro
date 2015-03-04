@@ -253,7 +253,7 @@ msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -487,11 +487,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "pagina&#39;s, <a href='%7' rel='nofollow'>alle wijzigingen</a>"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
 msgstr "alleen <em>in %1 web</em>"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
 msgstr "<em>in alle publieke webs</em>"
 
@@ -882,7 +882,7 @@ msgstr "Beschikbare templates in %1 Web:"
 msgid "Back to topic"
 msgstr "Terug naar pagina"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
 msgid "Backlinks"
 msgstr "Verwijzingen"
 
@@ -1134,7 +1134,7 @@ msgstr ""
 "Aangevinkte pagina&#39;s zullen worden geupdate zodat ze verwijzen naar de "
 "nieuwe webnaam."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
 
@@ -1209,7 +1209,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Vergelijk revisies"
 
@@ -1258,7 +1258,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "Ga door en maak het nieuwe %1 web aan"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:556
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1412,7 +1412,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Beste %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debuggen"
 
@@ -1438,11 +1438,11 @@ msgstr "Verwijder"
 msgid "Delete attachment"
 msgstr "Bijlage verwijderen"
 
-#: core/templates/more.tmpl:50
+#: core/templates/more.tmpl:51
 msgid "Delete topic"
 msgstr "Pagina verwijderen"
 
-#: core/templates/more.tmpl:60
+#: core/templates/more.tmpl:61
 msgid "Delete topic..."
 msgstr "Verwijder pagina..."
 
@@ -1805,7 +1805,7 @@ msgstr "Het bestand is geupload met een andere naam"
 msgid "Find similar topics"
 msgstr "Vind soortgelijke pagina's"
 
-#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
 msgstr "Pagina's die verwijzen naar %1 ..."
 
@@ -2521,7 +2521,7 @@ msgstr "Laatst bewerkt op"
 msgid "Last name"
 msgstr "Achternaam:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(revisie %1)"
@@ -2732,7 +2732,7 @@ msgstr "Mijn links"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1256
+#: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "NIEUW"
 
@@ -2804,7 +2804,7 @@ msgstr "Registratie van nieuwe gebruikers is gedeactiveerd"
 msgid "New web name:"
 msgstr "Nieuwe webnaam:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
@@ -2825,7 +2825,7 @@ msgstr ""
 msgid "No changes"
 msgstr "(wijzigingen)"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "No child topics"
 msgstr "Geen onderliggende pagina&#39;s"
 
@@ -2842,7 +2842,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Geen permissie om %1 te bekijken"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Er is geen vorige paginarevisie beschikbaar."
 
@@ -2967,7 +2967,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Oudere revisie"
 
@@ -2986,7 +2986,7 @@ msgstr ""
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
@@ -3016,7 +3016,7 @@ msgstr "Voer eventueel een andere paginanaam in:"
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Actie"
@@ -3469,11 +3469,11 @@ msgstr "Hernoemen mislukt"
 msgid "Rename or move %1"
 msgstr "Pagina hernoemen of verplaatsen"
 
-#: core/templates/more.tmpl:69
+#: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "Pagina hernoemen of verplaatsen"
 
-#: core/templates/more.tmpl:77
+#: core/templates/more.tmpl:78
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "Pagina hernoemen of verplaatsen"
@@ -3525,7 +3525,7 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Herstellen"
@@ -3544,19 +3544,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Pagina herstellen"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Pagina herstellen"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Zet pagina terug naar revisie:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Zet pagina terug naar deze revisie"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3564,7 +3564,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3624,7 +3624,7 @@ msgstr "Revisie"
 msgid "Revision history of %1"
 msgstr "Versiegeschiedenis van %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Revisies"
 
@@ -3705,7 +3705,7 @@ msgid "Search all webs"
 msgstr "Zoek in a&lle webs"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "Search all webs for topics that link to here"
 msgstr "Zoek in alle webs naar pagina&#39;s die hierheen linken"
 
@@ -3741,7 +3741,7 @@ msgstr "(zoekresultaat)"
 msgid "Search string"
 msgstr "Zoektekst"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Zoek in %1 Web naar pagina&#39;s die hierheen linken"
 
@@ -3828,7 +3828,7 @@ msgstr ""
 msgid "Select members to remove from this group"
 msgstr "Verwijder de gebruiker eerst van groep(en) %1"
 
-#: core/templates/more.tmpl:100
+#: core/templates/more.tmpl:101
 #, fuzzy
 msgid "Select topic parent"
 msgstr "Selecteer bovenliggende pagina:"
@@ -3850,7 +3850,7 @@ msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sequentieel"
 
@@ -3858,11 +3858,11 @@ msgstr "Sequentieel"
 msgid "Set all"
 msgstr "Vink aan"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Stel bovenliggende pagina in"
 
-#: core/templates/more.tmpl:96
+#: core/templates/more.tmpl:97
 msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
@@ -3884,7 +3884,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Tekstvak verkleinen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Naast elkaar"
 
@@ -4519,7 +4519,7 @@ msgstr ""
 "Dit is de Prullenmand. Hier kun je verwijderingen van pagina&#39;s ongedaan "
 "maken; verwijderde bijlagen staan in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:558
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4994,7 +4994,7 @@ msgstr "Bekijk totale paginageschiedenis"
 msgid "View difference"
 msgstr "Bekijk verschillen"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Bekijk verschillen"
@@ -5009,7 +5009,7 @@ msgstr "Bekijk templates"
 msgid "View later"
 msgstr "Bekijk templates"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Bekijk vorige paginarevisie"
 
@@ -5017,12 +5017,12 @@ msgstr "Bekijk vorige paginarevisie"
 msgid "View raw text without formatting"
 msgstr "Bekijk brontekst zonder opmaak"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Bekijk revisie:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Bekijk revisie:"
 
@@ -5391,9 +5391,6 @@ msgid "You will receive an e-mail when your registration has been approved"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "Your"
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -5613,7 +5610,7 @@ msgstr "help"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "brontekst zonder opmaak"
 

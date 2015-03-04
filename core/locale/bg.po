@@ -249,7 +249,7 @@ msgstr "(*Предложение:* Можете да прикачите ваша
 msgid "(=all= to show all topics)"
 msgstr "(=всички= за показване на всички страници)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:560
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -482,11 +482,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "страници, <a href='%7' rel='nofollow'>всички промени</a>"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
 msgstr "само <em>в раздел %1</em>"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
 msgstr "<em>във всички общодостъпни раздели</em>"
 
@@ -874,7 +874,7 @@ msgstr "Налични шаблони в Раздел %1 :"
 msgid "Back to topic"
 msgstr "Обратно в страницата"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/more.tmpl:87 core/templates/viewtopicactionbuttons.tmpl:101
 msgid "Backlinks"
 msgstr "Обратни връзки"
 
@@ -1124,7 +1124,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Отметнатите страници ще бъдат обновени да сочат към новото  име на раздела."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Подстраници в раздел %1"
 
@@ -1199,7 +1199,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Сравняване на версиите"
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "Продължете, за да създадете новата страница"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:556
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1400,7 +1400,7 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Уважаеми %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Дебъг"
 
@@ -1426,11 +1426,11 @@ msgstr "Изтриване"
 msgid "Delete attachment"
 msgstr "Изтриване на притурка"
 
-#: core/templates/more.tmpl:50
+#: core/templates/more.tmpl:51
 msgid "Delete topic"
 msgstr "Изтриване на страница"
 
-#: core/templates/more.tmpl:60
+#: core/templates/more.tmpl:61
 msgid "Delete topic..."
 msgstr "Изтриване на страница..."
 
@@ -1790,7 +1790,7 @@ msgstr "Файлът бе качен с различно име"
 msgid "Find similar topics"
 msgstr "Търсене на подобни страници"
 
-#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
 msgstr "Намери страници, които имат връзки към %1 ..."
 
@@ -2477,7 +2477,7 @@ msgstr "Последна промяна"
 msgid "Last name"
 msgstr "Фамилия:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(версия %1)"
@@ -2688,7 +2688,7 @@ msgstr "Моите Връзки"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1256
+#: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "НОВ"
 
@@ -2760,7 +2760,7 @@ msgstr "Регистрацията на нови потребители е из�
 msgid "New web name:"
 msgstr "Име на новия раздел:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "По-нова версия:"
 
@@ -2781,7 +2781,7 @@ msgstr ""
 msgid "No changes"
 msgstr "(промени)"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "No child topics"
 msgstr "Няма подстраници"
 
@@ -2798,7 +2798,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "нямате права да видите %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Не съществува предна версия."
 
@@ -2921,7 +2921,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "По-стара версия"
 
@@ -2938,7 +2938,7 @@ msgstr "Само членовете на %1 могат да извършват �
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "Подстраници в раздел %1"
@@ -2966,7 +2966,7 @@ msgstr "Може да въведете различно име на страни
 msgid "Optionally enter a different topic name:"
 msgstr "Може да въведете различно име на страница:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Действие"
@@ -3414,11 +3414,11 @@ msgstr "Грешка при преименуването"
 msgid "Rename or move %1"
 msgstr "Преименувай тази страница"
 
-#: core/templates/more.tmpl:69
+#: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "Преименувай тази страница"
 
-#: core/templates/more.tmpl:77
+#: core/templates/more.tmpl:78
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "Преименувай тази страница"
@@ -3471,7 +3471,7 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Възстановяване"
@@ -3490,19 +3490,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Възстанови страница:"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Възстанови страница:"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Възстанови страница до версия:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Възстанови страницата до тази версия:"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3510,7 +3510,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3569,7 +3569,7 @@ msgstr "Версия"
 msgid "Revision history of %1"
 msgstr "История на версиите на %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Версии"
 
@@ -3648,7 +3648,7 @@ msgid "Search all webs"
 msgstr "Търсене във всички раздели"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "Search all webs for topics that link to here"
 msgstr "Търсене във всички раздели за връзки, които сочат насам"
 
@@ -3684,7 +3684,7 @@ msgstr "(резултати от търсенето)"
 msgid "Search string"
 msgstr "Низ за търсене"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Търсене в Раздел %1 за страници, които сочат насам"
 
@@ -3771,7 +3771,7 @@ msgstr ""
 msgid "Select members to remove from this group"
 msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
 
-#: core/templates/more.tmpl:100
+#: core/templates/more.tmpl:101
 #, fuzzy
 msgid "Select topic parent"
 msgstr "Избери родителска страница:"
@@ -3794,7 +3794,7 @@ msgstr "Регистрация на нови потребители не се п
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Последователно"
 
@@ -3802,11 +3802,11 @@ msgstr "Последователно"
 msgid "Set all"
 msgstr "Отбелязване на всички"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Задай нов родител"
 
-#: core/templates/more.tmpl:96
+#: core/templates/more.tmpl:97
 msgid "Set new topic parent"
 msgstr "Задай нов родител на страницата"
 
@@ -3828,7 +3828,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Смали кутийката за редакция"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr ""
 
@@ -4402,7 +4402,7 @@ msgid ""
 "TrashAttachment."
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:558
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4856,7 +4856,7 @@ msgstr "Изглед на цялата история на страницата"
 msgid "View difference"
 msgstr "Виж разлики"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Виж разлики"
@@ -4871,7 +4871,7 @@ msgstr "Виж шаблоните"
 msgid "View later"
 msgstr "Виж шаблоните"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Виж предната версия на страницата"
 
@@ -4879,12 +4879,12 @@ msgstr "Виж предната версия на страницата"
 msgid "View raw text without formatting"
 msgstr "Преглед в суров текстов формат"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Виж версия"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Виж версия"
 
@@ -5224,9 +5224,6 @@ msgid "You will receive an e-mail when your registration has been approved"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "Your"
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -5430,7 +5427,7 @@ msgstr "помощ"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "в суров текстов формат"
 
