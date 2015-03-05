@@ -412,7 +412,7 @@ sub postConvertURL {
         return $topic . $anchor;
     }
 
-    return $url . $anchor . $parameters;
+    return $url . $parameters . $anchor;
 }
 
 # Callback used to convert an image reference into a Foswiki variable.
