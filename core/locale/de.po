@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 18:08+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-03-05 09:28+0200\n"
+"Last-Translator: Michael Daum <foswiki@michaeldaumconsulting.com>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
 "Language: de\n"
@@ -528,9 +528,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Bestätigung erforderlich!</strong><span>Drücken Sie OK, wenn Sie "
-"diese Änderung wirklich beabsichtigt haben</span><span>Ansonsten drücken Sie "
-"Abbrechen</span>"
+"<strong>Bestätigung erforderlich!</strong> Drücken Sie OK, wenn Sie diese "
+"Änderung wirklich beabsichtigt haben<br />Ansonsten drücken Sie Abbrechen"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -3897,7 +3896,7 @@ msgstr "Topic wurde zusammengeführt"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:120
 msgid "Topic will be named: "
-msgstr "Topic Name:"
+msgstr "Topic erhält den Name: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
