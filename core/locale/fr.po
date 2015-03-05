@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-05 04:06+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"PO-Revision-Date: 2015-03-05 09:44+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1302,24 +1302,20 @@ msgid "Create a link to the attached file"
 msgstr "Créer un lien vers le fichier attaché"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Create a new group"
-msgstr "Créer nouvelle page"
+msgstr "Créer un nouveau groupe"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
-#, fuzzy
 msgid "Create a new table"
-msgstr "Créer nouvelle page"
+msgstr "Créer un nouveau tableau"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
-#, fuzzy
 msgid "Create account"
-msgstr "Créer nouvelle page"
+msgstr "Créer un compte"
 
 #: core/data/Main/WikiGroups.txt:42
-#, fuzzy
 msgid "Create group"
-msgstr "Créer nouvelle page"
+msgstr "Créer le groupe"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
 #, fuzzy
@@ -1335,7 +1331,7 @@ msgstr "Créer nouvelle page"
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Création non spécifiée et le groupe n'existe pas"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:21
 msgid "Create personal sidebar"
@@ -1354,7 +1350,7 @@ msgstr "Créer cette page"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Veuillez créer votre compte pour modifier des pages sur ce site."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
