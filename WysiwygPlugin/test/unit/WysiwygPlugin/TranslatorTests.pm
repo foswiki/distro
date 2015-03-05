@@ -1865,6 +1865,15 @@ HERE
 "${LINKON}[[FAQ.NetworkInternet#Pomona_Network][Test Link]]${LINKOFF}",
     },
     {
+        # Item13291 - Anchors should be last
+        exec => ROUNDTRIP | TML2HTML,
+        name => 'anchoredLinkQuery',
+        tml  => '[[FAQ.NetworkInternet?rev=1#Pomona_Network][Test Link]]',
+        html =>
+'<p> <a class=\'TMLlink\' href="FAQ.NetworkInternet?rev=1#Pomona_Network">Test Link</a>
+</p>'
+    },
+    {
         exec => TML2HTML | ROUNDTRIP,
         name => 'tableWithColSpans',
         html => '<p>abcd
