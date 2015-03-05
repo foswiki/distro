@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-05 03:16+0200\n"
+"PO-Revision-Date: 2015-03-05 04:05+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -527,8 +527,8 @@ msgstr ""
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Pour des raisons de sécurité, l'extension =.txt= est ajoutée à certains noms "
-"de fichiers"
+"Une extension =.txt= est ajoutée à certains noms de fichiers pour des "
+"raisons de sécurité"
 
 #: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
@@ -1104,7 +1104,7 @@ msgstr "Comparer les versions"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 msgid "Confirm password"
-msgstr "Confirmez votre mot de passe"
+msgstr "Confirmer mot de passe"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1151,8 +1151,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
-"Copier cette page (et tous les fichiers attachés) vers une nouvelle page."
+msgstr "Copier cette page (et tous ses fichiers joints) vers une nouvelle page."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1238,7 +1237,7 @@ msgstr "Création non spécifiée et le groupe n'existe pas"
 # La traduction exacte serait "Créer barre latérale personnelle", mais celle-ci tiendrait sur 2 lignes au lieu d'une. La traduction "Créer menu personnel" est préférée
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
-msgstr "Créer menu personnel"
+msgstr "Créer barre latérale personnelle"
 
 #: core/templates/messages.tmpl:660
 msgid "Create the topic"
@@ -1511,8 +1510,7 @@ msgstr "Agrandir le cadre d'édition"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
-"Pour changer d'identité, entrez un nouveau nom de connexion ainsi que son "
-"mot de passe"
+"Entrez un nouveau nom de connexion et mot de passe pour changer d'identité"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1589,7 +1587,7 @@ msgstr "Échec de l'insertion de l'URL %1"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
-msgstr "Remplir les champs marqués par des %1"
+msgstr "Les champs marqués de %1 sont obligatoires"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
@@ -1631,7 +1629,7 @@ msgstr "Mot de passe oublié ?"
 
 #: core/templates/messages.tmpl:381
 msgid "Form Definition %1 missing"
-msgstr "Définition du formulaire %1 introuvable"
+msgstr "Définition du formulaire %1 manquante"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
@@ -1775,7 +1773,7 @@ msgstr "Historique"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
-msgstr "Comment attacher votre photo ?"
+msgstr "Et si vous attachiez votre photo ?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
@@ -2505,12 +2503,12 @@ msgstr "Mettre à jour uniquement les pages liées dans le web %1"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
-"Argh : nous n\\'avons pu vous authentifier. Réessayez, ou [[%1]["
-"réinitialisez votre mot de passe]]."
+"Argh : nous n'avons pu vous authentifier. Réessayez, ou [[%1][réinitialisez "
+"votre mot de passe]]."
 
 #: core/templates/renamedelete.tmpl:20
 msgid "Optionally change attachment name:"
-msgstr "Éventuellement, modifier le nom du fichier attaché :"
+msgstr "Éventuellement, modifier le nom du fichier joint :"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
@@ -3082,8 +3080,8 @@ msgstr "Note de sécurité :"
 #: core/templates/messages.tmpl:47
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
-"Pour consulter la liste des utilisateurs, consultez %1. Pour créer votre "
-"propre compte, inscrivez-vous sur %2."
+"Voyez %1 pour une liste des utilisateurs existants ou inscrivez-vous en tant "
+"que nouvel utilisateur sur %2."
 
 #: core/templates/messages.tmpl:382
 msgid "See %1 for information about Form Definitions."
@@ -3481,9 +3479,9 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"Les pages sélectionnées seront mises à jour (un autre formulaire va "
-"s'afficher, pour que vous puissiez _éventuellement_ renommer les pages qui "
-"étaient verrouillées)"
+"Les pages cochées seront mises à jour (un autre formulaire va s'afficher, "
+"pour que vous puissiez _finalement_ renommer les pages qui étaient "
+"verrouillées)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -3538,8 +3536,8 @@ msgstr "Le fichier a été attaché avec succès à la page %1."
 #: core/templates/messages.tmpl:446
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
-"Les pages suivantes sont bloquées et ne peuvent pas être déplacées car elles "
-"sont en cours de modification :"
+"La modification des pages suivantes est verrouillée, et elles ne peuvent pas "
+"être déplacées :"
 
 #: core/templates/messages.tmpl:452
 msgid "The following topics refer to topics in this web, but are being edited:"
