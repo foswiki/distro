@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-05 04:06+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1164,19 +1164,19 @@ msgstr "Entrez"
 msgid "Comment"
 msgstr "Commentaire"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
 msgstr "Les commentaires sont désactivés en affichage statique"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr "Les commentaires sont désactivés en dehors du contexte d'affichage"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr "Les commentaires sont désactivés si vous n'êtes pas connecté"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 "Les commentaires sont désactivés dans le fonctionnement en ligne de commande"
@@ -1238,7 +1238,8 @@ msgstr ""
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr "Copier cette page (et tous ses fichiers joints) vers une nouvelle page."
+msgstr ""
+"Copier cette page (et tous ses fichiers joints) vers une nouvelle page."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -4494,6 +4495,12 @@ msgstr ""
 "de venir vérifier tout le temps s'il y a du nouveau. Pour vous abonner, "
 "insérez une ligne contenant votre %2 dans cette liste à puces (par ordre "
 "alphabétique) :"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."

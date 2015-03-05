@@ -1119,19 +1119,19 @@ msgstr ""
 msgid "Comment"
 msgstr "評論"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
 msgstr "靜態瀏覽模式禁止評論"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr "非瀏覽模式，禁止評論"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr "未登入，禁止評論"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr "命令列模式中，禁止評論"
 
@@ -4223,6 +4223,12 @@ msgstr ""
 "這是個訂閱服務，當 %1子網內的主題更新時會自動利用電子郵件通知。這是個非常方便"
 "的服務，所以您不用常常回來查看是否有更新。若要訂閱，請將您的 %2 依字母順序加"
 "入以下清單:"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."

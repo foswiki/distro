@@ -1197,19 +1197,19 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentar"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
@@ -4413,6 +4413,12 @@ msgid ""
 "have to come back and check all the time if something has changed. To "
 "subscribe, please add a bullet with your %2 in alphabetical order to this "
 "list:"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
 msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6

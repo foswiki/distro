@@ -19,9 +19,6 @@ our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
 
-use constant PLACEHOLDER_TEXT =>
-'This is a temporary placeholder for your new comment. Refresh the topic to see the actual comment.';
-
 # Reset when the plugin is reset, this counter counts the instances of the
 # %COMMENT macro and indexes them.
 our $commentIndex;
@@ -216,7 +213,9 @@ sub _restSave {
                 # Decorate the response to show it's been ajax-added.
                 # It's TML, and free format, so there's a limit as to
                 # how clever we can be.
-                my $pht = $session->i18n->maketext(PLACEHOLDER_TEXT);
+                my $pht = $session->i18n->maketext(
+'This is a temporary placeholder for your new comment. Refresh the topic to see the actual comment.'
+                );
                 $output =
                     '<div class="comment_placeholder" '
                   . "title=\"$pht\">\n"

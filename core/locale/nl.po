@@ -1199,19 +1199,19 @@ msgstr ""
 msgid "Comment"
 msgstr "Toelichting"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr ""
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
@@ -4500,6 +4500,12 @@ msgstr ""
 "zodat je niet steeds terug hoeft te komen om te controleren of iets is "
 "gewijzigd. Om je aan te melden voeg je een _bullet point_ toe met je %2 in "
 "alfabetische volgorde van deze lijst:"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."

@@ -1176,21 +1176,21 @@ msgid "Comment"
 msgstr "Kommentar"
 
 # Not sure how to translate "view context" and exactly what it means.
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 #, fuzzy
 msgid "Commenting is disabled for static viewing"
 msgstr "Kommentarer avstängda utom när man tittar på sidan"
 
 # Not sure how to translate "view context" and exactly what it means.
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr "Kommentarer avstängda utom när man tittar på sidan"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr "Kommentarer avstängda för oinloggade"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentarer avstängda när systemet körs från kommandoraden"
 
@@ -4446,6 +4446,12 @@ msgstr ""
 "post när sidor ändras här på avdelningen %1, så att du inte behöver titta "
 "efter om något ändrats. Lägg till en punkt med din %2 i alfabetisk ordning i "
 "denna lista:"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."

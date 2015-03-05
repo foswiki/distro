@@ -1158,20 +1158,20 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentar"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 #, fuzzy
 msgid "Commenting is disabled for static viewing"
 msgstr "Kommentering er deaktivert foruten i visningskontekst"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr "Kommentering er deaktivert foruten i visningskontekst"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr "Kommentering er deaktivert uten innlogging"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
 
@@ -4407,6 +4407,12 @@ msgstr ""
 "endres i denne %1 web'en. Dette er en praktisk tjeneste slik at du trenger å "
 "komme igjen og sjekke etter endringer hele tiden. For å abbonnere, legg til "
 "et punkt med din %2 i alfabetisk rekkefølge til denne listen:"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."

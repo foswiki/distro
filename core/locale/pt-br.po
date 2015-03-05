@@ -1187,20 +1187,20 @@ msgstr ""
 msgid "Comment"
 msgstr "Comentário"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:84
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 #, fuzzy
 msgid "Commenting is disabled for static viewing"
 msgstr "Comentários são desativados fora do contexto view"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:88
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
 msgstr "Comentários são desativados fora do contexto view"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:98
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
 msgstr "Comentários são desativados enquanto não estiver logado"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:79
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 #, fuzzy
 msgid "Commenting is disabled while running from the command line"
 msgstr "Comentários são desativados quando executados de linha de comando"
@@ -4441,6 +4441,12 @@ msgstr ""
 "bastante conveniente, pois assim você não precisa voltar constantemente para "
 "verificar se alguma coisa foi modificada. Para se inscrever nesse serviço "
 "basta adicionar seu %2 em ordem alfabética nesta lista:"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
