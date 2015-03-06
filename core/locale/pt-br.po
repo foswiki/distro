@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-24 21:14+0200\n"
-"Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
-"Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2015-03-06 22:19+0200\n"
+"Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://translate.foswiki.org/projects/foswiki/distribution-"
+"release-11/pt_BR/>\n"
+"Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -70,7 +72,7 @@ msgstr "%1 foi adicionado ao grupo %2."
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
-msgstr "%1 não pode ser removido de %2."
+msgstr "%1 não pode ser removido do %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -148,7 +150,7 @@ msgstr "%1 últimas alterações na Web %2"
 
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
-msgstr "%1 removido do grupo %2."
+msgstr "%1 removido d0 grupo %2 "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -269,7 +271,7 @@ msgstr "(remover)"
 
 #: core/templates/messages.tmpl:725
 msgid "(disabled)"
-msgstr "(desativado)"
+msgstr "(desabilitado)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -355,9 +357,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
-"*Administradores:* Pode-se mudar endereços de email dos usuários através "
-"desse formulário. Informe o login do usuário ou seu WikiName e o novo "
-"endereço de e-mail."
+"*Administradores:* Pode-se trocar endereços de e-mail de usuários por este "
+"formulário. Informe o Login de usuário ou NomeWiki e o novo endereço de "
+"e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -384,14 +386,14 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Importante:* as informações fornecidas nesse formulário serão armazenadas "
-"num banco de dados no servidor do Foswiki. Este banco de dados é acessível "
-"por qualquer pessoa que tenha permissão de administrar o servidor pela web "
-"(porém as senhas serão criptografadas e os endereços de e-mail ofuscados "
-"para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
-"ter Leis de Proteção de Dados disciplinando as formas de manutenção desse "
-"tipo de banco de dados. Se tiver dúvida e quiser obter detalhes sobre a "
-"Política de Proteção de Dados desse servidor Foswiki, contate %1 antes de se "
+"*Importante:* as informações fornecidas no presente formulário serão "
+"armazenadas em um banco de dados no servidor web. Este banco de dados é "
+"acessível a qualquer um que possa acessar o servidor através da web (embora "
+"senhas serão criptografadas e os endereços de e-mail serão ofuscados para "
+"evitar SPAM). O seu país, ou no país onde o servidor está hospedado, podem "
+"ter leis de Protecção de Dados que regulam a manutenção de tais bancos de "
+"dados. Se você estiver em dúvida, entrar em contato % 1 para obter detalhes "
+"sobre a Política de Proteção de Dados deste servidor web antes de se "
 "registrar."
 
 #: core/templates/attachagain.tmpl:19
@@ -411,7 +413,7 @@ msgid ""
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
 "ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
-"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"."
+"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -468,35 +470,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr "há 1 hora"
+msgstr "Há 1 hora"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr "há uma semana"
+msgstr "Há uma semana"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr "há 12 horas"
+msgstr "Há 12 horas"
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr "há 2 semanas"
+msgstr "Há duas semanas"
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr "há 24 horas"
+msgstr "Há 24 horas"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr "há 3 dias"
+msgstr "Há 3 dias"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr "há 4 semanas"
+msgstr "Há 4 semanas"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr "há 6 horas"
+msgstr "Há 6 horas"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -523,8 +525,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Confirmação requerida!</strong>Clique em OK para confirmar a "
-"intenção de alterar.<br />Ou, caso contrário, clique em Cancelar"
+"<strong>Confirmação requerida!</strong> Clique em OK para confirmar a "
+"intenção de alterar. Ou, caso contrário, clique em Cancelar"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
