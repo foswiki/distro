@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-06 13:56+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1420,7 +1420,7 @@ msgstr "Description"
 
 #: core/data/System/WebIndex.txt:3
 msgid "Detailed topic list for %1 Web"
-msgstr "Liste détaillée des pages du web %1"
+msgstr "Liste détaillée des pages pour le web %1"
 
 #: core/lib/Foswiki/Form.pm:422
 msgid "Details in separate window"
