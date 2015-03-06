@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-05 18:55+0200\n"
+"PO-Revision-Date: 2015-03-06 13:53+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -1318,13 +1318,11 @@ msgid "Create group"
 msgstr "Créer le groupe"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Créer nouvelle page"
+msgstr "Créer une nouvelle page de FAQ"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
-#, fuzzy
 msgid "Create new topic"
 msgstr "Créer nouvelle page"
 
@@ -1354,7 +1352,7 @@ msgstr "Veuillez créer votre compte pour modifier des pages sur ce site."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
-msgstr ""
+msgstr "Crée une nouvelle version de page lors de l'enregistrement"
 
 #: core/templates/messages.tmpl:219
 msgid "Creating a suitable Form Definition topic"
