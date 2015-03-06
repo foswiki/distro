@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 13:56+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-06 13:57+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1428,7 +1428,7 @@ msgstr "Cliquez pour avoir plus de détails, dans une autre fenêtre"
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
-msgstr ""
+msgstr "Détails : "
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
