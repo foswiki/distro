@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1425223965" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1425645216" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,6 +56,7 @@ is sufficient.
 
 |  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
+|  06 Mar 2015 | fixed permissions editor |
 |  25 Sep 2014 | move templating to new jsrender replacing deprecated jquery.tmpl |
 |  12 Dec 2013 | rewrite all of the js code; make it themable using jquery-ui |
 |  01 Nov 2013 | working around IE10 incompatibility of its own proprietary edit api for textareas |
@@ -165,8 +166,6 @@ is sufficient.
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |
 
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1425223965" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
-
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
@@ -175,3 +174,4 @@ is sufficient.
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1425645216" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

@@ -172,7 +172,7 @@
     </label>
 
     <label title='%MAKETEXT{"specify a list of users and/or groups"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='details' name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details' or ($'PERMSET_CHANGE'='justauthor' and preferences[name='ALLOWTOPICCHANGE'].value!='%WIKINAME%') or (not defined 'PERMST_CHANGE' and preferences[name='ALLOWTOPICCHANGE'])" then="checked"}% />
+      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='details' name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details' or ($'PERMSET_CHANGE'='justauthor' and preferences[name='ALLOWTOPICCHANGE'].value!='%WIKINAME%') or (not defined 'PERMSET_CHANGE' and preferences[name='ALLOWTOPICCHANGE'])" then="checked"}% />
       %MAKETEXT{"Specific users/groups"}%
     </label>
 
