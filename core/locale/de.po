@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-05 09:28+0200\n"
-"Last-Translator: Michael Daum <foswiki@michaeldaumconsulting.com>\n"
+"PO-Revision-Date: 2015-03-06 15:05+0200\n"
+"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -21,12 +21,12 @@ msgstr ""
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
-msgstr "%*(%1,Tag)"
+msgstr "%*(%1,Tag) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:444
 msgid "%*(%1,hour) "
-msgstr "%*(%1,Stunde)"
+msgstr "%*(%1,Stunde) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:447
@@ -205,9 +205,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName:"
-msgstr "Ihr %1.LoginName"
+msgstr "%1.LoginName:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -633,12 +632,10 @@ msgid "Add form"
 msgstr "Formular hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:211
-#, fuzzy
 msgid "Add members"
 msgstr "Benutzer hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:162
-#, fuzzy
 msgid "Add members..."
 msgstr "Benutzer hinzufügen..."
 
@@ -879,9 +876,8 @@ msgid "Backlinks to %1 in all Webs"
 msgstr "Querverweise von %1 in allen Webs"
 
 #: core/templates/viewtopicactionbuttons.tmpl:101
-#, fuzzy
 msgid "Backlinks:"
-msgstr "Querverweise"
+msgstr "Querverweise:"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -889,7 +885,7 @@ msgstr "Falsches Passwort"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "Ungültiger Abonnent '%1'"
 
 #: core/templates/messages.tmpl:132
 msgid "Base web %1 is missing or does not exist"
@@ -897,10 +893,9 @@ msgstr "Basis Web %1 fehlt oder existiert nicht"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr ""
+msgstr "Zitatblock"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
-#, fuzzy
 msgid "Bold"
 msgstr "Fettdruck"
 
@@ -910,7 +905,7 @@ msgstr "Beides, Text und Titel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
-msgstr ""
+msgstr "Aufzählung"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -933,12 +928,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Bearbeitung (CHANGE) nicht erlaubt für %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "Bearbeitung (CHANGE) von %1 nicht erlaubt für %2"
 
 #: core/templates/messages.tmpl:362 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
@@ -977,13 +972,12 @@ msgid "Cancel editing and discard changes"
 msgstr "Editieren abbrechen und Änderungen verwerfen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
-#, fuzzy
 msgid "Cancel upload"
-msgstr "Abbrechen"
+msgstr "Upload abbrechen"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "Kann Abonnement nicht ändern: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
@@ -1010,9 +1004,8 @@ msgid "Center align"
 msgstr "Zentrieren"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "E-Mail Adresse:"
+msgstr "E-Mail-Adresse ändern"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1027,9 +1020,8 @@ msgid "Change comment and properties only"
 msgstr "Nur Kommentar und Eigenschaften ändern"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
-#, fuzzy
 msgid "Change e-mail address"
-msgstr "Ungültige E-Mail Adresse"
+msgstr "E-Mail-Adresse ändern"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
 msgid "Change form"
@@ -1078,15 +1070,13 @@ msgid "Change topic"
 msgstr "Topic ändern"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "Geändert von"
+msgstr "Geändert von:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Geändert"
+msgstr "Geändert am"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1110,7 +1100,7 @@ msgstr "Änderungen von r%1 nach r%2"
 
 #: core/templates/messages.tmpl:285
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "Überprüfen Sie die Einstellungen für {TemplateDir} und {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1134,7 +1124,7 @@ msgstr "Wählen Sie eine neue Formularvorlage für %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:151
 msgid "Choose files"
-msgstr ""
+msgstr "Dateien auswählen"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
@@ -1163,7 +1153,7 @@ msgstr "Schließen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
@@ -1171,11 +1161,11 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "Spalten"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
-msgstr ""
+msgstr "Treten Sie ein"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1185,19 +1175,19 @@ msgstr "Kommentar"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
-msgstr ""
+msgstr "In der statischen Ansicht ist das Kommentieren deaktiviert"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
-msgstr ""
+msgstr "Kommentieren ist nur in der normalen Ansicht (view-Kontext) möglich"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
-msgstr ""
+msgstr "Kommentieren ist nur für angemeldete Benutzer möglich"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
-msgstr ""
+msgstr "Kommentieren von der Kommandozeile ist nicht möglich"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
@@ -1231,9 +1221,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Kontaktieren Sie %1, wenn Sie Fragen haben."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Kontext:"
+msgstr "Kontext"
 
 #: core/templates/messages.tmpl:277
 msgid "Continue and try to rename web?"
@@ -1252,10 +1241,12 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Die Konvertierung nach HTML für den WYSIWYG-Editor ist aufgrund der Topic-"
+"Inhalte deaktiviert."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Dieses Topic (und alle Anhänge) in ein neues Topic kopieren."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1322,34 +1313,30 @@ msgid "Create a new group"
 msgstr "Neue Gruppe anlegen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
-#, fuzzy
 msgid "Create a new table"
-msgstr "Neue Gruppe anlegen"
+msgstr "Neue Tabelle anlegen"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
-#, fuzzy
 msgid "Create account"
-msgstr "Gruppe anlegen"
+msgstr "Benutzerkonto anlegen"
 
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Gruppe anlegen"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create new FAQ topic"
 msgstr "Neues FAQ-Topic anlegen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
-#, fuzzy
 msgid "Create new topic"
-msgstr "Neues FAQ-Topic anlegen"
+msgstr "Neues Topic anlegen"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Gruppe existiert nicht und Anlegemodus wurde nicht angefordert"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:21
 msgid "Create personal sidebar"
@@ -1368,7 +1355,7 @@ msgstr "Dieses Topic anlegen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Legen Sie ein Benutzerkonto an, um Seiten zu bearbeiten."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
@@ -1384,9 +1371,8 @@ msgid "Current location:"
 msgstr "Aktueller Ort:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-#, fuzzy
 msgid "Current password:"
-msgstr "Aktuelles Passwort"
+msgstr "Aktuelles Passwort:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1403,9 +1389,8 @@ msgstr "Fehler beheben"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:120
 #: NatEditPlugin/templates/edit.natedit.tmpl:156
-#, fuzzy
 msgid "Default"
-msgstr "Standard Template"
+msgstr "Standard"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Default template"
@@ -1437,14 +1422,12 @@ msgstr ""
 "Beschreiben Sie die Datei, damit andere Benutzer wissen was sie beinhaltet."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "Version"
+msgstr "Beschreibung"
 
 #: core/data/System/WebIndex.txt:3
-#, fuzzy
 msgid "Detailed topic list for %1 Web"
-msgstr "Unter-Topics im %1 Web"
+msgstr "Detaillierte Liste der Topics im %1-Web"
 
 #: core/lib/Foswiki/Form.pm:422
 msgid "Details in separate window"
@@ -1452,7 +1435,7 @@ msgstr "Details im separaten Fenster"
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
-msgstr ""
+msgstr "Details:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
@@ -1478,7 +1461,7 @@ msgstr "Unterschied:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Details zu Foswiki und wie Sie Ihr eigenes Foswiki einrichten können"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1498,7 +1481,7 @@ msgstr "Nicht anzeigen:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:147
 msgid "Drag files here"
-msgstr ""
+msgstr "Dateien nach hier ziehen"
 
 #: core/templates/messages.tmpl:57
 msgid ""
@@ -1509,9 +1492,8 @@ msgstr ""
 "informieren Sie Ihren %2 Administrator."
 
 #: core/templates/messages.tmpl:48
-#, fuzzy
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr "Während des Löschens des Anhangs =%1= ist ein Fehler aufgetreten."
+msgstr "Beim Verschieben des Anhangs =%1= nach %2 ist ein Fehler aufgetreten."
 
 #: core/templates/messages.tmpl:96
 msgid ""
@@ -1544,26 +1526,29 @@ msgstr "E-Mail erfolgreich geändert!"
 #: core/templates/messages.tmpl:461
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
+"ENCODE fehlgeschlagen - =type= kann nicht zusammen mit =old= und =new= "
+"verwendet werden "
 
 #: core/templates/messages.tmpl:463
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
+"ENCODE fehlgeschlagen - =old= und =new= müssen gemeinsam angegeben werden"
 
 #: core/templates/messages.tmpl:465
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE fehlgeschlagen - Token '%PARAM1%' taucht in =old= mehrfach auf "
 
 #: core/templates/messages.tmpl:471
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND fehlgeschlagen - Zugriff zu '%PARAM1%' verweigert"
 
 #: core/templates/messages.tmpl:467
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND fehlgeschlagen - kein Makro"
 
 #: core/templates/messages.tmpl:469
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND fehlgeschlagen - Topic '%PARAM1%' existiert nicht"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:26
 #: core/templates/settings.tmpl:26
@@ -1576,9 +1561,8 @@ msgid "Edit"
 msgstr "Editieren"
 
 #: core/data/System/VarMAKETEXT.txt:61
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,Minute) "
+msgstr "%*(%1,Datei) bearbeiten"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1586,39 +1570,36 @@ msgstr "Trotzdem bearbeiten"
 
 #: core/templates/viewtopicactionbuttons.tmpl:63
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Wiki<nop>Text bearbeiten"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
 msgstr "Hilfe fürs Editieren"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "Für dieses Topic Einstellungen bearbeiten"
+msgstr "Einstellungen für dieses Topic bearbeiten..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Topic Text editieren"
+msgstr "Topic-Text bearbeiten (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Topic Einstellungen editieren"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:48
-#, fuzzy
 msgid "Editable"
-msgstr "Tabelle editieren"
+msgstr "Bearbeitbar"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
-msgstr ""
+msgstr "Formatierungskürzel"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Hm, ich gehe besser nochmal zurück und korrigiere etwas..."
 
 #: core/templates/registermessages.tmpl:82
 msgid ""
@@ -1631,10 +1612,14 @@ msgstr ""
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant form."
 msgstr ""
+"Entweder ist der Name ungültig, oder er bezieht sich auf ein Formular, das "
+"nicht existiert."
 
 #: core/templates/messages.tmpl:118
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
+"Entweder ist der Name ungültig, oder er bezieht sich auf ein Topic, das "
+"nicht existiert."
 
 #: core/templates/messages.tmpl:242
 msgid ""
@@ -1645,9 +1630,8 @@ msgstr ""
 "hochladen wollen ist leer, was nicht zulässig wäre."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
-#, fuzzy
 msgid "Email address"
-msgstr "E-Mail Adresse:"
+msgstr "E-Mail-Adresse"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
@@ -1655,11 +1639,11 @@ msgstr "E-Mail wurde für diese Foswiki Installation deaktiviert"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
-msgstr ""
+msgstr "Externes Objekt einbinden"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
-msgstr ""
+msgstr "Emoticon"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Enlarge edit box"
@@ -1677,20 +1661,22 @@ msgstr ""
 "Bitte geben Sie den Administrator Benutzernamen oder den Login aus %1 ein"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Bitten wählen Sie einen Topic Namen, der ein %1 ist oder erlauben Sie die "
-"Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox."
+"Bitte wählen Sie einen Topic-Namen, der ein <nop>WikiWort ist, oder erlauben "
+"Sie die Verwendung von Nicht-<nop>WikiWörtern in der Auswahlbox."
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Enter users or groups to add to this group"
-msgstr "Entfernen Sie zuerst die Benutzer von der/den Gruppe(n) %1."
+msgstr ""
+"Geben Sie Benutzer oder Gruppen ein, die Sie zu dieser Gruppe hinzufügen "
+"möchten"
 
 #: core/templates/messages.tmpl:481
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
+"Fehler beim Laden des Plugins aufgetreten; siehe Fehlermeldungen weiter "
+"unten."
 
 #: core/templates/registermessages.tmpl:91
 msgid "Error registering new user"
@@ -1725,14 +1711,12 @@ msgid "Errors"
 msgstr "Fehler"
 
 #: core/templates/registermessages.tmpl:374
-#, fuzzy
 msgid "Errors adding members to group"
-msgstr "Fehler beim Speichern des Topics"
+msgstr "Fehler beim Hinzufügen von Mitgliedern zur Gruppe"
 
 #: core/templates/registermessages.tmpl:423
-#, fuzzy
 msgid "Errors removing members from groups"
-msgstr "Fehler beim Speichern des Topics"
+msgstr "Fehler beim Entfernen von Mitgliedern aus Gruppen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Escape markup"
@@ -1740,16 +1724,15 @@ msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:125
 msgid "Everybody"
-msgstr ""
+msgstr "Jeder"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Persönliche Daten bearbeiten"
+msgstr "Böse Person"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Exit"
-msgstr ""
+msgstr "Beenden"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:70
 msgid "External"
@@ -1757,11 +1740,11 @@ msgstr "Hilfe im Internet"
 
 #: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
-msgstr ""
+msgstr "Fehlerhafte Plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:306
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Konnte Benutzer nicht hinzufügen: "
 
 #: core/templates/messages.tmpl:368
 msgid "Failed to include URL %1"
@@ -1773,15 +1756,14 @@ msgid "Fields marked %1 are required"
 msgstr "Die mit %1 gekennzeichneten sind Pflichtfelder"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr ""
-"Die mit =<span class=\"twikiAlert\">**</span>= gekennzeichneten Felder sind "
+"Die mit <span class='required'>*</span> gekennzeichneten Felder sind "
 "Pflichtfelder"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: core/templates/messages.tmpl:226
 msgid "File has been uploaded with different name"
@@ -1796,14 +1778,12 @@ msgid "Find topics that link to %1 ..."
 msgstr "Topics finden die auf %1 verweisen ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
-#, fuzzy
 msgid "First"
-msgstr "Vorname:"
+msgstr "Erste"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
-#, fuzzy
 msgid "First name"
-msgstr "Vorname:"
+msgstr "Vorname"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -1811,6 +1791,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"Für mehr Informationen zu Cross-Site-Request-Forgery und den damit "
+"verbundenen Gefahren, siehe [[%1][Wikipedia-Eintrag zu CSRF]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1823,7 +1805,7 @@ msgstr "Haben Sie ihr Passwort vergessen?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
-msgstr ""
+msgstr "Formular"
 
 #: core/templates/messages.tmpl:197
 msgid "Form Definition %1 missing"
@@ -1836,26 +1818,23 @@ msgstr "Formularbasierte Eingabe"
 #: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:12
 msgid "Form data"
-msgstr ""
+msgstr "Formulardaten"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "Formular-Definition fehlt"
+msgstr "Formulardefinition"
 
 #: core/templates/messages.tmpl:194
-#, fuzzy
 msgid "Form definition '%1' not found"
-msgstr "Formular-Definition %1 fehlt"
+msgstr "Formulardefinition '%1' nicht gefunden"
 
 #: core/templates/messages.tmpl:202
 msgid "Form definition missing"
 msgstr "Formular-Definition fehlt"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
-#, fuzzy
 msgid "Format selected text"
-msgstr "Formatierte Suche"
+msgstr "Ausgewählten Text formatieren"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
 msgid "Formatted Search"
@@ -1863,7 +1842,7 @@ msgstr "Formatierte Suche"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Formula"
-msgstr ""
+msgstr "Formel"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -1874,6 +1853,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki prüft alle Anfragen von Browsern, und versucht sicherzustellen, dass "
+"die Anfragen tatsächlich direkt und bewusst vom Benutzer abgeschickt wurden."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1881,17 +1862,16 @@ msgstr "Foswiki Passwort zurücksetzen für %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr ""
+msgstr "Rufen Sie die aktuelle Version <a href='%1' rel='nofollow'>hier</a> ab."
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "enthält mehr Informationen über Datei-Anhänge."
+msgstr "Mehr erfahren über das Anhängen von Dateien"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Mehr erfahren über das Setzen von Topic-Einstellungen"
 
 #: core/data/System/WebSearch.txt:274
 msgid "Get notified on changes on this search"
@@ -1899,9 +1879,8 @@ msgstr "Bei Änderungen bezüglich dieser Suche benachrichtigt werden"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:456
-#, fuzzy
 msgid "Globe"
-msgstr "Schließen"
+msgstr "Weltkugel"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:313
 #: core/templates/messages.tmpl:456 core/templates/registermessages.tmpl:369
@@ -1909,13 +1888,12 @@ msgid "Go back"
 msgstr "Zurück"
 
 #: core/templates/messages.tmpl:187
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Bitte gehen Sie mit Ihrem Browser zurück und füllen Sie alle benötigten "
-"Feldern aus."
+"Bitte navigieren Sie mit Ihrem Browser zurück und füllen Sie alle "
+"Pflichtfelder aus, bevor Sie erneut speichern"
 
 #: core/templates/messages.tmpl:259 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1927,6 +1905,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Navigieren Sie zur vorherigen Seite zurück und aktivieren Sie Cookies und "
+"<nop>JavaScript, bevor Sie es erneut versuchen"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -1937,23 +1917,21 @@ msgid "GoodStyle"
 msgstr "Guter Stil"
 
 #: core/data/Main/WikiGroups.txt:62
-#, fuzzy
 msgid "Group"
-msgstr "Gruppen"
+msgstr "Gruppe"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Gruppe existiert nicht und Anlegen ist nicht gestattet"
 
 #: core/data/Main/WikiGroups.txt:28
-#, fuzzy
 msgid "Group name"
-msgstr "Topic Name"
+msgstr "Gruppenname"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Gruppennamen müssen auf \"Group\" enden"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:16
 #: PatternSkin/data/System/WebLeftBarExample.txt:8
@@ -1962,35 +1940,35 @@ msgstr "Gruppen"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Having problems logging in?"
-msgstr ""
+msgstr "Probleme beim Anmelden?"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
-msgstr ""
+msgstr "Überschrift 1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:29
 msgid "Heading 2"
-msgstr ""
+msgstr "Überschrift 2"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:30
 msgid "Heading 3"
-msgstr ""
+msgstr "Überschrift 3"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:31
 msgid "Heading 4"
-msgstr ""
+msgstr "Überschrift 4"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:32
 msgid "Heading 5"
-msgstr ""
+msgstr "Überschrift 5"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
-msgstr ""
+msgstr "Überschrift 6"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Headings"
-msgstr ""
+msgstr "Überschriften"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -2011,7 +1989,7 @@ msgstr "Hilfe"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
-msgstr ""
+msgstr "Hallo, %1"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -2029,13 +2007,12 @@ msgstr ""
 "Webs anlegen."
 
 #: core/data/System/ManagingTopics.txt:98
-#, fuzzy
 msgid "History"
-msgstr "&Historie"
+msgstr "Historie"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
-msgstr ""
+msgstr "Horizontale Trennlinie"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
@@ -2078,7 +2055,7 @@ msgstr "Ich habe mein Passwort vergessen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Icon"
-msgstr ""
+msgstr "Symbol"
 
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:34
@@ -2092,28 +2069,33 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Wenn Foswiki für Sie keine registrierte E-Mail-Adresse in der Datenbank "
+"findet, werden Sie weder Ihr Passwort zurücksetzen, noch die E-Mail-"
+"Benachrichtigungsfunktion nutzen können."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Wenn Foswiki eine verdächtige Anfrage bemerkt, die von einer solche Seite "
+"stammen könnte, wird es Sie um eine zusätzliche Bestätigung bitten."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
 msgstr ""
+"Wenn Registrierungen nicht durch einen Systemfehler unmöglich sind, können "
+"Administratoren immer noch Benutzer registrieren via"
 
 #: core/templates/messages.tmpl:287
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Überprüfen Sie die Konfigurations-Einstellungen von {TemplateDir} und "
-"{TemplatePath}. Wenn dies nicht das Problem beseitigt, kann es an der "
-"Einstellung von %1 liegen, welche auf eine nicht existierende Vorlage zeigt."
+"Wenn es nicht daran liegt, könnte es sein, dass Sie eine Einstellung für %1 "
+"haben, die auf ein Template verweist, das nicht existiert."
 
 #: core/templates/messages.tmpl:211
 msgid "If this line isn't present see _upgrade_ section below"
@@ -2136,9 +2118,8 @@ msgstr ""
 "Beschreibung der korrekten Parameter."
 
 #: core/templates/validate.tmpl:42
-#, fuzzy
 msgid "If you are unsure what this means, read: %1"
-msgstr "Bei Unklarheiten können Sie hier mehr erfahren: "
+msgstr "Bei Unklarheiten können Sie hier mehr erfahren: %1"
 
 #: core/templates/messages.tmpl:405 core/templates/messages.tmpl:416
 msgid "If you came here by clicking on a question mark link"
@@ -2150,11 +2131,10 @@ msgstr ""
 "Wenn Sie keine Bestätigungs-Mail innerhalb der nächsten Stunde bekommen, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 "Wenn Sie einen anderen Namen eingeben, stellen Sie sicher, dass das Topic "
-"nicht existiert."
+"existiert."
 
 #: core/templates/registerconfirm.tmpl:15
 #: core/templates/registernotify.tmpl:24
@@ -2206,6 +2186,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
+"Wenn Sie nach einem Wort auf der Stoppwortliste suchen wollen, setzen Sie "
+"ein Plus-Zeichen direkt vor das Wort"
 
 #: core/templates/messages.tmpl:421
 msgid "If you would like to create this web"
