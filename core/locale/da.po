@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-29 19:10+0200\n"
-"Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
-"Language-Team: Danish <N/A>\n"
+"PO-Revision-Date: 2015-03-06 19:03+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -64,7 +65,7 @@ msgstr "%1 web"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
-msgstr "%1 tilføjet til %2 gruppe"
+msgstr "%1 tilføjet til %2 gruppe. "
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
@@ -76,7 +77,7 @@ msgstr "%1 kan ikke fjernes fra %2 gruppen"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "%1 gruppe side opgraderet"
+msgstr "%1 gruppe side opgraderet. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -120,7 +121,7 @@ msgstr "%1 er i øjeblikket sat til %2"
 
 #: core/templates/messages.tmpl:576
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 editerer i øjeblikket [[%2][%3]]"
+msgstr "%1 editerer i øjeblikket [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
@@ -144,14 +145,14 @@ msgstr "%1 editerer muligvis stadig %2"
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 seneste ændringer i %2-webbet"
+msgstr "%1 senest ændrede sider i %2-webbet"
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
-msgstr "%1 fjernet fra %2 gruppen"
+msgstr "%1 blev fjernet fra %2 gruppen. "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -324,7 +325,7 @@ msgstr "(rå visning)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(redirigering nægtet)"
+msgstr "(omdirigering nægtet)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -390,14 +391,14 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Vigtigt:* Informationen du opgiver i denne formular vil blive gemt på web-"
-"serveren. Informationen bliver tilgængelig for alle som kan nå serveren via "
-"webbet (din adgangskode vil dog blive krypteret og skjult, og din e-mail-"
-"adresse vil blive vist forvansket for at afværge spam). Dit oprindelsesland "
-"(eller det land hvor serveren befinder sig) kan have data- eller "
-"personbeskyttelseslove, der omfatter denne type information. Hvis du er i "
-"tvivl kan du kontakte %1 for nærmere detaljer angående "
-"databeskyttelsesreglerne for denne web-server."
+"*Vigtigt:* Informationen du opgiver i denne formular vil blive gemt på "
+"Foswiki-serveren. Informationen bliver tilgængelig for alle som kan nå "
+"serveren via webbet (dit password vil dog blive krypteret og skjult, og din e"
+"-mail-adresse vil blive vist forvansket for at afværge spam). Dit "
+"oprindelsesland (eller det land hvor serveren befinder sig) kan have data- "
+"eller personbeskyttelseslove, der omfatter denne type information. Hvis du "
+"er i tvivl kan du kontakte %1 for nærmere detaljer angående "
+"databeskyttelsesreglerne for denne Foswiki-server."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -468,35 +469,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr "1 time"
+msgstr "1 time siden"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr "1 uge"
+msgstr "1 uge siden"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr "12 timer"
+msgstr "12 timer siden"
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr "2 uger"
+msgstr "2 uger siden"
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr "24 timer"
+msgstr "24 timer siden"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr "3 dage"
+msgstr "3 dage siden"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr "4 uger"
+msgstr "4 uger siden"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr "6 timer"
+msgstr "6 timer siden"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -708,7 +709,7 @@ msgstr ""
 
 #: core/lib/Foswiki/UI/Rename.pm:205
 msgid "An attachment with the same name already exists in this topic."
-msgstr "En vedhæftet fil med samme navn eksisterer allerede på denne side"
+msgstr "En vedhæftet fil med samme navn eksisterer allerede på denne side."
 
 #: core/templates/messages.tmpl:283
 msgid ""
@@ -728,7 +729,7 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Der er en risiko for at nogen prøver at bruge din identitet til at ændre "
+"Der er en risiko for, at nogen prøver at bruge din identitet til at ændre "
 "indhold i din wiki uden din viden."
 
 #: core/templates/messages.tmpl:17
