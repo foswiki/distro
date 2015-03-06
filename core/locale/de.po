@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 12:36+0200\n"
+"PO-Revision-Date: 2015-03-06 14:50+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
@@ -910,12 +910,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
-msgstr "Änderungen durch %1 nicht gestattet"
+msgstr "Bearbeitung (CHANGE) nicht erlaubt für %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
-msgstr "Änderungen in %1 durch %2 nicht gestattet"
+msgstr "Bearbeitung (CHANGE) von %1 nicht erlaubt für %2"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -969,7 +969,7 @@ msgstr "Kategorien"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
-msgstr "E-Mail Adresse ändern"
+msgstr "E-Mail-Adresse ändern"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1050,9 +1050,7 @@ msgstr "Änderungen von r%1 nach r%2"
 
 #: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
-"Überprüfen Sie Ihre Konfigurationseinstellungen für {TemplateDir} und "
-"{TemplatePath}."
+msgstr "Überprüfen Sie die Einstellungen für {TemplateDir} und {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1098,7 +1096,7 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr "Auf geht's"
+msgstr "Treten Sie ein"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1154,12 +1152,12 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
-"Aufgrund einiger Inhalte des Topics ist die Umwandlung der Inhalte in HTML, "
-"die für das Bearbeiten im WYSIWYG-Modus notwendig ist, deaktiviert."
+"Die Konvertierung nach HTML für den WYSIWYG-Editor ist aufgrund der Topic-"
+"Inhalte deaktiviert."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr "Kopiere dieses Topic (und alle seine Anhänge) zu einem neuen Topic."
+msgstr "Dieses Topic (und alle Anhänge) in ein neues Topic kopieren."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1241,7 +1239,7 @@ msgstr "Neues Topic anlegen"
 # "Create not specified" wurde nicht übersetzt. Ergebit sich aus dem Kontext der nächsten Zeile.
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr "Gruppe existiert nicht"
+msgstr "Gruppe existiert nicht und Anlegemodus wurde nicht angefordert"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1260,9 +1258,7 @@ msgstr "Dieses Topic anlegen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
-msgstr ""
-"Erstellen Sie ein Benutzerkonto, um Seiten auf dieser Webseite bearbeiten zu "
-"können."
+msgstr "Legen Sie ein Benutzerkonto an, um Seiten zu bearbeiten."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
@@ -1354,9 +1350,7 @@ msgstr "Unterschied:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
-"Erfahren Sie mehr Details und wie Sie Ihre eigene Webseite mit Foswiki "
-"starten"
+msgstr "Details zu Foswiki und wie Sie Ihr eigenes Foswiki einrichten können"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1380,8 +1374,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr ""
-"Während des Verschiebens des Anhangs =%1= nach %2 ist ein Fehler aufgetreten."
+msgstr "Beim Verschieben des Anhangs =%1= nach %2 ist ein Fehler aufgetreten."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1414,29 +1407,29 @@ msgstr "E-Mail erfolgreich geändert!"
 #: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
-"ENCODE fehlgeschlagen - =type= kann nicht gleichzeitig mit =old= und =new= "
-"verwendet werden."
+"ENCODE fehlgeschlagen - =type= kann nicht zusammen mit =old= und =new= "
+"verwendet werden "
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
-"ENCODE fehlgeschlagen - es muss sowohl =old= als auch =new= angegeben werden"
+"ENCODE fehlgeschlagen - =old= und =new= müssen gemeinsam angegeben werden"
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE fehlgeschlagen - Token '%PARAM1%' wird in =old= wiederholt  "
+msgstr "ENCODE fehlgeschlagen - Token '%PARAM1%' taucht in =old= mehrfach auf "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr "EXPAND fehlgeschlagen - Zugriff auf '%PARAM1%' verweigert"
+msgstr "EXPAND fehlgeschlagen - Zugriff zu '%PARAM1%' verweigert"
 
 #: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
-msgstr "EXPAND fehlgeschlagen - kein Macro"
+msgstr "EXPAND fehlgeschlagen - kein Makro"
 
 #: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr "EXPAND fehlgeschlagen - kein solches Topic '%PARAM1%'"
+msgstr "EXPAND fehlgeschlagen - Topic '%PARAM1%' existiert nicht"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1448,7 +1441,7 @@ msgstr "Editieren"
 
 #: core/data/System/VarMAKETEXT.txt:60
 msgid "Edit %*(%1,file)"
-msgstr "Editiere %*(%1,Datei) "
+msgstr "%*(%1,Datei) bearbeiten"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1456,7 +1449,7 @@ msgstr "Trotzdem bearbeiten"
 
 #: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
-msgstr "Bearbeite Wiki<nop>Text"
+msgstr "Wiki<nop>Text bearbeiten"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
@@ -1464,7 +1457,7 @@ msgstr "Hilfe fürs Editieren"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
-msgstr "Bearbeite Einstellungen für dieses Topic..."
+msgstr "Einstellungen für dieses Topic bearbeiten..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
@@ -1474,7 +1467,7 @@ msgstr "Diese Tabelle bearbeiten"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
 msgid "Edit this topic text (e)"
-msgstr "Topic Text editieren (e)"
+msgstr "Topic-Text bearbeiten (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1482,7 +1475,7 @@ msgstr "Topic Einstellungen editieren"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr "Ähm, lass mich zurückgehen, um die Seite zu korrigieren..."
+msgstr "Hm, ich gehe besser nochmal zurück und korrigiere etwas..."
 
 #: core/templates/messages.tmpl:353
 msgid ""
@@ -1495,14 +1488,14 @@ msgstr ""
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
 msgstr ""
-"Entweder der Name ist ungültig oder er bezieht sich auf ein nicht-"
-"existierendes Formular."
+"Entweder ist der Name ungültig, oder er bezieht sich auf ein Formular, das "
+"nicht existiert."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
-"Entweder der Name ist ungültig oder er bezieht sich auf ein nicht-"
-"existierendes Topic."
+"Entweder ist der Name ungültig, oder er bezieht sich auf ein Topic, das "
+"nicht existiert."
 
 #: core/templates/messages.tmpl:424
 msgid ""
@@ -1514,7 +1507,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Email address"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail-Adresse"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
@@ -1538,14 +1531,14 @@ msgstr ""
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Bitten wählen Sie ein Wiki-Wort Topicnamen aus oder kreuzen Sie die "
-"Verwendung von Nicht-Wiki-Wörtern an."
+"Bitte wählen Sie einen Topic-Namen, der ein <nop>WikiWort ist, oder erlauben "
+"Sie die Verwendung von Nicht-<nop>WikiWörtern in der Auswahlbox."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
-"Beim Laden des Plugins trat ein Fehler auf. Beachten Sie die untenstehenden "
-"Fehlermeldungen."
+"Fehler beim Laden des Plugins aufgetreten; siehe Fehlermeldungen weiter "
+"unten."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
