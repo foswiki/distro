@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 19:03+0200\n"
+"PO-Revision-Date: 2015-03-06 19:27+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -36,7 +36,7 @@ msgstr "%*(%1,minut) "
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
-msgstr "%*(%1,sekund)"
+msgstr "%*(%1,sekund) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
@@ -57,11 +57,11 @@ msgstr "%1 - Registreringsfejl for %2 (%3)"
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
-msgstr "%1 - Registrerings-information for %2 (%3)"
+msgstr "%1 - Registrering for %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
 msgid "%1 Web"
-msgstr "%1 web"
+msgstr "%1 Web"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
@@ -73,7 +73,7 @@ msgstr "%1 tilføjet til %2 gruppe. "
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
-msgstr "%1 kan ikke fjernes fra %2 gruppen"
+msgstr "%1 kunne ikke fjernes fra %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -82,7 +82,7 @@ msgstr "%1 gruppe side opgraderet. "
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 er en liste over andre Foswiki brugere."
+msgstr "%1 er en liste over andre Foswiki brugere"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
@@ -141,7 +141,7 @@ msgstr "%1 er standard-siden til slettede vedhæftede filer."
 
 #: core/templates/messages.tmpl:584
 msgid "%1 may still be editing %2."
-msgstr "%1 editerer muligvis stadig %2"
+msgstr "%1 editerer muligvis stadig %2."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -786,11 +786,11 @@ msgstr "Fejl under sletning af vedhæftet fil"
 
 #: core/lib/Foswiki/UI/Rename.pm:172
 msgid "Attachment does not exist."
-msgstr "Vedhæftet fil findes ikke."
+msgstr "Vedhæftede fil findes ikke."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
-msgstr "Historie for vedhæftet fil"
+msgstr "Historik over vedhæftede filer"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
@@ -798,7 +798,7 @@ msgstr "Fejl under flytning af vedhæftet fil"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
-msgstr "Navn på vedhæftet fil"
+msgstr "Vedhæftet filnavn:"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -847,7 +847,7 @@ msgstr "Tilgængelige formular-skabeloner"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Tilgængelige formular-skabeloner i %1-webbet"
+msgstr "Tilgængelige skabeloner i %1-webbet:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -893,7 +893,7 @@ msgid ""
 msgstr ""
 "Pr default er browsning af Trash-web'et begrænset til %1. Hvis du gerne vil "
 "give alle dine brugere adgang til at browse Trash-webbet, fjern da "
-"=ALLOWWEBVIEW= begrænsningen i WebPreferences"
+"=ALLOWWEBVIEW= begrænsningen i WebPreferences."
 
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
@@ -945,7 +945,7 @@ msgstr "Kan ikke oprette webbet %1 fordi det allerede eksisterer"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Kan ikke omdøbe %1 til %2, da siden allerede eksisterer"
+msgstr "Kan ikke omdøbe %1 til %2, da siden allerede eksisterer."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -990,7 +990,7 @@ msgstr "Opdater links fra sider, der peger på !%1 i %2-webbet:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "Opdater links fra sider, der peger på %1 i alle Webs"
+msgstr "Opdater links fra sider, der peger på %1 (i alle Webs):"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
@@ -1044,11 +1044,11 @@ msgstr ""
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
-"Markerede sider vil blive opdateret til at pege på den nye sides lokation"
+"Markerede sider vil blive opdateret til at pege på den nye side placering."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
-msgstr "Markedere sider vil blive opdateret til at pege på det nye webnavn"
+msgstr "Markederede sider vil blive opdateret til at pege på det nye webnavn."
 
 #: core/templates/more.tmpl:207
 msgid "Child topics in %1 web"
@@ -1500,7 +1500,7 @@ msgstr "Forstør edit-boks"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
-msgstr "Angiv et nyt brugernavn og adgangskode for at skifte identitet:"
+msgstr "Angiv et nyt brugernavn og password for at skifte identitet"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1538,8 +1538,8 @@ msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
-"Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
-"=text/css=)"
+"Fejl: Ikke supporteret indholdstype: %1 (Skal være =text/html=, =text/plain= "
+"eller =text/css=)"
 
 #: core/templates/messages.tmpl:599
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
@@ -1886,7 +1886,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
-msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
+msgstr "Hvis du har spørgsmål, så kontakt venligst %1"
 
 #: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
