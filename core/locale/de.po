@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 14:50+0200\n"
+"PO-Revision-Date: 2015-03-06 15:04+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
@@ -1582,15 +1582,15 @@ msgstr "Fehler beim Entfernen von Nutzern aus Gruppen"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 msgid "Evil person"
-msgstr "Bösartige Person"
+msgstr "Böse Person"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Fehlgeschlagene Plugins"
+msgstr "Fehlerhafte Plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Hinzufügen des Benutzers fehlgeschlagen: "
+msgstr "Konnte Benutzer nicht hinzufügen: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1629,8 +1629,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"Für weitere Informationen über CSRF (cross-site request forgery) und die "
-"damit für Sie potentiell verbundenen Gefahren, sehen Sie [[%1][Wikipedia]]."
+"Für mehr Informationen zu Cross-Site-Request-Forgery und den damit "
+"verbundenen Gefahren, siehe [[%1][Wikipedia-Eintrag zu CSRF]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1670,8 +1670,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"Foswiki überprüft alle Anfragen, die es von Browsern erhält, und versucht zu "
-"gewährleisten, dass diese Anfragen absichtlich gesendet wurden."
+"Foswiki prüft alle Anfragen von Browsern, und versucht sicherzustellen, dass "
+"die Anfragen tatsächlich direkt und bewusst vom Benutzer abgeschickt wurden."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1679,11 +1679,11 @@ msgstr "Foswiki-Passwort zurücksetzen für %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Mehr Informationen über Dateianhänge"
+msgstr "Mehr erfahren über das Anhängen von Dateien"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr "Mehr Informationen über das Festlegen von Topic-Einstellungen"
+msgstr "Mehr erfahren über das Setzen von Topic-Einstellungen"
 
 #: core/data/System/WebSearch.txt:275
 msgid "Get notified on changes on this search"
@@ -1692,7 +1692,7 @@ msgstr "Bei Änderungen bezüglich dieser Suche benachrichtigt werden"
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
-msgstr "Globus"
+msgstr "Weltkugel"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
 #: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
@@ -1704,8 +1704,8 @@ msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Bitte gehen Sie mit Ihrem Browser zurück und füllen Sie vor dem nochmaligen "
-"Speichern alle benötigten Feldern aus."
+"Bitte navigieren Sie mit Ihrem Browser zurück und füllen Sie alle "
+"Pflichtfelder aus, bevor Sie erneut speichern"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1717,8 +1717,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
-"Bitte gehen Sie mit Ihrem Browser zurück und aktivieren Sie vor einem neuen "
-"Versuch Cookies und Javascript"
+"Navigieren Sie zur vorherigen Seite zurück und aktivieren Sie Cookies und "
+"<nop>JavaScript, bevor Sie es erneut versuchen"
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
@@ -1731,7 +1731,7 @@ msgstr "Gruppe"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr "Gruppe existiert nicht und ihre Erzeugung ist nicht erlaubt."
+msgstr "Gruppe existiert nicht und Anlegen ist nicht gestattet"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1739,7 +1739,7 @@ msgstr "Gruppenname"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
-msgstr "Gruppennamen müssen auf Group enden"
+msgstr "Gruppennamen müssen auf \"Group\" enden"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1833,17 +1833,17 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
-"Wenn Foswiki keine EMail-Adresse von Ihnen hat, können Sie nicht automatisch "
-"Ihr Passwort zurücksetzen oder EMail-Benachrichtigungen erhalten."
+"Wenn Foswiki für Sie keine registrierte E-Mail-Adresse in der Datenbank "
+"findet, werden Sie weder Ihr Passwort zurücksetzen, noch die E-Mail-"
+"Benachrichtigungsfunktion nutzen können."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
-"Falls Foswiki eine verdächtige Anfrage feststellt, die von einer solchen "
-"Seite gesendet worden sein könnte, werden Sie aufgefordert, diese Anfrage zu "
-"bestätigen."
+"Wenn Foswiki eine verdächtige Anfrage bemerkt, die von einer solche Seite "
+"stammen könnte, wird es Sie um eine zusätzliche Bestätigung bitten."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
 msgid ""
@@ -1858,8 +1858,8 @@ msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Wenn dies nicht das Problem ist, kann es an der Einstellung von %1 liegen, "
-"welche auf eine nicht existierende Vorlage zeigt."
+"Wenn es nicht daran liegt, könnte es sein, dass Sie eine Einstellung für %1 "
+"haben, die auf ein Template verweist, das nicht existiert."
 
 #: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
