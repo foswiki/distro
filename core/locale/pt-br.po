@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 12:47+0000\n"
-"Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
-"Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2015-03-06 22:23+0200\n"
+"Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/pt_BR/>\n"
+"Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -46,7 +47,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (padrão)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -69,14 +70,12 @@ msgstr "%1 foi adicionado ao grupo %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 movido de %2 em %3 por %4"
+msgstr "%1 não pode ser removido do %2"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "Obrigado por se registrar"
+msgstr "%1 negado o registro."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
@@ -88,9 +87,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 tem uma lista dos outros usuários do Foswiki."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 foi registrado com o e-mail %2"
+msgstr "%1 foi aprovado e registrado com o e-mail %2"
 
 #: core/templates/messages.tmpl:321
 msgid ""
@@ -104,7 +102,7 @@ msgstr ""
 msgid ""
 "%1 has been emailed to inform them that their registration has been "
 "successful"
-msgstr ""
+msgstr "%1 enviou e-mail para informar que o registro foi bem sucedido"
 
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
@@ -160,19 +158,16 @@ msgid "%1 recent changes in %2 Web"
 msgstr "%1 últimas alterações na Web %2"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "Registro de novo usuário desativado"
+msgstr "%1 aprovação de registro requerida"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "Registro de novo usuário desativado"
+msgstr "%1 registro negado"
 
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 movido de %2 em %3 por %4"
+msgstr "%1 removido d0 grupo %2 "
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -200,9 +195,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 foi movido ou renomeado de %2 em %3 por %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName:"
-msgstr "Seu [[%1.LoginName][Nome de Usuário]]"
+msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -293,9 +287,8 @@ msgid "(delete)"
 msgstr "(remover)"
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid "(disabled)"
-msgstr "Editar tabela"
+msgstr "(desabilitado)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -343,9 +336,8 @@ msgid "(raw view)"
 msgstr "(texto puro)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(acesso negado)"
+msgstr "(redirecionamento negado)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -377,6 +369,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*Administradores:* Pode-se trocar endereços de e-mail de usuários por este "
+"formulário. Informe o Login de usuário ou NomeWiki e o novo endereço de "
+"e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -389,7 +384,6 @@ msgstr ""
 "histórico do anexo continuará sendo o mesmo de quando o arquivo foi anexado."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -400,15 +394,15 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Importante:* as informações fornecidas nesse formulário serão armazenadas "
-"num banco de dados no servidor do Foswiki. Este banco de dados é acessível "
-"por qualquer pessoa que tenha permissão de administrar o servidor pela web "
-"(porém as senhas serão criptografadas e os endereços de e-mail ofuscados "
-"para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
-"ter Leis de Proteção de Dados disciplinando as formas de manutenção desse "
-"tipo de banco de dados. Se tiver dúvida e quiser obter detalhes sobre a "
-"Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de "
-"se registrar."
+"*Importante:* as informações fornecidas no presente formulário serão "
+"armazenadas em um banco de dados no servidor web. Este banco de dados é "
+"acessível a qualquer um que possa acessar o servidor através da web (embora "
+"senhas serão criptografadas e os endereços de e-mail serão ofuscados para "
+"evitar SPAM). O seu país, ou no país onde o servidor está hospedado, podem "
+"ter leis de Protecção de Dados que regulam a manutenção de tais bancos de "
+"dados. Se você estiver em dúvida, entrar em contato % 1 para obter detalhes "
+"sobre a Política de Proteção de Dados deste servidor web antes de se "
+"registrar."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -421,14 +415,13 @@ msgstr ""
 "arquivo deverá ter o mesmo nome daquele já existente."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
 "ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
-"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"; veja '%1"
+"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\""
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -436,35 +429,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:29
 msgid "1 hour ago"
-msgstr ""
+msgstr "Há 1 hora"
 
 #: core/data/System/SiteChanges.txt:34
 msgid "1 week ago"
-msgstr ""
+msgstr "Há uma semana"
 
 #: core/data/System/SiteChanges.txt:31
 msgid "12 hours ago"
-msgstr ""
+msgstr "Há 12 horas"
 
 #: core/data/System/SiteChanges.txt:35
 msgid "2 weeks ago"
-msgstr ""
+msgstr "Há duas semanas"
 
 #: core/data/System/SiteChanges.txt:32
 msgid "24 hours ago"
-msgstr ""
+msgstr "Há 24 horas"
 
 #: core/data/System/SiteChanges.txt:33
 msgid "3 days ago"
-msgstr ""
+msgstr "Há 3 dias"
 
 #: core/data/System/SiteChanges.txt:36
 msgid "4 weeks ago"
-msgstr ""
+msgstr "Há 4 semanas"
 
 #: core/data/System/SiteChanges.txt:30
 msgid "6 hours ago"
-msgstr ""
+msgstr "Há 6 horas"
 
 #: core/data/System/WebChanges.txt:19
 msgid ""
@@ -491,22 +484,24 @@ msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
 msgstr ""
+"<nop>%1 (%2) pode ser enviado por email para informar-lhes que a sua "
+"inscrição foi rejeitada."
 
 #: core/templates/registermessages.tmpl:57
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
+"<nop>%1 <%2> foi enviada por e-mail para informar que sua inscrição foi "
+"negada"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Confirmação requerida!</strong><span>Clique em OK para confirmar a "
-"intenção de alterar.</span><span>Ou, caso contrário, clique em Cancelar</"
-"span>"
+"<strong>Confirmação requerida!</strong> Clique em OK para confirmar a "
+"intenção de alterar. Ou, caso contrário, clique em Cancelar"
 
 #: core/templates/messages.tmpl:233
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -547,7 +542,6 @@ msgstr ""
 "página anterior. Corrija-o se necessário."
 
 #: core/templates/messages.tmpl:366
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -555,7 +549,7 @@ msgid ""
 msgstr ""
 "Uma nova senha gerada pelo sistema para o seu login %1 (!NomeWiki %2) foi "
 "enviada para o seu endereço de e-mail cadastrado. Se seu endereço de e-mail "
-"não for válido, favor contatar %3"
+"não for válido, favor contatar %3."
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -570,11 +564,11 @@ msgstr ""
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr ""
+msgstr "Requisição de aprovação para completar o seu registo de usuário"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 msgid "Abandon changes and exit"
