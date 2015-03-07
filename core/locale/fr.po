@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 21:30+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-07 21:31+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1928,27 +1928,27 @@ msgstr "Des problèmes pour vous connecter ?"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
-msgstr ""
+msgstr "Titre 1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:29
 msgid "Heading 2"
-msgstr ""
+msgstr "Titre 2"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:30
 msgid "Heading 3"
-msgstr ""
+msgstr "Titre 3"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:31
 msgid "Heading 4"
-msgstr ""
+msgstr "Titre 4"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:32
 msgid "Heading 5"
-msgstr ""
+msgstr "Titre 5"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
-msgstr ""
+msgstr "Titre 6"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Headings"
