@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 17:44+0200\n"
+"PO-Revision-Date: 2015-03-07 19:31+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
@@ -86,9 +86,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 ha una lista di altri utenti Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 è stato registrato con e-mail %2"
+msgstr "%1 è stato approvato e registrato con e-mail %2"
 
 #: core/templates/messages.tmpl:321
 msgid ""
@@ -130,23 +129,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 è al momento settato su %2"
 
 #: core/templates/messages.tmpl:319
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 è in modifica %2."
+msgstr "%1 è in modifica [[%2][%3]]."
 
 #: core/templates/registermessages.tmpl:284
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 è contenuto in almeno un gruppo e non può essere rimosso"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' non è un valido %2 "
+msgstr "%1 non è un nome di form valido"
 
 #: core/templates/messages.tmpl:117
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' non è un valido %2 "
+msgstr "%1 non è un valore valido per il parametro %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -157,24 +153,20 @@ msgid "%1 may still be editing %2."
 msgstr "%1 è ancora sottoposto a editing %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 - Mostra modifiche in: %@"
+msgstr "%1 cambiamenti recenti nel Web %2"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "Registrazione di nuovo utente disabilitata"
+msgstr "La registrazione %1 richiede approvazione"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "Registrazione di nuovo utente disabilitata"
+msgstr "Negata registrazione di %1"
 
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 spostato da %2 a %3 via %4"
+msgstr "%1 rimosso dal gruppo %2. "
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -198,14 +190,12 @@ msgstr "%1 è stato registrato con e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render/Moved.pm:67
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 spostato da %2 a %3 via %4"
+msgstr "%1 rinominato o spostato da %2 a %3 da %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName:"
-msgstr "Il tuo %1 LoginName"
+msgstr "%1.LoginName:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -216,9 +206,8 @@ msgid "&History"
 msgstr "Storia "
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#, fuzzy
 msgid "&Sequential"
-msgstr "Sequenziale"
+msgstr "&Sequenziale"
 
 #: core/templates/registermessages.tmpl:219
 msgid "'%1' is not a valid %2 "
@@ -286,9 +275,8 @@ msgid "(changes)"
 msgstr "(variazioni)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(in più...)"
+msgstr "(confronta)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -299,9 +287,8 @@ msgid "(delete)"
 msgstr "(cancella)"
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid "(disabled)"
-msgstr "Edit tabella"
+msgstr "(disabilitato)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -349,9 +336,8 @@ msgid "(raw view)"
 msgstr "(vista grezza)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(Accesso negato)"
+msgstr "(riindirizzamento negato)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -395,7 +381,6 @@ msgstr ""
 "dell'allegato resterà quello che era al momento del caricamento del file."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -413,7 +398,7 @@ msgstr ""
 "nazione dove è collocato il server può avere leggi per la protezione dei "
 "dati che regolano la manutenzione di tale database. In caso di dubbio "
 "contatta %1 per i dettagli circa la Politica di Protezione dei Dati in "
-"vigore su questo server Foswiki prima di registrarti."
+"vigore su questo server Foswiki, prima di registrarti."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -424,14 +409,12 @@ msgstr ""
 "questo ad essere aggiornato o aggiunto."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Proprietà:* Commento e visibilità (es. allegato nascosto) possono essere "
-"cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"; "
-"vedi  %1."
+"cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"."
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -3291,7 +3274,7 @@ msgstr "Versione"
 #: PatternSkin/data/_default/WebLeftBar.txt:10
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
-msgstr "RSS Feed"
+msgstr "Feed RSS"
 
 #: core/templates/registernotify.tmpl:11
 msgid ""
@@ -4540,7 +4523,7 @@ msgstr "Ciò richiede la presenza del form di refinizione."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Questo sito utilizza Foswiki"
 
 #: core/templates/registermessages.tmpl:227
 msgid "This site requires at least %1 character passwords"
