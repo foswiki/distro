@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425748775" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -123,7 +123,7 @@
 <div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
-			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
+			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required."}%</em></p>
 			<ul>%INCLUDE{"%TOPIC%" section="requiredFields"}%%INCLUDE{"%TOPIC%" section="optionalFields"}%%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%</ul>
 			<div class='foswikiClear'></div>
 		</div>
@@ -263,26 +263,26 @@ text="<style type='text/css' media='all'>
   "url":"%SCRIPTURL{view}%/%WEB%/%TOPIC%",
   "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
   "messages": {
-    "Fwk1FirstName":"%MAKETEXT{"Please enter your first name"}%",
-    "Fwk1LastName":"%MAKETEXT{"Please enter your last name"}%",
+    "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
+    "Fwk1LastName":"%MAKETEXT{"Please enter your last name."}%",
     "Fwk1WikiName": {
-      "required": "%MAKETEXT{"Please enter a Wiki name"}%",
-      "wikiword": "%MAKETEXT{"This is not a valid Wiki name"}%",
-      "remote": "%MAKETEXT{"This Wiki name is already in use"}%"
+      "required": "%MAKETEXT{"Please enter a Wiki name."}%",
+      "wikiword": "%MAKETEXT{"This is not a valid Wiki name."}%",
+      "remote": "%MAKETEXT{"This Wiki name is already in use."}%"
     },
-    "Fwk1Email": "%MAKETEXT{"Please enter a valid email address"}%",
+    "Fwk1Email": "%MAKETEXT{"Please enter a valid email address."}%",
     "Fwk1LoginName": {
-      "required": "%MAKETEXT{"Please enter a login name"}%",
-      "remote": "%MAKETEXT{"This login name is already in use"}%"
+      "required": "%MAKETEXT{"Please enter a login name."}%",
+      "remote": "%MAKETEXT{"This login name is already in use."}%"
     },
     "Fwk1Password": {
-      "required": "%MAKETEXT{"Please enter a password"}%",
-      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%"
+      "required": "%MAKETEXT{"Please enter a password."}%",
+      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
     },
     "Fwk1Confirm": {
-      "required": "%MAKETEXT{"Please confirm your password"}%",
-      "equalTo": "%MAKETEXT{"Please enter the same password as above"}%",
-      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%"
+      "required": "%MAKETEXT{"Please confirm your password."}%",
+      "equalTo": "%MAKETEXT{"Please enter the same password as above."}%",
+      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
     }
   }
 }
@@ -298,36 +298,36 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 <!--
 	Required field first name
 -->
-%STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Fwk1FirstName"><span class="required">*</span>%MAKETEXT{"First name"}%</label>
+%STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Fwk1FirstName"><span class="required">*</span>%MAKETEXT{"First name:"}%</label>
 <div><input type="text" id="Fwk1FirstName" name="Fwk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" /></div></li>%ENDSECTION{"requiredField_firstName"}%
 
 
 <!--
 	Required field last name
 -->
-%STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Fwk1LastName"><span class="required">*</span>%MAKETEXT{"Last name"}%</label>
+%STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Fwk1LastName"><span class="required">*</span>%MAKETEXT{"Last name:"}%</label>
 <div><input type="text" id="Fwk1LastName" name="Fwk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" /></div></li>%ENDSECTION{"requiredField_lastName"}%
 
 
 <!--
 	Required field wiki name
 -->
-%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
-<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
+%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name:"}%</label>
+<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]." args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
 <!--
 	Required field login name
 	Only shown if ALLOWLOGINNAME is true.
 -->
-%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name"}%</label>
+%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name:"}%</label>
 <div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</label></div></li>%ENDSECTION{"requiredField_loginName"}%
 
 
 <!--
 	Required field email
 -->
-%STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Fwk1Email"><span class="required">*</span>%MAKETEXT{"Email address"}%</label>
+%STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Fwk1Email"><span class="required">*</span>%MAKETEXT{"Email address:"}%</label>
 <div><input type="text" id="Fwk1Email" name="Fwk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</label></div></li>%ENDSECTION{"requiredField_email"}%
 
 
@@ -336,8 +336,8 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 	Only shown if the password manager supports changing the password / email.
 	Displays one password field and (if {Register}{DisablePasswordConfirmation} is not unset) one confirmation password field.
 -->
-%STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Fwk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
-<div><input type="password" id="Fwk1Password" name="Fwk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Fwk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
+%STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Fwk1Password"><span class="required">*</span>%MAKETEXT{"Your password:"}%</label>
+<div><input type="password" id="Fwk1Password" name="Fwk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Fwk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password:\"}$percnt</label>
 <div><input type=\"password\" id=\"Fwk1Confirm\" name=\"Fwk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
@@ -375,7 +375,6 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
       separator=" "
 }%%ENDSECTION{"groups"}%
 
-
 <!--
 Section nochange
 -->
@@ -392,7 +391,7 @@ Section rendergroup
 Section rendergroupheader
   parameters: 
 -->
-%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%MAKETEXT{"Select [_1] to join" args="%multiple%"}%</label>
+%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%MAKETEXT{"Select [_1] to join:" args="%multiple%"}%</label>
 <div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
 
 <!--
@@ -411,21 +410,21 @@ Section hiddenrendergroupheader
 <!--
 	Optional field organisation name
 -->
-%STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Fwk0OrganisationName">%MAKETEXT{"Organisation name"}%</label>
+%STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Fwk0OrganisationName">%MAKETEXT{"Organisation name:"}%</label>
 <div><input type="text" id="Fwk0OrganisationName" name="Fwk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" /></div></li>%ENDSECTION{"extraField_organisationName"}%
 
 
 <!--
 	Optional field organisation url
 -->
-%STARTSECTION{"extraField_organisationUrl"}%<li><label class="desc" for="Fwk0OrganisationURL">%MAKETEXT{"Organisation website"}%</label>
+%STARTSECTION{"extraField_organisationUrl"}%<li><label class="desc" for="Fwk0OrganisationURL">%MAKETEXT{"Organisation website:"}%</label>
 <div><input type="text" id="Fwk0OrganisationURL" name="Fwk0OrganisationURL" size="40" class="foswikiInputField" value="http://" tabindex="9" /></div></li>%ENDSECTION{"extraField_organisationUrl"}%
 
 
 <!--
 	Optional field country
 -->
-%STARTSECTION{"extraField_country"}%<li><label class="desc" for="Fwk0Country">%MAKETEXT{"Country"}%</label>
+%STARTSECTION{"extraField_country"}%<li><label class="desc" for="Fwk0Country">%MAKETEXT{"Country:"}%</label>
 <div><select class="foswikiSelect" id="Fwk0Country" name="Fwk0Country" size="1" tabindex="10">%SEARCH{
 "^\|[^\*\|]*\|"
 topic="CountryList"
@@ -441,7 +440,7 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 <!--
 	Required submit button
 -->
-%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /><span class="expl foswikiHidden">%MAKETEXT{"Please correct the entered data before you continue"}%</span></div></li>%ENDSECTION{"requiredButton_submit"}%
+%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /><span class="expl foswikiHidden">%MAKETEXT{"Please correct the entered data before you continue."}%</span></div></li>%ENDSECTION{"requiredButton_submit"}%
 
 
 <!--
