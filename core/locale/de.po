@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 15:05+0200\n"
+"PO-Revision-Date: 2015-03-07 15:29+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -2198,6 +2198,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
+"Wenn Sie eine E-Mail mit Feedback schicken möchten, geben Sie den Text unten "
+"ein und klicken Sie 'E-Mail senden'"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -2210,17 +2212,16 @@ msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
-msgstr ""
+msgstr "7 Tage lang ignorieren"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Image"
-msgstr ""
+msgstr "Bild"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Das %1 Web existiert nicht"
+msgstr "Bild %1 von %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2232,10 +2233,13 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"Ein mögliches Szenario: jemand hat Ihnen einen Link zukommen lassen, um Sie "
+"zu verleiten, eine Seite auf http<nop>://übeltäter.example zu besuchen, auf "
+"der bösartiger JavaScript-Code versteckt ist."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "Bei einer ZIP-Datie: alle enthaltenen Dateien an dieses Topic anhängen"
 
 #: core/data/System/WebSearch.txt:174
 msgid "In reversed order"
@@ -2268,18 +2272,16 @@ msgid "Incorrect Password"
 msgstr "Inkorrektes Passwort"
 
 #: core/templates/registermessages.tmpl:307
-#, fuzzy
 msgid "Incorrect Prefix"
-msgstr "Inkorrekter %1"
+msgstr "Falsches Präfix"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Inkorrekte Parameter für das =%1= Skript"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
-#, fuzzy
 msgid "Indent"
-msgstr "Index"
+msgstr "Einrücken"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:8
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
@@ -2294,71 +2296,68 @@ msgstr "Index"
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 #: PatternSkin/data/System/PatternSkinElements.txt:450
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:2
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Insert a color code"
-msgstr ""
+msgstr "Farbe hier einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
-msgstr ""
+msgstr "Datum einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Insert a horizontal ruler"
-msgstr ""
+msgstr "Horizontale Trennlinie einfügen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:66
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:83
-#, fuzzy
 msgid "Insert a link"
-msgstr "Interner Verweis"
+msgstr "Link einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
 msgid "Insert a link to a topic or an external resource"
-msgstr ""
+msgstr "Link zu einem Topic oder einer externen Ressource einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
-msgstr ""
+msgstr "Link zu einem Benutzerprofil einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Insert a macro"
-msgstr ""
+msgstr "Makro einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
-#, fuzzy
 msgid "Insert a mathematical formula"
-msgstr "Mathematische Formel (<nio>LaTeX)"
+msgstr "Mathematische Formel einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr ""
+msgstr "Neue Tabelle einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
-msgstr ""
+msgstr "Symbol einfügen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
-#, fuzzy
 msgid "Insert an attachment"
-msgstr "Anhang löschen"
+msgstr "Anhang einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
-msgstr ""
+msgstr "Emoticon einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Insert an icon"
-msgstr ""
+msgstr "Icon einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:105
 msgid "Insert your signature"
-msgstr ""
+msgstr "Ihre Signatur einfügen"
 
 #: core/templates/messages.tmpl:235
 msgid ""
@@ -2374,7 +2373,7 @@ msgstr "Ungültiger Aktivierungs-Code"
 
 #: core/templates/messages.tmpl:165
 msgid "Invalid Input"
-msgstr ""
+msgstr "Ungültige Eingabe"
 
 #: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
@@ -2400,16 +2399,14 @@ msgstr ""
 "sollten."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Es ist meist besser, ein <a target='WikiWord' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>WikiWord</a> für das neue Topic zu wählen, da ansonsten "
-"automatische Verweise nicht funktionieren. Zeichen, die in Topic Namen nicht "
-"erlaubt sind (z.B. Leerzeichen), werden automatisch entfernt."
+"Es ist meist besser, ein %1 für das neue Topic zu wählen, da ansonsten "
+"automatische Verweise evtl. nicht funktionieren. Zeichen, die in Topic Namen "
+"nicht erlaubt sind (z.B. Leerzeichen), werden automatisch entfernt."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -2422,13 +2419,12 @@ msgstr ""
 "nicht in Web Namen erlaubt sind, werden automatisch entfernt."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
-#, fuzzy
 msgid "Italic"
-msgstr "Text kursiv"
+msgstr "Kursiv"
 
 #: core/data/Main/GroupViewTemplate.txt:255
 msgid "Join %1"
-msgstr ""
+msgstr "%1 beitreten"
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
@@ -2438,48 +2434,42 @@ msgid "Jump"
 msgstr "Sprung"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "Vorherige Topic Revision wiederherstellen"
+msgstr "Zur ersten Revision"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Zur neuesten Revision (%1)"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:135
 #: NatEditPlugin/templates/edit.natedit.tmpl:166
-#, fuzzy
 msgid "Just me"
-msgstr "Blocksatz"
+msgstr "Nur ich"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
 msgid "Justify text"
 msgstr "Blocksatz"
 
 #: core/data/System/WebSearch.txt:193
-#, fuzzy
 msgid "Keyword search"
-msgstr "Suche verändern"
+msgstr "Stichwortsuche"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "Last"
-msgstr "Nachname:"
+msgstr "Letzte"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Letzter Bearbeiter"
+msgstr "Zuletzt bearbeitet von"
 
 #: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
 msgid "Last editor"
 msgstr "Letzter Bearbeiter"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Last modified"
-msgstr "Zeit der letzten Änderung"
+msgstr "Zuletzt bearbeitet"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
