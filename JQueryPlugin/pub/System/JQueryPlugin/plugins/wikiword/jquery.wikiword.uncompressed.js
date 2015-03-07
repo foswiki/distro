@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 3.01
+ * jQuery WikiWord plugin 3.02
  *
  * Copyright (c) 2008-2015 Foswiki Contributors http://foswiki.org
  *
@@ -81,15 +81,30 @@ $.wikiword = {
    * constructor
    */
   build: function(options) {
+    var opts;
+
+    // call build either with an options object or with a source string
+    if (typeof(options) === 'string') {
+      options = {
+        source: options
+      };
+    }
    
     // build main options before element iteration
-    var opts = $.extend({}, $.wikiword.defaults, options);
+    opts = $.extend({}, $.wikiword.defaults, options);
 
     // iterate and reformat each matched element
     return this.each(function() {
       var $this = $(this),
           thisOpts = $.extend({}, opts, $this.data(), $this.metadata()),
-          $source = $(thisOpts.source);
+          $source;
+
+      // either a string or a jQuery object
+      if (typeof(thisOpts.source) === 'string') {
+        $source = $(thisOpts.source);
+      } else {
+        $source = thisOpts.source;
+      }
 
       // generate RegExp for filtered chars
       if (typeof(thisOpts.allowedRegex) === 'string') {
@@ -111,10 +126,13 @@ $.wikiword = {
    * handler for source changes
    */
   handleChange: function(source, target, opts) {
-    var result = '';
+    var result = []
+
+    // gather all sources
     source.each(function() {
-      result += $(this).is(':input')?$(this).val():$(this).text();
+      result.push($(this).is(':input')?$(this).val():$(this).text());
     });
+    result = result.join(" ");
 
     if (result || !opts.initial) {
       result = $.wikiword.wikify(result, opts);
