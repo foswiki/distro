@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 20:13+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-07 20:14+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1654,9 +1654,8 @@ msgstr ""
 "la case permettant de forcer le choix d'un nom qui n'est pas un <nop>MotWiki."
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Enter users or groups to add to this group"
-msgstr "Retirez tout d'abord l'utilisateur du/des groupe(s) %1."
+msgstr "Saisir les utilisateurs ou les groupes à ajouter à ce groupe"
 
 #: core/templates/messages.tmpl:481
 msgid "Error encountered loading the plugin. See errors below."
