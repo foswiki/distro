@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 19:23+0200\n"
+"PO-Revision-Date: 2015-03-07 20:32+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -1468,7 +1468,7 @@ msgstr "Modifier les paramètres de la page"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr "Hum, laissez moi revenir en arrière et corriger la page..."
+msgstr "Hum, laissez moi revenir en arrière pour corriger la page..."
 
 #: core/templates/messages.tmpl:353
 msgid ""
@@ -1480,12 +1480,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
-"Soit le nom est invalide, soit il correspond à un formulaire inexistant."
+msgstr "Soit le nom est invalide, soit il se réfère à un formulaire inexistant."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr "Soit le nom est invalide, soit il correspond à une page inexistante."
+msgstr "Soit le nom est invalide, soit il se réfère à une page inexistante."
 
 #: core/templates/messages.tmpl:424
 msgid ""
@@ -1521,8 +1520,8 @@ msgstr ""
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Tapez comme nom de page un [[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez la "
-"case permettant de forcer le choix d'un nom qui n'est pas un <nop>MotWiki."
+"Comme nom de page, saisissez un [[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez "
+"la case permettant de forcer le choix d'un nom qui n'est pas un <nop>MotWiki."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
@@ -1574,7 +1573,7 @@ msgstr "Personne mal intentionnée"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Echec de plugins"
+msgstr "Plugins en erreur"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
@@ -1591,8 +1590,7 @@ msgstr "Les champs marqués de %1 sont obligatoires"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr ""
-"Les champs marqués par des <span class='required'>*</span> sont obligatoires"
+msgstr "Les champs marqués de <span class='required'>*</span> sont obligatoires"
 
 #: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
@@ -1616,8 +1614,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"Pour plus d'information sur la falsification de requête inter-domaine "
-"(CSRF : cross-site request forgery), et ses dangers, voyez "
+"Pour plus d'information sur la falsification de requête inter-domaine (CSRF :"
+" cross-site request forgery), et ses dangers, voyez [[%1][l'article Cross-"
+"site request forgery sur Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
