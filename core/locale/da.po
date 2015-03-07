@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 14:36+0200\n"
+"PO-Revision-Date: 2015-03-07 21:52+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -3052,11 +3052,11 @@ msgstr "Se venligst %1 for information om formular-definitioner."
 #: core/templates/messages.tmpl:527 core/templates/messages.tmpl:560
 #: core/templates/messages.tmpl:570
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr "See %MAINWEB%.WikiGroups for at se resultatet."
+msgstr "Se %MAINWEB%.WikiGroups for at se resultatet."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
-msgstr "Se også den hurtigere oversigt: %1."
+msgstr "Se også den hurtigere oversigt: %1"
 
 #: core/data/System/WebTopicList.txt:5
 msgid "See also the verbose %1."
@@ -3068,15 +3068,15 @@ msgstr "Se også:"
 
 #: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
-msgstr "See nedenfor for hjælp til at editere denne side"
+msgstr "Se nedenfor for hjælp til at editere denne side."
 
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
-msgstr "Ændrede sider de seneste:"
+msgstr "Se ændringer siden:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr "Se DISABLEDPLUGINS indstillingen."
+msgstr "Se DISABLEDPLUGINS indstillinger."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3088,7 +3088,7 @@ msgstr "Vælg gruppe %1 at være med i"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
-msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil."
+msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "Select all"
@@ -3097,7 +3097,7 @@ msgstr "Vælg alle"
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
-"Vælg en tidligere (venstre) and en senere (højre) revision at sammenligne"
+"Vælg en tidligere (venstre) and en senere (højre) version at sammenligne"
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
