@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: geonwiki@fenachrone.com\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 18:28+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-07 18:48+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1527,7 +1527,7 @@ msgstr "ENCODE a échoué - =old= et =new= doivent tous deux être spécifiés"
 
 #: core/templates/messages.tmpl:465
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE a échoué - le paramètre '%PARAM1%' est répété dans =old="
+msgstr "ENCODE a échoué - l'identificateur '%PARAM1%' est répété dans =old= "
 
 #: core/templates/messages.tmpl:471
 msgid "EXPAND failed - access to '%PARAM1%' denied"
