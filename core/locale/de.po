@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 19:40+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-03-08 00:02+0200\n"
+"Last-Translator: Oliver Krüger <foswiki@oliverkrueger.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
 "Language: de\n"
@@ -77,7 +77,7 @@ msgstr "%1 konnte nicht aus der Gruppe %2 entfernt werden"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "%1 Gruppen-Topic aktualisiert."
+msgstr "%1 Gruppen Topic aktualisiert. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -137,7 +137,7 @@ msgstr "%1 ist kein gültiger Formular-Name"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "%1 ist kein gültiger Wert für den Parameter %2 "
+msgstr "%1 ist kein gültiger Wert für den Parameter %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -156,7 +156,7 @@ msgstr "%1 aktuelle Änderungen im %2 Web"
 # $by)
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
-msgstr "%1 wurde aus der Gruppe %2 entfernt."
+msgstr "%1 wurde aus der Gruppe %2 entfernt. "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -2202,7 +2202,7 @@ msgstr "Suche gestalten:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr "Maximal %1 Elemente pro Web"
+msgstr "Maximal %1 Treffer pro Web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2528,11 +2528,11 @@ msgstr "Optionen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 msgid "Organisation name"
-msgstr "Name der Organisation:"
+msgstr "Name der Organisation"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 msgid "Organisation website"
-msgstr "Webseite der Organisation:"
+msgstr "Webseite der Organisation"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
@@ -2950,7 +2950,7 @@ msgstr "Ergebnisse vom %1 web"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "Ergebnisse aus dem %1-Web"
+msgstr "Ergebnisse aus dem Web %1:"
 
 #: core/templates/messages.tmpl:220
 msgid "Return to %1."
@@ -3038,7 +3038,7 @@ msgstr "Alle Webs nach Topics durchsuchen, die hierher verweisen"
 
 #: core/data/System/WebSearch.txt:34
 msgid "Search in %1 Web"
-msgstr "Suche im %1 Web"
+msgstr "%1 Web durchsuchen"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -3356,7 +3356,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
-msgstr "Der Benutzer wurde bereits aktiviert"
+msgstr "Der Benutzer wurde bereits aktiviert "
 
 #: core/templates/messages.tmpl:309
 msgid ""
@@ -3401,7 +3401,7 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of %2."
-msgstr "Das %1 Web von %2"
+msgstr "Das %1 Web auf %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -3419,11 +3419,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:176
 msgid "The Administrator has disabled password changes."
-msgstr "Der Administrator hat Passwortänderungen deaktiviert."
+msgstr "Der Administrator hat das Ändern von Passwörtern abgeschaltet."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr "Das Freie Open Source Wiki."
+msgstr "Das freie und queeloffene Wiki."
 
 #: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
@@ -3438,17 +3438,16 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"Falls bereits ein Anhang mit diesem Namen am Ziel-Topic angehängt ist, kann "
-"der Anhang beispielsweise durch Anfügen einer Nummer an den Anhangsnamen "
-"umbenannt werden."
+"Der Dateianhang kann möglicherweise (durch Anhängen einer Nummer) umbenannt "
+"werden, wenn eine gleichnamige Datei am Zielort bereits existiert."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
-"Der Anhang muss eventuell umbenannt werden, falls bereits ein Anhang mit dem "
-"Namen '%FILENAME%' am Ziel-Topic existiert."
+"Der Dateianhang kann möglicherweise umbenannt werden, wenn '%FILENAME%' am "
+"Zielort bereits existiert."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -3656,8 +3655,7 @@ msgstr ""
 "Mit diesem Formular können Sie ihre registrierte E-Mail Adresse ändern, "
 "welche von Foswiki unter anderem für Änderungshinweise oder "
 "Passwortänderungen benutzt wird. Die Adressen, die Sie über dieses Formular "
-"registrieren werden geheim gehalten und *nicht* auf dieser Seite "
-"veröffentlicht."
+"registrieren, werden geheim gehalten und *nicht* veröffentlicht."
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
@@ -4615,7 +4613,7 @@ msgstr "Zugriff zu diesem Web nicht gestattet"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
-msgstr "accesskey='c'"
+msgstr "accesskey='a'"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
