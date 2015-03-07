@@ -9,15 +9,16 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-29 10:47+0200\n"
-"Last-Translator: Guido <gdo@leader.it>\n"
-"Language-Team: <it@li.org>\n"
+"PO-Revision-Date: 2015-03-07 19:31+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -71,7 +72,7 @@ msgstr "%1 aggiunto al gruppo %2. "
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
-msgstr "%1 non può essere rimosso dal gruppo %2. "
+msgstr "%1 non può essere rimosso da %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -84,7 +85,7 @@ msgstr "%1 ha una lista di altri utenti Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 è stato approvato registrato con e-mail %2"
+msgstr "%1 è stato approvato e registrato con e-mail %2"
 
 #: core/templates/messages.tmpl:578
 msgid ""
@@ -120,7 +121,7 @@ msgstr "%1 è al momento configurato con %2"
 
 #: core/templates/messages.tmpl:576
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 sta modificando [[%2][%3]]."
+msgstr "%1 è in modifica [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
@@ -128,7 +129,7 @@ msgstr "%1 è presente in almeno un gruppo e quindi non può essere rimosso"
 
 #: core/templates/messages.tmpl:126
 msgid "%1 is not a valid form name"
-msgstr "%1 non è un form valido"
+msgstr "%1 non è un nome di form valido"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
@@ -144,7 +145,7 @@ msgstr "%1 sta ancora modificando %2."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 modifiche recenti nel Web %2"
+msgstr "%1 cambiamenti recenti nel Web %2"
 
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
@@ -173,7 +174,7 @@ msgstr "%1 ha cercato di registrarsi con e-mail %2"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:269
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 è stato rinominato o spostato da %2 a %3 dall'utente %4"
+msgstr "%1 rinominato o spostato da %2 a %3 da %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
@@ -189,11 +190,11 @@ msgstr "Versioni (&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
-msgstr "&Sequenziali"
+msgstr "&Sequenziale"
 
 #: core/templates/messages.tmpl:302
 msgid "'%1' is not a valid %2 "
-msgstr "'%1' non è un valido %2"
+msgstr "'%1' non è un valido %2 "
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -320,7 +321,7 @@ msgstr "(vista 'raw')"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(reindirizzamento negato)"
+msgstr "(riindirizzamento negato)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -388,10 +389,10 @@ msgid ""
 msgstr ""
 "*Importante:* le informazioni contenute in questo form saranno memorizzate "
 "in un database sul server Foswiki. Questo database è accessibile a chiunque "
-"ha accesso al server via web (sebbene le passwords vengano criptate e gli "
-"indirizzi e-mail nascosti per prevenire lo spamming). La tua nazione o la "
-"nazione dove è collocato il server potrebbe avere leggi per la protezione "
-"dei dati che regolano la gestione di tale database. In caso di dubbio "
+"ha accesso al server via web (sebbene le  passwords verranno criptate e gli "
+"indirizzi e-mail nascosti per prevenire lo spamming). La tua nazione, o la "
+"nazione dove è collocato il server può avere leggi per la protezione dei "
+"dati che regolano la manutenzione di tale database. In caso di dubbio "
 "contatta %1 per i dettagli circa la Politica di Protezione dei Dati in "
 "vigore su questo server Foswiki, prima di registrarti."
 
@@ -409,7 +410,7 @@ msgid ""
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Proprietà:* Commento e visibilità (es. allegato nascosto) possono essere "
-"cambiati senza ricaricare il file selezionando \"Cambia solo le proprietà\"."
+"cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -2688,7 +2689,7 @@ msgstr "Salva senza notificare"
 #: PatternSkin/data/_default/WebLeftBar.txt:10
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
-msgstr "RSS Feed"
+msgstr "Feed RSS"
 
 #: core/templates/registernotify.tmpl:10
 msgid ""
@@ -3691,7 +3692,7 @@ msgstr "Ciò richiede la definizione del form che deve essere presente."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
-msgstr "Questo sito è realizzato con Foswiki"
+msgstr "Questo sito utilizza Foswiki"
 
 #: core/templates/messages.tmpl:321
 msgid "This site requires at least %1 character passwords"
@@ -3835,7 +3836,7 @@ msgstr "La pagina è stata incorporata"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:120
 msgid "Topic will be named: "
-msgstr "La pagina verrà chiamata:"
+msgstr "La pagina verrà chiamata: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
