@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 14:36+0200\n"
+"PO-Revision-Date: 2015-03-07 21:53+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -3651,7 +3651,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:198
 msgid "See %1 for information about Form Definitions."
-msgstr ""
+msgstr "Se venligst %1 for information om formular-definitioner."
 
 #: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
@@ -3659,37 +3659,35 @@ msgstr ""
 #: core/templates/registermessages.tmpl:429
 #: core/templates/registermessages.tmpl:438
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Se %MAINWEB%.WikiGroups for at se resultatet."
 
 #: core/data/System/WebIndex.txt:13
 msgid "See also the faster %1"
-msgstr ""
+msgstr "Se også den hurtigere oversigt: %1"
 
 #: core/data/System/WebTopicList.txt:6
 msgid "See also the verbose %1."
-msgstr ""
+msgstr "Se også den mere udførlige oversigt: %1."
 
 #: core/data/System/WebChanges.txt:17
 msgid "See also:"
-msgstr ""
+msgstr "Se også:"
 
 #: core/templates/edit.tmpl:51
 msgid "See below for help in editing this page."
-msgstr ""
+msgstr "Se nedenfor for hjælp til at editere denne side."
 
 #: core/data/System/SiteChanges.txt:27
-#, fuzzy
 msgid "See changes since:"
-msgstr "%1 senest ændrede sider i %2-webbet"
+msgstr "Se ændringer siden:"
 
 #: core/lib/Foswiki/Plugins.pm:300
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Se DISABLEDPLUGINS indstillinger."
 
 #: core/templates/changeform.tmpl:12
-#, fuzzy
 msgid "Select"
-msgstr "Handling"
+msgstr "Vælg"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
 msgid "Select %1 to join"
@@ -3697,29 +3695,27 @@ msgstr ""
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
-msgstr ""
+msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all"
-msgstr "Nulstil alle"
+msgstr "Vælg alle"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Vælg en tidligere (venstre) and en senere (højre) version at sammenligne"
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
 #: core/data/Main/GroupViewTemplate.txt:233
-#, fuzzy
 msgid "Select members to remove from this group:"
-msgstr "%1 blev flyttet fra %2 den %3 af %4"
+msgstr "Vælg medlemmer som skal fjernes fra denne gruppe:"
 
 #: core/templates/more.tmpl:101
-#, fuzzy
 msgid "Select topic parent"
-msgstr "Slet side"
+msgstr "Vælg side-forælder"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
 msgid "Select, copy and paste your signature text to the bottom of your entry"
