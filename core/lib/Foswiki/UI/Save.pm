@@ -653,6 +653,9 @@ WARN
     try {
         $topicObject->save(%$saveOpts);
     }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
     catch Error with {
         throw Foswiki::OopsException(
             'attention',
@@ -673,6 +676,9 @@ WARN
         foreach $a ( @{$attachments} ) {
             try {
                 $a->{tom}->copyAttachment( $a->{name}, $topicObject );
+            }
+            catch Foswiki::OopsException with {
+                shift->throw();    # propagate
             }
             catch Error with {
                 throw Foswiki::OopsException(
