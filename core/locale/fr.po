@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 14:09+0200\n"
+"PO-Revision-Date: 2015-03-07 19:23+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -1410,7 +1410,7 @@ msgstr "ENCODE a échoué - =old= et =new= doivent tous deux être spécifiés"
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE a échoué - le paramètre '%PARAM1%' est répété dans =old= "
+msgstr "ENCODE a échoué - l'identificateur '%PARAM1%' est répété dans =old= "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1434,7 +1434,7 @@ msgstr "Modifier"
 
 #: core/data/System/VarMAKETEXT.txt:60
 msgid "Edit %*(%1,file)"
-msgstr "Modifier %*(%1,le ficher) "
+msgstr "Modifier %*(%1,fichier)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
