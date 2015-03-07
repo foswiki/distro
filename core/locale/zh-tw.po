@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-04 05:21+0200\n"
+"PO-Revision-Date: 2015-03-07 16:06+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -23,7 +23,7 @@ msgstr ""
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
-msgstr "%*(%1,天)"
+msgstr "%*(%1,天) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:485
@@ -38,7 +38,7 @@ msgstr "%*(%1,分鐘) "
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
-msgstr "%*(%1,秒)"
+msgstr "%*(%1,秒) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
@@ -67,7 +67,7 @@ msgstr "%1 子網"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
-msgstr "%1 加入 %2 群組。"
+msgstr "%1 加入 %2 群組。 "
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -79,7 +79,7 @@ msgstr "%1 不能自 %2 移除"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "%1 群組主題更新。"
+msgstr "%1 群組主題已更新。 "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
