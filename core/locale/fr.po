@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 18:49+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-07 19:24+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -596,7 +596,7 @@ msgstr "Action"
 
 #: core/templates/messages.tmpl:379
 msgid "Action %1: %2 by user %3."
-msgstr "Action %1: %2 par l'utilisateur %3."
+msgstr "Action %1: %2 pour l'utilisateur %3."
 
 #: core/data/Main/WikiGroups.txt:64
 msgid "Actions"
@@ -1552,9 +1552,8 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: core/data/System/VarMAKETEXT.txt:61
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minute) "
+msgstr "Modifier %*(%1,fichier)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1562,7 +1561,7 @@ msgstr "Modifier tout de même"
 
 #: core/templates/viewtopicactionbuttons.tmpl:63
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Modifier Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
