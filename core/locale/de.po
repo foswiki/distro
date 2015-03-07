@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 19:40+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-03-08 00:09+0200\n"
+"Last-Translator: Oliver Krüger <foswiki@oliverkrueger.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -81,7 +81,7 @@ msgstr "%1 hat die Registrierung verweigert."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
-msgstr "%1 Gruppen Topic aktualisiert."
+msgstr "%1 Gruppen Topic aktualisiert. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -147,7 +147,7 @@ msgstr "%1 ist kein gültiger Formular-Name"
 
 #: core/templates/messages.tmpl:117
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "%1 ist kein gültiger Wert für den Parameter %2 "
+msgstr "%1 ist kein gültiger Wert für den Parameter %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -174,7 +174,7 @@ msgstr "Registrierung für %1 abgewiesen"
 # $by)
 #: core/templates/registermessages.tmpl:436
 msgid "%1 removed from the %2 group. "
-msgstr "%1 wurde aus der Gruppe %2 entfernt."
+msgstr "%1 wurde aus der Gruppe %2 entfernt. "
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -1450,9 +1450,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Wollen Sie [[%1][%2's Passwort zurücksetzen]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Unterschied:"
+msgstr "Unterschied"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1720,7 +1719,7 @@ msgstr "Fehler beim Entfernen von Mitgliedern aus Gruppen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Escape markup"
-msgstr ""
+msgstr "Textauszeichnung schützen"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:125
 msgid "Everybody"
@@ -2476,9 +2475,8 @@ msgid "Last modified time"
 msgstr "Zeit der letzten Änderung"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
-#, fuzzy
 msgid "Last name"
-msgstr "Nachname:"
+msgstr "Nachname"
 
 #: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
@@ -2535,7 +2533,6 @@ msgid "Log in to continue."
 msgstr "Anmelden, um fortzufahren."
 
 #: core/templates/login.tmpl:14
-#, fuzzy
 msgid "Log on to %1"
 msgstr "Anmelden bei %1"
 
@@ -2578,12 +2575,12 @@ msgstr "Suche gestalten:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "Maximal %1 Treffer pro Web"
 
 #: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
-msgstr ""
+msgstr "Mitglieder"
 
 #: core/templates/messages.tmpl:158
 msgid "Missing Fields"
@@ -2725,7 +2722,7 @@ msgstr "Die Registrierung für neue Benutzer wird nicht unterstützt"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list):"
-msgstr "Neue E-Mail-Adressen (durch Leerzeichen getrennte Liste)"
+msgstr "Neue E-Mail-Adressen (durch Leerzeichen getrennte Liste):"
 
 #: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
@@ -2968,11 +2965,11 @@ msgstr "Optionen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
 msgid "Organisation name"
-msgstr "Name der Organisation:"
+msgstr "Name der Organisation"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
 msgid "Organisation website"
-msgstr "Webseite der Organisation:"
+msgstr "Webseite der Organisation"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
 msgid "Outdent"
@@ -3411,9 +3408,8 @@ msgid "Rename or move topic..."
 msgstr "Topic umbenennen oder verschieben..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Dieses Web umbenennen, verschieben oder löschen:"
+msgstr "Dieses Web umbenennen, verschieben oder löschen"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -3461,7 +3457,6 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:187
-#, fuzzy
 msgid "Restore"
 msgstr "Wiederherstellen"
 
@@ -3516,7 +3511,7 @@ msgstr "Ergebnisse vom %1 web"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "Ergebnisse aus dem %1-Web"
+msgstr "Ergebnisse aus dem Web %1:"
 
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
@@ -3589,7 +3584,6 @@ msgid "Save"
 msgstr "Speichern"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
-#, fuzzy
 msgid "Save and Continue"
 msgstr "Speichern und Bearbeiten fortsetzen"
 
@@ -3647,9 +3641,8 @@ msgid "Search for updates"
 msgstr "Nach Updates suchen"
 
 #: core/data/System/WebSearch.txt:34
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Nur %1 Web durchsuchen"
+msgstr "%1 Web durchsuchen"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -3921,7 +3914,6 @@ msgid "Statistics"
 msgstr "Statistiken"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:52
-#, fuzzy
 msgid "Strikethrough"
 msgstr "Durchgestrichener Text"
 
@@ -3969,9 +3961,8 @@ msgid "Subscribe to this topic (s)"
 msgstr "Dieses Topic abonnieren (s)"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
-#, fuzzy
 msgid "Subscript"
-msgstr "Tiefergelegter Text"
+msgstr "Tiefgestellter Text"
 
 #: core/data/System/WebSearch.txt:122 core/data/System/WebSearch.txt:152
 msgid "Subwebs"
@@ -3990,7 +3981,6 @@ msgid "Summaries"
 msgstr "Zusammenfassungen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:53
-#, fuzzy
 msgid "Superscript"
 msgstr "Hochgestellter Text"
 
@@ -4031,7 +4021,6 @@ msgstr "Die Vorlage %1 existiert nicht"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
-#, fuzzy
 msgid "Text"
 msgstr "Text"
 
@@ -4072,12 +4061,13 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:103
 msgid "That user has already been activated "
-msgstr "Der Benutzer wurde bereits aktiviert"
+msgstr "Der Benutzer wurde bereits aktiviert "
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
 "The %1 (%2) is not allowed for this installation. Registration rejected."
 msgstr ""
+"Der %1 (%2) ist auf diesem System nicht zugelassen. Registrierung abgelehnt."
 
 #: core/templates/registermessages.tmpl:115
 msgid ""
@@ -4095,7 +4085,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:212
 msgid "The %1 is a required parameter. Registration rejected."
-msgstr ""
+msgstr "Der ist ein notwendiger Parameter. Registrierung abgelehnt."
 
 #: core/templates/messages.tmpl:63
 msgid "The %1 topic already exists"
@@ -4124,9 +4114,8 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "Das %1 Web existiert nicht"
+msgstr "Das %1 Web auf %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -4143,15 +4132,12 @@ msgstr ""
 "Der Administrator hat die Registrierung für neue Benutzer abgeschaltet."
 
 #: core/templates/registermessages.tmpl:129
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr ""
-"Der Administrator hat die Registrierung für neue Benutzer abgeschaltet."
+msgstr "Der Administrator hat das Ändern von Passwörtern abgeschaltet."
 
 #: core/data/System/WebPreferences.txt:12
-#, fuzzy
 msgid "The Free and Open Source Wiki."
-msgstr "Das %1 Web von Foswiki, dem Freien Open Source Wiki."
+msgstr "Das freie und queeloffene Wiki."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4166,12 +4152,16 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"Der Dateianhang kann möglicherweise (durch Anhängen einer Nummer) umbenannt "
+"werden, wenn eine gleichnamige Datei am Zielort bereits existiert."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"Der Dateianhang kann möglicherweise umbenannt werden, wenn '%FILENAME%' am "
+"Zielort bereits existiert."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4212,16 +4202,14 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:243
 #: core/templates/registermessages.tmpl:261
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "Die E-Mail Adresse für diesen Zugang ist ungültig."
+msgstr "Die E-Mail Adresse für dieses Benutzerkonto wurde zurückgewiesen."
 
 #: core/templates/registermessages.tmpl:252
 #: core/templates/registermessages.tmpl:270
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "Die E-Mail Adresse für diesen Zugang ist ungültig."
+msgstr "Die E-Mail Adresse wird bereits von einem anderen Benutzer verwendet."
 
 #: core/templates/registermessages.tmpl:234
 msgid "The e-mail address for this account is not valid."
@@ -4322,9 +4310,8 @@ msgstr ""
 "Der Benutzer %1 wurde bereits aktiviert und sollte sich einloggen können."
 
 #: core/templates/registermessages.tmpl:354
-#, fuzzy
 msgid "The user has been removed from the Authentication System."
-msgstr "Ihr Benutzername wurde von dem Authentifizierungssystem gelöscht."
+msgstr "Der Benutzername wurde aus dem Authentifizierungssystem gelöscht."
 
 #: core/templates/registermessages.tmpl:45
 msgid "The user has probably been already verified and/or approved."
@@ -4364,9 +4351,8 @@ msgstr ""
 "schauen"
 
 #: core/templates/registermessages.tmpl:376
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "%1 wurde der Gruppe %2 hinzugefügt."
+msgstr "Beim Hinzufügen zur Gruppe %2 sind Fehler aufgetreten. %1 "
 
 #: core/templates/registermessages.tmpl:425
 msgid "There were errors removing %1 from the %2 group. "
@@ -4386,7 +4372,6 @@ msgid "This could be for several reasons:"
 msgstr "Das kann verschiedene Gründe haben:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
@@ -4396,8 +4381,7 @@ msgstr ""
 "Mit diesem Formular können Sie ihre registrierte E-Mail Adresse ändern, "
 "welche von Foswiki unter anderem für Änderungshinweise oder "
 "Passwortänderungen benutzt wird. Die Adressen, die Sie über dieses Formular "
-"registrieren werden geheim gehalten und *nicht* auf dieser Seite "
-"veröffentlicht."
+"registrieren, werden geheim gehalten und *nicht* veröffentlicht."
 
 #: core/data/Main/GroupViewTemplate.txt:137
 msgid "This group should not have members."
@@ -4444,9 +4428,8 @@ msgstr ""
 "Registrierung in %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
-#, fuzzy
 msgid "This is not a valid Wiki name"
-msgstr "%1 ist kein gültiger Formular-Name"
+msgstr "Dies ist kein gültiger Wiki Name"
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4486,9 +4469,8 @@ msgid ""
 msgstr ""
 
 #: PatternSkin/templates/view.pattern.tmpl:72
-#, fuzzy
 msgid "This page was cached on %1."
-msgstr "Dieses Topic wurde nach %1 verschoben."
+msgstr "Diese Seite wurde zum Zeitpunkt %1 zwischengespeichert."
 
 #: core/templates/messages.tmpl:215
 msgid "This requires the form definition to be present."
@@ -4520,19 +4502,16 @@ msgstr ""
 "insbersondere wenn Sie Änderungen an den Formularfeldern vorgenommen haben."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-#, fuzzy
 msgid "Title:"
-msgstr "Topic Titel"
+msgstr "Titel:"
 
 #: core/templates/registerapprove.tmpl:12
-#, fuzzy
 msgid "To approve this registration, visit %2"
-msgstr "Vielen Dank für Ihre Registrierung"
+msgstr "Um die Registrierung zu bestätigen, besuchen Sie bitte %2"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Topic Anhänge"
+msgstr "Zu Anhang:"
 
 #: core/templates/registerapprove.tmpl:14
 msgid "To block this registration,  visit %2"
@@ -4551,9 +4530,8 @@ msgid "To edit the topic anyway, click "
 msgstr "Um das Topic trotzdem zu bearbeiten drücken Sie "
 
 #: core/templates/messages.tmpl:381
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]"
-msgstr "Sie können Unterschiede [[%1][here]] sehen."
+msgstr "Um sich als ein anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5490,7 +5468,7 @@ msgstr "Zugriff zu diesem Web nicht gestattet"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
-msgstr "accesskey='c'"
+msgstr "accesskey='a'"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
