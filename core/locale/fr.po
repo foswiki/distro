@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 20:45+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-07 21:30+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1835,6 +1835,9 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki contrôle toutes les requêtes reçues des navigateurs, et tente de "
+"vérifier que les personnes utilisant les navigateurs les ont "
+"intentionnellement envoyées."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1842,17 +1845,16 @@ msgstr "Réinitialisation du mot de passe Foswiki pour %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr ""
+msgstr "Obtenir une version actualisée <a href='%1' rel='nofollow'>ici</a>."
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "contient plus d'informations à propos des fichiers attachés."
+msgstr "Obtenir de l'aide à propos des fichiers attachés"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Aide sur le paramétrage des options de page"
 
 #: core/data/System/WebSearch.txt:274
 msgid "Get notified on changes on this search"
@@ -1860,9 +1862,8 @@ msgstr "Etre informé lorsque le résultat de cette recherche change"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:456
-#, fuzzy
 msgid "Globe"
-msgstr "Fermer"
+msgstr "Globe"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:313
 #: core/templates/messages.tmpl:456 core/templates/registermessages.tmpl:369
@@ -1870,12 +1871,12 @@ msgid "Go back"
 msgstr "Revenir en arrière"
 
 #: core/templates/messages.tmpl:187
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Retournez à la page précédente et remplissez tous les champs nécessaires."
+"Retournez à la page précédente et remplissez tous les champs nécessaires "
+"avant de sauvegarder à nouveau"
 
 #: core/templates/messages.tmpl:259 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1888,6 +1889,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Retournez à la page précédente, et activez les Cookies et le Javascript "
+"avant d'essayer de nouveau"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -1895,26 +1898,24 @@ msgstr "Exemples corrects :"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr ""
+msgstr "Conseils pour la rédaction collaborative (GoodStyle)"
 
 #: core/data/Main/WikiGroups.txt:62
-#, fuzzy
 msgid "Group"
-msgstr "Groupes"
+msgstr "Groupe"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Le groupe n'existe pas et la création n'est pas permise"
 
 #: core/data/Main/WikiGroups.txt:28
-#, fuzzy
 msgid "Group name"
-msgstr "Nom de page"
+msgstr "Nom du groupe"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Les noms de groupes doivent se terminer par Group"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:16
 #: PatternSkin/data/System/WebLeftBarExample.txt:8
@@ -1923,7 +1924,7 @@ msgstr "Groupes"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Having problems logging in?"
-msgstr ""
+msgstr "Des problèmes pour vous connecter ?"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
