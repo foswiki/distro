@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: geonwiki@fenachrone.com\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 15:29+0200\n"
+"PO-Revision-Date: 2015-03-07 18:17+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -2469,7 +2469,7 @@ msgstr "Letzter Bearbeiter"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "Last modified"
-msgstr "Zuletzt bearbeitet"
+msgstr "Zuletzt geändert"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
@@ -2481,17 +2481,16 @@ msgid "Last name"
 msgstr "Nachname:"
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(Revision %1)"
+msgstr "Neueste Revision: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Leave %1"
-msgstr ""
+msgstr "%1 verlassen"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Nicht auswählen, wenn Sie die ZIP-Datei hochladen wollen"
 
 #: core/data/System/WebSearch.txt:225
 msgid "Limit results to:"
