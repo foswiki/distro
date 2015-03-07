@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 20:14+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-07 20:16+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1655,11 +1655,11 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:208
 msgid "Enter users or groups to add to this group"
-msgstr "Saisir les utilisateurs ou les groupes à ajouter à ce groupe"
+msgstr "Saisissez des utilisateurs ou des groupes à ajouter à ce groupe"
 
 #: core/templates/messages.tmpl:481
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Erreur survenue en chargeant le plugin. Les erreurs sont ci-dessous."
 
 #: core/templates/registermessages.tmpl:91
 msgid "Error registering new user"
