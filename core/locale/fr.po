@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-07 19:46+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1590,7 +1590,7 @@ msgstr "Aide à l'édition abrégée (EditingShorthand)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr "Hum, laissez moi revenir en arrière et corriger la page..."
+msgstr "Hum, laissez moi revenir en arrière pour corriger la page..."
 
 #: core/templates/registermessages.tmpl:82
 msgid ""
