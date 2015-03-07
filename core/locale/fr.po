@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 18:48+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-07 18:49+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1531,15 +1531,15 @@ msgstr "ENCODE a échoué - l'identificateur '%PARAM1%' est répété dans =old=
 
 #: core/templates/messages.tmpl:471
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND a échoué - l'accès à '%PARAM1%' est interdit"
 
 #: core/templates/messages.tmpl:467
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND a échoué - pas de macro"
 
 #: core/templates/messages.tmpl:469
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:26
 #: core/templates/settings.tmpl:26
