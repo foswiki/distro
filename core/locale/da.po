@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-06 22:31+0200\n"
+"PO-Revision-Date: 2015-03-07 14:36+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -129,7 +129,7 @@ msgstr "%1 er medlem af mindst en gruppe og kan ikke fjernes"
 
 #: core/templates/messages.tmpl:126
 msgid "%1 is not a valid form name"
-msgstr "%1 er ikke et gyldigt form navn"
+msgstr "%1 er ikke et gyldigt formular navn"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
@@ -188,7 +188,7 @@ msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr "Fortryd (&C)"
+msgstr "&Fortryd"
 
 #: core/templates/foswiki.tmpl:155
 msgid "&History"
@@ -405,8 +405,8 @@ msgid ""
 "*Local file:* If you select a different file in _Local file:_, it is this "
 "that will be updated or added."
 msgstr ""
-"*Lokal fil:* Hvis du vælger anden fil i feltet _Lokal fil_, er det denne fil "
-"der vil blive opdateret eller tilføjet."
+"*Lokal fil:* Hvis du vælger en anden fil i feltet _Lokal fil:_, er det denne "
+"fil der vil blive opdateret eller tilføjet."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -1243,7 +1243,7 @@ msgstr "Opret denne side"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
-msgstr "Opret din brugerkonto for at rette sider på denne wiki."
+msgstr "Opret konto for at editere sider på denne wiki."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
@@ -1510,12 +1510,12 @@ msgstr ""
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Vælg et sidenavn der er et [[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds "
-"non-<nop>WikiWord i afkrydsningsfeltet"
+"Vælg et sidenavn der er et WikiWord eller afkryds non-WikiWord i "
+"afkrydsningsfeltet."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr "Der skete en fejl under indlæsning af plugin. See fejl nedenfor."
+msgstr "Der skete en fejl under indlæsning af plugin. Se fejl nedenfor."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1563,11 +1563,11 @@ msgstr "Ond person"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Fejlende plugins"
+msgstr "Fejlede plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Kunne ikke tilføje bruger:"
+msgstr "Kunne ikke tilføje bruger: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1791,7 +1791,7 @@ msgstr "Dog er filnavnet blevet ændret fra %1 til %2. _Bemærk venligst dette_.
 
 #: core/templates/login.tmpl:65
 msgid "I forgot my password"
-msgstr "Jeg har glemt mn adgangskode"
+msgstr "Jeg har glemt min adgangskode"
 
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:33
@@ -1830,8 +1830,8 @@ msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"If det ikke er problemet, så kan det være fordi du har en indstilling %1 der "
-"peger på en template der ikke eksisterer."
+"Hvis det ikke er problemet, så kan det være fordi du har en indstilling %1, "
+"der peger på en template der ikke eksisterer."
 
 #: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1851,7 +1851,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:44
 msgid "If you are unsure what this means, read: %1"
-msgstr "If du er usikker på hvad dette betyder, læs %1"
+msgstr "Hvis du er usikker på hvad dette betyder, læs: %1"
 
 #: core/templates/messages.tmpl:640 core/templates/messages.tmpl:650
 msgid "If you came here by clicking on a question mark link"
@@ -1929,7 +1929,7 @@ msgstr ""
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
-msgstr "Billede %1 web af %2."
+msgstr "Billede %1 af %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -1945,12 +1945,12 @@ msgid ""
 msgstr ""
 "I et muligt scenarie har en ond person lavet et link, der narrer dig til at "
 "besøge en side http<nop>://forbrydelse.org, som indeholder noget smart "
-"ondsindet javascrip."
+"ondsindet javascript."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
-"Hvis det er en zip-fil så vedhæft alle de inkluderede filer til denne side"
+"Hvis det er en zip-fil, så vedhæft alle de inkluderede filer til denne side"
 
 #: core/data/System/WebSearch.txt:176
 msgid "In reversed order"
@@ -1987,7 +1987,7 @@ msgstr "Ukorrekte parametre til scriptet =%1="
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
 msgid "Index"
-msgstr "Index"
+msgstr "Indeks"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 #: PatternSkin/data/System/PatternSkinElements.txt:453
@@ -2023,11 +2023,11 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"Normalt er det helt i orden at fortsætte med at opdatere siden, med mindre  "
-"du påtænker at udskifte formularen der hører til siden. Hvis %1 gemmer mens "
-"_du stadig opdaterer_, vil dine ændringer blot blive _flettet med hans_. Men "
-"formular-data bliver ikke flettet, så påtænker du at ændre i disse, "
-"anbefales det at synkronisere først."
+"Normalt er det helt i orden at fortsætte med at opdatere siden, med mindre "
+"du påtænker at ændre data i formularen der hører til siden. Hvis %1 gemmer "
+"mens _du stadig opdaterer_, vil dine ændringer blot blive flettet med hans. "
+"Men formular-data bliver ikke flettet, så påtænker du at ændre i disse, "
+"anbefales det først at tjekke med %1."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2037,7 +2037,7 @@ msgid ""
 msgstr ""
 "Det anbefales at vælge %1 som nyt sidenavn, da dette gør det nemmere at "
 "linke til det senere hen. Karakterer der ikke er tilladte i side-navne, som "
-"fx mellemrum, fjernes automatisk. "
+"fx mellemrum, fjernes automatisk."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -2054,15 +2054,15 @@ msgstr ""
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
-msgstr "Hop"
+msgstr "Gå til"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to first revision"
-msgstr "Hop til den første revision"
+msgstr "Gå til første version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr "Hop til den seneste revision (%1)"
+msgstr "Gå til nyeste version (%1)"
 
 #: core/data/System/WebSearch.txt:195
 msgid "Keyword search"
@@ -2079,11 +2079,12 @@ msgstr "Sidst opdateret af"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Last modified"
-msgstr "Sidst ændret"
+msgstr "Sidst opdateret"
 
 #: core/data/System/WebSearch.txt:167
+#, fuzzy
 msgid "Last modified time"
-msgstr "Sidst ændret"
+msgstr "Sidst opdateret tid"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 msgid "Last name"
@@ -2105,12 +2106,12 @@ msgstr "Begræns antallet af resultater til:"
 #. ($right)
 #: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
-msgstr "Linie: %1"
+msgstr "Linje: %1"
 
 #. ($left, $right)
 #: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
-msgstr "Linie: %1 til %2"
+msgstr "Linje: %1 til %2"
 
 #: core/templates/attach.tmpl:35
 msgid "Link"
@@ -2118,7 +2119,7 @@ msgstr "Link"
 
 #: core/data/System/WebSearch.txt:315
 msgid "List topics that start with the letter:"
-msgstr "Vis alle sider der starter med bogstavet: "
+msgstr "Vis alle sider der starter med bogstavet:"
 
 #: core/data/System/WebSearch.txt:199
 msgid "Literal search"
@@ -2134,7 +2135,7 @@ msgstr "Log ud"
 
 #: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
-msgstr "Log in for at fortsætte."
+msgstr "Log ind for at fortsætte."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2167,11 +2168,11 @@ msgstr "E-mail til"
 
 #: core/data/System/WebSearch.txt:180
 msgid "Make search:"
-msgstr "Tilpas søgning:"
+msgstr "Opret søgning:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr "Højst %1 resultater per web"
+msgstr "Maksimalt %1 resultater per web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2183,6 +2184,7 @@ msgid "Missing Fields"
 msgstr "Manglende felter"
 
 #: core/templates/messages.tmpl:36
+#, fuzzy
 msgid "Missing action command"
 msgstr "Manglende aktionskommando (action command)"
 
@@ -2270,7 +2272,7 @@ msgstr "Navn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
-msgstr "Navnet på kopien"
+msgstr "Navn på kopien"
 
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
@@ -2278,7 +2280,7 @@ msgstr "Navnet på det nye web mangler"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
-msgstr "Naviger til en lignende side?"
+msgstr "Naviger til en lignende side"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
@@ -2286,11 +2288,11 @@ msgstr "Glem det"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
-msgstr "Ny brugerregistrering er slået fra"
+msgstr "Brugerregistrering er slået fra"
 
 #: core/templates/messages.tmpl:156
 msgid "New User Registration not supported"
-msgstr "Ny brugerregistrering ikke supporteret"
+msgstr "Brugerregistrering er ikke supporteret"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
@@ -2312,7 +2314,8 @@ msgstr "Ny adgangskode"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
 msgstr ""
-"Angivne adgangkode passede ikke med eksiterende adgangkode for denne bruger"
+"Angivne adgangskode passede ikke med eksisterende adgangskode for denne "
+"bruger"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2352,7 +2355,7 @@ msgstr "Ingen rettigheder til at se %1"
 
 #: core/templates/more.tmpl:200
 msgid "No previous revision exists."
-msgstr "Ingen tidligere version eksisterer"
+msgstr "Ingen tidligere version eksisterer."
 
 #: core/templates/renamebase.tmpl:45
 msgid "No topics to update."
@@ -2379,7 +2382,7 @@ msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
 msgstr ""
-"Vær opmærksom på, at alle links der rereferer direkte til denne vedhæftede "
+"Vær opmærksom på, at alle links der refererer direkte til denne vedhæftede "
 "fil ikke vil virke mere efter flytningen (fx eksterne links fra andre "
 "websteder)"
 
@@ -2415,11 +2418,11 @@ msgstr "Notificeringshjælp"
 #: PatternSkin/data/_default/WebLeftBar.txt:9
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
 msgid "Notifications"
-msgstr "Notificering"
+msgstr "Notificeringer"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
-msgstr "Antal ændringer for hver web"
+msgstr "Antal ændringer for hvert web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
@@ -2450,7 +2453,7 @@ msgstr "OK, dette er stadig mig!"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
-msgstr "OK"
+msgstr "Ok"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2466,7 +2469,7 @@ msgstr "Kun medlemmer eller administratorer kan opdatere gruppe."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
-msgstr "Kun opdater links til datter-sider i %1-webbet"
+msgstr "Kun opdater linkede sider i %1-webbet"
 
 #: core/templates/login.tmpl:8
 msgid ""
@@ -2523,7 +2526,7 @@ msgstr "Nulstilling af adgangskoden fejlede"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
-msgstr "Adgangskoder kan ikke ændres"
+msgstr "Adgangskoder er deaktiveret"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2540,7 +2543,7 @@ msgstr "Vælg en af %1."
 
 #: core/data/Trash/WebPreferences.txt:10
 msgid "Place for trashed topics and attachments."
-msgstr "Siden hvor slettede vedhæftede filer gemmes"
+msgstr "Placering hvor slettede sider og vedhæftede filer gemmes."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2660,7 +2663,7 @@ msgstr "Printbar version af denne side (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
-msgstr "Ekstra muligheder"
+msgstr "Egenskaber"
 
 #: core/lib/Foswiki/Render.pm:262
 msgid "Put it back..."
@@ -2692,9 +2695,9 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"Siden %1 giver dig et et hurtigt overblik over e-samarbejds-platformen. For "
-"at få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, "
-"som kan nås fra samme link."
+"Siden %1 giver dig et et hurtigt overblik over samarbejds-platformen. For at "
+"få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, som "
+"kan nås fra samme link."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2706,7 +2709,7 @@ msgstr "Senest ændrede sider"
 
 #: core/data/System/SiteChanges.txt:5
 msgid "Recently changed topics in %1 Web"
-msgstr "Seneste ændrede sider i webben %1"
+msgstr "Seneste ændrede sider i %1-web"
 
 #: core/data/System/SiteChanges.txt:6
 msgid "Recently changed topics in all Webs"
@@ -2853,8 +2856,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
-"Den forespurgte revision (%1) er ugyldig. Den findes ikke i historien, eller "
-"er den samme revisions eller senere end den nuværende revision (%2)"
+"Den forespurgte version (%1) er ugyldig. Den findes ikke i historikken, "
+"eller er den samme version eller senere end den nuværende version (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2891,13 +2894,13 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
-"Gendan vil gemme en eksakt kopi af din valgte revision i en ny revision. Du "
-"kan altid gense den revision som du erstatter, for hver revision bliver gemt "
-"i historien. Bemærk at vedhæftede filer forbliver uændrede."
+"Gendan vil gemme en eksakt kopi af din valgte version i en ny version. Du "
+"kan altid gense den version som du erstatter, for hver version bliver gemt i "
+"historikken. Bemærk at vedhæftede filer forbliver uændrede."
 
 #: core/templates/more.tmpl:180
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr "Gendannelse er ikke mulig fordi denne side er revision 1."
+msgstr "Gendannelse er ikke mulig fordi denne side er version 1."
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -3003,7 +3006,7 @@ msgstr "Søg i alle webs"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search more topics in this web"
-msgstr "Søg efter flere sider i denne web"
+msgstr "Søg efter flere sider i dette web"
 
 #: core/data/System/WebSearch.txt:55
 msgid "Search options"
