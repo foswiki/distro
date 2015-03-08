@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 03:03+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-08 03:18+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1760,7 +1760,7 @@ msgstr "Chercher les pages qui contiennent un lien pointant vers %1..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
 msgid "First"
-msgstr "Premier"
+msgstr "Début"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
 msgid "First name"
@@ -2442,30 +2442,26 @@ msgstr "Seulement moi"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
 msgid "Justify text"
-msgstr ""
+msgstr "Justifier le texte"
 
 #: core/data/System/WebSearch.txt:193
-#, fuzzy
 msgid "Keyword search"
-msgstr "Modifier la recherche"
+msgstr "Recherche de mots clés par radical (keyword search)"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "Last"
-msgstr "Nom de famille :"
+msgstr "Fin"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Dernier auteur"
+msgstr "Dernière modification par"
 
 #: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
 msgid "Last editor"
 msgstr "Dernier auteur"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Last modified"
 msgstr "Dernière modification"
 
@@ -2474,14 +2470,12 @@ msgid "Last modified time"
 msgstr "Dernière modification"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
-#, fuzzy
 msgid "Last name"
-msgstr "Nom de famille :"
+msgstr "Nom de famille"
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(version %1)"
+msgstr "Dernière révision : %1"
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Leave %1"
@@ -2769,7 +2763,7 @@ msgstr "Nouvelle version :"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:51
 msgid "No"
@@ -3238,7 +3232,7 @@ msgstr "Pages modifiées récemment dans :"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:35
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:36
