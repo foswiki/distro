@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 21:53+0200\n"
+"PO-Revision-Date: 2015-03-08 21:38+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2629,7 +2629,6 @@ msgid "Move"
 msgstr "Flyt"
 
 #: core/templates/renamedelete.tmpl:9
-#, fuzzy
 msgid "Move %1 to Trash Web"
 msgstr "Flyt %1 til trash-web"
 
@@ -2768,7 +2767,7 @@ msgstr "Intet gruppenavn angivet"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
-msgstr ""
+msgstr "Der er ingen nuværende registreringer for aktiveringskoden %1."
 
 #: core/templates/messages.tmpl:340
 msgid "No permission to view %1"
@@ -2946,14 +2945,12 @@ msgid "Options"
 msgstr "Valgmuligheder"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
-#, fuzzy
 msgid "Organisation name:"
-msgstr "Organisationsnavn"
+msgstr "Organisationsnavn:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
-#, fuzzy
 msgid "Organisation website:"
-msgstr "Organisationens webside"
+msgstr "Organisationens webside:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
 msgid "Outdent"
@@ -3024,9 +3021,8 @@ msgid "Please check to ensure you have permission to modify the group."
 msgstr "Kontrollér at du har rettigheder til at ændre gruppen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
-#, fuzzy
 msgid "Please confirm your password."
-msgstr "Bekræft din adgangskode"
+msgstr "Bekræft din adgangskode."
 
 #: core/templates/registermessages.tmpl:200
 #: core/templates/registermessages.tmpl:87
@@ -3043,48 +3039,40 @@ msgid "Please contact %1."
 msgstr "Kontakt venligst %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
-#, fuzzy
 msgid "Please correct the entered data before you continue."
-msgstr "Ret venligst de indtastede data inden du fortsætter"
+msgstr "Ret venligst de indtastede data inden du fortsætter."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
-#, fuzzy
 msgid "Please enter a Wiki name."
-msgstr "Indtast et Wiki-navn"
+msgstr "Indtast et Wiki-navn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
 msgid "Please enter a login name."
-msgstr "Indtast brugernavn"
+msgstr "Indtast brugernavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
-#, fuzzy
 msgid "Please enter a password."
-msgstr "Indtast adgangskode"
+msgstr "Indtast adgangskode."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
-#, fuzzy
 msgid "Please enter a valid email address."
-msgstr "Indtast gyldig e-mail-adresse"
+msgstr "Indtast gyldig e-mail-adresse."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Indtast Wiki administrator-adgangskoden"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
-#, fuzzy
 msgid "Please enter the same password as above."
-msgstr "Indtast venligst samme adgangskode som ovenfor"
+msgstr "Indtast venligst samme adgangskode som ovenfor."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
-#, fuzzy
 msgid "Please enter your first name."
-msgstr "Indtast venligst fornavn"
+msgstr "Indtast venligst fornavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid "Please enter your last name."
-msgstr "Indtast venligst efternavn"
+msgstr "Indtast venligst efternavn."
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3374,7 +3362,7 @@ msgstr "Fjern valgte medlemmer"
 #: core/templates/registermessages.tmpl:286
 #, fuzzy
 msgid "Remove the member from the group(s) %1 first."
-msgstr "Fjern først medlemmer fra gruppen %1."
+msgstr "Fjern først medlem fra gruppen %1."
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -3666,6 +3654,8 @@ msgstr "Sikkerheds-notits:"
 #: core/templates/registermessages.tmpl:281
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
+"Se en liste over eksisterende brugere på %1 eller registrer dig som ny "
+"bruger på %2."
 
 #: core/templates/messages.tmpl:198
 msgid "See %1 for information about Form Definitions."
@@ -3741,81 +3731,77 @@ msgstr "Vælg side-forælder"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
 msgid "Select, copy and paste your signature text to the bottom of your entry"
-msgstr ""
+msgstr "Markér (triple-klik i feltet), og copy/paste din signatur til siden"
 
 #: core/data/System/WebSearch.txt:179
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Det valgte virker for søgning i selve teksten på siden"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 msgid "Self registration is not supported by this site."
-msgstr ""
+msgstr "Selv registrering er ikke supporteret på denne Wiki."
 
 #: core/templates/registermessages.tmpl:74
 msgid "Send mail"
-msgstr ""
+msgstr "Send e-mail"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
-#, fuzzy
 msgid "Sequential"
 msgstr "Sekventiel"
 
 #: core/lib/Foswiki/Form/Checkbox.pm:114
-#, fuzzy
 msgid "Set all"
-msgstr "Nulstil alle"
+msgstr "Vælg alle"
 
 #: core/templates/more.tmpl:105
 msgid "Set new parent"
-msgstr ""
+msgstr "Vælg ny forælder"
 
 #: core/templates/more.tmpl:97
-#, fuzzy
 msgid "Set new topic parent"
-msgstr "Opret ny side"
+msgstr "Vælg ny side-forælder"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
-msgstr ""
+msgstr "Vis version %1 op til version %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
-msgstr ""
+msgstr "Vis hjælp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-#, fuzzy
 msgid "Shrink edit box"
-msgstr "Forstør edit-boks"
+msgstr "Formindsk edit boks"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
-msgstr ""
+msgstr "Side ved side"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr ""
+msgstr "Sammenligning af versioner ved siden af hinanden"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:105
 msgid "Signature"
-msgstr ""
+msgstr "Signatur"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
-msgstr ""
+msgstr "Andre tilføjer deres kalender eller evt. ferie-beskeder."
 
 #: core/templates/messages.tmpl:234
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
-msgstr ""
+msgstr "Nogle karakterer, såsom =&#126;=, =$=, =@= og =%= bliver fjernet"
 
 #: core/templates/registermessages.tmpl:85
 msgid ""
@@ -3823,6 +3809,9 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
+"Nogle e-mail-værktøjer har en fejl, som gør at de sender den samme "
+"forespørgsel to gange når du klikker på et link. Såfremt dette er tilfældet "
+"er det muligt, at du faktisk allerede *er* registreret succesfuldt."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
 #: core/templates/registernotify.tmpl:15
@@ -3830,53 +3819,58 @@ msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
 msgstr ""
+"Nogle brugere opretter en personlig portal med deres favorit-links, hvad de "
+"arbejder med, hvad de godt kunne bruge hjælp til, etc."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 msgid "Sorry, registration has been temporarily disabled."
-msgstr ""
+msgstr "Beklager, registrering er midlertidigt deaktiveret."
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
+"Beklager, systemet der varetager adgangskoder tillader ikke ændringer, "
+"kontakt venligst %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
-msgstr ""
+msgstr "Sortér stigende"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort descending"
-msgstr ""
+msgstr "Sortér faldende"
 
 #: core/data/System/WebSearch.txt:156
 msgid "Sort results by:"
-msgstr ""
+msgstr "Sortér resultater efter:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort selected lines ascending"
-msgstr ""
+msgstr "Sortér valgte linjer faldende"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines descending"
-msgstr ""
+msgstr "Sortér valgte linjer stigende"
 
 #: core/templates/messages.tmpl:232
 msgid "Spaces are replaced by underscores"
-msgstr ""
+msgstr "Et mellemrum bliver erstattet af et understregningstegn ( _ )"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:145
 #: NatEditPlugin/templates/edit.natedit.tmpl:176
 msgid "Specific users/groups"
-msgstr ""
+msgstr "Specifikke brugere/grupper"
 
 #: core/data/System/SiteChanges.txt:92
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Angiv =all= for alle webs, eller en kommasepareret liste af webs fra: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Start presentation"
-msgstr ""
+msgstr "Start præsentation"
 
 #: NatEditPlugin/templates/workflowedit.natedit.tmpl:3
 msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
@@ -3889,7 +3883,7 @@ msgstr ""
 #: PatternSkin/data/_default/WebLeftBar.txt:11
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:52
 msgid "Strikethrough"
@@ -3905,7 +3899,7 @@ msgstr ""
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
 msgid "Submit"
-msgstr ""
+msgstr "Send"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
@@ -3914,40 +3908,37 @@ msgstr ""
 #: core/templates/registernotify.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:13
 msgid "Submitted content:"
-msgstr ""
+msgstr "Tilføjet indhold:"
 
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:77
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnér"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
-msgstr ""
+msgstr "Abonnér / afmeld i:"
 
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#, fuzzy
 msgid "Subscribe to this topic"
-msgstr "Opret denne side"
+msgstr "Abonner på denne side"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "Subscribe to this topic (s)"
-msgstr "Opret denne side"
+msgstr "Abonner på denne side(r)"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
-#, fuzzy
 msgid "Subscript"
-msgstr "Version"
+msgstr "Sænket"
 
 #: core/data/System/WebSearch.txt:122 core/data/System/WebSearch.txt:152
 msgid "Subwebs"
-msgstr ""
+msgstr "Underwebs"
 
 #: core/templates/registermessages.tmpl:385
 #, fuzzy
@@ -3961,87 +3952,89 @@ msgstr "Fejl ved skrivning af siden"
 
 #: core/data/System/WebSearch.txt:217
 msgid "Summaries"
-msgstr ""
+msgstr "Sammendrag"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:53
-#, fuzzy
 msgid "Superscript"
-msgstr "Version"
+msgstr "Hævet"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Switch to monotype or propotional font"
-msgstr ""
+msgstr "Skift til monospace eller proportional skrift"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Switch to wysiwyg"
-msgstr ""
+msgstr "Skift til WYSIWYG"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Symbol"
-msgstr ""
+msgstr "Symbol"
 
 #: core/data/Main/GroupViewTemplate.txt:140
 msgid "System user list."
-msgstr ""
+msgstr "Liste over systembrugere."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
+"TIP: For at søge efter sider, der indeholder =\"SOAP\"=, =\"WSDL\"= og "
+"strengen =\"web service\"= men ikke =\"shampoo\"=, skriv følgende:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
-#, fuzzy
 msgid "Table"
-msgstr "Editér tabel"
+msgstr "Tabel"
 
 #: core/templates/messages.tmpl:439
-#, fuzzy
 msgid "Template %1 does not exist"
-msgstr "Den vedhæftede fil '%1' findes ikke"
+msgstr "Skabelon %1 eksisterer ikke"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:83
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
 msgid "Text body"
-msgstr ""
+msgstr "Kildetekst"
 
 #: core/templates/registermessages.tmpl:49
 msgid "Thank you for approving this registration"
-msgstr ""
+msgstr "Tak for at godkende denne registrering"
 
 #: core/templates/registermessages.tmpl:61
-#, fuzzy
 msgid "Thank you for denying this registration"
-msgstr "Tak fordi du registrerede dig"
+msgstr "Tak for at afvise denne registrering"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:137
 #: core/templates/registermessages.tmpl:145
 #: core/templates/registermessages.tmpl:158
 msgid "Thank you for registering"
-msgstr ""
+msgstr "Tak fordi du registrerede dig"
 
 #: core/templates/registernotify.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
+"Tak fordi du registrerede dig i e-samarbejds-platformen %1. Gem venligst "
+"denne e-mail til senere reference."
 
 #: core/templates/registerconfirm.tmpl:10
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
 msgstr ""
+"Tak fordi du registrerede dig som bruger i e-samarbejds-platformen %1. Din "
+"aktiveringskode er %2."
 
 #: core/templates/registermessages.tmpl:103
 msgid "That user has already been activated "
-msgstr ""
+msgstr "Denne bruger er allerede aktiveret"
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
@@ -4056,21 +4049,19 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:220
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
-msgstr ""
+msgstr "Feltet %1 skal overholde {LoginNameFilterIn}-filteret for dette site"
 
 #: core/templates/registermessages.tmpl:212
 msgid "The %1 is a required parameter. Registration rejected."
 msgstr ""
 
 #: core/templates/messages.tmpl:63
-#, fuzzy
 msgid "The %1 topic already exists"
-msgstr "siden %1 eksisterer ikke"
+msgstr "Siden %1 eksisterer allerede"
 
 #: core/templates/messages.tmpl:413
-#, fuzzy
 msgid "The %1 web does not exist"
-msgstr "siden %1 eksisterer ikke"
+msgstr "%1-webbet eksisterer ikke"
 
 #: core/data/Sandbox/WebHome.txt:3
 msgid ""
@@ -4079,6 +4070,11 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
+"%1-webbet er en såkaldt sandkasse, som må bruges til alle former for "
+"eksperimenter. Alle er velkomne til at tilføje eller slette det, de måtte "
+"have lyst til. Du opfordres til at læse %2 for at få et overblik over %3 "
+"værktøjet. En god tommelfingerregel er, at tilføje i bunden af en side, og "
+"underskrive og datere med sit %4."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -4086,38 +4082,38 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "%1-webbet eksisterer ikke"
+msgstr "Nummer %1 web af %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr ""
+msgstr "%1 webben i Foswiki, the Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:296
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "Scriptet =%1= kan kun kaldes med metoden POST."
 
 #: core/templates/registermessages.tmpl:19
 msgid "The Administrator has disabled new user registration."
-msgstr ""
+msgstr "Administratoren for denne side har slået nye brugerregistreringer fra."
 
 #: core/templates/registermessages.tmpl:129
 msgid "The Administrator has disabled password changes."
-msgstr ""
+msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr ""
+msgstr "The Free and Open Source Wiki."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
-msgstr ""
+msgstr "Aktiveringskoden %1 er invalid."
 
 #: core/templates/moveattachment.tmpl:48
 msgid "The attachment and any history will be moved to the new topic."
 msgstr ""
+"Den vedhæftede fil og tilhørende historik vil blive flyttet til den nye side."
 
 #: core/templates/moveattachment.tmpl:26
 msgid ""
