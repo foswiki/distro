@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 02:39+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-08 02:41+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -2330,18 +2330,17 @@ msgstr "Insérer un nouveau tableau"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
-msgstr "Insérer un symbole "
+msgstr "Insérer un symbole"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
-#, fuzzy
 msgid "Insert an attachment"
-msgstr "Supprimer le fichier attaché"
+msgstr "Ajouter un fichier attaché"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
-msgstr ""
+msgstr "Insérer une émoticône"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Insert an icon"
