@@ -6,15 +6,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-15 23:40+0200\n"
-"Last-Translator: Milan <milan.m.masek@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-03-08 01:15+0200\n"
+"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -44,7 +45,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "%1 (default)"
-msgstr "%1 (výchozí stav)"
+msgstr "%1 (výchozí)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -63,17 +64,16 @@ msgstr "%1 Web"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
-msgstr "%1 přidán do skupiny %2."
+msgstr "%1 přidáno do %2 skupiny. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 odstraněn ze skupiny %2."
+msgstr "%1 nemůže být odstraněn z %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "Předmět skupiny %1 je změněn."
+msgstr "%1 téma skupiny aktualizováno. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -82,7 +82,7 @@ msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 byl povolen a zaregistrován s e-mailem %2"
+msgstr "%1 byl schválen a zaregistrován s e-mailem %2"
 
 #: core/templates/messages.tmpl:578
 msgid ""
