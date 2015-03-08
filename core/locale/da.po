@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 21:52+0200\n"
+"PO-Revision-Date: 2015-03-08 21:37+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -3129,7 +3129,7 @@ msgstr "Vælg ny side-forælder"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
-msgstr "Vis %1 revisioner op tll revision %2"
+msgstr "Vis version %1 op til version %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -3138,7 +3138,7 @@ msgstr "Vis hjælp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Viser revisionerne %1 - %2 (ud af %3)"
+msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3150,7 +3150,7 @@ msgstr "Side ved side"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr "Sammenligning af revisioner ved siden af hinanden"
+msgstr "Sammenligning af versioner ved siden af hinanden"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -3171,9 +3171,9 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
-"Nogle e-mail-værktøjer har en fejl som gør at de sender den samme "
+"Nogle e-mail-værktøjer har en fejl, som gør at de sender den samme "
 "forespørgsel to gange når du klikker på et link. Såfremt dette er tilfældet "
-"er det muligt at du faktisk allerede *er* registreret succesfuldt."
+"er det muligt, at du faktisk allerede *er* registreret succesfuldt."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:166
 #: core/templates/registernotify.tmpl:14
@@ -3368,11 +3368,11 @@ msgstr "Scriptet =%1= kan kun kaldes med metoden POST."
 
 #: core/templates/messages.tmpl:167
 msgid "The Administrator has disabled new user registration."
-msgstr "Administratoren for dette side har slået nye brugerregistreringer fra."
+msgstr "Administratoren for denne side har slået nye brugerregistreringer fra."
 
 #: core/templates/messages.tmpl:176
 msgid "The Administrator has disabled password changes."
-msgstr "Administratoren for dette site har slået adgangskode-håndtering fra."
+msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
