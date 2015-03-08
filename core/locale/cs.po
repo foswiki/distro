@@ -4,12 +4,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-08 01:15+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -389,7 +389,7 @@ msgstr ""
 "komentář ukázaný ve článku se změní, ale komentář ukázaný v historii přílohy "
 "bude komentář použitý, když byla přiloha nahrána."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1196,9 +1196,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "Vaše heslo:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1292,9 +1292,9 @@ msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 msgid "Could not save %1."
 msgstr "Nemohu uložit %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "Země:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1357,14 +1357,14 @@ msgstr "Vaše osobní stránka"
 msgid "Create the topic"
 msgstr "Vytvořit článek"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Vytvořit tento článek"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1642,9 +1642,9 @@ msgstr ""
 "Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
 "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "Emailová adresa:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1767,9 +1767,9 @@ msgstr "Chyba při vložení URL %1"
 msgid "Fields marked %1 are required"
 msgstr "Pole označená %1 jsou nutná"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Pole označená %1 jsou nutná"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1793,9 +1793,9 @@ msgstr "Najít články které odkazují na %1 ..."
 msgid "First"
 msgstr "Křestní jméno:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Křestní jméno:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2088,7 +2088,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2146,7 +2146,7 @@ msgstr ""
 "Pokud jste dostal tento mail omylem: Někdo (%1) se zaregistroval na %2 "
 "serveru s použitím Vaší emailové adresy %3. Kontaktujte %4 pokud je to chyba."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
 
@@ -2477,9 +2477,9 @@ msgstr "Naposledy změněno"
 msgid "Last modified time"
 msgstr "Naposledy změněno"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Poslední jméno"
 
 #: core/templates/more.tmpl:180
@@ -2544,13 +2544,13 @@ msgstr ""
 msgid "Login"
 msgstr "Přihlásit"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Přihlášen %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Přihlášen %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Přihlášen %1"
 
 #: core/templates/login.tmpl:77
@@ -2758,7 +2758,7 @@ msgstr "Nové heslo"
 msgid "New topic name %1 is not a %2"
 msgstr "Nové jméno článku %1 není %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Registrace nových uživatelů je vypnutá"
@@ -2982,14 +2982,14 @@ msgstr "Volitelně vložte odlišné jméno článku:"
 msgid "Options"
 msgstr "Akce"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Jméno organizace:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Jméno organizace:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3065,9 +3065,9 @@ msgstr "Místo pro vymazané přílohy"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Vaše heslo:"
 
 #: core/templates/registermessages.tmpl:200
@@ -3084,46 +3084,48 @@ msgstr "Prosím kontatujte %1 pokud máte libovolné otázky."
 msgid "Please contact %1."
 msgstr "Prosím kontaktujte %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-#, fuzzy
-msgid "Please enter a Wiki name"
-msgstr "Vložte prosím heslo Wiki administrátora:"
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-#, fuzzy
-msgid "Please enter a login name"
-msgstr "Zkuste to prosím znovu."
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Vložte prosím heslo Wiki administrátora:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Vložte prosím heslo Wiki administrátora:"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Zkuste to prosím znovu."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Vložte prosím heslo Wiki administrátora:"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Chybná emailová adresa"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Vložte prosím heslo Wiki administrátora:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
-msgid "Please enter the same password as above"
+msgid "Please enter the same password as above."
 msgstr "Vložte prosím heslo Wiki administrátora:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
+msgstr "Vložte prosím heslo Wiki administrátora:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "Zkuste to prosím znovu."
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3316,7 +3318,7 @@ msgstr "Obnov"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Registruj"
@@ -3331,7 +3333,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Registruj"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Registrace"
 
@@ -3356,7 +3358,7 @@ msgstr "Omlouváme se, registrování je dočasně mimo provoz."
 msgid "Registration has been denied"
 msgstr "Omlouváme se, registrování je dočasně mimo provoz."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3484,7 +3486,7 @@ msgstr "Znovunastav heslo"
 msgid "Reset password"
 msgstr "Znovunastav heslo"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3769,11 +3771,6 @@ msgstr ""
 msgid "Select"
 msgstr "Vyber"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "Vyberte nadřízený článek:"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Vyberte nový lokální soubor pro změnu přílohy"
@@ -3786,10 +3783,20 @@ msgstr "Vyber vše"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "Vyberte nadřízený článek:"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "Vyberte nadřízený článek:"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3804,7 +3811,7 @@ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Registrace nových uživatelů není podporována"
@@ -3891,7 +3898,7 @@ msgstr ""
 "Někteří lidé to změní na svůj personální portál s nejoblíbenějšími odkazy, "
 "na čem pracují, apod."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Omlouváme se, registrování je dočasně mimo provoz."
@@ -4296,7 +4303,7 @@ msgstr "Formulář měl být definován ve článku %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Zámek na tomto článku vypršel před %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4389,8 +4396,8 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4456,9 +4463,9 @@ msgstr "Toto je automatický email od %1."
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Toto je automatické upozornění na registraci uživatele v %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "'%1' není platné %2 "
 
 #: core/data/Trash/WebHome.txt:2
@@ -4478,8 +4485,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5050,13 +5057,13 @@ msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5115,10 +5122,14 @@ msgstr "proč jste byl dotazován na potvrzení"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Jméno článku"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Jméno článku"
 
 #: core/data/System/WebSearch.txt:189
@@ -5345,7 +5356,7 @@ msgstr ""
 "nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. (Tento kód "
 "je ve formě \"VašeJméno.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5357,14 +5368,9 @@ msgstr ""
 "Váš jazyk bude od další obrazovky změněn na %1. Nyní tam budete "
 "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Vaše heslo:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5375,11 +5381,16 @@ msgstr "Vaše heslo bylo změnéno na %1."
 msgid "Your password has not been changed."
 msgstr "Vaše heslo bylo změnéno na %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Vaše heslo:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

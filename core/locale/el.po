@@ -393,7 +393,7 @@ msgstr ""
 "σχόλιο που θα φαίνεται στο ιστορικό των συννημένων θα είναι το σχόλιο που "
 "καταχωρήθηκε όταν ανέβηκε το αρχείο."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1215,9 +1215,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Συγκρίνετε τις αναθεωρήσεις"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "Ο κωδικός πρόσβασής σας:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1310,9 +1310,9 @@ msgstr "Δεν ήταν δυνατή η εκτέλεση αναζήτησης. �
 msgid "Could not save %1."
 msgstr "Δεν είναι δυνατή η αποθήκευση του αρχείου %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "Χώρα:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1375,14 +1375,14 @@ msgstr "Επεξεργασία προσωπικών δεδομένων"
 msgid "Create the topic"
 msgstr "Δημιουργήστε το θέμα"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Δημιουργήστε αυτό το θέμα"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1662,9 +1662,9 @@ msgstr ""
 "Είτε δεν καταχωρήσατε το όνομα του αρχείου, ή το αρχείο %1 που προσπαθείτε "
 "να ανεβάσετε δεν έχει περιεχόμενο. Δεν μπορείτε να ανεβάσετε ένα κενό αρχείο."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "Διεύθυνση e-mail:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1786,9 +1786,9 @@ msgstr "Αποτυχία συμπερίληψης URL %1"
 msgid "Fields marked %1 are required"
 msgstr "Fields marked %1 are required"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Fields marked %1 are required"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1812,9 +1812,9 @@ msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ...
 msgid "First"
 msgstr "Μικρό Όνομα:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Μικρό Όνομα:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2113,7 +2113,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2176,7 +2176,7 @@ msgstr ""
 "χρησιμοποιώντας τη δική σου διεύθυνση e-mail %3. Επικοινωνήστε με %4, αν "
 "αυτό είναι λάθος."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Αν έχετε οποιαδήποτε απορία σχετικά με την εγγραφή, στείλτε ένα e-mail στη "
@@ -2512,9 +2512,9 @@ msgstr "Ώρα τελευταίας τροποποίησης"
 msgid "Last modified time"
 msgstr "Ώρα τελευταίας τροποποίησης"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Επώνυμο:"
 
 #: core/templates/more.tmpl:180
@@ -2579,13 +2579,13 @@ msgstr ""
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Όνομα Σύνδεσης %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Όνομα Σύνδεσης %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Όνομα Σύνδεσης %1"
 
 #: core/templates/login.tmpl:77
@@ -2794,7 +2794,7 @@ msgstr "Νέος κωδικός πρόσβασης"
 msgid "New topic name %1 is not a %2"
 msgstr "Το νέο όνομα %1 του θέματος δεν είναι %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
@@ -3017,14 +3017,14 @@ msgstr "Προαιρετικά εισάγετε μια διαφορετική ο
 msgid "Options"
 msgstr "Ενέργεια"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Ονομασία οργανισμού:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Ονομασία οργανισμού:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3100,9 +3100,9 @@ msgstr "Placeholder for trashed attachments"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
 
 #: core/templates/registermessages.tmpl:200
@@ -3119,46 +3119,47 @@ msgstr "Παρακαλώ επικοινωνήστε με το %1 εάν έχετ
 msgid "Please contact %1."
 msgstr "Παρακαλούμε επικοινωνήστε με %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-#, fuzzy
-msgid "Please enter a Wiki name"
-msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Άκυρη διεύθυνση e-mail"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
-msgid "Please enter the same password as above"
+msgid "Please enter the same password as above."
 msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
 #, fuzzy
-msgid "Please enter your first name"
+msgid "Please enter your first name."
 msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
 #, fuzzy
-msgid "Please enter your last name"
+msgid "Please enter your last name."
 msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
@@ -3356,7 +3357,7 @@ msgstr "Ενημέρωση"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Εγγραφή"
@@ -3371,7 +3372,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Εγγραφή"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Εγγραφή"
 
@@ -3396,7 +3397,7 @@ msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποι�
 msgid "Registration has been denied"
 msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3523,7 +3524,7 @@ msgstr "Επανάταξη Κωδικού Πρόσβασης"
 msgid "Reset password"
 msgstr "Επανάταξη Κωδικού Πρόσβασης"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3806,10 +3807,6 @@ msgstr ""
 msgid "Select"
 msgstr "Επιλογή"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-msgid "Select %1 to join"
-msgstr ""
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Επιλέξτε ένα νέο τοπικό αρχείο για να ενημερώσετε το συνημμένο"
@@ -3822,8 +3819,16 @@ msgstr "Επιλογή όλων"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+msgid "Select groups to join:"
+msgstr ""
+
 #: core/data/Main/GroupViewTemplate.txt:233
 msgid "Select members to remove from this group:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+msgid "Select the group to join:"
 msgstr ""
 
 #: core/templates/more.tmpl:101
@@ -3841,7 +3846,7 @@ msgstr ""
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
@@ -3928,7 +3933,7 @@ msgstr ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
@@ -4338,7 +4343,7 @@ msgstr "The form should be defined in the topic %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Η κράτηση για το θέμα αυτό έληξε πριν από %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4434,8 +4439,8 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4505,9 +4510,9 @@ msgstr ""
 "Αυτό είναι ένα αυτοματοποιημένο e-mail κοινοποίησης της εγγραφής χρήστη στο "
 "%1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "Το '%1' δεν είναι έγκυρο %2 "
 
 #: core/data/Trash/WebHome.txt:2
@@ -4528,8 +4533,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5101,13 +5106,13 @@ msgstr "Warning: \\'include\\' topic does not exist!"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Warning: \\'include\\' topic does not exist!"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5168,10 +5173,14 @@ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Ονομασία θέματος"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Ονομασία θέματος"
 
 #: core/data/System/WebSearch.txt:189
@@ -5401,7 +5410,7 @@ msgstr ""
 "your e-mail or enter the code in the box below to activate your membership. "
 "(Ο κωδικός αυτός είναι της μορφής «YourName.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5413,14 +5422,9 @@ msgstr ""
 "Η γλώσσα σας θα αλλάξει σε %1 από την επόμενη οθόνη. You will be redirected "
 "to there right now. If you aren't, [[%2][click to proceed]]."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Ο κωδικός πρόσβασής σας:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5431,12 +5435,17 @@ msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
 msgid "Your password has not been changed."
 msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr ""
 "Αυτό το site αυτό απαιτεί κωδικούς πρόσβασης με τουλάχιστον %1 χαρακτήρες "
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Ο κωδικός πρόσβασής σας:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

@@ -399,7 +399,7 @@ msgstr ""
 "gewijzigd, maar de toelichting in het bijlage-geschiedenisoverzicht blijft "
 "de toelichting toen het bestand werd geupload."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1219,9 +1219,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Vergelijk revisies"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "Je wachtwoord:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1315,9 +1315,9 @@ msgstr "Kon geen zoekactie uitvoeren. Foutmelding was: %1"
 msgid "Could not save %1."
 msgstr "Kon %1 niet bewaren."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "Land:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1381,14 +1381,14 @@ msgstr "Bewerk persoonlijke gegevens"
 msgid "Create the topic"
 msgstr "Maak deze pagina aan"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Maak deze pagina aan"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1667,9 +1667,9 @@ msgstr ""
 "Je hebt geen bestand geselecteerd, of het bestand dat je wil uploaden is "
 "leeg (0 bytes). Je kunt geen leeg bestand uploaden."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "E-mailadres:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1795,9 +1795,9 @@ msgstr "Opnemen van URL %1 is niet gelukt"
 msgid "Fields marked %1 are required"
 msgstr "Velden gemarkeerde met %1 zijn verplicht"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Velden gemarkeerde met %1 zijn verplicht"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1821,9 +1821,9 @@ msgstr "Pagina's die verwijzen naar %1 ..."
 msgid "First"
 msgstr "Voornaam:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Voornaam:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2121,7 +2121,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2185,7 +2185,7 @@ msgstr ""
 "geregistreerd op de %2 site met gebruik van je e-mailadres %3. Neem contact "
 "op met %4 als dit niet juist is."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Bij vragen over registratie kun je een e-mail sturen aan %1."
 
@@ -2523,9 +2523,9 @@ msgstr "Laatst bewerkt op"
 msgid "Last modified time"
 msgstr "Laatst bewerkt op"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Achternaam:"
 
 #: core/templates/more.tmpl:180
@@ -2590,13 +2590,13 @@ msgstr ""
 msgid "Login"
 msgstr "Log in"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Inlognaam %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Inlognaam %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Inlognaam %1"
 
 #: core/templates/login.tmpl:77
@@ -2804,7 +2804,7 @@ msgstr "Nieuw wachtwoord"
 msgid "New topic name %1 is not a %2"
 msgstr "Nieuwe paginanaam %1 is geen %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Registratie van nieuwe gebruikers is gedeactiveerd"
@@ -3030,14 +3030,14 @@ msgstr "Voer eventueel een andere paginanaam in:"
 msgid "Options"
 msgstr "Actie"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Naam van organisatie:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Naam van organisatie:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3113,9 +3113,9 @@ msgstr "Standaardpagina voor weggegooide bijlagen"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Je wachtwoord:"
 
 #: core/templates/registermessages.tmpl:200
@@ -3132,45 +3132,48 @@ msgstr "Neem bij vragen contact op met %1."
 msgid "Please contact %1."
 msgstr "Neem contact op met %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-#, fuzzy
-msgid "Please enter a Wiki name"
-msgstr "Wiki beheerder login"
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Wiki beheerder login"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Wiki beheerder login"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Wiki beheerder login"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Wiki beheerder login"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Ongeldig e-mailadres"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Wiki beheerder login"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
-msgid "Please enter the same password as above"
+msgid "Please enter the same password as above."
 msgstr "Wiki beheerder login"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
+msgstr "Wiki beheerder login"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "Wiki beheerder login"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3364,7 +3367,7 @@ msgstr "Verversen"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Meld je aan"
@@ -3379,7 +3382,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Meld je aan"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Registreren"
 
@@ -3404,7 +3407,7 @@ msgstr "Sorry, registratie is tijdelijk gedeactiveerd"
 msgid "Registration has been denied"
 msgstr "Sorry, registratie is tijdelijk gedeactiveerd"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3532,7 +3535,7 @@ msgstr "Wachtwoord opnieuw instellen"
 msgid "Reset password"
 msgstr "Wachtwoord instellen"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3819,11 +3822,6 @@ msgstr ""
 msgid "Select"
 msgstr "Selecteer"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "Selecteer bovenliggende pagina:"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Kies een nieuw lokaal bestand om deze bijlage bij te werken"
@@ -3836,10 +3834,20 @@ msgstr "Vink aan"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "Selecteer bovenliggende pagina:"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Verwijder de gebruiker eerst van groep(en) %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "Selecteer bovenliggende pagina:"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3854,7 +3862,7 @@ msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
@@ -3941,7 +3949,7 @@ msgstr ""
 "Sommige personen maken dit hun persoonlijke _portal_ met hun favoriete "
 "links, werk en hobbies, welke hulp ze zouden willen krijgen, etcetera."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Sorry, registratie is tijdelijk gedeactiveerd"
@@ -4357,7 +4365,7 @@ msgstr "Het formulier zou moeten zijn gedefinieerd in pagina %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "De tijdelijke vergrendeling is %1 geleden verlopen."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4455,8 +4463,8 @@ msgstr "%1 is toegevoegd aan de groep %2."
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4525,9 +4533,9 @@ msgstr ""
 "Dit is een geautomatiseerd bericht van de registratie van een gebruiker in "
 "%1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "'%1' is geen geldige %2 "
 
 #: core/data/Trash/WebHome.txt:2
@@ -4548,8 +4556,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5129,13 +5137,13 @@ msgstr "Let op: ingevoegde pagina bestaat niet!"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Let op: ingevoegde pagina bestaat niet!"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5194,10 +5202,14 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Paginanaam"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Paginanaam"
 
 #: core/data/System/WebSearch.txt:189
@@ -5426,7 +5438,7 @@ msgstr ""
 "e-mail, of de code invoeren in de box hieronder om je lidmaatschap te "
 "activeren. (Deze code heeft de vorm \"JeNaam.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5438,14 +5450,9 @@ msgstr ""
 "Vanaf het volgende scherm wordt je taalinstelling gewijzigd in %1. Je wordt "
 "nu daarheen geleid - zo niet, [[%2][klik om door te gaan]]."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Je wachtwoord:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5456,11 +5463,16 @@ msgstr "Je wachtwoord is veranderd in %1."
 msgid "Your password has not been changed."
 msgstr "Je wachtwoord is veranderd in %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Je wachtwoord:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

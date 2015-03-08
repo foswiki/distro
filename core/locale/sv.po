@@ -394,7 +394,7 @@ msgstr ""
 "i historiken för den bifogade filen kommer att visa de ursprungliga "
 "kommentarer från då filen laddades upp första gången."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -1198,8 +1198,9 @@ msgstr "Kommentarer avstängda när systemet körs från kommandoraden"
 msgid "Compare revisions"
 msgstr "Jämför versioner"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
-msgid "Confirm password"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#, fuzzy
+msgid "Confirm password:"
 msgstr "Bekräfta lösenord"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1295,8 +1296,9 @@ msgstr "Kunde inte utföra sökningen. Felet var: %1"
 msgid "Could not save %1."
 msgstr "Kunde inte spara %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
-msgid "Country"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#, fuzzy
+msgid "Country:"
 msgstr "Land"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1356,14 +1358,14 @@ msgstr "Skapa en personlig sidomeny"
 msgid "Create the topic"
 msgstr "Skapa sidan"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Skapa denna sida"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr "Skapa ett konto för att redigera sidor på denna webbplats."
 
@@ -1643,9 +1645,9 @@ msgstr ""
 "Antingen angav du inget filnamn eller så är filen %1 som du försöker ladda "
 "upp tom. Det går inte att ladda upp tomma filer."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "E-postadress:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1768,9 +1770,9 @@ msgstr "Kunde inte inkludera URLen %1"
 msgid "Fields marked %1 are required"
 msgstr "Fält markerade med %1 är obligatoriska"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Fält markerade med %1 är obligatoriska"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1794,9 +1796,9 @@ msgstr "Hitta sidor som refererar till %1 ..."
 msgid "First"
 msgstr "Förnamn:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Förnamn:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2089,7 +2091,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2148,7 +2150,7 @@ msgstr ""
 "Om du fått detta brev av misstag: En person (%1) har försökt registrera sig "
 "på '%2' med din e-postadress, %3. Kontakta %4 om detta är fel."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Eventuella frågor om registreringen skickas till %1."
 
@@ -2479,9 +2481,9 @@ msgstr "Senast ändrad"
 msgid "Last modified time"
 msgstr "Senast ändrad"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Efternamn:"
 
 #: core/templates/more.tmpl:180
@@ -2546,13 +2548,13 @@ msgstr ""
 msgid "Login"
 msgstr "Logga in"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Användarnamn %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Användarnamn %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Användarnamn %1"
 
 #: core/templates/login.tmpl:77
@@ -2760,7 +2762,7 @@ msgstr "Nytt lösenord"
 msgid "New topic name %1 is not a %2"
 msgstr "Det nya sidnamnet %1 är inte ett %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Registrering av nya användare avstängd"
@@ -2984,14 +2986,14 @@ msgstr "Mata in ett nytt namn på sidan (frivilligt):"
 msgid "Options"
 msgstr "Åtgärd"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Organisationsnamn:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Organisationsnamn:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3067,9 +3069,9 @@ msgstr "Sida för raderade dokument"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Bekräfta lösenord"
 
 #: core/templates/registermessages.tmpl:200
@@ -3086,45 +3088,48 @@ msgstr "Kontakta %1 om du har frågor."
 msgid "Please contact %1."
 msgstr "Kontakta %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-#, fuzzy
-msgid "Please enter a Wiki name"
-msgstr "Ange administratörsanvändarnamn och lösenord"
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Ange administratörsanvändarnamn och lösenord"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Ange administratörsanvändarnamn och lösenord"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Ange administratörsanvändarnamn och lösenord"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Ange administratörsanvändarnamn och lösenord"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Ogiltig e-postadress"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Ange administratörsanvändarnamn och lösenord"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
-msgid "Please enter the same password as above"
+msgid "Please enter the same password as above."
 msgstr "Ange administratörsanvändarnamn och lösenord"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
+msgstr "Ange administratörsanvändarnamn och lösenord"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "Ange administratörsanvändarnamn och lösenord"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3320,7 +3325,7 @@ msgstr "Uppdatera"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Registrera dig"
@@ -3335,7 +3340,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Registrera dig"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Registrering"
 
@@ -3360,7 +3365,7 @@ msgstr "Tyvärr, registreringen är tillfälligt avstängd"
 msgid "Registration has been denied"
 msgstr "Tyvärr, registreringen är tillfälligt avstängd"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3488,7 +3493,7 @@ msgstr "Nollställ lösenord"
 msgid "Reset password"
 msgstr "Nollställ lösenord"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3777,11 +3782,6 @@ msgstr ""
 msgid "Select"
 msgstr "Välj"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "Välj sidans förälder:"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Välj en ny lokal fil för att uppdatera den bifogade filen."
@@ -3794,10 +3794,20 @@ msgstr "Välj alla"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "Välj sidans förälder:"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Ta bort användaren från gruppen/grupperna %1 först."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "Välj sidans förälder:"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3813,7 +3823,7 @@ msgstr ""
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Registrering av nya användare stöds inte"
@@ -3900,7 +3910,7 @@ msgstr ""
 "Vissa använder det till en personlig portal med favoritlänkar, vad de "
 "arbetar med, vad de vill hjälpa till med etc."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Tyvärr, registreringen är tillfälligt avstängd"
@@ -4308,7 +4318,7 @@ msgstr "Formuläret skall definieras på sidan %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Låset på denna sida gick ut för %1 sedan."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4402,8 +4412,8 @@ msgstr "%1 tillagd i gruppen %2."
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4469,9 +4479,9 @@ msgstr "Detta är ett automatgenererat meddelande från %1."
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Detta är ett automatgenerarat meddelande om registrering i %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "%1 är inte ett giltigt formulärnamn"
 
 #: core/data/Trash/WebHome.txt:2
@@ -4492,8 +4502,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5067,13 +5077,13 @@ msgstr "Varning: Denna \\'include\\'-sida finns inte!"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varning: Denna \\'include\\'-sida finns inte!"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5132,10 +5142,14 @@ msgstr "varför du blir ombedd att bekräfta"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Enbart sidnamn"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Enbart sidnamn"
 
 #: core/data/System/WebSearch.txt:189
@@ -5359,7 +5373,7 @@ msgstr ""
 "postmeddelandet eller mata in koden nedan för att aktivera ditt medlemskap."
 "(Koden har formen \"DitNamn.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5371,14 +5385,9 @@ msgstr ""
 "Språket byts till %1 från nästa skärmbild. Du blir nu omdirigerad. Klicka "
 "annars [[%2][här]] för att fortsätta."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Ditt lösenord:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5389,11 +5398,16 @@ msgstr "Ditt lösenord ändrades till %1."
 msgid "Your password has not been changed."
 msgstr "Ditt lösenord ändrades till %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr "På denna webbplats måste lösenord vara minst %1 tecken långa"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Ditt lösenord:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

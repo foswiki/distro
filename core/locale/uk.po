@@ -405,7 +405,7 @@ msgstr ""
 "показується в історії прикріплених файлів, буде коментарем що відноситься до "
 "моменту завантаження файлу."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1221,9 +1221,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Порівняти редакції"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "Ваш пароль:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1317,9 +1317,9 @@ msgstr ""
 msgid "Could not save %1."
 msgstr "Не вдалося зберегти %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "Країна:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1382,14 +1382,14 @@ msgstr "Створити особисту панель"
 msgid "Create the topic"
 msgstr "Створити тему"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Створити цю тему"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1667,9 +1667,9 @@ msgstr ""
 "Або Ви не вказали ім'я файлу, або прикріплюваний файл %1 порожній. Не слід "
 "завантажувати порожній файл."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "Адреса електронної пошти:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1794,9 +1794,9 @@ msgstr "Не вдається приєднати URL %1"
 msgid "Fields marked %1 are required"
 msgstr "Помічені %1 поля обов'язкові для заповнення"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Помічені %1 поля обов'язкові для заповнення"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1820,9 +1820,9 @@ msgstr "Знайти теми, що посилаються на %1 ..."
 msgid "First"
 msgstr "Ім'я:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Ім'я:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2113,7 +2113,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2174,7 +2174,7 @@ msgstr ""
 "Якщо Ви не чекали на цей лист: хтось (%1) реєструвався на %2, використовуючи "
 "Вашу адресу електронної пошти: %3. Повідомите, будь ласка, %4 якщо це не Ви."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Якщо у Вас є питання по реєстрації, відправте повідомлення по електронній "
@@ -2515,9 +2515,9 @@ msgstr "Часу останньої зміни"
 msgid "Last modified time"
 msgstr "Часу останньої зміни"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Прізвище:"
 
 #: core/templates/more.tmpl:180
@@ -2583,13 +2583,13 @@ msgstr ""
 msgid "Login"
 msgstr "Увійти"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Ім'я користувача %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Ім'я користувача %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Ім'я користувача %1"
 
 #: core/templates/login.tmpl:77
@@ -2798,7 +2798,7 @@ msgstr "Новий пароль"
 msgid "New topic name %1 is not a %2"
 msgstr "Нова назва теми %1 не %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 msgid "New user registration is disabled on this site."
 msgstr ""
 
@@ -3020,14 +3020,14 @@ msgstr "Введіть іншу назву теми, якщо це необхі�
 msgid "Options"
 msgstr "Дія"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Назва організації:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Назва організації:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3103,9 +3103,9 @@ msgstr "Місце для вилучених файлів"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Ваш пароль:"
 
 #: core/templates/registermessages.tmpl:200
@@ -3122,43 +3122,50 @@ msgstr "Якщо у Вас є питання, зв'яжіться з %1."
 msgid "Please contact %1."
 msgstr "Будь ласка, зв'яжіться з %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-msgid "Please enter a Wiki name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Скинути пароль"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Невірна адреса електронної пошти"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Невірна адреса електронної пошти"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Скинути пароль"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Невірна адреса електронної пошти"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
-msgid "Please enter the same password as above"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#, fuzzy
+msgid "Please enter the same password as above."
+msgstr "Скинути пароль"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
 msgstr ""
+"Повідомлення електронної пошти не може бути доставлене. Будь ласка, "
+"повідомте про це Вашого %1 адміністратора %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "Скинути пароль"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3365,7 +3372,7 @@ msgstr "Поновити"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Реєструватися"
@@ -3380,7 +3387,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Реєструватися"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Реєстрація"
 
@@ -3404,7 +3411,7 @@ msgstr "Реєстраційні коди можуть бути використ
 msgid "Registration has been denied"
 msgstr "Реєстраційні коди можуть бути використані тільки один раз."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3534,7 +3541,7 @@ msgstr "Скинути пароль"
 msgid "Reset password"
 msgstr "Скинути пароль"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3821,11 +3828,6 @@ msgstr ""
 msgid "Select"
 msgstr "Вибрати"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "Встановити нового батька для теми"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr ""
@@ -3839,10 +3841,20 @@ msgstr "Вибрати усе"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "Встановити нового батька для теми"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Спочатку вилучте користувача з груп(и) %1."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "Встановити нового батька для теми"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3857,7 +3869,7 @@ msgstr "Виділіть, скопіюйте та вставте свій під
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 msgid "Self registration is not supported by this site."
 msgstr ""
 
@@ -3945,7 +3957,7 @@ msgstr ""
 "Деякі люди перетворять це в персональний портал вибраних посилань, з якими "
 "вони працюють, які їм зручні, і так далі."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
@@ -4352,7 +4364,7 @@ msgstr "Форма повинна бути визначена на сторін�
 msgid "The lease on this topic expired %1 ago."
 msgstr "Блокування цієї сторіночки застаріло %1 тому"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4444,8 +4456,8 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4514,9 +4526,9 @@ msgstr "Це автоматичне повідомлення від %1."
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Це автоматичне повідомлення про реєстрацію користувача в %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "'%1' неправильний %2 "
 
 #: core/data/Trash/WebHome.txt:2
@@ -4537,8 +4549,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5108,13 +5120,13 @@ msgstr "Примітка: ця тема не існує"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Примітка: ця тема не існує"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5172,10 +5184,14 @@ msgstr ""
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Назва теми"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Назва теми"
 
 #: core/data/System/WebSearch.txt:189
@@ -5405,7 +5421,7 @@ msgstr ""
 "посилання в отриманому Вами листі або введіть код в текстове поле нижче щоб "
 "підтвердити Вашу реєстрацію. (Цей код має вигляд: \"ВашеІм'я.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5415,14 +5431,9 @@ msgid ""
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Ваш пароль:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5433,11 +5444,16 @@ msgstr "Ваш пароль змінений на %1."
 msgid "Your password has not been changed."
 msgstr "Ваш пароль змінений на %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr "Потрібно ввести пароль завдовжки не менше %1 символів"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Ваш пароль:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

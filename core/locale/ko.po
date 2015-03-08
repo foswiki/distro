@@ -380,7 +380,7 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1151,9 +1151,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "리비전 비교하기"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "비밀번호:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1241,9 +1241,9 @@ msgstr ""
 msgid "Could not save %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "국가:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1307,14 +1307,14 @@ msgstr "개인 정보 편집"
 msgid "Create the topic"
 msgstr "포틱 생성하기"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "이 토픽을 생성하기"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1576,9 +1576,9 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "이메일 주소:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1696,9 +1696,9 @@ msgstr ""
 msgid "Fields marked %1 are required"
 msgstr "%1 로 표시된 필드는 필수 항목입니다."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "%1 로 표시된 필드는 필수 항목입니다."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1722,9 +1722,9 @@ msgstr ""
 msgid "First"
 msgstr "이름(First Name):"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "이름(First Name):"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2006,7 +2006,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2057,7 +2057,7 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "등록과 관련하여 문의사항이 있으면, %1 에게 이메일로 연락하세요."
 
@@ -2374,9 +2374,9 @@ msgstr "성(Last Name):"
 msgid "Last modified time"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "성(Last Name):"
 
 #: core/templates/more.tmpl:180
@@ -2441,14 +2441,14 @@ msgstr ""
 msgid "Login"
 msgstr "로그인"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "로그인"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
+msgstr "로그인"
 
 #: core/templates/login.tmpl:77
 msgid "Logon"
@@ -2655,7 +2655,7 @@ msgstr "새로운 비밀번호"
 msgid "New topic name %1 is not a %2"
 msgstr "새로운 토픽 이름 %1 은 %2 가 아닙니다."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 msgid "New user registration is disabled on this site."
 msgstr ""
 
@@ -2871,14 +2871,14 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "소속 기관 이름:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "소속 기관 이름:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -2952,9 +2952,9 @@ msgstr ""
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "비밀번호:"
 
 #: core/templates/registermessages.tmpl:200
@@ -2971,43 +2971,49 @@ msgstr "질문이 있다면, %1 로 연락바랍니다."
 msgid "Please contact %1."
 msgstr "%1 에게 도움을 요청하세요."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-msgid "Please enter a Wiki name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "비밀번호 재설정"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "유효하지 않은 이메일 주소"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "유효하지 않은 이메일 주소"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "비밀번호 재설정"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "유효하지 않은 이메일 주소"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
-msgid "Please enter the same password as above"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#, fuzzy
+msgid "Please enter the same password as above."
+msgstr "비밀번호 재설정"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
 msgstr ""
+"이메일은 전송되지 않을 수 있습니다. 해당 내용을 %1 관리자에게 알려주세요, %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "비밀번호 재설정"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3191,7 +3197,7 @@ msgstr "새로고침"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "등록하기"
@@ -3206,7 +3212,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "등록하기"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "등록"
 
@@ -3230,7 +3236,7 @@ msgstr "등록"
 msgid "Registration has been denied"
 msgstr "등록"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3355,7 +3361,7 @@ msgstr "비밀번호 재설정"
 msgid "Reset password"
 msgstr "비밀번호 재설정"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3636,11 +3642,6 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "토픽 지우기"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr ""
@@ -3653,10 +3654,20 @@ msgstr ""
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "토픽 지우기"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "먼저 그룹 %1 에서 사용자를 삭제하십시오."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "토픽 지우기"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3671,7 +3682,7 @@ msgstr ""
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 msgid "Self registration is not supported by this site."
 msgstr ""
 
@@ -3752,7 +3763,7 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
@@ -4136,7 +4147,7 @@ msgstr ""
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4226,8 +4237,8 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4284,9 +4295,9 @@ msgstr ""
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "'%1'은 유효하지 않은 %2 입니다."
 
 #: core/data/Trash/WebHome.txt:2
@@ -4305,8 +4316,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -4852,13 +4863,13 @@ msgstr ""
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -4917,10 +4928,14 @@ msgstr "당신의 확인이 요청된 이유입니다."
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Wiki name"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
+msgstr "이름(First Name):"
 
 #: core/data/System/WebSearch.txt:189
 #, fuzzy
@@ -5118,7 +5133,7 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5128,14 +5143,9 @@ msgid ""
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "비밀번호:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5146,10 +5156,16 @@ msgstr ""
 msgid "Your password has not been changed."
 msgstr "비밀번호 변경이 불가능합니다."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
-msgid "Your password must be at least %1 characters long"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+#, fuzzy
+msgid "Your password must be at least %1 characters long."
+msgstr "비밀번호 변경이 불가능합니다."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "비밀번호:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13

@@ -393,7 +393,7 @@ msgstr ""
 "aiheessa näkyvä kommentti muuttuu, mutta liitehistoriassa näkyvä kommentti "
 "on se mikä määriteltiin tiedostoa lähettäessä."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:450
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1203,9 +1203,9 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:340
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
-msgid "Confirm password"
+msgid "Confirm password:"
 msgstr "Uusi salasana:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
@@ -1299,9 +1299,9 @@ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 msgid "Could not save %1."
 msgstr "Ei voitu tallentaa %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:428
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
-msgid "Country"
+msgid "Country:"
 msgstr "Maa:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
@@ -1364,14 +1364,14 @@ msgstr "Luo henkilökohtainen sivupaneeli"
 msgid "Create the topic"
 msgstr "Luo aihe"
 
-#: core/data/System/DefaultPreferences.txt:394
+#: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:151
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:103
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1652,9 +1652,9 @@ msgstr ""
 "Joko et tarkentanut tiedoston nimeä; tai tiedostosta, jota yrität lähettää "
 "%1, uupuu sisältö. Voit myös yrittää lähettää tyhjää tiedostoa."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:330
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
-msgid "Email address"
+msgid "Email address:"
 msgstr "Sähköpostiosoite:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
@@ -1777,9 +1777,9 @@ msgstr "URLin %1 lisääminen epäonnistui"
 msgid "Fields marked %1 are required"
 msgstr "Kentät jotka on merkitty %1:llä ovat vaadittuja"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:126
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
-msgid "Fields marked <span class='required'>*</span> are required"
+msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Kentät jotka on merkitty %1:llä ovat vaadittuja"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
@@ -1803,9 +1803,9 @@ msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
 msgid "First"
 msgstr "Etunimi:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:301
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
-msgid "First name"
+msgid "First name:"
 msgstr "Etunimi:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
@@ -2098,7 +2098,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
@@ -2157,7 +2157,7 @@ msgstr ""
 "(nimellä %1) käyttäen sähköpostiosoitettasi %3. Ota yhteyttä osoitteeseen: "
 "%4, jos luulet että tässä on tapahtunut virhe."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:112
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Jos sinulla on kysyttävää rekisteröinnistä, lähetä sähköpostia osoitteeseen "
@@ -2490,9 +2490,9 @@ msgstr "Muokattu viimeksi"
 msgid "Last modified time"
 msgstr "Muokattu viimeksi"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:308
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 #, fuzzy
-msgid "Last name"
+msgid "Last name:"
 msgstr "Sukunimi:"
 
 #: core/templates/more.tmpl:180
@@ -2557,13 +2557,13 @@ msgstr ""
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:323
-#, fuzzy
-msgid "Login name"
-msgstr "Käyttäjätunnus %1"
-
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Login name %1"
+msgstr "Käyttäjätunnus %1"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#, fuzzy
+msgid "Login name:"
 msgstr "Käyttäjätunnus %1"
 
 #: core/templates/login.tmpl:77
@@ -2771,7 +2771,7 @@ msgstr "Uusi salasana"
 msgid "New topic name %1 is not a %2"
 msgstr "Uusi aiheen nimi %1 ei ole %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:97
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
@@ -2995,14 +2995,14 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Options"
 msgstr "Toiminto"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:414
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
-msgid "Organisation name"
+msgid "Organisation name:"
 msgstr "Organisaation nimi:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:421
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
-msgid "Organisation website"
+msgid "Organisation website:"
 msgstr "Organisaation nimi:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
@@ -3078,9 +3078,9 @@ msgstr "Paikka poistetuille liitteille"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 #, fuzzy
-msgid "Please confirm your password"
+msgid "Please confirm your password."
 msgstr "Uusi salasana:"
 
 #: core/templates/registermessages.tmpl:200
@@ -3097,45 +3097,48 @@ msgstr "Ole hyvä ja ota yhteyttä %1 jos sinulla on kysyttävää."
 msgid "Please contact %1."
 msgstr "Ole hyvä ja ota yhteyttä %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
-msgid "Please correct the entered data before you continue"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+msgid "Please correct the entered data before you continue."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:269
-#, fuzzy
-msgid "Please enter a Wiki name"
-msgstr "Syötä wiki-vastaavan salasana"
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "Please enter a login name"
-msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
-msgid "Please enter a password"
-msgstr "Syötä wiki-vastaavan salasana"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a valid email address"
+msgid "Please enter a Wiki name."
+msgstr "Syötä wiki-vastaavan salasana"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#, fuzzy
+msgid "Please enter a login name."
+msgstr "Syötä wiki-vastaavan salasana"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#, fuzzy
+msgid "Please enter a password."
+msgstr "Syötä wiki-vastaavan salasana"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#, fuzzy
+msgid "Please enter a valid email address."
 msgstr "Virheellinen sähköpostiosoite"
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
 msgstr "Syötä wiki-vastaavan salasana"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
-msgid "Please enter the same password as above"
+msgid "Please enter the same password as above."
 msgstr "Syötä wiki-vastaavan salasana"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:266
-msgid "Please enter your first name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#, fuzzy
+msgid "Please enter your first name."
+msgstr "Syötä wiki-vastaavan salasana"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:267
-msgid "Please enter your last name"
-msgstr ""
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#, fuzzy
+msgid "Please enter your last name."
+msgstr "Syötä wiki-vastaavan salasana"
 
 #: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
 #: core/templates/messages.tmpl:80
@@ -3328,7 +3331,7 @@ msgstr "Päivitä"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:444
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -3343,7 +3346,7 @@ msgstr ""
 msgid "Registered users"
 msgstr "Rekisteröidy"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:72
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Rekisteröinti"
 
@@ -3368,7 +3371,7 @@ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
 msgid "Registration has been denied"
 msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:94
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
@@ -3496,7 +3499,7 @@ msgstr "Resetoi salasana"
 msgid "Reset password"
 msgstr "Resetoi salasana"
 
-#: core/data/System/DefaultPreferences.txt:203
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3781,11 +3784,6 @@ msgstr ""
 msgid "Select"
 msgstr "Valitse"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:395
-#, fuzzy
-msgid "Select %1 to join"
-msgstr "Valitse yläartikkeli:"
-
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Valitse uusi paikallinen tiedosto päivittääksesi liite"
@@ -3798,10 +3796,20 @@ msgstr "Valitse kaikki"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select groups to join:"
+msgstr "Valitse yläartikkeli:"
+
 #: core/data/Main/GroupViewTemplate.txt:233
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#, fuzzy
+msgid "Select the group to join:"
+msgstr "Valitse yläartikkeli:"
 
 #: core/templates/more.tmpl:101
 #, fuzzy
@@ -3816,7 +3824,7 @@ msgstr "Valitse, kopioi ja liitä allekirjoitustekstisi artikkelin alaosaan"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:80
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
@@ -3903,7 +3911,7 @@ msgstr ""
 "Jotkut käyttäjät tekevät siitä henkilökohtaisen portaalinsa lisäten omia "
 "linkkejään, kertovat mitä tekevät, mitä apua haluaisivat saada jne."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
@@ -4311,7 +4319,7 @@ msgstr "Mallin pitäisi olla määritelty %1 aiheessa"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Aiheen lukitus umpeutui %1 sitten."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:324
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -4404,8 +4412,8 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-msgid "This Wiki name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This Wiki name is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4473,9 +4481,9 @@ msgstr ""
 "Tämä on automaattinen sähköposti-ilmoitus käyttäjän rekisteröitymisestä "
 "palveluun %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name"
+msgid "This is not a valid Wiki name."
 msgstr "'%1' ei ole sallittu %2"
 
 #: core/data/Trash/WebHome.txt:2
@@ -4496,8 +4504,8 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
-msgid "This login name is already in use"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This login name is already in use."
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:31
@@ -5069,13 +5077,13 @@ msgstr "Varoitus: Aihetta ei ole olemassa"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varoitus: Aihetta ei ole olemassa"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5134,10 +5142,14 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:315
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "Wiki name"
+msgstr "Aiheen nimi"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "Wiki name:"
 msgstr "Aiheen nimi"
 
 #: core/data/System/WebSearch.txt:189
@@ -5367,7 +5379,7 @@ msgstr ""
 "aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi."
 "xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:331
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5380,14 +5392,9 @@ msgstr ""
 "uudelleenohjataan seuraavalle sivulle automaattisesti, mutta voit myös [[%2]"
 "[klikata tästä jatkaaksesi]]"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:316
-msgid "Your name as displayed online. This must be a unique %1"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed online. This must be a unique %1."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:339
-#, fuzzy
-msgid "Your password"
-msgstr "Uusi salasana:"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5398,11 +5405,16 @@ msgstr "Salasanasi on vaihdettu arvoon %1."
 msgid "Your password has not been changed."
 msgstr "Salasanasi on vaihdettu arvoon %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
-msgid "Your password must be at least %1 characters long"
+msgid "Your password must be at least %1 characters long."
 msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#, fuzzy
+msgid "Your password:"
+msgstr "Uusi salasana:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13
