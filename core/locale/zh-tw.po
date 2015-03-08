@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 16:06+0200\n"
+"PO-Revision-Date: 2015-03-08 03:18+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -203,9 +203,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "%1.LoginName:"
-msgstr "%1.LoginName"
+msgstr "%1.LoginName:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
