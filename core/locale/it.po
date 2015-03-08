@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 19:31+0200\n"
+"PO-Revision-Date: 2015-03-08 08:32+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -543,13 +543,13 @@ msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr ""
-"Un codice di colore inizia con il carattere #, seguito da 6 cifre "
-"esadecimali, es.=#FFFF00=."
+"Un colore inizia con il simbolo #, seguito da 6 cifre esadecimali, es. "
+"=#FFFF00=."
 
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
-msgstr "Una e-mail di conferma è stata inviata a %1"
+msgstr "Una  e-mail di conferma è stata inviata a %1"
 
 #: core/templates/messages.tmpl:642 core/templates/messages.tmpl:652
 msgid ""
