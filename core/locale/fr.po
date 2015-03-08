@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 21:31+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-08 02:07+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -1973,7 +1973,7 @@ msgstr "Aide"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
-msgstr ""
+msgstr "Bonjour, %1"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -1991,13 +1991,12 @@ msgstr ""
 "de sous-webs."
 
 #: core/data/System/ManagingTopics.txt:98
-#, fuzzy
 msgid "History"
-msgstr "&Historique"
+msgstr "Historique"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
-msgstr ""
+msgstr "Ligne horizontale"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
@@ -2040,7 +2039,7 @@ msgstr "J'ai oublié mon mot de passe"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Icon"
-msgstr ""
+msgstr "Icône"
 
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:34
@@ -2055,28 +2054,33 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Si Foswiki ne dispose pas de votre adresse e-mail enregistrée dans sa base "
+"de données sécurisée, vous ne pourrez pas réinitialiser votre mot de passe, "
+"ni profiter des notifications de changements de pages par e-mail."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Si Foswiki détecte une requête suspecte ayant pu être envoyée depuis une "
+"telle page, il vous est alors demandé de confirmer la requête."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:96
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
 msgstr ""
+"Si l'inscription n'est pas désactivée par des erreurs, les administrateurs "
+"peuvent toujours inscrire des utilisateurs sur ce site en utilisant"
 
 #: core/templates/messages.tmpl:287
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Vérifiez la configuration de {TemplateDir} et {TemplatePath}. Si elle est "
-"correcte, peut-être y a-t-il un paramètre de %1 qui pointe vers un modèle "
-"(template) inexistant."
+"Si tel n'est pas le problème, il est possible que vous ayez une valeur de %1 "
+"qui pointe vers un modèle (template) qui n'existe pas."
 
 #: core/templates/messages.tmpl:211
 msgid "If this line isn't present see _upgrade_ section below"
@@ -2099,9 +2103,8 @@ msgstr ""
 "des paramètres corrects."
 
 #: core/templates/validate.tmpl:42
-#, fuzzy
 msgid "If you are unsure what this means, read: %1"
-msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez :"
+msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez : %1"
 
 #: core/templates/messages.tmpl:405 core/templates/messages.tmpl:416
 msgid "If you came here by clicking on a question mark link"
@@ -2115,11 +2118,8 @@ msgstr ""
 "Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
-msgstr ""
-"Si vous entrez un nom différent, prenez garde à ce qu'il corresponde bien à "
-"une page existante."
+msgstr "Si vous entrez un nom différent, assurez vous que la page existe."
 
 #: core/templates/registerconfirm.tmpl:15
 #: core/templates/registernotify.tmpl:24
@@ -2173,6 +2173,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
+"Si vous souhaitez effectuer une recherche sur un mot présent dans la liste "
+"de mots vides, préfixez le mot avec un signe plus"
 
 #: core/templates/messages.tmpl:421
 msgid "If you would like to create this web"
@@ -2183,6 +2185,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
+"Si vous voulez envoyer un e-mail pour leur donner un retour, veuillez "
+"l'écrire ci-dessous et pressez 'Envoyer e-mail'"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -2196,17 +2200,16 @@ msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
-msgstr ""
+msgstr "Ignorer pendant 7 jours"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Le web %1 n'existe pas"
+msgstr "Image %1 sur %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2220,10 +2223,14 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"Un scénario possible est qu'une personne mal intentionnée ait laissé un lien "
+"pour vous pousser à visiter une page sur http<nop>://crime.org, qui contient "
+"du code javascript malicieux."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
+"Dans le cas d'un fichier zip, attacher tous les fichiers inclus à cette page"
 
 #: core/data/System/WebSearch.txt:174
 msgid "In reversed order"
@@ -2239,7 +2246,7 @@ msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:25
 msgid "Including"
-msgstr ""
+msgstr "Inclusion"
 
 #: core/templates/registermessages.tmpl:114
 #: core/templates/registermessages.tmpl:211
