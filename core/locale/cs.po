@@ -4,17 +4,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-07-08 11:21+0200\n"
-"Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-03-08 01:15+0200\n"
+"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -44,7 +45,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (výchozí)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -63,22 +64,20 @@ msgstr "%1 Web"
 
 #: core/templates/registermessages.tmpl:387
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 přidáno do %2 skupiny. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "uživatel  %4 přesunul %1 z %2 do %3"
+msgstr "%1 nemůže být odstraněn z %2"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "Díky za Vaši registraci"
+msgstr "%1 zamítl registraci."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "%1 téma skupiny aktualizováno. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -86,9 +85,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 má seznam ostatních uživatelů Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 byl zaregistrován s e-mailem %2"
+msgstr "%1 byl schválen a zaregistrován s e-mailem %2"
 
 #: core/templates/messages.tmpl:321
 msgid ""
