@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425748775" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425781381" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -18,6 +18,8 @@
 		"title,notes,resources,form,help,privacyInformation"
 		... (leave rest as is)
 	}%
+
+    DEFINES MAIN BODY OF THE PAGE
 -->
 %FORMAT{
 	"title,notes,resources,form,help"
@@ -46,6 +48,8 @@
 		extraField_organisationName
 		extraField_organisationUrl
 		extraField_country
+
+  vvv  ENABLE OPTIONAL FIELDS BY ADDING THEM TO THE NEXT SECTION vvv
 -->
 %STARTSECTION{"optionalFields"}%%FORMAT{
 	""
@@ -128,7 +132,7 @@
 			<div class='foswikiClear'></div>
 		</div>
 	</div>
-%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
+%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
@@ -359,11 +363,7 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 	header="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
 						"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'"
 						then="hidden"
-					}%rendergroupheader$quot multiple=$quot%IF{
-						"'%REGISTRATIONGROUPTYPE%' = 'multiple'" 
-						then="groups" 
-						else="group"
-					}%$quot}$percent"
+					}%rendergroupheader$quot}$percent"
 	footer="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percent"
 	zeroresults="no groups<!-- no groups available -->"
 	format="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot
@@ -391,7 +391,7 @@ Section rendergroup
 Section rendergroupheader
   parameters: 
 -->
-%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%MAKETEXT{"Select [_1] to join:" args="%multiple%"}%</label>
+%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then='%MAKETEXT{"Select groups to join:"}%' else='%MAKETEXT{"Select the group to join:"}%'}%</label>
 <div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
 
 <!--

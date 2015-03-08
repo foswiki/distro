@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425783471" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -182,6 +182,8 @@ be removed from Foswiki 1.2.0.
 #RegistrationOptions
 ---+++ Registration configuration options
 ---++++ Add user to group during registration
+Note, this feature also must be enabled on the UserRegistration page by adding
+=extraField_groups= to the =optionalFields= section.  See [[UserAuthentication#Custom_registration_page]] for more information.
    * Group type settings during registration:
       * =automatic=: users will be automatically added to eligible groups
       * =one=: users can select one of the groups

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423432442" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425781381" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -31,7 +31,7 @@ Please note FileAttachments are not protected by %WIKITOOLNAME% User Authenticat
 
 As shipped, %WIKITOOLNAME% supports the Apache 'htpasswd' password manager. This manager supports the use of =.htpasswd= files on the server. These files can be unique to %WIKITOOLNAME%, or can be shared with other applications (such as an Apache webserver). A variety of password encodings are supported for flexibility when re-using existing files. See the descriptive comments in the Security Settings section of the [[%SCRIPTURLPATH{"configure"}%][configure]] interface for more details.
 
-<div class=foswikiHelp>
+<div class='foswikiHelp'>
 %X% *Caution:* Foswiki uses the =.htpasswd= file to also store the e-mail addresses of registered users.  If the =.htpasswd= file will be shared with another application, it is critical to preserve the e-mail address stored as the last field in each line of the file.
 </div>
 
@@ -67,7 +67,7 @@ Login management controls the way users have to log in. There are three basic op
 
 Does exactly what it says on the tin. Forget about authentication to make your site completely public - anyone can browse and edit freely, in classic Wiki style. All visitors are given the %USERSWEB%.WikiGuest default identity, so you can't track individual user activity.
 
-<div class="foswikiHelp"> *%X% Note:* This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.</div>
+<div class='foswikiHelp'> *%X% Note:* This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.</div>
 
 #TemplateLogin
 ---+++ Template Login (select =Foswiki::LoginManager::TemplateLogin=)
@@ -75,17 +75,18 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 %STARTSECTION{"TemplateLogin"}%Template Login asks for a username (or optionally e-mail address) and password in a web page, and processes them using whatever Password Manager you choose. Users can log in and log out. Client Sessions are used to remember users. Users can choose to have their session remembered so they will automatically be logged in the next time they start their browser.
 
 ---++++ Enabling Template Login
-<div class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</div>
+
+<div class='foswikiHelp'>%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</div>
    1 Using %IF{"'%INSTALLGUIDE%'='1'" then="=configure=" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%, =Security And Authentication= tab
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
-      <div class="foswikiHelp">%H% There is an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</div>
-      <div class="foswikiHelp">%H% There is an EXPERT configure setting ={TemplateLogin}{AllowLoginUsingEmailAddress}= that you can set to allow users to login using their password system registered e-mail addresses.</div>
+      <div class='foswikiHelp'>%H% There is an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</div>
+      <div class='foswikiHelp'>%H% There is an EXPERT configure setting ={TemplateLogin}{AllowLoginUsingEmailAddress}= that you can set to allow users to login using their password system registered e-mail addresses.</div>
 %ENDSECTION{"TemplateLogin"}%%INCLUDE{"UserAuthentication" section="TESTING"}%
 
 AccessControl has more information on setting up access controls.
 
-<div class="foswikiHelp">
+<div class='foswikiHelp'>
 %X% Foswiki AccessControls do not protect topic attachments unless the web server has been configured to do so using the =viewfile= script. Visit Foswiki:Support.ApacheConfigGenerator for examples using Apache.
 
 %T% As Template Login uses a wiki page for its login prompt, there is a great deal of flexibility in customizing the login page for your purposes.
@@ -94,31 +95,37 @@ AccessControl has more information on setting up access controls.
 
 #UserRegistrationPage
 ---++++ Custom registration page
-You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic by first copying [[%SYSTEMWEB%.DefaultUserRegistration]] to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
 
-A couple of common fields are hidden from normal view to make the registration page as lean as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags) or add new ones.
+You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic by first copying [[%SYSTEMWEB%.DefaultUserRegistration]] to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade. There are some brief instructions on %SYSTEMWEB%.UserRegistration that helps you accomplish this.  
 
-New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
+The UserRegistration page is assembled from =INCLUDE= blocks hidden on the page. They are documented in HTML Comments that are only visible when you edit the page.
+   * The first =FORMAT= macro is used expand the blocks that define the main body of the page.
+   * Further down is a block =%%NOP%STARTSECTION{"optionalFields"}%%FORMAT{= ... In that block you can enable other optional fields, such as group membership, country, organization, etc.
+New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Scroll down further on the page to find a =STARTSECTION= for a similar field.   For example =%STARTSECTION{"extraField_organisationUrl=. Duplicate the block and rename it to create your new field, and then add the name to the list in the =optionalFields= FORMAT macro.
+
+If you add fields to the UserRegistration form, you also need to add them to the [[%USERSWEB%.UserForm]] so that they are stored in the user topics.
 
 ---++++ Automatic Group Membership
-You can also enroll users into groups during registration. Options include:
+
+You can also enrol users into groups during registration. Note however that this feature is done through the user interface. It cannot be used to force a user into a NewUsersGroup for example if the user submits the registration through a bot or script that submits the form data omitting the group fields.
+
+Options include:
    * Automatically enrolling users in one or more groups during registration
    * Allow the user to select multiple groups from a list of eligible groups
    * Allow the user to choose only _one_ group from a list of eligible groups
-   * Don't do any group enrollment during registration.
+   * Don't do any group enrolment during registration.
 
 The list of eligible groups can be generated in one of two ways:
-   * Manually by configuration.  This fixed list of groups will always be listed.
+   * Manually by configuration. This fixed list of groups will always be listed.
    * Automatically based upon CHANGE permission on the group topics.
 
 There are two registration scenarios that apply:
-
-   $ Self-registration by Guest users:  The actual registration will be processed by the special internal user %USERSWEB%.RegistrationAgent.  Group topics must include an ALLOWTOPICCHANGE = %USERSWEB%.RegistrationAgent to be eligible for enrollment.
-   $ Registration by logged-in users:  The registration form is filled out by some other logged-in user.  In this case, the %USERSWEB%.RegistrationAgent is *not* used for Group updates.  The current user must have ALLOWTOPICCHANGE permission for groups for them to be eligible for enrollment.
+   $ Self-registration by Guest users: The actual registration will be processed by the special internal user %USERSWEB%.RegistrationAgent. Group topics must include an ALLOWTOPICCHANGE = %USERSWEB%.RegistrationAgent to be eligible for enrolment.
+   $ Registration by logged-in users: The registration form is filled out by some other logged-in user. In this case, the %USERSWEB%.RegistrationAgent is *not* used for Group updates. The current user must have ALLOWTOPICCHANGE permission for groups for them to be eligible for enrollment.
 
 Note: During registration, if it turns out that the current user or %USERSWEB%.RegistrationAgent doesn't have permission to update the group topic, the group update will be silently skipped.  The user will still be able to register.
 
-See %WIKIPREFSTOPIC%#RegistrationOptions for further details.  Copy the changed settings into %LOCALSITEPREFS% to make them active.
+See %WIKIPREFSTOPIC%#RegistrationOptions for further details.  Copy the changed settings into %LOCALSITEPREFS% to make them active. You also must add =extraField_groups= to the list of optional fields in the =FORMAT= macro in the =optionalFields= section.
 
 #ApacheLogin
 ---+++ Enabling Apache Login
@@ -133,7 +140,7 @@ The disadvantage is that because the user identity is cached in the browser, you
 
 The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be used to authenticate Apache users, using the Apache Basic Authentication support.
 
-<div class="foswikiHelp">%X% Do *not* use the Apache =htpasswd= program to modify =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out e-mail addresses that %WIKITOOLNAME% saves in the info fields of this file.
+<div class='foswikiHelp'>%X% Do *not* use the Apache =htpasswd= program to modify =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out e-mail addresses that %WIKITOOLNAME% saves in the info fields of this file.
 
 %I% Apache Login is required for Apache-based login methods such as =mod_ldap=
 
@@ -147,7 +154,7 @@ To setup Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4)<sticky>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4) <sticky>
       <verbatim>
  AuthType Basic
  <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|.*auth).*">
@@ -177,13 +184,13 @@ You can get, set, and clear session variables from within %WIKITOOLNAME% web pag
 
 To make use of these features, use the tags:
 
-<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
+<!-- %JQREQUIRE{"chili"}% -->
+<verbatim class='tml'>
 %SESSION_VARIABLE{ "varName" }%
 %SESSION_VARIABLE{ "varName" set="varValue" }%
-%SESSION_VARIABLE{ "varName" clear="" }%
-</verbatim>
+%SESSION_VARIABLE{ "varName" clear="" }%</verbatim>
 
-<div class="foswikiHelp">%X% [[AccessControls][Access controls]] cannot be modified in this way</div>
+<div class='foswikiHelp'>%X% [[AccessControls][Access controls]] cannot be modified in this way</div>
 
 ---+++ Cookies and Transparent Session IDs
 
@@ -193,7 +200,7 @@ For a number of reasons, it may not be possible to use cookies. In this case, %W
 
 ---+++ Sessions and Roaming or Mobile Users
 
-If =$Foswiki::cfg{Sessions}{UseIPMatching}= is enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used 
+If =$Foswiki::cfg{Sessions}{UseIPMatching}= is enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used
 when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
 There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab.
@@ -246,6 +253,7 @@ If the ={PasswordManager}= does not support password changing, ChangeEmailAddres
 
 #IndividualScripts
 ---++ Controlling access to individual scripts
+
 You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.  %T% Any scripts listed as requiring authentication will not be usable by the Guest user.  If you require that %USERSWEB%.WikiGuest be allowed to edit topics on your site, =edit= and =save= must be removed from the list of scripts requiring authentication.
    * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%][configure]] =Security and Authentication= tab, =Login= sub-tab.
    * For Apache Login, add/remove the script from =bin/.htaccess=, or from the !FilesMatch line in the Apache configuration.
@@ -294,4 +302,5 @@ See Foswiki:Support.SupplementalDocuments for more information.
    <div class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</div>%ENDSECTION{"TESTING"}%
 -->
 ---
+
 *Related Topics:* AdminDocumentationCategory, AccessControl
