@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 21:41+0200\n"
+"PO-Revision-Date: 2015-03-09 21:16+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -604,7 +604,7 @@ msgstr "Akce"
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:455
 msgid "Add"
-msgstr "Přidej"
+msgstr "Přidat"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -616,7 +616,7 @@ msgstr "Přidej členy"
 
 #: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
-msgstr "Přidej uživatele ..."
+msgstr "Přidej členy..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -625,7 +625,7 @@ msgstr "Přidej řádek"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "Přidat k tomuto článku možnosti pro nastavení uživatele."
+msgstr "K tomuto článku přidej volby pro nastavení uživatele."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -633,7 +633,7 @@ msgstr "Přidej uživatele (nebo skupiny) do této skupiny"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Přidána proměnná %1 do WebPreferences."
+msgstr "Přidávám proměnnou %1 do WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -646,7 +646,7 @@ msgstr "Administrátorská údržba"
 #: core/data/Main/GroupViewTemplate.txt:146
 #: core/data/Main/GroupViewTemplate.txt:167
 msgid "Administration"
-msgstr "Správa"
+msgstr "Administrace"
 
 #: core/data/System/WebSearch.txt:88
 msgid "Advanced search"
@@ -714,8 +714,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Existuje riziko, že někdo se může pokoušet změnit obsah %1 bez vašeho vědomí "
-"a navíc za použití vaší identity."
+"Někdo může zneužít vaší identitu ke změně obsahu vaší wiki a bez vašeho "
+"vědomí."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -734,14 +734,14 @@ msgstr "Příloha"
 
 #: core/templates/attach.tmpl:9
 msgid "Attach a file"
-msgstr "Připoj nový soubor"
+msgstr "Připoj soubor"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"Připoj obrázek nebo soubor k tomuto ćlánku; kontroluj existující přílohy (a)"
+"Připoj obrázek nebo soubor k tomuto ćlánku; spravuj existující přílohy (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -791,9 +791,8 @@ msgid "Attachments"
 msgstr "Přílohy"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Přílohy článku %1"
+msgstr "Přílohy %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -884,12 +883,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Změna nepovolena díky %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "Změna nepovolena pro %1 díky %2"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -950,7 +949,7 @@ msgstr "Změň heslo"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr "Změna nemůže být dokončena."
+msgstr "Změna nemůže být dokončena"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -1023,7 +1022,7 @@ msgstr "Změněno z verze r%1 to r%2"
 
 #: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr "Zkontroluj konfiguraci pro {TemplateDir} a {TemplatePath}."
+msgstr "Zkontroluj nastavení pro {TemplateDir} a {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1063,8 +1062,9 @@ msgid "Color %1 has an invalid format"
 msgstr "Barva %1 má nesprávný formát"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#, fuzzy
 msgid "Come on in"
-msgstr ""
+msgstr "Přejdi k"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1204,8 +1204,9 @@ msgid "Create new topic"
 msgstr "Vytvoř nový článek"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
+#, fuzzy
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Nedefinovaný Create a skupina neexistuje"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1305,8 +1306,9 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 
 #: core/templates/rdiff.tmpl:14
+#, fuzzy
 msgid "Difference Topic"
-msgstr "Rozdíl"
+msgstr "Rozdíl:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1315,7 +1317,7 @@ msgstr "Rozdíly:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr "Zjistěte si detaily o tom jak vytvořit váš nový web za pomoci Foswiki."
+msgstr "Zjistěte si detaily o tom jak vytvořit váš nový web za pomoci Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1371,7 +1373,7 @@ msgstr "Email byl úspěšně změněn!"
 
 #: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "ENCODE selhalo - =type= nemůže být použit dohromady s =old= a =new="
+msgstr "ENCODE selhalo - =type= nemůže být použit současně s =old= a =new= "
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
@@ -1383,11 +1385,11 @@ msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut."
+msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut"
 
 #: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
-msgstr "EXPAND selhal - neexistuje makro."
+msgstr "EXPAND selhal - neexistuje makro"
 
 #: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
@@ -1402,9 +1404,8 @@ msgid "Edit"
 msgstr "Změň"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minut) "
+msgstr "Edituj %*(%1,soubor)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
