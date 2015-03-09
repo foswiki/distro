@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425928477" format="1.1" version="1"}%
 ---+!! Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.
@@ -6,10 +6,10 @@ This page contains all documentation topics as one long, complete reference shee
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
 %BUTTON{
-  "%MAKETEXT{"Click here"}%" 
+  "%MAKETEXT{"Load content"}%"
   icon="book"
   onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=content';"
-}% %MAKETEXT{"to load the content. *Caution* the content is very large and loading it will put a high load on your browser. Only load the content if you are going to print it - otherwise use the [[ReferenceManual][online reference manual]]."}%
+}% %MAKETEXT{"Use this button to load the content.%BR% *Caution* the content is very large and loading it will put a high load on your browser. Only load the content if you are going to print it - otherwise use the [[ReferenceManual][online reference manual]]."}%
 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"content"}%

@@ -157,9 +157,9 @@
 %TMPL:DEF{"approve"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
 
-%MAKETEXT{"Your registration is pending approval by the system administrators"}%
+%MAKETEXT{"Your registration is pending approval by the system administrators."}%
 
-%MAKETEXT{"You will receive an e-mail when your registration has been approved"}%
+%MAKETEXT{"You will receive an e-mail when your registration has been approved."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"no_users_to_reset"}%
@@ -168,7 +168,7 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"reset_bad"}%
----+++ %MAKETEXT{"Password reset failed"}%
+---+++ %MAKETEXT{"Password reset failed."}%
 %PARAM1%
 %TMPL:END%
 %{==============================================================================}%
@@ -190,7 +190,7 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"already_exists"}%
----+++ %MAKETEXT{"You are already registered"}%
+---+++ %MAKETEXT{"You are already registered."}%
 %MAKETEXT{"You cannot register twice, the name [_1] is already registered." args="'%PARAM1%'"}%
 
 %MAKETEXT{"Did you want to ~[~[[_1]~]~[reset [_2]'s password~]~]?" args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%.ResetPassword?username=%PARAM1%,%PARAM1%"}%
@@ -201,8 +201,8 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"unsupport_loginname"}%
----+++ %MAKETEXT{"Unsupported [_1]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [_1] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
+---+++ %MAKETEXT{"Unsupported [[[_1]][Login Name]]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"The [[[_1]][Login Name]] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%

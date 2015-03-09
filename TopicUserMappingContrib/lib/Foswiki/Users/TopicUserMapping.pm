@@ -284,7 +284,7 @@ sub addUser {
         unless ( $this->{passwords}->checkPassword( $login, $password ) ) {
             throw Error::Simple(
                 $this->{session}->i18n->maketext(
-                    'New password did not match existing password for this user'
+'User exists in the Password Manager,  and the password you provided is different from the users current password.   You cannot add a user and change the password at the same time.'
                 )
             );
         }

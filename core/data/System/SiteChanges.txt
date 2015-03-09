@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421090223" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1425928477" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ %TOPIC%
 %IF{"context isadmin" then='<div class="foswikiHelp">%T% This topic can be resource intensive on a large site with a large public web.
@@ -7,10 +7,10 @@ consider installing the Solr serverlet and indexing system to improve
 performance.</div>'}%
 
 %BUTTON{
-  "%MAKETEXT{"Click here"}%"
+  "%MAKETEXT{"Load content"}%"
   icon="book"
   onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=content';"
-}% %MAKETEXT{"to load the content. *Caution* the search on this page can be very resource intensive. Only request the content if you really need it, otherwise review the WebChanges topic from each web."}%
+}% %MAKETEXT{"Use this botton to load the content.%BR% *Caution* the search on this topic can be very resource intensive. Only load the content if you really need it, otherwise review the WebChanges topic from each web."}%
 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"content"}%
