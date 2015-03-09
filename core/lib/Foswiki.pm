@@ -2885,6 +2885,8 @@ RFC 1738, Dec. '94:
 Reserved characters are $&+,/:;=?@ - these are _also_ encoded by
 this method.
 
+Because of issues with browsers, ' is also encoded.
+
 This URL-encoding handles all character encodings including ISO-8859-*,
 KOI8-R, EUC-* and UTF-8.
 
@@ -2897,7 +2899,7 @@ URL, but mainframe web servers seem to translate this outbound before it hits br
 sub urlEncode {
     my $text = shift;
 
-    $text =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+    $text =~ s/([^0-9a-zA-Z-_.:~!*\/])/'%'.sprintf('%02x',ord($1))/ge;
 
     return $text;
 }
