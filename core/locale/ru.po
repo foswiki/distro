@@ -1164,11 +1164,6 @@ msgstr ""
 msgid "Clear all"
 msgstr "Очистить всё"
 
-#: core/data/System/CompleteDocumentation.txt:9
-#: core/data/System/SiteChanges.txt:10
-msgid "Click here"
-msgstr "Нажмите здесь"
-
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
 "Click to move topic back to previous location, with option to change "
@@ -1415,6 +1410,10 @@ msgstr "Текущее размещение:"
 #, fuzzy
 msgid "Current password:"
 msgstr "Текущий пароль"
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
+msgid "Data rows"
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -2014,7 +2013,7 @@ msgid "Heading 6"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-msgid "Headings"
+msgid "Heading rows"
 msgstr ""
 
 #: core/templates/foswiki.tmpl:165
@@ -2569,6 +2568,12 @@ msgstr "Показать темы, начинающиеся с буквы:"
 msgid "Literal search"
 msgstr "Буквальный поиск"
 
+#: core/data/System/CompleteDocumentation.txt:9
+#: core/data/System/SiteChanges.txt:10
+#, fuzzy
+msgid "Load content"
+msgstr "Предоставленные Вами сведения:"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
 msgstr ""
@@ -2790,10 +2795,6 @@ msgstr "Новые или измененные темы в %1, после %2:"
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr "Новый родительский раздел:"
-
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
-msgid "New password did not match existing password for this user"
-msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 #, fuzzy
@@ -3057,8 +3058,12 @@ msgid "Password could not be changed"
 msgstr "Пароль не может быть изменён"
 
 #: core/templates/registermessages.tmpl:166
-#: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
+msgstr "Не удалось сбросить пароль"
+
+#: core/templates/registermessages.tmpl:171
+#, fuzzy
+msgid "Password reset failed."
 msgstr "Не удалось сбросить пароль"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
@@ -3653,10 +3658,6 @@ msgstr "История версий %1"
 msgid "Revisions"
 msgstr "Редакции"
 
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
-msgid "Rows"
-msgstr ""
-
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "S = Save, C = Cancel"
 msgstr "S = Сохранить, C = Отменить"
@@ -4182,11 +4183,6 @@ msgstr ""
 msgid "That user has already been activated "
 msgstr "Этот пользователь уже был активирован "
 
-#: core/templates/registermessages.tmpl:205
-msgid ""
-"The %1 (%2) is not allowed for this installation. Registration rejected."
-msgstr ""
-
 #: core/templates/registermessages.tmpl:115
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
@@ -4257,6 +4253,12 @@ msgstr "Администратор отключил регистрацию но�
 #, fuzzy
 msgid "The Free and Open Source Wiki."
 msgstr "Раздел %1 Foswiki, свободной и открытой вики."
+
+#: core/templates/registermessages.tmpl:205
+msgid ""
+"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4563,6 +4565,11 @@ msgstr ""
 msgid "This login name is already in use."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#, fuzzy
+msgid "This must be a unique Wiki name."
+msgstr "'%1' неправильный %2 "
+
 #: core/templates/renamedelete.tmpl:31
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
@@ -4845,7 +4852,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported %1"
+msgid "Unsupported [[%1][Login Name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -4923,6 +4930,21 @@ msgstr "Тогда воспользуйтесь [[%1][Изменить паро�
 msgid "Use template:"
 msgstr "Использовать шаблон:"
 
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this botton to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
+msgstr ""
+
+#: core/data/System/CompleteDocumentation.txt:12
+msgid ""
+"Use this button to load the content.%BR% *Caution* the content is very large "
+"and loading it will put a high load on your browser. Only load the content "
+"if you are going to print it - otherwise use the [[ReferenceManual][online "
+"reference manual]]."
+msgstr ""
+
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
@@ -4952,6 +4974,13 @@ msgstr "Руководство пользователя"
 #, fuzzy
 msgid "User Registration"
 msgstr "Регистрация"
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
+msgid ""
+"User exists in the Password Manager,  and the password you provided is "
+"different from the users current password.   You cannot add a user and "
+"change the password at the same time."
+msgstr ""
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5202,11 +5231,6 @@ msgstr ""
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
-msgid "Wiki name"
-msgstr "Название темы"
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
 msgid "Wiki name:"
@@ -5242,7 +5266,8 @@ msgstr ""
 "свой пароль, пишите %1."
 
 #: core/templates/registermessages.tmpl:193
-msgid "You are already registered"
+#, fuzzy
+msgid "You are already registered."
 msgstr "Вы уже зарегистрированы"
 
 #: core/templates/registermessages.tmpl:140
@@ -5420,7 +5445,7 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Возможно Вы должны попросить администратора, %1, сделать это."
 
 #: core/templates/registermessages.tmpl:162
-msgid "You will receive an e-mail when your registration has been approved"
+msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
@@ -5453,7 +5478,7 @@ msgstr ""
 "перенаправлены туда. Если этого не произойдёт, [[%2][жмите сюда]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. This must be a unique %1."
+msgid "Your name as displayed online. %1"
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5503,7 +5528,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:160
-msgid "Your registration is pending approval by the system administrators"
+msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:95
@@ -5856,20 +5881,6 @@ msgstr ""
 "title='Просмотреть исходный текст, без форматирования' "
 "accesskey='v'>Исходный текст"
 
-#: core/data/System/CompleteDocumentation.txt:12
-msgid ""
-"to load the content. *Caution* the content is very large and loading it will "
-"put a high load on your browser. Only load the content if you are going to "
-"print it - otherwise use the [[ReferenceManual][online reference manual]]."
-msgstr ""
-
-#: core/data/System/SiteChanges.txt:13
-msgid ""
-"to load the content. *Caution* the search on this page can be very resource "
-"intensive. Only request the content if you really need it, otherwise review "
-"the WebChanges topic from each web."
-msgstr ""
-
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
 msgstr "список пользователей обрезан"
@@ -5905,6 +5916,13 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Click here"
+#~ msgstr "Нажмите здесь"
+
+#, fuzzy
+#~ msgid "Wiki name"
+#~ msgstr "Название темы"
 
 #, fuzzy
 #~ msgid ":firstName"

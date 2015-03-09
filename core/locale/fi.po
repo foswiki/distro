@@ -1142,11 +1142,6 @@ msgstr ""
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
-#: core/data/System/CompleteDocumentation.txt:9
-#: core/data/System/SiteChanges.txt:10
-msgid "Click here"
-msgstr ""
-
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
 "Click to move topic back to previous location, with option to change "
@@ -1392,6 +1387,10 @@ msgstr "Nykyinen sijainti:"
 #, fuzzy
 msgid "Current password:"
 msgstr "Nykyinen salasana"
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
+msgid "Data rows"
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1989,7 +1988,7 @@ msgid "Heading 6"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-msgid "Headings"
+msgid "Heading rows"
 msgstr ""
 
 #: core/templates/foswiki.tmpl:165
@@ -2536,6 +2535,12 @@ msgstr "Luettele aiheet jotka alkavat kirjaimella:"
 msgid "Literal search"
 msgstr "Tarkka sanahaku"
 
+#: core/data/System/CompleteDocumentation.txt:9
+#: core/data/System/SiteChanges.txt:10
+#, fuzzy
+msgid "Load content"
+msgstr "Syötetyt tiedot:"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
 msgstr ""
@@ -2757,10 +2762,6 @@ msgstr "Uudet tai muokatut aiheet %1, sitten %2:"
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr "Uusi yläverkko:"
-
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
-msgid "New password did not match existing password for this user"
-msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 #, fuzzy
@@ -3026,8 +3027,12 @@ msgid "Password could not be changed"
 msgstr "Salasanaa ei voitu muuttaa"
 
 #: core/templates/registermessages.tmpl:166
-#: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
+msgstr "Salasanan resetointi epäonnistui."
+
+#: core/templates/registermessages.tmpl:171
+#, fuzzy
+msgid "Password reset failed."
 msgstr "Salasanan resetointi epäonnistui."
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
@@ -3607,10 +3612,6 @@ msgstr "%1:n versiohistoria"
 msgid "Revisions"
 msgstr "Versiot"
 
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
-msgid "Rows"
-msgstr ""
-
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "S = Save, C = Cancel"
 msgstr "S = Tallenna, C = Peruuta"
@@ -4130,11 +4131,6 @@ msgstr ""
 msgid "That user has already been activated "
 msgstr "Käyttäjätili on jo aktivoitu"
 
-#: core/templates/registermessages.tmpl:205
-msgid ""
-"The %1 (%2) is not allowed for this installation. Registration rejected."
-msgstr ""
-
 #: core/templates/registermessages.tmpl:115
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
@@ -4203,6 +4199,12 @@ msgstr "Ylläpito on poistanut uusien käyttäjien rekisteröitymisen käytöst�
 #, fuzzy
 msgid "The Free and Open Source Wiki."
 msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
+
+#: core/templates/registermessages.tmpl:205
+msgid ""
+"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4508,6 +4510,11 @@ msgstr ""
 msgid "This login name is already in use."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#, fuzzy
+msgid "This must be a unique Wiki name."
+msgstr "'%1' ei ole sallittu %2"
+
 #: core/templates/renamedelete.tmpl:31
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
@@ -4788,7 +4795,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported %1"
+msgid "Unsupported [[%1][Login Name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -4866,6 +4873,21 @@ msgstr "Käytä sen sijasta %1."
 msgid "Use template:"
 msgstr "Käytä sivupohjaa:"
 
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this botton to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
+msgstr ""
+
+#: core/data/System/CompleteDocumentation.txt:12
+msgid ""
+"Use this button to load the content.%BR% *Caution* the content is very large "
+"and loading it will put a high load on your browser. Only load the content "
+"if you are going to print it - otherwise use the [[ReferenceManual][online "
+"reference manual]]."
+msgstr ""
+
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
@@ -4895,6 +4917,13 @@ msgstr "Käyttäjäopas"
 #, fuzzy
 msgid "User Registration"
 msgstr "Rekisteröinti"
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
+msgid ""
+"User exists in the Password Manager,  and the password you provided is "
+"different from the users current password.   You cannot add a user and "
+"change the password at the same time."
+msgstr ""
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5142,11 +5171,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
-msgid "Wiki name"
-msgstr "Aiheen nimi"
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
 msgid "Wiki name:"
@@ -5182,7 +5206,8 @@ msgstr ""
 "yhteyttä %1."
 
 #: core/templates/registermessages.tmpl:193
-msgid "You are already registered"
+#, fuzzy
+msgid "You are already registered."
 msgstr "Olet jo rekisteröitynyt"
 
 #: core/templates/registermessages.tmpl:140
@@ -5358,7 +5383,7 @@ msgstr ""
 "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
 
 #: core/templates/registermessages.tmpl:162
-msgid "You will receive an e-mail when your registration has been approved"
+msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
@@ -5393,7 +5418,7 @@ msgstr ""
 "[klikata tästä jatkaaksesi]]"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. This must be a unique %1."
+msgid "Your name as displayed online. %1"
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5443,7 +5468,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:160
-msgid "Your registration is pending approval by the system administrators"
+msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:95
@@ -5788,20 +5813,6 @@ msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Näytä aihe ilman muotoiluja' accesskey='n'>&Näytä raaka"
 
-#: core/data/System/CompleteDocumentation.txt:12
-msgid ""
-"to load the content. *Caution* the content is very large and loading it will "
-"put a high load on your browser. Only load the content if you are going to "
-"print it - otherwise use the [[ReferenceManual][online reference manual]]."
-msgstr ""
-
-#: core/data/System/SiteChanges.txt:13
-msgid ""
-"to load the content. *Caution* the search on this page can be very resource "
-"intensive. Only request the content if you really need it, otherwise review "
-"the WebChanges topic from each web."
-msgstr ""
-
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
 msgstr "käyttäjälista nollattu"
@@ -5837,6 +5848,10 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "Wiki name"
+#~ msgstr "Aiheen nimi"
 
 #, fuzzy
 #~ msgid ":firstName"

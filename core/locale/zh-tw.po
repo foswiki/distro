@@ -1078,11 +1078,6 @@ msgstr ""
 msgid "Clear all"
 msgstr "全部清除"
 
-#: core/data/System/CompleteDocumentation.txt:9
-#: core/data/System/SiteChanges.txt:10
-msgid "Click here"
-msgstr ""
-
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
 "Click to move topic back to previous location, with option to change "
@@ -1313,6 +1308,10 @@ msgstr "目前位置:"
 #, fuzzy
 msgid "Current password:"
 msgstr "目前密碼"
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
+msgid "Data rows"
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1869,7 +1868,7 @@ msgid "Heading 6"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-msgid "Headings"
+msgid "Heading rows"
 msgstr ""
 
 #: core/templates/foswiki.tmpl:165
@@ -2380,6 +2379,12 @@ msgstr "列出所有以某字母開頭的主題:"
 msgid "Literal search"
 msgstr "簡單搜尋"
 
+#: core/data/System/CompleteDocumentation.txt:9
+#: core/data/System/SiteChanges.txt:10
+#, fuzzy
+msgid "Load content"
+msgstr "提交內容:"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
 msgstr ""
@@ -2592,10 +2597,6 @@ msgstr "自 %2 起，%1 中新的或變更過的主題"
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr "新的父子網:"
-
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
-msgid "New password did not match existing password for this user"
-msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 #, fuzzy
@@ -2848,8 +2849,12 @@ msgid "Password could not be changed"
 msgstr "密碼無法修改"
 
 #: core/templates/registermessages.tmpl:166
-#: core/templates/registermessages.tmpl:171
 msgid "Password reset failed"
+msgstr "密碼重設失敗"
+
+#: core/templates/registermessages.tmpl:171
+#, fuzzy
+msgid "Password reset failed."
 msgstr "密碼重設失敗"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
@@ -3421,10 +3426,6 @@ msgstr "%1 的版本歷史"
 msgid "Revisions"
 msgstr "修訂版"
 
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
-msgid "Rows"
-msgstr ""
-
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "S = Save, C = Cancel"
 msgstr "S = 存檔，C = 取消"
@@ -3931,11 +3932,6 @@ msgstr "謝謝您在 %1 合作平臺註冊。您的校驗碼是 %2."
 msgid "That user has already been activated "
 msgstr "用戶已經啟動"
 
-#: core/templates/registermessages.tmpl:205
-msgid ""
-"The %1 (%2) is not allowed for this installation. Registration rejected."
-msgstr ""
-
 #: core/templates/registermessages.tmpl:115
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
@@ -3998,6 +3994,12 @@ msgstr "系統管理員禁止新用戶註冊。"
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
 msgstr "自由且開源的 Wiki。"
+
+#: core/templates/registermessages.tmpl:205
+msgid ""
+"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4289,6 +4291,11 @@ msgstr ""
 msgid "This login name is already in use."
 msgstr "你使用的登入名。"
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#, fuzzy
+msgid "This must be a unique Wiki name."
+msgstr "%1 不是個合適的表單名稱"
+
 #: core/templates/renamedelete.tmpl:31
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
@@ -4553,7 +4560,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported %1"
+msgid "Unsupported [[%1][Login Name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -4631,6 +4638,21 @@ msgstr "用 %1 取代."
 msgid "Use template:"
 msgstr "使用範本:"
 
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this botton to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
+msgstr ""
+
+#: core/data/System/CompleteDocumentation.txt:12
+msgid ""
+"Use this button to load the content.%BR% *Caution* the content is very large "
+"and loading it will put a high load on your browser. Only load the content "
+"if you are going to print it - otherwise use the [[ReferenceManual][online "
+"reference manual]]."
+msgstr ""
+
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
@@ -4660,6 +4682,13 @@ msgstr "用戶手冊"
 #, fuzzy
 msgid "User Registration"
 msgstr "註冊"
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
+msgid ""
+"User exists in the Password Manager,  and the password you provided is "
+"different from the users current password.   You cannot add a user and "
+"change the password at the same time."
+msgstr ""
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -4902,11 +4931,6 @@ msgstr "為何您被要求確認"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
-msgid "Wiki name"
-msgstr "主題名稱"
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
 msgid "Wiki name:"
@@ -4940,7 +4964,8 @@ msgstr ""
 "件地址已失效，後請聯繫 %1。"
 
 #: core/templates/registermessages.tmpl:193
-msgid "You are already registered"
+#, fuzzy
+msgid "You are already registered."
 msgstr "您已註冊"
 
 #: core/templates/registermessages.tmpl:140
@@ -5101,7 +5126,7 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
 #: core/templates/registermessages.tmpl:162
-msgid "You will receive an e-mail when your registration has been approved"
+msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
@@ -5132,7 +5157,7 @@ msgstr ""
 "您的語言將在下個螢幕改成 %1。現在您即將轉到那裏。若否，請[[%2][點擊這裏]]。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. This must be a unique %1."
+msgid "Your name as displayed online. %1"
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5178,7 +5203,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:160
-msgid "Your registration is pending approval by the system administrators"
+msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:95
@@ -5514,20 +5539,6 @@ msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='檢視源碼' accesskey='r'>檢視源碼(&V)"
 
-#: core/data/System/CompleteDocumentation.txt:12
-msgid ""
-"to load the content. *Caution* the content is very large and loading it will "
-"put a high load on your browser. Only load the content if you are going to "
-"print it - otherwise use the [[ReferenceManual][online reference manual]]."
-msgstr ""
-
-#: core/data/System/SiteChanges.txt:13
-msgid ""
-"to load the content. *Caution* the search on this page can be very resource "
-"intensive. Only request the content if you really need it, otherwise review "
-"the WebChanges topic from each web."
-msgstr ""
-
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
 msgstr "用戶列表被刪節"
@@ -5563,6 +5574,10 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#, fuzzy
+#~ msgid "Wiki name"
+#~ msgstr "主題名稱"
 
 #, fuzzy
 #~ msgid ":firstName"
