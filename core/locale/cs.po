@@ -4,12 +4,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 21:44+0200\n"
+"PO-Revision-Date: 2015-03-09 21:20+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -583,30 +583,26 @@ msgid "Action"
 msgstr "Akce"
 
 #: core/templates/messages.tmpl:379
-#, fuzzy
 msgid "Action %1: %2 by user %3."
-msgstr "Akce %1: %2."
+msgstr "Akce %1: %2 uživatelem %3."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
 msgstr "Akce"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
-#, fuzzy
 msgid "Add"
-msgstr "Přidáno"
+msgstr "Přidat"
 
 #: core/data/Main/GroupViewTemplate.txt:202
 msgid "Add Members to"
-msgstr ""
+msgstr "Přidat členy do"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
-#, fuzzy
 msgid "Add a new form to <nop>%1"
-msgstr "Vyberte nový formulář pro %1"
+msgstr "Přidejte nový formulář do <nop>%1"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
@@ -614,23 +610,20 @@ msgid "Add form"
 msgstr "Přidej formulář"
 
 #: core/data/Main/GroupViewTemplate.txt:211
-#, fuzzy
 msgid "Add members"
-msgstr "Přidej řádek"
+msgstr "Přidej členy"
 
 #: core/data/Main/GroupViewTemplate.txt:162
 msgid "Add members..."
-msgstr ""
+msgstr "Přidej členy..."
 
 #: core/data/Main/GroupViewTemplate.txt:188
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Změnit nastavení pro tento článek"
+msgstr "K tomuto článku přidej volby pro nastavení uživatele."
 
 #: core/templates/messages.tmpl:220
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Přidána proměnná %1 ve vlastnostech webu"
+msgstr "Přidávám proměnnou %1 do WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -641,9 +634,8 @@ msgid "Admin Maintenance"
 msgstr "Administrátorská údržba"
 
 #: core/data/Main/GroupViewTemplate.txt:160
-#, fuzzy
 msgid "Administration"
-msgstr "Registrace"
+msgstr "Administrace"
 
 #: core/data/System/WebSearch.txt:86
 msgid "Advanced search"
@@ -662,7 +654,6 @@ msgid "After submitting this form your password will be changed."
 msgstr "Po odeslání tohoto formuláře Vaše heslo bude změněno."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
@@ -672,24 +663,23 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ach, ne!"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
-msgstr ""
+msgstr "Zarovej vlevo"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
-msgstr ""
+msgstr "Zarovnej vpravo"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
 msgstr "Všechny veřejně dostupné weby"
 
 #: core/templates/foswiki.tmpl:45
-#, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "Povolí ne <nop>WikiWord pro nový název článku"
+msgstr "Povolí pouze <nop>WikiWord pro nový název článku"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -700,9 +690,8 @@ msgstr ""
 "a vyberte jiné jméno uživatele."
 
 #: core/lib/Foswiki/UI/Rename.pm:212
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Přiloha už v novém článku existuje"
+msgstr "Přiloha se stejným jménem už v článku existuje."
 
 #: core/templates/messages.tmpl:173
 msgid ""
@@ -718,13 +707,12 @@ msgstr ""
 "uživatelem."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Existuje riziko, že někdo se může pokoušet změnit obsah %1 bez vašeho vědomí "
-"a navíc za použití vaší identity."
+"Někdo může zneužít vaší identitu ke změně obsahu vaší wiki a bez vašeho "
+"vědomí."
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
@@ -742,18 +730,15 @@ msgid "Attach"
 msgstr "Příloha"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Připoj nový soubor"
+msgstr "Připoj soubor"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Připoj obrázek nebo soubor k tomuto ćlánku' accesskey='a'>&Vlož "
-"přílohu"
+"Připoj obrázek nebo soubor k tomuto ćlánku; spravuj existující přílohy (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -783,23 +768,20 @@ msgid "Attachment delete failed"
 msgstr "Vymazání přílohy selhalo"
 
 #: core/lib/Foswiki/UI/Rename.pm:179
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "Příloha neexistuje"
+msgstr "Příloha neexistuje."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Přílohy"
+msgstr "Historie přílohy"
 
 #: core/templates/messages.tmpl:47
 msgid "Attachment move failed"
 msgstr "Přesun přílohy selhal"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Příloha"
+msgstr "Jméno přílohy:"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -807,9 +789,8 @@ msgid "Attachments"
 msgstr "Přílohy"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Přílohy článku %1"
+msgstr "Přílohy %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -868,9 +849,8 @@ msgid "Backlinks to %1 in all Webs"
 msgstr "Zpětné odkazy na %1 ve všech Webech"
 
 #: core/templates/viewtopicactionbuttons.tmpl:101
-#, fuzzy
 msgid "Backlinks:"
-msgstr "Zpětné odkazy"
+msgstr "Zpětné odkazy:"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -878,7 +858,7 @@ msgstr "Špatné heslo"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "Špatný odběratel '%1'"
 
 #: core/templates/messages.tmpl:132
 msgid "Base web %1 is missing or does not exist"
@@ -891,7 +871,7 @@ msgstr "Blokování citace"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
-msgstr ""
+msgstr "Tučné"
 
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
@@ -899,7 +879,7 @@ msgstr "Tělo článku i nadpis"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
-msgstr ""
+msgstr "Odrážky"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -922,12 +902,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Změna nepovolena díky %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "Změna nepovolena pro %1 díky %2"
 
 #: core/templates/messages.tmpl:362 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
@@ -965,13 +945,12 @@ msgid "Cancel editing and discard changes"
 msgstr "Zrušit editování a zahodit změny"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
-#, fuzzy
 msgid "Cancel upload"
-msgstr "Přerušit"
+msgstr "Zrušit upload"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "Není možné změnit odběr: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
@@ -995,12 +974,11 @@ msgstr "Kategorie"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
-msgstr ""
+msgstr "Zarovnání na střed"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "Emailová adresa:"
+msgstr "Změna E-mailové adresy"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1008,26 +986,23 @@ msgstr "Změň heslo"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Změna nemůže být dokončena"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Změna pouze komentáře a vlastností"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
-#, fuzzy
 msgid "Change e-mail address"
-msgstr "Chybná emailová adresa"
+msgstr "Změň emailovou adresu"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
-#, fuzzy
 msgid "Change form"
-msgstr "Změň z:"
+msgstr "Změň formulář"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Změň z:"
+msgstr "Změň z"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1061,22 +1036,20 @@ msgstr "Změň pouze vlastnosti"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr ""
+msgstr "Změň aktuální formulář pro <nop>%1"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
 msgstr "Změna článku"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "Změněno uživatelem"
+msgstr "Změněno kým:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Změněno"
+msgstr "Změněno na"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1100,7 +1073,7 @@ msgstr "Změněno z verze r%1 to r%2"
 
 #: core/templates/messages.tmpl:285
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "Zkontroluj nastavení pro {TemplateDir} a {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1120,7 +1093,7 @@ msgstr "Vyberte nový formulář pro %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:151
 msgid "Choose files"
-msgstr ""
+msgstr "Vyber soubory"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
@@ -1143,7 +1116,7 @@ msgstr "Zavřít"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
@@ -1151,11 +1124,12 @@ msgstr "Barva %1 má nesprávný formát"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "Sloupce"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#, fuzzy
 msgid "Come on in"
-msgstr ""
+msgstr "Přejdi k"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1165,28 +1139,27 @@ msgstr "Komentář"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
-msgstr ""
+msgstr "V režimu prohlížení není možné vytvářet komentáře"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
-msgstr ""
+msgstr "Vytváření komentářů není možné, pokud nejste ve správném kontextu"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
-msgstr ""
+msgstr "Vytváření komentářů není možné, pokud nejste přihlášeni"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
 msgid "Commenting is disabled while running from the command line"
-msgstr ""
+msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazové řádky"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
-#, fuzzy
 msgid "Confirm password:"
-msgstr "Vaše heslo:"
+msgstr "Potvrďte heslo:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1212,9 +1185,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Země:"
+msgstr "Kontext"
 
 #: core/templates/messages.tmpl:277
 msgid "Continue and try to rename web?"
@@ -1222,7 +1194,7 @@ msgstr "Pokračujte a zkuste přejmenovat web?"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:18
 msgid "Continue editing"
-msgstr ""
+msgstr "Pokračuj v editaci"
 
 #: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
@@ -1233,19 +1205,19 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Převod do HTML pro editaci pomocí WYSIWYG je vypnut z důvodu obsahu článku."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Zkopíruj tento článek (a všechny přílohy) do článku nového."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
 msgstr "Kopíruj článek"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
-msgstr "Kopíruj článek"
+msgstr "Kopíruj článek..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1280,7 +1252,6 @@ msgid "Could not save %1."
 msgstr "Nemohl uložit %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
-#, fuzzy
 msgid "Country:"
 msgstr "Země:"
 
@@ -1301,40 +1272,35 @@ msgid "Create a link to the attached file"
 msgstr "Odkaz na přilohu"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Create a new group"
-msgstr "Nový članek"
+msgstr "Vytvoř novou skupinu"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
-#, fuzzy
 msgid "Create a new table"
-msgstr "Nový članek"
+msgstr "Vytvoř novou tabulku"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
-#, fuzzy
 msgid "Create account"
-msgstr "Nový članek"
+msgstr "Vytvoř účet"
 
 #: core/data/Main/WikiGroups.txt:42
-#, fuzzy
 msgid "Create group"
-msgstr "Nový članek"
+msgstr "Vytvoř skupinu"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Nový članek"
+msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
-#, fuzzy
 msgid "Create new topic"
-msgstr "Nový članek"
+msgstr "Vytvoř nový článek"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
+#, fuzzy
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Nedefinovaný Create a skupina neexistuje"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:21
 msgid "Create personal sidebar"
@@ -1353,11 +1319,11 @@ msgstr "Vytvořit tento článek"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Pro editaci stránek na tomto webu si vytvoř účet. "
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
-msgstr ""
+msgstr "Vytvoří novou revizi článku při ukládání"
 
 #: core/templates/messages.tmpl:219
 msgid "Creating a suitable Form Definition topic"
@@ -1369,13 +1335,12 @@ msgid "Current location:"
 msgstr "Nyní jste zde:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
-#, fuzzy
 msgid "Current password:"
-msgstr "Současné heslo"
+msgstr "Současné heslo:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
-msgstr ""
+msgstr "Záznamy"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1392,9 +1357,8 @@ msgstr "Ladění"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:120
 #: NatEditPlugin/templates/edit.natedit.tmpl:156
-#, fuzzy
 msgid "Default"
-msgstr "Výchozí šablona"
+msgstr "Výchozí"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Default template"
@@ -1425,14 +1389,12 @@ msgid "Describe the file so other people know what it is."
 msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "Verze"
+msgstr "Popis"
 
 #: core/data/System/WebIndex.txt:3
-#, fuzzy
 msgid "Detailed topic list for %1 Web"
-msgstr "Podřízené články v %1 webu"
+msgstr "Detailní seznam článků webu %1"
 
 #: core/lib/Foswiki/Form.pm:422
 msgid "Details in separate window"
@@ -1440,7 +1402,7 @@ msgstr "Klikněte pro zobrazení detailů v odděleném okně"
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
-msgstr ""
+msgstr "Detaily:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
@@ -1457,7 +1419,7 @@ msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 #: core/templates/rdiff.tmpl:14
 #, fuzzy
 msgid "Difference Topic"
-msgstr "Rozdíly:"
+msgstr "Rozdíl:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1466,7 +1428,7 @@ msgstr "Rozdíly:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Zjistěte si detaily o tom jak vytvořit váš nový web za pomoci Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1477,9 +1439,8 @@ msgid "Do not show attachment in table"
 msgstr "Neukazovat přílohu v tabulce"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:16
-#, fuzzy
 msgid "Documentation"
-msgstr "Nyní jste zde:"
+msgstr "Dokumentace"
 
 #: core/data/System/WebSearch.txt:209
 msgid "Don't show:"
@@ -1487,7 +1448,7 @@ msgstr "Neukazuj:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:147
 msgid "Drag files here"
-msgstr ""
+msgstr "Přetáhněte soubory sem"
 
 #: core/templates/messages.tmpl:57
 msgid ""
@@ -1498,11 +1459,8 @@ msgstr ""
 "administratora %2."
 
 #: core/templates/messages.tmpl:48
-#, fuzzy
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr ""
-"Během přesunu Vaší přílohy %1 do %2 byla nalezena chyba. Prosím "
-"uvědomteVašeho administratora %3."
+msgstr "Během přesunu Vaší přílohy =%1= do %2 byla nalezena chyba."
 
 #: core/templates/messages.tmpl:96
 msgid ""
@@ -1534,27 +1492,27 @@ msgstr "Email byl úspěšně změněn!"
 
 #: core/templates/messages.tmpl:461
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE selhalo - =type= nemůže být použit současně s =old= a =new= "
 
 #: core/templates/messages.tmpl:463
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE selhalo - oba ( =old= and =new= ) musí být uvedeny."
 
 #: core/templates/messages.tmpl:465
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
 
 #: core/templates/messages.tmpl:471
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut"
 
 #: core/templates/messages.tmpl:467
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND selhal - neexistuje makro"
 
 #: core/templates/messages.tmpl:469
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND selhal - článek '%PARAM1%' neexistuje"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:26
 #: core/templates/settings.tmpl:26
@@ -1567,9 +1525,8 @@ msgid "Edit"
 msgstr "Změň"
 
 #: core/data/System/VarMAKETEXT.txt:61
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minut) "
+msgstr "Edituj %*(%1,soubor)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1577,39 +1534,36 @@ msgstr "Přesto změň"
 
 #: core/templates/viewtopicactionbuttons.tmpl:63
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Edituj Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
 msgstr "Pomoc k editaci"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "Změnit nastavení pro tento článek"
+msgstr "Změnit nastavení pro tento článek..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Změňte text tohoto článku"
+msgstr "Změňte text tohoto článku (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Změňte nastavení tohoto článku"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:48
-#, fuzzy
 msgid "Editable"
-msgstr "Změňte text"
+msgstr "Editovatelné"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
-msgstr ""
+msgstr "Editační zkratka"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Dovol mi se vrátit zpět a opravit stránku..."
 
 #: core/templates/registermessages.tmpl:82
 msgid ""
@@ -1619,11 +1573,11 @@ msgstr "Buď kód není správný nebo jste jím již potvrdili Vaši registraci
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
+msgstr "Buď je jméno špatně a nebo odkazuje na neexistující formulář."
 
 #: core/templates/messages.tmpl:118
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr ""
+msgstr "Buď je jméno špatně a nebo odkazuje na neexistující článek."
 
 #: core/templates/messages.tmpl:242
 msgid ""
@@ -1634,7 +1588,6 @@ msgstr ""
 "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
-#, fuzzy
 msgid "Email address:"
 msgstr "Emailová adresa:"
 
@@ -1644,11 +1597,11 @@ msgstr "Email byl zablokovám pro tuto instalaci Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
-msgstr ""
+msgstr "Vlož externí objekt"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
-msgstr ""
+msgstr "Emotikon"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Enlarge edit box"
