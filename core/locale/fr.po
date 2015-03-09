@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 03:43+0200\n"
+"PO-Revision-Date: 2015-03-09 13:46+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1186,9 +1186,8 @@ msgid "Compare revisions"
 msgstr "Comparer les versions"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
-#, fuzzy
 msgid "Confirm password:"
-msgstr "Confirmer mot de passe"
+msgstr "Confirmer mot de passe :"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1283,9 +1282,8 @@ msgid "Could not save %1."
 msgstr "Impossible d'enregistrer %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
-#, fuzzy
 msgid "Country:"
-msgstr "Pays"
+msgstr "Pays :"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1620,9 +1618,8 @@ msgstr ""
 "tentez d'envoyer est vide. Vous ne pouvez pas envoyer un fichier vide."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
-#, fuzzy
 msgid "Email address:"
-msgstr "Adresse e-mail"
+msgstr "Adresse e-mail :"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
@@ -1743,10 +1740,9 @@ msgid "Fields marked %1 are required"
 msgstr "Les champs marqués de %1 sont obligatoires"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr ""
-"Les champs marqués de <span class='required'>*</span> sont obligatoires"
+"Les champs marqués de <span class='required'>*</span> sont obligatoires."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
@@ -1769,9 +1765,8 @@ msgid "First"
 msgstr "Début"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
-#, fuzzy
 msgid "First name:"
-msgstr "Prénom"
+msgstr "Prénom :"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -2477,9 +2472,8 @@ msgid "Last modified time"
 msgstr "Dernière modification"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
-#, fuzzy
 msgid "Last name:"
-msgstr "Nom de famille"
+msgstr "Nom de famille :"
 
 #: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
@@ -2547,9 +2541,8 @@ msgid "Login name %1"
 msgstr "Nom de connexion %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
-#, fuzzy
 msgid "Login name:"
-msgstr "Nom de connexion"
+msgstr "Nom de connexion :"
 
 #: core/templates/login.tmpl:77
 msgid "Logon"
@@ -2606,27 +2599,24 @@ msgid "More Actions on Topic %1"
 msgstr "Autres actions sur la page %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
-#, fuzzy
 msgid "More character formats"
-msgstr "afficher le code source"
+msgstr "Autres formatages de caractères"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
-msgstr ""
+msgstr "Autres objets insérables"
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid "More on hiding attachments"
-msgstr "Déplacer ou supprimer le fichier attaché"
+msgstr "Plus d'informations sur comment cacher les fichiers attachés"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "More tools"
-msgstr ""
+msgstr "Autres outils"
 
 #: core/data/System/TopicsAndWebs.txt:50
-#, fuzzy
 msgid "More topic actions"
-msgstr "Autres actions sur la page..."
+msgstr "Autres actions sur la page"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:88
@@ -2640,13 +2630,12 @@ msgstr "Suite..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Supprimer ou renommer cette page ; définir la page mère ; voir et "
-"comparer les différentes versions' accesskey='m'>Autres fonctions (&m)"
+"Autres : effacer ou renommer cette page ; définir la page mère ; voir et "
+"comparer les différentes versions (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2654,9 +2643,8 @@ msgid "Move"
 msgstr "Déplacer"
 
 #: core/templates/renamedelete.tmpl:9
-#, fuzzy
 msgid "Move %1 to Trash Web"
-msgstr "Vers le web :"
+msgstr "Déplacer %1 vers le Web Trash (poubelle)"
 
 #: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
@@ -2689,16 +2677,15 @@ msgstr "Mes liens"
 
 #: PatternSkin/data/System/PatternSkinNavigation.txt:15
 msgid "My Profile"
-msgstr ""
+msgstr "Mon profil"
 
 #: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
 msgstr "NOUVEAU"
 
 #: core/templates/more.tmpl:31
-#, fuzzy
 msgid "Name of copy"
-msgstr "Nom de la copie :"
+msgstr "Nom de la copie"
 
 #: core/templates/messages.tmpl:104
 msgid "Name of new web is missing"
