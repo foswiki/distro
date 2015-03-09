@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 21:38+0200\n"
+"PO-Revision-Date: 2015-03-09 12:26+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -3941,14 +3941,12 @@ msgid "Subwebs"
 msgstr "Underwebs"
 
 #: core/templates/registermessages.tmpl:385
-#, fuzzy
 msgid "Success adding members to group"
-msgstr "Fejl ved skrivning af siden"
+msgstr "Medlemmer er blevet tilføjet til gruppen"
 
 #: core/templates/registermessages.tmpl:434
-#, fuzzy
 msgid "Success removing members from group"
-msgstr "Fejl ved skrivning af siden"
+msgstr "Medlemmer er blevet fjernet fra gruppen"
 
 #: core/data/System/WebSearch.txt:217
 msgid "Summaries"
@@ -4120,25 +4118,32 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"Den vedhæftede fil kan omdøbes (ved at tilføje et tal til navnet) hvis der "
+"allerede eksisterer en fil med samme navn på den nye side."
 
 #: core/templates/renameattachmentdelete.tmpl:43
-#, fuzzy
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
-msgstr "Den vedhæftede fil eksisterer allerede på den nye side"
+msgstr ""
+"Den vedhæftede fil skal måske omdøbes hvis der allerede eksister en fil der "
+"hedder '%FILENAME%' på den destinationssiden."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"Hackeren prøver at bruge dine rettigheder for at opnå f.eks. administrator "
+"rettigheder for denne wiki."
 
 #: core/templates/messages.tmpl:332
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
 msgstr ""
+"Det er meget sandsynligt at %1 simpelthen har navigeret væk fra "
+"redigeringssiden uden at gemme ændringerne."
 
 #: core/templates/renamebase.tmpl:72
 msgid ""
