@@ -107,7 +107,7 @@ sub test_encode {
     $str =
       $this->{test_topicObject}->expandMacros('%QUERYPARAMS{encoding="url"}%');
     $this->assert_str_equals(
-        "foo=%3cevil%20script%3e%0a%26'%22%25*A\nfee=free", "$str" );
+        "foo=%3cevil%20script%3e%0a%26%27%22%25*A\nfee=free", "$str" );
 }
 
 sub test_format {

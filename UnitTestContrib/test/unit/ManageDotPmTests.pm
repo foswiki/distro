@@ -919,7 +919,7 @@ qr/You cannot register twice, the name 'tbu3' is already registered\./,
     else {
         push @expected, qw(TestBulkUser2 TestBulkUser4);
         $this->assert_matches(
-qr/The System.LoginName \(tbu3\) is not allowed for this installation/,
+qr/The \[\[System.LoginName\]\[Login Name\]\] \(tbu3\) is not allowed for this installation/,
             $topicText
         );
         $this->assert_matches(

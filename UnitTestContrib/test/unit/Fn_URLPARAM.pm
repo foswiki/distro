@@ -185,7 +185,7 @@ sub test_multiple {
         '%URLPARAM{"multi" multiple="-$item$quot-" encode="url" separator=","}%'
       );
     $this->assert_str_equals(
-"-f!%22%a3%24%0a%7b%7d%5b%5do%22-,-b%25%5e%26*:%40%3b'r%22-,-b%28%29_%2b-%3d%3c%3e%3f%2c./%7cz%22-",
+"-f!%22%a3%24%0a%7b%7d%5b%5do%22-,-b%25%5e%26*:%40%3b%27r%22-,-b%28%29_%2b-%3d%3c%3e%3f%2c./%7cz%22-",
         "$str"
     );
 }

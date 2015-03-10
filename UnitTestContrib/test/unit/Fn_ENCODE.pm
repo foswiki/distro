@@ -25,7 +25,7 @@ sub test_default {
     # test default parameter
     $str =
       $this->{test_topicObject}->expandMacros('%ENCODE{"<evil script>\'\"%"}%');
-    $this->assert_str_equals( '%3cevil%20script%3e\'%22%25', "$str" );
+    $this->assert_str_equals( '%3cevil%20script%3e%27%22%25', "$str" );
 }
 
 sub test_encode {
@@ -69,7 +69,7 @@ sub test_encode {
     $str =
       $this->{test_topicObject}
       ->expandMacros("%ENCODE{\"<evil script>\n&\'\\\"%*A\" type=\"url\"}%");
-    $this->assert_str_equals( "%3cevil%20script%3e%0a%26\'%22%25*A", "$str" );
+    $this->assert_str_equals( "%3cevil%20script%3e%0a%26%27%22%25*A", "$str" );
 
     #http://trunk.foswiki.org/Tasks/Item5453
     #unfortuanatly, perl considers the string '0' to be
