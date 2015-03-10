@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 13:39+0200\n"
+"PO-Revision-Date: 2015-03-10 18:51+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -2570,7 +2570,7 @@ msgstr "Choisissez l'un des %1."
 
 #: core/data/Trash/WebPreferences.txt:10
 msgid "Place for trashed topics and attachments."
-msgstr "Emplacement des pages et des fichiers attachés supprimés."
+msgstr "Web pour les fichiers attachés et pages supprimés."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
