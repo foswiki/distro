@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-10 18:51+0200\n"
+"PO-Revision-Date: 2015-03-10 19:36+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -356,8 +356,8 @@ msgid ""
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
 "*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur en "
-"utilisant ce formulaire. Entrez le Login ou [[WikiName][NomDeConnection]] et "
-"la nouvelle adresse e-mail."
+"utilisant ce formulaire. Entrez le Nom de connexion ou [[WikiName][NomWiki]] "
+"et la nouvelle adresse e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -2593,7 +2593,7 @@ msgstr "Veuillez contacter %1."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
-msgstr "Veuillez taper le mot de passe d'administration de Wiki"
+msgstr "Veuillez saisir le mot de passe d'administration de Wiki"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
