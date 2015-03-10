@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 18:39+0200\n"
+"PO-Revision-Date: 2015-03-10 15:40+0200\n"
 "Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1371,7 +1371,7 @@ msgstr "Aktuelles Passwort:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
-msgstr ""
+msgstr "Datenzeilen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1966,9 +1966,8 @@ msgid "Heading 6"
 msgstr "Überschrift 6"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Heading rows"
-msgstr "Überschriften"
+msgstr "Überschriften-Zeilen"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -2523,9 +2522,8 @@ msgstr "Wort Suche"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
-#, fuzzy
 msgid "Load content"
-msgstr "Übertragender Inhalt:"
+msgstr "Inhalt laden"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
@@ -2997,9 +2995,8 @@ msgid "Password reset failed"
 msgstr "Das Zurücksetzen des Passwortes ist fehlgeschlagen"
 
 #: core/templates/registermessages.tmpl:171
-#, fuzzy
 msgid "Password reset failed."
-msgstr "Das Zurücksetzen des Passwortes ist fehlgeschlagen"
+msgstr "Das Zurücksetzen des Passworts ist fehlgeschlagen."
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
@@ -4139,12 +4136,12 @@ msgid "The Free and Open Source Wiki."
 msgstr "Das freie und queeloffene Wiki."
 
 #: core/templates/registermessages.tmpl:205
-#, fuzzy
 msgid ""
 "The [[%1][Login Name]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
-"Der %1 (%2) ist auf diesem System nicht zugelassen. Registrierung abgelehnt."
+"Der [[%1][Anmeldename]] (%2) ist auf diesem System nicht zugelassen. "
+"Registrierung abgelehnt."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4484,9 +4481,8 @@ msgid "This login name is already in use."
 msgstr "Dieser Anmeldename wird schon von einem anderen Benutzer verwendet."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "This must be a unique Wiki name."
-msgstr "Dies ist kein gültiger Wiki-Name."
+msgstr "Dies muss ein eindeutiger Wiki-Name sein."
 
 #: core/templates/renamedelete.tmpl:31
 msgid ""
@@ -4765,7 +4761,7 @@ msgstr "Abonnement dieses Topics beenden (s)"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][Login Name]]"
-msgstr ""
+msgstr "Nicht unterstützter [[%1][Anmeldename]]"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
 msgid "Update"
@@ -4850,6 +4846,11 @@ msgid ""
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
 msgstr ""
+"Benutzen Sie diesen Button, um den Inhalt zu laden.%BR% *Achtung*: der "
+"Inhalt ist sehr umfangreich und beim Laden kann Ihr Browser stark "
+"beansprucht werden. Am besten laden Sie den Inhalt nur, wenn Sie ihn "
+"ausdrucken wollen - ansonsten können Sie auch einfach das "
+"[[ReferenceManual][Referenzhandbuch]] online nutzen."
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
@@ -4884,6 +4885,9 @@ msgid ""
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
 msgstr ""
+"Benutzer existiert bereits in der Passwortdatenbank, und das von Ihnen "
+"angegebene Passwort unterscheidet sich von dem dort angegebenen. Sie können "
+"einen Benutzer nicht hinzufügen und gleichzeitig das Passwort ändern."
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5157,9 +5161,8 @@ msgstr ""
 "ist und Sie Ihr Passwort vergessen haben, kontaktieren Sie %1."
 
 #: core/templates/registermessages.tmpl:193
-#, fuzzy
 msgid "You are already registered."
-msgstr "Sie sind bereits registriert"
+msgstr "Sie sind bereits registriert."
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
@@ -5353,10 +5356,9 @@ msgstr ""
 "Sie müssen wahrscheinlich Ihren Administrator, %1, fragen, um das zu tun."
 
 #: core/templates/registermessages.tmpl:162
-#, fuzzy
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
-"Sie erhalten eine E-Mail, sobald Ihre Registrierung freigeschaltet worden ist"
+"Sie erhalten eine E-Mail, sobald Ihre Registrierung freigeschaltet wird."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
@@ -5389,10 +5391,8 @@ msgstr ""
 "um weiter zu kommen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed online. %1"
-msgstr ""
-"Ihr Name, wie er online sichtbar sein soll. Er muss ein gültiges %1 sein."
+msgstr "Ihr Name, wie er online sichtbar sein soll. %1"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5440,10 +5440,9 @@ msgstr ""
 "verwendet, wie etwa bei Abonnements oder Passwortänderungen."
 
 #: core/templates/registermessages.tmpl:160
-#, fuzzy
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
-"Ihre Registrierung muss von den Systemadministratoren freigeschaltet werden"
+"Ihre Registrierung muss von den Systemadministratoren freigeschaltet werden."
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
