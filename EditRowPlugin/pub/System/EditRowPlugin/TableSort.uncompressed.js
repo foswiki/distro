@@ -86,7 +86,7 @@ function sortTable(el, rev, headrows, footrows) {
     if (tblEl.reverseSort == null) {
         tblEl.reverseSort = new Array();
         // Also, assume the team name column is initially sorted.
-        tblEl.lastColumn = 1;
+        tblEl.lastColumn = -1;
     }
     
     // If this column has not been sorted before, set the initial sort direction.

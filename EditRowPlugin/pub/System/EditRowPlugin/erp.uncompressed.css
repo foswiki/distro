@@ -2,8 +2,13 @@
 .erpJS_submit:focus { outline: none; }
 .erpJS_submit::-moz-focus-inner { outline: none; }
 
-.erpJS_sort {
+.erpJS_sort:hover {
     text-decoration: underline;
+    cursor: pointer;
+}
+
+.erpJS_sort {
+    font-weight: bold;
 }
 
 .ui-icon-quietsave {
