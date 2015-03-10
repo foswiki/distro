@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-10 14:21+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -2758,7 +2758,7 @@ msgstr "Suivant"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:51
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: core/data/Main/GroupViewTemplate.txt:51
 msgid "No  members"
