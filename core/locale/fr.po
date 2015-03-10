@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 14:03+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"PO-Revision-Date: 2015-03-10 14:21+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1364,7 +1364,7 @@ msgstr "Mot de passe actuel :"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
-msgstr ""
+msgstr "Lignes de données"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1952,9 +1952,8 @@ msgid "Heading 6"
 msgstr "Titre 6"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Heading rows"
-msgstr "Titre 1"
+msgstr "Lignes de titre"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -2517,9 +2516,8 @@ msgstr "Recherche littérale"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
-#, fuzzy
 msgid "Load content"
-msgstr "Informations envoyées :"
+msgstr "Charger contenu"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
@@ -2743,9 +2741,8 @@ msgid "New topic name %1 is not a %2"
 msgstr "Le nouveau nom de page (%1) n'est pas un %2"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
-#, fuzzy
 msgid "New user registration is disabled on this site."
-msgstr "L'inscription de nouveaux utilisateurs est désactivée"
+msgstr "L'inscription de nouveaux utilisateurs est désactivée sur ce site."
 
 #: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
