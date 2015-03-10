@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-10 18:27+0200\n"
 "Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4868,19 +4868,19 @@ msgstr "Utilisez plutôt %1."
 msgid "Use template:"
 msgstr "Modèles de formulaires disponibles :"
 
-#: core/data/System/SiteChanges.txt:13
-msgid ""
-"Use this botton to load the content.%BR% *Caution* the search on this topic "
-"can be very resource intensive. Only load the content if you really need it, "
-"otherwise review the WebChanges topic from each web."
-msgstr ""
-
 #: core/data/System/CompleteDocumentation.txt:12
 msgid ""
 "Use this button to load the content.%BR% *Caution* the content is very large "
 "and loading it will put a high load on your browser. Only load the content "
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this button to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
 msgstr ""
 
 #. (( $user, $groupName)

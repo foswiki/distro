@@ -10,7 +10,7 @@ performance.</div>'}%
   "%MAKETEXT{"Load content"}%"
   icon="book"
   onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=content';"
-}% %MAKETEXT{"Use this botton to load the content.%BR% *Caution* the search on this topic can be very resource intensive. Only load the content if you really need it, otherwise review the WebChanges topic from each web."}%
+}% %MAKETEXT{"Use this button to load the content.%BR% *Caution* the search on this topic can be very resource intensive. Only load the content if you really need it, otherwise review the WebChanges topic from each web."}%
 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"content"}%

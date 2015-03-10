@@ -4459,19 +4459,19 @@ msgstr ""
 msgid "Use template:"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:13
-msgid ""
-"Use this botton to load the content.%BR% *Caution* the search on this topic "
-"can be very resource intensive. Only load the content if you really need it, "
-"otherwise review the WebChanges topic from each web."
-msgstr ""
-
 #: core/data/System/CompleteDocumentation.txt:12
 msgid ""
 "Use this button to load the content.%BR% *Caution* the content is very large "
 "and loading it will put a high load on your browser. Only load the content "
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this button to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
 msgstr ""
 
 #. (( $user, $groupName)
