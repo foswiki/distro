@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-10 14:21+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-10 14:28+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -2762,12 +2762,11 @@ msgstr "Non"
 
 #: core/data/Main/GroupViewTemplate.txt:51
 msgid "No  members"
-msgstr ""
+msgstr "Aucun membre"
 
 #: core/data/System/SiteChanges.txt:69
-#, fuzzy
 msgid "No changes"
-msgstr "(modifications)"
+msgstr "Aucun changement"
 
 #: core/templates/more.tmpl:206
 msgid "No child topics"
@@ -2776,11 +2775,13 @@ msgstr "Pas de pages filles"
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
 msgid "No group name specified"
-msgstr ""
+msgstr "Nom de groupe non spécifié"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
 msgstr ""
+"Aucune inscription en attente n'a été trouvée pour le code de vérification "
+"%1."
 
 #: core/templates/messages.tmpl:340
 msgid "No permission to view %1"
@@ -2791,18 +2792,16 @@ msgid "No previous revision exists."
 msgstr "Aucune version précédente n'existe."
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
-#, fuzzy
 msgid "No topic to subscribe to"
-msgstr "Déplacer la page vers le web :"
+msgstr "Aucune page à laquelle s'abonner"
 
 #: core/templates/renamebase.tmpl:45
-#, fuzzy
 msgid "No topics to update."
-msgstr "Déplacer la page vers le web :"
+msgstr "Aucune page à mettre à jour."
 
 #: core/templates/messages.tmpl:309 core/templates/registermessages.tmpl:399
 msgid "No username specified"
-msgstr ""
+msgstr "Nom de connexion non spécifié"
 
 #: core/templates/registermessages.tmpl:167
 msgid "No users to reset passwords for."
