@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-10 14:37+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-10 14:40+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -2884,13 +2884,12 @@ msgid "Number of topics: %1"
 msgstr "Nombre de pages : %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
-#, fuzzy
 msgid "Numbered list"
-msgstr "Nombre de pages :"
+msgstr "Liste numérotée"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "OEmbed"
-msgstr ""
+msgstr "OEmbed"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
