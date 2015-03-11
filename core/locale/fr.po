@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 00:12+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-12 00:13+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -3571,14 +3571,12 @@ msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
-#, fuzzy
 msgid "Save"
-msgstr "Enregistré sous :"
+msgstr "Enregistrer"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
-#, fuzzy
 msgid "Save and Continue"
-msgstr "value='Enregistrer et continuer de modifier' accesskey='k'"
+msgstr "Enregistrer et continuer"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and continue editing"
