@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 23:00+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-11 23:28+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -3257,22 +3257,20 @@ msgid "Recently changed topics"
 msgstr "Pages modifiées récemment"
 
 #: core/data/System/SiteChanges.txt:19
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Pages modifiées récemment"
+msgstr "Pages modifiées récemment dans le Web %1"
 
 #: core/data/System/SiteChanges.txt:20
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Pages modifiées récemment"
+msgstr "Pages modifiées récemment dans tous les Webs"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
-msgstr ""
+msgstr "Redirection interdite"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Redo previous change"
-msgstr ""
+msgstr "Refaire le changement précédent"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
@@ -3289,38 +3287,36 @@ msgstr "Inscription"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté "
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:130
 #: NatEditPlugin/templates/edit.natedit.tmpl:161
-#, fuzzy
 msgid "Registered users"
-msgstr "Inscription"
+msgstr "Utilisateurs inscrits"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
 msgstr "Inscription"
 
 #: core/lib/Foswiki/UI/Register.pm:711
-#, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
-msgstr "L'e-mail a été désactivé sur cette installation de Foswiki"
+msgstr ""
+"L'inscription ne peut aboutir : l'e-mail a été désactivé sur cette "
+"installation de Foswiki"
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
 msgstr "Les codes d'enregistrement ne peuvent être utilisés qu'une fois."
 
 #: core/templates/registerdenied.tmpl:9
-#, fuzzy
 msgid "Registration for %1 has been denied"
-msgstr "Désolé, l'inscription est temporairement désactivée"
+msgstr "L'inscription à %1 a été refusée"
 
 #: core/templates/registermessages.tmpl:55
-#, fuzzy
 msgid "Registration has been denied"
-msgstr "Désolé, l'inscription est temporairement désactivée"
+msgstr "L'inscription a été refusée"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
@@ -3328,6 +3324,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"L'enregistrement est désactivé soit par le paramètre de configuration "
+"{EnableNewUserRegistration}, soit en raison d'erreurs affectant le système "
+"de mot de passe.  Vérifiez la présence d'erreurs dans la configuration."
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3365,26 +3364,24 @@ msgid "Remember your password?"
 msgstr "Vous souvenez-vous de votre mot de passe ?"
 
 #: core/data/Main/GroupViewTemplate.txt:224
-#, fuzzy
 msgid "Remove Members from"
-msgstr "Se souvenir de moi"
+msgstr "Supprimer des membres de"
 
 #: core/data/Main/GroupViewTemplate.txt:164
 msgid "Remove members..."
-msgstr ""
+msgstr "Supprimer membres..."
 
 #: core/templates/registermessages.tmpl:346
 msgid "Remove of user account other than your own is denied"
-msgstr ""
+msgstr "La suppression d'un compte autre que le vôtre est interdite"
 
 #: core/data/Main/GroupViewTemplate.txt:238
 msgid "Remove selected members"
-msgstr ""
+msgstr "Supprimer les membres sélectionnés"
 
 #: core/templates/registermessages.tmpl:286
-#, fuzzy
 msgid "Remove the member from the group(s) %1 first."
-msgstr "Retirez tout d'abord l'utilisateur du/des groupe(s) %1."
+msgstr "Supprimez tout d'abord l'utilisateur du (des) groupe(s) %1."
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -3395,23 +3392,20 @@ msgid "Rename failed"
 msgstr "Échec du renommage"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Renommer ou déplacer la page"
+msgstr "Renommer ou déplacer %1"
 
 #: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "Renommer ou déplacer la page"
 
 #: core/templates/more.tmpl:78
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Renommer ou déplacer la page"
+msgstr "Renommer ou déplacer la page..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Renommer, déplacer ou supprimer ce web :"
+msgstr "Renommer, déplacer ou supprimer ce Web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -3420,7 +3414,7 @@ msgstr "Renommer/Déplacer"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
 msgid "Render style"
-msgstr ""
+msgstr "Style d'affichage"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
