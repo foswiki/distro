@@ -69,8 +69,8 @@ sub recover_form {
 s/(^|\n)%META:FIELD{name="([^"]*?)"[^}]*?value="([^"]*?)"[^}]*?}%(\n|$)/$1/s
       )
     {
-        my $name = $1;
-        my $val  = $2;
+        my $name = $2;
+        my $val  = $3;
 
         # decode the value
         $val =~ s/%([\da-f]{2})/chr(hex($1))/gei;
@@ -267,10 +267,16 @@ END
         }
     }
 
+    #print STDERR "========= Form from web =========\n";
+    #foreach my $k ( keys %form ) {
+    #    next if ( $k eq 'text' );
+    #    print STDERR sprintf("%-26s %s\n", $k, $form{$k});
+    #}
+    #print STDERR "=================================\n";
+
     # Override what is read from the web with the form in the new topic
     recover_form( $topicText, \%form );
     $form{text} = $topicText;
-
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%form );
 
     # Upload any 'Var*.txt' topics published by the extension
@@ -374,7 +380,7 @@ sub _uploadTopic {
     print STDERR "========= Form Data for review =========\n";
     foreach my $k ( keys %$form ) {
         next if ( $k eq 'text' );
-        printf "%-26s %s\n", $k, $form->{$k};
+        print STDERR sprintf( "%-26s %s\n", $k, $form->{$k} );
     }
     print STDERR "========================================\n";
 
@@ -492,6 +498,7 @@ sub _postForm {
     }
     $lastUpload = time();
 
+    #print STDERR "SKIP UPLOADS\n"; return;
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 

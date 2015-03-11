@@ -38,8 +38,9 @@ sub form_repair {
                 Copyright => 'Foswiki Contributors, All Rights Reserved',
                 License =>
 'GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])',
-                Home    => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
-                Support => 'http://foswiki.org/Support/%$ROOTMODULE%'
+                Home       => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
+                Support    => 'http://foswiki.org/Support/%$ROOTMODULE%',
+                Repository => 'https://github.com/foswiki/%$ROOTMODULE%'
             );
             my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
             foreach my $field ( sort keys %data ) {
