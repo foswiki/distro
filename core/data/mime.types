@@ -120,6 +120,7 @@ audio/basic                     au snd
 audio/midi                      mid midi kar
 audio/mpeg                      mpga mpega mp2 mp3 m4a 
 audio/mpegurl                   m3u
+audio/webm                      weba
 audio/x-aiff                    aif aiff aifc
 audio/x-ms-wma                  wma
 audio/x-ms-wax                  wax 
@@ -134,6 +135,7 @@ image/jpeg                      jpeg jpg jpe
 image/png                       png
 image/svg+xml                   svg svgz
 image/tiff                      tiff tif
+image/webp                      webp
 image/x-cmu-raster              ras
 image/x-coreldraw               cdr
 image/x-coreldrawpattern        pat
@@ -160,7 +162,7 @@ text/tab-separated-values       tsv
 text/vnd.sun.j2me.app-descriptor    jad 
 text/vnd.wap.wml                wml
 text/vnd.wap.wmlscript          wmls 
-text/xml                        rdf xsl xslt fo xml
+text/xml                        rdf xsl xslt fo xml wsdl
 text/x-bibtex                   bib
 text/x-java-source              java javafrag
 text/x-setext                   etx
@@ -170,6 +172,7 @@ video/mp4                       mp4
 video/mpeg                      mpeg mpg mpe
 video/ogg                       ogv
 video/quicktime                 qt mov
+video/webm                      webm
 video/x-flv                     flv
 video/x-ms-asf                  asf asx
 video/x-msvideo                 avi
