@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 01:15+0200\n"
+"PO-Revision-Date: 2015-03-11 23:00+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -614,7 +614,7 @@ msgstr "Ajouter des membres à"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
 msgid "Add a new form to <nop>%1"
-msgstr "Ajouter un nouveau formulaire à %1"
+msgstr "Ajouter un nouveau formulaire à <nop>%1"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
@@ -3203,9 +3203,8 @@ msgid "Preview"
 msgstr "Prévisualiser"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
-#, fuzzy
 msgid "Preview your changes"
-msgstr "Pages modifiées récemment dans :"
+msgstr "Prévisualiser vos changements"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Previous"
@@ -3213,18 +3212,16 @@ msgstr "Précédent"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:35
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:36
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr "title='Version imprimable de cette page' accesskey='p'>Im&primer"
+msgstr "Version imprimable de cette page  (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
 msgstr "Propriétés"
 
 #: core/lib/Foswiki/Render/Moved.pm:60
-#, fuzzy
 msgid "Put it back..."
-msgstr "déplacer la page à son emplacement précédent"
+msgstr "Remettre la page..."
 
 #: core/data/System/WebSearch.txt:205
 msgid "Query Search"
@@ -4911,6 +4908,10 @@ msgid ""
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
 msgstr ""
+"L'utilisateur existe dans le gestionnaire de mots de passes, et le mot de "
+"passe que vous avez saisi est différent du mot de passe actuel de "
+"l'utilisateur. Vous ne pouvez pas ajouter un utilisateur est changer le mot "
+"de passe en même temps."
 
 #: core/templates/login.tmpl:48
 msgid "Username"
