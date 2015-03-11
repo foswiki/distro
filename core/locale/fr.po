@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 23:49+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-12 00:12+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -3524,17 +3524,15 @@ msgstr ""
 "Retournez à [_0] et fournissez un [[WikiName][NomWiki]] ou Nom de connexion"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-#, fuzzy
 msgid "Retype new password:"
-msgstr "Entrez de nouveau le nouveau mot de passe"
+msgstr "Saisissez de nouveau le nouveau mot de passe :"
 
 #: core/templates/messages.tmpl:27
-#, fuzzy
 msgid ""
 "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
 msgstr ""
-"La version %1 a été enregistrée par %2, pendant que vous étiez en train de "
-"modifier la page."
+"La version %1 a été modifiée par %2 pendant que vous étiez toujours en train "
+"de modifier la page, et a été enregistrée comme version %3."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:87
@@ -3548,7 +3546,6 @@ msgid "Revision"
 msgstr "Version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:12
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "Historique des versions de %1"
 
@@ -3570,6 +3567,7 @@ msgstr ""
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
+"Bac à sable, espace de tests pour expérimenter dans un web sans limitations."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
