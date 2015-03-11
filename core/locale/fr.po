@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-11 01:15+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -3173,7 +3173,7 @@ msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:8
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:15
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
