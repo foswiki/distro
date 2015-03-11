@@ -109,7 +109,7 @@ sub generate {
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 
-    my $val = scalar( $q->param('text') );
+    my $val = scalar( $q->param('text') ) || '';
     $val =~ s/\"/&quot;/g;
     $text = "<input type=\"hidden\" name=\"text\" value=\"$val\" />";
     $page =~ s/%TEXT%/$text/g;
