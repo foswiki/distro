@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 16:06+0200\n"
+"PO-Revision-Date: 2015-03-11 03:30+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -855,12 +855,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
-msgstr "%1 不能改變"
+msgstr "%1 不能變更"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
-msgstr "%2 不能改變 %1"
+msgstr "%2 不能變更 %1"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -868,7 +868,7 @@ msgstr "無法找到用戶 %1"
 
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
-msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
+msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
@@ -892,7 +892,7 @@ msgstr "取消編輯並放棄變更"
 
 #: core/templates/messages.tmpl:69
 msgid "Cannot create %1 because it already exists."
-msgstr "%1 已存在，無法建立"
+msgstr "%1 已存在，無法建立。"
 
 #: core/templates/messages.tmpl:130
 msgid "Cannot create web %1 because it already exists"
@@ -937,19 +937,19 @@ msgstr "變更語言"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "修改所有子網中各主題指向 !%1 的連結:"
+msgstr "修改所有子網中各主題指向 !%1 的連結："
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "修改子網 %2 中各主題指向 !%1 的連結:"
+msgstr "修改子網 %2 中各主題指向 !%1 的連結："
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "修改所有子網中各主題指向 %1 的連結:"
+msgstr "修改所有子網中各主題指向 %1 的連結："
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "修改子網 %2 中各主題指向 %1 的連結:"
+msgstr "修改子網 %2 中各主題指向 %1 的連結："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -965,7 +965,7 @@ msgstr "改變主題"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by"
-msgstr "變更者:"
+msgstr "變更者"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
@@ -974,7 +974,7 @@ msgstr "改變於"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
-msgstr "已變更:"
+msgstr "變更："
 
 #: MailerContrib/templates/mailnotify.tmpl:11
 #: PatternSkin/data/Main/WebLeftBarExample.txt:9
@@ -997,15 +997,15 @@ msgstr "檢查您的 {TemplateDir} 與 {TemplatePath} 設定。"
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
-msgstr "選擇的主題，文中連結將更改為新主題。"
+msgstr "選擇的主題將指向新的主題位置。"
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
-msgstr "選定的主題，文中連結將更改為新子網。"
+msgstr "選擇的主題將指向新的子網。"
 
 #: core/templates/more.tmpl:207
 msgid "Child topics in %1 web"
-msgstr "在%1子網中的子主題"
+msgstr "在 %1 子網內的子主題"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1020,7 +1020,7 @@ msgstr "全部清除"
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
-msgstr "點這將移動主題回到以前的位置，有選項可修改設定。 "
+msgstr "移動主題回以前的位置，有選項可修改引用。"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:471
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -1029,11 +1029,11 @@ msgstr "關閉"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
-msgstr "顏色 %1包含非法格式"
+msgstr "顏色 %1包含無效格式"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr "在"
+msgstr "來吧"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1051,13 +1051,13 @@ msgstr "確認密碼"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
-msgstr "確認更名和移動"
+msgstr "確認更名或移動"
 
 #: core/templates/messages.tmpl:31
 msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
-msgstr "使用 [[%1][主題版本比較工具 (diff)]] 確認您的修改"
+msgstr "使用 Foswiki 的[[%1][主題版本比較工具 (diff)]]確認您的修改。"
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -1195,11 +1195,11 @@ msgstr "建立適當的表單定義主題"
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
-msgstr "目前位置:"
+msgstr "目前位置："
 
 #: core/templates/more.tmpl:100
 msgid "Current parent:"
-msgstr "目前父主題:"
+msgstr "目前父主題："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
@@ -1252,7 +1252,7 @@ msgstr "檔案說明，方便其他人瞭解檔案內容。"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
-msgstr "細節顯示於新視窗"
+msgstr "細節顯示於另一視窗"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
