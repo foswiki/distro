@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-02-15 03:59+0200\n"
-"Last-Translator: Jean <jean.kim@zepetto.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2015-03-11 07:59+0200\n"
+"Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Weblate 2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
@@ -3837,7 +3838,7 @@ msgstr "파일 올리기"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
 msgid "Upload multiple attachments in one zip file"
-msgstr "한 개의 Zip 파일에 여러개의 첨부파일을 업로드"
+msgstr "하나의 zip 파일로 다수의 파일 올리기"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
