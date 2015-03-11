@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 03:18+0200\n"
+"PO-Revision-Date: 2015-03-11 03:30+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -543,7 +543,7 @@ msgstr "同名主題已存在，但被改名或移到 %1。"
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr ""
+msgstr "一個使用者需要您的確認以完成註冊"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
@@ -551,7 +551,7 @@ msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 msgid "Abandon changes and exit"
-msgstr ""
+msgstr "放棄改變並離開"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -657,11 +657,11 @@ msgstr "喔，不！"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
-msgstr ""
+msgstr "靠左"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
-msgstr ""
+msgstr "靠右"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
@@ -830,9 +830,8 @@ msgid "Backlinks to %1 in all Webs"
 msgstr "所有子網中指向 %1 的反向連結"
 
 #: core/templates/viewtopicactionbuttons.tmpl:101
-#, fuzzy
 msgid "Backlinks:"
-msgstr "反向連結"
+msgstr "反向連結："
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -840,7 +839,7 @@ msgstr "密碼錯誤"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "不良用戶 '%1'"
 
 #: core/templates/messages.tmpl:132
 msgid "Base web %1 is missing or does not exist"
@@ -848,11 +847,11 @@ msgstr "基本子網 %1 遺失或不存在"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr ""
+msgstr "區塊引用"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
-msgstr ""
+msgstr "粗體"
 
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
@@ -860,7 +859,7 @@ msgstr "內容和標題"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
-msgstr ""
+msgstr "符號列表"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -880,20 +879,20 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "%1 不能變更"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "%2 不能變更 %1"
 
 #: core/templates/messages.tmpl:362 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
-msgstr "無法找到用戶%1"
+msgstr "無法找到用戶 %1"
 
 #: core/templates/messages.tmpl:364
 msgid "Can't get an e-mail address for %1 (required for password reset)"
-msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
+msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
@@ -927,11 +926,11 @@ msgstr "取消上傳"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "無法變更訂閱：%1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
-msgstr "%1 已存在，無法建立"
+msgstr "%1 已存在，無法建立。"
 
 #: core/templates/messages.tmpl:127
 msgid "Cannot create web %1 because it already exists"
@@ -951,7 +950,7 @@ msgstr "類別"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
-msgstr ""
+msgstr "置中對齊"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
@@ -988,19 +987,19 @@ msgstr "變更語言"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "修改所有子網中各主題指向 !%1 的連結:"
+msgstr "修改所有子網中各主題指向 !%1 的連結："
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "修改子網 %2 中各主題指向 !%1 的連結:"
+msgstr "修改子網 %2 中各主題指向 !%1 的連結："
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "修改所有子網中各主題指向 %1 的連結:"
+msgstr "修改所有子網中各主題指向 %1 的連結："
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "修改子網 %2 中各主題指向 %1 的連結:"
+msgstr "修改子網 %2 中各主題指向 %1 的連結："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -1013,16 +1012,15 @@ msgstr "只修改屬性"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr ""
+msgstr "變更目前 <nop>%1 的表單"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
 msgstr "改變主題"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "變更者:"
+msgstr "變更者："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
@@ -1031,7 +1029,7 @@ msgstr "改變於"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
-msgstr "已變更:"
+msgstr "變更："
 
 #: MailerContrib/templates/mailnotify.tmpl:11
 #: PatternSkin/data/Main/WebLeftBarExample.txt:10
@@ -1055,15 +1053,15 @@ msgstr "檢查您的 {TemplateDir} 與 {TemplatePath} 設定。"
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
-msgstr "選擇的主題，文中連結將更改為新主題。"
+msgstr "選擇的主題將指向新的主題位置。"
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
-msgstr "選定的主題，文中連結將更改為新子網。"
+msgstr "選擇的主題將指向新的子網。"
 
 #: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
-msgstr "在%1子網中的子主題"
+msgstr "在 %1 子網內的子主題"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1071,7 +1069,7 @@ msgstr "為 %1 選個新表單"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:151
 msgid "Choose files"
-msgstr ""
+msgstr "選擇檔案"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
@@ -1082,7 +1080,7 @@ msgstr "全部清除"
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
-msgstr "點這將移動主題回到以前的位置，有選項可修改設定。 "
+msgstr "移動主題回以前的位置，有選項可修改引用。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
@@ -1093,19 +1091,19 @@ msgstr "關閉"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "顏色"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
-msgstr "顏色 %1包含非法格式"
+msgstr "顏色 %1包含無效格式"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "欄"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
-msgstr ""
+msgstr "來吧"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1134,19 +1132,18 @@ msgid "Compare revisions"
 msgstr "比較版本"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
-#, fuzzy
 msgid "Confirm password:"
-msgstr "確認密碼"
+msgstr "確認密碼："
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
-msgstr "確認更名和移動"
+msgstr "確認更名或移動"
 
 #: core/templates/messages.tmpl:31
 msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
-msgstr "使用 [[%1][主題版本比較工具 (diff)]] 確認您的修改"
+msgstr "使用 Foswiki 的[[%1][主題版本比較工具 (diff)]]確認您的修改。"
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -1169,7 +1166,7 @@ msgstr "繼續為子網改名?"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:18
 msgid "Continue editing"
-msgstr ""
+msgstr "繼續編輯"
 
 #: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
@@ -1222,9 +1219,8 @@ msgid "Could not save %1."
 msgstr "%1 無法存檔。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
-#, fuzzy
 msgid "Country:"
-msgstr "國家"
+msgstr "國家："
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1270,7 +1266,7 @@ msgstr "建立新主題"
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "未指定建立且群組不存在"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:21
 msgid "Create personal sidebar"
@@ -1302,7 +1298,7 @@ msgstr "建立適當的表單定義主題"
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:12
 msgid "Current location:"
-msgstr "目前位置:"
+msgstr "目前位置："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 #, fuzzy
@@ -1369,7 +1365,7 @@ msgstr "%1 子網內的詳細主題清單"
 
 #: core/lib/Foswiki/Form.pm:422
 msgid "Details in separate window"
-msgstr "細節顯示於新視窗"
+msgstr "細節顯示於另一視窗"
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
