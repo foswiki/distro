@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-08 08:32+0200\n"
+"PO-Revision-Date: 2015-03-12 13:49+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -92,7 +92,8 @@ msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr ""
-"%1 sta modificando la pagina da %2 e l'allocazione sarà ancora attiva per %3."
+"%1 è stato editato l'argomento per %2 e il lease è ancora attivo per altro "
+"%3."
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
@@ -105,7 +106,7 @@ msgstr "%1 ha ricevuto una richiesta di modifica sospetta dal tuo browser."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
-msgstr "Home %1"
+msgstr "home %1"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
@@ -117,7 +118,7 @@ msgstr "%1 è al momento connesso"
 
 #: core/templates/messages.tmpl:468
 msgid "%1 is currently set to %2"
-msgstr "%1 è al momento configurato con %2"
+msgstr "%1 è al momento settato su %2"
 
 #: core/templates/messages.tmpl:576
 msgid "%1 is editing [[%2][%3]]."
@@ -358,9 +359,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
-"*Administrators:* Utilizzando questo form puoi modificare l'indirizzo di "
-"posta elettronica. Inserisci il Login utente o WikiName e il nuovo indirizzo "
-"di posta elettronica."
+"*Amministratori:* potete cambiare gli indirizzi email degli utenti usando "
+"questo modulo. Inserire i login o i WikiName degli utenti e i nuovi "
+"indirizzi e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -392,16 +393,16 @@ msgstr ""
 "ha accesso al server via web (sebbene le  passwords verranno criptate e gli "
 "indirizzi e-mail nascosti per prevenire lo spamming). La tua nazione, o la "
 "nazione dove è collocato il server può avere leggi per la protezione dei "
-"dati che regolano la manutenzione di tale database. In caso di dubbio "
-"contatta %1 per i dettagli circa la Politica di Protezione dei Dati in "
-"vigore su questo server Foswiki, prima di registrarti."
+"dati che regolano la gestione di tale database. In caso di dubbio contatta %"
+"1 per i dettagli circa la Politica di Protezione dei Dati in vigore su "
+"questo server Foswiki, prima di registrarti."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
 "*Local file:* If you select a different file in _Local file:_, it is this "
 "that will be updated or added."
 msgstr ""
-"*File locale:* Se selezioni un file differente in _File locale:_, sarà "
+"*File locale:* Se selezioni un file differente in  _File locale:_, sarà "
 "questo ad essere aggiornato o aggiunto."
 
 #: core/templates/attachagain.tmpl:17
@@ -503,10 +504,10 @@ msgid ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
-"<a href='%1'>RSS feed</a>, modifiche recenti con <a href='%2'>50</a>, <a "
+"<a href='%1'>RSS feed</a>, variazioni recenti con <a href='%2'>50</a>, <a "
 "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
-"pagine, <a href='%7' rel='nofollow'>tutte</a>"
+"topics, <a href='%7' rel='nofollow'>tutte</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -521,8 +522,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Richiesta di conferma!</strong> Premere OK per confermare la "
-"modifica<br />Altrimenti premere Annulla"
+"<strong>Richiesta conferma!</strong> Premere OK per confermare che questo "
+"cambiamento era intenzionale<br />Altrimenti premere Annulla"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -535,8 +536,8 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Un sito Foswiki è suddiviso in Web; ognuno rappresentante un soggetto, "
-"un'area di collaborazione. Stai cercando %1 in un Web che non esiste."
+"Un sito Foswiki è suddiviso in web; ognuno rappresentante un soggetto, "
+"un'area di collaborazione . Stai cercando di %1 in un web che non esiste."
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -599,7 +600,7 @@ msgstr "Chiavi di accesso"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "Access keys:"
-msgstr "Chiavi di accesso:"
+msgstr "Tasti di accesso:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -646,7 +647,7 @@ msgstr "Aggiungi utenti o gruppi a questo gruppo"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Aggiungo una variabile %1 in WebPreferences"
+msgstr "Aggiungere la preferenza %1 in WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -748,8 +749,9 @@ msgid "Attach"
 msgstr "Allega"
 
 #: core/templates/attach.tmpl:9
+#, fuzzy
 msgid "Attach a file"
-msgstr "Allega un file"
+msgstr "Allega un nuovo file"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
@@ -957,7 +959,7 @@ msgstr "Categorie"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
-msgstr "Cambia Indirizzo E-mail"
+msgstr "Cambiare indirizzo E-mail"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1019,7 +1021,7 @@ msgstr "Cambiato da"
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
-msgstr "Cambiato"
+msgstr "Cambiato il"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1089,7 +1091,7 @@ msgstr "Il colore %1 ha un formato non valido"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr "Andiamo in"
+msgstr "Vieni in"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1215,7 +1217,7 @@ msgstr "Crea un collegamento al file allegato"
 
 #: core/data/Main/WikiGroups.txt:17
 msgid "Create a new group"
-msgstr "Crea un nuovo gruppo di utenti"
+msgstr "Crea un nuovo gruppo"
 
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
@@ -1232,7 +1234,7 @@ msgstr "Crea una nuova pagina"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr "Creazione non specificato e gruppo non esistente"
+msgstr "Creazione non specificata e gruppo non esistente"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -4787,7 +4789,7 @@ msgstr "vista"
 
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
-msgstr "perché ti viene chiesto di confermare"
+msgstr "il motivo per cui ti è stato chiesto di confermare"
 
 #~ msgid "Error: %1"
 #~ msgstr "Errore: %1"
