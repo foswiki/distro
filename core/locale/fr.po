@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 18:18+0200\n"
+"PO-Revision-Date: 2015-03-12 22:36+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -3629,14 +3629,12 @@ msgstr ""
 "Chercher, dans tous les webs, les pages qui contiennent un lien pointant ici"
 
 #: UpdatesPlugin/data/System/UpdatesPlugin.txt:21
-#, fuzzy
 msgid "Search for updates"
-msgstr "Autres options de recherche :"
+msgstr "Recherche de mises à jour"
 
 #: core/data/System/WebSearch.txt:34
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Chercher dans le Web %1 uniquement"
+msgstr "Chercher dans le Web %1"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -3647,14 +3645,12 @@ msgid "Search more topics in this web"
 msgstr "Chercher d'avantage de pages dans le présent web"
 
 #: core/data/System/WebSearch.txt:54
-#, fuzzy
 msgid "Search options"
-msgstr "Autres options de recherche :"
+msgstr "Options de recherche"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(résultat de la recherche)"
+msgstr "Résultat de la recherche"
 
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
@@ -3696,7 +3692,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:429
 #: core/templates/registermessages.tmpl:438
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Pour consulter le résultat, voir %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:13
 msgid "See also the faster %1"
