@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419387356" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -122,17 +122,20 @@ set in %USERSWEB%.SitePreferences, default taken from
 
 ---++ Info
 
-|  Author(s): | Foswiki:Main.GilmarSantosJr |
-|  Copyright: | &copy; 2009 Gilmar Santos Jr and Foswiki Contributors |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Sep 2009 (0.9.2) | Improved documentation regarding module apreq |
 |  12 Apr 2009 (0.9.1) | Improved documentation |
 |  12 Jan 2009 (0.9.0) | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.GilmarSantosJr"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/ModPerlEngineContrib"}%
