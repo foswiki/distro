@@ -134,6 +134,7 @@ tests, and =perl build.pl release= will build a new release.
 
 The build script also accepts the following options:
 | =-n= | Do nothing; just print what you would have done |
+| =-N= | Don't upload anything (used for testing target =upload=) |
 | =-v= | Be verbose |
 | =-topiconly= | with target =upload=, only upload the topic (not the archives) |
 

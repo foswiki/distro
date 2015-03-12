@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2010 Foswiki Contributors
+# Copyright (C) 2004-2015 C-Dot Consultants - All rights reserved
+# Copyright (C) 2008-2015 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -491,6 +491,11 @@ sub _strikeone {
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
 
+    if ( $this->{-N} ) {
+        print STDERR "SKIPPING UPLOAD because -N was on the command line\n";
+        return;
+    }
+
     my $pause = GLACIERMELT - ( time - $lastUpload );
     if ( $pause > 0 ) {
         print "Taking a ${pause}s breather after the last upload...\n";
@@ -498,7 +503,6 @@ sub _postForm {
     }
     $lastUpload = time();
 
-    #print STDERR "SKIP UPLOADS\n"; return;
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 

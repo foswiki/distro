@@ -333,7 +333,7 @@ sub new {
         #the core DEPENDENCIES is in the lib dir, not the tools dir
         $dependencies = findRelative( $libpath, 'DEPENDENCIES' );
     }
-    $this->_loadDependenciesFrom($dependencies);
+    $this->_loadDependenciesFrom($dependencies) if $dependencies;
 
     # Pull in dependencies from other modules
     if ( $this->{other_modules} ) {
