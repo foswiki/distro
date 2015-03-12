@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-12 13:02+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -5859,7 +5859,7 @@ msgstr "vista"
 
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "il motivo per cui ti è stato chiesto di confermare"
 
 #, fuzzy
 #~ msgid "Wiki name"
