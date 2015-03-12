@@ -63,6 +63,7 @@ use Foswiki::Plugins               ();
                             (CPAN and external dependencies are not handled by this module.)
       * =SIMULATE= => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
       * =CONTINUE= => 0/1     If set to 1, the installation will continue even if errors are encountered. (future)
+      * seen       => \%seen  Hash of modules already seen, to be installed.
 
 =cut
 
@@ -79,6 +80,10 @@ sub new {
     delete $args{root};
     my $module = $args{module};
     delete $args{module};
+
+    my $seen = $args{seen} || {};
+    $seen->{$module} = 1;
+
     my $this = bless(
         {
             _root       => $root,
@@ -94,6 +99,9 @@ sub new {
             _dependencies => \@deps,
             _prepost_code => undef,
             _loaded       => undef,    # Flag set if loadInstaller is complete
+
+            # Hash of package names that have already been seen / installed
+            _seen => $seen,
         },
         $class
     );
@@ -456,10 +464,13 @@ HERE
             }
         }
     }
-    $reporter->WARN(
-        "Don't forget to save your configuration to complete installation of "
-          . join( ', ', keys %plugins ) )
-      if ( scalar( keys %{ $reporter->changes() } ) );
+
+    unless ( $this->option('SIMULATE') ) {
+        $reporter->WARN(
+"Don't forget to save your configuration to complete installation of "
+              . join( ', ', keys %plugins ) )
+          if ( scalar( keys %{ $reporter->changes() } ) );
+    }
 
     $reporter->NOTE( "> Installation "
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
@@ -1705,10 +1716,14 @@ sub _installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my ( $ok, $msg ) = $dep->checkDependency();
         unless ($ok) {
+            $reporter->NOTE("Skipping duplicate dependency $dep->{name}")
+              if ( $this->{_seen}{ $dep->{name} } );
+            next if ( $this->{_seen}{ $dep->{name} } );
             my $deppkg = Foswiki::Configure::Package->new(
                 root       => $this->{_root},
                 repository => $this->{_repository},
                 module     => $dep->{name},
+                seen       => $this->{_seen},
                 %{ $this->{_options} }
             );
             my ( $ok, $plugins, $cpan ) = $deppkg->install($reporter);

@@ -31,7 +31,7 @@ our $installRoot;
 
 # Common initialisation
 sub _getPackage {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $seen ) = @_;
 
     my ( $fwi, $ver, $fwp ) =
       Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
@@ -83,6 +83,7 @@ sub _getPackage {
     my $pkg = Foswiki::Configure::Package->new(
         root       => $installRoot,
         repository => $repository,
+        seen       => $seen,
         %$args
     );
 
@@ -100,7 +101,9 @@ First step in an installation; generate a dependency report.
 sub depreport {
     my ( $this, $reporter ) = @_;
 
-    my $pkg = $this->_getPackage($reporter);
+    my $seen = {};    # Hash to prevent duplicate installs
+
+    my $pkg = $this->_getPackage( $reporter, $seen );
     return unless $pkg;
 
     $reporter->NOTE( "---++ Dependency report for " . $pkg->module() );
@@ -170,8 +173,9 @@ Install an extension
 
 sub add {
     my ( $this, $reporter ) = @_;
+    my $seen = {};
 
-    my $pkg = $this->_getPackage($reporter);
+    my $pkg = $this->_getPackage( $reporter, $seen );
     return unless $pkg;
 
     my $extension = $pkg->module();
