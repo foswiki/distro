@@ -1854,6 +1854,9 @@ sub _validateRegistration {
         # better get it right!
         $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
     }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
     catch Error with {
         my $e = shift;
         throw Foswiki::OopsException(
