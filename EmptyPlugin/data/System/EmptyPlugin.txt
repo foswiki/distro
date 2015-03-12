@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426067961" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -45,6 +45,4 @@ Dependencies: %$DEPENDENCIES%
 %META:FIELD{name="Repository" value="https://github.com/foswiki/%$ROOTMODULE%"}%
 %META:FIELD{name="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-
-
-
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -81,7 +81,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 
 __Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1425223586" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1426155318" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2012 Kenneth Lavrsen and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HistoryPlugin"}%
@@ -90,3 +90,4 @@ __Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/HistoryPlugin"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

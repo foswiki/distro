@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
@@ -111,8 +111,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 *Related Topics:* %LOCALSITEPREFS%
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1425223586" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1425223586" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" user="ProjectContributor" attr="h" comment="" date="1426155318" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" date="1426155318" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main/CrawfordCurrie http://c-dot.co.uk"}%
@@ -122,3 +122,4 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

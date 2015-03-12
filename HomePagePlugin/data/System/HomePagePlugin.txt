@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 ---+!! !HomePagePlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -72,3 +72,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HomePagePlugin"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.SvenDowideit"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012 Foswiki Contributors"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 ---+!! !%TOPIC%
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -32,3 +32,4 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

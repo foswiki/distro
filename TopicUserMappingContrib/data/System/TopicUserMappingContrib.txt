@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -126,3 +126,4 @@ It's a part of the default distribution of the Foswiki Core.
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -299,15 +299,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1425223586" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1425223586" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1426155318" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors"}%
@@ -316,3 +316,4 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

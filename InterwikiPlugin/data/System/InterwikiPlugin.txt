@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223965" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -107,4 +107,4 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/InterwikiPlugin"}%
-
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

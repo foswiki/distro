@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 
@@ -100,4 +100,4 @@ The following settings can be defined in configure
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2009, Oliver Krueger"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
-
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

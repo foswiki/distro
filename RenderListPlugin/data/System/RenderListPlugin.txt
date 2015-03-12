@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Render List Plugin
 
@@ -369,32 +369,32 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="empty.gif" attr="h" comment="Empty 16x16 spacer" date="1425223586" path="empty.gif" size="100" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="email.gif" attr="h" comment="E-mail icon 16x16" date="1425223586" path="email.gif" size="183" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="xls.gif" attr="h" comment="XLS icon 16x16" date="1425223586" path="xls.gif" size="918" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="file.gif" attr="h" comment="File icon 16x16" date="1425223586" path="file.gif" size="151" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="person.gif" attr="h" comment="Person icon 16x16" date="1425223586" path="person.gif" size="153" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="doc.gif" attr="h" comment="Doc icon 16x16" date="1425223586" path="doc.gif" size="922" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h" comment="Virtual persons icon 16x16" date="1425223586" path="virtualpersons.gif" size="160" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualperson.gif" attr="h" comment="Virtual person icon 16x16" date="1425223586" path="virtualperson.gif" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="group.gif" attr="h" comment="Group icon 16x16" date="1425223586" path="group.gif" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ur.gif" attr="h" comment="Dot L-graph 16x16" date="1425223586" path="dot_ur.gif" size="106" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ppt.gif" attr="h" comment="PPT icon 16x16" date="1425223586" path="ppt.gif" size="921" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pdf.gif" attr="h" comment="PDF icon 16x16" date="1425223586" path="pdf.gif" size="938" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_udr.gif" attr="h" comment="Dot T-graph 16x16" date="1425223586" path="dot_udr.gif" size="109" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="persons.gif" attr="h" comment="Two persons icon 16x16" date="1425223586" path="persons.gif" size="164" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sound.gif" attr="h" comment="Sound icon 16x16" date="1425223586" path="sound.gif" size="166" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="home.gif" attr="h" comment="Home icon 16x16" date="1425223586" path="home.gif" size="172" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folder.gif" attr="h" comment="Folder icon 16x16" date="1425223586" path="folder.gif" size="903" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="zip.gif" attr="h" comment="ZIP icon 16x16" date="1425223586" path="zip.gif" size="940" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="image.gif" attr="h" comment="Image icon 16x16" date="1425223586" path="image.gif" size="943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="see.gif" attr="h" comment="See icon 16x16" date="1425223586" path="see.gif" size="81" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="trend.gif" attr="h" comment="Trend icon 16x16" date="1425223586" path="trend.gif" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ud.gif" attr="h" comment="Dot I-graph 16x16" date="1425223586" path="dot_ud.gif" size="108" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualhome.gif" attr="h" comment="Virtual home icon 16x16" date="1425223586" path="virtualhome.gif" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="globe.gif" attr="h" comment="Globe icon 16x16" date="1425223586" path="globe.gif" size="1024" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folders.gif" attr="h" comment="Folders icon 16x16" date="1425223586" path="folders.gif" size="913" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="files.gif" attr="h" comment="Files icon 16x16" date="1425223586" path="files.gif" size="907" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="empty.gif" attr="h" comment="Empty 16x16 spacer" date="1426155318" path="empty.gif" size="100" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="email.gif" attr="h" comment="E-mail icon 16x16" date="1426155318" path="email.gif" size="183" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="xls.gif" attr="h" comment="XLS icon 16x16" date="1426155318" path="xls.gif" size="918" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="file.gif" attr="h" comment="File icon 16x16" date="1426155318" path="file.gif" size="151" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="person.gif" attr="h" comment="Person icon 16x16" date="1426155318" path="person.gif" size="153" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="doc.gif" attr="h" comment="Doc icon 16x16" date="1426155318" path="doc.gif" size="922" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h" comment="Virtual persons icon 16x16" date="1426155318" path="virtualpersons.gif" size="160" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualperson.gif" attr="h" comment="Virtual person icon 16x16" date="1426155318" path="virtualperson.gif" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="group.gif" attr="h" comment="Group icon 16x16" date="1426155318" path="group.gif" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ur.gif" attr="h" comment="Dot L-graph 16x16" date="1426155318" path="dot_ur.gif" size="106" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ppt.gif" attr="h" comment="PPT icon 16x16" date="1426155318" path="ppt.gif" size="921" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pdf.gif" attr="h" comment="PDF icon 16x16" date="1426155318" path="pdf.gif" size="938" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_udr.gif" attr="h" comment="Dot T-graph 16x16" date="1426155318" path="dot_udr.gif" size="109" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="persons.gif" attr="h" comment="Two persons icon 16x16" date="1426155318" path="persons.gif" size="164" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound.gif" attr="h" comment="Sound icon 16x16" date="1426155318" path="sound.gif" size="166" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="home.gif" attr="h" comment="Home icon 16x16" date="1426155318" path="home.gif" size="172" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folder.gif" attr="h" comment="Folder icon 16x16" date="1426155318" path="folder.gif" size="903" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="zip.gif" attr="h" comment="ZIP icon 16x16" date="1426155318" path="zip.gif" size="940" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image.gif" attr="h" comment="Image icon 16x16" date="1426155318" path="image.gif" size="943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="see.gif" attr="h" comment="See icon 16x16" date="1426155318" path="see.gif" size="81" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="trend.gif" attr="h" comment="Trend icon 16x16" date="1426155318" path="trend.gif" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ud.gif" attr="h" comment="Dot I-graph 16x16" date="1426155318" path="dot_ud.gif" size="108" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualhome.gif" attr="h" comment="Virtual home icon 16x16" date="1426155318" path="virtualhome.gif" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="globe.gif" attr="h" comment="Globe icon 16x16" date="1426155318" path="globe.gif" size="1024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folders.gif" attr="h" comment="Folders icon 16x16" date="1426155318" path="folders.gif" size="913" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="files.gif" attr="h" comment="Files icon 16x16" date="1426155318" path="files.gif" size="907" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
@@ -404,3 +404,4 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

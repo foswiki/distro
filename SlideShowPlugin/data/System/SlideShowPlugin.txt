@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425414143" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -209,3 +209,4 @@ The part between the rulers defines the default format of a slide:
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

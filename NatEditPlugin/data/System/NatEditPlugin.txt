@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1425645216" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1426155318" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -174,4 +174,5 @@ is sufficient.
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1425645216" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1426155318" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

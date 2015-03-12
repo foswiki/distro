@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425223586" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -95,3 +95,4 @@ Many thanks to the following sponsors for supporting this work
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
