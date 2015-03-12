@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 22:39+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-12 23:40+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -635,7 +635,7 @@ msgstr "Ajouter des paramètres de gestion utilisateur à cette page."
 
 #: core/templates/messages.tmpl:220
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Ajout d'une variable %1 dans WebPreferences"
+msgstr "Ajout d'un paramètre %1 dans WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -1543,7 +1543,7 @@ msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 #: NatEditPlugin/templates/settings.natedit.tmpl:26
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
-msgstr "Chaque option a la syntaxe"
+msgstr "Chaque paramètre a la syntaxe"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
 #: core/templates/viewtopicactionbuttons.tmpl:47
@@ -3717,7 +3717,7 @@ msgstr "Voir les changements depuis :"
 
 #: core/lib/Foswiki/Plugins.pm:300
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Voyez le paramètre DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3736,26 +3736,24 @@ msgstr "Tout sélectionner"
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Sélectionner une version antérieure (gauche) et une version postérieure "
+"(droite) pour comparer"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
-#, fuzzy
 msgid "Select groups to join:"
-msgstr "Choisissez la page mère :"
+msgstr "Sélectionnez les groupes à rejoindre :"
 
 #: core/data/Main/GroupViewTemplate.txt:233
-#, fuzzy
 msgid "Select members to remove from this group:"
-msgstr "Retirez tout d'abord l'utilisateur du/des groupe(s) %1."
+msgstr "Sélectionnez les membres à supprimer de ce groupe :"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
-#, fuzzy
 msgid "Select the group to join:"
-msgstr "Choisissez la page mère :"
+msgstr "Sélectionnez le groupe à rejoindre :"
 
 #: core/templates/more.tmpl:101
-#, fuzzy
 msgid "Select topic parent"
-msgstr "Choisissez la page mère :"
+msgstr "Choisissez la page mère"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3765,12 +3763,11 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:179
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Les sélections s'appliquent aux recherches dans le \"corps du texte\""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
-#, fuzzy
 msgid "Self registration is not supported by this site."
-msgstr "L'inscription de nouveaux utilisateurs n'est pas supportée"
+msgstr "L'auto-inscription n'est pas supportée par ce site."
 
 #: core/templates/registermessages.tmpl:74
 msgid "Send mail"
