@@ -41,6 +41,7 @@ the caller early feedback.
 sub install {
     my $this  = shift;
     my $query = $Foswiki::query;
+    my $seen = {};
 
     #   The safest directory to use for the foswiki root is probably DataDir.
     #   bin is possibly relocated to a cgi-bin,  and pub might be in a webroot.
@@ -91,7 +92,7 @@ sub install {
             my $extensionName  = $2;
             print "Bad extension name" unless $extensionName && $repositoryPath;
 
-            $this->_install( $repositoryPath, $extensionName, $processExt );
+            $this->_install( $repositoryPath, $extensionName, $processExt, $seen );
         }
     }
 
@@ -160,7 +161,7 @@ sub _depreport {
 }
 
 sub _install {
-    my ( $this, $repositoryPath, $extension, $processExt ) = @_;
+    my ( $this, $repositoryPath, $extension, $processExt, $seen ) = @_;
     my $err;
 
     my $feedback = '';
@@ -190,6 +191,7 @@ sub _install {
         {
             SIMULATE => $simulate,
             NODEPS   => $nodeps,
+            seen     => $seen,
         }
     );
 

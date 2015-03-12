@@ -71,6 +71,7 @@ Required for installer methods - used for checkin operations
                             (CPAN and external dependencies are not handled by this module.)
         SIMULATE => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
         CONTINUE => 0/1     If set to 1, the installation will continue even if errors are encountered. (future)
+        seen     => \%seen  Has of modules already seen, to be installed
       }
 
 =cut
@@ -78,6 +79,10 @@ Required for installer methods - used for checkin operations
 sub new {
     my ( $class, $root, $pkgname, $session, $options ) = @_;
     my @deps;
+
+    my $seen = $options->{seen} || {};
+    $seen->{$pkgname} = 1;
+    $options->{seen} = $seen;
 
     my $this = bless(
         {
@@ -98,6 +103,7 @@ sub new {
             _logfile    => undef, # Log filename for results of requested action
             _messages =>
               undef,    # Messages returned to caller from requested action
+            _seen => $seen,
         },
         $class
     );
@@ -128,6 +134,7 @@ sub finish {
     undef $this->{_loaded};
     undef $this->{_errors};
     undef $this->{_logfile};
+    undef $this->{_messages};
     undef $this->{_messages};
 
     for (qw( preinstall postinstall preuninstall postuninstall )) {
@@ -1517,6 +1524,10 @@ sub installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my ( $ok, $msg ) = $dep->check();
         unless ($ok) {
+            if ( $this->{_seen}{$dep->{name}} ) {
+                $rslt .= "Skipping duplicate package $dep->{name}\n";
+                next;
+            }
             my $deppkg = new Foswiki::Configure::Package(
                 $this->{_root},    $dep->{name},
                 $this->{_session}, $this->{_options}
