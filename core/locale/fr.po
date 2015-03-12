@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 23:53+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-13 00:21+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -3853,9 +3853,8 @@ msgstr ""
 "préférés, leurs thèmes de travail, l'aide dont ils ou elles ont besoin, etc."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
-#, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
-msgstr "Désolé, l'inscription est temporairement désactivée"
+msgstr "Désolé, l'inscription est temporairement désactivée."
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
@@ -3866,11 +3865,11 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
-msgstr ""
+msgstr "Tri croissant"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort descending"
-msgstr ""
+msgstr "Tri décroissant"
 
 #: core/data/System/WebSearch.txt:156
 msgid "Sort results by:"
@@ -3878,11 +3877,11 @@ msgstr "Trier les résultats par :"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort selected lines ascending"
-msgstr ""
+msgstr "Tri croissant des lignes sélectionnées"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines descending"
-msgstr ""
+msgstr "Tri décroissant des lignes sélectionnées"
 
 #: core/templates/messages.tmpl:232
 msgid "Spaces are replaced by underscores"
@@ -3891,20 +3890,23 @@ msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 #: NatEditPlugin/templates/edit.natedit.tmpl:145
 #: NatEditPlugin/templates/edit.natedit.tmpl:176
 msgid "Specific users/groups"
-msgstr ""
+msgstr "Utilisateurs/groupes spécifiques"
 
 #: core/data/System/SiteChanges.txt:92
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Indiquez =all= pour tous les Webs, ou une liste de Webs séparés par des "
+"virgules parmi : %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Start presentation"
-msgstr ""
+msgstr "Démarrer présentation"
 
 #: NatEditPlugin/templates/workflowedit.natedit.tmpl:3
 msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
 msgstr ""
+"Changement d'état de *%1* vers *%2* (voir [[%3][définition de workflow]])."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3917,7 +3919,7 @@ msgstr "Statistiques"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:52
 msgid "Strikethrough"
-msgstr ""
+msgstr "Barré"
 
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
@@ -3945,7 +3947,7 @@ msgstr "Informations envoyées :"
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:77
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnement"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:90
@@ -3954,15 +3956,13 @@ msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnement / Désabonnement de :"
 
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#, fuzzy
 msgid "Subscribe to this topic"
-msgstr "Créer cette page"
+msgstr "S'abonner à cette page"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "Subscribe to this topic (s)"
-msgstr "Créer cette page"
+msgstr "S'abonner à cette page (s)"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
 msgid "Subscript"
