@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1421231224" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1426155318" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -395,11 +395,6 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 
 ---++ Info
 
-| Author(s) | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
-| Copyright | &copy; 2008-2015 Gilmar Santos Jr and Foswiki Contributors |
-| License: | [[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]] |
-| Release: | %$RELEASE% |
-| Version: | %$VERSION% |
 | Change History: | |
 |  14 Jan 2015 | (1.00) Foswikitask:Item13010 - make checking =LocalSite.cfg= for changes optional so that it can be disabled for improved stability on high traffic sites |
 |  29 Aug 2014 | (0.97) Foswikitask:Item13010 - fixed instability running under FCGI::ProcManager |
@@ -413,4 +408,13 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 |  25 Dec 2008 | Initial Release |
 | Dependencies: | %$DEPENDENCIES% |
 | Home page: | http://foswiki.org/Extensions/%TOPIC% |
-| Support: | http://foswiki.org/Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]]"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2015 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
