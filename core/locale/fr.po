@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-10 19:36+0200\n"
+"PO-Revision-Date: 2015-03-12 18:18+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -197,7 +197,7 @@ msgstr "'%1' n'est pas un %2 valide "
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
-msgstr "La création de nouvelle page a été déplacée"
+msgstr "La page \"Créer nouvelle page\" a été déplacée"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
@@ -2765,7 +2765,7 @@ msgstr "Inscription"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté "
+msgstr "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:6
 msgid "Registration"
@@ -2863,7 +2863,7 @@ msgstr "Renommer ou déplacer la page..."
 
 #: core/data/System/RenameWeb.txt:4
 msgid "Rename, move or delete this web"
-msgstr "Renommer, déplacer ou supprimer ce web"
+msgstr "Renommer, déplacer ou supprimer ce Web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -2944,7 +2944,7 @@ msgstr "Résultats dans le web %1"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "Résultats dans le web %1 :"
+msgstr "Résultats dans le Web %1 :"
 
 #: core/templates/messages.tmpl:220
 msgid "Return to %1."
@@ -3983,7 +3983,7 @@ msgstr "Envoyer le fichier"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
 msgid "Upload multiple attachments in one zip file"
-msgstr "Charger des fichiers attachés multiples en un fichier zip"
+msgstr "Envoyer de multiples fichiers joints dans un fichier zip"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
