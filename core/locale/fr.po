@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 18:18+0200\n"
+"PO-Revision-Date: 2015-03-13 00:03+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -646,7 +646,7 @@ msgstr "Ajouter des utilisateurs ou groupes à ce groupe"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Ajout d'une variable %1 dans WebPreferences"
+msgstr "Ajout d'un paramètre %1 dans WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -1426,7 +1426,7 @@ msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
-msgstr "Chaque option a la syntaxe"
+msgstr "Chaque paramètre a la syntaxe"
 
 #: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
@@ -3113,11 +3113,11 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
-msgstr "Voir les changements dans les :"
+msgstr "Voir les changements depuis :"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr "Voyez le contenu de l'option DISABLEDPLUGINS."
+msgstr "Voyez le paramètre DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3184,7 +3184,7 @@ msgstr "Afficher l'aide"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Versions %1 - %2 (sur un total de %3)"
+msgstr "Liste des versions %1 - %2 (sur un total de %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3254,7 +3254,7 @@ msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
-"Indiquez =all= pour tous les webs, ou une liste de de webs séparés par des "
+"Indiquez =all= pour tous les Webs, ou une liste de Webs séparés par des "
 "virgules parmi : %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
