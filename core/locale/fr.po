@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-13 13:26+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-13 15:44+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Weblate 2.1\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "Nom de page"
+msgstr "!NomWiki"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -1774,7 +1773,7 @@ msgstr "Prénom :"
 
 #: core/data/System/WikiName.txt:6
 msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
-msgstr ""
+msgstr "Par exemple, le !NomWiki de Tim Berners-Lee est [[TimBernersLee]]"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -3070,9 +3069,8 @@ msgid "Please correct the entered data before you continue."
 msgstr "Veuillez corriger les données saisies avant de continuer."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
-#, fuzzy
 msgid "Please enter a WikiName."
-msgstr "Veuillez taper le mot de passe d'administration de Wiki"
+msgstr "Veuillez saisir un [[WikiName][NomWiki]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 msgid "Please enter a login name."
@@ -4041,14 +4039,12 @@ msgid "Text body"
 msgstr "Corps du texte"
 
 #: core/templates/registermessages.tmpl:49
-#, fuzzy
 msgid "Thank you for approving this registration"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Merci d'avoir approuvé cette inscription"
 
 #: core/templates/registermessages.tmpl:61
-#, fuzzy
 msgid "Thank you for denying this registration"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Merci d'avoir refusé cette inscription"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:137
@@ -4122,9 +4118,8 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "Le web %1 n'existe pas"
+msgstr "Le Web %1 de %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -4142,22 +4137,20 @@ msgid "The Administrator has disabled new user registration."
 msgstr "L'administrateur a désactivé l'inscription de nouveaux utilisateurs."
 
 #: core/templates/registermessages.tmpl:129
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "L'administrateur a désactivé l'inscription de nouveaux utilisateurs."
+msgstr "L'administrateur a désactivé les changements de mots de passe."
 
 #: core/data/System/WebPreferences.txt:12
-#, fuzzy
 msgid "The Free and Open Source Wiki."
-msgstr ""
-"Le web %1 de Foswiki, le \"Free and Open Source Wiki\" (Wiki libre et open "
-"source)."
+msgstr "\"Free and Open Source Wiki\" (Wiki libre et open source)."
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
 "The [[%1][Login Name]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
+"Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette installation. "
+"Inscription refusée."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4174,18 +4167,25 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"Le fichier attaché sera éventuellement renommé (en ajoutant un numéro a son "
+"nom) s'il existe déjà un fichier attaché du même nom dans la page de "
+"destination."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"Le fichier attaché sera éventuellement renommé s'il existe déjà un fichier "
+"attaché appelé '%FILENAME%' dans la page de destination."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme des "
+"droits d'administration sur le site."
 
 #: core/templates/messages.tmpl:332
 msgid ""
@@ -4211,25 +4211,31 @@ msgid ""
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
+"Les contrôles effectués par Foswiki peuvent parfois être déclenchés en "
+"faisant quelque chose de parfaitement innocent, par exemple en cliquant sur "
+"le bouton \"Retour\" du navigateur après avoir sauvegardé une page. Foswiki "
+"utilise alors une approche \"mieux vaut prévenir que guérir\"."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
 msgstr ""
+"Les informations sur les connecteurs REST sont seulement accessibles aux "
+"utilisateurs ayant des droits d'administration."
 
 #: core/templates/registermessages.tmpl:243
 #: core/templates/registermessages.tmpl:261
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "L'adresse e-mail de ce compte est invalide."
+msgstr "L'adresse e-mail pour ce compte a été rejetée."
 
 #: core/templates/registermessages.tmpl:252
 #: core/templates/registermessages.tmpl:270
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "L'adresse e-mail de ce compte est invalide."
+msgstr ""
+"L'adresse e-mail pour ce compte est déjà enregistrée pour un autre "
+"utilisateur."
 
 #: core/templates/registermessages.tmpl:234
 msgid "The e-mail address for this account is not valid."
@@ -4242,6 +4248,11 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Dans votre page personnelle, l'adresse e-mail est normalement laissée vide. "
+"Si vous voulez révéler votre adresse e-mail aux autres utilisateurs, vous "
+"pouvez modifier manuellement votre page personnelle pour ajouter une "
+"adresse. Il n'est pas obligatoire d'indiquer la même adresse que celle "
+"utilisée en interne par Foswiki."
 
 #: core/templates/messages.tmpl:360
 msgid "The entry for user %1 was missing in the password system."
@@ -4287,7 +4298,7 @@ msgstr "Le nom de la page ne peut pas être vide."
 
 #: TopicUserMappingContrib/data/System/LoginName.txt:3
 msgid "The name you log in with"
-msgstr ""
+msgstr "Le nom avec lequel vous vous connectez"
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4306,6 +4317,8 @@ msgstr ""
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
+"Le préfixe que vous avez entré pour l'utilisateur supprimé n'est pas valide "
+"en tant que nom de page."
 
 #: core/templates/messages.tmpl:185
 msgid "The required field %1 was not filled in."
@@ -4484,7 +4497,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
 msgid "This login name is already in use."
-msgstr ""
+msgstr "Ce nom de connexion est déjà utilisé."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
@@ -4492,9 +4505,8 @@ msgid "This must be a unique WikiName."
 msgstr "'%1' n'est pas un %2 valide "
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-#, fuzzy
 msgid "This must be a valid login name."
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "Cela doit être un nom de connexion valide."
 
 #: core/templates/renamedelete.tmpl:31
 msgid ""
@@ -4785,7 +4797,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][Login Name]]"
-msgstr ""
+msgstr "[[%1][Nom de connexion]] non supporté"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
 #, fuzzy
