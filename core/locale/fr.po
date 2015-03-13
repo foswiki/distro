@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-13 00:03+0200\n"
+"PO-Revision-Date: 2015-03-13 14:36+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -3319,7 +3319,7 @@ msgstr "Passer en police à espacement fixe ou proportionnel"
 
 #: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
-msgstr "Liste utilisateurs système."
+msgstr "Liste des utilisateurs du système."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3405,7 +3405,7 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of %2."
-msgstr "Le web %1 de %2."
+msgstr "Le Web %1 de %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -3463,7 +3463,7 @@ msgid ""
 "the site."
 msgstr ""
 "L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme des "
-"droits d'administration sur votre site. "
+"droits d'administration sur le site."
 
 #: core/templates/messages.tmpl:588
 msgid ""
@@ -3516,11 +3516,11 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
-"La rubrique d'adresse e-mail dans votre page personnelle est normalement "
-"laissée vide. Si vous voulez révéler votre adresse e-mail aux autres "
-"utilisateurs, vous pouvez modifier manuellement votre page personnelle pour "
-"ajouter une adresse.  Il n'est pas obligatoire d'indiquer la même adresse "
-"que celle utilisée en interne par Foswiki."
+"Dans votre page personnelle, l'adresse e-mail est normalement laissée vide. "
+"Si vous voulez révéler votre adresse e-mail aux autres utilisateurs, vous "
+"pouvez modifier manuellement votre page personnelle pour ajouter une "
+"adresse. Il n'est pas obligatoire d'indiquer la même adresse que celle "
+"utilisée en interne par Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
