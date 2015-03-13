@@ -221,11 +221,6 @@ msgstr "%1 试着以电子邮件 %2 注册"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 由 %4 从 %2 移到 %3"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
-msgid "%1.LoginName:"
-msgstr "您的 %1.LoginName"
-
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "取消(&C)"
@@ -241,7 +236,7 @@ msgstr "连续的"
 
 #: core/templates/registermessages.tmpl:219
 #, fuzzy
-msgid "'%1' is not a valid [[%2][Login name]]."
+msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' 不是个合法的 %2"
 
 #: core/data/System/WebTopicCreator.txt:3
@@ -400,7 +395,8 @@ msgstr "(忽略)"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
-"Enter the users Login or WikiName and the new e-mail address."
+"Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+"address."
 msgstr ""
 
 #: core/templates/attachagain.tmpl:18
@@ -552,7 +548,7 @@ msgstr ""
 #: core/templates/messages.tmpl:366
 #, fuzzy
 msgid ""
-"A new system-generated password for your login name '%1' (!WikiName %2) has "
+"A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
@@ -1212,9 +1208,9 @@ msgstr "冲突"
 msgid "Contact %1 if you have any questions."
 msgstr "如有问题，请联系 %1"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:16
+#: core/data/System/UserName.txt:20
 msgid ""
-"Contact <a href='mailto:%1'>your site administrator</a> for further "
+"Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
 msgstr ""
 
@@ -2232,12 +2228,6 @@ msgstr "不正确的密码"
 msgid "Incorrect Prefix"
 msgstr "不正确的 %1"
 
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
-#, fuzzy
-msgid "Incorrect [[%1][Login name]]"
-msgstr "不正确的 %1.WikiNames"
-
 #: core/templates/registermessages.tmpl:114
 #, fuzzy
 msgid "Incorrect [[%1][WikiName]]"
@@ -2246,6 +2236,12 @@ msgstr "不正确的 %1.WikiNames"
 #: core/templates/registermessages.tmpl:117
 #, fuzzy
 msgid "Incorrect [[%1][WikiNames:]]"
+msgstr "不正确的 %1.WikiNames"
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+#, fuzzy
+msgid "Incorrect [[%1][username]]"
 msgstr "不正确的 %1.WikiNames"
 
 #: core/templates/messages.tmpl:300
@@ -2523,13 +2519,9 @@ msgstr ""
 msgid "Login"
 msgstr "登录"
 
-#: core/templates/mailresetpassword.tmpl:13
-msgid "Login name %1"
-msgstr "登录名 %1"
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
 #, fuzzy
-msgid "Login name:"
+msgid "Login username:"
 msgstr "登录名 %1"
 
 #: core/templates/login.tmpl:77
@@ -2907,6 +2899,13 @@ msgstr ""
 msgid "Older revision:"
 msgstr "旧版本:"
 
+#: core/data/System/UserName.txt:11
+#, fuzzy
+msgid ""
+"On this system, once you are registered, you may also log in using your "
+"email address."
+msgstr "注册后您可以帐号 %1 和密码登录."
+
 #: core/templates/registermessages.tmpl:347
 #, fuzzy
 msgid "Only administrators are allowed to remove other accounts."
@@ -3070,7 +3069,7 @@ msgstr "请输入 Wiki 管理员的密码"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #, fuzzy
-msgid "Please enter a login name."
+msgid "Please enter a login username."
 msgstr "请输入 Wiki 管理员的密码"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
@@ -3145,7 +3144,7 @@ msgstr "请返回浏览器的上一页，并再试一次."
 #: core/templates/registermessages.tmpl:279
 #, fuzzy
 msgid ""
-"Please make sure you spelled the [[%1][Login name]] correctly and try again. "
+"Please make sure you spelled the [[%1][username]] correctly and try again. "
 "If you get stuck, please contact %2."
 msgstr "请确认 %1 的拼写正确并重试。若仍不成功，请发邮件给 %2。"
 
@@ -3341,12 +3340,28 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "正则运算式搜寻"
 
+#: core/data/System/UserName.txt:44
+#, fuzzy
+msgid "Related Topics for Administrators:"
+msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
+
+#: core/data/System/SiteTools.txt:150
+#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/UserAuthentication.txt:307
+#, fuzzy
+msgid "Related Topics:"
+msgstr "相关主题"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/System/CommandAndCGIScripts.txt:669
+#: core/data/System/FormattedSearch.txt:400
+#: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:385 core/templates/messages.tmpl:398
 msgid "Related topics:"
@@ -3520,6 +3535,10 @@ msgstr "%1 子网中的结果"
 msgid "Return to %1"
 msgstr "回到 %1."
 
+#: core/templates/registermessages.tmpl:342
+msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgstr ""
+
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "回到 %1."
@@ -3528,10 +3547,6 @@ msgstr "回到 %1."
 #, fuzzy
 msgid "Return to [_0]"
 msgstr "回到 %1."
-
-#: core/templates/registermessages.tmpl:342
-msgid "Return to [_0] and supply a WikiName or Login name"
-msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 #, fuzzy
@@ -4125,16 +4140,6 @@ msgstr "系统管理员禁止新用户注册。"
 msgid "The Free and Open Source Wiki."
 msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
 
-#: core/templates/registermessages.tmpl:205
-msgid ""
-"The [[%1][Login name]] (%2) is not allowed for this installation. "
-"Registration rejected."
-msgstr ""
-
-#: core/templates/registermessages.tmpl:212
-msgid "The [[%1][Login name]] is a required parameter. Registration rejected."
-msgstr ""
-
 #: core/templates/registermessages.tmpl:115
 #, fuzzy
 msgid ""
@@ -4142,6 +4147,17 @@ msgid ""
 "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
 "removed."
 msgstr "%1 栏位必须是姓名，姓氏在 %2 ，如：大写的姓名拼字但去掉空格。 "
+
+#: core/templates/registermessages.tmpl:205
+msgid ""
+"The [[%1][login username]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:212
+msgid ""
+"The [[%1][login username]] is a required parameter. Registration rejected."
+msgstr ""
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4250,17 +4266,11 @@ msgstr "主题 %1 内应定义此表单"
 msgid "The lease on this topic expired %1 ago."
 msgstr "本主题的锁定期于 %1 前到期。"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:12
-msgid ""
-"The login name is checked for invalid characters using the below filter. Any "
-"characters matching this filter will invalidate the login name."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "主题的名字不能空白。"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:3
+#: core/data/System/UserName.txt:3
 msgid "The name you log in with"
 msgstr ""
 
@@ -4310,8 +4320,14 @@ msgstr "您的用户名称已从认证系统删除。"
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: core/data/System/UserName.txt:17
+msgid ""
+"The username is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the username."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The user name that identifies you to the signon system. %1"
+msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
 #: core/templates/messages.tmpl:166
@@ -4355,7 +4371,7 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group."
 msgstr "%1 由 %4 从 %2 移到 %3"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:20
+#: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
@@ -4445,10 +4461,6 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-msgid "This login name is already in use."
-msgstr ""
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "This must be a unique WikiName."
@@ -4456,7 +4468,7 @@ msgstr "'%1' 不是个合法的 %2"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 #, fuzzy
-msgid "This must be a valid login name."
+msgid "This must be a valid login username."
 msgstr "'%1' 不是个合法的 %2"
 
 #: core/templates/renamedelete.tmpl:31
@@ -4487,9 +4499,18 @@ msgstr "本站使用 Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密码至少要 %1 个字元"
 
+#: core/data/System/UserName.txt:9
+msgid "This system is configured to use usernames"
+msgstr ""
+
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "主题:"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#, fuzzy
+msgid "This username is already in use."
+msgstr "用户已经启动"
 
 #: core/templates/messages.tmpl:29
 msgid ""
@@ -4504,7 +4525,7 @@ msgstr ""
 #: core/data/System/WikiName.txt:11
 msgid ""
 "Though rarely used in common practice, you can use the special =="
-"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
@@ -4735,8 +4756,9 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported [[%1][Login name]]"
-msgstr ""
+#, fuzzy
+msgid "Unsupported [[%1][username]]"
+msgstr "不正确的 %1.WikiNames"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
 #, fuzzy
@@ -4864,6 +4886,11 @@ msgid ""
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
 msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:13
+#, fuzzy
+msgid "User name %1."
+msgstr "用户名"
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5228,11 +5255,11 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:10
+#: core/data/System/UserName.txt:15
 #, fuzzy
 msgid ""
-"You cannot alter your login name: you have to get the administrator to do "
-"this for you."
+"You cannot alter your username: you have to get the administrator to do this "
+"for you."
 msgstr "或许您需要询问管理员 %1 以进行这个工作。"
 
 #: core/templates/messages.tmpl:477
@@ -5311,12 +5338,16 @@ msgstr "或许您需要询问管理员 %1 以进行这个工作。"
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
+#: core/data/System/UserName.txt:13
+msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 #, fuzzy
-msgid "Your %1.LoginName:"
-msgstr "您的 %1.LoginName"
+msgid "Your [[%1][username]]:"
+msgstr "不正确的 %1.WikiNames"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5419,12 +5450,16 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid login name for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
 
 #: core/templates/messages.tmpl:209
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][主题内文除错]]。"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+msgid "[[%1][username]]:"
+msgstr ""
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5766,6 +5801,17 @@ msgstr "浏览"
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
 
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "您的 %1.LoginName"
+
+#~ msgid "Login name %1"
+#~ msgstr "登录名 %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "您的 %1.LoginName"
+
 #~ msgid "Incorrect %1"
 #~ msgstr "不正确的 %1"
 
@@ -6073,9 +6119,6 @@ msgstr "为何您被要求确认"
 #~ msgid "Move attachment to web:"
 #~ msgstr "移动附件到子网:"
 
-#~ msgid "Once registered you can login using your %1 and password."
-#~ msgstr "注册后您可以帐号 %1 和密码登录."
-
 #~ msgid "Organisation URL:"
 #~ msgstr "组织连结:"
 
@@ -6099,9 +6142,6 @@ msgstr "为何您被要求确认"
 #~ msgid ""
 #~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 #~ msgstr "注册用户可以 [[%1][修改]] 和 [[%2][重设]] 密码"
-
-#~ msgid "Related Topics"
-#~ msgstr "相关主题"
 
 #~ msgid "Rename/move topic..."
 #~ msgstr "改名/移动主题..."

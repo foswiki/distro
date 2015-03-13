@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-13 18:28+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,10 +199,6 @@ msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 a été renommé ou déplacé de %2 le %3 par %4"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-msgid "%1.LoginName:"
-msgstr "%1.NomDeConnexion :"
-
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "Annuler"
@@ -216,7 +212,8 @@ msgid "&Sequential"
 msgstr "À la &suite"
 
 #: core/templates/registermessages.tmpl:219
-msgid "'%1' is not a valid [[%2][Login name]]."
+#, fuzzy
+msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' n'est pas un [[%2][nom de connexion]] valide."
 
 #: core/data/System/WebTopicCreator.txt:3
@@ -370,9 +367,11 @@ msgid "(skipped)"
 msgstr "(ignoré)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
+#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
-"Enter the users Login or WikiName and the new e-mail address."
+"Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+"address."
 msgstr ""
 "*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur en "
 "utilisant ce formulaire. Entrez le Nom de connexion ou [[WikiName][NomWiki]] "
@@ -544,8 +543,9 @@ msgstr ""
 "lien si nécessaire."
 
 #: core/templates/messages.tmpl:366
+#, fuzzy
 msgid ""
-"A new system-generated password for your login name '%1' (!WikiName %2) has "
+"A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
@@ -1211,9 +1211,10 @@ msgstr "Conflit"
 msgid "Contact %1 if you have any questions."
 msgstr "Contactez %1 si vous avez des questions."
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:16
+#: core/data/System/UserName.txt:20
+#, fuzzy
 msgid ""
-"Contact <a href='mailto:%1'>your site administrator</a> for further "
+"Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
 msgstr ""
 "Contactez <a href='mailto:%1'>l'administrateur de votre site</a> pour de "
@@ -2273,11 +2274,6 @@ msgstr "Mot de passe erroné"
 msgid "Incorrect Prefix"
 msgstr "Préfixe incorrect"
 
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
-msgid "Incorrect [[%1][Login name]]"
-msgstr "[[%1][Nom de connexion]] incorrect"
-
 #: core/templates/registermessages.tmpl:114
 msgid "Incorrect [[%1][WikiName]]"
 msgstr "[[%1][NomWiki]] incorrect"
@@ -2285,6 +2281,12 @@ msgstr "[[%1][NomWiki]] incorrect"
 #: core/templates/registermessages.tmpl:117
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "[[%1][MotsWiki]] incorrects :"
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+#, fuzzy
+msgid "Incorrect [[%1][username]]"
+msgstr "[[%1][Nom de connexion]] incorrect"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -2559,12 +2561,9 @@ msgstr "Se connecter à %1"
 msgid "Login"
 msgstr "Connexion"
 
-#: core/templates/mailresetpassword.tmpl:13
-msgid "Login name %1"
-msgstr "Nom de connexion %1"
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
-msgid "Login name:"
+#, fuzzy
+msgid "Login username:"
 msgstr "Nom de connexion :"
 
 #: core/templates/login.tmpl:77
@@ -2934,6 +2933,15 @@ msgstr "Ok"
 msgid "Older revision:"
 msgstr "Ancienne version :"
 
+#: core/data/System/UserName.txt:11
+#, fuzzy
+msgid ""
+"On this system, once you are registered, you may also log in using your "
+"email address."
+msgstr ""
+"Une fois inscrit·e, vous pouvez vous connecter en utilisant votre %1 et "
+"votre mot de passe."
+
 #: core/templates/registermessages.tmpl:347
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Seuls les administrateurs sont autorisés à supprimer d'autres comptes."
@@ -3084,7 +3092,8 @@ msgid "Please enter a WikiName."
 msgstr "Veuillez saisir un [[WikiName][NomWiki]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-msgid "Please enter a login name."
+#, fuzzy
+msgid "Please enter a login username."
 msgstr "Veuillez saisir un nom de connexion."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
@@ -3152,8 +3161,9 @@ msgid "Please go back in your browser and try again."
 msgstr "Veuillez retourner à la page précédente, et réessayer."
 
 #: core/templates/registermessages.tmpl:279
+#, fuzzy
 msgid ""
-"Please make sure you spelled the [[%1][Login name]] correctly and try again. "
+"Please make sure you spelled the [[%1][username]] correctly and try again. "
 "If you get stuck, please contact %2."
 msgstr ""
 "Veuillez vérifier que vous avez écrit le [[%1][nom de connexion]] "
@@ -3351,12 +3361,28 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "Recherche par expression rationnelle"
 
+#: core/data/System/UserName.txt:44
+#, fuzzy
+msgid "Related Topics for Administrators:"
+msgstr "Merci d'informer l'administrateur de %1."
+
+#: core/data/System/SiteTools.txt:150
+#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/UserAuthentication.txt:307
+#, fuzzy
+msgid "Related Topics:"
+msgstr "Pages liées :"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/System/CommandAndCGIScripts.txt:669
+#: core/data/System/FormattedSearch.txt:400
+#: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:385 core/templates/messages.tmpl:398
 msgid "Related topics:"
@@ -3529,6 +3555,12 @@ msgstr "Résultats dans le Web %1 :"
 msgid "Return to %1"
 msgstr "Retourner à %1"
 
+#: core/templates/registermessages.tmpl:342
+#, fuzzy
+msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgstr ""
+"Retournez à [_0] et fournissez un [[WikiName][NomWiki]] ou Nom de connexion"
+
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Retourner à %1."
@@ -3536,12 +3568,6 @@ msgstr "Retourner à %1."
 #: core/templates/registermessages.tmpl:348
 msgid "Return to [_0]"
 msgstr "Retourner à [_0]"
-
-#: core/templates/registermessages.tmpl:342
-#, fuzzy
-msgid "Return to [_0] and supply a WikiName or Login name"
-msgstr ""
-"Retournez à [_0] et fournissez un [[WikiName][NomWiki]] ou Nom de connexion"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -4140,22 +4166,6 @@ msgstr "L'administrateur a désactivé les changements de mots de passe."
 msgid "The Free and Open Source Wiki."
 msgstr "\"Free and Open Source Wiki\" (Wiki libre et open source)."
 
-#: core/templates/registermessages.tmpl:205
-#, fuzzy
-msgid ""
-"The [[%1][Login name]] (%2) is not allowed for this installation. "
-"Registration rejected."
-msgstr ""
-"Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette installation. "
-"Inscription refusée."
-
-#: core/templates/registermessages.tmpl:212
-#, fuzzy
-msgid "The [[%1][Login name]] is a required parameter. Registration rejected."
-msgstr ""
-"Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette installation. "
-"Inscription refusée."
-
 #: core/templates/registermessages.tmpl:115
 #, fuzzy
 msgid ""
@@ -4167,6 +4177,23 @@ msgstr ""
 "des majuscules à leurs premières lettres respectives (ne pas orthographier "
 "le \"Nom\" tout en majuscules). Par exemple, <nop>PrénomNom accolé en ôtant "
 "les espaces."
+
+#: core/templates/registermessages.tmpl:205
+#, fuzzy
+msgid ""
+"The [[%1][login username]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
+"Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette installation. "
+"Inscription refusée."
+
+#: core/templates/registermessages.tmpl:212
+#, fuzzy
+msgid ""
+"The [[%1][login username]] is a required parameter. Registration rejected."
+msgstr ""
+"Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette installation. "
+"Inscription refusée."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4308,17 +4335,11 @@ msgstr "Le formulaire devrait être défini sur la page %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Leur verrou sur cette page a expiré il y a %1."
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:12
-msgid ""
-"The login name is checked for invalid characters using the below filter. Any "
-"characters matching this filter will invalidate the login name."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Le nom de la page ne peut pas être vide."
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:3
+#: core/data/System/UserName.txt:3
 msgid "The name you log in with"
 msgstr "Le nom avec lequel vous vous connectez"
 
@@ -4374,8 +4395,14 @@ msgstr "L'utilisateur a été supprimé du système d'authentification."
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: core/data/System/UserName.txt:17
+msgid ""
+"The username is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the username."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The user name that identifies you to the signon system. %1"
+msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
 #: core/templates/messages.tmpl:166
@@ -4419,7 +4446,7 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group."
 msgstr "%1 a été retiré du groupe %2. "
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:20
+#: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
@@ -4517,17 +4544,14 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-msgid "This login name is already in use."
-msgstr "Ce nom de connexion est déjà utilisé."
-
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "This must be a unique WikiName."
 msgstr "'%1' n'est pas un %2 valide "
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "This must be a valid login name."
+#, fuzzy
+msgid "This must be a valid login username."
 msgstr "Cela doit être un nom de connexion valide."
 
 #: core/templates/renamedelete.tmpl:31
@@ -4561,9 +4585,18 @@ msgstr "Le présent site est propulsé par Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
 
+#: core/data/System/UserName.txt:9
+msgid "This system is configured to use usernames"
+msgstr ""
+
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Cette page :"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#, fuzzy
+msgid "This username is already in use."
+msgstr "Ce nom de connexion est déjà utilisé."
 
 #: core/templates/messages.tmpl:29
 msgid ""
@@ -4581,7 +4614,7 @@ msgstr ""
 #: core/data/System/WikiName.txt:11
 msgid ""
 "Though rarely used in common practice, you can use the special =="
-"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
@@ -4819,7 +4852,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:204
 #, fuzzy
-msgid "Unsupported [[%1][Login name]]"
+msgid "Unsupported [[%1][username]]"
 msgstr "[[%1][Nom de connexion]] non supporté"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -4951,6 +4984,11 @@ msgstr ""
 "passe que vous avez saisi est différent du mot de passe actuel de "
 "l'utilisateur. Vous ne pouvez pas ajouter un utilisateur est changer le mot "
 "de passe en même temps."
+
+#: core/templates/mailresetpassword.tmpl:13
+#, fuzzy
+msgid "User name %1."
+msgstr "Nom de connexion"
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5340,11 +5378,11 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:10
+#: core/data/System/UserName.txt:15
 #, fuzzy
 msgid ""
-"You cannot alter your login name: you have to get the administrator to do "
-"this for you."
+"You cannot alter your username: you have to get the administrator to do this "
+"for you."
 msgstr ""
 "Vous devrez probablement demander à l'administrateur, %1, de faire cela."
 
@@ -5433,12 +5471,16 @@ msgstr ""
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
+#: core/data/System/UserName.txt:13
+msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 #, fuzzy
-msgid "Your %1.LoginName:"
-msgstr "Votre %1.NomDeConnexion"
+msgid "Your [[%1][username]]:"
+msgstr "[[%1][Nom de connexion]] incorrect"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5552,12 +5594,16 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid login name for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
 
 #: core/templates/messages.tmpl:209
 msgid "[[%1][Debug topic text]]."
 msgstr "Consultez les [[%1][informations de débogage de la page]]."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+msgid "[[%1][username]]:"
+msgstr ""
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5911,6 +5957,16 @@ msgstr "visualiser"
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
 
+#~ msgid "%1.LoginName:"
+#~ msgstr "%1.NomDeConnexion :"
+
+#~ msgid "Login name %1"
+#~ msgstr "Nom de connexion %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Votre %1.NomDeConnexion"
+
 #~ msgid "Incorrect %1"
 #~ msgstr "%1 incorrect"
 
@@ -6263,11 +6319,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgid "Move attachment to web:"
 #~ msgstr "Déplacer le fichier attaché vers le web :"
 
-#~ msgid "Once registered you can login using your %1 and password."
-#~ msgstr ""
-#~ "Une fois inscrit·e, vous pouvez vous connecter en utilisant votre %1 et "
-#~ "votre mot de passe."
-
 #~ msgid "Organisation URL:"
 #~ msgstr "Site web de l'organisation :"
 
@@ -6297,9 +6348,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgstr ""
 #~ "Les utilisateurs inscrits peuvent [[%1][changer de mot de passe]] et [[%2]"
 #~ "[réinitialiser leur mot de passe]]."
-
-#~ msgid "Related Topics"
-#~ msgstr "Pages liées :"
 
 #~ msgid "Rename/move topic..."
 #~ msgstr "Renommer/déplacer la page..."
