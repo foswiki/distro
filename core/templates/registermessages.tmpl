@@ -201,23 +201,23 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"unsupport_loginname"}%
----+++ %MAKETEXT{"Unsupported [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [[[_1]][Login name]] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
+---+++ %MAKETEXT{"Unsupported [[[_1]][login user name]]" args="%SYSTEMWEB%.UserName"}%
+%MAKETEXT{"The [[[_1]][login user name]] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.UserName,%PARAM1%"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"miss_loginname"}%
----+++ %MAKETEXT{"Incorrect [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [[[_1]][Login name]] is a required parameter. Registration rejected." args="%SYSTEMWEB%.LoginName"}%
+---+++ %MAKETEXT{"Incorrect [[[_1]][login user name]]" args="%SYSTEMWEB%.UserName"}%
+%MAKETEXT{"The [[[_1]][login user name]] is a required parameter. Registration rejected." args="%SYSTEMWEB%.UserName"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bad_loginname"}%
----+++ %MAKETEXT{"Incorrect [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"'[_1]' is not a valid [[[_2]][Login name]]." args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"[[[_1]][Click here]] for guidance on creating a valid login name for this site" args="%SYSTEMWEB%.LoginName"}%
+---+++ %MAKETEXT{"Incorrect [[[_1]][login user name]]" args="%SYSTEMWEB%.UserName"}%
+%MAKETEXT{"'[_1]' is not a valid [[[_2]][login user name]]." args="%PARAM1%,%SYSTEMWEB%.UserName"}%
+%MAKETEXT{"[[[_1]][Click here]] for guidance on creating a valid login user name for this site" args="%SYSTEMWEB%.UserName"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
@@ -276,7 +276,7 @@
 %{==============================================================================}%
 %TMPL:DEF{"not_a_user"}%
 ---+++ %MAKETEXT{"Can't find user [_1]" args="%PARAM1%"}%
-%MAKETEXT{"Please make sure you spelled the [[[_1]][Login name]] correctly and try again. If you get stuck, please contact [_2]." args="%SYSTEMWEB%.LoginName, %WIKIWEBMASTER%"}%
+%MAKETEXT{"Please make sure you spelled the [[[_1]][login user name]] correctly and try again. If you get stuck, please contact [_2]." args="%SYSTEMWEB%.UserName, %WIKIWEBMASTER%"}%
 
 %MAKETEXT{"See [_1] for a list of existing users or register as new user in [_2]." args="%USERSWEB%.%WIKIUSERSTOPIC%, %SYSTEMWEB%.UserRegistration"}% %TMPL:END%
 %{==============================================================================}%
@@ -339,7 +339,7 @@
 %{==============================================================================}%
 %TMPL:DEF{"user_param_required"}%
 ---+++ %MAKETEXT{"User Account was not supplied"}%
-%MAKETEXT{"Return to [_0] and supply a WikiName or Login name" args="[[%WEB%.%TOPIC%]]"}%
+%MAKETEXT{"Return to [_1] and supply a [[[_2]][WikiName or [[[_3]][login user name]]." args="[[%WEB%.%TOPIC%]], %SYSTEMWEB%.WikiName, %SYSTEMWEB%.UserName"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"not_self"}%

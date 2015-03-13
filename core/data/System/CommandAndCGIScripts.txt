@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424716275" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278577" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -240,7 +240,7 @@ Reset the password for a single or multiple users
 | =introduction= | message to be sent alongside the reset, most often used to announce to the user that they have been given an account.  | |
 | =loginname= | *list* of usernames to reset | _required_ |
 
-This is used by BulkResetPassword and ResetPassword. Only administrators can provide a list of LoginNames, non-admins can only provide a single LoginName. 
+This is used by BulkResetPassword and ResetPassword. Only administrators can provide a list of login usernames, non-admins can only provide a single UserName. 
 
 BulkRegistration provides the means to create multiple accounts but it does not announce those accounts to the users who own them. BulkResetPassword is used to assign the passwords, the Introduction is used to explain why they are receiving the mail.
 
@@ -316,7 +316,7 @@ User data is passed in 0 or more parameters of the format =FwkNname= where =Fwk=
 | =Fwk1FirstName= | New user's first name | _required_ |
 | =Fwk1LastName= | New user's surname | _required_ |
 | =Fwk1WikiName= | Wikiname of user being registered | _required_ |
-| =Fwk1LoginName= | New user's login name | _required_ |
+| =Fwk1LoginName= | New user's login username | _required_ |
 | =Fwk1Password= | New user's password | |
 | =Fwk0Confirm= | Password confirmation (if enabled) | |
 | =Fwk0Name= | User's name. Defaults to =FirstName LastName= | |
@@ -666,5 +666,5 @@ Note that this script is a generic version of the =_installer= script shipped wi
    * Use the configure web interface to the Extensions Installer.
 
 ---
-*Related Topics:* AdminDocumentationCategory, DeveloperDocumentationCategory
+*%MAKETEXT{"Related topics:"}%* AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->

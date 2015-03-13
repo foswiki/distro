@@ -17,7 +17,6 @@ data/System/ChangeEmailAddress.txt 0644
 data/System/ChangePassword.txt 0644
 data/System/DefaultUserRegistration.txt 0755
 data/System/FAQRebuildingWikiUsersTopic.txt 0644
-data/System/LoginName.txt 0644
 data/System/ManagingUsers.txt 0644
 data/System/NewUserTemplate.txt 0644
 data/System/ResetPassword.txt 0644

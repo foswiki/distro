@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278862" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Template Tokens
@@ -107,7 +107,7 @@ merely a placeholder that is replaced by the script.
 | %<nop>WIKINAME% | Wikiname of the new user |
 | %<nop>EMAILADDRESS% | Email address of the new user |
 | %<nop>FORMDATA%  | Registration form data, *not* expanded in =registerconfirm.tmpl= |
-| %<nop>LOGINNAME% | Login name used with external authentication |
+| %<nop>LOGINNAME% | Login username used with external authentication |
 | %<nop>INTRODUCTION% | Unused.  If passed in as a URL parm =Introduction= on the register request, will be passed on to the email message.|
 | %<nop>VERIFICATIONCODE% | The verification password send in the =registerconfirm.tmpl= use to confirm the email address is valid |
 | %<nop>PASSWORD% | User password - not used in current templates.  Password is expanded in the %FORMDATA% depending upon the setting of ={Register}{HidePasswd}= in =LocalSite.cfg= |
@@ -178,7 +178,7 @@ merely a placeholder that is replaced by the script.
 %ENDSECTION{"PowerUserGuide"}%
 
 ---
-*Related Topics:* [[Skins]] [[Macros]] [[JavascriptFiles]]
+*%MAKETEXT{"Related Topics:"}%* [[Skins]] [[Macros]] [[JavascriptFiles]]
 <!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%

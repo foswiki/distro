@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278824" format="1.1" version="1"}%
 
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTINCLUDE%
@@ -80,7 +80,7 @@ Foswiki generates an event log which is used by the statistics script
      | manage | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
      | manage | =renameweb= | when renaming a web: =oldweb moved to newweb= |
      | rdiff | =rdiff= | higher and lower revision numbers: =4 3= |
-     | register | =regstart= | !WikiUserName, e-Mail address, LoginName: =user attempts to register= |
+     | register | =regstart= | !WikiUserName, e-Mail address, UserName: =user attempts to register= |
      | register | =register= | E-mail address: =user successfully registers= |
      | register | =bulkregister= | !WikiUserName of new, e-mail address, admin ID |
      | save | =save= | when replacing existing revision: =repRev 3= %BR% when user checks the minor changes box: =dontNotify= %BR% when user changes attributes to an exising attachment: =filename.ext= |
@@ -147,6 +147,6 @@ The crontab command is used to schedule commands to be executed periodically.
 
 ---
 
-*Related Topics:* AdminDocumentationCategory, AdminToolsCategory<!-- %JQREQUIRE{"chili"}% -->
+*%MAKETEXT{"Related Topics:"}%* AdminDocumentationCategory, AdminToolsCategory<!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%

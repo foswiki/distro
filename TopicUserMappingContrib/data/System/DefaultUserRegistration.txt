@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426205601" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278468" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -276,8 +276,8 @@ text="<style type='text/css' media='all'>
     },
     "Fwk1Email": "%MAKETEXT{"Please enter a valid email address."}%",
     "Fwk1LoginName": {
-      "required": "%MAKETEXT{"Please enter a login name."}%",
-      "remote": "%MAKETEXT{"This login name is already in use."}%"
+      "required": "%MAKETEXT{"Please enter a login username."}%",
+      "remote": "%MAKETEXT{"This username is already in use."}%"
     },
     "Fwk1Password": {
       "required": "%MAKETEXT{"Please enter a password."}%",
@@ -324,8 +324,8 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 	Required field login name
 	Only shown if ALLOWLOGINNAME is true.
 -->
-%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name:"}%</label>
-<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The user name that identifies you to the signon system. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.LoginName" label="%MAKETEXT{"This must be a valid login name."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_loginName"}%
+%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login username:"}%</label>
+<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The username that identifies you to the signon system. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.UserName" label="%MAKETEXT{"This must be a valid login username."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_loginName"}%
 
 <!--
 	Required field email

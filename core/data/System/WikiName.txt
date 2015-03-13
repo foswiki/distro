@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426205003" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426279073" format="1.1" version="1"}%
 %META:TOPICPARENT{name="GlossaryOfTerms"}%
 ---+ %MAKETEXT{"!WikiName"}%
 %MAKETEXT{"Your name, usually your first and last name connected without a space."}%
@@ -8,4 +8,4 @@
 <div class="foswikiHelp">%X% %MAKETEXT{"Your name is also a potentially valid [[[_1].WikiWord][WikiWord]] when used within a topic. However the home pages of registered users on this site are stored in the *[_2]* web. 
 When you sign your username in a topic, prefix it with =[_2].= (including the dot). That is, write ==[_2].[_3]== to link to [_2].[_3], your personal home page in the [_2] web." args="%SYSTEMWEB%, %USERSWEB%, %WIKINAME%"}%
 
-%Y% %MAKETEXT{"Though rarely used in common practice, you can use the special ==%<nop>USERSWEB%== [[[_1].Macros][macro]] prefix for user names, for example, ==%<nop>USERSWEB%.%WIKINAME%==." args="%SYSTEMWEB%"}% </div>
+%Y% %MAKETEXT{"Though rarely used in common practice, you can use the special ==%<nop>USERSWEB%== [[[_1].Macros][macro]] prefix for !WikiNames, for example, ==%<nop>USERSWEB%.%WIKINAME%==." args="%SYSTEMWEB%"}% </div>

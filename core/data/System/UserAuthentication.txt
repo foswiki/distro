@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425781381" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278950" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -42,7 +42,7 @@ The password manager is selected using the ={PasswordManager}= setting in =confi
 #UserMapping
 ---++ User Mapping
 
-Usually when you are using an external authentication method, you want to map from an unfriendly "login name" to a more friendly WikiName. Also, an external authentication database may well have user information you want to import to %WIKITOOLNAME%, such as user groups.
+Usually when you are using an external authentication method, you want to map from an unfriendly "login username" to a more friendly WikiName. Also, an external authentication database may well have user information you want to import to %WIKITOOLNAME%, such as user groups.
 
 By default, %WIKITOOLNAME% supports mapping of usernames to wikinames, and supports %WIKITOOLNAME% groups internal to %WIKITOOLNAME%. If you want, you can plug in an alternate user mapping module to support import of groups etc.
 
@@ -136,7 +136,7 @@ The advantage of this scheme is that if you have an existing website authenticat
 
 The disadvantage is that because the user identity is cached in the browser, you can log in, but you can't log out again unless you restart the browser.
 
-%WIKITOOLNAME% maps the =REMOTE_USER= that was used to log in to the webserver to a WikiName using the table in %USERSWEB%.WikiUsers. This table is updated whenever a user registers, so users can choose not to register (in which case their webserver login name is used for their signature) or register (in which case that login name is mapped to their WikiName).
+%WIKITOOLNAME% maps the =REMOTE_USER= that was used to log in to the webserver to a WikiName using the table in %USERSWEB%.WikiUsers. This table is updated whenever a user registers, so users can choose not to register (in which case their webserver username is used for their signature) or register (in which case that username is mapped to their WikiName).
 
 The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be used to authenticate Apache users, using the Apache Basic Authentication support.
 
@@ -215,17 +215,18 @@ However if guests are permitted to update, such as by using the CommentPlugin, o
 [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab for more information.
 
 #UsernameVsLoginName
----++ Username vs. Login Username
+---++ WikiName vs. Username vs. Login Username
 
-This section applies only if you are using authentication with existing login names (i.e. mapping from login names to WikiNames).
+This section applies only if you are using authentication with existing login user names (i.e. mapping from login usernames to WikiNames).
 
-<nop>%WIKITOOLNAME% internally manages two usernames: Login Username and Foswiki Username.
+<nop>%WIKITOOLNAME% internally manages two usernames: Login username and the WikiName.
 
-   * *Login Username:* When you login to the intranet, you use your existing login username. This name is normally passed to Foswiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
+   * *Login username:* When you login to the intranet, you use your existing login username. This name is normally passed to Foswiki by the ==REMOTE_USER== environment variable, and used internally. Usernames are maintained by your system administrator.   This will be refered to as UserName in foswiki documentation.
+   If your site does not use separate login usernames,  then your [[UserName][username]] will also be your WikiName.
 
-   * *Foswiki Username:* Your name as a WikiWord, eg: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
+   * *WikiName:* Your name as a WikiWord, eg: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.  Some installations will not always create a WikiName.
 
-Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], =Security and Authentication= tab, =Registration= sub-tab. The default is to use your WikiName as a login name.
+Foswiki can automatically map an Intranet (Login) username to a Foswiki WikiName, provided that  ={Register}{AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], =Security and Authentication= tab, =Registration= sub-tab. The default is to use your WikiName as a login username.
 
 <div class='foswikiHelp'>
 *NOTE:* *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
@@ -303,4 +304,4 @@ See Foswiki:Support.SupplementalDocuments for more information.
 -->
 ---
 
-*Related Topics:* AdminDocumentationCategory, AccessControl
+*%MAKETEXT{"Related Topics:"}%* AdminDocumentationCategory, AccessControl

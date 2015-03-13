@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278547" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -25,7 +25,6 @@ It includes the topics that are used when registering and managing users and gro
    * Documentation topics
       * %SYSTEMWEB%.ManagingUsers            
       * %SYSTEMWEB%.UserToolsCategory
-      * %SYSTEMWEB%.LoginName                
    * default groups and user
       * %USERSWEB%.NobodyGroup
       * %USERSWEB%.AdminGroup

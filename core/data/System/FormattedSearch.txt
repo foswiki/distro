@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417513749" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278647" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -86,13 +86,13 @@ Format tokens that can be used in the format string:
 | =$index= | number of total results - can be used as a running counter in the =format=, or in the =footer=. This $index is not affected by web based partitioning of results. |
 | =$item= | the full name of a result item - in a SEARCH context, equivalent to =$web.$topic= |
 | =$rev= | Number of last topic revision, e.g. =4= |
-| =$username= | Login name of last topic update, e.g. =jsmith= |
-| =$wikiname= | Wiki user name of last topic update, e.g. =<nop>JohnSmith= |
-| =$wikiusername= | Wiki user name of last topic update, like =%USERSWEB%.<nop>JohnSmith= |
+| =$username= | Login username of last user to update the topic, e.g. =jsmith= |
+| =$wikiname= | WikiName of last user to update the topic, e.g. =<nop>JohnSmith= |
+| =$wikiusername= | WikiName of last usr to update the topic, like =%USERSWEB%.<nop>JohnSmith= |
 | =$createdate= | Time stamp of topic revision 1 |
-| =$createusername= | Login name of topic revision 1, e.g. =jsmith= |
-| =$createwikiname= | Wiki user name of topic revision 1, e.g. =<nop>JohnSmith= |
-| =$createwikiusername= | Wiki user name of topic revision 1, e.g. =%USERSWEB%.<nop>JohnSmith= |
+| =$createusername= | Login username of topic revision 1, e.g. =jsmith= |
+| =$createwikiname= | WikiName of topic revision 1, e.g. =<nop>JohnSmith= |
+| =$createwikiusername= | WikiName topic link of topic revision 1, e.g. =%USERSWEB%.<nop>JohnSmith= |
 | =$summary= | Topic summary, just the plain text, all formatting and line breaks removed; up to 162 characters |
 | =$summary(50)= | Topic summary, up to 50 characters shown |
 | =$summary(showvarnames)= | Topic summary, with =%<nop>SOMEMACRO{...}%= macros shown as =SOMEMACRO{...}= |
@@ -397,5 +397,5 @@ jQuery(function($) {
 %INCLUDE{"%WEB%.%TOPIC%" section="example7"}%
 
 ---
-*Related Topics:* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
+*%MAKETEXT{"Related topics:"}%* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
 <!-- %JQREQUIRE{"chili"}% -->

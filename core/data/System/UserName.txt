@@ -1,0 +1,44 @@
+%META:TOPICINFO{author="ProjectContributor" date="1426279004" format="1.1" version="1"}%
+%META:TOPICPARENT{name="GlossaryOfTerms"}%
+---+ %MAKETEXT{"The name you log in with"}%
+
+%MAKETEXT{"Your username is a sequence of alphanumeric characters and underscores that
+uniquely identifies you to the system. The exact format of the username
+depends upon how your system is configured."}%
+
+%IF{"{Register}{AllowLoginName}" then="%MAKETEXT{"This system is configured to use usernames"}%" else="%MAKETEXT{"This system is not configured
+to use a distinct username. You will log in using your [[[_1].WikiName][WikiName]]." args="%SYSTEMWEB%"}%"}%
+%IF{"{TemplateLogin}{AllowLoginUsingEmailAddress}" then="%MAKETEXT{"On this system, once you are registered, you may also log in using your email address."}%"}%
+
+%MAKETEXT{"Your [[[_1]][Wikiname]] is [_2] and your username is =[_3]=." args="%SYSTEMWEB%.WikiName, %IF{"istopic '%WIKIUSERNAME%'" then="[[%WIKIUSERNAME%][%WIKINAME%]]" else="<nop>%WIKINAME%"}%,  %USERNAME%"}%
+
+%MAKETEXT{"You cannot alter your username: you have to get the administrator to do this for you."}%
+
+%IF{"{Register}{AllowLoginName}" then="%MAKETEXT{"The username is checked for invalid characters using the below filter. Any characters matching this filter will invalidate the username."}%
+<pre>%ENCODE{"%QUERY{"{LoginNameFilterIn}"}%" type="quotes"}%</pre>
+
+%MAKETEXT{"Contact <a href=\'mailto:[_1]\'>your site administrator</a> for further assistance." args="%WIKIWEBMASTER%"}%
+
+%IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" then="
+---++ How to Find Your User Name
+
+%MAKETEXT{"These steps may not be applicable to your system."}%
+
+Look in %USERSWEB%.%WIKIUSERSTOPIC% - if your name is followed by a dash and a word, usually lowercase, this is what you log in with.
+
+e.g.
+
+   * !WikiGuest - guest - 05 Sep 2008
+
+Would mean that !WikiGuest would log in using the username \'guest\'
+
+If, on the other hand, if your entry is like this:
+
+   * !WikiGuest - !WikiGuest 05 Sep 2008
+
+Then you would log in using your WikiName, in this case \'WikiGuest\'
+"}%
+"}%
+
+---
+*%MAKETEXT{"Related Topics for Administrators:"}%* ManagingUsers, UserDocumentationCategory

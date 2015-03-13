@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278774" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ Glossary of Terms
@@ -7,7 +7,7 @@
    $ Contrib: Any _Extension_ that is not a _Plugin_.
    $ (Data) Form: Form displayed with each topic that can be filled in with additional information about the topic [[DataForms][Details...]]
    $ Extension: Prepackaged server-side extension that extends the capabilities of the wiki in some way. [[Plugins]], [[Contribs]], and [[Skins]] are all Extensions.
-   $ Login name: The name which you use to [[LoginName][log in]]. This may be the same as your _WikiName_, or it may be another login identifier such as your corporate ID or email address.
+   $ User name: The name which you use to [[UserName][log in]]. This may be the same as your _WikiName_, or it may be another login identifier such as your corporate ID or email address. [[UserName][Details...]]
    $ Macro: Text strings of the form =%<nop>MACRO{}%= that are expanded into text, images, or any other type of embedded content; there are _system macros_ coded into the core, and more can be defined by Plugins. See [[Macros][Details...]]
    $ Page: A Wiki page. A page is composed of the _template/skin_ decoration and _topic_ content.
    $ Plugin: Type of Extension that adds some kind of interactive feature, such as a [[Macros][macro]]. [[Plugins][Details...]]
@@ -22,6 +22,6 @@
 
 %STOPINCLUDE%
 ---
-*Related Topics:* UserDocumentationCategory
+*%MAKETEXT{"Related topics:"}%* UserDocumentationCategory
 
 

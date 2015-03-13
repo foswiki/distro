@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -54,11 +54,11 @@ To change the user's WikiName:
      in other webs work properly. Example content:%BR%
      <verbatim class="tml">%M% Jane Smith is now known as JaneMiller</verbatim>
 
-If external authentication is used and you want to change the login name:
-   * The login name needs to be changed in the authentication server (e.g.
+If external authentication is used and you want to change the login username:
+   * The login username needs to be changed in the authentication server (e.g.
      Active Directory)
    * In Foswiki's [[%USERSWEB%.WikiUsers]] topic, fix the mapping from
-     login name to WikiName:%BR%
+     username to WikiName:%BR%
      =&nbsp;  * !JaneSmith - jsmith - 13 Sep 2006= %BR%
      to: %BR%
      =&nbsp;  * !JaneMiller - jmiller - 13 Sep 2006=
@@ -90,7 +90,7 @@ Prefix for deleted topic: <input type="text" name="topicPrefix" class="foswikiIn
 
 *Note:* Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
 If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
-The existence of the <nop>UserName topic should also prevent that user name from being re-used, sealing the potential security hole regarding inherited permissions..
+The existence of the <nop>UserName topic should also prevent that username from being re-used, sealing the potential security hole regarding inherited permissions..
 
 <div class="foswikiHelp">
 %T% See the [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]] extension for another method of removing users.  It provides a =rest= handler to:

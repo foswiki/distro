@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278932" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 #TemplateTopics
 ---+ Template topics
@@ -37,7 +37,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All Foswiki macros in this section type are expanded when a new topic based on the template topic is created. Otherwise only the macros listed here are expanded. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
-| =%<nop>USERNAME%= | Login name of user who is instantiating the new topic, e.g. %USERNAME% |
+| =%<nop>USERNAME%= | Login username of user who is instantiating the new topic, e.g. <nop>%USERNAME% (On some systems this will be the same as the !WikiName). |
 | =%<nop>URLPARAM{"name"}%= | Value of a named URL or HTTP POST parameter |
 | =%<nop>WIKINAME%= | WikiName of user who is creating the new topic, e.g. <nop>%WIKINAME% |
 | =%<nop>WIKIUSERNAME%= | User name of user who is creating the new topic, e.g. <nop>%WIKIUSERNAME% |

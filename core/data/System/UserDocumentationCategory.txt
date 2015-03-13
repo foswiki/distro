@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278980" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of User Documentation
 
@@ -24,7 +24,7 @@
    $ [[IncludeTopicsAndWebPages]] : Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
    $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site. Users will find links to all the user documentation for each plugin
    $ [[InterwikiPlugin]] : This plugin links =ExternalSite:Page= text to external sites based on aliases defined in the [[InterWikis]]  topic
-   $ [[LoginName]] : Explanation of the term login name
+   $ !LoginName : See [[UserName]] 
    $ [[Macros]] : An explanation of the term Macro and a list of most the Macros defined on this Foswiki
    $ [[MacrosQuickStart]] : Short introduction to Macros
    $ [[MainFeatures]] : A brief list of the main features of Foswiki with links how to learn more
@@ -48,6 +48,7 @@
    $ [[TinyMCEPlugin]] : Description of the Tiny MCE Editor which is the WYSIWYG Editor of Foswiki
    $ [[TopicsAndWebs]] : An introduction to topics and webs
    $ [[TwentyMinuteTutorial]] : A compact, 20-minute primer
+   $ [[UserName]] : Explanation of the term username
    $ [[UserSetting]] : How each user can alter settings that affect the use and looks of Foswiki
    $ [[UsersGuide]] : The main entry page for the basic user documentation
    $ [[UsingHTML]] : How to use HTML in topics

@@ -1,14 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426206789" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426279060" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarUSERINFO
 ---+++ USERINFO{"name" format="..."} -- retrieve details about a user
    * Syntax: =%<nop>USERINFO%=
    * Expands to: <code><literal>%USERINFO%</literal></code> (lists =$username, $wikiusername, $emails=)
    * Supported parameters:
-      * ="name"= - WikiName or [[LoginName][login name]]. May be a group. Defaults to the current user
+      * ="name"= - WikiName or [[UserName][login username]]. May be a group. Defaults to the current user
       * =format="..."= - Format string; see below for supported formatting tokens. Defaults to =$username, $wikiusername, $emails=
          * =$emails= - Comma separated list of email addresses known to the user mapper (this would normally be TopicUserMappingContrib). If expanding for a group, then this will be the email addresses of all members.
-         * =$username= - [[LoginName][Login name]]. If expanding for a group, this should expand as =unknown=.
+         * =$username= - [[UserName][Login username]]. If expanding for a group, this should expand as =unknown=.
          * =$wikiname=, =$wikiusername= - The user's =WikiName= and =%USERSWEB%.WikiName=, respectively.
          * =$groups= - Comma separated list of group membership. Currently only expands for users.
          * =$isadmin= - Has admin privileges (expands to =true= or =false=).
@@ -18,7 +18,7 @@
       * With formatted output, using tokens:
          <verbatim class="tml">%USERINFO{ format="$username is really $wikiname" }%</verbatim>
          Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
-      * Retrieve information about another user. You can use either a wikiname or a login name to identify the user. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%:
+      * Retrieve information about another user. You can use either a wikiname or a username to identify the user. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%:
          <verbatim class="tml">%USERINFO{ "WikiGuest" format="$username is really $wikiname" }%</verbatim>
          Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKINAME][WIKINAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress

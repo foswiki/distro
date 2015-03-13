@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403108175" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426278417" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ManagingUsers"}%
 ---+ Bulk Registration
 
@@ -64,7 +64,7 @@ If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields 
    * =LastName=
 
 ---++++ Optional fields
-   * =LoginName= - __Required if the system is configured to__ ==AllowLoginName==
+   * =LoginName= - __Required if the system is configured to__ ==AllowLoginName== (Commonly referred to as the UserName).
    * =Email= - If not provided, you must set a password, or password reset will not be possible.
    * =Password= - If not provided, set passwords later using BulkResetPassword.
    * =Confirm= - If provided, it must match the =Password= field.  If missing, it will not be checked.
@@ -106,4 +106,4 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 %INCLUDE{"%LOGTOPIC%" warn="Topic will be created during registration run."}%
 
 ---
-*Related Topics:* AdminToolsCategory
+*%MAKETEXT{"Related topics:"}%* AdminToolsCategory
