@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-13 13:10+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-13 13:25+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -4011,7 +4011,7 @@ msgstr "Symbole"
 
 #: core/data/Main/GroupViewTemplate.txt:140
 msgid "System user list."
-msgstr ""
+msgstr "Liste des utilisateurs du système."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
