@@ -1,15 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426206789" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarUSERINFO
----+++ USERINFO{"name" format=""} -- retrieve details about a user
+---+++ USERINFO{"name" format="..."} -- retrieve details about a user
    * Syntax: =%<nop>USERINFO%=
    * Expands to: <code><literal>%USERINFO%</literal></code> (lists =$username, $wikiusername, $emails=)
    * Supported parameters:
-      * ="name"= - Wikiname or login name. May be a group. Defaults to the current user
+      * ="name"= - WikiName or [[LoginName][login name]]. May be a group. Defaults to the current user
       * =format="..."= - Format string; see below for supported formatting tokens. Defaults to =$username, $wikiusername, $emails=
          * =$emails= - Comma separated list of email addresses known to the user mapper (this would normally be TopicUserMappingContrib). If expanding for a group, then this will be the email addresses of all members.
-         * =$username= - Login name. If expanding for a group, this should expand as =unknown=.
-         * =$wikiname=, =$wikiusername= - Wikiname and =%USERSWEB%.Wikiname=, respectively.
+         * =$username= - [[LoginName][Login name]]. If expanding for a group, this should expand as =unknown=.
+         * =$wikiname=, =$wikiusername= - The user's =WikiName= and =%USERSWEB%.WikiName=, respectively.
          * =$groups= - Comma separated list of group membership. Currently only expands for users.
          * =$isadmin= - Has admin privileges (expands to =true= or =false=).
          * =$isgroup= - Is a group (expands to =true= or =false=).

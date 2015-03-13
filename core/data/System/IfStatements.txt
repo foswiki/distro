@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426206789" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -19,7 +19,7 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | =allows= | ='X' allows 'Y'= is true if web/topic 'X' exists and allows access mode 'Y' for the current user. Web access rights are only checked if there is no topic called 'X'. |
 | =istopic= | =istopic 'X'= is true if topic 'X' exists |
 | =isweb= | =isweb 'X'= is true if web 'X' exists |
-| =ingroup= | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
+| =ingroup= | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a [[LoginName][login name]] or a [[WikiName]]. |
 | =defined= | True if a [[PreferenceSettings][preference setting]] or URL parameter of this name is defined. |
 | =isempty= | True if a [[PreferenceSettings][preference setting]], URL parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
 | =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes: ='= or ="=. |
