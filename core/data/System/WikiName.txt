@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426205003" format="1.1" version="1"}%
 %META:TOPICPARENT{name="GlossaryOfTerms"}%
----+ Wiki name
-Your name, usually your first and last name connected without a space.
+---+ %MAKETEXT{"!WikiName"}%
+%MAKETEXT{"Your name, usually your first and last name connected without a space."}%
 
-For example, Tim Berners-Lee's <nop>WikiName is TimBernersLee.
+%MAKETEXT{"For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"}%.
 
-<div class="foswikiHelp">%X% Your name is also a potentially valid WikiWord when used within a topic. However the home pages of registered users on this site are stored in the *%USERSWEB%* web. When you sign your username in a topic, prefix it with =%USERSWEB%.= (including the dot). That is, write ==%USERSWEB%.%WIKINAME%== to link to %USERSWEB%.%WIKINAME%, your personal home page in the %USERSWEB% web. For convenience, your signature is also provided for copying and pasting when editing a topic.
+<div class="foswikiHelp">%X% %MAKETEXT{"Your name is also a potentially valid [[[_1].WikiWord][WikiWord]] when used within a topic. However the home pages of registered users on this site are stored in the *[_2]* web. 
+When you sign your username in a topic, prefix it with =[_2].= (including the dot). That is, write ==[_2].[_3]== to link to [_2].[_3], your personal home page in the [_2] web." args="%SYSTEMWEB%, %USERSWEB%, %WIKINAME%"}%
 
-%Y% Though rarely used in common practice, you can use the special ==%<nop>USERSWEB%== [[%SYSTEMWEB%.Macros][macro]] prefix for user names, for example, ==%<nop>USERSWEB%.%WIKINAME%==.</div>
+%Y% %MAKETEXT{"Though rarely used in common practice, you can use the special ==%<nop>USERSWEB%== [[[_1].Macros][macro]] prefix for user names, for example, ==%<nop>USERSWEB%.%WIKINAME%==." args="%SYSTEMWEB%"}% </div>

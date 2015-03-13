@@ -1,12 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ChangePassword"}%
----+ The name you log in with
+%META:TOPICINFO{author="ProjectContributor" date="1426205003" format="1.1" version="1"}%
+%META:TOPICPARENT{name="GlossaryOfTerms"}%
+---+ %MAKETEXT{"The name you log in with"}%
 
-A login name is a sequence of alphanumeric characters and underscores.
+%MAKETEXT{"A login name is a sequence of alphanumeric characters and underscores that
+uniquely identifies you to the system. The exact format of the login name will
+depend upon how your system is configured.  If your system is not configured
+to use login names, then you will log in using your [[[_1].WikiName][WikiName]]." args="%SYSTEMWEB%"}%
 
-You cannot alter your !LoginName: you have to get the administrator to do this for you.
+%MAKETEXT{"You cannot alter your login name: you have to get the administrator to do this for you."}%
 
 ---++ How to Find Yours
+
+%T% %MAKETEXT{"These steps may not be applicable to your system."}%
 
 Look in %USERSWEB%.WikiUsers - if your name is followed by a dash and a word, usually lowercase, this is what you log in with.
 

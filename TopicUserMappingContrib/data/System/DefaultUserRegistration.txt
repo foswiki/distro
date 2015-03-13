@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425781381" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426205601" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -270,9 +270,9 @@ text="<style type='text/css' media='all'>
     "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
     "Fwk1LastName":"%MAKETEXT{"Please enter your last name."}%",
     "Fwk1WikiName": {
-      "required": "%MAKETEXT{"Please enter a Wiki name."}%",
-      "wikiword": "%MAKETEXT{"This is not a valid Wiki name."}%",
-      "remote": "%MAKETEXT{"This Wiki name is already in use."}%"
+      "required": "%MAKETEXT{"Please enter a WikiName."}%",
+      "wikiword": "%MAKETEXT{"This is not a valid WikiName."}%",
+      "remote": "%MAKETEXT{"This WikiName is already in use."}%"
     },
     "Fwk1Email": "%MAKETEXT{"Please enter a valid email address."}%",
     "Fwk1LoginName": {
@@ -316,8 +316,8 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 <!--
 	Required field wiki name
 -->
-%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name:"}%</label>
-<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique Wiki name."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
+%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"WikiName:"}%</label>
+<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]. [_2]" args="%WIKITOOLNAME% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
 <!--
@@ -325,8 +325,7 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 	Only shown if ALLOWLOGINNAME is true.
 -->
 %STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name:"}%</label>
-<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</label></div></li>%ENDSECTION{"requiredField_loginName"}%
-
+<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The user name that identifies you to the signon system. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.LoginName" label="%MAKETEXT{"This must be a valid login name."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_loginName"}%
 
 <!--
 	Required field email
