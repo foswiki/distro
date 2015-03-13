@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281073" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of Wiki Administrator Documentation
 
    $ [[AccessControl]] : Restricting read and write access to topics and webs, by users and groups
-   $ [[TopicUserMappingContrib]] : This describes the default Topic User Mapping. It describes the mapping between login and WikiName done using the %USERSWEB%.WikiUsers topic in the %USERSWEB% web
+   $ [[TopicUserMappingContrib]] : This describes the default Topic User Mapping. It describes the mapping between login and WikiName done using the %USERSWEB%.%WIKIUSERSTOPIC% topic in the %USERSWEB% web
    $ [[AdminSkillsAssumptions]] : Recommended skils the system administrator should have to administrate a Foswiki installation
    $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
    $ [[CommandAndCGIScripts]] : These scripts are located in the bin and tools directories. This topic describes the interfaces to some of those scripts
@@ -13,7 +13,7 @@
    $ [[%WIKIPREFSTOPIC%]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %LOCALSITEPREFS%
    $ [[DefaultUserRegistration]] : This topic defines the default user registration page. If a custom user registration page exists in %USERSWEB% web this will be used instead of this default. See the hidden comment in [[UserRegistration]] how to create a custom registration page
    $ [[FAQGnuGeneralPublicLicense]] : Brief explanation of GPL - the license under which Foswiki is distributed
-   $ [[FAQRebuildingWikiUsersTopic]] : How to re-build your %USERSWEB%.WikiUsers topic if it is no longer current
+   $ [[FAQRebuildingWikiUsersTopic]] : How to re-build your %USERSWEB%.%WIKIUSERSTOPIC% topic if it is no longer current
    $ [[FAQTroubleshootingExtensions]] : Some troubleshooting steps to follow when an extension is not working
    $ [[HierarchicalNavigation]] : Navigation block that displays the current topic, its parent and children (if any). This is intended to be included in other topics, for example in a side navigation bar 
    $ [[InstallationGuide]] : This guide describes the steps for manually installing Foswiki
@@ -52,7 +52,7 @@
    $ [[UpgradeGuide]] : A detailed description how to upgrade from a previous version of Foswiki
    $ [[UserAuthentication]] : Controlling who can access your site
    $ [[UserForm]] : This form topic defines the form found on each users personal topic in %USERSWEB%
-   $ [[UsersTemplate]] : This is the template from which Foswiki creates %USERSWEB%.WikiUsers when the first person is registered. After this the topic is not used for anything
+   $ [[UsersTemplate]] : This is the template from which Foswiki creates %USERSWEB%.%WIKIUSERSTOPIC% when the first person is registered. After this the topic is not used for anything
    $ [[WebAtomBase]] : ATOM News Feeds. This topic explains the ATOM news feed feature and also contains the code includes by all the WebAtom topics in each web
    $ [[WebBottomBarExample]] : This topic defines the default bottom bar in PatternSkin for the entire site. If you need to change it please read in PatternSkin how to tailor the bars so they do not get overwritten when you upgrade Foswiki
    $ [[WebCreateNewTopicTemplate]] : This is a view template which defines the looks of WebCreateNewTopic

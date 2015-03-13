@@ -48,7 +48,7 @@ To change the user's WikiName:
      from =JaneSmith= to =JaneMiller=.
       * Fix backlinks in the %USERSWEB% web only
       * Make sure the group topics are updated (if any.)
-   * Edit the [[%USERSWEB%.WikiUsers]] topic and move the user's entry so
+   * Edit the [[%USERSWEB%.%WIKIUSERSTOPIC%]] topic and move the user's entry so
      that the list is in proper alphabetical order.
    * Recreate the old topic with a pointer to the new topic, so that links
      in other webs work properly. Example content:%BR%
@@ -57,7 +57,7 @@ To change the user's WikiName:
 If external authentication is used and you want to change the login username:
    * The login username needs to be changed in the authentication server (e.g.
      Active Directory)
-   * In Foswiki's [[%USERSWEB%.WikiUsers]] topic, fix the mapping from
+   * In Foswiki's [[%USERSWEB%.%WIKIUSERSTOPIC%]] topic, fix the mapping from
      username to WikiName:%BR%
      =&nbsp;  * !JaneSmith - jsmith - 13 Sep 2006= %BR%
      to: %BR%

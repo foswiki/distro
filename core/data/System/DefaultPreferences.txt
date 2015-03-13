@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425783471" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281043" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -75,7 +75,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Default User Settings
 
-<div class="foswikiHelp"> %X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers</div>
+<div class="foswikiHelp"> %X% *NOTE:* They are typically redefined in the individual users topic. eg. %WIKIUSERNAME%.</div>
 
    * Show tool-tip topic info on mouse-over of WikiWord links. Setting can be on, off, or customized. An empty setting or off setting disables the tool-tips (for better performance). The setting can contain $summary to show the topic summary, $date for the last change date, $rev for the revision, $username for the login name of the last editor, $wikiname for the <nop>WikiName, $wikiusername for <nop>%USERSWEB%.WikiName, $topic for the topic name, and $web for the web name
       * Set LINKTOOLTIPINFO = off

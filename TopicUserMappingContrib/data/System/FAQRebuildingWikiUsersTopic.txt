@@ -1,12 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281104" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
-<div class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.WikiUsers topic.</div>
+<div class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.%WIKIUSERSTOPIC% topic.</div>
 
-Sometimes, the %USERSWEB%.WikiUsers topic maintained by %SYSTEMWEB%.TopicUserMappingContrib may not reflect the true list of users registered on your Foswiki installation. This most commonly happens when:
-   * You deleted or renamed users and forgot to edit the %USERSWEB%.WikiUsers topic, or
-   * You migrated a TWiki installation and accumulated new registrations on the new %USERSWEB%.WikiUsers topic before you had a chance to initialise it with the old list from the old !TWikiUsers topic.
+Sometimes, the %USERSWEB%.%WIKIUSERSTOPIC% topic maintained by %SYSTEMWEB%.TopicUserMappingContrib may not reflect the true list of users registered on your Foswiki installation. This most commonly happens when:
+   * You deleted or renamed users and forgot to edit the %USERSWEB%.%WIKIUSERSTOPIC% topic, or
+   * You migrated a TWiki installation and accumulated new registrations on the new %USERSWEB%.%WIKIUSERSTOPIC% topic before you had a chance to initialise it with the old list from the old !TWikiUsers topic.
 
-Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the script below should refresh your %USERSWEB%.WikiUsers topic with an accurate list of users. It uses the [[%SYSTEMWEB%.VarUSERINFO][USERINFO]] macro, which protects user information from ordinary users - so this topic needs to be viewed with [[%SYSTEMWEB%.AccessControl#The_Super_Admin_Group][admin privileges]] in order for it to be useful.
+Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the script below should refresh your %USERSWEB%.%WIKIUSERSTOPIC% topic with an accurate list of users. It uses the [[%SYSTEMWEB%.VarUSERINFO][USERINFO]] macro, which protects user information from ordinary users - so this topic needs to be viewed with [[%SYSTEMWEB%.AccessControl#The_Super_Admin_Group][admin privileges]] in order for it to be useful.
 
 Usage Notes:
    * The data is populated by searching for topics in %USERSWEB% containing a UserForm.
@@ -45,7 +45,7 @@ Usage Notes:
 %ENDTWISTY%
 
 <sticky>
-<form action="%SCRIPTURLPATH{"save"}%/%USERSWEB%/WikiUsers" method="post">
+<form action="%SCRIPTURLPATH{"save"}%/%USERSWEB%/%WIKIUSERSTOPIC%" method="post">
 <textarea name="text" rows="20" cols="80">
 %INCLUDE{"UsersTemplate" section="header"}%
 %IF{ "$USERNAME ingroup 'AdminGroup'" then="$percntINCLUDE{\"%TOPIC%\" section=\"WIKIUSERS\"}$percnt"
@@ -56,12 +56,12 @@ VIEW THIS TOPIC AS AN ADMIN TO CREATE THE USER LIST
 %INCLUDE{"UsersTemplate" section="footer"}%
 </textarea>
 
-<input type="submit" value="Update %USERSWEB%.<nop>WikiUsers"/> </form>
+<input type="submit" value="Update %USERSWEB%.<nop>%WIKIUSERSTOPIC%"/> </form>
 </sticky>
 
 %META:FORM{name="FAQForm"}%
-%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Rebuilding WikiUsers topic"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Rebuilding %WIKIUSERSTOPIC% topic"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I re-build my %25USERSWEB%25.WikiUsers topic?"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I re-build my %25USERSWEB%25.%25WIKIUSERSTOPIC%25 topic?"}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq27, %25SYSTEMWEB%25.TopicUserMappingContrib, %25USERSWEB%25.WikiUsers, %25SYSTEMWEB%25.AdminDocumentationCategory"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq27, %25SYSTEMWEB%25.TopicUserMappingContrib, %25USERSWEB%25.%25WIKIUSERSTOPIC%25, %25SYSTEMWEB%25.AdminDocumentationCategory"}%

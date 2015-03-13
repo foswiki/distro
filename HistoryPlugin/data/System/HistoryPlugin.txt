@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426280979" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -48,8 +48,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
    * Test if the installation was successful:
       * Here should appear the history of this document inline: 
         %HISTORY{"      r1.$rev - $date - $wikiusername%BR%"}%
-      * Show the history of %USERSWEB%.WikiUsers :%BR%
-        %SCRIPTURL{oops}%/%USERSWEB%/WikiUsers?template=oopshistory
+      * Show the history of %USERSWEB%.%WIKIUSERSTOPIC% :%BR%
+        %SCRIPTURL{oops}%/%USERSWEB%/%WIKIUSERSTOPIC%?template=oopshistory
 
 ---++ Plugin Info
 <!--
@@ -81,7 +81,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 
 __Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1426155318" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1426280456" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2012 Kenneth Lavrsen and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HistoryPlugin"}%

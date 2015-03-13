@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424431365" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281158" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin Navigation
 
@@ -15,8 +15,8 @@ Include main navigation with:
   <li>[[%WIKIUSERNAME%][%JQICON{"fa-user"}% %MAKETEXT{"My Profile"}%]]</li>
   %IF{"istopic '%USERSWEB%.%WIKINAME%LeftBar'"
     then="<li>[[%USERSWEB%.%WIKINAME%LeftBar][%JQICON{"fa-bookmark"}% %MAKETEXT{"My Links"}%]]$n$percntINCLUDE{\"%USERSWEB%.%WIKINAME%LeftBar\"}$percnt</li>"
-  }%%IF{"istopic '%USERSWEB%.WikiUsers'"
-    then="<li>[[%USERSWEB%.WikiUsers][%JQICON{"fa-users"}% Users]]</li>"
+  }%%IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'"
+    then="<li>[[%USERSWEB%.%WIKIUSERSTOPIC%][%JQICON{"fa-users"}% Users]]</li>"
   }%%IF{"'%BASEWEB%'!='%USERSWEB%'"
     then="<li>
         <a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%HOMETOPIC%' class='active'>%JQICON{"fa-thumb-tack"}% %BASEWEB%</a>

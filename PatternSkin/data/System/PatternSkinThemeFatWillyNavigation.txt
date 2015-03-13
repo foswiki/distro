@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424432594" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281132" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -71,6 +71,6 @@ Include meta navigation with:
             "context registration_supported AND context registration_enabled"
             then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
         }%</li>'
-}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
+}%<li>[[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>
 <!-- %JQREQUIRE{"chili"}% -->

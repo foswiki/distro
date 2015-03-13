@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424829314" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426281018" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -148,8 +148,8 @@ Activate, and if required, configure the installed extensions in =configure=.
    * If your old installation did not customize ={LocalSitePreferences}= on the =configure= page, or if you did customize ={LocalSitePreferences}= but kept your site preferences within the &lt;old_users_web&gt; web, then this step will also copy over your site preferences to the new installation.
 
 *For upgrades from an older Foswiki installation:*
-   * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. If the new installation does not yet have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic, then copy =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/<nop>Wiki<nop>Users.txt= to =&lt;newwiki&gt;/data/%USERSWEB%/<nop>Wiki<nop>Users.txt=.
-   * Verify that the following default users are present in the =%USERSWEB%.WikiUsers= topic:
+   * Manually merge all users from the =&lt;old_users_web&gt;.%WIKIUSERSTOPIC%= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. If the new installation does not yet have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic, then copy =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/<nop>Wiki<nop>Users.txt= to =&lt;newwiki&gt;/data/%USERSWEB%/<nop>Wiki<nop>Users.txt=.
+   * Verify that the following default users are present in the =%USERSWEB%.%WIKIUSERSTOPIC%= topic:
       * *ProjectContributor* - the Foswiki documentation is attributed to this user
       * *RegistrationAgent* - special user used during the new user registration process
       * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
@@ -160,7 +160,7 @@ Activate, and if required, configure the installed extensions in =configure=.
 
 *For upgrades from a TWiki installation:*
    * Manually merge all users from the =&lt;old_users_web&gt;.TWikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. If the new installation does not yet have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic, then copy =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/<nop>TWiki<nop>Users.txt= to =&lt;newwiki&gt;/data/%USERSWEB%/<nop>Wiki<nop>Users.txt=, and manually add the required default users (see the next steps).
-   * Verify that the following default users are present in the =%USERSWEB%.WikiUsers= topic:
+   * Verify that the following default users are present in the =%USERSWEB%.%WIKIUSERSTOPIC%= topic:
       * *ProjectContributor* - the Foswiki documentation is attributed to this user
       * *RegistrationAgent* - special user used during the new user registration process
       * *UnknownUser* - used where the author of a previously stored piece of data can't be determined

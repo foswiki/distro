@@ -136,7 +136,7 @@ The advantage of this scheme is that if you have an existing website authenticat
 
 The disadvantage is that because the user identity is cached in the browser, you can log in, but you can't log out again unless you restart the browser.
 
-%WIKITOOLNAME% maps the =REMOTE_USER= that was used to log in to the webserver to a WikiName using the table in %USERSWEB%.WikiUsers. This table is updated whenever a user registers, so users can choose not to register (in which case their webserver username is used for their signature) or register (in which case that username is mapped to their WikiName).
+%WIKITOOLNAME% maps the =REMOTE_USER= that was used to log in to the webserver to a WikiName using the table in %USERSWEB%.%WIKIUSERSTOPIC%. This table is updated whenever a user registers, so users can choose not to register (in which case their webserver username is used for their signature) or register (in which case that username is mapped to their WikiName).
 
 The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be used to authenticate Apache users, using the Apache Basic Authentication support.
 
