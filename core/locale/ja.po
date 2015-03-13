@@ -69,7 +69,8 @@ msgid "%1 Web"
 msgstr "%1 ウェブ"
 
 #: core/templates/registermessages.tmpl:387
-msgid "%1 added to the %2 group. "
+#, fuzzy
+msgid "%1 added to the %2 group."
 msgstr "%1は%2グループに追加しました。"
 
 #   "&lt;nop&gt;$fromWeb.&lt;nop&gt;$fromTopic",
@@ -87,7 +88,8 @@ msgid "%1 denied the registration."
 msgstr "ご登録ありがとうございました"
 
 #: core/templates/registermessages.tmpl:394
-msgid "%1 group topic upgraded. "
+#, fuzzy
+msgid "%1 group topic upgraded."
 msgstr "%1グループのトピックは更新しました。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
@@ -183,7 +185,8 @@ msgstr "登録コードは一回だけ利用できます。"
 #   $date,
 #   $by)
 #: core/templates/registermessages.tmpl:436
-msgid "%1 removed from the %2 group. "
+#, fuzzy
+msgid "%1 removed from the %2 group."
 msgstr "%1 は%2から外されました。"
 
 #: core/templates/messages.tmpl:21
@@ -235,7 +238,8 @@ msgid "&Sequential"
 msgstr "順次"
 
 #: core/templates/registermessages.tmpl:219
-msgid "'%1' is not a valid %2 "
+#, fuzzy
+msgid "'%1' is not a valid [[%2][Login name]]."
 msgstr "'%1' は有効な %2 ではありません。"
 
 #: core/data/System/WebTopicCreator.txt:3
@@ -1233,6 +1237,12 @@ msgstr "一致しません"
 #: core/templates/messages.tmpl:458 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "何か疑問がございましたら、 %1までご連絡ください"
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:16
+msgid ""
+"Contact <a href='mailto:%1'>your site administrator</a> for further "
+"assistance."
+msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 #, fuzzy
@@ -2267,16 +2277,6 @@ msgstr ""
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:114
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
-msgid "Incorrect %1"
-msgstr "不正な %1"
-
-#: core/templates/registermessages.tmpl:117
-msgid "Incorrect %1.WikiNames:"
-msgstr "無効な %1.WikiNames"
-
 #: core/templates/registermessages.tmpl:300
 msgid "Incorrect Password"
 msgstr "不正なパスワード"
@@ -2285,6 +2285,22 @@ msgstr "不正なパスワード"
 #, fuzzy
 msgid "Incorrect Prefix"
 msgstr "不正な %1"
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+#, fuzzy
+msgid "Incorrect [[%1][Login name]]"
+msgstr "無効な %1.WikiNames"
+
+#: core/templates/registermessages.tmpl:114
+#, fuzzy
+msgid "Incorrect [[%1][WikiName]]"
+msgstr "無効な %1.WikiNames"
+
+#: core/templates/registermessages.tmpl:117
+#, fuzzy
+msgid "Incorrect [[%1][WikiNames:]]"
+msgstr "無効な %1.WikiNames"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -3192,9 +3208,10 @@ msgid "Please go back in your browser and try again."
 msgstr "前のページにもっどてもう一度試してください"
 
 #: core/templates/registermessages.tmpl:279
+#, fuzzy
 msgid ""
-"Please make sure you spelled the %1 correctly and try again. If you get "
-"stuck, please mail %2."
+"Please make sure you spelled the [[%1][Login name]] correctly and try again. "
+"If you get stuck, please contact %2."
 msgstr ""
 "%1が正確にスペルされていることをご確認してもう一度試してください。それでもだ"
 "めな場合は、%2にメールしてください。"
@@ -3584,7 +3601,7 @@ msgid "Return to [_0]"
 msgstr "%1に戻る"
 
 #: core/templates/registermessages.tmpl:342
-msgid "Return to [_0] and supply a WikiName or Login Name"
+msgid "Return to [_0] and supply a WikiName or Login name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -4135,25 +4152,7 @@ msgstr ""
 "たの検証コードは%2です。"
 
 #: core/templates/registermessages.tmpl:103
-msgid "That user has already been activated "
-msgstr ""
-
-#: core/templates/registermessages.tmpl:115
-msgid ""
-"The %1 field must be your first and last name in %2, e.g. your capitalized "
-"first and last name with spaces removed."
-msgstr ""
-"%1 に名前、 %2 に名字を入力しなければなりません。例えば、スペースを抜いた大文"
-"字で書かれた名前と名字。 "
-
-#: core/templates/registermessages.tmpl:220
-msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
-msgstr ""
-"%1 フィールドは本サイトのログイン名フィルターのルール {LoginNameFilterIn} を"
-"守らなければなりません"
-
-#: core/templates/registermessages.tmpl:212
-msgid "The %1 is a required parameter. Registration rejected."
+msgid "That user has already been activated"
 msgstr ""
 
 #: core/templates/messages.tmpl:63
@@ -4209,9 +4208,23 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
-"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"The [[%1][Login name]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
+
+#: core/templates/registermessages.tmpl:212
+msgid "The [[%1][Login name]] is a required parameter. Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:115
+#, fuzzy
+msgid ""
+"The [[%1][WikiName]] field must be your first and last name written as a "
+"[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+"removed."
+msgstr ""
+"%1 に名前、 %2 に名字を入力しなければなりません。例えば、スペースを抜いた大文"
+"字で書かれた名前と名字。 "
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4324,6 +4337,12 @@ msgstr "フォームはトピック%1の中に定義されます"
 msgid "The lease on this topic expired %1 ago."
 msgstr "このトピックは既に %1 にて期限が切れました。"
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:12
+msgid ""
+"The login name is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the login name."
+msgstr ""
+
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr ""
@@ -4416,10 +4435,11 @@ msgid "There were errors adding to the %2 group. %1 "
 msgstr "%1は%2グループに追加しました。"
 
 #: core/templates/registermessages.tmpl:425
-msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "There were errors removing %1 from the %2 group."
+msgstr "%1は%2グループに追加しました。"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:14
+#: TopicUserMappingContrib/data/System/LoginName.txt:20
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
@@ -4808,7 +4828,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported [[%1][Login Name]]"
+msgid "Unsupported [[%1][Login name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -5510,6 +5530,11 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
+#: core/templates/registermessages.tmpl:220
+msgid ""
+"[[%1][Click here]] for guidance on creating a valid login name for this site"
+msgstr ""
+
 #: core/templates/messages.tmpl:209
 msgid "[[%1][Debug topic text]]."
 msgstr " [[%1][デバッグトピックテキスト]]。"
@@ -5860,6 +5885,14 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Incorrect %1"
+#~ msgstr "不正な %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "%1 フィールドは本サイトのログイン名フィルターのルール {LoginNameFilterIn} "
+#~ "を守らなければなりません"
 
 #~ msgid "Click here"
 #~ msgstr "ここをクリックしてください"

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426205003" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426259497" format="1.1" version="1"}%
 %META:TOPICPARENT{name="GlossaryOfTerms"}%
 ---+ %MAKETEXT{"The name you log in with"}%
 
@@ -8,6 +8,12 @@ depend upon how your system is configured.  If your system is not configured
 to use login names, then you will log in using your [[[_1].WikiName][WikiName]]." args="%SYSTEMWEB%"}%
 
 %MAKETEXT{"You cannot alter your login name: you have to get the administrator to do this for you."}%
+
+%MAKETEXT{"The login name is checked for invalid characters using the below filter. Any characters matching this filter will invalidate the login name."}%
+
+<pre>%QUERY{"{LoginNameFilterIn}"}%</pre>
+
+%MAKETEXT{"Contact <a href='mailto:[_1]'>your site administrator</a> for further assistance." args="%WIKIWEBMASTER%"}%
 
 ---++ How to Find Yours
 

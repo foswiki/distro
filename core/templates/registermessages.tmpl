@@ -100,7 +100,7 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"duplicate_activation"}%
----+++ %MAKETEXT{"That user has already been activated "}%
+---+++ %MAKETEXT{"That user has already been activated"}%
 
 %MAKETEXT{"The user [_1] has already been activated, and should be able to log in." args="%PARAM1%"}%
 
@@ -111,10 +111,10 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bad_wikiname"}%
----+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.WikiName"}%
-%MAKETEXT{"The [_1] field must be your first and last name in [_2], e.g. your capitalized first and last name with spaces removed." args="%SYSTEMWEB%.WikiName,%SYSTEMWEB%.WikiNotation"}%
+---+++ %MAKETEXT{"Incorrect [[[_1]][WikiName]]" args="%SYSTEMWEB%.WikiName"}%
+%MAKETEXT{"The [[[_1]][WikiName]] field must be your first and last name written as a [[[_2]][WikiWord]], e.g. your capitalized first and last name with spaces removed." args="%SYSTEMWEB%.WikiName,%SYSTEMWEB%.WikiWord"}%
 
-| *%MAKETEXT{"Good examples:"}%* | *%MAKETEXT{"Incorrect [_1].WikiNames:" args="%SYSTEMWEB%"}%* |
+| *%MAKETEXT{"Good examples:"}%* | *%MAKETEXT{"Incorrect [[[_1]][WikiNames:]]" args="%SYSTEMWEB%.WikiName"}%* |
 | =JohnSmith= | =John M. Smith= |
 | =RjMiller= | =RJ Miller= |
 | =RickO= | =Rick O= %MAKETEXT{"(single character last name)"}% |
@@ -201,23 +201,23 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"unsupport_loginname"}%
----+++ %MAKETEXT{"Unsupported [[[_1]][Login Name]]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [[[_1]][Login Name]] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
+---+++ %MAKETEXT{"Unsupported [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"The [[[_1]][Login name]] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"miss_loginname"}%
----+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [_1] is a required parameter. Registration rejected." args="%SYSTEMWEB%.LoginName"}%
+---+++ %MAKETEXT{"Incorrect [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"The [[[_1]][Login name]] is a required parameter. Registration rejected." args="%SYSTEMWEB%.LoginName"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bad_loginname"}%
----+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"'[_1]' is not a valid [_2] " args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [_1] field must match the {LoginNameFilterIn} filter for this site" args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
+---+++ %MAKETEXT{"Incorrect [[[_1]][Login name]]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"'[_1]' is not a valid [[[_2]][Login name]]." args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"[[[_1]][Click here]] for guidance on creating a valid login name for this site" args="%SYSTEMWEB%.LoginName"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
@@ -276,7 +276,7 @@
 %{==============================================================================}%
 %TMPL:DEF{"not_a_user"}%
 ---+++ %MAKETEXT{"Can't find user [_1]" args="%PARAM1%"}%
-%MAKETEXT{"Please make sure you spelled the [_1] correctly and try again. If you get stuck, please mail [_2]." args="%SYSTEMWEB%.LoginName, %WIKIWEBMASTER%"}%
+%MAKETEXT{"Please make sure you spelled the [[[_1]][Login name]] correctly and try again. If you get stuck, please contact [_2]." args="%SYSTEMWEB%.LoginName, %WIKIWEBMASTER%"}%
 
 %MAKETEXT{"See [_1] for a list of existing users or register as new user in [_2]." args="%USERSWEB%.%WIKIUSERSTOPIC%, %SYSTEMWEB%.UserRegistration"}% %TMPL:END%
 %{==============================================================================}%
@@ -339,7 +339,7 @@
 %{==============================================================================}%
 %TMPL:DEF{"user_param_required"}%
 ---+++ %MAKETEXT{"User Account was not supplied"}%
-%MAKETEXT{"Return to [_0] and supply a WikiName or Login Name" args="[[%WEB%.%TOPIC%]]"}%
+%MAKETEXT{"Return to [_0] and supply a WikiName or Login name" args="[[%WEB%.%TOPIC%]]"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"not_self"}%
@@ -384,14 +384,14 @@
 %TMPL:DEF{"added_users_to_group"}%
 ---+++ %MAKETEXT{"Success adding members to group"}%
 
-%MAKETEXT{"[_1] added to the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+%MAKETEXT{"[_1] added to the [_2] group." args="%PARAM1%, %PARAM2%"}%
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"group_upgraded"}%
 ---+++ %MAKETEXT{"Upgraded group"}%
 
-%MAKETEXT{"[_1] group topic upgraded. " args="%PARAM1%"}%
+%MAKETEXT{"[_1] group topic upgraded." args="%PARAM1%"}%
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
 %{==============================================================================}%
@@ -422,7 +422,7 @@
 %TMPL:DEF{"problem_removing_from_group"}%
 ---+++ %MAKETEXT{"Errors removing members from groups"}%
 
-%MAKETEXT{"There were errors removing [_1] from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+%MAKETEXT{"There were errors removing [_1] from the [_2] group." args="%PARAM1%, %PARAM2%"}%
 
 %MAKETEXT{"Please check to ensure you have permission to modify the group."}%
 
@@ -433,6 +433,6 @@
 %TMPL:DEF{"removed_users_from_group"}%
 ---+++ %MAKETEXT{"Success removing members from group"}%
 
-%MAKETEXT{"[_1] removed from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+%MAKETEXT{"[_1] removed from the [_2] group." args="%PARAM1%, %PARAM2%"}%
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%

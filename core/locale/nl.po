@@ -70,7 +70,8 @@ msgid "%1 Web"
 msgstr "%1 Web"
 
 #: core/templates/registermessages.tmpl:387
-msgid "%1 added to the %2 group. "
+#, fuzzy
+msgid "%1 added to the %2 group."
 msgstr "%1 is toegevoegd aan de groep %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
@@ -85,7 +86,8 @@ msgid "%1 denied the registration."
 msgstr "Bedankt voor je registratie"
 
 #: core/templates/registermessages.tmpl:394
-msgid "%1 group topic upgraded. "
+#, fuzzy
+msgid "%1 group topic upgraded."
 msgstr "Groep pagina %1 is opgewaardeerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
@@ -183,7 +185,7 @@ msgstr "Registratie van nieuwe gebruikers is gedeactiveerd"
 
 #: core/templates/registermessages.tmpl:436
 #, fuzzy
-msgid "%1 removed from the %2 group. "
+msgid "%1 removed from the %2 group."
 msgstr "%1 is door %4 verplaatst van %2 op %3"
 
 #: core/templates/messages.tmpl:21
@@ -231,7 +233,8 @@ msgid "&Sequential"
 msgstr "Sequentieel"
 
 #: core/templates/registermessages.tmpl:219
-msgid "'%1' is not a valid %2 "
+#, fuzzy
+msgid "'%1' is not a valid [[%2][Login name]]."
 msgstr "'%1' is geen geldige %2 "
 
 #: core/data/System/WebTopicCreator.txt:3
@@ -1246,6 +1249,12 @@ msgstr "Conflict"
 #: core/templates/messages.tmpl:458 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Neem bij vragen contact op met %1."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:16
+msgid ""
+"Contact <a href='mailto:%1'>your site administrator</a> for further "
+"assistance."
+msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 #, fuzzy
@@ -2301,16 +2310,6 @@ msgstr ""
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:114
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
-msgid "Incorrect %1"
-msgstr "Onjuiste %1"
-
-#: core/templates/registermessages.tmpl:117
-msgid "Incorrect %1.WikiNames:"
-msgstr "Onjuiste [[%1.WikiNames][Wikinamen]]:"
-
 #: core/templates/registermessages.tmpl:300
 msgid "Incorrect Password"
 msgstr "Onjuist wachtwoord"
@@ -2319,6 +2318,22 @@ msgstr "Onjuist wachtwoord"
 #, fuzzy
 msgid "Incorrect Prefix"
 msgstr "Onjuiste %1"
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+#, fuzzy
+msgid "Incorrect [[%1][Login name]]"
+msgstr "Onjuiste [[%1.WikiNames][Wikinamen]]:"
+
+#: core/templates/registermessages.tmpl:114
+#, fuzzy
+msgid "Incorrect [[%1][WikiName]]"
+msgstr "Onjuiste [[%1.WikiNames][Wikinamen]]:"
+
+#: core/templates/registermessages.tmpl:117
+#, fuzzy
+msgid "Incorrect [[%1][WikiNames:]]"
+msgstr "Onjuiste [[%1.WikiNames][Wikinamen]]:"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -3230,9 +3245,10 @@ msgid "Please go back in your browser and try again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/registermessages.tmpl:279
+#, fuzzy
 msgid ""
-"Please make sure you spelled the %1 correctly and try again. If you get "
-"stuck, please mail %2."
+"Please make sure you spelled the [[%1][Login name]] correctly and try again. "
+"If you get stuck, please contact %2."
 msgstr ""
 "Let dat je %1 juist hebt gespeld en probeer opnieuw. Als je niet verder kan, "
 "mail %2."
@@ -3623,7 +3639,7 @@ msgid "Return to [_0]"
 msgstr "Ga terug naar %1."
 
 #: core/templates/registermessages.tmpl:342
-msgid "Return to [_0] and supply a WikiName or Login Name"
+msgid "Return to [_0] and supply a WikiName or Login name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -4175,26 +4191,9 @@ msgstr ""
 "verificatiecode is %2."
 
 #: core/templates/registermessages.tmpl:103
-msgid "That user has already been activated "
+#, fuzzy
+msgid "That user has already been activated"
 msgstr "Die gebruiker is al geactiveerd "
-
-#: core/templates/registermessages.tmpl:115
-msgid ""
-"The %1 field must be your first and last name in %2, e.g. your capitalized "
-"first and last name with spaces removed."
-msgstr ""
-"Het %1 veld moet je voornaam en achternaam in %2 zijn, d.w.z. je voornaam en "
-"achternaam beide met een hoofdletter en zonder spaties."
-
-#: core/templates/registermessages.tmpl:220
-msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
-msgstr ""
-"Het %1 veld moet overeenkomen met het {LoginNameFilterIn} filter voor deze "
-"site"
-
-#: core/templates/registermessages.tmpl:212
-msgid "The %1 is a required parameter. Registration rejected."
-msgstr ""
 
 #: core/templates/messages.tmpl:63
 msgid "The %1 topic already exists"
@@ -4252,9 +4251,23 @@ msgstr "Het %1 web van Foswiki, de 'Free and Open Source Wiki'"
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
-"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"The [[%1][Login name]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
+
+#: core/templates/registermessages.tmpl:212
+msgid "The [[%1][Login name]] is a required parameter. Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:115
+#, fuzzy
+msgid ""
+"The [[%1][WikiName]] field must be your first and last name written as a "
+"[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+"removed."
+msgstr ""
+"Het %1 veld moet je voornaam en achternaam in %2 zijn, d.w.z. je voornaam en "
+"achternaam beide met een hoofdletter en zonder spaties."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4376,6 +4389,12 @@ msgstr "Het formulier zou moeten zijn gedefinieerd in pagina %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "De tijdelijke vergrendeling is %1 geleden verlopen."
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:12
+msgid ""
+"The login name is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the login name."
+msgstr ""
+
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "De naam van de pagina mag niet leeg zijn."
@@ -4475,10 +4494,11 @@ msgid "There were errors adding to the %2 group. %1 "
 msgstr "%1 is toegevoegd aan de groep %2."
 
 #: core/templates/registermessages.tmpl:425
-msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "There were errors removing %1 from the %2 group."
+msgstr "%1 is toegevoegd aan de groep %2."
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:14
+#: TopicUserMappingContrib/data/System/LoginName.txt:20
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
@@ -4880,7 +4900,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported [[%1][Login Name]]"
+msgid "Unsupported [[%1][Login name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -5598,6 +5618,11 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
+#: core/templates/registermessages.tmpl:220
+msgid ""
+"[[%1][Click here]] for guidance on creating a valid login name for this site"
+msgstr ""
+
 #: core/templates/messages.tmpl:209
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][Paginatekst debuggen]]."
@@ -5952,6 +5977,14 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Onjuiste %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "Het %1 veld moet overeenkomen met het {LoginNameFilterIn} filter voor "
+#~ "deze site"
 
 #, fuzzy
 #~ msgid ":firstName"

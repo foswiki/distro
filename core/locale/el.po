@@ -68,8 +68,9 @@ msgid "%1 Web"
 msgstr "Ιστός %1"
 
 #: core/templates/registermessages.tmpl:387
-msgid "%1 added to the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "%1 added to the %2 group."
+msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
@@ -82,7 +83,7 @@ msgid "%1 denied the registration."
 msgstr "Σας ευχαριστούμε για την εγγραφή"
 
 #: core/templates/registermessages.tmpl:394
-msgid "%1 group topic upgraded. "
+msgid "%1 group topic upgraded."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
@@ -177,7 +178,7 @@ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποι�
 
 #: core/templates/registermessages.tmpl:436
 #, fuzzy
-msgid "%1 removed from the %2 group. "
+msgid "%1 removed from the %2 group."
 msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
 
 #: core/templates/messages.tmpl:21
@@ -225,7 +226,8 @@ msgid "&Sequential"
 msgstr "Διαδοχική"
 
 #: core/templates/registermessages.tmpl:219
-msgid "'%1' is not a valid %2 "
+#, fuzzy
+msgid "'%1' is not a valid [[%2][Login name]]."
 msgstr "Το '%1' δεν είναι έγκυρο %2 "
 
 #: core/data/System/WebTopicCreator.txt:3
@@ -1242,6 +1244,12 @@ msgstr "Σύγκρουση"
 #: core/templates/messages.tmpl:458 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Επικοινωνήστε με τον %1, αν έχετε απορίες."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:16
+msgid ""
+"Contact <a href='mailto:%1'>your site administrator</a> for further "
+"assistance."
+msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -2294,16 +2302,6 @@ msgstr ""
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:114
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
-msgid "Incorrect %1"
-msgstr "Εσφαλμένο %1"
-
-#: core/templates/registermessages.tmpl:117
-msgid "Incorrect %1.WikiNames:"
-msgstr "Incorrect %1.WikiNames:"
-
 #: core/templates/registermessages.tmpl:300
 msgid "Incorrect Password"
 msgstr "Εσφαλμένος κωδικός"
@@ -2312,6 +2310,22 @@ msgstr "Εσφαλμένος κωδικός"
 #, fuzzy
 msgid "Incorrect Prefix"
 msgstr "Εσφαλμένο %1"
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+#, fuzzy
+msgid "Incorrect [[%1][Login name]]"
+msgstr "Incorrect %1.WikiNames:"
+
+#: core/templates/registermessages.tmpl:114
+#, fuzzy
+msgid "Incorrect [[%1][WikiName]]"
+msgstr "Incorrect %1.WikiNames:"
+
+#: core/templates/registermessages.tmpl:117
+#, fuzzy
+msgid "Incorrect [[%1][WikiNames:]]"
+msgstr "Incorrect %1.WikiNames:"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -3217,9 +3231,10 @@ msgid "Please go back in your browser and try again."
 msgstr "Παρακαλώ πάνε πίσω με τον browser και δοκίμασε ξανά."
 
 #: core/templates/registermessages.tmpl:279
+#, fuzzy
 msgid ""
-"Please make sure you spelled the %1 correctly and try again. If you get "
-"stuck, please mail %2."
+"Please make sure you spelled the [[%1][Login name]] correctly and try again. "
+"If you get stuck, please contact %2."
 msgstr ""
 "Παρακαλώ βεβαιωθείτε ότι γράψατε το %1 σωστά και προσπαθήστε ξανά. Εάν έχετε "
 "κολλήσει, παρακαλώ στείλτε ένα e-mail στο %2."
@@ -3611,7 +3626,7 @@ msgid "Return to [_0]"
 msgstr "Επιστροφή στο %1."
 
 #: core/templates/registermessages.tmpl:342
-msgid "Return to [_0] and supply a WikiName or Login Name"
+msgid "Return to [_0] and supply a WikiName or Login name"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -4158,24 +4173,9 @@ msgstr ""
 "επαλήθευσης είναι ο %2."
 
 #: core/templates/registermessages.tmpl:103
-msgid "That user has already been activated "
+#, fuzzy
+msgid "That user has already been activated"
 msgstr "Αυτός ο χρήστης έχει ήδη ενεργοποιηθεί "
-
-#: core/templates/registermessages.tmpl:115
-msgid ""
-"The %1 field must be your first and last name in %2, e.g. your capitalized "
-"first and last name with spaces removed."
-msgstr ""
-"The %1 field must be your first and last name in %2, e.g. your capitalized "
-"first and last name with spaces removed."
-
-#: core/templates/registermessages.tmpl:220
-msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
-msgstr "The %1 field must match the {LoginNameFilterIn} filter for this site"
-
-#: core/templates/registermessages.tmpl:212
-msgid "The %1 is a required parameter. Registration rejected."
-msgstr ""
 
 #: core/templates/messages.tmpl:63
 msgid "The %1 topic already exists"
@@ -4233,9 +4233,23 @@ msgstr "The %1 web of Foswiki, the Free and Open Source Wiki."
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
-"The [[%1][Login Name]] (%2) is not allowed for this installation. "
+"The [[%1][Login name]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
+
+#: core/templates/registermessages.tmpl:212
+msgid "The [[%1][Login name]] is a required parameter. Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:115
+#, fuzzy
+msgid ""
+"The [[%1][WikiName]] field must be your first and last name written as a "
+"[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+"removed."
+msgstr ""
+"The %1 field must be your first and last name in %2, e.g. your capitalized "
+"first and last name with spaces removed."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
@@ -4354,6 +4368,12 @@ msgstr "The form should be defined in the topic %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Η κράτηση για το θέμα αυτό έληξε πριν από %1."
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:12
+msgid ""
+"The login name is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the login name."
+msgstr ""
+
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Η ονομασία του θέματος δεν πρέπει να είναι κενό."
@@ -4451,10 +4471,11 @@ msgid "There were errors adding to the %2 group. %1 "
 msgstr ""
 
 #: core/templates/registermessages.tmpl:425
-msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "There were errors removing %1 from the %2 group."
+msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
 
-#: TopicUserMappingContrib/data/System/LoginName.txt:14
+#: TopicUserMappingContrib/data/System/LoginName.txt:20
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
@@ -4857,7 +4878,7 @@ msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:204
-msgid "Unsupported [[%1][Login Name]]"
+msgid "Unsupported [[%1][Login name]]"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
@@ -5571,6 +5592,11 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
+#: core/templates/registermessages.tmpl:220
+msgid ""
+"[[%1][Click here]] for guidance on creating a valid login name for this site"
+msgstr ""
+
 #: core/templates/messages.tmpl:209
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][Debug topic text]]."
@@ -5929,6 +5955,13 @@ msgstr "προβολή"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Εσφαλμένο %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "The %1 field must match the {LoginNameFilterIn} filter for this site"
 
 #, fuzzy
 #~ msgid ":firstName"
