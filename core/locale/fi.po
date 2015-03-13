@@ -16,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Finnish\n"
 
+#: core/data/System/WikiName.txt:3
+#, fuzzy
+msgid "!WikiName"
+msgstr "Aiheen nimi"
+
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
@@ -393,7 +398,7 @@ msgstr ""
 "aiheessa näkyvä kommentti muuttuu, mutta liitehistoriassa näkyvä kommentti "
 "on se mikä määriteltiin tiedostoa lähettäessä."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1198,7 +1203,7 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
 msgid "Confirm password:"
 msgstr "Uusi salasana:"
@@ -1294,7 +1299,7 @@ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 msgid "Could not save %1."
 msgstr "Ei voitu tallentaa %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 #, fuzzy
 msgid "Country:"
 msgstr "Maa:"
@@ -1651,7 +1656,7 @@ msgstr ""
 "Joko et tarkentanut tiedoston nimeä; tai tiedostosta, jota yrität lähettää "
 "%1, uupuu sisältö. Voit myös yrittää lähettää tyhjää tiedostoa."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 #, fuzzy
 msgid "Email address:"
 msgstr "Sähköpostiosoite:"
@@ -1806,6 +1811,10 @@ msgstr "Etunimi:"
 #, fuzzy
 msgid "First name:"
 msgstr "Etunimi:"
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -2996,12 +3005,12 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Options"
 msgstr "Toiminto"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Organisaation nimi:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Organisaation nimi:"
@@ -3102,13 +3111,13 @@ msgstr "Ole hyvä ja ota yhteyttä %1 jos sinulla on kysyttävää."
 msgid "Please contact %1."
 msgstr "Ole hyvä ja ota yhteyttä %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a Wiki name."
+msgid "Please enter a WikiName."
 msgstr "Syötä wiki-vastaavan salasana"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
@@ -3336,7 +3345,7 @@ msgstr "Päivitä"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -3797,7 +3806,7 @@ msgstr "Valitse kaikki"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "Valitse yläartikkeli:"
@@ -3807,7 +3816,7 @@ msgstr "Valitse yläartikkeli:"
 msgid "Select members to remove from this group:"
 msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "Valitse yläartikkeli:"
@@ -4321,13 +4330,13 @@ msgstr "Mallin pitäisi olla määritelty %1 aiheessa"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Aiheen lukitus umpeutui %1 sitten."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The login name you use to sign in."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Aiheen nimi ei voi olla tyhjä."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:3
+msgid "The name you log in with"
+msgstr ""
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4376,6 +4385,10 @@ msgstr "Käyttäjätunnuksesi on poistettu autentikointijärjestelmästä"
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The user name that identifies you to the signon system. %1"
+msgstr ""
+
 #: core/templates/messages.tmpl:166
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
@@ -4414,8 +4427,12 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:14
+msgid "These steps may not be applicable to your system."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "This Wiki name is already in use."
+msgid "This WikiName is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4485,7 +4502,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name."
+msgid "This is not a valid WikiName."
 msgstr "'%1' ei ole sallittu %2"
 
 #: core/data/Trash/WebHome.txt:2
@@ -4512,7 +4529,12 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
-msgid "This must be a unique Wiki name."
+msgid "This must be a unique WikiName."
+msgstr "'%1' ei ole sallittu %2"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#, fuzzy
+msgid "This must be a valid login name."
 msgstr "'%1' ei ole sallittu %2"
 
 #: core/templates/renamedelete.tmpl:31
@@ -4560,6 +4582,13 @@ msgstr ""
 "version %1. Tekstikentät ovat yhdistetty, mutta muu data, kuten "
 "lomakekentät, voivat olla korvattu toisen käyttäjän toimesta. Tarkista aihe, "
 "varsinkin jos teit muutoksia lomakekenttiin."
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
+msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
@@ -5173,7 +5202,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "Wiki name:"
+msgid "WikiName:"
 msgstr "Aiheen nimi"
 
 #: core/data/System/WebSearch.txt:189
@@ -5304,6 +5333,14 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:10
+#, fuzzy
+msgid ""
+"You cannot alter your login name: you have to get the administrator to do "
+"this for you."
+msgstr ""
+"Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
+
 #: core/templates/messages.tmpl:477
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
@@ -5404,7 +5441,7 @@ msgstr ""
 "aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi."
 "xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5418,7 +5455,11 @@ msgstr ""
 "[klikata tästä jatkaaksesi]]"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. %1"
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5436,7 +5477,7 @@ msgstr "Salasanasi on vaihdettu arvoon %1."
 msgid "Your password must be at least %1 characters long."
 msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 #, fuzzy
 msgid "Your password:"
 msgstr "Uusi salasana:"
@@ -5848,10 +5889,6 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
-
-#, fuzzy
-#~ msgid "Wiki name"
-#~ msgstr "Aiheen nimi"
 
 #, fuzzy
 #~ msgid ":firstName"

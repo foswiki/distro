@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.1.0\n"
 
+#: core/data/System/WikiName.txt:3
+#, fuzzy
+msgid "!WikiName"
+msgstr "Konu adı:"
+
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
@@ -376,7 +381,7 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -1120,7 +1125,7 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "Revizyonları karşılaştır"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
 msgid "Confirm password:"
 msgstr "Şimdiki Şifreniz"
@@ -1208,7 +1213,7 @@ msgstr ""
 msgid "Could not save %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 msgid "Country:"
 msgstr ""
 
@@ -1543,7 +1548,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 #, fuzzy
 msgid "Email address:"
 msgstr "E-Posta adresi"
@@ -1691,6 +1696,10 @@ msgstr ""
 #, fuzzy
 msgid "First name:"
 msgstr "Soyad"
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -2823,12 +2832,12 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
@@ -2928,13 +2937,13 @@ msgstr ""
 msgid "Please contact %1."
 msgstr "%1 ile iletişime geçiniz."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a Wiki name."
+msgid "Please enter a WikiName."
 msgstr "Wiki admin parolasını giriniz"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
@@ -3156,7 +3165,7 @@ msgstr "Yenile"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Kayıt Ol"
@@ -3597,7 +3606,7 @@ msgstr ""
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select groups to join:"
 msgstr ""
 
@@ -3606,7 +3615,7 @@ msgstr ""
 msgid "Select members to remove from this group:"
 msgstr "Kullanıcıları bu gruptan çıkart"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select the group to join:"
 msgstr ""
 
@@ -4096,13 +4105,13 @@ msgstr ""
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The login name you use to sign in."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Konu adı boş bırakılamaz."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:3
+msgid "The name you log in with"
+msgstr ""
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4149,6 +4158,10 @@ msgstr ""
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The user name that identifies you to the signon system. %1"
+msgstr ""
+
 #: core/templates/messages.tmpl:166
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
@@ -4188,8 +4201,12 @@ msgstr "%2 grubuna %1 eklendi. "
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:14
+msgid "These steps may not be applicable to your system."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "This Wiki name is already in use."
+msgid "This WikiName is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4247,7 +4264,7 @@ msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-msgid "This is not a valid Wiki name."
+msgid "This is not a valid WikiName."
 msgstr ""
 
 #: core/data/Trash/WebHome.txt:2
@@ -4271,8 +4288,13 @@ msgid "This login name is already in use."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "This must be a unique Wiki name."
+msgid "This must be a unique WikiName."
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#, fuzzy
+msgid "This must be a valid login name."
+msgstr "Wiki admin parolasını giriniz"
 
 #: core/templates/renamedelete.tmpl:31
 msgid ""
@@ -4312,6 +4334,13 @@ msgid ""
 "have been merged, but other data such as form fields may have overwritten "
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
+msgstr ""
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
@@ -4895,7 +4924,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "Wiki name:"
+msgid "WikiName:"
 msgstr "Konu adı:"
 
 #: core/data/System/WebSearch.txt:189
@@ -5001,6 +5030,12 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:10
+msgid ""
+"You cannot alter your login name: you have to get the administrator to do "
+"this for you."
+msgstr ""
+
 #: core/templates/messages.tmpl:477
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
@@ -5089,7 +5124,7 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5100,7 +5135,11 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. %1"
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5118,7 +5157,7 @@ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
 msgid "Your password must be at least %1 characters long."
 msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 #, fuzzy
 msgid "Your password:"
 msgstr "Şimdiki Şifreniz"

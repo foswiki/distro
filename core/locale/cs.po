@@ -17,6 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 2.1\n"
 
+#: core/data/System/WikiName.txt:3
+#, fuzzy
+msgid "!WikiName"
+msgstr "Jméno článku"
+
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
@@ -378,7 +383,7 @@ msgstr ""
 "komentář ukázaný ve článku se změní, ale komentář ukázaný v historii přílohy "
 "bude komentář použitý, když byla přiloha nahrána."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -1157,7 +1162,7 @@ msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazov
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 msgid "Confirm password:"
 msgstr "Potvrďte heslo:"
 
@@ -1251,7 +1256,7 @@ msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 msgid "Could not save %1."
 msgstr "Nemohl uložit %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 msgid "Country:"
 msgstr "Země:"
 
@@ -1587,7 +1592,7 @@ msgstr ""
 "Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
 "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 msgid "Email address:"
 msgstr "Emailová adresa:"
 
@@ -1741,6 +1746,10 @@ msgstr "Křestní jméno:"
 #, fuzzy
 msgid "First name:"
 msgstr "Křestní jméno:"
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -2929,12 +2938,12 @@ msgstr "Volitelně vložte odlišné jméno článku:"
 msgid "Options"
 msgstr "Akce"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Jméno organizace:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Jméno organizace:"
@@ -3035,13 +3044,13 @@ msgstr "Prosím kontatujte %1 pokud máte libovolné otázky."
 msgid "Please contact %1."
 msgstr "Prosím kontaktujte %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a Wiki name."
+msgid "Please enter a WikiName."
 msgstr "Vložte prosím heslo Wiki administrátora:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
@@ -3269,7 +3278,7 @@ msgstr "Obnov"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Registruj"
@@ -3730,7 +3739,7 @@ msgstr "Vyber vše"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "Vyberte nadřízený článek:"
@@ -3740,7 +3749,7 @@ msgstr "Vyberte nadřízený článek:"
 msgid "Select members to remove from this group:"
 msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "Vyberte nadřízený článek:"
@@ -4251,13 +4260,13 @@ msgstr "Formulář měl být definován ve článku %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Zámek na tomto článku vypršel před %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The login name you use to sign in."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Název článku nesmí být prázdný."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:3
+msgid "The name you log in with"
+msgstr ""
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4306,6 +4315,10 @@ msgstr "Váš účet byl smazán z autentifikačního systému."
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The user name that identifies you to the signon system. %1"
+msgstr ""
+
 #: core/templates/messages.tmpl:166
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
@@ -4344,8 +4357,12 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:14
+msgid "These steps may not be applicable to your system."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "This Wiki name is already in use."
+msgid "This WikiName is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4413,7 +4430,7 @@ msgstr "Toto je automatické upozornění na registraci uživatele v %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name."
+msgid "This is not a valid WikiName."
 msgstr "'%1' není platné %2 "
 
 #: core/data/Trash/WebHome.txt:2
@@ -4439,7 +4456,12 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
-msgid "This must be a unique Wiki name."
+msgid "This must be a unique WikiName."
+msgstr "'%1' není platné %2 "
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#, fuzzy
+msgid "This must be a valid login name."
 msgstr "'%1' není platné %2 "
 
 #: core/templates/renamedelete.tmpl:31
@@ -4489,6 +4511,13 @@ msgstr ""
 "změnami ostatních uživatelů. Prosím zkontrolujte článek aby jste se "
 "ujistili, že je vše v pořádku, obzvláště pokud jste udělal změny do polí "
 "formulářů."
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
+msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
@@ -5099,7 +5128,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "Wiki name:"
+msgid "WikiName:"
 msgstr "Jméno článku"
 
 #: core/data/System/WebSearch.txt:189
@@ -5227,6 +5256,15 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:10
+#, fuzzy
+msgid ""
+"You cannot alter your login name: you have to get the administrator to do "
+"this for you."
+msgstr ""
+"Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
+"toto mohl udělat."
+
 #: core/templates/messages.tmpl:477
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
@@ -5327,7 +5365,7 @@ msgstr ""
 "nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. (Tento kód "
 "je ve formě \"VašeJméno.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5340,7 +5378,11 @@ msgstr ""
 "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. %1"
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5358,7 +5400,7 @@ msgstr "Vaše heslo bylo změnéno na %1."
 msgid "Your password must be at least %1 characters long."
 msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 #, fuzzy
 msgid "Your password:"
 msgstr "Vaše heslo:"
@@ -5774,10 +5816,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #~ msgid "Click here"
 #~ msgstr "Klikni zde"
-
-#, fuzzy
-#~ msgid "Wiki name"
-#~ msgstr "Jméno článku"
 
 #, fuzzy
 #~ msgid ":firstName"

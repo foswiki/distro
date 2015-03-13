@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-11 08:00+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
-"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/ko/>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,6 +16,11 @@ msgstr ""
 "X-Poedit-Language: Korean\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+#: core/data/System/WikiName.txt:3
+#, fuzzy
+msgid "!WikiName"
+msgstr "이름(First Name):"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -382,7 +387,7 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -1148,7 +1153,7 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "리비전 비교하기"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
 msgid "Confirm password:"
 msgstr "비밀번호:"
@@ -1238,7 +1243,7 @@ msgstr ""
 msgid "Could not save %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 #, fuzzy
 msgid "Country:"
 msgstr "국가:"
@@ -1577,7 +1582,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 #, fuzzy
 msgid "Email address:"
 msgstr "이메일 주소:"
@@ -1727,6 +1732,10 @@ msgstr "이름(First Name):"
 #, fuzzy
 msgid "First name:"
 msgstr "이름(First Name):"
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -2874,12 +2883,12 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
 msgid "Organisation name:"
 msgstr "소속 기관 이름:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 #, fuzzy
 msgid "Organisation website:"
 msgstr "소속 기관 이름:"
@@ -2978,13 +2987,13 @@ msgstr "질문이 있다면, %1 로 연락바랍니다."
 msgid "Please contact %1."
 msgstr "%1 에게 도움을 요청하세요."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a Wiki name."
+msgid "Please enter a WikiName."
 msgstr "유효하지 않은 이메일 주소"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
@@ -3204,7 +3213,7 @@ msgstr "새로고침"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "등록하기"
@@ -3657,7 +3666,7 @@ msgstr ""
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "토픽 지우기"
@@ -3667,7 +3676,7 @@ msgstr "토픽 지우기"
 msgid "Select members to remove from this group:"
 msgstr "먼저 그룹 %1 에서 사용자를 삭제하십시오."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "토픽 지우기"
@@ -4151,12 +4160,12 @@ msgstr ""
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The login name you use to sign in."
-msgstr ""
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:3
+msgid "The name you log in with"
 msgstr ""
 
 #: core/templates/moveattachment.tmpl:24
@@ -4205,6 +4214,10 @@ msgstr "당신의 사용자 이름이 권한 시스템에서 삭제 되었습니
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The user name that identifies you to the signon system. %1"
+msgstr ""
+
 #: core/templates/messages.tmpl:166
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
@@ -4241,8 +4254,12 @@ msgstr ""
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:14
+msgid "These steps may not be applicable to your system."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "This Wiki name is already in use."
+msgid "This WikiName is already in use."
 msgstr ""
 
 #: core/templates/messages.tmpl:217
@@ -4301,7 +4318,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name."
+msgid "This is not a valid WikiName."
 msgstr "'%1'은 유효하지 않은 %2 입니다."
 
 #: core/data/Trash/WebHome.txt:2
@@ -4326,7 +4343,12 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
-msgid "This must be a unique Wiki name."
+msgid "This must be a unique WikiName."
+msgstr "'%1'은 유효하지 않은 %2 입니다."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#, fuzzy
+msgid "This must be a valid login name."
 msgstr "'%1'은 유효하지 않은 %2 입니다."
 
 #: core/templates/renamedelete.tmpl:31
@@ -4367,6 +4389,13 @@ msgid ""
 "have been merged, but other data such as form fields may have overwritten "
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
+msgstr ""
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
@@ -4961,7 +4990,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "Wiki name:"
+msgid "WikiName:"
 msgstr "이름(First Name):"
 
 #: core/data/System/WebSearch.txt:189
@@ -5073,6 +5102,12 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:10
+msgid ""
+"You cannot alter your login name: you have to get the administrator to do "
+"this for you."
+msgstr ""
+
 #: core/templates/messages.tmpl:477
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
@@ -5161,7 +5196,7 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5172,7 +5207,11 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. %1"
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5190,7 +5229,7 @@ msgstr "비밀번호 변경이 불가능합니다."
 msgid "Your password must be at least %1 characters long."
 msgstr "비밀번호 변경이 불가능합니다."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 #, fuzzy
 msgid "Your password:"
 msgstr "비밀번호:"

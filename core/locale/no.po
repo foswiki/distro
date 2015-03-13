@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
+#: core/data/System/WikiName.txt:3
+#, fuzzy
+msgid "!WikiName"
+msgstr "Wikinavn"
+
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
@@ -383,7 +388,7 @@ msgstr ""
 "kommentar vil kommentaren som vises til siden endres, men kommentaren som "
 "vises til et vedlegg vil vise kommentaren fra når vedlegget ble lastet opp."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -1174,7 +1179,7 @@ msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
 msgid "Compare revisions"
 msgstr "Sammenlign versjoner"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
 msgid "Confirm password:"
 msgstr "Bekreft passord"
@@ -1271,7 +1276,7 @@ msgstr "Kunne ikke utføre søk. Feil var: %1"
 msgid "Could not save %1."
 msgstr "Kunne ikke lagre %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 #, fuzzy
 msgid "Country:"
 msgstr "Land"
@@ -1620,7 +1625,7 @@ msgstr ""
 "Enten har du ikke spesifisert et filnavn eller så har ikke filen du forsøke "
 "å laste opp %1 noe innhold. Du kan ikke laste opp en tom fil."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 #, fuzzy
 msgid "Email address:"
 msgstr "Epost adresse"
@@ -1774,6 +1779,10 @@ msgstr "første"
 #, fuzzy
 msgid "First name:"
 msgstr "Fornavn"
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 #, fuzzy
@@ -2956,12 +2965,12 @@ msgstr "Eventuelt skriv et annet sidenavn:"
 msgid "Options"
 msgstr "Valg"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Organisasjonsnavn"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Organisasjons nettsted"
@@ -3062,13 +3071,13 @@ msgstr "Vennligst kontakt %1 hvis du har spørsmål."
 msgid "Please contact %1."
 msgstr "Vennligst kontakt %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
 #, fuzzy
-msgid "Please enter a Wiki name."
+msgid "Please enter a WikiName."
 msgstr "Vennligst skriv inn Wiki administrator passordet"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
@@ -3296,7 +3305,7 @@ msgstr "Oppdater"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:15
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
 msgstr "Registrer"
@@ -3756,7 +3765,7 @@ msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Velg en tidligere (venstre) og senere (høyre) versjon for å sammenligne"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "Velg Wiki %1 for å bli med"
@@ -3766,7 +3775,7 @@ msgstr "Velg Wiki %1 for å bli med"
 msgid "Select members to remove from this group:"
 msgstr "Fjern brukere fra denne gruppen"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "Velg Wiki %1 for å bli med"
@@ -4284,13 +4293,14 @@ msgstr "Skjemaet skulle vært definert i siden %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Leien for denne siden gikk ut for %1 siden."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-msgid "The login name you use to sign in."
-msgstr "Brukernavnet du bruker for å logge inn."
-
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
 msgstr "Sidenavnet kan ikke være tomt."
+
+#: TopicUserMappingContrib/data/System/LoginName.txt:3
+#, fuzzy
+msgid "The name you log in with"
+msgstr "Brukernavnet du bruker for å logge inn."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4338,6 +4348,10 @@ msgstr "Ditt brukernavn har blitt fjernet fra autentiserings systemet."
 msgid "The user has probably been already verified and/or approved."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The user name that identifies you to the signon system. %1"
+msgstr ""
+
 #: core/templates/messages.tmpl:166
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
@@ -4382,9 +4396,14 @@ msgstr "Det oppsted feil ved lagring av %1 i gruppen %2. "
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "Det oppstod feil ved fjerning av %1 fra gruppen %2. "
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-msgid "This Wiki name is already in use."
+#: TopicUserMappingContrib/data/System/LoginName.txt:14
+msgid "These steps may not be applicable to your system."
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#, fuzzy
+msgid "This WikiName is already in use."
+msgstr "Brukernavnet du bruker for å logge inn."
 
 #: core/templates/messages.tmpl:217
 msgid "This can be automatically upgraded by:"
@@ -4451,7 +4470,7 @@ msgstr "Dette er en automatisk epost varsling om brukerregistrering i %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
-msgid "This is not a valid Wiki name."
+msgid "This is not a valid WikiName."
 msgstr "'%1' er ikke et gyldig skjemanavn"
 
 #: core/data/Trash/WebHome.txt:2
@@ -4481,7 +4500,12 @@ msgstr "Brukernavnet du bruker for å logge inn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
-msgid "This must be a unique Wiki name."
+msgid "This must be a unique WikiName."
+msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#, fuzzy
+msgid "This must be a valid login name."
 msgstr "'%1' er ikke et gyldig skjemanavn"
 
 #: core/templates/renamedelete.tmpl:31
@@ -4531,6 +4555,13 @@ msgstr ""
 "har blitt flettet, men andre data som eks. skjemafelter kan ha overksrevet "
 "den andre brukerens endringer. Vennligst sjekk siden for å se om den er OK, "
 "spesielt dersom du har gjort endringer i skjemafelter."
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for user names, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
+msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
@@ -5139,7 +5170,7 @@ msgstr "Wiki administratorer bør lese om"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "Wiki name:"
+msgid "WikiName:"
 msgstr "Wikinavn"
 
 #: core/data/System/WebSearch.txt:189
@@ -5265,6 +5296,13 @@ msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/LoginName.txt:10
+#, fuzzy
+msgid ""
+"You cannot alter your login name: you have to get the administrator to do "
+"this for you."
+msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
+
 #: core/templates/messages.tmpl:477
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
@@ -5371,7 +5409,7 @@ msgstr ""
 "eller skriv koden inn i feltet under her for å aktivere ditt medlemskap. "
 "(Denne koden ser ut som \"DittNavn.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
 msgstr "Din epost adresse vil bli holdt konfidensiell."
 
@@ -5384,7 +5422,11 @@ msgstr ""
 "Hvis ikke, klikk [[%2][for å fortsette]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed online. %1"
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
@@ -5402,7 +5444,7 @@ msgstr "Ditt passord er endret til %1."
 msgid "Your password must be at least %1 characters long."
 msgstr "Denne webløsningen krever minst %1 tegns passord"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 #, fuzzy
 msgid "Your password:"
 msgstr "Ditt passord"
@@ -5813,9 +5855,6 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "hvorfor du blir bedt om å bekrefte"
-
-#~ msgid "Wiki name"
-#~ msgstr "Wikinavn"
 
 #, fuzzy
 #~ msgid ":firstName"
