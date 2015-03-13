@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-13 15:44+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"PO-Revision-Date: 2015-03-13 18:28+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,9 +68,8 @@ msgid "%1 Web"
 msgstr "Web %1"
 
 #: core/templates/registermessages.tmpl:387
-#, fuzzy
 msgid "%1 added to the %2 group."
-msgstr "%1 ajouté au groupe %2. "
+msgstr "%1 ajouté au groupe %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
@@ -82,9 +81,8 @@ msgid "%1 denied the registration."
 msgstr "%1 a refusé l'inscription."
 
 #: core/templates/registermessages.tmpl:394
-#, fuzzy
 msgid "%1 group topic upgraded."
-msgstr "Page de groupe %1 mise à niveau. "
+msgstr "Page de groupe %1 mise à niveau."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -173,9 +171,8 @@ msgid "%1 registration denied"
 msgstr "Inscription de %1 refusée"
 
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group."
-msgstr "%1 a été retiré du groupe %2. "
+msgstr "%1 a été retiré du groupe %2."
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -219,9 +216,8 @@ msgid "&Sequential"
 msgstr "À la &suite"
 
 #: core/templates/registermessages.tmpl:219
-#, fuzzy
 msgid "'%1' is not a valid [[%2][Login name]]."
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "'%1' n'est pas un [[%2][nom de connexion]] valide."
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -1220,6 +1216,8 @@ msgid ""
 "Contact <a href='mailto:%1'>your site administrator</a> for further "
 "assistance."
 msgstr ""
+"Contactez <a href='mailto:%1'>l'administrateur de votre site</a> pour de "
+"l'aide supplémentaire."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -2277,19 +2275,16 @@ msgstr "Préfixe incorrect"
 
 #: core/templates/registermessages.tmpl:211
 #: core/templates/registermessages.tmpl:218
-#, fuzzy
 msgid "Incorrect [[%1][Login name]]"
-msgstr "[[%1][Nom de connexion]] non supporté"
+msgstr "[[%1][Nom de connexion]] incorrect"
 
 #: core/templates/registermessages.tmpl:114
-#, fuzzy
 msgid "Incorrect [[%1][WikiName]]"
-msgstr "!MotsWiki (%1.WikiNames) incorrects :"
+msgstr "[[%1][NomWiki]] incorrect"
 
 #: core/templates/registermessages.tmpl:117
-#, fuzzy
 msgid "Incorrect [[%1][WikiNames:]]"
-msgstr "!MotsWiki (%1.WikiNames) incorrects :"
+msgstr "[[%1][MotsWiki]] incorrects :"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -3157,13 +3152,13 @@ msgid "Please go back in your browser and try again."
 msgstr "Veuillez retourner à la page précédente, et réessayer."
 
 #: core/templates/registermessages.tmpl:279
-#, fuzzy
 msgid ""
 "Please make sure you spelled the [[%1][Login name]] correctly and try again. "
 "If you get stuck, please contact %2."
 msgstr ""
-"Veuillez vérifier que vous avez écrit le %1 correctement, et réessayez. Si "
-"ça ne fonctionne toujours pas, veuillez en informer %2."
+"Veuillez vérifier que vous avez écrit le [[%1][nom de connexion]] "
+"correctement, et réessayez. Si ça ne fonctionne toujours pas, veuillez en "
+"informer %2."
 
 #: core/templates/messages.tmpl:475
 msgid "Please notify your %1 administrator."
