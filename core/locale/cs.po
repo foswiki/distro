@@ -4,12 +4,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 21:20+0200\n"
+"PO-Revision-Date: 2015-03-14 20:27+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: core/data/System/WikiName.txt:3
 #, fuzzy
 msgid "!WikiName"
-msgstr "Jméno článku"
+msgstr "!WikiJméno"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -68,9 +68,8 @@ msgid "%1 Web"
 msgstr "%1 Web"
 
 #: core/templates/registermessages.tmpl:387
-#, fuzzy
 msgid "%1 added to the %2 group."
-msgstr "%1 přidáno do %2 skupiny. "
+msgstr "%1 přidáno do %2 skupiny."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
@@ -82,9 +81,8 @@ msgid "%1 denied the registration."
 msgstr "%1 zamítl registraci."
 
 #: core/templates/registermessages.tmpl:394
-#, fuzzy
 msgid "%1 group topic upgraded."
-msgstr "%1 téma skupiny aktualizováno. "
+msgstr "%1 téma skupiny aktualizováno."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -169,9 +167,8 @@ msgid "%1 registration denied"
 msgstr "%1 registrace nepovolena"
 
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group."
-msgstr "%1 odstraněn ze skupiny %2. "
+msgstr "%1 odstraněn ze skupiny %2."
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
@@ -213,7 +210,7 @@ msgstr "&Postupně"
 #: core/templates/registermessages.tmpl:219
 #, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
-msgstr "'%1' není platné %2 "
+msgstr "'%1' není platné [[%2][login username]]."
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -366,14 +363,13 @@ msgid "(skipped)"
 msgstr "(přeskočeno)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
 msgstr ""
 "*Administrátoři:* Emailovou adresu uživatele můžete změnit pomocí tohoto "
-"formuláře. Zadejte Login nebo WikiJméno a nový e-mail."
+"formuláře. Zadejte [[%1][username]] nebo [[%1][WikiName]] a nový e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -536,7 +532,6 @@ msgstr ""
 "nezbytné."
 
 #: core/templates/messages.tmpl:366
-#, fuzzy
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -1197,6 +1192,8 @@ msgid ""
 "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
 msgstr ""
+"Pro další pomoc, kontaktujte <a href=\\'mailto:%1\\'>vašeho web "
+"administrátora</a>."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -1312,7 +1309,6 @@ msgstr "Vytvoř nový článek"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
-#, fuzzy
 msgid "Create not specified and group does not exist"
 msgstr "Nedefinovaný Create a skupina neexistuje"
 
@@ -1431,9 +1427,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Rozdíl:"
+msgstr "Rozdíl"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1630,20 +1625,18 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Vložte Wiki Administrátora nebo login jak je nastaveno v %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, který "
-"je %1.WikiWord nebo zaškrtněte volbu \"povolit non-Wiki Word\"."
+"Zadejte název článku jako WikiJméno nebo vyberte volbu \"povolit non-Wiki "
+"Word\"."
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Enter users or groups to add to this group"
-msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
+msgstr "Vyberte uživatele nebo skupiny, které chcete přidat"
 
 #: core/templates/messages.tmpl:481
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Při nahrávání pluginu došlo k chybě. Více viz následující výpis."
 
 #: core/templates/registermessages.tmpl:91
 msgid "Error registering new user"
@@ -1678,43 +1671,40 @@ msgid "Errors"
 msgstr "Chyby"
 
 #: core/templates/registermessages.tmpl:374
-#, fuzzy
 msgid "Errors adding members to group"
-msgstr "Chyba při uložení ćlánku"
+msgstr "Chyby při přidávání členů do skupiny"
 
 #: core/templates/registermessages.tmpl:423
-#, fuzzy
 msgid "Errors removing members from groups"
-msgstr "Chyba při uložení ćlánku"
+msgstr "Chyby při odebírání členů ze skupin"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Escape markup"
-msgstr ""
+msgstr "Znak [Esc]ape"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:125
 msgid "Everybody"
-msgstr ""
+msgstr "Každý"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Změňte vaše osobní údaje"
+msgstr "Zlá osoba"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Exit"
-msgstr ""
+msgstr "Ukončit"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:70
 msgid "External"
-msgstr ""
+msgstr "Externí"
 
 #: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
-msgstr ""
+msgstr "Zhavarované pluginy"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:306
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Došlo k chybě při přidávání uživatele: "
 
 #: core/templates/messages.tmpl:368
 msgid "Failed to include URL %1"
@@ -1726,13 +1716,12 @@ msgid "Fields marked %1 are required"
 msgstr "Pole označená %1 jsou nutná"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required."
-msgstr "Pole označená %1 jsou nutná"
+msgstr "Pole označená <span class='required'>*</span> jsou nutná."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: core/templates/messages.tmpl:226
 msgid "File has been uploaded with different name"
@@ -1747,9 +1736,8 @@ msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
-#, fuzzy
 msgid "First"
-msgstr "Křestní jméno:"
+msgstr "První"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 #, fuzzy
@@ -1758,7 +1746,7 @@ msgstr "Křestní jméno:"
 
 #: core/data/System/WikiName.txt:6
 msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
-msgstr ""
+msgstr "Například, !WikiJméno Tim Berners-Lee je [[TimBernersLee]]"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -1766,6 +1754,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"Detailnější informaci o nebezpečí cross-site požadavků, a nebezpečí s tím "
+"související, získáte na [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1778,7 +1769,7 @@ msgstr "Zapomněl jste Vaše heslo?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
-msgstr ""
+msgstr "Formulář"
 
 #: core/templates/messages.tmpl:197
 msgid "Form Definition %1 missing"
@@ -1786,22 +1777,20 @@ msgstr "Definice formuláře %1 chybí"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:24
 msgid "Form based input"
-msgstr ""
+msgstr "Vstup dat prostřednictvím formuláře"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:12
 msgid "Form data"
-msgstr ""
+msgstr "Data formuláře"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "Definice formuláře chybí"
+msgstr "Definice formuláře"
 
 #: core/templates/messages.tmpl:194
-#, fuzzy
 msgid "Form definition '%1' not found"
-msgstr "Definice formuláře %1 chybí"
+msgstr "Definice formuláře %1 nenalezena"
 
 #: core/templates/messages.tmpl:202
 msgid "Form definition missing"
@@ -1809,16 +1798,16 @@ msgstr "Definice formuláře chybí"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
 msgid "Format selected text"
-msgstr ""
+msgstr "Formátovat vybraný text"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
 #, fuzzy
 msgid "Formatted Search"
-msgstr "Změň hledání"
+msgstr "Formátované vyhledávání"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Formula"
-msgstr ""
+msgstr "Vzorec"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -1829,6 +1818,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki kontroluje všechny požadavky z prohlížečů a pokouší se zjistit zda "
+"je jejich uživatelé zasílají s dobrým úmyslem."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1836,17 +1827,16 @@ msgstr "Foswiki znovunastavení hesla pro %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr ""
+msgstr "Získejte aktuální verzi <a href='%1' rel='nofollow'>zde</a>."
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "má více informací jak vložit soubory."
+msgstr "Získej nápovědu jak přikládat soubory"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Získej nápovědu jak nastavovat vlastnosti článku"
 
 #: core/data/System/WebSearch.txt:274
 msgid "Get notified on changes on this search"
@@ -1854,9 +1844,8 @@ msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:456
-#, fuzzy
 msgid "Globe"
-msgstr "Zavřít"
+msgstr "Glóbus"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:313
 #: core/templates/messages.tmpl:456 core/templates/registermessages.tmpl:369
@@ -1864,11 +1853,12 @@ msgid "Go back"
 msgstr "Jdi zpět"
 
 #: core/templates/messages.tmpl:187
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
-msgstr "Jděte zpět v prohlížeči a vložte informace pro všechny nutné pole."
+msgstr ""
+"Jděte v prohlížeči zpět, a vložte informace pro všechna pole kde je to "
+"vyžadováno, nežli budete znovu ukládat"
 
 #: core/templates/messages.tmpl:259 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1879,33 +1869,35 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Jděte na předchozí stránku a povolte Cookies a Javascript. Poté to zkuste "
+"znovu."
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
 msgstr "Dobré příklady:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
+#, fuzzy
 msgid "GoodStyle"
-msgstr ""
+msgstr "DobrýStyl"
 
 #: core/data/Main/WikiGroups.txt:62
-#, fuzzy
 msgid "Group"
-msgstr "Skupiny"
+msgstr "Skupina"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Skupina neexistuje a vytvoření není povoleno"
 
 #: core/data/Main/WikiGroups.txt:28
-#, fuzzy
 msgid "Group name"
-msgstr "Jméno článku"
+msgstr "Jméno skupiny"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#, fuzzy
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Názvy skupin musí končit Skupina"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:16
 #: PatternSkin/data/System/WebLeftBarExample.txt:8
@@ -1914,36 +1906,35 @@ msgstr "Skupiny"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Having problems logging in?"
-msgstr ""
+msgstr "Máte problém se přilogovat?"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
-msgstr ""
+msgstr "Nadpis 1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:29
 msgid "Heading 2"
-msgstr ""
+msgstr "Nadpis 2"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:30
 msgid "Heading 3"
-msgstr ""
+msgstr "Nadpis 3"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:31
 msgid "Heading 4"
-msgstr ""
+msgstr "Nadpis 4"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:32
 msgid "Heading 5"
-msgstr ""
+msgstr "Nadpis 5"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
-msgstr ""
+msgstr "Nadpis 6"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Heading rows"
-msgstr "Nadpisy"
+msgstr "Řádky s nadpisy"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -1964,7 +1955,7 @@ msgstr "Nápověda"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
-msgstr ""
+msgstr "Ahoj, %1"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -1982,13 +1973,12 @@ msgstr ""
 "weby."
 
 #: core/data/System/ManagingTopics.txt:98
-#, fuzzy
 msgid "History"
 msgstr "Historie"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
-msgstr ""
+msgstr "Horizontální pravítko"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
@@ -2029,7 +2019,7 @@ msgstr "Zapomněl jsem své heslo"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Icon"
-msgstr ""
+msgstr "Ikona"
 
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:34
@@ -2044,27 +2034,33 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Jestliže Foswiki nenalezne váš registrovaný email v databázi, nebudete moci "
+"resetovat své heslo nebo využít výhod upozornění na změny v článku "
+"prostřednictvím emailu."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Jestliže Foswiki detekuje podezřelý požadavek, který mohl být zaslán z "
+"takové stránky, zeptá se vás na potvrzení požadavku."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
 msgstr ""
+"Jestliže registrace není možná z důvodu chyb, administrátoři mohou stále "
+"registrovat uživatele na tento web za použití"
 
 #: core/templates/messages.tmpl:287
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Zkontrolujte Vaše nastavení pro {TemplateDir} a {TemplatePath}. Pokud toto "
-"není problém, problémem může být, že %1 ukazuje na šablonu, která neexistuje."
+"Pokud toto není problém, problémem může být, že %1 ukazuje na šablonu, která "
+"neexistuje."
 
 #: core/templates/messages.tmpl:211
 msgid "If this line isn't present see _upgrade_ section below"
@@ -2083,9 +2079,8 @@ msgstr ""
 "parametrů."
 
 #: core/templates/validate.tmpl:42
-#, fuzzy
 msgid "If you are unsure what this means, read: %1"
-msgstr "Jestliže si nejste jisti co toto přesně znamená, čtěte:"
+msgstr "Jestliže si nejste jisti co toto přesně znamená, čtěte: %1"
 
 #: core/templates/messages.tmpl:405 core/templates/messages.tmpl:416
 msgid "If you came here by clicking on a question mark link"
@@ -2096,7 +2091,6 @@ msgid "If you don't receive a verification email within the next hour, "
 msgstr "Jestliže neobdržíte verifikační email v následující hodině, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Pokud vložíte rozdílné jméno, ujistěte se, že článek existuje."
 
@@ -2148,6 +2142,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
+"Jestliže chcete prohledávat slovo ve stop word seznamu, zadejte před slovo "
+"znaménko +"
 
 #: core/templates/messages.tmpl:421
 msgid "If you would like to create this web"
@@ -2158,6 +2154,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
+"Jestliže chcete zaslat email s osobním názorem, prosím zadejte jej níže a "
+"stiskněte 'Poslat mail'"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -2170,17 +2168,16 @@ msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
-msgstr ""
+msgstr "Ignorujte následujících 7 dní"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Image"
-msgstr ""
+msgstr "Obraz"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Web %1 neexistuje"
+msgstr "Obraz %1 z %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2192,10 +2189,13 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"Může se stát, že podvodník zanechal link svádějící vás např. k návštěvě "
+"stránky http<nop>://crime.org, která obsahuje chytrý (a zároveň možná i "
+"nebezpečný) javascript."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "Pokud se jedná o soubory typu ZIP archiv, připojte je k tomuto článku"
 
 #: core/data/System/WebSearch.txt:174
 msgid "In reversed order"
@@ -2211,41 +2211,36 @@ msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:25
 msgid "Including"
-msgstr ""
+msgstr "Včetně"
 
 #: core/templates/registermessages.tmpl:300
 msgid "Incorrect Password"
 msgstr "Chybné heslo"
 
 #: core/templates/registermessages.tmpl:307
-#, fuzzy
 msgid "Incorrect Prefix"
-msgstr "Chybné %1"
+msgstr "Chybný prefix"
 
 #: core/templates/registermessages.tmpl:114
-#, fuzzy
 msgid "Incorrect [[%1][WikiName]]"
-msgstr "Chybné %1.WikiNames:"
+msgstr "Chybné [[%1][WikiJméno]]"
 
 #: core/templates/registermessages.tmpl:117
-#, fuzzy
 msgid "Incorrect [[%1][WikiNames:]]"
-msgstr "Chybné %1.WikiNames:"
+msgstr "Chybná [[%1][WikiJména:]]"
 
 #: core/templates/registermessages.tmpl:211
 #: core/templates/registermessages.tmpl:218
-#, fuzzy
 msgid "Incorrect [[%1][username]]"
-msgstr "Chybné %1.WikiNames:"
+msgstr "Chybné [[%1][username]]"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Chybné parametry pro =%1= skript"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
-#, fuzzy
 msgid "Indent"
-msgstr "Index"
+msgstr "Odsazení"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:8
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
@@ -2260,69 +2255,68 @@ msgstr "Index"
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 #: PatternSkin/data/System/PatternSkinElements.txt:450
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:2
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Insert a color code"
-msgstr ""
+msgstr "Vložit barevný kód"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
-msgstr ""
+msgstr "Vložit datum"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Insert a horizontal ruler"
-msgstr ""
+msgstr "Vložit horizontální pravítko"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:66
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:83
 msgid "Insert a link"
-msgstr ""
+msgstr "Vložit odkaz"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
 msgid "Insert a link to a topic or an external resource"
-msgstr ""
+msgstr "Vložit odkaz na článek a nebo externí zdroj"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
-msgstr ""
+msgstr "Vložit odkaz na profil uživatele"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Insert a macro"
-msgstr ""
+msgstr "Vložit makro"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Insert a mathematical formula"
-msgstr ""
+msgstr "Vložit matematický výraz"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr ""
+msgstr "Vložit novou tabulku"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
-msgstr ""
+msgstr "Vložit symbol"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
-#, fuzzy
 msgid "Insert an attachment"
-msgstr "Smazat přílohu"
+msgstr "Vložit přílohu"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
-msgstr ""
+msgstr "Vložit emotikon"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
 msgid "Insert an icon"
-msgstr ""
+msgstr "Vložit ikonu"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:105
 msgid "Insert your signature"
-msgstr ""
+msgstr "Vložit podpis"
 
 #: core/templates/messages.tmpl:235
 msgid ""
@@ -2338,7 +2332,7 @@ msgstr "Chybný aktivační kód"
 
 #: core/templates/messages.tmpl:165
 msgid "Invalid Input"
-msgstr ""
+msgstr "Chybně zadaný vstup"
 
 #: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
