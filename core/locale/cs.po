@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 20:27+0200\n"
+"PO-Revision-Date: 2015-03-14 22:03+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/cs/>\n"
@@ -18,7 +18,6 @@ msgstr ""
 "X-Generator: Weblate 2.1\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
 msgstr "!WikiJméno"
 
@@ -208,7 +207,6 @@ msgid "&Sequential"
 msgstr "&Postupně"
 
 #: core/templates/registermessages.tmpl:219
-#, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' není platné [[%2][login username]]."
 
@@ -1740,7 +1738,6 @@ msgid "First"
 msgstr "První"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
-#, fuzzy
 msgid "First name:"
 msgstr "Křestní jméno:"
 
@@ -2380,11 +2377,11 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
 msgid "Italic"
-msgstr ""
+msgstr "Kurzíva"
 
 #: core/data/Main/GroupViewTemplate.txt:255
 msgid "Join %1"
-msgstr ""
+msgstr "Přidej se k %1"
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
@@ -2394,36 +2391,32 @@ msgid "Jump"
 msgstr "Přejdi na"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "Obnov tuto revizi článku"
+msgstr "Přejděte na první revizi"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Přejděte na poslední revizi (%1)"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:135
 #: NatEditPlugin/templates/edit.natedit.tmpl:166
 msgid "Just me"
-msgstr ""
+msgstr "Pouze já"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
 msgid "Justify text"
-msgstr ""
+msgstr "Zarovnej text"
 
 #: core/data/System/WebSearch.txt:193
-#, fuzzy
 msgid "Keyword search"
-msgstr "Změň hledání"
+msgstr "Hledání dle klíčového slova"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "Last"
-msgstr "Poslední jméno"
+msgstr "Poslední"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
 msgstr "Poslední editor"
 
@@ -2432,7 +2425,6 @@ msgid "Last editor"
 msgstr "Poslední editor"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Last modified"
 msgstr "Naposledy změněno"
 
@@ -2441,22 +2433,20 @@ msgid "Last modified time"
 msgstr "Naposledy změněno"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
-#, fuzzy
 msgid "Last name:"
-msgstr "Poslední jméno"
+msgstr "Poslední název:"
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(revize %1)"
+msgstr "Poslední revize: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Leave %1"
-msgstr ""
+msgstr "Ponechej %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor."
 
 #: core/data/System/WebSearch.txt:225
 msgid "Limit results to:"
@@ -2488,25 +2478,24 @@ msgstr "Písmenné hledání"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
-#, fuzzy
 msgid "Load content"
-msgstr "Potvrzený obsah:"
+msgstr "Nahraj obsah"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
-msgstr ""
+msgstr "Přihlásit"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
-msgstr ""
+msgstr "Odhlásit"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Log in to continue."
-msgstr ""
+msgstr "Pro pokračování se přihlaste."
 
 #: core/templates/login.tmpl:14
 msgid "Log on to %1"
-msgstr ""
+msgstr "Přihlásit k %1"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
@@ -2514,9 +2503,8 @@ msgid "Login"
 msgstr "Přihlásit"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
-#, fuzzy
 msgid "Login username:"
-msgstr "Přihlášen %1"
+msgstr "Přihlašovací jméno:"
 
 #: core/templates/login.tmpl:77
 msgid "Logon"
@@ -2528,11 +2516,11 @@ msgstr "Odhlásit"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Macro"
-msgstr ""
+msgstr "Makro"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:22
 msgid "Macros"
-msgstr ""
+msgstr "Makra"
 
 #: core/templates/messages.tmpl:175
 msgid "Mail to"
@@ -2544,12 +2532,12 @@ msgstr "Hledání:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "Maximálně %1 položek na jeden web."
 
 #: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
-msgstr ""
+msgstr "Členové"
 
 #: core/templates/messages.tmpl:158
 msgid "Missing Fields"
@@ -2561,7 +2549,7 @@ msgstr "Chybí příkaz akce"
 
 #: core/templates/messages.tmpl:402
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Chybějící nebo neplatné jméno webu"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
@@ -5833,7 +5821,6 @@ msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
 
 #: core/templates/viewtopicactionbuttons.tmpl:40
-#, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 "title='Zobraz zdrojový text (bez formátování)' accesskey='v'>&View wiki text"
