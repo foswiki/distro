@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 21:16+0200\n"
+"PO-Revision-Date: 2015-03-14 20:26+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -1204,7 +1204,6 @@ msgid "Create new topic"
 msgstr "Vytvoř nový článek"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
-#, fuzzy
 msgid "Create not specified and group does not exist"
 msgstr "Nedefinovaný Create a skupina neexistuje"
 
@@ -1306,9 +1305,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Rozdíl:"
+msgstr "Rozdíl"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1484,16 +1482,14 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Vložte Wiki Administrátora nebo login jak je nastaveno v %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, který "
-"je [[%SYSTEMWEB%.WikiWord][WikiWord]] nebo zaškrtněte volbu \"povolit non-"
-"Wiki Word\"."
+"Zadejte název článku jako WikiJméno nebo vyberte volbu \"povolit non-Wiki "
+"Word\"."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Při nahrávání pluginu došlo k chybě. Více viz následující výpis."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1541,11 +1537,11 @@ msgstr "Zlá osoba"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Chybné pluginy"
+msgstr "Zhavarované pluginy"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Došlo k chybě při přidávání uživatele: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1582,8 +1578,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"Detailnější informaci o nebezpečí cross-site požadavků získáte na [[%1][the "
-"Cross-site request forgery article on Wikipedia]]."
+"Detailnější informaci o nebezpečí cross-site požadavků, a nebezpečí s tím "
+"související, získáte na [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1632,7 +1629,7 @@ msgstr "Foswiki znovunastavení hesla pro %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Získej nápovědu jak přikládat soubory."
+msgstr "Získej nápovědu jak přikládat soubory"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
@@ -1657,8 +1654,8 @@ msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Jděte v prohlížeči zpět a vložte informace pro všechna pole kde je to "
-"vyžadováno."
+"Jděte v prohlížeči zpět, a vložte informace pro všechna pole kde je to "
+"vyžadováno, nežli budete znovu ukládat"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1683,15 +1680,16 @@ msgstr "Skupina"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Skupina neexistuje a vytvoření není povoleno"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
 msgstr "Jméno skupiny"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
+#, fuzzy
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Názvy skupin musí končit Skupina"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1784,14 +1782,17 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Jestliže Foswiki nenalezne váš registrovaný email v databázi, nebudete moci "
+"resetovat své heslo nebo využít výhod upozornění na změny v článku "
+"prostřednictvím emailu."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
-"Jestliže Foswiki detekuje podezřelý požadavek, poté se vás zeptá na "
-"potvrzení."
+"Jestliže Foswiki detekuje podezřelý požadavek, který mohl být zaslán z "
+"takové stránky, zeptá se vás na potvrzení požadavku."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
 msgid ""
@@ -1976,7 +1977,7 @@ msgstr "Chybný aktivační kód"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "Chybně zadaný vstup"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
