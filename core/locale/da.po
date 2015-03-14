@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 12:26+0200\n"
+"PO-Revision-Date: 2015-03-14 08:43+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -2082,9 +2082,8 @@ msgid "Last modified"
 msgstr "Sidst opdateret"
 
 #: core/data/System/WebSearch.txt:167
-#, fuzzy
 msgid "Last modified time"
-msgstr "Sidst opdateret tid"
+msgstr "Sidst opdateret"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 msgid "Last name"
@@ -2184,7 +2183,6 @@ msgid "Missing Fields"
 msgstr "Manglende felter"
 
 #: core/templates/messages.tmpl:36
-#, fuzzy
 msgid "Missing action command"
 msgstr "Manglende aktionskommando (action command)"
 
