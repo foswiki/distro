@@ -908,7 +908,7 @@ EOM
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         push @expected, qw(TestBulkUser1 TestBulkUser3);
         $this->assert_matches(
-qr/The System.LoginName is a required parameter. Registration rejected./,
+qr/\QThe [[System.UserName][login username]]\E is a required parameter. Registration rejected./,
             $topicText
         );
         $this->assert_matches(
@@ -919,7 +919,7 @@ qr/You cannot register twice, the name 'tbu3' is already registered\./,
     else {
         push @expected, qw(TestBulkUser2 TestBulkUser4);
         $this->assert_matches(
-qr/The \[\[System.LoginName\]\[Login Name\]\] \(tbu3\) is not allowed for this installation/,
+qr/\QThe [[System.UserName][login username]] (tbu3)\E is not allowed for this installation./,
             $topicText
         );
         $this->assert_matches(

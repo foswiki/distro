@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-14 02:32+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3545,7 +3545,7 @@ msgstr "Retourner à %1"
 
 #: core/templates/registermessages.tmpl:342
 #, fuzzy
-msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr "Retournez à %1 and supply a [[%2][WikiName or [[%3][username]]."
 
 #: core/templates/registermessages.tmpl:296

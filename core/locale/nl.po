@@ -3648,7 +3648,7 @@ msgid "Return to %1"
 msgstr "Ga terug naar %1."
 
 #: core/templates/registermessages.tmpl:342
-msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:296

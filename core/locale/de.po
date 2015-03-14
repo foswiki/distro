@@ -3570,7 +3570,7 @@ msgstr "Zurück zu %1"
 
 #: core/templates/registermessages.tmpl:342
 #, fuzzy
-msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr "Zurück zu [_0] und einen WikiName oder Anmeldenamen angeben"
 
 #: core/templates/registermessages.tmpl:296

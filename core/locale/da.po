@@ -3538,7 +3538,7 @@ msgstr "Tilbage til %1"
 
 #: core/templates/registermessages.tmpl:342
 #, fuzzy
-msgid "Return to %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr "Tilbage til [_0] og angiv et WikiNavn eller brugernavn"
 
 #: core/templates/registermessages.tmpl:296
