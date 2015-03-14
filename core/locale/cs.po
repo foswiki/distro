@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 20:26+0200\n"
+"PO-Revision-Date: 2015-03-14 22:03+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -2103,7 +2103,7 @@ msgstr "Odhlásit"
 
 #: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
-msgstr "Pro pokračování se přihlašte."
+msgstr "Pro pokračování se přihlaste."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2157,7 +2157,7 @@ msgstr "Chybí příkaz akce"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Chybějící nebo neplatné jméno webu"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
