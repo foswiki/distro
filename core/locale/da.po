@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-12 12:39+0200\n"
+"PO-Revision-Date: 2015-03-14 10:01+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Weblate 2.1\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "Sidenavn"
+msgstr "!WikiNavn"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -2262,20 +2261,17 @@ msgid "Incorrect Prefix"
 msgstr "Forkert prefiks"
 
 #: core/templates/registermessages.tmpl:114
-#, fuzzy
 msgid "Incorrect [[%1][WikiName]]"
-msgstr "Forkert %1.WikiNames:"
+msgstr "Forkert [[%1][WikiNavn]]"
 
 #: core/templates/registermessages.tmpl:117
-#, fuzzy
 msgid "Incorrect [[%1][WikiNames:]]"
-msgstr "Forkert %1.WikiNames:"
+msgstr "Forkerte [[%1][WikiNavne]]"
 
 #: core/templates/registermessages.tmpl:211
 #: core/templates/registermessages.tmpl:218
-#, fuzzy
 msgid "Incorrect [[%1][username]]"
-msgstr "Forkert %1.WikiNames:"
+msgstr "Forkert [[%1][username]]"
 
 #: core/templates/messages.tmpl:300
 msgid "Incorrect parameters to the =%1= script"
@@ -2473,14 +2469,12 @@ msgid "Last modified"
 msgstr "Sidst opdateret"
 
 #: core/data/System/WebSearch.txt:165
-#, fuzzy
 msgid "Last modified time"
-msgstr "Sidst opdateret tid"
+msgstr "Sidst opdateret"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
-#, fuzzy
 msgid "Last name:"
-msgstr "Efternavn"
+msgstr "Efternavn:"
 
 #: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
@@ -2524,9 +2518,8 @@ msgstr "Simpel søgning"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
-#, fuzzy
 msgid "Load content"
-msgstr "Tilføjet indhold:"
+msgstr "Hent indhold"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
@@ -2550,9 +2543,8 @@ msgid "Login"
 msgstr "Log ind"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
-#, fuzzy
 msgid "Login username:"
-msgstr "Brugernavn"
+msgstr "Brugernavn:"
 
 #: core/templates/login.tmpl:77
 msgid "Logon"
@@ -2592,7 +2584,6 @@ msgid "Missing Fields"
 msgstr "Manglende felter"
 
 #: core/templates/messages.tmpl:37
-#, fuzzy
 msgid "Missing action command"
 msgstr "Manglende aktionskommando (action command)"
 
@@ -2925,6 +2916,8 @@ msgid ""
 "On this system, once you are registered, you may also log in using your "
 "email address."
 msgstr ""
+"På denne side, kan du også logge ind med e-mail-adresse, når du er "
+"registreret."
 
 #: core/templates/registermessages.tmpl:347
 msgid "Only administrators are allowed to remove other accounts."
@@ -3002,9 +2995,8 @@ msgid "Password reset failed"
 msgstr "Nulstilling af adgangskoden fejlede"
 
 #: core/templates/registermessages.tmpl:171
-#, fuzzy
 msgid "Password reset failed."
-msgstr "Nulstilling af adgangskoden fejlede"
+msgstr "Nulstilling af adgangskoden fejlede."
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
@@ -3072,12 +3064,10 @@ msgid "Please correct the entered data before you continue."
 msgstr "Ret venligst de indtastede data inden du fortsætter."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
-#, fuzzy
 msgid "Please enter a WikiName."
-msgstr "Indtast et Wiki-navn."
+msgstr "Indtast et WikiNavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
-#, fuzzy
 msgid "Please enter a login username."
 msgstr "Indtast brugernavn."
 
@@ -3345,14 +3335,12 @@ msgid "Regular expression search"
 msgstr "Søg med regulære udtryk"
 
 #: core/data/System/UserName.txt:44
-#, fuzzy
 msgid "Related Topics for Administrators:"
-msgstr "Advisér venligst din %1-administrator."
+msgstr "Relaterede sider for administratorer:"
 
 #: core/data/System/SiteTools.txt:150
 #: core/data/System/SkinTemplateTokens.txt:181
 #: core/data/System/UserAuthentication.txt:307
-#, fuzzy
 msgid "Related Topics:"
 msgstr "Relaterede sider:"
 
@@ -3408,7 +3396,6 @@ msgid "Remove selected members"
 msgstr "Fjern valgte medlemmer"
 
 #: core/templates/registermessages.tmpl:286
-#, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Fjern først medlem fra gruppen %1."
 
@@ -4076,7 +4063,6 @@ msgstr ""
 "aktiveringskode er %2."
 
 #: core/templates/registermessages.tmpl:103
-#, fuzzy
 msgid "That user has already been activated"
 msgstr "Denne bruger er allerede aktiveret"
 
@@ -4209,6 +4195,9 @@ msgid ""
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
+"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som "
+"f.eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
+"bruger Foswiki forsigtighedsprincippet."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
@@ -4219,17 +4208,19 @@ msgstr ""
 #: core/templates/registermessages.tmpl:243
 #: core/templates/registermessages.tmpl:261
 msgid "The e-mail address for this account has been rejected."
-msgstr ""
+msgstr "E-mail-adressen for dette brugernavn er blevet afvist."
 
 #: core/templates/registermessages.tmpl:252
 #: core/templates/registermessages.tmpl:270
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr ""
+"E-mail-adressen for dette brugernavn er allerede registreret til en anden "
+"bruger."
 
 #: core/templates/registermessages.tmpl:234
 msgid "The e-mail address for this account is not valid."
-msgstr ""
+msgstr "E-mail-adressen for dette brugernavn er ikke gyldig."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
@@ -4238,44 +4229,52 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"E-mail adressen på din brugerside er typisk ikke udfyldt. Hvis du gerne vil "
+"vise din e-mail adresse til andre, så kan du manuelt tilføje den. Den "
+"behøver ikke at være den samme som bliver brugt af Foswiki internt."
 
 #: core/templates/messages.tmpl:360
 msgid "The entry for user %1 was missing in the password system."
-msgstr ""
+msgstr "Adgangskoden for brugernavnet %1 fandtes ikke i password-systemet."
 
 #: core/templates/messages.tmpl:227
 msgid "The file has been uploaded and attached properly to the %1 topic."
-msgstr ""
+msgstr "Filen er blevet uploadet og vedhæftet korrekt til %1-siden."
 
 #: core/templates/messages.tmpl:267
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
+"De følgende sider er låst (de editeres i øjeblikket), og kan ikke flyttes:"
 
 #: core/templates/messages.tmpl:273
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
+"De følgende sider refererer til sider i dette web, men de editeres i "
+"øjeblikket:"
 
 #: core/templates/messages.tmpl:270
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr ""
+"De følgende sider refererer til sider i dette web, men du har ikke "
+"rettigheder til dem:"
 
 #: core/templates/messages.tmpl:204
 msgid "The form should be defined in the topic %1"
-msgstr ""
+msgstr "Formularen skal defineres på siden %1"
 
 #: core/templates/messages.tmpl:330
 msgid "The lease on this topic expired %1 ago."
-msgstr ""
+msgstr "Låsen på denne side udløb for %1 siden."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
-msgstr ""
+msgstr "Sidenavnet må ikke være tomt."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
-msgstr ""
+msgstr "Navn du logger på med"
 
 #: core/templates/moveattachment.tmpl:24
 #, fuzzy
