@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426281043" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426431164" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -201,8 +201,8 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 
 ---+++ Change of Password Message
 
-   * If password management is not handled by Foswiki this message will be displayed on %SYSTEMWEB%.ChangePassword and %SYSTEMWEB%.ResetPassword. Replace this generic text with a reference to how to change or reset password within your organisation.
-      * Set CHANGEPASSWORDDISABLEDMESSAGE = %MAKETEXT{"Resetting and setting password is not handled by Foswiki"}%
+   * If password management is not handled by Foswiki, this message will be displayed on %SYSTEMWEB%.ChangePassword and %SYSTEMWEB%.ResetPassword. If email is disabled, it will also be displayed on %SYSTEMWEB%.ResetPassword. Replace this generic text with a reference to how to change or reset password within your organisation.
+      * Set CHANGEPASSWORDDISABLEDMESSAGE = %MAKETEXT{"Resetting and setting password is not available."}%
 
 ---+++ HTTP-<nop>EQUIV Settings
 

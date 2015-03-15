@@ -879,6 +879,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{DefaultUrlHost}',
     '{DenyDotDotInclude}',
     '{DisplayTimeValues}',
+    '{EnableEmail}',
     '{EnableHierarchicalWebs}',
     '{FormTypes}',
     '{HomeTopicName}',
