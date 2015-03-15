@@ -14,11 +14,49 @@ One line description, required for extensions repository catalog.
 This is the modern implementation of the classic Foswiki RCS based store. It has been moved into a contrib as other store implementations have emerged, and the RCS store's status as "the one and only" store implementation has been eroded.
 
 ---++ Managing Topics
-The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =pub/Trash= and =data/Trash= directories. 
+The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =pub/Trash= and =data/Trash= directories.
 
 <div class="foswikiHelp">%X% This can only be done from on the server, not through the browser. %T% Be sure to recreate the empty !TrashAttachments after you remove it.
 
 %T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</div>
+
+---++ Performance
+
+The RCS Store can be quite resource intensive, especially for topics with large numbers of revisions, or for large binary files, where rcs is unable to caluculate a difference for the change.
+The RCSStoreContrib implements two versions of RCS based stores:
+   $ =RcsWrap=: A Perl wrapper for the system "rcs" tools. It uses "fork" to run the system =rcs= commands under the control of Foswiki. It is generally not recommended
+   on systems running with mod_perl, and is unavailable on Windows.
+   $ =RcsLite=: A pure Perl implementation of RCS. It avoids the "fork" overhead and is preferred in a "Persistent Perl" environment like mod_perl.
+   It works well when working with small revision histories. However very large histories, such as created with large binary attachments, or topics like !WebStatistics which can have a high volume of changes can be extremely
+   slow due to RCSLite loading the revision history into memory.
+
+Each of the RCS implementations have their own strengths, but neither is ideal. Foswiki 1.2 now ships with a new PlainFileStoreContrib. This is the default
+for new Foswiki sites, and comes with migration tools to convert away from RCS based stores.
+
+---+++ !RcsLite
+
+There is a configuration option embedded in the RCSLite module that can significantly improve performance, It is not enabled by default because it
+will disable the capability of storing a revision comment with each save. The developers do not believe that Foswiki uses this feature, but as it might be used by
+non-default extensions, it has not been disabled.
+
+To improve performance, (and disable storage of save comments) apply the following patch. Paste it into a file named ="patchrcs"= in your Foswiki installation directory,
+and then apply the patch by running =patch -p0 < patchrcs=. You can also just edit the file directly and change the =0;= to =1;=, around line 105.
+
+<verbatim>
+diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandler.pm
+--- lib/Foswiki/Store/Rcs/RcsLiteHandler.pm
++++ lib/Foswiki/Store/Rcs/RcsLiteHandler.pm
+@@ -102,7 +102,7 @@ use Foswiki::Sandbox ();
+ # doesn't actually use that part of the info record for anything much. We could rework the store API to
+ # separate the log info, but it would be a lot of work. Using this constant you can ignore the log info in
+ # getInfo calls. The tests will fail, but the core will run a lot faster.
+-use constant CAN_IGNORE_COMMENT => 0;    # 1
++use constant CAN_IGNORE_COMMENT => 1;    # 1
+
+ #
+ # As well as the field inherited from Rcs::Handler, the object for each file
+</verbatim>
+
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -30,7 +68,7 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 |  1.0.0 (10 May 2013): | Initial version, abstracted from core |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="FoswikiContributor"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
