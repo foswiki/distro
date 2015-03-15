@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 22:03+0200\n"
+"PO-Revision-Date: 2015-03-15 23:43+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -1062,7 +1062,6 @@ msgid "Color %1 has an invalid format"
 msgstr "Barva %1 má nesprávný formát"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
-#, fuzzy
 msgid "Come on in"
 msgstr "Přejdi k"
 
@@ -1687,9 +1686,8 @@ msgid "Group name"
 msgstr "Jméno skupiny"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
-#, fuzzy
 msgid "Group names must end in Group"
-msgstr "Názvy skupin musí končit Skupina"
+msgstr "Názvy skupin musí končit na Skupina"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -2178,7 +2176,7 @@ msgstr "Více informací o skrytých přílohách"
 
 #: core/data/System/TopicsAndWebs.txt:49
 msgid "More topic actions"
-msgstr "Další akce..."
+msgstr "Další akce pro práci s článkem..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:87
@@ -2196,8 +2194,8 @@ msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"Více: smaž nebo přejmenuj tento článek; nastav nadřízený článek; ukaž a "
-"porovnej revize (m)"
+"Více: smayat nebo přejmenovat tento článek; nastavit nadřízený článek; "
+"ukázat a porovnat revize (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2251,7 +2249,7 @@ msgstr "Naviguj k podobnému článku"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Nevadí"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2324,7 +2322,7 @@ msgstr "Neexistují žádné předchozí revize článku."
 
 #: core/templates/renamebase.tmpl:45
 msgid "No topics to update."
-msgstr "Žádné články k aktualizaci"
+msgstr "Žádné články k aktualizaci."
 
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:530
 msgid "No username specified"
@@ -2364,7 +2362,7 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
-"Poznámka: musíte mít povolené Cookies a Javascript ve vašem prohlížeči aby "
+"Poznámka: musíte mít povolené Cookies a Javascript ve vašem prohlížeči, aby "
 "jste se dostali přes tuto stránku. Jestliže máte problém s funkcionalitou, "
 "toto je první věc kterou by jste měli zkontrolovat."
 
@@ -2489,9 +2487,8 @@ msgid "Password reset failed"
 msgstr "Znovunastavení hesla bylo neúspěšné"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "Znovunastavení hesla bylo neúspěšné"
+msgstr "Hesla jsou vypnutá"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2516,7 +2513,7 @@ msgstr "Místo pro vymazané přílohy"
 
 #: core/templates/messages.tmpl:508 core/templates/messages.tmpl:558
 msgid "Please check to ensure you have permission to modify the group."
-msgstr "Prosím zkontrolujte že máte oprávnění měnit skupinu."
+msgstr "Prosím zkontrolujte že máte oprávnění měnit tuto skupinu."
 
 #: core/templates/messages.tmpl:298 core/templates/messages.tmpl:364
 msgid "Please contact %1 if you have any questions."
@@ -2587,11 +2584,13 @@ msgstr "Držátka pluginů :)"
 
 #: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Modul pluginu nevrátil true. Zkontrolujte chyby uvedené níže."
 
 #: core/templates/messages.tmpl:715
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Modul pluginu nebyl definován. Zkontrolujte konfiguraci. Zkontrolujte chyby "
+"uvedené níže."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2629,7 +2628,7 @@ msgstr "Vlastnosti"
 
 #: core/lib/Foswiki/Render.pm:262
 msgid "Put it back..."
-msgstr "Vložit zpět ..."
+msgstr "Vrať to zpět ..."
 
 #: core/data/System/WebSearch.txt:207
 msgid "Query Search"
@@ -2753,7 +2752,7 @@ msgstr "Odstraň uživatele z této skupiny"
 
 #: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
-msgstr "Odstraň uživatelské účty..."
+msgstr "Odstraň členy..."
 
 #: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
@@ -3034,11 +3033,11 @@ msgstr "Viz nápověda níže pro editaci této stránky."
 
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
-msgstr "Zkontrolujte změny od:"
+msgstr "Viz změny od:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Viz volba nastavení DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3058,7 +3057,7 @@ msgstr "Vyber vše"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
-msgstr "Pro porovnání vyber starší (nalevo) a novější (napravo) revize."
+msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)."
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
@@ -3201,7 +3200,7 @@ msgstr "Potvrzený obsah:"
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "Přihlásit k odběru"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:89
@@ -3231,7 +3230,7 @@ msgstr "Použijte monotype nebo proporcionální font"
 
 #: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
-msgstr "List uživatelů"
+msgstr "Seznam uživatelů."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3330,9 +3329,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "Registrace nových uživatelů byla zakázána Administrátorem."
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "Registrace nových uživatelů byla zakázána Administrátorem."
+msgstr "Administrátor vypnul možnost změnit si heslo."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
