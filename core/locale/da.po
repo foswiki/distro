@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 10:01+0200\n"
+"PO-Revision-Date: 2015-03-15 10:29+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr "!WikiNavn"
+msgstr "!WikiName"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -2262,7 +2262,7 @@ msgstr "Forkert prefiks"
 
 #: core/templates/registermessages.tmpl:114
 msgid "Incorrect [[%1][WikiName]]"
-msgstr "Forkert [[%1][WikiNavn]]"
+msgstr "Forkert [[%1][WikiName]]"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Incorrect [[%1][WikiNames:]]"
@@ -3272,7 +3272,7 @@ msgstr "Redirigering nægtet"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Redo previous change"
-msgstr ""
+msgstr "Gendan forrige ændring"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
@@ -3524,9 +3524,8 @@ msgid "Return to %1"
 msgstr "Tilbage til %1"
 
 #: core/templates/registermessages.tmpl:342
-#, fuzzy
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
-msgstr "Tilbage til [_0] og angiv et WikiNavn eller brugernavn"
+msgstr "Tilbage til %1 og angiv [[%2][WikiName]] eller [[%3][username]]."
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
@@ -4277,17 +4276,16 @@ msgid "The name you log in with"
 msgstr "Navn du logger på med"
 
 #: core/templates/moveattachment.tmpl:24
-#, fuzzy
 msgid "The new topic chosen must already exist."
-msgstr "Kan ikke omdøbe %1 til %2, da siden allerede eksisterer"
+msgstr "Det nye side-navn skal være oprettet på forhånd."
 
 #: core/templates/messages.tmpl:15
 msgid "The new web has been created"
-msgstr ""
+msgstr "Det nye web er blevet oprettet"
 
 #: core/templates/registermessages.tmpl:301
 msgid "The password you entered in the *old password* field is incorrect."
-msgstr ""
+msgstr "Adgangskoden, som du har indtastet i *Old password*-feltet er forkert."
 
 #: core/templates/registermessages.tmpl:308
 msgid ""
@@ -4381,7 +4379,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 msgid "This WikiName is already in use."
-msgstr ""
+msgstr "Dette WikiNavn er allerede i brug."
 
 #: core/templates/messages.tmpl:217
 msgid "This can be automatically upgraded by:"
@@ -4438,9 +4436,8 @@ msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-#, fuzzy
 msgid "This is not a valid WikiName."
-msgstr "'%1' er ikke en korrekt %2 "
+msgstr "Dette er ikke et gyldigt WikiNavn."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4459,9 +4456,8 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "This must be a unique WikiName."
-msgstr "'%1' er ikke en korrekt %2 "
+msgstr "Dette skal være et unikt WikiNavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 #, fuzzy
@@ -5137,9 +5133,8 @@ msgid "Wiki administrators should read about the %1."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
 msgid "WikiName:"
-msgstr "Sidenavn"
+msgstr "WikiNavn:"
 
 #: core/data/System/WebSearch.txt:189
 #, fuzzy
@@ -5328,7 +5323,7 @@ msgstr ""
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "Dit [[%1][Wikiname]] er %2 og dit brugernavn er =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
