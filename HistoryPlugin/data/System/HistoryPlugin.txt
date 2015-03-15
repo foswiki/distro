@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426280979" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426445555" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -20,6 +20,16 @@ This plugins is designed to work together with !CompareRevisionsAddOn and !RevCo
 Syntax: =%<nop>HISTORY{ _attributes_ }%=
 
 %INCLUDE{"%SYSTEMWEB%.VarHISTORY" section="history_attributes"}%
+
+---++ Custom settings:
+
+If the preference variable =HISTORYPLUGIN_NREV= is set,  it overrides the default number of revisions shown in history when the topic =History= link is
+selected.  For example, the following setting changes the revisions shown to 5.   Copy this setting into a topic to enable it for a pariticular topic,
+user, Web, or site wide.   See [[%SYSTEMWEB%.PreferenceSettings]].
+
+<verbatim>
+   * Set HISTORYPLUGIN_NREV = 5
+</verbatim>
    
 ---++ Examples
 
@@ -57,6 +67,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 -->
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Mar 2015: | 1.12 Version released with Foswiki 1.2.0. Foswikitask:Item12881: Add HISTORYPLUGIN_NREV setting. |
 |  28 Nov 2012: | 1.11 Version released with Foswiki 1.1.6. Change to perl version strings |
 |  11 Apr 2011: | 1.10 Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  13 Mar 2011: | 1.9 Arthur Clemens: added parameter =versions= as a more versatile alternative to =rev1=, =rev2=, =nrev= and =reverse=. |
@@ -81,9 +92,9 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 
 __Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1426280456" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1426445555" path="screenshot.png" size="72043" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2012 Kenneth Lavrsen and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2015 Kenneth Lavrsen and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HistoryPlugin"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

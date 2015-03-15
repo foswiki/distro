@@ -34,7 +34,8 @@
 
 %TMPL:DEF{"history_rdiff_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"rdiff"}%/%BASEWEB%/%BASETOPIC%?type=history' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a>%TMPL:END%
 
-%TMPL:DEF{"history_history_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%?template=oopshistory' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a>%TMPL:END%
+%TMPL:DEF{"history_history_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%?template=oopshistory%IF{"defined HISTORYPLUGIN_NREV" then="&nrev=%HISTORYPLUGIN_NREV%" else=""}%' rel='nofollow' %MAKETEXT{"title='View complete topic history' accesskey='h'>&History"}%</a>%TMPL:END%
+
 
 
 %TMPL:DEF{"raw_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?raw=on%REVARG%' rel='nofollow' %MAKETEXT{"title='View without formatting' accesskey='v'>&View wiki text"}%</a></span>%TMPL:END%
