@@ -2501,7 +2501,7 @@ msgstr "更多隱藏附件說明"
 msgid "More tools"
 msgstr ""
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 msgid "More topic actions"
 msgstr "更多主題功能"
 
@@ -3360,7 +3360,8 @@ msgid "Reset password"
 msgstr "重設密碼"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+#, fuzzy
+msgid "Resetting and setting password is not available."
 msgstr "重設或設定密碼並非由 Foswiki 處理"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142

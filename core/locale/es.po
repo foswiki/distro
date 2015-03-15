@@ -2671,7 +2671,7 @@ msgstr "Más acerca de ocultar archivos adjuntos"
 msgid "More tools"
 msgstr "&Más acciones para la página"
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 #, fuzzy
 msgid "More topic actions"
 msgstr "&Más acciones para la página"
@@ -3562,7 +3562,8 @@ msgid "Reset password"
 msgstr "Reinicializar contraseña"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+#, fuzzy
+msgid "Resetting and setting password is not available."
 msgstr "Reiniciar una contraseña no es manejado por Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142

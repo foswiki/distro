@@ -2596,7 +2596,7 @@ msgstr "移动或删除附件"
 msgid "More tools"
 msgstr ""
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 #, fuzzy
 msgid "More topic actions"
 msgstr "更多主题功能..."
@@ -3472,7 +3472,7 @@ msgid "Reset password"
 msgstr "重设密码"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142

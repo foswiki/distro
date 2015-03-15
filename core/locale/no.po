@@ -2622,7 +2622,7 @@ msgstr "Mer om skuling av vedlegg"
 msgid "More tools"
 msgstr ""
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 #, fuzzy
 msgid "More topic actions"
 msgstr "Flere valg for siden..."
@@ -3505,7 +3505,8 @@ msgid "Reset password"
 msgstr "Tilbakestill passord"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+#, fuzzy
+msgid "Resetting and setting password is not available."
 msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142

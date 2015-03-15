@@ -2630,7 +2630,7 @@ msgstr "Plus d'informations sur comment cacher les fichiers attachés"
 msgid "More tools"
 msgstr "Autres outils"
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 msgid "More topic actions"
 msgstr "Autres actions sur la page"
 
@@ -3479,7 +3479,8 @@ msgid "Reset password"
 msgstr "Réinitialisation de votre mot de passe"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+#, fuzzy
+msgid "Resetting and setting password is not available."
 msgstr ""
 "La réinitialisation et la définition des mots de passe ne sont pas gérées "
 "par Foswiki"

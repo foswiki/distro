@@ -2645,7 +2645,7 @@ msgstr "Mehr zum Verstecken von Anhängen"
 msgid "More tools"
 msgstr "Mehr Werkzeuge"
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 msgid "More topic actions"
 msgstr "Mehr Topic-Aktionen"
 
@@ -3501,7 +3501,8 @@ msgid "Reset password"
 msgstr "Passwort zurücksetzen"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+#, fuzzy
+msgid "Resetting and setting password is not available."
 msgstr ""
 "Das Setzen und Zurücksetzen von Passwörtern wird nicht von Foswiki "
 "durchgeführt"

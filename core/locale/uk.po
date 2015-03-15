@@ -2684,7 +2684,7 @@ msgstr "Перемісити чи вилучити прикріплені фай
 msgid "More tools"
 msgstr ""
 
-#: core/data/System/TopicsAndWebs.txt:50
+#: core/data/System/TopicsAndWebs.txt:52
 #, fuzzy
 msgid "More topic actions"
 msgstr "Інші операції..."
@@ -3589,7 +3589,7 @@ msgid "Reset password"
 msgstr "Скинути пароль"
 
 #: core/data/System/DefaultPreferences.txt:205
-msgid "Resetting and setting password is not handled by Foswiki"
+msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
