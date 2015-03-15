@@ -1,12 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426390934" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
+
 %TOC%
-<div style="float: right; width: 307px; padding-left: 1em;">
-#SystemWebFigure
-  <div style="padding-bottom: 1em;"> *Figure:* depiction of %HOMETOPIC%, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the %SYSTEMWEB% web</div>
-  <img src="%ATTACHURLPATH%/diagram.png" width="307px" height="438px"/>
+<div style='float: right; width: 307px; padding-left: 1em;'>
+#SystemWebFigure <div style='padding-bottom: 1em;'> *Figure:* depiction of %HOMETOPIC%, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the %SYSTEMWEB% web</div>
+  <img alt='' height='438px' src='%ATTACHURLPATH%/diagram.png' width='307px' />
 </div>
+
 #TopicDefinition
 __Topics__ are the basic building block of a Foswiki site. You may be more familiar with the term _pages_, _documents_ or _articles_ in other software; however, Foswiki's _topics_ traditionally serve more purposes than the equivalent in other systems. Topics can only exist inside a _web_. The topic you're reading now is %TOPIC%.
 
@@ -14,6 +15,7 @@ __Topics__ are the basic building block of a Foswiki site. You may be more famil
 A __Web__ is a collection of topics (and other webs, known as _subwebs_). Webs are containers and by themselves cannot store information; only topics can do that. You may be more familiar with the term _Namespaces_ in other wiki software, but Foswiki's _webs_ are more like _directories_ and _folders_ in your computer's operating system. There is no common "root" web. The %TOPIC% topic you're reading now is contained in the [[%HOMETOPIC%][%WEB%]] web (its complete, _fully qualified_ name is [[%WEB%.%TOPIC%]]).
 
 ---++ Anatomy of a Topic
+
 Each topic has:
    * name
       * topics in a given web have unique names to identify them
@@ -51,6 +53,7 @@ Each topic has:
 
 #EditingPages
 ---+++ Creating and editing topics
+
 Foswiki makes it easy to add and edit topics or link between them.
 
 *To edit:* click ==Edit== in the toolbar which should be present at the top and bottom of each page (assuming default PatternSkin). An edit screen appears. Use the =Edit Help= button if you need it.
@@ -64,11 +67,12 @@ Foswiki makes it easy to add and edit topics or link between them.
 
 #TopicNames
 ---+++ Topic Names
-The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non-[[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[EditingShorthand]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
+
+The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non- [[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[EditingShorthand]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
 
    * The first letter of each "word" will be automatically capitalized
    * Spaces are compressed out of the topic name
-   * The following special characters are removed:
+   * The following special characters are removed: _(May be different in your installation)_
       * Any other "whitespace" characters
       * ==*== (Asterisk)
       * ==?== (Question mark)
@@ -89,17 +93,20 @@ The best strategy is to use WikiWords for your topic names. In this way, linking
 
 Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe][EditingShorthand]]
 
-<div class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%][configure -> Security and Authenticatino tab, -> Environment sub-tab]]</div>
+<div class='foswikiHelp'>%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%][configure -&gt; Security and Authentication tab, -&gt; Environment sub-tab]]</div>
 
 ---+++ Revision numbers
+
 Topic and attachment versions are identified by positive, non-zero, integer numbers. Versions start with 1 and are sequencial.
 
 #RenamingTopics
 #RevisionRollback
 ---+++ Reverting, renaming, moving and deleting topics
+
 See [[FAQDeleteOrRenameATopic]] and [[ManagingTopics]]
 
 ---++ Anatomy of a web
+
 If a user navigates to a Foswiki site without specifying a web, the default [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] will be displayed.
 
 Each web has:
@@ -108,7 +115,8 @@ Each web has:
       * there is no ability to refer to _subwebs_ with a _relative_ path, i.e. they must always be _fully qualified_ - referred to in full, with the parent web(s) prefixed
          * the '.' and '/' characters serve as _path delimiters_ to a web or topic
          * example: [[%SANDBOXWEB%/MySubWeb/MySubSubWeb.MyTopic]]
-         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =%SANDBOXWEB%/MySubWeb=, navigating to it must be done so using a trailing slash, i.e. =%SANDBOXWEB%/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =%SANDBOXWEB%.MySubWeb=
+         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =%SANDBOXWEB%/MySubWeb=, navigating to it must be done so using a trailing slash, i.e. =[<nop>[%SANDBOXWEB%/MySubWeb/]]=. Without the trailing slash, Foswiki tries to display the _topic_ named =[<nop>[%SANDBOXWEB%.MySubWeb]]=.
+            * Disambiguation of identical web and topic names using the trailing slash is only active within =[<nop>[Square bracket links]]=.
    * WebPreferences topic
       * sets PreferenceSettings to be inherited by all contained topics, e.g. [[AccessControl][access controls]], and:
          * =FINALPREFERENCES= to prevent subwebs and topics from overriding inherited PreferenceSettings
@@ -129,10 +137,12 @@ Each web has:
 }%
 
 ---+++ Renaming, moving and deleting webs
+
 See [[ManagingWebs]]
 <!-- %JQREQUIRE{"chili"}% -->
 
 ---
+
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" version="1" date="1421599902" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="diagram.png" date="1426390927" user="ProjectContributor" version="1"}%
