@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-13 14:36+0200\n"
+"PO-Revision-Date: 2015-03-16 13:33+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -3664,14 +3664,14 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Ce formulaire sert à changer les adresses e-mail sous lesquelles vous êtes "
-"inscrit·e. Ces adresses sont utilisées par Foswiki pour vous envoyer des e-"
+"inscrit(e). Ces adresses sont utilisées par Foswiki pour vous envoyer des e-"
 "mails, tels que les notifications de changement de mot de passe. Les "
 "adresses que vous entrez dans ce formulaire sont gardées secrètes et ne "
 "seront *pas* publiées sur ce site."
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
-msgstr "Ce groupe ne devrait avoir aucun membre."
+msgstr "Ce groupe ne devrait pas avoir de membres."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3693,8 +3693,8 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
-"Cette technique est également connue sous le nom de Cross-site Request "
-"Forgery (CSRF), en français, falsification de requête inter-domaine. "
+"On appelle cela également : falsification de requête inter-domaine ou CSRF ("
+"sigle anglais pour \"cross-site request forgery\")."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:81
@@ -3727,8 +3727,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Ceci est votre nom écrit comme un !MotWiki, par exemple: !JeanDurand. [[%1]"
-"[Enregistrez-vous]] si vous n'avez pas encore de compte."
+"Ceci est votre nom écrit comme un !MotWiki, par exemple : !JeanDurand. [[%1"
+"][Inscrivez-vous]] si vous n'avez pas encore de compte."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3743,8 +3743,9 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
-"Cette page explique une des mesures de sécurité que Foswiki, le logiciel qui "
-"fait fonctionner ce site, met en œuvre pour le sécuriser contre les attaques."
+"La présente page explique une des mesures de sécurité que Foswiki, le "
+"logiciel qui fait fonctionner ce site, met en œuvre pour sécuriser le site "
+"contre des attaquants."
 
 #: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
@@ -3937,7 +3938,7 @@ msgstr "Réessayer"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
-msgstr "sections inchangées avant et après chaque modification"
+msgstr "Parties inchangées avant et après chaque changement"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
