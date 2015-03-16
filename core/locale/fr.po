@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-16 10:31+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-16 13:27+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -4619,19 +4619,16 @@ msgid "Title:"
 msgstr "Titre :"
 
 #: core/templates/registerapprove.tmpl:12
-#, fuzzy
 msgid "To approve this registration, visit %2"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Pour approuver cette inscription, visitez %2"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Fichiers attachés"
+msgstr "Vers le fichier attaché :"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration,  visit %2"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Pour bloquer cette inscription,  visitez %2"
 
 #: core/data/System/WebSearch.txt:284
 msgid ""
@@ -4648,24 +4645,24 @@ msgstr "Pour modifier la page tout de même, cliquez "
 #: core/templates/messages.tmpl:381
 msgid "To login as another user please do so [[%1][here]]"
 msgstr ""
+"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire "
+"[[%1][ici]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
 msgstr "Pour savoir si %1 a terminé ses modifications, cliquez "
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
-msgstr "Cette page :"
+msgstr "Vers la page"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Cette page :"
 
 #: core/templates/renamebase.tmpl:22
-#, fuzzy
 msgid "To web"
-msgstr "Vers le web :"
+msgstr "Vers le web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
@@ -4673,7 +4670,7 @@ msgstr "Vers le web :"
 
 #: core/templates/messages.tmpl:474
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Trop de récursions lors du traitement du gabarit %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -4688,9 +4685,8 @@ msgstr "Boite à outils"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Topic"
-msgstr "Cette page :"
+msgstr "Page"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -4711,15 +4707,13 @@ msgstr "Le tableau de catégories de cette page ne peut être mis à jour"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
-#, fuzzy
 msgid "Topic data"
-msgstr "Nom de page"
+msgstr "Données de la page"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Titre de la page"
+msgstr "Historique de la page"
 
 #: core/data/System/WebTopicList.txt:3
 #, fuzzy
