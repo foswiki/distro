@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 02:32+0200\n"
+"PO-Revision-Date: 2015-03-16 10:31+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3479,11 +3479,10 @@ msgid "Reset password"
 msgstr "Réinitialisation de votre mot de passe"
 
 #: core/data/System/DefaultPreferences.txt:205
-#, fuzzy
 msgid "Resetting and setting password is not available."
 msgstr ""
-"La réinitialisation et la définition des mots de passe ne sont pas gérées "
-"par Foswiki"
+"La réinitialisation et la définition des mots de passe ne sont pas "
+"disponibles."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:187
@@ -3545,9 +3544,10 @@ msgid "Return to %1"
 msgstr "Retourner à %1"
 
 #: core/templates/registermessages.tmpl:342
-#, fuzzy
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
-msgstr "Retournez à %1 and supply a [[%2][WikiName or [[%3][username]]."
+msgstr ""
+"Retournez à %1 et fournissez un [[%2][NomWiki]] ou un [[%3][nom de "
+"connexion]]."
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
@@ -4438,11 +4438,11 @@ msgstr "Des erreurs se sont produites en retirant %1 du groupe %2."
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
-msgstr ""
+msgstr "Ces instructions peuvent ne pas être applicables à votre système."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 msgid "This WikiName is already in use."
-msgstr ""
+msgstr "Ce NomWiki est déjà utilisé."
 
 #: core/templates/messages.tmpl:217
 msgid "This can be automatically upgraded by:"
@@ -4453,7 +4453,6 @@ msgid "This could be for several reasons:"
 msgstr "Plusieurs raisons peuvent expliquer cela :"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
@@ -4461,14 +4460,14 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Ce formulaire sert à changer les adresses e-mail sous lesquelles vous êtes "
-"inscrit·e. Ces adresses sont utilisées par Foswiki pour vous envoyer des e-"
+"inscrit(e). Ces adresses sont utilisées par Foswiki pour vous envoyer des e-"
 "mails, tels que les notifications de changement de mot de passe. Les "
 "adresses que vous entrez dans ce formulaire sont gardées secrètes et ne "
 "seront *pas* publiées sur ce site."
 
 #: core/data/Main/GroupViewTemplate.txt:137
 msgid "This group should not have members."
-msgstr ""
+msgstr "Ce groupe ne devrait pas avoir de membres."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -4492,10 +4491,14 @@ msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
 msgstr ""
+"Ceci est un emplacement temporaire pour votre nouveau commentaire. "
+"Actualisez la page pour voir le commentaire réel."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
+"On appelle cela également : falsification de requête inter-domaine ou CSRF ("
+"sigle anglais pour \"cross-site request forgery\")."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
@@ -4512,9 +4515,8 @@ msgstr ""
 "compte sur %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-#, fuzzy
 msgid "This is not a valid WikiName."
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "Ce n'est pas un NomWiki valide."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4526,21 +4528,21 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Voilà pourquoi la conversion est désactivée :"
 
 #: core/templates/login.tmpl:33
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
+"Ceci est votre nom écrit comme un !MotWiki, par exemple : !JeanDurand. [[%1"
+"][Inscrivez-vous]] si vous n'avez pas encore de compte."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "This must be a unique WikiName."
-msgstr "'%1' n'est pas un %2 valide "
+msgstr "Cela doit être un NomWiki unique."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-#, fuzzy
 msgid "This must be a valid login username."
 msgstr "Cela doit être un nom de connexion valide."
 
@@ -4557,11 +4559,13 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"La présente page explique une des mesures de sécurité que Foswiki, le "
+"logiciel qui fait fonctionner ce site, met en œuvre pour sécuriser le site "
+"contre des attaquants."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
-#, fuzzy
 msgid "This page was cached on %1."
-msgstr "Cette page a été déplacée vers %1."
+msgstr "Cette page a été mise en cache le %1."
 
 #: core/templates/messages.tmpl:215
 msgid "This requires the form definition to be present."
@@ -4577,14 +4581,13 @@ msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
 
 #: core/data/System/UserName.txt:9
 msgid "This system is configured to use usernames"
-msgstr ""
+msgstr "Ce système est configuré pour utiliser des noms de connexion"
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Cette page :"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#, fuzzy
 msgid "This username is already in use."
 msgstr "Ce nom de connexion est déjà utilisé."
 
@@ -4607,6 +4610,9 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
+"Bien que rarement utilisé en pratique, vous pouvez utiliser la "
+"[[%1.Macros][macro]] spéciale ==%<nop>USERSWEB%== comme préfixe pour les "
+"!NomsWiki, par exemple, ==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
