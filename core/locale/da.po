@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-14 08:43+0200\n"
+"PO-Revision-Date: 2015-03-16 08:05+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -3535,9 +3535,7 @@ msgstr "De to adgangskoder du har indtastet er ikke ens."
 
 #: core/templates/messages.tmpl:692
 msgid "The user %1 has already been activated, and should be able to log in."
-msgstr ""
-"Brugeren %1 er allerede aktiveret, og skulle nu være godkendt til at logge "
-"ind."
+msgstr "Brugeren %1 er allerede aktiveret, og skulle kunne logge ind."
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
