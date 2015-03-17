@@ -770,7 +770,7 @@ msgstr ""
 "Quaisquer mudanças que você tenha feito no tópico antes de chegar a essa "
 "página serão preservadas."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Anexar"
 
@@ -899,7 +899,7 @@ msgstr "Referências a %1 na Web %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Referências a %1 em todas as Webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Referências"
@@ -1389,7 +1389,7 @@ msgstr "Criar o tópico"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Criar este tópico"
@@ -1439,7 +1439,7 @@ msgstr "Depurar"
 msgid "Default"
 msgstr "Modelo padrão"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Modelo padrão"
 
@@ -1605,7 +1605,7 @@ msgid "Each preference has the syntax"
 msgstr "Cada preferência tem sua sintaxe"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Editar"
 
@@ -1618,7 +1618,7 @@ msgstr "%*(%1,minuto) "
 msgid "Edit Anyway"
 msgstr "Editar assim mesmo"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1701,6 +1701,11 @@ msgstr "Caixa de edição ampliada"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Digite um novo nome de usuário e senha para trocar de identidade"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nova web pai:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2689,7 +2694,7 @@ msgid "More topic actions"
 msgstr "Mais ações de tópico..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Mais ações de tópico..."
 
@@ -3108,10 +3113,6 @@ msgstr "Registro de novo usuário não é suportado"
 #, fuzzy
 msgid "Permissions"
 msgstr "Versões"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Selecione de uma lista"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4076,7 +4077,7 @@ msgstr "Conteúdo enviado:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4886,7 +4887,7 @@ msgstr "Comando de ação %1 não conhecido"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5149,7 +5150,7 @@ msgstr "Ver versão:"
 msgid "View sequential topic history"
 msgstr "Ver histórico completo do tópico"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Ver modelos"
 
@@ -5959,7 +5960,7 @@ msgstr "title='Ver histórico completo do tópico' accesskey='h'>&Histórico"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Ver tópico' accesskey='v'>&Ver tópico"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Ver em modo texto, sem formatação' accesskey='r'>Texto pu&ro"
@@ -5999,6 +6000,9 @@ msgstr "ver"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Porque pedimos a confirmação"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Selecione de uma lista"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

@@ -673,7 +673,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr ""
 
@@ -795,7 +795,7 @@ msgstr ""
 msgid "Backlinks to %1 in all Webs"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr ""
 
@@ -1248,7 +1248,7 @@ msgstr ""
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr ""
@@ -1296,7 +1296,7 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr ""
 
@@ -1445,7 +1445,7 @@ msgid "Each preference has the syntax"
 msgstr ""
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr ""
 
@@ -1457,7 +1457,7 @@ msgstr ""
 msgid "Edit Anyway"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1532,6 +1532,10 @@ msgstr ""
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+msgid "Enter parent name"
 msgstr ""
 
 #: core/templates/login.sudo.tmpl:23
@@ -2430,7 +2434,7 @@ msgid "More topic actions"
 msgstr ""
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr ""
 
@@ -2815,10 +2819,6 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:100
 #: NatEditPlugin/templates/edit.natedit.tmpl:102
 msgid "Permissions"
-msgstr ""
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
 msgstr ""
 
 #: core/templates/messages.tmpl:145
@@ -3700,7 +3700,7 @@ msgstr ""
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4424,7 +4424,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -4667,7 +4667,7 @@ msgstr ""
 msgid "View sequential topic history"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr ""
 
@@ -5379,7 +5379,7 @@ msgstr ""
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 

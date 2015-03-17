@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-16 08:06+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -747,7 +747,7 @@ msgid ""
 msgstr ""
 "Alle ændringer, som du har lavet før du skiftede til denne side er gemt."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Vedhæft"
 
@@ -871,7 +871,7 @@ msgstr "Referencer til %1 fra %2 webbet"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Referencer til %1 fra alle offentlige webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr "Backlinks:"
 
@@ -1347,7 +1347,7 @@ msgstr "Opret siden"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Opret denne side"
@@ -1395,7 +1395,7 @@ msgstr "Debug"
 msgid "Default"
 msgstr "Standard"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Standard-skabelon"
 
@@ -1556,7 +1556,7 @@ msgid "Each preference has the syntax"
 msgstr "Alle præferencer har syntaksen"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Editér"
 
@@ -1568,7 +1568,7 @@ msgstr "Editér %*(%1,fil)"
 msgid "Edit Anyway"
 msgstr "Editér alligevel"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr "Redigér Wiki<nop>Tekst"
 
@@ -1651,6 +1651,11 @@ msgstr "Forstør edit-boks"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Angiv et nyt brugernavn og password for at skifte identitet"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nyt forælder-web:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2621,7 +2626,7 @@ msgid "More topic actions"
 msgstr "Flere muligheder med denne side"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Flere muligheder med denne side..."
 
@@ -3019,10 +3024,6 @@ msgstr "Eksisterende brugerregistrering ikke fundet"
 #: NatEditPlugin/templates/edit.natedit.tmpl:102
 msgid "Permissions"
 msgstr "Rettigheder"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Vælg fra en liste"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -3945,7 +3946,7 @@ msgstr "Tilføjet indhold:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr "Abonnér"
 
@@ -4732,7 +4733,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5000,7 +5001,7 @@ msgstr "Gennemtving ny version"
 msgid "View sequential topic history"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 #, fuzzy
 msgid "View templates"
 msgstr "Standard-skabelon"
@@ -5741,7 +5742,7 @@ msgstr ""
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 
@@ -5780,6 +5781,9 @@ msgstr ""
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Pick from a list"
+#~ msgstr "Vælg fra en liste"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

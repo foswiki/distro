@@ -754,7 +754,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "Alla ändringar du gjort innan du kom till denna sida bevaras."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Bifoga fil"
 
@@ -880,7 +880,7 @@ msgstr "Referenser till %1 inom avdelning %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Referenser till %1 från alla avdelningar"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Referenser hit"
@@ -1366,7 +1366,7 @@ msgstr "Skapa sidan"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Skapa denna sida"
@@ -1416,7 +1416,7 @@ msgstr "Felsökning"
 msgid "Default"
 msgstr "Förvald mall"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Förvald mall"
 
@@ -1582,7 +1582,7 @@ msgid "Each preference has the syntax"
 msgstr "Alla inställningar har formatet"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Redigera"
 
@@ -1595,7 +1595,7 @@ msgstr "%*(%1,minut) "
 msgid "Edit Anyway"
 msgstr "Redigera ändå"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1679,6 +1679,11 @@ msgstr "Förstora redigeringsruta"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Ange ett nytt användarnamn och lösenord för att byta identitet"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Ny föräldraavdelning:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2657,7 +2662,7 @@ msgid "More topic actions"
 msgstr "Fler alternativ för denna sida..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Fler alternativ för denna sida..."
 
@@ -3075,10 +3080,6 @@ msgstr "Registrering av nya användare stöds inte"
 #, fuzzy
 msgid "Permissions"
 msgstr "Versioner"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Välj från lista"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4044,7 +4045,7 @@ msgstr "Inskickat innehåll:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4845,7 +4846,7 @@ msgstr "Okänt tangentbordskommando %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5108,7 +5109,7 @@ msgstr "Visa version:"
 msgid "View sequential topic history"
 msgstr "Visa komplett historik för sidan"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Visa mallar"
 
@@ -5916,7 +5917,7 @@ msgstr "title='Visa komplett historik för sidan' accesskey='h'>&Historik"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Visa sida' accesskey='v'>&Visa sida"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Visa källtext utan formatering' accesskey='v'>Källtext (&V)"
@@ -5956,6 +5957,9 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Välj från lista"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

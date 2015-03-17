@@ -757,7 +757,7 @@ msgstr ""
 "Kaikki muutokset, jotka olet tehnyt aiheeseen ennen saapumistasi tälle "
 "sivulle on säilytetty."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Liitä"
 
@@ -885,7 +885,7 @@ msgstr "Käänteislinkit %1 %2 verkossa"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Käänteislinkit %1 kaikissa verkoissa"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Käänteislinkit"
@@ -1370,7 +1370,7 @@ msgstr "Luo aihe"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
@@ -1420,7 +1420,7 @@ msgstr "Debug"
 msgid "Default"
 msgstr "Oletus-sivupohja"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Oletus-sivupohja"
 
@@ -1587,7 +1587,7 @@ msgid "Each preference has the syntax"
 msgstr "Jokaisella preferenssillä on syntaksi"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -1600,7 +1600,7 @@ msgstr "%*(%1,minuutti) "
 msgid "Edit Anyway"
 msgstr "Muokkaa kaikeat huolimatta"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1684,6 +1684,11 @@ msgstr "Suurenna muokkauslaatikkoa"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Syötä uusi käyttäjätunnus ja salasana muuttaaksesi identiteettisi"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Uusi yläverkko:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2664,7 +2669,7 @@ msgid "More topic actions"
 msgstr "Lisää aihetoimintoja..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Lisää aihetoimintoja..."
 
@@ -3082,10 +3087,6 @@ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 #, fuzzy
 msgid "Permissions"
 msgstr "Versiot"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Valitse listalta"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4042,7 +4043,7 @@ msgstr "Syötetyt tiedot:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4846,7 +4847,7 @@ msgstr "Ei-tunnettu toimintokomento %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5109,7 +5110,7 @@ msgstr "Näytä versio:"
 msgid "View sequential topic history"
 msgstr "Näytä aiheen täysi historia"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Näytä sivupohjat"
 
@@ -5910,7 +5911,7 @@ msgstr "title='Näytä täydellinen historia' accesskey='h'>&Historia"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Näytä aihe ilman muotoiluja' accesskey='n'>&Näytä raaka"
@@ -5950,6 +5951,9 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Valitse listalta"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

@@ -4,12 +4,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-15 23:43+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -726,7 +726,7 @@ msgstr ""
 "Všechny změny provedené v článku před příchodem na tuto stránku zůstanou "
 "zachovány."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Příloha"
 
@@ -849,7 +849,7 @@ msgstr "Zpětné odkazy na %1 v %2 Webu"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Zpětné odkazy na %1 ve všech Webech"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr "Zpětné odkazy:"
 
@@ -1318,7 +1318,7 @@ msgstr "Vytvořit článek"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Vytvořit tento článek"
@@ -1366,7 +1366,7 @@ msgstr "Ladění"
 msgid "Default"
 msgstr "Výchozí"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Výchozí šablona"
 
@@ -1525,7 +1525,7 @@ msgid "Each preference has the syntax"
 msgstr "Každá preference má syntaxi"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Změň"
 
@@ -1537,7 +1537,7 @@ msgstr "Edituj %*(%1,soubor)"
 msgid "Edit Anyway"
 msgstr "Přesto změň"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr "Edituj Wiki<nop>Text"
 
@@ -1615,6 +1615,11 @@ msgstr "Zvětšit editovací prostor"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Vložte nové uživatelské jméno a heslo pro změnu identity"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nový nadřízený web:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2574,7 +2579,7 @@ msgid "More topic actions"
 msgstr "Další akce pro práci s článkem..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Další akce..."
 
@@ -2971,10 +2976,6 @@ msgstr "Probíhající registrace nenalezena"
 #: NatEditPlugin/templates/edit.natedit.tmpl:102
 msgid "Permissions"
 msgstr "Oprávnění"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Vybrat ze seznamu"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -3841,7 +3842,8 @@ msgstr "Vybraní uživatelé/skupiny"
 
 #: core/data/System/SiteChanges.txt:92
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
-msgstr "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
+msgstr ""
+"Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
@@ -3889,7 +3891,7 @@ msgstr "Potvrzený obsah:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr "Přihlásit k odběru"
 
@@ -4675,7 +4677,7 @@ msgstr "Nerozeznaný příkaz akce: %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -4939,7 +4941,7 @@ msgstr "Zobraz revize:"
 msgid "View sequential topic history"
 msgstr "Ukaž celou historii článku"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Zobraz šablony"
 
@@ -5736,7 +5738,7 @@ msgstr "title='Ukaž celou historii článku' accesskey='h'>&History"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 "title='Zobraz zdrojový text (bez formátování)' accesskey='v'>&View wiki text"
@@ -5776,6 +5778,9 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Vybrat ze seznamu"
 
 #~ msgid "%1.LoginName:"
 #~ msgstr "%1.PřihlašovacíJméno:"

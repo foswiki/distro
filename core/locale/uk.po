@@ -768,7 +768,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Прикріпити файл"
 
@@ -898,7 +898,7 @@ msgstr "Зворотні посилання на %1 у розділі %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Зворотні посилання на %1 у всіх розділах"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Зворотні посилання"
@@ -1388,7 +1388,7 @@ msgstr "Створити тему"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Створити цю тему"
@@ -1438,7 +1438,7 @@ msgstr "Відладка"
 msgid "Default"
 msgstr "Шаблон за умовчанням"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Шаблон за умовчанням"
 
@@ -1602,7 +1602,7 @@ msgid "Each preference has the syntax"
 msgstr "Кожен параметр має синтаксис"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Редагувати"
 
@@ -1615,7 +1615,7 @@ msgstr "%*(%1, хв.) "
 msgid "Edit Anyway"
 msgstr "Все одно редагувати"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1699,6 +1699,11 @@ msgstr "Розширити область редагування"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Новий батьківський розділ:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2690,7 +2695,7 @@ msgid "More topic actions"
 msgstr "Інші операції..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Інші операції..."
 
@@ -3108,10 +3113,6 @@ msgstr "Відсутнє визначення форми %1"
 #, fuzzy
 msgid "Permissions"
 msgstr "Редакції"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Вибрати зі списку"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4088,7 +4089,7 @@ msgstr "Надані Вами відомості:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4889,7 +4890,7 @@ msgstr "Нерозпізнана команда %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5152,7 +5153,7 @@ msgstr ""
 msgid "View sequential topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Проглянути шаблони"
 
@@ -5951,7 +5952,7 @@ msgstr "title='Проглянути повну історію змін стор�
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -5993,6 +5994,9 @@ msgstr "Проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Pick from a list"
+#~ msgstr "Вибрати зі списку"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

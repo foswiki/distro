@@ -761,7 +761,7 @@ msgstr ""
 "Οι όποιες αλλαγές κάνατε στο θέμα πριν επισκεφθείτε αυτή τη σελίδα θα "
 "διατηρηθούν."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Επισύναψη"
 
@@ -891,7 +891,7 @@ msgstr "Εισερχόμενοι σύνδεσμοι στο %1 στον Ιστό 
 msgid "Backlinks to %1 in all Webs"
 msgstr "Εισερχόμενοι σύνδεσμοι για το %1 σε όλους τους Ιστούς"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Εισερχόμενοι σύνδεσμοι"
@@ -1381,7 +1381,7 @@ msgstr "Δημιουργήστε το θέμα"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Δημιουργήστε αυτό το θέμα"
@@ -1431,7 +1431,7 @@ msgstr "Debug"
 msgid "Default"
 msgstr "Προεπιλεγμένο πρότυπο"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Προεπιλεγμένο πρότυπο"
 
@@ -1597,7 +1597,7 @@ msgid "Each preference has the syntax"
 msgstr "Κάθε προτίμηση έχει τη σύνταξη"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Επεξεργασία"
 
@@ -1610,7 +1610,7 @@ msgstr "%*(%1,λεπτό) "
 msgid "Edit Anyway"
 msgstr "Επεξεργασία όπως και να έχει"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1696,6 +1696,11 @@ msgid "Enter a new username and password to change identity"
 msgstr ""
 "Πληκτρολογήστε ένα νέο όνομα χρήστη και κωδικό πρόσβασης για να αλλάξετε "
 "ταυτότητα"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Νέος γονεϊκός ιστός:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2687,7 +2692,7 @@ msgid "More topic actions"
 msgstr "Λοιπές ενέργειες θέματος ..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Λοιπές ενέργειες θέματος ..."
 
@@ -3106,10 +3111,6 @@ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζετα�
 #, fuzzy
 msgid "Permissions"
 msgstr "Αναθεωρήσεις"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Επιλέξετε από μια λίστα"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4068,7 +4069,7 @@ msgstr "Υποβεβλημένο περιεχόμενο:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4882,7 +4883,7 @@ msgstr "Unrecognized action command %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5144,7 +5145,7 @@ msgstr "Προβολή αναθεώρησης:"
 msgid "View sequential topic history"
 msgstr "Προβολή συνολικού ιστορικού του θέματος"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Προβολή προτύπων"
 
@@ -5952,7 +5953,7 @@ msgstr "title='Προβολή συνολικού ιστορικού θέματο
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Προβολή θέματος' accesskey='v'>&View topic"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -5994,6 +5995,9 @@ msgstr "προβολή"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Επιλέξετε από μια λίστα"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

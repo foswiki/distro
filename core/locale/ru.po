@@ -770,7 +770,7 @@ msgstr ""
 "Все изменения, которые вы внесли в темы, перед тем, как попасть на эту "
 "страницу, сохранены."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Прикрепить файл"
 
@@ -900,7 +900,7 @@ msgstr "Обратные ссылки на %1 в разделе %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Обратные ссылки на %1 во всех разделах"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Обратные ссылки"
@@ -1393,7 +1393,7 @@ msgstr "Создать эту тему"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Создать эту тему"
@@ -1443,7 +1443,7 @@ msgstr "Отладка"
 msgid "Default"
 msgstr "Шаблон по умолчанию"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Шаблон по умолчанию"
 
@@ -1609,7 +1609,7 @@ msgid "Each preference has the syntax"
 msgstr "Каждый параметр имеет синтаксис"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -1622,7 +1622,7 @@ msgstr "%*(%1,мин.) "
 msgid "Edit Anyway"
 msgstr "Всё равно редактировать"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1706,6 +1706,11 @@ msgstr "Расширить область редактирования"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Введите новые имя пользователя и пароль для изменения идентификации"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Новый родительский раздел:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2697,7 +2702,7 @@ msgid "More topic actions"
 msgstr "Другие операции..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Другие операции..."
 
@@ -3114,10 +3119,6 @@ msgstr "Регистрация новых пользователей не под
 #, fuzzy
 msgid "Permissions"
 msgstr "Редакции"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Выберите из списка"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4095,7 +4096,7 @@ msgstr "Предоставленные Вами сведения:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4905,7 +4906,7 @@ msgstr "Неопознанная команда %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5168,7 +5169,7 @@ msgstr "Просмотр редакции:"
 msgid "View sequential topic history"
 msgstr "Просмотреть полную историю изменений страницы"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Просмотреть шаблоны"
 
@@ -5977,7 +5978,7 @@ msgstr ""
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Просмотр темы' accesskey='v'>Посмотреть тему"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -6019,6 +6020,9 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Pick from a list"
+#~ msgstr "Выберите из списка"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

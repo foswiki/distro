@@ -768,7 +768,7 @@ msgid ""
 msgstr ""
 "Alle wijzigingen die je hebt gedaan voor je op deze pagina kwam zijn bewaard."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Bij&lage bijvoegen"
 
@@ -898,7 +898,7 @@ msgstr "Verwijzingen naar %1 in %2 Web"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Verwijzingen naar %1 in alle Webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Verwijzingen"
@@ -1388,7 +1388,7 @@ msgstr "Maak deze pagina aan"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Maak deze pagina aan"
@@ -1438,7 +1438,7 @@ msgstr "Debuggen"
 msgid "Default"
 msgstr "Standaard template"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Standaard template"
 
@@ -1604,7 +1604,7 @@ msgid "Each preference has the syntax"
 msgstr "Elke voorkeurinstelling heeft de syntax"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Bewerken"
 
@@ -1617,7 +1617,7 @@ msgstr "%*(%1,minuut,minuten) "
 msgid "Edit Anyway"
 msgstr "Bewerk hoe dan ook"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1702,6 +1702,11 @@ msgid "Enter a new username and password to change identity"
 msgstr ""
 "Voer een nieuwe gebruikersnaam en wachtwoord in om van identiteit te "
 "veranderen"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nieuw bovenliggend web:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2698,7 +2703,7 @@ msgid "More topic actions"
 msgstr "Meer pagina acties..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Meer pagina acties..."
 
@@ -3120,10 +3125,6 @@ msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
 #, fuzzy
 msgid "Permissions"
 msgstr "Revisies"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Kies uit de lijst"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4084,7 +4085,7 @@ msgstr "Verstuurde gegevens:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4904,7 +4905,7 @@ msgstr "Actieopdracht %1 niet bekend"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5167,7 +5168,7 @@ msgstr "Bekijk revisie:"
 msgid "View sequential topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Bekijk templates"
 
@@ -5975,7 +5976,7 @@ msgstr "title='Bekijk paginageschiedenis' accesskey='g'>&Geschiedenis"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Bekijk pagina' accesskey='k'>Be&kijk pagina"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Bekijk brontekst zonder opmaak' accesskey='r'>B&rontekst"
@@ -6015,6 +6016,9 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Kies uit de lijst"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

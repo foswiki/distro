@@ -756,7 +756,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "Zmiany w tym temacie sprzed wejścia na tą stronę są zachowane."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "&Załączniki"
 
@@ -884,7 +884,7 @@ msgstr "Odwołania do %1 w dziale %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Odwołania do %1 we wszystkich działach"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Odwołania"
@@ -1372,7 +1372,7 @@ msgstr "Utwórz temat"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Utwórz tę stronę"
@@ -1424,7 +1424,7 @@ msgstr "Wyświetl błędy"
 msgid "Default"
 msgstr "Szablon domyślny"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Szablon domyślny"
 
@@ -1584,7 +1584,7 @@ msgid "Each preference has the syntax"
 msgstr "Składnia ustawień jest następująca:"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Edycja"
 
@@ -1597,7 +1597,7 @@ msgstr "%*(%1,minuta) "
 msgid "Edit Anyway"
 msgstr "Edycja mimo wszystko"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1681,6 +1681,11 @@ msgstr "Powiększ okienko edycyjne"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Podaj nową nazwę konta użytkownika i hasło:"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nowy dział nadrzędny:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2674,7 +2679,7 @@ msgid "More topic actions"
 msgstr "&Inne operacje"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Inne operacje..."
 
@@ -3093,10 +3098,6 @@ msgstr "Rejestracja Nowego Użytkownika nie obsługiwana"
 #, fuzzy
 msgid "Permissions"
 msgstr "Brak uprawnień:"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Wybierz z listy"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4058,7 +4059,7 @@ msgstr "Przesłana zawartość:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 #, fuzzy
 msgid "Subscribe"
 msgstr "Indeks dolny"
@@ -4866,7 +4867,7 @@ msgstr "Nieznane polecenie: %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5134,7 +5135,7 @@ msgstr "Wyśwield wersję:"
 msgid "View sequential topic history"
 msgstr "Historia strony"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Wyświetl formularze"
 
@@ -5929,7 +5930,7 @@ msgstr "title='Historia strony' accesskey='h'>&Historia"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Wyświetl stronę' accesskey='w'>&Wyświetl stronę"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Wyświetl kod źródłowy strony' accesskey='k'>&Kod ź&ródłowy"
@@ -5969,6 +5970,9 @@ msgstr "wyświetl"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "dlaczego jesteś pytany o potwierdzenie"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Wybierz z listy"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

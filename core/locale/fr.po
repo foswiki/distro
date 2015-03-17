@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-16 13:38+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -741,7 +741,7 @@ msgstr ""
 "Les modifications que vous avez effectuées sur la page avant d'arriver ici "
 "seront préservées."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Attacher"
 
@@ -865,7 +865,7 @@ msgstr "Liens pointant vers %1 dans le Web %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Liens pointant vers %1 dans tous les Webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr "Liens entrants :"
 
@@ -1345,7 +1345,7 @@ msgstr "Créer la page"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Créer cette page"
@@ -1393,7 +1393,7 @@ msgstr "Debug"
 msgid "Default"
 msgstr "Défaut"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Modèle (template) par défaut"
 
@@ -1555,7 +1555,7 @@ msgid "Each preference has the syntax"
 msgstr "Chaque paramètre a la syntaxe"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Modifier"
 
@@ -1567,7 +1567,7 @@ msgstr "Modifier %*(%1,fichier)"
 msgid "Edit Anyway"
 msgstr "Modifier tout de même"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr "Modifier Wiki<nop>Text"
 
@@ -1649,6 +1649,11 @@ msgstr "Agrandir le cadre d'édition"
 msgid "Enter a new username and password to change identity"
 msgstr ""
 "Entrez un nouveau nom de connexion et mot de passe pour changer d'identité"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Nouveau web parent :"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2635,7 +2640,7 @@ msgid "More topic actions"
 msgstr "Autres actions sur la page"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Autres actions sur la page..."
 
@@ -3035,10 +3040,6 @@ msgstr "Inscription en cours non trouvée"
 #: NatEditPlugin/templates/edit.natedit.tmpl:102
 msgid "Permissions"
 msgstr "Permissions"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Choisir à partir d'une liste"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -3979,7 +3980,7 @@ msgstr "Informations envoyées :"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr "Abonnement"
 
@@ -4497,8 +4498,8 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
-"On appelle cela également : falsification de requête inter-domaine ou CSRF ("
-"sigle anglais pour \"cross-site request forgery\")."
+"On appelle cela également : falsification de requête inter-domaine ou CSRF "
+"(sigle anglais pour \"cross-site request forgery\")."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
@@ -4535,8 +4536,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Ceci est votre nom écrit comme un !MotWiki, par exemple : !JeanDurand. [[%1"
-"][Inscrivez-vous]] si vous n'avez pas encore de compte."
+"Ceci est votre nom écrit comme un !MotWiki, par exemple : !JeanDurand. [[%1]"
+"[Inscrivez-vous]] si vous n'avez pas encore de compte."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "This must be a unique WikiName."
@@ -4610,9 +4611,9 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
-"Bien que rarement utilisé en pratique, vous pouvez utiliser la "
-"[[%1.Macros][macro]] spéciale ==%<nop>USERSWEB%== comme préfixe pour les "
-"!NomsWiki, par exemple, ==%<nop>USERSWEB%.%WIKINAME%==."
+"Bien que rarement utilisé en pratique, vous pouvez utiliser la [[%1.Macros]"
+"[macro]] spéciale ==%<nop>USERSWEB%== comme préfixe pour les !NomsWiki, par "
+"exemple, ==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
@@ -4645,8 +4646,8 @@ msgstr "Pour modifier la page tout de même, cliquez "
 #: core/templates/messages.tmpl:381
 msgid "To login as another user please do so [[%1][here]]"
 msgstr ""
-"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire "
-"[[%1][ici]]"
+"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire [[%1]"
+"[ici]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -4818,7 +4819,7 @@ msgstr "Commande %1 inconnue"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5085,7 +5086,7 @@ msgstr "Afficher la version :"
 msgid "View sequential topic history"
 msgstr "Afficher l'intégralité de l'historique"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Voir les modèles de formulaires disponibles"
 
@@ -5902,7 +5903,7 @@ msgstr ""
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Voir la page' accesskey='v'>&Voir la page"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -5943,6 +5944,9 @@ msgstr "visualiser"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Choisir à partir d'une liste"
 
 #~ msgid "%1.LoginName:"
 #~ msgstr "%1.NomDeConnexion :"

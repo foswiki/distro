@@ -765,7 +765,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "このページに移動する前にトピックへのすべての変更を保存しました。"
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "ファイルを添付します"
 
@@ -893,7 +893,7 @@ msgstr "%2ウェブの中の%1へのバックリンク"
 msgid "Backlinks to %1 in all Webs"
 msgstr "全てのウェブの中の%1へのバックリンク"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "バックリンク"
@@ -1376,7 +1376,7 @@ msgstr "トピックを作成します"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "このトピックを作成します"
@@ -1426,7 +1426,7 @@ msgstr "デバッグ"
 msgid "Default"
 msgstr "デフォルトテンプレート"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "デフォルトテンプレート"
 
@@ -1588,7 +1588,7 @@ msgid "Each preference has the syntax"
 msgstr "それぞれの属性には文法上の問題がありません"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "編集"
 
@@ -1601,7 +1601,7 @@ msgstr "%*(%1,分) "
 msgid "Edit Anyway"
 msgstr "強制編集します"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1684,6 +1684,11 @@ msgstr "編集枠を拡大します"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "新しいユーザー名とパスワードを入力してアイデンティティを変更します"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "新親ウェブ:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2666,7 +2671,7 @@ msgid "More topic actions"
 msgstr "もっと多くのトピックアクション"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "もっと多くのトピックアクション"
 
@@ -3081,10 +3086,6 @@ msgstr "フォーム定義%1が失われました"
 #, fuzzy
 msgid "Permissions"
 msgstr "アクセス権限無し:"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr ""
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4039,7 +4040,7 @@ msgstr "確定した内容:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 #, fuzzy
 msgid "Subscribe"
 msgstr "サブスクリプトテキスト"
@@ -4828,7 +4829,7 @@ msgstr "認識できないアクションコマンド%1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5093,7 +5094,7 @@ msgstr "改訂を確認します"
 msgid "View sequential topic history"
 msgstr "トータルトピックヒストリーを確認します"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "テンプレートを確認します"
 
@@ -5878,7 +5879,7 @@ msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""

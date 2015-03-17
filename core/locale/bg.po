@@ -759,7 +759,7 @@ msgstr ""
 "Всички промени, направени от вас по страницата преди да дойдете на тази "
 "страница , са запазени."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "Прикрепи"
 
@@ -889,7 +889,7 @@ msgstr "Обратни връзки към %1 в %2 Раздел"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Обратни връзки към %1 във всички раздели"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 #, fuzzy
 msgid "Backlinks:"
 msgstr "Обратни връзки"
@@ -1375,7 +1375,7 @@ msgstr "Създаване на Страницата"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Създаване на тази Страница"
@@ -1425,7 +1425,7 @@ msgstr "Дебъг"
 msgid "Default"
 msgstr "Шаблон по подразбиране"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Шаблон по подразбиране"
 
@@ -1591,7 +1591,7 @@ msgid "Each preference has the syntax"
 msgstr "Всяка настройка има синтаксисът"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Редактиране"
 
@@ -1604,7 +1604,7 @@ msgstr "%*(%1,минута) "
 msgid "Edit Anyway"
 msgstr "Редактиране все пак!"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1690,6 +1690,11 @@ msgstr "Уголеми кутията за редактиране"
 msgid "Enter a new username and password to change identity"
 msgstr ""
 "Въведете ново потребителско име и парола, за да промените идентичността си"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "Нов родителски раздел:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2652,7 +2657,7 @@ msgid "More topic actions"
 msgstr "Още действия..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "Още действия..."
 
@@ -3067,10 +3072,6 @@ msgstr "Регистрация на нови потребители не се п
 #, fuzzy
 msgid "Permissions"
 msgstr "Версии"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "Избор от списък"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -4017,7 +4018,7 @@ msgstr ""
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4764,7 +4765,7 @@ msgstr "Непозната команда %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -5025,7 +5026,7 @@ msgstr "Виж версия"
 msgid "View sequential topic history"
 msgstr "Изглед на цялата история на страницата"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Виж шаблоните"
 
@@ -5787,7 +5788,7 @@ msgstr "title='Цялата история на страницата' accesskey=
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Виж страницата' accesskey='v'>Виж страницата"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Суров текст без форматиране' accesskey='v'>Суров изглед"
@@ -5827,6 +5828,9 @@ msgstr "виж"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Pick from a list"
+#~ msgstr "Избор от списък"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"

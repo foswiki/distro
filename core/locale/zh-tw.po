@@ -715,7 +715,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "顯示本頁前，您對對本主題的任何修改都已保留。"
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "附件"
 
@@ -837,7 +837,7 @@ msgstr "%2 子網中指向 %1 的反向連結"
 msgid "Backlinks to %1 in all Webs"
 msgstr "所有子網中指向 %1 的反向連結"
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr "反向連結："
 
@@ -1292,7 +1292,7 @@ msgstr "建立主題"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "建立這個主題"
@@ -1341,7 +1341,7 @@ msgstr "除錯"
 msgid "Default"
 msgstr "預設"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "預設範本"
 
@@ -1490,7 +1490,7 @@ msgid "Each preference has the syntax"
 msgstr "個屬性都有語法"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "編輯"
 
@@ -1502,7 +1502,7 @@ msgstr "編輯 %*(%1,檔案)"
 msgid "Edit Anyway"
 msgstr "強制編輯"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr "編輯 Wiki<nop>Text"
 
@@ -1579,6 +1579,11 @@ msgstr "放大編輯框"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "輸入新用戶名和密碼以改變身份"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "新的父子網:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2506,7 +2511,7 @@ msgid "More topic actions"
 msgstr "更多主題功能"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "更多主題功能..."
 
@@ -2905,10 +2910,6 @@ msgstr "不支援新用戶註冊"
 #, fuzzy
 msgid "Permissions"
 msgstr "修訂版"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "自清單中選擇"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -3849,7 +3850,7 @@ msgstr "提交內容:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4614,7 +4615,7 @@ msgstr "無法識別的功能 %1"
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -4875,7 +4876,7 @@ msgstr "檢視修訂版:"
 msgid "View sequential topic history"
 msgstr "檢視主題完整修訂史"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "檢視範本"
 
@@ -5638,7 +5639,7 @@ msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='檢視源碼' accesskey='r'>檢視源碼(&V)"
@@ -5678,6 +5679,9 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid "Pick from a list"
+#~ msgstr "自清單中選擇"
 
 #~ msgid "%1.LoginName:"
 #~ msgstr "%1.LoginName:"

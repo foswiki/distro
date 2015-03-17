@@ -716,7 +716,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "이 페이지로 접근하기 전에 변경한 내용은 보존되었습니다."
 
-#: core/templates/viewtopicactionbuttons.tmpl:68
+#: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
 msgstr "첨부"
 
@@ -844,7 +844,7 @@ msgstr ""
 msgid "Backlinks to %1 in all Webs"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:101
+#: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
 msgstr ""
 
@@ -1315,7 +1315,7 @@ msgstr "포틱 생성하기"
 
 #: core/data/System/DefaultPreferences.txt:396
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:151
+#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "이 토픽을 생성하기"
@@ -1364,7 +1364,7 @@ msgstr "디버그"
 msgid "Default"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr ""
 
@@ -1517,7 +1517,7 @@ msgid "Each preference has the syntax"
 msgstr "각 항목은 문법을 따라야 합니다"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/templates/viewtopicactionbuttons.tmpl:47
+#: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "편집"
 
@@ -1530,7 +1530,7 @@ msgstr "%*(%1,분) "
 msgid "Edit Anyway"
 msgstr "무시하고 편집하기"
 
-#: core/templates/viewtopicactionbuttons.tmpl:63
+#: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1610,6 +1610,11 @@ msgstr "편집 상자 확장"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "정보 변경을 위해 새로운 사용자 이름과 비밀번호를 입력하세요"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+#, fuzzy
+msgid "Enter parent name"
+msgstr "새로운 부모 Web:"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -2547,7 +2552,7 @@ msgid "More topic actions"
 msgstr "더 많은 토픽 액션..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:88
+#: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
 msgstr "더 많은 토픽 액션..."
 
@@ -2956,10 +2961,6 @@ msgstr ""
 #, fuzzy
 msgid "Permissions"
 msgstr "리비전"
-
-#: core/data/System/WebCreateNewTopicComponents.txt:140
-msgid "Pick from a list"
-msgstr "목록에서 선택하기"
 
 #: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
@@ -3890,7 +3891,7 @@ msgstr "제출된 컨텐츠:"
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
-#: core/templates/viewtopicactionbuttons.tmpl:77
+#: core/templates/viewtopicactionbuttons.tmpl:78
 msgid "Subscribe"
 msgstr ""
 
@@ -4642,7 +4643,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:388
 msgid ""
-"Unsafe redirect to %1 is denied.: The requested host does not match %2, and "
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
@@ -4899,7 +4900,7 @@ msgstr "리비전 보기:"
 msgid "View sequential topic history"
 msgstr "모든 토픽 내역 보기"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:146
+#: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "템플릿 보기"
 
@@ -5643,7 +5644,7 @@ msgstr "title='모든 토픽 변경 내역 보기' accesskey='h'>변경내역(&H
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='토픽 보기' accesskey='v'>토픽보기(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:40
+#: core/templates/viewtopicactionbuttons.tmpl:41
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='포맷팅 없이 위키 원문 보기' accesskey='v'>원문보기(&V)"
@@ -5683,6 +5684,9 @@ msgstr "보기"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "당신의 확인이 요청된 이유입니다."
+
+#~ msgid "Pick from a list"
+#~ msgstr "목록에서 선택하기"
 
 #, fuzzy
 #~ msgid "%1.LoginName:"
