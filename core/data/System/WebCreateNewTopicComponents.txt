@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426558085" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -130,14 +130,17 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
 }%" value="%IF{
     "defined newtopic"
     then="%URLPARAM{"newtopic" default="%newtopic%"}%"
-    else="%BASETOPIC%"
+    else="%IF{"$BASETOPIC='WebCreateNewTopic'" then="" else="%BASETOPIC%"}%"
 }%" />%ENDSECTION{"topicname"}%
 
 %STARTSECTION{"wikiword"}%%TMPL:P{"nonwikiword"}%%ENDSECTION{"wikiword"}%
 
 %STARTSECTION{"topicnamefeedback"}%<span class="webTopicCreatorFeedback foswikiGrayText"><!--generated name will be put here--></span>%ENDSECTION{"topicnamefeedback"}%
 
-%STARTSECTION{"topicparent"}%<input type='text' size='40' name='topicparent' class='foswikiInputField' value='%URLPARAM{topicparent}%' />&nbsp;<span class='foswikiUnvisited'><a href='#' class='pickparent'>%MAKETEXT{"Pick from a list"}%</a> <img src='%ICONURLPATH{"processing-bg"}%' alt='' class='foswikiHidden processing' /></span>%ENDSECTION{"topicparent"}%
+%STARTSECTION{"topicparent"}%
+%JQREQUIRE{"ui::autocomplete"}%
+%INCLUDE{"System.JQueryAjaxHelper" section="topicselector" INPUT_VALUE="%URLPARAM{"topicparent" default=""}%" INPUT_NAME="topicparent" EXCLUDE="%TOPIC%" PLACEHOLDER="%MAKETEXT{"Enter parent name"}%" }%
+%ENDSECTION{"topicparent"}%
 
 %STARTSECTION{"templatetopic"}%<select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" excludetopic="*EditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'>%POPUPWINDOW{
 url="%SCRIPTURL{view}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%;template=viewplain"
