@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-16 13:33+0200\n"
+"PO-Revision-Date: 2015-03-17 11:25+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -3962,7 +3962,7 @@ msgstr "Mettre à jour les liens"
 
 #: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
-msgstr "Migrer"
+msgstr "Mise à niveau"
 
 #: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
@@ -3970,11 +3970,11 @@ msgstr "Mettre à jour page de groupe"
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
-msgstr "Migrer la page de groupe..."
+msgstr "Mettre à niveau page de groupe..."
 
 #: core/templates/messages.tmpl:523
 msgid "Upgraded group"
-msgstr "Groupe mis à jour"
+msgstr "Groupe mis à niveau"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -4810,11 +4810,11 @@ msgstr "title='Côte-à-côte' accesskey='s'>Différence&s côte-à-côte"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Abonnement à cette page' accesskey='s'>Abonnement (&S)"
+msgstr "title='Abonnement à cette page' accesskey='s'>Abonnement (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Désabonnement à cette page' accesskey='s'>Dés&abonnement"
+msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
