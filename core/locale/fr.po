@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-16 13:38+0200\n"
+"PO-Revision-Date: 2015-03-17 11:25+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1651,9 +1651,8 @@ msgstr ""
 "Entrez un nouveau nom de connexion et mot de passe pour changer d'identité"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
-#, fuzzy
 msgid "Enter parent name"
-msgstr "Nouveau web parent :"
+msgstr "Indiquez la page mère"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -4822,31 +4821,32 @@ msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Une redirection non-sûre vers %1 a été refusée. Le serveur dans cette "
+"requête ne correspond pas à %2, et n'est pas dans "
+"{PermittedRedirectHostUrls}."
 
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Désabonnement"
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
-msgstr ""
+msgstr "Se désabonner de cette page"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
-msgstr ""
+msgstr "Se désabonner de cette page (s)"
 
 #: core/templates/registermessages.tmpl:204
-#, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "[[%1][Nom de connexion]] non supporté"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
-#, fuzzy
 msgid "Update"
-msgstr "Mettre à jour les liens"
+msgstr "Mettre à jour"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -4860,17 +4860,15 @@ msgstr "Mettre à jour les liens"
 #: core/data/Main/GroupViewTemplate.txt:181
 #: core/data/Main/GroupViewTemplate.txt:190
 msgid "Upgrade"
-msgstr ""
+msgstr "Mise à niveau"
 
 #: core/data/Main/GroupViewTemplate.txt:171
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Copie page"
+msgstr "Mettre à niveau page de groupe..."
 
 #: core/templates/registermessages.tmpl:392
-#, fuzzy
 msgid "Upgraded group"
-msgstr "Créer nouvelle page"
+msgstr "Groupe mis à niveau"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:140
 #, fuzzy
@@ -5882,14 +5880,12 @@ msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Voir la page' accesskey='v'>&Voir la page"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
+msgstr "title='Abonnement à cette page' accesskey='s'>Abonnement (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Version imprimable de cette page' accesskey='p'>Im&primer"
+msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
