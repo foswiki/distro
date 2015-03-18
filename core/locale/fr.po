@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-17 11:25+0200\n"
+"PO-Revision-Date: 2015-03-18 13:29+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -3938,7 +3938,7 @@ msgstr "Réessayer"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
-msgstr "Parties inchangées avant et après chaque changement"
+msgstr "Sections inchangées avant et après chaque modification"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -4010,14 +4010,13 @@ msgstr "Modèles de formulaires disponibles :"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
-"L'utilisateur %1 n'a pas de permissions de modification (CHANGE) sur %2."
+msgstr "L'utilisateur %1 n'a pas de permission CHANGE sur %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
-msgstr "L'utilisateur %1 n'est pas dans le groupe, ne peut être supprimé"
+msgstr "Utilisateur %1 pas dans le groupe, ne peut être supprimé"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -4039,7 +4038,7 @@ msgstr "Utilisateurs"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
-msgstr "Les utilisateurs ne peuvent être ajoutés à %1"
+msgstr "On ne peut pas ajouter des utilisateur à %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
@@ -4085,11 +4084,11 @@ msgstr "Afficher différences"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View earlier"
-msgstr "Voir antérieure"
+msgstr "Voir précédentes"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View later"
-msgstr "Voir postérieure"
+msgstr "Voir suivantes"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -4110,7 +4109,7 @@ msgstr "Afficher la version :"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "View sequential topic history"
-msgstr "Afficher l'intégralité de l'historique"
+msgstr "Afficher historique séquentiel de la page"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
@@ -4162,7 +4161,7 @@ msgstr "Attention : la page %1.%2 est introuvable"
 
 #: core/templates/messages.tmpl:601
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Attention : le web %1 pour la page %2 est introuvable"
+msgstr "Attention : le Web %1 pour la page %2 est introuvable"
 
 #: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
@@ -4199,7 +4198,7 @@ msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr "Service de notification de changements d'un web"
+msgstr "Service de notification de changements d'un Web"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 #: core/data/System/SiteChanges.txt:71
@@ -4230,7 +4229,7 @@ msgstr "Qui"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr "Qui est-ce qui demande cela, en réalité ?"
+msgstr "Qui est à l'origine de la requête, en réalité ?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
