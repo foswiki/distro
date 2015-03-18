@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-18 23:25+0200\n"
+"PO-Revision-Date: 2015-03-19 00:39+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/fr/>\n"
@@ -5268,9 +5268,8 @@ msgstr ""
 "votre mot de passe, contactez %1."
 
 #: core/templates/registermessages.tmpl:193
-#, fuzzy
 msgid "You are already registered."
-msgstr "Vous êtes déjà inscrit·e"
+msgstr "Vous êtes déjà inscrit(e)."
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
@@ -5318,7 +5317,7 @@ msgstr ""
 #: core/templates/messages.tmpl:464
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Vous tentez de %1 un fichier attaché qui n'existe pas."
+msgstr "Vous tentez d'accéder à un fichier attaché qui n'existe pas."
 
 #: core/templates/messages.tmpl:450
 msgid "You are trying to create a topic from a template that does not exist."
@@ -5368,20 +5367,24 @@ msgstr "Vous pouvez renommer ce web."
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
+"Vous ne pouvez ajouter des utilisateurs à un groupe inexistant à moins que "
+"l'option créer soit activée."
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
-"Vous devrez probablement demander à l'administrateur, %1, de faire cela."
+"Vous ne pouvez pas changer votre nom de connexion : vous devez demander à "
+"l'administrateur de le faire pour vous."
 
 #: core/templates/messages.tmpl:487
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
+"Vous ne pouvez pas continuer car soit les cookies, soit le Javascript sont "
+"désactivés dans votre navigateur."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
@@ -5394,6 +5397,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Vous pouvez modifier votre adresse email en saisissant le champ appelé "
+"'Email' dans votre page utilisateur. Si ce champ n'existe pas, alors le "
+"système cherchera une ligne comme celle-ci :"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
@@ -5431,18 +5437,22 @@ msgstr "Vous devez fournir un nom de page."
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
+"Vous devez spécifier un nom de groupe valide pour ajouter des membres à un "
+"groupe."
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
+"Vous devez spécifier un nom de groupe valide pour supprimer des membres d'un "
+"groupe."
 
 #: core/templates/messages.tmpl:318
 msgid "You need to specify a valid member to add to a group."
-msgstr ""
+msgstr "Vous devez spécifier un membre valide à ajouter à un groupe."
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
-msgstr ""
+msgstr "Vous devez spécifier un membre valide à retirer d'un groupe."
 
 #: core/templates/registerconfirm.tmpl:12
 msgid ""
@@ -5460,18 +5470,17 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "Vous recevrez un e-mail quand votre inscription aura été approuvée."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "Votre [[%1][NomWiki]] est %2 et votre nom de connexion est =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "[[%1][Nom de connexion]] incorrect"
+msgstr "Votre [[%1][nom de connexion]] :"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5486,7 +5495,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Votre adresse e-mail restera confidentielle."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -5498,29 +5507,28 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1. %2"
-msgstr ""
+msgstr "Votre nom tel qu'affiché par %1. %2"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
+"Votre nom, en général votre prénom et votre nom de famille accolés sans "
+"espace."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
 msgstr "Votre mot de passe a été modifié ; il est maintenant %1."
 
 #: core/templates/registermessages.tmpl:133
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Votre mot de passe a été modifié ; il est maintenant %1."
+msgstr "Votre mot de passe n'a pas été modifié."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
-#, fuzzy
 msgid "Your password must be at least %1 characters long."
-msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
+msgstr "Votre mot de passe doit être composé d'au moins %1 caractères."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
-#, fuzzy
 msgid "Your password:"
 msgstr "Votre mot de passe :"
 
@@ -5549,10 +5557,15 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Les adresses e-mail enregistrées sont utilisées par Foswiki pour vous "
+"envoyer des e-mails, y compris des notifications de changement de mot de "
+"passe."
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
+"Votre inscription est en attente d'approbation par les administrateurs du "
+"système."
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
@@ -5582,11 +5595,14 @@ msgstr ""
 msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
+"Votre inscription a échoué car elle n'a pas passé les tests de validation."
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
+"[[%1][Cliquez ici]] pour de l'aide sur la création d'un nom de connexion "
+"valide pour ce site"
 
 #: core/templates/messages.tmpl:216
 msgid "[[%1][Debug topic text]]."
@@ -5594,7 +5610,7 @@ msgstr "Consultez les [[%1][informations de débogage de la page]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][nom de connexion]] :"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5638,11 +5654,11 @@ msgstr "raccourci clavier='c'"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "par %1 "
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
-msgstr ""
+msgstr "modifier options d'affichage"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -5653,19 +5669,17 @@ msgid "checkboxes of referenced topics"
 msgstr "les pages référencées"
 
 #: core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "close display options"
-msgstr "Autres actions sur la page..."
+msgstr "fermer options d'affichage"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:118
 #: NatEditPlugin/templates/edit.natedit.tmpl:154
-#, fuzzy
 msgid "default as defined in the %1"
-msgstr "Le formulaire devrait être défini sur la page %1"
+msgstr "défaut tel que définit dans %1"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
-msgstr ""
+msgstr "diff"
 
 #: core/templates/messages.tmpl:298
 msgid "don't forget to check your Topic Settings"
@@ -5673,7 +5687,7 @@ msgstr "n'oubliez pas de vérifier votre page de préférences"
 
 #: core/templates/messages.tmpl:499
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin a échoué.  Voyez les erreurs ci-dessous."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
