@@ -5250,7 +5250,7 @@ msgstr "Souhaitez vous aller à :"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:50
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
