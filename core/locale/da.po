@@ -98,7 +98,7 @@ msgstr "%1 er en liste over andre Foswiki brugere"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 er blevet godkendt og registreret med e-mail-adressen %2"
 
-#: core/templates/messages.tmpl:321
+#: core/templates/messages.tmpl:328
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -124,7 +124,7 @@ msgstr "%1 har modtaget en mistænkelig forespørgsel fra din browser."
 msgid "%1 home"
 msgstr "%1 forside"
 
-#: core/templates/messages.tmpl:108
+#: core/templates/messages.tmpl:115
 msgid "%1 is an invalid name for a new web"
 msgstr "%1 er ikke et lovligt navn til et nyt web"
 
@@ -132,11 +132,11 @@ msgstr "%1 er ikke et lovligt navn til et nyt web"
 msgid "%1 is currently logged in"
 msgstr "%1 er logget på i øjeblikket"
 
-#: core/templates/messages.tmpl:289
+#: core/templates/messages.tmpl:296
 msgid "%1 is currently set to %2"
 msgstr "%1 er i øjeblikket sat til %2"
 
-#: core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:326
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 editerer i øjeblikket [[%2][%3]]."
 
@@ -144,11 +144,11 @@ msgstr "%1 editerer i øjeblikket [[%2][%3]]."
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 er medlem af mindst en gruppe og kan ikke fjernes"
 
-#: core/templates/messages.tmpl:122
+#: core/templates/messages.tmpl:129
 msgid "%1 is not a valid form name"
 msgstr "%1 er ikke et gyldigt formular navn"
 
-#: core/templates/messages.tmpl:117
+#: core/templates/messages.tmpl:124
 msgid "%1 is not a valid value for the %2 parameter"
 msgstr "%1 er ikke en korrekt værdi for %2 parameteren"
 
@@ -156,7 +156,7 @@ msgstr "%1 er ikke en korrekt værdi for %2 parameteren"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 er standard-siden til slettede vedhæftede filer."
 
-#: core/templates/messages.tmpl:328
+#: core/templates/messages.tmpl:335
 msgid "%1 may still be editing %2."
 msgstr "%1 editerer muligvis stadig %2."
 
@@ -192,7 +192,7 @@ msgstr "%1 for at tilrette præferencer for det enkelte web"
 msgid "%1 to start working on the new web"
 msgstr "%1 for at komme i gang med at arbejde med det nye web"
 
-#: core/templates/messages.tmpl:433 core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:443 core/templates/messages.tmpl:456
 msgid "%1 topic does not exist"
 msgstr "siden %1 eksisterer ikke"
 
@@ -297,7 +297,7 @@ msgstr "(slet vedhæftet fil)"
 msgid "(delete)"
 msgstr "(slet)"
 
-#: core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:503
 msgid "(disabled)"
 msgstr "(deaktiveret)"
 
@@ -329,12 +329,12 @@ msgstr "(flyt vedhæftet fil)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen forælder, forældreløs side)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1079 core/lib/Foswiki/UI/Rename.pm:1095
-#: core/lib/Foswiki/UI/Rename.pm:1152 core/lib/Foswiki/UI/Rename.pm:1155
-#: core/lib/Foswiki/UI/Rename.pm:1158 core/lib/Foswiki/UI/Rename.pm:1193
-#: core/lib/Foswiki/UI/Rename.pm:1216 core/lib/Foswiki/UI/Rename.pm:590
-#: core/lib/Foswiki/UI/Rename.pm:594 core/lib/Foswiki/UI/Rename.pm:598
-#: core/lib/Foswiki/UI/Rename.pm:602
+#: core/lib/Foswiki/UI/Rename.pm:1090 core/lib/Foswiki/UI/Rename.pm:1106
+#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1166
+#: core/lib/Foswiki/UI/Rename.pm:1169 core/lib/Foswiki/UI/Rename.pm:1204
+#: core/lib/Foswiki/UI/Rename.pm:1227 core/lib/Foswiki/UI/Rename.pm:601
+#: core/lib/Foswiki/UI/Rename.pm:605 core/lib/Foswiki/UI/Rename.pm:609
+#: core/lib/Foswiki/UI/Rename.pm:613
 msgid "(none)"
 msgstr "(ingen)"
 
@@ -371,7 +371,7 @@ msgstr "(første bogstav i fornavn)"
 msgid "(single character last name)"
 msgstr "(første bogstav i efternavn)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1067
+#: core/lib/Foswiki/UI/Rename.pm:1078
 msgid "(skipped)"
 msgstr "(skippet)"
 
@@ -513,12 +513,12 @@ msgstr ""
 "<strong>Bekræftelse påkrævet</strong> Vælg OK for at bekræfte at denne "
 "rettelse var ønsket<br />Ellers vælg Fortryd"
 
-#: core/templates/messages.tmpl:233
+#: core/templates/messages.tmpl:240
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Nogle filnavne vil blive tilføjet =.txt= som endelse af sikkerhedshensyn"
 
-#: core/templates/messages.tmpl:403 core/templates/messages.tmpl:414
+#: core/templates/messages.tmpl:413 core/templates/messages.tmpl:424
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -527,7 +527,7 @@ msgstr ""
 "samarbejds-område. Du forsøger at udføre handlingen %1 i et web der ikke "
 "eksisterer."
 
-#: core/templates/messages.tmpl:143
+#: core/templates/messages.tmpl:150
 msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
@@ -540,7 +540,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En e-mail med en bekræftelse er sendt til %1"
 
-#: core/templates/messages.tmpl:407 core/templates/messages.tmpl:418
+#: core/templates/messages.tmpl:417 core/templates/messages.tmpl:428
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -550,7 +550,7 @@ msgstr ""
 "webbet ikke er stavet forkert på den foregående side; ret linket om "
 "nødvendigt."
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:373
 #, fuzzy
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
@@ -587,7 +587,7 @@ msgstr "Slet ændringer og afbryd"
 msgid "Access Denied"
 msgstr "Adgang nægtet"
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:384
 msgid "Access check on %1 failed"
 msgstr "Adgangs-tjek til %1 fejlede"
 
@@ -605,7 +605,7 @@ msgstr "Tastatur-genveje:"
 msgid "Action"
 msgstr "Handling"
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:386
 msgid "Action %1: %2 by user %3."
 msgstr "Handling %1: %2 af bruger %3."
 
@@ -644,7 +644,7 @@ msgstr "Tilføj medlemmer..."
 msgid "Add user management options to this topic."
 msgstr "Tilføj brugerhåndtering til denne side."
 
-#: core/templates/messages.tmpl:220
+#: core/templates/messages.tmpl:227
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Tilføjer en %1 indstilling til WebPreferences"
 
@@ -712,11 +712,11 @@ msgstr ""
 "Alternativt kan du bruge \"Tilbage\"-knappen i din browser, til at gå "
 "tilbage til %SYSTEMWEB%.UserRegistration og vælge et nyt brugernavn."
 
-#: core/lib/Foswiki/UI/Rename.pm:212
+#: core/lib/Foswiki/UI/Rename.pm:223
 msgid "An attachment with the same name already exists in this topic."
 msgstr "En vedhæftet fil med samme navn eksisterer allerede på denne side."
 
-#: core/templates/messages.tmpl:173
+#: core/templates/messages.tmpl:180
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
@@ -782,7 +782,7 @@ msgstr "Vedhæft ny fil"
 msgid "Attachment"
 msgstr "Vedhæftet fil"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:463
 msgid "Attachment '%1' does not exist"
 msgstr "Den vedhæftede fil '%1' findes ikke"
 
@@ -790,7 +790,7 @@ msgstr "Den vedhæftede fil '%1' findes ikke"
 msgid "Attachment delete failed"
 msgstr "Fejl under sletning af vedhæftet fil"
 
-#: core/lib/Foswiki/UI/Rename.pm:179
+#: core/lib/Foswiki/UI/Rename.pm:190
 msgid "Attachment does not exist."
 msgstr "Vedhæftede fil findes ikke."
 
@@ -884,7 +884,7 @@ msgstr "Forkert adgangskode"
 msgid "Bad subscriber '%1'"
 msgstr "Forkert tilmeldt '%1'"
 
-#: core/templates/messages.tmpl:132
+#: core/templates/messages.tmpl:139
 msgid "Base web %1 is missing or does not exist"
 msgstr "Basis-webbet %1 mangler eller er ikke oprettet"
 
@@ -932,11 +932,11 @@ msgstr "CHANGE ikke tilladt af %1"
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "CHANGE ikke tilladt for %1 af %2"
 
-#: core/templates/messages.tmpl:362 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:369 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
 msgstr "Kan ikke finde brugeren %1"
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:371
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Kunne ikke finde e-mail-adresse for %1 (en e-mail-adresse er nødvendig for "
@@ -949,7 +949,6 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:152
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
@@ -980,7 +979,7 @@ msgstr "Ikke muligt af ændre abonnement: %1"
 msgid "Cannot create %1 because it already exists."
 msgstr "Kan ikke oprette siden %1, fordi den allerede eksisterer."
 
-#: core/templates/messages.tmpl:127
+#: core/templates/messages.tmpl:134
 msgid "Cannot create web %1 because it already exists"
 msgstr "Kan ikke oprette webbet %1 fordi det allerede eksisterer"
 
@@ -1096,7 +1095,7 @@ msgstr "Seneste ændringer"
 msgid "Changes from r%1 to r%2"
 msgstr "Ændringer fra r%1 til r%2"
 
-#: core/templates/messages.tmpl:285
+#: core/templates/messages.tmpl:292
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
 "Tjek dine konfigurations-indstillinger for {TemplateDir} og {TemplatePath}."
@@ -1117,10 +1116,6 @@ msgstr "Datter-sider i %1-webbet"
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Vælg en ny formular for %1"
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:151
-msgid "Choose files"
-msgstr "Vælg filer"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
@@ -1146,7 +1141,7 @@ msgstr "Luk"
 msgid "Color"
 msgstr "Farve"
 
-#: core/templates/messages.tmpl:142
+#: core/templates/messages.tmpl:149
 msgid "Color %1 has an invalid format"
 msgstr "Farven %1 er et ugyldigt format"
 
@@ -1205,10 +1200,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:383 core/templates/messages.tmpl:390
-#: core/templates/messages.tmpl:395 core/templates/messages.tmpl:429
-#: core/templates/messages.tmpl:442 core/templates/messages.tmpl:449
-#: core/templates/messages.tmpl:458 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:390 core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:439
+#: core/templates/messages.tmpl:452 core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:468 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
@@ -1222,7 +1217,7 @@ msgstr ""
 msgid "Context"
 msgstr "Kontekst"
 
-#: core/templates/messages.tmpl:277
+#: core/templates/messages.tmpl:284
 msgid "Continue and try to rename web?"
 msgstr "Fortsæt med at omdøbe webbet?"
 
@@ -1270,19 +1265,19 @@ msgstr ""
 "Copyright &&copy; ved de deltagende brugere. Alt indhold i denne e-"
 "samarbejds-platform er de deltagende brugeres ejendom."
 
-#: core/templates/messages.tmpl:153
+#: core/templates/messages.tmpl:160
 msgid "Could not create the new web %1"
 msgstr "Kunne ikke oprette det nye web %1"
 
-#: core/templates/messages.tmpl:283
+#: core/templates/messages.tmpl:290
 msgid "Could not find template"
 msgstr "Kunne ikke finde skabelonen"
 
-#: core/templates/messages.tmpl:372
+#: core/templates/messages.tmpl:379
 msgid "Could not perform search. Error was: %1"
 msgstr "Kunne ikke udføre søgning. Fejlen var: %1"
 
-#: core/templates/messages.tmpl:183
+#: core/templates/messages.tmpl:190
 msgid "Could not save %1."
 msgstr "%1 kunne ikke gemmes."
 
@@ -1341,7 +1336,7 @@ msgstr "Opret er ikke specificeret og gruppe findes ikke"
 msgid "Create personal sidebar"
 msgstr "Opret personlig venstre-menu"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:437
 msgid "Create the topic"
 msgstr "Opret siden"
 
@@ -1360,7 +1355,7 @@ msgstr "Opret konto for at editere sider på denne wiki."
 msgid "Creates a new topic revision when saving"
 msgstr "Opretter ny side version når der gemmes"
 
-#: core/templates/messages.tmpl:219
+#: core/templates/messages.tmpl:226
 msgid "Creating a suitable Form Definition topic"
 msgstr "Opretter en passende side til formular-definition"
 
@@ -1480,10 +1475,6 @@ msgstr "Dokumentation"
 msgid "Don't show:"
 msgstr "Vis ikke:"
 
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:147
-msgid "Drag files here"
-msgstr "Træk filer her"
-
 #: core/templates/messages.tmpl:57
 msgid ""
 "During deletion of attachment =%1= an error was found. Please notify your %2 "
@@ -1498,7 +1489,7 @@ msgstr ""
 "Under flytningen af den vedhæftede fil =%1= til %2 blev der konstateret en "
 "fejl."
 
-#: core/templates/messages.tmpl:96
+#: core/templates/messages.tmpl:103
 msgid ""
 "During rename of topic %1 to %2 an error (%3) was found. Please notify your "
 "%4 administrator."
@@ -1506,7 +1497,7 @@ msgstr ""
 "Under omdøbningen af siden %1 til %2 blev der konstateret en fejl (%3). "
 "Underret venligst din %4 administrator."
 
-#: core/templates/messages.tmpl:100
+#: core/templates/messages.tmpl:107
 msgid ""
 "During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
 "administrator."
@@ -1514,7 +1505,7 @@ msgstr ""
 "Under omdøbningen af webbet %1 til %2 blev der konstateret en fejl (%3). "
 "Underret venligst din %4 administrator."
 
-#: core/templates/messages.tmpl:253 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:260 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1526,27 +1517,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-mail-adressen er opdateret!"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:471
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE fejlede - =type= kan ikke bruges sammen med =old= og =new= "
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:473
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE fejlede - både =old= og =new= skal angives"
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:475
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE fejlede - værdien '%PARAM1%' er gentaget i =old= "
 
-#: core/templates/messages.tmpl:471
+#: core/templates/messages.tmpl:481
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND fejlede - adgang til '%PARAM1%' afvist"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:477
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND fejlede - ingen macro"
 
-#: core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:479
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND fejlede - ingen side '%PARAM1%'"
 
@@ -1609,17 +1600,17 @@ msgstr ""
 "Enten er koden ikke valid, eller du har allerede bekræftet din registrering "
 "med den."
 
-#: core/templates/messages.tmpl:123
+#: core/templates/messages.tmpl:130
 msgid "Either the name is invalid, or it refers to a non-existant form."
 msgstr ""
 "Enten er navnet ugyldigt, eller det refererer til en ikke-eksisterende form."
 
-#: core/templates/messages.tmpl:118
+#: core/templates/messages.tmpl:125
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
 "Enten er navnet ugyldigt, eller det refererer til en ikke-eksisterende side."
 
-#: core/templates/messages.tmpl:242
+#: core/templates/messages.tmpl:249
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1672,7 +1663,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "Vælg brugere eller grupper for at tilføje til denne gruppe"
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:491
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Der skete en fejl under indlæsning af plugin. Se fejl nedenfor."
 
@@ -1684,15 +1675,15 @@ msgstr "Fejl ved registrering af ny bruger"
 msgid "Error registering user %1"
 msgstr "Fejl ved registrering af brugeren %1"
 
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:259
 msgid "Error saving topic"
 msgstr "Fejl ved skrivning af siden"
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:349
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Fejl: Den vedhæftede fil på siden %1, %2, eksisterer ikke"
 
-#: core/templates/messages.tmpl:346
+#: core/templates/messages.tmpl:353
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1700,11 +1691,11 @@ msgstr ""
 "Fejl: Ikke supporteret indholdstype: %1 (Skal være =text/html=, =text/plain= "
 "eller =text/css=)"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:351
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Fejl: Ikke-understøttet protokol (skal være 'http://domain/...')"
 
-#: core/templates/messages.tmpl:177
+#: core/templates/messages.tmpl:184
 msgid "Errors"
 msgstr "Fejl"
 
@@ -1745,7 +1736,7 @@ msgstr "Fejlede plugins"
 msgid "Failed to add user: "
 msgstr "Kunne ikke tilføje bruger: "
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:375
 msgid "Failed to include URL %1"
 msgstr "Kunne ikke inkludere URL %1"
 
@@ -1763,7 +1754,7 @@ msgstr "Felter mærket med <span class='required'>*</span> er obligatoriske"
 msgid "File"
 msgstr "Fil"
 
-#: core/templates/messages.tmpl:226
+#: core/templates/messages.tmpl:233
 msgid "File has been uploaded with different name"
 msgstr "Filen er blevet uploadet under et ændret navn"
 
@@ -1810,7 +1801,7 @@ msgstr "Har du glemt din adgangskode?"
 msgid "Form"
 msgstr "Formular"
 
-#: core/templates/messages.tmpl:197
+#: core/templates/messages.tmpl:204
 msgid "Form Definition %1 missing"
 msgstr "Formular-definition %1 mangler"
 
@@ -1827,11 +1818,11 @@ msgstr "Formular-data"
 msgid "Form definition"
 msgstr "Formular-definition"
 
-#: core/templates/messages.tmpl:194
+#: core/templates/messages.tmpl:201
 msgid "Form definition '%1' not found"
 msgstr "Formular-definition '%1' mangler"
 
-#: core/templates/messages.tmpl:202
+#: core/templates/messages.tmpl:209
 msgid "Form definition missing"
 msgstr "Formular-definition mangler"
 
@@ -1886,12 +1877,12 @@ msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 msgid "Globe"
 msgstr "Globe"
 
-#: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:313
-#: core/templates/messages.tmpl:456 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:320
+#: core/templates/messages.tmpl:466 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Tilbage"
 
-#: core/templates/messages.tmpl:187
+#: core/templates/messages.tmpl:194
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
@@ -1899,11 +1890,11 @@ msgstr ""
 "Benyt tilbage-knappen i din browser og indtast relevant information for alle "
 "obligatoriske felter før du gemmer igen"
 
-#: core/templates/messages.tmpl:259 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:266 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "Gå tilbage i din browser, og gem dine opdateringer lokalt."
 
-#: core/templates/messages.tmpl:478
+#: core/templates/messages.tmpl:488
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1945,6 +1936,11 @@ msgstr "Grupper"
 msgid "Having problems logging in?"
 msgstr "Problem med at logge ind?"
 
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:36
+#, fuzzy
+msgid "Header rows"
+msgstr "Overskrifter"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
 msgstr "Overskrift 1"
@@ -1968,11 +1964,6 @@ msgstr "Overskrift 5"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
 msgstr "Overskrift 6"
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
-msgid "Heading rows"
-msgstr "Overskrifter"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -2004,7 +1995,7 @@ msgstr "Skjul fil"
 msgid "Hide help"
 msgstr "Skjul hjælp"
 
-#: core/templates/messages.tmpl:111
+#: core/templates/messages.tmpl:118
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hierarkiske webs er for øjeblikket slået fra, du kan ikke oprette "
@@ -2045,7 +2036,7 @@ msgstr ""
 "falsk registrering. Brugeren '%1' blev fjernet automatisk.Men du bliver "
 "måske nødt til at slette brugerens personlige side manuelt."
 
-#: core/templates/messages.tmpl:228
+#: core/templates/messages.tmpl:235
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
@@ -2091,7 +2082,7 @@ msgstr ""
 "Hvis registrering ikke er deaktiveret pga. fejl, kan administratorer stadig "
 "registrere brugere ved at anvende"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:294
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
@@ -2099,15 +2090,15 @@ msgstr ""
 "Hvis det ikke er problemet, så kan det være fordi du har en indstilling %1, "
 "der peger på en template der ikke eksisterer."
 
-#: core/templates/messages.tmpl:211
+#: core/templates/messages.tmpl:218
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "Hvis denne linie ikke vises, se _upgrade_ afsnittet nedenfor"
 
-#: core/templates/messages.tmpl:205
+#: core/templates/messages.tmpl:212
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Hvis denne side mangler, opret den, eller tjek den for fejl."
 
-#: core/templates/messages.tmpl:304
+#: core/templates/messages.tmpl:311
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -2119,7 +2110,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Hvis du er usikker på hvad dette betyder, læs: %1"
 
-#: core/templates/messages.tmpl:405 core/templates/messages.tmpl:416
+#: core/templates/messages.tmpl:415 core/templates/messages.tmpl:426
 msgid "If you came here by clicking on a question mark link"
 msgstr "Hvis du kom hertil ved at klikke på et spørgsmålstegns-link"
 
@@ -2166,7 +2157,7 @@ msgstr ""
 "Hvis du ikke har valgt en adgangskode endnu, eller du ønsker at nulstille "
 "det, så gå til: %1"
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:309
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -2174,7 +2165,7 @@ msgstr ""
 "Hvis du modtog et link til denne side i en e-mail eller du bare ønsker at se "
 "siden, [[%1][fortryd save]] og gå til %2."
 
-#: core/templates/messages.tmpl:426
+#: core/templates/messages.tmpl:436
 msgid "If you want to create the topic"
 msgstr "Hvis du vil oprette siden"
 
@@ -2185,7 +2176,7 @@ msgid ""
 msgstr ""
 "Hvis du vil søge efter et ord i stopords listen, sæt et plus tegn foran ordet"
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:431
 msgid "If you would like to create this web"
 msgstr "Hvis du vil oprette dette web"
 
@@ -2245,7 +2236,7 @@ msgstr ""
 msgid "In reversed order"
 msgstr "I omvendt rækkefølge"
 
-#: core/templates/messages.tmpl:231
+#: core/templates/messages.tmpl:238
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
@@ -2278,7 +2269,7 @@ msgstr "Forkerte [[%1][WikiNavne]]"
 msgid "Incorrect [[%1][username]]"
 msgstr "Forkert [[%1][username]]"
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:307
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Ukorrekte parametre til scriptet =%1="
 
@@ -2362,7 +2353,7 @@ msgstr "Indsæt ikon"
 msgid "Insert your signature"
 msgstr "Indsæt din signatur"
 
-#: core/templates/messages.tmpl:235
+#: core/templates/messages.tmpl:242
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -2374,7 +2365,7 @@ msgstr ""
 msgid "Invalid Activation Code"
 msgstr "Forkert aktiveringskode"
 
-#: core/templates/messages.tmpl:165
+#: core/templates/messages.tmpl:172
 msgid "Invalid Input"
 msgstr "Ugyldig værdi"
 
@@ -2386,7 +2377,12 @@ msgstr "Ugyldig værdi"
 msgid "Invalid e-mail address"
 msgstr "Ugyldig e-mail-adresse"
 
-#: core/templates/messages.tmpl:323
+#: core/templates/messages.tmpl:96
+#, fuzzy
+msgid "Invalid topic name."
+msgstr "Sidenavn"
+
+#: core/templates/messages.tmpl:330
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2567,7 +2563,7 @@ msgstr "Makro"
 msgid "Macros"
 msgstr "Makroer"
 
-#: core/templates/messages.tmpl:175
+#: core/templates/messages.tmpl:182
 msgid "Mail to"
 msgstr "E-mail til"
 
@@ -2584,7 +2580,7 @@ msgstr "Maksimalt %1 resultater per web"
 msgid "Members"
 msgstr "Medlemmer"
 
-#: core/templates/messages.tmpl:158
+#: core/templates/messages.tmpl:165
 msgid "Missing Fields"
 msgstr "Manglende felter"
 
@@ -2592,7 +2588,7 @@ msgstr "Manglende felter"
 msgid "Missing action command"
 msgstr "Manglende aktionskommando (action command)"
 
-#: core/templates/messages.tmpl:402
+#: core/templates/messages.tmpl:409
 msgid "Missing or illegal web name"
 msgstr "Manglende eller illegalt webnavn"
 
@@ -2674,7 +2670,7 @@ msgstr "Flyt til web:"
 msgid "Move topic to web:"
 msgstr "Flyt side til web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1165
+#: core/lib/Foswiki/UI/Rename.pm:1176
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
@@ -2694,7 +2690,7 @@ msgstr "NY"
 msgid "Name of copy"
 msgstr "Navn på kopien"
 
-#: core/templates/messages.tmpl:104
+#: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Navnet på det nye web mangler"
 
@@ -2784,7 +2780,7 @@ msgstr "Intet gruppenavn angivet"
 msgid "No pending registration was found for the verification code %1."
 msgstr "Der er ingen nuværende registreringer for aktiveringskoden %1."
 
-#: core/templates/messages.tmpl:340
+#: core/templates/messages.tmpl:347
 msgid "No permission to view %1"
 msgstr "Ingen rettigheder til at se %1"
 
@@ -2800,7 +2796,7 @@ msgstr "Ingen side at abonnere på"
 msgid "No topics to update."
 msgstr "Ingen sider at opdatere."
 
-#: core/templates/messages.tmpl:309 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:316 core/templates/registermessages.tmpl:399
 msgid "No username specified"
 msgstr "Intet brugernavn angivet"
 
@@ -2836,7 +2832,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
-#: core/templates/messages.tmpl:230 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:237 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -2928,7 +2924,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Kun administratorer kan fjerne andre konti."
 
-#: core/templates/messages.tmpl:393
+#: core/templates/messages.tmpl:400
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer af %1 må udføre denne handling."
 
@@ -3025,7 +3021,7 @@ msgstr "Eksisterende brugerregistrering ikke fundet"
 msgid "Permissions"
 msgstr "Rettigheder"
 
-#: core/templates/messages.tmpl:145
+#: core/templates/messages.tmpl:152
 msgid "Pick one of the %1."
 msgstr "Vælg en af %1."
 
@@ -3102,7 +3098,7 @@ msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 "Benyt venligst tilbage-knappen i browseren og forsøg igen med et nyt navn."
 
-#: core/templates/messages.tmpl:243
+#: core/templates/messages.tmpl:250
 msgid "Please go back in your browser and check again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
@@ -3115,13 +3111,13 @@ msgstr ""
 "[[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds non-<nop>WikiWord i "
 "afkrydsningsfeltet"
 
-#: core/templates/messages.tmpl:105 core/templates/messages.tmpl:113
-#: core/templates/messages.tmpl:128 core/templates/messages.tmpl:133
-#: core/templates/messages.tmpl:138 core/templates/messages.tmpl:149
-#: core/templates/messages.tmpl:161 core/templates/messages.tmpl:168
+#: core/templates/messages.tmpl:112 core/templates/messages.tmpl:120
+#: core/templates/messages.tmpl:135 core/templates/messages.tmpl:140
+#: core/templates/messages.tmpl:145 core/templates/messages.tmpl:156
+#: core/templates/messages.tmpl:168 core/templates/messages.tmpl:175
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
-#: core/templates/registermessages.tmpl:123
+#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
 #: core/templates/registermessages.tmpl:179
 #: core/templates/registermessages.tmpl:207
 #: core/templates/registermessages.tmpl:214
@@ -3146,7 +3142,7 @@ msgstr ""
 "Dobbelt-tjek venligst at du har stavet %1 korrekt og forsøg igen. Hvis du må "
 "opgive, send venligst en mail til %2."
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:485
 msgid "Please notify your %1 administrator."
 msgstr "Advisér venligst din %1-administrator."
 
@@ -3165,11 +3161,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr "Plugin handlers"
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:501
 msgid "Plugin module did not return true. See errors below."
 msgstr "Plugin modul gav en fejl. Se fejl nedenfor."
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:493
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 "Plugin modul var ikke defineret. Tjek konfigurationen. Se fejl nedenfor."
@@ -3277,7 +3273,7 @@ msgstr "Gendan forrige ændring"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1164
+#: core/lib/Foswiki/UI/Rename.pm:1175
 msgid "Refresh"
 msgstr "Genopfrisk"
 
@@ -3356,7 +3352,7 @@ msgstr "Relaterede sider:"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:385 core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:392 core/templates/messages.tmpl:405
 msgid "Related topics:"
 msgstr "Relaterede sider:"
 
@@ -3446,7 +3442,7 @@ msgstr "Udskift formular..."
 msgid "Request Validation"
 msgstr "Bed om bekræftelse"
 
-#: core/templates/messages.tmpl:137
+#: core/templates/messages.tmpl:144
 msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
@@ -3690,7 +3686,7 @@ msgstr ""
 "Se en liste over eksisterende brugere på %1 eller registrer dig som ny "
 "bruger på %2."
 
-#: core/templates/messages.tmpl:198
+#: core/templates/messages.tmpl:205
 msgid "See %1 for information about Form Definitions."
 msgstr "Se venligst %1 for information om formular-definitioner."
 
@@ -3832,7 +3828,7 @@ msgstr "Størrelse"
 msgid "Some add schedule information and vacation notice."
 msgstr "Andre tilføjer deres kalender eller evt. ferie-beskeder."
 
-#: core/templates/messages.tmpl:234
+#: core/templates/messages.tmpl:241
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Nogle karakterer, såsom =&#126;=, =$=, =@= og =%= bliver fjernet"
 
@@ -3886,7 +3882,7 @@ msgstr "Sortér valgte linjer faldende"
 msgid "Sort selected lines descending"
 msgstr "Sortér valgte linjer stigende"
 
-#: core/templates/messages.tmpl:232
+#: core/templates/messages.tmpl:239
 msgid "Spaces are replaced by underscores"
 msgstr "Et mellemrum bliver erstattet af et understregningstegn ( _ )"
 
@@ -4017,7 +4013,7 @@ msgstr ""
 msgid "Table"
 msgstr "Tabel"
 
-#: core/templates/messages.tmpl:439
+#: core/templates/messages.tmpl:449
 msgid "Template %1 does not exist"
 msgstr "Skabelon %1 eksisterer ikke"
 
@@ -4071,7 +4067,7 @@ msgstr "Denne bruger er allerede aktiveret"
 msgid "The %1 topic already exists"
 msgstr "Siden %1 eksisterer allerede"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:423
 msgid "The %1 web does not exist"
 msgstr "%1-webbet eksisterer ikke"
 
@@ -4102,7 +4098,7 @@ msgstr "Nummer %1 web af %2."
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "%1 webben i Foswiki, the Free and Open Source Wiki."
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:303
 msgid "The =%1= script can only be called with POST method."
 msgstr "Scriptet =%1= kan kun kaldes med metoden POST."
 
@@ -4117,6 +4113,12 @@ msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
 msgstr "The Free and Open Source Wiki."
+
+#: core/templates/messages.tmpl:411
+msgid ""
+"The Web/Topic path: '%1' has missing components, or contains invalid "
+"characters."
+msgstr ""
 
 #: core/templates/registermessages.tmpl:115
 #, fuzzy
@@ -4173,7 +4175,7 @@ msgstr ""
 "Hackeren prøver at bruge dine rettigheder for at opnå f.eks. administrator "
 "rettigheder for denne wiki."
 
-#: core/templates/messages.tmpl:332
+#: core/templates/messages.tmpl:339
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -4234,26 +4236,26 @@ msgstr ""
 "vise din e-mail adresse til andre, så kan du manuelt tilføje den. Den "
 "behøver ikke at være den samme som bliver brugt af Foswiki internt."
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:367
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Adgangskoden for brugernavnet %1 fandtes ikke i password-systemet."
 
-#: core/templates/messages.tmpl:227
+#: core/templates/messages.tmpl:234
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Filen er blevet uploadet og vedhæftet korrekt til %1-siden."
 
-#: core/templates/messages.tmpl:267
+#: core/templates/messages.tmpl:274
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
 "De følgende sider er låst (de editeres i øjeblikket), og kan ikke flyttes:"
 
-#: core/templates/messages.tmpl:273
+#: core/templates/messages.tmpl:280
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "De følgende sider refererer til sider i dette web, men de editeres i "
 "øjeblikket:"
 
-#: core/templates/messages.tmpl:270
+#: core/templates/messages.tmpl:277
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -4261,13 +4263,18 @@ msgstr ""
 "De følgende sider refererer til sider i dette web, men du har ikke "
 "rettigheder til dem:"
 
-#: core/templates/messages.tmpl:204
+#: core/templates/messages.tmpl:211
 msgid "The form should be defined in the topic %1"
 msgstr "Formularen skal defineres på siden %1"
 
-#: core/templates/messages.tmpl:330
+#: core/templates/messages.tmpl:337
 msgid "The lease on this topic expired %1 ago."
 msgstr "Låsen på denne side udløb for %1 siden."
+
+#: core/templates/messages.tmpl:97
+#, fuzzy
+msgid "The name of the topic (%1) contained invalid characters."
+msgstr "Sidenavnet må ikke være tomt."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
@@ -4294,7 +4301,7 @@ msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
 
-#: core/templates/messages.tmpl:185
+#: core/templates/messages.tmpl:192
 msgid "The required field %1 was not filled in."
 msgstr ""
 
@@ -4302,7 +4309,7 @@ msgstr ""
 msgid "The selected User System does not support new user registration."
 msgstr ""
 
-#: core/templates/messages.tmpl:207
+#: core/templates/messages.tmpl:214
 msgid "The topic is in an old format"
 msgstr "Siden er i et gammelt format"
 
@@ -4332,7 +4339,7 @@ msgstr ""
 msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:166
+#: core/templates/messages.tmpl:173
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
 
@@ -4342,7 +4349,7 @@ msgid ""
 "request to your server, using your browser and your identity."
 msgstr ""
 
-#: core/templates/messages.tmpl:263
+#: core/templates/messages.tmpl:270
 msgid "There are problems with renaming this web:"
 msgstr ""
 
@@ -4359,7 +4366,7 @@ msgstr ""
 "Der er en risiko for at nogen prøver at bruge din identitet til at ændre "
 "indhold på %1 uden din viden."
 
-#: core/templates/messages.tmpl:210
+#: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 
@@ -4383,11 +4390,11 @@ msgstr ""
 msgid "This WikiName is already in use."
 msgstr "Dette WikiNavn er allerede i brug."
 
-#: core/templates/messages.tmpl:217
+#: core/templates/messages.tmpl:224
 msgid "This can be automatically upgraded by:"
 msgstr ""
 
-#: core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:207
 msgid "This could be for several reasons:"
 msgstr ""
 
@@ -4482,7 +4489,7 @@ msgstr ""
 msgid "This page was cached on %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:215
+#: core/templates/messages.tmpl:222
 msgid "This requires the form definition to be present."
 msgstr ""
 
@@ -4550,7 +4557,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr ""
 
-#: core/templates/messages.tmpl:381
+#: core/templates/messages.tmpl:388
 msgid "To login as another user please do so [[%1][here]]"
 msgstr ""
 
@@ -4576,7 +4583,7 @@ msgstr ""
 msgid "To web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:474
+#: core/templates/messages.tmpl:484
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4602,7 +4609,7 @@ msgstr "Til side:"
 msgid "Topic %1 does not exist"
 msgstr "siden %1 eksisterer ikke"
 
-#: core/templates/messages.tmpl:182
+#: core/templates/messages.tmpl:189
 msgid "Topic Save Error"
 msgstr ""
 
@@ -4612,7 +4619,7 @@ msgstr ""
 msgid "Topic attachments"
 msgstr "Vedhæftede filer"
 
-#: core/templates/messages.tmpl:213
+#: core/templates/messages.tmpl:220
 msgid "Topic can not be upgraded from old style category table"
 msgstr ""
 
@@ -4707,6 +4714,10 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:101
+msgid "URL"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
 msgstr ""
@@ -4731,7 +4742,7 @@ msgstr ""
 msgid "Unrecognized action command %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:395
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -4786,10 +4797,6 @@ msgstr "Kopier side"
 msgid "Upgraded group"
 msgstr "Opret ny side"
 
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:140
-msgid "Upload"
-msgstr ""
-
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:127
 #, fuzzy
 msgid "Upload a file"
@@ -4810,16 +4817,12 @@ msgstr ""
 msgid "Upload up to %1 KB."
 msgstr ""
 
-#: core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:255
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr ""
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:254
 msgid "Uploaded file is too big"
-msgstr ""
-
-#: NatEditPlugin/templates/editdialog.natedit.tmpl:101
-msgid "Url"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:14
@@ -5025,24 +5028,24 @@ msgstr ""
 msgid "Warning! Confirmation required"
 msgstr ""
 
-#: core/templates/messages.tmpl:354
+#: core/templates/messages.tmpl:361
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:356
+#: core/templates/messages.tmpl:363
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:352
+#: core/templates/messages.tmpl:359
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr ""
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:357
 msgid "Warning: Can't find topic %1.%2"
 msgstr ""
 
-#: core/templates/messages.tmpl:348
+#: core/templates/messages.tmpl:355
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr ""
 
@@ -5054,7 +5057,7 @@ msgstr ""
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
-#: core/templates/messages.tmpl:370
+#: core/templates/messages.tmpl:377
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 
@@ -5170,11 +5173,11 @@ msgstr ""
 msgid "You are also listed in the %1 topic"
 msgstr ""
 
-#: core/templates/messages.tmpl:264
+#: core/templates/messages.tmpl:271
 msgid "You are denied access to the following topics in the web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:341
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -5187,7 +5190,7 @@ msgstr ""
 msgid "You are here:"
 msgstr ""
 
-#: core/templates/messages.tmpl:109
+#: core/templates/messages.tmpl:116
 msgid ""
 "You are recommended to choose short names, preferably less than 10 "
 "characters, starting with an upper-case alphabetic character and using only "
@@ -5196,32 +5199,32 @@ msgid ""
 "underscore and has only alphanumeric characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:464
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Fejl: Den vedhæftede fil på siden %1, %2, eksisterer ikke"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:450
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:444
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 
-#: core/templates/messages.tmpl:447
+#: core/templates/messages.tmpl:457
 msgid "You are trying to rename a topic that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:422
+#: core/templates/messages.tmpl:432
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
 
-#: core/templates/messages.tmpl:147
+#: core/templates/messages.tmpl:154
 msgid ""
 "You can also use the names of the standard HTML colors (black, silver, gray, "
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
@@ -5249,7 +5252,7 @@ msgid ""
 "for you."
 msgstr ""
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:487
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
@@ -5273,7 +5276,7 @@ msgstr ""
 msgid "You have *not* been registered."
 msgstr ""
 
-#: core/templates/messages.tmpl:236
+#: core/templates/messages.tmpl:243
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -5301,7 +5304,7 @@ msgstr ""
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:318
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
@@ -5315,7 +5318,7 @@ msgid ""
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:222
+#: core/templates/messages.tmpl:229
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 
@@ -5433,7 +5436,7 @@ msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
 
-#: core/templates/messages.tmpl:209
+#: core/templates/messages.tmpl:216
 msgid "[[%1][Debug topic text]]."
 msgstr ""
 
@@ -5512,12 +5515,12 @@ msgstr ""
 msgid "diff"
 msgstr ""
 
-#: core/templates/messages.tmpl:291
+#: core/templates/messages.tmpl:298
 #, fuzzy
 msgid "don't forget to check your Topic Settings"
 msgstr "glem ikke at gemme dine ændringer"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:499
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -5535,7 +5538,7 @@ msgstr "(editér)"
 msgid "edit form"
 msgstr "(editér formular)"
 
-#: core/templates/messages.tmpl:159
+#: core/templates/messages.tmpl:166
 #, fuzzy
 msgid "fields are required."
 msgstr "Felter mærket med %1 er obligatoriske"
@@ -5559,7 +5562,7 @@ msgstr ""
 msgid "indicates mandatory fields"
 msgstr ""
 
-#: core/templates/messages.tmpl:485 core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:495 core/templates/messages.tmpl:497
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -5781,6 +5784,12 @@ msgstr ""
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Choose files"
+#~ msgstr "Vælg filer"
+
+#~ msgid "Drag files here"
+#~ msgstr "Træk filer her"
 
 #~ msgid "Pick from a list"
 #~ msgstr "Vælg fra en liste"
