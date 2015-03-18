@@ -5254,7 +5254,7 @@ msgstr "Oui"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Vous"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 #, fuzzy
