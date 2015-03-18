@@ -2614,7 +2614,9 @@ $.fn.natedit = function(opts) {
   }
 
   return this.each(function() {
-    var natedit = new $.NatEditor(this, thisOpts);
+    if (!$.data(this, "natedit")) {
+      $.data(this, "natedit", new $.NatEditor(this, thisOpts));
+    }
   });
 };
 

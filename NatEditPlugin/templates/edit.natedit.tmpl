@@ -20,7 +20,7 @@
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%BASETOPIC%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" hideautoinc="%hideautoinc%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%<!-- -->
