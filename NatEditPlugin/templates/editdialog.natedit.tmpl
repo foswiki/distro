@@ -135,22 +135,3 @@
     </tr>
   </table>
 <!-- -->%TMPL:END%
-
-%{ ################################################################################ }%
-%TMPL:DEF{"uploader"}%<div class="natEditUploader jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:600, position:{my:'top', at:'top', of:'#uploadLink'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Upload"}%">
-  <form>
-    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    <input type="hidden" name="topic" value="{{:topic}}" />
-    <input type="hidden" name="autostart" value="true" class="jqUploaderAutoStart" /> 
-    <div class="foswikiFormStep">
-      <div class="jqUploaderFilesContainer">
-        <div class="jqUploaderDropText">%MAKETEXT{"Drag files here"}%</div>
-        <table class="jqUploaderFiles"></table>
-      </div>
-    </div>
-    <a href="#" class="jqUIDialogButton {icon:'ui-icon-folder-collapsed'}">%MAKETEXT{"Choose files"}%</a> 
-    <a href="#" class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
-  </form>
-  %CLEAR%
-</div>
-%TMPL:END%
