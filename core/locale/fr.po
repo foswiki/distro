@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-18 13:29+0200\n"
+"PO-Revision-Date: 2015-03-19 00:14+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -4386,7 +4386,7 @@ msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Vous ne pouvez pas continuer car soit les Cookies, soit le Javascript sont "
+"Vous ne pouvez pas continuer car soit les cookies, soit le Javascript sont "
 "désactivés dans votre navigateur."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
@@ -4496,7 +4496,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
-msgstr "Votre adresse email restera confidentielle."
+msgstr "Votre adresse e-mail restera confidentielle."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
