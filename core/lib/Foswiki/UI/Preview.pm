@@ -27,6 +27,17 @@ sub preview {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
+    if ( $session->{invalidTopic} ) {
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 404,
+            def    => 'invalid_topic_name',
+            web    => $web,
+            topic  => $topic,
+            params => [ $session->{invalidTopic} ]
+        );
+    }
+
     # SMELL: it's probably not good to do this here, because a preview may
     # give enough time for a new topic with the same name to be created.
     # It would be better to do it only on an actual save.

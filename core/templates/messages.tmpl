@@ -92,6 +92,13 @@ registermessages.tmpl
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"invalid_topic_name"}%
+---++ %MAKETEXT{"Invalid topic name."}%
+%MAKETEXT{"The name of the topic ([_1]) contained invalid characters." args="<nop>%PARAM1%"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"rename_err"}%
 %MAKETEXT{"During rename of topic [_1] to [_2] an error ([_3]) was found. Please notify your [_4] administrator."  args="<nop>%WEB%.<nop>%TOPIC%,<nop>%PARAM2%,%PARAM1%,%WIKITOOLNAME%"}%
 %TMPL:END%
@@ -400,6 +407,9 @@ registermessages.tmpl
 %{==============================================================================}%
 %TMPL:DEF{"bad_web_name"}%
 ---++ %MAKETEXT{"Missing or illegal web name"}%
+
+%MAKETEXT{"The Web/Topic path: '[_1]' has missing components, or contains invalid characters." args="%PARAM2%"}%
+
 %MAKETEXT{"A Foswiki site is divided into webs; each one represents one subject, one area of collaboration. You are trying to [_1] in a web that does not exist." args="'%PARAM1%'"}%
 
 ---+++ %MAKETEXT{"If you came here by clicking on a question mark link"}%

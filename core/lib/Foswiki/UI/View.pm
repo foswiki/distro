@@ -59,6 +59,16 @@ sub view {
     my $user  = $session->{user};
     my $users = $session->{users};
 
+    if ( $session->{invalidTopic} ) {
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 404,
+            def    => 'invalid_topic_name',
+            web    => $web,
+            topic  => $topic,
+            params => [ $session->{invalidTopic} ]
+        );
+    }
     if ( defined $query->param('release_lock')
         && $query->param('release_lock') ne '' )
     {

@@ -491,9 +491,9 @@ sub test_urlparsing {
     $this->urltest( '/Sandbox//WebIndex?topic=WebChanges',
         'Sandbox', 'WebChanges' );
     $this->urltest( '/Sandbox/WebIndex/?topic=WebChanges',
-        'Sandbox/WebIndex', 'WebChanges' );
+        'Sandbox', 'WebChanges' );
     $this->urltest( '/Sandbox/WebIndex//?topic=WebChanges',
-        'Sandbox/WebIndex', 'WebChanges' );
+        'Sandbox', 'WebChanges' );
 
     $this->urltest( '/Sandbox?topic=WebChanges',   'Sandbox', 'WebChanges' );
     $this->urltest( '/Sandbox/?topic=WebChanges',  'Sandbox', 'WebChanges' );
@@ -568,7 +568,7 @@ sub test_urlparsing {
 
 #you may read 'subweb' but as its the last string in the url, foswiki treats it as a topicname
     $this->urltest( '/' . $this->{test_subweb} . '?topic=WebChanges',
-        $this->{test_web}, 'WebChanges' );
+        $this->{test_subweb}, 'WebChanges' );
 
     #trailing slashes make it a web again
     $this->urltest( '/' . $this->{test_subweb} . '/?topic=WebChanges',
@@ -709,7 +709,10 @@ sub test_urlparsing {
     #invalid..
 
     # - Invalid web name - Tasks.Item8713
-    $this->urltest( '/A:B/WebPreferences', '', 'WebPreferences' );
+    $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{UsersWebName},
+        'WebPreferences' );
+    $this->urltest( '/A\'":B/WebPreferences', $Foswiki::cfg{UsersWebName},
+        'WebPreferences' );
 
     #invalid topic name
     $this->urltest( '/System/WebPre@ferences', 'System', 'WebHome' );

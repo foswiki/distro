@@ -66,6 +66,17 @@ sub rename {
 
     Foswiki::UI::checkWebExists( $session, $oldWeb, 'rename' );
 
+    if ( $session->{invalidTopic} ) {
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 404,
+            def    => 'invalid_topic_name',
+            web    => $oldWeb,
+            topic  => $oldTopic,
+            params => [ $session->{invalidTopic} ]
+        );
+    }
+
     my $new_url;
     if ( $action eq 'renameweb' ) {
         $new_url = _renameWeb( $session, $oldWeb );

@@ -475,6 +475,17 @@ WARN
       $session->normalizeWebTopicName( $session->{webName},
         $session->{topicName} );
 
+    if ( $session->{invalidTopic} ) {
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 404,
+            def    => 'invalid_topic_name',
+            web    => $web,
+            topic  => $topic,
+            params => [ $session->{invalidTopic} ]
+        );
+    }
+
     $topic = expandAUTOINC( $session, $web, $topic );
 
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );

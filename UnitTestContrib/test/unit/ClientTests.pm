@@ -150,7 +150,8 @@ sub verify_edit {
     };
 
     $query = Unit::Request->new();
-    $query->path_info("/$this->{test_web}/$this->{test_topic}?breaklock=1");
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->param( '-breaklock', 1 );
 
     $this->createNewFoswikiSession( undef, $query );
 
