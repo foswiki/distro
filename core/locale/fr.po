@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-18 23:24+0200\n"
+"PO-Revision-Date: 2015-03-18 23:25+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/fr/>\n"
@@ -5257,16 +5257,15 @@ msgid "You"
 msgstr "Vous"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
-"pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
+"Pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
 "moins une adresse e-mail valide lors de votre inscription. Si aucune des "
-"adresses que vous avez fournies à ce moment-là n'est valide, et que vous "
-"avez oublié votre mot de passe, contactez %1."
+"adresses e-mail que vous avez fournies n'est valide, et que vous avez oublié "
+"votre mot de passe, contactez %1."
 
 #: core/templates/registermessages.tmpl:193
 #, fuzzy
