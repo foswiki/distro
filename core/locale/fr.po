@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-18 13:31+0200\n"
+"PO-Revision-Date: 2015-03-18 23:24+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/fr/>\n"
@@ -5241,9 +5241,8 @@ msgid ""
 msgstr ""
 
 #: core/data/System/WebSearch.txt:189
-#, fuzzy
 msgid "Word search"
-msgstr "Modifier la recherche"
+msgstr "Recherche de mots identiques (word search)"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
