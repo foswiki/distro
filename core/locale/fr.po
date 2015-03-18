@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-18 10:18+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2015-03-18 10:20+0200\n"
+"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -5006,11 +5006,11 @@ msgstr "Les utilisateurs ne peuvent pas être supprimés de %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "Users who may edit:"
-msgstr ""
+msgstr "Utilisateurs qui peuvent modifier :"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "Users who may view:"
-msgstr ""
+msgstr "Utilisateurs qui peuvent voir :"
 
 #: core/templates/registermessages.tmpl:316
 msgid ""
@@ -5023,7 +5023,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "Verbatim"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
