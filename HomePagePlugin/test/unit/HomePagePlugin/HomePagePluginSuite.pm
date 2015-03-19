@@ -47,6 +47,32 @@ sub test_siteDefaultTopic {
         $Foswiki::Plugins::SESSION->{webName} );
 }
 
+sub test_dontOverrideUrlparams {
+    my $this = shift;
+
+    my $query = Unit::Request->new( {} );
+    $query->path_info("");
+    $query->param( 'topic' => 'WebPreferences' );
+
+    $this->createNewFoswikiSession( $this->{test_user_login},
+        $query, { view => 1 } );
+
+    $this->assert_equals( 'WebPreferences',
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( $Foswiki::cfg{UsersWebName},
+        $Foswiki::Plugins::SESSION->{webName} );
+
+    $query->param( 'defaultweb' => "$Foswiki::cfg{SystemWebName}" );
+
+    $this->createNewFoswikiSession( $this->{test_user_login},
+        $query, { view => 1 } );
+
+    $this->assert_equals( 'WebPreferences',
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( $Foswiki::cfg{SystemWebName},
+        $Foswiki::Plugins::SESSION->{webName} );
+}
+
 sub test_login {
     my $this = shift;
 
