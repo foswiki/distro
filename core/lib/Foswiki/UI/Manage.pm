@@ -227,6 +227,9 @@ sub _action_createweb {
     try {
         $webObject->populateNewWeb( $baseWeb, $opts );
     }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
     catch Error with {
         throw Foswiki::OopsException(
             'attention',
@@ -528,6 +531,9 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
 
         try {
             $newTopicObject->save( minor => 1, forcenewrevision => 1 );
+        }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
         }
         catch Error with {
             throw Foswiki::OopsException(

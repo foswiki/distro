@@ -663,6 +663,9 @@ sub _renameWeb {
     try {
         $oldWebObject->move($newWebObject);
     }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
     catch Error with {
         my $e = shift;
         throw Foswiki::OopsException(
@@ -791,6 +794,9 @@ sub _moveTopicOrAttachment {
             $from->moveAttachment( $attachment, $to,
                 new_name => $toattachment );
         }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
+        }
         catch Error with {
             throw Foswiki::OopsException(
                 'attention',
@@ -804,6 +810,9 @@ sub _moveTopicOrAttachment {
     else {
         try {
             $from->move($to);
+        }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
         }
         catch Error with {
             my $e = shift;

@@ -1868,6 +1868,8 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
     my $e = shift;
     # see documentation on Error
@@ -1922,6 +1924,8 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
@@ -2069,6 +2073,8 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
@@ -2132,6 +2138,8 @@ try {
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
     my $e = shift;
     # see documentation on Error::Simple
@@ -2201,6 +2209,8 @@ have CHANGE access on the topic being attached to.
                                        hide => 1 } );
    } catch Foswiki::AccessControlException with {
       # Topic CHANGE access denied
+   } catch Foswiki::OopsException with {
+        shift->throw();    # propagate
    } catch Error with {
       # see documentation on Error
    } otherwise {
@@ -2258,6 +2268,8 @@ try {
 } catch Foswiki::AccessControlException with {
    my $e = shift;
    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
    my $e = shift;
    # see documentation on Error
@@ -2339,6 +2351,8 @@ try {
 } catch Foswiki::AccessControlException with {
    my $e = shift;
    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
 } catch Error with {
    my $e = shift;
    # see documentation on Error
@@ -3716,6 +3730,9 @@ sub saveTopicText {
 
     try {
         $topicObject->save( minor => $dontNotify );
+    }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
     }
     catch Error with {
         $outcome = getScriptUrl(

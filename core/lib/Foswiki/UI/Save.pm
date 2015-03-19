@@ -609,6 +609,9 @@ WARN
         try {
             $topicObject->deleteMostRecentRevision();
         }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
+        }
         catch Error with {
             throw Foswiki::OopsException(
                 'attention',
@@ -632,6 +635,9 @@ WARN
 
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );
+        }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
         }
         catch Error with {
             throw Foswiki::OopsException(

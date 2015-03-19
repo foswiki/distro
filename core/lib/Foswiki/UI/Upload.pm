@@ -213,6 +213,9 @@ sub _upload {
             filedate   => $fileDate,
         );
     }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
     catch Error with {
         throw Foswiki::OopsException(
             'attention',
