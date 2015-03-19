@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 13:42+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-19 14:20+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -5786,7 +5786,8 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:159
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
-"restreindre l'accès en écriture aux utilisateurs qui ont un accès sur ce site"
+"restreindre l'accès en écriture aux utilisateurs qui ont un compte sur ce "
+"site"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5795,14 +5796,12 @@ msgid "retrieved at %1"
 msgstr "trouvées à %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(version %1)"
+msgstr "version %1"
 
 #: core/templates/settings.tmpl:3
-#, fuzzy
 msgid "set preferences"
-msgstr "(enregistrer les options)"
+msgstr "définir les options"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:143
 #: NatEditPlugin/templates/edit.natedit.tmpl:174
