@@ -691,8 +691,11 @@ sub _processTableRow {
                       _appendSortedDescendingCssClass( $attr->{class} );
                 }
             }
-
             my $type = '';
+
+            # Fixup for EditRowPlugin - add ** if erpJS_sort
+            s/(.*)/*$1*/ if /erpJS_sort {headrows: \d/;
+
             if (/^\s*\*(.*)\*\s*$/) {
                 $value = $1;
                 $type  = 'th';
