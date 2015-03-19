@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-17 14:26+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
@@ -484,6 +484,11 @@ msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "<nop>WikiName:"
+msgstr "이름(First Name):"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -4790,13 +4795,13 @@ msgid ""
 "change the password at the same time."
 msgstr ""
 
-#: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
-msgid "User name %1."
-msgstr "사용자이름"
-
 #: core/templates/login.tmpl:48
 msgid "Username"
+msgstr "사용자이름"
+
+#: core/templates/mailresetpassword.tmpl:13
+#, fuzzy
+msgid "Username %1."
 msgstr "사용자이름"
 
 #: core/templates/login.tmpl:47
@@ -5030,13 +5035,10 @@ msgid "Why am I being asked to confirm?"
 msgstr "당신의 확인이 요청된 이유입니다."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
-msgid "Wiki administrators should read about the %1."
+msgid ""
+"Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+"Foswiki.org]]."
 msgstr ""
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
-msgid "WikiName:"
-msgstr "이름(First Name):"
 
 #: core/data/System/WebSearch.txt:189
 #, fuzzy

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426723599" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Why am I being asked to confirm?"}%
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">
@@ -30,7 +30,7 @@
 </sticky>
 %MAKETEXT{"For more detailed information on cross-site request forgery, and the dangers it poses to you, see [[[_1]][the Cross-site request forgery article on Wikipedia]]." args="http://en.wikipedia.org/wiki/Cross-site_request_forgery"}%
 
-%MAKETEXT{"Wiki administrators should read about the [_1]." args="Foswiki:SecurityFeatures"}%
+%MAKETEXT{"Wiki administrators should read about the [[[_1]][SecurityFeatures topic on Foswiki.org]]." args="Foswiki:SecurityFeatures"}%
 
 <!--
 %STARTSECTION{"you"}%%MAKETEXT{"You"}%%ENDSECTION{"you"}%
@@ -257,5 +257,5 @@
 }
 </style>"}%
 
-%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attachment="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1255128935" size="91581" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attachment="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1426723599" size="91581" user="ProjectContributor" version="1"}%
 

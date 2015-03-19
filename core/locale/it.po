@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-12 13:54+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
@@ -499,6 +499,11 @@ msgid ""
 msgstr ""
 "<nop>%1 <%2> è stato inviato via email per informarli che la loro iscrizione "
 "è stata negata"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#, fuzzy
+msgid "<nop>WikiName:"
+msgstr "Nome pagina"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -4986,13 +4991,13 @@ msgid ""
 "change the password at the same time."
 msgstr ""
 
-#: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
-msgid "User name %1."
-msgstr "Username"
-
 #: core/templates/login.tmpl:48
 msgid "Username"
+msgstr "Username"
+
+#: core/templates/mailresetpassword.tmpl:13
+#, fuzzy
+msgid "Username %1."
 msgstr "Username"
 
 #: core/templates/login.tmpl:47
@@ -5239,13 +5244,11 @@ msgid "Why am I being asked to confirm?"
 msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
-msgid "Wiki administrators should read about the %1."
-msgstr "Si consiglia agli amministratori del Wiki di consultare %1."
-
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 #, fuzzy
-msgid "WikiName:"
-msgstr "Nome pagina"
+msgid ""
+"Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+"Foswiki.org]]."
+msgstr "Si consiglia agli amministratori del Wiki di consultare %1."
 
 #: core/data/System/WebSearch.txt:189
 #, fuzzy

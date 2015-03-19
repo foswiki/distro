@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278468" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426723599" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -316,7 +316,7 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 <!--
 	Required field wiki name
 -->
-%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"WikiName:"}%</label>
+%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"<nop>WikiName:"}%</label>
 <div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]. [_2]" args="%WIKITOOLNAME% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
