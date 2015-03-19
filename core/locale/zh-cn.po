@@ -408,6 +408,11 @@ msgstr ""
 "*修改评论:* 若使用 _变更属性_ 变更评论，文章的评论将会改变，但附件历史中的评"
 "论并不会改变。 "
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "更多格式说明"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -439,6 +444,43 @@ msgid ""
 msgstr ""
 "*属性:* 点 \"只改变档属性\" 可以变更评论和显示（如：隐藏附件）而不用再上传档"
 "案；参考 %1."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*粗体* 将文字放在星号间: =<nop>*文字*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr "*点列表* 3 个空格，星号，1 个空格: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;文字="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*外部连结* =http://yahoo.com=, 或 =[<nop>[http://yahoo.com/][连到 Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr "*标题* 3 横线，1 至 6 个加号，1 空格: =---++&&nbsp;标题="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*斜体* 将文字放在下划线间: =_<nop>文字_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr "*等宽* 将文字放在等号间: =<nop>=文字=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*段落* 用空行分段"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr "*网站连结* 使用主题名称: =%1= 或 =[<nop>[%1][首页]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2588,6 +2630,10 @@ msgstr "主题 %1 的更多功能"
 #, fuzzy
 msgid "More character formats"
 msgstr "源码模式"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "更多格式说明"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5506,6 +5552,10 @@ msgstr "不允许浏览子网"
 msgid "accesskey='c'"
 msgstr "快捷键='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "和"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5566,6 +5616,10 @@ msgstr "必填栏位。"
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "说明"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "优良格式的提示"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5869,37 +5923,6 @@ msgstr "为何您被要求确认"
 #~ msgid "&Edit text"
 #~ msgstr "编辑(&E)"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*粗体* 将文字放在星号间: =<nop>*文字*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*点列表* 3 个空格，星号，1 个空格: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;文字="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*外部连结* =http://yahoo.com=, 或 =[<nop>[http://yahoo.com/][连到 Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr "*标题* 3 横线，1 至 6 个加号，1 空格: =---++&&nbsp;标题="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "*斜体* 将文字放在下划线间: =_<nop>文字_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr "*等宽* 将文字放在等号间: =<nop>=文字=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*段落* 用空行分段"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr "*网站连结* 使用主题名称: =%1= 或 =[<nop>[%1][首页]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -5942,9 +5965,6 @@ msgstr "为何您被要求确认"
 #~ msgid "Log on with your username and password"
 #~ msgstr "请输入您的用户名和密码"
 
-#~ msgid "More formatting help"
-#~ msgstr "更多格式说明"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "充填澡盆有问题"
 
@@ -5985,12 +6005,6 @@ msgstr "为何您被要求确认"
 #~ msgid ""
 #~ "Your user topic has not been renamed. Please e-mail %1 to request this."
 #~ msgstr "您的用户主题尚未更名。请用电子邮件向 %1 申请。"
-
-#~ msgid "and"
-#~ msgstr "和"
-
-#~ msgid "hints on good style"
-#~ msgstr "优良格式的提示"
 
 #, fuzzy
 #~ msgid "later"

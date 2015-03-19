@@ -398,6 +398,11 @@ msgstr ""
 "коментараът показан срещу историята на пртурката  ще си остане същия както е "
 "бил при качваненто на файла."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Още помощ при форматиране"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -436,6 +441,52 @@ msgstr ""
 "*Свойства:* Коментарът и видимостта (например скрит ли е прикрепения файл) "
 "могат да бъдат променени без да се качва файл като щракнете върху  \"Change "
 "Properties only\"; вижте %1."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*удебелено* сложете звездички около думата/израза: =<nop>*думи*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*списък с водачи* 3 паузи, звездичка, 1 пауза: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"вашия текст="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*външни връзки* =http://yahoo.com= или =[<nop>[http://yahoo.com/][връзка към "
+"Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*заглавия* 3 тирета, 1 до 6 плюса, 1 пауза: =---++&&nbsp;Вашето Заглавие="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+"*италичен* поставете думата/фразата между подчертавки: =_<nop>вашите думи_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*шрифт с фиксирана ширина*  сложете знак за равенство около думата/израза: "
+"=<nop>=вашите думи=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*абзаци* разделете с празен ред"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*връзки в сайта* използвайте име на страница: =%1= или =[<nop>[%1][вашата "
+"страница]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2638,6 +2689,10 @@ msgstr "Още действия за страница %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "в суров текстов формат"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Още помощ при форматиране"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5522,6 +5577,10 @@ msgstr "достъпът до раздела е забранен"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "и"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5582,6 +5641,10 @@ msgstr "полета са задължителни."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "помощ"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "съвети за добър стил"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5891,46 +5954,6 @@ msgstr ""
 #~ msgid "&Edit text"
 #~ msgstr "Редактиране на текста"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*удебелено* сложете звездички около думата/израза: =<nop>*думи*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*списък с водачи* 3 паузи, звездичка, 1 пауза: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp;вашия текст="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*външни връзки* =http://yahoo.com= или =[<nop>[http://yahoo.com/][връзка "
-#~ "към Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*заглавия* 3 тирета, 1 до 6 плюса, 1 пауза: =---++&&nbsp;Вашето Заглавие="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*италичен* поставете думата/фразата между подчертавки: =_<nop>вашите "
-#~ "думи_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*шрифт с фиксирана ширина*  сложете знак за равенство около думата/"
-#~ "израза: =<nop>=вашите думи=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*абзаци* разделете с празен ред"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*връзки в сайта* използвайте име на страница: =%1= или =[<nop>[%1][вашата "
-#~ "страница]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -5967,9 +5990,6 @@ msgstr ""
 #~ msgid "Log on with your username and password"
 #~ msgstr "Моля, въведете вашето потребителско име и парола"
 
-#~ msgid "More formatting help"
-#~ msgstr "Още помощ при форматиране"
-
 #~ msgid "Quiet save"
 #~ msgstr "Тих запис"
 
@@ -5989,12 +6009,6 @@ msgstr ""
 
 #~ msgid "Warning: 'include' topic does not exist!"
 #~ msgstr "Внимание: 'include' страница не съществува"
-
-#~ msgid "and"
-#~ msgstr "и"
-
-#~ msgid "hints on good style"
-#~ msgstr "съвети за добър стил"
 
 #, fuzzy
 #~ msgid "later"

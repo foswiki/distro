@@ -408,6 +408,11 @@ msgstr ""
 "показується в історії прикріплених файлів, буде коментарем що відноситься до "
 "моменту завантаження файлу."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Додаткова інформація по розмітці тексту"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -448,6 +453,47 @@ msgstr ""
 "тільки коментар і властивості\"; дивіться <a target=\"HiddenAttachment\" "
 "onclick=\"return launchWindow('%1','HiddenAttachment')\" href=\"%2\" "
 "rel='nofollow'>Прихований Файл</a>."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*жирний* виділити слово/фразу зірочками: =<nop>*Ваша фраза*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*ненумерований список* 3 пропуски, зірочка, 1 пропуск: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;Ваш текст="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*заголовки* 3 тире, від 1 до 6 плюсів, 1 пропуск: =---++&&nbsp;Ваш заголовок="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+"*курсив* виділити слово/фразу знаками підкреслення: =_<nop>Ваша фраза_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*моноширинний* виділити слово/фразу знаками рівності: =<nop>=Ваша фраза=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*абзаци* необхідно розділяти порожнім рядком"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2676,6 +2722,10 @@ msgstr "Другие действия над темой %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "у вигляді початкового тексту"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Додаткова інформація по розмітці тексту"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5688,6 +5738,10 @@ msgstr "доступ до розділу заборонений"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "та"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5749,6 +5803,10 @@ msgstr " - ці поля необхідно заповнити."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "допомога"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "Керівництво по хорошому стилю"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6065,33 +6123,6 @@ msgstr ""
 #~ msgid "&Edit text"
 #~ msgstr "Редагувати текст"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*жирний* виділити слово/фразу зірочками: =<nop>*Ваша фраза*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*ненумерований список* 3 пропуски, зірочка, 1 пропуск: =&&nbsp;&&nbsp;"
-#~ "&&nbsp;*&&nbsp;Ваш текст="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*заголовки* 3 тире, від 1 до 6 плюсів, 1 пропуск: =---++&&nbsp;Ваш "
-#~ "заголовок="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*курсив* виділити слово/фразу знаками підкреслення: =_<nop>Ваша фраза_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*моноширинний* виділити слово/фразу знаками рівності: =<nop>=Ваша фраза=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*абзаци* необхідно розділяти порожнім рядком"
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -6133,9 +6164,6 @@ msgstr ""
 #~ "не реєстрували адресу електронної пошти за допомогою цієї форми, то Ваш "
 #~ "обліковий запис може бути зламаний будь-ким."
 
-#~ msgid "More formatting help"
-#~ msgstr "Додаткова інформація по розмітці тексту"
-
 #~ msgid "Quiet save"
 #~ msgstr "Тихо зберегти"
 
@@ -6175,12 +6203,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Ваша персональна сторінка не була перейменована. Будь ласка, відправте "
 #~ "повідомлення на %1 із запитом."
-
-#~ msgid "and"
-#~ msgstr "та"
-
-#~ msgid "hints on good style"
-#~ msgstr "Керівництво по хорошому стилю"
 
 #, fuzzy
 #~ msgid "later"

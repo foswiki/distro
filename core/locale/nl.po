@@ -403,6 +403,11 @@ msgstr ""
 "gewijzigd, maar de toelichting in het bijlage-geschiedenisoverzicht blijft "
 "de toelichting toen het bestand werd geupload."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Meer opmaakhulp"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -442,6 +447,50 @@ msgstr ""
 "*Eigenschappen:* De toelichting en zichtbaarheid (of een bijlage verborgen "
 "is) kun je wijzigen zonder een bestand te uploaden. Klik op \"Alleen "
 "eigenschappen wijzigen\"; zie %1."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*vetgedrukt* zet woord/zin tussen asterisks: =<nop>*jouw zin*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*bullet lijst* 3 spaties, asterisk, 1 spatie: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"jouw text="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*externe links* =http://yahoo.com= of =[<nop>[http://yahoo.com/][link naar "
+"Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr "*koppen* 3 minnen, 1 tot 6 plussen, 1 spatie: =---++&&nbsp;Jouw Kop="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+"*schuingedrukt* zet woord/zin tussen liggende streepjes: =_<nop>jouw "
+"woorden_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*machineschrift* zet woord/zin tussen '=' tekens: =<nop>=jouw woorden=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*paragrafen* scheiden met een lege regel"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*site links* gebruik de paginanaam: =%1= of =[<nop>[%1][Onze homepage]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2684,6 +2733,10 @@ msgstr "Meer pagina-acties voor pagina %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "brontekst zonder opmaak"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Meer opmaakhulp"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5713,6 +5766,10 @@ msgstr "toegang tot web niet toegestaan"
 msgid "accesskey='c'"
 msgstr "accesskey='a'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "en"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5773,6 +5830,10 @@ msgstr "velden zijn verplicht."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "help"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "tips voor een goede stijl"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6088,44 +6149,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ msgid "&Edit text"
 #~ msgstr "Tekst b&ewerken"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*vetgedrukt* zet woord/zin tussen asterisks: =<nop>*jouw zin*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*bullet lijst* 3 spaties, asterisk, 1 spatie: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp;jouw text="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*externe links* =http://yahoo.com= of =[<nop>[http://yahoo.com/][link "
-#~ "naar Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*koppen* 3 minnen, 1 tot 6 plussen, 1 spatie: =---++&&nbsp;Jouw Kop="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*schuingedrukt* zet woord/zin tussen liggende streepjes: =_<nop>jouw "
-#~ "woorden_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*machineschrift* zet woord/zin tussen '=' tekens: =<nop>=jouw woorden=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*paragrafen* scheiden met een lege regel"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*site links* gebruik de paginanaam: =%1= of =[<nop>[%1][Onze homepage]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -6171,9 +6194,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ msgid "Log on with your username and password"
 #~ msgstr "Vul je gebruikersnaam en wachtwoord in"
 
-#~ msgid "More formatting help"
-#~ msgstr "Meer opmaakhulp"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "Probleem met het vullen van het bad"
 
@@ -6218,12 +6238,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ "Your user topic has not been renamed. Please e-mail %1 to request this."
 #~ msgstr ""
 #~ "Je gebruikerspagina is niet hernoemd. E-mail %1 om dit aan te vragen."
-
-#~ msgid "and"
-#~ msgstr "en"
-
-#~ msgid "hints on good style"
-#~ msgstr "tips voor een goede stijl"
 
 #, fuzzy
 #~ msgid "later"

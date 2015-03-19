@@ -406,6 +406,10 @@ msgstr ""
 "メントも変更されます。但し、添付ファイルヒストリーの中のコメントはアップロー"
 "ド時のままで変わりません"
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+msgid "*Formatting help:*"
+msgstr "*フォーマットヘルプ：*"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -443,6 +447,49 @@ msgstr ""
 "*プロパティ:* アップロードする時に\"プロパティのみ変更\"ボタンを押下しなくて"
 "も、ファイルのコメントや可視性(例えば、隠しファイル)を変更することが出来ま"
 "す。%1参照"
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "* ボールド* 文字をアスタリスクの間に入れます：=<nop>*文字*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*ブレットリスト* 三つのスペース，アスタリスク，一つのスペース： =&&nbsp;"
+"&&nbsp;&&nbsp;*&&nbsp;テキスト="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*外部リンク* =http://yahoo.com= 又は =[<nop>[http://yahoo.com/][Yahooにリンク"
+"します]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*ヘッダー*三つのダッシュ，1～6個のプラス記号，一つのスペース： =---++&&nbsp;"
+"ヘッダー="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*イタリック* 文字をアンダースコアの間に入れます： =_<nop>文字_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr "*同じ幅* 文字を等号の間に入れます： =<nop>=文字=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*段落* 空行で区切ります"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*サイトリンク*が活用するトピック名とは: =%1= or =[<nop>[%1][ホームページ]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2652,6 +2699,10 @@ msgstr "もっと多くのトピック%1関連アクション"
 #, fuzzy
 msgid "More character formats"
 msgstr "シングルキャラクターの名前"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "もっと多くのフォーマットヘルプ"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5618,6 +5669,10 @@ msgstr "ウェブへのアクセスが拒否されました"
 msgid "accesskey='c'"
 msgstr "アクセスキー='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "と"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5678,6 +5733,10 @@ msgstr "フィールドは必須入力です"
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "ヘルプ"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "スタイルに関するメッセージ"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6002,46 +6061,6 @@ msgstr ""
 #~ msgid "&Edit text"
 #~ msgstr "テキスト編集"
 
-#~ msgid "*Formatting help:*"
-#~ msgstr "*フォーマットヘルプ：*"
-
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "* ボールド* 文字をアスタリスクの間に入れます：=<nop>*文字*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*ブレットリスト* 三つのスペース，アスタリスク，一つのスペース： =&&nbsp;"
-#~ "&&nbsp;&&nbsp;*&&nbsp;テキスト="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*外部リンク* =http://yahoo.com= 又は =[<nop>[http://yahoo.com/][Yahooにリ"
-#~ "ンクします]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*ヘッダー*三つのダッシュ，1～6個のプラス記号，一つのスペース： =---+"
-#~ "+&&nbsp;ヘッダー="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "*イタリック* 文字をアンダースコアの間に入れます： =_<nop>文字_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr "*同じ幅* 文字を等号の間に入れます： =<nop>=文字=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*段落* 空行で区切ります"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*サイトリンク*が活用するトピック名とは: =%1= or =[<nop>[%1][ホームペー"
-#~ "ジ]]="
-
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
 #~ msgstr "より詳細な編集表は[[%1][最近編集]]で一覧できます。"
@@ -6087,9 +6106,6 @@ msgstr ""
 #~ msgid "Log on with your username and password"
 #~ msgstr "ユーザー名とパスワードをご入力ください"
 
-#~ msgid "More formatting help"
-#~ msgstr "もっと多くのフォーマットヘルプ"
-
 #~ msgid "Save table"
 #~ msgstr "テーブルを保存します"
 
@@ -6124,12 +6140,6 @@ msgstr ""
 #~ msgstr ""
 #~ "あなたのユーザートピックはまだリネームされています。 %1 にメールして申し込"
 #~ "んでください。"
-
-#~ msgid "and"
-#~ msgstr "と"
-
-#~ msgid "hints on good style"
-#~ msgstr "スタイルに関するメッセージ"
 
 #, fuzzy
 #~ msgid "later"

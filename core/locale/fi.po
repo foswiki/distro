@@ -396,6 +396,11 @@ msgstr ""
 "aiheessa näkyvä kommentti muuttuu, mutta liitehistoriassa näkyvä kommentti "
 "on se mikä määriteltiin tiedostoa lähettäessä."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Lisää muotoiluapua"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -434,6 +439,47 @@ msgstr ""
 "*Asetukset:* Kommentti ja näkyvyys (esim. onko liite piilotettu) voidaan "
 "muuttaa lähettämättä tiedostoa painamalla  \"Change Properties only\"; katso "
 "%1."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*vahvistus* ympäröi sana tai lause tähdillä: =<nop>*sinun lause*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*Luetelmalistaus* 3 väliä, 1 tähti, 1 väli: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"tekstisi="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*ulkoiset linkit*  =http://yahoo.com= tai =[<nop>[http://yahoo.com/][linkki "
+"Yahoon]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr "*Otsikot* 3 ajatusviivaa, 1-6 plussaa, 1 väli: =---++&&nbsp;Otsikkosi="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*kursivointi* Ympäröi sana tai lause alaviivoilla:   =_<nop>sanasi_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*tasalevyiset* Ympäröi sana tai lause 2 yhtä suuri-merkillä: =<nop>=sanasi=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*kappaleet* erotetaan tyhjällä viivalla"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr "*sivustolinkit* käytä aiheen nimeä: =%1= or =[<nop>[%1][Kotisivumme]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2650,6 +2696,10 @@ msgstr "Lisää toimintoja aiheessa %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "raa'assa tekstimuodossa"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Lisää muotoiluapua"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5652,6 +5702,10 @@ msgstr "pääsy web:iin estetty"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "ja"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5712,6 +5766,10 @@ msgstr "kentät ovat vaadittuja"
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "ohje"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "vinkkejä hyvään tyyliin"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6022,44 +6080,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 #~ msgid "&Edit text"
 #~ msgstr "&Muokkaa"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*vahvistus* ympäröi sana tai lause tähdillä: =<nop>*sinun lause*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*Luetelmalistaus* 3 väliä, 1 tähti, 1 väli: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "tekstisi="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*ulkoiset linkit*  =http://yahoo.com= tai =[<nop>[http://yahoo.com/]"
-#~ "[linkki Yahoon]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*Otsikot* 3 ajatusviivaa, 1-6 plussaa, 1 väli: =---++&&nbsp;Otsikkosi="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*kursivointi* Ympäröi sana tai lause alaviivoilla:   =_<nop>sanasi_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*tasalevyiset* Ympäröi sana tai lause 2 yhtä suuri-merkillä: "
-#~ "=<nop>=sanasi=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*kappaleet* erotetaan tyhjällä viivalla"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*sivustolinkit* käytä aiheen nimeä: =%1= or =[<nop>[%1][Kotisivumme]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -6107,9 +6127,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 #~ msgid "Log on with your username and password"
 #~ msgstr "Kirjoita käyttäjätunnus ja salasana"
 
-#~ msgid "More formatting help"
-#~ msgstr "Lisää muotoiluapua"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "Polun täyttö ongelma"
 
@@ -6153,12 +6170,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 #~ msgstr ""
 #~ "Käyttäjätunnuksesi otsikkoa ei ole uudelleennimetty. Lähetä pyyntö "
 #~ "sähköpostilla osoitteeseen %1"
-
-#~ msgid "and"
-#~ msgstr "ja"
-
-#~ msgid "hints on good style"
-#~ msgstr "vinkkejä hyvään tyyliin"
 
 #, fuzzy
 #~ msgid "later"

@@ -385,6 +385,11 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "더 많은 포맷팅 도움말 보기"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -415,6 +420,42 @@ msgstr ""
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
@@ -2532,6 +2573,10 @@ msgstr "토픽 %1 에 대한 더 많은 액션"
 #, fuzzy
 msgid "More character formats"
 msgstr "원문 보기 포맷으로"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "더 많은 포맷팅 도움말 보기"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5387,6 +5432,10 @@ msgstr "Web의 접근이 허용되지 않습니다."
 msgid "accesskey='c'"
 msgstr ""
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "그리고"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5446,6 +5495,10 @@ msgstr "필수 입력 항목 입니다."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "도움말"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "좋은 스타일을 위한 힌트"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5743,9 +5796,6 @@ msgstr "당신의 확인이 요청된 이유입니다."
 #~ msgid "Error: %1"
 #~ msgstr "Error: %1"
 
-#~ msgid "More formatting help"
-#~ msgstr "더 많은 포맷팅 도움말 보기"
-
 #~ msgid "Quiet save"
 #~ msgstr "조용히 저장하기"
 
@@ -5756,12 +5806,6 @@ msgstr "당신의 확인이 요청된 이유입니다."
 #~ msgid ""
 #~ "Your user topic has not been renamed. Please e-mail %1 to request this."
 #~ msgstr "사용자 토픽의 이름을 변경할 수 업습니다. %1 에게 도움을 요청하세요."
-
-#~ msgid "and"
-#~ msgstr "그리고"
-
-#~ msgid "hints on good style"
-#~ msgstr "좋은 스타일을 위한 힌트"
 
 #, fuzzy
 #~ msgid "later"

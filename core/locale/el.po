@@ -396,6 +396,11 @@ msgstr ""
 "σχόλιο που θα φαίνεται στο ιστορικό των συννημένων θα είναι το σχόλιο που "
 "καταχωρήθηκε όταν ανέβηκε το αρχείο."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Περισσότερη βοήθεια μορφοποίησης"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -436,6 +441,52 @@ msgstr ""
 "* Ιδιότητες: * Το σχόλιο και η ορατότητα του (δηλαδή εάν είναι κρυφό "
 "συνημμένο) μπορεί να αλλαχθεί χωρίς μεταφόρτωση αρχείου, πατώντας \"Αλλαγή "
 "Ιδιοτήτων μόνο\". Βλέπε %1."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr ""
+"Για * Έντονα * βάλε τη λέξη / φράση σε αστερίσκους: = <nop> * Η φράση σας *="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"* Λίστα με βούλες * 3 κενά, αστερίσκος, 1 κενό: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp; το κείμενό σας ="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"* Εξωτερικοί σύνδεσμοι * = http://yahoo.com = ή = [ <nop> [Http://yahoo.com/]"
+"[σύνδεσμος προς το Yahoo]] ="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*Επικεφαλίδες* 3 παύλες, 1 έως 6 συν, 1 κενό: =---++&&nbsp; Η Επικεφαλίδα "
+"σας="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "Για *πλάγια* βάλτε τη λέξη σε underscores: = _ <nop> η λέξη_ σας ="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*monospaced* βάλτε τη λέξη/φράση σε σημεία ισον: =<nop>=οι λέξεις σας=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*παράγραφοι* χωρίστε το κείμενο με μια κενή γραμμή"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*σύνδεσμοι ιστοτόπου* χρησιμοποιήστε το όνομα του θέματος: =%1= ή =[<nop>[%1]"
+"[Η αρχική μας σελίδα]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2672,6 +2723,10 @@ msgstr "Περισσότερες ενέργειες για το Θέμα %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "σε αδιαμόρφωτη μορφή κειμένου"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Περισσότερη βοήθεια μορφοποίησης"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5686,6 +5741,10 @@ msgstr "Η πρόσβαση δεν επιτρέπεται στον ιστό"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "και"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5746,6 +5805,10 @@ msgstr "απαιτούνται πεδία."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "βοήθεια"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "συμβουλές για καλό στυλ"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6112,46 +6175,6 @@ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
 #~ msgid "(search results)"
 #~ msgstr "(αναζήτηση αποτελεσμάτων)"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr ""
-#~ "Για * Έντονα * βάλε τη λέξη / φράση σε αστερίσκους: = <nop> * Η φράση σας "
-#~ "*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "* Λίστα με βούλες * 3 κενά, αστερίσκος, 1 κενό: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp; το κείμενό σας ="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "* Εξωτερικοί σύνδεσμοι * = http://yahoo.com = ή = [ <nop> [Http://yahoo."
-#~ "com/][σύνδεσμος προς το Yahoo]] ="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*Επικεφαλίδες* 3 παύλες, 1 έως 6 συν, 1 κενό: =---++&&nbsp; Η Επικεφαλίδα "
-#~ "σας="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "Για *πλάγια* βάλτε τη λέξη σε underscores: = _ <nop> η λέξη_ σας ="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*monospaced* βάλτε τη λέξη/φράση σε σημεία ισον: =<nop>=οι λέξεις σας=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*παράγραφοι* χωρίστε το κείμενο με μια κενή γραμμή"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*σύνδεσμοι ιστοτόπου* χρησιμοποιήστε το όνομα του θέματος: =%1= ή "
-#~ "=[<nop>[%1][Η αρχική μας σελίδα]]="
-
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent Changes]]."
 #~ msgstr ""
@@ -6265,9 +6288,6 @@ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
 
 #~ msgid "Local customisations of site-wide preferences"
 #~ msgstr "Τοπικές τροποποιήσεις γενικών προτιμήσεων της σελίδας"
-
-#~ msgid "More formatting help"
-#~ msgstr "Περισσότερη βοήθεια μορφοποίησης"
 
 #~ msgid "Move attachment to web:"
 #~ msgstr "Μετακίνηση συννημένου στον ιστό:"
@@ -6432,12 +6452,6 @@ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
 
 #~ msgid "advanced search"
 #~ msgstr "σύνθετη αναζήτηση"
-
-#~ msgid "and"
-#~ msgstr "και"
-
-#~ msgid "hints on good style"
-#~ msgstr "συμβουλές για καλό στυλ"
 
 #~ msgid "looking for references in _all public webs_"
 #~ msgstr "looking for references in _all public webs_"

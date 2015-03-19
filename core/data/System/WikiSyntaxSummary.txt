@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="ProjectContributor" date="1426792401" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UsersGuide"}%
+This page provides online help for new users of Foswiki when editing a page.  If there's some formatting that your contributors use often, you can customize this for your site's particular needs.
+
+Keeping this help text short and simple is important since this page is aimed at new users. It does include pop-up links for more detailed help.
+
+---
+%STARTINCLUDE% %MAKETEXT{"*Formatting help:*"}%
+   * %MAKETEXT{"*bold* put word/phrase in asterisks: =<nop>*your phrase*="}%
+   * %MAKETEXT{"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;your text="}%
+   * %MAKETEXT{"*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="}%
+   * %MAKETEXT{"*italic* put word/phrase in underscores: =_<nop>your words_="}%
+   * %MAKETEXT{"*site links* use topic name: =[_1]= or =[<nop>[[_1]][Our homepage]]=" args="%HOMETOPIC%"}%
+   * %MAKETEXT{"*external links* =http://yahoo.com= or =~[<nop>~[http://yahoo.com/~]~[link to Yahoo~]~]="}%
+   * %MAKETEXT{"*monospaced* put word/phrase in equal signs: =<nop>=your words=="}%
+   * %MAKETEXT{"*paragraphs* separate with blank line"}%
+   * %POPUPWINDOW{"%SYSTEMWEB%.EditingShorthand" label="%MAKETEXT{"More formatting help"}%"}% %MAKETEXT{"and"}% %POPUPWINDOW{"%SYSTEMWEB%.GoodStyle" label="%MAKETEXT{"hints on good style"}%"}%
+%STOPINCLUDE%
+---

@@ -395,6 +395,10 @@ msgstr ""
 "historii załączników wciąż wyświetlany będzie taki komentarz, jaki podano w "
 "momencie tworzenia załącznika."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+msgid "*Formatting help:*"
+msgstr "*Pomoc do zasad formatowania:*"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 #, fuzzy
 msgid ""
@@ -435,6 +439,54 @@ msgstr ""
 "\"HiddenAttachment\" onclick=\"return "
 "launchWindow('%1','HiddenAttachment')\" href=\"%2\" "
 "rel='nofollow'>HiddenAttachment</a>."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*pogrubiony* - tekst między gwiazdkami: =<nop>*tekst pogrubiony*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*lista wyliczeniowa* 3 spacje, gwiazdka, 1 spacja: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp; pozycja listy="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*link zewnętrzny* należy podać nazwę strony w formacie WikiWord lub adres "
+"URL: =%1=, =http://yahoo.com= lub =[<nop> [http://yahoo.com/][skrót do "
+"Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*nagłówek* 3 znaki minus, 1 do 6 znaków plus, 1 spacja: =---++&&nbsp;tekst "
+"nagłówka="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+"*pochylony* tekst między znakami podkreślenia: =_<nop>tekst pochylony_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*tekst o stałej szerokości znaków* tekst między znakami równości: '=': "
+"=<nop>=tekst o stałej szerokości znaków=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*akapit* są oddzielane znakiem przynajmniej jednej pustej linii"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*linki w ramach instalacji* użyj nazwy tematu: =%1= or =[<nop>[%1][Strona "
+"Główna]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2659,6 +2711,10 @@ msgstr "Inne operacje dla strony %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "imię jednoznakowe"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Pomoc do formatowania"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5671,6 +5727,10 @@ msgstr "Brak dostępu"
 msgid "accesskey='c'"
 msgstr "accesskey='r'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "i"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5730,6 +5790,10 @@ msgstr "pola są wymagane."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "pomoc"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "w dobrym stylu"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6057,50 +6121,6 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 #~ msgid "&Edit text"
 #~ msgstr "&Edycja tekstu"
 
-#~ msgid "*Formatting help:*"
-#~ msgstr "*Pomoc do zasad formatowania:*"
-
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*pogrubiony* - tekst między gwiazdkami: =<nop>*tekst pogrubiony*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*lista wyliczeniowa* 3 spacje, gwiazdka, 1 spacja: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp; pozycja listy="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*link zewnętrzny* należy podać nazwę strony w formacie WikiWord lub adres "
-#~ "URL: =%1=, =http://yahoo.com= lub =[<nop> [http://yahoo.com/][skrót do "
-#~ "Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*nagłówek* 3 znaki minus, 1 do 6 znaków plus, 1 spacja: =---++&&nbsp;"
-#~ "tekst nagłówka="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*pochylony* tekst między znakami podkreślenia: =_<nop>tekst pochylony_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*tekst o stałej szerokości znaków* tekst między znakami równości: '=': "
-#~ "=<nop>=tekst o stałej szerokości znaków=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*akapit* są oddzielane znakiem przynajmniej jednej pustej linii"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*linki w ramach instalacji* użyj nazwy tematu: =%1= or =[<nop>[%1][Strona "
-#~ "Główna]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -6147,9 +6167,6 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 #~ msgid "Log on with your username and password"
 #~ msgstr "Podaj nazwę konta użytkownika i hasło:"
 
-#~ msgid "More formatting help"
-#~ msgstr "Pomoc do formatowania"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "Problem w napełnianiu wanny"
 
@@ -6194,12 +6211,6 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 #~ "Your user topic has not been renamed. Please e-mail %1 to request this."
 #~ msgstr ""
 #~ "Nazwa strony domowej nie została zmieniona. Powiadom administratora: %1."
-
-#~ msgid "and"
-#~ msgstr "i"
-
-#~ msgid "hints on good style"
-#~ msgstr "w dobrym stylu"
 
 #, fuzzy
 #~ msgid "later"

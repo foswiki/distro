@@ -399,6 +399,11 @@ msgstr ""
 "i historiken för den bifogade filen kommer att visa de ursprungliga "
 "kommentarer från då filen laddades upp första gången."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Mer formateringshjälp"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -434,6 +439,52 @@ msgstr ""
 "*Egenskaper:* Kommentaren och synligheten (dvs om bilagan döljs vid "
 "sidvisning) kan ändras utan att ladda upp en ny fil genom att klicka på "
 "\"Uppdatera endast egenskaper\"."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*fet stil* sätt asterisker (stjärnor) kring orden: =<nop>*din text*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*punktlista* 3 mellanslag, asterisk, 1 mellanslag: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;din text="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*externa länkar*  =http://yahoo.com= eller =[<nop>[http://yahoo.com/][länk "
+"till Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*rubriker* 3 mellanslag, 1 till 6 plustecken, 1 mellanslag: =---++&&nbsp;Din "
+"rubrik="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*kursiv* kring ordet eller meningen: =_<nop>detta blir kursivt_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*skrivmaskinsstil* sätt likhetstecken kring ordet eller meningen:  "
+"=<nop>=dina ord=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*stycken* separeras med en tom rad"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*länkar inom webbplatsen* använd sidnamnet: =%1= eller =[<nop>[%1][Vår "
+"hemsida]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2643,6 +2694,10 @@ msgstr "Fler alternativ för sidan %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "i källtext-format"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Mer formateringshjälp"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5650,6 +5705,10 @@ msgstr "ingen åtkomst till avdelningen"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "och"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5710,6 +5769,10 @@ msgstr "fälten är obligatoriska."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "hjälp"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "tips på god stil i e-samarbetet"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6028,46 +6091,6 @@ msgstr "varför du blir ombedd att bekräfta"
 #~ msgid "&Edit text"
 #~ msgstr "Redig&era text"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr ""
-#~ "*fet stil* sätt asterisker (stjärnor) kring orden: =<nop>*din text*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*punktlista* 3 mellanslag, asterisk, 1 mellanslag: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp;din text="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*externa länkar*  =http://yahoo.com= eller =[<nop>[http://yahoo.com/]"
-#~ "[länk till Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*rubriker* 3 mellanslag, 1 till 6 plustecken, 1 mellanslag: =---++&&nbsp;"
-#~ "Din rubrik="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "*kursiv* kring ordet eller meningen: =_<nop>detta blir kursivt_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*skrivmaskinsstil* sätt likhetstecken kring ordet eller meningen:  "
-#~ "=<nop>=dina ord=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*stycken* separeras med en tom rad"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*länkar inom webbplatsen* använd sidnamnet: =%1= eller =[<nop>[%1][Vår "
-#~ "hemsida]]="
-
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
 #~ msgstr ""
@@ -6116,9 +6139,6 @@ msgstr "varför du blir ombedd att bekräfta"
 #~ msgid "Log on with your username and password"
 #~ msgstr "Ange användarnamn och lösenord"
 
-#~ msgid "More formatting help"
-#~ msgstr "Mer formateringshjälp"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "Problem att fylla badet"
 
@@ -6163,12 +6183,6 @@ msgstr "varför du blir ombedd att bekräfta"
 #~ msgstr ""
 #~ "Din personliga sida har inte döpts om. Skicka e-post till %1 för att få "
 #~ "det gjort."
-
-#~ msgid "and"
-#~ msgstr "och"
-
-#~ msgid "hints on good style"
-#~ msgstr "tips på god stil i e-samarbetet"
 
 #, fuzzy
 #~ msgid "later"

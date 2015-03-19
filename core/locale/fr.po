@@ -386,6 +386,11 @@ msgstr ""
 "effectivement modifié, mais le commentaire affiché sur l'historique du "
 "fichier attaché sera celui fourni lors de l'envoi du fichier."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Plus d'aide au formatage"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -424,6 +429,54 @@ msgstr ""
 "*Propriétés :* Vous pouvez modifier le commentaire et la visibilité (c'est-à-"
 "dire, le fait que le fichier attaché soit dissimulé ou non), sans envoyer le "
 "moindre fichier, en cliquant sur \"Modifier seulement les propriétés\"."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr ""
+"*gras* mettre le mot ou la phrase entre astérisques : =<nop>*votre phrase*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*liste à puces* 3 espaces, une astérisque, 1 espace : =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp; votre texte="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*liens externes* =http://yahoo.fr=, ou =[<nop>[http://yahoo.fr/][lien vers "
+"Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*titres et sous-titres* 3 tirets, entre 1 et 6 signes plus, 1 espace : =---+"
+"+&&nbsp;Votre sous-titre="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+"*italique* mettre le mot ou la phrase entre tirets-bas : =_<nop>vos mots_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*police à chasse fixe* mettre le mot ou la phrase entre signes égal : "
+"=<nop>=vos mots=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*paragraphes* les séparer par des lignes vides"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*liens internes= utiliser le nom de la page : =%1 ou =[<nop>[%1][Page "
+"d'accueil]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2623,6 +2676,10 @@ msgstr "Autres actions sur la page %1"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Autres formatages de caractères"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Plus d'aide au formatage"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5652,6 +5709,10 @@ msgstr "l'accès à ce web est interdit"
 msgid "accesskey='c'"
 msgstr "raccourci clavier='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "et"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr "par %1 "
@@ -5709,6 +5770,10 @@ msgstr "sont des champs devant être remplis."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "aide"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "astuces sur des pratiques courantes de collaboration"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -6022,48 +6087,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgid "&Edit text"
 #~ msgstr "Modifi&er le texte"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr ""
-#~ "*gras* mettre le mot ou la phrase entre astérisques : =<nop>*votre "
-#~ "phrase*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*liste à puces* 3 espaces, une astérisque, 1 espace : =&&nbsp;&&nbsp;"
-#~ "&&nbsp;*&&nbsp; votre texte="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*liens externes* =http://yahoo.fr=, ou =[<nop>[http://yahoo.fr/][lien "
-#~ "vers Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*titres et sous-titres* 3 tirets, entre 1 et 6 signes plus, 1 espace : "
-#~ "=---++&&nbsp;Votre sous-titre="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr ""
-#~ "*italique* mettre le mot ou la phrase entre tirets-bas : =_<nop>vos mots_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*police à chasse fixe* mettre le mot ou la phrase entre signes égal : "
-#~ "=<nop>=vos mots=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*paragraphes* les séparer par des lignes vides"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*liens internes= utiliser le nom de la page : =%1 ou =[<nop>[%1][Page "
-#~ "d'accueil]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -6114,9 +6137,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgstr ""
 #~ "Veuillez entrer votre nom de connexion, ainsi que votre mot de passe"
 
-#~ msgid "More formatting help"
-#~ msgstr "Plus d'aide au formatage"
-
 #~ msgid "Problem filling bath"
 #~ msgstr "Problème dans le remplissage de la baignoire"
 
@@ -6161,12 +6181,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgstr ""
 #~ "Votre page personnelle n'a pas été renommée. Veuillez envoyer un e-mail à "
 #~ "%1 pour lui en faire la demande."
-
-#~ msgid "and"
-#~ msgstr "et"
-
-#~ msgid "hints on good style"
-#~ msgstr "astuces sur des pratiques courantes de collaboration"
 
 #, fuzzy
 #~ msgid "later"

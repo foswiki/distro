@@ -388,6 +388,11 @@ msgstr ""
 "kommentar vil kommentaren som vises til siden endres, men kommentaren som "
 "vises til et vedlegg vil vise kommentaren fra når vedlegget ble lastet opp."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Mer formateringshjelp"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -422,6 +427,49 @@ msgid ""
 msgstr ""
 "*Egenskaper:* Kommentaren og synligheten (i.e. er vedlegg skjult) kan endres "
 "uten å laste opp en fil ved å velge \"Endre kun egenskaper\"."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*fet* skriv ord/uttrykk med stjerner: =<nop>*ditt uttrykk*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*punktliste* 3 mellomrom, stjerne. 1 mellomrom: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;din tekst="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*eksterne linker* =http://yahoo.com= eller =[<nop>[http://yahoo.com/][link "
+"til Yahoo]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*overskrifter* 3 streker, 1 til 6 plusser, 1 mellomrom: =---++&&nbsp;Din "
+"Overskrift="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*italic* skriv dine ord og uttrykk i underscores: =_<nop>dine ord_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr "*monospaced* skriv ord i likhetstegn: =<nop>=dine ord=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*avsnitt* separer med en blank linje"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2615,6 +2663,10 @@ msgstr "Mer Valg for Side %1"
 #, fuzzy
 msgid "More character formats"
 msgstr "i rå tekst format"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Mer formateringshjelp"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5620,6 +5672,10 @@ msgstr "tilgang ikke tillatt til web"
 msgid "accesskey='c'"
 msgstr "hurtigtast='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "og"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr "av %1"
@@ -5680,6 +5736,10 @@ msgstr "felt er obligatoriske"
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "hjelp"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "tips om god stil"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5998,42 +6058,6 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 #~ msgid "&Edit text"
 #~ msgstr "R&ediger tekst"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*fet* skriv ord/uttrykk med stjerner: =<nop>*ditt uttrykk*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*punktliste* 3 mellomrom, stjerne. 1 mellomrom: =&&nbsp;&&nbsp;&&nbsp;"
-#~ "*&&nbsp;din tekst="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*eksterne linker* =http://yahoo.com= eller =[<nop>[http://yahoo.com/]"
-#~ "[link til Yahoo]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*overskrifter* 3 streker, 1 til 6 plusser, 1 mellomrom: =---++&&nbsp;Din "
-#~ "Overskrift="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "*italic* skriv dine ord og uttrykk i underscores: =_<nop>dine ord_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr "*monospaced* skriv ord i likhetstegn: =<nop>=dine ord=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*avsnitt* separer med en blank linje"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
-
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
 #~ msgstr ""
@@ -6087,9 +6111,6 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 
 #~ msgid "Log on with your username and password"
 #~ msgstr "Logg inn med ditt brukernavn og passord"
-
-#~ msgid "More formatting help"
-#~ msgstr "Mer formateringshjelp"
 
 #~ msgid "Problem filling bath"
 #~ msgstr "Problem med å fylle badekaret"
@@ -6147,12 +6168,6 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 #~ msgstr ""
 #~ "Din brukerside har ikke fått nytt navn. Vennligst send epost til %1 for å "
 #~ "be om dette."
-
-#~ msgid "and"
-#~ msgstr "og"
-
-#~ msgid "hints on good style"
-#~ msgstr "tips om god stil"
 
 #~ msgid "later"
 #~ msgstr "senere"

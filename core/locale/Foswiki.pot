@@ -371,6 +371,10 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+msgid "*Formatting help:*"
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -393,6 +397,42 @@ msgstr ""
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
@@ -2414,6 +2454,10 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
@@ -5141,6 +5185,10 @@ msgstr ""
 msgid "accesskey='c'"
 msgstr ""
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr ""
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5197,6 +5245,10 @@ msgstr ""
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24

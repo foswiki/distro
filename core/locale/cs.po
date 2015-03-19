@@ -379,6 +379,11 @@ msgstr ""
 "komentář ukázaný ve článku se změní, ale komentář ukázaný v historii přílohy "
 "bude komentář použitý, když byla přiloha nahrána."
 
+#: core/data/System/WikiSyntaxSummary.txt:8
+#, fuzzy
+msgid "*Formatting help:*"
+msgstr "Více nápovědy k formátování"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -413,6 +418,51 @@ msgid ""
 msgstr ""
 "*Vlastnosti:* Komentář a viditelnost (např. jestli je přiloha skryta) může "
 "být změněn bez nahrání souboru stiskem \"Změň pouze vlastnosti\"."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*tučně* uzavřete slovo/frázi do hvězdiček: =<nop>*Vaše fráze*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*seznam* 3 mezery, hvězdička, 1 mezera: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Váš "
+"text="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*externí odkazy* =http://www.tmapy.cz= or =[<nop>[http://www.tmapy.cz/]"
+"[odkaz na T-MAPY]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*nadpisy* 3 pomlčky, 1 až 6 plus. znamének, 1 mezera: =---++&&nbsp;Váš "
+"nadpis="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*kurzíva* uzavřete slovo/frázi do podtržítek: =_<nop>Vaše fráze_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*neproporcionálně* uzavřete slovo/frázi do rovnítek: =<nop>=Vaše fráze=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*odstavec* oddělte prázdnou řádkou"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+"*site linky* používají jména témat: =%1= or =[<nop>[%1][Naše domovská "
+"stránka]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -2563,6 +2613,10 @@ msgstr "Další akce s článkem %1"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Víceznakové formáty"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Více nápovědy k formátování"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -5479,6 +5533,10 @@ msgstr "přístup k webu není povolen"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "a"
+
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
 msgstr ""
@@ -5539,6 +5597,10 @@ msgstr "pole jsou povinná."
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "nápověda"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "nápověda k dobrému stylu"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5857,44 +5919,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 #~ msgid "&Edit text"
 #~ msgstr "&Editovat text"
 
-#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-#~ msgstr "*tučně* uzavřete slovo/frázi do hvězdiček: =<nop>*Vaše fráze*="
-
-#~ msgid ""
-#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
-#~ "your text="
-#~ msgstr ""
-#~ "*seznam* 3 mezery, hvězdička, 1 mezera: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Váš "
-#~ "text="
-
-#~ msgid ""
-#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
-#~ "Yahoo]]="
-#~ msgstr ""
-#~ "*externí odkazy* =http://www.tmapy.cz= or =[<nop>[http://www.tmapy.cz/]"
-#~ "[odkaz na T-MAPY]]="
-
-#~ msgid ""
-#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-#~ msgstr ""
-#~ "*nadpisy* 3 pomlčky, 1 až 6 plus. znamének, 1 mezera: =---++&&nbsp;Váš "
-#~ "nadpis="
-
-#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-#~ msgstr "*kurzíva* uzavřete slovo/frázi do podtržítek: =_<nop>Vaše fráze_="
-
-#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-#~ msgstr ""
-#~ "*neproporcionálně* uzavřete slovo/frázi do rovnítek: =<nop>=Vaše fráze=="
-
-#~ msgid "*paragraphs* separate with blank line"
-#~ msgstr "*odstavec* oddělte prázdnou řádkou"
-
-#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-#~ msgstr ""
-#~ "*site linky* používají jména témat: =%1= or =[<nop>[%1][Naše domovská "
-#~ "stránka]]="
-
 #, fuzzy
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -5941,9 +5965,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 #~ msgid "Log on with your username and password"
 #~ msgstr "Zadejte prosím Váš účet a heslo:"
 
-#~ msgid "More formatting help"
-#~ msgstr "Více nápovědy k formátování"
-
 #~ msgid "Problem filling bath"
 #~ msgstr ""
 #~ "Problém vyplňování lázně (just a test string within the documentation)"
@@ -5988,12 +6009,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 #~ msgstr ""
 #~ "Váš osobní článek nebyl pŕejmenován. Prosím pošlete email %1 s tímto "
 #~ "požadavkem."
-
-#~ msgid "and"
-#~ msgstr "a"
-
-#~ msgid "hints on good style"
-#~ msgstr "nápověda k dobrému stylu"
 
 #, fuzzy
 #~ msgid "later"
