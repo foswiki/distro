@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-16 08:05+0200\n"
+"PO-Revision-Date: 2015-03-19 07:15+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -3655,8 +3655,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. [[%1]"
-"[Registrér]] hvis du ikke har en bruger konto endnu."
+"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. "
+"[[%1][Register]] hvis du ikke har en bruger konto endnu."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3699,8 +3699,7 @@ msgstr ""
 "Disse ændringer er blevet flettet med dine for at skabe version %1. "
 "Kildeteksten er blevet flettet, men andre data så som formular-felter har "
 "muligvis overskrevet den anden brugers rettelser. Undersøg venligst siden, "
-"og overbevis dig om, at den stadig er OK - især hvis du har lavet rettelser "
-"til formularfelterne."
+"at den stadig er OK - især hvis du har lavet rettelser til formularfelterne."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title"
@@ -3770,7 +3769,7 @@ msgstr "Fejl ved skrivning af siden"
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
-msgstr "Vedhæftede filer"
+msgstr "Vedhæftede filer på siden"
 
 #: core/templates/messages.tmpl:397
 msgid "Topic can not be upgraded from old style category table"
@@ -3802,7 +3801,7 @@ msgstr "Side-forælder:"
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
-msgstr "Version:"
+msgstr "Side version:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
@@ -3810,7 +3809,7 @@ msgstr "Fejl ved skrivning af siden"
 
 #: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
-msgstr "Formularer i %1-webbet"
+msgstr "Side-skabeloner i %1-webbet"
 
 #: core/data/System/WebSearch.txt:111 core/data/System/WebSearch.txt:141
 msgid "Topic title"
@@ -3818,7 +3817,7 @@ msgstr "Sidenavn"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
-msgstr "Sidens kildetekst blev flettet"
+msgstr "Siden blev flettet"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:120
 msgid "Topic will be named: "
