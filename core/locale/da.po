@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 07:15+0200\n"
+"PO-Revision-Date: 2015-03-19 21:22+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -3563,13 +3563,12 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
-"Der er en risiko for at nogen prøver at bruge din identitet til at ændre "
+"Der er en risiko for, at nogen prøver at bruge din identitet til at ændre "
 "indhold på %1 uden din viden."
 
 #: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
-msgstr ""
-"Der formodes at være en linie der inkluderer %1, se efter %2 (eller %3)"
+msgstr "Der bør være en linje der inkluderer %1, se efter %2 (eller %3)"
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors adding to the %2 group. %1 "
@@ -3901,15 +3900,15 @@ msgstr "Opgraderet gruppe"
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
-msgstr "Upload fil"
+msgstr "Vedhæft fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
 msgid "Upload multiple attachments in one zip file"
-msgstr "Upload flere vedhæftede filer i en zip-fil"
+msgstr "Vedhæft flere filer i en samlet zip-fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
-msgstr "Upload op til %1 KB."
+msgstr "Vedhæft op til %1 KB."
 
 #: core/templates/messages.tmpl:429
 msgid "Uploaded file %1 exceeds limit of %2 KB"
@@ -3937,7 +3936,7 @@ msgstr "Brugeren %1 har ikke CHANGE rettigheder til %2."
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 er ikke medlem af gruppen og kan ikke fjernes"
+msgstr "Brugeren %1 er ikke medlem af gruppen og kan ikke fjernes"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -4047,7 +4046,7 @@ msgstr "Vis komplet historik for siden"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
 msgid "View without formatting (v)"
-msgstr "Vis rå kildetekst uden formatering (v)"
+msgstr "Vis uden formatering (v)"
 
 #: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
@@ -4067,7 +4066,7 @@ msgstr ""
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Advarsel: Kan ikke INCLUDE %1, navnet er tomt eller indeholder ugyldige tegn."
+"Advarsel: Kan ikke INCLUDE '%1', stien er tom eller indeholder ugyldige tegn."
 
 #: core/templates/messages.tmpl:603
 msgid "Warning: Can't find named section %3 in topic %1.%2"
@@ -4079,7 +4078,7 @@ msgstr "Advarsel: Kan ikke finde siden %1.%2"
 
 #: core/templates/messages.tmpl:601
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Advarsel: Kan ikke finde web %1 siden %2"
+msgstr "Advarsel: Kan ikke finde web %1 for siden %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
@@ -4098,7 +4097,7 @@ msgstr ""
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "BEMÆRK: \\'incluce\\'-siden <nop>%1 findes ikke!"
+msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
@@ -4106,7 +4105,7 @@ msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "BEMÆRK: tabel-definitionen i \\'incluce\\'-siden %1 findes ikke!"
+msgstr "Advarsel: tabel-definitionen i \\'include\\'-siden %1 findes ikke!"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4127,7 +4126,7 @@ msgstr "Webserver <em>som kører Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Velkommen til %1 ... mød mennesker på denne site."
+msgstr "Velkommen til %1 ... mød mennesker på denne side."
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
