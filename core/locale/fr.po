@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 14:22+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-03-19 14:38+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -5810,15 +5810,15 @@ msgstr "spécifier une liste d'utilisateurs et/ou de groupes"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:138
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "interdire strictement tout accès à cette page"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:169
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "interdire strictement l'accès en écriture à cette page"
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
-msgstr ""
+msgstr "le début"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -5827,11 +5827,8 @@ msgstr ""
 "accesskey='a'>&Attacher"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
-#, fuzzy
 msgid "title='Attach an image or document to this topic'>Attach"
-msgstr ""
-"title='Attacher une image ou un document à cette page' "
-"accesskey='a'>&Attacher"
+msgstr "title='Attacher une image ou un document à cette page'>Attacher"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -5846,23 +5843,22 @@ msgstr ""
 "comparer les différentes versions' accesskey='m'>Autres fonctions (&m)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
+msgstr ""
+"title='Modifier la source de cette page au format Wiki text' accesskey='w'>"
+"Modifier &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
-#, fuzzy
 msgid "title='Edit this topic text' >Edit"
-msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
+msgstr "title='Modifier le texte de cette page' >Modifier"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Voir la page' accesskey='v'>&Voir la page"
+msgstr "title='Différences entrelacées' accesskey='i'>D&ifférences entrelacées"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -5890,9 +5886,8 @@ msgstr ""
 "title='Chercher dans le Web %1 les liens pointant ici' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Voir la page' accesskey='v'>&Voir la page"
+msgstr "title='Côte-à-côte' accesskey='s'>Différence&s côte-à-côte"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
@@ -5904,10 +5899,10 @@ msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
-#, fuzzy
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr ""
-"title='Afficher l'intégralité de l'historique' accesskey='h'>&Historique"
+"title='Afficher l'intégralité de l\\'historique de la page' "
+"accesskey='h'>&Historique"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:12
@@ -5915,10 +5910,10 @@ msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Voir la page' accesskey='v'>&Voir la page"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
-#, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
-"title='Afficher le code source, sans formatage' accesskey='r'>Code sou&rce"
+"title='Afficher la source de cette page au format Wiki text, sans formatage' "
+"accesskey='v'>&Voir wiki text"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
