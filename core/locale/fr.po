@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 00:46+0200\n"
+"PO-Revision-Date: 2015-03-19 13:40+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -5741,7 +5741,7 @@ msgstr "suite..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "nouveau"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -5762,19 +5762,16 @@ msgid "preview"
 msgstr "prévisualiser"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:123
-#, fuzzy
 msgid "public view access"
-msgstr "Tous les webs publics"
+msgstr "accès public"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
-#, fuzzy
 msgid "restore"
-msgstr "Restaurer"
+msgstr "restaurer"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "restore form"
-msgstr "Restaurer la page"
+msgstr "restaurer formulaire"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:133
 #: NatEditPlugin/templates/edit.natedit.tmpl:164
