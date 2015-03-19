@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426726301" format="1.1" version="1"}%
 ---+!! !HomePagePlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -54,8 +54,11 @@ Many thanks to the following sponsors for supporting this work:
    * Created for Blackfin inc.
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.23 (18 Mar 2015) | Foswikitask:Item13312: Don't override URL params topic and defaultweb |
 | 1.22 (18 Dec 2014) | Foswikitask:Item12583: Use simple decimal version strings for better compatibility | 
-| 1.2.1 (16 Dec 2012) | Foswikitask:Item12297: Address perlcritic recommendation. |
+| 1.2.1 (16 Dec 2012) | Foswikitask:Item12297: Address perlcritic recommendation.%BR%\
+                        Foswikitask:Item11960: Don't redirect cli scripts %BR%\
+                        Foswikitask:Item11866: Don't redirect to malformed targets |
 | 1.2.0 (16 Apr 2012) | Foswikitask:Item11761: Include in core release |
 | 1.1.1 (1 Aug 2009) | fix bug in login screen usage |
 | 1.1.0 (July 2009) | add Expert hash allowing domain name based frontpage setting |
@@ -71,5 +74,5 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HomePagePlugin"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.SvenDowideit"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012-2015 Foswiki Contributors"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

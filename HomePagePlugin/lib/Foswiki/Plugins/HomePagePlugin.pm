@@ -13,8 +13,8 @@ use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-our $VERSION           = '1.22';
-our $RELEASE           = '1.22';
+our $VERSION           = '1.23';
+our $RELEASE           = '1.23';
 our $SHORTDESCRIPTION  = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -33,6 +33,11 @@ sub initializeUserHandler {
 
     return
       if ( $Foswiki::Plugins::SESSION->inContext('command_line') );
+
+    # Don't override web/topic if specified by url param.
+    return
+      if ( $Foswiki::Plugins::SESSION->{request}->param('defaultweb')
+        || $Foswiki::Plugins::SESSION->{request}->param('topic') );
 
     my $gotoOnLogin =
       (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}
@@ -110,7 +115,7 @@ __END__
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (c) 2009-2011 Sven Dowideit, SvenDowideit@fosiki.com
-Copyright (c) 2012 Foswiki Contributors
+Copyright (c) 2012-2015 Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

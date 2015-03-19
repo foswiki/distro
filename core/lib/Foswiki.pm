@@ -2239,10 +2239,6 @@ sub new {
     # SMELL: what happens if we move this into the Foswiki::Users::new?
     $this->{user} = $this->{users}->initialiseUser( $this->{remoteUser} );
 
-    # SMELL: Initializing the user overrides the web/topic for some reason
-    $this->{topicName} = $topic;
-    $this->{webName}   = $web;
-
     #Monitor::MARK("Initialised user");
 
     # Static session variables that can be expanded in topics when they
