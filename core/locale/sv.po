@@ -334,10 +334,10 @@ msgstr "(flytta bifogad fil)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen förälder, föräldralös sida)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1090 core/lib/Foswiki/UI/Rename.pm:1106
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1166
-#: core/lib/Foswiki/UI/Rename.pm:1169 core/lib/Foswiki/UI/Rename.pm:1204
-#: core/lib/Foswiki/UI/Rename.pm:1227 core/lib/Foswiki/UI/Rename.pm:601
+#: core/lib/Foswiki/UI/Rename.pm:1099 core/lib/Foswiki/UI/Rename.pm:1115
+#: core/lib/Foswiki/UI/Rename.pm:1172 core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1178 core/lib/Foswiki/UI/Rename.pm:1213
+#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:601
 #: core/lib/Foswiki/UI/Rename.pm:605 core/lib/Foswiki/UI/Rename.pm:609
 #: core/lib/Foswiki/UI/Rename.pm:613
 msgid "(none)"
@@ -377,7 +377,7 @@ msgstr "(förnamn med en bokstav)"
 msgid "(single character last name)"
 msgstr "(efternamn med en bokstav)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1078
+#: core/lib/Foswiki/UI/Rename.pm:1087
 msgid "(skipped)"
 msgstr "(överhoppat)"
 
@@ -2713,7 +2713,7 @@ msgstr "Flytta till avdelning:"
 msgid "Move topic to web:"
 msgstr "Flytta sida till avdelning:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1185
 msgid "Move/Rename"
 msgstr "Flytta/Döp om"
 
@@ -3351,7 +3351,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1184
 msgid "Refresh"
 msgstr "Uppdatera"
 

@@ -342,10 +342,10 @@ msgstr "(添付ファイルを移動します)"
 msgid "(no parent, orphaned topic)"
 msgstr "(親トピックのない独立のトピック)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1090 core/lib/Foswiki/UI/Rename.pm:1106
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1166
-#: core/lib/Foswiki/UI/Rename.pm:1169 core/lib/Foswiki/UI/Rename.pm:1204
-#: core/lib/Foswiki/UI/Rename.pm:1227 core/lib/Foswiki/UI/Rename.pm:601
+#: core/lib/Foswiki/UI/Rename.pm:1099 core/lib/Foswiki/UI/Rename.pm:1115
+#: core/lib/Foswiki/UI/Rename.pm:1172 core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1178 core/lib/Foswiki/UI/Rename.pm:1213
+#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:601
 #: core/lib/Foswiki/UI/Rename.pm:605 core/lib/Foswiki/UI/Rename.pm:609
 #: core/lib/Foswiki/UI/Rename.pm:613
 msgid "(none)"
@@ -385,7 +385,7 @@ msgstr "(シングルキャラクター名前)"
 msgid "(single character last name)"
 msgstr "(シングルキャラクター名字)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1078
+#: core/lib/Foswiki/UI/Rename.pm:1087
 msgid "(skipped)"
 msgstr "(スキップ)"
 
@@ -2722,7 +2722,7 @@ msgstr "ウェブに移動します:"
 msgid "Move topic to web:"
 msgstr "トピックをウェブに移動します："
 
-#: core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1185
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
@@ -3354,7 +3354,7 @@ msgstr "変更をプレビューします"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1184
 msgid "Refresh"
 msgstr ""
 

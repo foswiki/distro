@@ -332,10 +332,10 @@ msgstr "(siirrä liite)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ei isäartikkelia, orpoartikkeli)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1090 core/lib/Foswiki/UI/Rename.pm:1106
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1166
-#: core/lib/Foswiki/UI/Rename.pm:1169 core/lib/Foswiki/UI/Rename.pm:1204
-#: core/lib/Foswiki/UI/Rename.pm:1227 core/lib/Foswiki/UI/Rename.pm:601
+#: core/lib/Foswiki/UI/Rename.pm:1099 core/lib/Foswiki/UI/Rename.pm:1115
+#: core/lib/Foswiki/UI/Rename.pm:1172 core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1178 core/lib/Foswiki/UI/Rename.pm:1213
+#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:601
 #: core/lib/Foswiki/UI/Rename.pm:605 core/lib/Foswiki/UI/Rename.pm:609
 #: core/lib/Foswiki/UI/Rename.pm:613
 msgid "(none)"
@@ -375,7 +375,7 @@ msgstr "(yhden merkin etunimi)"
 msgid "(single character last name)"
 msgstr "(yhden merkin sukunimi)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1078
+#: core/lib/Foswiki/UI/Rename.pm:1087
 msgid "(skipped)"
 msgstr "(hypätty yli)"
 
@@ -2720,7 +2720,7 @@ msgstr "Siirrä verkkoon:"
 msgid "Move topic to web:"
 msgstr "Siirrä aihe verkkoon:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1185
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
@@ -3355,7 +3355,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1184
 msgid "Refresh"
 msgstr "Päivitä"
 

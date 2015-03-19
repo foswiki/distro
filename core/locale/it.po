@@ -325,10 +325,10 @@ msgstr "(sposta allegato)"
 msgid "(no parent, orphaned topic)"
 msgstr "(nessun genitore, pagina orfana)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1090 core/lib/Foswiki/UI/Rename.pm:1106
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1166
-#: core/lib/Foswiki/UI/Rename.pm:1169 core/lib/Foswiki/UI/Rename.pm:1204
-#: core/lib/Foswiki/UI/Rename.pm:1227 core/lib/Foswiki/UI/Rename.pm:601
+#: core/lib/Foswiki/UI/Rename.pm:1099 core/lib/Foswiki/UI/Rename.pm:1115
+#: core/lib/Foswiki/UI/Rename.pm:1172 core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1178 core/lib/Foswiki/UI/Rename.pm:1213
+#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:601
 #: core/lib/Foswiki/UI/Rename.pm:605 core/lib/Foswiki/UI/Rename.pm:609
 #: core/lib/Foswiki/UI/Rename.pm:613
 msgid "(none)"
@@ -367,7 +367,7 @@ msgstr "(singolo carattere del nome)"
 msgid "(single character last name)"
 msgstr "(singolo carattere del cognome)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1078
+#: core/lib/Foswiki/UI/Rename.pm:1087
 msgid "(skipped)"
 msgstr "(saltato)"
 
@@ -2693,7 +2693,7 @@ msgstr "Sposta al web:"
 msgid "Move topic to web:"
 msgstr "Sposta la pagina al web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1185
 msgid "Move/Rename"
 msgstr "Sposta/Rinomina"
 
@@ -3330,7 +3330,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1175
+#: core/lib/Foswiki/UI/Rename.pm:1184
 msgid "Refresh"
 msgstr "Aggiorna"
 
