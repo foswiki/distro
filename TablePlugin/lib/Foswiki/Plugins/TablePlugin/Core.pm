@@ -610,6 +610,19 @@ sub _processTableRow {
         my $attr = {};
         $span = 1;
 
+        # Item13309: adjust for ERP empty column
+        if (  !$tableSpecificAttrs->{sort_adjusted}
+            && $colCount == 0
+            && /erpJS_willDiscard/ )
+        {
+            if ( $combinedTableAttrs->{initSort} ) {
+                $combinedTableAttrs->{initSort}++;
+                $sortCol++;
+            }
+
+            $tableSpecificAttrs->{sort_adjusted} = 1;
+        }
+
         #AS 25-5-01 Fix to avoid matching also single columns
         if (s/colspan$translationToken([0-9]+)//) {
             $span = $1;
