@@ -2237,6 +2237,8 @@ sub new {
     #Monitor::MARK("Loaded default prefs");
 
     # SMELL: what happens if we move this into the Foswiki::Users::new?
+    # Note:  The initializeUserHandler() can override settings like
+    #        topicName and webName. For example, HomePagePlugin.
     $this->{user} = $this->{users}->initialiseUser( $this->{remoteUser} );
 
     #Monitor::MARK("Initialised user");
