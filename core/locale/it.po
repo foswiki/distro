@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 15:02+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2015-03-20 15:03+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -807,9 +807,8 @@ msgid "Attach"
 msgstr "Allegato"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Allega un nuovo file"
+msgstr "Allega un file"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
