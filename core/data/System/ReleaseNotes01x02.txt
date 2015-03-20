@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425446703" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426819211" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 (alpha)
+
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
@@ -41,7 +42,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
-   * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
+   * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
    * %RED% Foswiki 1.2.0 %ENDCOLOR%
@@ -57,20 +58,22 @@ Foswiki 1.2 is shipped with the following:
 
 #Release01x02Changes
 ---++ Changes in requirements
-<div class="foswikiHelp">
+
+<div class='foswikiHelp'>
    * !JavaScript is now required for most operation other than simple page views.
-   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules.</div>
+   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules.
+</div>
 
 ---++ Deprecations
 
-   * The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed.  Links must be written as =[<nop>[url][title]]= format if a title is desired.
+   * The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
 
 ---+++ Deprecation of empty DENY rules
 
 The intention to deprecate the use of an empty =DENYTOPIC&lt;action&gt;= rule to act as an "ALLOW all" has been completed.   This has been a
 pending change predating Foswiki 1.0.0.
 
-<div class="foswikiHelp">%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
 rule need to be updated.  A utility has been provided to find and convert existing empty DENY rules to the new ALLOW format.
 You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny}= in the _Security and Authentication_
 section under the _Access control_ tab.
@@ -83,10 +86,9 @@ an empty =DENYTOPIC&lt;action&gt;= rule.   This rule is no longer active by
 default.
 
 A conversion tool is available in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
-   * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding <tt>ALLOWTOPIC&lt;action&gt;= *</tt>
-   * Optionally convert inline ACLs into META settings.   This is recommended for Foswiki 1.2
+   * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding =ALLOWTOPIC&lt;action&gt;= *=
+   * Optionally convert inline ACLs into META settings. This is recommended for Foswiki 1.2
    * Optionally convert __all__ inline settings into META settings.
-
 <verbatim>
 # perl -I bin tools/convertTopicSettings -fixdeny
 
@@ -120,8 +122,7 @@ A conversion tool is available in the tools directory.  =tools/convertTopicSetti
 #    This script uses the Foswiki APIs.  It MUST be run as the web server user
 #    (apache, or www-data depending on the distribution).  If run as root, it
 #    will make the foswiki log unusable by the foswiki web server.
-#
-</verbatim>
+#</verbatim>
 
 ---++ Important changes since Foswiki 1.2
 
@@ -137,20 +138,18 @@ setting for =$CPANBASE= has been completely eliminated.  A simple method of
 adding libraries to the top of the @INC path is provided in the new example
 =foswiki/bin/LocalLib.txt= shipped with foswiki.
 
-<div class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have are upgrading an existing system and
 have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
-copy using the updated =foswiki/bin/LocalLib.cfg.txt=
-</div>
+copy using the updated =foswiki/bin/LocalLib.cfg.txt= <sticky>&nbsp;</sticky> (Note that on most systems, =foswiki/bin/LocalLib.txt= is not required.</div>
 
 ---+++ Authentication, Authorization and Security
 
-   * users can authenticate via 'TemplateLogin' with their email address
-
+Users now have the option to authenticate via 'TemplateLogin' using their email address. This feature is optional, and is enabled in the _Security and Authentication_ section, _Login_ tab of configure. Enable ={TemplateLogin}{AllowLoginUsingEmailAddress}=.  If more than one user shares an email address, the user with the matching password will be selected during login.
 ---++++ REST Script default security has changed:
 
 Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket
 security for =rest=, each handler is now responsible to set its individual requirements for 3 options:
-<i>authentication</i>, <i>validation</i> and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
+<i>authentication</i>, _validation_ and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
 
 A new configuration option has been added to the _Security and Authentication_ section, _Login_ tab: ={LegacyRESTSecurity}=. Enable this setting to restore the old insecure
@@ -164,18 +163,16 @@ methods may be more easily implemented in the future.  The default method is
 
 Two additional methods are now included which may be of help to the
 Administrator:
-
    $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the !AdminGroup.
    $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the !AdminGroup
 
-<div class="foswikiHelp">%X% *Caution:* These controls are enforced at
+<div class='foswikiHelp'>%X% *Caution:* These controls are enforced at
 the ACL Level.  Extensions have the ability to ignore access controls.  If an
 extension fails to check for access permission, then these new methods will
 not block access.
 </div>
 
 ---++++ Improved CGI Session security
-
 ---+++++ Session IDs
 
 In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
@@ -184,7 +181,6 @@ tab while the other tabs are interacting with the server (for ex. a long running
 The session ID in use for the upload will be deleted because of the sudo login and results are unpredictable.
 
 This change is important for security purposes and cannot be disabled.
-
 ---+++++ Sessions and Roaming or Mobile Users
 
 In Foswiki 1.2, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
@@ -194,7 +190,6 @@ users access the wiki through a proxy or other devices that might cause multiple
 With =UseIPMatching= enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
 There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure =Security And Authentication= tab]] interface.
-
 ---+++++ Optional Sessions for Guest users
 
 _EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
@@ -207,19 +202,16 @@ The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts
 Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
 
 ---+++ Configure has been given a major restructuring
+| *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki. Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuration. |
 
-| *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki.  Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuraiton. |
-
-   * Configure is now a conventional "Foswiki Engine" based script.  This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
+   * Configure is now a conventional "Foswiki Engine" based script. This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
       * You can register an initial user and add them to the !AdminGroup while in "Bootstrap mode" before saving your initial configuration.
    * Configure now requires !JavaScript.
-      * Configuration parameters are Checked and saved through ajax.
-      * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
+      * Configuration parameters are Checked and saved through AJAX.
+      * Configure only transmits changed settings, greatly reducing the required bandwidth and improving performance.
    * Performance
-      * Javascript minimzies the  data transmitted to/from the client.  The entire configuration is not sent for each transaction.
-
+      * !JavaScript minimizes the data transmitted to/from the client. The entire configuration is not sent for each transaction.
 ---++++ Changes to configure Authentication
-
    * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup, or is identified as an authorized configure user.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
@@ -227,24 +219,29 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
    * Configure can be restricted to individual users in or out of the !AdminGroup.
       * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
       * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the !AdminGroup.
+---++++ Configure command line interface
 
+Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and it will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
+<verbatim>tools/configure -save -noprompt
+tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http://your.site.com' -set {PubUrlPath}='/pub' -set {ScriptUrlPath}='/bin' -set {ScriptUrlPaths}{view}=''  -set {FeatureAccess}{Configure}='JoeUser,BaseUserMapping_333' -set {WebMasterEmail}='webmaster@your.site.com</verbatim>
 ---+++ Query Search
+
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
 <verbatim>
 %SEARCH{
 	type="query"
 	"BlogPostForm"
-}%
-</verbatim>
+}%</verbatim>
+
 Because this could lead to undeterministic behaviour, the syntax is now more controlled. You now have to refer to the form name:
 <verbatim>
 %SEARCH{
 	type="query"
 	"form.name='BlogPostForm'"
-}%
-</verbatim>
+}%</verbatim>
 
 ---+++ Major change to ICON macro and templates
+
 Foswiki:Development.HtmlAttributesShouldUseSingleQuotes has changed the ICON
 macro to generate singe quotes by default.  This has no impact unless the
 %ICON macro is being expanded inside a single-quote delimited macro.
@@ -256,13 +253,14 @@ quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 ---+++ Major changes to the Foswiki Store subsystem.
 
 The Foswiki Store has been restructured into separate pluggable store implementations.  Foswiki 1.2 ships with two store backends:
-   * RCSStoreContrib:  This implements the RCSWrap and RCSLite "Revision Control System"  based stores, compatible with prior versions of Foswiki and TWiki.
-   * PlainFileStoreContrib:  A new plain file store that saves topic and attachment as timestamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performming_ than the RCS store.  Existing topics can be migrated to the new store.   *Store formats may not be mixed.  One store must be* selected.
+   * RCSStoreContrib: This implements the RCSWrap and RCSLite "Revision Control System" based stores, compatible with prior versions of Foswiki and TWiki.
+   * PlainFileStoreContrib: A new plain file store that saves topic and attachment as timestamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performming_ than the RCS store. Existing topics can be migrated to the new store. *Store formats may not be mixed. One store must be* selected.
 
+The utility to migrate between store implementations is =tools/change_store.pl=. Be sure to backup your system before running the conversion. For information on how to run the tool, run:
+<verbatim>cd foswiki/tools
+perl -I ../lib change_store.pl --help</verbatim>
 ---++ Foswiki Release 1.2 Details
-
 ---+++ New Features
-
 | *Feature* | *Summary* |
 | [[Foswiki:Development.AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels |
 | [[Foswiki:Development.AddDefaultTopicParameterToINCLUDE][AddDefaultTopicParameterToINCLUDE]] | allow a list of topics to be specified so that we can use INCLUDE to allow customisation of shipped topic elements. |
@@ -286,7 +284,7 @@ The Foswiki Store has been restructured into separate pluggable store implementa
 | [[Foswiki:Development.EngineContribsAsCoreExtensions][EngineContribsAsCoreExtensions]] | Ship FastCGIEngineContrib and ModPerlEngineContrib as core extensions |
 | [[Foswiki:Development.Enhancei18nArchitecture][Enhancei18nArchitecture]] | Enable internationalisation of plugins |
 | [[Foswiki:Development.EscapeTmlInEditor][EscapeTmlInEditor]] | Add a little UI to make it easier to escape TML |
-| [[Foswiki:Development.FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb][FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb]] | Fallback To Topic  When URL has Trailing Space And No Subweb exists but topic does |
+| [[Foswiki:Development.FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb][FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb]] | Fallback To Topic When URL has Trailing Space And No Subweb exists but topic does |
 | [[Foswiki:Development.FasterAccessToCreatorData][FasterAccessToCreatorData]] | Store creator and create date in metadata to improve performance |
 | [[Foswiki:Development.HideIrrelevantConfigureOptions][HideIrrelevantConfigureOptions]] | Configure has too many options, and often they are irrelevant |
 | [[Foswiki:Development.HtmlAttributesShouldUseSingleQuotes][HtmlAttributesShouldUseSingleQuotes]] | HTML attributes should use single quotes |
@@ -318,7 +316,6 @@ The Foswiki Store has been restructured into separate pluggable store implementa
 | [[%BUGS%/ItemX][ItemX]] | description |
 </noautolink>
 
-
 ---++ Enhancements
 
 <noautolink>
@@ -326,7 +323,8 @@ The Foswiki Store has been restructured into separate pluggable store implementa
 </noautolink>
 
 ---
- <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
+
+<!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
 -->
 
