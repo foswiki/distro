@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 17:14+0200\n"
+"PO-Revision-Date: 2015-03-20 19:30+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -1817,17 +1817,17 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
-"Se non è possibile trovare un tuo indirizzo e-mail nel database segreto, non "
-"potrai reimpostare la password o ricevere le notifiche di modifica delle "
-"pagine."
+"Se Foswiki non riesce a utilizzare l'indirizzo di e-mail fornito durante la "
+"registrazione non sarete in grado di reimpostare la password o di ricevere "
+"le notifiche dei cambiamenti delle pagine."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
-"Se Foswiki rileva una richiesta sospetta che sia stata inviata da tale "
-"pagina, verrà richiesta una conferma."
+"Se Foswiki rileva una richiesta sospetta che potrebbe non essere stata "
+"inviata dall'utente, verrà chiesto di confermare la richiesta."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
 msgid ""
@@ -1842,8 +1842,8 @@ msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Se non è questo il problema, potrebbe essere perché hai una impostazione di "
-"%1 che punta a un modello che non esiste."
+"Se non è questo il problema, può essere ci sia un settaggio di %1 che punta "
+"a un template che non esiste."
 
 #: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1864,7 +1864,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:44
 msgid "If you are unsure what this means, read: %1"
-msgstr "Se non sei sicuro cosa questo significhi, leggi: %1"
+msgstr "Se non sei sicuro cosa questo significhi leggi: %1"
 
 #: core/templates/messages.tmpl:640 core/templates/messages.tmpl:650
 msgid "If you came here by clicking on a question mark link"
@@ -1872,11 +1872,12 @@ msgstr "Sei arrivato qui selezionando un link con un punto interrogativo"
 
 #: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
-msgstr "Se non ricevi una email di verifica entro la prossima ora, "
+msgstr "Se non si riceve una e-mail di verifica entro la prossima ora, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "If you enter a different name, make sure the topic exists."
-msgstr "Se usi un nome differente, assicurati che la pagina non esista."
+msgstr ""
+"Se usi un nome differente assicurati che non sia di una pagina già esistente."
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
@@ -1950,15 +1951,14 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
-"In uno scenario possibile, una persona malvagia ha inserito un link per "
-"indurti a visitare una pagina su http<nop>://crime.org, che contiene del "
-"codice javascript malevolo."
+"In uno scenario possibile, una malvagio ha lasciato un link per convincere a "
+"visitare una pagina su http<nop>://crime.org, che contiene del codice  "
+"javascript malevolo."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
-"Nel caso di file nel formato ZIP, allega in questa pagina tutti i file "
-"inclusi"
+"In caso di file zip, allegare in questa pagina tutti i file in esso contenuti"
 
 #: core/data/System/WebSearch.txt:176
 msgid "In reversed order"
@@ -2016,7 +2016,7 @@ msgstr "Codice di attivazione non valido"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr "Non valido"
+msgstr "Immissione invalida"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
@@ -2044,9 +2044,10 @@ msgid ""
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Normalmente è meglio scegliere %1 come nome della nuova pagina, altrimenti "
-"il collegamento automatico non può funzionare. I caratteri non permessi nel "
-"nome della pagina, come gli spazi, saranno rimossi automaticamente."
+"Normalmente è meglio scegliere una  %1 come nome della nuova pagina, "
+"altrimenti il collegamento automatico potrebbe non funzionare. I caratteri "
+"non permessi nel nome della pagina, come gli spazi, saranno rimossi "
+"automaticamente."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -2067,20 +2068,20 @@ msgstr "Vai a"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to first revision"
-msgstr "Salta alla prima versione"
+msgstr "Salta alla prima revisione"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr "Salta alla versione più recente (%1)"
+msgstr "Salta all'ultima revisione (%1)"
 
 #: core/data/System/WebSearch.txt:195
 msgid "Keyword search"
-msgstr "Ricerca di parole chiave"
+msgstr "Parola chiave di ricerca"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
-msgstr "Ultima modifica da parte di "
+msgstr "Ultima modifica da"
 
 #: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:171
 msgid "Last editor"
@@ -2088,7 +2089,7 @@ msgstr "Ultimo editore"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Last modified"
-msgstr "Modifica più recente"
+msgstr "Ultima modifica"
 
 #: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
@@ -2100,11 +2101,13 @@ msgstr "Cognome"
 
 #: core/templates/more.tmpl:182
 msgid "Latest revision: %1"
-msgstr "Ultima versione: %1"
+msgstr "Ultima revisione: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr "Lasciare deselezionata se si desidera allegare il file ZIP"
+msgstr ""
+"Lasciare deselezionato se si desidera allegare il file zip e non i singoli "
+"file contenuti"
 
 #: core/data/System/WebSearch.txt:227
 msgid "Limit results to:"
@@ -2135,15 +2138,15 @@ msgstr "Ricerca semplice"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
-msgstr "Autenticazione utente"
+msgstr "Accesso"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
-msgstr "Disconnessione utente"
+msgstr "Scollegati"
 
 #: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
-msgstr "Effettuare l'accesso per continuare."
+msgstr "Prosegui collegamento."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2180,7 +2183,7 @@ msgstr "Esegui ricerca:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr "Massimo %1 elementi per web"
+msgstr "Al massimo %1 termini per Web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
