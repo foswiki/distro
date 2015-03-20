@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300557820" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Wiki Administrator User
 
@@ -8,15 +8,17 @@ or to temporarily login as %TOPIC% using the password set in configure, and then
 If your system is configured using a !UserMapper that permits group maintenance, (!TopicUserMapping for example) it is recommended to include the %SYSTEMWEB%.AdminToggle topic to obtain admin rights.
 
 %STARTSECTION{"sudo_login"}%
+%IF{"context admin_available" then="
 ---+++ How to login as %TOPIC%
    * Login as the internal Wiki administrator:
       * %ADMINLOGIN%
    * Logout from Administrator:
-      * click the [[%LOGOUTURL%][Logout link]]
+      * click the [[%LOGOUTURL%][Logout link]]"
+else="%MAKETEXT{"There is no Admin superuser password set.  See [[[_1]][Installation Guide section on the Super User]] for further help." args="%SYSTEMWEB%.InstallationGuide#SuperUser"}%"}%
 
-*%X% NOTE:* If you lock yourself out of <nop>AdminUser during setup activities or have forgotten the configure password,
-you can unset the configure password by editing the =lib/LocalSite.cfg= file and deleting the line that starts
-with =Foswiki::cfg{Password}= and then set it again by saving your settings in =configure=.
+*%X% NOTE:* If you lock yourself out of <nop>AdminUser during setup activities, never established a password, or have forgotten the password,
+See %SYSTEMWEB%.InstallationGuide#SuperUser for information on configuring the
+superuser.
 %ENDSECTION{"sudo_login"}%
 
 ---+++ Prerequisites

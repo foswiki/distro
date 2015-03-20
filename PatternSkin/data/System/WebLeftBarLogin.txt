@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424373880" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 <ul id="patternLeftBarUserActions">
@@ -8,6 +8,7 @@
 }%%IF{
   "$ LOGOUT != ''" 
   then="<li class='patternLogOut'>%JQICON{"lock"}%$percntLOGOUT$percnt</li>"
+  else="%IF{"{AdminUserWikiName}='%WIKINAME%'" then="<li class='patternLogOut'>%JQICON{"lock"}%[[%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%?logout=1][Logout]]</li>"}%"
 }%%IF{
   "$ LOGIN != '' and not context authenticated" 
   then="<li class='patternLogIn'>%JQICON{"key"}% $percntLOGIN$percnt</li> %IF{

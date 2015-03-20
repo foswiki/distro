@@ -2039,6 +2039,9 @@ sub new {
     # This foswiki supports:
     $initialContext->{SUPPORTS_PARA_INDENT}   = 1;    #  paragraph indent
     $initialContext->{SUPPORTS_PREF_SET_URLS} = 1;    # ?Set+, ?Local+ etc URLs
+    if ( $Foswiki::cfg{Password} ) {
+        $initialContext->{admin_available} = 1;       # True if sudo supported.
+    }
 
     $query ||= new Foswiki::Request();
 

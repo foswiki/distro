@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
@@ -7,7 +7,8 @@
 %IF{
   "'%USERSWEB%.%TOPIC%' allows 'change'
   AND '%TOPIC%' != 'BaseGroup'
-  AND '%TOPIC%' != 'NobodyGroup'"
+  AND '%TOPIC%' != 'NobodyGroup'
+  AND {AdminUserWikiName} != '%WIKINAME%'"
   then="
       $percntINCLUDE{
        \"%USERSWEB%.GroupViewTemplate\"

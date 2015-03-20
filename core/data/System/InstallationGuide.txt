@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423432587" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+ Installation Guide
@@ -216,30 +216,39 @@ By using the _internal admin login_:
 
 ---++++ Adding users to the %USERSWEB%.AdminGroup
 %STARTSECTION{"addadmin"}%
+%IF{"context admin_available" else='
+  %IF{"context isadmin" then='
 <div class="foswikiHelp">%T% *You should do this before closing the browser after the bootstrap process.* Once you close the browser you will lose your temporary admin status</div>
+  '}%
+'}%
 
 To add an initial administrator to the =AdminGroup=, perform the following steps:
-   * If you have not registered a %SYSTEMWEB%.WikiName,  visit %SYSTEMWEB%.UserRegistration and register a user, and then return to %USERSWEB%.AdminGroup.%IF{"context isadmin" else="
-   1 Authenticate as the internal administrator:
-      * %ADMINLOGIN%"}%
-   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#Administration][Administration]] section at the bottom of this %USERSWEB%.AdminGroup
-   1 Expand the "Add Member" twisty if necessary
+   * If you have not registered a %SYSTEMWEB%.WikiName that you will use as an administrator,  visit %SYSTEMWEB%.UserRegistration and register a user, and then return to %USERSWEB%.AdminGroup.
+
+%IF{"context isadmin"
+  then="
+   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#Administration][Administration]] section at the bottom of %IF{"$BASETOPIC='AdminGroup'" then="this topic" else="[[%USERSWEB%.AdminGroup]]"}%
+   1 Expand the $quotAdd Member$quot twisty if necessary
    1 Enter one or more users into the provided field;  eg. =<nop>JoeUser, <nop>JimUser=
    1 Click the Add Member button
-   1 Return to the AdminGroup by clicking the group name on the confirmation page.
+   1 Return to the %USERSWEB%.AdminGroup by clicking the group name on the confirmation page."
+  else="
+    %IF{"context admin_available"
+     then="
+   1 First authenticate as the internal administrator:
+      * %ADMINLOGIN% "
+    else="<div class='foswikiAlert'><b>You do not have admin rights, and no super user password is set.  You  must first establish a super user password.  See [[%SYSTEMWEB%.InstallationGuide#SuperUser]]</b></div>
+   "}%
+"}%
 
 %IF{"%BASETOPIC%='InstallationGuide'" then="   * View the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the %USERSWEB%.AdminGroup. You do _not_ need to edit the topic."}%
 Any member of the %USERSWEB%.AdminGroup can add subsequent members, you do not have to use the internal admin login.
 
 To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[System.AccessControls][%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
 
-<div class="foswikiHelp">If you lose admin access and cannot access configure
-or the AdminGroup, you can use the server command line to set a sudo password.
-<verbatim>
- - change to the Foswik installation directory.
- - Issue the following command:
-   tools/configure -save -set {Password}="Desired super-user admin password"
-</verbatim>
+<div class="foswikiHelp">If you lose admin access and cannot access configure,
+see %SYSTEMWEB%.InstallationGuide#SuperUser for information on how to set /
+reset the password.
 </div>
 %ENDSECTION{"addadmin"}%
 
@@ -248,11 +257,34 @@ or the AdminGroup, you can use the server command line to set a sudo password.
 Foswiki 1.2 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
    * *Default protection:* If nothing special is configured, any user in the %USERSWEB%.AdminGroup has full access to configure. There is no _admin_ super user, and no special protection.
    * *Restrict to specific listed users:* List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered.  If you want the _admin_ super-user to also have access to configure, you need to include "BaseUserMapping_333" in that list.
+#SuperUser
 ---++++ Establishing a sudo super-user
 
 %T% *Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
 
-There is an optional _special user_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in an expert parameter in the configuration. Foswiki 1.2 no longer enables the admin super-user by default. If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.
+There is an optional _special user_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in the configuration. Foswiki 1.2 no longer enables the admin super-user by default. 
+---+++++ Setting password from =bin/configure= interface
+If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.  From the UI, you must set the Password to a pre-hashed password.  You can use one of the many web based =htpasswd= generator tools
+or generate one using the htpasswd command:  (Apache tools must be installed for this to be available)   Generate the password and then paste the string beginning with =$apr1$....= into the ={Password}= field in the configuration.
+<pre>
+$htpasswd -bn  admin asdfasdf
+admin:<b>$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.</b>
+</pre>
+
+---+++++ Setting the password from the command line
+Foswiki ships with a command line configuration tool.  The following command
+will set the admin password:
+<verbatim>
+tools/configure -save -set {Password}='adminpass'
+</verbatim>
+
+---+++++ Manually editing =LocalSite.cfg=
+If manually editing =LocalSite.cfg=, generate the hashed password as shown
+above. Search for =$Foswiki::cfg{Password}=, Replace the existing line, or if not found, insert a new line in the file, as shown:
+<verbatim>
+$Foswiki::cfg{Password} = '$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.';
+</verbatim>
+
 
 Note that with the _sudo_ or internal admin login, it is not necessary to add other users to the !AdminGroup. However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
 
