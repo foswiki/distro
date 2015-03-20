@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 03:30+0200\n"
+"PO-Revision-Date: 2015-03-20 11:46+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -378,7 +378,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
-msgstr "*格式説明:*"
+msgstr "*格式說明:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 msgid ""
