@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 03:30+0200\n"
+"PO-Revision-Date: 2015-03-20 11:46+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "主題名稱"
+msgstr "!主題名稱"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -71,9 +70,8 @@ msgid "%1 Web"
 msgstr "%1 子網"
 
 #: core/templates/registermessages.tmpl:387
-#, fuzzy
 msgid "%1 added to the %2 group."
-msgstr "%1 加入 %2 群組。 "
+msgstr "%1 加入群組 %2。"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -88,9 +86,8 @@ msgid "%1 denied the registration."
 msgstr "%1 無法註冊."
 
 #: core/templates/registermessages.tmpl:394
-#, fuzzy
 msgid "%1 group topic upgraded."
-msgstr "%1 群組主題已更新。 "
+msgstr "%1 群組主題已更新。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -178,7 +175,6 @@ msgstr "%1 禁止註冊"
 # $date,
 # $by)
 #: core/templates/registermessages.tmpl:436
-#, fuzzy
 msgid "%1 removed from the %2 group."
 msgstr "%1 由群組 %2 移出。"
 
@@ -223,9 +219,8 @@ msgid "&Sequential"
 msgstr "連續(&S)"
 
 #: core/templates/registermessages.tmpl:219
-#, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
-msgstr "'%1' 不是個合法的 %2"
+msgstr "'%1' 不是個合法的 [[%2][登入使用者]]。"
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -378,14 +373,11 @@ msgid "(skipped)"
 msgstr "(忽略)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
-msgstr ""
-"*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電"
-"郵。"
+msgstr "*管理者：* 你能使用此表更改使用者的電郵。輸入使用者 [[%1][登錄名]] 或 [[%1][WikiName]] 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -397,9 +389,8 @@ msgstr ""
 "論並不會改變。 "
 
 #: core/data/System/WikiSyntaxSummary.txt:8
-#, fuzzy
 msgid "*Formatting help:*"
-msgstr "更多格式說明"
+msgstr "*格式說明:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
@@ -537,9 +528,8 @@ msgid ""
 msgstr "<nop>%1 <%2> 已經以電郵通知他們的註冊已被拒絕"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
 msgid "<nop>WikiName:"
-msgstr "主題名稱"
+msgstr "<nop>主題名稱:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
