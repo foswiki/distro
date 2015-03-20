@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 21:22+0200\n"
+"PO-Revision-Date: 2015-03-20 06:49+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -2312,7 +2312,7 @@ msgstr "Forkerte [[%1][WikiNavne]]"
 #: core/templates/registermessages.tmpl:211
 #: core/templates/registermessages.tmpl:218
 msgid "Incorrect [[%1][username]]"
-msgstr "Forkert [[%1][username]]"
+msgstr "Forkert [[%1][brugernavn]]"
 
 #: core/templates/messages.tmpl:307
 msgid "Incorrect parameters to the =%1= script"
@@ -3572,7 +3572,7 @@ msgstr "Tilbage til %1"
 
 #: core/templates/registermessages.tmpl:342
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
-msgstr "Tilbage til %1 og angiv [[%2][WikiName]] eller [[%3][username]]."
+msgstr "Tilbage til %1 og angiv [[%2][WikiNavn]] eller [[%3][brugernavn]]."
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
@@ -4829,7 +4829,7 @@ msgstr "Slet abonnement fra denne side (r)"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][username]]"
-msgstr "Ikke supporteret [[%1][username]]"
+msgstr "Ikke supporteret [[%1][brugernavn]]"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
 msgid "Update"
@@ -5374,21 +5374,22 @@ msgstr ""
 #: core/templates/messages.tmpl:229
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
+"Du bliver formentligt nødt til at bede din administrator, %1, om at gøre "
+"dette."
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "Du vil modtage en e-mail, når din registrering er godkendt."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr "Dit [[%1][Wikiname]] er %2 og dit brugernavn er =%3=."
+msgstr "Dit [[%1][WikiNavn]] er %2 og dit brugernavn er =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "Forkert %1.WikiNames:"
+msgstr "Dit [[%1][brugernavn]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5396,93 +5397,107 @@ msgid ""
 "e-mail or enter the code in the box below to activate your membership. (This "
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
+"Din aktiveringskode er blevet sendt til %1. Enten kan du klikke på linket i "
+"den tilsendte e-mail - eller du kan indtaste aktiveringskoden i feltet "
+"nedenfor - for at aktivere dit brugernavn (aktiveringskoden har formatet \""
+"DitNavn.xxxxxxxxxx\")"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
+"Sproget bliver skiftet til %1 fra næste skærmbillede. Du bliver nu "
+"viderestillet. Hvis det ikke sker automatisk, så [[%2][klik her]] for at "
+"fortsætte."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1. %2"
-msgstr ""
+msgstr "Dit navn som vist af %1. %2"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
-msgstr ""
+msgstr "Dit navn, normalt Fornavn og Efternavn uden mellemrum."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
-msgstr ""
+msgstr "Din adgangskode er opdateret til %1."
 
 #: core/templates/registermessages.tmpl:133
 msgid "Your password has not been changed."
-msgstr ""
+msgstr "Din adgangskode er ikke ændret."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 msgid "Your password must be at least %1 characters long."
-msgstr ""
+msgstr "Din adgangskode skal være mindst %1 karakterer."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
-#, fuzzy
 msgid "Your password:"
-msgstr "Dit password:"
+msgstr "Din adgangskode:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
+"Din personlige side i %1 findes på adressen %2. Du er velkommen til at "
+"tilpasse den efter dine egne behov og ønsker:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
-msgstr ""
+msgstr "Din personlige Foswiki side %1 er blevet oprettet"
 
 #: core/templates/registermessages.tmpl:294
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
+"Din(e) registrerede e-mail adresse(r) er opdateret til: "
+"<noautolink>%1</noautolink>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Dine registrerede e-mail-adresser bliver brugt af Foswiki til at sende dig e-"
+"mails, inkl. notifikation om ændringer af adgangskode."
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
-msgstr ""
+msgstr "Din registrering afventer godkendelse af system administratorerne."
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
-msgstr ""
+msgstr "Din bekræftelses-email er enten fejlet eller i kø i mail systemet."
 
 #: PatternSkin/templates/edit.pattern.tmpl:48
 msgid "Your signature to copy/paste"
-msgstr ""
+msgstr "Din signatur til kopier/indsæt"
 
 #: core/templates/edit.tmpl:43
 msgid "Your signature to copy/paste:"
-msgstr ""
+msgstr "Din signatur til kopier/indsæt:"
 
 #: core/templates/registermessages.tmpl:324
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
+"Dette system understøtter muligvis ikke skift af adgangskoder gennem "
+"Foswiki. Tjek med din Wiki administrator."
 
 #: core/templates/registermessages.tmpl:29
 msgid ""
 "Your user registration failed because it did not pass the validation tests."
-msgstr ""
+msgstr "Din brugerregistrering fejlede fordi den ikke bestod validerings tests."
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
@@ -5495,7 +5510,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][brugernavn]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
