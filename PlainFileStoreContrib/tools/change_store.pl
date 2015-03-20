@@ -212,7 +212,7 @@ switch_dirs(1);
 my $target_store = $target->new();
 
 switch_dirs(0);
-my $wit = $source_store->eachWeb('');
+my $wit = $source_store->eachWeb( '', 1 );
 while ( $wit->hasNext() ) {
     my $web_name = $wit->next();
     next unless $web_name =~ /^($weblist)$/o;
