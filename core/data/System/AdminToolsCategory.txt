@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422501265" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426810437" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Admin tools
 
@@ -17,7 +17,7 @@
    $ [[ManagingWebs]]: An introduction to webs. Includes the tool for the administrator to add new webs
    $ [[SiteMap]]: An overview of all the webs incl links to search, recent changes, and notifications. Mainly targetted for the administrators but can also be useful for the users
    $ [[SitePermissions]]: Overview of permissions settings of the webs on this Foswiki site
-   $ [[SiteTools]]: Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and %STATISTICSTOPIC%, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targetted for the administrator
+   $ [[SiteTools]]: Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and %STATISTICSTOPIC%, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targeted for the administrator
    $ [[SkinBrowser]]: Skin Browser which allows you to can try out the Skins currently installed on this system
 
 ---++ Related Topics

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Access Keys
 
@@ -32,4 +32,5 @@ This depends on the browser you are using (see also cross-browser support below)
       * Press the required letter
 
 ---
+
 *Related Topics:* UserDocumentationCategory

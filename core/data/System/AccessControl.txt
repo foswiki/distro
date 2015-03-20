@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426810437" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -48,9 +48,7 @@ In standard Foswiki a user can create an account in UserRegistration. The follow
 
 The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.  By default the non-authenticated user is not permitted to edit topics.  If you require anonymous editing, see [[UserAuthentication#IndividualScripts]].
 
-<div class="foswikiHelp"> %X% Your local Foswiki may have an alternate user mapping manager installed
-which doesn't support user registration. Check with your Wiki administrator
-if you are in doubt. </div>
+<div class='foswikiHelp'>%X% Your local Foswiki may have an alternate user mapping manager installed which doesn't support user registration. Check with your Wiki administrator if you are in doubt.</div>
 
 #ManagingGroups
 ---+++ Managing Groups
@@ -67,10 +65,10 @@ The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic;
 
 %T% If you want to hide a group and its list of members, you can set =ALLOWTOPICVIEW= on the group. For example:
    * ==Set <nop>ALLOWTOPICVIEW = %USERSWEB%.<nop>SecretGroup==
-      * This group will be usable in the ACL of any topic,  but is only visible to members of the group.
+      * This group will be usable in the ACL of any topic, but is only visible to members of the group.
       * *Caution* As with the the prior example, this is set in the "Topic Settings" and not inline in the topic text!
 
-<div class="foswikiHelp">
+<div class='foswikiHelp'>
 %X% Foswiki has strict formatting rules. Settings *must* be entered as a bullet point.
    * With the TML editor, or in the Settings editor, make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
    * When using the WYSIWYG editor, create a bullet using the bullet button on the toolbar.
@@ -92,7 +90,7 @@ You can create new administrators simply by adding them to the %USERSWEB%.AdminG
 
 A member of the Super Admin Group has *unrestricted access* throughout the wiki, so only trusted staff should be added to this group.
 
-<div class="foswikiHelp">
+<div class='foswikiHelp'>
 %T% Hint: Instead of adding users to the !AdminGroup, consider adding them to the =ALLOWTOPICCHANGE= setting for the !AdminGroup.  Those users will then be able to add and remove themselves from the !AdminGroup when they need admin rights, rather than running as admin all the time.
 </div>
 
@@ -114,7 +112,7 @@ topics in the current web.  (Some extensions add additional modes.  Ex. ALLOWTOP
    * Restricting CHANGE blocks creating new topics, changing topics or attaching files.
    * Restricting RENAME prevents renaming of topics within a web.
 
-<div class="foswikiHelp"> %X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
+<div class='foswikiHelp'>%X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
 
    * %X% Note that ALLOWWEBxxx and DENYWEBxxx preferences can only be set in %WEBPREFSTOPIC% topics. You cannot define a site level access. Each web must be protected on their own. Subwebs inherit access settings from the parent web. See next section.
    * %X% Note that ALLOWTOPICxxx and DENYTOPICxxx preferences apply only to the topic itself.
@@ -154,7 +152,7 @@ Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the 
       * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
 
 You can also use an asterisk (*) in any of these settings to match all possible users.
-<div class="foswikiHelp"> %X% *Caution!* Settings are always taken from the latest (current) revision of a topic. If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision. If the topic was restricted because it contained sensitive information, and that information was removed, it still exists in the topic history. Once you remove the access restrictions, the topic history will be viewable. </div>
+<div class='foswikiHelp'>%X% *Caution!* Settings are always taken from the latest (current) revision of a topic. If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision. If the topic was restricted because it contained sensitive information, and that information was removed, it still exists in the topic history. Once you remove the access restrictions, the topic history will be viewable.</div>
 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also need to be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
@@ -162,7 +160,7 @@ Remember when opening up access to specific topics within a restricted web that 
    * ==Set <nop>ALLOWTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
    * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means the same as not setting it at all. (As of Foswiki 1.2, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
 
-<div class="foswikiHelp">
+<div class='foswikiHelp'>
 If your administrator has enabled the old behavior, (Enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration )  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.  In Foswiki 1.2, this function is replaced by setting ALLOW to the * wildcard. See the next section:
 </div>
 ---++++ Wildcard matching
@@ -175,11 +173,11 @@ For example if you want completely open access to a topic __for logged in users_
 | | *Before Foswiki 1.2* | *Foswiki 1.2 and newer* |
 | Allow ALL users | Set DENY to an empty string | Set ALLOW to * |
 | Allow All logged-in users | <p>Set DENY to %USERSWEB%.WikiGuest</p> <p>Leave ALLOW un-set</p> | &lt;no change from before&gt; |
-| Deny all access | Set ALLOW to NobodyGroup | <p>Set ALLOW to NobodyGroup</p> <p>-or- Set DENY to *</p> |
+| Deny all access | Set ALLOW to NobodyGroup | <p>Set ALLOW to NobodyGroup </p> <p>-or- Set DENY to *</p> |
 | Allow selected users | Set ALLOW to desired users/groups | Set ALLOW to desired users/groups |
 | Deny selected users | Set DENY to desired users/groups | Set DENY to desired users/groups |
- 
-<div class="foswikiHelp"> %X% Note that it is not possible to override a DENY with an ALLOW at the same level    ALLOW on a topic can override DENY at the web level, but not at the TOPIC level
+
+<div class='foswikiHelp'>%X% Note that it is not possible to override a DENY with an ALLOW at the same level ALLOW on a topic can override DENY at the web level, but not at the TOPIC level
 
 %X% If the same setting is defined multiple times the last one overrides the previous. They are not OR'ed together.
 
@@ -202,10 +200,9 @@ The easiest way to apply the same access control rules for attachments as apply 
     RewriteCond %{REQUEST_URI} !^/+foswiki/+pub/+System/+.+
     RewriteRule ^/+foswiki/+pub/+([^/]+)((/+([^/]+))+)/+(.+) /foswiki/bin/viewfile/$1/$2?filename=$5 [L,PT]</verbatim>
 
-That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support. 
+That way all the controls that apply to the topic also apply to attachments to the topic. Other types of web servers have similar support.
 
-<div class="foswikiHelp"> %X% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script. The Foswiki:Support.ApacheConfigGenerator has some more extensive examples of protecting user attachments, but allowing
-direct access to trivial graphics attached to %SYSTEMWEB% topics.</div>
+<div class='foswikiHelp'>%X% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script. The Foswiki:Support.ApacheConfigGenerator has some more extensive examples of protecting user attachments, but allowing direct access to trivial graphics attached to %SYSTEMWEB% topics.</div>
 
 #RootWebs
 ---+++ Controlling who can manage top-level webs
@@ -218,24 +215,24 @@ Note that you do *not* require =ROOTCHANGE= access to rename an existing top-lev
 
 ---+++ How Foswiki evaluates ALLOW/DENY settings
 
-<div class="foswikiHelp"> %X% Settings are only read from the most current (latest) revision of a topic. Settings from older revisions are never used, even when viewing an older revision with the =rdiff= script </div>
+<div class='foswikiHelp'>%X% Settings are only read from the most current (latest) revision of a topic. Settings from older revisions are never used, even when viewing an older revision with the =rdiff= script</div>
 
 When deciding whether to grant access, Foswiki evaluates the following rules *in order* (read from the top of the list; if the logic arrives at *PERMITTED* or *DENIED* that applies immediately and no more rules are applied). You need to read the rules bearing in mind that VIEW, CHANGE and RENAME access may be granted/denied separately.
 
    1 If the user is an [[#SuperAdminGroup][administrator]]
       * access is *PERMITTED*.
-   1 If DENYTOPIC is set to a list of wikinames, or set to the * wildcard
+   1 If DENYTOPIC is set to a list of !WikiNames, or set to the * wildcard
       * people in the list will be *DENIED*.
    1 <strike>If DENYTOPIC is set to _empty_ ( i.e. =Set DENYTOPIC == )</strike> *This option is disabled by default in Foswiki 1.2.*
       * <strike>access is *PERMITTED* _i.e_ no-one is denied access to this topic.</strike>
-   1 If ALLOWTOPIC is set to a list of wikinames, or set to the * wildcard
+   1 If ALLOWTOPIC is set to a list of !WikiNames, or set to the * wildcard
       1 people in the list are *PERMITTED*
-      1 everyone else is *DENIED*  (nobody else if ALLOW is set to *)
-   1 If DENYWEB is set to a list of wikinames, or set to the * wildcard<br />
-      * people in the list are *DENIED* access
-   1 If ALLOWWEB is set to a list of wikinames, or set to the * wildcard
+      1 everyone else is *DENIED* (nobody is denied if ALLOW is set to *)
+   1 If DENYWEB is set to a list of !WikiNames, or set to the * wildcard<br />
+      * people in the list are *DENIED* access (everyone if DENY is set to *)
+   1 If ALLOWWEB is set to a list of !WikiNames, or set to the * wildcard
       * people in the list will be *PERMITTED*
-      * everyone else will be *DENIED* (nobody else if ALLOW is set to *)
+      * everyone else will be *DENIED* (nobody is denied if ALLOW is set to *)
    1 If you got this far, access is *PERMITTED*
 
 ---++ Access control and INCLUDE
@@ -259,14 +256,14 @@ Another way of hiding webs is by setting the ==NOSEARCHALL== setting in %WEBPREF
 
 This setup can be useful to hide a new web until content its ready for deployment, or reduce clutter in the !WebLeftBar and default search results when restricted access is not desired.
 
-<div class="foswikiHelp"> %T% Setting ==NOSEARCHALL== to __any__ value other than the empty string will hide a web. Setting ==NOSEARCHALL = off== will have the same effect as setting it to ==on== </div>
+<div class='foswikiHelp'>%T% Setting ==NOSEARCHALL== to __any__ value other than the empty string will hide a web. Setting ==NOSEARCHALL = off== will have the same effect as setting it to ==on== </div>
 
-<div class="foswikiHelp"> %X% Obfuscating a web without setting view access control is *very* insecure, as anyone who knows the URL can access the web, and explicit searches naming that web will also work. For security purposes it is better to use the ALLOW or DENY VIEW settings in the WebPreferences topic. =%<nop>SEARCH%= and =%<nop>WEBLIST%= will not show any results for webs that the current user does not have permission to view. </div>
+<div class='foswikiHelp'>%X% Obfuscating a web without setting view access control is *very* insecure, as anyone who knows the URL can access the web, and explicit searches naming that web will also work. For security purposes it is better to use the ALLOW or DENY VIEW settings in the WebPreferences topic. =%<nop>SEARCH%= and =%<nop>WEBLIST%= will not show any results for webs that the current user does not have permission to view.</div>
 
 ---+++ Restrict Access to a whole Foswiki site
 
 For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki.
-<div class="foswikiHelp"> %H% With this configuration, someone with access to the site needs to register new users. ResetPassword will also have to be done by administrators. </div>
+<div class='foswikiHelp'>%H% With this configuration, someone with access to the site needs to register new users. ResetPassword will also have to be done by administrators.</div>
 
 ---++++ When using Apache Login
 
@@ -291,7 +288,7 @@ If needed, you can further restrict access to selected webs with ALLOWWEBVIEW an
 <verbatim>
 {AuthScripts} = 'attach,changes,compare,compareauth,edit,manage,oops,preview,previewauth,rdiff,rdiffauth,register,rename,resetpasswd,rest,restauth,save,search,statistics,upload,view,viewauth,viewfile,viewfileauth</verbatim>
 
-<div class="foswikiHelp"> %X% If you install extensions that add scripts, you must also remember to add the new scripts to this list or the new scripts will not be protected. </div>
+<div class='foswikiHelp'>%X% If you install extensions that add scripts, you must also remember to add the new scripts to this list or the new scripts will not be protected.</div>
 
 ---+++ Authenticate all webs and restrict selected webs
 
@@ -327,7 +324,7 @@ Use the following setup is used to "lock down" the Wiki to logged in users, whil
 ---+++ Show control settings
 
 You can list the access controls affecting a topic using the [[VarSHOWPREFERENCE][%%NOP%SHOWPREFERENCE{}%]] macro in the topic, thus:
-<verbatim class="tml">
+<verbatim class='tml'>
 %SHOWPREFERENCE{"DENYWEBVIEW,ALLOWWEBVIEW,DENYWEBCHANGE,ALLOWWEBCHANGE,DENYWEBRENAME,ALLOWWEBRENAME"}%</verbatim>
 
 For this topic, this displays:
@@ -339,7 +336,7 @@ To hide access control settings from normal browser viewing, you can put them in
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
-<pre class="tml">&lt;!-- <br />
+<pre class='tml'>&lt;!-- <br />
  * Set DENYTOPICCHANGE = %USERSWEB%.SomeGroup <br />
 --&gt;
 </pre>

@@ -1,14 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278417" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ManagingUsers"}%
 ---+ Bulk Registration
 
-Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch. 
+Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch.
 
 Unlike normal registration the administrator is assumed to have correct e-mail addresses for the users, so *no verification is required.*
 Note that the new users are not notified that they have an account. This is so you can prepare and verify the accounts before announcing them.
-To announce them use the [[BulkResetPassword]] feature: this will assign a new random password and notify users. 
+To announce them use the [[BulkResetPassword]] feature: this will assign a new random password and notify users.
 
 ---++ Bulk Registration usage
+
 Note: this is an administrator job - only admistrators can run this.
 
 If you are administrator, you will take these actions:
@@ -21,7 +22,7 @@ If you are administrator, you will take these actions:
 Below are the details.
 
 ---++ Settings
-   * Define where to pick up the table of users to register.  It can be in any web, but defaults to the %USERSWEB% web.
+   * Define where to pick up the table of users to register. It can be in any web, but defaults to the %USERSWEB% web.
       * Set REGISTERTOPIC = %USERSWEB%.UnprocessedRegistrations
    * Use this to define where to log the bulk registration process. It will be saved to the %USERSWEB% web.
       * Set LOGTOPIC = %REGISTERTOPIC%Log
@@ -30,22 +31,24 @@ Below are the details.
       * Set OVERWRITEHOMETOPICS = 0
 
 ---++ The user table
+
 This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below. If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
 
-If the =Password= field is not included, then use the BulkResetPasswlrd topic to assign new passwords.   If a password is included, it must be a valid password (> minimum length, etc.)
+If the =Password= field is not included, then use the BulkResetPasswlrd topic to assign new passwords.   If a password is included, it must be a valid password (&gt; minimum length, etc.)
 ---+++ Example format
+
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
-<verbatim class="tml">
+
+<verbatim class='tml'>
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName |
 | Test | User | you@your.domain | TestUser |
-</noautolink>
-</verbatim>
+</noautolink></verbatim>
 
 *Usage:*
    1 Copy this text to your clipboard
-   1 Click through and paste this on %REGISTERTOPIC%. 
+   1 Click through and paste this on %REGISTERTOPIC%.
    1 Add and customize entries, save table. Note that the first row must not contain bolded entries, so don't apply any formatting.
    1 Return here
 
@@ -54,7 +57,7 @@ The following should be inserted into your %REGISTERTOPIC% as a table. This is t
 
 You can write additional data to the new user topics. Do this by enhancing the user table with additional field names as table headers.
 
-Any fields you define in this table will end up in the User's topic. If a form (such as %SYSTEMWEB%.UserForm) is attached to NewUserTemplate then the data will go in as META:FIELDS, meaning that you can use SEARCH formfield constructs to search. 
+Any fields you define in this table will end up in the User's topic. If a form (such as %SYSTEMWEB%.UserForm) is attached to NewUserTemplate then the data will go in as META:FIELDS, meaning that you can use SEARCH formfield constructs to search.
 
 If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields you define here. Otherwise they will disappear when the user edits their home topic!
 
@@ -67,19 +70,21 @@ If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields 
    * =LoginName= - __Required if the system is configured to__ ==AllowLoginName== (Commonly referred to as the UserName).
    * =Email= - If not provided, you must set a password, or password reset will not be possible.
    * =Password= - If not provided, set passwords later using BulkResetPassword.
-   * =Confirm= - If provided, it must match the =Password= field.  If missing, it will not be checked.
+   * =Confirm= - If provided, it must match the =Password= field. If missing, it will not be checked.
 
 ---++++ Customized table example
+
 Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
-<verbatim class="tml">
+
+<verbatim class='tml'>
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
 | Test | User | you@example.com | TestUser | A | B | C |
-</noautolink>
-</verbatim>
+</noautolink></verbatim>
 
 ---
+
 %IF{
   "context passwords_modifyable"
   then=""
@@ -90,7 +95,7 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 %JQREQUIRE{"chili"}%
 -->
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
-<input type="hidden" name="action" value="bulkRegister" />&nbsp;
+<input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
 <input %NOTMODIFYABLE% type="submit" class="foswikiSubmit" value="Bulk Register these people" />
 <input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
 <input type="hidden" name="OverwriteHomeTopics" value="%OVERWRITEHOMETOPICS%" />
@@ -100,10 +105,10 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 
 %INCLUDE{"%REGISTERTOPIC%" warn="%X% Topic does not exist"}%
 
-
 ---++ <nop>%LOGTOPIC%
 
 %INCLUDE{"%LOGTOPIC%" warn="Topic will be created during registration run."}%
 
 ---
+
 *%MAKETEXT{"Related topics:"}%* AdminToolsCategory

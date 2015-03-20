@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+ Administrator Skills Assumptions
 
@@ -21,4 +21,5 @@ To get started with Linux, visit [[http://linuxbasics.org/ LinuxBasics.org]]. !L
 A nice tool for people migrating from Windows is http://www.MidnightCommander.org/. It is already installed on Linux systems: try ==mc -ac== and ==ESC 1== to get help.
 
 ---
+
 *Related Topics:* AdminDocumentationCategory

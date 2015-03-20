@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599048" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
+
 Listing of CSS class names emitted from Foswiki core code and standard extensions.
 
 <div class='foswikiNotification'>
@@ -11,6 +12,7 @@ With Foswiki 1.2 a number of classes have been deprecated. These are marked DEPR
 %TOC%
 
 ---++ Who should read this document?
+
 *Skin builders* and others who want to change the appearance of the default installation or any of the skins can use this document to see what styles can be created for these html elements.
 
 ---++ Naming conventions
@@ -22,6 +24,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---++ CSS class names
 
 ---+++ Structural elements
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiContainer=             | Container around all level one page elements to maintain consistent width and margins |
 |=.foswikiPage=                  | The container for the complete page contents, just below the body tag (only used by default templates)  |
@@ -46,12 +49,10 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=li.foswikiActiveTab=           | Active tab |
 |=.foswikiTabContent=            | Container for content below tabs |
 |=#foswikiLogo=                  | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiMain"}% |
-|=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |
-
-
-
+|=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |</sticky>
 
 ---+++ General appearance
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiLeft=              | Left float |
 |=.foswikiRight=             | Right float |
@@ -68,18 +69,20 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
 |=.foswikiNoBreak=           | Causes whitespace not to create a linebreak; for instance with the dates in the attachment table |
 |=.foswikiImage=             | Optional container around images; for instance to create a border around an =&lt;img&gt;= element |
-|=.foswikiUserName=          | Container around user name links (not used much yet) |
+|=.foswikiUserName=          | Container around user name links (not used much yet) |</sticky>
 
 ---+++ Links
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiCurrentWebHomeLink=       | Used by Render.pm if a link points to the web's home topic |
 |=.foswikiCurrentTopicLink=         | Used by Render.pm if a link points to the current topic |
 |=.foswikiEmulatedLink=             | Used in the preview screen to make fake links appear as links |
 |=.foswikiLinkLabel=                | Text part of a link; used if a link contains more than a text label, for instance an icon |
 |=.foswikiUnvisited=                | Makes link appear as not visited (ignores the visited link state)  |
-|=.foswikiRequiresChangePermission= | To mark links to actions that the user does not have permissions for (for instance to hide action links) |
+|=.foswikiRequiresChangePermission= | To mark links to actions that the user does not have permissions for (for instance to hide action links) |</sticky>
 
 ---+++ Tables
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiTable=                        | Tables, for instance used by TablePlugin  |
 |=.foswikiFirstCol=                     | Leftmost column  |
@@ -92,11 +95,13 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTableOdd=                     | Odd numbered rows  |
 |=.foswikiTableCol + column number=     | Unique column identifier, for instance: foswikiTableCol0 |
 |=.foswikiTableRow + type + row number= | Unique row identifier, for instance: foswikiTableRowdataBg0 |
-|=.tableSortIcon=                       | Holder (=span=) for the table column sort icon  |
+|=.tableSortIcon=                       | Holder (=span=) for the table column sort icon  |</sticky>
 
 #DataForms
 ---+++ Data form elements
+
 See also: [[#HtmlFormElements][HTML form elements]]
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiFormHolder=             | Outer container for the data form in edit; contains the textarea width |
 |=.foswikiFormTable=              | Table container for (editable) form elements  |
@@ -105,10 +110,11 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiFormTableFooter=        | Table container for form elements  |
 |=.foswikiEditForm=               | Edit state of data form  |
 |=.foswikiMandatory=              | Indication of mandatory field |
-|=.foswikiAddFormButton=          | "Add form" button on edit screen |
+|=.foswikiAddFormButton=          | "Add form" button on edit screen |</sticky>
 
 #HtmlFormElements
 ---+++ HTML form elements
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiForm=                   | Container for data form in topic, including header |
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
@@ -131,9 +137,10 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiSelectDisabled=        | Disabled dropdown menu |
 |=.foswikiOption=                | Dropdown option element |
 |=.foswikiTextarea=              | Textarea |
-|=.foswikiTextareaRawView=       | Raw topic view textarea |
+|=.foswikiTextareaRawView=       | Raw topic view textarea |</sticky>
 
 ---+++ Search and lists
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiSearchResults=            | List of search results |
 |=.foswikiListItem=                 | Container around list item |
@@ -157,9 +164,10 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiSearchResultImage=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemImage"}% |
 |=.foswikiSearchResultTitle=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemTitle"}% |
 |=.foswikiSearchResultContents=     | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemContents"}% |
-|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemMeta"}% |
+|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemMeta"}% |</sticky>
 
 ---+++ Other elements
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiButtonGroup=              | Group of buttons. Introduced with Foswiki 1.2. |
 |=.foswikiToolbar=                  | Container for controls. Introduced with Foswiki 1.2. |
@@ -171,10 +179,10 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
 |=.foswikiIcon=                     | Icon image; span around image or the image itself |
-|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2"}% - indicator for each form step (see =.foswikiFormStep=)  |
-
+|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2"}% - indicator for each form step (see =.foswikiFormStep=)  |</sticky>
 
 ---+++ History
+<sticky>
 %TABLE{databg="#fff"}%
 |=.foswikiDiffTable=                 | Revision table  |
 |=.foswikiMarker=                    | Demarkation of part |
@@ -191,10 +199,11 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiDiffLineNumberHeader=      |  |
 |=.foswikiDiffDebug=                 |  |
 |=.foswikiDiffDebugRight=            |  |
-|=.foswikiDiffDebugLeft=             |  |
+|=.foswikiDiffDebugLeft=             |  |</sticky>
 
 #BehaviourClasses
 ---+++ Behaviour classes
+<sticky>
 %TABLE{databg="#fff"}%
 Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiFocus=                         | Behaviour marker so a field can be given input focus. As of Foswiki 1.2 this also requires to add =%<nop>JQREQUIRE{"focus"}%= to the page. |
@@ -207,7 +216,7 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiSort=        | Sort control |
 |=.foswikiMakeVisibleBlock=  | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative=".foswikiMakeVisible"}% - for =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
 |=.foswikiMakeVisibleInline= | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative="span.foswikiMakeVisible"}% - for =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiPopUp=                         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative="$percnt<nop>POPUPWINDOW{$quottopic$quot}$percnt"}% |
+|=.foswikiPopUp=                         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative="$percnt<nop>POPUPWINDOW{$quottopic$quot}$percnt"}% |</sticky>
 
 #TestFoswikiFocus
 ---++++ Troubleshooting foswikiFocus
@@ -220,15 +229,18 @@ $percntJQREQUIRE{$quotfocus$quot}$percnt
 "}%
 
 ---++ Tips
+
 !PatternSkin makes extensive use of CSS in its templates. Read the PatternSkin topic and PatternSkinCss to learn more about creating your own CSS-based skin.
 
 Practical introduction to CSS: http://www.w3.org/Style/LieBos2e/enter/
 
 ---
+
 *Related Topics:* [[Skins]], PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
 
 <!--
 %STARTSECTION{"deprecated" version="%version%" alternative=""}%<span class='foswikiAlert'>DEPRECATED as of Foswiki %version%</span>%IF{"defined alternative and $alternative!=''" then=" Use =%alternative%="}%%ENDSECTION{"deprecated"}%
 -->
 %STOPINCLUDE%
+
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="CascadingStyleSheets" to="AppendixCascadingStyleSheets"}%

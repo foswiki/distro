@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is an !ACRONYM?
+
 An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase.  A very familiar example would be WWW standing for World
 Wide Web. In Foswiki, an acronym of 3 or more letters will be automatically linked _only if a topic of that name already exists in the Web._  
 
@@ -13,22 +14,19 @@ Just like !WikiWord linking, acronym linking is easy to use:
    * Easy linking leads to interesting texts with links placed in context
 
 ---++ Syntax of an Acronym
-
    * 3 or more Uppercase letter(s)
 
 Acronym syntax in [[Wikipedia:Extended_Backus_Naur_Form][Extended Backus.Naur form]] (EBNF):
-
 <verbatim>
     Acronym        = 3*upperLetters ;
     upperLetters   = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I"
                     | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R"
-                    | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;
-</verbatim>
+                    | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;</verbatim>
 
 ---++ Examples of Acronyms
 
    * HTML
-   * RADAR    
+   * RADAR
 
 But _Not_
    * HTML5 - A digit breaks the acronym link.
@@ -40,14 +38,15 @@ When you write an acronym and the acronym topic already exists, it becomes a lin
 
    * To force a link to to an acronym, use bracket notation: =[<nop>[HTML5]]= - this becomes: [[HTML5]] and will display the broken link indicator (?) if the topic does not exist.
    * To link to an acronym in *another web*, write: =%SANDBOXWEB%.HTML= - this becomes: %SANDBOXWEB%.HTML
-   * To link to an acronym on a site like the Acronym Finder,  use: =Acronym:HTTP= - this becomes: Acronym:HTTP  (sites are defined in the InterwikiPlugin)
+   * To link to an acronym on a site like the Acronym Finder, use: =Acronym:HTTP= - this becomes: Acronym:HTTP (sites are defined in the InterwikiPlugin)
 
 ---++ Hints
    * To stop an Acronym from being turned into a hyperlink, insert an exclamation point immediately before the Acronym. For example, write =!<nop>HTML= to get HTML.
    * Unlike WikiWords, plural Acronyms are _not_ automatically linked to the singular topic.
-   * =FAQ= will be linked, but =FAQIndex= will not. Turn acronyms into !WikiWords, i.e. Change =FAQIndex= to  =FaqIndex= for a "FAQ index" topic.
+   * =FAQ= will be linked, but =FAQIndex= will not. Turn acronyms into !WikiWords, i.e. Change =FAQIndex= to =FaqIndex= for a "FAQ index" topic.
    * It is possible to turn off the auto-linking and to rely only on the bracket notation using the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
       * You can set NOAUTOLINK in your personal topic, or directly in any topic to change linking behavior for you or an individual topic.
 
 ---
+
 *Related Topics:* TopicMarkupLanguage
