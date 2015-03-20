@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 15:03+0200\n"
+"PO-Revision-Date: 2015-03-20 17:14+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -1334,7 +1334,7 @@ msgstr "Vuoi veramente [[%1][ridefinire la password di %2]]?"
 
 #: core/templates/rdiff.tmpl:14
 msgid "Difference Topic"
-msgstr "Differenze della pagina"
+msgstr "Differenze della Pagina:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1343,9 +1343,7 @@ msgstr "Differenze:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
-"Scopri i dettagli e come iniziare la costruzione di un proprio sito con "
-"Foswiki"
+msgstr "Scopri i dettagli e come iniziare il proprio sito con Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1370,7 +1368,7 @@ msgstr ""
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
 msgstr ""
-"Durante lo spostamento dell'allegato %1 in %2 si è verificato un errore."
+"Durante lo spostamento dell'allegato =%1= in %2 si è verificato un errore."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1403,27 +1401,28 @@ msgstr "E-mail sostituita con successo!"
 #: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
-"ENCODE fallito - =type= non può essere utilizzata insieme a =old= e =new= "
+"ENCODE non riuscito - =type= non può essere utilizzato assieme a =old= e "
+"=new= "
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "ENCODE fattito - entrambi =old= e =new= devono essere dati"
+msgstr "ENCODE fallito - entrambi =old= e =new= devono essere forniti"
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE fallito - il parametro '%PARAM1%' è duplicato in =old= "
+msgstr "ENCODE non riuscito - token '%PARAM1%' si ripete in =old= "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr "EXPAND fallito - l'accesso a '%PARAM1%' è negato"
+msgstr "EXPAND fallito - accesso a '%PARAM1%' negato"
 
 #: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
-msgstr "EXPAND fallito - nessuna macro"
+msgstr "EXPAND fallito - no macro"
 
 #: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr "EXPAND fallito - nessuna pagina '%PARAM1%'"
+msgstr "EXPAND fallito - argomento '%PARAM1%' inesistente"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1451,7 +1450,7 @@ msgstr "Aiuto su modifica"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
-msgstr "Modifica le preferenze per questa pagina..."
+msgstr "Modifica preferenze per questa pagina..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
@@ -1461,7 +1460,7 @@ msgstr "Modifica questa tabella"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
 msgid "Edit this topic text (e)"
-msgstr "Modifica il testo di questa pagina (e)"
+msgstr "Modifica testo pagina (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1469,7 +1468,7 @@ msgstr "Modifica dei parametri della pagina"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr "Ehm, permettimi di tornare indietro per correggere la pagina..."
+msgstr "Ehm, permettimi di tornare a correggere la pagina..."
 
 #: core/templates/messages.tmpl:353
 msgid ""
@@ -1480,11 +1479,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr "Il nome non è valido oppure fa riferimento ad un form inesistente."
+msgstr "Il nome non è valido, oppure si riferisce ad un modulo inesistente."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr "Il nome non è valido oppure fa riferimento ad una paginainesistente."
+msgstr "Il nome è invalido oppure è riferito ad una pagina inesistente."
 
 #: core/templates/messages.tmpl:424
 msgid ""
@@ -1518,12 +1517,14 @@ msgstr "Inserisci l'utente Amministratore o effettua il login come in %1"
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Scegli un nome di pagina che sia [[%SYSTEMWEB%.WikiWord][WikiWord]] oppure "
-"controlla che sia attivata l'opzione non-Wiki Word."
+"Inserire il nome della pagina come WikiWord o selezionare l'opzione che "
+"consente non-Wiki Word."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr "Errore durante il caricamento del plugin. Vedi gli errori di seguito."
+msgstr ""
+"Riscontrato errore durante il caricamento del plugin. Vedi gli errori sotto "
+"riportati."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1571,11 +1572,11 @@ msgstr "Malvagio"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Plugin con errori"
+msgstr "Plugin non riusciti"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Impossibile aggiungere il nuovo utente: "
+msgstr "Errore nell'aggiungere l'utente: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1596,7 +1597,7 @@ msgstr "Il file è stato caricato con un nome differente"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
-msgstr "Cerca pagine simili"
+msgstr "Trova pagine simili"
 
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
@@ -1612,9 +1613,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"Per informazioni più dettagliate su richiesta falsificazione di cross-site, "
-"ed i pericoli che essa rappresenta per te, vedi [[%1][the Cross-site request "
-"forgery article - Wikipedia]]."
+"Per informazioni più dettagliate sulla contraffazione di richieste cross-"
+"site e i pericoli che comporta per gli utenti, si veda  l'articolo in "
+"!WikiPedia [[%1][the Cross-site request forgery]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1631,15 +1632,15 @@ msgstr "Manca la definizione %1 del Form"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr "Dati del form"
+msgstr "Dato del modulo"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
-msgstr "Definizione del form"
+msgstr "Definizione del modulo"
 
 #: core/templates/messages.tmpl:378
 msgid "Form definition '%1' not found"
-msgstr "Definizione '%1' del form non trovata"
+msgstr "Definizione del modulo '%1' non trovata"
 
 #: core/templates/messages.tmpl:386
 msgid "Form definition missing"
@@ -1654,9 +1655,9 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"Foswiki controlla tutte le richieste che gli pervengono dal browser e cerca "
-"di verificare che le persone che li utilizzano le abbiano inviate "
-"intenzionalmente."
+"Foswiki controlla tutte le richieste che riceve dai browser cercando di "
+"verificare che siano effettivamente inviate dalle persone che utilizzano il "
+"browser."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1664,11 +1665,11 @@ msgstr "Reset password per %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Ottieni maggiori informazioni sui file allegati"
+msgstr "Maggiori informazioni sui file allegati."
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr "Ottieni aiuto su come impostare le preferenze della pagina"
+msgstr "Maggiori informazioni su come impostare le preferenze della pagina"
 
 #: core/data/System/WebSearch.txt:275
 msgid "Get notified on changes on this search"
@@ -1677,7 +1678,7 @@ msgstr "Voglio essere avvertito circa le variazioni di questa ricerca"
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
-msgstr "Globo"
+msgstr "Globale"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
 #: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
@@ -1688,7 +1689,9 @@ msgstr "Torna indietro"
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
-msgstr "Torna indietro nel browser e compila tutti i campi obbligatori"
+msgstr ""
+"Torna indietro nel browser e compila tutti i campi obbligatori prima di "
+"salvare nuovamente"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1699,8 +1702,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
-"Torna alla pagina precedente, e attiva i Cookie e Javascript, prima di "
-"riprovare"
+"Torna alla pagina precedente, e abilita i cookie e javascript, prima di "
+"riprovare di nuovo"
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
@@ -1713,7 +1716,7 @@ msgstr "Gruppo"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr "Il gruppo non esiste e la creazione non è possibile"
+msgstr "Gruppo non esistente e creazione non consentita"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1721,7 +1724,7 @@ msgstr "Nome gruppo"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
-msgstr "Il nome del gruppo deve terminare con Group"
+msgstr "I nomi di gruppo devono finire nel gruppo"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1761,7 +1764,7 @@ msgstr ""
 
 #: core/data/System/ManagingTopics.txt:100
 msgid "History"
-msgstr "Versioni (&H)"
+msgstr "Storia"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
