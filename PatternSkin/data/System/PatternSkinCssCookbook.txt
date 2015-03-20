@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424660268" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426813108" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
@@ -19,27 +19,29 @@ When customizing your Foswiki installation, you can either choose to completely 
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]] to your new files:
+<sticky>
 <pre class="tml">
    * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
    * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
    * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
-</pre>
+</pre></sticky>
 
 ---+++ When you need to make small adjustments: Adding to existing CSS
+
 With CSS you cannot remove already defined classes, you can only add to it, or override existing styles. <br />
 Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preference settings]]: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]] to your new files (below the =USERXXXURL= preferences):
-<pre class="tml">
+<sticky><pre class="tml">
    * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
    * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
    * <nop>Set USERCOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
-</pre>
+</pre></sticky>
    * If you use only little CSS and you've only attached one file, write:
-<pre class="tml">
+<sticky><pre class="tml">
    * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
-</pre>
+</pre></sticky>
 
 Instead of setting these preferences in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]], you can set these in your home topic, or in any other topic. Setting style URL preferences in:
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] or [[%LOCALSITEPREFS%]]: the style is visible for all users, site-wide
@@ -54,7 +56,7 @@ The rest of this topic shows examples of small CSS changes.
 ---++ Recipes
 
 ---+++ Hide the left bar
-   
+
 See example at: PatternSkinCssCookbookNoLeftBar
 
 ---+++ Use different fonts
@@ -65,7 +67,8 @@ See example at: PatternSkinCssCookbookFonts
 ---+++ I want to change the height of the top bar
 
 This is the complete style definition to set the height of the top bar:
-<verbatim class="css">
+
+<verbatim class='css'>
 #patternTopBar,
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
@@ -73,12 +76,12 @@ This is the complete style definition to set the height of the top bar:
 #patternTopBarContents {
 	height:75px; /* top bar height; make room for header columns */
 	overflow:hidden;
-}
-</verbatim>
+}</verbatim>
+
 Change the number from 75px to your value.
 
    1 Create a new stylesheet (preferably a 'theme variant' file (see for instance %PUBURL%/%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css with above definition in it)
-   1 Attach the file  to a topic
+   1 Attach the file to a topic
    1 Set the value of macro =PATTERNSKIN_THEME_VARIANT= to that topic attachment url using =%<nop>PUBURL%/<nop>YourWebName/<nop>YourTopicName/your_theme_variant_file.css=
 
 Note: If using %<nop>WEBHEADERART% to customize the top bar, some =#patternTopBarContents= CSS is expanded inline from =templates/css.pattern.tmpl=. Override of some attributes, such as background color and repeat are not possible from the CSS files.
