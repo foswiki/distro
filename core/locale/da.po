@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 21:22+0200\n"
+"PO-Revision-Date: 2015-03-20 06:48+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -4469,11 +4469,11 @@ msgstr "Din bekræftelses-email er enten fejlet eller i kø i mail systemet."
 
 #: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
-msgstr "Din signatur til kopier/indsæt:"
+msgstr "Din signatur til kopier/indsæt"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
-msgstr "Din signatur (til copy/paste):"
+msgstr "Din signatur til kopier/indsæt:"
 
 #: core/templates/messages.tmpl:209
 msgid ""
