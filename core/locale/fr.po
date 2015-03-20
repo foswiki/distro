@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 14:38+0200\n"
+"PO-Revision-Date: 2015-03-20 13:21+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -387,9 +387,8 @@ msgstr ""
 "fichier attaché sera celui fourni lors de l'envoi du fichier."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
-#, fuzzy
 msgid "*Formatting help:*"
-msgstr "Plus d'aide au formatage"
+msgstr "*Aide au formatage :*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
@@ -549,9 +548,8 @@ msgstr ""
 "refusée"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
 msgid "<nop>WikiName:"
-msgstr "Nom de page"
+msgstr "<nop>NomWiki :"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -1994,7 +1992,6 @@ msgid "Having problems logging in?"
 msgstr "Des problèmes pour vous connecter ?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Header rows"
 msgstr "Lignes de titre"
 
@@ -2446,9 +2443,8 @@ msgid "Invalid e-mail address"
 msgstr "Adresse e-mail invalide"
 
 #: core/templates/messages.tmpl:96
-#, fuzzy
 msgid "Invalid topic name."
-msgstr "Nom de page"
+msgstr "Nom de page invalide."
 
 #: core/templates/messages.tmpl:330
 msgid ""
@@ -4213,13 +4209,12 @@ msgid "The Free and Open Source Wiki."
 msgstr "\"Free and Open Source Wiki\" (Wiki libre et open source)."
 
 #: core/templates/messages.tmpl:411
-#, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
 msgstr ""
-"Attention : impossible d'exécuter INCLUDE '%1', le chemin est vide ou "
-"contient des caractères non autorisés."
+"Le chemin Web/Page suivant : '%1' comporte des éléments manquants, ou "
+"contient des caractères invalides."
 
 #: core/templates/registermessages.tmpl:115
 msgid ""
@@ -4387,9 +4382,8 @@ msgid "The lease on this topic expired %1 ago."
 msgstr "Leur verrou sur cette page a expiré il y a %1."
 
 #: core/templates/messages.tmpl:97
-#, fuzzy
 msgid "The name of the topic (%1) contained invalid characters."
-msgstr "Le nom de la page ne peut pas être vide."
+msgstr "Le nom de page (%1) contient des caractères invalides."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
@@ -4867,7 +4861,7 @@ msgstr "Réessayer"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
