@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 06:49+0200\n"
+"PO-Revision-Date: 2015-03-21 07:30+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5176,23 +5176,23 @@ msgstr "Velkommen til %1-webbet"
 
 #: core/templates/registermessages.tmpl:93
 msgid "While attempting to email <noautolink>%1</noautolink>."
-msgstr ""
+msgstr "Under forsøg på at emaile <noautolink>%1</noautolink>."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Who"
-msgstr ""
+msgstr "Hvem"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Hvem beder rent faktisk om dette?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
-msgstr ""
+msgstr "Hele siden"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
-msgstr ""
+msgstr "Hvorfor bliver jeg bedt om at bekræfte?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid ""
@@ -5201,21 +5201,20 @@ msgid ""
 msgstr ""
 
 #: core/data/System/WebSearch.txt:189
-#, fuzzy
 msgid "Word search"
-msgstr "Tilpas søgning"
+msgstr "Ord søgning"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
-msgstr ""
+msgstr "Har du lyst til at gå til:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:50
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Dig selv"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 msgid ""
@@ -5223,18 +5222,21 @@ msgid ""
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
+"Du *skal* have mindst en registreret e-mail-adresse for at kunne nulstille "
+"dit password. Hvis ingen af dine registrerede e-mail-adresser er valide, og "
+"du har glemt din adgangskode, kontakt da %1"
 
 #: core/templates/registermessages.tmpl:193
 msgid "You are already registered."
-msgstr ""
+msgstr "Du er allerede registreret."
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
-msgstr ""
+msgstr "Du er også oprettet på siden %1"
 
 #: core/templates/messages.tmpl:271
 msgid "You are denied access to the following topics in the web:"
-msgstr ""
+msgstr "Du har ikke adgang til de følgende sider i dette web:"
 
 #: core/templates/messages.tmpl:341
 msgid ""
