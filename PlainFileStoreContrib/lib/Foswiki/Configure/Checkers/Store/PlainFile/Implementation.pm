@@ -10,11 +10,37 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    _checkDir( $Foswiki::cfg{DataDir}, $reporter )
+    my $bad = 0;
+    $bad ||= _checkDir( $Foswiki::cfg{DataDir}, $reporter )
       if ( defined $Foswiki::cfg{DataDir} );
-    _checkDir( $Foswiki::cfg{PubDir}, $reporter )
+    $bad ||= _checkDir( $Foswiki::cfg{PubDir}, $reporter )
       if ( defined $Foswiki::cfg{PubDir} );
 
+    if (   _checkPFV( $Foswiki::cfg{DataDir} )
+        || _checkPFV( $Foswiki::cfg{PubDir} ) )
+    {
+        $reporter->NOTE( <<HERE);
+PlainFile history found.  This is the correct choice.
+*Caution* If you intend to migrate data from an older system, you will
+need to migrate your data using the =tools/change_store.pl= script!
+HERE
+    }
+    else {
+
+        if ( !$bad && $Foswiki::cfg{Store}{Implementation} =~ /PlainFile/ ) {
+            $reporter->NOTE(
+'No RCS revision files were found.  You may safely use the PlainFile Store.'
+            );
+            $reporter->WARN( <<HERE);
+*Caution* If you intend to migrate data from an older version of Foswiki, you should select
+one of the RCS based store now before editing any wiki topics or registering any users!
+HERE
+            $reporter->NOTE( <<HERE);
+If you want to convert to the =PlainFile= store, you will
+need to migrate your data using the =tools/change_store.pl= script!
+HERE
+        }
+    }
     return;
 }
 
@@ -33,8 +59,19 @@ sub _checkDir {
 'RCS files detected, Migrate RCS files using =tools/change_store.pl=.'
         );
         $reporter->NOTE("First RCS file encountered: $bad");
-        return;
+        return 1;
     }
+}
+
+sub _checkPFV {
+    my $ddir = shift;
+    Foswiki::Configure::Load::expandValue($ddir);
+
+    my $bad =
+      Foswiki::Configure::FileUtil::findFileOnTree( $ddir, qr/,pfv$/, qr/,v$/ );
+
+    return $bad;
+
 }
 
 1;
