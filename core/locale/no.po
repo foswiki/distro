@@ -655,7 +655,7 @@ msgstr "Valg"
 msgid "Add"
 msgstr "Legg til"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 #, fuzzy
 msgid "Add Members to"
 msgstr "Medlemmer"
@@ -671,17 +671,17 @@ msgstr "Velg et nytt skjema for %1"
 msgid "Add form"
 msgstr "Legg til skjema"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 #, fuzzy
 msgid "Add members"
 msgstr "ingen medlemmer"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 #, fuzzy
 msgid "Add members..."
 msgstr "Legg til bruker..."
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Rediger innstillinger for denne siden..."
@@ -698,7 +698,7 @@ msgstr "Admin Foswiki Bruker Autentisering"
 msgid "Admin Maintenance"
 msgstr "Administrator Vedlikehold"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 #, fuzzy
 msgid "Administration"
 msgstr "Registrering"
@@ -996,9 +996,9 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1384,7 +1384,7 @@ msgstr "Lag ny FAQ side"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 #, fuzzy
 msgid "Create personal sidebar"
 msgstr "Rediger personlige data"
@@ -1716,7 +1716,7 @@ msgstr ""
 "Vennligst gå tilbake i nettleseren og velg et sidenavn som er et %1.WikiOrd "
 "eller huk av i tillat ikke-WikiOrd boksen"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "Fjern brukere fra denne gruppen"
@@ -2470,7 +2470,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr ""
 
@@ -2537,7 +2537,7 @@ msgstr "Etternavn"
 msgid "Latest revision: %1"
 msgstr "(revisjon %1)"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr ""
 
@@ -2587,7 +2587,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
 msgstr ""
 
@@ -2633,7 +2633,7 @@ msgstr "Lag søk:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "Medlemmer"
@@ -2829,7 +2829,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 #, fuzzy
 msgid "No  members"
 msgstr "ingen medlemmer"
@@ -3003,7 +3003,7 @@ msgstr "Kun medlemmer av %1 er tillatt å gjøre denne handlingen."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer av %1 er tillatt å gjøre denne handlingen."
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3374,7 +3374,7 @@ msgid "Refresh"
 msgstr "Oppdater"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3438,13 +3438,13 @@ msgstr "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
 msgid "Related Topics:"
 msgstr "Relaterte Sider"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3473,12 +3473,12 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Husker du ditt passord?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
 msgid "Remove Members from"
 msgstr "Fjern brukere fra denne gruppen"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Remove members..."
 msgstr "Fjern bruker..."
@@ -3487,7 +3487,7 @@ msgstr "Fjern bruker..."
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 #, fuzzy
 msgid "Remove selected members"
 msgstr "Fjern valgte brukere"
@@ -3857,7 +3857,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "Velg Wiki %1 for å bli med"
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Fjern brukere fra denne gruppen"
@@ -3972,7 +3972,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Beklager, Registrering er midlertidig deaktivert"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4117,7 +4117,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr ""
 
@@ -4489,6 +4489,12 @@ msgstr ""
 "Det er en risiko at noen kan forsøke å bruke din identitet for å endre "
 "innhold i %1 uten din viten."
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Der burde være en linje som inkliderer %1, se for %2 (eller %3)"
@@ -4533,7 +4539,7 @@ msgstr ""
 "meldinger om passordbytter. Disse adressene holdes hemmelig og blir *ikke* "
 "publisert noe sted på denne webløsningen."
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4925,13 +4931,13 @@ msgid "Update links"
 msgstr "Oppdater lenker"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 #, fuzzy
 msgid "Upgrade"
 msgstr "Gruppe Oppgradert"
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Oppgrader gruppesiden"

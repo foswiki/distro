@@ -673,7 +673,7 @@ msgstr "Aktionen"
 msgid "Add"
 msgstr "hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
 msgstr "Benutzer hinzufügen zu"
 
@@ -687,15 +687,15 @@ msgstr "Eine neue Formularvorlage zu <nop>%1 hinzufügen"
 msgid "Add form"
 msgstr "Formular hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
 msgstr "Benutzer hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 msgid "Add members..."
 msgstr "Benutzer hinzufügen..."
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
 msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen"
 
@@ -711,7 +711,7 @@ msgstr "Foswiki Admin Benutzer Authentifizierung"
 msgid "Admin Maintenance"
 msgstr "Administrative Pflege"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 msgid "Administration"
 msgstr "Administration"
 
@@ -1012,9 +1012,9 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1392,7 +1392,7 @@ msgstr "Neues Topic anlegen"
 msgid "Create not specified and group does not exist"
 msgstr "Gruppe existiert nicht und Anlegemodus wurde nicht angefordert"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
 msgstr "Persönliche Seitenleiste anlegen"
 
@@ -1723,7 +1723,7 @@ msgstr ""
 "Bitte wählen Sie einen Topic-Namen, der ein <nop>WikiWort ist, oder erlauben "
 "Sie die Verwendung von Nicht-<nop>WikiWörtern in der Auswahlbox."
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
 msgstr ""
 "Geben Sie Benutzer oder Gruppen ein, die Sie zu dieser Gruppe hinzufügen "
@@ -2493,7 +2493,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Kursiv"
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr "%1 beitreten"
 
@@ -2554,7 +2554,7 @@ msgstr "Nachname:"
 msgid "Latest revision: %1"
 msgstr "Neueste Revision: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr "%1 verlassen"
 
@@ -2605,7 +2605,7 @@ msgstr "Anmelden"
 msgid "Log Out"
 msgstr "Abmelden"
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
 msgstr "Anmelden, um fortzufahren."
 
@@ -2650,7 +2650,7 @@ msgstr "Suche gestalten:"
 msgid "Maximum %1 items per web"
 msgstr "Maximal %1 Treffer pro Web"
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "Mitglieder"
@@ -2838,7 +2838,7 @@ msgstr "Nächste"
 msgid "No"
 msgstr "Nein"
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 msgid "No  members"
 msgstr "Keine Mitglieder"
 
@@ -3007,7 +3007,7 @@ msgstr "Nur Administratoren dürfen andere Benutzerkonten entfernen."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Nur Mitglieder von %1 dürfen diese Aktion durchführen."
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr "Nur Mitglieder oder Administratoren können die Gruppe ändern."
 
@@ -3362,7 +3362,7 @@ msgid "Refresh"
 msgstr "Neu laden"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3425,13 +3425,13 @@ msgstr "Relevante Topics für Administratoren:"
 msgid "Related Topics:"
 msgstr "Verwandte Topics:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3460,11 +3460,11 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Sie kennen Ihr Passwort?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 msgid "Remove Members from"
 msgstr "Mitglieder entfernen aus"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
 msgstr "Mitglieder entfernen..."
 
@@ -3472,7 +3472,7 @@ msgstr "Mitglieder entfernen..."
 msgid "Remove of user account other than your own is denied"
 msgstr "Sie dürfen das Konto eines anderen Benutzers nicht entfernen"
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 msgid "Remove selected members"
 msgstr "Ausgewählte Mitglieder entfernen"
 
@@ -3838,7 +3838,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "Wählen Sie Gruppen aus, denen Sie beitreten möchten:"
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 msgid "Select members to remove from this group:"
 msgstr "Wählen Sie Mitglieder aus, die Sie aus der Gruppe entfernen möchten:"
 
@@ -3949,7 +3949,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Entschuldigung, die Registrierung wurde temporär abgeschaltet."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4091,7 +4091,7 @@ msgstr "Zum grafischen Modus (WYSIWYG) wechseln"
 msgid "Symbol"
 msgstr "Symbol"
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr "Liste von integrierten Systembenutzern."
 
@@ -4478,6 +4478,12 @@ msgstr ""
 "Es besteht ein Risiko, dass jemand versucht, unter Ihrer Identität und ohne "
 "Ihr Wissen Inhalte von %1 zu ändern."
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
@@ -4523,7 +4529,7 @@ msgstr ""
 "Passwortänderungen benutzt wird. Die Adressen, die Sie über dieses Formular "
 "registrieren, werden geheim gehalten und *nicht* veröffentlicht."
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr "Diese Gruppe sollte keine Mitglieder haben."
 
@@ -4921,12 +4927,12 @@ msgid "Update links"
 msgstr "Verweise aktualisieren"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
 msgstr "Aktualisieren"
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 msgid "Upgrade group topic..."
 msgstr "Gruppen-Topic aktualisieren..."
 

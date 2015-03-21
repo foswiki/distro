@@ -680,7 +680,7 @@ msgstr "変更"
 msgid "Add"
 msgstr "追加"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
 msgstr ""
 
@@ -695,17 +695,17 @@ msgstr "&lt;nop&gt;%1にフォームを新しく追加します"
 msgid "Add form"
 msgstr "フォームを追加します"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 #, fuzzy
 msgid "Add members"
 msgstr "ユーザを追加します"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 #, fuzzy
 msgid "Add members..."
 msgstr "ユーザを追加します。"
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "本トピック 設定を編集します"
@@ -723,7 +723,7 @@ msgstr "Admin Foswiki ユーザー認証"
 msgid "Admin Maintenance"
 msgstr "管理者メンテナンス"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 #, fuzzy
 msgid "Administration"
 msgstr "登録"
@@ -1026,9 +1026,9 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1413,7 +1413,7 @@ msgstr "新トピックを作成します"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
 msgstr "個人サイドバーを作成します"
 
@@ -1744,7 +1744,7 @@ msgstr ""
 "トピック名が%1に一致する名称を選択してください。又はノンWikiWordにチェックを"
 "入れてください。"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "まず、ユーザーをグループ %1から削除してください"
@@ -2501,7 +2501,7 @@ msgstr ""
 msgid "Italic"
 msgstr "イタリックテキスト"
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr ""
 
@@ -2570,7 +2570,7 @@ msgstr "名："
 msgid "Latest revision: %1"
 msgstr "(改訂 %1)"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr ""
 
@@ -2621,7 +2621,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 #, fuzzy
 msgid "Log in to continue."
 msgstr "%1にログインします"
@@ -2669,7 +2669,7 @@ msgstr "検索:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr ""
@@ -2867,7 +2867,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 msgid "No  members"
 msgstr ""
 
@@ -3037,7 +3037,7 @@ msgstr "%1のメンバーのみこの操作を行うことが許可されます"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "%1のメンバーのみこの操作を行うことが許可されます"
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3410,7 +3410,7 @@ msgid "Refresh"
 msgstr ""
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3473,13 +3473,13 @@ msgstr " %1 管理者 %2までご連絡ください"
 msgid "Related Topics:"
 msgstr "関連トピック："
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3508,12 +3508,12 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "パスワードを保存しますか？"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
 msgid "Remove Members from"
 msgstr "まず、ユーザーをグループ %1から削除してください"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
 msgstr ""
 
@@ -3521,7 +3521,7 @@ msgstr ""
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 msgid "Remove selected members"
 msgstr ""
 
@@ -3894,7 +3894,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "親トピックを選択してください："
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "まず、ユーザーをグループ %1から削除してください"
@@ -4008,7 +4008,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4154,7 +4154,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr ""
 
@@ -4505,6 +4505,12 @@ msgid ""
 "content on %1 without your knowledge."
 msgstr ""
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr " %1 を含むラインが無ければなりません。%2(又は%3)を参照してください "
@@ -4547,7 +4553,7 @@ msgstr ""
 "メールアドレスに、パスワード変更の知らせなどを含むメールを送信します。ご登録"
 "時のメールアドレスは保護されます。本サイトのどこにも*配布されません* "
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4934,13 +4940,13 @@ msgid "Update links"
 msgstr "リンクを更新します"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 #, fuzzy
 msgid "Upgrade"
 msgstr "ニューグループ"
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "ニューグループ"

@@ -668,7 +668,7 @@ msgstr "Acción"
 msgid "Add"
 msgstr "Añadir"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 #, fuzzy
 msgid "Add Members to"
 msgstr "Miembros"
@@ -684,17 +684,17 @@ msgstr "Escoja una nueva plantilla para el formulario"
 msgid "Add form"
 msgstr "Añadir formulario"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 #, fuzzy
 msgid "Add members"
 msgstr "no son miembros"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 #, fuzzy
 msgid "Add members..."
 msgstr "Añadir usuario..."
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Editar preferencias para este tema..."
@@ -711,7 +711,7 @@ msgstr "Autenticación del usuario administrador de Foswiki"
 msgid "Admin Maintenance"
 msgstr "Mantenimiento administrativo"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 #, fuzzy
 msgid "Administration"
 msgstr "Iniciar sesión de administrator"
@@ -1019,9 +1019,9 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1413,7 +1413,7 @@ msgstr "Crear tema nuevo de preguntas frecuentes"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
 msgstr "Crear una recuadro adicional personal"
 
@@ -1754,7 +1754,7 @@ msgstr ""
 "por favor presione atrás en su navegador y escoja un nombre de páginaque sea "
 "%1.WikiWord o seleccione la opción non-Wiki Word"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "Elimine el usuario de este grupo"
@@ -2518,7 +2518,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Editar texto"
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr ""
 
@@ -2586,7 +2586,7 @@ msgstr "Apellido"
 msgid "Latest revision: %1"
 msgstr "(revisión %1)"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr ""
 
@@ -2636,7 +2636,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 #, fuzzy
 msgid "Log in to continue."
 msgstr "Nombre de usuario %1"
@@ -2684,7 +2684,7 @@ msgstr "Realizar búsqueda:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "Miembros"
@@ -2881,7 +2881,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 #, fuzzy
 msgid "No  members"
 msgstr "no son miembros"
@@ -3054,7 +3054,7 @@ msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3432,7 +3432,7 @@ msgid "Refresh"
 msgstr "Recargar"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3499,13 +3499,13 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "Temas relacionados"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3534,12 +3534,12 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "¿Recuerda su contraseña?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
 msgid "Remove Members from"
 msgstr "Reconózcame"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Remove members..."
 msgstr "no son miembros"
@@ -3548,7 +3548,7 @@ msgstr "no son miembros"
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 msgid "Remove selected members"
 msgstr ""
 
@@ -3918,7 +3918,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "Escoja Wiki %1 para participar"
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Elimine el usuario de este grupo"
@@ -4033,7 +4033,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Disculpe, el registro fue deshabilitado temporalmente"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4181,7 +4181,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr ""
 
@@ -4556,6 +4556,12 @@ msgstr ""
 "Existe el riesgo que alguien esté intentando de utilizar su identidad para "
 "modificar el contenido en %1 sin su conocimiento."
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deberia haber una linea que incluya %1, busque %2 (o %3)"
@@ -4601,7 +4607,7 @@ msgstr ""
 "Las direcciones que usted registre por este formulario son mantenidas en "
 "secreto y *no* serán publicadas en ningún lado de este sitio."
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4998,13 +5004,13 @@ msgid "Update links"
 msgstr "Actualizar enlaces"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 #, fuzzy
 msgid "Upgrade"
 msgstr "Grupo actualizado"
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Grupo actualizado"

@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-20 11:46+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -377,7 +377,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
-msgstr "*管理者：* 你能使用此表更改使用者的電郵。輸入使用者 [[%1][登錄名]] 或 [[%1][WikiName]] 與新的電郵。"
+msgstr ""
+"*管理者：* 你能使用此表更改使用者的電郵。輸入使用者 [[%1][登錄名]] 或 [[%1]"
+"[WikiName]] 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -633,7 +635,7 @@ msgstr "功能"
 msgid "Add"
 msgstr "增加"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
 msgstr "增加成員至"
 
@@ -647,15 +649,15 @@ msgstr "為 <nop>%1 加一個新表單"
 msgid "Add form"
 msgstr "增加表單"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
 msgstr "增加成員"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 msgid "Add members..."
 msgstr "增加成員…"
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
 msgstr "為本主題增加使用者管理設定。"
 
@@ -671,7 +673,7 @@ msgstr "Foswiki 管理員認證"
 msgid "Admin Maintenance"
 msgstr "管理員維護"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 msgid "Administration"
 msgstr "管理"
 
@@ -950,9 +952,9 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1314,7 +1316,7 @@ msgstr "建立新主題"
 msgid "Create not specified and group does not exist"
 msgstr "未指定建立且群組不存在"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
 msgstr "建立個人的側欄"
 
@@ -1621,7 +1623,7 @@ msgstr "輸入 Wiki 管理員或依 %1 設定登入"
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr "輸入 WikiWord 為主題名或是點選允許非 WikiWord 選項。"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
 msgstr "輸入使用者或群組加入這個群組"
 
@@ -2339,7 +2341,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr ""
 
@@ -2401,7 +2403,7 @@ msgstr "姓"
 msgid "Latest revision: %1"
 msgstr "最新版本: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr ""
 
@@ -2451,7 +2453,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
 msgstr ""
 
@@ -2497,7 +2499,7 @@ msgstr "搜尋:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "成員"
@@ -2685,7 +2687,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 msgid "No  members"
 msgstr "無成員"
 
@@ -2850,7 +2852,7 @@ msgstr "只有 %1 的成員允許使用這些功能。"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成員允許使用這些功能。"
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3215,7 +3217,7 @@ msgid "Refresh"
 msgstr "更新"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3279,13 +3281,13 @@ msgstr "電子郵件寄送失敗，請通知您的 %1 管理員 %2"
 msgid "Related Topics:"
 msgstr "相關主題"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3312,12 +3314,12 @@ msgstr "請記得更新您用戶主題中的郵件位址，以反應實情。"
 msgid "Remember your password?"
 msgstr "記住密碼?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
 msgid "Remove Members from"
 msgstr "將用戶自群組中刪除"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Remove members..."
 msgstr "移除使用者…"
@@ -3326,7 +3328,7 @@ msgstr "移除使用者…"
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 #, fuzzy
 msgid "Remove selected members"
 msgstr "移除選擇的使用者"
@@ -3689,7 +3691,7 @@ msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 msgid "Select groups to join:"
 msgstr "選擇 Wiki %1 加入"
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "將用戶自群組中刪除"
@@ -3803,7 +3805,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "抱歉，暫時禁用註冊。"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密碼系統是唯讀，請聯繫 %1"
@@ -3946,7 +3948,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr ""
 
@@ -4289,6 +4291,12 @@ msgid ""
 msgstr ""
 "有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必須包含一行包含 %1，參考 %2 (或 %3)"
@@ -4331,7 +4339,7 @@ msgstr ""
 "用本表單修改註冊郵件地址。系統會發送郵件至您的註冊郵箱，包括：密碼變更通知。"
 "表中的註冊郵件地址將會隱藏保密，並*不會*顯示於網站的其他網頁內。"
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4706,12 +4714,12 @@ msgid "Update links"
 msgstr "更新連結"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "群組主題更新"

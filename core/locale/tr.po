@@ -612,7 +612,7 @@ msgstr "Dikkat"
 msgid "Add"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
 msgstr ""
 
@@ -626,17 +626,17 @@ msgstr ""
 msgid "Add form"
 msgstr "Form Ekle"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 #, fuzzy
 msgid "Add members"
 msgstr "Kullanıcı ekle"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 #, fuzzy
 msgid "Add members..."
 msgstr "Kullanıcı ekle..."
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Bu konu için ayarları düzenle..."
@@ -653,7 +653,7 @@ msgstr ""
 msgid "Admin Maintenance"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 #, fuzzy
 msgid "Administration"
 msgstr "Kayıt"
@@ -938,9 +938,9 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1312,7 +1312,7 @@ msgstr "Yeni bir SSS konusu oluştur"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 #, fuzzy
 msgid "Create personal sidebar"
 msgstr "Kişisel Bilgilerinizi Düzenleyin"
@@ -1627,7 +1627,7 @@ msgstr ""
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "Kullanıcıları bu gruptan çıkart"
@@ -2339,7 +2339,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr ""
 
@@ -2406,7 +2406,7 @@ msgstr "Soyad"
 msgid "Latest revision: %1"
 msgstr "Revizyonları karşılaştır"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr ""
 
@@ -2456,7 +2456,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
 msgstr ""
 
@@ -2502,7 +2502,7 @@ msgstr ""
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr ""
@@ -2696,7 +2696,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 msgid "No  members"
 msgstr ""
 
@@ -2860,7 +2860,7 @@ msgstr ""
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3223,7 +3223,7 @@ msgid "Refresh"
 msgstr "Yenile"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3285,13 +3285,13 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "İlgili Konular:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3318,12 +3318,12 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Şifrenizi hatırladınız mı?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
 msgid "Remove Members from"
 msgstr "Kullanıcıları bu gruptan çıkart"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Remove members..."
 msgstr "Seçilmiş kullanıcıyı kaldır..."
@@ -3332,7 +3332,7 @@ msgstr "Seçilmiş kullanıcıyı kaldır..."
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 #, fuzzy
 msgid "Remove selected members"
 msgstr "Seçilmiş kullanıcıları kaldır"
@@ -3684,7 +3684,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Kullanıcıları bu gruptan çıkart"
@@ -3792,7 +3792,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -3934,7 +3934,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr ""
 
@@ -4277,6 +4277,12 @@ msgstr ""
 "Art niyetli kişilerin %1 kullanıcı bilgilerinize ulaşıp, değiştirme riskine "
 "karşı onay gerekiyor."
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
@@ -4315,7 +4321,7 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4679,12 +4685,12 @@ msgid "Update links"
 msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Konuyu taşı veya kaldır..."

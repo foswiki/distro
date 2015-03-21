@@ -651,7 +651,7 @@ msgstr "Akce"
 msgid "Add"
 msgstr "Přidat"
 
-#: core/data/Main/GroupViewTemplate.txt:202
+#: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
 msgstr "Přidat členy do"
 
@@ -665,15 +665,15 @@ msgstr "Přidejte nový formulář do <nop>%1"
 msgid "Add form"
 msgstr "Přidej formulář"
 
-#: core/data/Main/GroupViewTemplate.txt:211
+#: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
 msgstr "Přidej členy"
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:163
 msgid "Add members..."
 msgstr "Přidej členy..."
 
-#: core/data/Main/GroupViewTemplate.txt:188
+#: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
 msgstr "K tomuto článku přidej volby pro nastavení uživatele."
 
@@ -689,7 +689,7 @@ msgstr "Administrátor Foswiki ověření uživatele"
 msgid "Admin Maintenance"
 msgstr "Administrátorská údržba"
 
-#: core/data/Main/GroupViewTemplate.txt:160
+#: core/data/Main/GroupViewTemplate.txt:161
 msgid "Administration"
 msgstr "Administrace"
 
@@ -984,9 +984,9 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:191
-#: core/data/Main/GroupViewTemplate.txt:212
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
@@ -1358,7 +1358,7 @@ msgstr "Vytvoř nový článek"
 msgid "Create not specified and group does not exist"
 msgstr "Nedefinovaný Create a skupina neexistuje"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:21
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
 msgstr "Vaše osobní stránka"
 
@@ -1677,7 +1677,7 @@ msgstr ""
 "Zadejte název článku jako WikiJméno nebo vyberte volbu \"povolit non-Wiki "
 "Word\"."
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
 msgstr "Vyberte uživatele nebo skupiny, které chcete přidat"
 
@@ -2429,7 +2429,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: core/data/Main/GroupViewTemplate.txt:255
+#: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
 msgstr "Přidej se k %1"
 
@@ -2490,7 +2490,7 @@ msgstr "Poslední název:"
 msgid "Latest revision: %1"
 msgstr "Poslední revize: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
 msgstr "Ponechej %1"
 
@@ -2539,7 +2539,7 @@ msgstr "Přihlásit"
 msgid "Log Out"
 msgstr "Odhlásit"
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
 msgstr "Pro pokračování se přihlaste."
 
@@ -2584,7 +2584,7 @@ msgstr "Hledání:"
 msgid "Maximum %1 items per web"
 msgstr "Maximálně %1 položek na jeden web."
 
-#: core/data/Main/GroupViewTemplate.txt:20 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "Členové"
@@ -2772,7 +2772,7 @@ msgstr "Následující"
 msgid "No"
 msgstr "Ne"
 
-#: core/data/Main/GroupViewTemplate.txt:51
+#: core/data/Main/GroupViewTemplate.txt:52
 msgid "No  members"
 msgstr "Žádní členové"
 
@@ -2940,7 +2940,7 @@ msgstr "Pouze administrátoři jsou oprávněni odstraňovat jiné účty."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
 
-#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:147
 msgid "Only members or admins may update group."
 msgstr "Pouze členové nebo administrátoři mohou aktualizovat skupinu."
 
@@ -3288,7 +3288,7 @@ msgid "Refresh"
 msgstr "Obnov"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/data/System/WebLeftBarLogin.txt:15
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
@@ -3350,13 +3350,13 @@ msgstr "Články určené administrátorům:"
 msgid "Related Topics:"
 msgstr "Související články:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:109
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
-#: core/data/Main/GroupViewTemplate.txt:33
+#: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:669
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
@@ -3385,11 +3385,11 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Pamatujete si Vaše heslo?"
 
-#: core/data/Main/GroupViewTemplate.txt:224
+#: core/data/Main/GroupViewTemplate.txt:225
 msgid "Remove Members from"
 msgstr "Odstraň členy z"
 
-#: core/data/Main/GroupViewTemplate.txt:164
+#: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
 msgstr "Odstraň členy..."
 
@@ -3397,7 +3397,7 @@ msgstr "Odstraň členy..."
 msgid "Remove of user account other than your own is denied"
 msgstr "Odstranění jiného nežli vlastního uživatelského účtu je zakázáno"
 
-#: core/data/Main/GroupViewTemplate.txt:238
+#: core/data/Main/GroupViewTemplate.txt:239
 msgid "Remove selected members"
 msgstr "Odstraň vybrané členy"
 
@@ -3751,7 +3751,7 @@ msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)."
 msgid "Select groups to join:"
 msgstr "Vyberte skupiny pro přidání:"
 
-#: core/data/Main/GroupViewTemplate.txt:233
+#: core/data/Main/GroupViewTemplate.txt:234
 msgid "Select members to remove from this group:"
 msgstr "Vyberte členy, kteří mají být z této skupiny odstraněni:"
 
@@ -3860,7 +3860,7 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Omlouváme se, registrování je dočasně mimo provoz."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:86
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4002,7 +4002,7 @@ msgstr "Přepni na WYSIWYG"
 msgid "Symbol"
 msgstr "Symbol"
 
-#: core/data/Main/GroupViewTemplate.txt:140
+#: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
 msgstr "Seznam uživatelů."
 
@@ -4356,6 +4356,12 @@ msgstr ""
 "Existuje riziko, že někdo se může pokoušet změnit obsah %1 bez vašeho vědomí "
 "a navíc za použití vaší identity."
 
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
@@ -4399,7 +4405,7 @@ msgstr ""
 "formuláŕ jsou bezpečně uloženy a *nebudou* publikovány nikde na tomto "
 "serveru."
 
-#: core/data/Main/GroupViewTemplate.txt:137
+#: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
 msgstr ""
 
@@ -4789,13 +4795,13 @@ msgid "Update links"
 msgstr "Aktualizuj odkazy"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:181
-#: core/data/Main/GroupViewTemplate.txt:190
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
 #, fuzzy
 msgid "Upgrade"
 msgstr "Skupiny"
 
-#: core/data/Main/GroupViewTemplate.txt:171
+#: core/data/Main/GroupViewTemplate.txt:172
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Skupiny"
