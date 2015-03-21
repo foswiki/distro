@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 16:25+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2015-03-21 18:02+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
 "Language: it\n"
@@ -91,8 +91,7 @@ msgstr "%1 è stato approvato e registrato con e-mail %2"
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr ""
-"%1 ha modificato la pagina per %2 e il lease è ancora attivo per altro %3."
+msgstr "%1 ha modificato la pagina per %2 e il lease è attivo per ancora %3."
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
@@ -117,7 +116,7 @@ msgstr "%1 è al momento connesso"
 
 #: core/templates/messages.tmpl:468
 msgid "%1 is currently set to %2"
-msgstr "%1 è al momento settato su %2"
+msgstr "%1 è al momento impostato a %2"
 
 #: core/templates/messages.tmpl:576
 msgid "%1 is editing [[%2][%3]]."
@@ -129,7 +128,7 @@ msgstr "%1 è presente in almeno un gruppo e quindi non può essere rimosso"
 
 #: core/templates/messages.tmpl:126
 msgid "%1 is not a valid form name"
-msgstr "%1 non è un nome di form valido"
+msgstr "%1 non è un nome di modulo valido"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
@@ -186,7 +185,7 @@ msgstr "Rinun&cia"
 
 #: core/templates/foswiki.tmpl:155
 msgid "&History"
-msgstr "Versioni (&H)"
+msgstr "Cronologia (&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
@@ -198,7 +197,7 @@ msgstr "'%1' non è un valido %2 "
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
-msgstr "'Crea una Nuova Pagina' la pagina è stata spostata"
+msgstr "La pagina \"Crea una Nuova Pagina\" è stata spostata"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
@@ -215,7 +214,7 @@ msgstr "(%1 vs. %2)"
 #: core/templates/messages.tmpl:185
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
-"(*Suggerimento:* Che ne pensi di caricare la tua foto nella tua pagina "
+"(*Suggerimento:* che ne pensi di caricare la tua foto nella tua pagina "
 "personale?)"
 
 #: core/data/System/WebSearch.txt:232
@@ -621,7 +620,7 @@ msgstr "Aggiungi"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
-msgstr "Aggiungi form"
+msgstr "Aggiungi modulo"
 
 #: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
@@ -844,7 +843,7 @@ msgstr "Informazione disponibile"
 #: PatternSkin/templates/changeform.pattern.tmpl:13
 #: core/templates/changeform.tmpl:33
 msgid "Available form templates"
-msgstr "Modelli di form disponibili"
+msgstr "Modelli di moduli disponibili"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
@@ -883,8 +882,8 @@ msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
-"Ma i dati immessi nel form andranno persi (potrai comunque sempre recuperare "
-"questi dati nelle versioni precedenti della pagina)"
+"Ma i dati immessi nel modulo andranno persi (potrai comunque sempre "
+"recuperare questi dati nelle versioni precedenti della pagina)"
 
 #: core/data/Trash/WebHome.txt:7
 msgid ""
@@ -1254,7 +1253,7 @@ msgstr "Registrati per poter modificare le pagine su questo sito."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
-msgstr "Crea una pagina opportuna di Definizione del Form"
+msgstr "Crea un'appropriata pagina di Definizione del Modulo"
 
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
@@ -1642,7 +1641,7 @@ msgstr "Definizione del modulo '%1' non trovata"
 
 #: core/templates/messages.tmpl:386
 msgid "Form definition missing"
-msgstr "Manca la definizione del form"
+msgstr "Manca la definizione del modulo"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -3691,7 +3690,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
-msgstr "Ciò richiede la definizione del form che deve essere presente."
+msgstr "Ciò richiede la definizione del modulo che deve essere presente."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
