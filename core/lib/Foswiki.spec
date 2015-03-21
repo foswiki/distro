@@ -604,8 +604,8 @@ $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 # and make changes that are potentially difficult to recover from, it is
 # strongly recommended that configure access be limited.   Examples:
 #    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdmin BobAdmin=
-#    * Restrict to the sudo admin user:  =BaseUserMapping_333=
-#       * (Also set the expert Password setting under the Passwords tab)
+# The super admin user can always use configure. provided you set the expert
+# Password setting under the Passwords tab.
 $Foswiki::cfg{FeatureAccess}{Configure} = '';
 
 #---++ Passwords
