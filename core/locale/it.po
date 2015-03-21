@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-21 15:56+0200\n"
-"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -5654,7 +5654,7 @@ msgstr "da %1 "
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
-msgstr ""
+msgstr "modifica opzioni di visualizzazione"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -5675,7 +5675,7 @@ msgstr "predefinito così come definito in %1"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
-msgstr ""
+msgstr "differenze"
 
 #: core/templates/messages.tmpl:298
 msgid "don't forget to check your Topic Settings"
@@ -5683,7 +5683,7 @@ msgstr "non dimenticare di controllare la configurazione della pagina"
 
 #: core/templates/messages.tmpl:499
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin fallito. Vedi di seguito gli errori."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
