@@ -406,6 +406,7 @@ lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
 lib/Foswiki/Compatibility.pm 0444
+lib/Foswiki/Configure/Auth.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AccessibleCFG.pm 0444
 lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
