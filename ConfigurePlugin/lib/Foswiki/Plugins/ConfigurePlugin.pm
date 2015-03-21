@@ -34,6 +34,7 @@ our $VERSION = '1.01';
 use Assert;
 
 use Foswiki::Contrib::JsonRpcContrib ();
+use Foswiki::Configure::Auth         ();
 use Foswiki::Configure::LoadSpec     ();
 use Foswiki::Configure::Load         ();
 use Foswiki::Configure::Root         ();
@@ -140,33 +141,7 @@ sub _JSONwrap {
         my ( $session, $request ) = @_;
 
         if ( $Foswiki::cfg{isVALID} ) {
-
-            if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
-                && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
-            {
-                my $authorized;
-                foreach my $authuser (
-                    split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
-                {
-                    if ( $session->{user} eq $authuser ) {
-                        $authorized = 1;
-                        last;
-                    }
-                }
-                die
-"You must have special permission to use this interface.  Denied by {FeatureAccess}{Configure} Setting"
-                  unless ($authorized);
-            }
-            else {
-                # Check rights to use this interface - admins only
-                die
-"You must be logged in as an administrator to use this interface."
-                  unless Foswiki::Func::isAnAdmin();
-            }
-        }
-        else {
-            # Otherwise we must be bootstrapping - an inherently dangerous
-            # operation. TODO: check we can do this safely.
+            Foswiki::Configure::Auth::checkAccess( $session, 1 );
         }
 
         my $reporter = Foswiki::Configure::Reporter->new();

@@ -10,31 +10,14 @@ use warnings;
 use File::Spec;
 use Foswiki::Func;
 use Config;
+use Foswiki::Configure::Auth;
 
 sub SERVERINFORMATION {
     my ( $this, $params ) = @_;
     my $authorized;
     my $session = $Foswiki::Plugins::SESSION;
 
-    if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
-        && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
-    {
-        foreach my $authuser (
-            split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
-        {
-            if ( $session->{user} eq $authuser ) {
-                $authorized = 1;
-                last;
-            }
-        }
-    }
-    else {
-        $authorized = Foswiki::Func::isAnAdmin();
-    }
-
-    return
-      "Server information is only accessible to authorized configure users."
-      unless $authorized;
+    Foswiki::Configure::Auth::checkAccess($session);
 
     my $report;
     if ( ( !defined $params->{_DEFAULT} )

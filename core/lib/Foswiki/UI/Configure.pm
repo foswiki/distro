@@ -14,7 +14,8 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki ();
+use Foswiki                  ();
+use Foswiki::Configure::Auth ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -48,29 +49,7 @@ sub configure {
         }
     );
 
-    if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
-        && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
-    {
-        my $authorized = '';
-        foreach my $authuser (
-            split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
-        {
-            if ( $session->{user} eq $authuser ) {
-                $authorized = 1;
-                last;
-            }
-        }
-        throw Foswiki::AccessControlException( 'VIEW',
-            $session->{user}, 'System', 'Configuration',
-            'Denied by {FeatureAccess}{Configure} Setting' )
-          unless ($authorized);
-    }
-    else {
-        unless ( Foswiki::Func::isAnAdmin() ) {
-            throw Foswiki::AccessControlException( 'VIEW',
-                $session->{user}, 'System', 'Configuration', 'Not an admin' );
-        }
-    }
+    Foswiki::Configure::Auth::checkAccess($session);
 
     unless ( $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} ) {
         $tmplData =
