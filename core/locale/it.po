@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-21 15:59+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -5725,7 +5725,7 @@ msgstr "indica campi obbligatori"
 
 #: core/templates/messages.tmpl:495 core/templates/messages.tmpl:497
 msgid "initPlugin was not defined. See errors below."
-msgstr "initPlugin non è stato definito. Vedi di seguito gli errori."
+msgstr "initPlugin non è stato definito. Vedere gli errori sottostanti."
 
 #: core/data/System/SiteChanges.txt:63
 msgid "last change"
