@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 15:48+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2015-03-21 16:02+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
 "Language: it\n"
@@ -4426,7 +4426,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
-msgstr "Il tuoi indirizzi e-mail verranno mantenuti riservati."
+msgstr "Il tuo indirizzo email verrà mantenuto riservato."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -4483,8 +4483,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
-"La tua o le tue e-mail registrate sono utilizzate da Foswiki per l'invio di "
-"messaggi, comprese le notifiche di modifiche delle password."
+"Le tue email registrate vengono usate da Foswiki per spedirti email, incluse "
+"le notifiche di cambiamento password."
 
 #: core/templates/messages.tmpl:274
 msgid ""
@@ -4597,7 +4597,7 @@ msgstr "non dimenticare di controllare la configurazione della pagina"
 
 #: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr "earlyInitPlugin fallito. Vedi di seguito gli errori."
+msgstr "earlyInitPlugin fallito.  Vedere gli errori sottostanti."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4627,7 +4627,7 @@ msgstr "indica campi obbligatori"
 
 #: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
-msgstr "initPlugin non è stato definito. Vedi di seguito gli errori."
+msgstr "initPlugin non è stato definito. Vedere gli errori sottostanti."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4673,7 +4673,7 @@ msgstr "versione %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr "all'inizio"
+msgstr "l'inizio"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
