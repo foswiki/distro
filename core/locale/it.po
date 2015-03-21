@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 15:51+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2015-03-21 15:52+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -5488,7 +5488,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr "Il tuoi indirizzi e-mail verranno mantenuti riservati."
+msgstr "Il tuo indirizzo email verrà mantenuto riservato."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
