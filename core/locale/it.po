@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 15:52+0200\n"
-"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
+"PO-Revision-Date: 2015-03-21 15:53+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -5505,7 +5505,7 @@ msgstr "Il tuo nome come mostrato da %1. %2"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
-msgstr ""
+msgstr "Il tuo nome, di solito nome e cognome collegati senza spazi."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
