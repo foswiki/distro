@@ -30,8 +30,8 @@ sub check_current_value {
         push( @admins, $admin ) if $admin;
     }
     $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )
-You should either set the super admin password, or add users to this list who are permitted to access configure."
+"$Foswiki::cfg{SuperAdminGroup} contains no users except for the _internal admin_ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= )
+You should either set the _internal admin_ password, or add users to this list who are permitted to access configure."
       )
       if ( scalar(@admins) lt 2
         && !$Foswiki::cfg{Password}
@@ -64,7 +64,7 @@ You should either set the super admin password, or add users to this list who ar
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

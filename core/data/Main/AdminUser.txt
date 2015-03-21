@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Wiki Administrator User
 
@@ -14,11 +14,11 @@ If your system is configured using a !UserMapper that permits group maintenance,
       * %ADMINLOGIN%
    * Logout from Administrator:
       * click the [[%LOGOUTURL%][Logout link]]"
-else="%MAKETEXT{"There is no Admin superuser password set.  See [[[_1]][Installation Guide section on the Super User]] for further help." args="%SYSTEMWEB%.InstallationGuide#SuperUser"}%"}%
+else="%MAKETEXT{"There is no _internal admin_ password set.  See [[[_1]][Installation Guide section on the internal admin]] for further help." args="%SYSTEMWEB%.InstallationGuide#InternalAdmin"}%"}%
 
 *%X% NOTE:* If you lock yourself out of <nop>AdminUser during setup activities, never established a password, or have forgotten the password,
-See %SYSTEMWEB%.InstallationGuide#SuperUser for information on configuring the
-superuser.
+See %SYSTEMWEB%.InstallationGuide#InternalAdmin for information on configuring the
+_internal admin_ password..
 %ENDSECTION{"sudo_login"}%
 
 ---+++ Prerequisites
@@ -28,8 +28,8 @@ superuser.
    
 <blockquote class="foswikiAlert">
 %X% Do not add =AdminUser= to your =.htpasswd= file or other authentication system.  You should only access the =AdminUser= by logging in
-with the special user and password set in the first save in the =bin/configure= script. Use the =sudo= feature, or log in directly with
-Template Login. Logging in with the =AdminUser= !WikiName through the normal authentication process will not acquire admin rights.
+with the special user and password set in the first save in the =bin/configure= script. Use the =sudo= login link on this page, or log in directly with
+Template Login. Logging in with the =AdminUser= !WikiName through the normal authentication process will not work, and will not acquire admin rights.
 </blockquote>
 
 ---

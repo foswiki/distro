@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278810" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -308,7 +308,7 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =search= | in search script (see CommandAndCGIScripts) |
 | =static= | in a script that generates static content, such as PDF generation. Extensions should avoid rendering edit markup in this context. |
 | =statistics= | in statistics script (see CommandAndCGIScripts) |
-| =sudo_login= | if user is currently running with sudo admin authority |
+| =sudo_login= | if user is currently running with _internal admin_ authority |
 | =SUPPORTS_PARA_INDENT= | render supports the paragraph indent syntax |
 | =SUPPORTS_PREF_SET_URLS= | Preferences can be set in the URL |
 | =textareas_hijacked= | provided for use by editors that highjack textareas, and want to signal this fact. This is used by skins, for example, so they can suppress extra controls when textareas have been hijacked. |

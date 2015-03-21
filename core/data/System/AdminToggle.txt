@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426810437" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426913092" format="1.1" reprev="2" version="1"}%
 ---+ Group Member Toggle
 
 This topic implements a button that will turn Admin status on or off for the
 current user (!%WIKINAME%), by adding or removing the user from the
-!AdminGroup.  This new function is recommended to replace =sudo= login when
+!AdminGroup.  This new function is recommended to replace _internal admin_ login when
 possible.  It provides better security and allows changes to be tracked to the
 user making the change instead of the anonymous !AdminUser.
 

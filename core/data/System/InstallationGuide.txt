@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426891830" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+ Installation Guide
@@ -133,17 +133,19 @@ Different script execution mechanisms are disabled in different ways; see your w
 
 <div class="foswikiHelp">%T% If you do not want to or are unable to configure from the web interface, there is an alternate command line configuration documented in [[InstallationGuidePart2#ConfiguringFoswikiManually]]</div>
 
-<div class="foswikiHelp"> *Start your configuration by browsing to the default view URL for your site.* This will Bootstrap your configuration and help Foswiki determine whether or not you are using Short URLs. It also logs you in as a the admin user. Don't close your browser until you've gone through the configuration process and registered your first user.</div>
+---++++ 5a. Start your configuration by browsing to the default view URL for your site. 
+This will Bootstrap your configuration and help Foswiki determine whether or not you are using Short URLs. It also logs you in as a the admin user. *Don't close your browser until you've completed the configuration process and registered your first user.*
    * *Follow the link to configure rendered in the Bootstrap banner.* (Do not manually enter the =bin/configure= URL or Foswiki will not correctly detect the URL configuration).
-   * Make any required changes, and save the settings, whether or not you needed to make any changes.
+   * Make any required changes, and save the settings.  
+      * This will create the initial configuration and end the bootstrap process.
       * Configuration items which may require further attention will be highlighted.
-      * Review [[#DefineAdminUser][Define the administrator user(s)]].
+      * *Save as soon as possible*, especially if your site is exposed. Anyone accessing foswiki before the configuration has been saved will be granted admin rights.
 
    * If the Foswiki installation can be accessed by more than one !protocol://domain, ensure the additional alternative URLs are set in ={PermittedRedirectHostUrls}=.
    <div class="foswikiHelp">%T% *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class="html">https://company.com, http://111.222.123.234</verbatim> </div>
 
    * If your server requires a Proxy in order to access external resources like your mail server, this is configured on the "Security and Authentication" tab, "Proxies" sub-tab. Complete that before proceeding with the E-mail configuration.
-
+---++++ 5b.  Configure email (you can defer and come back to this later)
    * Setup the =Mail= section. E-mail should be available so Foswiki can send registration e-mails. Easiest way is to use the "%T%auto-configure email" button on the "Basic settings and Auto-configure" sub-tab.  Fill out the following parameters:
       * The ={WebMasterEmail}= should be set to a valid e-mail address. This will be the From: ID used to send Foswiki Emails and will also appear on webmaster mailto: links. <div class="foswikiHelp">If you are running on a <nop>*nix server with a configured local mail transport agent, you can try pressing the "%T%auto-configure email" button now.  If auto-configure succeeds, *proceed to Step 6*. If your server is a Windows server, if auto-configure failed, or you know a local transport agent is not available, continue with the SMTP e-mail configuration</div>
       * The ={SMTP}{MAILHOST}= should be set to your e-mail server hostame: ex: =smtp.gmail.com=
@@ -157,18 +159,18 @@ Different script execution mechanisms are disabled in different ways; see your w
 
 The configure tool should generally be restricted to a very small subset of users.  There are several choices for how to protect configure:
 
-   * *Restrict configure to members of the !AdminGroup:*
+   * *Option 1* Restrict configure to members of the !AdminGroup:
       * This is the default configuration. You don't need to set anything special from within configure.
       * After you save your configuration, be sure to register a user and add them to the !AdminGroup before you log out from the initial super admin login. Once you log out, you'll be blocked from any further configure access unless you can log in as a user in the !AdminGroup. The default behaviour is that members of the !AdminGroup have access to =bin/configure=
 
-   * *Restrict configure to a defined list of users:*
+   * *Option 2* Restrict configure to a defined list of users:
       * Visit the "Security and Authentication" tab, "Access control" sub-tab.
       * Set ={FeatureAccess}{Configure}= to a list of WikiNames that will be allowed access to configure.
       * This setting overrides use of the !AdminGroup, and these users do not have to be members of the !AdminGroup.
 
-   * *Define a "super user" ID and allow it access to configure*
+   * *Option 3* Define a "super user" ID and allow it access to configure (This is not recommended)
       * Visit the "Security and Authentication" tab, "Passwords" tab. Enable "Expert" options. Set the ={Password}= field to a hashed =ApacheMD5= encoded password.
-      * Visit the "Security and Authentication" tab, "Access control" sub-tab. Ensure that ={FeatureAccess}{Configure}= lists includes =BaseUserMapping_333=, the internal representation of the "admin" super-user.
+      * See #InternalAdmin for more information.
 
 You must at least do one of the above before closing your browser or logging out from the temporary admin authority established during bootstrap.  Once you
 close your browser, you have to have a usable id to run configure or you'll need to add a super-user admin login using the command line.
@@ -208,10 +210,10 @@ By adding users to %USERSWEB%.AdminGroup:
    * Changes made are always attributed to a unique logged in user.
    * Password sharing of the super-user admin password set in =bin/configure= is not required
 
-By using the _internal admin login_:
+By using the _internal admin_ login:
    * You don't need to grant admin rights to individual users
    * All users will be subject to access controls.
-   * Changes made while using the _internal admin login_ are attributed to %USERSWEB%.AdminUser
+   * Changes made while using the _internal admin_ login are attributed to %USERSWEB%.AdminUser
    * Administrators have to share a common password, which is not considered a good security practice.
 
 ---++++ Adding users to the %USERSWEB%.AdminGroup
@@ -237,17 +239,17 @@ To add an initial administrator to the =AdminGroup=, perform the following steps
      then="
    1 First authenticate as the internal administrator:
       * %ADMINLOGIN% "
-    else="<div class='foswikiAlert'><b>You do not have admin rights, and no super user password is set.  You  must first establish a super user password.  See [[%SYSTEMWEB%.InstallationGuide#SuperUser]]</b></div>
+    else="<div class='foswikiAlert'><b>You do not have admin rights, and no super user password is set.  You  must first establish a super user password.  See [[%SYSTEMWEB%.InstallationGuide#InternalAdmin]]</b></div>
    "}%
 "}%
 
 %IF{"%BASETOPIC%='InstallationGuide'" then="   * View the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the %USERSWEB%.AdminGroup. You do _not_ need to edit the topic."}%
-Any member of the %USERSWEB%.AdminGroup can add subsequent members, you do not have to use the internal admin login.
+Any member of the %USERSWEB%.AdminGroup can add subsequent members, you do not have to use the _internal admin_ login.
 
 To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[System.AccessControls][%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
 
 <div class="foswikiHelp">If you lose admin access and cannot access configure,
-see %SYSTEMWEB%.InstallationGuide#SuperUser for information on how to set /
+see %SYSTEMWEB%.InstallationGuide#InternalAdmin for information on how to set /
 reset the password.
 </div>
 %ENDSECTION{"addadmin"}%
@@ -257,8 +259,8 @@ reset the password.
 Foswiki 1.2 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
    * *Default protection:* If nothing special is configured, any user in the %USERSWEB%.AdminGroup has full access to configure. There is no _admin_ super user, and no special protection.
    * *Restrict to specific listed users:* List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered.  If you want the _admin_ super-user to also have access to configure, you need to include "BaseUserMapping_333" in that list.
-#SuperUser
----++++ Establishing a sudo super-user
+#InternalAdmin
+---++++ Establishing the _internal admin_ login 
 
 %T% *Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
 
@@ -286,7 +288,7 @@ $Foswiki::cfg{Password} = '$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.';
 </verbatim>
 
 
-Note that with the _sudo_ or internal admin login, it is not necessary to add other users to the !AdminGroup. However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
+Note that with the _sudo_ or _internal admin_ login, it is not necessary to add other users to the !AdminGroup. However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
 
 ---+++ Step 9. Save your configuration!
 

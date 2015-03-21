@@ -24,7 +24,7 @@ sub check_current_value {
     }
 
     $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} contains no users except for the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the sudo admin password is not set ( =\$Foswiki::cfg{Password}= )"
+"$Foswiki::cfg{SuperAdminGroup} contains no users except for the _internal admin_ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= )"
       )
       if ( scalar(@admins) lt 2
         && !$Foswiki::cfg{Password}
@@ -37,8 +37,8 @@ sub check_current_value {
       )
     {
         $reporter->ERROR(
-"This admin password does not appear to be a valid password.  You will be unable to access the super admin $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})
-using the current configuration.  If you want to be able to use the super admin user, the password should be saved as an \"\$apr1:...\" encoded password.  Show the help for more details."
+"This _internal admin_ password does not appear to be a valid password.  You will be unable to access the _internal admin_ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin})
+using the current configuration.  If you want to be able to use the _internal admin_ user, the password should be saved as an \"\$apr1:...\" encoded password.  Show the help for more details."
         );
     }
 }
@@ -47,7 +47,7 @@ using the current configuration.  If you want to be able to use the super admin 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

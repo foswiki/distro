@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278577" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -168,7 +168,7 @@ Used for logging in with !TemplateLoginManager, and for interactive validation o
 | =foswikiloginaction= | If 'validate', the login script is being used for interactive validation of an operation. Otherwise it is being used for login. | |
 | =foswiki_origin= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | |
 | =remember= | If set, this will cause the user's login to be retained even after their browser is shut down. |
-| =sudo= | promote login to internal wiki admin (admins only) | |
+| =sudo= | promote login to _internal admin_ (admins only) | |
 | =password= | password of user logging in | |
 | =username= | username of user logging in (if set, login will attempt to authenticate) | |
 | =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | |

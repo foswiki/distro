@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426819211" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426913092" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 (alpha)
 
@@ -177,8 +177,8 @@ not block access.
 
 In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
 This is not believed to have any negative impact, however there is a race condition if the user uses multiple browser tabs, and authenticates in one
-tab while the other tabs are interacting with the server (for ex. a long running attachment upload in one tab, followed by a sudo login in another tab.
-The session ID in use for the upload will be deleted because of the sudo login and results are unpredictable.
+tab while the other tabs are interacting with the server (for ex. a long running attachment upload in one tab, followed by a _internal admin_ login in another tab.
+The session ID in use for the upload will be deleted because of the _internal admin_ login and results are unpredictable.
 
 This change is important for security purposes and cannot be disabled.
 ---+++++ Sessions and Roaming or Mobile Users
@@ -215,7 +215,7 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
    * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup, or is identified as an authorized configure user.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
-      * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
+      * By not setting, or by clearing the admin password, sites can disable the _internal admin_ login, eliminating sharing of admin passwords.
    * Configure can be restricted to individual users in or out of the !AdminGroup.
       * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
       * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the !AdminGroup.
