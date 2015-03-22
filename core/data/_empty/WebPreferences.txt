@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1427034038" format="1.1" version="1"}%
    * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
    * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup

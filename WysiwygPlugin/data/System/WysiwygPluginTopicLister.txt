@@ -1,2 +1,3 @@
+%META:TOPICINFO{author="ProjectContributor" date="1427034038" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WysiwygPlugin"}%
 %TOPICLIST{format="<nop>$name" web="%URLPARAM{web}%"}%

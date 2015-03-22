@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1427034038" format="1.1" version="1"}%
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | radio, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *Nr* | *Project* | *State* | *Progress* | *Timestamp* |
 | 1 | Sliced yoghourt | completed | :-) | 26 Jun 2002 |

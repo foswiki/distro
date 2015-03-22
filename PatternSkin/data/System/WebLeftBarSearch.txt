@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1427034038" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 <div class="patternMetaMenu"><ul>
 <li><form name="jumpForm" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%"><input id="jumpFormField" type="text" class="foswikiInputField" name="topic" size="14" value="%MAKETEXT{"Jump"}%" /></form></li>
