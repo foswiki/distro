@@ -853,6 +853,7 @@ pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/favicon-logo.ico 0644
+pub/System/ProjectLogos/foswiki-logo.svg 0644
 pub/System/ProjectLogos/foswiki-badge.png 0644
 pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
@@ -869,7 +870,6 @@ pub/System/SkinTemplates/oopsmore_diff_debug.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sequential.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sidebyside.gif 0644
 pub/System/TopicsAndWebs/diagram.png 0644
-pub/System/WabiSabi/wabisabi.gif 0644
 pub/System/WindowsInstallCookbook/cygwin-icon.gif 0644
 readme.txt 0444
 robots.txt 0444

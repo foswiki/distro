@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425266398" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426984193" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Foswiki brand material
 
@@ -7,11 +7,11 @@ The official Foswiki logo and derivatives are attached to this page.
 ---++ Logo artwork
 
 %STARTINCLUDE%
-<img src="%ATTACHURLPATH%/foswiki-logo.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img alt='The Free and Open Source Wiki' src='%ATTACHURLPATH%/foswiki-logo.png' title='The Free and Open Source Wiki' />
 
-<img src="%ATTACHURLPATH%/foswiki-logo-icon.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img alt='The Free and Open Source Wiki' src='%ATTACHURLPATH%/foswiki-logo-icon.png' title='The Free and Open Source Wiki' />
 
-<img src="%ATTACHURLPATH%/foswiki-badge.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img alt='The Free and Open Source Wiki' src='%ATTACHURLPATH%/foswiki-badge.png' title='The Free and Open Source Wiki' />
 %STOPINCLUDE%
 
 ---++ Logo customization
@@ -19,8 +19,7 @@ The official Foswiki logo and derivatives are attached to this page.
 The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 If you use the official artwork on your own site you must link back to Foswiki.org. Use this HTML (with any logo file on this page):
-
-<verbatim class="tml">
+<verbatim class='tml'>
 <a href="http://foswiki.org/">
 <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png"\
     alt="This site is powered by Foswiki"\
@@ -37,10 +36,11 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
    * You may use the Foswiki artwork on a web site, in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the Foswiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="favicon.ico" comment="16x16 8-bit ICO" attr="" date="1425266398" size="1150" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="favicon-logo.ico" comment="16x16 32-bit ICO" attr="" date="1425266398" size="1150" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="foswiki-badge.png" comment="110x42 8-bit PNG" attr="" date="1425266398" size="2765" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="foswiki-logo-icon.png" comment="39x40 8-bit PNG" attr="" date="1425266398" size="2417" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="foswiki-logo-large.png" comment="2024x666 8-bit PNG" attr="" date="1425266398" size="76105" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="foswiki-logo.svg" comment="433x142 16-bit SVG" attr="" date="1425266398" size="2417" version="1" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="foswiki-poweredby.gif" comment="80x15 8-bit GIF" attr="" date="1425266398" size="1423" version="1" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="foswiki-logo.svg" attr="" comment="433x142 16-bit SVG" date="1426984193" size="3684" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="favicon.ico" attr="" comment="16x16 8-bit ICO" date="1426984193" size="1406" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-poweredby.gif" attr="" comment="80x15 8-bit GIF" date="1426984193" size="1423" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-badge.png" attr="" comment="110x42 8-bit PNG" date="1426984193" size="2657" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo-icon.png" attr="" comment="39x40 8-bit PNG" date="1426984193" size="2417" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="favicon-logo.ico" attr="" comment="16x16 32-bit ICO" date="1426984193" size="1150" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="2024x666 8-bit PNG" date="1426984193" size="52135" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo.png" attr="" comment="" user="ProjectContributor" date="1426984193" size="3267" version="1"}%
