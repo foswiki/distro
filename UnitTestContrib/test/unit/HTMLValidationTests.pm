@@ -51,7 +51,7 @@ sub loadExtraConfig {
 
     # $this - the Test::Unit::TestCase object
     $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
-    $Foswiki::cfg{FeatureAccess}{Configure} = 'scum';
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'ScumBag';
 
     $this->SUPER::loadExtraConfig( $context, @args );
 
