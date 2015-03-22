@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1288962587" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426985176" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki release 1.1.5
 Use this theme if you have created a theme or sub-skin that relies on the styling of PatternSkin around release 1.1.5 or before.
@@ -82,3 +82,25 @@ Navigation:
 </noautolink>
 %ENDSECTION{"storesettings"}%
 </verbatim>
+
+%META:FILEATTACHMENT{name="style_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="18473" version="1"}%
+%META:FILEATTACHMENT{name="layout_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="1416" version="1"}%
+%META:FILEATTACHMENT{name="column_right_flex_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="510" version="1"}%
+%META:FILEATTACHMENT{name="button_font_selector.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1995" version="1"}%
+%META:FILEATTACHMENT{name="bullet-personal_sidebar.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="51" version="1"}%
+%META:FILEATTACHMENT{name="column_right_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="348" version="1"}%
+%META:FILEATTACHMENT{name="colors_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="16329" version="1"}%
+%META:FILEATTACHMENT{name="bullet-toc.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="54" version="1"}%
+%META:FILEATTACHMENT{name="bullet-lock.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="281" version="1"}%
+%META:FILEATTACHMENT{name="column_left_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="170" version="1"}%
+%META:FILEATTACHMENT{name="bg_button_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1490" version="1"}%
+%META:FILEATTACHMENT{name="top_bar_gradient.png" attr="" comment="" user="ProjectContributor" date="1426985176" size="1703" version="1"}%
+%META:FILEATTACHMENT{name="form_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="173" version="1"}%
+%META:FILEATTACHMENT{name="bg_submit_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1533" version="1"}%
+%META:FILEATTACHMENT{name="button_arrow.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1297" version="1"}%
+%META:FILEATTACHMENT{name="column_left_flex_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="332" version="1"}%
+%META:FILEATTACHMENT{name="popup.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="63" version="1"}%
+%META:FILEATTACHMENT{name="variant_foswiki_frame_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="562" version="1"}%
+%META:FILEATTACHMENT{name="column_none_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="67" version="1"}%
+%META:FILEATTACHMENT{name="bg_buttoncancel_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1106" version="1"}%
+%META:FILEATTACHMENT{name="variant_foswiki_noframe_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="453" version="1"}%

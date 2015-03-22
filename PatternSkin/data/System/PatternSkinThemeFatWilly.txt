@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1304087511" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1426985176" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin
 
@@ -75,3 +75,32 @@ Top bar:
 </noautolink>
 %ENDSECTION{"storesettings"}%
 </verbatim>
+
+%META:FILEATTACHMENT{name="column_none_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="118" version="1"}%
+%META:FILEATTACHMENT{name="bg_button_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1490" version="1"}%
+%META:FILEATTACHMENT{name="column_right.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="278" version="1"}%
+%META:FILEATTACHMENT{name="sidebar_header_background.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="352" version="1"}%
+%META:FILEATTACHMENT{name="style.css.gz" attr="" comment="" user="ProjectContributor" date="1426985176" size="4444" version="1"}%
+%META:FILEATTACHMENT{name="GrayBlend.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1097" version="1"}%
+%META:FILEATTACHMENT{name="column_none.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="118" version="1"}%
+%META:FILEATTACHMENT{name="button_arrow.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1297" version="1"}%
+%META:FILEATTACHMENT{name="bg_submit_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1533" version="1"}%
+%META:FILEATTACHMENT{name="style_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="20725" version="1"}%
+%META:FILEATTACHMENT{name="button_font_selector.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="831" version="1"}%
+%META:FILEATTACHMENT{name="layout.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="1416" version="1"}%
+%META:FILEATTACHMENT{name="layout.css.gz" attr="" comment="" user="ProjectContributor" date="1426985176" size="724" version="1"}%
+%META:FILEATTACHMENT{name="colors.css.gz" attr="" comment="" user="ProjectContributor" date="1426985176" size="3078" version="1"}%
+%META:FILEATTACHMENT{name="menu_background.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="408" version="1"}%
+%META:FILEATTACHMENT{name="header-left.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="11555" version="1"}%
+%META:FILEATTACHMENT{name="bullet-toc.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="54" version="1"}%
+%META:FILEATTACHMENT{name="layout_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="1416" version="1"}%
+%META:FILEATTACHMENT{name="bg_buttoncancel_gradient.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="1106" version="1"}%
+%META:FILEATTACHMENT{name="colors_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="15770" version="1"}%
+%META:FILEATTACHMENT{name="column_right_src.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="278" version="1"}%
+%META:FILEATTACHMENT{name="column_right.css.gz" attr="" comment="" user="ProjectContributor" date="1426985176" size="195" version="1"}%
+%META:FILEATTACHMENT{name="popup.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="63" version="1"}%
+%META:FILEATTACHMENT{name="header.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="2270" version="1"}%
+%META:FILEATTACHMENT{name="colors.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="15770" version="1"}%
+%META:FILEATTACHMENT{name="style.css" attr="" comment="" user="ProjectContributor" date="1426985176" size="20725" version="1"}%
+%META:FILEATTACHMENT{name="topicactions_background.gif" attr="" comment="" user="ProjectContributor" date="1426985176" size="624" version="1"}%
+%META:FILEATTACHMENT{name="column_none.css.gz" attr="" comment="" user="ProjectContributor" date="1426985176" size="119" version="1"}%
