@@ -291,8 +291,17 @@ while ( $wit->hasNext() ) {
                 my $att_info = $top_meta->get( 'FILEATTACHMENT', $att_name );
 
                 # Is there info about this attachment in this rev of the
-                # topic? If not, we can't do anything useful.
-                next unless $att_info;
+                # topic? If not, we can't do anything useful.  Note if the
+                # attachment is missing from the "top rev",  report the file
+                # as it may be a valuable autoattached file.
+                unless ($att_info) {
+                    if ( \$topic_version == \$top_rev_list[0] ) {
+                        print "NO META FOR ATTACHMENT: File not copied! "
+                          if ($verbose);
+                        print "$top_name/$att_name\n";
+                    }
+                    next;
+                }
                 my $att_version = $att_info->{version};
                 my $att_user    = $att_info->{author};
 
