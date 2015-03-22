@@ -1303,8 +1303,8 @@ sub _constructAttributesForAutoAttached {
 
     my %pairs = (
         name    => $file,
-        version => '',
         path    => $file,
+        version => '1',
         size    => $stat->[7],
         date    => $stat->[9],
 
@@ -1352,15 +1352,25 @@ sub synchroniseAttachmentsList {
     }
 
     foreach my $file ( keys %filesListedInPub ) {
-        if ( $filesListedInMeta{$file} ) {
-
+        if (   $filesListedInMeta{$file}
+            && $filesListedInMeta{$file}{date} !=
+            $filesListedInPub{$file}{date} )
+        {
+            # File timestamp of existing file has changed.
             # Bring forward any missing yet wanted attributes
             foreach my $field (qw(comment attr user version)) {
                 if ( $filesListedInMeta{$file}{$field} ) {
                     $filesListedInPub{$file}{$field} =
                       $filesListedInMeta{$file}{$field};
+                    if ( $field eq 'version' ) {
+                        $filesListedInPub{$file}{$field}++;
+                    }
                 }
             }
+        }
+        else {
+            $filesListedInPub{$file} = $filesListedInMeta{$file}
+              if ( $filesListedInMeta{$file} );
         }
     }
 

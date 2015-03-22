@@ -106,6 +106,8 @@ sub test_autoattach {
     $this->verify_normal_attachment( $topic, "afile.txt" );
     $this->verify_normal_attachment( $topic, "bfile.txt" );
 
+    sleep 2;    # make sure attachment timestamps can change
+
     $this->addMissingAttachment( $topic, 'bogusAttachment.txt',
         "I'm a figment of Foswiki's imagination" );
     $this->addMissingAttachment( $topic, 'ressurectedComment.txt',
@@ -117,21 +119,62 @@ sub test_autoattach {
     my ( $meta, $text ) = $this->simulate_view( $this->{test_web}, $topic );
     my @attachments = $meta->find('FILEATTACHMENT');
 
+    # afile.txt is attached, not autoattached.:
+    my $afileAttributes = $meta->get( 'FILEATTACHMENT', "afile.txt" );
+    $this->assert_not_null( $afileAttributes,
+        'afile.txt is missing file attributes' );
+    $this->assert_null(
+        $afileAttributes->{autoattached},
+        'afile.txt should NOT be auto-attached'
+    );
+
+    # bfile.txt is attached, not autoattached.:
+    my $bfileAttributes = $meta->get( 'FILEATTACHMENT', "bfile.txt" );
+    $this->assert_not_null( $bfileAttributes,
+        'bfile.txt is missing file attributes' );
+    $this->assert_null( $bfileAttributes->{autoattached},
+        'bfile.txt shoud NOT be an autoattachment' );
+
+    $meta->save();
+    $meta->finish();
+
+    # Meta is now saved.   Modify bfile, so it should flip to auto-attached.
+    my $dir = $Foswiki::cfg{PubDir};
+    $dir = "$dir/$this->{test_web}/$topic";
+    touchFile("$dir/bfile.txt");
+
+    ( $meta, $text ) = $this->simulate_view( $this->{test_web}, $topic );
+    @attachments = $meta->find('FILEATTACHMENT');
+
     #    printAttachments(@attachments); # leave as comment unless debugging
 
     $this->foundAttachmentsMustBeGettable( $meta, @attachments );
 
     # ASSERT the commavfile should not be found, but should be gettable.
 
-    # Our attachment correctly listed in meta data still exists:
-    #    my $afileAttributes = $meta->get('FILEATTACHMENT', "afile.txt");
-    #    $this->assert_not_null($afileAttributes);
+    # Assert afile.txt exists, and is still not autoattached
+    $afileAttributes = $meta->get( 'FILEATTACHMENT', "afile.txt" );
+    $this->assert_not_null( $afileAttributes,
+        'afile.txt is missing file attributes' );
+    $this->assert_null(
+        $afileAttributes->{autoattached},
+        'afile.txt incorrectly auto-attached'
+    );
+
+    # Assert bfile.txt exists, and has changed to an autoattachment
+    $bfileAttributes = $meta->get( 'FILEATTACHMENT', "bfile.txt" );
+    $this->assert_not_null( $bfileAttributes,
+        'bfile.txt is missing file attributes' );
+    $this->assert( $bfileAttributes->{autoattached},
+        'bfile.txt shoud now be an autoattachment' );
 
     # Our added files now exist:
     my $sneakedfile1Attributes =
       $meta->get( 'FILEATTACHMENT', "sneakedfile1.txt" );
+    $this->assert( $sneakedfile1Attributes->{autoattached} );
     my $sneakedfile2Attributes =
       $meta->get( 'FILEATTACHMENT', "sneakedfile2.txt" );
+    $this->assert( $sneakedfile2Attributes->{autoattached} );
     $this->assert_not_null($sneakedfile1Attributes);
     $this->assert_not_null($sneakedfile2Attributes);
 
