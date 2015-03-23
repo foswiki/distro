@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -227,10 +227,26 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Arthur Clemens"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004-2012 Arthur Clemens, Foswiki contributors"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004-2012 Arthur Clemens, Foswiki contributors"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20639" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="786" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1007" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="474" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" user="ProjectContributor" date="1427079357" size="177943" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="5545" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="92238" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1732" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="2618" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" user="ProjectContributor" date="1427079357" size="129505" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="3869" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20605" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="620" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="41616" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="33112" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1305" version="1"}%

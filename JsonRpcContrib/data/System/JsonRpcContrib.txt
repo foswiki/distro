@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1427079357" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -240,10 +240,17 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2015 Michael Daum http://michaeldaumconsulting.com"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2015 Michael Daum http://michaeldaumconsulting.com"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%
+%META:FILEATTACHMENT{name="jquery.jsonrpc.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1713" version="1"}%
+%META:FILEATTACHMENT{name="json2.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="3388" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jsonrpc.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="458" version="1"}%
+%META:FILEATTACHMENT{name="json2.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1343" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427079357" size="136" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jsonrpc.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1099" version="1"}%
+%META:FILEATTACHMENT{name="json2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="17409" version="1"}%

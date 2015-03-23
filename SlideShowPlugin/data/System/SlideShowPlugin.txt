@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -203,10 +203,17 @@ The part between the rulers defines the default format of a slide:
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2015 Foswiki Contributors"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2015 Foswiki Contributors"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="slideshow.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1175" version="1"}%
+%META:FILEATTACHMENT{name="slideshow.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1522" version="1"}%
+%META:FILEATTACHMENT{name="slideshow.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="454" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427079357" size="164" version="1"}%
+%META:FILEATTACHMENT{name="slideshow.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="479" version="1"}%
+%META:FILEATTACHMENT{name="slideshow.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1843" version="1"}%
+%META:FILEATTACHMENT{name="slideshow.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1074" version="1"}%

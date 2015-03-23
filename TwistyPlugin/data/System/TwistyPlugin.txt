@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -529,10 +529,23 @@ You can override some default settings in the plugin by setting the following [[
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1275" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427079357" size="181" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="33" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="10828" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="47" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="0" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="7676" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="4439" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="4857" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1125" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="27" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="0" version="1"}%
