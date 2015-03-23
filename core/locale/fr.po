@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-23 13:35+0200\n"
+"PO-Revision-Date: 2015-03-23 14:15+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -4010,7 +4010,7 @@ msgstr "Modèles de formulaires disponibles :"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr "L'utilisateur %1 n'a pas de permission CHANGE sur %2."
+msgstr "L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
@@ -4270,7 +4270,7 @@ msgstr ""
 "Pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
 "moins une adresse e-mail valide lors de votre inscription. Si aucune des "
 "adresses e-mail que vous avez fournies n'est valide, et que vous avez oublié "
-"votre mot de passe, contactez %1."
+"votre mot de passe, contactez %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
