@@ -68,7 +68,13 @@ sub read {
     # head meta-data
     # NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
     $text =~ s<^(%META:(TOPICINFO){(.*)}%\n)>
-              <_readMETA($meta, $1, $2, $3, 1);''>e;
+              <_readMETA($meta, $1, $2, $3, 1)>e;
+
+    # WARNING: if the TOPICINFO *looks* valid but has has unrecognisable
+    # fields in it, it will fail the Meta::isValidEmbedding test and
+    # a default TOPICINFO wil be used - but the bad TOPICINFO will be left
+    # in the topic so it looks like there are two TOPICINFOs. Admins
+    # will have to fix up the broken topic.
 
     my $ti = $meta->get('TOPICINFO');
     if ($ti) {
