@@ -1,6 +1,4 @@
 #! /usr/bin/perl
-# Principally intended for converting between RCS and PlainFileStore, this
-# script should also work with any other pair of filestore inmplementations.
 use strict;
 use warnings;
 
@@ -15,7 +13,10 @@ use Data::Dumper ();
 sub bad_args {
     my $ess = shift;
     die "$ess\n" . <<USAGE;
+Convert between Foswiki store implementations.
+
 Usage: $0 <opts> <from> <to>
+
 <from> is the source store implementation e.g. 'RcsLite'
 <to> is the target store implementation e.g. 'PlainFile'
 <opts> may include:
@@ -29,14 +30,14 @@ Selecting Webs and Topics
 -i <topic>   Name of a topic to convert. If there are no -i options, then
              all topics will be converted.
 	     You can have as many -i options as you want.
--x <topic>   Specifies a topic name that will cause the script to transfer
-             only the latest rev of that topic, ignoring the history. Only
-	     attachments present in the latest rev of the topic will be
-	     transferrer. Simple topic name, does not support web specifiers.
+-x <topic>   Name of a topic for which you only want to transfer the latest
+             revision of that topic, ignoring the history. Only attachments
+             present in the latest rev of the topic will be transferred.
+             Simple topic name, does not support web specifiers.
 	     You can have as many -x options as you want. NOTE: to avoid
 	     excess working, you are recommended to =-x WebStatistics= (and
-	     any other file that has many auto-generated versions that don't
-             really need to be kept)
+	     any other file that has many auto-generated versions that
+             need not be kept)
 
 Data directories
 
@@ -51,6 +52,9 @@ these directories are for the two stores.
              -spub
 -spub <dir>  Like -s for the /pub subdir. Must be paired with an earlier -s or
              -sdata
+-autoattach  If the source store allows auto-attachment of files in =spub=
+             (the {RCS}{AutoAttachPubFiles} option) then automatically
+             attach these files and transfer them.
 
 -t <dir>     Root dir for target; data and pub subdirs will be created.
              Only applicable if target format stores files on disc.
@@ -119,6 +123,9 @@ my $verbose = 1;
 # Validate only
 my $validate = 0;
 
+# Simulate {RCS}{AutoAttachPubFiles}
+my $autopub = 0;
+
 while ( my $arg = shift @ARGV ) {
     if ( $arg eq '-s' ) {
         my $root = shift @ARGV;
@@ -130,6 +137,9 @@ while ( my $arg = shift @ARGV ) {
     }
     elsif ( $arg eq '-spub' ) {
         $pubdir[0] = shift @ARGV;
+    }
+    elsif ( $arg eq '-autoattach' ) {
+        $autopub = 1;
     }
     elsif ( $arg eq '-t' ) {
         my $root = shift @ARGV;
@@ -279,35 +289,64 @@ while ( $wit->hasNext() ) {
                 switch_dirs(0);
             }
 
-            # Transfer attachments. We use eachAttachment rather than
-            # META:FILEATTACHMENT because it won't stumble over deleted
-            # attachments. An attachment, and its history, can be
-            # completely removed from some stores, leaving
-            # META:FILEATTACHMENT still in older revs of the topic.
+            # Transfer attachments. This is hard, because the traditional
+            # RCS store implementations survive a lot of abuse. The main
+            # cases we have to be aware of are:
+            #
+            # 1. The files for an attachment, can be deleted
+            #    from the file system, leaving META:FILEATTACHMENT still in
+            #    older revs of the topic, but with no physical trace of the
+            #    attachment.
+            #
+            # 2. META:FILEATTACHMENT might be missing for a file that exists
+            #    on disc, in the expectation that it is implictly auto-attached
+            #    in the store.
+            #
+            # 3. An attachment file might exist on disc but without history,
+            #    or with a history that lacks the revision specified in the
+            #    META:FILEATTACHMENT.
+            #
+            # We use eachAttachment rather than META:FILEATTACHMENT because
+            # it iterates over all files in the pub dir in these file-based
+            # stores.
+            #
             my $att_it = $source_store->eachAttachment($top_meta);
             die $source_store unless defined $att_it;
             while ( $att_it->hasNext() ) {
                 my $att_name = $att_it->next();
                 my $att_info = $top_meta->get( 'FILEATTACHMENT', $att_name );
 
-                # Is there info about this attachment in this rev of the
-                # topic? If not, we can't do anything useful.  Note if the
-                # attachment is missing from the "top rev",  report the file
-                # as it may be a valuable autoattached file.
                 unless ($att_info) {
-                    if ( \$topic_version == \$top_rev_list[0] ) {
+
+                    # Case 2: There is no META:FILEATTACHMENT for this
+                    # attachment in this rev of the topic
+                    if ($autopub) {
+
+                        # If -autoattach, fall through and make something
+                        # up.
+                        $att_info = {};
+                    }
+                    elsif ( \$topic_version == \$top_rev_list[0] ) {
+
+                        # If the attachment is missing from the "top rev",
+                        # report the file as it may be valuable.
                         print "NO META FOR ATTACHMENT: File not copied! "
                           if ($verbose);
                         print "$top_name/$att_name\n";
+                        next;
                     }
-                    next;
+                    else {
+                        next;
+                    }
                 }
+
                 my $att_version = $att_info->{version};
                 my $att_user    = $att_info->{author};
 
                 unless ( $att_user && $att_version ) {
 
-                    # Something is missing from META:FILEATTACHMENT.
+                    # Something is missing from META:FILEATTACHMENT
+                    # (or it's missing completely and -autoattach is on).
                     # Get missing info from the store. If $att_version
                     # is not set, we default to using the latest rev
                     # of the attachment. This could lead to an attachment
@@ -340,12 +379,6 @@ while ( $wit->hasNext() ) {
                       $source_store->getVersionInfo( $top_meta, $att_version,
                         $att_name );
 
-                   # The META:FILEATTACHMENT carries date and author fields.
-                   # However these can drift from the history due
-                   # to changes to attachments not reflected in the topic
-                   # meta-data. So the only source we trust is
-                   # getVersionInfo().
-                   #validate_info("Source META $path", $att_info, $source_info);
                     switch_dirs(1);
 
                     # Reread the meta from the target store
@@ -353,6 +386,12 @@ while ( $wit->hasNext() ) {
                       $target_store->getVersionInfo( $top_meta, $att_version,
                         $att_name );
                     switch_dirs(0);
+
+                    # Case 3: The META:FILEATTACHMENT carries date and author
+                    # fields. However these can drift from the history due
+                    # to changes to attachments not reflected in the topic
+                    # meta-data. So the only source we trust is
+                    # getVersionInfo().
                     validate_info( $path, $source_info, $target_info );
 
                 }
