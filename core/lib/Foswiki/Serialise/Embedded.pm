@@ -68,7 +68,7 @@ sub read {
     # head meta-data
     # NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
     $text =~ s<^(%META:(TOPICINFO){(.*)}%\n)>
-              <_readMETA($meta, $1, $2, $3, 1)>e;
+              <_readMETA($meta, $1, $2, $3, 1);''>e;
 
     my $ti = $meta->get('TOPICINFO');
     if ($ti) {
