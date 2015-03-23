@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427071017" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -286,14 +286,18 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  16 Dec 2008 | Foswiki version |
 |  06 Mar 2002 | initial commit |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1426439233" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2014 Foswiki:%SYSTEMWEB%.ProjectContributor"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2014 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="5134" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1427071017" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="70" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="70" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="5134" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426723599" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427072400" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -469,3 +469,5 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
       * Note: This setting is only used when viewing DefaultUserRegistration directly. When this topic is included from UserRegistration REGISTRATION_DISABLED is defined as a parameter in the INCLUDE
 -->
 </noautolink>
+
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="2027" version="1"}%

@@ -1,32 +1,36 @@
 !noci
-bin/configure
-data/System/ConfigurePlugin.txt 0644 Documentation page
-lib/Foswiki/Plugins/ConfigurePlugin.pm 0444 Perl module
-lib/Foswiki/Plugins/ConfigurePlugin/JQuery.pm 0444 Configuration
-pub/System/ConfigurePlugin/checkWhirly.gif 0444
-pub/System/ConfigurePlugin/configure.css 0444
-pub/System/ConfigurePlugin/configure.css.gz 0444
-pub/System/ConfigurePlugin/configure.uncompressed.css 0444
-pub/System/ConfigurePlugin/configure.js 0444
-pub/System/ConfigurePlugin/configure.js.gz 0444
-pub/System/ConfigurePlugin/configure.uncompressed.js 0444
-pub/System/ConfigurePlugin/render_tml.js.gz 0444
-pub/System/ConfigurePlugin/render_tml.js 0444
-pub/System/ConfigurePlugin/render_tml.uncompressed.js 0444
-pub/System/ConfigurePlugin/reset.css 0444
-pub/System/ConfigurePlugin/reset.css.gz 0444
-pub/System/ConfigurePlugin/reset.uncompressed.css 0444
-pub/System/ConfigurePlugin/errorsIcon.png 0444
-pub/System/ConfigurePlugin/expert.png 0444
-pub/System/ConfigurePlugin/foswiki-icon.ico 0444
-pub/System/ConfigurePlugin/foswiki-logo.png 0444
-pub/System/ConfigurePlugin/bg.png 0444
-pub/System/ConfigurePlugin/info-icon.png 0444
-pub/System/ConfigurePlugin/loadWhirly.gif 0444
-pub/System/ConfigurePlugin/reset-icon.png 0444
-pub/System/ConfigurePlugin/resig.js 0444
-pub/System/ConfigurePlugin/types.js 0444
-pub/System/ConfigurePlugin/undo-modified-icon.png 0444
-pub/System/ConfigurePlugin/warningsAndErrorsIcon.png 0444
-pub/System/ConfigurePlugin/warningsIcon.png 0444
-templates/configure.tmpl 0444
+bin/configure 0755
+data/System/ConfigurePlugin.txt 0644
+lib/Foswiki/Plugins/ConfigurePlugin.pm 0644
+lib/Foswiki/Plugins/ConfigurePlugin/JQuery.pm 0644
+pub/System/ConfigurePlugin/Makefile 0644
+pub/System/ConfigurePlugin/bg.png 0644
+pub/System/ConfigurePlugin/checkWhirly.gif 0644
+pub/System/ConfigurePlugin/configure.css 0644
+pub/System/ConfigurePlugin/configure.css.gz 0644
+pub/System/ConfigurePlugin/configure.js 0644
+pub/System/ConfigurePlugin/configure.js.gz 0644
+pub/System/ConfigurePlugin/configure.uncompressed.css 0644
+pub/System/ConfigurePlugin/configure.uncompressed.js 0644
+pub/System/ConfigurePlugin/errorsIcon.png 0644
+pub/System/ConfigurePlugin/expert.png 0644
+pub/System/ConfigurePlugin/foswiki-icon.ico 0644
+pub/System/ConfigurePlugin/foswiki-logo.png 0644
+pub/System/ConfigurePlugin/info-icon.png 0644
+pub/System/ConfigurePlugin/loadWhirly.gif 0644
+pub/System/ConfigurePlugin/loader-bars.gif 0644
+pub/System/ConfigurePlugin/render_tml.js 0644
+pub/System/ConfigurePlugin/render_tml.js.gz 0644
+pub/System/ConfigurePlugin/render_tml.uncompressed.js 0644
+pub/System/ConfigurePlugin/reset-icon.png 0644
+pub/System/ConfigurePlugin/reset.css 0644
+pub/System/ConfigurePlugin/reset.css.gz 0644
+pub/System/ConfigurePlugin/reset.uncompressed.css 0644
+pub/System/ConfigurePlugin/resig.js 0644
+pub/System/ConfigurePlugin/resig.uncompressed.js 0644
+pub/System/ConfigurePlugin/types.js 0644
+pub/System/ConfigurePlugin/types.uncompressed.js 0644
+pub/System/ConfigurePlugin/undo-modified-icon.png 0644
+pub/System/ConfigurePlugin/warningsAndErrorsIcon.png 0644
+pub/System/ConfigurePlugin/warningsIcon.png 0644
+templates/configure.tmpl 0644

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427072400" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -299,21 +299,37 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1426439233" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1426439233" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
+%META:FILEATTACHMENT{name="addrow.png" attr="h" autoattached="1" comment="" date="1427072400" size="425" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittopic.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="280" version="1"}%
+%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" user="ProjectContributor" date="1427072400" size="1418" version="1"}%
+%META:FILEATTACHMENT{name="onepixel.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="101" version="1"}%
+%META:FILEATTACHMENT{name="plus.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="163" version="1"}%
+%META:FILEATTACHMENT{name="screenshot2.png" attr="h" autoattached="1" comment="" date="1427072400" size="12013" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example5.png" attr="h" autoattached="1" comment="" date="1427072400" size="9132" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example4.png" attr="h" autoattached="1" comment="" date="1427072400" size="22834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="stop.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="248" version="1"}%
+%META:FILEATTACHMENT{name="quiet.png" attr="h" autoattached="1" comment="" date="1427072400" size="356" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="editbutton.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="357" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" autoattached="1" comment="" date="1427072400" size="19461" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="arrowdown.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="185" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="3956" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="23426" version="1"}%
+%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" user="ProjectContributor" date="1427072400" size="875" version="1"}%
+%META:FILEATTACHMENT{name="edittable.png" attr="h" autoattached="1" comment="" date="1427072400" size="3287" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1427072400" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="11219" version="1"}%
+%META:FILEATTACHMENT{name="minus.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="157" version="1"}%
+%META:FILEATTACHMENT{name="save.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="292" version="1"}%
+%META:FILEATTACHMENT{name="arrowup.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="190" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427072400" size="1328" version="1"}%
+%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="10286" version="1"}%
+%META:FILEATTACHMENT{name="example3.png" attr="h" autoattached="1" comment="" date="1427072400" size="15337" user="ProjectContributor" version="1"}%

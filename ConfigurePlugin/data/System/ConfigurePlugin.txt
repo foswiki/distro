@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427071017" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -50,10 +50,40 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2013-2014, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2013-2014, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="configure.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="6559" version="1"}%
+%META:FILEATTACHMENT{name="bg.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="126" version="1"}%
+%META:FILEATTACHMENT{name="configure.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="18398" version="1"}%
+%META:FILEATTACHMENT{name="expert.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="2216" version="1"}%
+%META:FILEATTACHMENT{name="resig.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1975" version="1"}%
+%META:FILEATTACHMENT{name="warningsAndErrorsIcon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1416" version="1"}%
+%META:FILEATTACHMENT{name="reset.css.gz" attr="h" comment="" user="ProjectContributor" date="1427071017" size="2264" version="1"}%
+%META:FILEATTACHMENT{name="types.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="10882" version="1"}%
+%META:FILEATTACHMENT{name="undo-modified-icon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="651" version="1"}%
+%META:FILEATTACHMENT{name="render_tml.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="2755" version="1"}%
+%META:FILEATTACHMENT{name="reset-icon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="668" version="1"}%
+%META:FILEATTACHMENT{name="render_tml.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="6688" version="1"}%
+%META:FILEATTACHMENT{name="loadWhirly.gif" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1765" version="1"}%
+%META:FILEATTACHMENT{name="info-icon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="370" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="8165" version="1"}%
+%META:FILEATTACHMENT{name="loader-bars.gif" attr="h" comment="" user="ProjectContributor" date="1427071017" size="2206" version="1"}%
+%META:FILEATTACHMENT{name="configure.css.gz" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1971" version="1"}%
+%META:FILEATTACHMENT{name="configure.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="9037" version="1"}%
+%META:FILEATTACHMENT{name="types.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="6099" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-icon.ico" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1406" version="1"}%
+%META:FILEATTACHMENT{name="resig.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="717" version="1"}%
+%META:FILEATTACHMENT{name="errorsIcon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1171" version="1"}%
+%META:FILEATTACHMENT{name="configure.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427071017" size="43960" version="1"}%
+%META:FILEATTACHMENT{name="render_tml.js.gz" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1029" version="1"}%
+%META:FILEATTACHMENT{name="warningsIcon.png" attr="h" comment="" user="ProjectContributor" date="1427071017" size="1163" version="1"}%
+%META:FILEATTACHMENT{name="reset.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="8730" version="1"}%
+%META:FILEATTACHMENT{name="configure.js.gz" attr="h" comment="" user="ProjectContributor" date="1427071017" size="5575" version="1"}%
+%META:FILEATTACHMENT{name="checkWhirly.gif" attr="h" comment="" user="ProjectContributor" date="1427071017" size="3470" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427071017" size="200" version="1"}%
+%META:FILEATTACHMENT{name="reset.css" attr="h" comment="" user="ProjectContributor" date="1427071017" size="6387" version="1"}%
