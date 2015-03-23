@@ -84,6 +84,8 @@ sub sneakAttachmentsAddedToTopic {
     }
 
     mkdir $dir . '/_hiddenDirectoryForPlugins';
+
+    mkdir $dir . '/visibledirectory';
 }
 
 sub touchFile {
@@ -134,6 +136,11 @@ sub test_autoattach {
         'bfile.txt is missing file attributes' );
     $this->assert_null( $bfileAttributes->{autoattached},
         'bfile.txt shoud NOT be an autoattachment' );
+
+    # visibledirectory not autoattached.:
+    my $visdirAttr = $meta->get( 'FILEATTACHMENT', "visibledirectory" );
+    $this->assert_null( $visdirAttr,
+        'visibledirectory should not be attached' );
 
     $meta->save();
     $meta->finish();

@@ -1397,7 +1397,7 @@ sub getAttachmentList {
     my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
     opendir( $dh, $dir ) || return ();
-    my @files = grep { !/^[.*_]/ && !/,v$/ } readdir($dh);
+    my @files = grep { !/^[.*_]/ && !/,v$/ && -f "$dir/$_" } readdir($dh);
     closedir($dh);
     return @files;
 }
