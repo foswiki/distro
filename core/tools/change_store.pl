@@ -186,12 +186,20 @@ while ( my $arg = shift @ARGV ) {
 bad_args 'Must specify source and target store implementations'
   unless $source && $target;
 
-if ( $datadir[0] eq $datadir[1] && $uses_files[0] && $uses_files[1] ) {
+if (  !$validate
+    && $datadir[0] eq $datadir[1]
+    && $uses_files[0]
+    && $uses_files[1] )
+{
     bad_args
       "-td=$datadir[0] is the same as -sd; cannot overwrite the source store";
 }
 
-if ( $pubdir[0] eq $pubdir[1] && $uses_files[0] && $uses_files[1] ) {
+if (  !$validate
+    && $pubdir[0] eq $pubdir[1]
+    && $uses_files[0]
+    && $uses_files[1] )
+{
     bad_args
       "-tp=$pubdir[0] is the same as -sp; cannot overwrite the source store";
 }
