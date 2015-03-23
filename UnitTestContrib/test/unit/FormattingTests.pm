@@ -356,28 +356,34 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
-# Item11671
-sub test_Item11671 {
+# Item11671 And Item13320
+sub test_Item11671_Item13320 {
     my $this = shift;
 
     $this->expect_failure("Item11671: Not yet fixed on Release 1.1")
       if ( $this->check_dependency('Foswiki,<,1.2') );
 
     my $expected = <<EXPECTED;
+<noautolink>
 Create A New Wiki Word
 Year 2012 A New Year
 A 100 Bottle Test
 Finishing A 100
 Test 100 A
 SOS Titanic
+TestA2B2A2BTopic
+</noautolink>
 EXPECTED
     my $actual = <<ACTUAL;
+<noautolink>
 %SPACEOUT{"CreateANewWikiWord"}%
 %SPACEOUT{"Year2012ANewYear"}%
 %SPACEOUT{"A100BottleTest"}%
 %SPACEOUT{"FinishingA100"}%
 %SPACEOUT{"Test100A"}%
 %SPACEOUT{"SOSTitanic"}%
+%SPACEOUT{"Test2Topic" separator="A2B"}%
+</noautolink>
 ACTUAL
     $this->do_test( $expected, $actual );
 }

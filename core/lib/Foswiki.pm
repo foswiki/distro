@@ -3100,12 +3100,14 @@ sub spaceOutWikiWord {
     # Both could have the value 0 so we cannot use simple = || ''
     $word = defined($word) ? $word : '';
     $sep  = defined($sep)  ? $sep  : ' ';
-    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$sep$2/g;
-    $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/g;
+    my $mark = "\001";
+    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$mark$2/g;
+    $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$mark$2/g;
     $word =~
-      s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/g;
+s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$mark$2/g;
     $word =~
-s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$sep$2/g;
+s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$mark$2/g;
+    $word =~ s/$mark/$sep/g;
     return $word;
 }
 
