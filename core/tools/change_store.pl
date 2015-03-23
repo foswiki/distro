@@ -259,6 +259,10 @@ while ( $wit->hasNext() ) {
                 # Reread the meta from the target store
                 switch_dirs(1);
                 $target_store->readTopic( $top_meta, $topic_version );
+
+                # Use getRevisionInfo to ensure the TOPICINFO is correct
+                # before we access it using 'find'
+                $top_meta->getRevisionInfo();
                 my $target_topicinfo = ( $top_meta->find('TOPICINFO') )[0];
                 my $target_info =
                   $target_store->getVersionInfo( $top_meta, $topic_version );
