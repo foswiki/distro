@@ -78,7 +78,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =response= | Used as part of the request validation process. | |
 | =skin= | Overrides the default skin path (see [[Skins]]) | _value of the =SKIN= preference_ |
 | =t= | While the =t= parameter is not actively used by any scripts, it is used when building links to scripts such as =edit=, to ensure that each edit link is unique. This stops the browser from trying to use a cached reply from a previous call to the script. | _generally set to current time, in seconds_ |
-| =topic= | Overrides the web.topic path given in the URL (specify Web.<nop>TopicName, or <nop>TopicName in compbination with =defaultweb= below) | |
+| =topic= | Overrides the web.topic path given in the URL (specify Web.<nop>TopicName, or <nop>TopicName in combination with =defaultweb= below) | |
 | =defaultweb= | a default value for web, which is over-ridden by specifying either a web in the =topic= param above, or in the url location (used for selecting a web in a webform) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
