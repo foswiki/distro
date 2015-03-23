@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 13:21+0200\n"
+"PO-Revision-Date: 2015-03-23 13:35+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1710,8 +1710,8 @@ msgstr ""
 #: core/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Comme nom de page, saisissez un [[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez "
-"la case permettant de forcer le choix d'un nom qui n'est pas un <nop>MotWiki."
+"Comme nom de page, saisissez un MotWiki, ou cochez la case permettant de "
+"forcer le choix d'un nom qui n'est pas un MotWiki."
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
@@ -4495,6 +4495,9 @@ msgid ""
 "There is no _internal admin_ password set.  See [[%1][Installation Guide "
 "section on the internal admin]] for further help."
 msgstr ""
+"Aucun mot de passe d'<i>administration interne</i> configuré.  Voir [[%1][la "
+"section du guide d'installation sur l'administrateur interne]] pour plus "
+"d'informations."
 
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -5049,9 +5052,8 @@ msgid "Username"
 msgstr "Nom de connexion"
 
 #: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
 msgid "Username %1."
-msgstr "Nom de connexion"
+msgstr "Nom de connexion %1."
 
 #: core/templates/login.tmpl:47
 msgid "Username or email address"
@@ -5296,6 +5298,8 @@ msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
+"Les administrateurs du wiki devraient lire la [[%1][page SecurityFeatures ("
+"mesures de sécurité) sur Foswiki.org]]."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5372,7 +5376,6 @@ msgstr ""
 "par ailleurs que des caractères alphanumériques."
 
 #: core/templates/messages.tmpl:464
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Vous tentez d'accéder à un fichier attaché qui n'existe pas."
 
@@ -5966,7 +5969,7 @@ msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr ""
-"title='Afficher l'intégralité de l\\'historique de la page' "
+"title='Afficher l\\'intégralité de l\\'historique de la page' "
 "accesskey='h'>&Historique"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
