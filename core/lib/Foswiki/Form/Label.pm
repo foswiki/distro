@@ -25,11 +25,13 @@ sub renderForEdit {
     # even though it's not accessible for standard edits. Some contribs
     # may want to override this to make labels editable.
     my $renderedValue = $topicObject->expandMacros($value);
+
     return (
         '',
         CGI::hidden(
-            -name  => $this->{name},
-            -value => $value
+            -name     => $this->{name},
+            -override => 1,
+            -value    => $this->decode($value),
           )
           . CGI::div( { -class => 'foswikiFormLabel', }, $renderedValue )
     );

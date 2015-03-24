@@ -41,6 +41,7 @@ sub getOptions {
     return $this->{_options} if $this->{_options};
 
     my $vals = $this->SUPER::getOptions(@_);
+
     if ( $this->{type} =~ m/\+values/ ) {
 
         # create a values map
@@ -82,12 +83,15 @@ sub getDisplayValue {
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
+    my @values   = @{ $this->getOptions() };
     my $selected = '';
     my $session  = $this->{session};
     my %attrs;
-    foreach my $item ( @{ $this->getOptions() } ) {
+
+    foreach my $item (@values) {
         my $title = $item;
         $title = $this->{_descriptions}{$item} if $this->{_descriptions}{$item};
+
         $attrs{$item} = {
             class => $this->cssClasses('foswikiRadioButton'),
             title => $topicObject->expandMacros($title)
@@ -98,13 +102,21 @@ sub renderForEdit {
 
     my %params = (
         -name       => $this->{name},
-        -values     => $this->getOptions(),
-        -default    => $selected,
+        -override   => 1,
+        -values     => [ map { $this->decode($_) } @values ],
+        -default    => $this->decode($selected),
         -columns    => $this->{size},
         -attributes => \%attrs,
     );
+
     if ( defined $this->{valueMap} ) {
-        $params{-labels} = $this->{valueMap};
+        my %valueMap = ();
+        while ( my ( $key, $val ) = each %{ $this->{valueMap} } ) {
+            $key            = $this->decode($key);
+            $val            = $this->decode($val);
+            $valueMap{$key} = $val;
+        }
+        $params{-labels} = \%valueMap;
     }
 
     return ( '', CGI::radio_group(%params) );

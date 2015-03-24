@@ -30,10 +30,11 @@ sub renderForEdit {
     return (
         '',
         CGI::textfield(
-            -class => $this->cssClasses('foswikiInputField'),
-            -name  => $this->{name},
-            -size  => $this->{size},
-            -value => $value
+            -class    => $this->cssClasses('foswikiInputField'),
+            -name     => $this->{name},
+            -size     => $this->{size},
+            -override => 1,
+            -value    => $this->decode($value),
         )
     );
 }

@@ -18,6 +18,8 @@ package Foswiki::Form::FieldDefinition;
 use strict;
 use warnings;
 use Assert;
+use Encode ();
+use CGI    ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -138,12 +140,32 @@ sub renderForEdit {
           . $this->{type}
           . '</span>',
         CGI::textfield(
-            -class => $this->cssClasses('foswikiAlert foswikiInputField'),
-            -name  => $this->{name},
-            -size  => 80,
-            -value => $value
+            -class    => $this->cssClasses('foswikiAlert foswikiInputField'),
+            -name     => $this->{name},
+            -size     => 80,
+            -override => 1,
+            -value    => $this->decode($value),
         )
     );
+}
+
+=begin TML
+
+---++ decode( $string ) -> $string
+
+Decode string from internal representation to the one defined in $Foswiki::cfg{Site}{CharSet}.
+This started becoming important with CGI >= 4.11 as byte strings are html escaped from there on.
+
+=cut
+
+sub decode {
+    my ( $this, $value ) = @_;
+
+    if ( $CGI::VERSION >= 4.11 ) {
+        $value = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $value );
+    }
+
+    return $value;
 }
 
 =begin TML

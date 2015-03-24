@@ -34,11 +34,12 @@ sub renderForEdit {
     $value ||= '#000';
 
     my $field = CGI::textfield(
-        -class => $this->cssClasses('foswikiInputField jqFarbtastic'),
-        -name  => $this->{name},
-        -size  => 11,
-        -value => $value,
-        -id    => $this->{name},
+        -class    => $this->cssClasses('foswikiInputField jqFarbtastic'),
+        -name     => $this->{name},
+        -size     => 11,
+        -override => 1,
+        -value    => $value,
+        -id       => $this->{name},
     );
 
     return ( '', $field );

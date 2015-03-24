@@ -51,11 +51,12 @@ sub renderForEdit {
     return (
         '',
         CGI::textarea(
-            -class   => $this->cssClasses('foswikiTextarea'),
-            -cols    => $this->{cols},
-            -rows    => $this->{rows},
-            -name    => $this->{name},
-            -default => "\n" . $value
+            -class    => $this->cssClasses('foswikiTextarea'),
+            -cols     => $this->{cols},
+            -rows     => $this->{rows},
+            -name     => $this->{name},
+            -override => 1,
+            -default  => "\n" . $this->decode($value),
         )
     );
 }
