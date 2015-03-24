@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-15 23:43+0200\n"
+"PO-Revision-Date: 2015-03-24 22:34+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -3349,8 +3349,8 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"Příloha mohla být přejmenována (přidáním čísla ke jménu) jestliže příloha s "
-"tímto jménem již existuje."
+"Příloha smí být přejmenována (přidáním čísla ke jménu) jestliže příloha s "
+"tímto jménem již v článku existuje."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
@@ -3395,15 +3395,13 @@ msgstr ""
 "problémům\""
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "Emailová adresa pro tento účet není správná."
+msgstr "Emailová adresa pro tento účet byla zamítnuta."
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "Emailová adresa pro tento účet není správná."
+msgstr "Emailová adresa pro tento účet je již registrována jiným uživatelem."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3416,6 +3414,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Emailová adresa je v článku typicky ponechána prázdná. Jestliže si přejete "
+"ji ostatním uživatelům zobrazit, můžete manuálně editovat název článku a "
+"adresu přidat. Adresa nemusí být stejná jako email, který máte přiřazen k "
+"vašemu uživatelskému účtu na Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3493,15 +3495,16 @@ msgstr ""
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "Hodnota dodaná pro =%1= byla zamítnuta."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
-"Jejich záměrem je automatické ukládání dat za pomoci odeslání požadavku na "
-"server s vaším oprávněním. "
+"Jejich záměrem je automatické ukládání kompromitujících dat za pomoci "
+"odeslání požadavku na server prostřednitvím vašeho prohlížeče a vaší "
+"identity."
 
 #: core/templates/messages.tmpl:442
 msgid "There are problems with renaming this web:"
