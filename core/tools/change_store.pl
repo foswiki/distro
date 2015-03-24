@@ -99,8 +99,14 @@ sub validate_info {
     print STDERR
       "$sp: Authors differ: $source->{author} and $target->{author}\n"
       unless $source->{author} eq $target->{author};
-    print STDERR "$sp: Dates differ: $source->{date} and $target->{date}\n"
-      unless $source->{date} == $target->{date};
+    if ( $source->{date} =~ m/^\d+$/ && $target->{date} =~ m/^\d+$/ ) {
+        print STDERR "$sp: Dates differ: $source->{date} and $target->{date}\n"
+          unless $source->{date} == $target->{date};
+    }
+    else {
+        print STDERR
+"$sp: non-decimal or missing dates ($source->{date}) and ($target->{date})\n";
+    }
 }
 
 my $session = new Foswiki();
@@ -343,7 +349,7 @@ while ( $wit->hasNext() ) {
                         # If the attachment is missing from the "top rev",
                         # report the file as it may be valuable.
                         print "NO META FOR ATTACHMENT: File not copied! "
-                          if ($verbose);
+                          if ( $verbose || $validate );
                         print "$top_name/$att_name\n";
                         next;
                     }
