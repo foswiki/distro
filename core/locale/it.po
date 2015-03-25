@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 19:20+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"PO-Revision-Date: 2015-03-25 10:55+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,7 +155,7 @@ msgstr "%1 è la pagina predefinita per gli allegati cancellati."
 
 #: core/templates/messages.tmpl:335
 msgid "%1 may still be editing %2."
-msgstr "%1 sta ancora modificando %2."
+msgstr "%1 potrebbe stare ancora modificando %2."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -250,7 +250,7 @@ msgstr "(accesso negato)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
-msgstr "(allegare)"
+msgstr "(allega)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
@@ -266,11 +266,11 @@ msgstr "(vista libro)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
-msgstr "(cambia il modulo)"
+msgstr "(cambia modulo)"
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
-msgstr "(cambia la lingua)"
+msgstr "(cambia lingua)"
 
 #: PatternSkin/templates/changes.pattern.tmpl:2 core/templates/changes.tmpl:2
 msgid "(changes)"
@@ -339,7 +339,7 @@ msgstr "(vista 'raw')"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(riindirizzamento negato)"
+msgstr "(reindirizzamento negato)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
