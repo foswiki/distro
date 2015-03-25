@@ -593,7 +593,7 @@ function _id_ify(id) {
 
         $buttons = $('<div class="button_box"></div>').insertAfter($ui);
 
-        if (spec.CHECK.undefok === 1) {
+        if (spec.CHECK.undefok === 1 && (spec.typename) != "BOOLEAN") {
             // If undefined is OK, then we add a checkbox that
             // needs to be clicked to see the value input.
             // if it isn't checked, the value is undefined; if it
