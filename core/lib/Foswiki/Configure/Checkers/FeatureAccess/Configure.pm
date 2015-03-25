@@ -41,7 +41,6 @@ You should either set the _internal admin_ password, or add users to this list w
     my $passed = '';   # Set to true if current user is allowed to use configure
 
     my $curuser = Foswiki::Func::getCanonicalUserID();
-    print STDERR "CURRENT $curuser\n";
 
     unless ( $Foswiki::cfg{isBOOTSTRAPPING}
         || !$Foswiki::cfg{FeatureAccess}{Configure}
