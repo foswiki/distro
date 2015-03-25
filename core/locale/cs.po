@@ -6,10 +6,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-24 22:34+0200\n"
+"PO-Revision-Date: 2015-03-25 23:24+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4377,6 +4377,8 @@ msgid ""
 "There is no _internal admin_ password set.  See [[%1][Installation Guide "
 "section on the internal admin]] for further help."
 msgstr ""
+"_internal admin_ password není nastaveno. Viz [[%1][Installation Guide "
+"section on the internal admin]] pro více informací."
 
 #: core/templates/messages.tmpl:217
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -4384,20 +4386,19 @@ msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
 
 #: core/templates/registermessages.tmpl:376
 msgid "There were errors adding to the %2 group. %1 "
-msgstr ""
+msgstr "Vyskytly se chyby v průběhu přidávání do skupiny %2. %1 "
 
 #: core/templates/registermessages.tmpl:425
-#, fuzzy
 msgid "There were errors removing %1 from the %2 group."
-msgstr "%1 odstraněn ze skupiny %2. "
+msgstr "Došlo k chybám při odstraňování %1 ze skupiny %2."
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
-msgstr ""
+msgstr "Tento postup nemusí být aplikovatelný na váš systém."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 msgid "This WikiName is already in use."
-msgstr ""
+msgstr "Toto WikiJméno je již používáno."
 
 #: core/templates/messages.tmpl:224
 msgid "This can be automatically upgraded by:"
@@ -4408,22 +4409,21 @@ msgid "This could be for several reasons:"
 msgstr "Mohlo se stát z několika příčin:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"Tento formulář je použit pro změnu Vaší zaregistrované emailové adresy. Vaše "
-"zaregistrované emaily jsou použity Foswiki pro zasílání zpráv, zahrnující "
-"upozornění na změny hesla. Adresy, které jste zaregistrovali přes tento "
-"formuláŕ jsou bezpečně uloženy a *nebudou* publikovány nikde na tomto "
-"serveru."
+"Tento formulář je použit pro změnu Vašich zaregistrovaných emailových adres. "
+"Vaše zaregistrované emaily jsou použity Foswiki pro zasílání zpráv, "
+"zahrnující upozornění na změny hesla. Adresy, které jste zaregistrovali přes "
+"tento formuláŕ jsou bezpečně uloženy a *nebudou* publikovány nikde na tomto "
+"webu."
 
 #: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
-msgstr ""
+msgstr "Tato skupina by neměla mít žádné členy."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -4445,10 +4445,12 @@ msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
 msgstr ""
+"Toto je dočasné místo pro váš komentář. Znovunačťete článek pro jeho "
+"zobrazení."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "Toto je také známé pod názvem Cross-site Request Forgery (CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
@@ -4463,9 +4465,8 @@ msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Toto je automatické upozornění na registraci uživatele v %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-#, fuzzy
 msgid "This is not a valid WikiName."
-msgstr "'%1' není platné %2 "
+msgstr "Toto není platné WikiJméno."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4476,23 +4477,23 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Toto je důvod vypnuté konverze:"
 
 #: core/templates/login.tmpl:33
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
+"Toto je vaše jméno zapsané jako !WikiWord, např. !JohnSmith. [[%1][Register]]"
+" pokud ještě nemáte svůj účet."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "This must be a unique WikiName."
-msgstr "'%1' není platné %2 "
+msgstr "Toto musí být unikátní WikiJméno."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-#, fuzzy
 msgid "This must be a valid login username."
-msgstr "'%1' není platné %2 "
+msgstr "Toto musí být platný login uživatele."
 
 #: core/templates/renamedelete.tmpl:31
 msgid ""
@@ -4507,11 +4508,12 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"Tato stránka vysvětluje jedno z bezpečnostních opatření jež Foswiki, "
+"software na kterém běží tato stránky, provádí k ochraně před útočníky."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
-#, fuzzy
 msgid "This page was cached on %1."
-msgstr "Článek byl přesunut do %1"
+msgstr "Tato stránka byla uložena do cache dne %1."
 
 #: core/templates/messages.tmpl:222
 msgid "This requires the form definition to be present."
@@ -4527,16 +4529,15 @@ msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
 
 #: core/data/System/UserName.txt:9
 msgid "This system is configured to use usernames"
-msgstr ""
+msgstr "Tento systém je nakonfigurován k používání uživatelských jmen"
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Tento článek:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#, fuzzy
 msgid "This username is already in use."
-msgstr "Konto tohoto uživatele již bylo aktivováno "
+msgstr "Tento uživatel je již registrován."
 
 #: core/templates/messages.tmpl:29
 msgid ""
@@ -4557,26 +4558,25 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
+"Ačkoli je to využíváno zřídka, můžete použít tento speciáalní prefix "
+"==%<nop>USERSWEB%== [[%1.Macros][macro]] pro !WikiNames, například  "
+"==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-#, fuzzy
 msgid "Title:"
-msgstr "Název článku"
+msgstr "Název:"
 
 #: core/templates/registerapprove.tmpl:12
-#, fuzzy
 msgid "To approve this registration, visit %2"
-msgstr "Díky za Vaši registraci"
+msgstr "K potvrzení registrace, přejděte na %2"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Přílohy článku"
+msgstr "K příloze:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration,  visit %2"
-msgstr "Díky za Vaši registraci"
+msgstr "K zablokování této registrace, navštivte %2"
 
 #: core/data/System/WebSearch.txt:284
 msgid ""
@@ -4589,27 +4589,24 @@ msgid "To edit the topic anyway, click "
 msgstr "Pokud chcete článek přesto editovat, stiskněte "
 
 #: core/templates/messages.tmpl:388
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]"
-msgstr "Zde můžete vidět rozdíly [[%1][zde]]."
+msgstr "Pro přihlášení jako jiný uživatel, prosím pokračujte [[%1][zde]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
 msgstr "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte "
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
-msgstr "K článku:"
+msgstr "Na článek"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "K článku:"
 
 #: core/templates/renamebase.tmpl:22
-#, fuzzy
 msgid "To web"
-msgstr "K webu:"
+msgstr "Na web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
@@ -4617,7 +4614,7 @@ msgstr "K webu:"
 
 #: core/templates/messages.tmpl:484
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Příliš mnoho rekurzí při procházení šablony %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -4632,9 +4629,8 @@ msgstr "Nástroje"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Topic"
-msgstr "K článku:"
+msgstr "Článek"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -4655,20 +4651,17 @@ msgstr "Článek nemůže být upgradován ze starého stylu tabulky kategorií"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
-#, fuzzy
 msgid "Topic data"
-msgstr "Jméno článku"
+msgstr "Data která tvoří článek"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Název článku"
+msgstr "Historie článku"
 
 #: core/data/System/WebTopicList.txt:3
-#, fuzzy
 msgid "Topic list for %1 Web"
-msgstr "Články ve webu %1"
+msgstr "Články na webu %1"
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
 msgid "Topic name"
@@ -4744,24 +4737,24 @@ msgstr "Zkuste znova"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
-msgstr ""
+msgstr "Části beze změn před a po každé změně"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:44
 msgid "Underline"
-msgstr ""
+msgstr "Podtržení"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
-#, fuzzy
 msgid "Undo last change"
-msgstr "Nezměněno"
+msgstr "Zruš poslední změnu"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
 msgid "Unescape markup"
-msgstr ""
+msgstr "Neeskejpovany :) znak"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -4776,31 +4769,31 @@ msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Přesměrováni na adresu %1 je nebezpečné a proto zakázáno. Požadovaná adresa "
+"neodpovídá %2, a není v {PermittedRedirectHostUrls}."
 
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Odhlášení odběru"
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
-msgstr ""
+msgstr "Odhlášení z odběru tohoto článku"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
-msgstr ""
+msgstr "Odhlášení z odběru těchto článků"
 
 #: core/templates/registermessages.tmpl:204
-#, fuzzy
 msgid "Unsupported [[%1][username]]"
-msgstr "Chybné %1.WikiNames:"
+msgstr "Nepodporované [[%1][username]]"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
-#, fuzzy
 msgid "Update"
-msgstr "Aktualizuj odkazy"
+msgstr "Aktualizuj"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -4813,22 +4806,18 @@ msgstr "Aktualizuj odkazy"
 #: UpdatesPlugin/templates/updatesplugin.tmpl:5
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
-#, fuzzy
 msgid "Upgrade"
-msgstr "Skupiny"
+msgstr "Proveď upgrade"
 
 #: core/data/Main/GroupViewTemplate.txt:172
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Skupiny"
+msgstr "Upgraduj téma skupiny..."
 
 #: core/templates/registermessages.tmpl:392
-#, fuzzy
 msgid "Upgraded group"
-msgstr "Skupiny"
+msgstr "Upgradovaná skupina"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:127
-#, fuzzy
 msgid "Upload a file"
 msgstr "Nahraj přílohu"
 
@@ -4839,9 +4828,8 @@ msgid "Upload file"
 msgstr "Nahraj přílohu"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Změna přílohy %1 v %2"
+msgstr "Nahraj více příloh v rámci jednoho ZIP souboru"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -4871,6 +4859,10 @@ msgid ""
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
 msgstr ""
+"Použijte toto tlačítko pro nahrání obsahu. %BR% *Upozornění* obsah je velmi "
+"velký a nahrávání zatíží vysoce prohlížeč. Nahrajte obsah pouze pokud jej "
+"hodláte tisknout - jinak použijte  [[ReferenceManual][online reference "
+"manual]]."
 
 #: core/data/System/SiteChanges.txt:13
 msgid ""
@@ -4878,36 +4870,36 @@ msgid ""
 "can be very resource intensive. Only load the content if you really need it, "
 "otherwise review the WebChanges topic from each web."
 msgstr ""
+"Použijte toto tlačítko pro nahrání obsahu. %BR% *Výstraha* prohledávání může "
+"být velmi náročné na systémové prostředky. Obsah nahrajte pouze pokud jej "
+"skutečně potřebujete, jinak si prohlédněte změny webu na každém z nich."
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "Uživatel %1 nemá právo měnit %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
 #: core/lib/Foswiki/UserMapping.pm:371
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 je nejméně v jedné skupině a nemůže být smazán"
+msgstr "Uživatel %1 není v žádné skupině, a nemůže být proto vyjmut"
 
 #: core/templates/registermessages.tmpl:353
 msgid "User Account %1 Deleted"
 msgstr "Účet %1 byl vymazán"
 
 #: core/templates/registermessages.tmpl:341
-#, fuzzy
 msgid "User Account was not supplied"
-msgstr "Účet %1 byl vymazán"
+msgstr "Účet uživatele nebyl dodán"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
 msgstr "Uživatelské reference"
 
 #: core/templates/oopsregister.tmpl:6
-#, fuzzy
 msgid "User Registration"
-msgstr "Registrace"
+msgstr "Registrace uživatele"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid ""
@@ -4915,20 +4907,21 @@ msgid ""
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
 msgstr ""
+"Uživatel je registrován v Password Manageru, a heslo vámi zadané je rozdílné "
+"od uživatelova aktuálního hesla. Nemůžete přidat uživatele a změnit heslo "
+"zárověň."
 
 #: core/templates/login.tmpl:48
 msgid "Username"
 msgstr "Váš účet"
 
 #: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
 msgid "Username %1."
-msgstr "Váš účet"
+msgstr "Uživatelské jméno %1."
 
 #: core/templates/login.tmpl:47
-#, fuzzy
 msgid "Username or email address"
-msgstr "Chybná emailová adresa"
+msgstr "Uživatelské jméno nebo emailová adresa"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -4938,20 +4931,20 @@ msgstr "Uživatelé"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Uživatelé nemohou být přidáni do %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Uživatelé nemohou být odebráni z %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "Users who may edit:"
-msgstr ""
+msgstr "Uživatelé, kteří mohou editovat:"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "Users who may view:"
-msgstr ""
+msgstr "Uživatelé, kteří mohou prohlížet:"
 
 #: core/templates/registermessages.tmpl:316
 msgid ""
@@ -4963,7 +4956,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "Doslovně"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
@@ -4982,28 +4975,24 @@ msgid "View"
 msgstr "Náhled"
 
 #: core/templates/foswiki.tmpl:159
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Ukaž celou historii článku"
+msgstr "Zobraz celou historii článku"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Zobraz rozdíly"
 
 #: core/templates/more.tmpl:162
-#, fuzzy
 msgid "View differences"
 msgstr "Zobraz rozdíly"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "Zobraz šablony"
+msgstr "Zobraz dřívější"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Zobraz šablony"
+msgstr "Zobraz pozdější"
 
 #: core/templates/more.tmpl:137
 msgid "View previous topic revision"
@@ -5014,9 +5003,8 @@ msgid "View raw text without formatting"
 msgstr "Prohlédni nepracovaný text (bez formátování)"
 
 #: core/templates/more.tmpl:144
-#, fuzzy
 msgid "View revision"
-msgstr "Zobraz revize:"
+msgstr "Zobraz revize"
 
 #: core/templates/more.tmpl:141
 msgid "View revision:"
@@ -5024,9 +5012,8 @@ msgstr "Zobraz revize:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:20
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:21
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "Ukaž celou historii článku"
+msgstr "Zobraz celou historii článku tak jak šla za sebou"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
@@ -5043,9 +5030,8 @@ msgstr "Ukaž celou historii článku"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Prohlédni nepracovaný text (bez formátování)"
+msgstr "Zobraz neformátovaný text (v)"
 
 #: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
