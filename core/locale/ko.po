@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-11 07:59+0200\n"
+"PO-Revision-Date: 2015-03-25 11:17+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/ko/>\n"
@@ -93,7 +93,7 @@ msgstr ""
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 님은 이메일 %2 로 등록되었습니다"
+msgstr "%1 은/는 이메일 %2 (으)로 등록되었습니다."
 
 #: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
