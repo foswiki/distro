@@ -84,11 +84,25 @@ sub check_current_value {
     }
 }
 
-sub refresh_cache {
-    my ( $this, $string, $reporter ) = @_;
+=begin TML
+
+---++ ObjectMethod onSave()
+
+This routine is called during the Save wizard, for any key that being
+saved, regardless of whether or not it has actually changed.  This
+is enabled by including the ONSAVE key in the Spec. (In this case it is
+automatically enabled by the =Pluggable/LANGUAGES.pm=
+
+This will remove the languages.cache file from the WorkingDir, so that
+the cache can be regenerated.
+
+=cut
+
+sub onSave {
+    my ( $this, $reporter, $key, $val ) = @_;
 
     if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-        my $dir = $Foswiki::cfg{LocalesDir};
+        my $dir = $Foswiki::cfg{WorkingDir};
 
         if ( -f "$dir/languages.cache" ) {
             if ( unlink("$dir/languages.cache") ) {

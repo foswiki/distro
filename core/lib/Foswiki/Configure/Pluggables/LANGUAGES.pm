@@ -73,6 +73,7 @@ sub construct {
             CHECKER    => 'LANGUAGE',
             DISPLAY_IF => "{UserInterfaceInternationalisation}",
             opts       => 'CHECK="undefok emptyok"',
+            ONSAVE     => 1,
 
         );
         $langs{$label} = $value;
