@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-24 22:34+0200\n"
+"PO-Revision-Date: 2015-03-25 23:23+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -3527,9 +3527,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Při přidání skupiny %1 do skupiny %2 se vyskytly chyby."
+msgstr "Vyskytly se chyby v průběhu přidávání do skupiny %2. %1 "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3550,11 +3549,11 @@ msgid ""
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"Tento formulář je použit pro změnu Vaší zaregistrované emailové adresy. Vaše "
-"zaregistrované emaily jsou použity Foswiki pro zasílání zpráv, zahrnující "
-"upozornění na změny hesla. Adresy, které jste zaregistrovali přes tento "
-"formuláŕ jsou bezpečně uloženy a *nebudou* publikovány nikde na tomto "
-"serveru."
+"Tento formulář je použit pro změnu Vašich zaregistrovaných emailových adres. "
+"Vaše zaregistrované emaily jsou použity Foswiki pro zasílání zpráv, "
+"zahrnující upozornění na změny hesla. Adresy, které jste zaregistrovali přes "
+"tento formuláŕ jsou bezpečně uloženy a *nebudou* publikovány nikde na tomto "
+"webu."
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
@@ -3623,8 +3622,8 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
-"Tato stránka vysvětluje jedno z bezpečnostních měřítek jež Foswiki, software "
-"na kterém běží tato stránky, provádí k ochraně před útočníky."
+"Tato stránka vysvětluje jedno z bezpečnostních opatření jež Foswiki, "
+"software na kterém běží tato stránky, provádí k ochraně před útočníky."
 
 #: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
@@ -3661,7 +3660,7 @@ msgstr "Název článku"
 
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
-msgstr "Příloha:"
+msgstr "K příloze:"
 
 #: core/data/System/WebSearch.txt:285
 msgid ""
@@ -3679,7 +3678,7 @@ msgstr "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte "
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
-msgstr "K článku:"
+msgstr "Na článek"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
@@ -3687,7 +3686,7 @@ msgstr "K článku:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
-msgstr "K webu:"
+msgstr "Na web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
@@ -3843,7 +3842,7 @@ msgstr "Upgrade názvu skupiny"
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
-msgstr "Upgrade téma skupiny..."
+msgstr "Upgraduj téma skupiny..."
 
 #: core/templates/messages.tmpl:523
 msgid "Upgraded group"
@@ -3883,14 +3882,13 @@ msgstr "Použij šablonu:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "Uživatel %1 nemá právo měnit %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 je nejméně v jedné skupině a nemůže být smazán"
+msgstr "Uživatel %1 není v žádné skupině, a nemůže být proto vyjmut"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3912,12 +3910,12 @@ msgstr "Uživatelé"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Uživatelé nemohou být přidáni do %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Uživatelé nemohou být odebráni z %1"
 
 #: core/templates/messages.tmpl:192
 msgid ""
@@ -3944,9 +3942,8 @@ msgid "View"
 msgstr "Náhled"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Ukaž celou historii článku"
+msgstr "Zobraz celou historii článku"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
