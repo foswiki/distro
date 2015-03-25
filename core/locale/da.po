@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-21 07:30+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2469,7 +2469,7 @@ msgstr "Kursiv"
 msgid "Join %1"
 msgstr "Sammenføj %1"
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
@@ -3654,7 +3654,7 @@ msgstr "Gemt i:"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
 #: PatternSkin/data/System/PatternSkinNavigation.txt:63
 #: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarSearch.txt:4
+#: PatternSkin/data/System/WebLeftBarSearch.txt:5
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
@@ -5529,7 +5529,7 @@ msgstr ""
 
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
-msgstr ""
+msgstr "Dansk"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:169
 #, fuzzy

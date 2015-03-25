@@ -2343,7 +2343,7 @@ msgstr ""
 msgid "Join %1"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
@@ -3546,7 +3546,7 @@ msgstr ""
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
 #: PatternSkin/data/System/PatternSkinNavigation.txt:63
 #: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarSearch.txt:4
+#: PatternSkin/data/System/WebLeftBarSearch.txt:5
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
