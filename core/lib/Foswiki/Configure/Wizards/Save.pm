@@ -279,7 +279,9 @@ sub save {
             if ( $spec && $spec->{ONSAVE} ) {
                 my $checker = Foswiki::Configure::Checker::loadChecker($spec);
                 if ( $checker && $checker->can('onSave') ) {
-                    $checker->onSave( $reporter, $k, $v );
+                    eval(
+                        "\$checker->onSave( \$reporter, \$k, \$Foswiki::cfg$k )"
+                    );
                 }
             }
         }
