@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-25 23:24+0200\n"
+"PO-Revision-Date: 2015-03-26 22:59+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/cs/>\n"
@@ -5057,9 +5057,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
 #: core/templates/messages.tmpl:355
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Varování: Nemohu najít článek %1.%2"
+msgstr "Varování: Nemohu najít web %1 pro článek %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1277
 msgid "Warning: Could not send confirmation email"
@@ -5075,40 +5074,41 @@ msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
 msgid "Warning: Updates found for %1 extension(s)."
-msgstr ""
+msgstr "Varování: Nalezeny aktualizace pro %1 rozšíření."
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:439
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+msgstr "Varování: definice tabulky v \\'include\\' článku %1 neexistuje!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled Javascript. Please switch on Javascript if you "
 "wish to register."
 msgstr ""
+"Všimli jsme si, že máte vypnutý Javascript. Pokud se chcete zaregistrovat, "
+"prosím povolte jej."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
 msgstr ""
+"Všimli jsme si, že máte vypnuté cookies. Prosím povolte je, pokud si přejete "
+"zaregistrovat."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:115
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:83
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Web"
-msgstr "Weby"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "Služba upozornění o změnách na webu"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:10
 #: core/data/System/SiteChanges.txt:90
@@ -5117,11 +5117,11 @@ msgstr "Weby"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Webový server <em>na kterém běží Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "Vítejte na %1 ... potkejte zde plno nových lidí."
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -5137,27 +5137,27 @@ msgstr "Kdo"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Kdo toto vlastně požaduje?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
-msgstr ""
+msgstr "Celá stránka"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
-#, fuzzy
 msgid "Why am I being asked to confirm?"
-msgstr "proč jste byl dotazován na potvrzení"
+msgstr "Proč jsem stále dotazován na potvrzení?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
+"Wiki administrátoři by si měli přečíst o [[%1][SecurityFeatures topic on "
+"Foswiki.org]]."
 
 #: core/data/System/WebSearch.txt:189
-#, fuzzy
 msgid "Word search"
-msgstr "Změň hledání"
+msgstr "Hledání slov"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
@@ -5165,27 +5165,25 @@ msgstr "Chcete jít na:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:50
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Ty"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
 "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
-"resetovat Vaše heslo. Pokud žádný z Vašich registrovaných emailových adres "
-"není správný a Vy jste změnil Vaše heslo, kontaktujte %1."
+"resetovat Vaše heslo. Pokud žádná z Vašich registrovaných emailových adres "
+"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1."
 
 #: core/templates/registermessages.tmpl:193
-#, fuzzy
 msgid "You are already registered."
-msgstr "Už jste registrován"
+msgstr "Už jste registrován."
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
@@ -5228,9 +5226,8 @@ msgstr ""
 "alfanumerické znaky."
 
 #: core/templates/messages.tmpl:464
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Zkoušíte %1 k příloze, která neexistuje."
+msgstr "Zkoušíte otevřít přílohu, která neexistuje."
 
 #: core/templates/messages.tmpl:450
 msgid "You are trying to create a topic from a template that does not exist."
@@ -5278,21 +5275,24 @@ msgstr "Webu můžete dát jiné jméno."
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
+"Nemůžete přidat uživatele do chybějící skupiny, pokud volba pro její "
+"vytvoření není nastavena."
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
-"Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
-"toto mohl udělat."
+"Nemůžete změnit vaše uživatelské jméno: za tímto účelem můsíte kontaktovat "
+"administrátora."
 
 #: core/templates/messages.tmpl:487
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
+"Nemůžete pokračovat, protože buď Cookies nebo Javascript jsou ve vašem "
+"prohlížeči zakázány."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
@@ -5304,6 +5304,8 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Vaši emailovou adresu změníte v poli Email na vaší osobní stránce. Jestliže "
+"toto pole neexistuje podívejte se po řádce jako je tato:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
@@ -5338,19 +5340,19 @@ msgstr "Musíte zadat název stránky."
 
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
-msgstr ""
+msgstr "Pro přidání uživatelů do skupiny musíte zadat validní jméno skupiny."
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
-msgstr ""
+msgstr "Pro odebrání uživatelů ze skupiny musíte zadat validní jméno skupiny."
 
 #: core/templates/messages.tmpl:318
 msgid "You need to specify a valid member to add to a group."
-msgstr ""
+msgstr "Pro přidání do skupiny musíte zadat existujícího uživatele."
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
-msgstr ""
+msgstr "Pro odebrání za skupiny musíte zadat existujícího uživatele."
 
 #: core/templates/registerconfirm.tmpl:12
 msgid ""
@@ -5369,18 +5371,17 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "Poté co bude vaše registrace potvrzena, obdržíte email."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "Vaše [[%1][Wikiname]] je %2 a vaše uživatelské jméno je =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "Chybné %1.WikiNames:"
+msgstr "Vaše [[%1][username]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5394,7 +5395,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Vaše emailová adresa bude vedena v tajnosti."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -5406,29 +5407,28 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1. %2"
-msgstr ""
+msgstr "Vaše jméno je zobrazeno %1. %2"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
+"Vaše jméno, obyčejně vaše křestní jméno a příjmení spojeno dohromady bez "
+"mezery."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
 msgstr "Vaše heslo bylo změnéno na %1."
 
 #: core/templates/registermessages.tmpl:133
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Vaše heslo bylo změnéno na %1."
+msgstr "Vaše heslo nebylo změnéno."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
-#, fuzzy
 msgid "Your password must be at least %1 characters long."
-msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
+msgstr "Vaše heslo musí být nejméně %1 znaků dlouhé."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
-#, fuzzy
 msgid "Your password:"
 msgstr "Vaše heslo:"
 
@@ -5454,10 +5454,12 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Vaše registrované emaily používá Foswiki pro zasílání informací včetně "
+"notifikace o změně hesla."
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
-msgstr ""
+msgstr "Vaše registrace čeká na schválení administrátorem."
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
@@ -5486,12 +5488,14 @@ msgstr ""
 #: core/templates/registermessages.tmpl:29
 msgid ""
 "Your user registration failed because it did not pass the validation tests."
-msgstr ""
+msgstr "Vaše registrace nebyla úspěšná, protože neprošla validačními testy."
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
+"[[%1][Click here]] pro průvodce vytvářením validního uživatelského jména pro "
+"tento web"
 
 #: core/templates/messages.tmpl:216
 msgid "[[%1][Debug topic text]]."
@@ -5499,7 +5503,7 @@ msgstr "Klikni na [[%1][Odstranění chyb v textu stránky]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][username]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5547,11 +5551,11 @@ msgstr "a"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "za pomoci %1"
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
-msgstr ""
+msgstr "změň nastavení pro zobrazení"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -5562,19 +5566,17 @@ msgid "checkboxes of referenced topics"
 msgstr "zatržení u odkazovaných článků"
 
 #: core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "close display options"
-msgstr "Více akcí"
+msgstr "zavři nastavení pro zobrazení"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:118
 #: NatEditPlugin/templates/edit.natedit.tmpl:154
-#, fuzzy
 msgid "default as defined in the %1"
-msgstr "Formulář měl být definován ve článku %1"
+msgstr "Výchozí, jak je definováno v %1"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
-msgstr ""
+msgstr "rozdíl"
 
 #: core/templates/messages.tmpl:298
 msgid "don't forget to check your Topic Settings"
@@ -5582,7 +5584,7 @@ msgstr "nezapomeň zkontrolovat nastavení článku (Topic Settings)"
 
 #: core/templates/messages.tmpl:499
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin zhavaroval. Více chyby uvedené níže."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
@@ -5593,9 +5595,8 @@ msgstr "editovat"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "edit form"
-msgstr "(editovat formuláŕ)"
+msgstr "formuláŕ pro editaci"
 
 #: core/templates/messages.tmpl:166
 msgid "fields are required."
@@ -5611,8 +5612,9 @@ msgid "hints on good style"
 msgstr "nápověda k dobrému stylu"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
+#, fuzzy
 msgid "ignore case"
-msgstr ""
+msgstr "ignoruj"
 
 #: core/templates/more.tmpl:141
 msgid "in raw text format"
@@ -5625,12 +5627,11 @@ msgstr "označuje povinné pole"
 
 #: core/templates/messages.tmpl:495 core/templates/messages.tmpl:497
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin nebyl definován. Více viz chyby uvedené níže."
 
 #: core/data/System/SiteChanges.txt:63
-#, fuzzy
 msgid "last change"
-msgstr "Naposledy změněné články"
+msgstr "poslední změna"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -5642,7 +5643,7 @@ msgstr "více..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "nové"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -5663,32 +5664,29 @@ msgid "preview"
 msgstr "náhled"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:123
-#, fuzzy
 msgid "public view access"
-msgstr "Všechny veřejné weby"
+msgstr "Veřejný přístup pro prohlížení"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
-#, fuzzy
 msgid "restore"
-msgstr "Obnov"
+msgstr "obnov"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "restore form"
-msgstr "Obnov článek"
+msgstr "obnov formulář"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:133
 #: NatEditPlugin/templates/edit.natedit.tmpl:164
 msgid "restrict access to %1"
-msgstr ""
+msgstr "zakaž přístup k %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:128
 msgid "restrict read access to users that have an account on this site"
-msgstr ""
+msgstr "zakaž právo čtení všem uživatelům majícím účet na tomto webu"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:159
 msgid "restrict write access to users that have an account on this site"
-msgstr ""
+msgstr "zakaž právo zápisu všem uživatelům majícím účet na tomto webu"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5697,31 +5695,29 @@ msgid "retrieved at %1"
 msgstr "nalezeno v %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(revize %1)"
+msgstr "revize %1"
 
 #: core/templates/settings.tmpl:3
-#, fuzzy
 msgid "set preferences"
-msgstr "(nastavit předvolby)"
+msgstr "nastavit předvolby"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:143
 #: NatEditPlugin/templates/edit.natedit.tmpl:174
 msgid "specify a list of users and/or groups"
-msgstr ""
+msgstr "definuj seznam uživatelů a/nebo skupin"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:138
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "striktně zakaž jakýkoli přístup na tento článek"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:169
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "striktně zakaž jakoukoli editaci tohoto článku"
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
-msgstr ""
+msgstr "počátek"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -5732,9 +5728,7 @@ msgstr ""
 #: core/templates/viewtopicactionbuttons.tmpl:15
 #, fuzzy
 msgid "title='Attach an image or document to this topic'>Attach"
-msgstr ""
-"title='Připoj obrázek nebo soubor k tomuto ćlánku' accesskey='a'>&Vlož "
-"přílohu"
+msgstr "title='Připoj obrázek nebo soubor k tomuto ćlánku'>Připoj"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -5751,12 +5745,11 @@ msgstr ""
 #: core/templates/viewtopicactionbuttons.tmpl:10
 #, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+msgstr "title='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
-#, fuzzy
 msgid "title='Edit this topic text' >Edit"
-msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+msgstr "title='Edituj text tohoto článku' >Edit"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -5765,7 +5758,7 @@ msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 #, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
+msgstr "title='Proložený' accesskey='i'>&interwoven"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -5793,21 +5786,18 @@ msgstr "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 #, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
+msgstr "title='Jeden vedle druhého' accesskey='s'>&side by side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+msgstr "title='Přihlaš se k odběru tohoto článku' accesskey='s'>&Subscribe"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Verze pro tisk' accesskey='p'>&Print version"
+msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
-#, fuzzy
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='Ukaž celou historii článku' accesskey='h'>&History"
 
