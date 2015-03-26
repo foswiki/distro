@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-25 23:23+0200\n"
+"PO-Revision-Date: 2015-03-26 22:59+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -4028,9 +4028,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Varování: Nemohu najít článek %1.%2"
+msgstr "Varování: Nemohu najít web %1 pro článek %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
@@ -4045,18 +4044,16 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+msgstr "Varování: definice tabulky v \\'include\\' článku %1 neexistuje!"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4064,7 +4061,7 @@ msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr "Služba upozornění o změnách na webu."
+msgstr "Služba upozornění o změnách na webu"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 #: core/data/System/SiteChanges.txt:71
@@ -4073,11 +4070,11 @@ msgstr "Weby"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr "Webový server <em>provozuje Foswiki</em>"
+msgstr "Webový server <em>na kterém běží Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Vítejte na %1 ... seznamte se s lidmi na tomto webu"
+msgstr "Vítejte na %1 ... potkejte zde plno nových lidí."
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -4101,7 +4098,7 @@ msgstr "Celá stránka"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
-msgstr "Proč jsem byl dotazován na potvrzení?"
+msgstr "Proč jsem stále dotazován na potvrzení?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
@@ -4130,8 +4127,8 @@ msgid ""
 "have forgotten your password, contact %1"
 msgstr ""
 "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
-"resetovat Vaše heslo. Pokud žádný z Vašich registrovaných emailových adres "
-"není správný a Vy jste změnil Vaše heslo, kontaktujte %1."
+"resetovat Vaše heslo. Pokud žádná z Vašich registrovaných emailových adres "
+"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1."
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -4178,9 +4175,8 @@ msgstr ""
 "alfanumerické znaky."
 
 #: core/templates/messages.tmpl:683
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Zkoušíte %1 k příloze, která neexistuje."
+msgstr "Zkoušíte otevřít přílohu, která neexistuje."
 
 #: core/templates/messages.tmpl:671
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4237,13 +4233,12 @@ msgstr ""
 "jsou ve vašem prohlížeči zakázány."
 
 #: core/templates/messages.tmpl:710
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Nemůžete manuálně potvrdit tuto změnu, protože buď Cookies nebo Javascript "
-"jsou ve vašem prohlížeči zakázány."
+"Nemůžete pokračovat, protože buď Cookies nebo Javascript jsou ve vašem "
+"prohlížeči zakázány."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4372,9 +4367,8 @@ msgid "Your password has been changed to %1."
 msgstr "Vaše heslo bylo změnéno na %1."
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Vaše heslo bylo změnéno na %1."
+msgstr "Vaše heslo nebylo změnéno."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
@@ -4500,7 +4494,7 @@ msgstr "zatržení u odkazovaných článků"
 
 #: core/data/System/SiteChanges.txt:57
 msgid "close display options"
-msgstr "Více možností pro zobrazení:"
+msgstr "zavři nastavení pro zobrazení"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
@@ -4512,7 +4506,7 @@ msgstr "nezapomeň zkontrolovat nastavení článku (Topic Settings)"
 
 #: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin zhavaroval. Více chyby uvedené níže."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4542,7 +4536,7 @@ msgstr "označuje povinné pole"
 
 #: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin nebyl definován. Více viz chyby uvedené níže."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4583,9 +4577,8 @@ msgid "retrieved at %1"
 msgstr "nalezeno v %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(revize %1)"
+msgstr "revize %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
@@ -4610,16 +4603,18 @@ msgstr ""
 "a porovnej revize' accesskey='m'>&Další akce"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
+#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+msgstr "title='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
+#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
+msgstr "title='Proložený' accesskey='i'>&interwoven"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4645,18 +4640,17 @@ msgid ""
 msgstr "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
+#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Vedle sebe' accesskey='v'>&Vedle sebe"
+msgstr "title='Jeden vedle druhého' accesskey='s'>&side by side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+msgstr "title='Přihlaš se k odběru tohoto článku' accesskey='s'>&Subscribe"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Verze pro tisk' accesskey='p'>&Print version"
+msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
