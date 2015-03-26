@@ -10,14 +10,6 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' ) {
-
-        $reporter->NOTE( <<WARN );
-On busy systems with extremely large log files, the PlainFile logger can encounter issues when rotating the logs at the end of the month. 
-The older Compatibility logger, or the new LogDispatchContrib are preferable on busy systems.
-WARN
-    }
-
     $reporter->WARN(
 "=WarninginFileName= found and PlainFile logger selected. Foswiki.pm will silently use the Compatibility logger."
       )

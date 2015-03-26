@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-23 14:15+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2492,7 +2492,7 @@ msgstr "Italique"
 msgid "Join %1"
 msgstr "Rejoindre %1"
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
@@ -3687,7 +3687,7 @@ msgstr "Enregistré sous :"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
 #: PatternSkin/data/System/PatternSkinNavigation.txt:63
 #: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarSearch.txt:4
+#: PatternSkin/data/System/WebLeftBarSearch.txt:5
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
@@ -5012,7 +5012,8 @@ msgstr ""
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr "L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
+msgstr ""
+"L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
@@ -5298,8 +5299,8 @@ msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
-"Les administrateurs du wiki devraient lire la [[%1][page SecurityFeatures ("
-"mesures de sécurité) sur Foswiki.org]]."
+"Les administrateurs du wiki devraient lire la [[%1][page SecurityFeatures "
+"(mesures de sécurité) sur Foswiki.org]]."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"

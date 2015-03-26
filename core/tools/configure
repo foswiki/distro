@@ -130,11 +130,6 @@ if ( $action =~ /^get/ && scalar( keys %{ $params->{set} } ) ) {
     exit 1;
 }
 
-if ( $params->{set}{'{Password}'} ) {
-    $params->{set}{'{Password}'} =
-      _setPassword( 'admin', $params->{set}{'{Password}'} );
-}
-
 # ---++ Prompt for config values
 #    * $root - Configuration root
 #    * $keys - ={Configuration}{Key}{Path}= to a single variable
@@ -173,41 +168,12 @@ sub _prompt {
     }
 
     $reply = '' unless ( defined $reply );
-    if ( $keys eq '{Password}' && $reply ) {
-        $reply = _setPassword( 'admin', $reply );
-    }
     return if ( $opt && $reply eq 'none' );
     eval "\$Foswiki::cfg$keys='$reply'";
     if ($@) {
         print STDERR "Failed to set $keys: "
           . Foswiki::Configure::Reporter::stripStacktrace($@);
     }
-}
-
-sub _setPassword {
-    my ( $login, $passwd ) = @_;
-    my $salt = '$apr1$';
-    my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-    require Crypt::PasswdMD5;
-    foreach my $i ( 0 .. 7 ) {
-
-        # generate a salt not only from rand() but also mixing
-        # in the users login name: unecessary
-        $salt .= $saltchars[
-          (
-              int( rand( $#saltchars + 1 ) ) +
-                $i +
-                ord( substr( $login, $i % length($login), 1 ) ) )
-          % ( $#saltchars + 1 )
-        ];
-    }
-
-    #print STDERR "encoded $passwd as "
-    #  . Crypt::PasswdMD5::apache_md5_crypt( $passwd, substr( $salt, 0, 14 ) )
-    #  . "\n";
-
-    return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
-        substr( $salt, 0, 14 ) );
 }
 
 sub _reply {

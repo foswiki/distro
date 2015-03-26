@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-21 19:20+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2015-03-25 10:55+0200\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -155,7 +155,7 @@ msgstr "%1 è la pagina predefinita per gli allegati cancellati."
 
 #: core/templates/messages.tmpl:335
 msgid "%1 may still be editing %2."
-msgstr "%1 sta ancora modificando %2."
+msgstr "%1 potrebbe stare ancora modificando %2."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -250,7 +250,7 @@ msgstr "(accesso negato)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
-msgstr "(allegare)"
+msgstr "(allega)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
@@ -266,11 +266,11 @@ msgstr "(vista libro)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
-msgstr "(cambia il modulo)"
+msgstr "(cambia modulo)"
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
-msgstr "(cambia la lingua)"
+msgstr "(cambia lingua)"
 
 #: PatternSkin/templates/changes.pattern.tmpl:2 core/templates/changes.tmpl:2
 msgid "(changes)"
@@ -339,7 +339,7 @@ msgstr "(vista 'raw')"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(riindirizzamento negato)"
+msgstr "(reindirizzamento negato)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -964,8 +964,8 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"Il comportamento predefinito è la visualizzazione del Web Trash ristretta a %"
-"1. Se vuoi consentirne la visualizzazione a tutti gli utenti, rimuovi la "
+"Il comportamento predefinito è la visualizzazione del Web Trash ristretta a "
+"%1. Se vuoi consentirne la visualizzazione a tutti gli utenti, rimuovi la "
 "restrizione =ALLOWWEBVIEW= nelle WebPreferences."
 
 #. ($user)
@@ -1157,7 +1157,8 @@ msgstr ""
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
-msgstr "Le pagine marcate saranno aggiornate per puntare al nuovo nome del Web."
+msgstr ""
+"Le pagine marcate saranno aggiornate per puntare al nuovo nome del Web."
 
 #: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
@@ -1673,7 +1674,8 @@ msgstr "Indirizzo e-mail:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "L'indirizzo e-mail è stato disabilitato in questa installazione Foswiki"
+msgstr ""
+"L'indirizzo e-mail è stato disabilitato in questa installazione Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -2468,7 +2470,7 @@ msgstr "Italico"
 msgid "Join %1"
 msgstr "Unisce %1"
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
@@ -3157,9 +3159,8 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Torna indietro nel browser e scegli un nome di pagina che sia "
-"[[%SYSTEMWEB%.WikiWord][WikiWord]] o controlla che sia attivata l'opzione "
-"non-Wiki Word"
+"Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
+"WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-Wiki Word"
 
 #: core/templates/messages.tmpl:112 core/templates/messages.tmpl:120
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:140
@@ -3659,7 +3660,7 @@ msgstr "Salvato in:"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
 #: PatternSkin/data/System/PatternSkinNavigation.txt:63
 #: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarSearch.txt:4
+#: PatternSkin/data/System/WebLeftBarSearch.txt:5
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
@@ -3906,7 +3907,8 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
 msgid "Sorry, registration has been temporarily disabled."
-msgstr "Siamo spiacenti, la registrazione è stata temporaneamente disabilitata."
+msgstr ""
+"Siamo spiacenti, la registrazione è stata temporaneamente disabilitata."
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
@@ -4182,9 +4184,8 @@ msgid ""
 "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
 "removed."
 msgstr ""
-"Il campo [[%1][NomeWiki]] deve essere il tuo nome e cognome come in "
-"[[%2][WikiWord]], es. nome e cognome con le iniziali maiuscole e senza gli "
-"spazi."
+"Il campo [[%1][NomeWiki]] deve essere il tuo nome e cognome come in [[%2]"
+"[WikiWord]], es. nome e cognome con le iniziali maiuscole e senza gli spazi."
 
 #: core/templates/registermessages.tmpl:205
 msgid ""
@@ -4258,8 +4259,8 @@ msgid ""
 msgstr ""
 "I controlli effettuati da Foswiki a volte possono essere attivati quando si "
 "fa qualcosa di perfettamente lecito, per esempio se si fa clic sul pulsante "
-"Indietro dopo aver salvato una pagina. Foswiki utilizza quindi l'approccio \""
-"meglio prevenire che curare\"."
+"Indietro dopo aver salvato una pagina. Foswiki utilizza quindi l'approccio "
+"\"meglio prevenire che curare\"."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
@@ -4554,8 +4555,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Questo è il tuo nome scritto come !WikiWord, ad esempio: !JohnSmith. "
-"[[%1][Registrati]], se non hai ancora disponibile un accesso."
+"Questo è il tuo nome scritto come !WikiWord, ad esempio: !JohnSmith. [[%1]"
+"[Registrati]], se non hai ancora disponibile un accesso."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "This must be a unique WikiName."
@@ -4617,8 +4618,8 @@ msgid ""
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
 msgstr ""
-"Questi cambiamenti sono stati aggiunti ai tuoi nella creazione della Rev. %"
-"1. I campi di testo sono stati aggiunti ma altri dati come i campi del form "
+"Questi cambiamenti sono stati aggiunti ai tuoi nella creazione della Rev. "
+"%1. I campi di testo sono stati aggiunti ma altri dati come i campi del form "
 "sono stati sovrascritti, cancellando altri cambiamenti. Controlla la pagina "
 "per assicurarti che tutto sia andato a buon fine, specialmente se hai fatto "
 "cambiamenti nei campi del form."
@@ -4630,8 +4631,8 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 "Anche se raramente utilizzato nella pratica comune, è possibile utilizzare "
-"la speciale ==%<nop>USERSWEB%== [[%1.Macros][macro]] prefisso per "
-"!WikiNames, ad esempio, ==%<nop>USERSWEB%.%WIKINAME%==."
+"la speciale ==%<nop>USERSWEB%== [[%1.Macros][macro]] prefisso per !"
+"WikiNames, ad esempio, ==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
@@ -5212,7 +5213,8 @@ msgstr "Benvenuto sul Web %1"
 
 #: core/templates/registermessages.tmpl:93
 msgid "While attempting to email <noautolink>%1</noautolink>."
-msgstr "Durante il tentativo di invio della e-mail <noautolink>%1</noautolink>."
+msgstr ""
+"Durante il tentativo di invio della e-mail <noautolink>%1</noautolink>."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Who"
@@ -5235,8 +5237,8 @@ msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
-"Si consiglia agli amministratori del Wiki di consultare la pagina "
-"[[%1][SecurityFeatures]] nel sito !Foswiki.org."
+"Si consiglia agli amministratori del Wiki di consultare la pagina [[%1]"
+"[SecurityFeatures]] nel sito !Foswiki.org."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5334,8 +5336,8 @@ msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Puoi [[%1][creare un nuovo Web]] solo se hai il permesso di farlo. Contatta %"
-"2 per ogni problema o dubbio."
+"Puoi [[%1][creare un nuovo Web]] solo se hai il permesso di farlo. Contatta "
+"%2 per ogni problema o dubbio."
 
 #: core/templates/messages.tmpl:154
 msgid ""
@@ -5441,7 +5443,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:318
 msgid "You need to specify a valid member to add to a group."
-msgstr "È necessario specificare un membro valido per aggiungerlo ad un gruppo."
+msgstr ""
+"È necessario specificare un membro valido per aggiungerlo ad un gruppo."
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
@@ -5482,8 +5485,8 @@ msgid ""
 msgstr ""
 "Il codice di attivazione a te riservato è stato inviato a %1. Puoi attivare "
 "direttamente il link nella mail ricevuta oppure inserire il codice nel box "
-"qui sotto per attivare l'iscrizione. (Il codice ha il seguente formato \""
-"TuoNome.xxxxxxxxxx\")"
+"qui sotto per attivare l'iscrizione. (Il codice ha il seguente formato "
+"\"TuoNome.xxxxxxxxxx\")"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."

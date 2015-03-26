@@ -77,6 +77,7 @@ use constant ATTRSPEC => {
     MULTIPLE        => {},         # Allow multiple select
     SPELLCHECK      => {},
     LABEL           => {},
+    ONSAVE          => {},         # Call Checker->onSave() when set.
 
     # Rename single character options (legacy)
     H => 'HIDDEN',
