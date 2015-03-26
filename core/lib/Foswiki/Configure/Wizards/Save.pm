@@ -232,18 +232,6 @@ sub save {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             my $spec = $root->getValueObject($k);
 
-            # If ONSAVE checking is specified, call the checker's onSave()
-            # routine.  This could provide "cleanup" processing for example,
-            # when a configuration value is saved.  It can modify the value
-            # being saved, such as to hash a password, but never modify other
-            # values.
-            if ( $spec && $spec->{ONSAVE} ) {
-                my $checker = Foswiki::Configure::Checker::loadChecker($spec);
-                if ( $checker && $checker->can('onSave') ) {
-                    $checker->onSave( $reporter, $k, $v );
-                }
-            }
-
             if ( defined $v ) {
                 $v =~ m/^(.*)$/s;
                 $v = $1;    # untaint
@@ -276,6 +264,24 @@ sub save {
                 return undef;
             }
             ASSERT( !$@, $@ ) if DEBUG;
+        }
+
+        # Second pass after processing all the -set parameters
+        # To do the onsave, procesing
+        while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
+            my $spec = $root->getValueObject($k);
+
+            # If ONSAVE checking is specified, call the checker's onSave()
+            # routine.  This could provide "cleanup" processing for example,
+            # when a configuration value is saved.  It can modify the value
+            # being saved, such as to hash a password, but never modify other
+            # values.
+            if ( $spec && $spec->{ONSAVE} ) {
+                my $checker = Foswiki::Configure::Checker::loadChecker($spec);
+                if ( $checker && $checker->can('onSave') ) {
+                    $checker->onSave( $reporter, $k, $v );
+                }
+            }
         }
     }
 
