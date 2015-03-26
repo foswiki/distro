@@ -596,7 +596,7 @@ sub atomicUnlock {
     my ( $this, $meta, $cUID ) = @_;
 
     my $filename = _getData($meta) . '.lock';
-    unlink $filename
+    unlink($filename)
       or die "PlainFile: failed to delete $filename: $!";
 }
 
@@ -838,7 +838,7 @@ sub setLease {
         _saveFile( $filename, join( "\n", %$lease ) );
     }
     elsif ( -e $filename ) {
-        unlink $filename
+        unlink($filename)
           or die "PlainFile: failed to delete $filename: $!";
     }
 }
