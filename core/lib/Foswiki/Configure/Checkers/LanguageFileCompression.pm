@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::LANGUAGE;
+package Foswiki::Configure::Checkers::LanguageFileCompression;
 
 use strict;
 use warnings;
@@ -27,17 +27,9 @@ sub check_current_value {
     my $enabled = $this->checkExpandedValue($reporter);
     return unless $enabled;
 
-    my $dir = $Foswiki::cfg{LocalesDir};
-    Foswiki::Configure::Load::expandValue($dir);
-    my $compress = $Foswiki::cfg{LanguageFileCompression};
-
-    my $lang = $this->{item}->{keys};
-    unless ( $lang =~ s/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/$1/ ) {
-        die "Invalid item key $lang for LANGUAGE";
-    }
-
-    return $reporter->ERROR("Missing language file $dir/$lang.po")
-      unless ( -r "$dir/$lang.po" );
+    $reporter->WARN(
+"Langugage file compression has been known to cause issues, and is considered experimental."
+    );
 
 }
 
@@ -60,29 +52,67 @@ If compression is enabled, it also compresses the language file.
 sub onSave {
     my ( $this, $reporter, $key, $val ) = @_;
 
-    if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-        my $dir = $Foswiki::cfg{WorkingDir};
-
-        if ( -f "$dir/languages.cache" ) {
-            if ( unlink("$dir/languages.cache") ) {
-                $reporter->NOTE("Flushed languages cache");
-            }
-            else {
-                $reporter->ERROR("Failed to remove $dir/languages.cache: $!");
-            }
-        }
-    }
-
-    if ( $Foswiki::cfg{LanguageFileCompression} ) {
-        require Foswiki::Configure::Checkers::LanguageFileCompression;
-        $key =~ m/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/;
+    foreach ( keys %{ $Foswiki::cfg{Languages} } ) {
         if ($val) {
-            Foswiki::Configure::Checkers::LanguageFileCompression::compressLanguage(
-                $reporter, $1 );
+            compressLanguage( $reporter, $_ )
+              if ( $Foswiki::cfg{Languages}{$_}{Enabled} );
         }
         else {
-            Foswiki::Configure::Checkers::LanguageFileCompression::removeCompression(
-                $reporter, $1 );
+            removeCompression( $reporter, $_ );
+        }
+    }
+}
+
+sub compressLanguage {
+    my ( $reporter, $lang ) = @_;
+
+    my $dir = $Foswiki::cfg{LocalesDir};
+    Foswiki::Configure::Load::expandValue($dir);
+
+    my $ok = -r "$dir/$lang.mo" && -M "$dir/$lang.po" >= -M "$dir/$lang.mo";
+
+    unless ($ok) {
+        eval("require Locale::Msgfmt;");
+        if ($@) {
+            return $reporter->ERROR(
+                "Locale::Msgfmt can not be loaded, unable to compile strings."
+            );
+        }
+        my $umask = umask( oct(777) - $Foswiki::cfg{Store}{filePermission} );
+        eval {
+            Locale::Msgfmt::msgfmt(
+                {
+                    in      => "$dir/$lang.po",
+                    out     => "$dir/$lang.mo",
+                    verbose => 0
+                    ,  # verbose is not documented, but prints results to STDERR
+                }
+            );
+        };
+        if ($@) {
+            print STDERR "Compression failure: $@";
+            $reporter->ERROR("Unable to compress strings: compilation failed.");
+        }
+        else {
+            $reporter->NOTE("Successfully compressed $lang strings");
+        }
+        umask($umask);
+    }
+}
+
+sub removeCompression {
+    my ( $reporter, $lang ) = @_;
+
+    my $dir = $Foswiki::cfg{LocalesDir};
+    Foswiki::Configure::Load::expandValue($dir);
+
+    if ( -f "$dir/$lang.mo" ) {
+        if ( unlink("$dir/$lang.mo") ) {
+            $reporter->NOTE("Removed compressed $lang strings");
+        }
+        else {
+            $reporter->ERROR(
+                "Unable to remove compressed strings in $dir/$lang.mo: $!");
         }
     }
 }

@@ -1257,7 +1257,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # {LocalesDir} is pointing to the wrong place.
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
-# **BOOLEAN EXPERT DISPLAY_IF="{UserInterfaceInternationalisation}" CHECK="iff:'{UserInterfaceInternationalisation}'"**
+# **BOOLEAN EXPERT DISPLAY_IF="{UserInterfaceInternationalisation}" CHECK="iff:'{UserInterfaceInternationalisation}'" ONSAVE**
 # Enable compilation of =.po= string files into compressed =.mo= files.
 # This can result in a significant performance improvement for I18N,
 # but has also been reported to cause issues on some systems.  So for
