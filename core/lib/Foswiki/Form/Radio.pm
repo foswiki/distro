@@ -39,7 +39,6 @@ sub getOptions {
     my $this = shift;
 
     return $this->{_options} if $this->{_options};
-
     my $vals = $this->SUPER::getOptions(@_);
 
     if ( $this->{type} =~ m/\+values/ ) {
@@ -83,12 +82,11 @@ sub getDisplayValue {
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
-    my @values   = @{ $this->getOptions() };
     my $selected = '';
     my $session  = $this->{session};
     my %attrs;
 
-    foreach my $item (@values) {
+    foreach my $item ( @{ $this->getOptions() } ) {
         my $title = $item;
         $title = $this->{_descriptions}{$item} if $this->{_descriptions}{$item};
 
@@ -103,20 +101,14 @@ sub renderForEdit {
     my %params = (
         -name       => $this->{name},
         -override   => 1,
-        -values     => [ map { $this->decode($_) } @values ],
-        -default    => $this->decode($selected),
+        -values     => $this->getOptions(),
+        -default    => $selected,
         -columns    => $this->{size},
         -attributes => \%attrs,
     );
 
     if ( defined $this->{valueMap} ) {
-        my %valueMap = ();
-        while ( my ( $key, $val ) = each %{ $this->{valueMap} } ) {
-            $key            = $this->decode($key);
-            $val            = $this->decode($val);
-            $valueMap{$key} = $val;
-        }
-        $params{-labels} = \%valueMap;
+        $params{-labels} = $this->{valueMap};
     }
 
     return ( '', CGI::radio_group(%params) );

@@ -51,8 +51,6 @@ sub renderForEdit {
         }
     }
 
-    $value = $this->decode($value) if $this->can("decode");
-
     my $field = CGI::textfield(
         -class =>
           $this->cssClasses("foswikiInputField jqTextboxList $metadata"),

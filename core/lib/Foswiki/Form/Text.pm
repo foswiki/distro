@@ -34,7 +34,7 @@ sub renderForEdit {
             -name     => $this->{name},
             -size     => $this->{size},
             -override => 1,
-            -value    => $this->decode($value),
+            -value    => $value,
         )
     );
 }

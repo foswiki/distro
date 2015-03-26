@@ -128,12 +128,11 @@ sub renderForEdit {
 
     $value = '' unless defined($value) && length($value);
 
-    my @values = @{ $this->getOptions() };
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     my %attrs;
     my @defaults;
 
-    foreach my $item (@values) {
+    foreach my $item ( @{ $this->getOptions } ) {
 
         my $title = $item;
         $title = $this->{_descriptions}{$item}
@@ -160,19 +159,13 @@ sub renderForEdit {
     my %params = (
         -name       => $this->{name},
         -override   => 1,
-        -values     => [ map { $this->decode($_) } @values ],
-        -defaults   => [ map { $this->decode($_) } @defaults ],
+        -values     => $this->getOptions(),
+        -defaults   => \@defaults,
         -columns    => $this->{size},
         -attributes => \%attrs,
     );
     if ( defined $this->{valueMap} ) {
-        my %valueMap = ();
-        while ( my ( $key, $val ) = each %{ $this->{valueMap} } ) {
-            $key            = $this->decode($key);
-            $val            = $this->decode($val);
-            $valueMap{$key} = $val;
-        }
-        $params{-labels} = \%valueMap;
+        $params{-labels} = $this->{valueMap};
     }
     $value = CGI::checkbox_group(%params);
 

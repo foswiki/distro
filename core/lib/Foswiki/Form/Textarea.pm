@@ -56,7 +56,7 @@ sub renderForEdit {
             -rows     => $this->{rows},
             -name     => $this->{name},
             -override => 1,
-            -default  => "\n" . $this->decode($value),
+            -default  => "\n" . $value,
         )
     );
 }

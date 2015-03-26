@@ -31,7 +31,7 @@ sub renderForEdit {
         CGI::hidden(
             -name     => $this->{name},
             -override => 1,
-            -value    => $this->decode($value),
+            -value    => $value,
           )
           . CGI::div( { -class => 'foswikiFormLabel', }, $renderedValue )
     );
