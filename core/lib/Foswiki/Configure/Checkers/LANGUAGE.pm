@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Assert;
+use Foswiki::I18N;
 
 require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
@@ -29,7 +30,6 @@ sub check_current_value {
 
     my $dir = $Foswiki::cfg{LocalesDir};
     Foswiki::Configure::Load::expandValue($dir);
-    my $compress = $Foswiki::cfg{LanguageFileCompression};
 
     my $lang = $this->{item}->{keys};
     unless ( $lang =~ s/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/$1/ ) {
@@ -39,6 +39,14 @@ sub check_current_value {
     return $reporter->ERROR("Missing language file $dir/$lang.po")
       unless ( -r "$dir/$lang.po" );
 
+    # Code taken from Foswki::I18N
+    my $h = Foswiki::I18N->get_handle($lang);
+    my $name = eval { $h->maketext("_language_name") };
+    unless ($name) {
+        $reporter->ERROR(
+"Internal error: $lang is missing the '_language_name' from it's translation.  Language will not be usable."
+        );
+    }
 }
 
 =begin TML
