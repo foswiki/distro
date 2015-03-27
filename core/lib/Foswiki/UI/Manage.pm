@@ -146,11 +146,19 @@ sub _action_createweb {
     my $query     = $session->{request};
     my $cUID      = $session->{user};
 
-    my $newWeb = $query->param('newweb');
-
     # Validate and untaint
-    $newWeb =
-      Foswiki::Sandbox::untaint( $newWeb, \&Foswiki::Sandbox::validateWebName );
+    my $newWeb = Foswiki::Sandbox::untaint(
+        scalar( $query->param('newweb') ),
+        \&Foswiki::Sandbox::validateWebName
+    );
+
+    unless ($newWeb) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'invalid_web_name',
+            params => [ scalar( $query->param('newweb') ) || '' ]
+        );
+    }
 
     # For hierarchical webs, check that parent web exists
     my $parent = undef;    # default is root if no parent web
