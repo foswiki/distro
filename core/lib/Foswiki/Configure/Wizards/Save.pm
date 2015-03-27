@@ -223,8 +223,8 @@ sub save {
     else {
         %Foswiki::cfg = ();
 
-        # Read without expansions and without the .spec
-        Foswiki::Configure::Load::readConfig( 1, 1 );
+        # Read without expansions but with the .spec
+        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
     }
 
     # Get changes from 'set' *without* expanding values.
