@@ -19,6 +19,51 @@ value and the setting will revert to the Perl default.
 HMMM
         }
     }
+
+    my $cgiver = $CGI::VERSION || '';
+
+    $reporter->NOTE("You are running CGI Version $cgiver.");
+
+    if ( $CGI::VERSION > 4.10 && $CGI::VERSION < 4.14 && $Foswiki::cfg{Site}{CharSet} =~ m/utf-?8/i ) {
+        $reporter->ERROR( <<OOPS );
+CGI Versions 4.11 - 4.13 are known to corrupt topic & form data when using UTF-8.
+Your ={Site}{CharSet}= is set to =$Foswiki::cfg{Site}{CharSet}=.
+OOPS
+    }
+
+    if ( $cgiver =~ m/^(2\.89|3\.37|3\.43|3\.47|4\.11|4\.12|4\.13)$/ ) {
+        $reporter->WARN( <<HERE );
+You are using a version of =CGI= that is known to have issues with Foswiki.
+=CGI= should be upgraded to a version > 3.11, avoiding 3.37, 3.43, 3.47 and 4.11-4.13.
+HERE
+    }
+
+    # Check for potential CGI.pm module upgrade
+    # CGI.pm version, on some platforms - actually need CGI 2.93 for
+    # mod_perl 2.0 and CGI 2.90 for Cygwin Perl 5.8.0.  See
+    # http://perl.apache.org/products/apache-modules.html#
+    #       Porting_CPAN_modules_to_mod_perl_2_0_Status
+    if ( $CGI::VERSION < 2.93 ) {
+        if ( $Config::Config{osname} eq 'cygwin' && $] >= 5.008 ) {
+
+            # Recommend CGI.pm upgrade if using Cygwin Perl 5.8.0
+            $reporter->WARN( <<HERE );
+Perl CGI version 3.11 or higher is recommended to avoid problems with
+attachment uploads on Cygwin Perl.
+HERE
+        }
+        elsif ($Foswiki::cfg{DETECTED}{ModPerlVersion}
+            && $Foswiki::cfg{DETECTED}{ModPerlVersion} >= 1.99 )
+        {
+
+            # Recommend CGI.pm upgrade if using mod_perl 2.0, which
+            # is reported as version 1.99 and implies Apache 2.0
+            $reporter->WARN( <<HERE );
+Perl CGI version 3.11 or higher is recommended to avoid problems with
+mod_perl.
+HERE
+        }
+    }
 }
 
 1;
