@@ -143,14 +143,11 @@ sub readConfig {
     # Old configs might not bootstrap the OS settings, so set if needed.
     _workOutOS() unless ( $Foswiki::cfg{OS} && $Foswiki::cfg{DetailedOS} );
 
-    my @files = qw( Foswiki.spec LocalSite.cfg );
-    if ($noLocal) {
-        pop @files;
+    my @files;
+    unless ($nospec) {
+        push @files, 'Foswiki.spec';
     }
-    if ($nospec) {
-        shift @files;
-    }
-    elsif ($config_spec) {
+    if (!$nospec && $config_spec) {
         foreach my $dir (@INC) {
             foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
                 my $d;
@@ -169,6 +166,9 @@ sub readConfig {
                 closedir($d);
             }
         }
+    }
+    unless ($noLocal) {
+        push @files, 'LocalSite.cfg';
     }
 
     for my $file (@files) {
