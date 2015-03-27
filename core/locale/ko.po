@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-27 05:19+0200\n"
-"Last-Translator: Minjae Kim <flowergom.mac@gmail.com>\n"
+"Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/ko/>\n"
 "Language: ko\n"
@@ -126,7 +126,7 @@ msgstr "%1 는 새로운 웹 에 대하여 잘못된 이름 입니다."
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
-msgstr ""
+msgstr "%1 (은)는 현재 로그인 상태입니다."
 
 #: core/templates/messages.tmpl:296
 msgid "%1 is currently set to %2"
