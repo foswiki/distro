@@ -113,6 +113,9 @@ $mime_mapping
 # SMELL: lighttpd on case insensitive file systems converts PATH_INFO to Lower Case!
 server.force-lowercase-filenames = "disable"
 
+# request debugging
+#debug.log-request-handling = "enable"
+
 # default landing page
  url.rewrite-once = ( "^/?(index.*)?\$" => "/bin/view/Main/WebHome" )
 
