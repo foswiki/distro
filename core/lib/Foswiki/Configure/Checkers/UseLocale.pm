@@ -44,13 +44,6 @@ sub check_current_value {
         }
     }
 
-    $reporter->WARN(<<HERE);
-Perl Locales are known to have issues. Perl taint checking (the -T flag)
-must be disables if UseLocale is enabled.  Even with taint checking disabled
-there are a number of know issues with Foswiki Locales.   For known issues
-see:  <a href="http://foswiki.org/Tasks/I18N">Foswiki I18N tasks</a>
-HERE
-
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
 
         # Warn re known broken locale setup

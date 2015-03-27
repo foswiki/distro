@@ -20,6 +20,7 @@ use Cwd qw( abs_path );
 use Assert;
 use File::Basename;
 use File::Spec;
+use POSIX qw(locale_h);
 
 use Foswiki::Configure::FileUtil;
 
@@ -147,7 +148,7 @@ sub readConfig {
     unless ($nospec) {
         push @files, 'Foswiki.spec';
     }
-    if (!$nospec && $config_spec) {
+    if ( !$nospec && $config_spec ) {
         foreach my $dir (@INC) {
             foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
                 my $d;
@@ -351,7 +352,7 @@ sub setBootstrap {
       qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {LocalesDir} {Store}{Implementation}
-      {Store}{SearchAlgorithm} );
+      {Store}{SearchAlgorithm} {Site}{CharSet} {Site}{Locale} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
@@ -466,6 +467,9 @@ sub bootstrapConfig {
         }
     }
 
+    # Bootstrap the Site Locale and CharSet
+    _bootstrapSiteSettings();
+
     # Bootstrap the store related settings.
     _bootstrapStoreSettings();
 
@@ -505,6 +509,52 @@ BOOTS
     }
     return ( $system_message || '' );
 
+}
+
+=begin TML
+
+---++ StaticMethod _bootstrapSiteSettings()
+
+Called by bootstrapConfig.  This handles the Site Locale & CharSet settings.
+
+=cut
+
+sub _bootstrapSiteSettings {
+
+#   Guess a locale first.   This isn't necessarily used, but helps guess a CharSet, which is always used.
+
+    require locale;
+    $Foswiki::cfg{Site}{Locale} = setlocale(LC_CTYPE);
+
+    my $charset;
+    $Foswiki::cfg{Site}{Locale} =~ m/\.([a-z0-9_-]+)$/i;
+    $charset = $1 || 'utf-8';
+    $charset =~ s/^utf8$/utf-8/i;
+    $charset =~ s/^eucjp$/euc-jp/i;
+    $Foswiki::cfg{Site}{CharSet} = lc($charset);
+
+    eval {
+        require Encode;
+        Encode::encode( $Foswiki::cfg{Site}{CharSet}, 'test', 0 );
+    };
+    if ($@) {
+        print STDERR
+"AUTOCONFIG: Derived $Foswiki::cfg{Site}{CharSet} fails to encode,  trying CGI default character set\n";
+        require CGI;
+        $Foswiki::cfg{Site}{CharSet} = CGI::charset();
+    }
+
+    if ( $Foswiki::cfg{Site}{CharSet} =~
+m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
+      )
+    {
+        print STDERR
+"AUTOCONFIG: Double-byte character set guessed not usable by Foswiki. Defaulting to 'utf-8'";
+        $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+    }
+
+    print STDERR
+"AUTOCONFIG: Set initial {Site}{Locale} to  $Foswiki::cfg{Site}{Locale} using {Site}{CharSet} $Foswiki::cfg{Site}{CharSet} \n";
 }
 
 =begin TML

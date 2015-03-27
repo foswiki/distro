@@ -1282,12 +1282,11 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # **BOOLEAN LABEL="Use Locale" EXPERT**
 # Enable the use of {Site}{Locale}. WARNING: Perl locales are badly broken
 # in some versions of perl. For this reason locales are disabled in Foswiki.
-# If you enable them they can be made to work, but you will have to disable
-# taint checks, and collation will only work with single-byte character
-# sets.
+# If you enable them they can be made to work, but collation will only work
+# with single-byte character sets.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
-# **STRING 50 LABEL="Site Locale" DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'"**
+# **STRING 50 LABEL="Site Locale" DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'" CHECK="also:{Site}{CharSet}" **
 # Site-wide locale - used by Foswiki and external programs such as grep, and to
 # specify the character set and language in which content must be presented
 # for the user's web browser.
@@ -1313,9 +1312,9 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 #    * =ja_JP.eucjp= - Japan
 #    * =C= - English only; no I18N features regarding character encodings
 #      and external programs.
-$Foswiki::cfg{Site}{Locale} = 'en.utf8';
+#$Foswiki::cfg{Site}{Locale} = 'en.utf8';
 
-# **STRING 50 LABEL="Site Character Set" **
+# **STRING 50 LABEL="Site Character Set" CHECK="also:{Site}{Locale}" **
 # Set this to match your site locale (from 'locale -a')
 # whose character set is not supported by your available perl conversion module
 # (Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl

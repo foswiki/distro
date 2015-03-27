@@ -38,31 +38,6 @@ HERE
         }
     }
 
-    # Set the default site charset
-    unless ( defined( $Foswiki::cfg{Site}{CharSet} ) ) {
-        $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
-    }
-
-    # Check for unusable multi-byte encodings as site character set
-    # - anything that enables a single ASCII character such as '[' to be
-    # matched within a multi-byte character cannot be used for Foswiki.
-    # Refuse to work with character sets that allow Foswiki syntax
-    # to be recognised within multi-byte characters.
-    # FIXME: match other problematic multi-byte character sets
-    if (   $Foswiki::cfg{UseLocale}
-        && $Foswiki::cfg{Site}{CharSet} =~
-m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
-      )
-    {
-
-        $reporter->ERROR(
-            <<HERE
-Cannot use this multi-byte encoding ('$Foswiki::cfg{Site}{CharSet}') as site character
-encoding. Please set a different character encoding in the {Site}{Locale}
-setting.
-HERE
-        );
-    }
 }
 
 1;
