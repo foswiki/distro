@@ -41,22 +41,13 @@ sub check_current_value {
     my $e = Foswiki::Configure::FileUtil::checkCanCreateFile("$ld/tmp.log");
     $reporter->ERROR($e) if $e;
 
-    # Automatic upgrade of script action logging
-    foreach my $a ( keys %{ $Foswiki::cfg{Log}{Action} } ) {
-        next unless ( defined $Foswiki::cfg{Log}{$a} );
-        $Foswiki::cfg{Log}{Action}{$a} = $Foswiki::cfg{Log}{$a};
-        delete $Foswiki::cfg{Log}{$a};
-        $reporter->WARN(
-"Deprecated \$Foswiki::cfg{Log}{$a} setting should be removed from lib/LocalSite.cfg"
-        );
-    }
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
