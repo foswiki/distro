@@ -27,23 +27,41 @@ sub check_current_value {
         $reporter->ERROR("Exists, but is not a directory");
     }
     else {
-        $reporter->ERROR("Does not exist");
+        $reporter->WARN(
+            "Does not exist: Directory will be created/migrated on save.");
     }
 }
 
-sub commit_new_value {
-    my ( $this, $reporter ) = @_;
+=begin TML
 
-    my $d = $this->{item}->getExpandedValue();
+---++ ObjectMethod onSave()
+
+This routine is called during the Save wizard, when !WorkingDir is
+saved, regardless of whether or not it has actually changed.  This
+is enabled by including the ONSAVE key in the Spec.
+
+This routine will create a missing WorkingDir, and migrate the obsolete
+{RCS}{WorkAreaDir}. to the new WorkingDir.
+
+If compression is enabled, it also compresses the language file.
+
+=cut
+
+sub onSave {
+    my ( $this, $reporter, $key, $d, $old_dir ) = @_;
+
+    $d       =~ s/\$Foswiki::cfg({\w+})+/eval( "\$Foswiki::cfg$1")/ge;
+    $old_dir =~ s/\$Foswiki::cfg({\w+})+/eval( "\$Foswiki::cfg$1")/ge;
+
+    return if ( $d eq $old_dir );
 
     # SMELL:   In a suexec environment, umask is forced to 077, blocking
     # group and world access.  This is probably not bad for the working
     # directories.  But noting smell if mismatched permissions are questioned.
-    # ... Enabled the umask override.  Foswiki now writes a password file to
-    # the working directory, and Apache cannot read it on suexec systems.
+    # ... Enabled the umask override.
 
-    my $saveumask = umask();
-    umask( oct(000) );
+    my $saveumask = umask(
+        ( oct(777) - $Foswiki::cfg{Store}{dirPermission} + 0 ) & oct(777) );
 
     unless ( -d $d ) {
         mkdir( $d, oct(755) )
@@ -64,6 +82,18 @@ sub commit_new_value {
         }
     }
 
+    unless ( -d "$d/logs" ) {
+        if ( -e "$d/logs" ) {
+            $reporter->ERROR("$d/logs already exists, but is not a directory");
+        }
+        elsif ( !mkdir( "$d/logs", oct(755) ) ) {
+            $reporter->ERROR("Could not create $d/logs");
+        }
+        else {
+            $reporter->NOTE("Created $d/logs");
+        }
+    }
+
     unless ( -d "$d/work_areas" ) {
         if ( -e "$d/work_areas" ) {
             $reporter->ERROR(
@@ -78,7 +108,7 @@ sub commit_new_value {
     }
 
     # Automatic upgrade of work_areas
-    my $existing = $Foswiki::cfg{Store}{WorkAreaDir} || '';
+    my $existing = $old_dir || $Foswiki::cfg{Store}{WorkAreaDir} || '';
     $existing =~ s/\$Foswiki::cfg({\w+})+/eval( "$Foswiki::cfg$1")/ge;
     if ( $existing && -d $existing ) {
 

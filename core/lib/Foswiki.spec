@@ -163,7 +163,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH LABEL="Working Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw" **
+# **PATH LABEL="Working Directory" EXPERT ONSAVE FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this

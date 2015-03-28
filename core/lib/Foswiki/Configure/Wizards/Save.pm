@@ -237,6 +237,7 @@ sub save {
                 $v = $1;    # untaint
                 if ($spec) {
                     $spec->{saving_value} = $v;
+                    eval("\$spec->{old_value} = \$Foswiki::cfg$k");
                     eval { $v = $spec->decodeValue($v); };
                     if ($@) {
                         $reporter->ERROR(
@@ -280,7 +281,7 @@ sub save {
                 my $checker = Foswiki::Configure::Checker::loadChecker($spec);
                 if ( $checker && $checker->can('onSave') ) {
                     eval(
-                        "\$checker->onSave( \$reporter, \$k, \$Foswiki::cfg$k )"
+"\$checker->onSave( \$reporter, \$k, \$Foswiki::cfg$k, \$spec->{old_value} )"
                     );
                 }
             }
