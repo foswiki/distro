@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-28 07:39+0200\n"
+"PO-Revision-Date: 2015-03-29 10:44+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -3507,9 +3507,8 @@ msgid "Reset password"
 msgstr "Nulstil adgangskode"
 
 #: core/data/System/DefaultPreferences.txt:205
-#, fuzzy
 msgid "Resetting and setting password is not available."
-msgstr "Nulstilling og ændring af adgangkode er ikke håndteret af Foswiki"
+msgstr "Nulstilling og ændringer af adgangskode er ikke muligt."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:187
@@ -3789,7 +3788,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select groups to join:"
-msgstr ""
+msgstr "Vælg hvilke grupper som skal tilmeldes:"
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
@@ -3800,7 +3799,7 @@ msgstr "Vælg medlemmer som skal fjernes fra denne gruppe:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select the group to join:"
-msgstr ""
+msgstr "Vælg den gruppe som skal tilmeldes:"
 
 #: core/templates/more.tmpl:101
 msgid "Select topic parent"
@@ -5245,10 +5244,15 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
+"Vi opfordrer dig til at fortsætte med at opdatere siden, med mindre  du "
+"påtænker at udskifte formularen der hører til siden. Hvis %1 gemmer mens _du "
+"stadig opdaterer_, vil dine ændringer blot blive _flettet med hans_. Men "
+"formular-data bliver ikke flettet, så ændrer du i disse, anbefales det at "
+"synkronisere med %1 først."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
-msgstr ""
+msgstr "Du er her:"
 
 #: core/templates/messages.tmpl:116
 msgid ""
@@ -5258,31 +5262,39 @@ msgid ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 msgstr ""
+"Du opfordres til at bruge korte navne, gerne på mindre end 10 karakterer. "
+"Start med et stort bogstav og brug kun bogstaver og tal. Hvis du vil oprette "
+"et skabelon-web (et web der kun bruges som skabelon til at oprette nye webs "
+"efter), så skal web-navnet starte med en underscore (_) og må derudover kun "
+"indeholde bogstaver og tal."
 
 #: core/templates/messages.tmpl:464
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Fejl: Den vedhæftede fil på siden %1, %2, eksisterer ikke"
+msgstr "Du forsøger at tilgå en vedhæftet fil der ikke eksisterer."
 
 #: core/templates/messages.tmpl:450
 msgid "You are trying to create a topic from a template that does not exist."
-msgstr ""
+msgstr "Du forsøger at oprette en side fra en skabelon der ikke eksisterer."
 
 #: core/templates/messages.tmpl:444
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
+"Du forsøger at udføre en handling på en side der ikke eksisterer (handling "
+"'%1')."
 
 #: core/templates/messages.tmpl:457
 msgid "You are trying to rename a topic that does not exist."
-msgstr ""
+msgstr "Du forsøger at omdøbe en side der ikke eksisterer."
 
 #: core/templates/messages.tmpl:432
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
+"Du kan [[%1][oprette et nyt web]], hvis du har rettigheden til det. Kontakt %"
+"2 hvis du har spørgsmål."
 
 #: core/templates/messages.tmpl:154
 msgid ""
@@ -5290,15 +5302,18 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
+"Du kan også bruge HTML standardfarverne ved navn (black, silver, gray, "
+"white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
+"teal, or aqua)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
-msgstr ""
+msgstr "Du kan skifte din adgangskode v.h.a. %1"
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
-msgstr ""
+msgstr "Du kan omdøbe dette web til et nyt navn."
 
 #: core/templates/registermessages.tmpl:407
 #: core/templates/registermessages.tmpl:413
@@ -5317,10 +5332,12 @@ msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
+"Du kan ikke fortsætte fordi enten Cookies eller Javascript er deaktiveret i "
+"din browser."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr ""
+msgstr "Du kan ikke registrere to gange, navnet %1 er allerede registreret."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
@@ -5328,33 +5345,42 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Du ændrer din email-adresse ved at udfylde formfeltet Email i din "
+"brugerside. Hvis dette formfelt ikke eksisterer så vil den lede after en "
+"linje der ser ud som denne:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
-msgstr ""
+msgstr "Du er *ikke* blevet registreret."
 
 #: core/templates/messages.tmpl:243
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
+"Du kan muligvis overtale din Foswiki-administrator til at opdatere de "
+"aktuelle regler, hvis de forekommer uhensigtsmæssige eller synes for "
+"restriktive."
 
 #: core/templates/registermessages.tmpl:107
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
+"Du har muligvis fulgt et aktiveringslink som allerede er blevet fulgt én "
+"gang."
 
 #: core/templates/registermessages.tmpl:334
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
+"Alle browservinduer skal muligvis lukkes ned før denne ændring slår igennem."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
-msgstr ""
+msgstr "Du skal angive et sidenavn."
 
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
@@ -5377,6 +5403,9 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
+"Du skal nu verificere din e-mail-adresse. Det gør du ved at indsætte %1 i "
+"formular-feltet som du fik præsenteret da denne mail blev afsendt - eller "
+"ved at gå til siden %2."
 
 #: core/templates/messages.tmpl:229
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -5514,7 +5543,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:216
 msgid "[[%1][Debug topic text]]."
-msgstr ""
+msgstr "[[%1][Debug kildetekst]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
@@ -5525,66 +5554,64 @@ msgstr "[[%1][brugernavn]]:"
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
+"[3 mellemrum (et antal gange)] * [mellemrum] Set [mellemrum] VARIABELNAVN "
+"[mellemrum] = [værdi]"
 
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
 msgstr "Dansk"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:169
-#, fuzzy
 msgid "access denied on root"
-msgstr "(adgang nægtet)"
+msgstr "adgang til root nægtet"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:105
-#, fuzzy
 msgid "access denied on topic"
-msgstr "(adgang nægtet)"
+msgstr "adgang til siden nægtet"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:141
-#, fuzzy
 msgid "access denied on web"
-msgstr "(adgang nægtet)"
+msgstr "adgang til webbet nægtet"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:179
 msgid "access not allowed on root"
-msgstr ""
+msgstr "adgang til root ikke tilladt "
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:128
 msgid "access not allowed on topic"
-msgstr ""
+msgstr "adgang til siden ikke tilladt "
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:153
 msgid "access not allowed on web"
-msgstr ""
+msgstr "adgang til webbet ikke tilladt "
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
-#, fuzzy
 msgid "accesskey='c'"
-msgstr "Tastatur-genveje"
+msgstr "accesskey='c'"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
-msgstr ""
+msgstr "og"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "af %1"
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
-msgstr ""
+msgstr "ændre visningsindstillinger"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
-msgstr ""
+msgstr "ændre, opdatér, se tidligere versioner, flyt, slet..."
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
-msgstr ""
+msgstr "flueben for sider med referencer"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
-msgstr ""
+msgstr "luk visningsindstillinger"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:118
 #: NatEditPlugin/templates/edit.natedit.tmpl:154
@@ -5593,35 +5620,31 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
-msgstr ""
+msgstr "forskelle"
 
 #: core/templates/messages.tmpl:298
-#, fuzzy
 msgid "don't forget to check your Topic Settings"
-msgstr "glem ikke at gemme dine ændringer"
+msgstr "glem ikke at tjekke dine side-instillinger (Topic Settings)"
 
 #: core/templates/messages.tmpl:499
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin fejlede. Se fejl nedenfor."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
 #: core/templates/formtables.tmpl:27
-#, fuzzy
 msgid "edit"
-msgstr "(editér)"
+msgstr "editér"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "edit form"
-msgstr "(editér formular)"
+msgstr "editér formular"
 
 #: core/templates/messages.tmpl:166
-#, fuzzy
 msgid "fields are required."
-msgstr "Felter mærket med %1 er obligatoriske"
+msgstr "feltet / felterne er obligatoriske"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:23
