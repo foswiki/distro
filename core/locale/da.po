@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 06:48+0200\n"
+"PO-Revision-Date: 2015-03-29 10:43+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -4312,7 +4312,7 @@ msgid ""
 msgstr ""
 "Du ændrer din email-adresse ved at udfylde formfeltet Email i din "
 "brugerside. Hvis dette formfelt ikke eksisterer så vil den lede after en "
-"linie der ser ud som denne: "
+"linje der ser ud som denne:"
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
 #: core/templates/messages.tmpl:267
@@ -4343,7 +4343,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:92
 msgid "You must pass a topic name."
-msgstr "Du skal angive et sidenavn"
+msgstr "Du skal angive et sidenavn."
 
 #: core/templates/messages.tmpl:498
 msgid "You need to specify a valid group name to add users to a group."
@@ -4551,7 +4551,7 @@ msgstr "ændre visningsindstillinger"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
-msgstr "ændr, opdatér, se tidligere versioner, flyt, slet..."
+msgstr "ændre, opdatér, se tidligere versioner, flyt, slet..."
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
@@ -4559,7 +4559,7 @@ msgstr "flueben for sider med referencer"
 
 #: core/data/System/SiteChanges.txt:57
 msgid "close display options"
-msgstr "luk visningsindstillinget"
+msgstr "luk visningsindstillinger"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
