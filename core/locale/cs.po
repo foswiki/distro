@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-26 22:59+0200\n"
+"PO-Revision-Date: 2015-03-29 22:23+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -1223,7 +1223,7 @@ msgstr "Vytvořit tento článek"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
-msgstr "Pro editaci stránek na tomto webu si vytvoř účet. "
+msgstr "Pro editaci stránek na tomto webu si vytvořte účet."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
@@ -1374,11 +1374,11 @@ msgstr "ENCODE selhalo - =type= nemůže být použit současně s =old= a =new=
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "ENCODE selhalo - oba ( =old= and =new= ) musí být uvedeny."
+msgstr "ENCODE selhalo - oba =starý= a =nový= musí být uvedeny"
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
+msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old= "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1665,8 +1665,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
-"Jděte na předchozí stránku a povolte Cookies a Javascript. Poté to zkuste "
-"znovu."
+"Jděte na předchozí stránku a povolte Cookies a Javascript a poté to zkuste "
+"znovu"
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
@@ -2062,7 +2062,7 @@ msgstr "Poslední revize: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor."
+msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor"
 
 #: core/data/System/WebSearch.txt:227
 msgid "Limit results to:"
@@ -2138,7 +2138,7 @@ msgstr "Hledání:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr "Maximálně %1 položek na jeden web."
+msgstr "Maximálně %1 položek na jeden web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2176,7 +2176,7 @@ msgstr "Více informací o skrytých přílohách"
 
 #: core/data/System/TopicsAndWebs.txt:49
 msgid "More topic actions"
-msgstr "Další akce pro práci s článkem..."
+msgstr "Další akce pro práci s článkem"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:87
@@ -2545,7 +2545,7 @@ msgid ""
 msgstr ""
 "Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, který "
 "je [[%SYSTEMWEB%.WikiWord][WikiWord]] nebo zaškrtněte volbu \"povolit non-"
-"Wiki Word\"."
+"Wiki Word\""
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2570,7 +2570,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:708
 msgid "Please notify your %1 administrator."
-msgstr "Uvědomte prosím Vašeho administrátora %1,"
+msgstr "Uvědomte prosím Vašeho administrátora %1."
 
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
@@ -3057,11 +3057,11 @@ msgstr "Vyber vše"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
-msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)."
+msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)"
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
-msgstr "Vyberte nadřízený článek."
+msgstr "Vyberte nadřízený článek"
 
 #: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3069,7 +3069,7 @@ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 
 #: core/data/System/WebSearch.txt:181
 msgid "Selections apply to search in \"text body\""
-msgstr "Pro vyhledávání v textu jsou aktivována omezení."
+msgstr "Pro vyhledávání v textu jsou aktivována omezení"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Sequential"
@@ -4468,9 +4468,8 @@ msgid "access not allowed on web"
 msgstr "přístup k webu není povolen"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
-#, fuzzy
 msgid "accesskey='c'"
-msgstr "accesskey='c'"
+msgstr "přístupový klíč='c'"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
@@ -4603,18 +4602,16 @@ msgstr ""
 "a porovnej revize' accesskey='m'>&Další akce"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
+msgstr "nadpis='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Proložený' accesskey='i'>&interwoven"
+msgstr "nadpis='Proložený' klávesová zkratka='i'>&interwoven"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4640,9 +4637,8 @@ msgid ""
 msgstr "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Jeden vedle druhého' accesskey='s'>&side by side"
+msgstr "nadpis='Vedle sebe' klávesová zkratka='s'>&side by side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
