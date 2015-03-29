@@ -168,7 +168,7 @@ sub getLoginName {
 
 ---++ ObjectMethod addUser ($login, $wikiname, $password, $emails) -> $cUID
 
-Add a user to the persistant mapping that maps from usernames to wikinames
+Add a user to the persistent mapping that maps from usernames to wikinames
 and vice-versa.
 
 $login and $wikiname must be acceptable to $Foswiki::cfg{NameFilter}.
