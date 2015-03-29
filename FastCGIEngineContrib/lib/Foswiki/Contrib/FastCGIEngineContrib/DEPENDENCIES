@@ -1,3 +1,4 @@
 FCGI, >0.67, cpan, Required for nginx, or if server is configured for FastCGI support
+FCGI::ProcManager, >0.23, cpan, Required for FCGI handler management.
 File::Spec, >0, cpan, This module is shipped as part of standard perl
 Cwd, >0, cpan, This module is shipped as part of standard perl
