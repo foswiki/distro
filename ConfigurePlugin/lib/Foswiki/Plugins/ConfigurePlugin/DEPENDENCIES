@@ -1,3 +1,2 @@
 Foswiki::Plugins::JQueryPlugin,>=6.00,perl,Required JQuery
 Foswiki::Contrib::JsonRpcContrib,>=0,perl,Required JSON interface
-

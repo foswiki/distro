@@ -1,2 +1,2 @@
-URI,>=1.35,cpan,Required. Available from the CPAN:URI archive.
-URI::Escape,>=3.28,cpan,Required. Available from the CPAN:URI::Escape archive.
+URI,>=1.35,cpan,Required for e-mail generation.
+URI::Escape,>=3.28,cpan,Required for e-mail generation.

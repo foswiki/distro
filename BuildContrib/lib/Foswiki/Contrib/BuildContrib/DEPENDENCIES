@@ -1,14 +1,5 @@
-File::Spec,>0,cpan,Used to convert relative paths to absolute. Available from CPAN:File::Spec
-File::Find,>0,cpan,Used to find file components. Available from CPAN:File::Find
-File::Copy,>0,cpan,Used to copy files. Available from CPAN:File::Copy
-File::Temp,>0,cpan,Used to create temp files. Available from CPAN:File::Temp
-FindBin,>0,cpan,Used to find earth. Available from CPAN:FindBin
-File::Path,>0,cpan,Used to build paths. Available from CPAN:File::Path
 CGI,>=0,cpan,May be required
-Carp,>=0,cpan,May be required
 Error,>=0,cpan,May be required
-Exporter,>=0,cpan,May be required
 LWP,>=0,cpan,May be required
-POSIX,>=0,cpan,Required
 JavaScript::Minifier,>=0,cpan,Optional, used to build .js from _src.js
 CSS::Minifier,>=0,cpan,Optional, used to build .css from _src.css
