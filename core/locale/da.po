@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-29 10:44+0200\n"
+"PO-Revision-Date: 2015-03-30 20:54+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -5716,40 +5716,38 @@ msgstr "Alle offentlige webs"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
 msgid "restore"
-msgstr ""
+msgstr "gendan"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "restore form"
-msgstr "(editér formular)"
+msgstr "gendan formular"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:133
 #: NatEditPlugin/templates/edit.natedit.tmpl:164
 msgid "restrict access to %1"
-msgstr ""
+msgstr "begræns adgang til %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:128
 msgid "restrict read access to users that have an account on this site"
-msgstr ""
+msgstr "begræns adgang til brugere som har en konto på denne side"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:159
 msgid "restrict write access to users that have an account on this site"
-msgstr ""
+msgstr "begræns skriveadgang til brugere som har en konto på denne side"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
-msgstr ""
+msgstr "fremsøgt %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(version %1)"
+msgstr "version %1"
 
 #: core/templates/settings.tmpl:3
 msgid "set preferences"
-msgstr ""
+msgstr "sæt præferencer"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:143
 #: NatEditPlugin/templates/edit.natedit.tmpl:174
@@ -5766,7 +5764,7 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
-msgstr ""
+msgstr "begyndelsen"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 #, fuzzy
@@ -5784,7 +5782,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr ""
+msgstr "title='Opret ny side' accesskey='c'>&Opret"
 
 #: core/templates/viewtopicactionbuttons.tmpl:19
 msgid ""
