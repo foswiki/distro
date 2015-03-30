@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419141850" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427752240" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
-
 ---+!! Perl dependencies for Foswiki and Extensions
 
 This topic lists the perl module dependencies required by the Foswiki core
@@ -13,15 +12,28 @@ In the report, all users of the module are identified (including the Foswiki
 core).  If a minimum version can be determined identified, the extension
 requiring the highest minimum version is underlined.
 
+%IF{"$include='all'" else="
+%BUTTON{
+  "Show all dependencies"
+  icon="book"
+  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';"
+}%" then=" 
+%BUTTON{
+  "Show missing dependencies"
+  icon="book"
+  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';"
+}% 
+"}%
+
+
 %TOC%
 
 <noautolink>
 ---++ Foswiki dependencies
 
-%PERLDEPENDENCYREPORT%
+%PERLDEPENDENCYREPORT{ include="%URLPARAM{"include" default="missing"}%"}%
 
 ---++ Foswiki extension dependencies
 
-%PERLDEPENDENCYREPORT{"extensions"}%
+%PERLDEPENDENCYREPORT{"extensions" include="%URLPARAM{"include" default="missing"}%"}%
 </noautolink>
-
