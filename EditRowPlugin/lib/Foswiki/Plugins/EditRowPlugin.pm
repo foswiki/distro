@@ -2,7 +2,8 @@
 package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
-use Foswiki::Request;
+use Foswiki::Request ();
+use Foswiki::Render  ();
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
@@ -11,10 +12,28 @@ BEGIN {
         *Foswiki::Request::multi_param = \&Foswiki::Request::param;
         use warnings 'redefine';
     }
+
+    unless ( defined &Foswiki::Render::html ) {
+        *Foswiki::Render::html = sub {
+            my ( $tag, $attrs, $innerHTML ) = @_;
+            my $html = "<$tag";
+            if ($attrs) {
+
+                # SMELL: make the sort conditional on DEBUG
+                foreach my $k ( sort keys %$attrs ) {
+                    my $v = $attrs->{$k};
+                    $v =~ s/([&<>"\x8b\x9b'])/'&#'.ord($1).';'/ge;
+                    $html .= " $k=\"$v\"";
+                }
+            }
+            $innerHTML = '' unless defined $innerHTML;
+            return "$html>$innerHTML</$tag>";
+          }
+    }
 }
 
-our $VERSION           = '3.100';
-our $RELEASE           = '18 Dec 2014';
+our $VERSION           = '3.300';
+our $RELEASE           = '30 Mar 2015';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 

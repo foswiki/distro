@@ -1,12 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427072400" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427736226" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = Replacement for some of !EditTablePlugin, some of !EditTablerowPlugin and some of !TablePlugin.
 %JQREQUIRE{"UI"}%
-   * Set UICON = <img class="ui-icon ui-icon-demo ui-icon-
-   * Set NOCIU = " style="display:inline" src="%ATTACHURLPATH%/onepixel.png"/>
+#   * Set UICON = <img class="ui-icon ui-icon-demo ui-icon-
+#   * Set NOCIU = " style="display:inline" src="%ATTACHURLPATH%/onepixel.png"/>
+   * Set UICON = <button type="button" class="ui-icon erp-button ui-icon-
+   * Set NOCIU = " ></button>
 -->
+<literal>
+<style type="text/css">
+@import url(%PUBURL%/%WEB%/%TOPIC%/erp.uncompressed.css);
+</style>
+</literal>
 
 %SHORTDESCRIPTION%
 
@@ -71,8 +78,8 @@ Parameters:
    * ==disable== - By default, the plugin shows both full table and individual row editing controls.
      You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full=
      (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=,
-     then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a
-     <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
+     then the <button type="button" class="erp-edittable"></button> (edit table) button will be replaced with a
+     <button type="button" class="erp-addrow""></button> (add row) button. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==buttons== - set to =left= (the default) or =right= to position edit controls in the first or last columns in the table. =buttons="right"= may be required if you are using other plugins that expect a certain column order.
    * ==quietsave== - Quiet Save button is shown if ="on"=. Defaults to the
@@ -109,12 +116,12 @@ Parameters:
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
    * ==js== gives local, per-table control over the =EDITROWPLUGIN_JS= preference <a href="#js">described below</a>.
 Table rows are shown with a row edit button %UICON%pencil%NOCIU% in the first column,
-and a table edit button <img src="%ATTACHURLPATH%/edittable.png" /> after the
+and a table edit button <button type="button" class="erp-edittable"></button> after the
 table. When the table is
 edited, then a number of buttons may be shown depending on the
 settings of =changerows= and =quietsave=.
    * %UICON%disk%NOCIU% saves the changes
-   * <img src="%ATTACHURLPATH%/quiet.png" /> saves without notification
+   * <button type="button" class="erp-button erp-quietsave"></button> saves without notification
    * %UICON%plusthick%NOCIU% adds a new row after the current row, taking for its contents the initial values specified in the EDITTABLE macro
    * %UICON%minusthick%NOCIU% deletes the row
    *  %UICON%arrow-1-n%NOCIU% Move this row up one row in the table
@@ -182,7 +189,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 =%<nop>EDITTABLE{ format="| text,12 | textarea, 3x30 |" js="assumed"}%= <br />
 <img src="%ATTACHURLPATH%/screenshot2.png"></div>
 When a table is editable and Javascript is enabled, then when the user rolls the mouse over a table row:
-   * individual table cells have a yellow stain <img src="%ATTACHURL%/editbutton.png"> on the corner that can be clicked to open an in-place editor,
+   * individual table cells have a yellow stain <button type="button" class="erp-editbutton"></button> on the corner that can be clicked to open an in-place editor,
    * table rows *that contain at least one editable cell* can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
 Table columns can be sorted in the browser, by clicking the heading above the row.
 
@@ -259,6 +266,7 @@ Provides the vertical row editing interface like
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.200 (30 Mar 2015) | Foswikitask:13309: fixed for compatibility with !TablePlugin |
 |  3.100 (18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
                          Foswikitask:Item13125: Support Request multi_param<br />\
                          Foswikitask:Item13115: Don't require JQuery theme<br />\
@@ -308,28 +316,17 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
-%META:FILEATTACHMENT{name="addrow.png" attr="h" autoattached="1" comment="" date="1427072400" size="425" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittopic.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="280" version="1"}%
-%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" user="ProjectContributor" date="1427072400" size="1418" version="1"}%
-%META:FILEATTACHMENT{name="onepixel.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="101" version="1"}%
-%META:FILEATTACHMENT{name="plus.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="163" version="1"}%
-%META:FILEATTACHMENT{name="screenshot2.png" attr="h" autoattached="1" comment="" date="1427072400" size="12013" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example5.png" attr="h" autoattached="1" comment="" date="1427072400" size="9132" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example4.png" attr="h" autoattached="1" comment="" date="1427072400" size="22834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="stop.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="248" version="1"}%
-%META:FILEATTACHMENT{name="quiet.png" attr="h" autoattached="1" comment="" date="1427072400" size="356" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="editbutton.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="357" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" autoattached="1" comment="" date="1427072400" size="19461" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="arrowdown.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="185" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="3956" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="23426" version="1"}%
-%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" user="ProjectContributor" date="1427072400" size="875" version="1"}%
-%META:FILEATTACHMENT{name="edittable.png" attr="h" autoattached="1" comment="" date="1427072400" size="3287" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1427072400" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="11219" version="1"}%
-%META:FILEATTACHMENT{name="minus.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="157" version="1"}%
-%META:FILEATTACHMENT{name="save.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="292" version="1"}%
-%META:FILEATTACHMENT{name="arrowup.png" attr="h" comment="" user="ProjectContributor" date="1427072400" size="190" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427072400" size="1328" version="1"}%
-%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="10286" version="1"}%
-%META:FILEATTACHMENT{name="example3.png" attr="h" autoattached="1" comment="" date="1427072400" size="15337" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clock.gif" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="erp.css" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="erp.js" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="example3.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example4.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example5.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="icons.png" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot2.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.js" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" user="ProjectContributor" date="1427736226" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" date="1427736226" user="ProjectContributor" version="1"}%

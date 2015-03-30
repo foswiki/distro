@@ -50,8 +50,10 @@ Generate an HTML editor for the cell
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
-    return CGI::textfield(
+    return Foswiki::Render::html(
+        'input',
         {
+            type  => 'text',
             class => 'erpJS_input',
             name  => $cell->getElementName(),
             size  => $colDef->{size} || 10,
@@ -82,21 +84,27 @@ sub jQueryMetadata {
 # Used by subclasses
 sub _addSaveButton {
     my ( $this, $data ) = @_;
-    my $purl = Foswiki::Func::getPubUrlPath();
 
-    # JS will rewrite this URL to some HTML
-    $data->{submitimg} =
-      "$purl/$Foswiki::cfg{SystemWebName}/EditRowPlugin/save.png";
+    $data->{submit} = Foswiki::Render::html(
+        'button',
+        {
+            type  => 'submit',
+            class => 'ui-icon ui-icon-disk erp-button'
+        }
+    );
 }
 
 # Used by subclasses
 sub _addCancelButton {
     my ( $this, $data ) = @_;
-    my $purl = Foswiki::Func::getPubUrlPath();
 
-    # JS will rewrite this URL to some HTML
-    $data->{cancelimg} =
-      "$purl/$Foswiki::cfg{SystemWebName}/EditRowPlugin/stop.png";
+    $data->{cancel} = Foswiki::Render::html(
+        'button',
+        {
+            type  => 'submit',
+            class => 'ui-icon erp-button ui-icon-cancel'
+        }
+    );
 }
 
 =begin TML

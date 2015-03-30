@@ -116,21 +116,46 @@ sub process {
 
             my $saveUrl =
               Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest',
-                %{ $_->getURLParams() } );
-            $line .= CGI::start_form(
-                -method => 'POST',
-                -name   => "erp_form_" . $table->getID(),
-                -action => $saveUrl
-            );
+                $_->getParams('erp_') );
+            $line .= "<form action='$saveUrl' method='POST' name='erp_form_"
+              . $table->getID() . "'>";
 
             # js="assumed" doesn't actually use the form, execept as a
             # vehicle for validation. js="assumed" extracts the necessary
             # from the erp-data attached to the table.
             unless ( $table->{attrs}->{js} eq 'assumed' ) {
-                $line .= CGI::hidden( 'erp_topic',   $active_topic );
-                $line .= CGI::hidden( 'erp_version', $active_version );
-                $line .= CGI::hidden( 'erp_table',   $table->getID() );
-                $line .= CGI::hidden( 'erp_row',     $active_row );
+                $line .= Foswiki::Render::html(
+                    'input',
+                    {
+                        type  => 'hidden',
+                        name  => 'erp_topic',
+                        value => $active_topic
+                    }
+                );
+                $line .= Foswiki::Render::html(
+                    'input',
+                    {
+                        type  => 'hidden',
+                        name  => 'erp_version',
+                        value => $active_version
+                    }
+                );
+                $line .= Foswiki::Render::html(
+                    'input',
+                    {
+                        type  => 'hidden',
+                        name  => 'erp_table',
+                        value => $table->getID()
+                    }
+                );
+                $line .= Foswiki::Render::html(
+                    'input',
+                    {
+                        type  => 'hidden',
+                        name  => 'erp_row',
+                        value => $active_row
+                    }
+                );
             }
 
             # To avoid with the situation where macros like
@@ -167,20 +192,18 @@ sub process {
                     real_table => $real_table
                 }
               ) . "\n";
-            $line .= CGI::end_form();
+            $line .= '</form>';
             $needHead = 1;
         }
         else {
             if ( $table->{attrs}->{js} ne 'ignored' ) {
 
                 # Action-less form just used to hang validation from
-                $line .= CGI::start_form(
-                    -method => 'POST',
-                    -name   => "erp_form_" . $table->getID()
-                );
+                $line .= "<form action='valid' method='POST' name='erp_form_"
+                  . $table->getID() . "'>\n";
             }
             $line .= $table->render( { with_controls => $table->{editable} } );
-            $line .= CGI::end_form() if $table->{attrs}->{js} ne 'ignored';
+            $line .= '</form>' if $table->{attrs}->{js} ne 'ignored';
         }
 
         $table->finish();

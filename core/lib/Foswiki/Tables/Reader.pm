@@ -147,17 +147,32 @@ sub parse {
 # Parser event handler
 # Detect and process the macro recognised by the table class (e.g. EDITTABLE).
 # This is recorded as "pending" so it can be applied to the next table read.
+# Also procss and remember attributes from the generic TABLE macro.
 sub early_line {
     my ( $this, $line ) = @_;
     @{ $this->{waiting} } = ();
 
     return 0 unless $this->{meta};
 
-    # Can we get a balanced macro expression from the text?
-    my $args = Foswiki::Attrs::findFirstOccurenceAttrs( $this->{macro}, $line );
-    return 0 unless ( defined $args );
+    # Process the generic TABLE attributes, and replace whatever was
+    # there already
+    my $args = Foswiki::Attrs::findFirstOccurenceAttrs( 'TABLE', $line );
+    if ($args) {
+        $args = $this->{meta}->expandMacros($args);
+        $this->{TABLE} = Foswiki::Attrs->new($args);
+    }
 
+    # Can we get a balanced macro expression from the text?
+    $args = Foswiki::Attrs::findFirstOccurenceAttrs( $this->{macro}, $line );
+    return 0 unless ( defined $args );
+    $args = $this->{meta}->expandMacros($args);
     my $attrs = Foswiki::Attrs->new($args);
+
+    # Add attributes from the last TABLE macro seen
+    if ( $this->{TABLE} ) {
+        $attrs->{TABLE} = $this->{TABLE};
+        delete $this->{TABLE};
+    }
 
     # Remember leading and trailing junk
     my $ok = $line =~ m/^(.*?)(\%$this->{macro}(?:\Q{$args}\E)?%)(.*)$/s;

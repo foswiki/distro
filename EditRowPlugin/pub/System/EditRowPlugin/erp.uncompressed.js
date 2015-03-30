@@ -47,9 +47,11 @@
                 var cal = new Calendar(
                     1, null,
                     function (cal, date) { // onSelected
-                        cal.hide();
-                        inp.val(date);
-                        $(form).trigger("submit");
+                        if (cal.dateClicked) {
+                            cal.hide();
+                            inp.val(date);
+                            $(form).trigger("submit");
+                        }
                     },
                     function (cal) { // onClose
                         cal.hide();
@@ -62,6 +64,7 @@
                 if (settings.format) {
                     cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) != -1);
                     cal.setDateFormat(settings.format);
+                    cal.setTtDateFormat(settings.format);
                 }
                 cal.parseDate(original.revert.replace(/^\s+/, ''));
                 cal.showAtElement(inp[0], "Br");
@@ -195,10 +198,10 @@
         // dragee and target are both TRs
         var target_data = target.data('erp-data');
         var dragee_data = dragee.data('erp-data');
-        var old_pos = dragee_data.erp_row;
+        var old_pos = dragee_data.row;
         var new_pos;
         if (target_data != null)
-            new_pos = target_data.erp_row;
+            new_pos = target_data.row;
         else {
             if (target.next().size() > 0)
                 new_pos = 0;
@@ -207,8 +210,10 @@
         }
 
         var table = container.closest('table');
-        var move_data = $.extend({ noredirect: 1 }, target_data,
-                                 table.data('erp-data'));
+        var move_data = $.extend({ noredirect: 1 }, target_data);
+        $.each(table.data('erp-data'), function(k, v) {
+            move_data['erp_' + k] = v;
+        });
         if (edge == 'bottom')
             new_pos++;
         
@@ -341,12 +346,16 @@
         // use a function to get the submit data from the store
         // because the row index may change if rows are moved/added/deleted
         submitdata: function(value, settings) {
-            var sd = $.extend(
-                { erp_action: "saveCellCmd",
-                  noredirect: 1 },
+            var d = $.extend(
+                { action: "saveCellCmd" },
                 $(this).data('erp-data'),
                 $(this).closest('tr').data('erp-data'),
-                $(this).closest('table').data('erp-data'));
+                $(this).closest('table').data('erp-data')), sd = {};
+            // Rename keys for URL submission
+            $.each(d, function(k, v) {
+                sd["erp_" + k] = v;
+            });
+            sd.noredirect = 1;
 
             $(this).closest('form').each(
                 function() {
@@ -366,7 +375,7 @@
                 return false;
             self.isSubmitting = true;
             // Add a clock to feedback on the save
-            $("<div class='erp_clock_button'></div>").insertAfter($(self).next());
+            $("<div class='erp-clock'></div>").insertAfter($(self).next());
             return true;
         },
 
@@ -379,7 +388,7 @@
         onerror: function(settings, self, xhr) {
             var mess = xhr.responseText;
             self.isSubmitting = false;
-            $(self).parent().find('.erp_clock_button').remove();
+            $(self).parent().find('.erp-clock').remove();
             $(self).next().show();
             if (mess.indexOf('RESPONSE') == 0)
                 alert(mess.replace(/^RESPONSE/, ''));
@@ -400,7 +409,7 @@
             settings.data = value;
         }
         el.isSubmitting = false;
-        $(el).parent().find('.erp_clock_button').remove();
+        $(el).parent().find('.erp-clock').remove();
         $(el).next().show();
     };
 
@@ -441,7 +450,7 @@
         // positioning. It is *not* sufficient to set the class on
         // the td
         var div = $("<div class='erpJS_container'></div>");
-        var button = $('<div class="erpJS_editButton" title="Click to edit"></div>');
+        var button = $('<div class="erp-edit-button" title="Click to edit"></div>');
         div.append(button);
         el.closest("td").prepend(div);
 
@@ -476,6 +485,44 @@
     var erp_dataDirty = false;
     var erp_dirtyVeto = false;
 
+    // Make sure thead, tbody, tfoot are consistent with headerrows
+    // and footerrows, otherwise lots won't work correctly
+    var repair_table = function($table, info) {
+        var hr, fr;
+        if (!info)
+            return; // nothing to do
+        if (typeof info.headerrows !== "undefined")
+            hr = info.headerrows;
+        else if (info.TABLE && typeof info.TABLE.headerrows !== "undefined")
+            hr = info.TABLE.headerrows;
+        if (typeof info.footerrows !== "undefined")
+            fr = info.footerrows;
+        else if (info.TABLE && typeof info.TABLE.footerrows !== "undefined")
+            fr = info.TABLE.footerrows;
+        var $thead = $table.children("thead");
+        var $tbody = $table.children("tbody");
+
+        while ($thead.children().length < hr) {
+            if ($tbody.children().length > 0)
+                $tbody.children().first().detach().appendTo($thead);
+            else if ($tfoot.children().length > 0)
+                $tfoot.children().first().detach().appendTo($thead);
+            else
+                break;
+        }
+
+        var $tfoot = $table.children("tfoot");
+        if (!$tfoot && fr > 0)
+            $tfoot = $("<tfoot></tfoot>").appendTo($table);
+
+        while ($tfoot.children().length < fr) {
+            if ($tbody.children().length > 0)
+                $tbody.children().last().detach().prependTo($tfoot);
+            else
+                break;
+        }
+    };
+
     // For a given context (the whole document, or a single table
     // during editing) decorate the table with handlers for cell edit,
     // row edit, and row move
@@ -485,7 +532,7 @@
         // table data is attached to only one cell, and that cell may not
         // be the first in the table (for example, if it has been sorted
         // away by the TablePlugin)
-        context.find('.erpJS_cell').each(function(index, value) {
+        context.find('.erpJS_cell').each(function() {
 
             // Get table meta-data
             var p = $(this).data('erp-tabledata');
@@ -493,7 +540,8 @@
                 // Data to be moved up to the containing table
                 var table = $(this).closest("table");
                 table.data('erp-data', p);
-                table.addClass('erp_editable');                
+                repair_table(table, p);
+                table.addClass('erp_editable');
             }
 
             p = $(this).data('erp-trdata');
@@ -503,20 +551,15 @@
                 tr.data('erp-data', p);
                 tr.addClass('ui-draggable');
             }
-
-            // Rewrite submitimg and cancelimg to HTML buttons
-            // for passing to $.editable
-            p = $(this).data('erp-data');
-            if (p) {
-                $.each(p, function(name, img) {
-                    if (name.indexOf('img') == name.length - 3) {
-                        name = name.replace(/img$/, '');
-                        p[name] = "<button type='submit'><img src='"
-                            + img + "' /></button>";
-                    }
-                });
-            }
         });
+
+        context.find('.interactive_sort').first().each(function() {
+            var p = $(this).data('sort');
+            $(this).closest("table")
+                .data("sort", p)
+                .find(".tableSortIcon")
+                .remove();
+       });
 
         context.find('.erpJS_input').change(function() {
             erp_dataDirty = true;
@@ -554,13 +597,26 @@
             return cont;
         });
 
-        context.find('.erpJS_sort').click(function() {
-            var m = /{(.*)}/.exec($(this).attr("class"));
-            var md = {};
-            if (m)
-                md = eval('({' + m[1] + '})');
-            return sortTable(this, false, md.headrows, md.footrows);
-        });
+        $('.interactive_sort', context)
+            .click(function() {
+                sortTable(this, $(this).data("sort"));
+                return false;
+            })
+            .each(function() {
+                $(this).addClass("erpJS_sort");
+            });
+
+        $("table.erp_editable", context)
+            .find(".foswikiSortedCol")
+            .find(".interactive_sort")
+            .each(function() {
+                var s = $(this).closest("table").data("sort");
+                $("<div></div>")
+                    .addClass("tableSortIcon ui-icon erp-button "
+                              + "ui-icon-circle-triangle-" + 
+                              ((s && s.reverse == 1) ? "s" : "n"))
+                    .appendTo($(this).closest("td,th"));
+            });
 
         var current_row = null;
         $('.ui-draggable').mouseover(
@@ -588,11 +644,13 @@
                 }
             });
     };
+
     $.ajaxSetup({
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401)
                 alert("Please log in before editing");
         }});
+
     $(function() {
         instrument($(document));
     });

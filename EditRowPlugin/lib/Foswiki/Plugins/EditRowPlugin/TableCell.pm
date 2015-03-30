@@ -47,6 +47,7 @@ sub render {
     my ( $this, $opts, $render_opts ) = @_;
 
     my $colDef = $opts->{col_defs}->[ $this->{number} ] || $defCol;
+    my $json = JSON->new()->convert_blessed();
 
     my $text = $this->{text};
     if ( $text =~ s/%EDITCELL{(.*?)}%// ) {
@@ -85,18 +86,35 @@ sub render {
 
         if ( $this->{isHeader} ) {
 
-            # Headers are never editable
+            # Headers are never editable, but may be sortable
             my $attrs = {};
             unless ( $opts->{js} eq 'ignored' ) {
 
-                # head and foot sizes passed in metadata
-                $attrs->{class} =
-                    'erpJS_sort {headrows: '
-                  . $this->{row}->{table}->getHeaderRows()
-                  . ',footrows:'
-                  . $this->{row}->{table}->getFooterRows() . '}';
+                my $table = $this->{row}->{table};
+                if (
+                    !(
+                        $table->{TABLE}
+                        && Foswiki::isTrue( $table->{TABLE}->{disableallsort} )
+                    )
+                  )
+                {
+
+                    $attrs->{class} = 'interactive_sort';
+                    my $table = $this->{row}->{table};
+                    my $sort  = {};
+                    if ( $table->{TABLE} ) {
+                        my $TABLE = $table->{TABLE};
+                        $sort->{reverse} =
+                          0 + ( $TABLE->{initdirection} eq "up" );
+                        $sort->{col} =
+                            $TABLE->{initsort}
+                          ? $TABLE->{initsort} + $table->{dead_cols}
+                          : 0;
+                    }
+                    $attrs->{"data-sort"} = $json->encode($sort);
+                }
             }
-            $text = CGI::span( $attrs, $text );
+            $text = '*' . Foswiki::Render::html( 'span', $attrs, $text ) . '*';
         }
         else {
 
@@ -124,26 +142,27 @@ sub render {
                     my @css_classes = ('erpJS_cell');
 
                     if ( $render_opts->{need_tabledata} ) {
-                        $sopts->{'data-erp-tabledata'} =
-                          JSON::to_json(
-                            $this->{row}->{table}->getURLParams() );
+                        my %td = $this->{row}->{table}->getParams();
+                        $td{TABLE} = $this->{row}->{table}->{TABLE}
+                          if $this->{row}->{table}->{TABLE};
+                        $sopts->{'data-erp-tabledata'} = $json->encode( \%td );
                         $render_opts->{need_tabledata} = 0;
                     }
 
                     if ( $render_opts->{need_trdata} ) {
                         $sopts->{'data-erp-trdata'} =
-                          JSON::to_json( $this->{row}->getURLParams() );
+                          $json->encode( { $this->{row}->getParams() } );
                         $render_opts->{need_trdata} = 0;
                     }
 
                     # Finally add the column to the data for the cell
                     $sopts->{'data-erp-data'} =
-                      JSON::to_json( $this->getURLParams(%$data) );
+                      $json->encode( { $this->getParams(), %$data } );
 
                     $sopts->{class} = join( ' ', @css_classes );
                 }
             }
-            $text = CGI::div( $sopts, " $text " );
+            $text = Foswiki::Render::html( 'div', $sopts, " $text " );
         }
     }
     $text =~ s/%/&#37;/g;    # prevent further macro expansion Item10770
@@ -156,9 +175,12 @@ sub can_edit {
 }
 
 # add URL params needed to address this cell
-sub getURLParams {
-    my ( $this, %more ) = @_;
-    return { %more, erp_col => $this->{number} };
+sub getParams {
+    my ( $this, $prefix ) = @_;
+
+    $prefix ||= '';
+
+    return ( "${prefix}col" => $this->{number} );
 }
 
 1;

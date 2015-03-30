@@ -19,13 +19,7 @@ sub htmlEditor {
     my $expandedValue = Foswiki::Func::expandCommonVariables($unexpandedValue);
     $expandedValue =~ s/^\s*(.*?)\s*$/$1/;
 
-    # Explicit HTML used because CGI gets it wrong
-    my $text =
-        "<select name='"
-      . $cell->getElementName()
-      . "' size='"
-      . $colDef->{size}
-      . "' class='erpJS_input'>";
+    my $options;
     foreach my $option ( @{ $colDef->{values} } ) {
         my $expandedOption = Foswiki::Func::expandCommonVariables($option);
         $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
@@ -33,10 +27,17 @@ sub htmlEditor {
         if ( $expandedOption eq $expandedValue ) {
             $opts{selected} = 'selected';
         }
-        $text .= CGI::option( \%opts, $option );
+        $options .= Foswiki::Render::html( 'option', \%opts, $option );
     }
-    $text .= "</select>";
-    return $text;
+    return Foswiki::Render::html(
+        'select',
+        {
+            name  => $cell->getElementName(),
+            size  => $colDef->{size},
+            class => 'erpJS_input'
+        },
+        $options
+    );
 }
 
 sub jQueryMetadata {

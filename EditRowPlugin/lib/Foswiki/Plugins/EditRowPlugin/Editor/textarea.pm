@@ -27,7 +27,8 @@ sub htmlEditor {
     $tmptext =~ s#<br( /)?>#\r\n#gi;
     $tmptext =~ s/%BR%/\r\n/gi;
 
-    return CGI::textarea(
+    return Foswiki::Plugins::editRowPlugin::html(
+        'textarea',
         {
             class   => 'erpJS_input',
             rows    => $rows,

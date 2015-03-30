@@ -1,193 +1,122 @@
-// Code from http://www.brainjar.com/
-// License GPL 2
-// Extended by Crawford Currie Copyright (C) 2007 http://c-dot.co.uk
-//-----------------------------------------------------------------------------
-// sortTable(id, col, rev)
-//
-//  tblEl - an element anywhere in the table
-//  rev - If true, the column is sorted in reverse (descending) order
-//        initially.
-//  headrows - number of rows in table header (unsorted)
-//  footrows number of rows in table footer (unsorted)
-//
-// Automatically detects and sorts data types; numbers and dates
+/**
+ * Copyright (C) 2015 Foswiki Contributors
+ * Author: Crawford Currie http://c-dot.co.uk
+ *
+ * sortTable(el, headrows, footrows, init)
+ *
+ * el - an element anywhere in the table
+ * init - information about any presort
+ *     col - column presorted on first call
+ *     reverse - presort direction on first call, false = increasing,
+ *               true = decreasing
+ *
+ * Automatically detects and sorts data types; numbers and dates
+ */
+function sortTable(el, init) {
+    var $td = $(el).closest("td,th"),
+    $tr = $td.closest("tr"),
+    $table = $tr.closest("table"),
+    $tbody = $table.children("tbody"),
+    col = $td.index(), // column index
+    sort = $table.data("sort-data"),
+    sortable = [],
+    $rows = $table.children("thead,tbody,tfoot").children("tr");
 
-function sortTable(el, rev, headrows, footrows) {
+    if (!sort) {
+        sort = {
+            coldirs: [],
+            last_col: init.col || 0
+        };
+        for (i = $tr.children().length; i > 0; i--)
+            sort.coldirs.push(false);
 
-    // Search up to find the containing TD or TH
-    var tdEl = el;
-    while (tdEl != null &&
-           tdEl.tagName.toUpperCase() != "TD" &&
-           tdEl.tagName.toUpperCase() != "TH") {
-        tdEl = tdEl.parentNode;
-    }
-    if (tdEl == null) {
-        return;
-    }
-
-    // Continue up to the TR
-    var trEl = tdEl;
-    while (trEl != null && trEl.tagName.toUpperCase() != "TR") {
-        trEl = trEl.parentNode;
-    }
-    if (trEl == null) {
-        return;
-    }
-
-    // Continue to search up to find the containing table
-    var tblEl = trEl;
-    while (tblEl != null && tblEl.tagName.toUpperCase() != "TABLE") {
-        tblEl = tblEl.parentNode;
-    }
-    if (tblEl == null) {
-        return;
-    }
-
-    // Now work out the column index
-    var col = 0;
-    var i = 0;
-    while (i < trEl.childNodes.length) {
-        if (trEl.childNodes[i].tagName != null) {
-            if (trEl.childNodes[i] == tdEl)
-                break;
-            col++;
-        }
-        i++;
-    }
-    if (i == trEl.childNodes.length) {
-        return null;
-    }
-
-    // Find the TBODY, and work out the number of rows
-    var tblBody = null;
-    var gotBody = false;
-    for (var i = 0; i < tblEl.childNodes.length; i++) {
-        var tn = tblEl.childNodes[i].tagName;
-        if (tn != null)
-            tn = tn.toUpperCase();
-        if (tn == "THEAD") {
-            // Bloody TablePlugin generates footer rows in the THEAD!
-            if (gotBody)
-                footrows -= tblEl.childNodes[i].rows.length;
-            else
-                headrows -= tblEl.childNodes[i].rows.length;
-        }
-        else if (tn == "TBODY") {
-            tblBody = tblEl.childNodes[i];
-            gotBody = true;
-        }
-        else if (tn == "TFOOT") {
-            footrows -= tblEl.childNodes[i].rows.length;
-        }
-    }
-
-    // The first time this function is called for a given table, set up an
-    // array of reverse sort flags.
-    if (tblEl.reverseSort == null) {
-        tblEl.reverseSort = new Array();
-        // Also, assume the team name column is initially sorted.
-        tblEl.lastColumn = -1;
-    }
-    
-    // If this column has not been sorted before, set the initial sort direction.
-    if (tblEl.reverseSort[col] == null)
-        tblEl.reverseSort[col] = rev;
-    
-    // If this column was the last one sorted, reverse its sort direction.
-    if (col == tblEl.lastColumn)
-        tblEl.reverseSort[col] = !tblEl.reverseSort[col];
-    
-    // Remember this column as the last one sorted.
-    tblEl.lastColumn = col;
-    
-    // Set the table display style to "none" - necessary for Netscape 6 
-    // browsers.
-    var oldDsply = tblEl.style.display;
-    tblEl.style.display = "none";
-    
-    // Sort the rows based on the content of the specified column using a
-    // selection sort.
-    
-    var tmpEl;
-    var i, j;
-    var minVal, minIdx;
-    var testVal;
-    var cmp;
-    
-    var start = (headrows > 0 ? headrows : 0);
-    var end = tblBody.rows.length - (footrows > 0 ? footrows : 0);
-    for (i = start; i < end - 1; i++) {
-        
-        // Assume the current row has the minimum value.
-        minIdx = i;
-        minVal = getTextValue(tblBody.rows[i].cells[col]);
-        
-        // Search the rows that follow the current one for a smaller value.
-        for (j = i + 1; j < end; j++) {
-            testVal = getTextValue(tblBody.rows[j].cells[col]);
-            cmp = compareValues(minVal, testVal);
-            // Negate the comparison result if the reverse sort flag is set.
-            if (tblEl.reverseSort[col])
-                cmp = -cmp;
-            // If this row has a smaller value than the current minimum,
-            // remember its position and update the current minimum value.
-            if (cmp > 0) {
-                minIdx = j;
-                minVal = testVal;
+        if (typeof init.col !== "undefined")
+            sort.coldirs[init.col] = init.reverse;
+        sort.bgs = 0;
+        $rows.each(function() {
+            var m = $(this).attr("class").match(/(foswikiTableRowdataBg(\d+))/);
+            if (m) {
+                var idx = Number.parseInt(m[2]) + 1;
+                if (idx > sort.bgs)
+                    sort.bgs = idx;
+                $(this).removeClass(m[1]);
             }
-        }
-        
-        // By now, we have the row with the smallest value. Remove it from the
-        // table and insert it before the current row.
-        if (minIdx > i) {
-            tmpEl = tblBody.removeChild(tblBody.rows[minIdx]);
-            tblBody.insertBefore(tmpEl, tblBody.rows[i]);
-        }
+        });
     }
-    
-    // Make it look pretty.
-    // Not used, but kept for when TablePlugin uses classes.
-    //makePretty(tblBody, col);
-    
-    // Restore the table's display style.
-    tblEl.style.display = oldDsply;
-    
-    return false;
-}
 
-//-----------------------------------------------------------------------------
-// Functions to get and compare values during a sort.
-//-----------------------------------------------------------------------------
+    if (col == sort.last_col)
+        sort.coldirs[col] = !sort.coldirs[col];
 
-// This code is necessary for browsers that don't reflect the DOM constants
-// (like IE).
-if (document.ELEMENT_NODE == null) {
-    document.ELEMENT_NODE = 1;
-    document.TEXT_NODE = 3;
-}
+    var rev = sort.coldirs[col] ? -1 : 1;
+    sort.last_col = col;
 
-function getTextValue(el) {
-    
-    if (!el)
-        return '';
+    $table
+        .data("sort-data", sort)
+        .find(".tableSortIcon").remove();
 
-    var i;
-    var s;
-    
-    // Find and concatenate the values of all text nodes contained within the
-    // element.
-    s = "";
-    for (i = 0; i < el.childNodes.length; i++)
-        if (el.childNodes[i].nodeType == document.TEXT_NODE)
-            s += el.childNodes[i].nodeValue;
-        else if (el.childNodes[i].nodeType == document.ELEMENT_NODE &&
-                 el.childNodes[i].tagName == "BR")
-            s += " ";
-        else
-            // Use recursion to get text within sub-elements.
-            s += getTextValue(el.childNodes[i]);
-    
-    return normalizeString(s);
+    $tbody.children().each(function() {
+        sortable.push($(this));
+    });
+
+    sortable.sort(function(a, b) {
+        var av = a.children().eq(col).text(),
+        bv = b.children().eq(col).text();
+
+        return compareValues(av, bv) * rev;
+    });
+
+//.foswikiTable tr.foswikiTableRowdataBg0 td.foswikiSortedCol
+    // .tableSortIcon=  |The sort icon holder (span)  |
+
+    $rows.children("td,th").removeClass(
+        "foswikiSortedCol foswikiSortedAscendingCol "
+        + "foswikiSortedDescendingCol foswikiTableEven foswikiTableOdd");
+
+    $rows.each(function() {
+        var m = $(this).attr("class").match(/(foswikiTableRowdataBg\d+)/);
+        if (m)
+            $(this).removeClass(m[1]);
+        m = $(this).attr("class").match(/(foswikiTableRowdataBgSorted\d+)/);
+        if (m)
+            $(this).removeClass(m[1]);
+    });
+
+    $tbody.empty();
+    // TablePlugin classes - databg. This is just too complex to correct.
+
+    // .foswikiTableCol= + column number  | Unique column identifier, for instance: =foswikiTableCol0= |
+    // .foswikiTableRow= + type + row number | Unique row identifier, for instance: =foswikiTableRowdataBg0= |
+    $.each(sortable, function(index, $tr) {
+        $tbody.append($tr);
+    });
+
+    // Get re-ordered rows
+    $rows = $table.children("thead,tbody,tfoot").children("tr");
+    $rows.removeClass("foswikiTableEven foswikiTableOdd");
+    var index = 0;
+    $rows.each(function() {
+        $(this)
+            .children("th,td").eq(col) // get sorted column
+            .addClass("foswikiSortedCol "
+                      + "foswikiSorted"
+                      + (rev === 1 ? "Ascending" : "Descending")
+                      + "Col");
+
+        if (sort.bgs > 0) {
+            $(this).addClass(
+                "foswikiTableRowdataBg" + (index % sort.bgs)
+                    + " foswikiTableRowdataBgSorted" + (index % sort.bgs))
+        }
+
+        $(this).addClass("foswikiTable" +
+                         (((index & 1) === 0) ? "Even" : "Odd"));
+        index++;
+    });
+
+    $("<div></div>")
+        .addClass("tableSortIcon ui-icon erp-button ui-icon-circle-triangle-" + 
+                  (rev === 1 ? "s" : "n"))
+        .appendTo($td);
 }
 
 var months = new Array();
@@ -208,7 +137,7 @@ months["dec"] = 11;
 // "31-Dec-2003 - 23:59",
 // "31/Dec/2003 - 23:59",
 // "31/Dec/03 - 23:59",
-var TWIKIDATE = new RegExp(
+var WIKIDATE = new RegExp(
     "^\\s*([0-3]?[0-9])[-\\s/]*" +
     "(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)" +
     "[-\\s/]*([0-9]{2}[0-9]{2}?)" +
@@ -221,8 +150,8 @@ var RFC8601 = new RegExp(
 // Convert date/time to epoch seconds. Return 0 if a valid date
 // wasn't found.
 function s2d(s) {
-    // TWiki date/time
-    var d = s.match(TWIKIDATE);
+    // Wiki date/time
+    var d = s.match(WIKIDATE);
     if (d != null) {
         var nd = new Date();
         nd.setDate(Number(d[1]));
@@ -296,69 +225,3 @@ function compareValues(v1, v2) {
         return 1;
     return -1;
 }
-
-// Regular expressions for normalizing white space.
-var whtSpEnds = new RegExp("^\\s*|\\s*$", "g");
-var whtSpMult = new RegExp("\\s\\s+", "g");
-
-function normalizeString(s) {
-    
-    s = s.replace(whtSpMult, " ");  // Collapse any multiple whites space.
-    s = s.replace(whtSpEnds, "");   // Remove leading or trailing white space.
-    
-    return s;
-}
-
-//-----------------------------------------------------------------------------
-// Functions to update the table appearance after a sort.
-// Not used, but kept for when TablePlugin uses classes.
-//-----------------------------------------------------------------------------
-
-/*
-// Style class names.
-var rowClsNm = "alternateRow";
-var colClsNm = "sortedColumn";
-
-// Regular expressions for setting class names.
-var rowTest = new RegExp(rowClsNm, "gi");
-var colTest = new RegExp(colClsNm, "gi");
-
-function makePretty(tblEl, col) {
-    
-    var i, j;
-    var rowEl, cellEl;
-    
-    // Set style classes on each row to alternate their appearance.
-    for (i = 0; i < tblEl.rows.length; i++) {
-        rowEl = tblEl.rows[i];
-        rowEl.className = rowEl.className.replace(rowTest, "");
-        if (i % 2 != 0)
-            rowEl.className += " " + rowClsNm;
-        rowEl.className = normalizeString(rowEl.className);
-        // Set style classes on each column (other than the name column) to
-        // highlight the one that was sorted.
-        for (j = 2; j < tblEl.rows[i].cells.length; j++) {
-            cellEl = rowEl.cells[j];
-            cellEl.className = cellEl.className.replace(colTest, "");
-            if (j == col)
-                cellEl.className += " " + colClsNm;
-            cellEl.className = normalizeString(cellEl.className);
-        }
-    }
-    
-    // Find the table header and highlight the column that was sorted.
-    var el = tblEl.parentNode.tHead;
-    if (el) {
-        rowEl = el.rows[el.rows.length - 1];
-        // Set style classes for each column as above.
-        for (i = 2; i < rowEl.cells.length; i++) {
-            cellEl = rowEl.cells[i];
-            cellEl.className = cellEl.className.replace(colTest, "");
-            // Highlight the header of the sorted column.
-            if (i == col)
-                cellEl.className += " " + colClsNm;
-            cellEl.className = normalizeString(cellEl.className);
-        }
-    }
-}
-*/
