@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-29 22:23+0200\n"
+"PO-Revision-Date: 2015-03-30 13:49+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/cs/>\n"
@@ -4294,12 +4294,9 @@ msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Heslo, které jste vložil do *předchozího hesla* je nesprávná."
 
 #: core/templates/registermessages.tmpl:308
-#, fuzzy
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
-msgstr ""
-"Prefix, který jste zadali pro smazaného uživatele není povolen jako název "
-"článku."
+msgstr "Prefix, který se snažíte smazanému uživateli přiřadit, není povolen."
 
 #: core/templates/messages.tmpl:192
 msgid "The required field %1 was not filled in."
