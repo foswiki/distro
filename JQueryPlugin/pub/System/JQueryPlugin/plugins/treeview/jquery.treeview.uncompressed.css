@@ -133,3 +133,8 @@
 .treeview .open .closed .placeholder {
   display:block;
 }
+@media print {
+  .jqTreeview {
+    display:block;
+  }
+}

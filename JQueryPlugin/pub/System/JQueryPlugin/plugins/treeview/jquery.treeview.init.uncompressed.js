@@ -2,7 +2,7 @@ jQuery(function($){
   $(".jqTreeview:not(.jqInitedTreeview)").livequery(function() {
     var $this = $(this),
         thisClass = $this.attr('class'),
-        opts = $.extend({}, $this.metadata());
+        opts = $.extend({}, $this.data(), $this.metadata());
 
     if (thisClass.match(/\bopen\b/)) {
       opts.collapsed = false;
