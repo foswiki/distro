@@ -33,6 +33,37 @@ sub PERLDEPENDENCYREPORT {
 
 }
 
+sub cliDependencyReport {
+    my $inc = shift || 'missing';
+
+    my $msg = '';
+    $msg = '\t\t**POSSIBLE MISSING DEPENDENCY**' if ( $inc eq 'all' );
+
+    my $content;
+
+    $content = _analyzeFoswiki($inc);
+    $content =~ s/^\|/\n/g;
+    $content =~ s/\|/\t/g;
+    $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~
+s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
+
+    $content .= "\n\n";
+
+    $content .= _analyzeExtensions($inc);
+    $content =~ s/^\|/\n/g;
+    $content =~ s/\|/\t/g;
+    $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~
+s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
+
+    $content =~ s/<.*?>//g;
+    $content =~ s/[\[\]]//g;
+
+    return $content;
+
+}
+
 sub _analyzeFoswiki {
     my $include = shift;
 
