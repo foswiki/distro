@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-29 10:43+0200\n"
+"PO-Revision-Date: 2015-03-31 09:59+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -2382,7 +2382,7 @@ msgid ""
 msgstr ""
 "Vær opmærksom på, at alle links der refererer direkte til denne vedhæftede "
 "fil ikke vil virke mere efter flytningen (fx eksterne links fra andre "
-"websteder)"
+"websteder)."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
@@ -3572,7 +3572,7 @@ msgstr "Der bør være en linje der inkluderer %1, se efter %2 (eller %3)"
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Der opstod fejl ved tilføjelse til %2 gruppen. %1"
+msgstr "Der opstod fejl ved tilføjelse til %2 gruppen. %1 "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3618,7 +3618,7 @@ msgstr ""
 "mail når noget ændres i dette web (%1-webbet). Dette er tænkt som en "
 "belejlig service, således at du slipper for at være nødsaget til at komme "
 "tilbage og selv tjekke om noget er blevet ændret. For at skrive dig op, "
-"tilføj venligst en prik med dit %2 i alfabetisk orden til denne liste."
+"tilføj venligst en prik med dit %2 i alfabetisk orden til denne liste:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -3820,7 +3820,7 @@ msgstr "Siden blev flettet"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:120
 msgid "Topic will be named: "
-msgstr "Siden vil blive kaldt:"
+msgstr "Siden vil blive kaldt: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -4126,7 +4126,7 @@ msgstr "Webserver <em>som kører Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Velkommen til %1 ... mød mennesker på denne side."
+msgstr "Velkommen til %1 ... mød mennesker på denne side"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -4370,7 +4370,7 @@ msgid ""
 msgstr ""
 "Du skal nu verificere din e-mail-adresse. Det gør du ved at indsætte %1 i "
 "formular-feltet som du fik præsenteret da denne mail blev afsendt - eller "
-"ved at gå til siden %2."
+"ved at gå til siden %2"
 
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -4450,8 +4450,8 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Din(e) registrerede e-mail adresse(r) er opdateret til: <noautolink>%1</"
-"noautolink>"
+"Din(e) registrerede e-mail adresse(r) er opdateret til: "
+"<noautolink>%1</noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
@@ -4523,15 +4523,15 @@ msgstr "adgang til webbet nægtet"
 
 #: core/lib/Foswiki/Meta.pm:1837
 msgid "access not allowed on root"
-msgstr "adgang til root ikke tilladt "
+msgstr "adgang til root ikke tilladt"
 
 #: core/lib/Foswiki/Meta.pm:1784
 msgid "access not allowed on topic"
-msgstr "adgang til siden ikke tilladt "
+msgstr "adgang til siden ikke tilladt"
 
 #: core/lib/Foswiki/Meta.pm:1812
 msgid "access not allowed on web"
-msgstr "adgang til webbet ikke tilladt "
+msgstr "adgang til webbet ikke tilladt"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
@@ -4543,7 +4543,7 @@ msgstr "og"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "af %1"
+msgstr "af %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
@@ -4580,7 +4580,7 @@ msgstr "editér"
 
 #: core/templates/messages.tmpl:244
 msgid "fields are required."
-msgstr "feltet / felterne er obligatoriske"
+msgstr "feltet / felterne er obligatoriske."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4657,7 +4657,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr "title='Opret ny side' accesskey='c'>Opret (&C)"
+msgstr "title='Opret ny side' accesskey='c'>&Opret"
 
 #: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
