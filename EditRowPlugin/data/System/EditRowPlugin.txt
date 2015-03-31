@@ -4,8 +4,6 @@
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = Replacement for some of !EditTablePlugin, some of !EditTablerowPlugin and some of !TablePlugin.
 %JQREQUIRE{"UI"}%
-#   * Set UICON = <img class="ui-icon ui-icon-demo ui-icon-
-#   * Set NOCIU = " style="display:inline" src="%ATTACHURLPATH%/onepixel.png"/>
    * Set UICON = <button type="button" class="ui-icon erp-button ui-icon-
    * Set NOCIU = " ></button>
 -->
@@ -309,8 +307,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2014 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
