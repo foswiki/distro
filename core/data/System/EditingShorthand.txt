@@ -250,7 +250,9 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 <tr valign="top">
 <td>
  *Indented Text:* %BR%
- Three spaces, a colon, a space, followed by the paragraph..
+Three spaces, a colon, a space, followed by the paragraph. 
+   * Continue a paragraph by indenting the line with 3 spaces.
+   * Create deeper levels of indentation by using multiples of 3 spaces.
 </td><td>
 <verbatim class="tml">
    : Indented line
@@ -270,11 +272,11 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 <td>
  *Table:* %BR%
 Each row of the table is a line containing of one or more cells. Each cell starts and ends with a vertical bar '|'. Any spaces at the beginning of a line are ignored.
-   * =| <nop>*bold*<nop> |= header cell with text in asterisks
-   * =|   center-aligned   |= cell with at least two, and equal number of spaces on either side
-   * =|      right-aligned |= cell with more spaces on the left
-   * =| 2 colspan ||= and multi-span columns with multiple <tt>|</tt>'s right next to each other
-   * =|^|= cell with caret indicating follow-up row of multi-span rows
+   : =| <nop>*bold*<nop> |= header cell with text in asterisks
+   : =|   center-aligned   |= cell with at least two, and equal number of spaces on either side
+   : =|      right-aligned |= cell with more spaces on the left
+   : =| 2 colspan ||= and multi-span columns with multiple <tt>|</tt>'s right next to each other
+   : =|^|= cell with caret indicating follow-up row of multi-span rows
    * You can split rows over multiple lines by putting a backslash ='\'= at the end of each line
    * Contents of table cells wrap automatically as determined by the browser
    * Use =%<nop>VBAR%= or =&amp;#124;= to add =&#124;= characters in tables.
@@ -733,7 +735,7 @@ required
 <tr>
 <td>
  *Adjust heading levels:* %BR%
- You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt; tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any .
+ You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt;= tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any .
 </td><td>
 <pre>
 ---++ offset is 0
