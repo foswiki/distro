@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424017258" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427842612" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -245,6 +245,25 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 
    Sushi: Japan
    Dim-Sum: S.F.
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Indented Text:* %BR%
+ Three spaces, a colon, a space, followed by the paragraph..
+</td><td>
+<verbatim class="tml">
+   : Indented line
+   Continued
+   : New paragraph
+      : 2nd level indent
+</verbatim>
+</td><td>
+
+   : Indented line
+   Continued
+   : New paragraph
+      : 2nd level indent
 </td>
 </tr>
 <tr valign="top">
