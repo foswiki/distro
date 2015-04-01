@@ -1,8 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426913092" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1427906090" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2.0 (alpha)
-
-%RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
+---+!! Foswiki Release 1.2.0 Beta 1 
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -45,23 +43,23 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * %RED% Foswiki 1.2.0 %ENDCOLOR%
+   * %RED% Foswiki 1.2.0 Beta 1 %ENDCOLOR%
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.2 is shipped with the following:
-
-   * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !ConfigurePlugin, !EditRowPlugin, !EmptyPlugin, !HistoryPlugin, !HomePagePlugin, !InterwikiPlugin, !JQueryPlugin, !NatEditPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !SubscribePlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !UpdatesPlugin, !WysiwygPlugin
-   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !FastCGIEngineContrib, !JEditableContrib, !JSCalendarContrib, !JsonRpcContrib, !MailerContrib, !ModPerlEngineContrib, !PlainFileStoreContrib, !RCSStoreContrib, !TipsContrib, !TopicUserMappingContrib
-   * *Skins:* !PatternSkin
-   * *Compatibility support* - !TWikiCompatibilityPlugin
-
+Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
+<noautolink>
+   * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
+   * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, __FastCGIEngineContrib__, __JEditableContrib__, JSCalendarContrib, __JsonRpcContrib__, MailerContrib, __ModPerlEngineContrib__, __PlainFileStoreContrib__, __RCSStoreContrib__, TipsContrib, TopicUserMappingContrib
+   * *Skins:* PatternSkin
+   * *Compatibility support* - TWikiCompatibilityPlugin
+</noautolink>
 #Release01x02Changes
 ---++ Changes in requirements
 
 <div class='foswikiHelp'>
    * !JavaScript is now required for most operation other than simple page views.
-   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules.
+   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules. Check dependencies by running  =perl tools/dependencies=
 </div>
 
 ---++ Deprecations
@@ -89,42 +87,28 @@ A conversion tool is available in the tools directory.  =tools/convertTopicSetti
    * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding =ALLOWTOPIC&lt;action&gt;= *=
    * Optionally convert inline ACLs into META settings. This is recommended for Foswiki 1.2
    * Optionally convert __all__ inline settings into META settings.
-<verbatim>
-# perl -I bin tools/convertTopicSettings -fixdeny
 
-# SYNOPSIS
-#    convertTopicSettings [-update] [-fixdeny] [-convert] [-all] [-verbose]
-#    [-debug] [WEB ...]
-#
-# DESCRIPTION
-#
-#    -update: topics will be updated.  Without the -update
-#    option, candidate topic changes will be reported but will not be written.
-#
-#    -fixdeny: Removes empty DENYTOPIC rules, replacing them with ALLOWTOPIC
-#    wildcard
-#
-#    -convert: Convert Preference into META settings.  Inline ACLs are
-#    removed.
-#
-#    -all:     Convert all settings from inline sets to meta settings.
-#    Default is to
-#              process ACL settings
-#
-#    -verbose: Report details on what is changed.
-#
-#    -debug:   Print additional detailed information
-#
-#    If you specify web names, only those specified are processed. Otherwise,
-#    all writable webs are processed.
-#
-# WARNING
-#    This script uses the Foswiki APIs.  It MUST be run as the web server user
-#    (apache, or www-data depending on the distribution).  If run as root, it
-#    will make the foswiki log unusable by the foswiki web server.
-#</verbatim>
+For additional information run =perl tools/convertTopicSettings.pl -help=
 
----++ Important changes since Foswiki 1.2
+---++++ Deprecated =AllowInlineScript= configuration setting removed
+
+The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
+Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
+
+---++++ Deprecation of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
+
+This password manager was included primarily as demonstration code and was not
+fully functional.  The default =Foswiki::Users::HtPasswdUser=  provides the
+better functionality and it works.  The modules are compatible and no changes
+are needed.
+
+---++ Important changes in Foswiki 1.2
+---+++ Installation process has changed significantly!
+You should not visit 'bin/configure' as your first access.  After extracting
+the Foswiki code and reading your web server:
+   * Visit your desired default URL.  If using Short URLs, use the short form: =http://yoursite.com/Main/WebHome=  or =http://yoursite.com/foswik/Main/WebHome=, ...
+   * Follow the link in the banner of that initial page to access configure.
+   * After saving the configuration, return to your wiki pages, register your initial user and add them to the !AdminGroup.
 
 ---+++ Perl libraries and paths
 
@@ -172,8 +156,8 @@ extension fails to check for access permission, then these new methods will
 not block access.
 </div>
 
----++++ Improved CGI Session security
----+++++ Session IDs
+---++++ CGI Related changes
+---+++++ Session ID Security improvements.
 
 In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
 This is not believed to have any negative impact, however there is a race condition if the user uses multiple browser tabs, and authenticates in one
@@ -182,7 +166,6 @@ The session ID in use for the upload will be deleted because of the _internal ad
 
 This change is important for security purposes and cannot be disabled.
 ---+++++ Sessions and Roaming or Mobile Users
-
 In Foswiki 1.2, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
 reducing the exposure to certain session hijack attacks.  However it can be disruptive to mobile users.  It is also of limited use when
 users access the wiki through a proxy or other devices that might cause multiple users to share the same IP address.
@@ -190,16 +173,22 @@ users access the wiki through a proxy or other devices that might cause multiple
 With =UseIPMatching= enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
 There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure =Security And Authentication= tab]] interface.
+
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have roaming users who need to keep their Foswiki Sessions across IP Address changes, then
+you need to disable the ={Sessions}{UseIPMatching}= option in your configuration.</div>
+
 ---+++++ Optional Sessions for Guest users
 
 _EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
 However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%][configure =Security and Authentication= tab]] interface for more information.
 
----++++ Deprecated =AllowInlineScript= configuration setting removed
+---+++++ Other CGI related changes
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have ={Site}{CharSet}= set to utf-8, you must not use CGI versions 4.11-4.13.
+With those CGI releases, topic and form data can be corrupted during save.  CGI version 4.14 released 1 April 2015 is recommended.</div>
 
-The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
-Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
+Also note that with CGI 4.14, there have been come internal changes that might impact non-default or locally written extensions.  If you have locally written
+extensions and use the =CGI::= HTML generation functions, you should review the [[https://metacpan.org/pod/CGI][CGI Release Notes]].
 
 ---+++ Configure has been given a major restructuring
 | *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki. Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuration. |
@@ -223,7 +212,7 @@ Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to 
 
 Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and it will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
 <verbatim>tools/configure -save -noprompt
-tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http://your.site.com' -set {PubUrlPath}='/pub' -set {ScriptUrlPath}='/bin' -set {ScriptUrlPaths}{view}=''  -set {FeatureAccess}{Configure}='JoeUser,BaseUserMapping_333' -set {WebMasterEmail}='webmaster@your.site.com</verbatim>
+tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http://your.site.com' -set {PubUrlPath}='/pub' -set {ScriptUrlPath}='/bin' -set {ScriptUrlPaths}{view}=''  -set {FeatureAccess}{Configure}='JoeUser, FredAdmin' -set {WebMasterEmail}='webmaster@your.site.com</verbatim>
 ---+++ Query Search
 
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
