@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-29 22:23+0200\n"
+"PO-Revision-Date: 2015-04-01 22:07+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/cs/>\n"
@@ -3392,7 +3392,7 @@ msgstr ""
 "Kontroly prováděné Foswiki mohou být spuštěny i v případě, že provádíte něco "
 "naprosto nevinného - jako např. stisknuté tlačítka Zpět v prohlížeči. "
 "Foswiki se poté chová stylem \"better safe than sorry - lepe je předcházet "
-"problémům\""
+"problémům\"."
 
 #: core/templates/messages.tmpl:335
 msgid "The e-mail address for this account has been rejected."
@@ -4074,7 +4074,7 @@ msgstr "Webový server <em>na kterém běží Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Vítejte na %1 ... potkejte zde plno nových lidí."
+msgstr "Vítejte na %1 ... potkejte zde lidi"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -4128,7 +4128,7 @@ msgid ""
 msgstr ""
 "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
 "resetovat Vaše heslo. Pokud žádná z Vašich registrovaných emailových adres "
-"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1."
+"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -4477,7 +4477,7 @@ msgstr "a"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "za pomoci %1"
+msgstr "za pomoci %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
