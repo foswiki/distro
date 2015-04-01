@@ -50,51 +50,25 @@ sub test_changecfg {
     $wizard->save($reporter);
 
     # Check report
-    my $expected = [
-        {
-            text  => "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |",
-            level => 'notes'
-        },
-        {
-            level => 'notes',
-            text  => '| {\'Test-Key\'} | undef | \'newtestkey\' |'
-        },
-        {
-            'level' => 'notes',
-            'text'  => '| {TestA} | undef | \'Shingle\' |'
-        },
-        {
-            'level' => 'notes',
-            'text'  => '| {TestB}{Ruin} | undef | \'Ribbed\' |'
-        },
-        {
-            level => 'notes',
-            text => '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |',
-        },
-        {
-            level => 'notes',
-            text =>
-              '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |',
-        },
-        {
-            level => 'notes',
-            text =>
-'| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |',
-        },
-        {
-            level => 'notes',
-            text =>
-q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>,
-        },
-        {
-            level => 'notes',
-            text =>
-              '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |',
-        },
-    ];
+    my %expected = (
+        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |" => 'notes',
+        '| {\'Test-Key\'} | undef | \'newtestkey\' |' => 'notes',
+        '| {TestA} | undef | \'Shingle\' |' => 'notes',
+        '| {TestB}{Ruin} | undef | \'Ribbed\' |' => 'notes',
+        '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |', => 'notes',
+        '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |' => 'notes',
+        '| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |' => 'notes',
+        q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |> => 'notes',
+        '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |' => 'notes',
+        );
     my $ms = $reporter->messages();
 
     #print STDERR Data::Dumper->Dump([$ms]);
+
+    # Since fe67109ef03617bb76df0058fa880a2588ec138b the imposed config
+    # in ConfigureTestCase is no longer the shole story, as all the crud from
+    # Foswiki.spec and extension.specs will be added back in to the config.
+    # So we have to be a bit selective about what we test.
 
     my $r = shift(@$ms);
     $this->assert_matches( qr/^Previous/, $r->{text} );
@@ -106,11 +80,16 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     $this->assert_matches( qr/^\| \*Key/, $r->{text} );
     $this->assert_str_equals( 'notes', $r->{level} );
     $r = shift(@$ms);
-    $this->assert_matches( qr/^\| {DetailedOS}/, $r->{text} );
-    $this->assert_str_equals( 'notes', $r->{level} );
+
+    for (my $i = 0; $i < scalar(@$ms); $i++) {
+        my $r = $ms->[$i];
+        if (($expected{$r->{text}}//'') eq $r->{level}) {
+            delete $expected{$r->{text}};
+        }
+    }
 
     #print STDERR Data::Dumper->Dump([$ms]);
-    $this->assert_deep_equals( $ms, $expected );
+    $this->assert_num_equals(0, scalar keys %expected, Data::Dumper->Dump([\%expected]) );
 
     # Check it was written correctly
     $this->assert( open( F, '<', $this->{lscpath} ), $@ );
