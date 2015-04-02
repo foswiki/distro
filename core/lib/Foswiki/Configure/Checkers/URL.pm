@@ -58,6 +58,10 @@ sub _list2hash {
 sub checkURI {
     my ( $reporter, $uri, %checks ) = @_;
 
+    if ( defined $uri && $uri eq '' ) {
+        $reporter->ERROR("Not a valid URI") unless $checks{emptyok};
+        return;
+    }
     unless ( defined $uri ) {
         $reporter->ERROR("Not a valid URI") unless $checks{undefok};
         return;
