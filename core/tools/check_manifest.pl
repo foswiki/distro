@@ -10,7 +10,7 @@ use File::Find;
 
 my $manifest = shift || 'MANIFEST';
 my @skip =
-  qw(tools test working logs MANIFEST DEPENDENCIES build\.pl PREINSTALL TIDY .*?\.psd .*?\.xcf \.gitignore);
+  qw(tools/develop tools/githooks tools/pkg tools/benchmark tools/distro test working logs MANIFEST DEPENDENCIES build\.pl PREINSTALL TIDY .*?\.psd .*?\.xcf \.gitignore);
 my $cvs = 'subversion';
 my $skipPattern = join( '|', @skip );
 

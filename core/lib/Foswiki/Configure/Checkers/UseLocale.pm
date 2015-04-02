@@ -10,24 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 use Foswiki::Configure::Dependency ();
 
-our @required = (
-    {
-        name           => 'locale',
-        usage          => "Standard Perl locales module",
-        minimumVersion => 1,
-    },
-    {
-        name           => 'POSIX',
-        usage          => "Standard Perl POSIX module",
-        minimumVersion => 1,
-    },
-    {
-        name => 'Unicode::Normalize',
-        usage =>
-"I18N conversions (Replace 8-bit chars in uploaded files by US-ASCII equivalents)",
-        minimumVersion => 1,
-    },
-);
+our @required = ();
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

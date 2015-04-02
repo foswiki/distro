@@ -12,12 +12,12 @@ use Foswiki::Configure::Dependency ();
 my @modules = (
     {
         name           => 'CGI::Session',
-        usage          => "persistant session support",
+        usage          => "persistent session support",
         minimumVersion => 1,
     },
     {
         name           => 'CGI::Cookie',
-        usage          => "persistant session support",
+        usage          => "persistent session support",
         minimumVersion => 1,
     },
 );

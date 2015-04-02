@@ -65,7 +65,7 @@
 #patternBottomBarContents,
 #patternBottomBarContents a:link,
 #patternBottomBarContents a:visited {
-   color:#797979;
+   color:#565656;
 }
 #patternBottomBarContents a:hover {
    color:#06c;
@@ -133,7 +133,7 @@ a:hover {
    color:#000;
 }
 .foswikiInputFieldBeforeFocus {
-   color:#797979;
+   color:#565656;
 }
 
 /*   -----------------------------------------------------------
@@ -157,7 +157,7 @@ a:hover {
 
 /* TwistyContrib */
 .twistyPlaceholder {
-   color:#797979;
+   color:#565656;
 }
 a:hover.twistyTrigger {
    color:#06c;
@@ -178,11 +178,11 @@ a:hover.twistyTrigger {
    -----------------------------------------------------------   */
 
 .foswikiGrayText {
-   color:#797979;
+   color:#565656;
 }
 .foswikiGrayText a:link,
 .foswikiGrayText a:visited {
-   color:#797979;
+   color:#565656;
 }
 .foswikiGrayText a:hover {
    color:#06c;
@@ -235,10 +235,10 @@ table.foswikiFormTable,
 }
 .foswikiFormSteps .foswikiFormSteps h3,
 .foswikiFormSteps .foswikiFormSteps h4 {
-    color: #797979;
+    color: #565656;
 }
 .foswikiToc .foswikiTocTitle {
-   color:#797979;
+   color:#565656;
 }
 .foswikiBroadcastMessage,
 .foswikiNotification {
@@ -303,7 +303,7 @@ table.foswikiFormTable,
 
 .foswikiAccessKey {
    color:inherit;
-   border-color:#797979;
+   border-color:#565656;
 }
 a:link .foswikiAccessKey,
 a:visited .foswikiAccessKey {
@@ -347,7 +347,7 @@ a:hover .foswikiAccessKey {
 .patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {
-   color:#797979;
+   color:#565656;
 }
 .patternHomePath:hover a:link,
 .patternHomePath:hover a:visited {
@@ -400,16 +400,16 @@ a:hover .foswikiAccessKey {
    color:#000;
 }
 .patternHelpCol {
-   color:#797979;
+   color:#565656;
 }
 .patternSigLine {
-   color:#797979;
+   color:#565656;
 }
 
 .patternInfo,
 .patternInfo a:link,
 .patternInfo a:visited {
-	color:#797979;
+	color:#565656;
 }
 .patternInfo:hover a:link,
 .patternInfo:hover a:visited,
@@ -420,7 +420,7 @@ a:hover .foswikiAccessKey {
 	color:#06c;
 }
 .patternAttachmentHeader .foswikiSmall {
-   color:#797979;
+   color:#565656;
 }
 
 /* WebSearch, WebSearchAdvanced */
@@ -524,7 +524,7 @@ tr.foswikiDiffDebug td {
 	background-color:#fff !important;
 }
 .foswikiDiffUnchangedText {
-   color:#797979;
+   color:#565656;
 }
 .foswikiDiffUnchangedTextContents { }
 .foswikiDiffLineNumberHeader th {

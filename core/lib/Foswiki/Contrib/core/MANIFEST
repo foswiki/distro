@@ -950,6 +950,8 @@ templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
 templates/viewtopicactionbuttons.tmpl 0444
 tools/change_store.pl 0444 Store format conversion script
+tools/configure 0444
+tools/dependencies 0444
 tools/extender.pl 0444
 tools/extension_installer 0555
 tools/geturl.pl 0555

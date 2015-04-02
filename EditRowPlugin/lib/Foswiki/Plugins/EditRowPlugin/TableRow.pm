@@ -87,9 +87,12 @@ sub can_edit {
 }
 
 # add URL params needed to address this row
-sub getURLParams {
-    my ( $this, %more ) = @_;
-    return { erp_row => $this->{number}, %more };
+sub getParams {
+    my ( $this, $prefix ) = @_;
+
+    $prefix ||= '';
+
+    return ( "${prefix}row" => $this->{number} );
 }
 
 # col_defs - column definitions (required)
@@ -102,7 +105,7 @@ sub render {
     my $id = $this->getID();
 
     # The row anchor is added into a cell at the first opportunity
-    my $anchor        = '<a name="' . $this->getAnchor() . '"></a> ';
+    my $anchor = Foswiki::Render::html( 'a', { name => $this->getAnchor() } );
     my $empties       = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my @cols          = ();
     my $buttons       = '';
@@ -155,6 +158,12 @@ sub render {
 
     # Not for edit, or orientation horizontal
     my $text;
+
+    if ( $opts->{with_controls} && $opts->{js} ne 'assumed' ) {
+
+        # Remark the controls column
+        $this->{table}->{dead_cols} = 1;
+    }
 
     $opts->{in_row}             = $this;
     $render_opts->{need_trdata} = 1;
@@ -233,10 +242,18 @@ sub render {
                     '#'       => $this->getRowAnchor()
                 );
 
-                my $buttons =
-                    "<a href='$url' title='Edit this row' class='"
-                  . ( $opts->{js} ne 'ignored' ? 'erpJS_willDiscard' : '' )
-                  . " ui-icon ui-icon-pencil foswikiIcon'>edit</a>";
+                my $buttons = Foswiki::Render::html(
+                    'a',
+                    {
+                        href  => $url,
+                        title => 'Edit this row',
+                        class => (
+                            $opts->{js} ne 'ignored' ? 'erpJS_willDiscard' : ''
+                          )
+                          . ' ui-icon ui-icon-pencil'
+                    },
+                    'edit'
+                );
                 if ($anchor) {
                     $buttons .= $anchor;
                     undef $anchor;

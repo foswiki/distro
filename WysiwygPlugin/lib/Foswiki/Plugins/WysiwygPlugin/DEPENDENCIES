@@ -1,3 +1,3 @@
-HTML::Parser,>=3.28,cpan,Required. Available from [[http://cpan.uwinnipeg.ca/search?query=HTML%3A%3AParser&mode=dist][CPAN]].
-HTML::Entities,>=1.25,cpan,Required. Available from [[http://cpan.uwinnipeg.ca/search?query=HTML%3A%3AEntities&mode=dist][CPAN]].
-Encode,>=2.01,cpan,Required.
+HTML::Parser,>=3.28,cpan,Required for WYSIWYG editing.
+HTML::Entities,>=1.25,cpan,Required for WYSIWYG editing.
+Encode,>=2.01,cpan,Required for WYSIWYG editing.

@@ -58,7 +58,7 @@ $Foswiki::cfg{UnitTestContrib}{Configure}{empty} = 'full';
 $Foswiki::cfg{UnitTestContrib}{Configure}{undefok} = 'value';
 $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_STRING} = 'xxx$Foswiki::cfg{UnitTestContrib}{Configure}{H}xxx';
 $Foswiki::cfg{UnitTestContrib}{Configure}{DEP_PERL} = {
-    'string' => 'real$Foswiki::cfg{UnitTestContrib}{Configure}{URL}/man'
+    'string' => 'real$Foswiki::cfg{UnitTestContrib}{Configure}{H}/man'
 };
 $Foswiki::cfg{UnitTestContrib}{Configure}{PERL_HASH} = { a => 5, b => 6 };
 $Foswiki::cfg{UnitTestContrib}{Configure}{PERL_ARRAY} = [ 5, 6 ];

@@ -24,6 +24,13 @@ jQuery(function($) {
       opts.autoOpen = true;
     }
 
+    if (!$this.data("cached")) {
+      opts.close = function() {
+        $this.dialog("destroy");
+        $this.remove();
+      }
+    }
+
     $this.find(".jqUIDialogButton").each(function() {
       var $button = $(this), 
           button = {},
@@ -123,7 +130,10 @@ jQuery(function($) {
           }
           if (opts.cache) {
             $this.attr("href", "#"+id);
-          } 
+            $content.data("cached", true);
+          } else {
+            $content.data("cached", false);
+          }
           $content.hide();
           $("body").append($content);
           $content.data("autoOpen", true);

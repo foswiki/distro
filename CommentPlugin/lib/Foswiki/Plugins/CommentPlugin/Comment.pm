@@ -11,7 +11,7 @@ use Foswiki;
 use Foswiki::Plugins;
 use Foswiki::Store;
 
-use CGI qw( -any );
+use CGI ();
 
 package Foswiki::Plugins::CommentPlugin::Comment;
 

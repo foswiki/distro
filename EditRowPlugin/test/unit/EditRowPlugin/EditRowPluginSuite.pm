@@ -86,14 +86,14 @@ INPUT
     my $f = $1;
     $f =~ s/action=(["']).*?\1/action="valid"/;
     $this->assert_html_equals( <<HTML, "$f</form>" );
-<form method="post" action="valid" enctype="multipart/form-data" name="erp_form_EDITTABLE_0"></form>
+<form method="POST" action="valid" name="erp_form_EDITTABLE_0"></form>
 HTML
 
     # anchor
-    $this->assert( $in =~ s/^<a name='erp_EDITTABLE_0'><\/a>\s*//s, $in );
+    $this->assert( $in =~ s/^<a name=(['"])erp_EDITTABLE_0\1><\/a>\s*//s, $in );
 
     # edit button
-    $this->assert( $in =~ s/(<a name='erp_EDITTABLE_0'>.*)$//s, $in );
+    $this->assert( $in =~ s/(<a name=(['"])erp_EDITTABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
@@ -102,7 +102,7 @@ HTML
         '#'       => "erp_EDITTABLE_0"
     );
     my $expected = <<EXPECTED;
-<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><img name="erp_edit_EDITTABLE_0" title="Edit full table" border="0" src="%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png" /></a><br />
+<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_EDITTABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
 EXPECTED
     $this->assert_html_equals( $expected, $1 );
     $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
@@ -130,28 +130,29 @@ EXPECTED
     my $a_celldata = JSON::from_json( HTML::Entities::decode_entities($3) );
 
     $expected = <<EXPECTED;
-|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil foswikiIcon' title="Edit this row">edit</a>| <div class="erpJS_cell" data-erp-data="data-erp-data" data-erp-trdata="data-erp-trdata" data-erp-tabledata="data-erp-tabledata"> A </div> <a name="erp_EDITTABLE_0_0"></a> |
+|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil' title="Edit this row">edit</a>| <div class="erpJS_cell" data-erp-data="data-erp-data" data-erp-trdata="data-erp-trdata" data-erp-tabledata="data-erp-tabledata"> A </div> <a name="erp_EDITTABLE_0_0"></a> |
 EXPECTED
     $this->assert_html_equals( $expected, $in );
 
     my $e_tabledata = {
-        erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_0"
+        version => $a_tabledata->{version} || "VERSION",
+        topic   => "$this->{test_web}.$this->{test_topic}",
+        table   => "EDITTABLE_0"
     };
 
-    my $e_trdata = { erp_row => 0 };
+    my $e_trdata = { row => 0 };
 
-    $a_celldata->{submitimg} =~ s/^.*\/(save.png)$/$1/;
     my $e_celldata = {
-        width     => "20em",
-        loadurl   => $loadurl,
-        submitimg => "save.png",
-        name      => "CELLDATA",
-        type      => "text",
-        erp_col   => 0,
-        size      => 20
+        width   => "20em",
+        loadurl => $loadurl,
+        submit =>
+'<button class="ui-icon ui-icon-disk erp-button" type="submit"></button>',
+        name => "CELLDATA",
+        type => "text",
+        col  => 0,
+        size => 20
     };
+
     $this->assert_deep_equals( $e_tabledata, $a_tabledata );
     $this->assert_deep_equals( $e_trdata,    $a_trdata );
     $this->assert_deep_equals( $e_celldata,  $a_celldata );
@@ -188,14 +189,14 @@ INPUT
     my $f = $1;
     $f =~ s/action=(["']).*?\1/action="valid"/;
     $this->assert_html_equals( <<HTML, "$f</form>" );
-<form method="post" action="valid" enctype="multipart/form-data" name="erp_form_EDITTABLE_0"></form>
+<form method="POST" action="valid" name="erp_form_EDITTABLE_0"></form>
 HTML
 
     # anchor
-    $this->assert( $in =~ s/^<a name='erp_EDITTABLE_0'><\/a>\s*//s, $in );
+    $this->assert( $in =~ s/^<a name=(["'])erp_EDITTABLE_0\1><\/a>\s*//s, $in );
 
     # edit button
-    $this->assert( $in =~ s/(<a name='erp_EDITTABLE_0'>.*)$//s, $in );
+    $this->assert( $in =~ s/(<a name=(['"])erp_EDITTABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
@@ -204,7 +205,7 @@ HTML
         '#'       => "erp_EDITTABLE_0"
     );
     my $expected = <<EXPECTED;
-<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><img name="erp_edit_EDITTABLE_0" title="Edit full table" border="0" src="%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png" /></a><br />
+<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_EDITTABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
 EXPECTED
     $this->assert_html_equals( $expected, $1 );
     $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
@@ -256,16 +257,16 @@ INPUT
         erp_table   => "EDITTABLE_0"
     );
     my $expected = <<EXPECTED;
-<form method="post" action="$saveurl" enctype="multipart/form-data" name="erp_form_EDITTABLE_0">
+<form method="POST" action="$saveurl" name="erp_form_EDITTABLE_0">
 <input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="EDITTABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
 <a name='erp_EDITTABLE_0'></a>
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  /><input type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erpNoJS_button foswikiIcon" /><input type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erpNoJS_button foswikiIcon" />
-<input class="ui-icon ui-icon-plusthick erpNoJS_button foswikiIcon" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
-</input>
-<input class="ui-icon ui-icon-minusthick erpNoJS_button foswikiIcon" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
-</input>
+<input type="hidden" name="erp_action" value=""  />
+<button type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erp-button" />
+<button type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erp-button" />
+<button class="ui-icon ui-icon-plusthick erp-button" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd" />
+<button class="ui-icon ui-icon-minusthick erp-button" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd" />
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );
@@ -316,16 +317,18 @@ INPUT
     );
     Foswiki::Plugins::EditRowPlugin::postRenderingHandler($in);
     my $expected = <<EXPECTED;
-<form method="post" action="$saveurl" enctype="multipart/form-data" name="erp_form_EDITTABLE_0">
+<form method="POST" action="$saveurl" name="erp_form_EDITTABLE_0">
 <input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="EDITTABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
 <a name='erp_EDITTABLE_0'></a>
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  /><input class="ui-icon ui-icon-disk erpNoJS_button foswikiIcon" name="erp_action" title="Save" type="submit" value="saveTableCmd"/><input class="ui-icon ui-icon-cancel erpNoJS_button foswikiIcon" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
-<input class="ui-icon ui-icon-plusthick erpNoJS_button foswikiIcon" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
-</input>
-<input class="ui-icon ui-icon-minusthick erpNoJS_button foswikiIcon" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
-</input>
+<input type="hidden" name="erp_action" value=""  />
+<button class="ui-icon ui-icon-disk erp-button" name="erp_action" title="Save" type="submit" value="saveTableCmd"/>
+<button class="ui-icon ui-icon-cancel erp-button" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
+<button class="ui-icon ui-icon-plusthick erp-button" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
+</button>
+<button class="ui-icon ui-icon-minusthick erp-button" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
+</button>
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );

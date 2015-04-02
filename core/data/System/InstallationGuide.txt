@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427838713" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+ Installation Guide
@@ -264,14 +264,10 @@ Foswiki 1.2 has changed how configure is protected. You no longer need to establ
 
 %T% *Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
 
-There is an optional _special user_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in the configuration. Foswiki 1.2 no longer enables the admin super-user by default. 
+There is an optional _internal admin_ [[%USERSWEB%.AdminUser]] which is accessed by logging in with user =admin= and a password set in the configuration. Foswiki 1.2 no longer enables the _internal admin_ by default. 
+
 ---+++++ Setting password from =bin/configure= interface
-If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.  From the UI, you must set the Password to a pre-hashed password.  You can use one of the many web based =htpasswd= generator tools
-or generate one using the htpasswd command:  (Apache tools must be installed for this to be available)   Generate the password and then paste the string beginning with =$apr1$....= into the ={Password}= field in the configuration.
-<pre>
-$htpasswd -bn  admin asdfasdf
-admin:<b>$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.</b>
-</pre>
+If desired, the password is set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.  Enter the password in plain text.  It will be automatically hashed when saved, and cannot be recovered.
 
 ---+++++ Setting the password from the command line
 Foswiki ships with a command line configuration tool.  The following command
@@ -281,12 +277,16 @@ tools/configure -save -set {Password}='adminpass'
 </verbatim>
 
 ---+++++ Manually editing =LocalSite.cfg=
-If manually editing =LocalSite.cfg=, generate the hashed password as shown
-above. Search for =$Foswiki::cfg{Password}=, Replace the existing line, or if not found, insert a new line in the file, as shown:
+If manually editing =LocalSite.cfg=, generate the hashed password using the
+Apache =htpasswd= tool.
+<verbatim>
+$htpasswd -bn  admin asdfasdf
+admin:$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.
+</verbatim>
+Search =LocalSite.cfg= for =$Foswiki::cfg{Password}=, Replace the existing line, or if not found, insert a new line in the file, as shown:
 <verbatim>
 $Foswiki::cfg{Password} = '$apr1$y.98c9Yc$oHRsHOwPr1vOq3vpjaJxb.';
 </verbatim>
-
 
 Note that with the _sudo_ or _internal admin_ login, it is not necessary to add other users to the !AdminGroup. However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
 
@@ -312,8 +312,11 @@ In order to keep your user, group, and site configuration information separate f
 
 If you are having problems with your installation, try the following:
 
-   * Run the =configure= script and ensure you have resolved all errors and are satisfied that you understand any warnings.
    * Review the [[System.PerlDependencyReport][%SYSTEMWEB%.PerlDependencyReport]] and sure all dependencies are correctly resolved.
+   * Run the =configure= script and ensure you have resolved all errors and are satisfied that you understand any warnings.
+      * You can also access the dependency report from the command line:<verbatim>
+cd path/to/foswiki
+perl tools/dependencies </verbatim>
    * Consult the topics at Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
    * Ask for help on [[Foswiki:Community.InternetRelayChat][IRC]] (irc.freenode.net, channel #foswiki). There are often a number of people waiting to help.
    * Ask a question in the Foswiki:Support web

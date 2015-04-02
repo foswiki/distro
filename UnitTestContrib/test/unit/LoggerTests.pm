@@ -1118,11 +1118,24 @@ sub _tzOffset {
     my @t   = localtime(time);
     my $sec = timegm(@t) - timelocal(@t);
 
+    my $isDST = $t[8];
     my $sign = ( $sec < 0 ) ? '-' : '+';
     $sec = abs($sec);
     my $min = $sec / 60, $sec %= 60;
     $sec = "0$sec" if $sec < 10;
     my $hrs = $min / 60, $min %= 60;
+
+# This routine calculates TZ Offset based on "now" at the current test location.
+# But the logging is happening in January 2000, so need to reverse the effects
+# of DST.
+    if ($isDST) {
+        if ( $sign eq '-' ) {
+            $hrs++;
+        }
+        else {
+            $hrs--;
+        }
+    }
     $min = "0$min" if $min < 10;
     $hrs = "0$hrs" if $hrs < 10;
     return "$sign$hrs:$min";
@@ -1224,7 +1237,8 @@ sub verify_rotate_events {
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
     $this->assert_equals(
-        "| 2000-02-01T00:00:00$tzOffset info | Salve nauta |\n", $e );
+        "| 2000-02-01T00:00:00$tzOffset info | Salve nauta |\n",
+        substr( $e, 0, 120 ) );
     $this->assert( close($F) );
 
     # We should see the creation of a backup log with

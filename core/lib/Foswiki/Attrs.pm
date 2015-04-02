@@ -247,6 +247,23 @@ sub stringify {
 
 =begin TML
 
+---++ ObjectMethod TO_JSON() -> \%map
+
+Support for the JSON cpan module
+
+=cut
+
+sub TO_JSON {
+    my $this = shift;
+    my %res;
+    while ( my ( $k, $v ) = each %$this ) {
+        $res{$k} = $v;
+    }
+    return \%res;
+}
+
+=begin TML
+
 ---++ StaticMethod findFirstOccurenceAttrs($macro, $text) -> $args
 
 Extract the first occurence of a macro from the text, taking into

@@ -30,9 +30,9 @@ sub jQueryMetadata {
     # URL of rest handler that provides text
     $data->{loadurl} = Foswiki::Func::getScriptUrl(
         'EditRowPlugin', 'get', 'rest',
-        %{ $cell->{row}->{table}->getURLParams() },
-        %{ $cell->{row}->getURLParams() },
-        %{ $cell->getURLParams() }
+        $cell->{row}->{table}->getParams('erp_'),
+        $cell->{row}->getParams('erp_'),
+        $cell->getParams('erp_')
     );
 
     # JEditable "text" type requires "width" not "size"

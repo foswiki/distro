@@ -1279,8 +1279,8 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # of the programs that Foswiki calls when your wiki content uses
 # international character sets.
 
-# **BOOLEAN LABEL="Use Locale" EXPERT**
-# Enable the use of {Site}{Locale}. WARNING: Perl locales are badly broken
+# **BOOLEAN LABEL="Use Locale" **
+# Enable the use of {Site}{Locale} - *Caution:*: Perl locales are badly broken
 # in some versions of perl. For this reason locales are disabled in Foswiki.
 # If you enable them they can be made to work, but collation will only work
 # with single-byte character sets.
@@ -1315,11 +1315,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 #$Foswiki::cfg{Site}{Locale} = 'en.utf8';
 
 # **STRING 50 LABEL="Site Character Set" CHECK="also:{Site}{Locale}" **
-# Set this to match your site locale (from 'locale -a')
-# whose character set is not supported by your available perl conversion module
-# (Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
-# versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
-# but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
+# Set this to match your site locale (from 'locale -a').
 # If you don't define it, it will automatically be defaulted to iso-8859-1
 # $Foswiki::cfg{Site}{CharSet} = undef;
 

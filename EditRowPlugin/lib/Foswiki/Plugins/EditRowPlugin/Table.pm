@@ -9,6 +9,7 @@ our @ISA = ('Foswiki::Tables::Table');
 
 use Foswiki::Attrs                            ();
 use Foswiki::Func                             ();
+use Foswiki::Plugins::EditRowPlugin           ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 
@@ -35,7 +36,7 @@ use constant {
 our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 
 # $spec - full spec of the table (e.g. the complete edittable)
-# $attrs - Foswiki::Attrs of the relevant %EDITTABLE
+# $attrs - Foswiki::Attrs of the relevant %EDITTABLE plus optional TABLE
 # See EditRowPlugin.txt for a description of the attributes supported,
 # plus the following undocumented attributes:
 #    =require_js= - compatibility, true maps to =js='assumed'=,
@@ -170,7 +171,7 @@ sub render {
       ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
 
     my $id = $this->getID();
-    push( @out, "<a name='erp_${id}'></a>" )
+    push( @out, Foswiki::Render::html( 'a', { name => "erp_${id}" } ) )
       unless $this->{attrs}->{js} eq 'assumed';
 
     my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
@@ -188,14 +189,42 @@ sub render {
         # against the rest of Foswiki. We use the escape char '-' as it
         # isn't used by Foswiki.
         $format =~ s/([][@\s%!:-])/sprintf('-%02x',ord($1))/ge;
-        push( @out, CGI::hidden( "erp_${id}_format", $format ) );
+        push(
+            @out,
+            Foswiki::Render::html(
+                "input",
+                {
+                    type  => "hidden",
+                    name  => "erp_${id}_format",
+                    value => $format
+                }
+            )
+        );
         if ( $attrs->{headerrows} ) {
-            push( @out,
-                CGI::hidden( "erp_${id}_headerrows", $attrs->{headerrows} ) );
+            push(
+                @out,
+                Foswiki::Render::html(
+                    "input",
+                    {
+                        type  => "hidden",
+                        name  => "erp_${id}_headerrows",
+                        value => $attrs->{headerrows}
+                    }
+                )
+            );
         }
         if ( $attrs->{footerrows} ) {
-            push( @out,
-                CGI::hidden( "erp_${id}_footerrows", $attrs->{footerrows} ) );
+            push(
+                @out,
+                Foswiki::Render::html(
+                    "input",
+                    {
+                        type  => "hidden",
+                        name  => "erp_${id}_footerrows",
+                        value => $attrs->{footerrows}
+                    }
+                )
+            );
         }
     }
 
@@ -269,6 +298,7 @@ sub render {
         }
         $r++;
     }
+
     if ($editing) {
         if ( $wholeTable && $this->{attrs}->{js} ne 'assumed' ) {
 
@@ -301,13 +331,13 @@ sub render {
 
             # Full table editing is not disabled
             my $title  = "Edit full table";
-            my $button = CGI::img(
+            my $button = Foswiki::Render::html(
+                'button',
                 {
-                    -name   => "erp_edit_${id}",
-                    -border => 0,
-                    -src =>
-                      '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png',
-                    -title => $title,
+                    type  => 'button',
+                    name  => "erp_edit_${id}",
+                    class => 'erp-edittable',
+                    title => $title
                 }
             );
             my $url = Foswiki::Func::getScriptUrl(
@@ -317,11 +347,13 @@ sub render {
                 erp_row   => -1,
                 '#'       => 'erp_' . $id
             );
-            push( @out,
-                    "<a name='erp_${id}'></a>"
-                  . "<a href='$url' title='$title'>"
-                  . $button
-                  . '</a><br />' );
+            push(
+                @out,
+                Foswiki::Render::html( 'a', { name => "erp_${id}" } )
+                  . Foswiki::Render::html( 'a',
+                    { href => $url, title => $title }, $button )
+                  . '<br />'
+            );
         }
         elsif ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} )
             && $this->{attrs}->{disable} !~ /row/ )
@@ -329,14 +361,13 @@ sub render {
 
             # We are going into single row editing mode
             my $title  = "Add row to end of table";
-            my $button = CGI::img(
+            my $button = Foswiki::Render::html(
+                'button',
                 {
-                    -name   => "erp_edit_${id}",
-                    -border => 0,
-                    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.png',
-                    -title => $title,
-                },
-                ''
+                    name  => "erp_edit_${id}",
+                    class => 'erp-addrow',
+                    title => $title
+                }
             );
             my $url;
 
@@ -346,21 +377,20 @@ sub render {
             $url = Foswiki::Func::getScriptUrl(
                 'EditRowPlugin',
                 'save', 'rest',
-                %{
-                    $this->getURLParams(
-                        erp_row       => -2,
-                        erp_unchanged => 1,
-                        erp_action    => 'addRowCmd',
-                        '#'           => "erp_${id}"
-                    )
-                }
+                $this->getParams('erp_'),
+                erp_row       => -2,
+                erp_unchanged => 1,
+                erp_action    => 'addRowCmd',
+                '#'           => "erp_${id}"
             );
 
-            push( @out,
-                    "<a name='erp_$this->{id}'></a>"
-                  . "<a href='$url' title='$title'>"
-                  . $button
-                  . '</a><br />' );
+            push(
+                @out,
+                Foswiki::Render::html( 'a', { name => "erp_$this->{id}" } )
+                  . Foswiki::Render::html( 'a',
+                    { href => $url, title => $title }, $button )
+                  . '<br />'
+            );
         }
         elsif ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} )
             && $this->{attrs}->{disable} !~ /row/ )
@@ -368,14 +398,14 @@ sub render {
 
             # We are going into single row editing mode
             my $title  = "Add row to end of table";
-            my $button = CGI::img(
+            my $button = Foswiki::Render::html(
+                'button',
                 {
-                    -name   => "erp_edit_$this->{id}",
-                    -border => 0,
-                    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.png',
-                    -title => $title,
-                },
-                ''
+                    type  => 'button',
+                    name  => "erp_edit_${id}",
+                    class => 'erp-addrow',
+                    title => $title
+                }
             );
             my $url;
 
@@ -385,18 +415,26 @@ sub render {
             $url = Foswiki::Func::getScriptUrl(
                 'EditRowPlugin',
                 'save', 'rest',
-                %{
-                    $this->getURLParams(
-                        erp_active_row => -2,
-                        erp_unchanged  => 1,
-                        erp_action     => 'addRow',
-                        '#'            => 'erp_' . $this->{id}
-                    )
-                }
+                $this->getParams('erp_'),
+                erp_active_row => -2,
+                erp_unchanged  => 1,
+                erp_action     => 'addRow',
+                '#'            => 'erp_' . $this->{id}
             );
 
             # Full table disabled, but not row
-            push( @out, "<a href='$url' title='$title'>$button</a><br />" );
+            push(
+                @out,
+                Foswiki::Render::html(
+                    'a',
+                    {
+                        href  => $url,
+                        title => $title
+                    },
+                    $button
+                  )
+                  . '<br />'
+            );
         }
     }
     return join( "\n", @out ) . "\n";
@@ -407,17 +445,18 @@ sub can_edit {
     return $this->{editable};
 }
 
-sub getURLParams {
-    my ( $this, %more ) = @_;
+sub getParams {
+    my ( $this, $prefix ) = @_;
+
+    $prefix ||= '';
 
     # Get the active (most recent) version number for the topic with this table
     my @ri = Foswiki::Func::getRevisionInfo( $this->getWeb, $this->getTopic );
-    return {
-        erp_topic   => $this->getWeb . '.' . $this->getTopic,
-        erp_version => "$ri[2]_$ri[0]",
-        erp_table   => $this->getID(),
-        %more
-    };
+    return (
+        "${prefix}topic"   => $this->getWeb . '.' . $this->getTopic,
+        "${prefix}version" => "$ri[2]_$ri[0]",
+        "${prefix}table"   => $this->getID()
+    );
 }
 
 # Get the "type object" for this column definition (one of the Editor classes)
@@ -716,12 +755,14 @@ sub generateHelp {
 # POST (even cancel).
 sub _makeButton {
     my ( $action, $icon, $title, $attrs ) = @_;
-    return CGI::submit(
+    return Foswiki::Render::html(
+        'button',
         {
+            type  => "submit",
             name  => 'erp_action',
             value => $action,
             title => $title,
-            class => "ui-icon ui-icon-$icon erpNoJS_button foswikiIcon"
+            class => "$icon erp-button"
         }
     );
 }
@@ -740,45 +781,58 @@ sub generateEditButtons {
 
     my $buttons = '';
 
-    $buttons = CGI::hidden( -name => 'erp_action', -value => '' )
-      unless $attrs->{js} eq 'ignored';
+    $buttons = Foswiki::Render::html(
+        "input",
+        {
+            type  => "hidden",
+            name  => 'erp_action',
+            value => ''
+        }
+    ) unless $attrs->{js} eq 'ignored';
 
     if ($wholeTable) {
-        $buttons .= _makeButton( 'saveTableCmd', 'disk', NOISY_SAVE, $attrs );
+        $buttons .= _makeButton( 'saveTableCmd', 'ui-icon ui-icon-disk',
+            NOISY_SAVE, $attrs );
         if ( $attrs->{quietsave} ) {
             $buttons .=
-              _makeButton( 'quietsaveTableCmd', 'quietsave', QUIET_SAVE,
+              _makeButton( 'quietsaveTableCmd', 'erp-quietsave', QUIET_SAVE,
                 $attrs );
         }
     }
     else {
-        $buttons .= _makeButton( 'saveRowCmd', 'disk', NOISY_SAVE, $attrs );
+        $buttons .= _makeButton( 'saveRowCmd', 'ui-icon ui-icon-disk',
+            NOISY_SAVE, $attrs );
         if ( $attrs->{quietsave} ) {
             $buttons .=
-              _makeButton( 'quietsaveRowCmd', 'quietsave', QUIET_SAVE, $attrs );
+              _makeButton( 'quietsaveRowCmd', 'erp-quietsave', QUIET_SAVE,
+                $attrs );
         }
     }
-    $buttons .= _makeButton( 'cancelCmd', 'cancel', CANCEL, $attrs );
+    $buttons .=
+      _makeButton( 'cancelCmd', 'ui-icon ui-icon-cancel', CANCEL, $attrs );
 
     if ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} ) ) {
         $buttons .= '<br />' if $multirow;
         if ( !$wholeTable && $id ) {
             if ( !$topRow ) {
                 $buttons .=
-                  _makeButton( 'upRowCmd', 'arrow-1-n', UP_ROW, $attrs, 0 );
+                  _makeButton( 'upRowCmd', 'ui-icon ui-icon-arrow-1-n',
+                    UP_ROW, $attrs, 0 );
             }
             if ( !$bottomRow ) {
                 $buttons .=
-                  _makeButton( 'downRowCmd', 'arrow-1-s', DOWN_ROW, $attrs, 0 );
+                  _makeButton( 'downRowCmd', 'ui-icon ui-icon-arrow-1-s',
+                    DOWN_ROW, $attrs, 0 );
             }
         }
 
-        $buttons .= _makeButton( 'addRowCmd', 'plusthick', ADD_ROW, $attrs, 0 );
+        $buttons .= _makeButton( 'addRowCmd', 'ui-icon ui-icon-plusthick',
+            ADD_ROW, $attrs, 0 );
 
         unless ( $this->{attrs}->{changerows} eq 'add' ) {
             $buttons .=
-              _makeButton( 'deleteRowCmd', 'minusthick', DELETE_ROW, $attrs,
-                0 );
+              _makeButton( 'deleteRowCmd', 'ui-icon ui-icon-minusthick',
+                DELETE_ROW, $attrs, 0 );
         }
     }
 

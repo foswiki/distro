@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1427838713" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -631,6 +631,25 @@ to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname
 
 ---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.
+
+---+++ =configure=
+This is a fully functional command line interface to the Foswiki configuration.  It is able to set and check configuration values, and to run wizards.
+
+=tools/configure [-search] [-getspec] [-getcfg] [-check] [-wizard] [-method] [-save] [-json] [-trace] [-help] [-noprompt] [-expert]=
+
+| *Function* | *Usage* |
+| Bootstrap a new install without helptext | =tools/configure -save -expert= |
+| Set a variable | =tools/configure -save -set {Password}='newadminpassword' -set {WebMasterEmail}='newadmin@yourco.com'= |
+| Check a setting or section of settings. | =tools/configure -check Internationalisation= |
+| Run a wizard | =tools/configure -wizard Email -method send_test_email= |
+
+For full help, run =tools/configure -help=
+
+---+++ =dependencies=
+Generates a report of missing or all dependencies.  This report is also available to administrators at [[%SYSTEMWEB%.PerlDependencyReport]]
+
+   $ =tools/dependencies=: Generates a report on the missing dependencies
+   $ =tools/dependencies -all=: Generates a report on all dependencies, installed or missing, along with information on the installation location.
 
 ---+++ =geturl.pl=
 This is a very simple script to get the content of a web site, either using GET or POST. It is marked as _deprecated_ and might be removed in a future release. Its functions are covered by the standard =wget= and =curl= commands, which have the added advantage of performing authentication..

@@ -571,6 +571,42 @@ s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/g
 
 =begin TML
 
+---++ StaticMethod html($tag, $attrs, $content) -> $html
+
+Generates HTML for the given HTML tag name, plus an optional map of attributes
+and optional content. Attribute values will be safely encoded for use in HTML.
+However TML is *not* escaped.
+
+Can be used to replace many of the CGI::* html generation methods.
+
+Use it like this:
+
+   * Foswiki::Render::html('a', { href => $url, name => 'blah' }, 'jump');
+   * Foswiki::Render::html('br');
+   * Foswiki::Render::html('p', undef, 'Now is the time');
+
+=cut
+
+sub html {
+    my ( $tag, $attrs, $innerHTML ) = @_;
+    my $html = "<$tag";
+    if ($attrs) {
+        my @keys = keys %$attrs;
+        @keys = sort @keys if (DEBUG);
+        foreach my $k (@keys) {
+            my $v = $attrs->{$k};
+
+            # This is what CGI encodes, so....
+            $v =~ s/([&<>"\x8b\x9b'])/'&#'.ord($1).';'/ge;
+            $html .= " $k=\"$v\"";
+        }
+    }
+    $innerHTML = '' unless defined $innerHTML;
+    return "$html>$innerHTML</$tag>";
+}
+
+=begin TML
+
 ---++ StaticMethod verbatimCallBack
 
 Callback for use with putBackBlocks that replaces &lt; and >
@@ -581,7 +617,7 @@ by their HTML entities &amp;lt; and &amp;gt;
 sub verbatimCallBack {
     my $val = shift;
 
-    # SMELL: A shame to do this, but been in Foswiki.org have converted
+    # SMELL: A shame to do this, but in Foswiki.org have converted
     # 3 spaces to tabs since day 1
     $val =~ s/\t/   /g;
 

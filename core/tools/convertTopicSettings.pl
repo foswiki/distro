@@ -1,60 +1,45 @@
-#! /usr/bin/perl
-# See bottom of file for license and copyright information
+#! /usr/bin/env perl
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-
-# This tool is expected to be run after a Foswiki site is upgraded to
-# Foswiki 1.2.0 or newer.  It can also be used on a Foswik 1.1.x
-# installation if the PatchItem12849Contrib is installed
+# Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
 #
-# It performs several tasks, depending up on the selected options:
-#  - Convert empty DENYTOPIC ACLs into the corresponding ALLOWTOPIC = *
-#  - Convert from inline Set ACL's into META Settings
-#  - Convert all preference settings into META settings.
+# Additional copyrights apply to some or all of the code in this
+# file as follows:
 #
-
-# You must add the Foswiki bin dir to the
-# search path for this script, so it can find the rest of Foswiki e.g.
-# perl -I bin tools/convertTopicSettings -fixdeny -update Sandbox
-
-# SYNOPSIS
-#    convertTopicSettings [-update] [-fixdeny] [-convert] [-all] [-verbose] [-debug] [WEB ...]
+# Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
 #
-# DESCRIPTION
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
 #
-#    -update: topics will be updated.  Without the -update
-#    option, candidate topic changes will be reported but will not be written.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-#    -fixdeny: Removes empty DENYTOPIC rules, replacing them with ALLOWTOPIC wildcard
-#
-#    -convert: Convert Preference into META settings.  Inline ACLs are removed.
-#
-#    -all:     Convert all settings from inline sets to meta settings.  Default is to
-#              process ACL settings
-#
-#    -verbose: Report details on what is changed.
-#
-#    -debug:   Print additional detailed information
-#
-#    If you specify web names, only those specified are processed. Otherwise,
-#    all writable webs are processed.
-#
-# WARNING
-#    This script uses the Foswiki APIs.  It MUST be run as the web server user
-#    (apache, or www-data depending on the distribution).  If run as root, it
-#    will make the foswiki log unusable by the foswiki web server.
+# As per the GPL, removal of this notice is prohibited.
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 
 use warnings;
 use strict;
 
-BEGIN {
-    require 'setlib.cfg';
-}
+# Assume we are in the tools dir, and we can find bin and lib from there
+use FindBin ();
+$FindBin::Bin =~ /^(.*)$/;
+my $bin = $1;
+
+use lib "$FindBin::Bin/../bin";
+use lib "$FindBin::Bin/../lib";
 
 use Foswiki;
 use Foswiki::Func;
 use Foswiki::Meta;
 use Getopt::Long;
+use Pod::Usage;
 
 my $update;
 my $all;
@@ -62,6 +47,7 @@ my $fixdeny;
 my $convert;
 my $verbose;
 my $debug;
+my $help;
 
 my $savedTopics = 0;    # Global counter of saved topics
 
@@ -74,7 +60,12 @@ GetOptions(
     all     => \$all,
     verbose => \$verbose,
     debug   => \$debug,
-);
+    help    => \$help,
+) or Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 0 );
+
+if ($help) {
+    Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
+}
 
 my @weblist;
 if (@ARGV) {
@@ -173,19 +164,15 @@ sub _dumpTopic {
 #print STDERR "($hex)\n";
 }
 
-=begin TML
+# ---++ parse( $topicObject, $prefs )
 
----++ parse( $topicObject, $prefs )
+# This code is copied from Foswiki::Prefs::Parser, modified to extract
+# and optionally remove the preferences that it extracts from a topic.
+#
+# If $convert global is true, then this code removes each ACL from the
+# inline topic text, for later conversion to Meta prefs.
 
-This code is copied from Foswiki::Prefs::Parser, modified to extract
-and optionally remove the preferences that it extracts from a topic.
-
-If $convert global is true, then this code removes each ACL from the
-inline topic text, for later conversion to Meta prefs.
-
-Parse settings from the topic and return the cleaned topic text.. 
-
-=cut
+# Parse settings from the topic and return the cleaned topic text..
 
 sub parse {
     my ( $topicObject, $prefs ) = @_;
@@ -353,28 +340,101 @@ sub convert_DENY {
     return 0;
 }
 
-__END__
+1;
 
-Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+=head1 tools/convertTopicSettings.pl
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-NOTE: Please extend that file, not this notice.
+Convert inline topic settings into META settings.
 
-Additional copyrights apply to some or all of the code in this
-file as follows:
+=head1 SYNOPSIS
 
-Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
+ tools/convertTopicSettings.pl [-update] [-fixdeny] [-convert] [-all] [-verbose] [-debug] [WEB ...]
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version. For
-more details read LICENSE in the root of this distribution.
+This tool should be run after a Foswiki site is upgraded to
+Foswiki 1.2.0 or newer.  It can also be used on a Foswik 1.1.x
+installation if the PatchItem12849Contrib is installed
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+It performs several tasks, depending up on the selected options:
 
-As per the GPL, removal of this notice is prohibited.
-Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+=over 2 
+
+=item *
+
+Convert empty DENYTOPIC ACLs into the corresponding ALLOWTOPIC = *
+
+=item *
+
+Convert from inline Set ACL's into META Settings
+
+=item *
+
+Convert all preference settings into META settings.
+
+=back
+
+B<WARNING>
+
+This script uses the Foswiki APIs.  It MUST be run as the web server user
+(apache, or www-data depending on the distribution).  If run as root, it
+will make the foswiki log unusable by the foswiki web server.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-update>
+
+Write the changes to the web. Otherwise only a report is produced. No topics
+are changed if this option is not provided.
+
+=item B<-fixdeny>
+
+Removes empty DENYTOPIC* rules, and replaces them with an 
+ALLOWTOPIC* wildcard rule.
+
+=item B<-convert>
+
+Convert inline preference settings into META settings. Inline settings are removed.
+By default, this option only applies to Access (ALLOW/DENY) rules.
+
+=item B<-all> 
+
+Convert ALL inline settings into META settings.  Unless this option is specified,
+then only ACLs will be converted.
+
+=item B<-verbose>
+
+Report details on changes.
+
+=item B<-debug>
+
+Report additional details on the conversion process.
+
+=back
+
+=head1 EXAMPLES
+
+
+ $ tools/convertTopicSettings
+
+will scan all webs and report any ACLs that need conversion.
+
+ $ tools/convertTopicSettings -fixdeny -update
+
+Scan all webs. Convert empty DENY rules into ALLOW * wildcards.
+Settings are left "inline" in the topic text and changes are written.
+
+ $ tools/convertTopicSettings -fixdeny -convert -update Sandbox Main
+
+Scan only the Sandbox and Main webs for empty DENY rules.  Convert
+them into ALLOW * wildcard rules, and move them into META settings.
+
+ $ tools/convertTopicSettings -fixdeny -convert -all -verbose
+
+Scan all webs for any inline * Set statements.  Change all of them into META
+settings, convert empty DENY rules into ALLOW * wildcards, and report details
+on all expected changes.   No changes are written.
+
+
+
+=cut

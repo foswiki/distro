@@ -11,10 +11,6 @@
     font-weight: bold;
 }
 
-.ui-icon-quietsave {
-    background-image: url("quiet.png");
-}
-
 /* An empty cell has to have width and height to be able to act as a click-target */
 .erp_empty {
     height: 1.5em;
@@ -25,28 +21,6 @@
     position: relative;
     margin: 0;
     padding: 0;
-}
-
-.erpJS_editButton {
-    position: absolute;
-    left: -0.5em;
-    top: -0.2em;
-    height: 8px;
-    width: 8px;
-    background: url(editbutton.png) no-repeat transparent;
-    z-index: 1;
-    cursor: pointer;
-}
-
-.erp_clock_button {
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    height: 20px;
-    width: 20px;
-    background: url(clock.gif) no-repeat transparent;
-    z-index: 100;
-    cursor: wait;
 }
 
 .erp_drag_button {
@@ -64,10 +38,74 @@ a.erp_drag_button:hover {
     top: -1.25em;
 }
 
-.erpNoJS_button {
-    display: inline-block;
-    padding: 0;
-    margin: 0 5px;
+.erp-button {
+    width: 16px;
+    height: 16px;
     border: none;
-    width: 16px !important;
+    display: inline !important;
+}
+
+.erp-quietsave {
+    background-image: url("icons.png") !important;
+    background-position:0 0px;
+    border: none;
+}
+
+ /* the yellow stain */
+.erp-edit-button {
+    position: absolute;
+    left: -0.5em;
+    top: -0.2em;
+    height: 8px;
+    width: 8px;
+    background: url(icons.png) no-repeat transparent;
+    background-position: -24px -35px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* note this uses clock.gif to get the animation */
+.erp-clock {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    height: 20px;
+    width: 20px;
+    background-image: url(clock.gif) norepeat transparent;
+    z-index: 100;
+    cursor: wait;
+}
+
+.erp-edittable {
+    width: 47px;
+    height: 20px;
+    background-image: url("icons.png") !important;
+    background-position:0 -16px;
+}
+
+.erp-addrow {
+    width: 24px;
+    height: 20px;
+    background-image: url("icons.png") !important;
+    background-position:0 -35px;
+}
+
+.erp-save {
+    background-image: url("icons.png") !important;
+    background-position:-32px 0px;
+}
+
+.erp-cancel {
+    background-image: url("icons.png") !important;
+    background-position:-16px 0px;
+}
+
+.erpSortIconDown {
+    background-image: url("icons.png") !important;
+    background-position:0 ?px;
+}
+
+.tableSortIcon.erp-button {
+    float:right;
+    margin: 0.25em 0 0 0 !important;
 }

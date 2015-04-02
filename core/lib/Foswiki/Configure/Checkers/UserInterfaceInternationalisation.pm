@@ -26,44 +26,14 @@ my @required        = (
     },
 );
 
-if ( $] >= 5.008 ) {
+if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
     push(
         @required,
         {
-            name           => 'Encode',
-            usage          => "I18N conversions (core module in Perl 5.8)",
-            minimumVersion => 1,
-        }
-    );
-}
-else {
-    push(
-        @required,
-        {
-            name           => 'Unicode::String',
-            usage          => 'I18N conversions',
+            name           => 'Win32::Console',
+            usage          => 'I18N conversions on Windows platforms',
             minimumVersion => 1,
         },
-        {
-            name           => 'Unicode::MapUTF8',
-            usage          => "I18N conversions",
-            minimumVersion => 1,
-        },
-        {
-            name           => 'Unicode::Map',
-            usage          => "I18N conversions",
-            minimumVersion => 1,
-        },
-        {
-            name           => 'Unicode::Map8',
-            usage          => "I18N conversions",
-            minimumVersion => 1,
-        },
-        {
-            name           => 'Jcode',
-            usage          => "I18N conversions",
-            minimumVersion => 1,
-        }
     );
 }
 

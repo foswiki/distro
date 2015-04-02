@@ -70,6 +70,7 @@ The following entries in attrs are supported:
         Date. Initial value and date format are both optional.
    * =headerrows= - integer number of rows in the thead
    * =footerrows= - integer number of rows in the tfoot
+   * =extras= - optional Foswiki::Attrs hash of extra attributes
 
 =cut
 
@@ -80,7 +81,8 @@ sub new {
         {
             spec   => $spec,
             rows   => [],
-            number => undef
+            number => undef,
+            TABLE  => $attrs->{TABLE}    # remember TABLE attributes
         },
         $class
     );
@@ -91,8 +93,21 @@ sub new {
         $this->{colTypes} = [];
     }
 
-    $this->{headerrows} = $attrs->{headerrows};
-    $this->{footerrows} = $attrs->{footerrows};
+    # Can inherit headerrows/footerrows from a %TABLE, or override
+    # them in the %EDITTABLE
+    if ( defined $attrs->{headerrows} ) {
+        $this->{headerrows} = $attrs->{headerrows};
+    }
+    elsif ( $attrs->{TABLE} && defined $attrs->{TABLE}->{headerrows} ) {
+        $this->{headerrows} = $attrs->{TABLE}->{headerrows};
+    }
+
+    if ( defined $attrs->{footerrows} ) {
+        $this->{footerrows} = $attrs->{footerrows};
+    }
+    elsif ( $attrs->{TABLE} && defined $attrs->{TABLE}->{footerrows} ) {
+        $this->{footerrows} = $attrs->{TABLE}->{footerrows};
+    }
 
     return $this;
 }

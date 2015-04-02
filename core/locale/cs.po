@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-26 22:59+0200\n"
+"PO-Revision-Date: 2015-04-01 22:07+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/cs/>\n"
@@ -1373,7 +1373,7 @@ msgstr "Vytvořit tento článek"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
-msgstr "Pro editaci stránek na tomto webu si vytvoř účet. "
+msgstr "Pro editaci stránek na tomto webu si vytvořte účet."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
@@ -1545,11 +1545,11 @@ msgstr "ENCODE selhalo - =type= nemůže být použit současně s =old= a =new=
 
 #: core/templates/messages.tmpl:473
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "ENCODE selhalo - oba ( =old= and =new= ) musí být uvedeny."
+msgstr "ENCODE selhalo - oba =starý= a =nový= musí být uvedeny"
 
 #: core/templates/messages.tmpl:475
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
+msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old= "
 
 #: core/templates/messages.tmpl:481
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1911,8 +1911,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
-"Jděte na předchozí stránku a povolte Cookies a Javascript. Poté to zkuste "
-"znovu."
+"Jděte na předchozí stránku a povolte Cookies a Javascript a poté to zkuste "
+"znovu"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -2491,7 +2491,7 @@ msgstr "Ponechej %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor."
+msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor"
 
 #: core/data/System/WebSearch.txt:225
 msgid "Limit results to:"
@@ -2577,7 +2577,7 @@ msgstr "Hledání:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
-msgstr "Maximálně %1 položek na jeden web."
+msgstr "Maximálně %1 položek na jeden web"
 
 #: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2627,7 +2627,7 @@ msgstr "Více nástrojů"
 
 #: core/data/System/TopicsAndWebs.txt:52
 msgid "More topic actions"
-msgstr "Další akce pro práci s článkem..."
+msgstr "Další akce pro práci s článkem"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:89
@@ -3115,7 +3115,7 @@ msgid ""
 msgstr ""
 "Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, který "
 "je [[%SYSTEMWEB%.WikiWord][WikiWord]] nebo zaškrtněte volbu \"povolit non-"
-"Wiki Word\"."
+"Wiki Word\""
 
 #: core/templates/messages.tmpl:112 core/templates/messages.tmpl:120
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:140
@@ -3149,7 +3149,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:485
 msgid "Please notify your %1 administrator."
-msgstr "Uvědomte prosím Vašeho administrátora %1,"
+msgstr "Uvědomte prosím Vašeho administrátora %1."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:56
 msgid "Please validate"
@@ -3740,7 +3740,7 @@ msgstr "Vyber vše"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
-msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)."
+msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select groups to join:"
@@ -3756,7 +3756,7 @@ msgstr "Vyberte skupinu pro přidání:"
 
 #: core/templates/more.tmpl:101
 msgid "Select topic parent"
-msgstr "Vyberte nadřízený článek."
+msgstr "Vyberte nadřízený článek"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3764,7 +3764,7 @@ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 
 #: core/data/System/WebSearch.txt:179
 msgid "Selections apply to search in \"text body\""
-msgstr "Pro vyhledávání v textu jsou aktivována omezení."
+msgstr "Pro vyhledávání v textu jsou aktivována omezení"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
 msgid "Self registration is not supported by this site."
@@ -4200,7 +4200,7 @@ msgstr ""
 "Kontroly prováděné Foswiki mohou být spuštěny i v případě, že provádíte něco "
 "naprosto nevinného - jako např. stisknuté tlačítka Zpět v prohlížeči. "
 "Foswiki se poté chová stylem \"better safe than sorry - lepe je předcházet "
-"problémům\""
+"problémům\"."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
@@ -4294,12 +4294,9 @@ msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Heslo, které jste vložil do *předchozího hesla* je nesprávná."
 
 #: core/templates/registermessages.tmpl:308
-#, fuzzy
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
-msgstr ""
-"Prefix, který jste zadali pro smazaného uživatele není povolen jako název "
-"článku."
+msgstr "Prefix, který se snažíte smazanému uživateli přiřadit, není povolen."
 
 #: core/templates/messages.tmpl:192
 msgid "The required field %1 was not filled in."
@@ -5121,7 +5118,7 @@ msgstr "Webový server <em>na kterém běží Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Vítejte na %1 ... potkejte zde plno nových lidí."
+msgstr "Vítejte na %1 ... potkejte zde lidi"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -5179,7 +5176,7 @@ msgid ""
 msgstr ""
 "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
 "resetovat Vaše heslo. Pokud žádná z Vašich registrovaných emailových adres "
-"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1."
+"není validní a Vy jste zapomněl Vaše heslo, kontaktujte %1"
 
 #: core/templates/registermessages.tmpl:193
 msgid "You are already registered."
@@ -5541,9 +5538,8 @@ msgid "access not allowed on web"
 msgstr "přístup k webu není povolen"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
-#, fuzzy
 msgid "accesskey='c'"
-msgstr "accesskey='c'"
+msgstr "přístupový klíč='c'"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
@@ -5551,7 +5547,7 @@ msgstr "a"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "za pomoci %1"
+msgstr "za pomoci %1 "
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
@@ -5726,9 +5722,8 @@ msgstr ""
 "přílohu"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
-#, fuzzy
 msgid "title='Attach an image or document to this topic'>Attach"
-msgstr "title='Připoj obrázek nebo soubor k tomuto ćlánku'>Připoj"
+msgstr "nadpis='Připoj obrázek nebo soubor k tomuto ćlánku'>Připoj"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -5743,9 +5738,8 @@ msgstr ""
 "a porovnej revize' accesskey='m'>&Další akce"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
+msgstr "nadpis='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' >Edit"
@@ -5756,9 +5750,8 @@ msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Proložený' accesskey='i'>&interwoven"
+msgstr "nadpis='Proložený' klávesová zkratka='i'>&interwoven"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -5784,9 +5777,8 @@ msgid ""
 msgstr "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Jeden vedle druhého' accesskey='s'>&side by side"
+msgstr "nadpis='Vedle sebe' klávesová zkratka='s'>&side by side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"

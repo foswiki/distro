@@ -9,7 +9,7 @@ use warnings;
 use Assert;
 use Error (':try');
 
-use CGI qw( :cgi -any );
+use CGI qw( :cgi );
 
 use Encode ();
 

@@ -29,7 +29,7 @@
 #
 use strict;
 
-use CGI qw( -any );
+use CGI ();
 
 # Other constants
 my $red   = "#FF9999";

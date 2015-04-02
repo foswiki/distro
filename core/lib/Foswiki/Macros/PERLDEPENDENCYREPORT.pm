@@ -17,18 +17,55 @@ sub PERLDEPENDENCYREPORT {
 
     Foswiki::Configure::Auth::checkAccess($session);
 
+    my $inc = 'missing';
+
+    $inc = 'all'
+      if ( defined $params->{include} && $params->{include} eq 'all' );
+
     if ( defined $params->{_DEFAULT}
         && $params->{_DEFAULT} eq 'extensions' )
     {
-        return _analyzeExtensions();
+        return _analyzeExtensions($inc);
     }
     else {
-        return _analyzeFoswiki();
+        return _analyzeFoswiki($inc);
     }
 
 }
 
+sub cliDependencyReport {
+    my $inc = shift || 'missing';
+
+    my $msg = '';
+    $msg = '\t\t**POSSIBLE MISSING DEPENDENCY**' if ( $inc eq 'all' );
+
+    my $content;
+
+    $content = _analyzeFoswiki($inc);
+    $content =~ s/^\|/\n/g;
+    $content =~ s/\|/\t/g;
+    $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~
+s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
+
+    $content .= "\n\n";
+
+    $content .= _analyzeExtensions($inc);
+    $content =~ s/^\|/\n/g;
+    $content =~ s/\|/\t/g;
+    $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~
+s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
+
+    $content =~ s/<.*?>//g;
+    $content =~ s/[\[\]]//g;
+
+    return $content;
+
+}
+
 sub _analyzeFoswiki {
+    my $include = shift;
 
     my $content;
 
@@ -47,12 +84,13 @@ sub _analyzeFoswiki {
 
     my %seen;
     my $perlModules = _loadDEPENDENCIES( $from, 'core', \%seen );
-    $content .= _showDEPENDENCIES( 'core', $perlModules );
+    $content .= _showDEPENDENCIES( 'core', $perlModules, 0, $include );
 
     return $content;
 }
 
 sub _analyzeExtensions {
+    my $include = shift;
 
     my $content;
 
@@ -89,7 +127,7 @@ sub _analyzeExtensions {
             $perlModules, \%seen );
     }
 
-    $content .= _showDEPENDENCIES( 'Extensions', $perlModules, 1 );
+    $content .= _showDEPENDENCIES( 'Extensions', $perlModules, 1, $include );
 
     return $content;
 }
@@ -117,6 +155,7 @@ sub _showDEPENDENCIES {
     my $who         = shift;
     my $perlModules = shift;
     my $users       = shift;
+    my $inc         = shift;
 
  # I suppose this needs a word of explanation:
  # The primary sort is by module name (multi-level split by ::)
@@ -129,51 +168,47 @@ sub _showDEPENDENCIES {
  # version constraint is underlined (unless there's only one user)
 
     my $set;
-    if ( ref($perlModules) ) {
-        my @list = map {
-            my $mvu = $_->[0]{minVersionUser};
-            $mvu = 'Foswiki' if ( $mvu eq 'core' );
-            my $mu = @{ $_->[0]{users} } > 1;
-            $_->[0]{usage} .= ' <br><b>Used by:</b> '
-              . join( ', ',
-                map { $_ eq $mvu && $mu ? "<u>[[$_]]</u>" : "[[$_]]" }
-                  sort map { $_ eq 'core' ? '%WIKITOOLNAME%' : $_ }
-                  @{ $_->[0]{users} } )
-              if ($users);
-            $_->[0]
-          } sort {
-            my @a = @{ $a->[1] };
-            my @b = @{ $b->[1] };
-            while ( @a && @b ) {
-                my $na = shift @a;
-                my $nb = shift @b;
-                my $c  = $na cmp $nb;
-                return $c if ($c);
-            }
-            return @a <=> @b;
-          } map {
-            ( $users && @{ $_->{users} } == 1 && $_->{users}[0] eq 'core' )
-              ? ()
-              : [ $_, [ split( /::/, $_->{name} ) ] ]
-          } @$perlModules;
+    my @list = map {
+        my $mvu = $_->[0]{minVersionUser};
+        $mvu = 'Foswiki' if ( $mvu eq 'core' );
+        my $mu = @{ $_->[0]{users} } > 1;
+        $_->[0]{usage} .= ' <br><b>Used by:</b> '
+          . join( ', ',
+            map { $_ eq $mvu && $mu ? "<u>[[$_]]</u>" : "[[$_]]" }
+              sort map { $_ eq 'core' ? '%WIKITOOLNAME%' : $_ }
+              @{ $_->[0]{users} } )
+          if ($users);
+        $_->[0]
+      } sort {
+        my @a = @{ $a->[1] };
+        my @b = @{ $b->[1] };
+        while ( @a && @b ) {
+            my $na = shift @a;
+            my $nb = shift @b;
+            my $c  = $na cmp $nb;
+            return $c if ($c);
+        }
+        return @a <=> @b;
+      } map {
+        ( $users && @{ $_->{users} } == 1 && $_->{users}[0] eq 'core' )
+          ? ()
+          : [ $_, [ split( /::/, $_->{name} ) ] ]
+      } @$perlModules;
 
-        Foswiki::Configure::Dependency::checkPerlModules(@list);
+    Foswiki::Configure::Dependency::checkPerlModules(@list);
 
-        foreach (@list) {
+    foreach (@list) {
 
      #SMELL: Something is inserting newlines, breaking the table. This fixes it.
-            $_->{check_result} =~
-              s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
-            my $ok = '<br/>';
-            $ok .=
-              ( $_->{ok} )
-              ? "Location: $_->{location}"
-              : '<span class="foswikiAlert">%X% Possible missing dependency!</span>';
-            $set .= "| CPAN:$_->{name} | $_->{check_result}$ok |\n";
-        }
-    }
-    else {
-        $set = $perlModules;
+        $_->{check_result} =~
+          s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
+        my $ok = '<br/>';
+        $ok .=
+          ( $_->{ok} )
+          ? "Location: $_->{location}"
+          : '<span class="foswikiAlert">%X% Possible missing dependency!</span>';
+        $set .= "| CPAN:$_->{name} | $_->{check_result}$ok |\n"
+          unless ( $inc ne 'all' && $_->{ok} );
     }
 
     $who = 'Foswiki' if ( $who eq 'core' );

@@ -131,6 +131,10 @@ Returns a wizard report.
 sub save {
     my ( $this, $reporter ) = @_;
 
+# Stash the Engine & Bootstrapping  We don't save it, but need to refer to it later.
+    my $engine      = $Foswiki::cfg{Engine};
+    my $isBootstrap = $Foswiki::cfg{isBOOTSTRAPPING};
+
     my $logger;
     if ($Foswiki::Plugins::SESSION) {
         $logger = $Foswiki::Plugins::SESSION->logger;
@@ -201,8 +205,10 @@ sub save {
 
     my %save;
 
-    # Clear out the configuration and re-initialize it either
-    # with or without the .spec expansion.
+# Clear out the configuration and re-initialize it either
+# with or without the .spec expansion.  This also clears the {Engine} and {isBOOTSTRAPPING}
+# settings, but they should not be saved to the file, so that's desired behavior.  This
+# also prevents any other config settings from being modified by checkers or other code.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
             eval("(\$save$key)=\$Foswiki::cfg$key=~m/^(.*)\$/");
@@ -312,6 +318,26 @@ sub save {
             $reporter->NOTE("Previous configuration saved in $backup");
         }
         $reporter->NOTE("New configuration saved in $lsc");
+
+        if ( $engine =~ m/^Foswiki::Engine::Apache2?::MP/ ) {
+            $reporter->WARN(
+                'Web server reload required after updating the configuration.');
+        }
+        elsif (
+            $engine eq 'Foswiki::Engine::FastCGI'
+            && (
+                (
+                    defined $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+                    && !$Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+                )
+                || $isBootstrap
+            )
+          )
+        {
+            $reporter->WARN(
+"Restart of the foswiki fcgi backend is required after updating the configuration."
+            );
+        }
 
         if (%orig_content) {
             $reporter->NOTE('| *Key* | *Old* | *New* |');

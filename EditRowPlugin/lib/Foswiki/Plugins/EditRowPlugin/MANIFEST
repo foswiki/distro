@@ -1,3 +1,4 @@
+!noci
 data/System/EditRowPlugin.txt 0755
 data/System/EditRowPluginExamples.txt 0644
 lib/Foswiki/Configure/Checkers/Plugins/EditRowPlugin/Enabled.pm 0644
@@ -24,13 +25,7 @@ lib/Foswiki/Plugins/EditRowPlugin/TableRow.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/View.pm 0644
 pub/System/EditRowPlugin/TableSort.js 0644
 pub/System/EditRowPlugin/TableSort.uncompressed.js 0644
-pub/System/EditRowPlugin/addrow.png 0644
-pub/System/EditRowPlugin/arrowdown.png 0644
-pub/System/EditRowPlugin/arrowup.png 0644
 pub/System/EditRowPlugin/clock.gif 0644
-pub/System/EditRowPlugin/editbutton.png 0644
-pub/System/EditRowPlugin/edittable.png 0644
-pub/System/EditRowPlugin/edittopic.png 0644
 pub/System/EditRowPlugin/erp.css 0644
 pub/System/EditRowPlugin/erp.uncompressed.css 0644
 pub/System/EditRowPlugin/erp.js 0644
@@ -38,13 +33,7 @@ pub/System/EditRowPlugin/erp.uncompressed.js 0644
 pub/System/EditRowPlugin/example3.png 0644
 pub/System/EditRowPlugin/example4.png 0644
 pub/System/EditRowPlugin/example5.png 0644
-pub/System/EditRowPlugin/minus.png 0644
-pub/System/EditRowPlugin/onepixel.png 0644
-pub/System/EditRowPlugin/plus.png 0644
-pub/System/EditRowPlugin/quiet.png 0644
-pub/System/EditRowPlugin/save.png 0644
+pub/System/EditRowPlugin/icons.png 0644
 pub/System/EditRowPlugin/screenshot1.png 0644
 pub/System/EditRowPlugin/screenshot2.png 0644
-pub/System/EditRowPlugin/stop.png 0644
 pub/System/EditRowPlugin/wikiringlogo20x20.png 0644
-

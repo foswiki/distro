@@ -17,7 +17,7 @@ package Foswiki::Contrib::Build;
 
 use Foswiki::Contrib::BuildContrib::BaseBuild;
 use Error qw(:try);
-use CGI qw(:any);
+use CGI ();
 
 =begin TML
 

@@ -253,7 +253,7 @@ sub _userReallyExists {
 
 throws an Error::Simple
 
-Add a user to the persistant mapping that maps from usernames to wikinames
+Add a user to the persistent mapping that maps from usernames to wikinames
 and vice-versa. The default implementation uses a special topic called
 "WikiUsers" in the users web. Subclasses will provide other implementations
 (usually stubs if they have other ways of mapping usernames to wikinames).
@@ -324,7 +324,7 @@ sub addUser {
 
 throws an Error::Simple
 
-Add or remove  a user to/from the persistant mapping that maps from usernames to wikinames
+Add or remove  a user to/from the persistent mapping that maps from usernames to wikinames
 and vice-versa. The default implementation uses a special topic called
 "WikiUsers" in the users web. =cut
 
