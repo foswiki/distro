@@ -1183,6 +1183,19 @@ sub test_Item13347 {
         else => 1
     );
 
+    # normalizeWebTopic will return WebHome for a topic of '0'
+    # so this needs special handling.
+    $this->simpleTest(
+        test => "istopic '0'",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "istopic '0000'",
+        then => 0,
+        else => 1
+    );
+
     return;
 }
 

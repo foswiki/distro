@@ -36,8 +36,15 @@ sub evaluate {
         'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     my ( $web, $topic ) = ( $session->{webName}, $a->_evaluate(@_) );
-    return 0 unless $topic;    # null/empty topic cannot possibly exist
+
+    return 0
+      unless ( defined $topic && length($topic) )
+      ;    # null/empty topic cannot possibly exist
+    return 0
+      if ( $topic eq '0' ); # special case, topic name '0' normalizes to WebHome
+
     ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
+
     return $session->topicExists( $web, $topic ) ? 1 : 0;
 }
 
