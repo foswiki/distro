@@ -1175,6 +1175,17 @@ sub test_93b {
     return;
 }
 
+sub test_Item13347 {
+    my $this = shift;
+    $this->simpleTest(
+        test => "istopic ''",
+        then => 0,
+        else => 1
+    );
+
+    return;
+}
+
 sub test_93c {
     my $this = shift;
     $this->simpleTest(
