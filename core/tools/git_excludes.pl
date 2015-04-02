@@ -145,9 +145,7 @@ sub exitDir {
 
 sub add_exclude {
     my ( $fh, $location, $name, $header, $linkRefRef ) = @_;
-    no strict 'refs';
-    my @links = @{ ${$linkRefRef} };
-    use strict 'refs';
+    my @links = ${$linkRefRef} ? @{ ${$linkRefRef} } : ();
 
     return unless @links;
     print "    excludes ( $location, $name, " . ( scalar @links ) . ")\n";
