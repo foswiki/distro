@@ -14,7 +14,7 @@ Foswiki is a wiki: fundamentally, a website with editable web pages. It looks li
 
 Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.2 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work under Foswiki. Since the start of the Foswiki project there have been several releases of TWiki, However there have been very few functionality changes, and the useful changes have all been tracked in Foswiki, so topics and wiki applications supported by TWiki should also work with Foswiki.
+Foswiki is backwards compatible with content generated on all previous Foswiki versions, and even content and many plugins from TWiki installations (Foswiki 1.2 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work in Foswiki).
 
 Foswiki is released under the GNU General Public License.
 
@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
 %ENDTWISTY{}%
 %TWISTY{showlink="Release 1.1 releases..." hidelink="hide Release 1.1"}%
-   * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+   * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better user interfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
@@ -58,14 +58,14 @@ Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
 ---++ Changes in requirements
 
 <div class='foswikiHelp'>
-   * !JavaScript is now required for most operation other than simple page views.
-   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prequisite modules. Check dependencies by running  =perl tools/dependencies=
+   * !JavaScript is now required for most operations other than simple page views.
+   * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prerequisite modules. Check dependencies by running  =perl tools/dependencies=
 </div>
 
----++ Deprecations
+---++ Deprecation
 
----+++ Deprecated space delimited square bracket links have been removed.
-The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
+---+++ Space delimited square bracket links have been removed.
+The long-deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
 
 ---+++ Deprecated =AllowInlineScript= configuration setting removed
 
@@ -85,7 +85,7 @@ section under the _Access control_ tab.
 
 With release 1.2 of Foswiki, a new ACL rule, the asterisk,  is used as a
 wildcard to match *any* user, including the guest user, !WikiGuest. Prior to
-Foswiki 1.2,  a topic could be made accessable to everyone by coding
+Foswiki 1.2,  a topic could be made accessible to everyone by coding
 an empty =DENYTOPIC&lt;action&gt;= rule.   This rule is no longer active by
 default.
 
@@ -99,19 +99,19 @@ For additional information run =perl tools/convertTopicSettings.pl -help=
 ---+++ Deprecation of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
 
 This password manager was included primarily as demonstration code and was not
-fully functional.  The default =Foswiki::Users::HtPasswdUser=  provides the
+fully functional.  The default =Foswiki::Users::HtPasswdUser=  provides
 better functionality and it works.  The modules are compatible and no changes
 are needed.
 
 ---+++ Deprecation of jQuery plugins
-A number of jQuery plugins have been deprecated  and should be disabed in the configuration. Recommended replacements:
+A number of jQuery plugins have been deprecated  and should be disabled in the configuration. Recommended replacements:
 
-   * jquery.corner
+   * jquery.corner, direct use of CSS recommended.
    * jquery.gradient, direct use of CSS recommended.
    * jquery.rating replaced by jquery.stars
    * jquery.shake, is now part of jQuery-ui
    * jquery.simplemodal, replaced by ui::dialog, the jQuery ui-dialog widget.
-   * jquery.supersubs, superceded by jQuery.superfish
+   * jquery.supersubs, superseded by jQuery.superfish
    * jquery.tmpl, replaced with jsrender
    * jquery.tooltip, replaced with the tooltip component of jQuery-ui
 
@@ -120,33 +120,31 @@ These settings are not used with the new NatEditPlugin editor.
 
 With the old wikitext editor, these settings are used only until the user
 drags the corner of the edit window.  Once the window size has been changed
-with a drag event, the settings are remembered in a cookie and these
+with a drag event, the settings are remembered in a cookie and the
 preference settings are ignored.
 
 ---+++ Deprecation of  =Meta::get/setEmbeddedStoreForm= API
 
 These Meta APIs will be removed in Foswiki 2.0.
-It is retained for compatibility only.
-   * =Foswiki::Meta::getEmbeddedStoreForm()=, use =Foswiki::Serialise::serialise($meta, 'Embedded')=.
-   * =Foswiki::Meta::setEmbeddedStoreForm()=, use =Foswiki::Serialise::deserialise($text, 'Embedded', $meta)=
+They are retained for compatibility only, should not be used in new code,
+and should be replaced in existing code.
+   * for =Foswiki::Meta::getEmbeddedStoreForm()=, use =Foswiki::Serialise::serialise($meta, 'Embedded')=.
+   * for =Foswiki::Meta::setEmbeddedStoreForm()=, use =Foswiki::Serialise::deserialise($text, 'Embedded', $meta)=
 
 <noautolink>
 ---+++ The EditTablePlugin has been deprecated and removed from the release
 
 The EditTablePlugin has been replaced by the EditRowPlugin. If installed, the EditTablePlugin should be disabled in the configuration.
 The old EditTablePlugin is still available for installation from
-http://foswiki.org/Extensions/EditTablePlugin, but is currently not being
+http://foswiki.org/Extensions/EditTablePlugin, but is not being
 maintained.
 
 The EditRowPlugin has significant advantages over the old EditTablePlugin.
 Most features of the EditTablePlugin are supported, with the exception of the
 =editbutton= parameter, and plugin preferences.
 
-The EditRowPlugin also overrides and provides features previously provided by
-the TablePlugin.  The EditRowPlugin adds client side javascript based sorting of tables.
-This has significant performance advantages especially for publicly web
-accessible sites, where search engine bots follow the old style table sort
-links.
+The EditRowPlugin also enhances features previously provided by
+the TablePlugin. The EditRowPlugin adds client side javascript based sorting of tables, which has significant performance advantages.
 
 The TablePlugin and EditRowPlugin can be used together, with one exception.
 A table statement with the initsort parameter e.g.  =%<nop>TABLE{ initsort="... " ]%=
@@ -156,14 +154,14 @@ edit, as well as when the whole table is opened for edit.
 ---++ Important changes in Foswiki 1.2
 ---+++ Installation process has changed significantly!
 You should not visit 'bin/configure' as your first access.  After extracting
-the Foswiki code and reading your web server:
+the Foswiki code and preparing your web server:
    * Visit your desired default URL.  If using Short URLs, use the short form: =http://yoursite.com/Main/WebHome=  or =http://yoursite.com/foswik/Main/WebHome=, ...
    * Follow the link in the banner of that initial page to access configure.
    * After saving the configuration, return to your wiki pages, register your initial user and add them to the !AdminGroup.
 
 ---+++ Perl libraries and paths
 
-Foswiki no longer ships the required Perl CPAN libraries for use as a last
+Foswiki no longer ships Perl CPAN libraries for use as a last
 resort. If it is not possible or convenient to install perl libraries, then
 install the Foswiki:Extensions.CpanContrib to get pre-built libraries
 for Foswiki to use.
@@ -173,7 +171,7 @@ setting for =$CPANBASE= has been completely eliminated.  A simple method of
 adding libraries to the top of the @INC path is provided in the new example
 =foswiki/bin/LocalLib.txt= shipped with foswiki.
 
-<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have are upgrading an existing system and
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system and
 have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
 copy using the updated =foswiki/bin/LocalLib.cfg.txt= <sticky>&nbsp;</sticky> (Note that on most systems, =foswiki/bin/LocalLib.txt= is not required.</div>
 
@@ -231,7 +229,7 @@ you need to disable the ={Sessions}{UseIPMatching}= option in your configuration
 ---+++++ Optional Sessions for Guest users
 
 _EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
-However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
+However if guests are permitted to update, for example by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%][configure =Security and Authentication= tab]] interface for more information.
 
 ---+++++ Other CGI related changes
@@ -267,9 +265,12 @@ information, such as the new information topics:
 
 ---++++ Configure command line interface
 
-Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and it will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
+Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
 <verbatim>tools/configure -save -noprompt
 tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http://your.site.com' -set {PubUrlPath}='/pub' -set {ScriptUrlPath}='/bin' -set {ScriptUrlPaths}{view}=''  -set {FeatureAccess}{Configure}='JoeUser, FredAdmin' -set {WebMasterEmail}='webmaster@your.site.com</verbatim>
+
+Full help on the available options can be viewed using =tools/configure --help=
+
 ---+++ Query Search
 
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
@@ -279,7 +280,7 @@ The undocumented shortcut notation to reference to a form name is no longer avai
 	"BlogPostForm"
 }%</verbatim>
 
-Because this could lead to undeterministic behaviour, the syntax is now more controlled. You now have to refer to the form name:
+Because this could lead to indeterminate behaviour, the syntax is now more controlled. You now have to refer to the form name:
 <verbatim>
 %SEARCH{
 	type="query"
@@ -300,7 +301,7 @@ quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 
 The Foswiki Store has been restructured into separate pluggable store implementations.  Foswiki 1.2 ships with two store backends:
    * RCSStoreContrib: This implements the RCSWrap and RCSLite "Revision Control System" based stores, compatible with prior versions of Foswiki and TWiki.
-   * PlainFileStoreContrib: A new plain file store that saves topic and attachment as timestamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performming_ than the RCS store. Existing topics can be migrated to the new store. *Store formats may not be mixed. One store must be* selected.
+   * PlainFileStoreContrib: A new plain file store that saves topic and attachment as time-stamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performing_ than the RCS store. Existing topics can be migrated to the new store. *Store formats may not be mixed*. One store must be selected.
 
 The utility to migrate between store implementations is =tools/change_store.pl=. Be sure to backup your system before running the conversion. For information on how to run the tool, run:
 <verbatim>cd foswiki/tools
