@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1427906090" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1427937818" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2.0 Beta 1 
+---+!! Foswiki Release 1.2.0 Beta 1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -64,7 +64,13 @@ Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
 
 ---++ Deprecations
 
-   * The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
+---+++ Deprecated space delimited square bracket links have been removed.
+The long deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
+
+---+++ Deprecated =AllowInlineScript= configuration setting removed
+
+The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
+Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
 
 ---+++ Deprecation of empty DENY rules
 
@@ -90,18 +96,63 @@ A conversion tool is available in the tools directory.  =tools/convertTopicSetti
 
 For additional information run =perl tools/convertTopicSettings.pl -help=
 
----++++ Deprecated =AllowInlineScript= configuration setting removed
-
-The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
-Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
-
----++++ Deprecation of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
+---+++ Deprecation of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
 
 This password manager was included primarily as demonstration code and was not
 fully functional.  The default =Foswiki::Users::HtPasswdUser=  provides the
 better functionality and it works.  The modules are compatible and no changes
 are needed.
 
+---+++ Deprecation of jQuery plugins
+A number of jQuery plugins have been deprecated  and should be disabed in the configuration. Recommended replacements:
+
+   * jquery.corner
+   * jquery.gradient, direct use of CSS recommended.
+   * jquery.rating replaced by jquery.stars
+   * jquery.shake, is now part of jQuery-ui
+   * jquery.simplemodal, replaced by ui::dialog, the jQuery ui-dialog widget.
+   * jquery.supersubs, superceded by jQuery.superfish
+   * jquery.tmpl, replaced with jsrender
+   * jquery.tooltip, replaced with the tooltip component of jQuery-ui
+
+---+++ Deprecation of EDITBOXSTYLE and EDITBOXWIDTH settings
+These settings are not used with the new NatEditPlugin editor.
+
+With the old wikitext editor, these settings are used only until the user
+drags the corner of the edit window.  Once the window size has been changed
+with a drag event, the settings are remembered in a cookie and these
+preference settings are ignored.
+
+---+++ Deprecation of  =Meta::get/setEmbeddedStoreForm= API
+
+These Meta APIs will be removed in Foswiki 2.0.
+It is retained for compatibility only.
+   * =Foswiki::Meta::getEmbeddedStoreForm()=, use =Foswiki::Serialise::serialise($meta, 'Embedded')=.
+   * =Foswiki::Meta::setEmbeddedStoreForm()=, use =Foswiki::Serialise::deserialise($text, 'Embedded', $meta)=
+
+<noautolink>
+---+++ The EditTablePlugin has been deprecated and removed from the release
+
+The EditTablePlugin has been replaced by the EditRowPlugin. If installed, the EditTablePlugin should be disabled in the configuration.
+The old EditTablePlugin is still available for installation from
+http://foswiki.org/Extensions/EditTablePlugin, but is currently not being
+maintained.
+
+The EditRowPlugin has significant advantages over the old EditTablePlugin.
+Most features of the EditTablePlugin are supported, with the exception of the
+=editbutton= parameter, and plugin preferences.
+
+The EditRowPlugin also overrides and provides features previously provided by
+the TablePlugin.  The EditRowPlugin adds client side javascript based sorting of tables.
+This has significant performance advantages especially for publicly web
+accessible sites, where search engine bots follow the old style table sort
+links.
+
+The TablePlugin and EditRowPlugin can be used together, with one exception.
+A table statement with the initsort parameter e.g.  =%<nop>TABLE{ initsort="... " ]%=
+will cause confusion as the table will be resorted every time a row is opened for
+edit, as well as when the whole table is opened for edit.
+</noautolink>
 ---++ Important changes in Foswiki 1.2
 ---+++ Installation process has changed significantly!
 You should not visit 'bin/configure' as your first access.  After extracting
@@ -201,13 +252,19 @@ extensions and use the =CGI::= HTML generation functions, you should review the 
    * Performance
       * !JavaScript minimizes the data transmitted to/from the client. The entire configuration is not sent for each transaction.
 ---++++ Changes to configure Authentication
-   * Configure requires that the user has logged in to Foswiki and is in the !AdminGroup, or is identified as an authorized configure user.
+   * Configure requires that the user has logged in to Foswiki and either be in the !AdminGroup, or be identified as an authorized configure user.
    * The "admin" superuser password is now optional:
       * If not set, configure depends solely upon the session authentication
-      * By not setting, or by clearing the admin password, sites can disable the _internal admin_ login, eliminating sharing of admin passwords.
+      * By not setting, or by clearing the admin password, sites can disable the _internal admin_ login, eliminating sharing of admin passwords, which is considered poor security practice.
    * Configure can be restricted to individual users in or out of the !AdminGroup.
-      * If a ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
+      * If ={FeatureAccess}{Configure}= is NOT configured, then the current user must be in the !AdminGroup in order to view or save the configuration.
       * If ={FeatureAccess}{Configure}= user list is configured, then the current user must be in the list to be allowed access to configure, regardless of whether or not they are in the !AdminGroup.
+
+The Configure access restrictions are also applied to control potentially sensitive
+information, such as the new information topics:
+   * %SYSTEMWEB%.PerlDependencyReport
+   * %SYSTEMWEB%.FoswikiServerInformation
+
 ---++++ Configure command line interface
 
 Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and it will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
@@ -248,6 +305,17 @@ The Foswiki Store has been restructured into separate pluggable store implementa
 The utility to migrate between store implementations is =tools/change_store.pl=. Be sure to backup your system before running the conversion. For information on how to run the tool, run:
 <verbatim>cd foswiki/tools
 perl -I ../lib change_store.pl --help</verbatim>
+
+---+++ New "Natural Editor", !NatEditPlugin replaces the old !WikiText editor
+The !NatEditPlugin, a component of the optional !NatSkin, is now the default
+WikiText editor.   It is enabled with the new default skin setting:
+   * #Set SKIN = natedit,pattern
+
+The NatEditPlugin is a Topic Markup Language (TML) editor, and provides a GUI
+"assist" to the user to aid in learning and using TML.  This editor relies
+heavily on !JavaScript and jQuery.   Users that must edit without the use of
+!JavaScript can override the SKIN setting and remove natedit.
+
 ---++ Foswiki Release 1.2 Details
 ---+++ New Features
 | *Feature* | *Summary* |
@@ -305,7 +373,7 @@ perl -I ../lib change_store.pl --help</verbatim>
 | [[%BUGS%/ItemX][ItemX]] | description |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 | [[%BUGS%/ItemX][ItemX]] | description |
