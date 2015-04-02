@@ -1942,7 +1942,7 @@ input[readonly]:focus,
 .foswikiInputFieldReadOnly:focus {
   cursor: default;
   background-color: #fafafa;
-  color: #aaaabb;
+  color: #565656;
   border-color: #dadada;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -1967,7 +1967,7 @@ textarea[disabled]:focus,
 .foswikiInputFieldDisabled:focus {
   cursor: default;
   background-color: #fafafa;
-  color: #aaaabb;
+  color: #565656;
   border-color: #dadada;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
