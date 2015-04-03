@@ -596,8 +596,10 @@ sub atomicUnlock {
     my ( $this, $meta, $cUID ) = @_;
 
     my $filename = _getData($meta) . '.lock';
-    unlink($filename)
-      or die "PlainFile: failed to delete $filename: $!";
+    if ( -e $filename ) {
+        unlink($filename)
+          or die "PlainFile: failed to delete $filename: $!";
+    }
 }
 
 # Implement Foswiki::Store
