@@ -319,24 +319,27 @@ sub save {
         }
         $reporter->NOTE("New configuration saved in $lsc");
 
-        if ( $engine =~ m/^Foswiki::Engine::Apache2?::MP/ ) {
-            $reporter->WARN(
-                'Web server reload required after updating the configuration.');
-        }
-        elsif (
-            $engine eq 'Foswiki::Engine::FastCGI'
-            && (
-                (
-                    defined $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
-                    && !$Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+        if ($engine) {
+            if ( $engine =~ m/^Foswiki::Engine::Apache2?::MP/ ) {
+                $reporter->WARN(
+'Web server reload required after updating the configuration.'
+                );
+            }
+            elsif (
+                $engine eq 'Foswiki::Engine::FastCGI'
+                && (
+                    (
+                        defined $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+                        && !$Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg}
+                    )
+                    || $isBootstrap
                 )
-                || $isBootstrap
-            )
-          )
-        {
-            $reporter->WARN(
+              )
+            {
+                $reporter->WARN(
 "Restart of the foswiki fcgi backend is required after updating the configuration."
-            );
+                );
+            }
         }
 
         if (%orig_content) {
