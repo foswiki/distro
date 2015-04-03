@@ -1,10 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428027331" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 <noautolink>
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
+
+---++ Foswiki Release 1.2.0 Beta 1 - 02 Apr 2015
+
+Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015.  It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
+
 ---++ Foswiki Release 1.1.9 - 19 Nov 2013
 
 Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 43 fixes and 4 enhancements.
