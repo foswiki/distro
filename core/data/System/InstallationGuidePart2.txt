@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428101623" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -206,7 +206,7 @@ The side bar can be customized on a per web basis. To customize the side bar, co
 
 ---+++++ Copyright, License and Classification Statements
 
-At the bottom of each topic, there is a copyright statement that is set in the =WEBCOPYRIGHT= preference. Its default is the following: =Copyright © by the contributing authors. All material on this collaboration platform is the property of the contributing authors.=
+At the bottom of each topic, there is a copyright statement that is set in the =WEBCOPYRIGHT= preference. Its default is the following: =Copyright &copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors.=
 
 If your Foswiki site is used in an environment without public access you should replace this with your normal copyright notice. You should also consider adding a security classification (e.g., For Internal Use Only) so people do not have to add this manually to every new topic.
 

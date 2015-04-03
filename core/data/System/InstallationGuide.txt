@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427838713" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428101623" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+ Installation Guide
@@ -258,7 +258,7 @@ reset the password.
 
 Foswiki 1.2 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
    * *Default protection:* If nothing special is configured, any user in the %USERSWEB%.AdminGroup has full access to configure. There is no _admin_ super user, and no special protection.
-   * *Restrict to specific listed users:* List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered.  If you want the _admin_ super-user to also have access to configure, you need to include "BaseUserMapping_333" in that list.
+   * *Restrict to specific listed users:* List users who should have access in configure under the [Security and Authentication] [Access Control] tab, {FeatureAccess}{Configure} field. This separates configure access from wiki administrators, and the %USERSWEB%.AdminGroup is not considered. (The _internal admin_ user always has access to configure.)
 #InternalAdmin
 ---++++ Establishing the _internal admin_ login 
 
@@ -341,7 +341,7 @@ If you cannot unpack the Foswiki distribution directly in your installation dire
 
 ---++ TWiki Compatibility
 
-Foswiki is 100% backwards compatible with TWiki<sup>®</sup> markup up to and including TWiki 4.2.4. Existing TWiki webs, topics and attachments can be used with Foswiki without requiring any changes.
+Foswiki is 100% backwards compatible with TWiki<sup>&trade;</sup> markup up to and including TWiki 4.2.4. Existing TWiki webs, topics and attachments can be used with Foswiki without requiring any changes.
 
 To support a seamless upgrade from TWiki, Foswiki ships with a plugin called =TWikiCompatibilityPlugin=. This plugin enables most TWiki extensions to work with Foswiki, without modifications. It also maps requests for legacy TWiki web topics to their Foswiki equivalents, as defined in Foswiki:Development.TopicNameMappingTable. The =TWIKIWEB= and =MAINWEB= TWiki variables are also mapped to the new Foswiki macros =SYSTEMWEB= and =USERSWEB=.
 
