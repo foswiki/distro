@@ -79,8 +79,6 @@ foreach my $web (@weblist) {
     my $topicCounter = 0;
     foreach my $topic ( Foswiki::Func::getTopicList($web) ) {
 
-        next unless ( $topic =~ /TestTopic/ );
-
         next if ( $topic eq $Foswiki::cfg{WebPrefsTopicName} );
         scanTopic( $web, $topic );
         $topicCounter++;

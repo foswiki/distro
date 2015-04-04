@@ -552,7 +552,7 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 # for access permission, then it will not get blocked by these controls.
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
-# **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT**
+# **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
 # If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
 # "Deny nobody", which is equivalent to "Allow all".
@@ -562,6 +562,8 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 #    * Set DENYTOPICVIEW =        Should be replaced with:
 #    * Set ALLOWTOPICVIEW = *
 # </verbatim>
+# See =tools/convertTopicSettings.pl= for a utility to migrate to the 
+# new ACL format.
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
 # **SELECT authenticated,acl,all LABEL="Access to  RAW" EXPERT**
