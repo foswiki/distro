@@ -171,6 +171,11 @@ sub verify_view {
         # to be sequential and not random
         %twistyIDs = ();
 s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
+
+        # the two times are rarely different, but if they bridge a clock
+        # tick...
+        s/(<input[^>]*\bname="t"[^>]*\bvalue=")\d+("[^>]*>)/$1$2/is;
+        s/(<input[^>]*\bvalue=")\d+("[^>]*\bname="t"[^>]*>)/$1$2/is;
     }
 
     $this->assert_html_equals( $one, $two );
