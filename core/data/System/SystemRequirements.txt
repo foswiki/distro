@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427838713" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428294816" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -43,20 +43,26 @@ Install apache and rcs ==apt-get install apache2 rcs==
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
-| Algorithm::Diff | =libalgorithm-diff-perl= |
-| Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
+| Algorithm::Diff | =libalgorithm-diff-perl= | |
+| Archive::Tar | libarchive-tar-perl | |
+| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64. Install using CPAN! |
+| CGI | =libcgi-pm-perl | |
+| CGI::Session | =libcgi-session-perl | |
+| Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
+| Digest::SHA | =libdigest-sha-perl | *First shipped in perl 5.9.3 |
 | Encode | =libencode-perl= (maybe required if your version is outdated) |
-| Error | =liberror-perl= |
+| Error | =liberror-perl= | |
 | File::Copy::Recursive | =libfile-copy-recursive-perl= | |
-| HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Entities | | included with HTML::Parser |
+| HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Tree | =libhtml-tree-perl= | |
+| IO::Socket::IP | libio-socket-ip-perl | First shipped perl 5.19.8 |
+| IO::Socket::SSL | libio-socket-ssl-perl | |
 | JSON | =libjson-perl= | |
 | LWP | =libwww-perl= | |
-| version | =libversion-perl= | Must be version 0.77 or newer |
-| Digest::SHA | =libdigest-sha-perl= | |
 | URI | =liburi-perl= | |
-| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64. Install using CPAN! |
+| version | =libversion-perl | First shipped perl 5.10.1, must be version 0.77 or newer |
+
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
 
