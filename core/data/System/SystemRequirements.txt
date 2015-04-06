@@ -20,8 +20,6 @@ Foswiki is designed to automatically detect the platform and generate a basic co
 
 Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test critical dependencies and alert you when any are missing. For a detailed report, [[PerlDependencyReport][See PerlDependencyReport]].
 
-The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (=CGI= has been removed from recent Perl versions), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
-
 Prior versions of Foswiki shipped with the important CPAN modules, for use as a "last resort". Since they are needed only in rare situations,
 they were put into an optional extension. See Foswiki:Extensions.CpanContrib. Install this extension into your Foswiki installation directory if you cannot install Perl modules otherwise.
 
@@ -50,15 +48,16 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | CGI::Session | =libcgi-session-perl= | |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
 | Digest::SHA | =libdigest-sha-perl= | *First shipped in perl 5.9.3 |
-| Encode | =libencode-perl= | (maybe required if your version is outdated) |
+| Encode | =libencode-perl= | |
 | Error | =liberror-perl= | |
 | File::Copy::Recursive | =libfile-copy-recursive-perl= | |
-| HTML::Entities | | included with HTML::Parser |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Tree | =libhtml-tree-perl= | |
 | IO::Socket::IP | =libio-socket-ip-perl= | First shipped perl 5.19.8 |
 | IO::Socket::SSL | =libio-socket-ssl-perl= | |
 | JSON | =libjson-perl= | |
+| Locale::Maketext::Lexicon | =liblocale-maketext-lexicon-perl= | Optional, needed for internationalization |
+| Locale::Msgfmt | =liblocale-msgfmt-perl= | Optional, needed for internationalization |
 | LWP | =libwww-perl= | |
 | URI | =liburi-perl= | |
 | version | =libversion-perl= | First shipped perl 5.10.1, must be version 0.77 or newer |
@@ -80,16 +79,27 @@ Install apache2, rcs, and perl-CPAN
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
+| Algorithm::Diff | =perl-Algorithm-Diff= | |
+| Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
+| Authen::SASL | =perl-Authen-SASL= | |
+| CGI | =perl-CGI=  | |
+| CGI::Session | =perl-CGI-Session= | |
+| Crypt::PasswdMD5 | =perl-Crypt-PasswdMD5= | |
+| Digest::SHA | =perl-Digest-SHA= | *First shipped in perl 5.9.3 |
+| Encode | =perl-Encode=  | |
+| Error | =perl-Error= | |
 | File::Copy::Recursive | =perl-File-Copy-Recursive= | |
 | HTML::Parser | =perl-HTML-Parser= | |
-| HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =perl-HTML-Tree= | |
+| IO::Socket::IP | =perl-IO-Socket-IP= | First shipped perl 5.19.8 |
+| IO::Socket::SSL | =perl-IO-Socket-SSL= | |
 | JSON | =perl-JSON= | |
+| Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
+| Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =perl-libwww-perl= | |
-| version | | Must be version 0.77 or newer |
+| version | =perl-Perl-Version= | Must be version 0.77 or newer |
 | Digest::SHA | =perl-Digest-SHA= | |
 | URI | =perl-URI= | |
-| Authen::SASL | =perl-Authen-SASL= | |
 After expanding the Foswiki archive, change the ownership of the files:
    * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
    * Suse: =chown -R wwwrun:www /path/to/foswiki=
@@ -98,32 +108,64 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 ---+++!! Gentoo (ebuild) based distributions
 
-%TWISTY{ showlink="Show Gentoo details" hidelink="Hide RPM details"}%
+%TWISTY{ showlink="Show Gentoo details" hidelink="Hide Gentoo details"}%
 
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
+| Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
+| Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
+| CGI | =perl-core/CGI= | |
+| CGI::Session | =dev-perl/CGI-Session= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
+| Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
 | Error | =dev-perl/Error= | |
+| Encode | =perl-core/Encode= | |
 | File::Copy::Recursive | =dev-perl/File-Copy-Recursive= | |
 | HTML::Parser | =dev-perl/HTML-Parser= | |
-| HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =dev-perl/HTML-Tree= | |
-| JSON | =dev-perl/JSON= | |
-| LWP | =dev-perl/libwww-perl= | |
-| version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
-| Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
-| URI | =dev-perl/URI= | |
-| Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
+| IO::Socket::IP | =dev-perl/IO-Socket-IP= | |
 | IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection: STARTTLS or SSL |
-| Locale::Maketext | =perl-core/locale-maketext= | Included with perl core. Versions older than 1.23 have security issues! |
+| JSON | =dev-perl/JSON= | |
 | Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
+| LWP | =dev-perl/libwww-perl= | |
+| version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
+| URI | =dev-perl/URI= | |
+* Packages in =perl-core/= generally are installed with perl. May be directly installed if updated versions are available.
+
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
 
+%ENDTWISTY{}%
+
+---+++!! Installation with cpanminus
+
+%TWISTY{ showlink="Show =cpanm= details" hidelink="Hide =cpanm= details"}%
+
+Perl dependencies can also be installed on most systems using =cpanm=, aka =App::cpanminus=.  On most unix* systems, =cpanminus= can bootstrap itself using curl or wget.
+If run as root, the modules will be installed in the System perl.   Otherwise they are installed into the users local environment.
+
+<verbatim>
+curl -L http://cpanmin.us | perl - App::cpanminus    (optional - install cpanminus if not available )
+cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI
+</verbatim>
+
+If you want to install the dependendencies into a specified location, add the ="-l"= option to cpanm, and add the lib path to =bin/LocalLib.cfg=.   The dependencies will be installed under the specified location, in the =lib/perl5= subdirectory.
+Example:  User "foswiki" logs in and installs the libraries locally under the foswikideps directory:
+<verbatim>
+cpanm -l foswikideps Algorithm::Diff Archive::Tar ...   (install libraries into =/home/foswiki/foswikideps=)
+</verbatim>
+
+=/path/to/foswiki/bin/LocalLib.txt= is then edited, and the commented line is modified:
+<verbatim>
+# @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir', );
+@localPerlLibPath = ( '/home/foswiki/foswikideps/lib/perl5', );
+</verbatim>
+
+Foswiki will now run using the libraries installed by cpanm.
 %ENDTWISTY{}%
 
 </noautolink>
