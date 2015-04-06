@@ -9,4 +9,3 @@ HTML::Tidy,>1.51,cpan,required
 HTML::TreeBuilder,>=0,cpan,required
 WWW::Selenium,>=0,cpan,optional, used for browser-in-the-loop tests
 Test::WWW::Selenium,>=0,cpan,optional, used for browser-in-the-loop tests
-Time::HiRes,>=0,cpan,optional, used for browser-in-the-loop tests
