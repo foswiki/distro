@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use URI ();
-use CGI qw(-any);
+use CGI ();
 
 use Assert;
 
