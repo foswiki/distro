@@ -55,6 +55,7 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
 
     # do the magic:
     my $result = $this->i18n->maketext( $str, @args );
+    $result =~ s/'/&#39;/g;
 
     # replace accesskeys:
     $result =~
