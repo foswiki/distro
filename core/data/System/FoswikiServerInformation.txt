@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422413722" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428377574" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 
 ---+!! Foswiki Server Information
@@ -19,3 +19,7 @@ See Also:  PerlDependencyReport for details on the installed Perl CPAN modules a
 
 ---++ Environment variables
 %SERVERINFORMATION{environment}%
+
+---++ Loaded modules
+%SERVERINFORMATION{modules}%
+

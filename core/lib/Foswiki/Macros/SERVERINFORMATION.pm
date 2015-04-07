@@ -32,6 +32,12 @@ sub SERVERINFORMATION {
         $report .= _report_execution();
     }
 
+    if ( ( !defined $params->{_DEFAULT} )
+        || $params->{_DEFAULT} eq 'modules' )
+    {
+        $report .= _report_modules();
+    }
+
     return $report;
 }
 
@@ -151,7 +157,27 @@ DONE
     $report .= '</noautolink>';
 
     return $report;
+}
 
+sub _report_modules {
+
+    my $report = <<DONE;
+<noautolink>
+%TABLE{sort="off"}%
+| *Module* | *Version* | *Location* |
+DONE
+
+    foreach my $mod ( sort keys %INC ) {
+        next if $mod =~ /(?:Config|Foswiki).spec$/;
+        my $pmod = $mod;
+        $pmod =~ s/\.p[lm]$//;
+        $pmod =~ s#[\//]#::#g;
+        my $ver;
+        eval { $ver = $pmod->VERSION() };
+        $ver ||= '';
+        $report .= "| $pmod | $ver | =$INC{$mod}= |\n";
+    }
+    return $report;
 }
 
 1;
