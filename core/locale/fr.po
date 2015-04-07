@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-07 17:39+0200\n"
+"PO-Revision-Date: 2015-04-07 18:12+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -5114,7 +5114,7 @@ msgstr "Visualiser"
 
 #: core/templates/foswiki.tmpl:159
 msgid "View complete topic history"
-msgstr "Afficher l'intégralité de l'historique"
+msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
@@ -5164,7 +5164,7 @@ msgstr "Afficher la page"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
-msgstr "Afficher l'intégralité de l'historique"
+msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
@@ -5970,7 +5970,7 @@ msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr ""
-"title='Afficher l\\'intégralité de l\\'historique de la page' "
+"title='Afficher l&#39;intégralité de l&#39;historique de la page' "
 "accesskey='h'>&Historique"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
