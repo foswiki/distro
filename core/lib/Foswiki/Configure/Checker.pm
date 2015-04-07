@@ -54,7 +54,7 @@ sub new {
 
 =begin TML
 
----++ StaticMethod loadChecker($item) -> $checker
+---++ StaticMethod loadChecker($item [, $explicit]) -> $checker
 
 Loads the Foswiki::Configure::Checker subclass for the
 given $item. For example, given the $item->{keys} '{Beans}{Mung}', it
@@ -62,7 +62,10 @@ will try and load Foswiki::Configure::Checkers::Beans::Mung
 
 An item may specify a different checker to load if it has the
 CHECKER attribute. This will be interpreted as keys for the 'real' checker
-to lead for this item.
+to lead for this item. This behaviour is suppressed if $explicit is
+true (i.e. CHECKER will be ignored, and the default behaviour will apply.
+This is useful in the case where an explicit CHECKER has to chain the
+other checkers for an item.)
 
 If the item doesn't have a subclass defined, the item's type class may
 define a generic checker for that type.  If so, it is instantiated
@@ -80,10 +83,10 @@ $item is passed on to the checker's constructor.
 =cut
 
 sub loadChecker {
-    my ($item) = @_;
+    my ( $item, $explicit ) = @_;
     my $id;
 
-    if ( $item->{CHECKER} ) {
+    if ( !$explicit && $item->{CHECKER} ) {
 
         # Checker override
         $id = $item->{CHECKER};

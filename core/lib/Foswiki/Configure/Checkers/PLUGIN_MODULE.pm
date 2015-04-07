@@ -22,6 +22,7 @@ sub check_current_value {
     $keys =~ m/^{Plugins}{(.*)}{(Module|Enabled)}$/;
     ASSERT($1) if DEBUG;
     my $plug = $1;
+    my $key  = $2;
     my $mod  = $Foswiki::cfg{Plugins}{$plug}{Module};
 
     unless ($mod) {
@@ -64,6 +65,10 @@ sub check_current_value {
                   . join( ' ', keys %found ) );
         }
     }
+
+    # if there's an explicit checker, invoke it
+    my $ec = Foswiki::Configure::Checker::loadChecker( $this->{item}, 1 );
+    $ec->check_current_value($reporter) if ($ec);
 }
 
 1;
