@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428101623" format="1.1" reprev="4" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428396345" format="1.1" reprev="4" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! %TOPIC%
 
@@ -50,7 +50,7 @@ Foswiki builds on the original Wiki concept, and adds features that make it very
       * extension
       * integration of existing applications
    * *Hundreds of extensions* support additional features and integrate third party applications
-      * download from the [[Foswiki:Extensions][Foswiki Extensions website]] (like iTunes<sup>&trade;</sup>)
+      * download from the [[Foswiki:Extensions][Foswiki Extensions website]]
    * *Secure and robust* <p> </p>
 ---++ Applications of basic Foswiki
 
@@ -341,21 +341,6 @@ When Foswiki is first installed, it comes with a default set of extensions pre-i
 
 There are a huge number of other extensions available from http://foswiki.org/Extensions
 
----++ Foswiki and TWiki
-
-Anyone surfing the web may have come across another wiki called "TWiki" which
-in many respects is similar to Foswiki. This is because Foswiki is a fork from
-the TWiki project. The fork happened because most of the developers of
-TWiki rejected a for-profit commercial takeover of the project by the founder,
-and forked the project to start Foswiki.
-   * Foswiki is *free* - totally free - and will always remain so.
-   * Foswiki is governed by a non-profit foundation, which is funded
-     by subscriptions.
-   * Foswiki is under continuous development by a large team of volunteer
-     developers.
-The Foswiki development team acknowledges a huge debt of gratitude to the
-founder of TWiki, and wishes him well in his commercial exploits.
-
 ---++ Getting more information
 
 Foswiki has been worked on for over fifteen years, and there's
@@ -375,13 +360,13 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1428101623" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1428101623" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1428101623" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1428101623" size="2394" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1428101623" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1428101623" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1428101623" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1428101623" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1428101623" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1428101623" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1428396345" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1428396345" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1428396345" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1428396345" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1428396345" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1428396345" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1428396345" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1428396345" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1428396345" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1428396345" size="1687" user="ProjectContributor" version="1"}%
