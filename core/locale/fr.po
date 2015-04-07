@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-07 17:39+0200\n"
+"PO-Revision-Date: 2015-04-07 18:11+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -4072,7 +4072,7 @@ msgstr "Visualiser"
 
 #: core/templates/foswiki.tmpl:155
 msgid "View complete topic history"
-msgstr "Afficher l'intégralité de l'historique"
+msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4122,7 +4122,7 @@ msgstr "Afficher la page"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
-msgstr "Afficher l'intégralité de l'historique"
+msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
