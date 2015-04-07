@@ -17,21 +17,22 @@ function sortTable(el, init) {
     $tr = $td.closest("tr"),
     $table = $tr.closest("table"),
     $tbody = $table.children("tbody"),
-    col = $td.index(), // column index
+    col = $td.index() + 1, // column index
     sort = $table.data("sort-data"),
     sortable = [],
     $rows = $table.children("thead,tbody,tfoot").children("tr");
 
     if (!sort) {
         sort = {
-            coldirs: [],
-            last_col: init.col || 0
+            reversed: [],
+            last_col: init.col || -1
         };
         for (i = $tr.children().length; i > 0; i--)
-            sort.coldirs.push(false);
+            sort.reversed.push(false);
 
         if (typeof init.col !== "undefined")
-            sort.coldirs[init.col] = init.reverse;
+            sort.reversed[init.col] = init.reverse;
+
         sort.bgs = 0;
         $rows.each(function() {
             var m = $(this).attr("class").match(/(foswikiTableRowdataBg(\d+))/);
@@ -44,25 +45,26 @@ function sortTable(el, init) {
         });
     }
 
-    if (col == sort.last_col)
-        sort.coldirs[col] = !sort.coldirs[col];
+    if (col === sort.last_col)
+        sort.reversed[col] = !sort.reversed[col];
 
-    var rev = sort.coldirs[col] ? -1 : 1;
+    var rev = sort.reversed[col];
     sort.last_col = col;
 
     $table
         .data("sort-data", sort)
-        .find(".tableSortIcon").remove();
+        .find(".tableSortIcon")
+        .remove();
 
     $tbody.children().each(function() {
         sortable.push($(this));
     });
 
     sortable.sort(function(a, b) {
-        var av = a.children().eq(col).text(),
-        bv = b.children().eq(col).text();
+        var av = a.children().eq(col-1).text(),
+        bv = b.children().eq(col-1).text();
 
-        return compareValues(av, bv) * rev;
+        return compareValues(av, bv) * (rev ? -1 : 1);
     });
 
 //.foswikiTable tr.foswikiTableRowdataBg0 td.foswikiSortedCol
@@ -99,7 +101,7 @@ function sortTable(el, init) {
             .children("th,td").eq(col) // get sorted column
             .addClass("foswikiSortedCol "
                       + "foswikiSorted"
-                      + (rev === 1 ? "Ascending" : "Descending")
+                      + (rev ? "Descending" : "Ascending")
                       + "Col");
 
         if (sort.bgs > 0) {
@@ -115,8 +117,10 @@ function sortTable(el, init) {
 
     $("<div></div>")
         .addClass("tableSortIcon ui-icon erp-button ui-icon-circle-triangle-" + 
-                  (rev === 1 ? "s" : "n"))
-        .appendTo($td);
+                  (rev ? "s" : "n"))
+        .attr("title", "Sorted " +
+              (rev ? "descending" : "ascending"))
+       .appendTo($td);
 }
 
 var months = new Array();

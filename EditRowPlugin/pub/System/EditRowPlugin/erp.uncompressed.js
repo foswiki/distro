@@ -610,12 +610,21 @@
             .find(".foswikiSortedCol")
             .find(".interactive_sort")
             .each(function() {
-                var s = $(this).closest("table").data("sort");
+                var $this = $(this);
+                $this.parent("a").each(function() {
+                    // Remove the nasty <a that TablePlugin sticks in
+                    $this.unwrap();
+                });
+                var $t = $this.closest("table");
+                $t.find(".tableSortIcon").remove(); // kill TablePlugin if there
+                var s = $this.data("sort");
                 $("<div></div>")
                     .addClass("tableSortIcon ui-icon erp-button "
                               + "ui-icon-circle-triangle-" + 
                               ((s && s.reverse == 1) ? "s" : "n"))
-                    .appendTo($(this).closest("td,th"));
+                    .attr("title", "Sorted " +
+                          ((s && s.reverse == 1) ? "descending" : "ascending"))
+                    .appendTo($this.closest("td,th"));
             });
 
         var current_row = null;
