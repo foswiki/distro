@@ -69,7 +69,7 @@ sub _analyzeFoswiki {
 
     my $content;
 
-    $content = "   * *Perl version:* $^V\n";
+    $content = "   * *Perl version:* $]\n";
 
     # Check that each of the required Perl modules can be found
     # and read, and  print its version number.  Keep this section last
