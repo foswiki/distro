@@ -43,6 +43,7 @@ use Foswiki::Form::FieldDefinition     ();
 use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::AccessControlException    ();
 use Foswiki::OopsException             ();
+use Foswiki::Func                      ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -345,8 +346,10 @@ sub _parseFormDefinition {
             if ( $field{title} =~ m/\[\[(.+)\]\[(.+)\]\]/ ) {
 
                 # use common defining topics with different field titles
-                $field{definingTopic} = fieldTitle2FieldName($1);
-                $field{title}         = $2;
+                $field{definingTopic} =
+                  fieldTitle2FieldName(
+                    Foswiki::Func::expandCommonVariables($1) );
+                $field{title} = $2;
             }
 
             $field{name} = fieldTitle2FieldName( $field{title} );
