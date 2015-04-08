@@ -411,10 +411,16 @@ sub install {
     @cpanDeps{ keys %$depCPAN } =
       values %$depCPAN;    # merge in cpan from dependencies
 
-    my $extUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
-        $this->{_pkgname}, 'view' );
-    my $instUrl = Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
-        'InstalledPlugins', 'view' );
+    my $extUrl =
+      $Foswiki::Plugins::SESSION
+      ? Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        $this->{_pkgname}, 'view' )
+      : '';
+    my $instUrl =
+      $Foswiki::Plugins::SESSION
+      ? Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
+        'InstalledPlugins', 'view' )
+      : '';
 
     $reporter->NOTE( <<WRAPUP );
 > Before proceeding, review the dependency reports of each installed extension
@@ -497,7 +503,7 @@ HERE
         return 1
           unless $node->{keys}
           && exists $node->{default};
-        my $val = $node->decodeValue( eval( $node->{default} ) );
+        my $val = $node->decodeValue( $node->{default} );
         if ( $this->{simulated} ) {
             $this->{reporter}->NOTE( "\t* $node->{keys} = "
                   . Foswiki::Configure::Reporter::uneval($val) );
@@ -613,7 +619,9 @@ sub _mapTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
-    elsif ( $file =~ s#^lib/#$Foswiki::foswikiLibPath/# ) {
+    elsif ($Foswiki::foswikiLibPath
+        && $file =~ s#^lib/#$Foswiki::foswikiLibPath/# )
+    {
     }
     elsif ( $file =~
         s#^bin/(.*)$#$Foswiki::cfg{ScriptDir}/$1$Foswiki::cfg{ScriptSuffix}# )
@@ -868,7 +876,7 @@ sub _install {
             my ( $web, $topic ) = $file =~ m/^data\/(.*)\/(\w+).txt$/;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
 
-            if ( Foswiki::Func::webExists($tweb) ) {
+            if (1) {    #Foswiki::Func::webExists($tweb) ) {
                 my %opts;
                 $opts{forcenewrevision} = 1;
 
@@ -891,7 +899,7 @@ sub _install {
                     next;
                 }
 
-                if ($contents) {
+                if ( $contents && $Foswiki::Plugins::SESSION ) {
                     $reporter->NOTE(
                         "> ${simulated}Checked in: $file  as $tweb.$ttopic");
                     my $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,

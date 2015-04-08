@@ -133,7 +133,7 @@ sub readConfig {
     my ( $noexpand, $nospec, $config_spec, $noLocal ) = @_;
 
     # To prevent us from overriding the custom code in test mode
-    return if $Foswiki::cfg{ConfigurationFinished};
+    return 1 if $Foswiki::cfg{ConfigurationFinished};
 
     # Assume LocalSite.cfg is valid - will be set false if errors detected.
     my $validLSC = 1;

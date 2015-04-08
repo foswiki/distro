@@ -3,6 +3,7 @@ package Foswiki::Configure::Checkers::DetailedOS;
 
 use strict;
 use warnings;
+use CGI ();
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
@@ -20,11 +21,14 @@ HMMM
         }
     }
 
-    my $cgiver = $CGI::VERSION || '';
+    my $cgiver = $CGI::VERSION // 0;
 
     $reporter->NOTE("You are running CGI Version $cgiver.");
 
-    if ( $CGI::VERSION > 4.10 && $CGI::VERSION < 4.14 && $Foswiki::cfg{Site}{CharSet} =~ m/utf-?8/i ) {
+    if (   $cgiver > 4.10
+        && $cgiver < 4.14
+        && $Foswiki::cfg{Site}{CharSet} =~ m/utf-?8/i )
+    {
         $reporter->ERROR( <<OOPS );
 CGI Versions 4.11 - 4.13 are known to corrupt topic & form data when using UTF-8.
 Your ={Site}{CharSet}= is set to =$Foswiki::cfg{Site}{CharSet}=.
@@ -43,7 +47,7 @@ HERE
     # mod_perl 2.0 and CGI 2.90 for Cygwin Perl 5.8.0.  See
     # http://perl.apache.org/products/apache-modules.html#
     #       Porting_CPAN_modules_to_mod_perl_2_0_Status
-    if ( $CGI::VERSION < 2.93 ) {
+    if ( $cgiver < 2.93 ) {
         if ( $Config::Config{osname} eq 'cygwin' && $] >= 5.008 ) {
 
             # Recommend CGI.pm upgrade if using Cygwin Perl 5.8.0

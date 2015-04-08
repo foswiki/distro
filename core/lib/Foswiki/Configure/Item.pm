@@ -52,6 +52,13 @@ sub new {
     return $this;
 }
 
+sub stringify {
+    my $this = shift;
+    my $s = Data::Dumper->Dump( [ $this->TO_JSON() ] );
+    $s =~ s/^.*?= //;
+    return $s;
+}
+
 sub DESTROY {
     my $this = shift;
 

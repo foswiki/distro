@@ -95,6 +95,10 @@ my $result = Getopt::Long::GetOptions(
     'trace'    => \&_scalar,
     'wizard=s' => \&_scalar,
     'expert'   => \&_scalar,
+    'args=s%'  => sub {
+        my ( $name, $key, $val ) = @_;
+        $params->{args}->{$key} = $val;
+    },
 );
 
 # Check parameters
