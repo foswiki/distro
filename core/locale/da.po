@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-31 10:00+0200\n"
+"PO-Revision-Date: 2015-04-08 10:46+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/da/>\n"
@@ -218,9 +218,8 @@ msgid "&Sequential"
 msgstr "&Sekventiel"
 
 #: core/templates/registermessages.tmpl:219
-#, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
-msgstr "'%1' er ikke en korrekt %2 "
+msgstr "'%1' er ikke et gyldigt [[%2][brugernavn]]."
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -373,14 +372,14 @@ msgid "(skipped)"
 msgstr "(skippet)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
 msgstr ""
 "*Administratorer:* I kan ændre brugerens e-mail-adresse med denne formular. "
-"Angiv brugerens login eller WikiName og den nye e-mail-adresse."
+"Angiv brugerens [[%1][brugernavn]] eller [[%1][WikiNavn]] og den nye e-mail-"
+"adresse."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -395,7 +394,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
-msgstr ""
+msgstr "*Hjælp til formattering af teksten*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
 msgid ""
@@ -436,39 +435,49 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-msgstr ""
+msgstr "*fed skrift* sæt stjerner omkring ordene: =<nop>*din sætning*="
 
 #: core/data/System/WikiSyntaxSummary.txt:10
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
 msgstr ""
+"*punktopstilling* 3 mellemrum, stjerne, 1 mellemrum: "
+"=&&nbsp;&&nbsp;&&nbsp;*&&nbsp;din tekst="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
+"*eksterne links* brug et sidenavn eller URL: =http://yahoo.com= eller "
+"=[<nop>[http://yahoo.com/][link til Yahoo]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
+"*overskrifter* 3 streger, 1 til 6 plusser, 1 mellemrum: =---++&&nbsp;Din "
+"overskrift="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
+"*kursiv* sæt understregning på hver side af ordet eller sætningen: =_<nop>"
+"dette med kursiv_="
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
+"*monospaced* (skrivemaskineskrift) sæt lighedstegn omkring ordet eller "
+"sætningen: =<nop>=dine ord=="
 
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
-msgstr ""
+msgstr "*paragraffer* adskil med blank linie"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-msgstr ""
+msgstr "*interne links* brug sidenavnet: =%1= or =[<nop>[%1][Min hjemmeside]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -543,9 +552,8 @@ msgstr ""
 "blev afvist"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
 msgid "<nop>WikiName:"
-msgstr "WikiNavn:"
+msgstr "<nop>WikiNavn:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -593,13 +601,12 @@ msgstr ""
 "nødvendigt."
 
 #: core/templates/messages.tmpl:373
-#, fuzzy
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Et nyt system-genereret password til dit brugernavn '%1' (!WikiName %2) er "
+"Et nyt system-genereret password til dit brugernavn '%1' (!WikiNavn %2) er "
 "blevet sendt til den registrerede e-mail-adresse. Hvis din e-mail-adresse "
 "ikke længere er gyldig, kontakt da venligst %3."
 
