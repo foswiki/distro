@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-10-25 10:09+0200\n"
+"PO-Revision-Date: 2015-04-08 05:08+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -14,12 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Weblate 2.1\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "Wikinavn"
+msgstr "!WikiNavn"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -49,7 +48,7 @@ msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (default)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -67,25 +66,21 @@ msgid "%1 Web"
 msgstr "%1 Web"
 
 #: core/templates/registermessages.tmpl:387
-#, fuzzy
 msgid "%1 added to the %2 group."
-msgstr "%1 lagt til i gruppen %2. "
+msgstr "%1 lagt til i %2 gruppen."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 fjernet fra %2 gruppen. "
+msgstr "%1 kan ikke fjernes fra %2"
 
 #: core/templates/registerdenied.tmpl:11
-#, fuzzy
 msgid "%1 denied the registration."
-msgstr "Takk for at du registrerte deg"
+msgstr "%1 nektet registreringen."
 
 #: core/templates/registermessages.tmpl:394
-#, fuzzy
 msgid "%1 group topic upgraded."
-msgstr "%1 gruppe side oppgradert. "
+msgstr "%1 gruppe side oppgradert."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
@@ -93,9 +88,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 har en liste over andre Foswiki brukere"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 er registrert med epost %2"
+msgstr "%1 er godkjent og registrert med epost %2"
 
 #: core/templates/messages.tmpl:328
 msgid ""
@@ -107,7 +101,7 @@ msgstr "%1 har redigert siden for %2 og leien er aktiv for ytterligere %3."
 msgid ""
 "%1 has been emailed to inform them that their registration has been "
 "successful"
-msgstr ""
+msgstr "%1 er sendt epost med info om at registreringen var vellykket"
 
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
@@ -163,14 +157,12 @@ msgid "%1 recent changes in %2 Web"
 msgstr "%1 siste endringer i %2 Web"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "Registrering av ny bruker er ikke aktivert"
+msgstr "%1 registreringen må godkjennes"
 
 #: core/templates/registerdenied.tmpl:3
-#, fuzzy
 msgid "%1 registration denied"
-msgstr "Registrering av ny bruker er ikke aktivert"
+msgstr "%1 registrering nektet"
 
 #: core/templates/registermessages.tmpl:436
 #, fuzzy
@@ -4827,7 +4819,7 @@ msgstr "Side ble flettet"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:107
 msgid "Topic will be named: "
-msgstr "Siden får navnet:"
+msgstr "Siden får navnet: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
