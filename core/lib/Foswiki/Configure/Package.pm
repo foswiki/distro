@@ -208,12 +208,8 @@ sub option {
         my $timestamp =
           Foswiki::Time::formatTime( time(),
             '$year$mo$day-$hours$minutes$seconds' );
-
-        $this->{_logfile} =
-            $path . '/'
-          . ( $options{pkgname} || '' ) . '-'
-          . $timestamp . '-'
-          . $action . '.log';
+        $options{pkgname} ||= '';
+        $this->{_logfile} = $path . "/$options{pkgname}-$timestamp-$action.log";
         Foswiki::Configure::Load::expandValue( $this->{_logfile} );
         return $this;
     }
@@ -1033,10 +1029,6 @@ sub _moveFile {
             }
         }
         if ( defined $perms ) {
-            $to =~ m/(.*)/;
-            $to = $1;    #yes, we must untaint
-            $perms =~ m/(.*)/;
-            $perms = $1;    #yes, we must untaint
             chmod( oct($perms), $to );
         }
     }
@@ -1102,8 +1094,6 @@ sub _createBackup {
                 #( stat($file) )[2];    # File::Copy doesn't copy permissions
                 File::Copy::copy( $file, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
-                $mode =~ m/(.*)/;
-                $mode = $1;    #yes, we must untaint
                 chmod( $mode, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
             }
@@ -1147,10 +1137,6 @@ sub _setPermissions {
             my $mode = $this->{_manifest}->{$file}->{perms};
 
             if ($mode) {
-                $target =~ m/(.*)/;
-                $target = $1;    #yes, we must untaint
-                $mode =~ m/(.*)/;
-                $mode = $1;      #yes, we must untaint
                 chmod( oct($mode), $target )
                   unless ( $this->option('SIMULATE') );
             }
@@ -1483,8 +1469,6 @@ sub _loadExits {
         for (qw( preinstall postinstall preuninstall postuninstall )) {
             undef &{$_};
         }
-        $this->{_prepost_code} =~ m/(.*)/sm;
-        $this->{_prepost_code} = $1;    #yes, we must untaint
         unless ( eval( $this->{_prepost_code} . "; 1; " ) ) {
             die "Couldn't load pre/post (un)install: $@";
         }
