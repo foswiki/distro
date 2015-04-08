@@ -265,7 +265,7 @@ sub _uninstall {
 
         my ( $ok, $plugins ) = $thispkg->uninstall($reporter);
 
-        if ( $ok && scalar @$plugins && !$simulate ) {
+        if ( $ok && defined $plugins && scalar @$plugins && !$simulate ) {
             $reporter->NOTE(
                 "> Don't forget to disable uninstalled plugins:
 "

@@ -1306,7 +1306,7 @@ sub uninstall {
     $reporter->WARN(
         "Don't forget to save your configuration to complete removal of "
           . join( ', ', @plugins ) )
-      if ( scalar( keys %{ $reporter->changes() } ) );
+      if ( $reporter->changes() && scalar( keys %{ $reporter->changes() } ) );
 
     $reporter->NOTE( "> Removal "
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
