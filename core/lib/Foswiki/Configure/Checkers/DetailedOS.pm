@@ -21,7 +21,7 @@ HMMM
         }
     }
 
-    my $cgiver = $CGI::VERSION // 0;
+    my $cgiver = $CGI::VERSION || 0;
 
     $reporter->NOTE("You are running CGI Version $cgiver.");
 
