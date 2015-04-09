@@ -42,26 +42,29 @@ sub _getSetParams {
     if ( $params->{set} ) {
         while ( my ( $k, $v ) = each %{ $params->{set} } ) {
             if ( defined $v ) {
-                ($v) = $v =~ m/^(.*)$/s;    # UNTAINT
-                my $spec  = $root->getValueObject($k);
                 my $value = $v;
-                if ($spec) {
-                    eval { $value = $spec->decodeValue($value); };
-                    if ($@) {
-                        $reporter->ERROR(
-                            "The value of $k was unreadable: <verbatim>"
-                              . Foswiki::Configure::Reporter::stripStacktrace(
-                                $@)
-                              . '</verbatim>' );
+                my $spec  = $root->getValueObject($k);
+                if ( !ref $v ) {
+                    $v =~ m/^(.*)$/s;    # UNTAINT
+                    $value = $1;
+                    if ($spec) {
+                        eval { $value = $spec->decodeValue($value); };
+                        if ($@) {
+                            $reporter->ERROR(
+                                "The value of $k was unreadable: <verbatim>"
+                                  . Foswiki::Configure::Reporter::stripStacktrace(
+                                    $@)
+                                  . '</verbatim>'
+                            );
+                            next;
+                        }
+                    }
+                    else {
+                        $reporter->ERROR("$k was not found in any Config.spec");
                         next;
                     }
                 }
-                else {
-                    $reporter->ERROR("$k was not found in any Config.spec");
-                    next;
-                }
                 if ( defined $value ) {
-
                     if ( $spec->isFormattedType() ) {
                         eval("\$Foswiki::cfg$k=\$value");
                     }

@@ -239,18 +239,23 @@ sub save {
             my $spec = $root->getValueObject($k);
 
             if ( defined $v ) {
-                $v =~ m/^(.*)$/s;
-                $v = $1;    # untaint
+                if ( !ref $v ) {
+                    $v =~ m/^(.*)$/s;
+                    $v = $1;    # untaint
+                }
                 if ($spec) {
                     $spec->{saving_value} = $v;
                     eval("\$spec->{old_value} = \$Foswiki::cfg$k");
-                    eval { $v = $spec->decodeValue($v); };
-                    if ($@) {
-                        $reporter->ERROR(
+                    if ( !ref $v ) {
+                        eval { $v = $spec->decodeValue($v); };
+                        if ($@) {
+                            $reporter->ERROR(
 "SAVE ABORTED: Could not interpret new value for $k: "
-                              . Foswiki::Configure::Reporter::stripStacktrace(
-                                $@) );
-                        return undef;
+                                  . Foswiki::Configure::Reporter::stripStacktrace(
+                                    $@)
+                            );
+                            return undef;
+                        }
                     }
                 }
                 if ( defined $v ) {

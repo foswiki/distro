@@ -1446,7 +1446,8 @@ sub loadInstaller {
             # if brackets are not in pairs, this will fail, like { in comment
             $depth++ for /{/g;
             $depth-- for /}/g;
-            $this->{_prepost_code} .= "$_\n";
+            $_ =~ /^(.*)$/;    # untaint
+            $this->{_prepost_code} .= "$1\n";
             $found = '' unless $depth;
             next;
         }
