@@ -499,7 +499,18 @@ HERE
         return 1
           unless $node->{keys}
           && exists $node->{default};
-        my $val = $node->decodeValue( $node->{default} );
+        my $val;
+        if ( $node->isFormattedType() ) {
+
+            # We're pulling in a formatted type, such as PERL. We have
+            # code later to help handle formatted types represented as
+            # strings so we can save the string default rather than evaling
+            # it and destroying the formatting.
+            $val = $node->{default};
+        }
+        else {
+            $val = eval( $node->{default} );
+        }
         if ( $this->{simulated} ) {
             $this->{reporter}->NOTE( "\t* $node->{keys} = "
                   . Foswiki::Configure::Reporter::uneval($val) );

@@ -13,7 +13,8 @@ use Foswiki::Configure::Reporter ();
 use Foswiki::Configure::Checker  ();
 use Foswiki::Configure::Wizard   ();
 
-use constant TRACE_CHECK => 0;
+use constant TRACE_CHECK  => 0;
+use constant TRACE_GETSET => 0;
 
 =begin TML
 
@@ -40,54 +41,54 @@ and cause the method to fail.
 sub _getSetParams {
     my ( $params, $root, $reporter ) = @_;
     if ( $params->{set} ) {
-        while ( my ( $k, $v ) = each %{ $params->{set} } ) {
-            if ( defined $v ) {
-                my $value = $v;
-                my $spec  = $root->getValueObject($k);
-                if ( !ref $v ) {
-                    $v =~ m/^(.*)$/s;    # UNTAINT
-                    $value = $1;
-                    if ($spec) {
-                        eval { $value = $spec->decodeValue($value); };
-                        if ($@) {
-                            $reporter->ERROR(
-                                "The value of $k was unreadable: <verbatim>"
-                                  . Foswiki::Configure::Reporter::stripStacktrace(
-                                    $@)
-                                  . '</verbatim>'
-                            );
-                            next;
-                        }
-                    }
-                    else {
-                        $reporter->ERROR("$k was not found in any Config.spec");
-                        next;
-                    }
+        while ( my ( $k, $value ) = each %{ $params->{set} } ) {
+            my $spec = $root->getValueObject($k);
+            unless ($spec) {
+                $reporter->ERROR("$k was not found in any Config.spec");
+                next;
+            }
+            if ( defined $value && !ref($value) ) {
+                $value =~ m/^(.*)$/s;    # UNTAINT
+                $value = $1;
+                eval { $value = $spec->decodeValue($value); };
+                if ($@) {
+                    $reporter->ERROR(
+                            "The value of $k was unreadable: <verbatim>"
+                          . Foswiki::Configure::Reporter::stripStacktrace($@)
+                          . '</verbatim>' );
+                    next;
                 }
-                if ( defined $value ) {
-                    if ( $spec->isFormattedType() ) {
-                        eval("\$Foswiki::cfg$k=\$value");
-                    }
-                    else {
-                        # This is needed to prevent expansion of embedded
-                        # $Foswiki::cfg variables during the eval.
-                        eval("\$Foswiki::cfg$k=join('',\$value)");
-                    }
+            }
+            if ( defined $value ) {
+                if ( $spec->isFormattedType() || ref($value) ) {
+                    print STDERR "GETSET $k="
+                      . Data::Dumper->Dump( [$value] )
+                      . ", spec "
+                      . $spec->stringify() . "\n"
+                      if TRACE_GETSET;
+                    eval("\$Foswiki::cfg$k=\$value");
                 }
                 else {
-                    eval("undef \$Foswiki::cfg$k");
-                }
-                if ( $params->{trace} ) {
-                    $reporter->NOTE("Set $k");
+                    print STDERR "GETSET $k=$value, spec "
+                      . $spec->stringify() . "\n"
+                      if TRACE_GETSET;
+
+                    # This is needed to prevent expansion of embedded
+                    # $Foswiki::cfg variables during the eval.
+                    eval("\$Foswiki::cfg$k=join('',\$value)");
                 }
             }
             else {
+                print STDERR "GETSET undef $k\n" if TRACE_GETSET;
                 eval("undef \$Foswiki::cfg$k");
             }
             if ($@) {
                 $reporter->ERROR( '<verbatim>'
                       . Foswiki::Configure::Reporter::stripStacktrace($@)
                       . '</verbatim>' );
+            }
+            elsif ( $params->{trace} ) {
+                $reporter->NOTE("Set $k");
             }
         }
     }

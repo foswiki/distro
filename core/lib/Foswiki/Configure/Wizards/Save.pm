@@ -26,6 +26,8 @@ use Foswiki::Configure::FileUtil ();
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 
+use constant TRACE_SAVE => 0;
+
 use constant STD_HEADER => <<'HERE';
 # Local site settings for Foswiki. This file is managed by the 'configure'
 # CGI script, though you can also make (careful!) manual changes with a
@@ -233,39 +235,32 @@ sub save {
         Foswiki::Configure::Load::readConfig( 1, 0, 1 );
     }
 
-    # Get changes from 'set' *without* expanding values.
+    # Get changes from 'set' *without* expanding values. this is
+    # a cut-down from Foswiki::Configure::Query::_getSetParams
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             my $spec = $root->getValueObject($k);
-
-            if ( defined $v ) {
-                if ( !ref $v ) {
-                    $v =~ m/^(.*)$/s;
-                    $v = $1;    # untaint
-                }
-                if ($spec) {
-                    $spec->{saving_value} = $v;
-                    eval("\$spec->{old_value} = \$Foswiki::cfg$k");
-                    if ( !ref $v ) {
-                        eval { $v = $spec->decodeValue($v); };
-                        if ($@) {
-                            $reporter->ERROR(
-"SAVE ABORTED: Could not interpret new value for $k: "
-                                  . Foswiki::Configure::Reporter::stripStacktrace(
-                                    $@)
-                            );
-                            return undef;
-                        }
-                    }
-                }
-                if ( defined $v ) {
-                    eval("\$Foswiki::cfg$k=\$v");
-                }
-                else {
-                    eval("undef \$Foswiki::cfg$k");
+            eval("\$spec->{old_value} = \$Foswiki::cfg$k");
+            if ( defined $v && !ref($v) ) {
+                $v =~ m/^(.*)$/s;
+                $v = $1;                      # untaint
+                $spec->{saving_value} = $v;
+                eval { $v = $spec->decodeValue($v); };
+                if ($@) {
+                    $reporter->ERROR(
+                        "SAVE ABORTED: Could not interpret new value for $k: "
+                          . Foswiki::Configure::Reporter::stripStacktrace($@) );
+                    return undef;
                 }
             }
+            if ( defined $v ) {
+                print STDERR "SETTING $k="
+                  . ( ref($v) ? Data::Dumper->Dump( [$v] ) : $v ) . "\n"
+                  if TRACE_SAVE;
+                eval("\$Foswiki::cfg$k=\$v");
+            }
             elsif ( $spec->CHECK_option('undefok') ) {
+                print STDERR "CLEARING $k\n" if TRACE_SAVE;
                 eval("undef \$Foswiki::cfg$k");
                 $spec->{saving_value} = undef;
             }
@@ -306,6 +301,13 @@ sub save {
       . "1;\n";
 
     if ( $new_content ne $old_content ) {
+        if (DEBUG) {
+
+            # Sanity check; can we eval the new content?
+            local %Foswiki::cfg;
+            eval $new_content;
+            die "***INTERNAL ERROR*** COULD NOT REREAD NEW LSC\n$@" if $@;
+        }
         my $um = umask(007);   # Contains passwords, no world access to new file
         open( F, '>', $lsc )
           || die "Could not open $lsc for write: $!\n";
@@ -314,6 +316,7 @@ sub save {
         umask($um);
         my $max = $Foswiki::cfg{MaxLSCBackups};
         $max = -1 unless defined $max;    # Unlimited
+
         if ($backup) {
 
             while ( $max >= 0 && @backups > $max ) {
@@ -500,11 +503,13 @@ sub _generateLSC {
               unless ( $vs->CHECK_option('emptyok') );
         }
         my $d;
-        if ( exists $vs->{saving_value}
+        if (   exists $vs->{saving_value}
+            && !ref( $vs->{saving_value} )
             && $vs->isFormattedType() )
         {
 
-            # This is used for the saving or formatted values, like PERL
+            # This is used for the saving of formatted values that are
+            # stored as strings
             $d = $vs->{saving_value};
         }
         else {
