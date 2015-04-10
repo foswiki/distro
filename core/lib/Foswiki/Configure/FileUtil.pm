@@ -763,33 +763,38 @@ sub unpackArchive {
 sub _unzip {
     my $archive = shift;
 
-    eval('require Archive::Zip');
-    unless ($@) {
-        my $zip;
-        eval { $zip = Archive::Zip->new($archive); };
-        return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
-        return "Failed to open zip file $archive" unless $zip;
+    my $testzip = ( `unzip -hh 2>&1` || "" );
+    my $noUnzip = ( $? != 0 );
 
-        my @members = $zip->members();
-        foreach my $member (@members) {
-            my $file = $member->fileName();
-            $file =~ m/^(.*)$/;
-            $file = $1;    #yes, we must untaint
-            my $target = $file;
-            my $dest   = Cwd::getcwd();
-            ($dest) = $dest =~ m/^(.*)$/;
+    if ($noUnzip) {
+        eval('require Archive::Zip');
+        unless ($@) {
+            my $zip;
+            eval { $zip = Archive::Zip->new($archive); };
+            return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
+            return "Failed to open zip file $archive" unless $zip;
+
+            my @members = $zip->members();
+            foreach my $member (@members) {
+                my $file = $member->fileName();
+                $file =~ m/^(.*)$/;
+                $file = $1;    #yes, we must untaint
+                my $target = $file;
+                my $dest   = Cwd::getcwd();
+                ($dest) = $dest =~ m/^(.*)$/;
 
             #SMELL:  Archive::Zip->extractMember( $file)  would be better to use
             # but it has taint issues on Perl 5.12.
-            my $contents = $zip->contents($file);
-            if ($contents) {
-                my ( $vol, $dir, $fn ) = File::Spec->splitpath($file);
-                File::Path::mkpath("$dest/$dir");
-                open( my $fh, '>', "$dest/$file" )
-                  || die "Unable to open $dest/$file \n $! \n\n ";
-                binmode $fh;
-                print $fh $contents;
-                close($fh);
+                my $contents = $zip->contents($file);
+                if ($contents) {
+                    my ( $vol, $dir, $fn ) = File::Spec->splitpath($file);
+                    File::Path::mkpath("$dest/$dir");
+                    open( my $fh, '>', "$dest/$file" )
+                      || die "Unable to open $dest/$file \n $! \n\n ";
+                    binmode $fh;
+                    print $fh $contents;
+                    close($fh);
+                }
             }
         }
     }
@@ -805,20 +810,25 @@ sub _untar {
 
     my $compressed = ( $archive =~ m/z$/i ) ? 'z' : '';
 
-    eval('require Archive::Tar');
+    my $testtar = ( `tar --version 2>&1` || "" );
+    my $noTar = ( $? != 0 );
 
-    unless ($@) {
-        my $tar;
-        eval { $tar = Archive::Tar->new( $archive, $compressed ); };
-        return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
-        return "Could not open tar file $archive" unless $tar;
+    if ($noTar) {
 
-        my @members = $tar->list_files();
-        foreach my $file (@members) {
-            my $err = $tar->extract($file);
-            unless ($err) {
-                return 'Failed to extract ', $file, ' from tar file ',
-                  $tar, ". Archive may be corrupt.\n";
+        eval('require Archive::Tar');
+        unless ($@) {
+            my $tar;
+            eval { $tar = Archive::Tar->new( $archive, $compressed ); };
+            return Foswiki::Configure::Reporter::stripStacktrace($@) if $@;
+            return "Could not open tar file $archive" unless $tar;
+
+            my @members = $tar->list_files();
+            foreach my $file (@members) {
+                my $err = $tar->extract($file);
+                unless ($err) {
+                    return 'Failed to extract ', $file, ' from tar file ',
+                      $tar, ". Archive may be corrupt.\n";
+                }
             }
         }
     }
