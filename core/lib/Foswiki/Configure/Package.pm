@@ -731,6 +731,11 @@ sub _install {
     my $simulated = '';
     $simulated = 'Simulated - ' if ( $this->option('SIMULATE') );
 
+    # Counters for reporting results
+    my $checkedIn = 0;
+    my $copied    = 0;
+    my $attached  = 0;
+
     unless ( $this->option('EXPANDED') ) {
 
         # Archive not yet expanded
@@ -883,6 +888,7 @@ sub _install {
             my ( $web, $topic ) = $file =~ m/^data\/(.*)\/(\w+).txt$/;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
 
+            #SMELL  Should not try to check in if target web is missing?
             if (1) {    #Foswiki::Func::webExists($tweb) ) {
                 my %opts;
                 $opts{forcenewrevision} = 1;
@@ -908,13 +914,15 @@ sub _install {
 
                 if ( $contents && $Foswiki::Plugins::SESSION ) {
                     $reporter->NOTE(
-                        "> ${simulated}Checked in: $file  as $tweb.$ttopic");
+                        "> ${simulated}Checked in: $file  as $tweb.$ttopic")
+                      if DEBUG;
+                    $checkedIn++;
                     my $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,
                         $tweb, $ttopic, $contents );
 
                     $ok = 0
                       unless $this->_installAttachments( $reporter, $dir,
-                        "$web/$topic", "$tweb/$ttopic", $meta );
+                        "$web/$topic", "$tweb/$ttopic", $meta, $attached );
                     $meta->saveAs(%opts) unless $this->option('SIMULATE');
                 }
                 next;
@@ -923,6 +931,7 @@ sub _install {
 
         # Everything else
         $err = $this->_moveFile( "$dir/$file", $target, $perms );
+        $copied++;
         if ($err) {
             $reporter->ERROR($err);
             $ok = 0;
@@ -930,11 +939,14 @@ sub _install {
         }
 
         # Pick up all Config.spec's
-        if ( $file =~ m/\/Config.spec$/ ) {
+        if ( $file =~ m/\/Config.spec$/ && !$this->option('SIMULATE') ) {
             Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter );
         }
-        $reporter->NOTE("> ${simulated}Installed:  $file as $target");
+        $reporter->NOTE("> ${simulated}Installed:  $file as $target") if DEBUG;
     }
+    $reporter->NOTE(
+"> ${simulated}Installed: $copied files copied; $checkedIn filed checked in, $attached files attached"
+    );
 
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     $err = $this->_moveFile(
@@ -969,6 +981,8 @@ sub _installAttachments {
     my $webTopic  = shift;    # Standard web/topic for the attachment
     my $twebTopic = shift;    # Mapped target web/topic
     my $meta      = shift;
+
+    #my $attached  = shift;    # Count of files attached,
 
     foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
@@ -1008,7 +1022,8 @@ sub _installAttachments {
             $opts{filesize} = $fstats->size;
             $opts{filedate} = $fstats->mtime;
             $meta->attach(%opts) unless ( $this->option('SIMULATE') );
-            $reporter->NOTE("   * Attached:   $file to $twebTopic");
+            $reporter->NOTE("   * Attached:   $file to $twebTopic") if DEBUG;
+            $_[0]++;    # Update the attached files counter
         }
     }
     return 1;
@@ -1285,8 +1300,8 @@ sub uninstall {
         push( @plugins, $plugName ) if $plugName;
     }
     if ( scalar(@unpackedFeedback) ) {
-        $reporter->NOTE("> Removed files:");
-        $reporter->NOTE(@unpackedFeedback);
+        $reporter->NOTE( "> Removed " . scalar @unpackedFeedback . " files:" );
+        $reporter->NOTE(@unpackedFeedback) if DEBUG;
     }
 
     if ( $this->can('posuninstall') && !$this->option('SIMULATE') ) {
