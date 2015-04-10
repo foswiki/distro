@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/TWikiCompatibilityPlugin.md5
+/TWikiCompatibilityPlugin.sha1
+/TWikiCompatibilityPlugin.tgz
+/TWikiCompatibilityPlugin.txt
+/TWikiCompatibilityPlugin.zip
+/TWikiCompatibilityPlugin_installer
+/TWikiCompatibilityPlugin_installer.pl

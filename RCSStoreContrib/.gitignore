@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/RCSStoreContrib.md5
+/RCSStoreContrib.sha1
+/RCSStoreContrib.tgz
+/RCSStoreContrib.txt
+/RCSStoreContrib.zip
+/RCSStoreContrib_installer
+/RCSStoreContrib_installer.pl

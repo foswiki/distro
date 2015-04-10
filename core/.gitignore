@@ -5,7 +5,30 @@
 /working/**/error.*
 /working/**/cgisess_*
 /lib/LocalSite.cfg
-#
-# Open question whether to add or not, something to do with 'git clean' and the -x flag, ask GeorgeClark
-# /data/**/*.lease
-# /data/**/*.changes
+/data/**/*.lease
+/data/**/*.changes
+/Foswiki*.md5
+/Foswiki*.sha1
+/Foswiki*.tgz
+/Foswiki*.txt
+/Foswiki*.zip
+/FoswikiCore_installer
+/FoswikiCore_installer.pl
+/pub/System/JavascriptFiles/foswikiArray.js
+/pub/System/JavascriptFiles/foswikiCSS.js
+/pub/System/JavascriptFiles/foswikiDate.js
+/pub/System/JavascriptFiles/foswikiEvent.js
+/pub/System/JavascriptFiles/foswikiForm.js
+/pub/System/JavascriptFiles/foswikiHTML.js
+/pub/System/JavascriptFiles/foswikiPref.js
+/pub/System/JavascriptFiles/foswikiString.js
+/pub/System/JavascriptFiles/foswikiStringUnicodeChars.js
+/pub/System/JavascriptFiles/foswikiStyles.js
+/pub/System/JavascriptFiles/foswikiWebTopicCreator.js
+/pub/System/JavascriptFiles/foswikiWindow.js
+/pub/System/JavascriptFiles/foswiki_edit.js
+/pub/System/JavascriptFiles/foswiki_renamebase.js
+/pub/System/JavascriptFiles/foswikilib.js
+/pub/System/JavascriptFiles/strikeone.js
+/pub/System/SkinTemplates/base.css
+/pub/System/SkinTemplates/default.css

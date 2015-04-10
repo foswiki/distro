@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/SpreadSheetPlugin.md5
+/SpreadSheetPlugin.sha1
+/SpreadSheetPlugin.tgz
+/SpreadSheetPlugin.txt
+/SpreadSheetPlugin.zip
+/SpreadSheetPlugin_installer
+/SpreadSheetPlugin_installer.pl

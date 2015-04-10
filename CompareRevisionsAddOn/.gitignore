@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/CompareRevisionsAddOn.md5
+/CompareRevisionsAddOn.sha1
+/CompareRevisionsAddOn.tgz
+/CompareRevisionsAddOn.txt
+/CompareRevisionsAddOn.zip
+/CompareRevisionsAddOn_installer
+/CompareRevisionsAddOn_installer.pl

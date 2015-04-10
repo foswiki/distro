@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/EmptyPlugin.md5
+/EmptyPlugin.sha1
+/EmptyPlugin.tgz
+/EmptyPlugin.txt
+/EmptyPlugin.zip
+/EmptyPlugin_installer
+/EmptyPlugin_installer.pl

@@ -1,3 +1,11 @@
 *,v
 *,pfv
 *.gz
+/SubscribePlugin.md5
+/SubscribePlugin.sha1
+/SubscribePlugin.tgz
+/SubscribePlugin.txt
+/SubscribePlugin.zip
+/SubscribePlugin_installer
+/SubscribePlugin_installer.pl
+/pub/System/SubscribePlugin/subscribe_plugin.js

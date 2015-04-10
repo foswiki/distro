@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/PlainFileStoreContrib.md5
+/PlainFileStoreContrib.sha1
+/PlainFileStoreContrib.tgz
+/PlainFileStoreContrib.txt
+/PlainFileStoreContrib.zip
+/PlainFileStoreContrib_installer
+/PlainFileStoreContrib_installer.pl

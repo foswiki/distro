@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/TipsContrib.md5
+/TipsContrib.sha1
+/TipsContrib.tgz
+/TipsContrib.txt
+/TipsContrib.zip
+/TipsContrib_installer
+/TipsContrib_installer.pl

@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/HomePagePlugin.md5
+/HomePagePlugin.sha1
+/HomePagePlugin.tgz
+/HomePagePlugin.txt
+/HomePagePlugin.zip
+/HomePagePlugin_installer
+/HomePagePlugin_installer.pl

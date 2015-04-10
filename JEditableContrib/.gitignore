@@ -1,3 +1,11 @@
 *,v
 *,pfv
 *.gz
+/JEditableContrib.md5
+/JEditableContrib.sha1
+/JEditableContrib.tgz
+/JEditableContrib.txt
+/JEditableContrib.zip
+/JEditableContrib_installer
+/JEditableContrib_installer.pl
+/pub/System/JEditableContrib/jquery.jeditable.js

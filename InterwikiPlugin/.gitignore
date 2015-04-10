@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/InterwikiPlugin.md5
+/InterwikiPlugin.sha1
+/InterwikiPlugin.tgz
+/InterwikiPlugin.txt
+/InterwikiPlugin.zip
+/InterwikiPlugin_installer
+/InterwikiPlugin_installer.pl
