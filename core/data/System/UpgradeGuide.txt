@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428202728" format="1.1" reprev="3" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428697623" format="1.1" reprev="3" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -24,7 +24,7 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release — for example, from Foswiki 1.1.0 to 1.1.2 — an upgrade package can be used that will not overwrite any of your customizations.   We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations.   We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
 
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
@@ -62,7 +62,7 @@ The =configure= page mentioned in this document is accessible via your web brows
 
 ---+++ Prepare for all upgrade steps
 
-*Download the Foswiki distribution* from the following location: http://foswiki.org/Download — if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
+*Download the Foswiki distribution* from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
 
 *Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.*  Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies= 
 
@@ -194,7 +194,7 @@ The convertStore.pl utility will copy the =data= and =pub= directories into a ne
 
 ---+++ Apply preferences from old installation
 
-If you have not already set your desired site-wide preferences, as described in the section " [[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) — the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
+If you have not already set your desired site-wide preferences, as described in the section " [[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
 
 If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.%WIKIPREFSTOPIC%=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
 
@@ -202,7 +202,7 @@ If, in your old installation, you customized the default preferences in =&lt;old
 
 ---++++ Modify skin with customizations for your site
 
-If you did not already customize the appearance of your new installation, as described in the section " [[%SYSTEMWEB%.InstallationGuide#CustomizeAppearance][Customize the appearance of your Foswiki site]]" in the %SYSTEMWEB%.InstallationGuide, then reapply the customizations from your old installation to the new one. Ensure you transfer over any skin templates — .tmpl files, or topics referred to using VIEW_TEMPLATE or EDIT_TEMPLATE preferences — you need. Also ensure you transfer any style sheets or Javascript files required.
+If you did not already customize the appearance of your new installation, as described in the section " [[%SYSTEMWEB%.InstallationGuide#CustomizeAppearance][Customize the appearance of your Foswiki site]]" in the %SYSTEMWEB%.InstallationGuide, then reapply the customizations from your old installation to the new one. Ensure you transfer over any skin templates &mdash; .tmpl files, or topics referred to using VIEW_TEMPLATE or EDIT_TEMPLATE preferences &mdash; you need. Also ensure you transfer any style sheets or Javascript files required.
 
 ---++++ Customize pages for managing personal information
 
