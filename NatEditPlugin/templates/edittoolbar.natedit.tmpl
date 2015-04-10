@@ -203,5 +203,4 @@
     href=\"#$id\"
   }$percnt"
 }%</li>%TMPL:END%
-%TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="%MAKETEXT{"Creates a new topic revision when saving"}%" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%
-
+%TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="%MAKETEXT{"Creates a new topic revision when saving"}%" id="forcenewrevision" name="forcenewrevision" %IF{"'%URLPARAM{"forcenewrevision" default="%FORCENEWREVISIONCHECKBOX%"}%'=~'1|on|yes|checked'" then="checked"}% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%
