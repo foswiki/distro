@@ -54,77 +54,77 @@ $Foswiki::cfg{RCS}{coMustCopy} = $FALSE;
 # RcsWrap initialise a file as binary.
 # %FILENAME|F% will be expanded to the filename.
 $Foswiki::cfg{RCS}{initBinaryCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -i -t-none -kb %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -i -t-none -kb %FILENAME|F%';
 
 # **COMMAND LABEL="Initialize Text Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap initialise a topic file.
 $Foswiki::cfg{RCS}{initTextCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -i -t-none -ko %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -i -t-none -ko %FILENAME|F%';
 
 # **COMMAND LABEL="Tmp Binary Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap uses this on Windows to create temporary binary files during upload.
 $Foswiki::cfg{RCS}{tmpBinaryCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -kb %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -kb %FILENAME|F%';
 
 # **COMMAND LABEL="Ci Command" EXPERT**
 # RcsWrap check-in.
 # %USERNAME|S% will be expanded to the username.
 # %COMMENT|U% will be expanded to the comment.
 $Foswiki::cfg{RCS}{ciCmd} =
-'/usr/bin/ci $Foswiki::cfg{RCS}{ExtOption} -m%COMMENT|U% -t-none -w%USERNAME|S% -u %FILENAME|F%';
+'ci $Foswiki::cfg{RCS}{ExtOption} -m%COMMENT|U% -t-none -w%USERNAME|S% -u %FILENAME|F%';
 
 # **COMMAND LABEL="Ci Date Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap check in, forcing the date.
 # %DATE|D% will be expanded to the date.
 $Foswiki::cfg{RCS}{ciDateCmd} =
-'/usr/bin/ci $Foswiki::cfg{RCS}{ExtOption} -m%COMMENT|U% -t-none -d%DATE|D% -u -w%USERNAME|S% %FILENAME|F%';
+'ci $Foswiki::cfg{RCS}{ExtOption} -m%COMMENT|U% -t-none -d%DATE|D% -u -w%USERNAME|S% %FILENAME|F%';
 
 # **COMMAND LABEL="Co Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap check out.
 # %REVISION|N% will be expanded to the revision number
 $Foswiki::cfg{RCS}{coCmd} =
-  '/usr/bin/co $Foswiki::cfg{RCS}{ExtOption} -p%REVISION|N% -ko %FILENAME|F%';
+  'co $Foswiki::cfg{RCS}{ExtOption} -p%REVISION|N% -ko %FILENAME|F%';
 
 # **COMMAND LABEL="History Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap file history.
 $Foswiki::cfg{RCS}{histCmd} =
-  '/usr/bin/rlog $Foswiki::cfg{RCS}{ExtOption} -h %FILENAME|F%';
+  'rlog $Foswiki::cfg{RCS}{ExtOption} -h %FILENAME|F%';
 
 # **COMMAND LABEL="Info Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap revision info about the file.
 $Foswiki::cfg{RCS}{infoCmd} =
-  '/usr/bin/rlog $Foswiki::cfg{RCS}{ExtOption} -r%REVISION|N% %FILENAME|F%';
+  'rlog $Foswiki::cfg{RCS}{ExtOption} -r%REVISION|N% %FILENAME|F%';
 
 # **COMMAND LABEL="Info Date Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap revision info about the revision that existed at a given date.
 # %REVISIONn|N% will be expanded to the revision number.
 # %CONTEXT|N% will be expanded to the number of lines of context.
 $Foswiki::cfg{RCS}{rlogDateCmd} =
-  '/usr/bin/rlog $Foswiki::cfg{RCS}{ExtOption} -d%DATE|D% %FILENAME|F%';
+  'rlog $Foswiki::cfg{RCS}{ExtOption} -d%DATE|D% %FILENAME|F%';
 
 # **COMMAND LABEL="Diff Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap differences between two revisions.
 $Foswiki::cfg{RCS}{diffCmd} =
-'/usr/bin/rcsdiff $Foswiki::cfg{RCS}{ExtOption} -q -w -B -r%REVISION1|N% -r%REVISION2|N% -ko --unified=%CONTEXT|N% %FILENAME|F%';
+'rcsdiff $Foswiki::cfg{RCS}{ExtOption} -q -w -B -r%REVISION1|N% -r%REVISION2|N% -ko --unified=%CONTEXT|N% %FILENAME|F%';
 
 # **COMMAND LABEL="Lock Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap lock a file.
 $Foswiki::cfg{RCS}{lockCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -l %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -l %FILENAME|F%';
 
 # **COMMAND LABEL="Unlock Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap unlock a file.
 $Foswiki::cfg{RCS}{unlockCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -u %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -u %FILENAME|F%';
 
 # **COMMAND LABEL="Break Lock Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap break a file lock.
 $Foswiki::cfg{RCS}{breaklockCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -u -M %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -u -M %FILENAME|F%';
 
 # **COMMAND LABEL="Delete Revision Command" DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # RcsWrap delete a specific revision.
 $Foswiki::cfg{RCS}{delRevCmd} =
-  '/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%';
+  'rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%';
 
 1;
