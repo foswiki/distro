@@ -328,9 +328,9 @@ function _id_ify(id) {
         var $dlg = $('#hogwarts');
         var $div = $('<div class="wiz"></div>');
         $div.addClass(id);
-        $div.html( '<b>The following Wizard is running, Please wait:</b><br/>');
-        $div.append((params.wizard ? params.wizard + " " : '')
-                  + params.method + " ");
+        $div.html( '<b>Waiting for the server, please be patient:</b><br/>');
+        $div.append((params.wizard ? params.wizard + "/" : '')
+                  + params.method + " is working");
         inline_whirly($div);
         $dlg.append($div);
         if (!$dlg.hasClass('ui-dialog-content')) {

@@ -31,7 +31,7 @@ our $installRoot;
 
 # Common initialisation
 sub _getPackage {
-    my ( $this, $reporter, $seen ) = @_;
+    my ( $this, $reporter, $module, $repo, $seen ) = @_;
 
     my ( $fwi, $ver, $fwp ) =
       Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
@@ -46,16 +46,6 @@ sub _getPackage {
 
     my $args = $this->param('args');
 
-    # SMELL: This is called with repository as a simple string in
-    # the Dependency report, and then again as a hash when running
-    # the installer.  The fix is probably elsewhere to use consistent
-    # calls,  but hack hack cough... this works.
-    my $repo = $args->{repository};
-    $repo = $repo->{name} if ( ref($repo) eq 'HASH' );
-
-    die "No repository specified" unless $args->{repository};
-    die "No extension specified"  unless $args->{module};
-
     my $repository;
     foreach my $place (
         Foswiki::Configure::Wizards::ExploreExtensions::findRepositories() )
@@ -67,24 +57,25 @@ sub _getPackage {
     }
     if ( !$repository ) {
         if ( $args->{USELOCAL} ) {
-            $reporter->WARN(
-                "Repository not found: $args->{repository}",
-                "Will try to use previously downloaded local copy"
-            );
+            $reporter->WARN( "Repository not found: $repo",
+                "Will try to use previously downloaded local copy" );
         }
         else {
-            $reporter->ERROR(
-                "Repository $args->{repository} not found\n> Cannot proceed.");
+            $reporter->ERROR("Repository $repo not found\n> Cannot proceed.");
             return undef;
         }
     }
-    delete $args->{repository};
 
     my $pkg = Foswiki::Configure::Package->new(
         root       => $installRoot,
         repository => $repository,
         seen       => $seen,
-        %$args
+        module     => $module,
+        USELOCAL   => $args->{USELOCAL},
+        EXPANDED   => $args->{EXPANDED},
+        NODEPS     => $args->{NODEPS},
+        SIMULATE   => $args->{SIMULATE},
+        CONTINUE   => $args->{CONTINUE},
     );
 
     return $pkg;
@@ -103,64 +94,27 @@ sub depreport {
 
     my $seen = {};    # Hash to prevent duplicate installs
 
-    my $pkg = $this->_getPackage( $reporter, $seen );
-    return unless $pkg;
+    my $args = $this->param('args');
 
-    $reporter->NOTE( "---++ Dependency report for " . $pkg->module() );
-    $pkg->loadInstaller($reporter);
-    my ( $installed, $missing ) = $pkg->checkDependencies();
-    $reporter->NOTE( "> *INSTALLED*", map { "\t* $_" } @$installed )
-      if (@$installed);
-    if (@$missing) {
-        $reporter->NOTE( "> *MISSING*", map { "\t* $_" } @$missing );
-        $reporter->WARN( <<DEPS );
-> *Caution:* If you proceed with install, the missing dependencies listed as _Required_
-will be automatically installed. Be sure that this is what you want.
-DEPS
-    }
-    else {
-        $reporter->NOTE("> All dependencies satisfied");
-    }
+    while ( my ( $module, $repo ) = each %$args ) {
 
-    $reporter->WARN(
-        "\t* Click 'Install' to proceed with the installation.",
-        "\t* Click 'Simulate' to get a detailed report on what",
-        "\t  will happen during installation."
-    );
+        my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
+        next unless $pkg;
 
-    $reporter->WARN(
-        "\t* Click 'Install without Dependencies' to install",
-        "\t  _only_ this extension, ignoring the dependencies."
-    ) if (@$missing);
-
-    if ( $this->param('args')->{installable} ) {
-        my %data = (
-            wizard => 'InstallExtensions',
-            method => 'add',
-            args   => {
-                repository => $pkg->repository(),
-                module     => $pkg->module(),
-                SIMULATE   => 0,
-                NODEPS     => 0,
-
-                # USELOCAL =>
-            }
-        );
-        $reporter->NOTE( $reporter->WIZARD( "Install", \%data ) );
-
-        $data{args}->{SIMULATE} = 1;
-        $reporter->NOTE( $reporter->WIZARD( "Simulate", \%data ) );
-
+        $reporter->NOTE( "---++ Dependency report for " . $pkg->module() );
+        $pkg->loadInstaller($reporter);
+        my ( $installed, $missing ) = $pkg->checkDependencies();
+        $reporter->NOTE( "> *INSTALLED*", map { "\t* $_" } @$installed )
+          if (@$installed);
         if (@$missing) {
-            $data{args}->{SIMULATE} = 0;
-            $data{args}->{NODEPS}   = 1;
-            $reporter->NOTE(
-                $reporter->WIZARD( "Install without dependencies", \%data ) );
+            $reporter->NOTE( "> *MISSING*", map { "\t* $_" } @$missing );
         }
-    }
+        else {
+            $reporter->NOTE("> All dependencies satisfied");
+        }
 
-    $pkg->finish();
-    undef $pkg;
+        $pkg->finish();
+    }
 }
 
 =begin TML
@@ -175,18 +129,20 @@ sub add {
     my ( $this, $reporter ) = @_;
     my $seen = {};
 
-    my $pkg = $this->_getPackage( $reporter, $seen );
-    return unless $pkg;
+    my $args = $this->param('args');
+    while ( my ( $module, $repo ) = each %$args ) {
+        my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
+        next unless $pkg;
 
-    my $extension = $pkg->module();
-    unless ( $pkg->install($reporter) ) {
-        $reporter->ERROR( <<OMG );
+        my $extension = $pkg->module();
+        unless ( $pkg->install($reporter) ) {
+            $reporter->ERROR( <<OMG );
 The Extension may not be usable due to errors. Installation terminated.
 OMG
-    }
+        }
 
-    $pkg->finish();
-    undef $pkg;
+        $pkg->finish();
+    }
 
     return undef;    # return the report
 }
@@ -202,13 +158,15 @@ Uninstall an extension
 sub remove {
     my ( $this, $reporter ) = @_;
 
-    my $pkg = $this->_getPackage($reporter);
-    return unless $pkg;
+    my $args = $this->param('args');
+    while ( my ( $module, $repo ) = each %$args ) {
+        my $pkg = $this->_getPackage( $reporter, $module, $repo );
+        next unless $pkg;
 
-    $pkg->uninstall($reporter);
+        $pkg->uninstall($reporter);
 
-    $pkg->finish();
-    undef $pkg;
+        $pkg->finish();
+    }
 
     return undef;
 }

@@ -214,7 +214,13 @@ sub _get_extensions {
 
     $reporter->NOTE("---++ $set Extensions");
     $reporter->NOTE(
-'> Each extension is listed along with a "Study" button, which is used to generate a dependency report for the extension. From there, you can proceed with the installation. '
+'> Each extension has a check box which you can use to select the extension. Use the "Report" button to generate a dependency report for each selected extensions, or the "'
+          . ( $set eq 'Installed' ? 'Remove' : 'Install' )
+          . '" button to '
+          . (
+            $set eq 'Installed' ? 'remove' : 'install (or upgrade/re-install)'
+          )
+          . ' them. '
     );
     $reporter->NOTE('> ');
 
@@ -241,6 +247,65 @@ sub _get_extensions {
     else {
         $reporter->NOTE("> *Found $uninstalledCount Uninstalled extensions* ");
     }
+
+    $reporter->NOTE(
+        $reporter->WIZARD(
+            'Report',
+            {
+                wizard => 'InstallExtensions',
+                method => 'depreport',
+                form   => "#${set}_extensions_list",
+                args   => {
+
+                    # will be extended by the #extensions_list form
+                    # SIMULATE =>
+                    # NODEPS =>
+                    # USELOCAL =>
+                }
+            }
+          )
+          . $reporter->WIZARD(
+            ( $set eq 'Installed' ? 'Upgrade' : 'Install' ),
+            {
+                wizard => 'InstallExtensions',
+                method => 'add',
+                form   => "#${set}_extensions_list",
+                args   => {
+
+                    # will be extended by the #extensions_list form
+                    # SIMULATE =>
+                    # NODEPS =>
+                    # USELOCAL =>
+                }
+            }
+          )
+          . $reporter->WIZARD(
+            'Remove',
+            {
+                wizard => 'InstallExtensions',
+                method => 'remove',
+                form   => "#${set}_extensions_list",
+                args   => {
+
+                    # will be extended by the #extensions_list form
+                    # SIMULATE =>
+                    # NODEPS =>
+                    # USELOCAL =>
+                }
+            }
+          )
+          . "<form id='${set}_extensions_list'>"
+    );
+
+    $reporter->NOTE(<<SIMULATE);
+<input id="simulate" type='checkbox' name='SIMULATE' value='1' title="Check to get a detailed report on what will happen during installation, without actually installing." />
+<label for="simulate">Simulated install</label>
+SIMULATE
+
+    $reporter->NOTE(<<NODEPS);
+<input id="nodeps" type='checkbox' name='NODEPS' value='1' title="If this is unchecked, any required dependencies will automatically be installed. Check to install ONLY the extensions, IGNORING any dependencies." />
+<label for="nodeps">Don't install dependencies</label>
+NODEPS
 
     # Table heads
     $reporter->NOTE(
@@ -272,8 +337,7 @@ sub _get_extensions {
         # is the version number read from FastReport, and {release} will be
         # the latest release from there.
 
-        my $install   = 'Study';
-        my $uninstall = '';
+        my $status = "";
 
         if ( $ext->{installedRelease} ) {
 
@@ -281,57 +345,20 @@ sub _get_extensions {
             if ( $ext->{installedVersion} eq '9999.99_999' ) {
 
                 # pseudo-installed
-                $install = 'pseudo-installed';
+                $status = ' _is pseudo-installed_ ';
             }
             elsif ( $ext->compare_versions( '<', $ext->{release} ) ) {
 
                 # Installed version is < available version
 
-                $install   = 'Upgrade';
-                $uninstall = 'Uninstall';
+                $status = ' *has a more recent version available* ';
             }
             else {
 
                 # Installed version is current version
 
-                $install   = 'Re-install';
-                $uninstall = 'Uninstall';
+                $status = ' _is installed_ ';
             }
-        }
-
-        $install = $reporter->WIZARD(
-            $install,
-            {
-                wizard => 'InstallExtensions',
-                method => 'depreport',
-                args   => {
-                    repository  => $ext->{repository},
-                    module      => $ext->{name},
-                    installable => ( $install ne 'pseudo-installed' ),
-
-                    # SIMULATE =>
-                    # NODEPS =>
-                    # USELOCAL =>
-                }
-            }
-        );
-
-        if ($uninstall) {
-            $uninstall = $reporter->WIZARD(
-                $uninstall,
-                {
-                    wizard => 'InstallExtensions',
-                    method => 'remove',
-                    args   => {
-                        repository => $ext->{repository},
-                        module     => $ext->{name},
-
-                        # SIMULATE =>
-                        # NODEPS =>
-                        # USELOCAL =>
-                    }
-                }
-            );
         }
 
         # Do the title + actions row
@@ -341,8 +368,14 @@ sub _get_extensions {
         $thd .= " <sup>[$ext->{repository}]</sup>"
           if ( scalar(@consultedLocations) > 1 );
 
-        $reporter->NOTE(
-            "| $thd" . '|' x scalar( @{ $tableHeads{$set} } ) . " $install |" );
+        # The nice thing about checkboxes is that they don't get added
+        # to the query unless they are checked, and then the value returned
+        # is the value we give them here i.e. the repo
+        my $buttons = "<input type='checkbox' name='$ext->{name}'"
+          . " value='$ext->{repository}'/>";
+
+        $reporter->NOTE( "| $buttons $thd $status "
+              . '|' x ( scalar( @{ $tableHeads{$set} } ) ) );
 
         # Do the data row
         my @cols;
@@ -354,11 +387,10 @@ sub _get_extensions {
             }
             push( @cols, $tdd );
         }
-        push( @cols, $uninstall );
 
         $reporter->NOTE( '|' . join( '|', map { " $_ " } @cols ) . '|' );
     }
-    $reporter->NOTE("</div>");
+    $reporter->NOTE("</form></div>");
 }
 
 =begin TML
