@@ -328,7 +328,8 @@ function _id_ify(id) {
         var $dlg = $('#hogwarts');
         var $div = $('<div class="wiz"></div>');
         $div.addClass(id);
-        $div.text((params.wizard ? params.wizard + " " : '')
+        $div.html( '<b>The following Wizard is running, Please wait:</b><br/>');
+        $div.append((params.wizard ? params.wizard + " " : '')
                   + params.method + " ");
         inline_whirly($div);
         $dlg.append($div);
