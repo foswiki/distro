@@ -1985,7 +1985,7 @@ sub test_Package_errors_zip {
 Test file data
 DONE
     $this->assert( !$pkg->install($reporter) );
-    $this->sniff( errors => '(format error|unzip failed)' );
+    $this->sniff( errors => '(format error|unzip failed|Unpack failed)' );
     unlink $tempdir . "/MyPlugin.zip";
     $pkg->finish();
     undef $pkg;
