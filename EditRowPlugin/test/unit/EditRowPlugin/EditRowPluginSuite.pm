@@ -18,6 +18,48 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 }
 
+sub test_Item13352 {
+    my $this = shift;
+    my $in   = <<INPUT;
+   * Set ENDCOLOR = </span> </verbatim>
+%RED%Some red text%ENDCOLOR%
+
+| A | B |
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| A | B |
+
+| A | B |
+INPUT
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+EDITTABLE_0:
+| A | B |
+EDITTABLE_1:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| A | B |
+LL 
+EDITTABLE_2:
+| A | B |
+EXPECTED
+}
+
 sub test_parser {
     my $this = shift;
     my $in   = <<INPUT;
