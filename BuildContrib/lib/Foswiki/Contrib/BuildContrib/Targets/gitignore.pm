@@ -73,6 +73,7 @@ sub target_gitignore {
     }
     for ( sort keys %{ $collector->{ignore} } )
     {    # Ignore any file in MANIFEST that is not known to git.
+        next if ( $_ =~ m/^#/ );       # Skip any comments in the MANIFEST
         next if ( $_ =~ m/\.gz$/ );    # .gz files covered by wildcard
         next if ( $_ eq '!noci' );     # Skip the !noci record
         print '/' . $_ . "\n";
