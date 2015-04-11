@@ -98,6 +98,10 @@ sub depreport {
 
     while ( my ( $module, $repo ) = each %$args ) {
 
+        # NODEPS and SIMULATE are not used for depreport
+        next if $module eq 'NODEPS';
+        next if $module eq 'SIMULATE';
+
         my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
         next unless $pkg;
 
