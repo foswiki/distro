@@ -2947,6 +2947,14 @@ HTML
 TML
     },
     {
+        exec => ROUNDTRIP,
+        name => 'entityNamedInsideMacro_Item13369',
+        tml  => <<'TML',
+Outside macro &copy; dash &mdash; done
+%MAKETEXT{"Copyright &&copy; mdash &&mdash;"}%
+TML
+    },
+    {
         exec => TML2HTML | HTML2TML | ROUNDTRIP,
         name => 'entityWithNoNameInsideSticky',
         tml  => <<'GLUED',

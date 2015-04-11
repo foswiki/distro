@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426431164" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428785755" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -35,12 +35,13 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * If yes, set SITEMAPLIST to =on=, do not set NOSEARCHALL, and add the "what" and "use to..." description for the site map. Make sure to list only links that include the name of the web, e.g. <nop>%WEB%.Topic links.
       * Set SITEMAPLIST = on
       * Set WEBSUMMARY = %IF{"defined SITEMAPWHAT" then="$percentSITEMAPWHAT$percent"}% %IF{"defined SITEMAPUSETO" then="$percentSITEMAPUSETO$percent"}%
-
+<sticky>
    * Copyright notice:
       * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%
 
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
+</sticky>
 
    * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) *Note* it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
       * Set NOSEARCHALL =
@@ -365,7 +366,8 @@ Note, this feature also must be enabled on the UserRegistration page by adding
       * %GRAY% *Set GRAY = looks like this* %ENDCOLOR%
       * %SILVER% *Set SILVER = looks like this* %ENDCOLOR%
       * <span style='background : #808080;'>%WHITE% *Set WHITE = looks like this (with gray background)* %ENDCOLOR%</span>
-      * The following color settings are enclosed in verbatim tags to avoid incorrect nesting of XHTML tags:
+      * The following color settings are enclosed in verbatim tags to avoid incorrect nesting of XHTML tags, and in sticky to prevent wrapping of the closing verbatim.
+<sticky>
 <verbatim class="tml">
       * Set YELLOW = <span class='foswikiYellowFG'>
       * Set ORANGE = <span class='foswikiOrangeFG'>
@@ -387,6 +389,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
       * Set WHITE = <span class='foswikiWhiteFG'>
       * Set ENDCOLOR = </span>
 </verbatim>
+</sticky>
 
 ---++ Miscellaneous Settings
 
