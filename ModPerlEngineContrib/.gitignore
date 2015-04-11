@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/ModPerlEngineContrib.md5
+/ModPerlEngineContrib.sha1
+/ModPerlEngineContrib.tgz
+/ModPerlEngineContrib.txt
+/ModPerlEngineContrib.zip
+/ModPerlEngineContrib_installer
+/ModPerlEngineContrib_installer.pl
