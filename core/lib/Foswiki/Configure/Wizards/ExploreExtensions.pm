@@ -22,13 +22,13 @@ our @ISA = ('Foswiki::Configure::Wizard');
 use Foswiki::Configure::Dependency ();
 use Foswiki::Func                  ();
 
-# THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.FastReport
+# THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.JsonReport
 # They describe the format of an extension topic.
 
 # Ordered list of field names to column headings
 my %tableHeads = (
-    Installed   => [ 'description', 'release', 'installedRelease', 'install' ],
-    Uninstalled => [ 'description', 'release', 'install' ]
+    Installed   => [ 'description', 'release', 'installedRelease' ],
+    Uninstalled => [ 'description', 'release' ]
 );
 
 # Mapping to column heading string
@@ -294,18 +294,15 @@ sub _get_extensions {
                 }
             }
           )
-          . "<form id='${set}_extensions_list'>"
+          . "<div class='extensions_table'><form id='${set}_extensions_list'>"
     );
 
-    $reporter->NOTE(<<SIMULATE);
-<input id="simulate" type='checkbox' name='SIMULATE' value='1' title="Check to get a detailed report on what will happen during installation, without actually installing." />
+    $reporter->NOTE(<<CHECKBOXES);
+<input type='checkbox' class="wizard_checkbox" id="simulate" name='SIMULATE' value='1' title="Check to get a detailed report on what will happen during installation, without actually installing." />
 <label for="simulate">Simulated install</label>
-SIMULATE
-
-    $reporter->NOTE(<<NODEPS);
-<input id="nodeps" type='checkbox' name='NODEPS' value='1' title="If this is unchecked, any required dependencies will automatically be installed. Check to install ONLY the extensions, IGNORING any dependencies." />
+<input type='checkbox' class="wizard_checkbox" id="nodeps" name='NODEPS' value='1' title="If this is unchecked, any required dependencies will automatically be installed. Check to install ONLY the extensions, IGNORING any dependencies." />
 <label for="nodeps">Don't install dependencies</label>
-NODEPS
+CHECKBOXES
 
     # Table heads
     $reporter->NOTE(
@@ -334,7 +331,7 @@ NODEPS
         # $ext is type Foswiki::Configure::Dependency, and studyInstallation
         # has already been called, so {installedRelease} and {installedVersion}
         # are known to be populated. Note that {version} in this dependency
-        # is the version number read from FastReport, and {release} will be
+        # is the version number read from JsonReport, and {release} will be
         # the latest release from there.
 
         my $status = "";
@@ -361,23 +358,24 @@ NODEPS
             }
         }
 
-        # Do the title + actions row
-        my $thd = $ext->{name} || 'Unknown';
+        # The nice thing about checkboxes is that they don't get added
+        # to the query unless they are checked, and then the value returned
+        # is the value we give them here i.e. the repo
+        my $thd =
+            "<input type='checkbox'"
+          . " class='wizard_checkbox'"
+          . " name='$ext->{name}'"
+          . " value='$ext->{repository}'/> ";
+
+        $thd .= $ext->{name} || 'Unknown';
         $thd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
         $thd = "[[$ext->{data}$ext->{name}][$thd]]";
         $thd .= " <sup>[$ext->{repository}]</sup>"
           if ( scalar(@consultedLocations) > 1 );
 
-        # The nice thing about checkboxes is that they don't get added
-        # to the query unless they are checked, and then the value returned
-        # is the value we give them here i.e. the repo
-        my $buttons = "<input type='checkbox' name='$ext->{name}'"
-          . " value='$ext->{repository}'/>";
+        $thd .= " $status";
 
-        $reporter->NOTE( "| $buttons $thd $status "
-              . '|' x ( scalar( @{ $tableHeads{$set} } ) ) );
-
-        # Do the data row
+        # Do the data
         my @cols;
         foreach my $f ( @{ $tableHeads{$set} } ) {
             my $tdd = $ext->{$f} || '';
@@ -387,7 +385,7 @@ NODEPS
             }
             push( @cols, $tdd );
         }
-
+        $cols[0] = "$thd <br /> $cols[0]";
         $reporter->NOTE( '|' . join( '|', map { " $_ " } @cols ) . '|' );
     }
     $reporter->NOTE("</form></div>");

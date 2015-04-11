@@ -337,6 +337,14 @@ p.one_line_report {
     margin:0 0.5em;
 }
 
+.wizard_button {
+    margin: 0.25em;
+}
+
+.wizard_checkbox {
+    margin: 0.25em;
+}
+
 .info-icon {
     background-image: url("info-icon.png") !important;
 }
@@ -404,11 +412,10 @@ table.tml {
     margin: 0;
 }
 
-.tml th td {
+.extensions_table th, .extensions_table td {
     background: #fff;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border: 1px solid black;
+    padding: 0.25em;
+    border: 1px solid silver;
 }
 
 #root.loading {
