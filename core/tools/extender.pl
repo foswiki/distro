@@ -25,6 +25,7 @@ my $noconfirm       = 0;
 my $downloadOK      = 0;
 my $alreadyUnpacked = 0;
 my $reuseOK         = 0;
+my $nodeps          = 0;
 my $simulate        = 0;
 my $action          = 'install';    # Default target is install
 my $thispkg;                        # Package object for THIS module
@@ -97,6 +98,7 @@ $noconfirm       = $opts{a};
 $downloadOK      = $opts{d};
 $reuseOK         = $opts{r};
 $simulate        = $opts{n};
+$nodeps          = $opts{o};
 $alreadyUnpacked = $opts{u};
 if ( @ARGV == 0 ) {
     $reporter->ERROR(
@@ -246,6 +248,7 @@ sub _loadInstaller {
         module     => $MODULE,
         USELOCAL   => $reuseOK,
         SIMULATE   => $simulate,
+        NODEPS     => $nodeps,
         DIR        => $installationRoot
     );
 
@@ -321,10 +324,11 @@ $MODULE even if they have been locally modified.
 -a means don't prompt for confirmation before resolving
    dependencies
 -d means auto-download if -a (no effect if not -a)
--r means reuse packages on disc if -a (no effect if not -a)
--u means the archive has already been downloaded and unpacked
--n means don't write any files into my current install, just
+-r reuse packages on disc if -a (no effect if not -a)
+-u Use expanded: the archive has already been downloaded and unpacked
+-n Simulate; don't write any files into my current install, just
    tell me what you would have done
+-o Only install the single extension, no dependencies.
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -397,11 +401,14 @@ sub _install {
     my $instmsg = "$MODULE ready to be installed";
     $instmsg .= ": ($sim )" if ($simulate);
     $instmsg .= " along with missing Foswiki dependencies identified above\n"
-      if (@$missing);
+      if ( @$missing && !$nodeps );
+    $instmsg .= " No missing dependencies will be installed!\n"
+      if ( @$missing && $nodeps );
     $instmsg .= ".\n";
 
     $instmsg .= "Do you want to proceed with$sim installation of $MODULE";
-    $instmsg .= " and Dependencies" if ($missing);
+    $instmsg .= " without dependencies" if ( $missing && $nodeps );
+    $instmsg .= " and Dependencies" if ( $missing && !$nodeps );
     $instmsg .= '?';
 
     return 0
