@@ -1422,7 +1422,7 @@ msgstr "Utwórz własny pasek boczny"
 msgid "Create the topic"
 msgstr "Utwórz temat"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3612,7 +3612,7 @@ msgstr "Resetowanie hasła"
 msgid "Reset password"
 msgstr "Zresetuj hasło"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not available."
 msgstr ""
 

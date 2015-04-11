@@ -1385,7 +1385,7 @@ msgstr "Rediger personlige data"
 msgid "Create the topic"
 msgstr "Lag siden"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3552,7 +3552,7 @@ msgstr "Tilbakestill Passord"
 msgid "Reset password"
 msgstr "Tilbakestill passord"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 #, fuzzy
 msgid "Resetting and setting password is not available."
 msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"

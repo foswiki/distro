@@ -442,8 +442,8 @@ msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
 msgstr ""
-"*punktopstilling* 3 mellemrum, stjerne, 1 mellemrum: "
-"=&&nbsp;&&nbsp;&&nbsp;*&&nbsp;din tekst="
+"*punktopstilling* 3 mellemrum, stjerne, 1 mellemrum: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;din tekst="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
@@ -462,8 +462,8 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
-"*kursiv* sæt understregning på hver side af ordet eller sætningen: =_<nop>"
-"dette med kursiv_="
+"*kursiv* sæt understregning på hver side af ordet eller sætningen: "
+"=_<nop>dette med kursiv_="
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
@@ -1389,7 +1389,7 @@ msgstr "Opret personlig venstre-menu"
 msgid "Create the topic"
 msgstr "Opret siden"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3512,7 +3512,7 @@ msgstr "Nulstil Adgangskode"
 msgid "Reset password"
 msgstr "Nulstil adgangskode"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not available."
 msgstr "Nulstilling og ændringer af adgangskode er ikke muligt."
 

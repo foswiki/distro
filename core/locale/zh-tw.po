@@ -1324,7 +1324,7 @@ msgstr "建立個人的側欄"
 msgid "Create the topic"
 msgstr "建立主題"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3401,7 +3401,7 @@ msgstr "重設密碼"
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 #, fuzzy
 msgid "Resetting and setting password is not available."
 msgstr "重設或設定密碼並非由 Foswiki 處理"

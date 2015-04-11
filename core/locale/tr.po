@@ -1321,7 +1321,7 @@ msgstr "Kişisel Bilgilerinizi Düzenleyin"
 msgid "Create the topic"
 msgstr "Konuyu oluştur"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3402,7 +3402,7 @@ msgstr "Şifre Sıfırla"
 msgid "Reset password"
 msgstr "Şifre sıfırla"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not available."
 msgstr ""
 

@@ -1421,7 +1421,7 @@ msgstr "個人サイドバーを作成します"
 msgid "Create the topic"
 msgstr "トピックを作成します"
 
-#: core/data/System/DefaultPreferences.txt:396
+#: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
@@ -3596,7 +3596,7 @@ msgstr "パスワードリセット:"
 msgid "Reset password"
 msgstr "パスワードリセット:"
 
-#: core/data/System/DefaultPreferences.txt:205
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not available."
 msgstr ""
 
