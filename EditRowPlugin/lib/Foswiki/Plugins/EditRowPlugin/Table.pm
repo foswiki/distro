@@ -464,17 +464,21 @@ sub getEditor {
     my $colDef = shift;
     my $editor = $editors{ $colDef->{type} };
     unless ($editor) {
-        my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
-        eval("require $class");
-        if ($@) {
-            Foswiki::Func::writeWarning(
-                "EditRowPlugin could not load cell type $class: $@");
-            $editor = $editors{_default};
+        if ( $colDef->{type} =~ /^(\w+)$/ ) {
+            $colDef->{type} = $1;
+            my $class =
+              "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
+            eval("require $class");
+            if ($@) {
+                Foswiki::Func::writeWarning(
+                    "EditRowPlugin could not load cell type $class: $@");
+                $editor = $editors{_default};
+            }
+            else {
+                $editor = $class->new();
+            }
+            $editors{ $colDef->{type} } = $editor;
         }
-        else {
-            $editor = $class->new();
-        }
-        $editors{ $colDef->{type} } = $editor;
     }
     return $editor;
 }
