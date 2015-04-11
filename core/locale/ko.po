@@ -5,8 +5,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-03-27 05:19+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
-"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/ko/>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -959,7 +959,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
-#: NatEditPlugin/templates/edit.natedit.tmpl:59
+#: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
@@ -968,12 +968,12 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "취소"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr ""
@@ -1400,8 +1400,8 @@ msgstr "안녕하세요, %1 님 "
 msgid "Debug"
 msgstr "디버그"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Default"
 msgstr ""
 
@@ -1443,7 +1443,7 @@ msgstr "버전"
 msgid "Detailed topic list for %1 Web"
 msgstr "%1 Web 에 새 토픽 생성하기"
 
-#: core/lib/Foswiki/Form.pm:422
+#: core/lib/Foswiki/Form.pm:425
 msgid "Details in separate window"
 msgstr ""
 
@@ -1714,7 +1714,7 @@ msgstr "토픽 저장 에러"
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
 msgid "Everybody"
 msgstr ""
 
@@ -1895,7 +1895,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:488
 msgid ""
-"Go back to the previous page, and enable Cookies and Javascript before "
+"Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
 
@@ -1967,7 +1967,7 @@ msgstr ""
 msgid "Hello %1!"
 msgstr "안녕하세요 %1!"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:86
+#: NatEditPlugin/templates/edit.natedit.tmpl:85
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
 #: NatEditPlugin/templates/settings.natedit.tmpl:21
 #: NatEditPlugin/templates/settings.natedit.tmpl:24
@@ -2400,8 +2400,8 @@ msgstr "다음 리비전으로 토픽 복구"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Just me"
 msgstr ""
 
@@ -2788,8 +2788,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "패스워드를 초기화할 사용자가 없습니다."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Nobody"
 msgstr ""
 
@@ -3001,8 +3001,8 @@ msgstr "비밀번호가 일치하지 않습니다."
 msgid "Pending registration not found"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:101
+#: NatEditPlugin/templates/edit.natedit.tmpl:99
 #, fuzzy
 msgid "Permissions"
 msgstr "리비전"
@@ -3136,7 +3136,7 @@ msgid "Please notify your %1 administrator."
 msgstr ""
 "이메일은 전송되지 않을 수 있습니다. 해당 내용을 %1 관리자에게 알려주세요, %2"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:56
+#: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
 msgstr ""
 
@@ -3278,8 +3278,8 @@ msgstr "등록하기"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 #, fuzzy
 msgid "Registered users"
 msgstr "등록하기"
@@ -3339,7 +3339,7 @@ msgstr "관련된 토픽"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:669
+#: core/data/System/CommandAndCGIScripts.txt:688
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3357,8 +3357,8 @@ msgstr "이 컴퓨터에서 로그인한 정보를 기억하기"
 
 #: core/templates/registermessages.tmpl:292
 msgid ""
-"Remember to update your user topic if you want your e-mail change to be "
-"reflected there as well."
+"Remember to update your user topic [[%1]] if you want your e-mail change to "
+"be reflected there as well."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
@@ -3572,7 +3572,7 @@ msgstr ""
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:58
+#: NatEditPlugin/templates/edit.natedit.tmpl:57
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
 msgid "Save"
 msgstr ""
@@ -3710,7 +3710,7 @@ msgstr ""
 msgid "See also:"
 msgstr ""
 
-#: core/templates/edit.tmpl:51
+#: core/templates/edit.tmpl:50
 msgid "See below for help in editing this page."
 msgstr ""
 
@@ -3759,7 +3759,7 @@ msgstr "토픽 지우기"
 msgid "Select topic parent"
 msgstr "토픽 지우기"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
+#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 
@@ -3881,8 +3881,8 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:144
+#: NatEditPlugin/templates/edit.natedit.tmpl:175
 msgid "Specific users/groups"
 msgstr ""
 
@@ -3984,7 +3984,7 @@ msgid "Superscript"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-msgid "Switch to monotype or propotional font"
+msgid "Switch to monotype or proportional font"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
@@ -4013,7 +4013,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "템플릿 %1 은 존재하지 않습니다."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:83
+#: NatEditPlugin/templates/edit.natedit.tmpl:82
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
@@ -4875,11 +4875,11 @@ msgstr ""
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:152
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:116
 msgid "Users who may view:"
 msgstr ""
 
@@ -5026,8 +5026,8 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
-"We noticed you have disabled Javascript. Please switch on Javascript if you "
-"wish to register."
+"We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+"you wish to register."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
@@ -5208,8 +5208,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:487
 msgid ""
-"You cannot proceed because either Cookies or Javascript are disabled in your "
-"browser."
+"You cannot proceed because either Cookies or !JavaScript are disabled in "
+"your browser."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:194
@@ -5372,7 +5372,7 @@ msgstr ""
 msgid "Your signature to copy/paste"
 msgstr ""
 
-#: core/templates/edit.tmpl:43
+#: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
 msgstr ""
 
@@ -5406,6 +5406,7 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
 
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
 msgstr "한글"
@@ -5463,8 +5464,8 @@ msgstr ""
 msgid "close display options"
 msgstr "더 많은 토픽 액션..."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "default as defined in the %1"
 msgstr ""
 
@@ -5558,7 +5559,7 @@ msgstr "혹은"
 msgid "preview"
 msgstr "미리보기"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 #, fuzzy
 msgid "public view access"
 msgstr "모든 공개된 웹"
@@ -5573,16 +5574,16 @@ msgstr "복구"
 msgid "restore form"
 msgstr "토픽 복구하기"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5602,16 +5603,16 @@ msgstr "리비전"
 msgid "set preferences"
 msgstr "설정정보"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:142
+#: NatEditPlugin/templates/edit.natedit.tmpl:173
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "strictly deny write access to this topic"
 msgstr ""
 

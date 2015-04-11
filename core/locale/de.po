@@ -1007,7 +1007,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
-#: NatEditPlugin/templates/edit.natedit.tmpl:59
+#: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
@@ -1016,12 +1016,12 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Editieren abbrechen und Änderungen verwerfen"
@@ -1445,8 +1445,8 @@ msgstr "Hallo %1"
 msgid "Debug"
 msgstr "Fehler beheben"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Default"
 msgstr "Standard"
 
@@ -1487,7 +1487,7 @@ msgstr "Beschreibung"
 msgid "Detailed topic list for %1 Web"
 msgstr "Detaillierte Liste der Topics im %1-Web"
 
-#: core/lib/Foswiki/Form.pm:422
+#: core/lib/Foswiki/Form.pm:425
 msgid "Details in separate window"
 msgstr "Details im separaten Fenster"
 
@@ -1779,7 +1779,7 @@ msgstr "Fehler beim Entfernen von Mitgliedern aus Gruppen"
 msgid "Escape markup"
 msgstr "Textauszeichnung schützen"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
 msgid "Everybody"
 msgstr "Jeder"
 
@@ -1963,8 +1963,9 @@ msgstr ""
 "Gehen Sie mit Ihrem Browser zurück und speichern Sie alle Änderungen lokal."
 
 #: core/templates/messages.tmpl:488
+#, fuzzy
 msgid ""
-"Go back to the previous page, and enable Cookies and Javascript before "
+"Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
 "Navigieren Sie zur vorherigen Seite zurück und aktivieren Sie Cookies und "
@@ -2037,7 +2038,7 @@ msgstr "Überschrift 6"
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:86
+#: NatEditPlugin/templates/edit.natedit.tmpl:85
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
 #: NatEditPlugin/templates/settings.natedit.tmpl:21
 #: NatEditPlugin/templates/settings.natedit.tmpl:24
@@ -2512,8 +2513,8 @@ msgstr "Zur ersten Revision"
 msgid "Jump to latest revision (%1)"
 msgstr "Zur neuesten Revision (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Just me"
 msgstr "Nur ich"
 
@@ -2884,8 +2885,8 @@ msgstr "Kein Benutzername angegeben"
 msgid "No users to reset passwords for."
 msgstr "Keine Benutzer um das Passwort zurück zu setzen."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Nobody"
 msgstr "Niemand"
 
@@ -3095,8 +3096,8 @@ msgstr "Passwörter stimmen nicht überein"
 msgid "Pending registration not found"
 msgstr "Ausstehende Registrierung nicht gefunden"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:101
+#: NatEditPlugin/templates/edit.natedit.tmpl:99
 msgid "Permissions"
 msgstr "Berechtigungen"
 
@@ -3229,7 +3230,7 @@ msgstr ""
 msgid "Please notify your %1 administrator."
 msgstr "Bitte informieren Sie Ihren %1-Administrator."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:56
+#: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
 msgstr "Bitte prüfen"
 
@@ -3372,8 +3373,8 @@ msgstr "Registrieren"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Bekannte E-Mail-Adressen für den angemeldeten Benutzer"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Registered users"
 msgstr "Registrierte Benutzer"
 
@@ -3432,7 +3433,7 @@ msgstr "Verwandte Topics:"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:669
+#: core/data/System/CommandAndCGIScripts.txt:688
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3449,9 +3450,10 @@ msgid "Remember me on this computer"
 msgstr "Auf diesem Computer eingeloggt bleiben"
 
 #: core/templates/registermessages.tmpl:292
+#, fuzzy
 msgid ""
-"Remember to update your user topic if you want your e-mail change to be "
-"reflected there as well."
+"Remember to update your user topic [[%1]] if you want your e-mail change to "
+"be reflected there as well."
 msgstr ""
 "Vergessen Sie nicht auch ihr Benutzer-Topic mit der neuen E-Mail zu "
 "aktualisieren."
@@ -3669,7 +3671,7 @@ msgstr ""
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Sandkasten: nicht eingeschränktes Web als Bereich für Experimente"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:58
+#: NatEditPlugin/templates/edit.natedit.tmpl:57
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
 msgid "Save"
 msgstr "Speichern"
@@ -3803,7 +3805,7 @@ msgstr "Verwenden Sie ggf. den ausführlichen %1."
 msgid "See also:"
 msgstr "Siehe auch:"
 
-#: core/templates/edit.tmpl:51
+#: core/templates/edit.tmpl:50
 msgid "See below for help in editing this page."
 msgstr "Eine Hilfe zur Bearbeitung dieser Seite finden Sie weiter unten."
 
@@ -3850,7 +3852,7 @@ msgstr "Wählen Sie die Gruppe aus, der Sie beitreten möchten:"
 msgid "Select topic parent"
 msgstr "Ober-Topic auswählen"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
+#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Fügen Sie Ihre Signatur unter dem Text ein, indem Sie sie kopieren."
 
@@ -3979,8 +3981,8 @@ msgstr "Ausgewählte Zeilen sortieren (absteigend)"
 msgid "Spaces are replaced by underscores"
 msgstr "Leerzeichen werden durch Unterstriche ersetzt"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:144
+#: NatEditPlugin/templates/edit.natedit.tmpl:175
 msgid "Specific users/groups"
 msgstr "Bestimmte Benutzer/Gruppen"
 
@@ -4080,7 +4082,8 @@ msgid "Superscript"
 msgstr "Hochgestellter Text"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-msgid "Switch to monotype or propotional font"
+#, fuzzy
+msgid "Switch to monotype or proportional font"
 msgstr "Zeichensatz in monotype oder proportional wechseln"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
@@ -4112,7 +4115,7 @@ msgstr "Tabelle"
 msgid "Template %1 does not exist"
 msgstr "Die Vorlage %1 existiert nicht"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:83
+#: NatEditPlugin/templates/edit.natedit.tmpl:82
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
@@ -5066,11 +5069,11 @@ msgstr "Zu %1 können keine Benutzer hinzugefügt werden"
 msgid "Users cannot be removed from %1"
 msgstr "Aus %1 können keine Benutzer entfernt werden"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:152
 msgid "Users who may edit:"
 msgstr "Benutzer, die Änderungen vornehmen dürfen:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:116
 msgid "Users who may view:"
 msgstr "Benutzer, die die Seite sehen dürfen:"
 
@@ -5217,9 +5220,10 @@ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Warnung: Tabellendefinition in \\'include\\'-Topic %1 existiert nicht!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
+#, fuzzy
 msgid ""
-"We noticed you have disabled Javascript. Please switch on Javascript if you "
-"wish to register."
+"We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+"you wish to register."
 msgstr ""
 "Sie haben anscheinend !JavaScript deaktiviert. Bitte aktivieren Sie !"
 "JavaScript, um sich zu registrieren."
@@ -5423,9 +5427,10 @@ msgstr ""
 "Sie müssen wahrscheinlich Ihren Administrator, %1, fragen, um das zu tun."
 
 #: core/templates/messages.tmpl:487
+#, fuzzy
 msgid ""
-"You cannot proceed because either Cookies or Javascript are disabled in your "
-"browser."
+"You cannot proceed because either Cookies or !JavaScript are disabled in "
+"your browser."
 msgstr ""
 "Sie können nicht fortfahren, weil Cookies oder !JavaScript in Ihrem Browser "
 "deaktiviert sind."
@@ -5627,7 +5632,7 @@ msgstr ""
 msgid "Your signature to copy/paste"
 msgstr "Ihre Signatur zum Kopieren/Einfügen"
 
-#: core/templates/edit.tmpl:43
+#: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
 msgstr "Ihre Signatur zum Kopieren/Einfügen"
 
@@ -5668,6 +5673,7 @@ msgstr ""
 "VARIABLENNAME [Leerzeichen] = [Wert]"
 
 # please enter the name of your language here (written in the native language):
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
 msgstr "Deutsch"
@@ -5724,8 +5730,8 @@ msgstr "Auswahlboxen von referenzierten Topics"
 msgid "close display options"
 msgstr "Anzeigeoptionen schließen"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "Das Formular sollte in Topic %1 definiert werden"
@@ -5818,7 +5824,7 @@ msgstr "oder"
 msgid "preview"
 msgstr "Vorschau"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "public view access"
 msgstr "öffentlich einsehbar"
 
@@ -5830,16 +5836,16 @@ msgstr "wiederherstellen"
 msgid "restore form"
 msgstr "Formular wiederherstellen"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "restrict access to %1"
 msgstr "Zugriff zu %1 beschränken"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
 msgid "restrict read access to users that have an account on this site"
 msgstr "Lesezugriff auf Benutzer beschränken, die ein Benutzerkonto haben"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict write access to users that have an account on this site"
 msgstr "Schreibzugriff auf Benutzer beschränken, die ein Benutzerkonto haben"
 
@@ -5857,16 +5863,16 @@ msgstr "Revision %1"
 msgid "set preferences"
 msgstr "Einstellungen ändern"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:142
+#: NatEditPlugin/templates/edit.natedit.tmpl:173
 msgid "specify a list of users and/or groups"
 msgstr "Eine Liste von Benutzern/Gruppen angeben"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
 msgstr "Jeglichen Zugriff zu diesem Topic sperren"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "strictly deny write access to this topic"
 msgstr "Jeglichen Schreibzugriff zu diesem Topic sperren"
 

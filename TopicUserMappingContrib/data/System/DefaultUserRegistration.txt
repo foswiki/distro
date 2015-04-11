@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427072400" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1428712476" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -106,7 +106,7 @@
 
 %STARTSECTION{"note:registrationOk"}%<strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong>%ENDSECTION{"note:registrationOk"}%
 
-%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you wish to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you wish to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
+%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled !JavaScript. Please switch on !JavaScript if you wish to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you wish to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
 
 
 <!--
@@ -470,4 +470,4 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 -->
 </noautolink>
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" user="ProjectContributor" date="1427072400" size="2027" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" user="ProjectContributor" date="1428712476" size="2027" version="1"}%

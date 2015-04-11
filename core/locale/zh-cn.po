@@ -991,7 +991,7 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
-#: NatEditPlugin/templates/edit.natedit.tmpl:59
+#: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
@@ -1000,12 +1000,12 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:47 core/templates/foswiki.tmpl:130
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "取消"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "取消编辑并放弃变更"
@@ -1432,8 +1432,8 @@ msgstr "亲爱的 %1"
 msgid "Debug"
 msgstr "除错"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 #, fuzzy
 msgid "Default"
 msgstr "预设范本"
@@ -1476,7 +1476,7 @@ msgstr "版本"
 msgid "Detailed topic list for %1 Web"
 msgstr "在%1子网中的子主题"
 
-#: core/lib/Foswiki/Form.pm:422
+#: core/lib/Foswiki/Form.pm:425
 msgid "Details in separate window"
 msgstr "细节显示于新视窗"
 
@@ -1752,7 +1752,7 @@ msgstr "主题保存失败"
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
 msgid "Everybody"
 msgstr ""
 
@@ -1937,7 +1937,7 @@ msgstr "回浏览器上一页并储存本地所有变更。"
 
 #: core/templates/messages.tmpl:488
 msgid ""
-"Go back to the previous page, and enable Cookies and Javascript before "
+"Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
 
@@ -2009,7 +2009,7 @@ msgstr ""
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:86
+#: NatEditPlugin/templates/edit.natedit.tmpl:85
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
 #: NatEditPlugin/templates/settings.natedit.tmpl:21
 #: NatEditPlugin/templates/settings.natedit.tmpl:24
@@ -2456,8 +2456,8 @@ msgstr "还原主题至这个版本"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Just me"
 msgstr ""
 
@@ -2846,8 +2846,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "没有用户重设密码."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Nobody"
 msgstr ""
 
@@ -3063,8 +3063,8 @@ msgstr "密码不相同"
 msgid "Pending registration not found"
 msgstr "不支援新用户注册"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:101
+#: NatEditPlugin/templates/edit.natedit.tmpl:99
 #, fuzzy
 msgid "Permissions"
 msgstr "修订版"
@@ -3201,7 +3201,7 @@ msgstr "请确认 %1 的拼写正确并重试。若仍不成功，请发邮件�
 msgid "Please notify your %1 administrator."
 msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:56
+#: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
 msgstr ""
 
@@ -3346,8 +3346,8 @@ msgstr "注册"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 #, fuzzy
 msgid "Registered users"
 msgstr "注册"
@@ -3407,7 +3407,7 @@ msgstr "相关主题"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:669
+#: core/data/System/CommandAndCGIScripts.txt:688
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3424,9 +3424,10 @@ msgid "Remember me on this computer"
 msgstr "在此电脑上记住我"
 
 #: core/templates/registermessages.tmpl:292
+#, fuzzy
 msgid ""
-"Remember to update your user topic if you want your e-mail change to be "
-"reflected there as well."
+"Remember to update your user topic [[%1]] if you want your e-mail change to "
+"be reflected there as well."
 msgstr "请记得更新您用户主题中的邮件位址，以反应实情。"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
@@ -3640,7 +3641,7 @@ msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，P = 预览�
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:58
+#: NatEditPlugin/templates/edit.natedit.tmpl:57
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
 #, fuzzy
 msgid "Save"
@@ -3780,7 +3781,7 @@ msgstr "查看更完整的 %1."
 msgid "See also:"
 msgstr "也可查看:"
 
-#: core/templates/edit.tmpl:51
+#: core/templates/edit.tmpl:50
 msgid "See below for help in editing this page."
 msgstr "编辑此页请参考以下说明."
 
@@ -3829,7 +3830,7 @@ msgstr "选择父主题:"
 msgid "Select topic parent"
 msgstr "选择父主题:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:43
+#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "在您输入的段落底部选择/复制/贴上您的签名文字"
 
@@ -3957,8 +3958,8 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr "空格已以下划线替代"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:144
+#: NatEditPlugin/templates/edit.natedit.tmpl:175
 msgid "Specific users/groups"
 msgstr ""
 
@@ -4060,7 +4061,8 @@ msgid "Superscript"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-msgid "Switch to monotype or propotional font"
+#, fuzzy
+msgid "Switch to monotype or proportional font"
 msgstr "切换到等宽或等比的字体"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
@@ -4091,7 +4093,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "范本 %1 不存在"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:83
+#: NatEditPlugin/templates/edit.natedit.tmpl:82
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
@@ -4977,11 +4979,11 @@ msgstr ""
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:152
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:116
 msgid "Users who may view:"
 msgstr ""
 
@@ -5131,8 +5133,8 @@ msgstr "警告: \\'include\\' 的主题不存在！"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
-"We noticed you have disabled Javascript. Please switch on Javascript if you "
-"wish to register."
+"We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+"you wish to register."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
@@ -5322,8 +5324,8 @@ msgstr "或许您需要询问管理员 %1 以进行这个工作。"
 
 #: core/templates/messages.tmpl:487
 msgid ""
-"You cannot proceed because either Cookies or Javascript are disabled in your "
-"browser."
+"You cannot proceed because either Cookies or !JavaScript are disabled in "
+"your browser."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:194
@@ -5491,7 +5493,7 @@ msgstr "您的注册确认电子邮件寄送失败，或在邮件系统中等待
 msgid "Your signature to copy/paste"
 msgstr "复制/贴上您的签名"
 
-#: core/templates/edit.tmpl:43
+#: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
 msgstr "复制/贴上您的签名:"
 
@@ -5526,6 +5528,7 @@ msgid ""
 msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
 msgstr "简体中文"
@@ -5583,8 +5586,8 @@ msgstr "勾选参考主题"
 msgid "close display options"
 msgstr "更多主题功能..."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "主题 %1 内应定义此表单"
@@ -5679,7 +5682,7 @@ msgstr "或"
 msgid "preview"
 msgstr "预览"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 #, fuzzy
 msgid "public view access"
 msgstr "所有公开的子网"
@@ -5694,16 +5697,16 @@ msgstr "还原"
 msgid "restore form"
 msgstr "还原主题"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5723,16 +5726,16 @@ msgstr "(修订版 %1)"
 msgid "set preferences"
 msgstr "(设定属性)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:142
+#: NatEditPlugin/templates/edit.natedit.tmpl:173
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "strictly deny write access to this topic"
 msgstr ""
 

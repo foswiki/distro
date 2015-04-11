@@ -415,7 +415,7 @@ sub changePasswordAndOrEmail {
         web    => $webName,
         topic  => $topic,
         def    => 'email_changed',
-        params => [$email]
+        params => [ $email, Foswiki::Func::getWikiUserName($login) ]
     );
 }
 
