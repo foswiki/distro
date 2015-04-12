@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 use Assert;
+use Error qw( :try );
 
 use Foswiki                         ();
 use Foswiki::Users::BaseUserMapping ();
@@ -328,7 +329,7 @@ while ( $wit->hasNext() ) {
             # it iterates over all files in the pub dir in these file-based
             # stores.
             #
-            my $att_it = $source_store->eachAttachment($top_meta);
+            my $att_it = $source_store->eachAttachment( $top_meta, 1 );
             die $source_store unless defined $att_it;
             while ( $att_it->hasNext() ) {
                 my $att_name = $att_it->next();
@@ -381,52 +382,67 @@ while ( $wit->hasNext() ) {
                 }
 
                 # avoid copying the same rev twice
+                no warnings 'uninitialized';
                 next if $att_tx{"$att_name:$att_version"};
                 $att_tx{"$att_name:$att_version"} = 1;
+                use warnings 'uninitialized';
 
-                my $stream =
-                  $source_store->openAttachment( $top_meta, $att_name, '<',
-                    version => $att_version );
+                try {
+                    my $stream =
+                      $source_store->openAttachment( $top_meta, $att_name, '<',
+                        version => $att_version );
 
-                if ($validate) {
-                    my $path = $top_meta->getPath() . ":$topic_version";
-                    $path .= "/$att_name:$att_version";
+                    if ($validate) {
+                        my $path = $top_meta->getPath() . ":$topic_version";
+                        no warnings 'uninitialized';
+                        $path .= "/$att_name:$att_version";
+                        use warnings 'uninitialized';
 
-                    # Ensure getVersionInfo are consistent
-                    my $source_info =
-                      $source_store->getVersionInfo( $top_meta, $att_version,
-                        $att_name );
+                        # Ensure getVersionInfo are consistent
+                        my $source_info =
+                          $source_store->getVersionInfo( $top_meta,
+                            $att_version, $att_name );
 
-                    switch_dirs(1);
+                        switch_dirs(1);
 
-                    # Reread the meta from the target store
-                    my $target_info =
-                      $target_store->getVersionInfo( $top_meta, $att_version,
-                        $att_name );
-                    switch_dirs(0);
+                        # Reread the meta from the target store
+                        my $target_info =
+                          $target_store->getVersionInfo( $top_meta,
+                            $att_version, $att_name );
+                        switch_dirs(0);
 
-                    # Case 3: The META:FILEATTACHMENT carries date and author
-                    # fields. However these can drift from the history due
-                    # to changes to attachments not reflected in the topic
-                    # meta-data. So the only source we trust is
-                    # getVersionInfo().
-                    validate_info( $path, $source_info, $target_info );
+                       # Case 3: The META:FILEATTACHMENT carries date and author
+                       # fields. However these can drift from the history due
+                       # to changes to attachments not reflected in the topic
+                       # meta-data. So the only source we trust is
+                       # getVersionInfo().
+                        validate_info( $path, $source_info, $target_info );
 
+                    }
+                    else {
+                        switch_dirs(1);
+
+                        # Save attachment
+                        no warnings 'uninitialized';
+                        print "... copy attachment $att_name rev $att_version"
+                          . " as $att_user\n"
+                          if $verbose;
+                        use warnings 'uninitialized';
+
+                        # SMELL: there's no way to force the date of the
+                        # copied attachment
+                        $target_store->saveAttachment( $top_meta, $att_name,
+                            $stream, $att_user );
+                        switch_dirs(0);
+                    }
                 }
-                else {
-                    switch_dirs(1);
+                catch Error::Simple with {
+                    my $e = shift;
 
-                    # Save attachment
-                    print "... copy attachment $att_name rev $att_version"
-                      . " as $att_user\n"
-                      if $verbose;
-
-                    # SMELL: there's no way to force the date of the
-                    # copied attachment
-                    $target_store->saveAttachment( $top_meta, $att_name,
-                        $stream, $att_user );
-                    switch_dirs(0);
-                }
+                    #print STDERR  $e->stringify();
+                    print STDERR
+"ATTACHMENT IS A DIRECTORY: Sub-directory $att_name of $web_name.$top_name NOT COPIED!\n";
+                };
             }
         }
     }

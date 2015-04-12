@@ -766,7 +766,7 @@ sub recordChange {
 
 =begin TML
 
----++ ObjectMethod eachAttachment( $topicObject ) -> \$iterator
+---++ ObjectMethod eachAttachment( $topicObject, $incDir ) -> \$iterator
 
 Return an iterator over the list of attachments stored for the given
 topic. This will get a list of the attachments actually stored for the
@@ -775,6 +775,12 @@ topic meta-data, which only lists the attachments that are normally
 visible to the user.
 
 the iterator iterates over attachment names.
+
+$incDir is an internal flag used by the change_store utility.  When set,
+the store will also return directory names, not just filenames.  When read,
+Store will throw an error.  This allows convert_store to warn of subdirectories
+that exist on disk, and are not changed.  Note that $incDir is only
+implemented by the RCS based store. It is ignored by PlainFile store
 
 =cut
 

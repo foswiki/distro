@@ -1285,6 +1285,12 @@ sub openStream {
         if ( $mode =~ />/ ) {
             $this->mkPathTo( $this->{file} );
         }
+        if ( -d $this->{file} ) {
+            throw Error::Simple( 'Rcs::Handler: stream open '
+                  . $this->{file}
+                  . ' failed: '
+                  . 'Read requested on directory.' );
+        }
         unless ( open( $stream, $mode, $this->{file} ) ) {
             throw Error::Simple( 'Rcs::Handler: stream open '
                   . $this->{file}
@@ -1386,18 +1392,26 @@ sub synchroniseAttachmentsList {
 
 =begin TML
 
----++ ObjectMethod getAttachmentList() -> @list
+---++ ObjectMethod getAttachmentList( $incDir ) -> @list
 
 Get list of attachment names actually stored for topic.
+
+$incDir, if true, will cause subdirectories of the pub attachment directory
+to be included in the list.  This is used by change_store to report
+sub-directories that were not copied into the new store. This is not used in
+normal Foswiki operation.
 
 =cut
 
 sub getAttachmentList {
     my $this = shift;
-    my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    my $incDir =
+      shift;    # Internal flag for change_store, returns directory names.
+    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
     opendir( $dh, $dir ) || return ();
-    my @files = grep { !/^[.*_]/ && !/,v$/ && -f "$dir/$_" } readdir($dh);
+    my @files =
+      grep { !/^[.*_]/ && !/,v$/ && ( $incDir || -f "$dir/$_" ) } readdir($dh);
     closedir($dh);
     return @files;
 }

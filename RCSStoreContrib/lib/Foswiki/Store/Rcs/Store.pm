@@ -687,10 +687,14 @@ sub getApproxRevTime {
 }
 
 sub eachAttachment {
-    my ( $this, $topicObject ) = @_;
+    my ( $this, $topicObject, $incDir ) = @_;
+
+    # $incDir flag is used by change_store.pl to find subdirectories that
+    # cannot be converted into the new store.   It is not used during normal
+    # Foswiki operation
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
-    my @list = $handler->getAttachmentList();
+    my @list = $handler->getAttachmentList($incDir);
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@list );
 }
