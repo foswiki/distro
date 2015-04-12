@@ -325,9 +325,16 @@ while ( $wit->hasNext() ) {
             #    or with a history that lacks the revision specified in the
             #    META:FILEATTACHMENT.
             #
+            # 4. Some topics, notably TinyMCEPlugin and JQueryPlugin, save data
+            #    into subdirectories below the pub/Web/Topic directory.  This
+            #    data is normally invisible to Store.  It cannot be copied
+            #    by this utility.
+            #
             # We use eachAttachment rather than META:FILEATTACHMENT because
             # it iterates over all files in the pub dir in these file-based
-            # stores.
+            # stores.   The 2nd option '1', causes eachAttachment to also
+            # return subdirectory names.  They can't be read, but they will
+            # cause an error that is caught and reported.
             #
             my $att_it = $source_store->eachAttachment( $top_meta, 1 );
             die $source_store unless defined $att_it;
@@ -437,6 +444,8 @@ while ( $wit->hasNext() ) {
                     }
                 }
                 catch Error::Simple with {
+
+                    # Case 4: came across a subdirectory that cannot be copied.
                     my $e = shift;
 
                     #print STDERR  $e->stringify();
