@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-08 05:02+0200\n"
+"PO-Revision-Date: 2015-04-12 22:35+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -24,7 +24,7 @@ msgstr "%*(%1,dag) "
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
-msgstr "%*(%1,time)"
+msgstr "%*(%1,time) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:488
@@ -87,7 +87,7 @@ msgstr "%1 er godkjent og registrert med epost %2"
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr "%1 har redigert siden for %2 og leien er aktiv for ytterligere %3."
+msgstr "%1 har redigert siden i %2 og leien er aktiv for ytterligere %3."
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
@@ -229,11 +229,11 @@ msgstr "(legg ved)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
-msgstr "(referanser i %1 Web)"
+msgstr "(referanser i %1 weben)"
 
 #: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
-msgstr "(referanser i alle Web)"
+msgstr "(referanser i alle web)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
@@ -306,15 +306,15 @@ msgstr "(ingen)"
 
 #: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "(otherwise search %1 Web only)"
-msgstr "(eller søk kun i %1 Web)"
+msgstr "(eller søk kun i %1 web)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
-msgstr "(wiki tekst)"
+msgstr "(rå tekst)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
-msgstr "(viderekobling nektes)"
+msgstr "(videresending nektes)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -444,7 +444,7 @@ msgstr "*avsnitt* separer med en blank linje"
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][Vår hjemmeside]]="
+"*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:93
 msgid "..."
@@ -507,12 +507,12 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Bekreftelse kreves!</strong> Trykk OK for å bekrefte at denne "
-"endringen virkelig var ment<br />Hvis ikke trykk Avbryt"
+"<strong>Bekreftelse påkrevd!</strong> Trykk OK for å bekrefte at denne "
+"endringen er riktig<br />Trykk Avbryt hvis ikke"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "En =.txt= endelse legges til noen av filnavnene av sikkerhetshensyn"
+msgstr "=.txt= legges til noen av filnavnene av sikkerhetshensyn"
 
 #: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
@@ -613,7 +613,7 @@ msgstr "Legg til medlemmer"
 
 #: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
-msgstr "Legg til medlemmer..."
+msgstr "Legg til brukere..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -622,7 +622,7 @@ msgstr "Ny rad"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "Legg til brukerbehandlingsvalg for denne siden..."
+msgstr "Legg til valg for brukerbehandling på denne siden."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -736,7 +736,7 @@ msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
 "Legg ved et bilde eller dokument til denne siden; administrer eksisterende "
-"vedlegg (a) "
+"vedlegg (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -827,7 +827,7 @@ msgstr "Tilgjengelige skjema-maler"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Tilgjenglige maler i %1 web'en:"
+msgstr "Tilgjenglige maler i %1 web:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -935,7 +935,7 @@ msgstr "Kategorier"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
-msgstr "Endre epost adresse"
+msgstr "Endre Epost Adresse"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -993,7 +993,7 @@ msgstr "Endret av"
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
-msgstr "Endret"
+msgstr "Endret den"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1197,7 +1197,7 @@ msgstr "Lag ny FAQ side"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
 msgid "Create new topic"
-msgstr "Lag nytt dokument"
+msgstr "Lag ny side"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
@@ -1399,7 +1399,7 @@ msgstr "Rediger"
 
 #: core/data/System/VarMAKETEXT.txt:60
 msgid "Edit %*(%1,file)"
-msgstr "Rediger %*(%1,fil) "
+msgstr "Rediger %*(%1,fil)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1449,7 +1449,7 @@ msgstr "Navnet er feil eller peker til et skjema som ikke eksisterer."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr "Navnet er feil eller det peker til en side som ikke eksisterer."
+msgstr "Navnet er feil eller peker til en side som ikke eksisterer."
 
 #: core/templates/messages.tmpl:424
 msgid ""
@@ -1638,7 +1638,7 @@ msgstr "Få varsler om endringer på dette søket"
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
-msgstr "Globe"
+msgstr "Globus"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
 #: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
@@ -1650,8 +1650,8 @@ msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Gå tilbake i nettleseren din og fyll inn informasjon i alle obligatoriske "
-"felter"
+"Gå tilbake i nettleseren din og fyll inn alle obligatoriske felter før du "
+"lagrer igjen"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -2106,7 +2106,7 @@ msgstr "Logg inn med ditt brukernavn og passord"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
-msgstr "Login"
+msgstr "Logg Inn"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2122,7 +2122,7 @@ msgstr "Logg på"
 
 #: core/templates/foswiki.tmpl:43
 msgid "Logout"
-msgstr "Logg ut"
+msgstr "Logg Ut"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2335,7 +2335,7 @@ msgstr "Ikke anbefalt ved sletting av en side."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
-msgstr "Er dette riktig, vennligst bekreft!"
+msgstr "Er dette riktig? Vennligst bekreft!"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2359,7 +2359,7 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
-"Merk: du må ha informasjonskapsler (Cookies) og Javascript aktivert i "
+"Merk: du må ha informasjonskapsler (cookies) og Javascript aktivert i "
 "nettleseren for å kommer videre fra dette skjermbildet. Det har man som "
 "regel, men hvis noe ikke fungerer så er det de første tingene du må sjekke."
 
@@ -2642,7 +2642,7 @@ msgstr "Stille lagring"
 #: PatternSkin/data/_default/WebLeftBar.txt:10
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
-msgstr "RSS Feed"
+msgstr "RSS Strøm"
 
 #: core/templates/registernotify.tmpl:10
 msgid ""
@@ -3007,7 +3007,7 @@ msgstr "Se %1 for informasjon om Skjemadefinisjoner."
 #: core/templates/messages.tmpl:527 core/templates/messages.tmpl:560
 #: core/templates/messages.tmpl:570
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr "Se resultatet i %MAINWEB%.WikiGroups."
+msgstr "Se i %MAINWEB%.WikiGroups for resultater."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -3314,7 +3314,9 @@ msgstr "Web %1 av %2."
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr "%1 web'en til Foswiki, den åpne og frie Wiki'en."
+msgstr ""
+"%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
+"Source Wiki)."
 
 #: core/templates/messages.tmpl:475
 msgid "The =%1= script can only be called with POST method."
@@ -3322,7 +3324,7 @@ msgstr "Skriptet =%1= kan kun kalles med metoden POST."
 
 #: core/templates/messages.tmpl:167
 msgid "The Administrator has disabled new user registration."
-msgstr "Administratoren har deaktiver registrering av nye brukere."
+msgstr "Administratoren har deaktivert registrering av nye brukere."
 
 #: core/templates/messages.tmpl:176
 msgid "The Administrator has disabled password changes."
@@ -3465,7 +3467,7 @@ msgstr "Den nye siden som er valgt må finnes fra før."
 
 #: core/templates/messages.tmpl:16
 msgid "The new web has been created"
-msgstr "Den nye web'en er nå lagd"
+msgstr "Den nye web'en er opprettet"
 
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
@@ -3968,7 +3970,7 @@ msgstr "Vis forrige versjon av siden"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
-msgstr "Vis wiki tekst uten formatering"
+msgstr "Vis rå tekst uten formatering"
 
 #: core/templates/more.tmpl:146
 msgid "View revision"
@@ -4482,7 +4484,7 @@ msgstr "og"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "av %1"
+msgstr "av %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
@@ -4532,7 +4534,7 @@ msgstr "tips om god stil"
 
 #: core/templates/more.tmpl:143
 msgid "in raw text format"
-msgstr "i wiki tekst format"
+msgstr "i rå tekst format"
 
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
@@ -4608,7 +4610,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Rediger Wiki tekst' accesskey='w'>Rediger &wiki tekst"
+msgstr "title='Rediger wiki tekst' accesskey='w'>Rediger &wiki tekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4616,7 +4618,7 @@ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Fletting' accesskey='i'>flett&ing"
+msgstr "title='Fletting' accesskey='i'>Flett&ing"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4642,7 +4644,7 @@ msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Side ved side' accesskey='s'>side ved &side"
+msgstr "title='Side ved side' accesskey='s'>Side ved &side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
@@ -4664,7 +4666,7 @@ msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
 #: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Vis wiki tekst uten formatering' accesskey='v'>&Vis wiki tekst"
+msgstr "title='Vis tekst uten formatering' accesskey='v'>&Vis Wiki Tekst"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:31
 msgid "user list truncated"
