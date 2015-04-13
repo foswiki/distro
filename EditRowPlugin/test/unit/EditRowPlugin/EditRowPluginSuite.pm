@@ -18,10 +18,10 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 }
 
-sub test_Item13352 {
+sub test_Item13352_unbalanced_verbatim {
     my $this = shift;
     my $in   = <<INPUT;
-   * Set ENDCOLOR = </span> </verbatim>
+   * Set ENDCOLOR = </span></verbatim>
 %RED%Some red text%ENDCOLOR%
 
 | A | B |
@@ -47,6 +47,9 @@ INPUT
         }
     }
     $this->assert_equals( <<'EXPECTED', $data );
+LL    * Set ENDCOLOR = </span></verbatim>
+LL %RED%Some red text%ENDCOLOR%
+LL 
 EDITTABLE_0:
 | A | B |
 EDITTABLE_1:

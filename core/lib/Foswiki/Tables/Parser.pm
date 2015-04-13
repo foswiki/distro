@@ -115,6 +115,9 @@ sub parse {
         foreach my $tag ( $line =~ m/<(\/?(?:verbatim|literal)).*?>/g ) {
             $tag =~ m#^(/)?(.*)$#;
             $scope{$2} += ($1) ? -1 : 1;
+            print STDERR "scope{$2}  UNBALANCED\n"
+              if ( ( $scope{$2} < 0 ) && TRACE );
+            $scope{$2} = 0 if ( $scope{$2} < 0 );
             print STDERR "scope{$2} = $scope{$2}\n" if TRACE;
         }
 
