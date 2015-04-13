@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-08 10:46+0200\n"
+"PO-Revision-Date: 2015-04-13 08:00+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -620,7 +620,6 @@ msgstr ""
 "En side med dette navn har eksisteret men er blevet omd�ller flyttet til %1."
 
 #: core/templates/registerapprove.tmpl:9
-#, fuzzy
 msgid "A user requires your approval to complete their registration"
 msgstr "En bruger behøver din bekræftelse for at gennemføre registreringen"
 
