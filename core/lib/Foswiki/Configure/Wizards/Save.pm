@@ -240,8 +240,8 @@ sub save {
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             my $spec = $root->getValueObject($k);
-            eval("\$spec->{old_value} = \$Foswiki::cfg$k");
-            if ( defined $v && !ref($v) ) {
+            eval("\$spec->{old_value} = \$Foswiki::cfg$k") if $spec;
+            if ( $spec && defined $v && !ref($v) ) {
                 $v =~ m/^(.*)$/s;
                 $v = $1;                      # untaint
                 $spec->{saving_value} = $v;
