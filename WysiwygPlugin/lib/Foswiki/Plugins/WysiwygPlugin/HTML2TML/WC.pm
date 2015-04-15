@@ -387,9 +387,8 @@ sub safeEntities {
 our $representable_entities;
 our $encoded_nbsp;
 
-# Given a string encoded using {Site}{CharSet}, decode all entities in
-# it that can be mapped to the encoding, and return a string encoded
-# used the {Site}{CharSet}
+# Given a unicode string, decode all entities in it that can be mapped
+# to the current site encoding
 sub decodeRepresentableEntities {
     if ( !$representable_entities ) {
         if ( WC::site_encoding() =~ /^utf-?8/ ) {
@@ -417,16 +416,13 @@ sub decodeRepresentableEntities {
             }
         }
 
-        # &nbsp; encodes to unicode code point 160. However in a wide-byte
-        # character set (like utf-8) this high-bit character will be
-        # encoded as a tuple. Since we return octets from this function,
-        # we need to determine which octets refer to a entity-decoded,
-        # sit-charset-encoded, &nbsp;
+        # Remember what &nbsp; expands to (may be a single char, may be
+        # a codepoint, depending on the site encoding) as we want to
+        # may this codepoint back to $WC::NBSP
         $encoded_nbsp = '&nbsp;';
         HTML::Entities::_decode_entities( $encoded_nbsp,
             $representable_entities );
         ASSERT( $encoded_nbsp ne '&nbsp;' ) if DEBUG;
-        $encoded_nbsp = Encode::encode( WC::site_encoding(), $encoded_nbsp );
     }
     HTML::Entities::_decode_entities( $_[0], $representable_entities );
 
