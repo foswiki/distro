@@ -1002,19 +1002,12 @@ sub generateHTTPHeaders {
     # add http compression and conditional cache controls
     if ( !$this->inContext('command_line') && $text ) {
 
-        if (
-            $Foswiki::cfg{HttpCompress}
-            && (
-                (
-                       $ENV{'HTTP_ACCEPT_ENCODING'}
-                    && $ENV{'HTTP_ACCEPT_ENCODING'} =~ m/(x-gzip|gzip)/i
-                )
+        if ( $Foswiki::cfg{HttpCompress}
+            && ( $ENV{'HTTP_ACCEPT_ENCODING'} || $ENV{'SPDY'} ) )
+        { # SMELL: SPDY is a non-standard way to detect spdy protocol set by web server
+            my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';
+            $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
 
-                || $ENV{'SPDY'}
-            )
-          )  # SMELL: non-standard way to detect spdy protocol set by web server
-        {
-            my $encoding = $1 || 'gzip';
             $hopts->{'Content-Encoding'} = $encoding;
             $hopts->{'Vary'}             = 'Accept-Encoding';
 
