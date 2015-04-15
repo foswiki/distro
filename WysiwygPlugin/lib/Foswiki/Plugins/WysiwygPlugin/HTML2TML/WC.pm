@@ -429,7 +429,6 @@ sub decodeRepresentableEntities {
         $encoded_nbsp = Encode::encode( WC::site_encoding(), $encoded_nbsp );
     }
     HTML::Entities::_decode_entities( $_[0], $representable_entities );
-    $_[0] = Encode::encode( WC::site_encoding(), $_[0] );
 
     # Replace expansion of &nbsp; with $WC::NBSP
     $_[0] =~ s/$encoded_nbsp/$WC::NBSP/g;

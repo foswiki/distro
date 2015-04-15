@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1429105830" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -68,7 +68,7 @@ You can also set preference settings in a topic by clicking the link =Edit topic
 into the topic metadata  by using the "Edit Settings for this topic" button on the "More topic actions" page.  Settings in an included topic are always ignored,
 but nested comments will break the HTML.</div>
 
----+++ Order of perference settings
+---+++ Order of preference settings
 
 If you are setting a preference and using it in the same topic, note that Foswiki reads all the preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
 
@@ -130,4 +130,4 @@ controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
 </div>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1421598394" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1429105830" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
