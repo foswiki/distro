@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1428101623" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1429215340" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Installation Guide Part 2
 
@@ -218,11 +218,16 @@ To change the copyright statement, perform the following steps:
    * You can create a unique message for a specific web by setting the =WEBCOPYRIGHT= preference in the =%WEBPREFSTOPIC%= topic for the given web. For example, you could add a confidential classification to a web that has restricted access.
    * The =WEBCOPYRIGHT= preference setting in [[%SYSTEMWEB%.%WEBPREFSTOPIC%]] covers the documentation that comes with Foswiki, and should not be changed.
 
----++++ WYSIWYG vs Raw Edit
+---++++ WYSIWYG vs Nat Edit, vs Wiki text editor
 
-In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit Raw_ link is available for those who prefer to edit the raw topic text.
+Foswiki has 3 editors available:
+   * The WYSIWYG editor:  !TinyMCE.   This is the default editor.
+   * The !NatEdit "Natural Editor".  This editor is used when the "Edit wiki text" button is pressed, or if the =NOWYSIWYG= preference is set.
+   * The original "Wiki text" editor is only used if the SKIN setting is changed to  eliminate the "natedit" option.   =SKIN = pattern=  vs. =SKIN = natedit,pattern=
 
-If you prefer to use the raw text editor by default and have a separate WYSIWYG button, as in TWiki 4.1, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
+In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit Wiki text_ link is available for those who prefer to edit the topic markup language (TML). Note that both of these editors, !TinyMCE and !NatEdit, require that javascript is enabled.
+
+If you prefer to use the wiki text editor by default and have a separate WYSIWYG button, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
 
 ---+++ Extensions
 
@@ -236,36 +241,36 @@ Extensions can be installed using any of several different methods:
    * the [[%SCRIPTURL{configure}%][configure]] web interface under the Extensions tab
    * the generic shell installer =tools/extension_installer=
    * by manually downloading the extension zip or tar file
-%X%Caution: Users of the debian =.deb= packages should only use the debian tools when installing extensions.
+%X%Caution: Users of the debian =.deb= or RedHat =.rpm= packages should only use the system package tools when installing extensions.  Don't use the Foswiki extension installer.
 
-The simplest way is to visit [[%SCRIPTURL{configure}%][configure -> Extensions tab]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+The simplest way is to visit [[%SCRIPTURL{configure}%][configure -> Extensions tab]], _Extensions operation and Mantenance_, _Install, update or remove extensions_ subtabs. Use the _Search for Extensions_ or _All available extensions_
+buttons to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually.
+Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used
    * The extension is downloaded from the configured archive
       * The latest version of the Extension is always downloaded.  There is no automatic means of downloading older versions.
    * If the extension is already installed, a backup is taken to the =working/configure/backup= directory
-   * Dependencies on other Extensions are automatically resolved and installed
+   * Dependencies on other Extensions are automatically resolved and installed unless the "no dependencies" option is selected.
       * Dependencies are downloaded from the _same archive_ where the Extension was found.  No additional searching is performed.
    * The Extension is installed.
-      * By default, unless a collsion occurrs with an existing file, the Extension's topics will not be _checked in_ to the revision control system.
+      * Unless a collision occurrs with an existing file, the Extension's topics will not be _checked in_ to the revision control system.
       * If previous topics or attachments are found, then the topic will be _checked in_ under the Administrators user id.
-      * If the topics or attachments are flagged as =!noci=, disabling checkin, they will still be checked in if existing revision control files are found, suggesting that local modifications have occurred.
    * CPAN dependencies and other external packages are *not* resolved and should be resolved manually
 
 When installing extensions from the command line:
    * The =_installer= package must be run from the root directory of the Foswiki installation. 
    * The Extension =_installer= module must be downloaded from the Extension repository. The extension archive will be downloaded if required.
-   * When the =_installer= is run, it will install the Extension and dependencies similar to the =configure= interface except:
+   * When the =_installer= is run, it will install the Extension and extension dependencies similar to the =configure= interface except:
       * You will be given the option to use local archives if available in the root of the Foswiki installation
-      * You will be given the option to resolve CPAN dependencies after the Extensions and dependencies are installed.
       * Any other dependencies still need to be manually resolved.
 
 When using either the web or shell instalation tools:
    * After installation, the Extension =_installer= module is saved in =working/configure/pkgdata=
    * A complete log of the actions taken by the installer is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
 
-__Plugins must be manually enabled in the _Plugins_ section of the =configure= page.__ In addition, some extensions also require configuration in this section.
+__Plugins are automatically enabled in the _Plugins_ section of the =configure= page.__ In addition, some extensions also require configuration in this section.
 
 The instructions for using the extensions installer from the shell are
 retrieved by using the "usage" command:  =tools/extension_installer usage= or
@@ -276,14 +281,14 @@ perl working/configure/pkgdata/X509UserPlugin_installer usage
 
 Usage as a custom installer:
 
-       X509UserPlugin_installer -a -n -d -r -u -c install
+       X509UserPlugin_installer -a -n -d -r -u -o install
        X509UserPlugin_installer -a -n uninstall
        X509UserPlugin_installer manifest
        X509UserPlugin_installer dependencies
 
 Usage as a generic installer:
 
-       tools/extension_installer X509UserPlugin -a -n -d -r -u -c install
+       tools/extension_installer X509UserPlugin -a -n -d -r -u -o install
        tools/extension_installer X509UserPlugin -a -n uninstall
        tools/extension_installer X509UserPlugin manifest
        tools/extension_installer X509UserPlugin dependencies
@@ -311,7 +316,7 @@ X509UserPlugin even if they have been locally modified.
 -u means the archive has already been downloaded and unpacked
 -n means don't write any files into my current install, just
    tell me what you would have done
--c means don't try to use CPAN to install missing libraries
+-o only install the extension, no dependencies.
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -352,23 +357,21 @@ unzip working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].zip
 
 ---+++ Web Acceleration (mod_perl, FastCGI, ...)
 
-Foswiki is installed by default supporting standard CGI scripts as well as CLI access.  For best performance, Foswiki can be accelerated using one of the several accelerators, however, *you must install the required Foswiki extension and host modules before enabling accelereation*!  See the listed extensions for more information.
+Foswiki is installed by default supporting standard CGI scripts as well as CLI access, and popular Perl accelerators.
 
-| Fast CGI | [[http://foswiki.org/Extensions/FastCGIEngineContrib][FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
-| mod_perl | [[http://foswiki.org/Extensions/ModPerlEngineContrib][ModPerlEngineContrib]] | supports the apache mod_perl extension |
+| Fast CGI | [[FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
+| mod_perl | [[ModPerlEngineContrib]] | supports the apache mod_perl extension |
 
 %X% *Caution*
-   * Ensure your site is fully configured and working before enabling either of these extensions.  They can be challenging to configure.  
    * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
-   * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
    * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
 
 %STOPINCLUDE%
 ---++ Troubleshooting
-   * See InstallationGuidePart1#Troubleshooting
+   * See InstallationGuide#Troubleshooting
 
 ---
- *Related Topics:* [[InstallationGuidePart1]], [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocuments
+ *Related Topics:* [[InstallationGuide]], [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocuments
 
 TWiki is a registered trademark of Peter Thoeny.
 <!-- %JQREQUIRE{"chili"}% -->

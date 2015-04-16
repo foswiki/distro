@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427842612" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1429215340" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -735,7 +735,7 @@ required
 <tr>
 <td>
  *Adjust heading levels:* %BR%
- You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt;= tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any .
+ You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt;= tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any offset is applied.
 </td><td>
 <pre>
 ---++ offset is 0
