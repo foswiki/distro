@@ -105,6 +105,10 @@ registermessages.tmpl
 %{==============================================================================}%
 %TMPL:DEF{"rename_web_err"}%
 %MAKETEXT{"During rename of web [_1] to [_2] an error ([_3]) was found. Please notify your [_4] administrator." args="<nop>%WEB%,<nop>%PARAM2%,%PARAM1%,%WIKITOOLNAME%"}%
+%{==============================================================================}%
+%TMPL:DEF{"invalid_web_parent"}%
+%MAKETEXT{"During rename of web [_1] to [_2] an error was found." args="<nop>%WEB%,%PARAM1%,"}%
+%MAKETEXT{"The new parent web ([_1]) may not be the same as the old or new web name." args="%PARAM2%"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"web_missing"}%

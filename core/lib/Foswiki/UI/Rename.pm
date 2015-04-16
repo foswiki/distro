@@ -419,6 +419,17 @@ sub _renameWeb {
         }
     }
 
+    if ( $newParentWeb eq $oldWeb
+        || ( defined $newWeb && $newParentWeb eq $newWeb ) )
+    {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $oldWeb,
+            def    => 'invalid_web_parent',
+            params => [ $newSubWeb, $newParentWeb ]
+        );
+    }
+
     if (   $oldWeb eq $Foswiki::cfg{SystemWebName}
         || $oldWeb eq $Foswiki::cfg{UsersWebName} )
     {
