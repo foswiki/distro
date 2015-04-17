@@ -691,6 +691,7 @@ lib/Foswiki/Query/Parser.pm 0444
 lib/Foswiki/Query/UnaryOP.pm 0444
 lib/Foswiki/Render.pm 0444
 lib/Foswiki/Render/Anchors.pm 0444
+lib/Foswiki/Render/HTML.pm 0444
 lib/Foswiki/Render/IconImage.pm 0444
 lib/Foswiki/Render/Moved.pm 0444
 lib/Foswiki/Render/Parent.pm 0444
