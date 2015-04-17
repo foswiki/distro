@@ -13,11 +13,15 @@ to attempt to complete the configuration.
 Any number of callable functions may be defined in a wizard.
 Each function _fn_ has the signature:
 
-=ObjectMethod _fn_ ($reporter) -> $boolean=
+=ObjectMethod _fn_ ($reporter, $spec) -> $boolean=
 
 Wizards can accept
 values from callers using the =$this->param()= method. Error messages
 etc are reported via the =Foswiki::Configure::Reporter $reporter=.
+
+$spec is the root of the type specification tree for configuration entries.
+This is provided primarily for wizards that need to modify it e.g.
+installers.
 
 Wizard functions may modify =$Foswiki::cfg=, but must report
 any such changes that have to persist using the

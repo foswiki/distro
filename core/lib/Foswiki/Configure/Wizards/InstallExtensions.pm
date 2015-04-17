@@ -130,7 +130,7 @@ Install an extension
 =cut
 
 sub add {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $spec ) = @_;
     my $seen = {};
 
     my $args = $this->param('args');
@@ -139,7 +139,7 @@ sub add {
         next unless $pkg;
 
         my $extension = $pkg->module();
-        unless ( $pkg->install($reporter) ) {
+        unless ( $pkg->install( $reporter, $spec ) ) {
             $reporter->ERROR( <<OMG );
 The Extension may not be usable due to errors. Installation terminated.
 OMG
