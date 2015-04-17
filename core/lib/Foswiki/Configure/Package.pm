@@ -326,7 +326,7 @@ the other of required CPAN dependencies.
 =cut
 
 sub install {
-    my ( $this, $supereporter ) = @_;
+    my ( $this, $supereporter, $spec ) = @_;
 
     my $reporter = LoggingReporter->new(
         $supereporter,
@@ -386,7 +386,7 @@ sub install {
             $reporter->NOTE("<verbatim>$rslt</verbatim>") if $rslt;
         }
 
-        $ok = $this->_install($reporter);    # and do the installation
+        $ok = $this->_install( $reporter, $spec );    # and do the installation
 
         return (0) unless $ok;
         if ( $this->can('postinstall')
@@ -451,6 +451,17 @@ HERE
             else {
                 eval("\$Foswiki::cfg${clef}{Enabled}=1");
                 $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+
+                # Add it to the $spec
+                $spec->addChild(
+                    Foswiki::Configure::Value->new(
+                        'BOOLEAN',
+                        LABEL   => $plu,
+                        keys    => "{Plugins}{$plu}{Enabled}",
+                        CHECKER => 'PLUGIN_MODULE',
+                        default => '1'
+                    )
+                );
             }
         }
 
@@ -463,6 +474,17 @@ HERE
             else {
                 eval("\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'");
                 $reporter->CHANGED("{Plugins}{$plu}{Module}");
+
+                # Add it to the $spec
+                $spec->addChild(
+                    Foswiki::Configure::Value->new(
+                        'STRING',
+                        LABEL   => "$plu Module",
+                        keys    => "{Plugins}{$plu}{Module}",
+                        CHECKER => 'PLUGIN_MODULE',
+                        default => 'Foswiki::Plugins::$plu'
+                    )
+                );
             }
         }
     }
@@ -719,7 +741,7 @@ sub _getMappedWebTopic {
 # Returns boolean status, reports progress to $reporter
 
 sub _install {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $rootspec ) = @_;
 
     my $dir = $this->option('DIR') || $this->{_root};
 
@@ -941,6 +963,12 @@ sub _install {
         # Pick up all Config.spec's
         if ( $file =~ m/\/Config.spec$/ && !$this->option('SIMULATE') ) {
             Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter );
+            if ($rootspec) {
+
+                # Also load it into the rootspec, so the caller has
+                # access to the value definition
+                Foswiki::Configure::LoadSpec::parse( $target, $rootspec );
+            }
         }
         $reporter->NOTE("> ${simulated}Installed:  $file as $target") if DEBUG;
     }

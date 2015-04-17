@@ -539,7 +539,9 @@ sub wizard {
     return { messages => $reporter->messages() }
       if $reporter->has_level('errors');
 
-    my $response = $target->$method($reporter);
+    # Most wizards won't need the $root, only those that actually
+    # modify it e.g. installers.
+    my $response = $target->$method( $reporter, $root );
     return $response if $response;
 
     # Note: we can't used the value recorded at CHANGED time because that
@@ -547,10 +549,9 @@ sub wizard {
     # real type of the value. For the real type we have to use the
     # Value's encoder.
     my %new_values;
-
     foreach my $k ( keys %{ $reporter->{changes} } ) {
         my $v = $root->getValueObject($k);
-        ASSERT( $v, "$k missing from Config.spec" ) if DEBUG;
+        ASSERT( $v, "$k missing from Config.spec $method" ) if DEBUG;
         $new_values{$k} = $v->encodeValue( eval("\$Foswiki::cfg$k") );
     }
 
