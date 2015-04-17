@@ -35,6 +35,13 @@ sub textarea {
     my $id       = $ah->{id};
     my $default  = $ah->{default};
 
+    #$default =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
+
+    $default =~ s/&/&amp;/g;
+    $default =~ s/</&lt;/g;
+    $default =~ s/>/&gt;/g;
+    $default =~ s/"/&quot;/g;
+
     print STDERR Data::Dumper::Dumper( \$ah );
 
     my $html = '<textarea ';

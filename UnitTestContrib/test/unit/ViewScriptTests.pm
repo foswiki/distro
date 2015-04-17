@@ -37,7 +37,7 @@ my $topic2metaQ = $topic2meta;
 $topic2metaQ =~ s/"/&quot;/g;
 
 my $topic2txtarea =
-'<textarea name=""  rows="22" cols="70" readonly="readonly" style="width:99%" id="topic" class="foswikiTextarea foswikiTextareaRawView">';
+"<textarea class='foswikiTextarea foswikiTextareaRawView' cols='70' readonly='readonly' rows='22' style='width:99%' id='topic'>";
 
 my $topic2rawON = $topic2;
 $topic2rawON =~ s/</&lt;/g;
@@ -246,6 +246,7 @@ sub test_render_raw {
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on' );
+
     $this->assert_html_matches( $topic2txtarea . $topic2rawON,
         $text, "Unexpected output from raw=on" );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
