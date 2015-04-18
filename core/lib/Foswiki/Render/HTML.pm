@@ -41,18 +41,20 @@ sub textarea {
     $session->templates->readTemplate('html');
     my $tmpl = $session->templates->expandTemplate('textarea');
 
-    $tmpl =~ s/%CLASS%/$class/;
-    $tmpl =~ s/%COLS%/$cols/;
-    $tmpl =~ s/%DISABLED%/$disabled/;
-    $tmpl =~ s/%ID%/$id/;
-    $tmpl =~ s/%NAME%/$name/;
-    $tmpl =~ s/%READONLY%/$readonly/;
-    $tmpl =~ s/%ROWS%/$rows/;
-    $tmpl =~ s/%STYLE%/$style/;
-
     $text = Foswiki::entityEncode($text);
-    $tmpl =~ s/%TEXT%/$text/g;
-    return $tmpl;
+
+    return _replaceTokens(
+        $tmpl,
+        CLASS    => $class,
+        COLS     => $cols,
+        DISABLED => $disabled,
+        ID       => $id,
+        NAME     => $name,
+        READONLY => $readonly,
+        ROWS     => $rows,
+        STYLE    => $style,
+        TEXT     => $text,
+    );
 }
 
 sub textfield {
@@ -73,15 +75,29 @@ sub textfield {
     $session->templates->readTemplate('html');
     my $tmpl = $session->templates->expandTemplate('textfield');
 
-    $text = Foswiki::entityEncode($value);
-    $tmpl =~ s/%CLASS%/$class/;
-    $tmpl =~ s/%DISABLED%/$disabled/;
-    $tmpl =~ s/%ID%/$id/;
-    $tmpl =~ s/%NAME%/$name/;
-    $tmpl =~ s/%READONLY%/$readonly/;
-    $tmpl =~ s/%SIZE%/$size/;
-    $tmpl =~ s/%STYLE%/$style/;
-    $tmpl =~ s/%VALUE%/$value/;
+    $value = Foswiki::entityEncode($value);
+
+    return _replaceTokens(
+        $tmpl,
+        CLASS    => $class,
+        DISABLED => $disabled,
+        ID       => $id,
+        NAME     => $name,
+        READONLY => $readonly,
+        SIZE     => $size,
+        STYLE    => $style,
+        VALUE    => $value,
+    );
+
+}
+
+sub _replaceTokens {
+    my $tmpl  = shift;
+    my %thash = @_;
+
+    foreach my $token ( keys %thash ) {
+        $tmpl =~ s/%$token%/$thash{$token}/;
+    }
 
     return $tmpl;
 }
