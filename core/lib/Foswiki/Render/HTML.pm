@@ -73,6 +73,7 @@ sub textfield {
     $session->templates->readTemplate('html');
     my $tmpl = $session->templates->expandTemplate('textfield');
 
+    $text = Foswiki::entityEncode($value);
     $tmpl =~ s/%CLASS%/$class/;
     $tmpl =~ s/%DISABLED%/$disabled/;
     $tmpl =~ s/%ID%/$id/;
