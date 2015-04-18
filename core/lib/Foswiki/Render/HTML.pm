@@ -18,54 +18,74 @@ BEGIN {
 
 ---++ StaticMethod textarea( $params) -> $text
 
-Render parent meta-data. Support for %META%.
+Generates a HTML textarea by expanding the 'textarea' template
+definition in =templates/html.tmpl=. If the optional -template
+parameter is provided, it is *appended* to the textarea template.
+
+Called using same parameters as CGI::Template.
+
+  my $text = Foswiki::Render::HTML::textarea(
+      -class => 'foswikiInput',
+      -disabled => 1,
+      -template => ':special',
+      );
+
+This call will expand the TMPL:DEF{'textarea:special', substituting
+the %CLASS% and %DISABLED% tokens.
 
 =cut
 
 sub textarea {
     my %ah = @_;
 
-    my $class = $ah{'-class'} || '';
-    my $cols  = $ah{'-cols'}  || 20;
-    my $text  = $ah{'-default'};
-    my $id    = $ah{'-id'}    || '';
-    my $name  = $ah{'-name'}  || '';
-    my $rows  = $ah{'-rows'}  || 4;
-    my $style = $ah{'-style'} || '';
-
-    my $disabled = ( $ah{'-disabled'} ) ? 'disabled' : '';
-    my $readonly = ( $ah{'-readonly'} ) ? 'readonly' : '';
+    my $template = 'textarea';
+    $template .= $ah{'-template'} if ( defined $ah{'-template'} );
 
     #load the templates (relying on the system-wide skin path.)
     my $session = $Foswiki::Plugins::SESSION;
     $session->templates->readTemplate('html');
-    my $tmpl = $session->templates->expandTemplate('textarea');
-
-    $text = Foswiki::entityEncode($text);
+    my $tmpl = $session->templates->expandTemplate($template);
 
     return _replaceTokens(
         $tmpl,
-        CLASS    => $class,
-        COLS     => $cols,
-        DISABLED => $disabled,
-        ID       => $id,
-        NAME     => $name,
-        READONLY => $readonly,
-        ROWS     => $rows,
-        STYLE    => $style,
-        TEXT     => $text,
+        CLASS    => $ah{'-class'},
+        COLS     => $ah{'-cols'} || 20,
+        ID       => $ah{'-id'},
+        NAME     => $ah{'-name'},
+        ROWS     => $ah{'-rows'} || 4,
+        STYLE    => $ah{'-style'},
+        TEXTe    => $ah{'-default'},                          # Entity encode
+        DISABLED => ( $ah{'-disabled'} ) ? 'disabled' : '',
+        READONLY => ( $ah{'-readonly'} ) ? 'readonly' : '',
     );
 }
+
+=begin TML
+
+---++ StaticMethod textfield( $params) -> $text
+
+Generates a HTML input textfield by expanding the 'textfield' template
+definition in =templates/html.tmpl=. If the optional -template
+parameter is provided, it is *appended* to the textarea template.
+
+Called using same parameters as CGI::Template.
+
+  my $text = Foswiki::Render::HTML::textfield(
+      -class => 'foswikiInput',
+      -readonly => 1,
+      -template => ':special',
+      );
+
+This call will expand the TMPL:DEF{'textarea:special', substituting
+the %CLASS% and %READONLY% tokens.
+
+=cut
 
 sub textfield {
     my %ah = @_;
 
-    my $class = $ah{'-class'} || '';
-    my $id    = $ah{'-id'}    || '';
-    my $name  = $ah{'-name'}  || '';
-    my $size  = $ah{'-size'}  || 20;
-    my $style = $ah{'-style'} || '';
-    my $value = $ah{'-value'} || '';
+    my $template = 'textfield';
+    $template .= $ah{'-template'} if ( defined $ah{'-template'} );
 
     my $disabled = ( $ah{'-disabled'} ) ? 'disabled' : '';
     my $readonly = ( $ah{'-readonly'} ) ? 'readonly' : '';
@@ -75,28 +95,43 @@ sub textfield {
     $session->templates->readTemplate('html');
     my $tmpl = $session->templates->expandTemplate('textfield');
 
-    $value = Foswiki::entityEncode($value);
-
     return _replaceTokens(
         $tmpl,
-        CLASS    => $class,
-        DISABLED => $disabled,
-        ID       => $id,
-        NAME     => $name,
-        READONLY => $readonly,
-        SIZE     => $size,
-        STYLE    => $style,
-        VALUE    => $value,
+        CLASS    => $ah{'-class'},
+        ID       => $ah{'-id'},
+        NAME     => $ah{'-name'},
+        SIZE     => $ah{'-size'} || 20,
+        STYLE    => $ah{'-style'},
+        VALUEe   => $ah{'-value'},                            # Entity encode
+        DISABLED => ( $ah{'-disabled'} ) ? 'disabled' : '',
+        READONLY => ( $ah{'-readonly'} ) ? 'readonly' : '',
     );
 
 }
+
+=begin TML
+
+---++ PrivateMethod _replaceTokens( $templ, $params) -> $text
+
+Process the passed hash of TOKEN => 'value', and replace each
+token with the corresponding value in the template.
+
+A special TOKEN name with suffix 'e' (lower case) causes the field
+to be entity encoded.
+
+=cut
 
 sub _replaceTokens {
     my $tmpl  = shift;
     my %thash = @_;
 
     foreach my $token ( keys %thash ) {
-        $tmpl =~ s/%$token%/$thash{$token}/;
+        my $repl = ( defined $thash{$token} ) ? $thash{$token} : '';
+        if ( substr( $token, -1, 1 ) eq 'e' ) {
+            chop $token;
+            $repl = Foswiki::entityEncode($repl);
+        }
+        $tmpl =~ s/%$token%/$repl/;
     }
 
     return $tmpl;
