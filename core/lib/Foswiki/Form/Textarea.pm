@@ -52,13 +52,11 @@ sub renderForEdit {
     return (
         '',
         Foswiki::Render::HTML::textarea(
-            {
-                class   => $this->cssClasses('foswikiTextarea'),
-                cols    => $this->{cols},
-                rows    => $this->{rows},
-                name    => $this->{name},
-                default => "\n" . $value,
-            }
+            -class   => $this->cssClasses('foswikiTextarea'),
+            -cols    => $this->{cols},
+            -rows    => $this->{rows},
+            -name    => $this->{name},
+            -default => "\n" . $value,
         )
     );
 }

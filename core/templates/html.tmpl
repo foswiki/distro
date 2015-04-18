@@ -1,0 +1,8 @@
+%{
+This is the 'master template' file for Foswiki HTML generation.  The definitions
+are expanded in Foswiki::Render::HTML.  The default template name is the name of
+called function:   HTML::textarea() will expand the 'textarea' template by default.
+---------------------------------------------------
+}%
+%TMPL:DEF{"textarea"}%<textarea rows='%ROWS%' cols='%COLS%' class='%CLASS%' name='%NAME%' id='%ID%' %READONLY% %DISABLED% style='%STYLE%'>%TEXT%</textarea>%TMPL:END%
+%TMPL:DEF{"textfield"}%<input type='text' name='%NAME%' value='%VALUE%' size='%SIZE%' class='%CLASS%' id='%ID%' %READONLY% %DISABLED% />%TMPL:END%

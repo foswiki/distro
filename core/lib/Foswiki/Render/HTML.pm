@@ -23,46 +23,73 @@ Render parent meta-data. Support for %META%.
 =cut
 
 sub textarea {
-    my ($ah) = @_;
+    my %ah = @_;
 
-    my $cols     = $ah->{cols};
-    my $disabled = $ah->{disabled};
-    my $name     = $ah->{name};
-    my $readonly = $ah->{readonly};
-    my $rows     = $ah->{rows};
-    my $style    = $ah->{style};
-    my $class    = $ah->{class};
-    my $id       = $ah->{id};
-    my $default  = $ah->{default};
+    my $class = $ah{'-class'} || '';
+    my $cols  = $ah{'-cols'}  || 20;
+    my $text  = $ah{'-default'};
+    my $id    = $ah{'-id'}    || '';
+    my $name  = $ah{'-name'}  || '';
+    my $rows  = $ah{'-rows'}  || 4;
+    my $style = $ah{'-style'} || '';
 
-    #$default =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
+    my $disabled = ( $ah{'-disabled'} ) ? 'disabled' : '';
+    my $readonly = ( $ah{'-readonly'} ) ? 'readonly' : '';
 
-    $default =~ s/&/&amp;/g;
-    $default =~ s/</&lt;/g;
-    $default =~ s/>/&gt;/g;
-    $default =~ s/"/&quot;/g;
+    #load the templates (relying on the system-wide skin path.)
+    my $session = $Foswiki::Plugins::SESSION;
+    $session->templates->readTemplate('html');
+    my $tmpl = $session->templates->expandTemplate('textarea');
 
-    print STDERR Data::Dumper::Dumper( \$ah );
+    $tmpl =~ s/%CLASS%/$class/;
+    $tmpl =~ s/%COLS%/$cols/;
+    $tmpl =~ s/%DISABLED%/$disabled/;
+    $tmpl =~ s/%ID%/$id/;
+    $tmpl =~ s/%NAME%/$name/;
+    $tmpl =~ s/%READONLY%/$readonly/;
+    $tmpl =~ s/%ROWS%/$rows/;
+    $tmpl =~ s/%STYLE%/$style/;
 
-    my $html = '<textarea ';
-    $html .= "class='$class' "      if $class;
-    $html .= "cols='$cols' ";
-    $html .= "name='$name' "        if $name;
-    $html .= "readonly='readonly' " if $readonly;
-    $html .= "rows='$rows' ";
-    $html .= "style='$style' "      if $style;
-    $html .= "id='$id'"             if $id;
+    $text = Foswiki::entityEncode($text);
+    $tmpl =~ s/%TEXT%/$text/g;
+    return $tmpl;
+}
 
-    $html .= ">$default</textarea>";
+sub textfield {
+    my %ah = @_;
 
-    return $html;
+    my $class = $ah{'-class'} || '';
+    my $id    = $ah{'-id'}    || '';
+    my $name  = $ah{'-name'}  || '';
+    my $size  = $ah{'-size'}  || 20;
+    my $style = $ah{'-style'} || '';
+    my $value = $ah{'-value'} || '';
+
+    my $disabled = ( $ah{'-disabled'} ) ? 'disabled' : '';
+    my $readonly = ( $ah{'-readonly'} ) ? 'readonly' : '';
+
+    #load the templates (relying on the system-wide skin path.)
+    my $session = $Foswiki::Plugins::SESSION;
+    $session->templates->readTemplate('html');
+    my $tmpl = $session->templates->expandTemplate('textfield');
+
+    $tmpl =~ s/%CLASS%/$class/;
+    $tmpl =~ s/%DISABLED%/$disabled/;
+    $tmpl =~ s/%ID%/$id/;
+    $tmpl =~ s/%NAME%/$name/;
+    $tmpl =~ s/%READONLY%/$readonly/;
+    $tmpl =~ s/%SIZE%/$size/;
+    $tmpl =~ s/%STYLE%/$style/;
+    $tmpl =~ s/%VALUE%/$value/;
+
+    return $tmpl;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

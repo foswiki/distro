@@ -2,6 +2,7 @@
 package Foswiki::Form::Textboxlist;
 
 use Foswiki::Form::ListFieldDefinition;
+use Foswiki::Render::HTML;
 our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
 
@@ -51,7 +52,7 @@ sub renderForEdit {
         }
     }
 
-    my $field = CGI::textfield(
+    my $field = Foswiki::Render::HTML::textfield(
         -class =>
           $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
         -name     => $this->{name},

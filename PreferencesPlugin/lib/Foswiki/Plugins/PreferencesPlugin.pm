@@ -10,8 +10,9 @@ package Foswiki::Plugins::PreferencesPlugin;
 use strict;
 use warnings;
 
-use Foswiki::Func    ();    # The plugins API
-use Foswiki::Plugins ();    # For the API version
+use Foswiki::Func         ();    # The plugins API
+use Foswiki::Plugins      ();    # For the API version
+use Foswiki::Render::HTML ();    # Rendering textarea and textfield
 
 use vars qw( @shelter );
 
@@ -188,7 +189,7 @@ sub _generateEditField {
             $rows++ while $value =~ m/\n/g;
 
             # No form definition and there are newlines, default to textarea
-            $html = CGI::textarea(
+            $html = Foswiki::Render::HTML::textarea(
                 -class   => 'foswikiAlert foswikiInputField',
                 -name    => $name,
                 -cols    => 80,
@@ -199,7 +200,7 @@ sub _generateEditField {
         else {
 
             # No form definition and no newlines, default to text field.
-            $html = CGI::textfield(
+            $html = Foswiki::Render::HTML::textfield(
                 -class => 'foswikiAlert foswikiInputField',
                 -name  => $name,
                 -size  => 80,

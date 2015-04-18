@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Foswiki::Form::FieldDefinition ();
+use Foswiki::Render::HTML;
 our @ISA = ('Foswiki::Form::FieldDefinition');
 
 BEGIN {
@@ -29,12 +30,11 @@ sub renderForEdit {
 
     return (
         '',
-        CGI::textfield(
-            -class    => $this->cssClasses('foswikiInputField'),
-            -name     => $this->{name},
-            -size     => $this->{size},
-            -override => 1,
-            -value    => $value,
+        Foswiki::Render::HTML::textfield(
+            -class => $this->cssClasses('foswikiInputField'),
+            -name  => $this->{name},
+            -size  => $this->{size},
+            -value => $value,
         )
     );
 }

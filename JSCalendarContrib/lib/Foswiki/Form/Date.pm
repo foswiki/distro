@@ -9,6 +9,7 @@ use strict;
 use warnings;
 
 use Foswiki::Form::FieldDefinition      ();
+use Foswiki::Render::HTML               ();
 use Foswiki::Contrib::JSCalendarContrib ();
 our @ISA = ('Foswiki::Form::FieldDefinition');
 
@@ -32,7 +33,7 @@ sub renderForEdit {
         ( $this, $web, $topic, $value ) = @_;
         undef $topicObject;
     }
-    $value = CGI::textfield(
+    $value = Foswiki::Render::HTML::textfield(
         {
             name  => $this->{name},
             id    => 'id' . $this->{name},

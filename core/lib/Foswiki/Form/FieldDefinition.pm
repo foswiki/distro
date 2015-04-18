@@ -20,6 +20,8 @@ use warnings;
 use Assert;
 use CGI ();
 
+use Foswiki::Render::HTML;
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -138,12 +140,11 @@ sub renderForEdit {
         '<br /><span class="foswikiAlert">MISSING TYPE '
           . $this->{type}
           . '</span>',
-        CGI::textfield(
-            -class    => $this->cssClasses('foswikiAlert foswikiInputField'),
-            -name     => $this->{name},
-            -size     => 80,
-            -override => 1,
-            -value    => $value,
+        Foswiki::Render::HTML::textfield(
+            -class => $this->cssClasses('foswikiAlert foswikiInputField'),
+            -name  => $this->{name},
+            -size  => 80,
+            -value => $value,
         )
     );
 }

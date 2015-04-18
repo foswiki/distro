@@ -488,15 +488,13 @@ sub view {
                 my $p = $session->{prefs};
                 use Foswiki::Render::HTML;
                 $page .= Foswiki::Render::HTML::textarea(
-                    {
-                        readonly => 'readonly',
-                        rows     => $p->getPreference('EDITBOXHEIGHT'),
-                        cols     => $p->getPreference('EDITBOXWIDTH'),
-                        style    => $p->getPreference('EDITBOXSTYLE'),
-                        class    => 'foswikiTextarea foswikiTextareaRawView',
-                        id       => 'topic',
-                        default  => $text
-                    }
+                    -readonly => 1,
+                    -rows     => $p->getPreference('EDITBOXHEIGHT'),
+                    -cols     => $p->getPreference('EDITBOXWIDTH'),
+                    -style    => $p->getPreference('EDITBOXSTYLE'),
+                    -class    => 'foswikiTextarea foswikiTextareaRawView',
+                    -id       => 'topic',
+                    -default  => $text
                 );
             }
         }
