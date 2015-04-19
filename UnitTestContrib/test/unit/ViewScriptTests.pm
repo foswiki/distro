@@ -34,10 +34,12 @@ my $topic2meta =
 '%META:TOPICINFO{author="BaseUserMapping_666" date="[0-9]{10,10}" format="1.1" version="1"}%'
   . "\n";
 my $topic2metaQ = $topic2meta;
-$topic2metaQ =~ s/"/&quot;/g;
+$topic2metaQ = Foswiki::entityEncode($topic2metaQ);
+
+#$topic2metaQ =~ s/"/&quot;/g;
 
 my $topic2txtarea =
-"<textarea class='foswikiTextarea foswikiTextareaRawView' cols='70' readonly='readonly' rows='22' style='width:99%' id='topic'>";
+"<textarea rows='22' cols='70' class='foswikiTextarea foswikiTextareaRawView' name='' id='topic' readonly  style='width:99%'>";
 
 my $topic2rawON = $topic2;
 $topic2rawON =~ s/</&lt;/g;

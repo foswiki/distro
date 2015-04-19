@@ -131,6 +131,8 @@ sub _replaceTokens {
             chop $token;
             $repl = Foswiki::entityEncode($repl);
         }
+        $tmpl =~ s/id='%ID%'//       if ( $token eq 'ID'    && !length($repl) );
+        $tmpl =~ s/style='%STYLE%'// if ( $token eq 'STYLE' && !length($repl) );
         $tmpl =~ s/%$token%/$repl/;
     }
 
