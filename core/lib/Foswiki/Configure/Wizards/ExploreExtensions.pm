@@ -367,9 +367,10 @@ CHECKBOXES
           . " name='$ext->{name}'"
           . " value='$ext->{repository}'/> ";
 
+        $thd .= "[[$ext->{data}$ext->{name}][";
         $thd .= $ext->{name} || 'Unknown';
+        $thd .= ']]';
         $thd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
-        $thd = "[[$ext->{data}$ext->{name}][$thd]]";
         $thd .= " <sup>[$ext->{repository}]</sup>"
           if ( scalar(@consultedLocations) > 1 );
 
