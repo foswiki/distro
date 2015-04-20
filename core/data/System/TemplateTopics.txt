@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278932" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1429562101" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 #TemplateTopics
 ---+ Template topics
@@ -34,7 +34,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME |
 | =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
-| =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All Foswiki macros in this section type are expanded when a new topic based on the template topic is created. Otherwise only the macros listed here are expanded. |
+| =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All Foswiki macros enclosed in this section type are expanded when a new topic based on the template topic is created. Otherwise only the macros listed in this table are expanded. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
 | =%<nop>USERNAME%= | Login username of user who is instantiating the new topic, e.g. <nop>%USERNAME% (On some systems this will be the same as the !WikiName). |
