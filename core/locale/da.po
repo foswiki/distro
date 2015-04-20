@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-08 10:42+0200\n"
+"PO-Revision-Date: 2015-04-20 12:20+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -4669,19 +4669,19 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Editér Wikitekst' accesskey='w'>Editér &wikitekst"
+msgstr "title='Rediger Wikitekst' accesskey='w'>Rediger &wikitekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Editér denne side' accesskey='e'>&Editér"
+msgstr "title='Rediger denne sides tekst' accesskey='e'>&Rediger"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='flettet ind' accesskey='i'>Flettet &ind"
+msgstr "title='flettet ind' accesskey='i'>&flettet ind"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr "title='Printbar version af denne side' accesskey='p'>&Printable"
+msgstr "title='Printbar version af denne side' accesskey='p'>&Print"
 
 #: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
@@ -4696,7 +4696,7 @@ msgid ""
 "accesskey='b'>&Backlinks"
 msgstr ""
 "title='Søg i %1-webbet efter sider der linker til denne side' "
-"accesskey='b'>Referencer (&B)"
+"accesskey='b'>Referencer"
 
 #: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
@@ -4711,7 +4711,7 @@ msgstr "title='Ved siden af' accesskey='s'>Ved &siden af"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Abonnér på denne side' accesskey='s'>Abonnér &Side"
+msgstr "title='Abonnér på denne side' accesskey='s'>&Abonnér"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
