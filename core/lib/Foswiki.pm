@@ -1982,6 +1982,9 @@ sub new {
     $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
     $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
+    # Make sure CGI is also using the appropriate tempfile location
+    $CGI::TMPDIRECTORY = $Foswiki::cfg{TempfileDir};
+
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
     # This MUST be done before any external programs are run via Sandbox.
@@ -2041,6 +2044,12 @@ sub new {
         $initialContext->{admin_available} = 1;       # True if sudo supported.
     }
 
+    # Tell Foswiki::Response which charset we are using if not default
+    $Foswiki::cfg{Site}{CharSet} ||= 'iso-8859-1';
+
+    # Also tell CGI,  Item13331 fix for older CGI releases
+    CGI::charset( $Foswiki::cfg{Site}{CharSet} );
+
     $query ||= new Foswiki::Request();
 
     # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
@@ -2066,9 +2075,6 @@ sub new {
         print STDERR "new $this: "
           . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
     }
-
-    # Tell Foswiki::Response which charset we are using if not default
-    $Foswiki::cfg{Site}{CharSet} ||= 'iso-8859-1';
 
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
