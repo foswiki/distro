@@ -6,6 +6,7 @@ use warnings;
 use Assert;
 
 use Foswiki::Form::ListFieldDefinition ();
+use Foswiki::Render::HTML              ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 BEGIN {
@@ -111,7 +112,7 @@ sub renderForEdit {
         $params{-labels} = $this->{valueMap};
     }
 
-    return ( '', CGI::radio_group(%params) );
+    return ( '', Foswiki::Render::HTML::radio_group(%params) );
 }
 
 =begin TML

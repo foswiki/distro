@@ -129,7 +129,7 @@ sub checkbox_group {
     my $template = 'cbgroup';          # Template prefix
     my $name     = $ah{'-name'};       # Checkbox name
     my $cols     = $ah{'-columns'};    # number of columns
-    my $label    = $ah{'-labels'};     # Map values to user labels
+    my $labels   = $ah{'-labels'};     # Map values to user labels
     my %checked;
 
     if ( $ah{'-defaults'} ) {
@@ -153,31 +153,28 @@ sub checkbox_group {
 
 #<td><label><input type='checkbox' name='%NAME%' value='%VALUE%' %CHECKED% class='%CLASS%' title='%TITLE%'/>%LABEL%</label>
     foreach my $v (@$values) {
-        my $v  = Foswiki::entityEncode($v);
         my $cb = $cbtmpl;
-        $cb =~ s/%VALUE%/$v/;
-        if ($label) {
-            my $l = Foswiki::entityEncode( $label->{$v} );
-            $cb =~ s/%LABEL%/$l/;
-        }
-        else {
-            $cb =~ s/%LABEL%/$v/;
-        }
+        my $class;
+        my $title;
+
+        my $label =
+          ( defined $labels && length $labels->{$v} ) ? $labels->{$v} : $v;
         my $chk = ( exists( $checked{$v} ) ) ? 'checked' : '';
         my $attrs = $attributes->{$v};
         if ($attrs) {
-            my $class = $attrs->{class};
-            my $title = $attrs->{title};
-            $chk = 'checked'
+            $class = $attrs->{class};
+            $title = $attrs->{title};
+            $chk   = 'checked'
               if ( $attrs->{checked} && $attrs->{checked} eq 'checked' );
-            $title = Foswiki::entityEncode($title);
-            $cb =~ s/%CLASS%/$class/;
-            $cb =~ s/%TITLE%/$title/;
         }
-        $cb =~ s/%CHECKED%/$chk/;
-        $cb =~ s/class='%CLASS%'//;
-        $cb =~ s/class='%TITLE%'//;
-        $out .= $cb;
+        $out .= _replaceTokens(
+            $cb,
+            CHECKED => $chk,
+            CLASS   => $class,
+            TITLEe  => $title,    # Entity encode
+            VALUEe  => $v,        # Entity encode
+            LABELe  => $label,    # Entity encode
+        );
         $count++;
         if ( $count == $cols ) {
             my $rowout = $rowtmpl;
@@ -187,7 +184,87 @@ sub checkbox_group {
             $out   = '';
         }
     }
-    if ($out) {    # any leftover?
+    if ($out) {                   # any leftover?
+        my $rowout = $rowtmpl;
+        $rowout =~ s/%TEXT%/$out/;
+        $rslt .= $rowout;
+    }
+    my $table = $session->templates->expandTemplate( $template . ':table' );
+    $table =~ s/%TEXT%/$rslt/;
+    return $table;
+
+}
+
+=begin TML
+
+---++ StaticMethod radio_group( $params) -> $text
+
+Generates a HTML radio button group by expanding the 'cbgroup:' templates
+   * radio:table - The table definition
+   * radio:row - A table row definition
+   * radio:button - a radio button
+
+Called using same parameters as CGI::radio_group.   Currently only as subset
+of checkbox_group parameters are supported.  rows is not supported.
+
+=cut
+
+sub radio_group {
+    my %ah = @_;
+
+    my $template = 'radio';            # Template prefix
+    my $name     = $ah{'-name'};       # Checkbox name
+    my $cols     = $ah{'-columns'};    # number of columns
+    my $labels   = $ah{'-labels'};     # Map values to user labels
+    my $selected = $ah{'-default'};
+
+    my $attributes = $ah{'-attributes'};
+
+    my $out  = '';
+    my $rslt = '';
+
+    #load the templates (relying on the system-wide skin path.)
+    my $session = $Foswiki::Plugins::SESSION;
+    $session->templates->readTemplate('html');
+    my $cbtmpl = $session->templates->expandTemplate( $template . ':button' );
+    $cbtmpl =~ s/%NAME%/$name/;
+    my $rowtmpl = $session->templates->expandTemplate( $template . ':row' );
+    my $count   = 0;
+
+    my $values = $ah{'-values'};
+
+    foreach my $v (@$values) {
+
+        my $cb = $cbtmpl;
+        my $lbl;
+        my $class;
+        my $title;
+
+        my $label =
+          ( defined $labels && length $labels->{$v} ) ? $labels->{$v} : $v;
+        my $attrs = $attributes->{$v};
+        if ($attrs) {
+            $class = $attrs->{class};
+            $title = $attrs->{title};
+        }
+        $out .= _replaceTokens(
+            $cb,
+            CHECKED => ( $selected eq $v ) ? 'checked' : '',
+            CLASS => $class,
+            TITLEe => $title,    # Entity encode
+            VALUEe => $v,        # Entity encode
+            LABELe => $label,    # Entity encode
+        );
+        $count++;
+        if ( $count == $cols ) {
+            my $rowout = $rowtmpl;
+            $rowout =~ s/%TEXT%/$out/;
+            $rslt .= $rowout;
+            $count = 0;
+            $out   = '';
+        }
+    }
+    if ($out) {                  # any leftover?
         my $rowout = $rowtmpl;
         $rowout =~ s/%TEXT%/$out/;
         $rslt .= $rowout;
