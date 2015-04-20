@@ -111,6 +111,95 @@ sub textfield {
 
 =begin TML
 
+---++ StaticMethod checkbox_group( $params) -> $text
+
+Generates a HTML checkbox group by expanding the 'cbgroup:' templates
+   * cbgroup:table - The table definition
+   * cbgroup:row - A table row definition
+   * cbgroup:checkbox - the checkbox
+
+Called using same parameters as CGI::checkbox_group.   Currently only as subset
+of checkbox_group parameters are supported.  rows is not supported.
+
+=cut
+
+sub checkbox_group {
+    my %ah = @_;
+
+    my $template = 'cbgroup';          # Template prefix
+    my $name     = $ah{'-name'};       # Checkbox name
+    my $cols     = $ah{'-columns'};    # number of columns
+    my $label    = $ah{'-labels'};     # Map values to user labels
+    my %checked;
+
+    if ( $ah{'-defaults'} ) {
+        %checked = map { $_ => 'checked' } @{ $ah{'-defaults'} };
+    }
+
+    my $attributes = $ah{'-attributes'};
+
+    my $out  = '';
+    my $rslt = '';
+
+    #load the templates (relying on the system-wide skin path.)
+    my $session = $Foswiki::Plugins::SESSION;
+    $session->templates->readTemplate('html');
+    my $cbtmpl = $session->templates->expandTemplate( $template . ':checkbox' );
+    $cbtmpl =~ s/%NAME%/$name/;
+    my $rowtmpl = $session->templates->expandTemplate( $template . ':row' );
+    my $count   = 0;
+
+    my $values = $ah{'-values'};
+
+#<td><label><input type='checkbox' name='%NAME%' value='%VALUE%' %CHECKED% class='%CLASS%' title='%TITLE%'/>%LABEL%</label>
+    foreach my $v (@$values) {
+        my $v  = Foswiki::entityEncode($v);
+        my $cb = $cbtmpl;
+        $cb =~ s/%VALUE%/$v/;
+        if ($label) {
+            my $l = Foswiki::entityEncode( $label->{$v} );
+            $cb =~ s/%LABEL%/$l/;
+        }
+        else {
+            $cb =~ s/%LABEL%/$v/;
+        }
+        my $chk = ( exists( $checked{$v} ) ) ? 'checked' : '';
+        my $attrs = $attributes->{$v};
+        if ($attrs) {
+            my $class = $attrs->{class};
+            my $title = $attrs->{title};
+            $chk = 'checked'
+              if ( $attrs->{checked} && $attrs->{checked} eq 'checked' );
+            $title = Foswiki::entityEncode($title);
+            $cb =~ s/%CLASS%/$class/;
+            $cb =~ s/%TITLE%/$title/;
+        }
+        $cb =~ s/%CHECKED%/$chk/;
+        $cb =~ s/class='%CLASS%'//;
+        $cb =~ s/class='%TITLE%'//;
+        $out .= $cb;
+        $count++;
+        if ( $count == $cols ) {
+            my $rowout = $rowtmpl;
+            $rowout =~ s/%TEXT%/$out/;
+            $rslt .= $rowout;
+            $count = 0;
+            $out   = '';
+        }
+    }
+    if ($out) {    # any leftover?
+        my $rowout = $rowtmpl;
+        $rowout =~ s/%TEXT%/$out/;
+        $rslt .= $rowout;
+    }
+    my $table = $session->templates->expandTemplate( $template . ':table' );
+    $table =~ s/%TEXT%/$rslt/;
+    return $table;
+
+}
+
+=begin TML
+
 ---++ PrivateMethod _replaceTokens( $templ, $params) -> $text
 
 Process the passed hash of TOKEN => 'value', and replace each

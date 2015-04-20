@@ -6,6 +6,7 @@ use warnings;
 use Assert;
 
 use Foswiki::Form::ListFieldDefinition ();
+use Foswiki::Render::HTML              ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 BEGIN {
@@ -167,7 +168,7 @@ sub renderForEdit {
     if ( defined $this->{valueMap} ) {
         $params{-labels} = $this->{valueMap};
     }
-    $value = CGI::checkbox_group(%params);
+    $value = Foswiki::Render::HTML::checkbox_group(%params);
 
     # Item2410: We need a dummy control to detect the case where
     #           all checkboxes have been deliberately unchecked

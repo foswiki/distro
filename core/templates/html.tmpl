@@ -6,3 +6,6 @@ called function:   HTML::textarea() will expand the 'textarea' template by defau
 }%
 %TMPL:DEF{"textarea"}%<textarea rows='%ROWS%' cols='%COLS%' class='%CLASS%' name='%NAME%' id='%ID%' %READONLY% %DISABLED% style='%STYLE%'>%TEXT%</textarea>%TMPL:END%
 %TMPL:DEF{"textfield"}%<input type='text' name='%NAME%' value='%VALUE%' size='%SIZE%' class='%CLASS%' id='%ID%' %READONLY% %DISABLED% />%TMPL:END%
+%TMPL:DEF{"cbgroup:table"}%<table>%TEXT%</table>%TMPL:END%
+%TMPL:DEF{"cbgroup:row"}%<tr>%TEXT%</tr>%TMPL:END%
+%TMPL:DEF{"cbgroup:checkbox"}%<td><label><input type='checkbox' name='%NAME%' value='%VALUE%' %CHECKED% class='%CLASS%' title='%TITLE%'/>%LABEL%</label></td>%TMPL:END%
