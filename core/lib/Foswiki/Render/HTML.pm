@@ -159,12 +159,12 @@ sub checkbox_group {
 
         my $label =
           ( defined $labels && length $labels->{$v} ) ? $labels->{$v} : $v;
-        my $chk = ( exists( $checked{$v} ) ) ? 'checked' : '';
+        my $chk = ( exists( $checked{$v} ) ) ? 'checked=\'checked\'' : '';
         my $attrs = $attributes->{$v};
         if ($attrs) {
             $class = $attrs->{class};
             $title = $attrs->{title};
-            $chk   = 'checked'
+            $chk   = 'checked=\'checked\''
               if ( $attrs->{checked} && $attrs->{checked} eq 'checked' );
         }
         $out .= _replaceTokens(
@@ -249,7 +249,7 @@ sub radio_group {
         }
         $out .= _replaceTokens(
             $cb,
-            CHECKED => ( $selected eq $v ) ? 'checked' : '',
+            CHECKED => ( $selected eq $v ) ? 'checked=\'checked\'' : '',
             CLASS => $class,
             TITLEe => $title,    # Entity encode
             VALUEe => $v,        # Entity encode
