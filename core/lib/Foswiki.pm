@@ -54,6 +54,11 @@ use Foswiki::Configure::Load ();
 
 use 5.006;                        # First version to accept v-numbers.
 
+# Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
+# in CGI's html rendering code to only these; note that CGI's default values
+# still breaks some unicode byte strings
+$CGI::ENCODE_ENTITIES = q{&<>"'};
+
 #SMELL:  Perl 5.10.0 on Mac OSX Snow Leopard warns "v-string in use/require non-portable"
 require 5.008_008;    # see http://foswiki.org/Development/RequirePerl588
 
