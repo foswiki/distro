@@ -98,7 +98,7 @@ sub depreport {
 
     while ( my ( $module, $repo ) = each %$args ) {
 
-        # NODEPS and SIMULATE are not used for depreport
+        # NODEPS and SIMULATE are not repositories, skip those arguments
         next if $module eq 'NODEPS';
         next if $module eq 'SIMULATE';
 
@@ -135,6 +135,11 @@ sub add {
 
     my $args = $this->param('args');
     while ( my ( $module, $repo ) = each %$args ) {
+
+        # NODEPS and SIMULATE are not a repositories, skip these arguments
+        next if $module eq 'NODEPS';
+        next if $module eq 'SIMULATE';
+
         my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
         next unless $pkg;
 
@@ -164,6 +169,11 @@ sub remove {
 
     my $args = $this->param('args');
     while ( my ( $module, $repo ) = each %$args ) {
+
+        # NODEPS and SIMULATE are not a repositories, skip these arguments
+        next if $module eq 'NODEPS';
+        next if $module eq 'SIMULATE';
+
         my $pkg = $this->_getPackage( $reporter, $module, $repo );
         next unless $pkg;
 
@@ -179,7 +189,7 @@ sub remove {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
