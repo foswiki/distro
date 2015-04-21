@@ -34,16 +34,13 @@ sub renderForEdit {
         undef $topicObject;
     }
     $value = Foswiki::Render::HTML::textfield(
-        {
-            name  => $this->{name},
-            id    => 'id' . $this->{name},
-            size  => $this->{size},
-            value => $value,
-            class => $this->can('cssClasses')
-            ? $this->cssClasses( 'foswikiInputField',
-                'foswikiEditFormDateField' )
-            : 'foswikiInputField foswikiEditFormDateField'
-        }
+        -name  => $this->{name},
+        -id    => 'id' . $this->{name},
+        -size  => $this->{size},
+        -value => $value,
+        -class => ( $this->can('cssClasses') )
+        ? $this->cssClasses( 'foswikiInputField', 'foswikiEditFormDateField' )
+        : 'foswikiInputField foswikiEditFormDateField'
     );
     my $ifFormat =
          Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
