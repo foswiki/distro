@@ -1,48 +1,46 @@
-%META:TOPICINFO{author="ProjectContributor" date="1429215340" format="1.1" version="1"}%
-%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1429736137" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="InstallationGuide01x02Rewrite"}%
 ---+!! Installation Guide Part 2
+---++!! Post-Installation Configuration and Tuning
+
+Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. While most are optional, many of these will enhance your Foswiki installation's features and performance.
 
 %TOC%
 
 %STARTINCLUDE%
----++ Beyond the basic installation
+#SetPreferences
+---+++ Set Foswiki Site Preferences
 
-Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins]]= refers to the =Skins= topic in your %SYSTEMWEB% web. To go directly to a topic, enter the full topic name, such as =%SYSTEMWEB%.Skins=, into the "Jump" text box at the top right of any Foswiki page.
+Preferences for customizing many aspects of Foswiki are set by editing =[[%LOCALSITEPREFS%]]=. On that page you'll find some of the most common local site preferences such as the name for your site, the header logo image and, site tag line. However, there are many more site preference settings which you'll find in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=. If a given preference is *not* set in =[[%LOCALSITEPREFS%]]=, then it defaults to the value is defined in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]= (or in the case of [[InstalledPlugins][extensions]], in the respective extension topics).
 
-To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
+Because =%WIKIPREFSTOPIC%= is included in Foswiki upgrade packages, you will simplify upgrades by *not* changing these ==%WIKIPREFSTOPIC%==. Instead, *copy* any settings you want to change and add them to =[[%LOCALSITEPREFS%]]=.
 
-All of the Foswiki documentation can also be found online in the [[%SYSTEMWEB%.%HOMETOPIC%][Foswiki documentation section]] (the "%SYSTEMWEB%" web) of the Foswiki web site.
+---+++ Automating Routine Tasks
 
-Note the =configure= page mentioned in this section is accessed by visiting =[[%SCRIPTURL{"configure"}%]]= your web browser.
+Several Foswiki "house-keeping" tasks occur on daily basis and can be combined into a cron job (or equivalent). Here's a sample cron job that would combine the schedules for email notification, removal of expired sessions, and gathering of site statics:
+<verbatim>
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q
+0 0 * * * cd /usr/local/foswiki/bin; ./statistics -subwebs 1 >/dev/null 2>&1
+0 0 * * 0 cd /usr/local/foswiki/bin && perl ../tools/tick_foswiki.pl
+</verbatim>Read further below about how to customize these schedules and script options to your particular needs. You can find some general information about cron jobs at [[MailerContrib#Setting_up_a_cron_job_40s_41][MailerContrib - Setting up a cron job]].
 
-#SearchAlgorithm
----+++ Choose an appropriate search algorithm for your Operating System
+#EmailConfig
+---++++ Enable Email Notification
 
-On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
+Each web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:
+   1 Confirm the Mail and Proxies settings on the =configure= page.
+   1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script, as described in the [[%SYSTEMWEB%.MailerContrib]] topic.
+   1 To enable S/MIME signatures on notification emails, see [[#SMimeInfo][instructions below]].
 
-By default bootstrap attempts to pick the best implementation for your system. You can optimize search by choosing algorithms as follows:
-   * Windows servers and mod_perl installations should choose =Foswiki::Store::SearchAlgorithms::PurePerl=
-   * Linux or any other Unix type operating system not using =mod_perl=, can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
-   * If for some reason grep / egrep is not found on default path, bootstrap will choose PurePerl.  You can still use Forking search if desired by manually setting the paths to =grep= and =egrep= in the configuration.
+---++++ Enable Site Statistics
 
-If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
+You can manually or automatically generate a listing of the most popular pages for each web (based on number of visits) and most active editor (based on number of topic saves). For information on setting up this feature, see the SiteToolStatistics topic.
 
-There are several other options available for search tools via the [[http://foswiki.org/Extensions][Extensions web]], including:
-   * Foswiki:Extensions.NativeSearchContrib - The Foswiki PurePerl search implemented in C. (compiler required)
-   * Foswiki:Extensions.SolrPlugin - An indexed search based on the [[http://lucene.apache.org][Lucene]] Java search library.  It runs on a separate Tomcat or jetty serverlet container.
+---++++ Automate removal of expired sessions and lease files
 
----+++ Site configuration and maintenance
+By default Foswiki cleans out expired session and lease files each time any topic is viewed, but this has a performance cost. Instead you may wish to schedule a cron job (or equivalent) to run the =tools/tick_foswiki.pl= script, and set a negative value on the =configure= page for ={Sessions}{ExpireAfter}=. For more details, read [[CommandAndCGIScripts#A_61tick_foswiki.pl_61]].
 
-#SetPreferences 
----++++ Set Foswiki Preferences
-
-Preferences for customizing many aspects of Foswiki are set by editing =%LOCALSITEPREFS%=. If a given preference is not set in =%LOCALSITEPREFS%=, then a default value is picked up from =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=, if present, or, for extensions, from the extension topics.
-
-To simplify your upgrades, do not modify =%SYSTEMWEB%.%WIKIPREFSTOPIC%=. Instead, copy any settings you want to change from =%SYSTEMWEB%.%WIKIPREFSTOPIC%= to =%LOCALSITEPREFS%=.
-
-To see the available preferences that can be set, look through =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=.
-
-If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the ={SitePrefsTopicName}= setting (visible when Expert mode is enabled). *It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=*.
+---+++ Site Security
 
 ---++++ Select the desired security level
 
@@ -51,13 +49,6 @@ Foswiki has a many security features that can be enabled/disabled and adjusted t
 In many cases enabling a security feature prevents other features. It is a balance that the administrator has to choose depending on the purpose of the Foswiki installation (confidential vs public knowledge), the type of installation (intranet vs internet), and your type of business.
 
 A new administrator is encouraged to read Foswiki:Support.SecurityFeatures which gives a walkthrough of the different security aspects and how to set the appropriate configuration settings. Note that that some security settings are only visible in configure in "expert mode" which you enter by clicking the "Show expert options" button at the top of the configure screen.
-
-#EmailConfig
----++++ Enable Email Notification
-
-Each web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:
-   1 Confirm the Mail and Proxies settings on the =configure= page.
-   1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script, as described in the [[%SYSTEMWEB%.MailerContrib]] topic.
 
 #SMimeInfo
 ---++++ Enable Signed Email Notification
@@ -83,89 +74,43 @@ To enable Foswiki to sign administrative e-mails:
 
 All out-going administrative e-mails will now be signed.
 
----++++ Automate removal of expired sessions and lease files
-
-By default Foswiki cleans out expired session and lease files each time any topic is viewed, but this has a performance cost. Instead you may wish to schedule a cron job (or equivalent) to run the =tools/tick_foswiki.pl= script, and set a negative value on the =configure= page for ={Sessions}{ExpireAfter}=. For more details, read [[%SYSTEMWEB%.CommandAndCGIScripts#tick_foswiki_pl]].
-
----++++ Enable !WebStatistics
-
-You can manually or automatically generate a listing of the most popular pages for each web, based on number of visits. For information on setting up this feature, see the [[%SYSTEMWEB%.SiteTools#WebStatistics]] topic.
-
----++++ Enable Localisation
+---+++ Enable Localisation and Multilingual Interface
 
 Foswiki supports displaying national (non-ASCII) characters, and using different languages for its basic interface elements. To configure localisation, modify the =Localisation= section of the =configure= page. For more information, see Foswiki:Support.InternationalizationSupplement.
 
-#ConfiguringFoswikiManually
----++++ Configuring Foswiki manually (without using the =configure= page)
+---+++ Performance Enhancements
+#SearchAlgorithm
+---++++ Choose an appropriate search algorithm for your Operating System
 
-Foswiki 1.2 includes a shell based configuration tool that can be run from a
-server command-line login.  It will bootstrap the configuration, and prompt
-for settings as required.   Here is an example of using it for an interactive
-command line bootstrap:
+On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
 
-<verbatim>
-$ tools/configure -save
+By default bootstrap attempts to pick the best implementation for your system. You can optimize search by choosing algorithms as follows:
+   * Windows servers and mod_perl installations should choose =Foswiki::Store::SearchAlgorithms::PurePerl=
+   * Linux or any other Unix type operating system not using =mod_perl=, can set this to =Foswiki::Store::SearchAlgorithms::Forking=.
+   * If for some reason grep / egrep is not found on default path, bootstrap will choose PurePerl. You can still use Forking search if desired by manually setting the paths to =grep= and =egrep= in the configuration.
 
-LocalSite.cfg load failed
-AUTOCONFIG: Found Bin dir: /var/www/foswiki/distro/core/tools, Script name:
-configure using FindBin
-AUTOCONFIG: PubDir = /var/www/foswiki/distro/core/pub 
-AUTOCONFIG: DataDir = /var/www/foswiki/distro/core/data 
-AUTOCONFIG: WorkingDir = /var/www/foswiki/distro/core/working 
-AUTOCONFIG: ToolsDir = /var/www/foswiki/distro/core/tools 
-AUTOCONFIG: TemplateDir = /var/www/foswiki/distro/core/templates 
-AUTOCONFIG: LocalesDir = /var/www/foswiki/distro/core/locale 
-AUTOCONFIG: ScriptDir = /var/www/foswiki/distro/core/bin 
-AUTOCONFIG: Unable to use PlainFileStore: ,v files were found in data or pub,
-which indicates this installation is already configured for RCS e.g.
-/var/www/foswiki/distro/core/data/WFWeb/WebChanges.txt,v
-AUTOCONFIG: Store configured for RcsLite
-AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking
-AUTOCONFIG: Detected OS UNIX:  DetailedOS: linux 
-** Enter values for critical configuration items.
-** type a new value or hit return to accept the value in brackets.
+If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
 
-This is the root of all Foswiki URLs.
-For example, =http://myhost.com:123=
-(do not include the trailing slash.)
+There are several other options available for search tools via the [[http://foswiki.org/Extensions][Extensions web]], including:
+   * Foswiki:Extensions.NativeSearchContrib - The Foswiki PurePerl search implemented in C. (compiler required)
+   * Foswiki:Extensions.SolrPlugin - An indexed search based on the [[http://lucene.apache.org][Lucene]] Java search library. It runs on a separate Tomcat or jetty serverlet container.
 
-{DefaultUrlHost} (http://localhost): http://myhost.com
+---++++ Web Acceleration (mod_perl, <nop>FastCGI, ...)
 
-This is the 'cgi-bin' part of URLs used to access the Foswiki bin
-directory. For example =/foswiki/bin=.
-See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
-for more information on setting up Foswiki to use shorter script URLs.
+Foswiki is installed by default supporting standard CGI scripts as well as CLI access.  For best performance, Foswiki can be accelerated using one of the several accelerators, however, *you must install the required dependencies before enabling acceleration*!  See the listed extensions for more information.
 
-{ScriptUrlPath} (/foswiki/bin):   
+| Fast CGI | [[FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
+| mod_perl | [[ModPerlEngineContrib]] | supports the apache mod_perl extension |
+%X% *Caution*
+   * Foswiki 1.2 can be "bootstrapped" with either of these accelerators active, however it is often simpler to initially configure Foswiki using CGI.
+   * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
+   * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
+   * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
 
-...
-</verbatim>
+---++++ Page Caching
+By default, Foswiki renders each page dynamically when the page is requested. If you anticipate a relatively high volume of page _views_ in comparison to users actively editing the site, you may want to consider [[%SYSTEMWEB%.PageCaching]] which can significantly improve the performance of a Foswiki site. To learn more about how to configure and fine-tune this feature, along with considerations for maintaining dynamic page elements, refer to [[%SYSTEMWEB%.PageCaching]].
 
-It can also be run in a non-interactive mode, for use in automated deployment
-systems.
-
-<verbatim>
-tools/configure -save -noprompt
-tools/configure -save -set {DefaultUrlHost}='http://mysite.com' 
-tools/configure -save -set {ScriptUrlPath}='/bin'
-tools/configure -save -set {ScriptUrlPaths}{view}='' 
-tools/configure -save -set {PubUrlPath}='/pub' 
-tools/configure -save -set {Password}='adminpass' 
-</verbatim>
-
-Any configuration keys may be set using this tool.
-
-To run a wizard, for example autoconfiguration of email:
-
-<verbatim>
-tools/configure -save -set {WebMasterEmail}='user@email.com'
-tools/configure -save -set {SMTP}{MAILHOST}='smtpserver.email.com'
-tools/configure -save -set {SMTP}{Username}='userid'
-tools/configure -save -set {SMTP}{Password}='password'
-tools/configure -save -wizard AutoConfigureEmail -method autoconfigure
-</verbatim>
-
----+++ Customizing your site
+---+++ Customizing your site's "look and feel"
 
 ---++++ Customize pages for managing personal information
 
@@ -183,7 +128,7 @@ When a new user registers on your Foswiki site, a topic with a name correspondin
 You can edit these topics to suit your needs, such as the following:
    * Customize the user topic for your site.
    * Add an =ALLOWTOPICCHANGE= preference setting to [[%USERSWEB%.NewUserTemplate]] so only the user can edit their own user topic. In particular, on a public Foswiki site, restricting edit access will avoid vandalism and spam.
-   * Add and remove fields defined in the [[%USERSWEB%.UserForm]].
+   * Add and remove fields defined in the [[%USERSWEB%.UserForm]].  In particular, soliciting URL information for new users is an invitation for spam registrations.
 
 If you added or removed fields from the user form you may also need to tailor [[%USERSWEB%.UserRegistration]] to match (copy over the contents from [[%SYSTEMWEB%.UserRegistration]] to [[%USERSWEB%.UserRegistration]] when creating it).
 
@@ -204,13 +149,15 @@ To customize the bottom bar, copy [[%SYSTEMWEB%.WebBottomBarExample]] to %SYSTEM
 
 The side bar can be customized on a per web basis. To customize the side bar, copy the !WebLeftBarExample topic in the given web to !WebLeftBar, and make your desired changes to !WebLeftBar. If you would like to move the side bar to the right of the page, see [[%SYSTEMWEB%.PatternSkin]] for more details.
 
+See [[%SYSTEMWEB%.PatternSkinCustomization]] for detailed information on tailoring the look of your site.
+
 ---+++++ Copyright, License and Classification Statements
 
 At the bottom of each topic, there is a copyright statement that is set in the =WEBCOPYRIGHT= preference. Its default is the following: =Copyright &copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors.=
 
 If your Foswiki site is used in an environment without public access you should replace this with your normal copyright notice. You should also consider adding a security classification (e.g., For Internal Use Only) so people do not have to add this manually to every new topic.
 
-If your Foswiki site is publicly accessible, you need to decide which copyright and license you wish to apply to all contributions. For open source applications, licenses such as <a href="http://www.gnu.org/licenses/fdl.html">the GNU Free Documentation License</a>, <a href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>, and one of the various <a href="http://creativecommons.org/licenses/">Creative Commons licenses</a> are possible licenses to consider. Remember that once people have started contributing, you cannot retroactively change the license (unless it has a provision for this).
+If your Foswiki site is publicly accessible, you need to decide which copyright and license you wish to apply to all contributions. For open source applications, licenses such as [[http://www.gnu.org/licenses/fdl.html][the GNU Free Documentation License]], [[http://www.freebsd.org/copyright/freebsd-doc-license.html][FreeBSD Documentation License]], and one of the various [[http://creativecommons.org/licenses/][Creative Commons licenses]] are possible licenses to consider. Remember that once people have started contributing, you cannot retroactively change the license (unless it has a provision for this).
 
 To change the copyright statement, perform the following steps:
 
@@ -218,82 +165,81 @@ To change the copyright statement, perform the following steps:
    * You can create a unique message for a specific web by setting the =WEBCOPYRIGHT= preference in the =%WEBPREFSTOPIC%= topic for the given web. For example, you could add a confidential classification to a web that has restricted access.
    * The =WEBCOPYRIGHT= preference setting in [[%SYSTEMWEB%.%WEBPREFSTOPIC%]] covers the documentation that comes with Foswiki, and should not be changed.
 
----++++ WYSIWYG vs Nat Edit, vs Wiki text editor
+---++++ WYSIWYG vs Raw Edit
 
-Foswiki has 3 editors available:
-   * The WYSIWYG editor:  !TinyMCE.   This is the default editor.
-   * The !NatEdit "Natural Editor".  This editor is used when the "Edit wiki text" button is pressed, or if the =NOWYSIWYG= preference is set.
-   * The original "Wiki text" editor is only used if the SKIN setting is changed to  eliminate the "natedit" option.   =SKIN = pattern=  vs. =SKIN = natedit,pattern=
+In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit wiki text_ link is available for those who prefer to edit the topic markup language (TML) directly.
 
-In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit Wiki text_ link is available for those who prefer to edit the topic markup language (TML). Note that both of these editors, !TinyMCE and !NatEdit, require that javascript is enabled.
+There are actually two different _wiki text_ editors available now on Foswiki 1.2:
+   $ _NatEdit_, The "Natural Editor": This is the new !JavaScript enabled _wiki text_ editor.  This editor allows the user to directly edit the TML, but provide a !JavaScript assist, to help in learning TML.
+   $ _raw editor_:  This is the original _wiki text editor_ included with Foswiki 1.0 and 1.1.  It can be used without !JavaScript, provided that _Security & Authentication_ Validation tab is configured for _embedded_ or _none_.     The _raw editor_ can be enabled per user by overriding the SKIN, and removing =natedit= from the default setting =natedit, pattern= in their user topic:  =   * Set SKIN = pattern=
 
 If you prefer to use the wiki text editor by default and have a separate WYSIWYG button, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
 
 ---+++ Extensions
 
-Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.  There are several types of Extensions available:
+Foswiki:Extensions is an extensive library of [[Plugins]] for Foswiki that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.  There are several types of Extensions available:
    * [[Plugins]] extend Foswiki functionality without altering the core code.
    * [[Skins]] Skins overlay regular templates to give different looks and feels to Foswiki screens.
    * [[Contribs]] and [[ContributedAddOns][AddOns]] are any other Extension that provides added functionality beyond Plugins and Skins
 
 ---++++ Installing extensions
+
 Extensions can be installed using any of several different methods:
    * the [[%SCRIPTURL{configure}%][configure]] web interface under the Extensions tab
    * the generic shell installer =tools/extension_installer=
    * by manually downloading the extension zip or tar file
-%X%Caution: Users of the debian =.deb= or RedHat =.rpm= packages should only use the system package tools when installing extensions.  Don't use the Foswiki extension installer.
+%X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
 
-The simplest way is to visit [[%SCRIPTURL{configure}%][configure -> Extensions tab]], _Extensions operation and Mantenance_, _Install, update or remove extensions_ subtabs. Use the _Search for Extensions_ or _All available extensions_
-buttons to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually.
-Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used
    * The extension is downloaded from the configured archive
-      * The latest version of the Extension is always downloaded.  There is no automatic means of downloading older versions.
+      * The latest version of the Extension is always downloaded. There is no automatic means of downloading older versions.
    * If the extension is already installed, a backup is taken to the =working/configure/backup= directory
-   * Dependencies on other Extensions are automatically resolved and installed unless the "no dependencies" option is selected.
-      * Dependencies are downloaded from the _same archive_ where the Extension was found.  No additional searching is performed.
+   * Dependencies on other Extensions are automatically resolved and installed
+      * Dependencies are downloaded from the _same archive_ where the Extension was found. No additional searching is performed.
    * The Extension is installed.
-      * Unless a collision occurrs with an existing file, the Extension's topics will not be _checked in_ to the revision control system.
+      * By default, unless a collsion occurrs with an existing file, the Extension's topics will not be _checked in_ to the revision control system.
       * If previous topics or attachments are found, then the topic will be _checked in_ under the Administrators user id.
+      * If the topics or attachments are flagged as =!noci=, disabling checkin, they will still be checked in if existing revision control files are found, suggesting that local modifications have occurred.
    * CPAN dependencies and other external packages are *not* resolved and should be resolved manually
 
 When installing extensions from the command line:
-   * The =_installer= package must be run from the root directory of the Foswiki installation. 
+   * The =_installer= package must be run from the root directory of the Foswiki installation.
    * The Extension =_installer= module must be downloaded from the Extension repository. The extension archive will be downloaded if required.
-   * When the =_installer= is run, it will install the Extension and extension dependencies similar to the =configure= interface except:
+   * When the =_installer= is run, it will install the Extension and dependencies similar to the =configure= interface except:
       * You will be given the option to use local archives if available in the root of the Foswiki installation
+      * You will be given the option to resolve CPAN dependencies after the Extensions and dependencies are installed.
       * Any other dependencies still need to be manually resolved.
 
 When using either the web or shell instalation tools:
    * After installation, the Extension =_installer= module is saved in =working/configure/pkgdata=
    * A complete log of the actions taken by the installer is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
 
-__Plugins are automatically enabled in the _Plugins_ section of the =configure= page.__ In addition, some extensions also require configuration in this section.
+__Plugins must be manually enabled in the Plugins section of the =configure= page.__ In addition, some extensions also require configuration in this section.
 
 The instructions for using the extensions installer from the shell are
 retrieved by using the "usage" command:  =tools/extension_installer usage= or
-=./SomePlugin_installer usage= 
-
+=./SomePlugin_installer usage=
 <verbatim>
 perl working/configure/pkgdata/X509UserPlugin_installer usage
 
 Usage as a custom installer:
 
-       X509UserPlugin_installer -a -n -d -r -u -o install
+       X509UserPlugin_installer -a -n -d -r -u -c install
        X509UserPlugin_installer -a -n uninstall
        X509UserPlugin_installer manifest
        X509UserPlugin_installer dependencies
 
 Usage as a generic installer:
 
-       tools/extension_installer X509UserPlugin -a -n -d -r -u -o install
+       tools/extension_installer X509UserPlugin -a -n -d -r -u -c install
        tools/extension_installer X509UserPlugin -a -n uninstall
        tools/extension_installer X509UserPlugin manifest
        tools/extension_installer X509UserPlugin dependencies
 
-If command (install, uninstall ..) is not provided, default is to 
+If command (install, uninstall ..) is not provided, default is to
 install the extension.
 
 Operates on the directory tree below where it is run from,
@@ -316,28 +262,27 @@ X509UserPlugin even if they have been locally modified.
 -u means the archive has already been downloaded and unpacked
 -n means don't write any files into my current install, just
    tell me what you would have done
--o only install the extension, no dependencies.
+-c means don't try to use CPAN to install missing libraries
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
 the MANIFEST files used by BuildContrib.
 
 "dependencies" will generate a list of dependencies on standard
-output.
-</verbatim>
+output.</verbatim>
 
 ---++++ Removing (uninstalling) extensions
 
-<div class="foswikiHelp"> %X% *Caution:*  When removing an extension, no dependency checking is performed.
+<div class='foswikiHelp'>%X% *Caution:* When removing an extension, no dependency checking is performed.
    * Dependencies are not removed
    * Other Extensions dependent on the removed extension may become non-operational.
 </div>
 
 The web and command line interfaces can be used to uninstall extensions.  When an extension is remove, the following occurs:
-   * The =_installer= package is used to recover the manifest.  If it cannot be found locally, it will be downloaded from the configured extension repository
+   * The =_installer= package is used to recover the manifest. If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory
-      * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ installer's manifest.  It is preferable to always save the =_installer= modules.
-   * The Extension files along with any =,v= revision control files will be removed, including the =_installer=. 
+      * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ installer's manifest. It is preferable to always save the =_installer= modules.
+   * The Extension files along with any =,v= revision control files will be removed, including the =_installer=.
       * Any additional files saved locally are not removed.
    * A complete log of the steps taken is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
 
@@ -349,29 +294,12 @@ Run the uninstall from the "root" of the Foswiki installation:
 ---++++ Restoring a removed, or previous version of an extension
 
 The backup can be extracted from the root directory of the Foswiki installation.  The archive is taken "relative" to the root of the installation, so an =unzip= or =tar -xzf= of the backup file should be all that is required:
-<!--%JQREQUIRE{"chili"}%--><verbatim class="bash">cd /root/of/foswiki
+<!--%JQREQUIRE{"chili"}%-->
+<verbatim class='bash'>cd /root/of/foswiki
 tar -zxvf * working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].tgz
 # or
-unzip working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].zip
-</verbatim>
-
----+++ Web Acceleration (mod_perl, FastCGI, ...)
-
-Foswiki is installed by default supporting standard CGI scripts as well as CLI access, and popular Perl accelerators.
-
-| Fast CGI | [[FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
-| mod_perl | [[ModPerlEngineContrib]] | supports the apache mod_perl extension |
-
-%X% *Caution*
-   * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
-   * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
+unzip working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].zip</verbatim>
 
 %STOPINCLUDE%
----++ Troubleshooting
-   * See InstallationGuide#Troubleshooting
-
 ---
- *Related Topics:* [[InstallationGuide]], [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocuments
-
-TWiki is a registered trademark of Peter Thoeny.
-<!-- %JQREQUIRE{"chili"}% -->
+*Related Topics:* [[InstallationGuide]], [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocument
