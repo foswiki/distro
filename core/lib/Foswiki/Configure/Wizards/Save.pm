@@ -259,7 +259,9 @@ sub save {
                   if TRACE_SAVE;
                 eval("\$Foswiki::cfg$k=\$v");
             }
-            elsif ( $spec->CHECK_option('undefok') ) {
+            elsif ($spec->CHECK_option('undefok')
+                || $spec->{typename} eq 'BOOLEAN' )
+            {
                 print STDERR "CLEARING $k\n" if TRACE_SAVE;
                 eval("undef \$Foswiki::cfg$k");
                 $spec->{saving_value} = undef;
