@@ -149,7 +149,7 @@ a {
 .node .ui-button-text {
   text-shadow:0 0 transparent;
 }
-.node .ui-button.ui-state-default {
+.node :not(.feedback_button).ui-button.ui-state-default {
   background:transparent;
   border:0;
   border-radius:0;
@@ -165,7 +165,7 @@ a {
   margin-left:-0.5em;
 }
 .button_box,
-.button_box .ui-button-text {
+.button_box :not(.feedback_button) .ui-button-text {
   color:#999;
   text-transform:lowercase;
 }
