@@ -65,7 +65,7 @@
 # to return the {DefaultUrlHost}.
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URILIST LABEL="Permitted Redirect Host Urls" EXPERT CHECK='undefok \
+# **URILIST LABEL="Permitted Redirect Host Urls" EXPERT CHECK='emptyok \
 #              parts:scheme,authority \
 #              authtype:hostip' **
 # If your host has aliases (such as both =www.mywiki.net= and =mywiki.net=
@@ -132,38 +132,38 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # ---++ File System Paths
 # Configure the file system locations of key Foswiki directories here.  These are usually guessed 
 # correctly during bootstrap. Other file locations are configured within their related sections.
-# **PATH LABEL="Script Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# **PATH LABEL="Script Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **PATH LABEL="Pub Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
+# **PATH LABEL="Pub Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH LABEL="Data Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
+# **PATH LABEL="Data Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH LABEL="Tools Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Tools Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH LABEL="Template Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Template Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH LABEL="Locales Directory" EXPERT FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Locales Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH LABEL="Working Directory" EXPERT ONSAVE FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
+# **PATH LABEL="Working Directory" ONSAVE FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -187,13 +187,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #      are pending verification.
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH LABEL="Tempfile Directory" CHECK="undefok" EXPERT**
-# This is used to override the default system temporary file location.
-# Set this if you wish to have control over where working tmp files are
-# created.  It is normally set automatically in the code.
-# $Foswiki::cfg{TempfileDir} = '';
-
-# **PATH LABEL="Safe PATH" EXPERT CHECK='undefok'**
+# **PATH LABEL="Safe PATH" CHECK='undefok'**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key
@@ -208,6 +202,12 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #      directory is required on the path. Use '/' not '\' in pathnames.
 #      Typical setting is =/cygdrive/c/windows/system32=
 # $Foswiki::cfg{SafeEnvPath} = undef;
+
+# **PATH LABEL="Tempfile Directory" CHECK="undefok" EXPERT**
+# This is used to override the default system temporary file location.
+# Set this if you wish to have control over where working tmp files are
+# created.  It is normally set automatically in the code.
+# $Foswiki::cfg{TempfileDir} = '';
 
 #############################################################################
 #---+ Security and Authentication
