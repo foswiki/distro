@@ -684,7 +684,7 @@ sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
 
     # Detect character encoding of the full topic name from URL
-    return if ( $text =~ m/^[\x00-\x7F]+$/ );
+    return $text if ( $text =~ m/^[\x00-\x7F]+$/ );
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
@@ -694,12 +694,12 @@ sub UTF82SiteCharSet {
         # and not all darwins use apple's perl
         my $trial = $text;
         $trial =~ s/$regex{validUtf8CharRegex}//g;
-        return unless ( length($trial) == 0 );
+        return $text unless ( length($trial) == 0 );
     }
     else {
 
         #SMELL: this seg faults on OSX leopard. (and possibly others)
-        return unless ( $text =~ $regex{validUtf8StringRegex} );
+        return $text unless ( $text =~ $regex{validUtf8StringRegex} );
     }
 
     # If site charset is already UTF-8, there is no need to convert anything:
