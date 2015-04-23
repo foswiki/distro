@@ -317,10 +317,10 @@ sub _renameTopicOrAttachment {
             my ( $parentWeb, $parentTopic );
             if ( $parent && defined $parent->{name} ) {
                 ( $parentWeb, $parentTopic ) =
-                  $session->normalizeWebTopicName( '', $parent->{name} );
+                  $session->normalizeWebTopicName( $oldWeb, $parent->{name} );
             }
             if (   $parentTopic
-                && !( $parentWeb eq $oldTopic && $parentTopic eq $oldTopic )
+                && !( $parentWeb eq $oldWeb && $parentTopic eq $oldTopic )
                 && $session->topicExists( $parentWeb, $parentTopic ) )
             {
                 $new_url =
