@@ -29,8 +29,7 @@ jQuery, HTML, etc, so general web computing knowledge is needed for Foswiki admi
       * install Perl CPAN modules
    1 Depending of your context: your own server (with full access) or web hosting, you could need to know:
       * for own server, how to obtain root access; login passwords or the =sudo= command
-      * for web hosting/shared server, you need to know how to investigate the configuration and/or be able to contact/discuss with the technical support for your
-web hosting service. Be careful, web hosting sites are sometimes challenging even for those with good OS and web server skills.
+      * for web hosting/shared server, you need to know how to investigate the configuration and/or be able to contact/discuss with the technical support for your web hosting service. Be careful, web hosting sites are sometimes challenging even for those with good OS and web server skills.
    1 For solving problems, you should know how to:
       * test and describe a problem by identifying which component failed
       * inspect error logs
