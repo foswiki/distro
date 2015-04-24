@@ -1,25 +1,64 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1429840432" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+ Administrator Skills Assumptions
 
-*Note:* If you aren't already fairly well-skilled in Linux/Unix/Windows, Apache, and so on, consider using a version in a pre-packaged Virtual Machine - this can be installed on Windows or Linux, and makes it possible to get a working Foswiki system within 5 minutes (after a fairly big download), ready to use from your browser.  This is ideal for personal use or evaluations - if you decide to use it for production use, then these !AdminSkillsAssumptions still apply, but you are starting from a working system.
+Several skills (i.e. knowing how to do something) are needed to set up and maintenance of a Foswiki installation. Remember that several layers of technology are
+used for delivering one web page: Operating system, web server, CGI (or Fast CGI), internal Foswiki functions, templates,
+jQuery, HTML, etc, so general web computing knowledge is needed for Foswiki administration. The most important are the following:
 
-If you need to install Foswiki you'll need to either have or learn the following skills.  For each of these, the requirement is either pre-existing knowledge/skill, or the willingness to spend significant time (i.e. from hours to days) learning them:
+   1 At an *Operating System level*, you should know how to:
+      * use command line tools (even in Windows)
+      * work on files, specially:
+         * move/copy/delete
+         * change permission
+      * view logs
+      * set environment variables
+      * use a text editor
+      * install system updates and software packages
+      * [Only for Windows] know the mapping between Unix commands and Windows equivalent
+   1 At the *Web server level*, you should know how to:
+      * find the web server directory, and which system user runs the web server
+      * make a basic setup, specifically:
+         * editing configuration files
+         * enabling CGI scripts in a directory
+         * allowing or denying access to specific directories
+      * debug/understand web server errors, by accessing and understanding the server logs
+   1 at the *Perl level*, you should know how to:
+      * install/upgrade Perl
+      * launch Perl scripts
+      * install Perl CPAN modules
+   1 Depending of your context: your own server (with full access) or web hosting, you could need to know:
+      * for own server, how to obtain root access; login passwords or the =sudo= command
+      * for web hosting/shared server, you need to know how to investigate the configuration and/or be able to contact/discuss with the technical support for your
+web hosting service. Be careful, web hosting sites are sometimes challenging even for those with good OS and web server skills.
+   1 For solving problems, you should know how to:
+      * test and describe a problem by identifying which component failed
+      * inspect error logs
+      * talk to technical support (whether in an IT department or web hosting provider)
+      * read documentation in order to help with diagnosing problems
+   1 [rarely] Program compilation, you need to know how to:
+      * compile a program (configure, make, ...)
+      * install the program
 
-   * *Operating system administration:* Ability to use Unix/Linux command line tools (or equivalent Windows tools), including ability to move/copy/delete files, change permissions, view web server log files, set environment variables, use a text editor, and so forth. Note if you are installing on Windows, you should know how to map basic Unix administration tasks to their Windows equivalents, as the InstallationGuide and UpgradeGuide are based on Unix Foswiki installations.
-   * *Web server administration:* Ability to do basic setup, including the ability to edit config files or use GUI configuration tools to enable CGI scripts on a directory, and knowledge of how to allow and deny access to specific directories. Understanding of how web server security works and how your web server is configured to run CGI scripts or server plugins is also required. In particular, you must know the user that the web server will use when running Foswiki.
-   * *Troubleshooting*: Ability to perform tests, inspect error logs, talk to technical support (whether in an IT department or web hosting provider) and read documentation in order to help with diagnosing installation problems.
+%RED%Knowing HTML and web design are insufficient to install Foswiki. Unless you learn the above skills or team up with someone who can handle the
+installation, please consider the other solutions, listed below.%ENDCOLOR%
 
-Installing Foswiki is *not* recommended for people who only know HTML and web design, unless they are willing to learn the above, or team up with someone who can handle the installation.
+---++ I don't know all of that, what can I do ?
 
-Although the InstallationGuide is quite complete, there will on occasion be parts that don't work in your local environment (particularly with web hosting sites, which are sometimes challenging even for those with good OS and web server skills).
+---+++ Using Virtual Machine
 
-There are many excellent resources for learning how to administer your OS and web server, including books, web sites, web forums, IM and e-mail lists.   The Foswiki:Support web must *not* be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating system and web server administration.  Asking and answering questions is time consuming for all concerned and is best used for specific _Foswiki related_ issues, rather than helping you learn the OS and web server.
+If you don't know all of these administration skills, the Foswiki team provides a ready to use installation of Foswiki in a Virtual Machine (VM). Basically, this
+can be installed on Windows or Linux, and makes it possible to get a working Foswiki system within 5 minutes (after a fairly big download). See
+Foswiki:Download.OtherFoswikiInstallers for downloading the VM. This VM works well for personal installations, or for testing, but is not recommended for
+production environments.
 
-To get started with Linux, visit [[http://linuxbasics.org/ LinuxBasics.org]]. !LinuxBasics.org offers Linux tutorials, a mailing-list and an IRC-channel to answer questions, and links to sites with information to install and use Linux. !LinuxBasics.org now also offers a downloadable Linux 'virtual machine' (LBox) that runs on Windows - you can use this as a completely safe learning environment, and feel free to make mistakes without any chance of damaging your Windows setup.
+---++ Learn it!
+If you don't know all of these skills, you can learn it! The Internet provides many sources of information about all these skills
 
-A nice tool for people migrating from Windows is http://www.MidnightCommander.org/. It is already installed on Linux systems: try ==mc -ac== and ==ESC 1== to get help.
+There are many excellent resources for learning how to administer your OS and web server, including books, web sites, web forums, IM and e-mail lists.   The
+Foswiki:Support web must *not* be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating
+system and web server administration.  Asking and answering questions is time consuming for all concerned and is best used for specific _Foswiki related_
+issues, rather than helping you learn the OS and web server.
 
 ---
-
 *Related Topics:* AdminDocumentationCategory
