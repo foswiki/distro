@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/env perl
 #
 # Build for Foswiki
 # Julian Levens

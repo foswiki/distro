@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 # See bottom of file for license and copyright information
 #
 # The Foswiki 'bin' directory must be on your include path when you run
