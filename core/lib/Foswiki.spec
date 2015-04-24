@@ -1038,7 +1038,8 @@ $Foswiki::cfg{AccessibleENV} =
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).
 
-# **URL 30 LABEL="Proxy Host" CHECK='undefok emptyok parts:scheme,authority,path,user,pass  \
+# **URL 30 LABEL="Proxy Host" CHECK='undefok emptyok parts:scheme,authority,path\
+#              user pass  \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
 #              authtype:hostip' **
