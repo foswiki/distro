@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-12 22:35+0200\n"
+"PO-Revision-Date: 2015-04-25 13:00+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -1201,7 +1201,7 @@ msgstr "Lag ny side"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr "Oppretting ikke spesifisert og gruppe eksisterer ikke"
+msgstr "Opprett ikke spesifisert og gruppe finnes ikke"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1482,11 +1482,11 @@ msgstr "Skriv administrators brukernavn eller brukernavn som satt i %1"
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Skriv sidenavnet som WikiOrd eller huk av krysset for å tillate ikke WikiOrd."
+"Skriv sidenavnet som WikiOrd eller huk av boksen for å tillate ikke-Wiki ord."
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr "Feil oppstod ved lasting av plugin. Se feil under."
+msgstr "Feil ved lasting av plugin tillegg. Se feilmelding under."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1538,7 +1538,7 @@ msgstr "Feilede plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Fikk ikke opprettet bruker:"
+msgstr "Feilet med å legge til bruker: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1575,8 +1575,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"For mer detaljert informasjon om cross-site request forgery og farene det "
-"utgjør for deg, se [[%1][CSRF artikkelen på Wikipedia]]."
+"For mer detaljer informasjon om cross-site request forgery og farene det "
+"utgjør for deg, se [[%1][Cross-site request forgery artikkel på Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -2021,7 +2021,7 @@ msgstr "Hopp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to first revision"
-msgstr "Gå til første versjon"
+msgstr "Hopp til første versjon"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
@@ -2034,7 +2034,7 @@ msgstr "Nøkkelord søk"
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
-msgstr "Siste redigert av"
+msgstr "Sist redigert av"
 
 #: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:171
 msgid "Last editor"
@@ -2042,7 +2042,7 @@ msgstr "Siste redigerer"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Last modified"
-msgstr "Siste endret"
+msgstr "Sist endret"
 
 #: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
@@ -2190,7 +2190,7 @@ msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"Mer: slett eller navngi denne siden; set foreldreside;vis og sammenlign "
+"Mer: slett eller navngi denne siden; sett overordnet side; vis og sammenlign "
 "versjoner (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -2307,7 +2307,7 @@ msgstr "Ingen undersider"
 
 #: core/templates/messages.tmpl:497 core/templates/messages.tmpl:548
 msgid "No group name specified"
-msgstr "Gruppenavn ikke angitt"
+msgstr "Gruppenavn er ikke spesifisert"
 
 #: core/templates/messages.tmpl:597
 msgid "No permission to view %1"
@@ -2485,7 +2485,7 @@ msgstr "Tilbakestilling av passord feilet"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
-msgstr "Passord er deaktivert"
+msgstr "Passord deaktivert"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2510,7 +2510,7 @@ msgstr "Plassholder for slettede vedlegg"
 
 #: core/templates/messages.tmpl:508 core/templates/messages.tmpl:558
 msgid "Please check to ensure you have permission to modify the group."
-msgstr "Vennligst forsikre at du har rettigheter til å endre gruppen."
+msgstr "Vennligst sjekk at du har rettigheter til å endre gruppen."
 
 #: core/templates/messages.tmpl:298 core/templates/messages.tmpl:364
 msgid "Please contact %1 if you have any questions."
