@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-22 10:38+0200\n"
+"PO-Revision-Date: 2015-04-26 11:18+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr "!WikiName"
+msgstr "!WikiNavn"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -1919,7 +1919,7 @@ msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:456
 msgid "Globe"
-msgstr "Globe"
+msgstr "Globus"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
 #: core/templates/messages.tmpl:470 core/templates/registermessages.tmpl:369
@@ -2865,7 +2865,7 @@ msgstr "Ikke sikker på dette er korrekt, venligst bekræft!"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Notation"
-msgstr "Notation"
+msgstr "Tegn"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -3204,7 +3204,7 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:500
 msgid "Plugin handlers"
-msgstr "Plugin handlers"
+msgstr "Plugin håndtering"
 
 #: core/templates/messages.tmpl:505
 msgid "Plugin module did not return true. See errors below."
@@ -5224,6 +5224,8 @@ msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
+"Wiki administratorer bør læse om [[%1][SikkerhedsMuligheder siden på "
+"Foswiki.org]]."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5347,20 +5349,23 @@ msgstr "Du kan omdøbe dette web til et nyt navn."
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
+"Du kan ikke tilføje brugere til en manglende gruppen, undtagen hvis opret "
+"muligheden er sat."
 
 #: core/data/System/UserName.txt:15
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
+"Du kan ikke ændre brugernavn: du er nødt til at få administratoren til at "
+"gøre dette for dig."
 
 #: core/templates/messages.tmpl:491
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
 msgstr ""
-"Du kan ikke fortsætte fordi enten Cookies eller Javascript er deaktiveret i "
+"Du kan ikke fortsætte fordi enten cookies eller !JavaScript er deaktiveret i "
 "din browser."
 
 #: core/templates/registermessages.tmpl:194
@@ -5413,18 +5418,22 @@ msgstr "Du skal angive et sidenavn."
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
+"Du skal specificere et gyldigt gruppe navn for at tilføje brugere til en "
+"gruppe."
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
+"Du skal specificere et gyldigt gruppe navn for at fjerne brugere fra en "
+"gruppe."
 
 #: core/templates/messages.tmpl:322
 msgid "You need to specify a valid member to add to a group."
-msgstr ""
+msgstr "Du skal specificere et gyldig brugernavn for at tilføje til en gruppe."
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
-msgstr ""
+msgstr "Du skal specificere et gyldig brugernavn for at fjerne fra en gruppe."
 
 #: core/templates/registerconfirm.tmpl:12
 msgid ""
@@ -5568,6 +5577,8 @@ msgstr ""
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
+"[[%1][Klik her]] for vejledning for at oprette et gyldigt brugernavn på "
+"denne side"
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
@@ -5645,7 +5656,7 @@ msgstr "luk visningsindstillinger"
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "default as defined in the %1"
-msgstr ""
+msgstr "standard som defineret i %1"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
@@ -5677,52 +5688,49 @@ msgstr "feltet / felterne er obligatoriske."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:23
-#, fuzzy
 msgid "help"
-msgstr "Editéringshjælp"
+msgstr "hjælp"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
-msgstr ""
+msgstr "hints til god stil i e-samarbejdet"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
-msgstr ""
+msgstr "ignorer sag"
 
 #: core/templates/more.tmpl:141
 msgid "in raw text format"
-msgstr ""
+msgstr "i kildetekst-format"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:4
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
-msgstr ""
+msgstr "angiver obligatoriske felter"
 
 #: core/templates/messages.tmpl:499 core/templates/messages.tmpl:501
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin var ikke defineret. Se fejl nedenfor."
 
 #: core/data/System/SiteChanges.txt:63
-#, fuzzy
 msgid "last change"
-msgstr "(ændringer)"
+msgstr "seneste ændring"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
-msgstr ""
+msgstr "opdatér"
 
 #: core/data/Trash/WebHome.txt:11
-#, fuzzy
 msgid "more..."
-msgstr "(mere)"
+msgstr "mere..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "ny"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
-msgstr ""
+msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -5732,16 +5740,15 @@ msgstr ""
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
 #: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
-msgstr ""
+msgstr "eller"
 
 #: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
-msgstr ""
+msgstr "vis udkast"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
-#, fuzzy
 msgid "public view access"
-msgstr "Alle offentlige webs"
+msgstr "adgang for offentlig visning"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
 msgid "restore"
@@ -5781,26 +5788,25 @@ msgstr "sæt præferencer"
 #: NatEditPlugin/templates/edit.natedit.tmpl:142
 #: NatEditPlugin/templates/edit.natedit.tmpl:173
 msgid "specify a list of users and/or groups"
-msgstr ""
+msgstr "specificer en liste af brugere og/eller grupper"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "nægte al adgang til denne side"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "nægte skriveadgang til denne side"
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
 msgstr "begyndelsen"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
-#, fuzzy
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
 "title='Vedhæft fx et billede eller et dokument til denne side' "
-"accesskey='a'>Vedhæft (&A) "
+"accesskey='a'>&Vedhæft"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic'>Attach"
