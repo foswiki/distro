@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-20 12:20+0200\n"
+"PO-Revision-Date: 2015-04-26 11:18+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
@@ -1667,7 +1667,7 @@ msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
-msgstr "Globe"
+msgstr "Globus"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
 #: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
@@ -2618,7 +2618,7 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
-msgstr "Plugin handlers"
+msgstr "Plugin håndtering"
 
 #: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
@@ -4653,7 +4653,7 @@ msgstr "begyndelsen"
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
 "title='Vedhæft fx et billede eller et dokument til denne side' "
-"accesskey='a'>Vedhæft (&A) "
+"accesskey='a'>&Vedhæft"
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
 msgid "title='Create new topic' accesskey='c'>&Create"
