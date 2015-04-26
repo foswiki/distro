@@ -18,6 +18,15 @@ sub check_current_value {
       unless defined $Foswiki::Plugins::SESSION
       && eval("require Foswiki::Func");
 
+    if ( defined $Foswiki::cfg{LoginManager}
+        && $Foswiki::cfg{LoginManager} eq 'none' )
+    {
+        $reporter->WARN(
+"Configure access restrictions will not be used.  The ={LoginManager}= is set to 'none' and no access controls will be applied."
+        ) if ( $Foswiki::cfg{FeatureAccess}{Configure} );
+        return;
+    }
+
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 
