@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-25 10:55+0200\n"
+"PO-Revision-Date: 2015-04-28 22:22+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1557,10 +1557,8 @@ msgstr ""
 "Notificalo al tuo amministratore %4."
 
 #: core/templates/messages.tmpl:110
-#, fuzzy
 msgid "During rename of web %1 to %2 an error was found."
-msgstr ""
-"Durante lo spostamento dell'allegato =%1= in %2 si è verificato un errore."
+msgstr "Durante la rinomina del web %1 in %2 si è verificato un errore."
 
 #: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
 msgid ""
@@ -1949,13 +1947,12 @@ msgid "Go back in your browser and save your changes locally."
 msgstr "Torna indietro nel browser e salva le modifiche fatte localmente."
 
 #: core/templates/messages.tmpl:492
-#, fuzzy
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
-"Torna alla pagina precedente, e abilita i cookie e javascript, prima di "
-"riprovare di nuovo"
+"Tornare alla pagina precedente, e abilitare cookie e javascript, prima di "
+"riprovare"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -3423,13 +3420,12 @@ msgid "Remember me on this computer"
 msgstr "Ricordami su questo computer"
 
 #: core/templates/registermessages.tmpl:292
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"Ricordati di aggiornare la tua pagina personale se vuoi che la variazione "
-"dell'indirizzo e-mail venga riportata anche qui."
+"Ricordati di aggiornare la tua pagina personale [[%1]] se vuoi che la "
+"variazione dell'indirizzo e-mail venga riportata anche lì."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -4051,9 +4047,8 @@ msgid "Superscript"
 msgstr "Apice"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-#, fuzzy
 msgid "Switch to monotype or proportional font"
-msgstr "Seleziona font con spaziatura fissa o proporzionale"
+msgstr "Passa a font con spaziatura fissa o proporzionale"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Switch to wysiwyg"
@@ -4358,6 +4353,8 @@ msgstr "Utente collegato con il nome"
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
 msgstr ""
+"Il nuovo web genitore (%1) potrebbe non essere lo stesso del vecchio o del "
+"nuovo nome web."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -5182,13 +5179,12 @@ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Attenzione: la definizione %1 nella pagina \\'include\\' non esiste!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
-#, fuzzy
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
-"Abbiamo notato che avete disattivato Javascript. Si prega di attivare "
-"Javascript se si desidera registrarsi."
+"Abbiamo notato che avete disattivato !Javascript. Si prega di attivare "
+"!Javascript se si desidera registrarsi."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5389,13 +5385,12 @@ msgstr ""
 "all'amministratore."
 
 #: core/templates/messages.tmpl:491
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
 msgstr ""
-"Non è possibile confermare questo cambiamento in quanto i Cookie e "
-"Javascript sono disabilitati nel tuo browser."
+"Non è possibile confermare questo cambiamento in quanto i Cookie o "
+"!Javascript sono disabilitati nel tuo browser."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
