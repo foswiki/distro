@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-27 05:19+0200\n"
+"PO-Revision-Date: 2015-04-29 09:31+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
-"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/ko/>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5703,9 +5703,8 @@ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
 msgstr "title='이 토픽 편집하기' accesskey='e'>편집하기(&E)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='이 토픽의 프린트 버전 보기' accesskey='p'>프린트 버전(&P)"
+msgstr "title='이 토픽에 대한 구독 취소' accesskey='s'>구독취소(&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
