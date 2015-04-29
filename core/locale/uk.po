@@ -198,7 +198,7 @@ msgstr "%1 щоб налаштувати параметри для розділ�
 msgid "%1 to start working on the new web"
 msgstr "%1 щоб почати працювати в новому розділі"
 
-#: core/templates/messages.tmpl:447 core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
 msgstr "тема %1 не існує"
 
@@ -310,7 +310,7 @@ msgstr "(вилучити файл)"
 msgid "(delete)"
 msgstr "(вилучити)"
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:509
 #, fuzzy
 msgid "(disabled)"
 msgstr "Редагувати таблицю"
@@ -578,7 +578,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Розширення =.txt= додано до деяких імен файлів з міркувань безпеки"
 
-#: core/templates/messages.tmpl:417 core/templates/messages.tmpl:428
+#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
 #, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
@@ -600,7 +600,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Лист підтвердження відправлений по електронній пошті: %1"
 
-#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -645,7 +645,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Доступ заборонений"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
 msgstr "Перевірка доступу для %1 закінчилася невдало"
 
@@ -664,7 +664,7 @@ msgstr "Швидкі клавіші"
 msgid "Action"
 msgstr "Дія"
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:392
 #, fuzzy
 msgid "Action %1: %2 by user %3."
 msgstr "Дія %1: %2."
@@ -856,7 +856,7 @@ msgstr "Прикріпити новий файл"
 msgid "Attachment"
 msgstr "Прикріплений файл"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
 msgstr "Файл '%1' не існує"
 
@@ -1284,10 +1284,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Конфлікт"
 
-#: core/templates/messages.tmpl:394 core/templates/messages.tmpl:401
-#: core/templates/messages.tmpl:406 core/templates/messages.tmpl:443
-#: core/templates/messages.tmpl:456 core/templates/messages.tmpl:463
-#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
+#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
@@ -1428,7 +1428,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Створити особисту панель"
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:443
 msgid "Create the topic"
 msgstr "Створити тему"
 
@@ -1621,27 +1621,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Адреса електронної пошти успішно змінена!"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:477
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:479
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:481
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:487
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:483
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:485
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1772,7 +1772,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "Спочатку вилучте користувача з груп(и) %1."
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:497
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1991,7 +1991,7 @@ msgid "Globe"
 msgstr "Закрити"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
-#: core/templates/messages.tmpl:470 core/templates/registermessages.tmpl:369
+#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Повернутися"
 
@@ -2010,7 +2010,7 @@ msgstr ""
 "Поверніться <a href=\"javascript:history.go(-1)\">на попередню сторінку</a>, "
 "використовуючи стандартну навігацію браузера і збережіть Ваші зміни локально."
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:494
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2218,7 +2218,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
 msgid "If you came here by clicking on a question mark link"
 msgstr "Якщо Ви потрапили сюди клацнувши на знак питання"
 
@@ -2273,7 +2273,7 @@ msgstr ""
 "просто хотіли на неї подивитися [[%1][відмініть збереження]] щоб перейти до "
 "%2."
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:442
 msgid "If you want to create the topic"
 msgstr "Якщо Ви хочете створити тему"
 
@@ -2283,7 +2283,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:437
 msgid "If you would like to create this web"
 msgstr "Якщо Ви хочете створити цей розділ"
 
@@ -2712,7 +2712,7 @@ msgstr "Відсутні поля"
 msgid "Missing action command"
 msgstr "Не визначена дія, пов'язана з командою"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
 msgstr ""
 
@@ -3066,7 +3066,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Тільки членам %1 дозволено виконати цю дію."
 
-#: core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:406
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Тільки членам %1 дозволено виконати цю дію."
 
@@ -3313,7 +3313,7 @@ msgstr ""
 "Будь ласка, перевірте правильність написання %1 та спробуйте ще раз. Якщо Ви "
 "здивовані, будь ласка, відправте електронний лист за адресою %2."
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:491
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3335,11 +3335,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:507
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:499
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3535,7 +3535,7 @@ msgstr "Зв'язані теми"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
 msgid "Related topics:"
 msgstr "Зв'язані теми:"
 
@@ -4224,7 +4224,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:455
 #, fuzzy
 msgid "Template %1 does not exist"
 msgstr "Розділ %1 не існує"
@@ -4283,7 +4283,7 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "Тема %1 вже існує"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:429
 msgid "The %1 web does not exist"
 msgstr "Розділ %1 не існує"
 
@@ -4331,7 +4331,7 @@ msgstr ""
 msgid "The Free and Open Source Wiki."
 msgstr ""
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:417
 #, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
@@ -4732,6 +4732,10 @@ msgstr "Потрібно ввести пароль завдовжки не ме�
 msgid "This system is configured to use usernames"
 msgstr ""
 
+#: core/templates/messages.tmpl:385
+msgid "This system is not configured to support user login. Return to [[%1]]."
+msgstr ""
+
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Ця тема:"
@@ -4789,7 +4793,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Якщо Ви наполягаєте на редагуванні сторінки, натисніть "
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:394
 #, fuzzy
 msgid "To login as another user please do so [[%1][here]]"
 msgstr "Ви можете подивитися відмінності [[%1][тут]]."
@@ -4816,7 +4820,7 @@ msgstr "У розділ:"
 msgid "To web:"
 msgstr "У розділ:"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4972,7 +4976,7 @@ msgstr ""
 msgid "Unrecognized action command %1"
 msgstr "Нерозпізнана команда %1"
 
-#: core/templates/messages.tmpl:399
+#: core/templates/messages.tmpl:401
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5443,29 +5447,29 @@ msgstr ""
 "вибирайте ім'я, що починається з символу підкреслення і не містить інших "
 "символів, окрім букв та цифр."
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:470
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Ви намагаєтеся %1 неіснуючий файл."
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:456
 #, fuzzy
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:450
 #, fuzzy
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:463
 #, fuzzy
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5505,7 +5509,7 @@ msgid ""
 "for you."
 msgstr "Можливо Ви повинні попросити адміністратора %1, зробити це."
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:493
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5729,27 +5733,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Українська"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:169
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
 msgstr "доступ відхилений"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:105
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
 msgstr "доступ до теми відхилений"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:141
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
 msgstr "доступ до розділу відхилений"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:179
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
 msgstr "доступ заборонений"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:128
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
 msgstr "доступ до теми заборонений"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:153
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
 msgstr "доступ до розділу заборонений"
 
@@ -5796,7 +5800,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте перевірити налаштування Вашої персональної сторінки"
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -5840,7 +5844,7 @@ msgstr "у вигляді початкового тексту"
 msgid "indicates mandatory fields"
 msgstr "указує обов'язкові поля"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 

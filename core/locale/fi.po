@@ -194,7 +194,7 @@ msgstr "%1 kustomoidaksesi verkon tietyt asetukset"
 msgid "%1 to start working on the new web"
 msgstr "%1 aloittaaksesi työskentelyn uuden webin kanssa"
 
-#: core/templates/messages.tmpl:447 core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
 msgstr "%1 aihetta ei ole olemassa"
 
@@ -299,7 +299,7 @@ msgstr "(poista liite)"
 msgid "(delete)"
 msgstr "(poista)"
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:509
 #, fuzzy
 msgid "(disabled)"
 msgstr "Muokkaa taulukkoa"
@@ -566,7 +566,7 @@ msgstr ""
 "Tiedostotarkenne =.txt= liitetään joihinkin tiedostoihin automaattisesti "
 "tietoturvasyistä"
 
-#: core/templates/messages.tmpl:417 core/templates/messages.tmpl:428
+#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -587,7 +587,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Varmistussähköposti lähetetty osoitteeseen %1"
 
-#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -634,7 +634,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Pääsy estetty"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
 msgstr "Pääsytarkistus %1 epäonnistui"
 
@@ -653,7 +653,7 @@ msgstr "Pääsyavaimet"
 msgid "Action"
 msgstr "Toiminto"
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:392
 #, fuzzy
 msgid "Action %1: %2 by user %3."
 msgstr "Toiminto %1: %2."
@@ -843,7 +843,7 @@ msgstr "Liitä uusi tiedosto"
 msgid "Attachment"
 msgstr "Liite"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
 msgstr "Liitettä '%1' ei ole olemassa"
 
@@ -1268,10 +1268,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Ristiriita"
 
-#: core/templates/messages.tmpl:394 core/templates/messages.tmpl:401
-#: core/templates/messages.tmpl:406 core/templates/messages.tmpl:443
-#: core/templates/messages.tmpl:456 core/templates/messages.tmpl:463
-#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
+#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Ota yhteyttä %1 jos sinulla on kysyttävää"
 
@@ -1410,7 +1410,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Luo henkilökohtainen sivupaneeli"
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:443
 msgid "Create the topic"
 msgstr "Luo aihe"
 
@@ -1606,27 +1606,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Sähköpostiosoitteen muutos onnistui!"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:477
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:479
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:481
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:487
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:483
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:485
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1755,7 +1755,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:497
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1973,7 +1973,7 @@ msgid "Globe"
 msgstr "Sulje"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
-#: core/templates/messages.tmpl:470 core/templates/registermessages.tmpl:369
+#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Takaisin"
 
@@ -1988,7 +1988,7 @@ msgstr "Palaa selaimeesi ja täytä kaikkiin pakollisiin kenttiin. "
 msgid "Go back in your browser and save your changes locally."
 msgstr "Palaa selaimeesi ja tallenna muutoksesi paikallisesti."
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:494
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2200,7 +2200,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Jos olet epävarma, mitä tämä tarkoittaa, lue:"
 
-#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
 msgid "If you came here by clicking on a question mark link"
 msgstr "Jos tulit tänne klikkaamalla kysymysmerkki-linkkiä"
 
@@ -2256,7 +2256,7 @@ msgstr ""
 "Jos vastaanotit linkin tähän aiheeseen sähköpostissa, tai haluat vain selata "
 "tätä aihetta, [[%1][peruuta tallennus]] siirtyäksesi %2."
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:442
 msgid "If you want to create the topic"
 msgstr "Jos haluat luoda aiheen"
 
@@ -2266,7 +2266,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:437
 msgid "If you would like to create this web"
 msgstr "Jos haluat luoda tämän verkon"
 
@@ -2686,7 +2686,7 @@ msgstr "Puuttuvat kentät"
 msgid "Missing action command"
 msgstr "Puuttuva komento"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
 msgstr ""
 
@@ -3038,7 +3038,7 @@ msgstr "Kun olet rekisteröitynyt voit kirjautua käyttämällä %1 ja salasanaa
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
 
-#: core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:406
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
 
@@ -3275,7 +3275,7 @@ msgstr ""
 "Varmista %1 oikeinkirjoitus ja yritä uudelleen. Jos jäät jumiin, ota "
 "yhteyttä %2."
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:491
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
@@ -3295,11 +3295,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:507
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:499
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3492,7 +3492,7 @@ msgstr "Liittyvät aiheet"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
 msgid "Related topics:"
 msgstr "Liittyvät aiheet:"
 
@@ -4178,7 +4178,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
 msgstr "Mallinnetta %1 ei ole olemassa"
 
@@ -4236,7 +4236,7 @@ msgstr "Käyttäjätili on jo aktivoitu"
 msgid "The %1 topic already exists"
 msgstr "Aihe %1 on jo olemassa"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:429
 msgid "The %1 web does not exist"
 msgstr "Verkkoa %1 ei ole olemassa"
 
@@ -4285,7 +4285,7 @@ msgstr "Ylläpito on poistanut uusien käyttäjien rekisteröitymisen käytöst�
 msgid "The Free and Open Source Wiki."
 msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:417
 #, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
@@ -4689,6 +4689,10 @@ msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
 msgid "This system is configured to use usernames"
 msgstr ""
 
+#: core/templates/messages.tmpl:385
+msgid "This system is not configured to support user login. Return to [[%1]]."
+msgstr ""
+
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Tämä aihe:"
@@ -4749,7 +4753,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Muokataksesi kuitenkin aihetta, klikkaa "
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:394
 #, fuzzy
 msgid "To login as another user please do so [[%1][here]]"
 msgstr "Voit nähdä eroavaisuudet [[%1][täällä]]."
@@ -4776,7 +4780,7 @@ msgstr "Verkkoon:"
 msgid "To web:"
 msgstr "Verkkoon:"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4933,7 +4937,7 @@ msgstr "Tuntematon käyttäjä ja/tai salasana"
 msgid "Unrecognized action command %1"
 msgstr "Ei-tunnettu toimintokomento %1"
 
-#: core/templates/messages.tmpl:399
+#: core/templates/messages.tmpl:401
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5403,27 +5407,27 @@ msgstr ""
 "uusille verkoille) valitse nimi, joka alkaa alleviivauksella ja sisältää "
 "ainoastaan aakkosnumeerisia kirjaimia. "
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:470
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Yrität toimintoa %1 liitteelle, jota ei ole olemassa."
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:456
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Yrität luoda uutta artikkelia sivupohjasta, jota ei ole olemassa."
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:450
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 "Yrität suorittaa toiminnon aiheelle, jota ei ole olemassa (toiminto '%1')."
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:463
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Yrität uudelleennimetä aiheen, jota ei ole olemassa"
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5466,7 +5470,7 @@ msgid ""
 msgstr ""
 "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:493
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5694,27 +5698,27 @@ msgstr "[3 väliä] * [väli] Set [väli] MUUTTUJANNIMI [väli] = [arvo]"
 msgid "_language_name"
 msgstr "Suomi"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:169
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
 msgstr "Pääsy kielletty roottiin"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:105
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
 msgstr "pääsy kielletty aiheeseen"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:141
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
 msgstr "pääsy kielletty webiin"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:179
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
 msgstr "Pääsy roottiin kielletty"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:128
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
 msgstr "pääsy aiheeseen estetty"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:153
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
 msgstr "pääsy web:iin estetty"
 
@@ -5761,7 +5765,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "älä unohda tarkistaa Aiheesi asetuksia"
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -5804,7 +5808,7 @@ msgstr "raa'assa tekstimuodossa"
 msgid "indicates mandatory fields"
 msgstr "merkitsee vaadittua kenttää"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
