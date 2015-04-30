@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427074085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430403240" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -122,6 +122,7 @@ reduce bandwidth and speed up interactive performance.
 ---++ Plugin Info
 |  Maintainer(s): | Michael Daum |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  30 Apr 2015: | (6.11) - Item13389: datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field; error in jquery.foswiki api getPubUrlPath |
 |  23 Feb 2015: | (6.10) - Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
 |  12 Jan 2015: | (6.01) - Item13205: added jquery-1.11.2 and jquery-2.1.3 |
 |  29 Nov 2014: | (6.01) - Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
@@ -342,62 +343,3 @@ reduce bandwidth and speed up interactive performance.
 %META:FIELD{name="License" title="License" value="GPL"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="jquery-1.10.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="274080" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.0.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="129635" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.2.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40637" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.2.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="36903" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.0.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="259837" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427074085" size="445" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="139912" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.3.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="267739" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.3.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40784" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="128982" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.3.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="130721" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.10.0.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="273810" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.2.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="147366" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.2.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="41506" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="248235" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.10.0.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="143565" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.0.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="36867" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.2.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="39849" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.2.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="139304" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.0.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="147756" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.2.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="142017" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="261525" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="37077" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.3.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="142303" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.0.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="240196" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.0.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="244963" version="1"}%
-%META:FILEATTACHMENT{name="noconflict.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="30" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.0.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="139404" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.0.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="41488" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.9.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="268381" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.10.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40854" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="284184" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.0.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="282944" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40172" version="1"}%
-%META:FILEATTACHMENT{name="noconflict.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="27" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.10.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="143620" version="1"}%
-%META:FILEATTACHMENT{name="Makefile.include" attr="h" comment="" user="ProjectContributor" date="1427074085" size="2188" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.0.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="36553" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="266882" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="130555" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.9.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40640" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.2.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="128970" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="41416" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="282766" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.3.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="37126" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="247351" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.1.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="242727" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="39200" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.1.3.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="247387" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="242915" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.11.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="147073" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="252881" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.10.0.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40831" version="1"}%
-%META:FILEATTACHMENT{name="noconflict.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="47" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.7.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="137090" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.1.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="36875" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.9.1.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="142561" version="1"}%
-%META:FILEATTACHMENT{name="jquery-2.0.0.js" attr="h" comment="" user="ProjectContributor" date="1427074085" size="128365" version="1"}%
-%META:FILEATTACHMENT{name="jquery-1.8.0.js.gz" attr="h" comment="" user="ProjectContributor" date="1427074085" size="40051" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315838249" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430403240" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"validate"
@@ -22,10 +22,10 @@ Very powerful client-side form validation framework
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <h3>First name:</h3>
-    <input type="text" size="30" class="foswikiInputField {required:true}" name="firstname" value="%URLPARAM{"firstname"}%" />
+    <input type="text" size="30" class="foswikiInputField required" name="firstname" value="%URLPARAM{"firstname"}%" />
 
     <h3>Last name:</h3>
-    <input type="text" size="30" class="foswikiInputField {required:true}" name="lastname"  value="%URLPARAM{"lastname"}%" />
+    <input type="text" size="30" class="foswikiInputField required" name="lastname"  value="%URLPARAM{"lastname"}%" />
 
     <h3>Date of birth:</h3>
     <input type="text" size="10" class="required date foswikiInputField" mask="99/99/9999" name="dateofbirth" value="%URLPARAM{"dateofbirth"}%" />

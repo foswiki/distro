@@ -2,12 +2,27 @@
 jQuery(function($) {
   
   var datepickerDefaults = {
-    dateFormat:'yy-mm-dd',
+    dateFormat:'d M yy',
     firstDay: 1
   };
 
-  $(".jqUIDatepicker").each(function() {
-    var $this = $(this), opts = $.extend({}, datepickerDefaults, $this.metadata());
-    $this.removeClass("jqUIDatepicker").datepicker(opts);    
+  $(".jqUIDatepicker").livequery(function() {
+    var $this = $(this), 
+        opts = $.extend({}, datepickerDefaults, $this.data(), $this.metadata()),
+        maxZIndex = 1;
+
+    $this.parents().each(function() {
+      var zIndex = parseInt($(this).css("z-index"), 10);
+      if (zIndex > maxZIndex) {
+        maxZIndex = zIndex;
+      }
+    });
+
+    $this.css({
+      "position": "relative",
+      "z-index": maxZIndex + 1
+    });
+    
+    $this.datepicker(opts);    
   });
 });

@@ -164,7 +164,6 @@ $.tabpane = {
             opacity: 1.0
           }, 300);
         }
-        $(window).trigger("resize");
       } else {
         // animate height
         if (thisOpts.animate) {
@@ -191,6 +190,7 @@ $.tabpane = {
           }
         }
       }
+      $(window).trigger("resize");
       
       // after click handler
       if (typeof(data.afterHandler) == "function") {
