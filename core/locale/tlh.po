@@ -1,0 +1,5494 @@
+# Foswiki translation for <Language>
+# Translators:
+#   <add-yourself-here>
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: tlh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: core/data/System/WikiName.txt:3
+msgid "!WikiName"
+msgstr ""
+
+#. ($days)
+#: core/lib/Foswiki/Time.pm:441
+msgid "%*(%1,day) "
+msgstr ""
+
+#. ($hours)
+#: core/lib/Foswiki/Time.pm:444
+msgid "%*(%1,hour) "
+msgstr ""
+
+#. ($mins)
+#: core/lib/Foswiki/Time.pm:447
+msgid "%*(%1,minute) "
+msgstr ""
+
+#. ($secs)
+#: core/lib/Foswiki/Time.pm:450
+msgid "%*(%1,second) "
+msgstr ""
+
+#: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
+#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
+#: core/templates/oopsgeneric.tmpl:7
+msgid "%1"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:83
+msgid "%1 (default)"
+msgstr ""
+
+#: core/templates/registerfailednotremoved.tmpl:3
+#: core/templates/registerfailedremoved.tmpl:3
+msgid "%1 - Registration failure for %2 (%3)"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
+#: core/templates/registernotify.tmpl:3
+#: core/templates/registernotifyadmin.tmpl:3
+msgid "%1 - Registration for %2 (%3)"
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:40
+msgid "%1 Web"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:387
+msgid "%1 added to the %2 group."
+msgstr ""
+
+#. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+msgid "%1 cannot be removed from %2"
+msgstr ""
+
+#: core/templates/registerdenied.tmpl:11
+msgid "%1 denied the registration."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:394
+msgid "%1 group topic upgraded."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:40
+msgid "%1 has a list of other Foswiki users"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+msgid "%1 has been approved and registered with e-mail %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:332
+msgid ""
+"%1 has been editing the topic for %2 and the lease is still active for "
+"another %3."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:51
+msgid ""
+"%1 has been emailed to inform them that their registration has been "
+"successful"
+msgstr ""
+
+#: core/templates/registerfailednotremoved.tmpl:11
+#: core/templates/registernotifyadmin.tmpl:11
+msgid "%1 has been registered with e-mail %2"
+msgstr ""
+
+#: core/templates/validate.tmpl:32
+msgid "%1 has received a suspicious change request from your browser."
+msgstr ""
+
+#: core/templates/messages.tmpl:22
+msgid "%1 home"
+msgstr ""
+
+#: core/templates/messages.tmpl:119
+msgid "%1 is an invalid name for a new web"
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
+msgid "%1 is currently logged in"
+msgstr ""
+
+#: core/templates/messages.tmpl:300
+msgid "%1 is currently set to %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:330
+msgid "%1 is editing [[%2][%3]]."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:284
+msgid "%1 is in at least one group and cannot be removed"
+msgstr ""
+
+#: core/templates/messages.tmpl:133
+msgid "%1 is not a valid form name"
+msgstr ""
+
+#: core/templates/messages.tmpl:128
+msgid "%1 is not a valid value for the %2 parameter"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:41
+msgid "%1 is the default topic for deleted attachments."
+msgstr ""
+
+#: core/templates/messages.tmpl:339
+msgid "%1 may still be editing %2."
+msgstr ""
+
+#: core/data/System/WebChanges.txt:3
+msgid "%1 recent changes in %2 Web"
+msgstr ""
+
+#: core/templates/registerapprove.tmpl:3
+msgid "%1 registration approval required"
+msgstr ""
+
+#: core/templates/registerdenied.tmpl:3
+msgid "%1 registration denied"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:436
+msgid "%1 removed from the %2 group."
+msgstr ""
+
+#: core/templates/messages.tmpl:21
+msgid "%1 to create another web"
+msgstr ""
+
+#: core/templates/messages.tmpl:20
+msgid "%1 to customize the web specific preferences"
+msgstr ""
+
+#: core/templates/messages.tmpl:19
+msgid "%1 to start working on the new web"
+msgstr ""
+
+#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
+msgid "%1 topic does not exist"
+msgstr ""
+
+#: core/templates/registerfailedremoved.tmpl:11
+msgid "%1 tried to register with e-mail %2"
+msgstr ""
+
+#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
+#: core/lib/Foswiki/Render/Moved.pm:67
+msgid "%1 was renamed or moved from %2 on %3 by %4"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
+msgid "&Cancel"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:159
+msgid "&History"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:144
+msgid "&Sequential"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:219
+msgid "'%1' is not a valid [[%2][login username]]."
+msgstr ""
+
+#: core/data/System/WebTopicCreator.txt:3
+msgid "'Create New Topic' page has moved"
+msgstr ""
+
+#: core/templates/login.tmpl:10
+msgid "(%1 login)"
+msgstr ""
+
+#: core/templates/validate.tmpl:6
+msgid "(%1 validation)"
+msgstr ""
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
+msgid "(%1 vs. %2)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:139
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:230
+msgid "(=all= to show all topics)"
+msgstr ""
+
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+msgid "(This message will be removed automatically)"
+msgstr ""
+
+#: core/templates/oopsaccessdenied.tmpl:4
+msgid "(access denied)"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
+msgid "(attach)"
+msgstr ""
+
+#: core/templates/backlinksweb.tmpl:2
+msgid "(backlinks in %1 Web)"
+msgstr ""
+
+#: core/templates/backlinksallwebs.tmpl:3
+msgid "(backlinks in all Webs)"
+msgstr ""
+
+#: core/templates/searchbookview.tmpl:4
+msgid "(book view)"
+msgstr ""
+
+#: core/templates/changeform.tmpl:3
+msgid "(change form)"
+msgstr ""
+
+#: core/templates/oopslanguagechanged.tmpl:3
+msgid "(change language)"
+msgstr ""
+
+#: PatternSkin/templates/changes.pattern.tmpl:2 core/templates/changes.tmpl:2
+msgid "(changes)"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:3
+msgid "(compare)"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:5
+msgid "(delete attachment)"
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:3
+msgid "(delete)"
+msgstr ""
+
+#: core/templates/messages.tmpl:509
+msgid "(disabled)"
+msgstr ""
+
+#: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
+msgid "(edit form)"
+msgstr ""
+
+#: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
+msgid "(edit text)"
+msgstr ""
+
+#: core/templates/edit.tmpl:4 core/templates/edit.tmpl:8
+msgid "(edit)"
+msgstr ""
+
+#: core/templates/login.tmpl:4
+msgid "(login)"
+msgstr ""
+
+#: core/templates/more.tmpl:3
+msgid "(more)"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:3
+msgid "(move attachment)"
+msgstr ""
+
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+msgid "(no parent, orphaned topic)"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
+#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
+#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
+#: core/lib/Foswiki/UI/Rename.pm:624
+msgid "(none)"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
+msgid "(otherwise search %1 Web only)"
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+msgid "(raw view)"
+msgstr ""
+
+#: core/templates/oopsredirectdenied.tmpl:4
+msgid "(redirect denied)"
+msgstr ""
+
+#: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
+#: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
+msgid "(rename)"
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:42
+msgid "(revision %1)"
+msgstr ""
+
+#: core/templates/oopssaveerr.tmpl:7
+msgid "(save error)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:121
+msgid "(single character first name)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:120
+msgid "(single character last name)"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Rename.pm:1098
+msgid "(skipped)"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
+msgid ""
+"*Administrators:* You can change user's e-mail address using this form. "
+"Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+"address."
+msgstr ""
+
+#: core/templates/attachagain.tmpl:18
+msgid ""
+"*Change comment:* If you use _Change Properties_ to change a comment, the "
+"comment shown in the topic will change, but the comment shown against the "
+"attachment history will be the comment when the file was uploaded."
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:8
+msgid "*Formatting help:*"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
+msgid ""
+"*Important:* the information provided in this form will be stored in a "
+"database on the web server. This database is accessible to anyone who can "
+"access the server through the web (though passwords will be encrypted, and e-"
+"mail addresses will be obfuscated to help prevent spamming). Your country, "
+"or the country where the server is hosted, may have Data Protection laws "
+"governing the maintenance of such databases. If you are in doubt, you should "
+"contact %1 for details of the Data Protection Policy of this web server "
+"before registering."
+msgstr ""
+
+#: core/templates/attachagain.tmpl:19
+msgid ""
+"*Local file:* If you select a different file in _Local file:_, it is this "
+"that will be updated or added."
+msgstr ""
+
+#: core/templates/attachagain.tmpl:17
+msgid ""
+"*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
+"changed without uploading a file by pressing \"Change Properties only\"."
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+
+#: core/lib/Foswiki/I18N/Extract.pm:98
+msgid "..."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:29
+msgid "1 hour ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:34
+msgid "1 week ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:31
+msgid "12 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:35
+msgid "2 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:32
+msgid "24 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:33
+msgid "3 days ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:36
+msgid "4 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:30
+msgid "6 hours ago"
+msgstr ""
+
+#: core/data/System/WebChanges.txt:19
+msgid ""
+"<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+"href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+"href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+"topics, <a href='%7' rel='nofollow'>all changes</a>"
+msgstr ""
+
+#: core/templates/more.tmpl:91
+msgid "<em>in %1 web</em> only"
+msgstr ""
+
+#: core/templates/more.tmpl:89
+msgid "<em>in all public webs</em>"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:63
+msgid ""
+"<nop>%1 (%2) can be emailed to inform them that their registration has been "
+"rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:57
+msgid ""
+"<nop>%1 <%2> has been emailed to inform them that their registration has "
+"been denied"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+msgid "<nop>WikiName:"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+msgid ""
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
+msgstr ""
+
+#: core/templates/messages.tmpl:244
+msgid "A =.txt= extension is appended to some filenames for security reasons"
+msgstr ""
+
+#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+msgid ""
+"A Foswiki site is divided into webs; each one represents one subject, one "
+"area of collaboration. You are trying to %1 in a web that does not exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:154
+msgid ""
+"A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+"=#FFFF00=."
+msgstr ""
+
+#. ($data->{Email})
+#: core/lib/Foswiki/UI/Register.pm:1284
+msgid "A confirmation e-mail has been sent to %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
+msgid ""
+"A link to a topic located in another web is written like %1. Make sure that "
+"the name of the web is not spelt wrongly on the previous page; fix the link "
+"if necessary."
+msgstr ""
+
+#: core/templates/messages.tmpl:377
+msgid ""
+"A new system-generated password for your username '%1' (!WikiName %2) has "
+"been sent to your registered e-mail address. If your e-mail address is no "
+"longer valid, please contact %3."
+msgstr ""
+
+#: core/data/System/WebTemplateTopics.txt:5
+msgid "A topic template defines the initial content of a newly created topic."
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:21
+msgid "A topic with this name did exist, but has been renamed or moved to %1."
+msgstr ""
+
+#: core/templates/registerapprove.tmpl:9
+msgid "A user requires your approval to complete their registration"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:89
+msgid "A-Z"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: core/templates/oopsaccessdenied.tmpl:6
+msgid "Access Denied"
+msgstr ""
+
+#: core/templates/messages.tmpl:390
+msgid "Access check on %1 failed"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
+#: PatternSkin/templates/edit.pattern.tmpl:68
+msgid "Access keys"
+msgstr ""
+
+#: PatternSkin/templates/settings.pattern.tmpl:12
+msgid "Access keys:"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
+#: core/templates/changeform.tmpl:9
+msgid "Action"
+msgstr ""
+
+#: core/templates/messages.tmpl:392
+msgid "Action %1: %2 by user %3."
+msgstr ""
+
+#: core/data/Main/WikiGroups.txt:64
+msgid "Actions"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:452
+msgid "Add"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:203
+msgid "Add Members to"
+msgstr ""
+
+#. ("$theWeb.$theTopic")
+#: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr ""
+
+#: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+#: core/templates/addform.tmpl:1
+msgid "Add form"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:212
+msgid "Add members"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:163
+msgid "Add members..."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:189
+msgid "Add user management options to this topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:231
+msgid "Adding a %1 preference in WebPreferences"
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:3
+msgid "Admin Foswiki User Authentication"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:27
+msgid "Admin Maintenance"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:161
+msgid "Administration"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:86
+msgid "Advanced search"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
+msgid ""
+"After submitting this form your e-mail will be changed, and you will be "
+"returned to this form."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:19
+msgid "After submitting this form your password will be changed."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:14
+msgid ""
+"After submitting this form, you will receive an e-mail with your new, system-"
+"generated password, and a link to a page where you can change it."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
+msgid "Ah, no!"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
+msgid "Align left"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
+msgid "Align right"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
+msgid "All public webs"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:45
+msgid "Allow only <nop>WikiWord for the new topic name"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:198
+msgid ""
+"Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
+"a different username."
+msgstr ""
+
+#: core/lib/Foswiki/UI/Rename.pm:223
+msgid "An attachment with the same name already exists in this topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:184
+msgid ""
+"An e-mail could not be delivered. Please notify your %1 administrator, %2"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:49
+msgid ""
+"An error page will be shown if either of the topics are locked by another "
+"user."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"An evil person may try to use your login identity to change content in your "
+"wiki without your knowledge."
+msgstr ""
+
+#: core/templates/messages.tmpl:16
+msgid "And populated with topics from the base web"
+msgstr ""
+
+#: core/templates/changeform.tmpl:27
+msgid ""
+"Any changes you made to the topic before coming to this page are preserved."
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:69
+msgid "Attach"
+msgstr ""
+
+#: core/templates/attach.tmpl:9
+msgid "Attach a file"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:8
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:9
+msgid ""
+"Attach an image or document to this topic; manage existing attachments (a)"
+msgstr ""
+
+#: PatternSkin/templates/attachnew.pattern.tmpl:2
+#: core/templates/attachnew.tmpl:4
+msgid "Attach file to %1"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:11
+msgid "Attach image or document on %1"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
+msgid "Attach new file"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
+#: core/templates/attachtables.tmpl:4
+msgid "Attachment"
+msgstr ""
+
+#: core/templates/messages.tmpl:469
+msgid "Attachment '%1' does not exist"
+msgstr ""
+
+#: core/templates/messages.tmpl:56
+msgid "Attachment delete failed"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Rename.pm:190
+msgid "Attachment does not exist."
+msgstr ""
+
+#: core/templates/attachtables.tmpl:42
+msgid "Attachment history"
+msgstr ""
+
+#: core/templates/messages.tmpl:47
+msgid "Attachment move failed"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:37
+msgid "Attachment name:"
+msgstr ""
+
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
+#: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
+msgid "Attachments"
+msgstr ""
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+msgid "Attachments %1"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+msgid "Attachments help"
+msgstr ""
+
+#: core/templates/attach.tmpl:5
+msgid "Attachments of %1"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+msgid "Attachments will not be shown in topic view page."
+msgstr ""
+
+#: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
+#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopsleaseconflict.tmpl:4
+#: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
+msgid "Attention"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:30
+msgid "Attribute"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:72
+msgid "Automated notification of topic changes"
+msgstr ""
+
+#: core/data/_default/WebHome.txt:5
+msgid "Available Information"
+msgstr ""
+
+#: PatternSkin/templates/changeform.pattern.tmpl:13
+#: core/templates/changeform.tmpl:33
+msgid "Available form templates"
+msgstr ""
+
+#: core/data/System/WebTemplateTopics.txt:7
+msgid "Available templates in %1 Web:"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
+msgid "Back to topic"
+msgstr ""
+
+#: core/templates/more.tmpl:87
+msgid "Backlinks"
+msgstr ""
+
+#: core/templates/backlinksweb.tmpl:5
+msgid "Backlinks to %1 in %2 Web"
+msgstr ""
+
+#: core/templates/backlinksallwebs.tmpl:6
+msgid "Backlinks to %1 in all Webs"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:102
+msgid "Backlinks:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:226
+msgid "Bad password"
+msgstr ""
+
+#: SubscribePlugin/templates/subscribe.tmpl:27
+msgid "Bad subscriber '%1'"
+msgstr ""
+
+#: core/templates/messages.tmpl:143
+msgid "Base web %1 is missing or does not exist"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
+msgid "Blockquote"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
+msgid "Bold"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
+msgid "Both body and title"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
+msgid "Bullet list"
+msgstr ""
+
+#: core/templates/changeform.tmpl:28
+msgid ""
+"But existing form data will be lost (you can always retrieve this data "
+"through the topic history)"
+msgstr ""
+
+#: core/data/Trash/WebHome.txt:7
+msgid ""
+"By default, viewing the Trash web is restricted to %1. If you would like to "
+"allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
+"in WebPreferences."
+msgstr ""
+
+#. ($user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+msgid "CHANGE not permitted by %1"
+msgstr ""
+
+#. (( $groupName, $user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+msgid "CHANGE not permitted for %1 by %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:373 core/templates/registermessages.tmpl:278
+msgid "Can't find user %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:375
+msgid "Can't get an e-mail address for %1 (required for password reset)"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:27
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:177
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:51
+#: JQueryPlugin/data/System/VarBUTTON.txt:34
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
+#: NatEditPlugin/templates/edit.natedit.tmpl:58
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: PatternSkin/data/System/PatternSkinElements.txt:419
+#: PatternSkin/data/System/PatternSkinElements.txt:428
+#: PatternSkin/data/System/PatternSkinElements.txt:448
+#: core/data/Main/GroupViewTemplate.txt:192
+#: core/data/Main/GroupViewTemplate.txt:213
+#: core/data/Main/GroupViewTemplate.txt:240
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
+#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+msgid "Cancel"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: core/templates/settings.tmpl:12
+msgid "Cancel editing and discard changes"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:128
+msgid "Cancel upload"
+msgstr ""
+
+#: SubscribePlugin/templates/subscribe.tmpl:32
+msgid "Cannot change subscription: %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:64
+msgid "Cannot create %1 because it already exists."
+msgstr ""
+
+#: core/templates/messages.tmpl:138
+msgid "Cannot create web %1 because it already exists"
+msgstr ""
+
+#: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
+msgid "Cannot rename %1 to %2 because it already exists."
+msgstr ""
+
+#: core/data/System/WebSearch.txt:184
+msgid "Case sensitive"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:36
+msgid "Categories"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
+msgid "Center align"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+msgid "Change E-mail Address"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:3
+msgid "Change Password"
+msgstr ""
+
+#: core/templates/validate.tmpl:24
+msgid "Change cannot be completed"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:14
+msgid "Change comment and properties only"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
+msgid "Change e-mail address"
+msgstr ""
+
+#: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+msgid "Change form"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:14
+msgid "Change from"
+msgstr ""
+
+#: core/data/System/LanguageSelector.txt:36
+#: core/templates/oopslanguagechanged.tmpl:5
+msgid "Change language"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:43
+msgid "Change links in topics that refer to !%1 in any Web:"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:40
+msgid "Change links in topics that refer to !%1 in the %2 Web:"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:57
+msgid "Change links in topics that refer to %1 in any Web:"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:53
+msgid "Change links in topics that refer to %1 in the %2 Web:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:32
+msgid "Change password"
+msgstr ""
+
+#: core/templates/attachagain.tmpl:21
+msgid "Change properties only"
+msgstr ""
+
+#. ("$theWeb.$theTopic")
+#: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: core/templates/edit.tmpl:6
+msgid "Change topic"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:18
+msgid "Changed by:"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:30
+#: HistoryPlugin/templates/oopshistory.tmpl:43
+msgid "Changed on"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:16
+msgid "Changed:"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:11
+#: PatternSkin/data/Main/WebLeftBarExample.txt:10
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/PatternSkinNavigation.txt:64
+#: PatternSkin/data/System/WebLeftBarExample.txt:11
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:7
+#: PatternSkin/data/_default/WebLeftBar.txt:8
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
+msgid "Changes"
+msgstr ""
+
+#. ($rLow, $rHigh)
+#: core/lib/Foswiki/UI/RDiff.pm:620
+msgid "Changes from r%1 to r%2"
+msgstr ""
+
+#: core/templates/messages.tmpl:296
+msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
+msgstr ""
+
+#: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
+msgid "Checked topics will be updated to point to the new topic location."
+msgstr ""
+
+#: core/templates/renameweb.tmpl:28
+msgid "Checked topics will be updated to point to the new web name."
+msgstr ""
+
+#: core/templates/more.tmpl:205
+msgid "Child topics in %1 web"
+msgstr ""
+
+#: core/templates/changeform.tmpl:6
+msgid "Choose a new form for %1"
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#: core/lib/Foswiki/Form/Checkbox.pm:121
+msgid "Clear all"
+msgstr ""
+
+#: core/lib/Foswiki/Render/Moved.pm:52
+msgid ""
+"Click to move topic back to previous location, with option to change "
+"references."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/preview.natedit.tmpl:6
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
+msgid "Close"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
+msgid "Color"
+msgstr ""
+
+#: core/templates/messages.tmpl:153
+msgid "Color %1 has an invalid format"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:44
+msgid "Columns"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Come on in"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:32
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
+msgid "Comment"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
+msgid "Compare revisions"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+msgid "Confirm password:"
+msgstr ""
+
+#: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
+msgid "Confirm rename or move"
+msgstr ""
+
+#: core/templates/messages.tmpl:31
+msgid ""
+"Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+"(diff)]]."
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:6
+msgid "Conflict"
+msgstr ""
+
+#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
+#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
+msgid "Contact %1 if you have any questions."
+msgstr ""
+
+#: core/data/System/UserName.txt:20
+msgid ""
+"Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
+"assistance."
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:100
+msgid "Context"
+msgstr ""
+
+#: core/templates/messages.tmpl:288
+msgid "Continue and try to rename web?"
+msgstr ""
+
+#: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: core/data/System/WebTopicCreator.txt:5
+msgid "Continue to create the new page"
+msgstr ""
+
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+msgid ""
+"Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+"content."
+msgstr ""
+
+#: core/templates/more.tmpl:27
+msgid "Copy this topic (and all attachments) to a new topic."
+msgstr ""
+
+#: core/templates/more.tmpl:26
+msgid "Copy topic"
+msgstr ""
+
+#: core/templates/more.tmpl:36
+msgid "Copy topic..."
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:40
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this "
+"collaboration platform is the property of the contributing authors."
+msgstr ""
+
+#: core/data/System/WebPreferences.txt:34
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this site is "
+"the property of the contributing authors."
+msgstr ""
+
+#: core/templates/messages.tmpl:164
+msgid "Could not create the new web %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:294
+msgid "Could not find template"
+msgstr ""
+
+#: core/templates/messages.tmpl:383
+msgid "Could not perform search. Error was: %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:194
+msgid "Could not save %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
+msgid "Country:"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:7
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:5
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
+msgid "Create New Topic"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
+msgid "Create New Topic in %1 Web"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+msgid "Create a link to the attached file"
+msgstr ""
+
+#: core/data/Main/WikiGroups.txt:17
+msgid "Create a new group"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:32
+msgid "Create a new table"
+msgstr ""
+
+#: PatternSkin/templates/login.pattern.tmpl:21
+msgid "Create account"
+msgstr ""
+
+#: core/data/Main/WikiGroups.txt:42
+msgid "Create group"
+msgstr ""
+
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+msgid "Create new FAQ topic"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
+msgid "Create new topic"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:405
+#: core/templates/registermessages.tmpl:411
+msgid "Create not specified and group does not exist"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:22
+msgid "Create personal sidebar"
+msgstr ""
+
+#: core/templates/messages.tmpl:443
+msgid "Create the topic"
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:399
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:15
+#: core/data/System/WebCreateNewTopicComponents.txt:154
+#: core/lib/Foswiki/Render.pm:70
+msgid "Create this topic"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
+msgid "Create your account to edit pages on this site."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: core/templates/messages.tmpl:230
+msgid "Creating a suitable Form Definition topic"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:9
+#: core/templates/renamedelete.tmpl:12
+msgid "Current location:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
+msgid "Current password:"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:40
+msgid "Data rows"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
+msgid "Date"
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:9
+msgid "Dear %1"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+msgid "Debug"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
+msgid "Default"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:145
+msgid "Default template"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:454
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
+msgid "Delete"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:28
+msgid "Delete attachment"
+msgstr ""
+
+#: core/templates/more.tmpl:51
+msgid "Delete topic"
+msgstr ""
+
+#: core/templates/more.tmpl:61
+msgid "Delete topic..."
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:57
+msgid "Describe the file so other people know what it is."
+msgstr ""
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Description"
+msgstr ""
+
+#: core/data/System/WebIndex.txt:3
+msgid "Detailed topic list for %1 Web"
+msgstr ""
+
+#: core/lib/Foswiki/Form.pm:425
+msgid "Details in separate window"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:356
+msgid "Details:"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:7
+msgid ""
+"Did you spell the topic name correctly? Remember, a topic name is case "
+"sensitive."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:196
+msgid "Did you want to [[%1][reset %2's password]]?"
+msgstr ""
+
+#: core/templates/rdiff.tmpl:14
+msgid "Difference Topic"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:5
+#: PatternSkin/templates/rdiff.pattern.tmpl:11
+msgid "Difference:"
+msgstr ""
+
+#: core/data/System/WebPreferences.txt:12
+msgid "Discover the details, and how to start your own site with Foswiki"
+msgstr ""
+
+#: core/templates/preview.tmpl:11
+msgid "Do not forget to save your changes"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+msgid "Do not show attachment in table"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:209
+msgid "Don't show:"
+msgstr ""
+
+#: core/templates/messages.tmpl:57
+msgid ""
+"During deletion of attachment =%1= an error was found. Please notify your %2 "
+"administrator."
+msgstr ""
+
+#: core/templates/messages.tmpl:48
+msgid "During move of attachment =%1= to %2 an error was found."
+msgstr ""
+
+#: core/templates/messages.tmpl:103
+msgid ""
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
+msgstr ""
+
+#: core/templates/messages.tmpl:107
+msgid ""
+"During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
+"administrator."
+msgstr ""
+
+#: core/templates/messages.tmpl:110
+msgid "During rename of web %1 to %2 an error was found."
+msgstr ""
+
+#: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
+msgid ""
+"During save of %1 an error was found by the version control system. Please "
+"notify your %2 administrator."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:290
+msgid "E-mail changed successfully!"
+msgstr ""
+
+#: core/templates/messages.tmpl:477
+msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+msgstr ""
+
+#: core/templates/messages.tmpl:479
+msgid "ENCODE failed - both of =old= and =new= must be given"
+msgstr ""
+
+#: core/templates/messages.tmpl:481
+msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+msgstr ""
+
+#: core/templates/messages.tmpl:487
+msgid "EXPAND failed - access to '%PARAM1%' denied"
+msgstr ""
+
+#: core/templates/messages.tmpl:483
+msgid "EXPAND failed - no macro"
+msgstr ""
+
+#: core/templates/messages.tmpl:485
+msgid "EXPAND failed - no such topic '%PARAM1%'"
+msgstr ""
+
+#: NatEditPlugin/templates/settings.natedit.tmpl:26
+#: core/templates/settings.tmpl:26
+msgid "Each preference has the syntax"
+msgstr ""
+
+#: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
+#: core/templates/viewtopicactionbuttons.tmpl:48
+msgid "Edit"
+msgstr ""
+
+#: core/data/System/VarMAKETEXT.txt:61
+msgid "Edit %*(%1,file)"
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:25
+msgid "Edit Anyway"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:64
+msgid "Edit Wiki<nop>Text"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:11
+msgid "Edit help"
+msgstr ""
+
+#: core/templates/more.tmpl:17
+msgid "Edit settings for this topic..."
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:3
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:4
+msgid "Edit this topic text (e)"
+msgstr ""
+
+#: core/templates/more.tmpl:13
+msgid "Edit topic preference settings"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:48
+msgid "Editable"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
+msgid "Ehm, let me go back to correct the page..."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:82
+msgid ""
+"Either the code is not valid, or you have already confirmed your "
+"registration using it."
+msgstr ""
+
+#: core/templates/messages.tmpl:134
+msgid "Either the name is invalid, or it refers to a non-existant form."
+msgstr ""
+
+#: core/templates/messages.tmpl:129
+msgid "Either the name is invalid, or it refers to a non-existant topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:253
+msgid ""
+"Either you did not specify a file name, or the file you are trying to upload "
+"%1 has no content. You may not upload an empty file."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
+msgid "Email address:"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Passwords.pm:47
+msgid "Email has been disabled for this Foswiki installation"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
+msgid "Embed external object"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
+msgid "Emoticon"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
+msgid "Enlarge edit box"
+msgstr ""
+
+#: core/templates/login.tmpl:7
+msgid "Enter a new username and password to change identity"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:142
+msgid "Enter parent name"
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:23
+msgid "Enter the Wiki Administrator user or login as set in %1"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:108
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:209
+msgid "Enter users or groups to add to this group"
+msgstr ""
+
+#: core/templates/messages.tmpl:497
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:91
+msgid "Error registering new user"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:183
+msgid "Error registering user %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:263
+msgid "Error saving topic"
+msgstr ""
+
+#: core/templates/messages.tmpl:353
+msgid "Error: File attachment at %1,%2 does not exist"
+msgstr ""
+
+#: core/templates/messages.tmpl:357
+msgid ""
+"Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+"=text/css=)"
+msgstr ""
+
+#: core/templates/messages.tmpl:355
+msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+msgstr ""
+
+#: core/templates/messages.tmpl:188
+msgid "Errors"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:374
+msgid "Errors adding members to group"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:423
+msgid "Errors removing members from groups"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+msgid "Escape markup"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+msgid "Everybody"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
+msgid "Evil person"
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+msgid "Exit"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:70
+msgid "External"
+msgstr ""
+
+#: core/lib/Foswiki/Plugins.pm:459
+msgid "Failed plugins"
+msgstr ""
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:306
+msgid "Failed to add user: "
+msgstr ""
+
+#: core/templates/messages.tmpl:379
+msgid "Failed to include URL %1"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
+msgid "Fields marked %1 are required"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
+msgid "Fields marked <span class='required'>*</span> are required."
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:123
+msgid "File"
+msgstr ""
+
+#: core/templates/messages.tmpl:237
+msgid "File has been uploaded with different name"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:12
+msgid "Find similar topics"
+msgstr ""
+
+#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
+msgid "Find topics that link to %1 ..."
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+msgid "First"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
+msgid "First name:"
+msgstr ""
+
+#: core/data/System/WikiName.txt:6
+msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
+msgid ""
+"For more detailed information on cross-site request forgery, and the dangers "
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: PatternSkin/templates/edit.pattern.tmpl:23
+msgid "Force new revision"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:14
+msgid "Forgotten your password?"
+msgstr ""
+
+#: NatEditPlugin/templates/form.natedit.tmpl:19
+msgid "Form"
+msgstr ""
+
+#: core/templates/messages.tmpl:208
+msgid "Form Definition %1 missing"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
+#: core/templates/formtables.tmpl:12
+msgid "Form data"
+msgstr ""
+
+#: PatternSkin/templates/form.pattern.tmpl:13
+msgid "Form definition"
+msgstr ""
+
+#: core/templates/messages.tmpl:205
+msgid "Form definition '%1' not found"
+msgstr ""
+
+#: core/templates/messages.tmpl:213
+msgid "Form definition missing"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
+msgid "Formula"
+msgstr ""
+
+#: core/templates/login.tmpl:3
+msgid "Foswiki User Authentication"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
+msgid ""
+"Foswiki checks all requests it receives from browsers, and tries to check "
+"that the persons using the browsers intentionally sent them."
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:3
+msgid "Foswiki password reset for %1"
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:73
+msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
+msgstr ""
+
+#: core/templates/attach.tmpl:3
+msgid "Get help on attaching files"
+msgstr ""
+
+#: NatEditPlugin/templates/settings.natedit.tmpl:32
+#: core/templates/settings.tmpl:25
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:274
+msgid "Get notified on changes on this search"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:456
+msgid "Globe"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
+#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
+msgid "Go back"
+msgstr ""
+
+#: core/templates/messages.tmpl:198
+msgid ""
+"Go back in your browser and insert values for all mandatory fields before "
+"saving again"
+msgstr ""
+
+#: core/templates/messages.tmpl:270 core/templates/oopssaveerr.tmpl:20
+msgid "Go back in your browser and save your changes locally."
+msgstr ""
+
+#: core/templates/messages.tmpl:494
+msgid ""
+"Go back to the previous page, and enable Cookies and !JavaScript before "
+"trying again"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:117
+msgid "Good examples:"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: core/data/Main/WikiGroups.txt:62
+msgid "Group"
+msgstr ""
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: core/lib/Foswiki/UserMapping.pm:351
+msgid "Group does not exist and create not permitted"
+msgstr ""
+
+#: core/data/Main/WikiGroups.txt:28
+msgid "Group name"
+msgstr ""
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+msgid "Group names must end in Group"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:16
+#: PatternSkin/data/System/WebLeftBarExample.txt:8
+msgid "Groups"
+msgstr ""
+
+#: PatternSkin/templates/login.pattern.tmpl:21
+msgid "Having problems logging in?"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:36
+msgid "Header rows"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
+msgid "Heading 1"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 2"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 3"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 4"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 5"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 6"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:165
+msgid "Hello %1!"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:85
+#: NatEditPlugin/templates/edithelp.natedit.tmpl:2
+#: NatEditPlugin/templates/settings.natedit.tmpl:21
+#: NatEditPlugin/templates/settings.natedit.tmpl:24
+#: PatternSkin/data/System/PatternSkinElements.txt:631
+#: PatternSkin/data/System/PatternSkinElements.txt:645
+#: PatternSkin/data/System/PatternSkinElements.txt:659
+#: PatternSkin/data/System/PatternSkinElements.txt:705
+#: core/data/System/WebSearch.txt:179 core/data/System/WebSearch.txt:92
+#: core/templates/login.tmpl:55
+msgid "Help"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:7
+msgid "Hi, %1"
+msgstr ""
+
+#: core/templates/attach.tmpl:43
+msgid "Hide file"
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:8
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
+msgid "Hide help"
+msgstr ""
+
+#: core/templates/messages.tmpl:122
+msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+msgstr ""
+
+#: core/data/System/ManagingTopics.txt:98
+msgid "History"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
+msgid "Horizontal ruler"
+msgstr ""
+
+#: core/templates/registernotify.tmpl:17
+msgid "How about attaching your photo?"
+msgstr ""
+
+#: core/templates/registerconfirm.tmpl:4
+msgid "How to activate your %1 registration"
+msgstr ""
+
+#: core/templates/registerfailednotremoved.tmpl:13
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"may be a fraudulent registration.  The user '%1' could not be removed "
+"automatically."
+msgstr ""
+
+#: core/templates/registerfailedremoved.tmpl:13
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"maye be a fraudulent registration.  The user '%1' was removed automatically. "
+"However you may have to remove the user's personal topic manually."
+msgstr ""
+
+#: core/templates/messages.tmpl:239
+msgid ""
+"However, the filename has been changed from %1 to %2. Please make a note of "
+"it."
+msgstr ""
+
+#: core/templates/login.tmpl:71
+msgid "I forgot my password"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
+msgid "Icon"
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:40
+#: core/data/System/WebPreferences.txt:34
+msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
+msgid ""
+"If Foswiki detects a suspicious request that may have been sent from such a "
+"page, then you are asked to confirm the request."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+msgid ""
+"If registration is not disabled by errors, administrators can still register "
+"users to this site using"
+msgstr ""
+
+#: core/templates/messages.tmpl:298
+msgid ""
+"If that's not the problem, it may be because you have a setting of %1 that "
+"is pointing to a template that doesn't exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:222
+msgid "If this line isn't present see _upgrade_ section below"
+msgstr ""
+
+#: core/templates/messages.tmpl:216
+msgid "If this topic is missing create it, otherwise check it for errors."
+msgstr ""
+
+#: core/templates/messages.tmpl:315
+msgid ""
+"If you are developing a Foswiki application, see %1 for a description of the "
+"correct parameters."
+msgstr ""
+
+#: core/templates/validate.tmpl:42
+msgid "If you are unsure what this means, read: %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+msgid "If you came here by clicking on a question mark link"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:97
+msgid "If you don't receive a verification email within the next hour, "
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:41
+msgid "If you enter a different name, make sure the topic exists."
+msgstr ""
+
+#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registernotify.tmpl:24
+msgid ""
+"If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
+"using your mail address %3. Contact %4 if this is in error."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
+msgid "If you have any questions about registration, send an e-mail to %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:39
+#: core/templates/login.tmpl:82
+msgid "If you have any questions, please contact %1"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
+#: core/data/System/VarMAKETEXT.txt:23
+#: core/templates/mailresetpassword.tmpl:18
+msgid "If you have any questions, please contact %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: core/templates/registernotify.tmpl:26
+msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:313
+msgid ""
+"If you received a link to this topic in an e-mail or just want to look at "
+"the topic, [[%1][cancel save]] to go to %2."
+msgstr ""
+
+#: core/templates/messages.tmpl:442
+msgid "If you want to create the topic"
+msgstr ""
+
+#: core/data/System/SearchHelp.txt:24
+msgid ""
+"If you want to search for a word in the stop word list, prefix the word with "
+"a plus sign"
+msgstr ""
+
+#: core/templates/messages.tmpl:437
+msgid "If you would like to create this web"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:65
+msgid ""
+"If you would like to send an email and give them feedback, please type it "
+"below and hit 'Send mail'"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
+msgid ""
+"If your old e-mail addresses are all invalid (you can't receive mail there "
+"any more) and you have forgotten your password, please contact %1 for help."
+msgstr ""
+
+#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+msgid "Ignore for 7 days"
+msgstr ""
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+msgid "Image %1 of %2"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+msgid "Images will be displayed, for other attachments a link will be created."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:7
+msgid ""
+"In a possible scenario, an evil person has left a link to seduce you to "
+"visit a page on http<nop>://crime.org, which has some clever javascript on "
+"it."
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:51
+msgid "In case of a zip file, attach all included files to this topic"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:174
+msgid "In reversed order"
+msgstr ""
+
+#: core/templates/messages.tmpl:242
+msgid ""
+"In some cases, Foswiki changes the name of the uploaded file to make it safe "
+"and accessible across all platforms:"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:300
+msgid "Incorrect Password"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:307
+msgid "Incorrect Prefix"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:114
+msgid "Incorrect [[%1][WikiName]]"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:117
+msgid "Incorrect [[%1][WikiNames:]]"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:211
+#: core/templates/registermessages.tmpl:218
+msgid "Incorrect [[%1][username]]"
+msgstr ""
+
+#: core/templates/messages.tmpl:311
+msgid "Incorrect parameters to the =%1= script"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
+msgid "Indent"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:8
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
+#: PatternSkin/data/System/PatternSkinNavigation.txt:62
+#: PatternSkin/data/System/WebLeftBarExample.txt:9
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
+#: PatternSkin/data/_default/WebLeftBar.txt:6
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
+msgid "Index"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:450
+msgid "Info"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:2
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a color code"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a date"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:66
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a link"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a macro"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
+msgid "Insert a new table"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
+msgid "Insert a symbol"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:59
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
+msgid "Insert an attachment"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an emoticon"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:93
+msgid "Insert an icon"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:105
+msgid "Insert your signature"
+msgstr ""
+
+#: core/templates/messages.tmpl:246
+msgid ""
+"International (8-bit) characters are removed (replaced by US-ASCII "
+"equivalents for Latin-1)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:79
+msgid "Invalid Activation Code"
+msgstr ""
+
+#: core/templates/messages.tmpl:176
+msgid "Invalid Input"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:233
+#: core/templates/registermessages.tmpl:242
+#: core/templates/registermessages.tmpl:251
+#: core/templates/registermessages.tmpl:260
+#: core/templates/registermessages.tmpl:269
+msgid "Invalid e-mail address"
+msgstr ""
+
+#: core/templates/messages.tmpl:96
+msgid "Invalid topic name."
+msgstr ""
+
+#: core/templates/messages.tmpl:334
+msgid ""
+"It is probably OK to go ahead and edit - unless you intend to change data in "
+"a form attached to the topic. If %1 actually _does_ save the topic while you "
+"are editing, your changes will be merged, and nothing will be lost. Form "
+"data cannot easily be merged though, so in this case you are recommended to "
+"check with %1 first."
+msgstr ""
+
+#: core/templates/foswiki.tmpl:47
+msgid ""
+"It's usually best to choose a %1 for the new topic name, otherwise automatic "
+"linking may not work. Characters not allowed in topic names, such as spaces "
+"will automatically be removed."
+msgstr ""
+
+#: core/templates/renameweb.tmpl:16
+msgid ""
+"It's usually best to choose a short name for the new web, as it is easier to "
+"link to them later on. Characters not allowed in web names, such as spaces "
+"will automatically be removed."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
+msgid "Italic"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:256
+msgid "Join %1"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
+#: PatternSkin/data/System/WebTopBarExample.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
+msgid "Jump"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+msgid "Jump to first revision"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+msgid "Jump to latest revision (%1)"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
+msgid "Just me"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
+msgid "Justify text"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:193
+msgid "Keyword search"
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+msgid "Last"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:31
+#: HistoryPlugin/templates/oopshistory.tmpl:44
+msgid "Last edited by"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
+msgid "Last editor"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:64
+msgid "Last modified"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:165
+msgid "Last modified time"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
+msgid "Last name:"
+msgstr ""
+
+#: core/templates/more.tmpl:180
+msgid "Latest revision: %1"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:268
+msgid "Leave %1"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:51
+msgid "Leave unchecked if you wish to attach the zip file itself"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:225
+msgid "Limit results to:"
+msgstr ""
+
+#. ($left)
+#. ($right)
+#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+msgid "Line: %1"
+msgstr ""
+
+#. ($left, $right)
+#: core/lib/Foswiki/UI/RDiff.pm:331
+msgid "Line: %1 to %2"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
+#: core/templates/attach.tmpl:35
+msgid "Link"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:312
+msgid "List topics that start with the letter:"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:197
+msgid "Literal search"
+msgstr ""
+
+#: core/data/System/CompleteDocumentation.txt:9
+#: core/data/System/SiteChanges.txt:10
+msgid "Load content"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:11
+msgid "Log In"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:12
+msgid "Log Out"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:144
+msgid "Log in to continue."
+msgstr ""
+
+#: core/templates/login.tmpl:14
+msgid "Log on to %1"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: core/templates/foswiki.tmpl:41
+msgid "Login"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+msgid "Login username:"
+msgstr ""
+
+#: core/templates/login.tmpl:77
+msgid "Logon"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:43
+msgid "Logout"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+msgid "Macro"
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: core/templates/messages.tmpl:186
+msgid "Mail to"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:178
+msgid "Make search:"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:73
+msgid "Maximum %1 items per web"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/WikiGroups.txt:63
+msgid "Members"
+msgstr ""
+
+#: core/templates/messages.tmpl:169
+msgid "Missing Fields"
+msgstr ""
+
+#: core/templates/messages.tmpl:37
+msgid "Missing action command"
+msgstr ""
+
+#: core/templates/messages.tmpl:415
+msgid "Missing or illegal web name"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
+msgid "Modify search"
+msgstr ""
+
+#: core/templates/more.tmpl:7
+msgid "More Actions on Topic %1"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
+msgid "More character formats"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
+msgid "More objects to insert"
+msgstr ""
+
+#: core/templates/attachagain.tmpl:17
+msgid "More on hiding attachments"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+msgid "More tools"
+msgstr ""
+
+#: core/data/System/TopicsAndWebs.txt:52
+msgid "More topic actions"
+msgstr ""
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
+#: core/templates/viewtopicactionbuttons.tmpl:89
+msgid "More topic actions..."
+msgstr ""
+
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
+msgid "More..."
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
+msgid ""
+"More: delete or rename this topic; set parent topic; view and compare "
+"revisions (m)"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: core/templates/moveattachment.tmpl:55
+msgid "Move"
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:9
+msgid "Move %1 to Trash Web"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:9
+msgid "Move attachment"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:6
+msgid "Move file attachment"
+msgstr ""
+
+#: core/templates/attachagain.tmpl:21
+msgid "Move or delete attachment"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:31
+#: core/templates/renameattachmentdelete.tmpl:21
+msgid "Move to web:"
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:18
+msgid "Move topic to web:"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Rename.pm:1196
+msgid "Move/Rename"
+msgstr ""
+
+#: PatternSkin/data/System/PatternSkinNavigation.txt:17
+msgid "My Links"
+msgstr ""
+
+#: PatternSkin/data/System/PatternSkinNavigation.txt:15
+msgid "My Profile"
+msgstr ""
+
+#: core/lib/Foswiki/Search.pm:1254
+msgid "NEW"
+msgstr ""
+
+#: core/templates/more.tmpl:31
+msgid "Name of copy"
+msgstr ""
+
+#: core/templates/messages.tmpl:115
+msgid "Name of new web is missing"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+msgid "Name:"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:9
+msgid "Navigate to a similar topic"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:161
+msgid "Never mind"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:17
+msgid "New User Registration disabled"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:27
+msgid "New User Registration failed"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:7
+msgid "New User Registration not supported"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+msgid "New e-mails (space-separated list):"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:84
+#: MailerContrib/templates/mailnotify.tmpl:9
+msgid "New or changed topics in %1, since %2:"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:9
+msgid "New parent web:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
+msgid "New password:"
+msgstr ""
+
+#: core/templates/messages.tmpl:84
+msgid "New topic name %1 is not a %2"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+msgid "New user registration is disabled on this site."
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:6
+msgid "New web name:"
+msgstr ""
+
+#: core/templates/more.tmpl:156
+msgid "Newer revision:"
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+msgid "Next"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:51
+msgid "No"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:52
+msgid "No  members"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:69
+msgid "No changes"
+msgstr ""
+
+#: core/templates/more.tmpl:206
+msgid "No child topics"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:366
+#: core/templates/registermessages.tmpl:417
+msgid "No group name specified"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:43
+msgid "No pending registration was found for the verification code %1."
+msgstr ""
+
+#: core/templates/messages.tmpl:351
+msgid "No permission to view %1"
+msgstr ""
+
+#: core/templates/more.tmpl:198
+msgid "No previous revision exists."
+msgstr ""
+
+#: SubscribePlugin/templates/subscribe.tmpl:17
+msgid "No topic to subscribe to"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:45
+msgid "No topics to update."
+msgstr ""
+
+#: core/templates/messages.tmpl:320 core/templates/registermessages.tmpl:399
+msgid "No username specified"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:167
+msgid "No users to reset passwords for."
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
+msgid "Nobody"
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:37
+msgid "Not recommended when deleting a topic."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
+msgid "Not sure this is right, please confirm!"
+msgstr ""
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Notation"
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:50
+msgid ""
+"Note that any URLs that refer to the attachment will be broken after this "
+"move."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/registermessages.tmpl:84
+#: core/templates/registernotify.tmpl:23
+msgid "Note:"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:28
+msgid ""
+"Note: you must have Cookies and Javascript enabled in your browser to get "
+"past this screen. This is normally the case, but if something doesn't work, "
+"this is where to look first."
+msgstr ""
+
+#: core/data/System/VarMAKETEXT.txt:16
+msgid "Notes:"
+msgstr ""
+
+#: core/data/System/WebNotifyHelp.txt:3
+msgid "Notification help"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:11
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/PatternSkinNavigation.txt:65
+#: PatternSkin/data/System/WebLeftBarExample.txt:12
+#: PatternSkin/data/_default/WebLeftBar.txt:9
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
+msgid "Notifications"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:81
+msgid "Number of changes for each Web"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
+#: PatternSkin/templates/search.pattern.tmpl:23
+#: PatternSkin/templates/search.pattern01x00.tmpl:12
+msgid "Number of topics:"
+msgstr ""
+
+#: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
+msgid "Number of topics: %1"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
+msgid "Numbered list"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
+msgid "OEmbed"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:446
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
+#: core/templates/foswiki.tmpl:132 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/registermessages.tmpl:318
+#: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:337 core/templates/validate.tmpl:52
+msgid "OK"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
+msgid "OK, this is still me!"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:50
+msgid "Ok"
+msgstr ""
+
+#: core/templates/more.tmpl:156
+msgid "Older revision:"
+msgstr ""
+
+#: core/data/System/UserName.txt:11
+msgid ""
+"On this system, once you are registered, you may also log in using your "
+"email address."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:347
+msgid "Only administrators are allowed to remove other accounts."
+msgstr ""
+
+#: core/templates/messages.tmpl:406
+msgid "Only members of the %1 are allowed to perform this action."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:147
+msgid "Only members or admins may update group."
+msgstr ""
+
+#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
+msgid "Only update linked topics in %1 web"
+msgstr ""
+
+#: core/templates/login.tmpl:8
+msgid ""
+"Oops: we could not recognize you. Try again or [[%1][reset your password]]."
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:23
+msgid "Optionally change attachment name:"
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:21
+msgid "Optionally change topic name:"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:34
+msgid "Optionally enter a different attachment name:"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:32
+msgid "Optionally enter a different topic name:"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+msgid "Options"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
+msgid "Organisation name:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
+msgid "Organisation website:"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
+msgid "Outdent"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: PatternSkin/templates/login.pattern.tmpl:17 core/templates/login.tmpl:67
+msgid "Password"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:330
+msgid "Password changed successfully!"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:322
+msgid "Password could not be changed"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:166
+msgid "Password reset failed"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:171
+msgid "Password reset failed."
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
+msgid "Password:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:127
+msgid "Passwords disabled"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:176
+msgid "Passwords do not match"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:41
+msgid "Pending registration not found"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:101
+#: NatEditPlugin/templates/edit.natedit.tmpl:99
+msgid "Permissions"
+msgstr ""
+
+#: core/templates/messages.tmpl:156
+msgid "Pick one of the %1."
+msgstr ""
+
+#: core/data/Trash/WebPreferences.txt:10
+msgid "Place for trashed topics and attachments."
+msgstr ""
+
+#: core/data/Trash/TrashAttachment.txt:3
+msgid "Placeholder for trashed attachments"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:378
+#: core/templates/registermessages.tmpl:427
+msgid "Please check to ensure you have permission to modify the group."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
+msgid "Please confirm your password."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:200
+#: core/templates/registermessages.tmpl:87
+msgid "Please contact %1 if you have any questions."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:11
+#: core/templates/registermessages.tmpl:131
+#: core/templates/registermessages.tmpl:187
+#: core/templates/registermessages.tmpl:21
+#: core/templates/registermessages.tmpl:35
+#: core/templates/registermessages.tmpl:98
+msgid "Please contact %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
+msgid "Please correct the entered data before you continue."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
+msgid "Please enter a WikiName."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+msgid "Please enter a login username."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+msgid "Please enter a password."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:7
+msgid "Please enter the Wiki admin password"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+msgid "Please enter the same password as above."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+msgid "Please enter your first name."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+msgid "Please enter your last name."
+msgstr ""
+
+#: core/templates/messages.tmpl:66 core/templates/messages.tmpl:73
+#: core/templates/messages.tmpl:80
+msgid "Please go _back_ in your browser and try a new name."
+msgstr ""
+
+#: core/templates/messages.tmpl:254
+msgid "Please go back in your browser and check again."
+msgstr ""
+
+#: core/templates/messages.tmpl:85
+msgid ""
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+msgstr ""
+
+#: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
+#: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
+#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:160
+#: core/templates/messages.tmpl:172 core/templates/messages.tmpl:179
+#: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
+#: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
+#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
+#: core/templates/registermessages.tmpl:179
+#: core/templates/registermessages.tmpl:207
+#: core/templates/registermessages.tmpl:214
+#: core/templates/registermessages.tmpl:222
+#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:238
+#: core/templates/registermessages.tmpl:247
+#: core/templates/registermessages.tmpl:256
+#: core/templates/registermessages.tmpl:265
+#: core/templates/registermessages.tmpl:274
+#: core/templates/registermessages.tmpl:303
+#: core/templates/registermessages.tmpl:310
+msgid "Please go back in your browser and try again."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:279
+msgid ""
+"Please make sure you spelled the [[%1][username]] correctly and try again. "
+"If you get stuck, please contact %2."
+msgstr ""
+
+#: core/templates/messages.tmpl:491
+msgid "Please notify your %1 administrator."
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:55
+msgid "Please validate"
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:16
+msgid ""
+"Please visit %1 to change your password to something more memorable for you."
+msgstr ""
+
+#: core/lib/Foswiki/Plugins.pm:500
+msgid "Plugin handlers"
+msgstr ""
+
+#: core/templates/messages.tmpl:507
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/templates/messages.tmpl:499
+msgid "Plugin module was not defined. Check configuration. See errors below."
+msgstr ""
+
+#: NatEditPlugin/data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: NatEditPlugin/templates/settings.natedit.tmpl:15
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
+#: PatternSkin/data/System/PatternSkinNavigation.txt:67
+#: PatternSkin/data/System/WebLeftBarExample.txt:15
+#: PatternSkin/data/_default/WebLeftBar.txt:12
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:12
+msgid "Preferences"
+msgstr ""
+
+#: core/templates/settings.tmpl:6
+msgid "Preferences for"
+msgstr ""
+
+#: core/templates/validate.tmpl:40
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:39
+msgid "Press OK to confirm that this change was intentional."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/preview.natedit.tmpl:1
+msgid "Preview"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+msgid "Preview your changes"
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+msgid "Previous"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
+msgid "Printable version of this topic (p)"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:63
+msgid "Properties"
+msgstr ""
+
+#: core/lib/Foswiki/Render/Moved.pm:60
+msgid "Put it back..."
+msgstr ""
+
+#: core/data/System/WebSearch.txt:205
+msgid "Query Search"
+msgstr ""
+
+#: core/data/System/FrequentlyAskedQuestions.txt:72
+msgid "Question:"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:12
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
+#: PatternSkin/data/System/WebLeftBarExample.txt:13
+#: PatternSkin/data/_default/WebLeftBar.txt:10
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
+msgid "RSS Feed"
+msgstr ""
+
+#: core/templates/registernotify.tmpl:11
+msgid ""
+"Read %1 to get a quick overview of this collaboration platform. To learn "
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
+msgstr ""
+
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+msgid "Read on"
+msgstr ""
+
+#: core/data/Sandbox/WebHome.txt:52
+msgid "Recently changed topics"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:19
+msgid "Recently changed topics in %1 Web"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:20
+msgid "Recently changed topics in all Webs"
+msgstr ""
+
+#: core/templates/oopsredirectdenied.tmpl:6
+msgid "Redirect Denied"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+msgid "Redo previous change"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
+#: core/lib/Foswiki/UI/Rename.pm:1195
+msgid "Refresh"
+msgstr ""
+
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/WebLeftBarLogin.txt:16
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
+#: core/templates/foswiki.tmpl:167
+msgid "Register"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
+msgid "Registered users"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
+msgid "Registration"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Register.pm:711
+msgid ""
+"Registration cannot be completed: Email has been disabled for this Foswiki "
+"installation"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:82
+msgid "Registration codes can only be used once."
+msgstr ""
+
+#: core/templates/registerdenied.tmpl:9
+msgid "Registration for %1 has been denied"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:55
+msgid "Registration has been denied"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+msgid ""
+"Registration is disabled either by configuration setting "
+"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"Check the configuration for errors."
+msgstr ""
+
+#: core/data/System/WebSearch.txt:201
+msgid "Regular expression search"
+msgstr ""
+
+#: core/data/System/UserName.txt:44
+msgid "Related Topics for Administrators:"
+msgstr ""
+
+#: core/data/System/SiteTools.txt:150
+#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/UserAuthentication.txt:307
+msgid "Related Topics:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
+#: core/data/Main/GroupViewTemplate.txt:34
+#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/FormattedSearch.txt:400
+#: core/data/System/GlossaryOfTerms.txt:25
+#: core/data/System/SkinTemplateViewTemplate.txt:9
+#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
+msgid "Related topics:"
+msgstr ""
+
+#: PatternSkin/templates/login.pattern.tmpl:13
+msgid "Remember me"
+msgstr ""
+
+#: core/templates/login.tmpl:73
+msgid "Remember me on this computer"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:292
+msgid ""
+"Remember to update your user topic [[%1]] if you want your e-mail change to "
+"be reflected there as well."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:34
+msgid "Remember your password?"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:225
+msgid "Remove Members from"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:165
+msgid "Remove members..."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:346
+msgid "Remove of user account other than your own is denied"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:239
+msgid "Remove selected members"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:286
+msgid "Remove the member from the group(s) %1 first."
+msgstr ""
+
+#: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
+msgid "Rename"
+msgstr ""
+
+#: core/templates/messages.tmpl:70 core/templates/messages.tmpl:77
+msgid "Rename failed"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:11
+msgid "Rename or move %1"
+msgstr ""
+
+#: core/templates/more.tmpl:70
+msgid "Rename or move topic"
+msgstr ""
+
+#: core/templates/more.tmpl:78
+msgid "Rename or move topic..."
+msgstr ""
+
+#: core/data/System/RenameWeb.txt:4
+msgid "Rename, move or delete this web"
+msgstr ""
+
+#: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
+#: core/templates/renameweb.tmpl:32
+msgid "Rename/Move"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:96
+msgid "Render style"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:18
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+msgid "Replace"
+msgstr ""
+
+#: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
+msgid "Replace form..."
+msgstr ""
+
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
+msgid "Request Validation"
+msgstr ""
+
+#: core/templates/messages.tmpl:148
+msgid ""
+"Requested revision (%1) is illegal or invalid. It does not exist in history, "
+"or is the same or later than the current revision (%2)"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:3
+msgid "Reset Password"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:28
+msgid "Reset password"
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:206
+msgid "Resetting and setting password is not available."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: core/templates/more.tmpl:187
+msgid "Restore"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+msgid "Restore and Continue"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+msgid "Restore and continue editing"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+msgid "Restore and exit"
+msgstr ""
+
+#: core/templates/more.tmpl:168
+msgid "Restore topic"
+msgstr ""
+
+#: core/templates/more.tmpl:184
+msgid "Restore topic to revision:"
+msgstr ""
+
+#: core/templates/more.tmpl:187
+msgid "Restore topic to this revision"
+msgstr ""
+
+#: core/templates/more.tmpl:173
+msgid ""
+"Restore will save an exact copy of your selected revision into a new "
+"revision. Because each revision will be preserved in the topic history, you "
+"can always revisit the revision you are replacing. Note that attachments "
+"will be left unchanged."
+msgstr ""
+
+#: core/templates/more.tmpl:178
+msgid "Restoring is disabled because this topic is at revision 1."
+msgstr ""
+
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
+#: core/templates/searchformat.tmpl:15
+msgid "Results from %1 web"
+msgstr ""
+
+#: core/templates/search.text.tmpl:4
+msgid "Results from %1 web:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:362
+msgid "Return to %1"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:342
+msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:296
+msgid "Return to %1."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:348
+msgid "Return to [_0]"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:27
+msgid "Retype new password:"
+msgstr ""
+
+#: core/templates/messages.tmpl:27
+msgid ""
+"Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:44
+#: MailerContrib/templates/mailnotify.tmpl:87
+msgid "Review recent changes in:"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:29
+#: HistoryPlugin/templates/oopshistory.tmpl:42
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
+msgid "Revision"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:12
+msgid "Revision history of %1"
+msgstr ""
+
+#: core/templates/more.tmpl:136
+msgid "Revisions"
+msgstr ""
+
+#: PatternSkin/templates/settings.pattern.tmpl:12
+msgid "S = Save, C = Cancel"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:68
+msgid ""
+"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+msgstr ""
+
+#: core/data/Sandbox/WebPreferences.txt:9
+msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:57
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+msgid "Save"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+msgid "Save and Continue"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+msgid "Save and continue editing"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+msgid "Save and exit"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
+#: core/templates/registerfailednotremoved.tmpl:19
+#: core/templates/registerfailedremoved.tmpl:20
+#: core/templates/registernotifyadmin.tmpl:17
+msgid "Saved to:"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:14
+#: PatternSkin/data/Main/WebLeftBarExample.txt:9
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/PatternSkinNavigation.txt:63
+#: PatternSkin/data/System/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/WebLeftBarSearch.txt:5
+#: PatternSkin/data/System/WebTopBarExample.txt:9
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearch.txt:65
+#: core/data/System/WebSearch.txt:83
+msgid "Search"
+msgstr ""
+
+#: core/templates/backlinksallwebs.tmpl:6
+msgid "Search %1 Web only"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:10
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+msgid "Search && Replace"
+msgstr ""
+
+#: core/templates/backlinksweb.tmpl:5
+msgid "Search all webs"
+msgstr ""
+
+#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
+#: core/templates/more.tmpl:88
+msgid "Search all webs for topics that link to here"
+msgstr ""
+
+#: UpdatesPlugin/data/System/UpdatesPlugin.txt:21
+msgid "Search for updates"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:34
+msgid "Search in %1 Web"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
+msgid "Search in all webs"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
+msgid "Search more topics in this web"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:54
+msgid "Search options"
+msgstr ""
+
+#: core/templates/searchbookview.tmpl:7
+msgid "Search result"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:213
+msgid "Search string"
+msgstr ""
+
+#: core/templates/more.tmpl:90
+msgid "Search the %1 Web for topics that link to here"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:100 core/data/System/WebSearch.txt:130
+msgid "Search where:"
+msgstr ""
+
+#: PatternSkin/templates/search.pattern.tmpl:21
+#: PatternSkin/templates/search.pattern01x00.tmpl:10
+#: core/templates/searchformat.tmpl:8
+msgid "Searched:"
+msgstr ""
+
+#: core/data/Trash/WebHome.txt:5
+msgid "Security Note:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:281
+msgid "See %1 for a list of existing users or register as new user in %2."
+msgstr ""
+
+#: core/templates/messages.tmpl:209
+msgid "See %1 for information about Form Definitions."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:380
+#: core/templates/registermessages.tmpl:389
+#: core/templates/registermessages.tmpl:396
+#: core/templates/registermessages.tmpl:429
+#: core/templates/registermessages.tmpl:438
+msgid "See %MAINWEB%.WikiGroups to see the result."
+msgstr ""
+
+#: core/data/System/WebIndex.txt:13
+msgid "See also the faster %1"
+msgstr ""
+
+#: core/data/System/WebTopicList.txt:6
+msgid "See also the verbose %1."
+msgstr ""
+
+#: core/data/System/WebChanges.txt:17
+msgid "See also:"
+msgstr ""
+
+#: core/templates/edit.tmpl:50
+msgid "See below for help in editing this page."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:27
+msgid "See changes since:"
+msgstr ""
+
+#: core/lib/Foswiki/Plugins.pm:300
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
+
+#: core/templates/changeform.tmpl:12
+msgid "Select"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:18
+msgid "Select a new local file to update attachment"
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+msgid "Select all"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:115
+msgid "Select an earlier (left) and a later (right) revision to compare"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
+msgid "Select groups to join:"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:234
+msgid "Select members to remove from this group:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
+msgid "Select the group to join:"
+msgstr ""
+
+#: core/templates/more.tmpl:101
+msgid "Select topic parent"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+msgid "Select, copy and paste your signature text to the bottom of your entry"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:179
+msgid "Selections apply to search in \"text body\""
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
+msgid "Self registration is not supported by this site."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:74
+msgid "Send mail"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+msgid "Sequential"
+msgstr ""
+
+#: core/lib/Foswiki/Form/Checkbox.pm:114
+msgid "Set all"
+msgstr ""
+
+#: core/templates/more.tmpl:105
+msgid "Set new parent"
+msgstr ""
+
+#: core/templates/more.tmpl:97
+msgid "Set new topic parent"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:129
+msgid "Show %1 revisions up to revision %2"
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:8
+#: core/data/System/WebPreferencesHelp.txt:5
+msgid "Show help"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:119
+msgid "Showing revisions %1 - %2 (out of %3)"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
+msgid "Shrink edit box"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+msgid "Side by side"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
+msgid "Side-by-side comparison of revisions"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:105
+msgid "Signature"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:4
+msgid "Size"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: core/templates/registernotify.tmpl:16
+msgid "Some add schedule information and vacation notice."
+msgstr ""
+
+#: core/templates/messages.tmpl:245
+msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:85
+msgid ""
+"Some mail tools have an error that causes them to send the same request "
+"twice when you click on a link. It you did this, it is possible that you "
+"actually *have* registered successfully."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: core/templates/registernotify.tmpl:15
+msgid ""
+"Some people turn it into a personal portal with favorite links, what they "
+"work on, what help they'd like, etc."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+msgid "Sorry, registration has been temporarily disabled."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
+msgid "Sorry, the password system is currently read only, please contact %1"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+msgid "Sort ascending"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+msgid "Sort descending"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:156
+msgid "Sort results by:"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: core/templates/messages.tmpl:243
+msgid "Spaces are replaced by underscores"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:144
+#: NatEditPlugin/templates/edit.natedit.tmpl:175
+msgid "Specific users/groups"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:92
+msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
+msgstr ""
+
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Start presentation"
+msgstr ""
+
+#: NatEditPlugin/templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:13
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
+#: PatternSkin/data/System/PatternSkinNavigation.txt:66
+#: PatternSkin/data/System/WebLeftBarExample.txt:14
+#: PatternSkin/data/_default/WebLeftBar.txt:11
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
+msgid "Statistics"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:52
+msgid "Strikethrough"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
+#: JQueryPlugin/data/System/JQueryValidate.txt:34
+#: JQueryPlugin/data/System/VarBUTTON.txt:30
+#: JQueryPlugin/data/System/VarBUTTON.txt:39
+#: PatternSkin/data/System/PatternSkinElements.txt:415
+#: PatternSkin/data/System/PatternSkinElements.txt:424
+#: core/data/System/FrequentlyAskedQuestions.txt:79
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
+msgid "Submit"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: core/templates/registerfailednotremoved.tmpl:15
+#: core/templates/registerfailedremoved.tmpl:16
+#: core/templates/registernotify.tmpl:19
+#: core/templates/registernotifyadmin.tmpl:13
+msgid "Submitted content:"
+msgstr ""
+
+#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
+#: SubscribePlugin/templates/subscribe.tmpl:39
+#: SubscribePlugin/templates/subscribe.tmpl:6
+#: core/templates/viewtopicactionbuttons.tmpl:78
+msgid "Subscribe"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:47
+#: MailerContrib/templates/mailnotify.tmpl:90
+#: MailerContrib/templates/newsletter.tmpl:21
+msgid "Subscribe / Unsubscribe in:"
+msgstr ""
+
+#: SubscribePlugin/templates/subscribe.tmpl:6
+msgid "Subscribe to this topic"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+msgid "Subscribe to this topic (s)"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
+msgid "Subscript"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:122 core/data/System/WebSearch.txt:152
+msgid "Subwebs"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:385
+msgid "Success adding members to group"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:434
+msgid "Success removing members from group"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:217
+msgid "Summaries"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:53
+msgid "Superscript"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:84
+msgid "Switch to monotype or proportional font"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
+msgid "Symbol"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:141
+msgid "System user list."
+msgstr ""
+
+#: core/data/System/SearchHelp.txt:15
+msgid ""
+"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
+"=\"web service\"=, but not =\"shampoo\"=, write:"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
+msgid "Table"
+msgstr ""
+
+#: core/templates/messages.tmpl:455
+msgid "Template %1 does not exist"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:82
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:105
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:133
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:91
+msgid "Text"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
+msgid "Text body"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:49
+msgid "Thank you for approving this registration"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:61
+msgid "Thank you for denying this registration"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
+#: core/templates/registermessages.tmpl:137
+#: core/templates/registermessages.tmpl:145
+#: core/templates/registermessages.tmpl:158
+msgid "Thank you for registering"
+msgstr ""
+
+#: core/templates/registernotify.tmpl:9
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Please save this "
+"e-mail for future reference."
+msgstr ""
+
+#: core/templates/registerconfirm.tmpl:10
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Your "
+"verification code is %2."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:103
+msgid "That user has already been activated"
+msgstr ""
+
+#: core/templates/messages.tmpl:63
+msgid "The %1 topic already exists"
+msgstr ""
+
+#: core/templates/messages.tmpl:429
+msgid "The %1 web does not exist"
+msgstr ""
+
+#: core/data/Sandbox/WebHome.txt:3
+msgid ""
+"The %1 web is the sandbox you can use for testing. Everybody is welcome to "
+"add or delete some stuff. It is recommended to walk through the %2 to get a "
+"jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
+"page and sign and date it with your %4."
+msgstr ""
+
+#: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
+#: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
+#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:5
+msgid "The %1 web of %2."
+msgstr ""
+
+#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
+msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+msgstr ""
+
+#: core/templates/messages.tmpl:307
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:19
+msgid "The Administrator has disabled new user registration."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:129
+msgid "The Administrator has disabled password changes."
+msgstr ""
+
+#: core/data/System/WebPreferences.txt:12
+msgid "The Free and Open Source Wiki."
+msgstr ""
+
+#: core/templates/messages.tmpl:417
+msgid ""
+"The Web/Topic path: '%1' has missing components, or contains invalid "
+"characters."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:115
+msgid ""
+"The [[%1][WikiName]] field must be your first and last name written as a "
+"[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+"removed."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:205
+msgid ""
+"The [[%1][login username]] (%2) is not allowed for this installation. "
+"Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:212
+msgid ""
+"The [[%1][login username]] is a required parameter. Registration rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:80
+msgid "The activation code %1 is invalid."
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:48
+msgid "The attachment and any history will be moved to the new topic."
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:26
+msgid ""
+"The attachment may be renamed (by appending a number to the name) if an "
+"attachment of that name already exists in the target topic."
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:43
+msgid ""
+"The attachment may have to be renamed if an attachment called '%FILENAME%' "
+"already exists in the target topic."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
+#: core/templates/messages.tmpl:343
+msgid ""
+"The chances are good that %1 has simply navigated away from the edit page "
+"without saving."
+msgstr ""
+
+#: core/templates/renamebase.tmpl:72
+msgid ""
+"The checkmarked topics will be updated (another form will appear which will "
+"_eventually_ allow you to rename any topics that were locked)"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+msgid ""
+"The checks performed by Foswiki can sometimes be triggered when you do "
+"something perfectly innocent, for instance if you click the Back button "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
+msgstr ""
+
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+msgid ""
+"The details about REST Handlers are only available to users with Admin "
+"authority."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:243
+#: core/templates/registermessages.tmpl:261
+msgid "The e-mail address for this account has been rejected."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:252
+#: core/templates/registermessages.tmpl:270
+msgid ""
+"The e-mail address for this account is already registered to another user."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:234
+msgid "The e-mail address for this account is not valid."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
+
+#: core/templates/messages.tmpl:371
+msgid "The entry for user %1 was missing in the password system."
+msgstr ""
+
+#: core/templates/messages.tmpl:238
+msgid "The file has been uploaded and attached properly to the %1 topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:278
+msgid "The following topics are locked for edit, and cannot be moved:"
+msgstr ""
+
+#: core/templates/messages.tmpl:284
+msgid "The following topics refer to topics in this web, but are being edited:"
+msgstr ""
+
+#: core/templates/messages.tmpl:281
+msgid ""
+"The following topics refer to topics in this web, but you are denied access "
+"to them:"
+msgstr ""
+
+#: core/templates/messages.tmpl:215
+msgid "The form should be defined in the topic %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:341
+msgid "The lease on this topic expired %1 ago."
+msgstr ""
+
+#: core/templates/messages.tmpl:97
+msgid "The name of the topic (%1) contained invalid characters."
+msgstr ""
+
+#: core/templates/messages.tmpl:90
+msgid "The name of the topic must not be empty."
+msgstr ""
+
+#: core/data/System/UserName.txt:3
+msgid "The name you log in with"
+msgstr ""
+
+#: core/templates/messages.tmpl:111
+msgid "The new parent web (%1) may not be the same as the old or new web name."
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:24
+msgid "The new topic chosen must already exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:15
+msgid "The new web has been created"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:301
+msgid "The password you entered in the *old password* field is incorrect."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:308
+msgid ""
+"The prefix you entered for the deleted user is not valid as a topic name."
+msgstr ""
+
+#: core/templates/messages.tmpl:196
+msgid "The required field %1 was not filled in."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:9
+msgid "The selected User System does not support new user registration."
+msgstr ""
+
+#: core/templates/messages.tmpl:218
+msgid "The topic is in an old format"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:177
+msgid "The two passwords you entered do not match."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:105
+msgid "The user %1 has already been activated, and should be able to log in."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:354
+msgid "The user has been removed from the Authentication System."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:45
+msgid "The user has probably been already verified and/or approved."
+msgstr ""
+
+#: core/data/System/UserName.txt:17
+msgid ""
+"The username is checked for invalid characters using the below filter. Any "
+"characters matching this filter will invalidate the username."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "The username that identifies you to the signon system. %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:177
+msgid "The value supplied for =%1= has been rejected."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
+msgid ""
+"Their intention is to automatically save compromising data by sending a "
+"request to your server, using your browser and your identity."
+msgstr ""
+
+#: core/templates/messages.tmpl:274
+msgid "There are problems with renaming this web:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:185
+msgid "There has been a problem adding your user id to the Password system."
+msgstr ""
+
+#: core/templates/validate.tmpl:35
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
+msgstr ""
+
+#: core/data/Main/AdminUser.txt:17
+msgid ""
+"There is no _internal admin_ password set.  See [[%1][Installation Guide "
+"section on the internal admin]] for further help."
+msgstr ""
+
+#: core/templates/messages.tmpl:221
+msgid "There should be a line that includes %1, look for %2 (or %3)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:376
+msgid "There were errors adding to the %2 group. %1 "
+msgstr ""
+
+#: core/templates/registermessages.tmpl:425
+msgid "There were errors removing %1 from the %2 group."
+msgstr ""
+
+#: core/data/System/UserName.txt:25
+msgid "These steps may not be applicable to your system."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+msgid "This WikiName is already in use."
+msgstr ""
+
+#: core/templates/messages.tmpl:228
+msgid "This can be automatically upgraded by:"
+msgstr ""
+
+#: core/templates/messages.tmpl:211
+msgid "This could be for several reasons:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+msgid ""
+"This form is used to change your registered e-mail addresses. Your "
+"registered addresses are used by Foswiki for sending you e-mails, including "
+"notifications of password changes. The addresses you register via this form "
+"are kept secret and will *not* be published anywhere on this site."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:138
+msgid "This group should not have members."
+msgstr ""
+
+#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
+#: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:4 core/data/Trash/WebNotify.txt:2
+#: core/data/_default/WebNotify.txt:2
+msgid ""
+"This is a subscription service to be automatically notified by e-mail when "
+"topics change in this %1 web. This is a convenient service, so you do not "
+"have to come back and check all the time if something has changed. To "
+"subscribe, please add a bullet with your %2 in alphabetical order to this "
+"list:"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:7
+#: MailerContrib/templates/mailnotify.tmpl:82
+msgid "This is an automated e-mail from %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
+#: core/templates/registerfailednotremoved.tmpl:9
+#: core/templates/registerfailedremoved.tmpl:9
+#: core/templates/registernotifyadmin.tmpl:9
+msgid "This is an automated e-mail notification of user registration in %1."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+msgid "This is not a valid WikiName."
+msgstr ""
+
+#: core/data/Trash/WebHome.txt:2
+msgid ""
+"This is the Trash. Here you can undelete topics; deleted attachments are in "
+"TrashAttachment."
+msgstr ""
+
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+msgid "This is why the conversion is disabled:"
+msgstr ""
+
+#: core/templates/login.tmpl:33
+msgid ""
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
+"[Register]] if you do not have an account yet."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "This must be a unique WikiName."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+msgid "This must be a valid login username."
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:31
+msgid ""
+"This name has been chosen so it doesn't conflict with any other topics "
+"already in the %1 web."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:3
+msgid ""
+"This page explains one of the security measures that Foswiki, the software "
+"that runs this site, performs to secure this site from attackers."
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:72
+msgid "This page was cached on %1."
+msgstr ""
+
+#: core/templates/messages.tmpl:226
+msgid "This requires the form definition to be present."
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:40
+msgid "This site is powered by Foswiki"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:227
+msgid "This site requires at least %1 character passwords"
+msgstr ""
+
+#: core/data/System/UserName.txt:9
+msgid "This system is configured to use usernames"
+msgstr ""
+
+#: core/templates/messages.tmpl:385
+msgid "This system is not configured to support user login. Return to [[%1]]."
+msgstr ""
+
+#: core/templates/viewprint.tmpl:14
+msgid "This topic:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+msgid "This username is already in use."
+msgstr ""
+
+#: core/templates/messages.tmpl:29
+msgid ""
+"Those changes have been merged with yours to create Rev %1. Text fields will "
+"have been merged, but other data such as form fields may have overwritten "
+"the other users changes. Please inspect the topic to make sure it is OK, "
+"especially if you made any changes to form fields."
+msgstr ""
+
+#: core/data/System/WikiName.txt:11
+msgid ""
+"Though rarely used in common practice, you can use the special =="
+"%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
+"%<nop>USERSWEB%.%WIKINAME%==."
+msgstr ""
+
+#: core/data/System/FrequentlyAskedQuestions.txt:65
+msgid "Title:"
+msgstr ""
+
+#: core/templates/registerapprove.tmpl:12
+msgid "To approve this registration, visit %2"
+msgstr ""
+
+#: core/templates/renameconfirm.tmpl:16
+msgid "To attachment:"
+msgstr ""
+
+#: core/templates/registerapprove.tmpl:14
+msgid "To block this registration,  visit %2"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:284
+msgid ""
+"To display the above search results in a topic, copy-paste the following "
+"markup:"
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:20
+msgid "To edit the topic anyway, click "
+msgstr ""
+
+#: core/templates/messages.tmpl:394
+msgid "To login as another user please do so [[%1][here]]"
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:16
+msgid "To see if %1 has finished editing yet, click "
+msgstr ""
+
+#: core/templates/renamebase.tmpl:29
+msgid "To topic"
+msgstr ""
+
+#: core/templates/renameconfirm.tmpl:13
+msgid "To topic:"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:22
+msgid "To web"
+msgstr ""
+
+#: core/templates/renameconfirm.tmpl:9
+msgid "To web:"
+msgstr ""
+
+#: core/templates/messages.tmpl:490
+msgid "Too many recursions parsing template %1"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:6
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
+#: PatternSkin/data/System/WebLeftBarExample.txt:6
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
+#: PatternSkin/data/_default/WebLeftBar.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
+msgid "Toolbox"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:119
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:69
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:87
+#: core/data/System/SiteChanges.txt:64
+msgid "Topic"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
+msgid "Topic %1 does not exist"
+msgstr ""
+
+#: core/templates/messages.tmpl:193
+msgid "Topic Save Error"
+msgstr ""
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:14
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
+msgid "Topic attachments"
+msgstr ""
+
+#: core/templates/messages.tmpl:224
+msgid "Topic can not be upgraded from old style category table"
+msgstr ""
+
+#: PatternSkin/templates/form.pattern.tmpl:10
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+msgid "Topic data"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:27
+#: HistoryPlugin/templates/oopshistory.tmpl:40
+msgid "Topic history"
+msgstr ""
+
+#: core/data/System/WebTopicList.txt:3
+msgid "Topic list for %1 Web"
+msgstr ""
+
+#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+msgid "Topic name"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:53
+msgid "Topic name:"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:61
+msgid "Topic parent:"
+msgstr ""
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:44
+#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+msgid "Topic revision:"
+msgstr ""
+
+#: core/templates/oopssaveerr.tmpl:11
+msgid "Topic save error"
+msgstr ""
+
+#: core/data/System/WebTemplateTopics.txt:3
+msgid "Topic templates in %1 Web"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:139
+msgid "Topic title"
+msgstr ""
+
+#: core/templates/messages.tmpl:26
+msgid "Topic was merged"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:107
+msgid "Topic will be named: "
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:14
+msgid "Topics in %1 web:"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:230
+msgid "Topics per web"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:29
+msgid "Topics which are currently being edited by other users in the %1 Web:"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:32
+msgid ""
+"Topics which refer to this web and are are currently being edited by other "
+"users:"
+msgstr ""
+
+#: core/templates/renamewebbase.tmpl:35
+msgid ""
+"Topics which refer to this web that you do not have permission to change:"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:221
+msgid "Total matches"
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:17
+msgid "Try Again"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:101
+msgid "URL"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101
+msgid "Unchanged sections before and after each change"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:44
+msgid "Underline"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+msgid "Undo last change"
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+msgid "Unescape markup"
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:5
+msgid "Unrecognised user and/or password"
+msgstr ""
+
+#: core/templates/messages.tmpl:42
+msgid "Unrecognized action command %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:401
+msgid ""
+"Unsafe redirect to %1 is denied. The requested host does not match %2, and "
+"is not in {PermittedRedirectHostUrls}."
+msgstr ""
+
+#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
+#: SubscribePlugin/templates/subscribe.tmpl:12
+#: SubscribePlugin/templates/subscribe.tmpl:36
+msgid "Unsubscribe"
+msgstr ""
+
+#: SubscribePlugin/templates/subscribe.tmpl:12
+msgid "Unsubscribe from this topic"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+msgid "Unsubscribe from this topic (s)"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:204
+msgid "Unsupported [[%1][username]]"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
+msgid "Update"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:3
+msgid "Update attachment %1 on %2"
+msgstr ""
+
+#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:27
+msgid "Update links"
+msgstr ""
+
+#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: core/data/Main/GroupViewTemplate.txt:182
+#: core/data/Main/GroupViewTemplate.txt:191
+msgid "Upgrade"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:172
+msgid "Upgrade group topic..."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:392
+msgid "Upgraded group"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:127
+msgid "Upload a file"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachnew.pattern.tmpl:5
+#: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
+msgid "Upload file"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:50
+msgid "Upload multiple attachments in one zip file"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:42
+msgid "Upload up to %1 KB."
+msgstr ""
+
+#: core/templates/messages.tmpl:259
+msgid "Uploaded file %1 exceeds limit of %2 KB"
+msgstr ""
+
+#: core/templates/messages.tmpl:258
+msgid "Uploaded file is too big"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:14
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:34
+msgid "Use %1 instead."
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:68
+msgid "Use template:"
+msgstr ""
+
+#: core/data/System/CompleteDocumentation.txt:12
+msgid ""
+"Use this button to load the content.%BR% *Caution* the content is very large "
+"and loading it will put a high load on your browser. Only load the content "
+"if you are going to print it - otherwise use the [[ReferenceManual][online "
+"reference manual]]."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:13
+msgid ""
+"Use this button to load the content.%BR% *Caution* the search on this topic "
+"can be very resource intensive. Only load the content if you really need it, "
+"otherwise review the WebChanges topic from each web."
+msgstr ""
+
+#. (( $user, $groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+msgid "User %1 does not have CHANGE permission on %2."
+msgstr ""
+
+#. ($cuid)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: core/lib/Foswiki/UserMapping.pm:371
+msgid "User %1 not in group, cannot be removed"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:353
+msgid "User Account %1 Deleted"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:341
+msgid "User Account was not supplied"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:17
+msgid "User Reference"
+msgstr ""
+
+#: core/templates/oopsregister.tmpl:6
+msgid "User Registration"
+msgstr ""
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
+msgid ""
+"User exists in the Password Manager,  and the password you provided is "
+"different from the users current password.   You cannot add a user and "
+"change the password at the same time."
+msgstr ""
+
+#: core/templates/login.tmpl:48
+msgid "Username"
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:13
+msgid "Username %1."
+msgstr ""
+
+#: core/templates/login.tmpl:47
+msgid "Username or email address"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
+#: PatternSkin/data/System/WebLeftBarExample.txt:7
+msgid "Users"
+msgstr ""
+
+#. ($Group)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+msgid "Users cannot be added to %1"
+msgstr ""
+
+#. ($groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+msgid "Users cannot be removed from %1"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:152
+msgid "Users who may edit:"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:116
+msgid "Users who may view:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:316
+msgid ""
+"Users with automatically generated passwords should proceed immediately to "
+"[[%1][change password]] to change their password to something memorable."
+msgstr ""
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
+msgid "Verbatim"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:43
+msgid "Version"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:9
+msgid "Version history"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:7
+msgid "Version history of %1"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:64
+msgid "View"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:159
+msgid "View complete topic history"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
+msgid "View difference"
+msgstr ""
+
+#: core/templates/more.tmpl:162
+msgid "View differences"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+msgid "View earlier"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+msgid "View later"
+msgstr ""
+
+#: core/templates/more.tmpl:137
+msgid "View previous topic revision"
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:28
+msgid "View raw text without formatting"
+msgstr ""
+
+#: core/templates/more.tmpl:144
+msgid "View revision"
+msgstr ""
+
+#: core/templates/more.tmpl:141
+msgid "View revision:"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
+msgid "View sequential topic history"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:149
+msgid "View templates"
+msgstr ""
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
+#: core/templates/oopsleaseconflict.tmpl:28
+msgid "View topic"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:144
+msgid "View total topic history"
+msgstr ""
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
+msgid "View without formatting (v)"
+msgstr ""
+
+#: core/templates/validate.tmpl:22
+msgid "Warning! Confirmation required"
+msgstr ""
+
+#: core/templates/messages.tmpl:365
+msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:367
+msgid ""
+"Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+msgstr ""
+
+#: core/templates/messages.tmpl:363
+msgid "Warning: Can't find named section %3 in topic %1.%2"
+msgstr ""
+
+#: core/templates/messages.tmpl:361
+msgid "Warning: Can't find topic %1.%2"
+msgstr ""
+
+#: core/templates/messages.tmpl:359
+msgid "Warning: Can't find web %1 for topic %2"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Register.pm:1277
+msgid "Warning: Could not send confirmation email"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Register.pm:1289
+msgid "Warning: Could not send confirmation email, email has been disabled"
+msgstr ""
+
+#: core/templates/messages.tmpl:381
+msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+msgstr ""
+
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+msgid "Warning: Updates found for %1 extension(s)."
+msgstr ""
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:439
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr ""
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
+msgid ""
+"We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+"you wish to register."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
+msgid ""
+"We noticed you have disabled cookies. Please enable cookies if you wish to "
+"register."
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:115
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:83
+#: core/data/System/SiteChanges.txt:64
+msgid "Web"
+msgstr ""
+
+#: core/data/System/WebNotify.txt:3
+msgid "Web Changes notification service"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarWebsList.txt:10
+#: core/data/System/SiteChanges.txt:90
+msgid "Webs"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
+msgid "Webserver <em>running Foswiki</em>"
+msgstr ""
+
+#: core/data/Main/WebPreferences.txt:12
+msgid "Welcome to %1 ... meet people on this site"
+msgstr ""
+
+#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+msgid "Welcome to the %1 web"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:93
+msgid "While attempting to email <noautolink>%1</noautolink>."
+msgstr ""
+
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
+msgid "Who"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
+msgid "Who is requesting this, actually?"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:103
+msgid "Whole page"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
+msgid "Why am I being asked to confirm?"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
+msgid ""
+"Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+"Foswiki.org]]."
+msgstr ""
+
+#: core/data/System/WebSearch.txt:189
+msgid "Word search"
+msgstr ""
+
+#: core/templates/messages.tmpl:18
+msgid "Would you like to go to:"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:50
+msgid "Yes"
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
+msgid "You"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+msgid ""
+"You *must* have at least one valid registered e-mail to be able to reset "
+"your password. If none of your registered e-mail addresses is valid, and you "
+"have forgotten your password, contact %1"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:193
+msgid "You are already registered."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:140
+msgid "You are also listed in the %1 topic"
+msgstr ""
+
+#: core/templates/messages.tmpl:275
+msgid "You are denied access to the following topics in the web:"
+msgstr ""
+
+#: core/templates/messages.tmpl:345
+msgid ""
+"You are encouraged to go ahead and edit - unless you intend to change data "
+"in a form attached to the topic. If %1 actually _does_ save while you are "
+"editing, your changes will be merged, and nothing will be lost. Form data "
+"cannot easily be merged though, so in this case you are recommended to check "
+"with %1 first."
+msgstr ""
+
+#: PatternSkin/templates/view.pattern.tmpl:36
+msgid "You are here:"
+msgstr ""
+
+#: core/templates/messages.tmpl:120
+msgid ""
+"You are recommended to choose short names, preferably less than 10 "
+"characters, starting with an upper-case alphabetic character and using only "
+"alphanumeric characters. If you want to create a template web (a web just "
+"used as a base to create new webs) choose a name that starts with an "
+"underscore and has only alphanumeric characters."
+msgstr ""
+
+#: core/templates/messages.tmpl:470
+msgid "You are trying to access an attachment that does not exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:456
+msgid "You are trying to create a topic from a template that does not exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:450
+msgid ""
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
+msgstr ""
+
+#: core/templates/messages.tmpl:463
+msgid "You are trying to rename a topic that does not exist."
+msgstr ""
+
+#: core/templates/messages.tmpl:438
+msgid ""
+"You can [[%1][create a new web]] if you have permission. Contact %2 if you "
+"have any questions."
+msgstr ""
+
+#: core/templates/messages.tmpl:158
+msgid ""
+"You can also use the names of the standard HTML colors (black, silver, gray, "
+"white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
+"teal, or aqua)"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: core/templates/registernotify.tmpl:25
+msgid "You can change your password at via %1"
+msgstr ""
+
+#: core/templates/renameweb.tmpl:20
+msgid "You can give this web a different name."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:407
+#: core/templates/registermessages.tmpl:413
+msgid ""
+"You cannot add users to a missing group unless the create option is set."
+msgstr ""
+
+#: core/data/System/UserName.txt:15
+msgid ""
+"You cannot alter your username: you have to get the administrator to do this "
+"for you."
+msgstr ""
+
+#: core/templates/messages.tmpl:493
+msgid ""
+"You cannot proceed because either Cookies or !JavaScript are disabled in "
+"your browser."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:194
+msgid "You cannot register twice, the name %1 is already registered."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
+msgid ""
+"You change your email address by setting the form field called Email in your "
+"user topic. If this form field does not exist it will look for a line like "
+"this:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:13
+#: core/templates/registermessages.tmpl:189
+#: core/templates/registermessages.tmpl:23
+#: core/templates/registermessages.tmpl:37
+msgid "You have *not* been registered."
+msgstr ""
+
+#: core/templates/messages.tmpl:247
+msgid ""
+"You may be able to get your Wiki administrator to change the settings if "
+"they are inappropriate for your environment."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:107
+msgid ""
+"You may have clicked a registration verification link that you had already "
+"visited."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:334
+msgid "You may need to close your browser to make this change take effect."
+msgstr ""
+
+#: core/templates/messages.tmpl:89
+msgid "You must pass a topic name."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:367
+msgid "You need to specify a valid group name to add members to a group."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:418
+msgid "You need to specify a valid group name to remove members from a group."
+msgstr ""
+
+#: core/templates/messages.tmpl:322
+msgid "You need to specify a valid member to add to a group."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:401
+msgid "You need to specify a valid member to remove from a group."
+msgstr ""
+
+#: core/templates/registerconfirm.tmpl:12
+msgid ""
+"You now need to verify your e-mail address. You can do so by entering %1 in "
+"the form presented to you when this e-mail was sent, or by visiting %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:233
+msgid "You will probably have to ask your administrator, %1, to do this."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:162
+msgid "You will receive an e-mail when your registration has been approved."
+msgstr ""
+
+#: core/data/System/UserName.txt:13
+msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:23
+msgid "Your [[%1][username]]:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:147
+msgid ""
+"Your activation code has been sent to %1.  Either click on the link in your "
+"e-mail or enter the code in the box below to activate your membership. (This "
+"code is of the form \"YourName.xxxxxxxxxx\")"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+msgid "Your email address will be kept confidential."
+msgstr ""
+
+#: core/templates/oopslanguagechanged.tmpl:16
+msgid ""
+"Your language will be changed to %1 from the next screen. You will be "
+"redirected to there right now. If you aren't, [[%2][click to proceed]]."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+msgid "Your name as displayed by %1. %2"
+msgstr ""
+
+#: core/data/System/WikiName.txt:4
+msgid "Your name, usually your first and last name connected without a space."
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:14
+msgid "Your password has been changed to %1."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:133
+msgid "Your password has not been changed."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+msgid "Your password must be at least %1 characters long."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
+msgid "Your password:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: core/templates/registernotify.tmpl:13
+msgid ""
+"Your personal %1 topic is located at %2. You can customize it as you like:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:138
+msgid "Your personal Foswiki topic %1 has been created"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:294
+msgid ""
+"Your registered e-mail address(es) are updated to: <noautolink>%1</"
+"noautolink>."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
+msgid ""
+"Your registered e-mails are used by Foswiki for sending you e-mails, include "
+"notifications of password changes."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:160
+msgid "Your registration is pending approval by the system administrators."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:95
+msgid ""
+"Your registration verification email has either failed, or is queued in the "
+"mail system."
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:48
+msgid "Your signature to copy/paste"
+msgstr ""
+
+#: core/templates/edit.tmpl:42
+msgid "Your signature to copy/paste:"
+msgstr ""
+
+#: core/templates/registermessages.tmpl:324
+msgid ""
+"Your system may not support changing passwords through Foswiki. Check with "
+"your Wiki administrator."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:29
+msgid ""
+"Your user registration failed because it did not pass the validation tests."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:220
+msgid ""
+"[[%1][Click here]] for guidance on creating a valid username for this site"
+msgstr ""
+
+#: core/templates/messages.tmpl:220
+msgid "[[%1][Debug topic text]]."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+msgid "[[%1][username]]:"
+msgstr ""
+
+#: NatEditPlugin/templates/settings.natedit.tmpl:29
+#: core/templates/settings.tmpl:27
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
+#: core/lib/Foswiki/I18N.pm:349
+msgid "_language_name"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+msgid "access denied on root"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+msgid "access denied on topic"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+msgid "access denied on web"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+msgid "access not allowed on root"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+msgid "access not allowed on topic"
+msgstr ""
+
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+msgid "access not allowed on web"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
+msgid "accesskey='c'"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr ""
+
+#: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
+msgid "by %1 "
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:75
+msgid "change display options"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:12
+msgid "change, update, previous revisions, move, delete..."
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+msgid "checkboxes of referenced topics"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:76
+msgid "close display options"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
+msgid "default as defined in the %1"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:63
+msgid "diff"
+msgstr ""
+
+#: core/templates/messages.tmpl:302
+msgid "don't forget to check your Topic Settings"
+msgstr ""
+
+#: core/templates/messages.tmpl:505
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:9
+#: NatEditPlugin/templates/form.natedit.tmpl:2
+#: PatternSkin/templates/formtables.pattern.tmpl:30
+#: core/templates/formtables.tmpl:27
+msgid "edit"
+msgstr ""
+
+#: NatEditPlugin/templates/editform.natedit.tmpl:2
+#: NatEditPlugin/templates/editform.natedit.tmpl:3
+msgid "edit form"
+msgstr ""
+
+#: core/templates/messages.tmpl:170
+msgid "fields are required."
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:21
+#: PatternSkin/templates/edit.pattern.tmpl:23
+msgid "help"
+msgstr ""
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr ""
+
+#: NatEditPlugin/templates/editdialog.natedit.tmpl:24
+msgid "ignore case"
+msgstr ""
+
+#: core/templates/more.tmpl:141
+msgid "in raw text format"
+msgstr ""
+
+#: NatEditPlugin/templates/form.natedit.tmpl:4
+#: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
+msgid "indicates mandatory fields"
+msgstr ""
+
+#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:63
+msgid "last change"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:12
+msgid "manage"
+msgstr ""
+
+#: core/data/Trash/WebHome.txt:11
+msgid "more..."
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: MailerContrib/templates/mailnotify.tmpl:16
+msgid "now %1"
+msgstr ""
+
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
+#: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
+msgid "or"
+msgstr ""
+
+#: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
+msgid "preview"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
+msgid "public view access"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:7
+msgid "restore"
+msgstr ""
+
+#: NatEditPlugin/templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
+msgid "restrict access to %1"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
+#: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
+msgid "retrieved at %1"
+msgstr ""
+
+#: core/templates/viewprint.tmpl:15
+msgid "revision %1"
+msgstr ""
+
+#: core/templates/settings.tmpl:3
+msgid "set preferences"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:142
+#: NatEditPlugin/templates/edit.natedit.tmpl:173
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:37
+msgid "the beginning"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:15
+msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:15
+msgid "title='Attach an image or document to this topic'>Attach"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:5
+msgid "title='Create new topic' accesskey='c'>&Create"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:19
+msgid ""
+"title='Delete or rename this topic; set parent topic; view and compare "
+"revisions' accesskey='m'>&More topic actions"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:10
+msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:8
+msgid "title='Edit this topic text' >Edit"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:8
+msgid "title='Edit this topic text' accesskey='e'>&Edit"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
+msgid "title='Interwoven' accesskey='i'>&interwoven"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:23
+msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:30
+msgid ""
+"title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:32
+msgid ""
+"title='Search the %1 Web for topics that link to here' "
+"accesskey='b'>&Backlinks"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:28
+msgid ""
+"title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+msgstr ""
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
+msgid "title='Side by side' accesskey='s'>&side by side"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:17
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:17
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:37
+msgid "title='View complete topic history' accesskey='h'>&History"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: core/templates/viewtopicactionbuttons.tmpl:12
+msgid "title='View topic' accesskey='v'>&View topic"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:41
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr ""
+
+#: core/lib/Foswiki/Macros/GROUPS.pm:38
+msgid "user list truncated"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:37
+msgid "value='Cancel' accesskey='c'"
+msgstr ""
+
+#: PatternSkin/templates/preview.pattern.tmpl:19
+msgid "value='Discard' accesskey='d'"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:35
+msgid "value='Preview' accesskey='p'"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:31
+msgid "value='Quiet save' accesskey='q'"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:33
+msgid "value='Save and Continue' accesskey='k'"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:29
+msgid "value='Save' accesskey='s'"
+msgstr ""
+
+#: core/templates/attachtables.tmpl:48
+msgid "view"
+msgstr ""
+
+#: core/templates/validate.tmpl:42
+msgid "why you are being asked to confirm"
+msgstr ""
