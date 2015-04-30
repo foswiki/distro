@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-29 09:31+0200\n"
+"PO-Revision-Date: 2015-04-30 04:18+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/ko/>\n"
@@ -720,9 +720,8 @@ msgid "All public webs"
 msgstr "모든 공개된 웹"
 
 #: core/templates/foswiki.tmpl:45
-#, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "<nop>WikiWord 가 아닌 단어로 토픽을 생성하는 것을 허용합니다"
+msgstr "토픽 이름으로 <nop>WikiWord 만 사용이 가능합니다."
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -2612,13 +2611,10 @@ msgstr "더 보기..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr ""
-"title='이 토픽을 삭제하거나 이름 변경하기; 부모 토픽 설정하기; 리비전 보기 "
-"및 비교하기' accesskey='m'>더 많은 토픽 액션(&m)"
+msgstr "더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -3759,9 +3755,8 @@ msgid "Select the group to join:"
 msgstr "토픽 지우기"
 
 #: core/templates/more.tmpl:101
-#, fuzzy
 msgid "Select topic parent"
-msgstr "토픽 지우기"
+msgstr "부모 토픽 선택하기"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3793,7 +3788,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:97
 msgid "Set new topic parent"
-msgstr ""
+msgstr "새로운 부모 토픽 설정"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #, fuzzy
@@ -4622,15 +4617,15 @@ msgstr "모든 토픽 내역 보기"
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
 msgid "Topic name"
-msgstr ""
+msgstr "토픽 이름"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:53
 msgid "Topic name:"
-msgstr ""
+msgstr "토픽 이름:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:61
 msgid "Topic parent:"
-msgstr ""
+msgstr "부모 토픽:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
@@ -5650,8 +5645,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='이 토픽을 삭제하거나 이름 변경하기; 부모 토픽 설정하기; 리비전 보기 "
-"및 비교하기' accesskey='m'>더 많은 토픽 액션(&m)"
+"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' accesskey='m'>더 많은 토픽 액션 "
+"(&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 #, fuzzy
