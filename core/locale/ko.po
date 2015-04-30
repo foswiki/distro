@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Foswiki Korean Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-27 05:19+0200\n"
-"Last-Translator: Minjae Kim <flowergom.mac@gmail.com>\n"
+"PO-Revision-Date: 2015-04-30 04:18+0200\n"
+"Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/ko/>\n"
 "Language: ko\n"
@@ -2193,9 +2193,7 @@ msgstr "더 보기..."
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr ""
-"추가: 이 토픽을 삭제하거나 이름 변경하기; 부모 토픽 설정; 수정본 보기 및 비"
-"교 (m)"
+msgstr "더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -3053,7 +3051,7 @@ msgstr "비교할 예전 (좌측) 수정본과 추후 (우측) 수정본을 선�
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
-msgstr "토픽 부모 선택"
+msgstr "부모 토픽 선택하기"
 
 #: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3077,7 +3075,7 @@ msgstr "새 부모 설정"
 
 #: core/templates/more.tmpl:96
 msgid "Set new topic parent"
-msgstr "새 토픽 부모 설정"
+msgstr "새로운 부모 토픽 설정"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
@@ -3730,7 +3728,7 @@ msgstr "토픽 이름:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
-msgstr "토픽 부모:"
+msgstr "부모 토픽:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
@@ -4573,8 +4571,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='이 토픽을 삭제하거나 이름 변경; 부모 토픽 설정; 수정내역 보기 및 비"
-"교' accesskey='m'>추가 토픽 작업 &m"
+"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' accesskey='m'>더 많은 토픽 액션 "
+"(&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
@@ -4620,7 +4618,7 @@ msgstr "title='이 토픽 구독' accesskey='s'>구독 &S"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='이 토픽 구독해지' accesskey='s'>구독해지 &s"
+msgstr "title='이 토픽에 대한 구독 취소' accesskey='s'>구독취소(&s)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
