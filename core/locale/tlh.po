@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-30 12:58+0200\n"
+"PO-Revision-Date: 2015-04-30 23:58+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -18,37 +18,37 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr ""
+msgstr "wIqIpong"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
-msgstr ""
+msgstr "%*(%1,jaj) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:444
 msgid "%*(%1,hour) "
-msgstr ""
+msgstr "%*(%1,rep) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:447
 msgid "%*(%1,minute) "
-msgstr ""
+msgstr "%*(%1,tup) "
 
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:450
 msgid "%*(%1,second) "
-msgstr ""
+msgstr "%*(%1,lup) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (motlh)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -62,12 +62,14 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr ""
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#, fuzzy
 msgid "%1 Web"
-msgstr ""
+msgstr "%1 <nop>mIch"
 
 #: core/templates/registermessages.tmpl:387
+#, fuzzy
 msgid "%1 added to the %2 group."
-msgstr ""
+msgstr "%2 !ghomvaD %1 chellu'."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
@@ -113,12 +115,14 @@ msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
 #: core/templates/messages.tmpl:22
+#, fuzzy
 msgid "%1 home"
-msgstr ""
+msgstr "%1 juH"
 
 #: core/templates/messages.tmpl:119
+#, fuzzy
 msgid "%1 is an invalid name for a new web"
-msgstr ""
+msgstr "!mIch chu' !pongmeH !lI'be' %1"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -129,8 +133,9 @@ msgid "%1 is currently set to %2"
 msgstr ""
 
 #: core/templates/messages.tmpl:330
+#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr ""
+msgstr "[[%2][%3]] !choHtaH %1."
 
 #: core/templates/registermessages.tmpl:284
 msgid "%1 is in at least one group and cannot be removed"
@@ -149,8 +154,9 @@ msgid "%1 is the default topic for deleted attachments."
 msgstr ""
 
 #: core/templates/messages.tmpl:339
+#, fuzzy
 msgid "%1 may still be editing %2."
-msgstr ""
+msgstr "chaq %2 !choHtaH %1."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -181,8 +187,9 @@ msgid "%1 to start working on the new web"
 msgstr ""
 
 #: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
+#, fuzzy
 msgid "%1 topic does not exist"
-msgstr ""
+msgstr "<nop>ghItlh %1 tu'lu'be'"
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -290,12 +297,14 @@ msgid "(edit form)"
 msgstr ""
 
 #: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
+#, fuzzy
 msgid "(edit text)"
-msgstr ""
+msgstr "(ghItlh <nop>choH)"
 
 #: core/templates/edit.tmpl:4 core/templates/edit.tmpl:8
+#, fuzzy
 msgid "(edit)"
-msgstr ""
+msgstr "(<nop>choH)"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
@@ -754,7 +763,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
-msgstr ""
+msgstr "tep '%1' tu'lu'be'"
 
 #: core/templates/messages.tmpl:56
 msgid "Attachment delete failed"
@@ -762,7 +771,7 @@ msgstr ""
 
 #: core/lib/Foswiki/UI/Rename.pm:190
 msgid "Attachment does not exist."
-msgstr ""
+msgstr "tep tu'lu'be'."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
@@ -1487,24 +1496,27 @@ msgstr ""
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
 #: core/templates/viewtopicactionbuttons.tmpl:48
+#, fuzzy
 msgid "Edit"
-msgstr ""
+msgstr "(<nop>choH)"
 
 #: core/data/System/VarMAKETEXT.txt:61
 msgid "Edit %*(%1,file)"
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:25
+#, fuzzy
 msgid "Edit Anyway"
-msgstr ""
+msgstr "<nop>DaH <nop>choH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:64
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
+#, fuzzy
 msgid "Edit help"
-msgstr ""
+msgstr "<nop>choHmeH <nop>QaH"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
@@ -1609,7 +1621,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:353
 msgid "Error: File attachment at %1,%2 does not exist"
-msgstr ""
+msgstr "Qagh: De' tep %1Daq, %2 tu'lu'be"
 
 #: core/templates/messages.tmpl:357
 msgid ""
@@ -1696,7 +1708,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
 msgid "First name:"
-msgstr ""
+msgstr "pong:"
 
 #: core/data/System/WikiName.txt:6
 msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
@@ -1835,7 +1847,7 @@ msgstr ""
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
-msgstr ""
+msgstr "ghom pong"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 msgid "Group names must end in Group"
@@ -2286,15 +2298,17 @@ msgstr ""
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
-msgstr ""
+msgstr "Sup"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
+#, fuzzy
 msgid "Jump to first revision"
-msgstr ""
+msgstr "Dotlh <nop>wa'DIchDaq Sup"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
+#, fuzzy
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Dotlh <nop>chu'Daq Sup (%1)"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:134
 #: NatEditPlugin/templates/edit.natedit.tmpl:165
@@ -2307,7 +2321,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:193
 msgid "Keyword search"
-msgstr ""
+msgstr "mu' nej"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "Last"
@@ -2332,7 +2346,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 msgid "Last name:"
-msgstr ""
+msgstr "tuq pong:"
 
 #: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
@@ -2372,7 +2386,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:197
 msgid "Literal search"
-msgstr ""
+msgstr "mu'na' nej"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
@@ -2425,8 +2439,9 @@ msgid "Mail to"
 msgstr ""
 
 #: core/data/System/WebSearch.txt:178
+#, fuzzy
 msgid "Make search:"
-msgstr ""
+msgstr "<nop>nejwI' <nop>chenmoH:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
@@ -2451,8 +2466,9 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
+#, fuzzy
 msgid "Modify search"
-msgstr ""
+msgstr "<nop>nejwI' <nop>choH"
 
 #: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
@@ -2547,7 +2563,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
-msgstr ""
+msgstr "velqa' pong"
 
 #: core/templates/messages.tmpl:115
 msgid "Name of new web is missing"
@@ -2555,7 +2571,7 @@ msgstr ""
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Name:"
-msgstr ""
+msgstr "pong:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2813,8 +2829,9 @@ msgid "Options"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
+#, fuzzy
 msgid "Organisation name:"
-msgstr ""
+msgstr "<nop>DIvI' pong"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 msgid "Organisation website:"
@@ -3434,8 +3451,9 @@ msgstr ""
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
 #: core/data/System/WebSearch.txt:43 core/data/System/WebSearch.txt:65
 #: core/data/System/WebSearch.txt:83
+#, fuzzy
 msgid "Search"
-msgstr ""
+msgstr "<nop>nejwI'"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
@@ -3819,8 +3837,9 @@ msgid "Table"
 msgstr ""
 
 #: core/templates/messages.tmpl:455
+#, fuzzy
 msgid "Template %1 does not exist"
-msgstr ""
+msgstr "<nop>ghantoH %1 tu'lu'be'"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:82
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
@@ -3869,8 +3888,9 @@ msgid "The %1 topic already exists"
 msgstr ""
 
 #: core/templates/messages.tmpl:429
+#, fuzzy
 msgid "The %1 web does not exist"
-msgstr ""
+msgstr "<nop>mIch %1 tu'lu'be'"
 
 #: core/data/Sandbox/WebHome.txt:3
 msgid ""
@@ -4280,7 +4300,7 @@ msgstr ""
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
-msgstr ""
+msgstr "<nop>ghItlhvam:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
 msgid "This username is already in use."
@@ -4336,12 +4356,14 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr ""
 
 #: core/templates/renamebase.tmpl:29
+#, fuzzy
 msgid "To topic"
-msgstr ""
+msgstr "<nop>ghItlhDaq"
 
 #: core/templates/renameconfirm.tmpl:13
+#, fuzzy
 msgid "To topic:"
-msgstr ""
+msgstr "<nop>ghItlhDaq:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
@@ -4368,12 +4390,14 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
 #: core/data/System/SiteChanges.txt:64
+#, fuzzy
 msgid "Topic"
-msgstr ""
+msgstr "<nop>ghItlh"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
+#, fuzzy
 msgid "Topic %1 does not exist"
-msgstr ""
+msgstr "<nop>ghItlh %1tu'lu'be'"
 
 #: core/templates/messages.tmpl:193
 msgid "Topic Save Error"
@@ -4403,22 +4427,25 @@ msgid "Topic list for %1 Web"
 msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#, fuzzy
 msgid "Topic name"
-msgstr ""
+msgstr "<nop>ghItlh pong"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:53
 msgid "Topic name:"
 msgstr ""
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:61
+#, fuzzy
 msgid "Topic parent:"
-msgstr ""
+msgstr "<nop>ghItlh qup"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#, fuzzy
 msgid "Topic revision:"
-msgstr ""
+msgstr "<nop>ghItlh Dotlh:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
@@ -4512,13 +4539,15 @@ msgid "Unsubscribe"
 msgstr ""
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
+#, fuzzy
 msgid "Unsubscribe from this topic"
-msgstr ""
+msgstr "<nop>ghItlhvam qImHa'choH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
 msgid "Unsubscribe from this topic (s)"
-msgstr ""
+msgstr "<nop>ghItlhvam <nop>qImHa'choH (s)"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][username]]"
@@ -4742,8 +4771,9 @@ msgstr ""
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
+#, fuzzy
 msgid "View topic"
-msgstr ""
+msgstr "<nop>ghItlh bej"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
@@ -5251,8 +5281,9 @@ msgstr ""
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
 #: core/templates/formtables.tmpl:27
+#, fuzzy
 msgid "edit"
-msgstr ""
+msgstr "<nop>choH"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
@@ -5402,8 +5433,9 @@ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
 msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
+#, fuzzy
 msgid "title='Edit this topic text' >Edit"
-msgstr ""
+msgstr "title='<nop>ghItlhvam <nop>choH' ><nop>choH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
