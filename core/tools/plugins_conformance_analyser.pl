@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 
 # Copyright (C) 2004 C-Dot Consultants - All rights reserved
 # Portions (C) 2004 Martin Cleaver

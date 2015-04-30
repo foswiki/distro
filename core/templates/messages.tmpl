@@ -381,6 +381,8 @@ registermessages.tmpl
 %TMPL:DEF{"urls_not_allowed"}%   %MAKETEXT{"Warning: This site does not allow %<nop>INCLUDE% of URLs"}% %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bad_search"}%         %MAKETEXT{"Could not perform search. Error was: [_1]" args="%PARAM1%"}%%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"login_disabled"}%     %MAKETEXT{"This system is not configured to support user login. Return to [[[_1]]]." args="%WEB%.%TOPIC%"}%%TMPL:END%
 %{==============================================================================
     Messages for oopsaccessdenied
 ================================================================================}%

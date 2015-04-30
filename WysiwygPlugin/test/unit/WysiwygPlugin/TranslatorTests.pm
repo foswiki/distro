@@ -2947,12 +2947,16 @@ HTML
 TML
     },
     {
-        exec => ROUNDTRIP,
+        exec => TML2HTML,
         name => 'entityNamedInsideMacro_Item13369',
         tml  => <<'TML',
 Outside macro &copy; dash &mdash; done
 %MAKETEXT{"Copyright &&copy; mdash &&mdash;"}%
 TML
+        html => <<'HTML',
+<p> Outside macro &copy; dash &mdash; done <span class='WYSIWYG_PROTECTED'><br />%MAKETEXT{&#34;Copyright&nbsp;&#38;&#38;copy;&nbsp;mdash&nbsp;&#38;&#38;mdash;&#34;}%</span>
+</p>
+HTML
     },
     {
         exec => TML2HTML | HTML2TML | ROUNDTRIP,

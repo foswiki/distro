@@ -118,16 +118,19 @@ sub _SUBSCRIBE {
     $tmpl =~ s/\$url/$url/g;
 
     # REST parameters
-    my $data = HTML::Entities::encode_entities(
-        JSON::to_json(
-            {
-                subscribe_topic      => "$web.$topic",
-                subscribe_subscriber => $who,
-                subscribe_remove     => $unsubscribe,
-                validation_key       => '?%NONCE%'
-            }
-        )
+    my $json = JSON::to_json(
+        {
+            subscribe_topic      => "$web.$topic",
+            subscribe_subscriber => $who,
+            subscribe_remove     => $unsubscribe,
+            validation_key       => '?%NONCE%'
+        }
     );
+
+    # $json is UTF8 - must convert to the site encoding
+    $json = $Foswiki::Plugins::SESSION->UTF82SiteCharSet($json);
+
+    my $data = HTML::Entities::encode_entities($json);
     $tmpl =~ s/\%JSON_DATA\%/$data/g;
 
     # Add nonce, required for Foswiki < 1.2

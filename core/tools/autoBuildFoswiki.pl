@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 #
 # Build a Foswiki Release from branches in the Foswiki git repository - see http://foswiki.org/Development/BuildingARelease
 # checkout Foswiki Branch

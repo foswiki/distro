@@ -54,6 +54,11 @@ use Foswiki::Configure::Load ();
 
 use 5.006;                        # First version to accept v-numbers.
 
+# Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
+# in CGI's html rendering code to only these; note that CGI's default values
+# still breaks some unicode byte strings
+$CGI::ENCODE_ENTITIES = q{&<>"'};
+
 #SMELL:  Perl 5.10.0 on Mac OSX Snow Leopard warns "v-string in use/require non-portable"
 require 5.008_008;    # see http://foswiki.org/Development/RequirePerl588
 
@@ -679,7 +684,7 @@ sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
 
     # Detect character encoding of the full topic name from URL
-    return if ( $text =~ m/^[\x00-\x7F]+$/ );
+    return $text if ( $text =~ m/^[\x00-\x7F]+$/ );
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
@@ -689,12 +694,12 @@ sub UTF82SiteCharSet {
         # and not all darwins use apple's perl
         my $trial = $text;
         $trial =~ s/$regex{validUtf8CharRegex}//g;
-        return unless ( length($trial) == 0 );
+        return $text unless ( length($trial) == 0 );
     }
     else {
 
         #SMELL: this seg faults on OSX leopard. (and possibly others)
-        return unless ( $text =~ $regex{validUtf8StringRegex} );
+        return $text unless ( $text =~ $regex{validUtf8StringRegex} );
     }
 
     # If site charset is already UTF-8, there is no need to convert anything:
@@ -1977,6 +1982,9 @@ sub new {
     $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
     $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
+    # Make sure CGI is also using the appropriate tempfile location
+    $CGI::TMPDIRECTORY = $Foswiki::cfg{TempfileDir};
+
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
     # This MUST be done before any external programs are run via Sandbox.
@@ -2036,6 +2044,12 @@ sub new {
         $initialContext->{admin_available} = 1;       # True if sudo supported.
     }
 
+    # Tell Foswiki::Response which charset we are using if not default
+    $Foswiki::cfg{Site}{CharSet} ||= 'iso-8859-1';
+
+    # Also tell CGI,  Item13331 fix for older CGI releases
+    CGI::charset( $Foswiki::cfg{Site}{CharSet} );
+
     $query ||= new Foswiki::Request();
 
     # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
@@ -2061,9 +2075,6 @@ sub new {
         print STDERR "new $this: "
           . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
     }
-
-    # Tell Foswiki::Response which charset we are using if not default
-    $Foswiki::cfg{Site}{CharSet} ||= 'iso-8859-1';
 
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs

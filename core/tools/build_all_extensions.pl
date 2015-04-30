@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 # Build and upload all the extensions, zipping those that don't have
 # proper build scripts
 use strict;

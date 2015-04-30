@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 #
 # Author: Crawford Currie http://c-dot.co.uk
 #

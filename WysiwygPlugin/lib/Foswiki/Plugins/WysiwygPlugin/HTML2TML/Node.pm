@@ -1371,8 +1371,12 @@ sub _checkAfterEmphasis {
 sub _verbatim {
     my ( $this, $tag, $options ) = @_;
 
-    $options |= WC::PROTECTED | WC::BR2NL | WC::KEEP_WS;
+    # KEEP_ENTITIES for literal and pre
+    $options |= WC::PROTECTED | WC::KEEP_ENTITIES | WC::BR2NL | WC::KEEP_WS;
     my ( $flags, $text ) = $this->_flatten($options);
+
+    # Don't do this for literal or sticky
+    WC::decodeRepresentableEntities($text);
 
     my $p = _htmlParams( $this->{attrs}, $options );
 

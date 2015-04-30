@@ -149,16 +149,16 @@ a {
 .node .ui-button-text {
   text-shadow:0 0 transparent;
 }
-.node .ui-button.ui-state-default {
+.node :not(.feedback_button).ui-button.ui-state-default {
   background:transparent;
   border:0;
   border-radius:0;
 }
-.node .ui-button.ui-state-hover {
+.node :not(.feedback_button).ui-button.ui-state-hover {
   color:#ffffff;
   background-color:#0055b5;
 }
-.node .ui-button.ui-state-hover .ui-button-text{
+.node :not(.feedback_button).ui-button.ui-state-hover .ui-button-text{
   color:#ffffff;
 }
 .button_box {
@@ -166,7 +166,7 @@ a {
 }
 .button_box,
 .button_box .ui-button-text {
-  color:#999;
+  color:#444;
   text-transform:lowercase;
 }
 .button_box label {

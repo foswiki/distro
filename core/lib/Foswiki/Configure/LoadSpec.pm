@@ -37,11 +37,7 @@ An *extension* is a pluggable UI extension that supports some extra UI
 
 Each *setting* has a *typespec* and a *def*.
 
-The typespec consists of a type id and some options. Types are loaded by
-type id from the Foswiki::Configure::TypeUIs hierachy - for example, type
-BOOLEAN is defined by Foswiki::Configure::TypeUIs::BOOLEAN. Each type is a
-subclass of Foswiki::Configure::TypeUI - see that class for more details of
-what is supported.
+The typespec consists of a type id and some options.
 
 A *def* is a specification of a field in the $Foswiki::cfg hash,
 together with a perl value for that hash. Each field can have an

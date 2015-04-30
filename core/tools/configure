@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 # Shell access to Foswiki.spec, Config.spec and LocalSite.cfg
 # See bottom of file for POD documentation.
 #

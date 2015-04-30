@@ -59,6 +59,10 @@ sub haveAccess {
     my $session = $this->{session};
     undef $this->{failure};
 
+    return 1
+      if ( defined $Foswiki::cfg{LoginManager}
+        && $Foswiki::cfg{LoginManager} eq 'none' );
+
     my $meta;
 
     if ( ref($param1) eq '' ) {

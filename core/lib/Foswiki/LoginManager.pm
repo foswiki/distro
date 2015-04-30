@@ -736,6 +736,8 @@ run from a session or from a cron job.
 =cut
 
 sub expireDeadSessions {
+    return unless $Foswiki::cfg{WorkingDir};
+
     my $time = time() || 0;
     my $exp = $Foswiki::cfg{Sessions}{ExpireAfter} || 36000;    # 10 hours
     $exp = -$exp if $exp < 0;

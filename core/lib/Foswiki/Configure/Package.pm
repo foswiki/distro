@@ -366,7 +366,7 @@ sub install {
 
         # Don't log these results - each package uses it's own logfile
         my ( $depPlugins, $depCPAN ) =
-          $this->_installDependencies($supereporter);
+          $this->_installDependencies( $supereporter, $spec );
     }
 
     # Create a backup of the previous install if any
@@ -1756,7 +1756,7 @@ sub checkDependencies {
 # Installs the dependencies listed for this module.  Returns the details
 # of the installation.
 sub _installDependencies {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $spec ) = @_;
     my %pluglist;
     my %cpanlist;
 
@@ -1773,7 +1773,7 @@ sub _installDependencies {
                 seen       => $this->{_seen},
                 %{ $this->{_options} }
             );
-            my ( $ok, $plugins, $cpan ) = $deppkg->install($reporter);
+            my ( $ok, $plugins, $cpan ) = $deppkg->install( $reporter, $spec );
             if ($ok) {
                 @pluglist{ keys %$plugins } = values %$plugins;
                 @cpanlist{ keys %$cpan }    = values %$cpan;

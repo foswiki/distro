@@ -193,10 +193,8 @@ sub readConfig {
                 $validLSC = 0;
             }
             elsif ( not $return eq '1' ) {
-                warn
+                print STDERR
                   "Running file $file returned  unexpected results: $return \n";
-                $errorMessage =
-                  "Running file $file returned unexpected results: $return";
             }
             if ($errorMessage) {
                 die <<GOLLYGOSH;

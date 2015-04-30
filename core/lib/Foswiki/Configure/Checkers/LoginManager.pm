@@ -45,6 +45,14 @@ This also requires the AuthName setting in the webserver
 configuration to be the same as the foswiki AuthRealm setting.
 HERE
     }
+
+    if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
+        $reporter->WARN(<<'HERE');
+With LoginManager set to 'none', this wiki is completely unprotected.
+Anyone can edit any topic, and anyone will be able to access the configure tool.
+This option should be enabled only on personal wikis with restricted access.
+HERE
+    }
 }
 
 1;
