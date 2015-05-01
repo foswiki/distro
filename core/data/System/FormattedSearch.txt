@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278647" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430521934" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -223,7 +223,7 @@ For each hit, we want this search:
 Now let's nest the two.
 #NestingWithEscapes
 ---+++++ Method 1 (nesting with escapes)
-The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour [[#InsideOutLeftToRight][discussed earlier]]. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of searches comprised of the inner search.
+The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour [[#InsideOutLeftToRight][discussed earlier]]. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of inner searches, which are executed only when the outer list is complete..
    * Use =$percent= to escape (delay) the inner search's [[VarSEARCH][SEARCH]] macro
    * Use =\"= to escape the double quotes
    * Use =$dollar= to escape the =$= of =$topic=
