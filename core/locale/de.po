@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-01 18:47+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-01 18:49+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -90,7 +90,7 @@ msgstr "Gruppen-Topic für %1 aktualisiert."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
-msgstr "Auf %1 gibt es eine Liste anderer Foswiki-Benutzer."
+msgstr "Auf %1 gibt es eine Liste anderer Foswiki-Benutzer"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
@@ -294,7 +294,7 @@ msgstr "(Anhang löschen)"
 
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
-msgstr "(Löschen)"
+msgstr "(löschen)"
 
 #: core/templates/messages.tmpl:509
 msgid "(disabled)"
@@ -479,7 +479,7 @@ msgstr "*Absätze* abtrennen durch eine Leerzeile"
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne Verweise* Topic Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
+"*interne Verweise* Topic-Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
 "Homepage]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
