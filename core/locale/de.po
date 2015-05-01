@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-09 18:37+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-05-01 18:48+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
 "Language: de\n"
@@ -82,7 +82,7 @@ msgstr "%1 Gruppen Topic aktualisiert. "
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "Auf %1 gibt es eine Liste anderer Foswiki Benutzer."
+msgstr "Auf %1 gibt es eine Liste anderer Foswiki-Benutzer"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
@@ -252,7 +252,7 @@ msgstr "(Querverweise in allen Webs)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
-msgstr "(Buchansicht)"
+msgstr "(Buch-Ansicht)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
