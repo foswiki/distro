@@ -1309,7 +1309,7 @@ EVERYWHERE
         exec => ROUNDTRIP | TML2HTML | HTML2TML,
         name => 'squabsWithVars2',
         html => <<HERE,
-<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>!<span class="WYSIWYG_LINK">[[wiki syntax]]</span>
+<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>![[wiki syntax]]
 </p>
 HERE
         tml => <<'THERE',
@@ -1354,6 +1354,13 @@ THERE
         name => 'squabWithAnchor',
         html => ${LINKON} . 'FleegleHorn#TrumpetHack' . ${LINKOFF},
         tml  => 'FleegleHorn#TrumpetHack',
+    },
+    {
+        exec => TML2HTML | ROUNDTRIP,
+        name => 'EscapedSquab',
+        tml  => '![[Notlinked]]',
+        html => '<p> ![[Notlinked]]
+</p>'
     },
     {
         exec => ROUNDTRIP,
