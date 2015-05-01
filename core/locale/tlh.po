@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-30 23:58+0200\n"
+"PO-Revision-Date: 2015-05-01 18:06+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -53,41 +53,39 @@ msgstr "%1 (motlh)"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr ""
+msgstr "%2vaD (%3) Qagh %1 - <nop>muvmeH <nop>mIw"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
-msgstr ""
+msgstr "(%3) %2<nop>vaD %1 - <nop>muvmeH <nop>mIw"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
-#, fuzzy
 msgid "%1 Web"
 msgstr "%1 <nop>mIch"
 
 #: core/templates/registermessages.tmpl:387
-#, fuzzy
 msgid "%1 added to the %2 group."
 msgstr "%2 !ghomvaD %1 chellu'."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "%1 cannot be removed from %2"
-msgstr ""
+msgstr "%2vo' %1 <nop>vIteqlaHbe'"
 
 #: core/templates/registerdenied.tmpl:11
 msgid "%1 denied the registration."
-msgstr ""
+msgstr "<nop>muvmeH <nop>mIw <nop>lajHa' %1."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded."
-msgstr ""
+msgstr "%1 ghom <nop>ghItlh <nop>chu'moHlu'."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
-msgstr ""
+msgstr "%1Daq latlh <nop>lo'wI' tetlh tu'lu'"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
@@ -115,14 +113,12 @@ msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
 #: core/templates/messages.tmpl:22
-#, fuzzy
 msgid "%1 home"
 msgstr "%1 juH"
 
 #: core/templates/messages.tmpl:119
-#, fuzzy
 msgid "%1 is an invalid name for a new web"
-msgstr "!mIch chu' !pongmeH !lI'be' %1"
+msgstr "<nop>mIch chu' <nop>pongmeH <nop>lI'be' %1"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -133,9 +129,8 @@ msgid "%1 is currently set to %2"
 msgstr ""
 
 #: core/templates/messages.tmpl:330
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "[[%2][%3]] !choHtaH %1."
+msgstr "[[%2][%3]] <nop>choHtaH %1."
 
 #: core/templates/registermessages.tmpl:284
 msgid "%1 is in at least one group and cannot be removed"
@@ -154,9 +149,8 @@ msgid "%1 is the default topic for deleted attachments."
 msgstr ""
 
 #: core/templates/messages.tmpl:339
-#, fuzzy
 msgid "%1 may still be editing %2."
-msgstr "chaq %2 !choHtaH %1."
+msgstr "chaq %2 <nop>choHtaH %1."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -187,7 +181,6 @@ msgid "%1 to start working on the new web"
 msgstr ""
 
 #: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
-#, fuzzy
 msgid "%1 topic does not exist"
 msgstr "<nop>ghItlh %1 tu'lu'be'"
 
@@ -297,12 +290,10 @@ msgid "(edit form)"
 msgstr ""
 
 #: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
-#, fuzzy
 msgid "(edit text)"
 msgstr "(ghItlh <nop>choH)"
 
 #: core/templates/edit.tmpl:4 core/templates/edit.tmpl:8
-#, fuzzy
 msgid "(edit)"
 msgstr "(<nop>choH)"
 
@@ -1496,7 +1487,6 @@ msgstr ""
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
 #: core/templates/viewtopicactionbuttons.tmpl:48
-#, fuzzy
 msgid "Edit"
 msgstr "(<nop>choH)"
 
@@ -1505,7 +1495,6 @@ msgid "Edit %*(%1,file)"
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:25
-#, fuzzy
 msgid "Edit Anyway"
 msgstr "<nop>DaH <nop>choH"
 
@@ -1514,7 +1503,6 @@ msgid "Edit Wiki<nop>Text"
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
-#, fuzzy
 msgid "Edit help"
 msgstr "<nop>choHmeH <nop>QaH"
 
@@ -2301,12 +2289,10 @@ msgid "Jump"
 msgstr "Sup"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
 msgstr "Dotlh <nop>wa'DIchDaq Sup"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to latest revision (%1)"
 msgstr "Dotlh <nop>chu'Daq Sup (%1)"
 
@@ -2439,7 +2425,6 @@ msgid "Mail to"
 msgstr ""
 
 #: core/data/System/WebSearch.txt:178
-#, fuzzy
 msgid "Make search:"
 msgstr "<nop>nejwI' <nop>chenmoH:"
 
@@ -2466,7 +2451,6 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
-#, fuzzy
 msgid "Modify search"
 msgstr "<nop>nejwI' <nop>choH"
 
@@ -2829,9 +2813,8 @@ msgid "Options"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
-#, fuzzy
 msgid "Organisation name:"
-msgstr "<nop>DIvI' pong"
+msgstr "<nop>DIvI' pong:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
 msgid "Organisation website:"
@@ -3451,7 +3434,6 @@ msgstr ""
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
 #: core/data/System/WebSearch.txt:43 core/data/System/WebSearch.txt:65
 #: core/data/System/WebSearch.txt:83
-#, fuzzy
 msgid "Search"
 msgstr "<nop>nejwI'"
 
@@ -3837,7 +3819,6 @@ msgid "Table"
 msgstr ""
 
 #: core/templates/messages.tmpl:455
-#, fuzzy
 msgid "Template %1 does not exist"
 msgstr "<nop>ghantoH %1 tu'lu'be'"
 
@@ -3888,7 +3869,6 @@ msgid "The %1 topic already exists"
 msgstr ""
 
 #: core/templates/messages.tmpl:429
-#, fuzzy
 msgid "The %1 web does not exist"
 msgstr "<nop>mIch %1 tu'lu'be'"
 
@@ -4356,12 +4336,10 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr ""
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
 msgstr "<nop>ghItlhDaq"
 
 #: core/templates/renameconfirm.tmpl:13
-#, fuzzy
 msgid "To topic:"
 msgstr "<nop>ghItlhDaq:"
 
@@ -4390,14 +4368,12 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Topic"
 msgstr "<nop>ghItlh"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
-#, fuzzy
 msgid "Topic %1 does not exist"
-msgstr "<nop>ghItlh %1tu'lu'be'"
+msgstr "<nop>ghItlh %1 tu'lu'be'"
 
 #: core/templates/messages.tmpl:193
 msgid "Topic Save Error"
@@ -4427,7 +4403,6 @@ msgid "Topic list for %1 Web"
 msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
-#, fuzzy
 msgid "Topic name"
 msgstr "<nop>ghItlh pong"
 
@@ -4436,14 +4411,12 @@ msgid "Topic name:"
 msgstr ""
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:61
-#, fuzzy
 msgid "Topic parent:"
-msgstr "<nop>ghItlh qup"
+msgstr "<nop>ghItlh qup:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "Topic revision:"
 msgstr "<nop>ghItlh Dotlh:"
 
@@ -4539,13 +4512,11 @@ msgid "Unsubscribe"
 msgstr ""
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
-#, fuzzy
 msgid "Unsubscribe from this topic"
 msgstr "<nop>ghItlhvam qImHa'choH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
-#, fuzzy
 msgid "Unsubscribe from this topic (s)"
 msgstr "<nop>ghItlhvam <nop>qImHa'choH (s)"
 
@@ -4754,11 +4725,11 @@ msgstr ""
 
 #: core/templates/more.tmpl:144
 msgid "View revision"
-msgstr ""
+msgstr "Dotlh 'ang"
 
 #: core/templates/more.tmpl:141
 msgid "View revision:"
-msgstr ""
+msgstr "Dotlh 'ang:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:20
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:21
@@ -4767,17 +4738,16 @@ msgstr ""
 
 #: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
-msgstr ""
+msgstr "<nop>ghantoHmey 'ang"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
-#, fuzzy
 msgid "View topic"
 msgstr "<nop>ghItlh bej"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
-msgstr ""
+msgstr "<nop>ghItlh qun <nop>naQ bej"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
@@ -5281,7 +5251,6 @@ msgstr ""
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
 #: core/templates/formtables.tmpl:27
-#, fuzzy
 msgid "edit"
 msgstr "<nop>choH"
 
@@ -5433,7 +5402,6 @@ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
 msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
-#, fuzzy
 msgid "title='Edit this topic text' >Edit"
 msgstr "title='<nop>ghItlhvam <nop>choH' ><nop>choH"
 
@@ -5521,7 +5489,7 @@ msgstr ""
 
 #: core/templates/attachtables.tmpl:48
 msgid "view"
-msgstr ""
+msgstr "bej"
 
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
