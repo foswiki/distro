@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1429215340" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430442487" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -318,13 +318,15 @@ Each row of the table is a line containing of one or more cells. Each cell start
 <tr valign="top">
 <td>
  *<nop>WikiWord Links:* %BR%
- <nop>CapitalizedWordsStuckTogether (or WikiWords) will produce a link automatically if preceded by whitespace or parenthesis. %BR%
-%T% If you want to link to a topic in a different web write =Otherweb.TopicName=. %BR%
-To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.%BR%
-%H% The link label excludes the name of the web, e.g. only the topic name is shown. As an exception, the name of the web is shown for the <nop>%HOMETOPIC% topic. %BR%
+ <nop>CapitalizedWordsStuckTogether (or WikiWords) will produce a link automatically if preceded by whitespace or parenthesis.
+   * %T% If you want to link to a topic in a different web write =Otherweb.TopicName=.
+   * To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.
+   * %H% The link label excludes the name of the web, e.g. only the topic name is shown. As an exception, the name of the web is shown for the <nop>%HOMETOPIC% topic.
 %X% Dots ='.'= are used to separate webs and subwebs from topic names and therefore cannot be used in topic names.
 
 It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB% and %USERSWEB%.
+
+To prevent a word from linking, prefix it with the exclaimation mark (!) or &lt;nop&gt;
 </td><td>
 <verbatim class="tml">
 %STATISTICSTOPIC%
@@ -473,7 +475,7 @@ Email addresses are also linked automatically,  see further details below.
 <tr valign="top">
 <td>
  *Prevent an Automatic Link:* %BR%
- Prevent a WikiWord, URL or image from being linked by prepending it with an exclamation point or =&lt;nop&gt;= tag.
+ Prevent a WikiWord, URL, email address or image from being linked by prepending it with an exclamation point (!) or =&lt;nop&gt;= tag.
 
 %T% Note that you can use the &lt;nop&gt; tag, but _any_ leading markup directly adjacent to a wikiword will prevent automatic linking because the word is no longer space delimitied.
 </td><td>
@@ -556,15 +558,27 @@ a@b.com
 <tr valign="top">
 <td>
 *Special characters:* %BR%
-Some characters are reserved for use by TML, but you can still display them in your output by using the HTML entities. You can also use HTML entities to display characters that are not supported by your site character set (e.g. special mathematical symbols). There's a complete list of named entities in [[http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references][Wikipedia]], and you can also use numerical entities to display any unicode character (e.g. Chinese script).
+Some characters are reserved for use by TML
+   * Display them in your output by using the HTML entities. 
+   * Use HTML entities to display characters that are not supported by your site character set (e.g. special mathematical symbols). There's a complete list of named entities in [[http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references][Wikipedia]]
+   * Use numerical entities to display any unicode character (e.g. Chinese script).
+   * To prevent Foswiki from treating ! as an escape,  escape it with =&lt;nop&gt;=, or use the =&amp;#33;= entity
 </td>
 <td>
 <verbatim>
 &lt; &gt; &amp; &alefsym; &#x4eb9;
+
+A <nop>!= B &#33;= C
+
+<nop>!here, !here
 </verbatim>
 </td>
 <td>
 &lt; &gt; &amp; &alefsym; &#x4eb9;
+
+A <nop>!= B &#33;= C
+
+<nop>!here, !here
 </td>
 </tr>
 <tr valign="top">
