@@ -199,6 +199,15 @@ sub _showDEPENDENCIES {
 
     foreach (@list) {
 
+        my $linkname =
+          ( $_->{name} =~ m/^Foswiki::/ )
+          ? "$_->{name}"
+          : "CPAN:$_->{name}";
+        print STDERR "$linkname\n";
+        if ( $linkname =~ m/^Foswiki::(?:[^:]+)::(.*)$/ ) {
+            $linkname = "[[http://foswiki.org/Extensions/$1][$1]]";
+        }
+
      #SMELL: Something is inserting newlines, breaking the table. This fixes it.
         $_->{check_result} =~
           s/(?>\x0D\x0A?|[\x0A-\x0C\x85\x{2028}\x{2029}])//sg;
@@ -207,7 +216,7 @@ sub _showDEPENDENCIES {
           ( $_->{ok} )
           ? "Location: $_->{location}"
           : '<span class="foswikiAlert">%X% Possible missing dependency!</span>';
-        $set .= "| CPAN:$_->{name} | $_->{check_result}$ok |\n"
+        $set .= "| $linkname | $_->{check_result}$ok |\n"
           unless ( $inc ne 'all' && $_->{ok} );
     }
 
@@ -223,6 +232,7 @@ sub _loadDEPENDENCIES {
     my $from = shift;
     my $who  = shift;
     my $seen = shift;
+    my $trig = 1;
 
     my $dwho = $who;
     $dwho = 'Foswiki' if ( $who eq 'core' );
@@ -234,8 +244,26 @@ sub _loadDEPENDENCIES {
 
     foreach my $line (<$d>) {
         next unless $line;
+
+        if ( $line =~ /^ONLYIF\s+(.+)$/ ) {
+            $trig = $1;
+            print STDERR "TRIGGER $trig\n";
+            next;
+        }
+
+        my $required = eval($trig);
+        if ($@) {
+            print STDERR
+"**ERROR** -- ONLYIF \"$trig\" condition failed to compile: contact developer -- $@\n";
+            next;
+        }
+        $trig = 1;
+        next unless $required;    # Skip the module - trigger was false
+
         my @row = split( /,\s*/, $line, 4 );
-        next unless ( scalar(@row) == 4 && $row[2] eq 'cpan' );
+        next
+          unless ( scalar(@row) == 4
+            && ( $row[2] eq 'cpan' || $row[2] eq 'perl' ) );
         my ( $cond, $ver ) = $row[1] =~ m/^([=<>!]*)(.*)$/;
         $cond ||= '>=';
         $row[0] =~ m/([\w:]+)/;    # check and untaint
