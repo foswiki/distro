@@ -1286,7 +1286,7 @@ msgstr "<nop>HIDjolevlIj chenmoH"
 
 #: core/templates/messages.tmpl:443
 msgid "Create the topic"
-msgstr "<nop>ghItlh chenmoH"
+msgstr "<nop>ghItlh <nop>chenmoH"
 
 #: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
