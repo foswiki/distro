@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-11-03 03:28+0200\n"
-"Last-Translator: Arthur <arthur@visiblearea.com>\n"
+"PO-Revision-Date: 2015-05-02 20:57+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -37,7 +37,7 @@ msgstr "%*(%1,minuut,minuten) "
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
-msgstr "%*(%1,seconde,seconden)"
+msgstr "%*(%1,seconde,seconden) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
@@ -639,7 +639,7 @@ msgstr "Rij toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "Voeg gebruikersbeheeropties toe aan deze pagina"
+msgstr "Voeg gebruikersbeheeropties toe aan deze pagina."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -883,8 +883,8 @@ msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
-"Maar bestaande formuliergegevens worden gewist. Je kunt deze gegevens altijd "
-"terugvinden in de paginageschiedenis."
+"Maar bestaande formuliergegevens worden gewist (Je kunt deze gegevens altijd "
+"terugvinden in de paginageschiedenis)"
 
 #: core/data/Trash/WebHome.txt:7
 msgid ""
@@ -973,7 +973,7 @@ msgstr "Alleen commentaar en eigenschappen wijzigen"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
-msgstr "Wijzig van"
+msgstr "Gewijzigd van"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1050,7 +1050,7 @@ msgstr ""
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
-"Aangevinkte pagina&#39;s zullen worden bijgewerkt zodat ze verwijzen naar de "
+"Aangevinkte pagina's zullen worden geupdate zodat ze verwijzen naar de "
 "nieuwe webnaam."
 
 #: core/templates/more.tmpl:207
@@ -1425,7 +1425,7 @@ msgstr "Bewerken"
 
 #: core/data/System/VarMAKETEXT.txt:60
 msgid "Edit %*(%1,file)"
-msgstr "Bewerk %*(%1,bestand) "
+msgstr "Bewerk %*(%1,bestand)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1754,8 +1754,7 @@ msgstr "Verberg help"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
-"Hi&&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web "
-"aanmaken."
+"Hi&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web aanmaken."
 
 #: core/data/System/ManagingTopics.txt:100
 msgid "History"
@@ -1804,8 +1803,8 @@ msgstr "Ik ben mijn wachtwoord vergeten"
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a "
-"href='%2'>Stuur feedback</a>"
+"Idee&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%2'>"
+"Stuur feedback</a>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -1869,7 +1868,7 @@ msgstr "Als je hier bent gekomen via een directe creatielink"
 
 #: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
-msgstr "Al je niet binnen een uur een verificatie e-mail ontvangt,"
+msgstr "Als je niet binnen een uur een verificatie e-mail ontvangt, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "If you enter a different name, make sure the topic exists."
@@ -3439,7 +3438,7 @@ msgid ""
 msgstr ""
 "De aangevinkte pagina&#39;s zullen worden bijgewerkt (je zal een ander "
 "formulier te zien krijgen waarin je pagina&#39;s kunt hernoemen die zijn "
-"vergendeld)."
+"vergendeld)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -3845,7 +3844,7 @@ msgstr "Pagina is samengevoegd"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:120
 msgid "Topic will be named: "
-msgstr "Pagina krijgt de naam:"
+msgstr "Pagina krijgt de naam: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3906,7 +3905,7 @@ msgstr "Bijlage %1 van %2 bijwerken"
 
 #: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:27
 msgid "Update links"
-msgstr "Links bijwerken"
+msgstr "Links verversen"
 
 #: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
@@ -4399,9 +4398,9 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
+"Je moet nu je e-mailadres verifi&euml;ren. Dit kan je doen door %1 in te "
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
-"gestuurd, of door %2 te bezoeken."
+"gestuurd, of door %2 te bezoeken"
 
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -4502,7 +4501,7 @@ msgstr "Je handtekening om te kopi&&euml;ren en plakken"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
-msgstr "Je handtekening om te kopi&&euml;ren en plakken"
+msgstr "Je signatuur om te kopi&euml;ren/plakken:"
 
 #: core/templates/messages.tmpl:209
 msgid ""
