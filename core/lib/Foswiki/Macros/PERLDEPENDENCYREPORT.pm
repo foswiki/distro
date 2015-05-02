@@ -220,8 +220,13 @@ sub _showDEPENDENCIES {
           unless ( $inc ne 'all' && $_->{ok} );
     }
 
-    $who = 'Foswiki' if ( $who eq 'core' );
-    return "Perl modules used by $who \n" . $set;
+    if ( $who eq 'core' ) {
+        return "Perl modules used by Foswiki:\n" . $set;
+    }
+    else {
+        return "Extensions and Perl modules used by installed Extensions:\n"
+          . $set;
+    }
 }
 
 # Extract a list of the perl modules that are required by a DEPENDENCIES file.

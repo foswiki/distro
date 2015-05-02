@@ -1,16 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427752240" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430594300" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
-This topic lists the perl module dependencies required by the Foswiki core
+This topic lists the dependencies required by the Foswiki core
 and installed extensions. It is designed to help administrators analyse and
-resolve missing perl dependencies.
+resolve missing dependencies.  In the report, all users of the module are identified (including the Foswiki
+core).
 
-The module name links to the module information on the
-[[https://metacpan.org][Comprehensive Perl Archive Network (CPAN)]].
-In the report, all users of the module are identified (including the Foswiki
-core).  If a minimum version can be determined identified, the extension
-requiring the highest minimum version is underlined.
+   * For perl modules, the module name links to the module information on the [[https://metacpan.org][Comprehensive Perl Archive Network (CPAN)]].
+
+   * For extensions, the module name links to the Extension topic in the [[http://foswiki.org/Extensions][Foswiki Extensions web]]. (The extension topic might not exist for extensions installed from other sources).
 
 %IF{"$include='all'" else="
 %BUTTON{
@@ -19,7 +18,7 @@ requiring the highest minimum version is underlined.
   onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';"
 }%" then=" 
 %BUTTON{
-  "Show missing dependencies"
+  "Show only missing dependencies"
   icon="book"
   onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';"
 }% 
@@ -29,11 +28,13 @@ requiring the highest minimum version is underlined.
 %TOC%
 
 <noautolink>
----++ Foswiki dependencies
+---++ Foswiki core dependencies
 
 %PERLDEPENDENCYREPORT{ include="%URLPARAM{"include" default="missing"}%"}%
 
 ---++ Foswiki extension dependencies
+
+Note: If a minimum version is identified, the extension requiring the highest minimum version is underlined.
 
 %PERLDEPENDENCYREPORT{"extensions" include="%URLPARAM{"include" default="missing"}%"}%
 </noautolink>
