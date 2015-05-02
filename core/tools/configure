@@ -37,6 +37,7 @@ my $bin = $1;
 
 use lib "$FindBin::Bin/../bin";
 use lib "$FindBin::Bin/../lib";
+require 'setlib.cfg';
 
 use Assert;
 
