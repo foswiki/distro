@@ -25,6 +25,16 @@ use Foswiki::Configure::Package                    ();
 use Foswiki::Configure::Dependency                 ();
 use Foswiki::Configure::Wizards::ExploreExtensions ();
 
+my %validArgs = (
+    USELOCAL => 1,
+    EXPANDED => 1,
+    DIR      => 1,
+    NODEPS   => 1,
+    SIMULATE => 1,
+    CONTINUE => 1,
+    ENABLE   => 1,
+);
+
 our $installRoot;
 
 # (Un)Install the extensions selected by the parameters.
@@ -71,11 +81,13 @@ sub _getPackage {
         repository => $repository,
         seen       => $seen,
         module     => $module,
+        DIR        => $args->{DIR},
         USELOCAL   => $args->{USELOCAL},
         EXPANDED   => $args->{EXPANDED},
         NODEPS     => $args->{NODEPS},
         SIMULATE   => $args->{SIMULATE},
         CONTINUE   => $args->{CONTINUE},
+        ENABLE     => $args->{ENABLE},
     );
 
     return $pkg;
@@ -98,9 +110,8 @@ sub depreport {
 
     while ( my ( $module, $repo ) = each %$args ) {
 
-        # NODEPS and SIMULATE are not repositories, skip those arguments
-        next if $module eq 'NODEPS';
-        next if $module eq 'SIMULATE';
+        # Don't mistake options for modules
+        next if $validArgs{$module};
 
         my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
         next unless $pkg;
@@ -123,6 +134,36 @@ sub depreport {
 
 =begin TML
 
+---++ WIZARD manifest
+
+Display an extension manifest
+
+=cut
+
+sub manifest {
+    my ( $this, $reporter, $spec ) = @_;
+    my $seen = {};
+
+    my $args = $this->param('args');
+    while ( my ( $module, $repo ) = each %$args ) {
+
+        # Don't mistake options for modules
+        next if $validArgs{$module};
+
+        my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
+        next unless $pkg;
+
+        $reporter->NOTE( "---++ Manifest for " . $pkg->module() );
+        $pkg->loadInstaller($reporter);
+        $reporter->NOTE( $pkg->manifest() );
+        $pkg->finish();
+    }
+
+    return undef;    # return the report
+}
+
+=begin TML
+
 ---++ WIZARD add
 
 Install an extension
@@ -136,9 +177,8 @@ sub add {
     my $args = $this->param('args');
     while ( my ( $module, $repo ) = each %$args ) {
 
-        # NODEPS and SIMULATE are not a repositories, skip these arguments
-        next if $module eq 'NODEPS';
-        next if $module eq 'SIMULATE';
+        # Don't mistake options for modules
+        next if $validArgs{$module};
 
         my $pkg = $this->_getPackage( $reporter, $module, $repo, $seen );
         next unless $pkg;
@@ -170,9 +210,8 @@ sub remove {
     my $args = $this->param('args');
     while ( my ( $module, $repo ) = each %$args ) {
 
-        # NODEPS and SIMULATE are not a repositories, skip these arguments
-        next if $module eq 'NODEPS';
-        next if $module eq 'SIMULATE';
+        # Don't mistake options for modules
+        next if $validArgs{$module};
 
         my $pkg = $this->_getPackage( $reporter, $module, $repo );
         next unless $pkg;
