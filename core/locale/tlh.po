@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-02 22:59+0200\n"
+"PO-Revision-Date: 2015-05-03 17:43+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr "wIqIpong"
+msgstr "<nop>wIqIpong"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -67,25 +67,25 @@ msgstr "%1 <nop>mIch"
 
 #: core/templates/registermessages.tmpl:387
 msgid "%1 added to the %2 group."
-msgstr "%2 !ghomvaD %1 chellu'."
+msgstr "%2 <nop>ghomvaD %1 chellu’."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "%1 cannot be removed from %2"
-msgstr "%2vo' %1 <nop>vIteqlaHbe'"
+msgstr "%2vo’ %1 <nop>vIteqlaHbe’"
 
 #: core/templates/registerdenied.tmpl:11
 msgid "%1 denied the registration."
-msgstr "<nop>muvmeH <nop>mIw <nop>lajHa' %1."
+msgstr "<nop>muvmeH <nop>mIw <nop>lajHa’ %1."
 
 #: core/templates/registermessages.tmpl:394
 msgid "%1 group topic upgraded."
-msgstr "%1 ghom <nop>ghItlh <nop>chu'moHlu'."
+msgstr "%1 ghom <nop>ghItlh <nop>chu’moHlu’."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1Daq latlh <nop>lo'wI' tetlh tu'lu'"
+msgstr "%1Daq latlh <nop>lo’wI’ tetlh tu’lu’"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
@@ -118,7 +118,7 @@ msgstr "%1 juH"
 
 #: core/templates/messages.tmpl:119
 msgid "%1 is an invalid name for a new web"
-msgstr "<nop>mIch chu' <nop>pongmeH <nop>lI'be' %1"
+msgstr "<nop>mIch chu’ <nop>pongmeH <nop>lI’be’ %1"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:300
 msgid "%1 is currently set to %2"
-msgstr "DaH %2 <nop>'oS %1"
+msgstr "DaH %2 <nop>’oS %1"
 
 #: core/templates/messages.tmpl:330
 msgid "%1 is editing [[%2][%3]]."
@@ -182,7 +182,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
-msgstr "<nop>ghItlh %1 tu'lu'be'"
+msgstr "<nop>ghItlh %1 tu’lu’be’"
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -195,11 +195,11 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr ""
+msgstr "&<nop>qIl"
 
 #: core/templates/foswiki.tmpl:159
 msgid "&History"
-msgstr ""
+msgstr "&qun"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
@@ -223,7 +223,7 @@ msgstr ""
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
-msgstr ""
+msgstr "(%1 <nop>qaD %2)"
 
 #: core/templates/registermessages.tmpl:139
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
@@ -263,7 +263,7 @@ msgstr ""
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
-msgstr ""
+msgstr "(Hol <nop>choH)"
 
 #: PatternSkin/templates/changes.pattern.tmpl:2 core/templates/changes.tmpl:2
 msgid "(changes)"
@@ -993,7 +993,7 @@ msgstr ""
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
-msgstr "Hol !choH"
+msgstr "Hol <nop>choH"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
@@ -5083,6 +5083,8 @@ msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
+"<nop>narghDI&#39; <nop>HaSta veb, %1 Hol <nop>Dalo&#39;choH. pa&#39; "
+"<nop>DajaHmoHlu&#39;. Qapbe&#39;chugh, vaj [[%2][<nop>naDev <nop>yI&#39;uy]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1. %2"
@@ -5107,7 +5109,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
 msgid "Your password:"
-msgstr ""
+msgstr "chaw’ <nop>ngoqlIj:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
 #: core/templates/registernotify.tmpl:13
@@ -5182,7 +5184,7 @@ msgstr ""
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:349
 msgid "_language_name"
-msgstr ""
+msgstr "<nop>tlhIngan Hol"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
