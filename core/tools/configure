@@ -44,8 +44,62 @@ use Assert;
 require Foswiki::Configure::Root;
 require Foswiki::Configure::LoadSpec;
 require Foswiki::Configure::Load;
-require Foswiki::Configure::Reporter;
 require Foswiki::Configure::Query;
+
+{
+
+    package Foswiki::Configure::ShellReporter;
+
+    require Foswiki::Configure::Reporter;
+    our @ISA = ('Foswiki::Configure::Reporter');
+
+    sub new {
+        return bless( {}, $_[0] );
+    }
+
+    sub NOTE {
+        my $this = shift;
+        my $text = join( "\n", @_ ) . "\n";
+        $this->{notes}++;
+
+        # Take out block formatting tags
+        $text =~ s/<\/?verbatim>//g;
+
+        # Take out active elements
+        $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
+        print $text;
+    }
+
+    sub WARN {
+        my $this = shift;
+        $this->{warnings}++;
+        print "Warning: ";
+        $this->NOTE(@_);
+    }
+
+    sub ERROR {
+        my $this = shift;
+        $this->{errors}++;
+        print "#### ERROR: ";
+        $this->NOTE(@_);
+    }
+
+    sub CHANGED {
+        my ( $this, $k ) = @_;
+        $this->SUPER::CHANGED($k);
+
+        print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
+    }
+
+    sub WIZARD {
+        return '';
+    }
+
+    sub has_level {
+        my ( $this, $level ) = @_;
+        return $this->{$level};
+    }
+};
 
 # Command-line parameter handling
 
@@ -181,26 +235,6 @@ sub _prompt {
     }
 }
 
-sub _reply {
-    my $response = shift;
-
-    if ($response) {
-        my $json      = JSON->new->convert_blessed(1);
-        my $json_text = $json->encode($response);
-        if ( $params->{json} ) {
-            print "$json_text\n";
-        }
-        else {
-            my $data = $json->decode($json_text);
-            local $Data::Dumper::Indent = 2;
-            my $perl_text = Data::Dumper->Dump( [$data] );
-            $perl_text =~ s/^(\$VAR1 = |        )//gm;
-            $perl_text =~ s/;$//s;
-            print $perl_text;
-        }
-    }
-}
-
 #$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
 
 # Initialise
@@ -209,10 +243,10 @@ if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
 }
 
 my $root     = Foswiki::Configure::Root->new();
-my $reporter = Foswiki::Configure::Reporter->new();
+my $reporter = Foswiki::Configure::ShellReporter->new();
+
 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
 if ( $reporter->has_level('errors') ) {
-    print STDERR $reporter->stringify( 'errors', 'warnings' ) . "\n";
     exit 1;
 }
 
@@ -282,11 +316,8 @@ unless ( $Foswiki::cfg{isVALID} ) {
 }
 
 if ( $reporter->has_level('errors') ) {
-    print STDERR $reporter->stringify( 'errors', 'warnings' ) . "\n";
     exit 1;
 }
-
-print $reporter->stringify();
 
 # Create a Logger instance and insert in to params hash
 # Note:  The configure should be bootstrapped before this step so that the
@@ -302,8 +333,6 @@ if ($action) {
     no strict 'refs';
     my $response = &$action( $params, $reporter );
     use strict 'refs';
-
-    _reply($response);
 
     # Copy the changes into the "set" hash to be applied by save.
     if ( ref($response) eq 'HASH' && keys %{ $response->{changes} } ) {
@@ -329,16 +358,13 @@ if ( $actions{save} ) {
     # -save is functionally equivalent to -wizard Save -method save
     # (except of course you can have another wizard call)
     if ( $reporter->has_level('errors') ) {
-        print STDERR "Save aborted due to errors\n"
-          . $reporter->stringify( 'errors', 'warnings' );
+        print STDERR "Save aborted due to errors\n";
         exit 1;
     }
-    $reporter         = Foswiki::Configure::Reporter->new();
     $params->{wizard} = 'Save';
     $params->{method} = 'save';
     my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
 
-    _reply($response);
 }
 
 # This code copied from Foswiki.pm, with changes.

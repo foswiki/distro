@@ -12,175 +12,73 @@ use strict;
 use warnings;
 
 use Cwd;
-use File::Temp;
-use File::Copy;
-use File::Path;
-use Getopt::Std;
-use Cwd qw(abs_path);
-use File::Basename;
+use FindBin;
+use Getopt::Long;
 
-no warnings 'redefine';
+#no warnings 'redefine';
 
-my $noconfirm       = 0;
-my $downloadOK      = 0;
-my $alreadyUnpacked = 0;
-my $reuseOK         = 0;
-my $nodeps          = 0;
-my $simulate        = 0;
-my $action          = 'install';    # Default target is install
-my $thispkg;                        # Package object for THIS module
-my %available;
-my $lwp;
-my @archTypes = ( '.tgz', '.tar.gz', '.zip' );
-my $installationRoot;
+my $noconfirm  = 0;
+my $downloadOK = 0;
+my $expanded   = '';
+my $reuseOK    = 0;
+my $nodeps     = 0;
+my $simulate   = 0;
+my $action     = '';
+my $enable     = 1;    # Default is to enable plugins
+my $thispkg;           # Package object for THIS module
 my $MODULE = '<package>';
 my $PACKAGES_URL;
 my $MANIFEST;
 
-{
+GetOptions(
+    "auto"       => \$noconfirm,     # -a    #OBSOLETE
+    "download"   => \$downloadOK,    # -d    #OBSOLETE
+    "reuse"      => \$reuseOK,       # -r       USELOCAL
+    "simulate|n" => \$simulate,      # -n       SIMULATE
+    "nodeps|o"   => \$nodeps,        # -o       NODEPS
+    "expanded|x=s" =>
+      \$expanded,    # -u       EXPANDED  (Pass in directory location)
+    "enable!" => \$enable,    # -e       ENABLE
+) or die("Error in command line arguments\n");
 
-    package ShellReporter;
-
-    our @ISA = ('Foswiki::Configure::Reporter');
-
-    sub new {
-        return bless( {}, $_[0] );
-    }
-
-    sub NOTE {
-        my $this = shift;
-        my $text = join( "\n", @_ ) . "\n";
-
-        # Take out block formatting tags
-        $text =~ s/<\/?verbatim>//g;
-
-        # Take out active elements
-        $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
-        print $text;
-    }
-
-    sub WARN {
-        my $this = shift;
-        print "Warning: ";
-        $this->NOTE(@_);
-    }
-
-    sub ERROR {
-        my $this = shift;
-        print "#### ERROR: ";
-        $this->NOTE(@_);
-    }
-
-    sub CHANGED {
-        my ( $this, $k ) = @_;
-        $this->SUPER::CHANGED($k);
-
-        #print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
-    }
-
-    sub WIZARD {
-        return '';
-    }
-};
-
-my $reporter = ShellReporter->new();
-
-sub _stop {
-    $reporter->ERROR(@_);
-    exit 1;
-}
-
-# processParameters
-my %opts;
-getopts( 'acdnoru', \%opts );
-
-$noconfirm       = $opts{a};
-$downloadOK      = $opts{d};
-$reuseOK         = $opts{r};
-$simulate        = $opts{n};
-$nodeps          = $opts{o};
-$alreadyUnpacked = $opts{u};
 if ( @ARGV == 0 ) {
-    $reporter->ERROR(
-'DEFAULT \'install\' action is no longer active.  Specify \'install\' if you want to install this extension.'
-    );
     usage();
+    print STDERR
+"## ERROR: DEFAULT 'install' action is no longer active.  Specify 'install' if you want to install this extension.\n";
     exit(0);
 }
 elsif ( @ARGV > 1 ) {
     usage();
-    _stop( 'Too many parameters: ' . join( " ", @ARGV ) );
+    print STDERR '## ERROR: Too many parameters: ' . join( " ", @ARGV ) . "\n";
+    exit(0);
 }
 $action = $ARGV[0] if $ARGV[0];
 
-$installationRoot = Cwd::getcwd();
-
-# getcwd is often a simple `pwd` thus it's tainted, untaint it
-$installationRoot =~ /^(.*)$/;
-$installationRoot = $1;
-
-my $check_perl_module = sub {
-    my $module = shift;
-
-    if ( eval "require $module" ) {
-        $available{$module} = 1;
-    }
-    else {
-        $reporter->WARN( "$module is not available on this server,"
-              . " some installer functions have been disabled \n $@" );
-        $available{$module} = 0;
-    }
-    return $available{$module};
-};
+unless ( $action =~ m/^(install|uninstall|dependencies|manifest)$/ ) {
+    usage();
+    print STDERR
+"## ERROR: Action $action is not known.  Valid actions are 'install', 'uninstall', 'dependencies' and 'manifest'\n";
+    exit(0);
+}
 
 unless ( -d 'lib' && -d 'data' && -e 'lib/LocalSite.cfg' ) {
     _stop(  'This installer must be run from the root directory'
           . ' of a Foswiki installation' );
 }
 
-my $bindir = getScriptDir('lib/LocalSite.cfg');
+# When run as a <SomeExtension_installer>,  the "bin directory" might be
+# installation root, or possibly working/configure/pkgdata
+# But this must always be run from the installation root.
 
-# read setlib.cfg
-chdir($bindir);
-require 'setlib.cfg';
-chdir($installationRoot);
+my $installationRoot = Cwd::getcwd();
 
-# See if we can make a Foswiki. If we can, then we can save topic
-# and attachment histories. Key off Foswiki::Merge because it is
-# fairly new and fairly unique.
-unless ( &$check_perl_module('Foswiki::Merge') ) {
-    _stop("Can't find Foswiki: $@");
-}
+# getcwd is often a simple `pwd` thus it's tainted, untaint it
+$installationRoot =~ /^(.*)$/;
+$installationRoot = $1;
 
-# Use the CLI engine, and change to minimal mapper and password manager
-# so that configure can run if the authentication contribs have problems
-$Foswiki::cfg{Engine}             = 'Foswiki::Engine::CLI';
-$Foswiki::cfg{PasswordManager}    = 'none';
-$Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
-
-# SMELL: The Cache uses $Foswiki::cfg variables that are not expanded when running
-# in a configure setting.   Disable the cache because the init routine fails.
-# This might leave stale cache entries for topics updated by the installer.
-$Foswiki::cfg{Cache}{Enabled} = 0;
-
-# SMELL: Disable all plugins.   Several plugins have issues when the environment is not
-# a true foswiki session.  This might cause some handlers to miss a few topic updates,
-# but should make the extension installer more reliable
-$Foswiki::cfg{DisableAllPlugins} = 1;
-
-unless ( eval { require Foswiki } ) {
-    _stop("Can't load Foswiki: $@");
-}
-
-# We have to get the admin user, as a guest user may be blocked.
-my $user = $Foswiki::cfg{AdminUserLogin};
-Foswiki->new($user);
-
-# Can't do this until we have setlib.cfg
-require Foswiki::Configure::Dependency;
-require Foswiki::Configure::Package;
-require Foswiki::Configure::Reporter;
-require Foswiki::Configure::Query;
+# Make sure tools/configure can find setlib.cfg and Assert.
+unshift @INC, "$installationRoot/bin";
+unshift @INC, "$installationRoot/lib";
 
 =pod
 
@@ -206,89 +104,8 @@ sub ask {
     return ( $reply =~ /^y/i ) ? 1 : 0;
 }
 
-=pod
-
----++ StaticMethod prompt( $question, $default ) -> $string
-Prompt for a string, using a default if return is pressed.
-Example: =$dir = prompt("Directory")=;
-
-=cut
-
-sub prompt {
-    my ( $q, $default ) = @_;
-    my $reply = '';
-    local $/ = "\n";
-    while ( !$reply ) {
-        print $q;
-        print " ($default)" if defined $default;
-        print ': ';
-        $reply = <STDIN>;
-        chomp($reply);
-        $reply ||= $default;
-    }
-    return $reply;
-}
-
-sub _loadInstaller {
-
-    my $repository = {
-        name => 'fromInstaller',
-        data => '',
-        pub  => "$PACKAGES_URL/"
-    };
-
-    $reporter->NOTE("Package repository set to $PACKAGES_URL");
-    $reporter->NOTE(
-" ... locally found installer scripts and archives will be used if available"
-    ) if ($reuseOK);
-
-    $thispkg = Foswiki::Configure::Package->new(
-        root       => "$installationRoot/",
-        repository => $repository,
-        module     => $MODULE,
-        USELOCAL   => $reuseOK,
-        SIMULATE   => $simulate,
-        NODEPS     => $nodeps,
-        DIR        => $installationRoot
-    );
-
-    # Use local package, don't download, as we were invoked from it.
-    _stop unless $thispkg->loadInstaller($reporter);
-}
-
-sub _uninstall {
-    my $file;
-    my $rslt = '';
-    my $err  = '';
-    my $sim  = '';
-    $sim = 'Simulated - ' if ($simulate);
-
-    my $reply = ask("Are you SURE you want to uninstall $MODULE?");
-    if ($reply) {
-
-        my ( $ok, $plugins ) = $thispkg->uninstall($reporter);
-
-        if ( $ok && defined $plugins && scalar @$plugins && !$simulate ) {
-            $reporter->NOTE(
-                "> Don't forget to disable uninstalled plugins:
-"
-            );
-
-            foreach my $plugName ( sort @$plugins ) {
-                $reporter->NOTE("   * $plugName");
-            }
-        }
-
-        $thispkg->finish();
-        undef $thispkg;
-
-        $reporter->NOTE("$sim $MODULE uninstalled");
-    }
-    return 1;
-}
-
 sub usage {
-    $reporter->NOTE( <<DONE );
+    print STDERR <<DONE ;
 
 This is tools/extender.pl. It is called either as part of a custom
 installer, or from the tools/extension_installer generic
@@ -296,15 +113,15 @@ installation script.
 
 When used as a custom installer:
 
-       ${MODULE}_installer -a -n -d -r -u -c install
-       ${MODULE}_installer -a -n uninstall
+       ${MODULE}_installer -n -r -o -u -e install
+       ${MODULE}_installer -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
 
 When used from the generic installer:
 
-       tools/extension_installer ${MODULE} -a -n -d -r -u install
-       tools/extension_installer ${MODULE} -a -n uninstall
+       tools/extension_installer ${MODULE} -n -r -u install
+       tools/extension_installer ${MODULE} -n uninstall
        tools/extension_installer ${MODULE} manifest
        tools/extension_installer ${MODULE} dependencies
 
@@ -321,14 +138,11 @@ post-install steps.
 "uninstall" will remove all files that were installed for
 $MODULE even if they have been locally modified.
 
--a means don't prompt for confirmation before resolving
-   dependencies
--d means auto-download if -a (no effect if not -a)
--r reuse packages on disc if -a (no effect if not -a)
--u Use expanded: the archive has already been downloaded and unpacked
--n Simulate; don't write any files into my current install, just
-   tell me what you would have done
+-r reuse packages previously downloaded
+-u <directory> Use expanded: the archive has already been downloaded and unpacked into <directory>
+-n Simulate; don't write any files into my current install, just tell me what you would have done
 -o Only install the single extension, no dependencies.
+-e enable any installed plugins (This is the default),  specify -noe or --noenable to negate.
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -341,187 +155,12 @@ Note: CPAN dependencies are not installed with this tool.  Use your
 local OS package manager, or a tool like cpanm to resolve dependencies
 from CPAN.
 
+# Obsolete parameters are ignored:
+# -a means don't prompt for confirmation before resolving
+#    dependencies
+# -d means auto-download if -a (no effect if not -a)
+
 DONE
-}
-
-# 1 Check if there is already an install of this module, and seek
-#   overwrite confirmation
-# 2 Check dependencies and confirm that install should proceed
-# 3 Install the package - which will resolve any Foswiki/TWiki dependencies
-# 4 If any CPAN dependences are reported - offer to satisfy them
-sub _install {
-    my ($rootModule) = @_;
-    my $sim = '';
-    $sim = ' simulated' if ($simulate);
-
-    my $path = $MODULE;
-
-    if ( $path !~ /^(Foswiki|TWiki)::/ ) {
-        my $source = 'Foswiki';
-        my $type   = 'Contrib';
-        if ( $path =~ /Plugin$/ ) {
-            $type = 'Plugins';
-        }
-        $path = $source . '::' . $type . '::' . $rootModule;
-    }
-
-    my $selfDep = new Foswiki::Configure::Dependency(
-        module => $path,
-        type   => 'perl',
-    );
-
-    if ( $selfDep->studyInstallation() ) {
-
-        # Module is already installed
-
-        # XXX SMELL: Could be more user-friendly:
-        # test that current version isn't newest
-        my $moduleVersion = 0;
-        {
-            $moduleVersion = $selfDep->{installedVersion};
-
-            # remove the SVN marker text from the version number, if it is there
-            $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
-        }
-
-        if ($moduleVersion) {
-            return 0
-              unless ask(
-"$MODULE version $moduleVersion is already installed. Are you sure you want to re-install this module? $sim."
-              );
-        }
-    }
-
-    my ( $installed, $missing, @wiki, @cpan, @manual ) =
-      $thispkg->checkDependencies();
-    $reporter->NOTE("\nDEPENDENCIES:") if ( @$installed || @$missing );
-    $reporter->NOTE( "INSTALLED: ", @$installed ) if @$installed;
-    $reporter->NOTE( "MISSING: ",   @$missing )   if @$missing;
-
-    my $instmsg = "$MODULE ready to be installed";
-    $instmsg .= ": ($sim )" if ($simulate);
-    $instmsg .= " along with missing Foswiki dependencies identified above\n"
-      if ( @$missing && !$nodeps );
-    $instmsg .= " No missing dependencies will be installed!\n"
-      if ( @$missing && $nodeps );
-    $instmsg .= ".\n";
-
-    $instmsg .= "Do you want to proceed with$sim installation of $MODULE";
-    $instmsg .= " without dependencies" if ( $missing && $nodeps );
-    $instmsg .= " and Dependencies" if ( $missing && !$nodeps );
-    $instmsg .= '?';
-
-    return 0
-      unless ask("$instmsg");
-
-    my ( $ok, $plugins, $depCPAN ) = $thispkg->install($reporter);
-
-    if ( $ok && !$simulate ) {
-
-        # Save default values set by the package installer to LocalSite.cfg
-        my $params = {
-            wizard => 'Save',
-            method => 'save',
-            set    => {
-                map { $_ => eval( $reporter->{changes}->{$_} ) }
-                  keys %{ $reporter->{changes} }
-            }
-        };
-        $reporter->{changes} = {};
-        my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
-    }
-
-    $reporter->WARN(
-'Missing CPAN dependencies should be installed before using this extension'
-    ) if ( keys %$depCPAN );
-
-    if ($ok) {
-        $reporter->NOTE("No errors encountered during$sim installation\n");
-    }
-
-    $thispkg->finish();
-    undef $thispkg;
-
-    return 0;
-}
-
-# Invoked when the user installs a new extension using
-# the configure script. It is used to ensure the perl module dependencies
-# provided by the module are real module names, and not some random garbage
-# which could be potentially insecure.
-sub _validatePerlModule {
-    my $module = shift;
-
-    # Remove all non alpha-numeric caracters and :
-    # Do not use \w as this is localized, and might be tainted
-    my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    $reporter->WARN( 'validatePerlModule removed '
-          . $replacements
-          . ' characters, leading to '
-          . $module )
-      if $replacements;
-    return $module;
-}
-
-=begin TML
-
----++ StaticMethod getScriptDir( )
-This routine will recover the Script Directory from LocalSite.cfg
-without processing the entire file (unless it has to to expand embedded vars) 
-
-=cut
-
-sub getScriptDir {
-
-    my $lscFile = shift;
-
-    #  - Single-quoted string
-    my $reSqString = qr{
-          \'
-          ([^\']+)
-          \'
-        }x;
-
-    #  - Double-quoted string
-    my $reDqString = qr{
-          \"
-          ([^\"]+)
-          \"
-        }x;
-
-    my $reBinDir = qr/
-      ^\s*\$Foswiki::cfg{ScriptDir}                           # Variable
-      \s*=\s*                                                   # Equal sign - optional spaces
-      (?: (?:$reSqString) | (?:$reDqString) )                   # delimited value
-      \s*;\s*$                                                  # ending bracket
-    /msx;
-
-    my $cfgfh = open my $cfg, '<', "$lscFile";
-    if ( !$cfgfh ) {
-        return 0;
-    }
-    my $cfgfile = do { local $/; <$cfg> };
-
-    $cfgfile =~ m/$reBinDir/ms;
-
-    my $val = $1 || $2;
-    if ( $val =~ /\$Foswiki::cfg/ ) {
-
-        # if there's at least one unexpanded cfg var in the value,
-        # slurp LSC and expand
-        local %Foswiki::cfg;    # local namespace, won't pollute anything else
-        eval $cfgfile;
-        unless ($@) {
-            while (
-                $val =~ s<(\$Foswiki::cfg{[A-Za-z0-9{}]+})>
-                             <eval $1>gex
-              )
-            {
-            }
-        }
-    }
-    return $val;
-
 }
 
 #
@@ -533,8 +172,6 @@ sub install {
     my $rootModule = shift;
     push( @_, '' ) if ( scalar(@_) & 1 );
 
-    unshift( @INC, 'lib' );
-
     if ( $action eq 'usage' ) {
         usage();
         exit 0;
@@ -544,45 +181,43 @@ sub install {
 "Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository."
     ) unless ($reuseOK);
 
-    _loadInstaller();
+    @ARGV = ( '-wizard', 'InstallExtensions', '-args', "$MODULE=Foswiki.org" );
+
+    push @ARGV, (qw( -args USELOCAL=1)) if ($reuseOK);
+
+    if ($expanded) {
+        push @ARGV, (qw( -args EXPANDED=1));
+        push @ARGV, ( '-args', "DIR=$expanded" );
+    }
 
     if ( $action eq 'manifest' ) {
-        $reporter->NOTE( $thispkg->Manifest() );
-        exit 0;
+        push @ARGV, (qw( -method manifest));
+    }
+    elsif ( $action eq 'dependencies' ) {
+        push @ARGV, (qw( -method depreport));
+    }
+    elsif ( $action =~ m/install$/ ) {
+        unshift @ARGV, '-save' unless ($simulate);
+        push @ARGV, (qw( -args SIMULATE=1)) if ($simulate);
+        push @ARGV, (qw( -args NODEPS=1))   if ($nodeps);
+        if ( $action eq 'install' ) {
+            push @ARGV, (qw( -method add ));
+            push @ARGV, ( '-args', "ENABLE=$enable" );
+        }
+        elsif ( $action eq 'uninstall' ) {
+            push @ARGV, (qw( -method remove ));
+        }
     }
 
-    if ( $action eq 'dependencies' ) {
-        my ( $installed, $missing, @wiki, @cpan, @manual ) =
-          $thispkg->checkDependencies();
+    print STDERR "\n=========\n"
+      . 'tools/configure '
+      . join( ' ', @ARGV )
+      . "\n========\n";
 
-        $reporter->NOTE( "INSTALLED: " . join( "; ", @$installed ) );
-        $reporter->NOTE( "MISSING: " . join( "; ", @$missing ) );
-
-        exit 0;
-    }
-
-    $reporter->NOTE("\n${MODULE} Installer");
-    $reporter->NOTE( <<DONE );
-This installer must be run from the root directory of your Foswiki
-installation.
-DONE
-    unless ($noconfirm) {
-        $reporter->NOTE( <<DONE );
-    * The script will not do anything without asking you for
-      confirmation first (unless you used -a).
-DONE
-    }
-    $reporter->NOTE( <<DONE );
-    * You can abort the script at any point and re-run it later
-    * If you answer 'no' to any questions you can always re-run
-      the script again later
-DONE
-
-    if ( $action eq 'install' ) {
-        _install($rootModule);
-    }
-    elsif ( $action eq 'uninstall' ) {
-        _uninstall();
+    unless ( my $return = do 'tools/configure' ) {
+        warn "couldn't parse tools/configure : $@" if $@;
+        warn "couldn't do tools/configure: $!" unless defined $return;
+        warn "couldn't run tools/configure" unless $return;
     }
 }
 
