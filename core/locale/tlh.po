@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-04 17:32+0200\n"
+"PO-Revision-Date: 2015-05-04 22:11+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -199,7 +199,7 @@ msgstr "&<nop>qIl"
 
 #: core/templates/foswiki.tmpl:159
 msgid "&History"
-msgstr "&qun"
+msgstr "qun"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
@@ -241,7 +241,7 @@ msgstr "(<nop>QInvam <nop>polHa&rsquo; De&rsquo;<nop>wI&rsquo;)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
-msgstr "(naw&rsquo; laj&rsquo;Ha&rsquo;lu&rsquo;)"
+msgstr "(naw&rsquo; <nop>lajHa&rsquo;lu&rsquo;)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
@@ -685,7 +685,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
-msgstr ""
+msgstr "<nop>nIHDaq lan"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
@@ -693,7 +693,7 @@ msgstr "Hoch <nop>mIchmey&rsquo;e&rsquo; <nop>luleghlaHbogh vay&rsquo;"
 
 #: core/templates/foswiki.tmpl:45
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr ""
+msgstr "<nop>ghItlh chu&&rsquo; <nop>pongmeH WikiWord chaw&&rsquo; neH"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -703,7 +703,7 @@ msgstr ""
 
 #: core/lib/Foswiki/UI/Rename.pm:223
 msgid "An attachment with the same name already exists in this topic."
-msgstr ""
+msgstr "pongvam ghajbogh tep <nop>ghajtaH <nop>ghItlhvam."
 
 #: core/templates/messages.tmpl:184
 msgid ""
@@ -879,7 +879,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
-msgstr ""
+msgstr "pong porgh je"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
@@ -979,7 +979,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
-msgstr ""
+msgstr "chaw&&rsquo; ngoq <nop>choH"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
@@ -1724,7 +1724,7 @@ msgstr ""
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "Force new revision"
-msgstr ""
+msgstr "Dotlh chu&&rsquo; <nop>raD"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 msgid "Forgotten your password?"
@@ -1765,7 +1765,7 @@ msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
 msgid "Formatted Search"
-msgstr ""
+msgstr "<nop>nejwI&&rsquo; &&rsquo;Itlh"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Formula"
@@ -1905,7 +1905,7 @@ msgstr ""
 #: core/data/System/WebSearch.txt:179 core/data/System/WebSearch.txt:92
 #: core/templates/login.tmpl:55
 msgid "Help"
-msgstr ""
+msgstr "<nop>QaH"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
@@ -1918,7 +1918,7 @@ msgstr ""
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
-msgstr ""
+msgstr "<nop>QaH So&&rsquo;"
 
 #: core/templates/messages.tmpl:122
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
@@ -1926,7 +1926,7 @@ msgstr ""
 
 #: core/data/System/ManagingTopics.txt:98
 msgid "History"
-msgstr ""
+msgstr "qun"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
@@ -2088,19 +2088,22 @@ msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
+"Qapbe&&rsquo;chugh <nop>QInQuvlIj qan (vaj "
+"Dalo&&rsquo;<nop>laHbe&&rsquo;<nop>taH), &&rsquo;ej chaw&&rsquo; <nop>"
+"ngoqlIj DalIjchugh, vaj <nop>QaH <nop>DaSammeH %1 yIrI&&rsquo;."
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
-msgstr ""
+msgstr "<nop>qaStaHvIS 7 jaj <nop>buSHa&&rsquo;"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Image"
-msgstr ""
+msgstr "<nop>mIllogh"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
-msgstr ""
+msgstr "%2Daq <nop>mIllogh %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2311,7 +2314,7 @@ msgstr "Dotlh <nop>chu'Daq Sup (%1)"
 #: NatEditPlugin/templates/edit.natedit.tmpl:134
 #: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Just me"
-msgstr ""
+msgstr "<nop>jIH <nop>neH"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
 msgid "Justify text"
@@ -2319,7 +2322,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:193
 msgid "Keyword search"
-msgstr "mu&rsquo; nej"
+msgstr "mu&&rsquo; <nop>nejwI&&rsquo;"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "Last"
@@ -2384,7 +2387,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:197
 msgid "Literal search"
-msgstr "mu&rsquo;na&rsquo; nej"
+msgstr "mu&&rsquo;na&&rsquo; <nop>nejwI&&rsquo;"
 
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
@@ -2397,7 +2400,7 @@ msgstr "&rsquo;el"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
-msgstr "&rsquo;<nop>elHa&rsquo;"
+msgstr "&&rsquo;<nop>elHa&&rsquo;"
 
 #: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
@@ -2422,8 +2425,9 @@ msgid "Logon"
 msgstr "&rsquo;elmeH"
 
 #: core/templates/foswiki.tmpl:43
+#, fuzzy
 msgid "Logout"
-msgstr "&rsquo;<nop>elHa&rsquo;<nop>meH"
+msgstr "&&rsquo;<nop>elHa&&rsquo;<nop>meH"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Macro"
@@ -2439,7 +2443,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:178
 msgid "Make search:"
-msgstr "<nop>nejwI' <nop>chenmoH:"
+msgstr "<nop>nejwI&&rsquo; <nop>chenmoH:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
@@ -2465,7 +2469,7 @@ msgstr ""
 #: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
-msgstr "<nop>nejwI&rsquo; <nop>choH"
+msgstr "<nop>nejwI&&rsquo; <nop>choH"
 
 #: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
@@ -2741,11 +2745,11 @@ msgstr ""
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
-msgstr ""
+msgstr "<nop>ghItlhmey Sambogh:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
 msgid "Number of topics: %1"
-msgstr ""
+msgstr "<nop>ghItlhmey Sambogh: %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
 msgid "Numbered list"
@@ -3035,7 +3039,7 @@ msgstr ""
 #: PatternSkin/data/_default/WebLeftBar.txt:12
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:12
 msgid "Preferences"
-msgstr ""
+msgstr "<nop>DuHmey"
 
 #: core/templates/settings.tmpl:6
 msgid "Preferences for"
@@ -3078,7 +3082,7 @@ msgstr "tatlh..."
 
 #: core/data/System/WebSearch.txt:205
 msgid "Query Search"
-msgstr "<nop>nejwI&rsquo; &rsquo;Itlh"
+msgstr "pat <nop>nejwI&&rsquo; &&rsquo;Itlh"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 msgid "Question:"
@@ -3394,7 +3398,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:12
 msgid "Revision history of %1"
-msgstr ""
+msgstr "%1 Dotlh qun"
 
 #: core/templates/more.tmpl:136
 msgid "Revisions"
@@ -3453,7 +3457,7 @@ msgstr ""
 #: core/data/System/WebSearch.txt:43 core/data/System/WebSearch.txt:65
 #: core/data/System/WebSearch.txt:83
 msgid "Search"
-msgstr "<nop>nejwI'"
+msgstr "nej"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
@@ -3479,7 +3483,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:34
 msgid "Search in %1 Web"
-msgstr ""
+msgstr "<nop>mIch %1Daq nej"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -3491,7 +3495,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:54
 msgid "Search options"
-msgstr ""
+msgstr "<nop>nejwI&&rsquo; <nop>DuHmey"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
@@ -3541,15 +3545,15 @@ msgstr ""
 
 #: core/data/System/WebTopicList.txt:6
 msgid "See also the verbose %1."
-msgstr ""
+msgstr "%1 &&rsquo;Itlh <nop>yIbuS je."
 
 #: core/data/System/WebChanges.txt:17
 msgid "See also:"
-msgstr ""
+msgstr "<nop>yIlegh je:"
 
 #: core/templates/edit.tmpl:50
 msgid "See below for help in editing this page."
-msgstr ""
+msgstr "<nop>ghItlhvam <nop>choHmeH <nop>bInDaq QaH <nop>DaSam."
 
 #: core/data/System/SiteChanges.txt:27
 msgid "See changes since:"
@@ -3561,15 +3565,17 @@ msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
-msgstr ""
+msgstr "<nop>wIv"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr ""
+"tep chu&&rsquo;<nop>moHmeH De&&rsquo;wI&&rsquo;<nop>lIjDaq De&&rsquo; "
+"chu&&rsquo; <nop>yIwIv"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "Select all"
-msgstr ""
+msgstr "Hoch <nop>wIv"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
@@ -3585,7 +3591,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
 msgid "Select the group to join:"
-msgstr ""
+msgstr "<nop>muvmeH ghom <nop>yIwIv:"
 
 #: core/templates/more.tmpl:101
 msgid "Select topic parent"
@@ -3605,15 +3611,15 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:74
 msgid "Send mail"
-msgstr ""
+msgstr "<nop>QIn <nop>ngeH"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
-msgstr ""
+msgstr "<nop>tlheghDaq"
 
 #: core/lib/Foswiki/Form/Checkbox.pm:114
 msgid "Set all"
-msgstr ""
+msgstr "<nop>Hoch <nop>wIv"
 
 #: core/templates/more.tmpl:105
 msgid "Set new parent"
@@ -3630,7 +3636,7 @@ msgstr ""
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
-msgstr ""
+msgstr "<nop>QaH &&rsquo;ang"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
@@ -3638,11 +3644,11 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Shrink edit box"
-msgstr ""
+msgstr "<nop>choHmeH vey <nop>machmoH"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Side by side"
-msgstr ""
+msgstr "<nop>retlhDaq"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
@@ -3663,7 +3669,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:245
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
-msgstr ""
+msgstr "Deghmey =&#126;=, =$=, =@=, =%= luteqlu&&rsquo;"
 
 #: core/templates/registermessages.tmpl:85
 msgid ""
@@ -3671,6 +3677,10 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
+"rut Qagh <nop>QIn janmey, chaq cha&&rsquo;logh <nop>QIn <nop>ngeH bIH "
+"rarwI&&rsquo;Daq &&rsquo;uylu&&rsquo;chugh &&rsquo;<nop>oH <nop>ngeHmeH. "
+"bI&&rsquo;uyta&&rsquo;chugh, vaj chaq *Qapchu&&rsquo;qu&&rsquo;* <nop>muvmeH "
+"<nop>mIwlIj."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
 #: core/templates/registernotify.tmpl:15
@@ -3715,7 +3725,7 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:144
 #: NatEditPlugin/templates/edit.natedit.tmpl:175
 msgid "Specific users/groups"
-msgstr ""
+msgstr "ghommey/lo&&rsquo;<nop>wI&&rsquo; le&&rsquo;"
 
 #: core/data/System/SiteChanges.txt:92
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
@@ -3792,7 +3802,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:122 core/data/System/WebSearch.txt:152
 msgid "Subwebs"
-msgstr ""
+msgstr "<nop>mIchHommey"
 
 #: core/templates/registermessages.tmpl:385
 msgid "Success adding members to group"
@@ -3897,6 +3907,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
+"lamveyqoq &&rsquo;oH %1 <nop>mIch. naDev <nop>bIqeqmeH <nop>bIQujlaH. Hoch "
+"Dachel <nop>DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 &&rsquo;DaSuch "
+"net chup. pabqoqvam <nop>yIbuS: <nop>reH <nop>ghItlh <nop>bIS&&rsquo;ubDaq "
+"<nop>ponglIj, <nop>poH je <nop>tIghItlh."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3905,7 +3919,7 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of %2."
-msgstr ""
+msgstr "%2 %1 <nop>mIch."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -4326,7 +4340,7 @@ msgstr ""
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
-msgstr ""
+msgstr "pong:"
 
 #: core/templates/registerapprove.tmpl:12
 msgid "To approve this registration, visit %2"
@@ -4453,7 +4467,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:139
 msgid "Topic title"
-msgstr ""
+msgstr "<nop>ghItlh pong"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
@@ -4708,11 +4722,11 @@ msgstr ""
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:9
 msgid "Version history"
-msgstr ""
+msgstr "Dotlh qun"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:7
 msgid "Version history of %1"
-msgstr ""
+msgstr "%1 Dotlh qun"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "View"
@@ -4893,7 +4907,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
-msgstr "mu' <nop>nejwI'"
+msgstr "mu&&rsquo; <nop>nejwI&&rsquo;"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
@@ -5270,11 +5284,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:302
 msgid "don't forget to check your Topic Settings"
-msgstr ""
+msgstr "<nop>ghItlh <nop>DuHmey <nop>tIlIjQo&&rsquo;"
 
 #: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "Qagh earlyInitPlugin.  <nop>bIngDaq Qaghmey tetlh <nop>yIbuS."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
@@ -5290,20 +5304,20 @@ msgstr ""
 
 #: core/templates/messages.tmpl:170
 msgid "fields are required."
-msgstr ""
+msgstr "De&&rsquo;vetlh <nop>poQlu&&rsquo;."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
-msgstr ""
+msgstr "<nop>QaH"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
-msgstr ""
+msgstr "batlh <nop>ghItlhmeH <nop>qeSmey"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
-msgstr ""
+msgstr "Degh&&rsquo;a&&rsquo;/<nop>DeghHom <nop>buSQo&&rsquo;"
 
 #: core/templates/more.tmpl:141
 msgid "in raw text format"
@@ -5320,23 +5334,23 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:63
 msgid "last change"
-msgstr ""
+msgstr "<nop>choH Qav"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
-msgstr ""
+msgstr "vu&&rsquo;"
 
 #: core/data/Trash/WebHome.txt:11
 msgid "more..."
-msgstr ""
+msgstr "latlh..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "chu&&rsquo;"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
-msgstr ""
+msgstr "<nop>DaH %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -5345,12 +5359,13 @@ msgstr ""
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
 #: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
+#, fuzzy
 msgid "or"
-msgstr ""
+msgstr "pagh"
 
 #: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
-msgstr ""
+msgstr "<nop>ghItlh &&rsquo;ol"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "public view access"
@@ -5389,12 +5404,12 @@ msgstr ""
 
 #: core/templates/settings.tmpl:3
 msgid "set preferences"
-msgstr ""
+msgstr "<nop>DuHmey <nop>lIS"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:142
 #: NatEditPlugin/templates/edit.natedit.tmpl:173
 msgid "specify a list of users and/or groups"
-msgstr ""
+msgstr "ghom, lo&&rsquo;wI&&rsquo; tetlh ghap <nop>lIS"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
@@ -5420,7 +5435,7 @@ msgstr "title='<nop>ghItlhvamDaq <nop>mIllogh, De&&rsquo; ghap chel'>tep chel"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr ""
+msgstr "title='<nop>ghItlh chu&rsquo; <nop>chenmoH' accesskey='c'>&chenmoH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:19
 msgid ""
@@ -5442,20 +5457,24 @@ msgstr "title='<nop>ghItlhvam <nop>choH' ><nop>choH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr ""
+msgstr "title='<nop>ghItlhvam <nop>choH' accesskey='e'>choH (&e)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr ""
+msgstr "title='<nop>nIqlu&&rsquo;' accesskey='i'><nop>n&Iqlu&&rsquo;"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
+"title='<nop>ghItlhwI&&rsquo; nav &&rsquo;ang' "
+"accesskey='p'><nop>ghItlhwI&&rsquo; nav"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
+"title='<nop>naDev <nop>chIjbogh <nop>ghItlhmey <nop>SammeH Hoch <nop>"
+"mIchmeyDaq nej' accesskey='l'>Hoch <nop>mIchmey (&l)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
@@ -5474,31 +5493,33 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr ""
+msgstr "title='<nop>ghItlhvam <nop>qImchoH' accesskey='s'><nop>qImchoH (s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr ""
+"title='<nop>ghItlhvam <nop>qImHa&&rsquo;choH' "
+"accesskey='s'><nop>qImHa&&rsquo;choH (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr ""
+msgstr "title='<nop>ghItlh qun &&rsquo;ang' accesskey='h'>qun (&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
-msgstr ""
+msgstr "title='<nop>ghItlh &&rsquo;ang' accesskey='v'>ghItlh &&rsquo;ang (&v)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
-"title='Deghmey nguvbogh &#0146;<nop>angQo&#0146;' accesskey='v'>ghunmeH "
-"mu'mey (&v)"
+"title='Deghmey nguvbogh &&rsquo;<nop>angQo&&rsquo;' accesskey='v'>ghunmeH "
+"mu&&rsquo;mey (&v)"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
-msgstr "lo'wI' tetlh poD"
+msgstr "lo&&rsquo;wI&&rsquo; tetlh poD"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37
 msgid "value='Cancel' accesskey='c'"
@@ -5506,19 +5527,19 @@ msgstr "value='<nop>qIl' accesskey='c'"
 
 #: PatternSkin/templates/preview.pattern.tmpl:19
 msgid "value='Discard' accesskey='d'"
-msgstr "value='polbe'' accesskey='d'"
+msgstr "value='polbe&&rsquo;' accesskey='d'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Preview' accesskey='p'"
-msgstr ""
+msgstr "value='&&rsquo;ol' accesskey='p'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Quiet save' accesskey='q'"
-msgstr ""
+msgstr "value='tam &&rsquo;ej pol' accesskey='q'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Save and Continue' accesskey='k'"
-msgstr "value='pol 'ej ruch' accesskey='k'"
+msgstr "value='pol &&rsquo;ej ruch' accesskey='k'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Save' accesskey='s'"
