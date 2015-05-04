@@ -86,12 +86,20 @@ sub _SUBSCRIBE {
       ( $params->{unsubscribe}
           || Foswiki::Contrib::MailerContrib::isSubscribedTo( $web, $who,
             $topic ) ) ? 1 : 0;
+    my $doUnsubscribe = Foswiki::isTrue($unsubscribe);
 
-    my $tmpl = _template_text(
-        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe' );
+    my $tmpl;
 
+    $tmpl = $doUnsubscribe ? $params->{formatunsubscribe} : $params->{format};
+    $tmpl = _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe' )
+      unless defined $tmpl;
+
+    my $action =
+      $session->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
+
+    $tmpl =~ s/\$action/$action/g;
     $tmpl =~ s/\$topic/$web.$topic/g;
-    $tmpl =~ s/\$subscriber/$who/g;
+    $tmpl =~ s/\$(subscriber|wikiname)/$who/g;
     $tmpl =~ s/\$remove/$unsubscribe/g;
     $tmpl =~ s/\$nonce/_getNonce($session)/ge;
 

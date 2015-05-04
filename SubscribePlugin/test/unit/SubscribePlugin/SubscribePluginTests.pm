@@ -13,7 +13,6 @@ use Foswiki;
 use CGI;
 use Foswiki::Plugins::SubscribePlugin;
 use Foswiki::Contrib::MailerContrib;
-use JSON;
 
 our $UI_FN;
 
@@ -22,8 +21,6 @@ sub new {
     return $self;
 }
 
-our $restURL;
-
 # Set up the test fixture
 sub set_up {
     my $this = shift;
@@ -31,8 +28,6 @@ sub set_up {
     $this->SUPER::set_up();
     $Foswiki::cfg{Validation}{Method} = 'none';
     $UI_FN ||= $this->getUIFn('rest');
-    $restURL =
-      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest' );
 }
 
 sub tear_down {
@@ -54,21 +49,10 @@ sub test_SUBSCRIBE_1 {
     my $subscribe = Foswiki::Func::expandCommonVariables(
         "%SUBSCRIBE{who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web} );
-    $subscribe =~ s/data-subscribe="(.*?)"//;
-    my $d = JSON::from_json( HTML::Entities::decode_entities($1) );
-    die $@ if $@;
-    $d->{validation_key} = '?';
-    $this->assert_deep_equals(
-        {
-            subscribe_remove     => 0,
-            subscribe_subscriber => $this->{test_user_wikiname},
-            subscribe_topic      => "$this->{test_web}.$this->{test_topic}",
-            validation_key       => "?"
-        },
-        $d
-    );
+
+    $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-<a class="subscribe_link"  rel="nofollow" title="Subscribe to this topic" href="$restURL">Subscribe</a>
+<a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="0">Subscribe</a>
 HTML
 }
 
@@ -80,28 +64,11 @@ sub test_SUBSCRIBE_2 {
 '%SUBSCRIBE{who="TobermoryCat" topic="Kitties.Tobermory" unsubscribe="on"}%',
         $this->{test_topic}, $this->{test_web}
     );
-    $subscribe =~ s/data-subscribe="(.*?)"//;
-    my $d = JSON::from_json( HTML::Entities::decode_entities($1) );
-    die $@ if $@;
-    $d->{validation_key} = '?';
-    $this->assert_deep_equals(
-        {
-            subscribe_remove     => 1,
-            subscribe_subscriber => "TobermoryCat",
-            subscribe_topic      => "Kitties.Tobermory",
-            validation_key       => "?"
-        },
-        $d
-    );
 
-    my $scriptUrl =
-      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
-        'rest' );
-    $scriptUrl =~ s/\/$this->{test_topic}//;
-    $scriptUrl =~ s/\/$this->{test_web}//;
+    $subscribe =~ s/data-validation-key=".*" //g;
 
     $this->assert_html_equals( <<HTML, $subscribe );
-<a class="subscribe_link" href="${scriptUrl}/SubscribePlugin/subscribe" rel="nofollow" title="Unsubscribe from this topic">Unsubscribe</a>
+<a href="#" class="subscribe_link" data-topic="Kitties.Tobermory" data-subscriber="TobermoryCat" data-remove="1" >Unsubscribe</a>
 HTML
 }
 
@@ -109,18 +76,12 @@ sub test_SUBSCRIBE_format {
     my $this = shift;
 
     # format=
-    my $url = Foswiki::Func::getScriptUrl(
-        'SubscribePlugin', 'subscribe', 'rest',
-        subscribe_topic      => "$this->{test_web}.$this->{test_topic}",
-        subscribe_subscriber => $this->{test_user_wikiname},
-        subscribe_remove     => 0
-    );
     my $subscribe = Foswiki::Func::expandCommonVariables(
-"%SUBSCRIBE{format=\"\$topics \$url \$wikiname \$action\" who=\"$this->{test_user_wikiname}\"}%",
+"%SUBSCRIBE{format=\"\$topic \$wikiname \$action\" who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web}
     );
     $this->assert_html_equals( <<HTML, $subscribe );
-$this->{test_topic} $url $this->{test_user_wikiname} Subscribe
+$this->{test_web}.$this->{test_topic} $this->{test_user_wikiname} Subscribe
 HTML
 }
 
@@ -128,18 +89,12 @@ sub test_SUBSCRIBE_formatunsubscribe {
     my $this = shift;
 
     # fomatunsubscribe=
-    my $url = Foswiki::Func::getScriptUrl(
-        'SubscribePlugin', 'subscribe', 'rest',
-        subscribe_topic      => "$this->{test_web}.$this->{test_topic}",
-        subscribe_subscriber => $this->{test_user_wikiname},
-        subscribe_remove     => 1
-    );
     my $subscribe = Foswiki::Func::expandCommonVariables(
-"%SUBSCRIBE{formatunsubscribe=\"\$topics \$url \$wikiname \$action\" unsubscribe=\"yes\" who=\"$this->{test_user_wikiname}\"}%",
+"%SUBSCRIBE{formatunsubscribe=\"\$topic \$wikiname \$action\" unsubscribe=\"yes\" who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web}
     );
     $this->assert_html_equals( <<HTML, $subscribe );
-$this->{test_topic} $url $this->{test_user_wikiname} Unsubscribe
+$this->{test_web}.$this->{test_topic} $this->{test_user_wikiname} Unsubscribe
 HTML
 }
 
@@ -185,9 +140,9 @@ sub test_rest_subscribe_2 {
     my $query = Unit::Request->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
-    $query->param( topic                => "Bog.FootRot" );
-    $query->param( subscribe_subscriber => "Colostomy.BagCollector" );
-    $query->param( subscribe_topic => "$this->{test_web}.$this->{test_topic}" );
+    $query->param( topic      => "Bog.FootRot" );
+    $query->param( subscriber => "Colostomy.BagCollector" );
+    $query->param( topic      => "$this->{test_web}.$this->{test_topic}" );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $headers, $text ) = $this->request();
     $this->assert_equals( 200, $headers->{status} );
@@ -203,9 +158,9 @@ sub test_rest_subscribe_remove {
     my $query = Unit::Request->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
-    $query->param( subscribe_subscriber => "Colostomy.BagCollector" );
-    $query->param( subscribe_topic => "$this->{test_web}.$this->{test_topic}" );
-    $query->param( subscribe_remove => "yes" );
+    $query->param( subscriber => "Colostomy.BagCollector" );
+    $query->param( topic      => "$this->{test_web}.$this->{test_topic}" );
+    $query->param( remove     => "yes" );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $headers, $text ) = $this->request();
     $this->assert_equals( 200, $headers->{status} );
@@ -230,8 +185,8 @@ sub test_subscribe_all {
     my $query = Unit::Request->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
-    $query->param( subscribe_subscriber => $this->{test_user_wikiname} );
-    $query->param( subscribe_topic      => "$this->{test_web}.*" );
+    $query->param( subscriber => $this->{test_user_wikiname} );
+    $query->param( topic      => "$this->{test_web}.*" );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $headers, $text ) = $this->request();
     $this->assert_equals( 200, $headers->{status}, $text );
@@ -245,8 +200,8 @@ sub test_subscribe_subweb {
     my $query = Unit::Request->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
-    $query->param( subscribe_subscriber => $this->{test_user_wikiname} );
-    $query->param( subscribe_topic      => "$this->{test_web}/SubWeb.*" );
+    $query->param( subscriber => $this->{test_user_wikiname} );
+    $query->param( topic      => "$this->{test_web}/SubWeb.*" );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $headers, $text ) = $this->request();
     $this->assert_equals( 200, $headers->{status}, $text );
