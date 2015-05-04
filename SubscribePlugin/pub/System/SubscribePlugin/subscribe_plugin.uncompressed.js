@@ -19,41 +19,39 @@
  * 
  * Do not remove this copyright notice.
  */
-(function($) {
-    $(document).ready( function () {
-        $('.subscribe_link').click(function() {
-            var clink = $(this);
-            var params = clink.data('subscribe');
-            if (typeof(StrikeOne) !== 'undefined') {
-                var key = params['validation_key'];
-                params['validation_key'] = StrikeOne.calculateNewKey(key);
-            }
-            $.ajax({
-                type: "POST",
-                data: params,
-                url: $(this).attr('href'),
-                success: function(response) {
-                    clink.text(response.message);
-                    params['subscribe_remove'] = response.remove;
-                },
-                error: function(jqXHR) {
-                    alert("Error: " + jqXHR.responseText);
-                },
-                complete: function(jqXHR, status) {
-                    // Update the strikeone nonce
-                    var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
-                    // patch in new nonce
-                    if (nonce) {
-                        params['validation_key'] = "?" + nonce;
-                    }
+jQuery(function($) {
+"use strict";
+    $(document).on("click", ".subscribe_link", function() {
+        var $this = $(this),
+            params = $this.data(),
+            url = foswiki.getScriptUrlPath("rest", "SubscribePlugin", "subscribe");
+
+        if (typeof(StrikeOne) !== 'undefined') {
+            params['validation_key'] = StrikeOne.calculateNewKey(params.validationKey);
+        }
+
+        $.ajax({
+            type: "POST",
+            data: params,
+            url: url,
+            success: function(response) {
+                $this.text(response.message);
+                params.remove = response.remove;
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.responseText);
+            },
+            complete: function(jqXHR, status) {
+                // Update the strikeone nonce
+                var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
+                // patch in new nonce
+                if (nonce) {
+                    params.validationKey = "?" + nonce;
                 }
-            });
-            return false;
+            }
         });
-        $('.subscribe_link').each(function() {
-            var clink = $(this);
-            var params = clink.data('subscribe');
-            clink.data('subscribe', params);
-        });
+
+        $this.blur();
+        return false;
     });
-})(jQuery);
+});

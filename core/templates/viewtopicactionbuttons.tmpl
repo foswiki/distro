@@ -14,7 +14,7 @@
 
 %TMPL:DEF{"attach_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%" else="%MAKETEXT{"title='Attach an image or document to this topic'>Attach"}%" }%</a>%TMPL:END%
 
-%TMPL:DEF{"subscribe_link"}%<span>%SUBSCRIBE{format="<a href='$url' class='subscribe_link' data-subscribe='%JSON_DATA%' rel='nofollow' %MAKETEXT{"title='Subscribe to this topic' accesskey='s'>&Subscribe"}%</a>" formatunsubscribe="<a href='$url' class='subscribe_link' data-subscribe='%JSON_DATA%' rel='nofollow' %MAKETEXT{"title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"}%</a>"}%</span>%TMPL:END%
+%TMPL:DEF{"subscribe_link"}%<span>%SUBSCRIBE{format="<a href='#' class='subscribe_link' data-topic='$topic' data-subscriber='$subscriber' data-remove='$remove' data-validation-key='?$nonce' rel='nofollow' %MAKETEXT{"title='Subscribe to this topic' accesskey='s'>&Subscribe"}%</a>" formatunsubscribe="<a href='#' class='subscribe_link' data-topic='$topic' data-subscriber='$subscriber' data-remove='$remove' data-validation-key='?$nonce' rel='nofollow' %MAKETEXT{"title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"}%</a>"}%</span>%TMPL:END%
 
 %TMPL:DEF{"more_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?template=more&maxrev=%MAXREV%&currrev=%CURRREV%' rel='nofollow' %MAKETEXT{"title='Delete or rename this topic; set parent topic; view and compare revisions' accesskey='m'>&More topic actions"}%</a></span>%TMPL:END%
 
