@@ -2680,7 +2680,7 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:139
 #: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Nobody"
-msgstr ""
+msgstr "pagh"
 
 #: core/templates/renamedelete.tmpl:37
 msgid "Not recommended when deleting a topic."
