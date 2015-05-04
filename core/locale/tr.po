@@ -6,14 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 09:44+0000\n"
-"Last-Translator: Tolga YAMAN <yamant@gmail.com>\n"
+"PO-Revision-Date: 2015-05-04 11:28+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: TURKCE <yamant@gmail.com>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.1\n"
 
 #: core/data/System/WikiName.txt:3
 #, fuzzy
@@ -539,7 +540,7 @@ msgstr ""
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1284
 msgid "A confirmation e-mail has been sent to %1"
-msgstr " %1 adresine onay/doğrulama için bir e-mail gönderilmiştir."
+msgstr "%1 adresine onay/doğrulama için bir e-mail gönderilmiştir"
 
 #: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
@@ -581,7 +582,7 @@ msgstr "Erişim Engellendi"
 
 #: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
-msgstr " %1 a erişim kontrolünüz onaylanmadı."
+msgstr "%1 a erişim kontrolünüz onaylanmadı"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
 #: PatternSkin/templates/edit.pattern.tmpl:68
@@ -1330,7 +1331,7 @@ msgstr "Bu konuyu oluştur"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
-msgstr "Bu sitedeki sayfaları düzenlemek için hesap oluşturun"
+msgstr "Bu sitedeki sayfaları düzenlemek için hesap oluşturun."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
@@ -1399,7 +1400,7 @@ msgstr "Konuyu sil..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
-msgstr "Dosya açıklaması"
+msgstr "Dosya açıklaması."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 #, fuzzy
@@ -1820,7 +1821,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr " %1 için Foswiki Şifre Sıfırlama"
+msgstr "%1 için Foswiki Şifre Sıfırlama"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
@@ -2084,7 +2085,7 @@ msgstr "Kayıt ile ilgili sorularınız için  %1 e e-mail yollayabilirsiniz."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
-msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
+msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
@@ -2097,7 +2098,7 @@ msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Parolanızı unutursanız %1 adresine giderek parolanızı sıfırlayabilir ve yeni "
-"bir parola oluşturabilirsiniz."
+"bir parola oluşturabilirsiniz"
 
 #: core/templates/messages.tmpl:313
 msgid ""
@@ -2655,7 +2656,7 @@ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
 
 #: core/templates/registermessages.tmpl:7
 msgid "New User Registration not supported"
-msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir."
+msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list):"
@@ -2664,7 +2665,7 @@ msgstr ""
 #: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
-msgstr "%1 konusunda/başlığında %2 itibarıyla değişiklik yapılmıştır."
+msgstr "%1 konusunda/başlığında %2 itibarıyla değişiklik yapılmıştır:"
 
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
@@ -3139,7 +3140,7 @@ msgstr "Aksi halde İPTAL e tıklayın."
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 "Bu değişikliği bilinçli olarak yapıyorsanız, değişikliği onaylamak için OK e "
-"tıklayın"
+"tıklayın."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
@@ -3490,7 +3491,7 @@ msgstr ""
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
-msgstr "Değişiklikleri görebileceğiniz adres: "
+msgstr "Değişiklikleri görebileceğiniz adres:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:42
@@ -3770,7 +3771,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
-msgstr "İş planınızı, görev tanımınızı paylaşabilirsiniz"
+msgstr "İş planınızı, görev tanımınızı paylaşabilirsiniz."
 
 #: core/templates/messages.tmpl:245
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
@@ -3949,7 +3950,7 @@ msgid ""
 msgstr ""
 "İPUCU: =\"SOAP\"=, =\"WSDL\"= kelimelerini ve tam olarak =\"web service\"= "
 "kelime grubunu içeren ve aynı zamanda  =\"shampoo\"= kelimesini içermeyen "
-"konuları aramak için : "
+"konuları aramak için:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
@@ -4358,7 +4359,7 @@ msgstr ""
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
-msgstr "%1 tarafından, otomatik olarak gönderilen e-mail"
+msgstr "%1 tarafından, otomatik olarak gönderilen e-mail."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
@@ -5067,7 +5068,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
-msgstr "Ayrıca; kullanıcı adınız %1 başlığında listelenmiştir."
+msgstr "Ayrıca; kullanıcı adınız %1 başlığında listelenmiştir"
 
 #: core/templates/messages.tmpl:275
 msgid "You are denied access to the following topics in the web:"
@@ -5129,7 +5130,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
-msgstr "%1 adresinden mevcut parolanızı değiştirebilirsiniz."
+msgstr "%1 adresinden mevcut parolanızı değiştirebilirsiniz"
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
@@ -5281,7 +5282,7 @@ msgstr "Şimdiki Şifreniz"
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
-msgstr "Kişisel wiki başlığınız %2 adresindedir. Bu başlıkı;"
+msgstr "Kişisel wiki başlığınız %2 adresindedir. Bu başlıkı:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
@@ -5370,11 +5371,11 @@ msgstr ""
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
-msgstr "Konuya erişime izin verilmiyor."
+msgstr "Konuya erişime izin verilmiyor"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
-msgstr "Web'e erişime izin verilmiyor."
+msgstr "Web'e erişime izin verilmiyor"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
