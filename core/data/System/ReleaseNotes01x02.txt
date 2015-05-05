@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428027331" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430785128" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -45,6 +45,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
    * Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015.  It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
+   * Foswiki 1.2.0 Beta 2 was built on ...  It is a release that contains 124 checkins since Beta 1,
 
 
 ---++ Pre-installed Extensions
@@ -776,6 +777,46 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13251][Item13251]] | toolbar not shown when tinymce has been loaded ... but not used |
 | [[%BUGS%/Item13268][Item13268]] | add styles for the horizontal navigation menu |
 | [[%BUGS%/Item13298][Item13298]] | jquery.wikiword not backwards compatible |
+</noautolink>
+
+---++ Changes since Beta 1
+
+<noautolink>
+| [[%BUGS%/Item801][Item801]] | Don't hardcode rcs program paths in Configure. |
+| [[%BUGS%/Item11834][Item11834]] | Hide the details in the Extension installation report. |
+| [[%BUGS%/Item13309][Item13309]] | Errors in the EditRowPlugin backwards compatibility. |
+| [[%BUGS%/Item13313][Item13313]] | Improvements to the migrate store script.  |
+| [[%BUGS%/Item13315][Item13315]] | Improve new user experience with Configure. |
+| [[%BUGS%/Item13327][Item13327]] | Prevent moving a web to a subweb of itself. |
+| [[%BUGS%/Item13331][Item13331]] | Fix utf-8 encoding issues on older CGI. |
+| [[%BUGS%/Item13345][Item13345]] | Fix compatibility issues with newer versions of CGI. |
+| [[%BUGS%/Item13349][Item13349]] | Improve performance installing large extensions. |
+| [[%BUGS%/Item13351][Item13351]] | Remove debug code from convertTopicSettings. |
+| [[%BUGS%/Item13352][Item13352]] | Don't crash due to unbalanced verbatim tag in topic. |
+| [[%BUGS%/Item13353][Item13353]] | make sure PLUGIN_MODULE checker invokes any explicit checker than might be present for {Enabled} or {Module} keys. |
+| [[%BUGS%/Item13355][Item13355]] | Expand macros in Formfield titles. |
+| [[%BUGS%/Item13357][Item13357]] | Configure issues installing older extensions. |
+| [[%BUGS%/Item13360][Item13360]] | Undefined variables when uninstall extension. |
+| [[%BUGS%/Item13363][Item13363]] | EditRowPlugin issues.|
+| [[%BUGS%/Item13364][Item13364]] | Improve user experience with configure. |
+| [[%BUGS%/Item13365][Item13365]] | Force new revision is not working. |
+| [[%BUGS%/Item13367][Item13367]] | Extension report in configure is corrupted. |
+| [[%BUGS%/Item13368][Item13368]] | Add "NODEPS" option to the CLI extension installer |
+| [[%BUGS%/Item13369][Item13369]] | WYSIWYG corrupts entities in macros. |
+| [[%BUGS%/Item13370][Item13370]] | Don't check that README files are writable |
+| [[%BUGS%/Item13371][Item13371]] | Encoding issues when utf-8 characters are in a verbatim block during edit. |
+| [[%BUGS%/Item13372][Item13372]] | Encoding issues with utf-8 in arguments of %MACRO parameters during edit. |
+| [[%BUGS%/Item13375][Item13375]] | Fixed setting the content-encoding in HTTP/2 headers. |
+| [[%BUGS%/Item13378][Item13378]] | Fix broken UTF82SiteCharset. |
+| [[%BUGS%/Item13381][Item13381]] | Deleting a topic redirects to the wrong place. |
+| [[%BUGS%/Item13382][Item13382]] | Configure checker should permit user & pass in proxy URL. |
+| [[%BUGS%/Item13383][Item13383]] | Crash in configure if no results returned. |
+| [[%BUGS%/Item13386][Item13386]] | Improve support for LoginManger none. |
+| [[%BUGS%/Item13389][Item13389]] | Datepicker initializaiton problem. |
+| [[%BUGS%/Item13390][Item13390]] | Don't link escaped ![[squarebracket]] when editing topic. |
+| [[%BUGS%/Item13391][Item13391]] | Call setlib.cfg in tools/configure. |
+| [[%BUGS%/Item13392][Item13392]] | Add extensions to PERLDEPENDENCYREPORT. |
+| [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
 </noautolink>
 
 ---
