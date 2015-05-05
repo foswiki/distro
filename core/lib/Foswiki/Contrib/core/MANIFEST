@@ -952,10 +952,12 @@ templates/viewprint.tmpl 0444
 templates/viewtopicactionbuttons.tmpl 0444
 tools/change_store.pl 0755 Store format conversion script
 tools/configure 0755
+tools/convertTopicSettings.pl 0755
 tools/dependencies 0755
 tools/extender.pl 0444
 tools/extension_installer 0755
 tools/geturl.pl 0755
+tools/lighttpd.pl 0755
 tools/rewriteshebang.pl 0755
 tools/save-pending-checkins 0755
 tools/tick_foswiki.pl 0755
