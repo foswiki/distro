@@ -10,7 +10,7 @@
 
 Foswiki is an enterprise collaboration and information sharing tool targeted for professional use in many types of organizations: from small businesses to multi-nationals, from one-product open source groups, to worldwide research networks.
 
-Foswiki is a wiki: fundamentally, a website with editable web pages. It looks like a normal web site but it encourages contributions, edits, updates, questions, and answers from its users. It's a powerful way of enabling a community to communicate asynchronously using intranet and public internet websites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
+Foswiki is a wiki: fundamentally, a website with editable web pages. It looks like a normal web site but it encourages contributions, edits, updates, questions, and answers from its users. It's a powerful way of enabling a community to communicate asynchronously using intranet and public Internet websites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
 
 Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
@@ -74,7 +74,7 @@ The long-deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has b
 ---+++ Deprecated =AllowInlineScript= configuration setting removed
 
 The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
-Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
+Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control !JavaScript within topics.
 
 ---+++ Deprecation of empty DENY rules
 
@@ -148,7 +148,7 @@ Most features of the EditTablePlugin are supported, with the exception of the
 =editbutton= parameter, and plugin preferences.
 
 The EditRowPlugin also enhances features previously provided by
-the TablePlugin. The EditRowPlugin adds client side javascript based sorting of tables, which has significant performance advantages.
+the TablePlugin. The EditRowPlugin adds client side !JavaScript based sorting of tables, which has significant performance advantages.
 
 The TablePlugin and EditRowPlugin can be used together, with one exception.
 A table statement with the initsort parameter e.g.  =%<nop>TABLE{ initsort="... " ]%=
@@ -212,7 +212,7 @@ not block access.
 ---++++ Improvements in International Character Set support
 
 Foswiki 1.2 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
-preserved during edit.  There are still some limitations however with Foswik internationalization.  [[%BUGS%/Item13388][Item13388]] for more information.
+preserved during edit.  There are still some limitations however with Foswiki internationalization.  [[%BUGS%/Item13388][Item13388]] for more information.
 
    * Support for Locales is known to have issues.  ={UseLocales}= should not be enabled in the configuration.
    * !%QUERY% and !%SEARCH% macros do not operate correctly on utf-8 data when using:
@@ -260,7 +260,7 @@ extensions and use the =CGI::= HTML generation functions, you should review the 
    * Configure is now a conventional "Foswiki Engine" based script. This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
       * You can register an initial user and add them to the !AdminGroup while in "Bootstrap mode" before saving your initial configuration.
    * Configure now requires !JavaScript.
-      * Configuration parameters are Checked and saved through AJAX.
+      * Configuration parameters are checked and saved through AJAX.
       * Configure only transmits changed settings, greatly reducing the required bandwidth and improving performance.
    * Performance
       * !JavaScript minimizes the data transmitted to/from the client. The entire configuration is not sent for each transaction.
@@ -289,7 +289,7 @@ Full help on the available options can be viewed using =tools/configure --help=
 ---++++ CLI Extensions installer
 
 The command line Extensions installer has been rewritten to use the =foswiki/tools/configure= script.  This version will automatically enable new
-extensions and save the configuration.  If you want to install an extension witout enabling it, include the --noenable switch.
+extensions and save the configuration.  If you want to install an extension without enabling it, include the --noenable switch.
 
 Execute =tools/extensions_installer usage= for more information.
 
@@ -436,7 +436,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item10182][Item10182]] | IE8 related error in jquery.superfish example |
 | [[%BUGS%/Item10230][Item10230]] | non-ASCII chars in HTML tag attributes incorrectly de-encoded (need to stay URI-escaped) |
 | [[%BUGS%/Item10240][Item10240]] | Extension installer fails from shell if $Foswiki::cfg{ScriptDir} contains $Foswiki::cfg variables. |
-| [[%BUGS%/Item10252][Item10252]] | Warn users they cannot register if either javascript or cookies are off |
+| [[%BUGS%/Item10252][Item10252]] | Warn users they cannot register if either JavaScript or cookies are off |
 | [[%BUGS%/Item10264][Item10264]] | Change template-js-css logic from foswikiJs to foswikiNoJs |
 | [[%BUGS%/Item10287][Item10287]] | Meta should only store registered element names without a leading underscore (_). |
 | [[%BUGS%/Item10325][Item10325]] | Document the new INT query operator; Returns integer portion of a value. |
@@ -446,7 +446,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item10475][Item10475]] | Foswiki::Func::readAttachment( $web, $topic, undef ); returns the topic text |
 | [[%BUGS%/Item10510][Item10510]] | WikiGroups suggests you can only add 1 member at a time |
 | [[%BUGS%/Item10538][Item10538]] | Add missing logo foswiki-poweredby.gif for better compatilbility with older releases. |
-| [[%BUGS%/Item10609][Item10609]] | User registration javascript broken when jQuery in noconflict mode. |
+| [[%BUGS%/Item10609][Item10609]] | User registration JavaScript broken when jQuery in noconflict mode. |
 | [[%BUGS%/Item10694][Item10694]] | Complex regular subexpression recursion limit (32766) exceeded in Render.pm |
 | [[%BUGS%/Item10717][Item10717]] | Improved bin script code that finds the executable script on the path. |
 | [[%BUGS%/Item10764][Item10764]] | PlainFile logger needs to open files in proper encoding to avoid "Wide character in print" |
@@ -692,7 +692,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item10129][Item10129]] | Add @ operator to QUERY, support query across topic revisions. |
 | [[%BUGS%/Item10191][Item10191]] | CommentPlugin REST handlers rewritten to use a JQuery REST implementation. |
 | [[%BUGS%/Item10203][Item10203]] | Add inline form validation to registration form |
-| [[%BUGS%/Item10221][Item10221]] | Update attachment counter to use with QUERY macro rather than javascript counter. |
+| [[%BUGS%/Item10221][Item10221]] | Update attachment counter to use with QUERY macro rather than JavaScript counter. |
 | [[%BUGS%/Item10260][Item10260]] | Make registration page easier to understand and change |
 | [[%BUGS%/Item10294][Item10294]] | FORMFIELD clumsy rendering multi-line content, missing =$formfield()= 's linebreak features from SEARCH |
 | [[%BUGS%/Item10344][Item10344]] | Cache parsed / loaded topics in the MetaCache. Only load from disk and parse the topic format once per session. |
@@ -832,7 +832,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13386][Item13386]] | Improve support for LoginManger none. |
 | [[%BUGS%/Item13389][Item13389]] | Datepicker initializaiton problem. |
 | [[%BUGS%/Item13390][Item13390]] | Don't link escaped ![[squarebracket]] when editing topic. |
-| [[%BUGS%/Item13391][Item13391]] | CLI extension installer rewriten to use tools/configure |
+| [[%BUGS%/Item13391][Item13391]] | CLI extension installer rewritten to use tools/configure |
 | [[%BUGS%/Item13392][Item13392]] | Add extensions to PERLDEPENDENCYREPORT. |
 | [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
 </noautolink>
