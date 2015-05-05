@@ -203,7 +203,6 @@ sub _showDEPENDENCIES {
           ( $_->{name} =~ m/^Foswiki::/ )
           ? "$_->{name}"
           : "CPAN:$_->{name}";
-        print STDERR "$linkname\n";
         if ( $linkname =~ m/^Foswiki::(?:[^:]+)::(.*)$/ ) {
             $linkname = "[[http://foswiki.org/Extensions/$1][$1]]";
         }
@@ -252,7 +251,6 @@ sub _loadDEPENDENCIES {
 
         if ( $line =~ /^ONLYIF\s+(.+)$/ ) {
             $trig = $1;
-            print STDERR "TRIGGER $trig\n";
             next;
         }
 
