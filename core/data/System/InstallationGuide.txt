@@ -183,7 +183,7 @@ The last step in your configuration is to create and user with administration ri
 
 <div class='foswikiHelp'>%T% The steps outlined below are recommended for initial configuration. *You should complete this before closing the browser after the bootstrap process.* Once you close the browser you will lose your temporary admin status. Later on, you can review the further notes below regarding [[#AboutAdminUsers][about administrators]] and [[#WaysToProtectConfigure][options to protect configure]] and consider one of the more restrictive options.</div>
 
-Once the Foswiki bootstrap process is closed, configure will be restricted to Foswiki's "AdminGroup".  Add your ID to the administrators group:
+Once the Foswiki bootstrap process is completed and you've logged out, configure will be restricted to Foswiki's "AdminGroup".  Add the user you just registered to the administrators group:
    1 Go to %IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminGroup in your installation" else="$percntUSERSWEB$percnt.AdminGroup"}%.
    1 Scroll down to the "Administration" section and click on "Add Members"
    1 Enter your %IF{"$skin = 'plain'" then="$quot<nop>WikiName$quot" else="$percntSYSTEMWEB$percnt.WikiName"}% as defined when you registered yourself in Step 7.
