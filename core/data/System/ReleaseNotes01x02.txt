@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430841963" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430847033" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -44,8 +44,8 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015.  It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
-   * Foswiki 1.2.0 Beta 2 was built on ...  It is a release that contains 124 checkins since Beta 1,
+   * Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015. It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
+   * Foswiki 1.2.0 Beta 2 was built on 05 May 2015. It is a release that contains more than 124 checkins since Beta 1,
 
 
 ---++ Pre-installed Extensions
