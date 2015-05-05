@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1429840432" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430799774" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+ Administrator Skills Assumptions
 
@@ -55,7 +55,7 @@ production environments.
 If you don't know all of these skills, you can learn it! The Internet provides many sources of information about all these skills
 
 There are many excellent resources for learning how to administer your OS and web server, including books, web sites, web forums, IM and e-mail lists.   The
-Foswiki:Support web must *not* be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating
+Foswiki:Support web should not be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating
 system and web server administration.  Asking and answering questions is time consuming for all concerned and is best used for specific _Foswiki related_
 issues, rather than helping you learn the OS and web server.
 
