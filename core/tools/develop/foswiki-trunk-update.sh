@@ -88,3 +88,7 @@ for dir in data pub; do
         fi
     done
 done
+
+# Refresh the page cache
+cd $ROOT/core/bin
+./view refresh=all > /dev/null
