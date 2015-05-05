@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430785128" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430841963" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -63,6 +63,7 @@ Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
 <div class='foswikiHelp'>
    * !JavaScript is now required for most operations other than simple page views.
    * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prerequisite modules. Check dependencies by running  =perl tools/dependencies=
+   * Perl 5.8.8 is the minimum perl version.  Perl 5.12+ is recommended.
 </div>
 
 ---++ Deprecation
@@ -208,6 +209,17 @@ extension fails to check for access permission, then these new methods will
 not block access.
 </div>
 
+---++++ Improvements in International Character Set support
+
+Foswiki 1.2 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
+preserved during edit.  There are still some limitations however with Foswik internationalization.  [[%BUGS%/Item13388][Item13388]] for more information.
+
+   * Support for Locales is known to have issues.  ={UseLocales}= should not be enabled in the configuration.
+   * !%QUERY% and !%SEARCH% macros do not operate correctly on utf-8 data when using:
+      * Regular expressions containing locale sensitive strings such as =\w= or =[[:upper:]]=
+      * =uc= and =lc= case conversions.
+   * The !SpreadSheetPlugin character string handling functions do not work correctly on utf-8 data.
+
 ---++++ CGI Related changes
 ---+++++ Session ID Security improvements.
 
@@ -274,6 +286,13 @@ tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http:/
 
 Full help on the available options can be viewed using =tools/configure --help=
 
+---++++ CLI Extensions installer
+
+The command line Extensions installer has been rewritten to use the =foswiki/tools/configure= script.  This version will automatically enable new
+extensions and save the configuration.  If you want to install an extension witout enabling it, include the --noenable switch.
+
+Execute =tools/extensions_installer usage= for more information.
+
 ---+++ Query Search
 
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
@@ -324,9 +343,8 @@ heavily on !JavaScript and jQuery.   Users that must edit without the use of
 
 As of this release, 
    * Italian translation is 100% complete
-   * French and Czech are >99% complete
+   * Danish, French and Czech are >99% complete
    * German is >97%
-   * Danish is >90%
    * Other languages are 60% complete or lower.
 
 For more details on translation status,  see Foswiki:Community.TranslationTeam and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
@@ -814,7 +832,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13386][Item13386]] | Improve support for LoginManger none. |
 | [[%BUGS%/Item13389][Item13389]] | Datepicker initializaiton problem. |
 | [[%BUGS%/Item13390][Item13390]] | Don't link escaped ![[squarebracket]] when editing topic. |
-| [[%BUGS%/Item13391][Item13391]] | Call setlib.cfg in tools/configure. |
+| [[%BUGS%/Item13391][Item13391]] | CLI extension installer rewriten to use tools/configure |
 | [[%BUGS%/Item13392][Item13392]] | Add extensions to PERLDEPENDENCYREPORT. |
 | [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
 </noautolink>

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1428294816" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430841963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -13,7 +13,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 
 %TABLE{sort="off"}%
 | *Resource* | *Required Server Environment* |
-| Perl | 5.8.8 or higher. |
+| Perl | 5.8.8 or higher. A minimum of perl 5.12 is recommended. |
 | External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= (not required on Windows) |
 | Web server | Apache, Nginx and Lighttpd are all well supported; Apache sample configs are provided. For information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run, but start from your expected default "view" URL, so that Foswiki can figure out your URL scheme.
