@@ -54,7 +54,7 @@ elsif ( @ARGV > 1 ) {
 }
 $action = $ARGV[0] if $ARGV[0];
 
-unless ( $action =~ m/^(install|uninstall|dependencies|manifest)$/ ) {
+unless ( $action =~ m/^(install|uninstall|dependencies|manifest|usage)$/ ) {
     usage();
     print STDERR
 "## ERROR: Action $action is not known.  Valid actions are 'install', 'uninstall', 'dependencies' and 'manifest'\n";
