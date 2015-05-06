@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:35+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-05-06 09:36+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4995,17 +4995,15 @@ msgstr ""
 "[Referenzhandbuch]] online nutzen."
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid ""
 "Use this button to load the content.%BR% *Caution* the search on this topic "
 "can be very resource intensive. Only load the content if you really need it, "
 "otherwise review the WebChanges topic from each web."
 msgstr ""
-"Benutzen Sie diesen Button, um den Inhalt zu laden.%BR% *Achtung*: der "
-"Inhalt ist sehr umfangreich und beim Laden kann Ihr Browser stark "
-"beansprucht werden. Am besten laden Sie den Inhalt nur, wenn Sie ihn "
-"ausdrucken wollen - ansonsten können Sie auch einfach das [[ReferenceManual]"
-"[Referenzhandbuch]] online nutzen."
+"Benutzen Sie diese Schaltfläche, um den Inhalt zu laden.%BR% *Achtung*: Die "
+"Suche in diesem Topic ist sehr ressourcenintensiv. Am besten laden Sie den "
+"Inhalt nur, wenn Sie ihn wirklich dringend benötigen – ansonsten können Sie "
+"auch einfach das Topic WebChanges jedes Webs nutzen."
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
@@ -5049,9 +5047,8 @@ msgid "Username"
 msgstr "Benutzername"
 
 #: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
 msgid "Username %1."
-msgstr "Benutzername"
+msgstr "Benutzername %1."
 
 #: core/templates/login.tmpl:47
 msgid "Username or email address"
@@ -5090,7 +5087,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "Wörtlich"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
