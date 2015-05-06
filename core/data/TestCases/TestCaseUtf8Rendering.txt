@@ -1,0 +1,174 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1430878946" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+ Accented character test utf8
+
+Description: Verify rendering of a wide variety of utf-8 characters, in topic text and form data.
+
+This page uses the following characters, found in some EU languages... Gathered from http://www.phespirit.info/alphabet/czech.htm . I don't know about it's correctness, and still missing many characters form Finish, Swedish, Norvergian and other languages and also missing Cyrillic, Greek and many many other characters & languages.
+
+Haven't any idea how to make the tests systematic. Create a table with all Unicode planes or at least from some "basic" planes... but the tables dent helps in !DataForms tests...
+
+   1 ={Site}{CharSet}= should be set to utf-8 before checking this topic.
+   1 Visually verify that the below tables render correctly
+   1 Edit the topic, verify that the data is displayed correctly in the edit
+   window and in the form.
+   1 Do not save this topic. Copy the topic to a temporary topic, if you intend to edit/save.
+
+---++ Czech (cs)
+| Á | á |
+| Č | č |
+| Ď | ď |
+| É | é |
+| Ě | ě |
+| Í | í |
+| Ň | ň |
+| Ó | ó |
+| Ř | ř |
+| Š | š |
+| Ť | ť |
+| Ú | ú |
+| Ů | ů |
+| Ý | ý |
+| Ž | ž |
+
+---++ Hungarian (hu)
+| Á | á |
+| É | é |
+| Í | í |
+| Ó | ó |
+| Ö | ö |
+| Ő | ő |
+| Ú | ú |
+| Ü | ü |
+| Ű | ű |
+
+---++ Latvian (lv)
+| Ā | ā |
+| Č | č |
+| Ē | ē |
+| Ģ | ģ |
+| Ī | ī |
+| Ķ | ķ |
+| Ļ | ļ |
+| Ņ | ņ |
+| Š | š |
+| Ū | ū |
+| Ž | ž |
+
+---++ Polish (pl)
+| Ą | ą |
+| Ć | ć |
+| Ę | ę |
+| Ł | ł |
+| Ń | ń |
+| Ó | ó |
+| Ś | ś |
+| Ź | ź |
+| Ż | ż |
+
+---++ Romanian (ro)
+| Ă | ă |
+| Â | â |
+| Î | î |
+| Ş | ş |
+| Ţ | ţ |
+
+---++ Serbian (sr)
+| Č | č |
+| Ć | ć |
+| Đ | đ |
+| Š | š |
+| Ž | ž |
+
+---++ SLovak (sk)
+| Á | á |
+| Ä | ä |
+| Č | č |
+| Ď | ď |
+| É | é |
+| Í | í |
+| Ĺ | ĺ |
+| Ľ | ľ |
+| Ň | ň |
+| Ó | ó |
+| Ô | ô |
+| Ŕ | ŕ |
+| Š | š |
+| Ť | ť |
+| Ú | ú |
+| Ý | ý |
+| Ž | ž |
+
+---++ Slovenian (sl)
+| Č | č |
+| Š | š |
+| Ž | ž |
+
+---++ Turkish (tr)
+| Ç | ç |
+| Ğ | ğ |
+| I | ı |
+| İ | i |
+| Ö | ö |
+| Ş | ş |
+| Ü | ü |
+
+---++ Combined and unique sorted
+| Á | á |
+| Ă | ă |
+| Â | â |
+| Ä | ä |
+| Ą | ą |
+| Ā | ā |
+| Ć | ć |
+| Č | č |
+| Ç | ç |
+| Ď | ď |
+| Đ | đ |
+| É | é |
+| Ě | ě |
+| Ę | ę |
+| Ē | ē |
+| Ğ | ğ |
+| Ģ | ģ |
+| Í | í |
+| Î | î |
+| İ | i |
+| Ī | ī |
+| Ķ | ķ |
+| Ĺ | ĺ |
+| Ľ | ľ |
+| Ļ | ļ |
+| Ł | ł |
+| Ń | ń |
+| Ň | ň |
+| Ņ | ņ |
+| Ó | ó |
+| Ô | ô |
+| Ö | ö |
+| Ő | ő |
+| Ŕ | ŕ |
+| Ř | ř |
+| Ś | ś |
+| Š | š |
+| Ş | ş |
+| Ť | ť |
+| Ţ | ţ |
+| Ú | ú |
+| Ů | ů |
+| Ü | ü |
+| Ű | ű |
+| Ū | ū |
+| Ý | ý |
+| Ź | ź |
+| Ž | ž |
+| Ż | ż |
+
+%META:FORM{name="Utf8Form"}%
+%META:FIELD{name="Xtext" title="Xtext" value="ĂęéıýŪćůěč, ŽņģöíÄőđóī, ŠúářçŞļľţĺ, ĞüŕôłŚķēāň, ŰżźîďĄťâń"}%
+%META:FIELD{name="Xtextarea" title="Xtextarea" value="ĂęéıýŪćůěč, ŽņģöíÄőđóī, ŠúářçŞļľţĺ, ĞüŕôłŚķēāň, ŰżźîďĄťâń"}%
+%META:FIELD{name="Xcheckbox" title="Xcheckbox" value=""}%
+%META:FIELD{name="Xtextboxlist" title="Xtextboxlist" value="ěśś, ľšč, ščť"}%
+%META:FIELD{name="Xrating" title="Xrating" value="4"}%
+%META:FIELD{name="Xcolor" title="Xcolor" value="#abcdef"}%
+%META:TOPICMOVED{by="BaseUserMapping_333" date="1429468134" from="Jomoutf.AaaTesting" to="Jomoutf.AaaTesting1"}%
