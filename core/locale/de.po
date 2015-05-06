@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:36+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-06 09:37+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -5220,13 +5220,12 @@ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Warnung: Tabellendefinition in \\'include\\'-Topic %1 existiert nicht!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
-#, fuzzy
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
-"Sie haben anscheinend !JavaScript deaktiviert. Bitte aktivieren Sie !"
-"JavaScript, um sich zu registrieren."
+"Sie haben scheinbar !JavaScript deaktiviert. Bitte aktivieren Sie "
+"!JavaScript, um sich zu registrieren."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
