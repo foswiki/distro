@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 11:18+0200\n"
+"PO-Revision-Date: 2015-05-06 16:59+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -72,7 +72,7 @@ msgstr "%2 ghomvaD %1 chellu&&rsquo;."
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "%1 cannot be removed from %2"
-msgstr "%2vo&rsquo; %1 vIteqlaHbe&rsquo;"
+msgstr "%2vo&&rsquo; %1 vIteqlaHbe&&rsquo;"
 
 #: core/templates/registerdenied.tmpl:11
 msgid "%1 denied the registration."
@@ -119,7 +119,7 @@ msgstr "%1 juH"
 
 #: core/templates/messages.tmpl:119
 msgid "%1 is an invalid name for a new web"
-msgstr "<nop>mIch chu&&rsquo; <nop>pongmeH <nop>lI&&rsquo;be&&rsquo; %1"
+msgstr "mIch chu&&rsquo; <nop>pongmeH <nop>lI&&rsquo;be&&rsquo; %1"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -159,7 +159,7 @@ msgstr "chaq %2 <nop>choHtaH %1."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "%2 <nop>mIchDaq %1 <nop>choHmey"
+msgstr "%2 mIchDaq %1 <nop>choHmey"
 
 #: core/templates/registerapprove.tmpl:3
 msgid "%1 registration approval required"
@@ -175,7 +175,7 @@ msgstr "ghom %2vo&&rsquo; %1 teqlu&&rsquo;."
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to create another web"
-msgstr "latlh <nop>mIch <nop>chenmoHmeH %1"
+msgstr "latlh mIch <nop>chenmoHmeH %1"
 
 #: core/templates/messages.tmpl:20
 msgid "%1 to customize the web specific preferences"
@@ -187,7 +187,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
-msgstr "<nop>ghItlh %1 tu&rsquo;lu&rsquo;be&rsquo;"
+msgstr "ghItlh %1 tu&&rsquo;lu&&rsquo;be&&rsquo;"
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr "&<nop>qIl"
+msgstr "&qIl"
 
 #: core/templates/foswiki.tmpl:159
 msgid "&History"
@@ -232,21 +232,19 @@ msgstr "(%1 <nop>qaD %2)"
 
 #: core/templates/registermessages.tmpl:139
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
-msgstr ""
-"(*chuplu&rsquo;*: <nop>DaH <nop>ghItlhlIjDaq <nop>mIllogh Dachel "
-"<nop>DaneH'a'?)"
+msgstr "(*chuplu&&rsquo;*: <nop>DaH ghItlhlIjDaq mIllogh Dachel <nop>DaneH'a'?)"
 
 #: core/data/System/WebSearch.txt:230
 msgid "(=all= to show all topics)"
-msgstr "(Hoch <nop>ghItlhmey &&rsquo;<nop>angmeH =all=)"
+msgstr "(Hoch ghItlhmey &&rsquo;<nop>angmeH =all=)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
 msgid "(This message will be removed automatically)"
-msgstr "(<nop>QInvam <nop>polHa&rsquo; De&rsquo;<nop>wI&rsquo;)"
+msgstr "(<nop>QInvam <nop>polHa&&rsquo; De&&rsquo;wI&&rsquo;)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
-msgstr "(naw&rsquo; <nop>lajHa&rsquo;lu&rsquo;)"
+msgstr "(naw&&rsquo; lajHa&&rsquo;lu&&rsquo;)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
@@ -318,7 +316,7 @@ msgstr "(tep <nop>vIHmoH)"
 
 #: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
-msgstr "(qup Hutlh, <nop>ghItlh mob)"
+msgstr "(qup Hutlh, ghItlh mob)"
 
 #: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
 #: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
@@ -331,7 +329,7 @@ msgstr "(pagh)"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "(otherwise search %1 Web only)"
-msgstr "(%1 <nop>mIch <nop>neH nej)"
+msgstr "(%1 mIch <nop>neH nej)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
@@ -344,7 +342,7 @@ msgstr ""
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
 msgid "(rename)"
-msgstr "(pongqa&rsquo;)"
+msgstr "(pongqa&&rsquo;)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(revision %1)"
@@ -411,7 +409,8 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr ""
-"*ror*: <nop>HovHommey jojDaq mu&rsquo;mey lan: =<nop>*mu&rsquo;<nop>meylIj*="
+"*ror*: <nop>HovHommey jojDaq mu&&rsquo;mey lan: "
+"=<nop>*mu&&rsquo;<nop>meylIj*="
 
 #: core/data/System/WikiSyntaxSummary.txt:10
 msgid ""
@@ -424,8 +423,8 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
-"*<nop>rarwI&rsquo;* =http://yahoo.com= pagh =[<nop>[http://yahoo.com/][Yahoo "
-"Delbogh mu&rsquo;]]="
+"*rarwI&&rsquo;* =http://yahoo.com= pagh =[<nop>[http://yahoo.com/][Yahoo "
+"Delbogh mu&&rsquo;]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
@@ -441,7 +440,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
-msgstr "*&rsquo;ay&rsquo;mey* tlhegh <nop>chIm chel"
+msgstr "*&&rsquo;ay&&rsquo;mey* tlhegh chIm chel"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
@@ -473,7 +472,7 @@ msgstr "24 rep ret"
 
 #: core/data/System/SiteChanges.txt:33
 msgid "3 days ago"
-msgstr "<nop>wejHu&rsquo;"
+msgstr "wejHu&&rsquo;"
 
 #: core/data/System/SiteChanges.txt:36
 msgid "4 weeks ago"
@@ -493,16 +492,16 @@ msgstr ""
 "<a href='%1'>RSS feed</a>, <nop>choHmey chu&&rsquo; &&rsquo;<nop>angmeH <a "
 "href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' "
 "rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' "
-"rel='nofollow'>1000</a> <nop>ghItlhmey &&rsquo;ang, <a href='%7' "
-"rel='nofollow'>Hoch <nop>choHmey &&rsquo;ang</a>"
+"rel='nofollow'>1000</a> ghItlhmey &&rsquo;ang, <a href='%7' rel='nofollow'>"
+"Hoch <nop>choHmey &&rsquo;ang</a>"
 
 #: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
-msgstr "<em>%1 <nop>mIchDaq</em> <nop>neH"
+msgstr "<em>%1 mIchDaq</em> <nop>neH"
 
 #: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
-msgstr "<em><nop>mIchmeyDaq <nop>luleghlaHbogh Hoch <nop>neH</em>"
+msgstr "<em>mIchmeyDaq <nop>luleghlaHbogh Hoch <nop>neH</em>"
 
 #: core/templates/registermessages.tmpl:63
 msgid ""
@@ -564,7 +563,7 @@ msgstr ""
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
-"<nop>ghItlh chu&&rsquo; <nop>chenmoHmeH, De&&rsquo; <nop>wa&&rsquo;DIch <nop>"
+"ghItlh chu&&rsquo; <nop>chenmoHmeH, De&&rsquo; <nop>wa&&rsquo;DIch <nop>"
 "noblaH <nop>ghantoH."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
@@ -581,15 +580,15 @@ msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 msgid "Abandon changes and exit"
-msgstr "<nop>choHmey <nop>buSHa&rsquo; &rsquo;ej mej"
+msgstr "choHmey buSHa&&rsquo; &&rsquo;ej mej"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
-msgstr "chaw&rsquo;lu&rsquo;be&rsquo;"
+msgstr "naw&&rsquo; lajHa&&rsquo;lu&&rsquo;"
 
 #: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
-msgstr "%1 naw&rsquo;<nop>lajHa&rsquo;lu&rsquo;"
+msgstr "%1 naw&&rsquo; lajHa&&rsquo;lu&&rsquo;"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
 #: PatternSkin/templates/edit.pattern.tmpl:68
@@ -611,7 +610,7 @@ msgstr ""
 
 #: core/data/Main/WikiGroups.txt:64
 msgid "Actions"
-msgstr "ta&rsquo;mey"
+msgstr "ta&&rsquo;mey"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -620,7 +619,7 @@ msgstr "chel"
 
 #: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
-msgstr "<nop>jeSwI&rsquo; chel"
+msgstr "jeSwI&&rsquo; chel"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -634,11 +633,11 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
-msgstr "<nop>jeSwI&rsquo;pu&rsquo; chel"
+msgstr "jeSwI&&rsquo;pu&&rsquo; chel"
 
 #: core/data/Main/GroupViewTemplate.txt:163
 msgid "Add members..."
-msgstr "<nop>jeSwI&rsquo;pu&rsquo; chel..."
+msgstr "jeSwI&&rsquo;pu&&rsquo; chel..."
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -682,7 +681,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr "Qo&rsquo;!"
+msgstr "Qo&&rsquo;!"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
@@ -694,11 +693,11 @@ msgstr "<nop>nIHDaq lan"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
-msgstr "Hoch <nop>mIchmey&&rsquo;e&&rsquo; <nop>luleghlaHbogh vay&&rsquo;"
+msgstr "Hoch mIchmey&&rsquo;e&&rsquo; <nop>luleghlaHbogh vay&&rsquo;"
 
 #: core/templates/foswiki.tmpl:45
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "<nop>ghItlh chu&&rsquo; <nop>pongmeH <nop>WikiWord chaw&&rsquo; neH"
+msgstr "ghItlh chu&&rsquo; <nop>pongmeH <nop>WikiWord chaw&&rsquo; neH"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
@@ -708,7 +707,7 @@ msgstr ""
 
 #: core/lib/Foswiki/UI/Rename.pm:223
 msgid "An attachment with the same name already exists in this topic."
-msgstr "pongvam ghajbogh tep <nop>ghajtaH <nop>ghItlhvam."
+msgstr "pongvam ghajbogh tep <nop>ghajtaH ghItlhvam."
 
 #: core/templates/messages.tmpl:184
 msgid ""
@@ -771,7 +770,7 @@ msgstr "tep"
 
 #: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
-msgstr "tep '%1' tu&rsquo;lu&rsquo;be&rsquo;"
+msgstr "tep '%1' tu&&rsquo;lu&&rsquo;be&&rsquo;"
 
 #: core/templates/messages.tmpl:56
 msgid "Attachment delete failed"
@@ -779,7 +778,7 @@ msgstr ""
 
 #: core/lib/Foswiki/UI/Rename.pm:190
 msgid "Attachment does not exist."
-msgstr "tep tu&rsquo;lu&rsquo;be."
+msgstr "tep tu&&rsquo;lu&&rsquo;be."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
@@ -840,11 +839,11 @@ msgstr ""
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "%1 <nop>mIch ghantoHmey:"
+msgstr "%1 mIch ghantoHmey:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
-msgstr "<nop>ghItlhDaq chegh"
+msgstr "ghItlhDaq chegh"
 
 #: core/templates/more.tmpl:87
 msgid "Backlinks"
@@ -939,7 +938,7 @@ msgstr ""
 #: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
-msgstr ""
+msgstr "qIl"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
@@ -948,7 +947,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
 msgid "Cancel upload"
-msgstr ""
+msgstr "jabbI&&rsquo;ID qIl"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
@@ -1159,7 +1158,7 @@ msgstr ""
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
-msgstr "pong chu&&rsquo;, latlh <nop>ghItlh Daq ghap &&rsquo;ol"
+msgstr "pong chu&&rsquo;, latlh ghItlh Daq ghap &&rsquo;ol"
 
 #: core/templates/messages.tmpl:31
 msgid ""
@@ -1198,7 +1197,7 @@ msgstr ""
 
 #: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
-msgstr "<nop>ghItlh chu&&rsquo; <nop>chenmoHmeH yIruch"
+msgstr "ghItlh chu&&rsquo; <nop>chenmoHmeH yIruch"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
 msgid ""
@@ -1212,11 +1211,11 @@ msgstr ""
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
-msgstr "<nop>ghItlh velqa&rsquo; <nop>chenmoH"
+msgstr "ghItlh velqa&&rsquo; <nop>chenmoH"
 
 #: core/templates/more.tmpl:36
 msgid "Copy topic..."
-msgstr "<nop>ghItlh velqa&rsquo; <nop>chenmoH..."
+msgstr "ghItlh velqa&&rsquo; <nop>chenmoH..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1244,7 +1243,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:194
 msgid "Could not save %1."
-msgstr "%1 <nop>pollaHbe&rsquo;."
+msgstr "%1 <nop>pollaHbe&&rsquo;."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
 msgid "Country:"
@@ -1256,11 +1255,11 @@ msgstr ""
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
 #: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
-msgstr "<nop>ghItlh chu&&rsquo; <nop> chenmoH"
+msgstr "ghItlh chu&&rsquo; <nop> chenmoH"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
-msgstr "%1 <nop>mIchDaq <nop>ghItlh chu&&rsquo; <nop>chenmoH"
+msgstr "%1 mIchDaq ghItlh chu&&rsquo; <nop>chenmoH"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
@@ -1284,12 +1283,12 @@ msgstr "ghom <nop>chenmoH"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
 msgid "Create new FAQ topic"
-msgstr "<nop>QaH <nop>ghItlh chu&&rsquo; <nop>chenmoH"
+msgstr "<nop>QaH ghItlh chu&&rsquo; <nop>chenmoH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
-msgstr "<nop>ghItlh chu&&rsquo; <nop>chenmoH"
+msgstr "ghItlh chu&&rsquo; <nop>chenmoH"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
@@ -1302,14 +1301,14 @@ msgstr "<nop>HIDjolevlIj chenmoH"
 
 #: core/templates/messages.tmpl:443
 msgid "Create the topic"
-msgstr "<nop>ghItlh <nop>chenmoH"
+msgstr "ghItlh <nop>chenmoH"
 
 #: core/data/System/DefaultPreferences.txt:399
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
-msgstr "<nop>ghItlhvam <nop>chenmoH"
+msgstr "ghItlhvam <nop>chenmoH"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
@@ -1403,7 +1402,7 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
-"<nop>ghItlh pong DaghItlhHa&&rsquo;a&&rsquo;? <nop>ghItlhvaD potlh "
+"ghItlh pong DaghItlhHa&&rsquo;a&&rsquo;? ghItlhvaD potlh "
 "Degh&&rsquo;a&&rsquo;/DeghHom &&rsquo;e&&rsquo; yIqaw."
 
 #: core/templates/registermessages.tmpl:196
@@ -1527,16 +1526,16 @@ msgstr "<nop>choHmeH <nop>QaH"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
-msgstr "<nop>ghItlhvam <nop>DuHmey choH..."
+msgstr "ghItlhvam <nop>DuHmey choH..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
 msgid "Edit this topic text (e)"
-msgstr "<nop>ghItlhvam choH"
+msgstr "ghItlhvam choH"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
-msgstr "<nop>ghItlh DuHmey choH"
+msgstr "ghItlh DuHmey choH"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:48
 msgid "Editable"
@@ -1565,8 +1564,8 @@ msgstr ""
 #: core/templates/messages.tmpl:129
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
-"chaq lI&&rsquo;be&&rsquo; pong, chaq <nop>ghItlhDaq "
-"tu&&rsquo;be&&rsquo;lu&&rsquo;bogh chIj neH &&rsquo;oH."
+"chaq lI&&rsquo;be&&rsquo; pong, chaq ghItlhDaq tu&&rsquo;be&&rsquo;lu&&rsquo;"
+"bogh chIj neH &&rsquo;oH."
 
 #: core/templates/messages.tmpl:253
 msgid ""
@@ -1609,8 +1608,8 @@ msgstr ""
 #: core/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"<nop>ghItlh pong <nop>DaghItlhDI&&rsquo; <nop>wIqI-mu&&rsquo; <nop>yIghItlh, "
-"pagh wIqI-mu&&rsquo; <nop>poQbogh meyrI&&rsquo;Hom yIchu&&rsquo;Ha&&rsquo;."
+"ghItlh pong <nop>DaghItlhDI&&rsquo; <nop>wIqI-mu&&rsquo; <nop>yIghItlh, pagh "
+"wIqI-mu&&rsquo; <nop>poQbogh meyrI&&rsquo;Hom yIchu&&rsquo;Ha&&rsquo;."
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
@@ -1622,7 +1621,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:91
 msgid "Error registering new user"
-msgstr "Qagh lo&&rsquo;wI&&rsquo; chu&rsquo; muvmeH mIw"
+msgstr "Qagh lo&&rsquo;wI&&rsquo; chu&&rsquo; muvmeH mIw"
 
 #: core/templates/registermessages.tmpl:183
 msgid "Error registering user %1"
@@ -1630,7 +1629,7 @@ msgstr "Qagh %1 muvmeH mIw"
 
 #: core/templates/messages.tmpl:263
 msgid "Error saving topic"
-msgstr "Qagh <nop>ghItlh polmeH mIw"
+msgstr "Qagh ghItlh polmeH mIw"
 
 #: core/templates/messages.tmpl:353
 msgid "Error: File attachment at %1,%2 does not exist"
@@ -1709,7 +1708,7 @@ msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
-msgstr "rurbogh <nop>ghItlhmey Sam"
+msgstr "rurbogh ghItlhmey Sam"
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2079,7 +2078,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:442
 msgid "If you want to create the topic"
-msgstr "<nop>ghItlhvam <no>DachenmoH &rsquo;e&rsquo; <nop>DaHechchugh"
+msgstr "ghItlhvam <no>DachenmoH &&rsquo;e&&rsquo; <nop>DaHechchugh"
 
 #: core/data/System/SearchHelp.txt:24
 msgid ""
@@ -2295,8 +2294,8 @@ msgid ""
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"<nop>ghItlh pong chu&rsquo;vaD reH qaq %1. Dalo&&rsquo;be&&rsquo;chugh vaj "
-"chaq Qapbe&&rsquo; rarwI&&rsquo;mey. Deghmey chIm teq De&&rsquo;wI&&rsquo;."
+"ghItlh pong chu&&rsquo;vaD reH qaq %1. Dalo&&rsquo;be&&rsquo;chugh vaj chaq "
+"Qapbe&&rsquo; rarwI&&rsquo;mey. Deghmey chIm teq De&&rsquo;wI&&rsquo;."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -2304,9 +2303,8 @@ msgid ""
 "link to them later on. Characters not allowed in web names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"<nop>mIch chu&rsquo; DapongmeH reH qaq pong run. Dalo&&rsquo;be&&rsquo;chugh "
-"vaj chaq Qapbe&&rsquo; rarwI&&rsquo;mey. Deghmey chIm teq "
-"De&&rsquo;wI&&rsquo;."
+"mIch chu&&rsquo; DapongmeH reH qaq pong run. Dalo&&rsquo;be&&rsquo;chugh vaj "
+"chaq Qapbe&&rsquo; rarwI&&rsquo;mey. Deghmey chIm teq De&&rsquo;wI&&rsquo;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
 msgid "Italic"
@@ -2351,11 +2349,11 @@ msgstr "Qav"
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
-msgstr "<nop>choHpu&rsquo;"
+msgstr "<nop>choHpu&&rsquo;"
 
 #: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
 msgid "Last editor"
-msgstr "<nop>choHwI&rsquo; Qav"
+msgstr "<nop>choHwI&&rsquo; Qav"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "Last modified"
@@ -2375,7 +2373,7 @@ msgstr "Dotlh Qav: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
-msgstr "%1vo&rsquo; mej"
+msgstr "%1vo&&rsquo; mej"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
@@ -2399,7 +2397,7 @@ msgstr "tlhegh: %1-%2"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
 #: core/templates/attach.tmpl:35
 msgid "Link"
-msgstr "<nop>rarwI&rsquo;"
+msgstr "<nop>rarwI&&rsquo;"
 
 #: core/data/System/WebSearch.txt:312
 msgid "List topics that start with the letter:"
@@ -2412,11 +2410,11 @@ msgstr "mu&&rsquo;na&&rsquo; <nop>nejwI&&rsquo;"
 #: core/data/System/CompleteDocumentation.txt:9
 #: core/data/System/SiteChanges.txt:10
 msgid "Load content"
-msgstr "<nop>ngaSbogh De&rsquo; Suq"
+msgstr "<nop>ngaSbogh De&&rsquo; Suq"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
-msgstr "&rsquo;el"
+msgstr "&&rsquo;el"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
@@ -2424,20 +2422,20 @@ msgstr "&&rsquo;<nop>elHa&&rsquo;"
 
 #: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
-msgstr "<nop>bIruchmeH <nop>yI&rsquo;el."
+msgstr "<nop>bIruchmeH <nop>yI&&rsquo;el."
 
 #: core/templates/login.tmpl:14
 msgid "Log on to %1"
-msgstr "%1<nop>Daq &rsquo;el"
+msgstr "%1<nop>Daq &&rsquo;el"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
-msgstr "&rsquo;el"
+msgstr "&&rsquo;el"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
 msgid "Login username:"
-msgstr "&rsquo;<nop>elmeH lo&rsquo;<nop>wI&rsquo; pong:"
+msgstr "&&rsquo;<nop>elmeH lo&&rsquo;<nop>wI&&rsquo; pong:"
 
 #: core/templates/login.tmpl:77
 #, fuzzy
@@ -2472,11 +2470,11 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
 msgid "Members"
-msgstr "<nop>jeSwI&rsquo;pu&rsquo;"
+msgstr "<nop>jeSwI&&rsquo;pu&&rsquo;"
 
 #: core/templates/messages.tmpl:169
 msgid "Missing Fields"
-msgstr "Hutlhbogh De&rsquo;"
+msgstr "Hutlhbogh De&&rsquo;"
 
 #: core/templates/messages.tmpl:37
 msgid "Missing action command"
@@ -2493,7 +2491,7 @@ msgstr "<nop>nejwI&&rsquo; <nop>choH"
 
 #: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
-msgstr "latlh <nop>ghItlh %1 <nop>DuHmey"
+msgstr "latlh ghItlh %1 <nop>DuHmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2517,12 +2515,12 @@ msgstr "latlh janmey"
 
 #: core/data/System/TopicsAndWebs.txt:52
 msgid "More topic actions"
-msgstr "latlh <nop>ghItlh <nop>DuHmey"
+msgstr "latlh ghItlh <nop>DuHmey"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
-msgstr "latlh <nop>ghItlh <nop>DuHmey..."
+msgstr "latlh ghItlh <nop>DuHmey..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
@@ -2551,28 +2549,28 @@ msgstr "tep <nop>vIHmoH"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
-msgstr "De&rsquo; tep <nop>vIHmoH"
+msgstr "De&&rsquo; tep <nop>vIHmoH"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
-msgstr "tep <nop>vIHmoH pagh <nop>polHa&rsquo;"
+msgstr "tep <nop>vIHmoH pagh <nop>polHa&&rsquo;"
 
 #: core/templates/moveattachment.tmpl:31
 #: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
-msgstr "<nop>mIchvamDaq lan:"
+msgstr "mIchvamDaq lan:"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
-msgstr "<nop>mIchvamDaq <nop>ghItlh lan:"
+msgstr "mIchvamDaq ghItlh lan:"
 
 #: core/lib/Foswiki/UI/Rename.pm:1196
 msgid "Move/Rename"
-msgstr "<nop>vIHmoH / pongqa&rsquo;"
+msgstr "vIHmoH/pongqa&&rsquo;"
 
 #: PatternSkin/data/System/PatternSkinNavigation.txt:17
 msgid "My Links"
-msgstr "<nop>rarwI&rsquo;<nop>wIj"
+msgstr "<nop>rarwI&&rsquo;<nop>wIj"
 
 #: PatternSkin/data/System/PatternSkinNavigation.txt:15
 msgid "My Profile"
@@ -2580,15 +2578,15 @@ msgstr "<nop>tawIj"
 
 #: core/lib/Foswiki/Search.pm:1254
 msgid "NEW"
-msgstr "chu&rsquo;"
+msgstr "chu&&rsquo;"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
-msgstr "velqa&rsquo; pong"
+msgstr "velqa&&rsquo; pong"
 
 #: core/templates/messages.tmpl:115
 msgid "Name of new web is missing"
-msgstr "Hutlh <nop>mIch chu&rsquo; pong"
+msgstr "Hutlh mIch chu&&rsquo; pong"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Name:"
@@ -2596,7 +2594,7 @@ msgstr "pong:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
-msgstr "pongvam rurbogh <nop>ghItlhDaq <nop>ghoS"
+msgstr "pongvam rurbogh ghItlhDaq <nop>ghoS"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:161
 #, fuzzy
@@ -2626,7 +2624,7 @@ msgstr ""
 
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
-msgstr "qup <nop>mIch chu':"
+msgstr "qup mIch chu':"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 msgid "New password:"
@@ -2765,11 +2763,11 @@ msgstr ""
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
-msgstr "<nop>ghItlhmey Sambogh:"
+msgstr "ghItlhmey Sambogh:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
 msgid "Number of topics: %1"
-msgstr "<nop>ghItlhmey Sambogh: %1"
+msgstr "ghItlhmey Sambogh: %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
 msgid "Numbered list"
@@ -3080,7 +3078,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 msgid "Preview your changes"
-msgstr "<nop>choHmeylIj &rsquo;ol"
+msgstr "<nop>choHmeylIj &&rsquo;ol"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
 #, fuzzy
@@ -3090,7 +3088,7 @@ msgstr "<nop>HeD"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:35
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
-msgstr "<nop>ghItlhvam <nop>ghItlhwI&rsquo; nav (p)"
+msgstr "ghItlhvam ghItlhwI&&rsquo; nav (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -3106,7 +3104,7 @@ msgstr "pat <nop>nejwI&&rsquo; &&rsquo;Itlh"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 msgid "Question:"
-msgstr "<nop>yu&rsquo;<nop>wI&rsquo;:"
+msgstr "<nop>yu&&rsquo;<nop>wI&&rsquo;:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -3128,15 +3126,15 @@ msgstr "latlh <nop>laD"
 
 #: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
-msgstr "qen <nop>ghItlhmey luchoHlu'bogh"
+msgstr "qen ghItlhmey luchoHlu'bogh"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "Recently changed topics in %1 Web"
-msgstr "qen %1 <nop>mIchDaq <nop>ghItlhmey luchoHlu'bogh"
+msgstr "qen %1 mIchDaq ghItlhmey luchoHlu'bogh"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "Recently changed topics in all Webs"
-msgstr "qen Hoch <nop>mIchmeyDaq <nop>ghItlhmey luchoHlu'bogh"
+msgstr "qen Hoch mIchmeyDaq ghItlhmey luchoHlu'bogh"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
@@ -3274,25 +3272,24 @@ msgstr ""
 
 #: core/templates/renamebase.tmpl:11
 msgid "Rename or move %1"
-msgstr "%1 pongqa&rsquo; pagh <nop>vIHmoH"
+msgstr "%1 pongqa&&rsquo; pagh vIHmoH"
 
 #: core/templates/more.tmpl:70
 msgid "Rename or move topic"
-msgstr "<nop>ghItlh pongqa&rsquo; pagh <nop>vIHmoH"
+msgstr "ghItlh pongqa&&rsquo; pagh vIHmoH"
 
 #: core/templates/more.tmpl:78
 msgid "Rename or move topic..."
-msgstr "<nop>ghItlh pongqa&rsquo; pagh <nop>vIHmoH..."
+msgstr "ghItlh pongqa&&rsquo; pagh vIHmoH..."
 
 #: core/data/System/RenameWeb.txt:4
 msgid "Rename, move or delete this web"
-msgstr ""
-"<nop>mIchvam <nop>ghItlh pongqa&&rsquo;, <nop>polHa&&rsquo; pagh <nop>vIHmoH"
+msgstr "mIchvam ghItlh pongqa&&rsquo;, polHa&&rsquo; pagh vIHmoH"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
-msgstr "pongqa&rsquo;/<nop>vIHmoH"
+msgstr "pongqa&&rsquo;/vIHmoH"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
 msgid "Render style"
@@ -3374,11 +3371,11 @@ msgstr ""
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
-msgstr "%1 <nop>mIchDaq Dochmey&&rsquo;e&&rsquo; luSamlu&&rsquo;bogh"
+msgstr "%1 mIchDaq Dochmey&&rsquo;e&&rsquo; luSamlu&&rsquo;bogh"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "%1 <nop>mIch Dochmey&&rsquo;e&&rsquo; luSamlu&&rsquo;bogh:"
+msgstr "%1 mIch Dochmey&&rsquo;e&&rsquo; luSamlu&&rsquo;bogh:"
 
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
@@ -3426,14 +3423,14 @@ msgstr ""
 
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "S = Save, C = Cancel"
-msgstr "S = pol, C = <nop>qIl"
+msgstr "S = pol, C = qIl"
 
 #: PatternSkin/templates/edit.pattern.tmpl:68
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
-"S = pol, Q = pol &rsquo;ej tam, K = pol &rsquo;ej ruch, P = &rsquo;ol, C = "
-"<nop>qIl"
+"S = pol, Q = pol &&rsquo;ej tam, K = pol &&rsquo;ej ruch, P = &&rsquo;ol, C ="
+" qIl"
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
@@ -3446,7 +3443,7 @@ msgstr "pol"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
 msgid "Save and Continue"
-msgstr "pol &rsquo;ej ruch"
+msgstr "pol &&rsquo;ej ruch"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and continue editing"
@@ -3454,7 +3451,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save and exit"
-msgstr "pol &rsquo;ej mej"
+msgstr "pol &&rsquo;ej mej"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -3490,7 +3487,7 @@ msgstr ""
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Search all webs"
-msgstr "Hoch <nop>mIchmeyDaq nej"
+msgstr "Hoch mIchmeyDaq nej"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
 #: core/templates/more.tmpl:88
@@ -3503,11 +3500,11 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:34
 msgid "Search in %1 Web"
-msgstr "<nop>mIch %1Daq nej"
+msgstr "mIch %1Daq nej"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
-msgstr "Hoch <nop>mIchmeyDaq nej"
+msgstr "Hoch mIchmeyDaq nej"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search more topics in this web"
@@ -3573,7 +3570,7 @@ msgstr "<nop>yIlegh je:"
 
 #: core/templates/edit.tmpl:50
 msgid "See below for help in editing this page."
-msgstr "<nop>ghItlhvam <nop>choHmeH <nop>bInDaq QaH <nop>DaSam."
+msgstr "ghItlhvam <nop>choHmeH <nop>bInDaq QaH <nop>DaSam."
 
 #: core/data/System/SiteChanges.txt:27
 msgid "See changes since:"
@@ -3615,7 +3612,7 @@ msgstr "<nop>muvmeH ghom <nop>yIwIv:"
 
 #: core/templates/more.tmpl:101
 msgid "Select topic parent"
-msgstr "<nop>ghItlh qup <nop>wIv"
+msgstr "ghItlh qup <nop>wIv"
 
 #: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3647,7 +3644,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:97
 msgid "Set new topic parent"
-msgstr "<nop>ghItlh qup chu&rsquo; <nop>wIv"
+msgstr "ghItlh qup chu&&rsquo; <nop>wIv"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
@@ -3822,7 +3819,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:122 core/data/System/WebSearch.txt:152
 msgid "Subwebs"
-msgstr "<nop>mIchHommey"
+msgstr "mIchHommey"
 
 #: core/templates/registermessages.tmpl:385
 msgid "Success adding members to group"
@@ -3918,7 +3915,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:429
 msgid "The %1 web does not exist"
-msgstr "<nop>mIch %1 tu'lu'be'"
+msgstr "mIch %1 tu'lu'be'"
 
 #: core/data/Sandbox/WebHome.txt:3
 msgid ""
@@ -3927,10 +3924,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"lamveyqoq &&rsquo;oH %1 <nop>mIch. naDev <nop>bIqeqmeH <nop>bIQujlaH. Hoch "
-"Dachel <nop>DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 &&rsquo;DaSuch "
-"net chup. pabqoqvam <nop>yIbuS: <nop>reH <nop>ghItlh <nop>bIS&&rsquo;ubDaq "
-"<nop>ponglIj, <nop>poH je <nop>tIghItlh."
+"lamveyqoq &&rsquo;oH %1 mIch. naDev <nop>bIqeqmeH <nop>bIQujlaH. Hoch Dachel "
+"<nop>DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 &&rsquo;DaSuch net "
+"chup. pabqoqvam <nop>yIbuS: <nop>reH ghItlh <nop>bIS&&rsquo;ubDaq <nop>"
+"ponglIj, <nop>poH je <nop>tIghItlh."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3939,7 +3936,7 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of %2."
-msgstr "%2 %1 <nop>mIch."
+msgstr "%2 %1 mIch."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -4104,7 +4101,7 @@ msgstr ""
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
-msgstr "&rsquo;<nop>elmeH pong Dalo&rsquo;bogh"
+msgstr "&&rsquo;<nop>elmeH pong Dalo&&rsquo;bogh"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
@@ -4146,7 +4143,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:105
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
-"lo&rsquo;wI&rsquo; chu&rsquo;lu&rsquo;mo&rsquo; vaj &rsquo;<nop>ellaH "
+"lo&&rsquo;wI&&rsquo; chu&&rsquo;lu&&rsquo;mo&&rsquo; vaj &&rsquo;<nop>ellaH "
 "<nop>ghaH."
 
 #: core/templates/registermessages.tmpl:354
@@ -4179,7 +4176,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:274
 msgid "There are problems with renaming this web:"
-msgstr "qay&&rsquo;taH <nop>mIchvam pongqa&&rsquo;meH mIw:"
+msgstr "qay&&rsquo;taH mIchvam pongqa&&rsquo;meH mIw:"
 
 #: core/templates/registermessages.tmpl:185
 msgid "There has been a problem adding your user id to the Password system."
@@ -4280,7 +4277,7 @@ msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
 msgstr ""
-"veQ (Trash) &&rsquo;oH Daqvam&&rsquo;e&&rsquo;. naDev <nop>ghItlhmey "
+"veQ (Trash) &&rsquo;oH Daqvam&&rsquo;e&&rsquo;. naDev ghItlhmey "
 "lupolHa&&rsquo;lu&&rsquo;bogh Datlhapqa&&rsquo;laH; TrashAttachmentDaq bIH "
 "tepmey&&rsquo;e&&rsquo; lupolHa&&rsquo;pu&&rsquo;bogh."
 
@@ -4316,7 +4313,7 @@ msgstr ""
 
 #: PatternSkin/templates/view.pattern.tmpl:72
 msgid "This page was cached on %1."
-msgstr "%1 <nop>ghItlhvam velqa&&rsquo; pollu&&rsquo;."
+msgstr "%1 ghItlhvam velqa&&rsquo; pollu&&rsquo;."
 
 #: core/templates/messages.tmpl:226
 msgid "This requires the form definition to be present."
@@ -4340,7 +4337,7 @@ msgstr ""
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
-msgstr "<nop>ghItlhvam:"
+msgstr "ghItlhvam:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
 msgid "This username is already in use."
@@ -4385,7 +4382,7 @@ msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
-msgstr "<nop>ghItlh DachoH <nop>DaneHchugh, vaj yI&&rsquo;uy "
+msgstr "ghItlh DachoH <nop>DaneHchugh, vaj yI&&rsquo;uy "
 
 #: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]"
@@ -4397,19 +4394,19 @@ msgstr ""
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
-msgstr "<nop>ghItlhDaq"
+msgstr "ghItlhDaq"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
-msgstr "<nop>ghItlhDaq:"
+msgstr "ghItlhDaq:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
-msgstr "<nop>mIchDaq"
+msgstr "mIchDaq"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
-msgstr "<nop>mIchDaq:"
+msgstr "mIchDaq:"
 
 #: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
@@ -4429,11 +4426,11 @@ msgstr "janvey"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
 #: core/data/System/SiteChanges.txt:64
 msgid "Topic"
-msgstr "<nop>ghItlh"
+msgstr "ghItlh"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
-msgstr "<nop>ghItlh %1 tu'lu'be'"
+msgstr "ghItlh %1 tu'lu'be'"
 
 #: core/templates/messages.tmpl:193
 msgid "Topic Save Error"
@@ -4442,7 +4439,7 @@ msgstr "Qagh ghItlh polwI'"
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
-msgstr "<nop>ghItlh tepmey"
+msgstr "ghItlh tepmey"
 
 #: core/templates/messages.tmpl:224
 msgid "Topic can not be upgraded from old style category table"
@@ -4451,46 +4448,46 @@ msgstr ""
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
 msgid "Topic data"
-msgstr "<nop>ghItlh De'"
+msgstr "ghItlh De'"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
 #: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
-msgstr "<nop>ghItlh qun"
+msgstr "ghItlh qun"
 
 #: core/data/System/WebTopicList.txt:3
 msgid "Topic list for %1 Web"
-msgstr "%1 <nop>mIch <nop>ghItlhmey tetlh"
+msgstr "%1 mIch ghItlhmey tetlh"
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
 msgid "Topic name"
-msgstr "<nop>ghItlh pong"
+msgstr "ghItlh pong"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:53
 msgid "Topic name:"
-msgstr "<nop>ghItlh pong:"
+msgstr "ghItlh pong:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:61
 msgid "Topic parent:"
-msgstr "<nop>ghItlh qup:"
+msgstr "ghItlh qup:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
-msgstr "<nop>ghItlh Dotlh:"
+msgstr "ghItlh Dotlh:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
-msgstr "<nop>ghItlh polmeH Qagh"
+msgstr "ghItlh polmeH Qagh"
 
 #: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
-msgstr "%1 <nop>mIch <nop>ghItlh <nop>ghantoHmey"
+msgstr "%1 mIch ghItlh <nop>ghantoHmey"
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:139
 msgid "Topic title"
-msgstr "<nop>ghItlh pong"
+msgstr "ghItlh pong"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
@@ -4502,11 +4499,11 @@ msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
-msgstr "%1 <nop>mIch <nop>ghItlhmey:"
+msgstr "%1 mIch ghItlhmey:"
 
 #: core/data/System/WebSearch.txt:230
 msgid "Topics per web"
-msgstr "<nop>mIch <nop>ghItlhmey"
+msgstr "mIch ghItlhmey"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
@@ -4573,12 +4570,12 @@ msgstr ""
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
-msgstr "<nop>ghItlhvam qImHa'choH"
+msgstr "ghItlhvam qImHa'choH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
-msgstr "<nop>ghItlhvam <nop>qImHa'choH (s)"
+msgstr "ghItlhvam <nop>qImHa'choH (s)"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][username]]"
@@ -4803,11 +4800,11 @@ msgstr "<nop>ghantoHmey &&rsquo;ang"
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
-msgstr "<nop>ghItlh bej"
+msgstr "ghItlh bej"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
-msgstr "<nop>ghItlh qun <nop>naQ bej"
+msgstr "ghItlh qun <nop>naQ bej"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
@@ -4888,7 +4885,7 @@ msgstr ""
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:10
 #: core/data/System/SiteChanges.txt:90
 msgid "Webs"
-msgstr "<nop>mIchmey"
+msgstr "mIchmey"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
@@ -4961,7 +4958,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:275
 msgid "You are denied access to the following topics in the web:"
-msgstr "<nop>mIchDaq <nop>ghItlhmeyvam Danaw' net chaw'be':"
+msgstr "mIchDaq ghItlhmeyvam Danaw&&rsquo; net chaw&&rsquo;be&&rsquo;:"
 
 #: core/templates/messages.tmpl:345
 msgid ""
@@ -4988,14 +4985,14 @@ msgstr ""
 #: core/templates/messages.tmpl:470
 msgid "You are trying to access an attachment that does not exist."
 msgstr ""
-"tep tu&rsquo;be&rsquo;lu&rsquo;bogh Danaw&rsquo; &rsquo;e&rsquo; "
+"tep tu&&rsquo;be&&rsquo;lu&&rsquo;bogh Danaw&&rsquo; &&rsquo;e&&rsquo; "
 "<nop>DanIDtaH."
 
 #: core/templates/messages.tmpl:456
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
-"<nop>ghItlh <nop>DachenmoHmeH <nop>ghantoH tu&rsquo;be&rsquo;lu&rsquo;bogh "
-"Dalo&rsquo; <nop>DaneHlaw&rsquo;."
+"ghItlh <nop>DachenmoHmeH ghantoH tu&&rsquo;be&&rsquo;lu&&rsquo;bogh "
+"Dalo&&rsquo; <nop>DaneHlaw&&rsquo;."
 
 #: core/templates/messages.tmpl:450
 msgid ""
@@ -5085,7 +5082,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
-msgstr "<nop>ghItlh pong <nop>DaghItlhnIS."
+msgstr "ghItlh pong <nop>DaghItlhnIS."
 
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
@@ -5250,15 +5247,15 @@ msgstr "<nop>tlhIngan Hol"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
-msgstr ""
+msgstr "&&rsquo;oQqar <nop>Danaw&&rsquo; net chaw&&rsquo;be&&rsquo;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
-msgstr ""
+msgstr "ghItlh <nop>Danaw&&rsquo; net chaw&&rsquo;be&&rsquo;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
-msgstr ""
+msgstr "mIch <nop>Danaw&&rsquo; net chaw&&rsquo;be&&rsquo;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
@@ -5313,7 +5310,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:302
 msgid "don't forget to check your Topic Settings"
-msgstr "<nop>ghItlh <nop>DuHmey <nop>tIlIjQo&&rsquo;"
+msgstr "ghItlh <nop>DuHmey <nop>tIlIjQo&&rsquo;"
 
 #: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
@@ -5342,7 +5339,7 @@ msgstr "<nop>QaH"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
-msgstr "batlh <nop>ghItlhmeH <nop>qeSmey"
+msgstr "batlh ghItlhmeH <nop>qeSmey"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5394,7 +5391,7 @@ msgstr "pagh"
 
 #: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
-msgstr "<nop>ghItlh &&rsquo;ol"
+msgstr "ghItlh &&rsquo;ol"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "public view access"
@@ -5455,24 +5452,24 @@ msgstr ""
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
-"title='<nop>ghItlhvamDaq <nop>mIllogh, De&&rsquo; ghap chel' accesskey='a'>"
-"tep chel"
+"title='ghItlhvamDaq <nop>mIllogh, De&&rsquo; ghap chel' accesskey='a'>tep "
+"chel"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic'>Attach"
-msgstr "title='<nop>ghItlhvamDaq <nop>mIllogh, De&&rsquo; ghap chel'>tep chel"
+msgstr "title='ghItlhvamDaq <nop>mIllogh, De&&rsquo; ghap chel'>tep chel"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr "title='<nop>ghItlh chu&rsquo; <nop>chenmoH' accesskey='c'>&chenmoH"
+msgstr "title='ghItlh chu&&rsquo; <nop>chenmoH' accesskey='c'>&chenmoH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:19
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='<nop>ghItlhvam polHa&&rsquo; pagh pongqa&&rsquo;, qup <nop>choH; "
-"Dotlhmey legh' accesskey='m'>latlh <nop>ghItlh <nop>DuH&mey"
+"title='ghItlhvam polHa&&rsquo; pagh pongqa&&rsquo;, qup choH; Dotlhmey legh' "
+"accesskey='m'>latlh ghItlh <nop>DuH&mey"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
@@ -5482,11 +5479,11 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' >Edit"
-msgstr "title='<nop>ghItlhvam <nop>choH' ><nop>choH"
+msgstr "title='ghItlhvam <nop>choH' ><nop>choH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='<nop>ghItlhvam <nop>choH' accesskey='e'>choH (&e)"
+msgstr "title='ghItlhvam <nop>choH' accesskey='e'>choH (&e)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
@@ -5495,15 +5492,14 @@ msgstr "title='<nop>nIqlu&&rsquo;' accesskey='i'><nop>n&Iqlu&&rsquo;"
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
-"title='<nop>ghItlhwI&&rsquo; nav &&rsquo;ang' "
-"accesskey='p'><nop>ghItlhwI&&rsquo; nav"
+"title='ghItlhwI&&rsquo; nav &&rsquo;ang' accesskey='p'>ghItlhwI&&rsquo; nav"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
-"title='<nop>naDev <nop>chIjbogh <nop>ghItlhmey <nop>SammeH Hoch <nop>"
-"mIchmeyDaq nej' accesskey='l'>Hoch <nop>mIchmey (&l)"
+"title='<nop>naDev <nop>chIjbogh ghItlhmey <nop>SammeH Hoch <nop>mIchmeyDaq "
+"nej' accesskey='l'>Hoch mIchmey (&l)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
@@ -5522,23 +5518,23 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='<nop>ghItlhvam <nop>qImchoH' accesskey='s'><nop>qImchoH (s)"
+msgstr "title='ghItlhvam <nop>qImchoH' accesskey='s'><nop>qImchoH (s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr ""
-"title='<nop>ghItlhvam <nop>qImHa&&rsquo;choH' "
-"accesskey='s'><nop>qImHa&&rsquo;choH (&s)"
+"title='ghItlhvam <nop>qImHa&&rsquo;choH' accesskey='s'><nop>qImHa&&rsquo;"
+"choH (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr "title='<nop>ghItlh qun &&rsquo;ang' accesskey='h'>qun"
+msgstr "title='ghItlh qun &&rsquo;ang' accesskey='h'>qun"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
-msgstr "title='<nop>ghItlh &&rsquo;ang' accesskey='v'>ghItlh &&rsquo;ang (&v)"
+msgstr "title='ghItlh &&rsquo;ang' accesskey='v'>ghItlh &&rsquo;ang (&v)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
@@ -5552,7 +5548,7 @@ msgstr "lo&&rsquo;wI&&rsquo; tetlh poD"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37
 msgid "value='Cancel' accesskey='c'"
-msgstr "value='<nop>qIl' accesskey='c'"
+msgstr "value='qIl' accesskey='c'"
 
 #: PatternSkin/templates/preview.pattern.tmpl:19
 msgid "value='Discard' accesskey='d'"
