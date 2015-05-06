@@ -51,6 +51,7 @@ use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
+use Encode (':fallbacks');
 
 use 5.006;                        # First version to accept v-numbers.
 
@@ -422,7 +423,7 @@ BEGIN {
     }
 
     $macros{CHARSET} = sub {
-        $Foswiki::cfg{Site}{CharSet};
+        'utf-8';
     };
 
     $macros{LANG} = sub {
@@ -444,29 +445,15 @@ BEGIN {
     # for use as a character class, or as a sub-expression in
     # another compiled RE.
 
-    # Build up character class components for use in regexes.
-    # Depends on locale mode and Perl version, and finally on
-    # whether locale-based regexes are turned off.
-    if ( $] < 5.006 or not $Foswiki::cfg{Site}{LocaleRegexes} ) {
-
-        # No locales needed/working, or Perl 5.005, so just use
-        # any additional national characters defined in LocalSite.cfg
-        $regex{upperAlpha} = 'A-Z' . $Foswiki::cfg{UpperNational};
-        $regex{lowerAlpha} = 'a-z' . $Foswiki::cfg{LowerNational};
-        $regex{numeric}    = '\d';
-        $regex{mixedAlpha} = $regex{upperAlpha} . $regex{lowerAlpha};
-    }
-    else {
-
-        # Perl 5.006 or higher with working locales
-        $regex{upperAlpha} = '[:upper:]';
-        $regex{lowerAlpha} = '[:lower:]';
-        $regex{numeric}    = '[:digit:]';
-        $regex{mixedAlpha} = '[:alpha:]';
-    }
-    $regex{mixedAlphaNum} = $regex{mixedAlpha} . $regex{numeric};
-    $regex{lowerAlphaNum} = $regex{lowerAlpha} . $regex{numeric};
-    $regex{upperAlphaNum} = $regex{upperAlpha} . $regex{numeric};
+    # Character class components for use in regexes.
+    # (Pre-UTF-8 compatibility; not used in core)
+    $regex{upperAlpha}    = '[:upper:]';
+    $regex{lowerAlpha}    = '[:lower:]';
+    $regex{numeric}       = '[:digit:]';
+    $regex{mixedAlpha}    = '[:alpha:]';
+    $regex{mixedAlphaNum} = '[:alnum:]';
+    $regex{lowerAlphaNum} = '[:lower:][:digit:]';
+    $regex{upperAlphaNum} = '[:upper:][:digit:]';
 
     # Compile regexes for efficiency and ease of use
     # Note: qr// locks in regex modes (i.e. '-xism' here) - see Friedl
@@ -488,13 +475,12 @@ BEGIN {
 
     # Foswiki concept regexes
     $regex{wikiWordRegex} = qr(
-            [$regex{upperAlpha}]+
-            [$regex{lowerAlphaNum}]+
-            [$regex{upperAlpha}]+
-            [$regex{mixedAlphaNum}]*
+            [[:upper:]]+
+            [[:lower:][:digit:]]+
+            [[:upper:]]+
+            [[:alnum:]]*
        )xo;
-    $regex{webNameBaseRegex} =
-      qr/[$regex{upperAlpha}]+[$regex{mixedAlphaNum}_]*/;
+    $regex{webNameBaseRegex} = qr/[[:upper:]]+[[:alnum:]_]*/;
     if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
         $regex{webNameRegex} = qr(
                 $regex{webNameBaseRegex}
@@ -504,10 +490,10 @@ BEGIN {
     else {
         $regex{webNameRegex} = $regex{webNameBaseRegex};
     }
-    $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/;
-    $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}:._]+/;
+    $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
+    $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[$regex{upperAlpha}]{$abbrevLength,}s?\b/;
+    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
 
     $regex{topicNameRegex} =
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
@@ -556,7 +542,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 
     # Item11185: This is how things were before we began Operation Unicode:
     #
-    # $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/;
+    # $regex{filenameInvalidCharRegex} = qr/[^[:alnum:]\. _-]/;
     #
     # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
     # uses $Foswiki::cfg{NameFilter} instead.
@@ -566,7 +552,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
 
     # Multi-character alpha-based regexes
-    $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/;
+    $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
 
     # %TAG% name
     $regex{tagNameRegex} = '[A-Za-z][A-Za-z0-9_:]*';
@@ -649,138 +635,6 @@ use Foswiki::Time     ();
 use Foswiki::Prefs    ();
 use Foswiki::Plugins  ();
 use Foswiki::Users    ();
-
-=begin TML
-
----++ ObjectMethod UTF82SiteCharSet($octets) -> $octets
-
-   * =$octets= - a byte string possibly containing UTF-8 encoded characters
-Returns a byte styring encoded using the {Site}{CharSet}. Note that
-conversions may fail silently.
-
-Convert a byte string possibly encoded using UTF8 to the {Site}{CharSet}
-encoding.
-
-From http://en.wikipedia.org/wiki/Percent-encoding
-
-"The generic URI syntax mandates that new URI schemes that provide for the
-representation of character data in a URI must, in effect, represent
-characters from the unreserved set without translation, and should
-convert all other characters to bytes according to UTF-8, and then
-percent-encode those values. This requirement was introduced in January
-2005 with the publication of RFC 3986."
-
-Thus we know that any request string processed by Foswiki will be UTF-8
-encoded bytes. We need a way to get from those bytes into a string
-encoded using the {Site}{CharSet}, and this function is it.
-
-This function should be called on any URL components obtained from CGI
-functions (such as path_info() and param()) and CGI environment variables
-(such as PATH_INFO) before incorporation into topics or HTML output.
-
-=cut
-
-sub UTF82SiteCharSet {
-    my ( $this, $text ) = @_;
-
-    # Detect character encoding of the full topic name from URL
-    return $text if ( $text =~ m/^[\x00-\x7F]+$/ );
-
-    # SMELL: all this regex stuff should go away.
-    # If not UTF-8 - assume in site character set, no conversion required
-    if ( $^O eq 'darwin' ) {
-
-        #this is a gross over-generalisation - as not all darwins are apple's
-        # and not all darwins use apple's perl
-        my $trial = $text;
-        $trial =~ s/$regex{validUtf8CharRegex}//g;
-        return $text unless ( length($trial) == 0 );
-    }
-    else {
-
-        #SMELL: this seg faults on OSX leopard. (and possibly others)
-        return $text unless ( $text =~ $regex{validUtf8StringRegex} );
-    }
-
-    # If site charset is already UTF-8, there is no need to convert anything:
-    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i ) {
-
-        # warn if using Perl older than 5.8
-        if ( $] < 5.008 ) {
-            $this->logger->log( 'warning',
-                    'UTF-8 not remotely supported on Perl '
-                  . $]
-                  . ' - use Perl 5.8 or higher..' );
-        }
-
-        return $text;
-    }
-
-    # Convert into ISO-8859-1 if it is the site charset.  This conversion
-    # is *not valid for ISO-8859-15*.
-    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^iso-?8859-?1$/i ) {
-
-        # ISO-8859-1 maps onto first 256 codepoints of Unicode
-        # (conversion from 'perldoc perluniintro')
-        $text =~ s/ ([\xC2\xC3]) ([\x80-\xBF]) /
-          chr( ord($1) << 6 & 0xC0 | ord($2) & 0x3F )
-            /egx;
-    }
-    else {
-
-        # Convert from UTF-8 into some other site charset
-        if ( $] >= 5.008 ) {
-            require Encode;
-            import Encode qw(:fallbacks);
-
-            # Map $Foswiki::cfg{Site}{CharSet} into real encoding name
-            my $charEncoding =
-              Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} );
-            if ( not $charEncoding ) {
-                $this->logger->log( 'warning',
-                        'Conversion to "'
-                      . $Foswiki::cfg{Site}{CharSet}
-                      . '" not supported, or name not recognised - check '
-                      . '"perldoc Encode::Supported"' );
-            }
-            else {
-
-                # Convert text using Encode:
-                # - first, convert from UTF8 bytes into internal
-                # (UTF-8) characters
-                $text = Encode::decode( 'utf8', $text );
-
-                # - then convert into site charset from internal UTF-8,
-                # inserting \x{NNNN} for characters that can't be converted
-                $text = Encode::encode( $charEncoding, $text, &FB_PERLQQ() );
-            }
-        }
-        else {
-            require Unicode::MapUTF8;    # Pre-5.8 Perl versions
-            my $charEncoding = $Foswiki::cfg{Site}{CharSet};
-            if ( not Unicode::MapUTF8::utf8_supported_charset($charEncoding) ) {
-                $this->logger->log( 'warning',
-                        'Conversion to "'
-                      . $Foswiki::cfg{Site}{CharSet}
-                      . '" not supported, or name not recognised - check '
-                      . '"perldoc Unicode::MapUTF8"' );
-            }
-            else {
-
-                # Convert text
-                $text = Unicode::MapUTF8::from_utf8(
-                    {
-                        -string  => $text,
-                        -charset => $charEncoding
-                    }
-                );
-
-                # FIXME: Check for failed conversion?
-            }
-        }
-    }
-    return $text;
-}
 
 =begin TML
 
@@ -991,11 +845,10 @@ sub generateHTTPHeaders {
     }
 
     $contentType = 'text/html' unless $contentType;
-    $contentType .= '; charset=' . $Foswiki::cfg{Site}{CharSet}
+    $contentType .= '; charset=utf-8'
       if $contentType ne ''
       && $contentType =~ m!^text/!
-      && $contentType !~ /\bcharset\b/
-      && $Foswiki::cfg{Site}{CharSet};
+      && $contentType !~ /\bcharset\b/;
 
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
@@ -1450,7 +1303,7 @@ sub getSkin {
     if ( $this->{request} ) {
         $skins = $this->{request}->param('cover');
         if ( defined $skins
-            && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ )
+            && $skins =~ m/([[:alnum:].,\s]+)/ )
         {
 
             # Implicit untaint ok - validated
@@ -1461,7 +1314,7 @@ sub getSkin {
 
     $skins = $this->{prefs}->getPreference('COVER');
     if ( defined $skins
-        && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ )
+        && $skins =~ m/([[:alnum:].,\s]+)/ )
     {
 
         # Implicit untaint ok - validated
@@ -1472,7 +1325,7 @@ sub getSkin {
     $skins = $this->{request} ? $this->{request}->param('skin') : undef;
     $skins = $this->{prefs}->getPreference('SKIN') unless $skins;
 
-    if ( defined $skins && $skins =~ m/([$regex{mixedAlphaNum}.,\s]+)/ ) {
+    if ( defined $skins && $skins =~ m/([[:alnum:].,\s]+)/ ) {
 
         # Implicit untaint ok - validated
         $skins = $1;
@@ -2044,12 +1897,6 @@ sub new {
         $initialContext->{admin_available} = 1;       # True if sudo supported.
     }
 
-    # Tell Foswiki::Response which charset we are using if not default
-    $Foswiki::cfg{Site}{CharSet} ||= 'iso-8859-1';
-
-    # Also tell CGI,  Item13331 fix for older CGI releases
-    CGI::charset( $Foswiki::cfg{Site}{CharSet} );
-
     $query ||= new Foswiki::Request();
 
     # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
@@ -2194,16 +2041,17 @@ sub new {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic = $query->path_info() || '';
+    my $webtopic      = $query->path_info() || '';
     my $topicOverride = '';
-    if ( $query->param('topic') ) {
-        if ( $query->param('topic') =~ m/[\/.]+/ ) {
-            $webtopic = $query->param('topic');
+    my $topic         = $query->param('topic');
+    if ( defined $topic ) {
+        if ( $topic =~ m/[\/.]+/ ) {
+            $webtopic = $topic;
 
            #print STDERR "candidate webtopic set to $webtopic by query param\n";
         }
         else {
-            $topicOverride = $query->param('topic');
+            $topicOverride = $topic;
 
             #print STDERR
             #  "candidate topic set to $topicOverride by query param\n";
@@ -2213,24 +2061,8 @@ sub new {
 # SMELL Scripts like rest, jsonrpc,  don't use web/topic path.  so this ends up all bogus
 # but doesn't do any harm.
 
-    my ( $web, $topic ) =
+    ( my $web, $topic ) =
       $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
-
-    # Convert UTF-8 web and topic name from URL into site charset if
-    # necessary
-    # SMELL: merge these two cases, browsers just don't mix two encodings
-    # in one URL - can also simplify into 2 lines by making function
-    # return unprocessed text if no conversion
-    #
-    my $topicNameTemp = $this->UTF82SiteCharSet($topic);
-    if ($topicNameTemp) {
-        $topic = $topicNameTemp;
-    }
-
-    my $webNameTemp = $this->UTF82SiteCharSet($web);
-    if ($webNameTemp) {
-        $web = $webNameTemp;
-    }
 
     $this->{topicName} = $topic;
     $this->{webName}   = $web;
@@ -2906,7 +2738,7 @@ sub expandMacrosOnTopicCreation {
 
 =begin TML
 
----++ StaticMethod entityEncode( $text, $extras ) -> $encodedText
+---++ StaticMethod entityEncode( $text [, $extras] ) -> $encodedText
 
 Escape special characters to HTML numeric entities. This is *not* a generic
 encoding, it is tuned specifically for use in Foswiki.
@@ -2923,11 +2755,10 @@ quote should be escaped as <strong class=html>&amp;quot;</strong>.
 Other entities exist for special characters that cannot easily be entered
 with some keyboards..."
 
-This method encodes HTML special and any non-printable ascii
-characters (except for \n and \r) using numeric entities.
-
-FURTHER this method also encodes characters that are special in Foswiki
-meta-language.
+This method encodes:
+   * all non-printable 7-bit chars (< \x1f), except \n (\xa) and \r (\xd)
+   * HTML special characters '>', '<', '&', ''' and '"'.
+   * TML special characters '%', '|', '[', ']', '@', '_',
 
 $extras is an optional param that may be used to include *additional*
 characters in the set of encoded characters. It should be a string
@@ -2937,13 +2768,9 @@ containing the additional chars.
 
 sub entityEncode {
     my ( $text, $extra ) = @_;
-    $extra ||= '';
+    $extra = '' unless defined $extra;
 
-    # encode all non-printable 7-bit chars (< \x1f),
-    # except \n (\xa) and \r (\xd)
-    # encode HTML special characters '>', '<', '&', ''' and '"'.
-    # encode TML special characters '%', '|', '[', ']', '@', '_',
-    # '*', and '='
+    # Safe on utf8 binary strings, as none of the characters has bit 7 set
     $text =~
       s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|$extra])/'&#'.ord($1).';'/ge;
     return $text;
@@ -2954,7 +2781,9 @@ sub entityEncode {
 ---++ StaticMethod entityDecode ( $encodedText ) -> $text
 
 Decodes all numeric entities (e.g. &amp;#123;). _Does not_ decode
-named entities such as &amp;amp; (use HTML::Entities for that)
+named entities such as &amp;amp; (use HTML::Entities for that, though
+you will have to convert to unicode when you call it, and back again
+afterwards)
 
 =cut
 
@@ -2967,50 +2796,9 @@ sub entityDecode {
 
 =begin TML
 
----++ StaticMethod urlEncodeAttachment ( $text )
-
-For attachments, URL-encode specially to 'freeze' any characters >127 in the
-site charset (e.g. ISO-8859-1 or KOI8-R), by doing URL encoding into native
-charset ($siteCharset) - used when generating attachment URLs, to enable the
-web server to serve attachments, including images, directly.
-
-This encoding is required to handle the cases of:
-
-    - browsers that generate UTF-8 URLs automatically from site charset URLs - now quite common
-    - web servers that directly serve attachments, using the site charset for
-      filenames, and cannot convert UTF-8 URLs into site charset filenames
-
-The aim is to prevent the browser from converting a site charset URL in the web
-page to a UTF-8 URL, which is the default.  Hence we 'freeze' the URL into the
-site character set through URL encoding.
-
-In two cases, no URL encoding is needed:  For EBCDIC mainframes, we assume that
-site charset URLs will be translated (outbound and inbound) by the web server to/from an
-EBCDIC character set. For sites running in UTF-8, there's no need for Foswiki to
-do anything since all URLs and attachment filenames are already in UTF-8.
-
-=cut
-
-sub urlEncodeAttachment {
-    my ($text) = @_;
-
-    my $usingEBCDIC = ( 'A' eq chr(193) );    # Only true on EBCDIC mainframes
-
-    if ( $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i or $usingEBCDIC ) {
-
-        # Just let browser do UTF-8 URL encoding
-        return $text;
-    }
-
-    # Freeze into site charset through URL encoding
-    return urlEncode($text);
-}
-
-=begin TML
-
 ---++ StaticMethod urlEncode( $string ) -> encoded string
 
-Encode by converting characters that are illegal in URLs to
+Encode by converting characters that are reserved in URLs to
 their %NN equivalents. This method is used for encoding
 strings that must be embedded _verbatim_ in URLs; it cannot
 be applied to URLs themselves, as it escapes reserved
@@ -3026,21 +2814,12 @@ RFC 1738, Dec. '94:
 Reserved characters are $&+,/:;=?@ - these are _also_ encoded by
 this method.
 
-Because of issues with browsers, ' is also encoded.
-
-This URL-encoding handles all character encodings including ISO-8859-*,
-KOI8-R, EUC-* and UTF-8.
-
-This may not handle EBCDIC properly, as it generates an EBCDIC URL-encoded
-URL, but mainframe web servers seem to translate this outbound before it hits browser
-- see CGI::Util::escape for another approach.
-
 =cut
 
 sub urlEncode {
     my $text = shift;
 
-    $text =~ s/([^0-9a-zA-Z-_.:~!*\/])/'%'.sprintf('%02x',ord($1))/ge;
+    $text =~ s{([^0-9a-zA-Z-_.:~!*/])}{sprintf('%%%02x',ord($1))}ge;
 
     return $text;
 }
@@ -3050,6 +2829,9 @@ sub urlEncode {
 ---++ StaticMethod urlDecode( $string ) -> decoded string
 
 Reverses the encoding done in urlEncode.
+
+Works on both UTF-8 encoded binary strings, and internal perl character
+strings.
 
 =cut
 
@@ -3105,12 +2887,10 @@ sub spaceOutWikiWord {
     $word = defined($word) ? $word : '';
     $sep  = defined($sep)  ? $sep  : ' ';
     my $mark = "\001";
-    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$mark$2/g;
-    $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$mark$2/g;
-    $word =~
-s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$mark$2/g;
-    $word =~
-s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$mark$2/g;
+    $word =~ s/([[:upper:]])([[:digit:]])/$1$mark$2/g;
+    $word =~ s/([[:digit:]])([[:upper:]])/$1$mark$2/g;
+    $word =~ s/([[:lower:]])([[:upper:][:digit:]]+)/$1$mark$2/g;
+    $word =~ s/([[:upper:]])([[:upper:]])(?=[[:lower:]])/$1$mark$2/g;
     $word =~ s/$mark/$sep/g;
     return $word;
 }
@@ -4064,7 +3844,7 @@ sub expandStandardEscapes {
 
     # expand '$n()' and $n! to new line
     $text =~ s/\$n\(\)/\n/gs;
-    $text =~ s/\$n(?=[^$regex{mixedAlpha}]|$)/\n/gs;
+    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
 
     # filler, useful for nested search
     $text =~ s/\$nop(\(\))?//gs;

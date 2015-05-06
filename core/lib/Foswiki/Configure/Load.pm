@@ -43,6 +43,7 @@ our %remap = (
     '{AutoAttachPubFiles}'  => '{RCS}{AutoAttachPubFiles}',
     '{QueryAlgorithm}'      => '{Store}{QueryAlgorithm}',
     '{SearchAlgorithm}'     => '{Store}{SearchAlgorithm}',
+    '{Site}{CharSet}'       => '{Store}{CharSet}',
     '{RCS}{FgrepCmd}'       => '{Store}{FgrepCmd}',
     '{RCS}{EgrepCmd}'       => '{Store}{EgrepCmd}',
     '{RCS}{overrideUmask}'  => '{Store}{overrideUmask}',
@@ -245,6 +246,9 @@ CODE
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
     *TWiki::cfg = \%Foswiki::cfg;
 
+    # Add explicit {Site}{CharSet} for older extensions.
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+
     # Explicit return true if we've completed the load
     return $validLSC;
 }
@@ -350,7 +354,7 @@ sub setBootstrap {
       qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {LocalesDir} {Store}{Implementation}
-      {Store}{SearchAlgorithm} {Site}{CharSet} {Site}{Locale} );
+      {Store}{SearchAlgorithm} {Site}{Locale} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
@@ -513,7 +517,7 @@ BOOTS
 
 ---++ StaticMethod _bootstrapSiteSettings()
 
-Called by bootstrapConfig.  This handles the Site Locale & CharSet settings.
+Called by bootstrapConfig.  This handles the {Site} settings.
 
 =cut
 
@@ -524,35 +528,8 @@ sub _bootstrapSiteSettings {
     require locale;
     $Foswiki::cfg{Site}{Locale} = setlocale(LC_CTYPE);
 
-    my $charset;
-    $Foswiki::cfg{Site}{Locale} =~ m/\.([a-z0-9_-]+)$/i;
-    $charset = $1 || 'utf-8';
-    $charset =~ s/^utf8$/utf-8/i;
-    $charset =~ s/^eucjp$/euc-jp/i;
-    $Foswiki::cfg{Site}{CharSet} = lc($charset);
-
-    eval {
-        require Encode;
-        Encode::encode( $Foswiki::cfg{Site}{CharSet}, 'test', 0 );
-    };
-    if ($@) {
-        print STDERR
-"AUTOCONFIG: Derived $Foswiki::cfg{Site}{CharSet} fails to encode,  trying CGI default character set\n";
-        require CGI;
-        $Foswiki::cfg{Site}{CharSet} = CGI::charset();
-    }
-
-    if ( $Foswiki::cfg{Site}{CharSet} =~
-m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
-      )
-    {
-        print STDERR
-"AUTOCONFIG: Double-byte character set guessed not usable by Foswiki. Defaulting to 'utf-8'";
-        $Foswiki::cfg{Site}{CharSet} = 'utf-8';
-    }
-
     print STDERR
-"AUTOCONFIG: Set initial {Site}{Locale} to  $Foswiki::cfg{Site}{Locale} using {Site}{CharSet} $Foswiki::cfg{Site}{CharSet} \n";
+"AUTOCONFIG: Set initial {Site}{Locale} to  $Foswiki::cfg{Site}{Locale}\n";
 }
 
 =begin TML

@@ -55,9 +55,10 @@ sub initBinary {
 
     return if $this->revisionHistoryExists();
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initBinaryCmd},
-        FILENAME => $this->{file} );
+    my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+        $Foswiki::cfg{RCS}{initBinaryCmd},
+        FILENAME => $this->tocs( $this->{file} )
+    );
     if ($exit) {
         throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
               . $this->hidePath( $this->{file} )
@@ -82,9 +83,10 @@ sub initText {
 
     return if $this->revisionHistoryExists();
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initTextCmd},
-        FILENAME => $this->{file} );
+    my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+        $Foswiki::cfg{RCS}{initTextCmd},
+        FILENAME => $this->tocs( $this->{file} )
+    );
     if ($exit) {
         $rcsOutput ||= '';
         throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
@@ -124,8 +126,8 @@ sub ci {
         $cmd = $Foswiki::cfg{RCS}{ciDateCmd};
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
-            USERNAME => $user,
-            FILENAME => $this->{file},
+            USERNAME => $this->tocs($user),
+            FILENAME => $this->tocs( $this->{file} ),
             COMMENT  => $comment,
             DATE     => $date
         );
@@ -134,9 +136,9 @@ sub ci {
         $cmd = $Foswiki::cfg{RCS}{ciCmd};
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
-            USERNAME => $user,
-            FILENAME => $this->{file},
-            COMMENT  => $comment
+            USERNAME => $this->tocs($user),
+            FILENAME => $this->tocs( $this->{file} ),
+            COMMENT  => $this->tocs($comment)
         );
     }
     $rcsOutput ||= '';
@@ -170,7 +172,7 @@ sub repRev {
         _deleteRevision( $this, $rev );
     }
 
-    Foswiki::Store::Rcs::Handler::saveFile( $this, $this->{file}, $text );
+    $this->saveFile( $this->{file}, $text );
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
@@ -178,9 +180,9 @@ sub repRev {
     my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{ciDateCmd},
         DATE     => $date,
-        USERNAME => $user,
-        FILENAME => $this->{file},
-        COMMENT  => $comment
+        USERNAME => $this->tocs($user),
+        FILENAME => $this->tocs( $this->{file} ),
+        COMMENT  => $this->tocs($comment)
     );
     if ($exit) {
         $rcsOut = $Foswiki::cfg{RCS}{ciDateCmd} . "\n" . $rcsOut;
@@ -203,7 +205,7 @@ sub _deleteRevision {
     # delete latest revision (unlock (may not be needed), delete revision)
     my ( $rcsOut, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
-        FILENAME => $this->{file} );
+        FILENAME => $this->tocs( $this->{file} ) );
     if ($exit) {
         throw Error::Simple(
             $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
@@ -214,7 +216,7 @@ sub _deleteRevision {
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
+        FILENAME => $this->tocs( $this->{file} )
     );
 
     if ($exit) {
@@ -229,7 +231,7 @@ sub _deleteRevision {
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{coCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
+        FILENAME => $this->tocs( $this->{file} )
     );
 
     if ($exit) {
@@ -238,7 +240,7 @@ sub _deleteRevision {
               . ' failed: '
               . $rcsOut );
     }
-    Foswiki::Store::Rcs::Handler::saveFile( $this, $this->{file}, $rcsOut );
+    $this->saveFile( $this->{file}, $rcsOut );
 }
 
 # implements Rcs::Handler
@@ -279,11 +281,11 @@ sub getRevision {
         # for evidence that this code is needed.
         $tmpfile    = Foswiki::Store::Rcs::Handler::mkTmpFilename($this);
         $tmpRevFile = $tmpfile . ',v';
-        require File::Copy;
-        File::Copy::copy( $this->{rcsFile}, $tmpRevFile );
-        my ( $rcsOutput, $status ) =
-          Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},
-            FILENAME => $tmpRevFile );
+        $this->_copyFile( $this->{rcsFile}, $tmpRevFile );
+        my ( $rcsOutput, $status ) = Foswiki::Sandbox->sysCommand(
+            $Foswiki::cfg{RCS}{tmpBinaryCmd},
+            FILENAME => $this->tocs($tmpRevFile)
+        );
         if ($status) {
             throw Error::Simple(
                 $Foswiki::cfg{RCS}{tmpBinaryCmd} . ' failed: ' . $rcsOutput );
@@ -294,7 +296,7 @@ sub getRevision {
     my ( $text, $status, $stderr ) = Foswiki::Sandbox->sysCommand(
         $coCmd,
         REVISION => '1.' . $version,
-        FILENAME => $file
+        FILENAME => $this->tocs($file)
     );
 
     # The loaded version is reported on STDERR
@@ -338,7 +340,7 @@ sub getInfo {
     my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{infoCmd},
         REVISION => '1.' . $version,
-        FILENAME => $this->{rcsFile}
+        FILENAME => $this->tocs( $this->{rcsFile} )
     );
     if ( !$exit ) {
         if ( $rcsOut =~
@@ -374,7 +376,7 @@ sub _numRevisions {
 
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{histCmd},
-        FILENAME => $this->{rcsFile} );
+        FILENAME => $this->tocs( $this->{rcsFile} ) );
     if ($exit) {
         throw Error::Simple( 'RCS: '
               . $Foswiki::cfg{RCS}{histCmd} . ' of '
@@ -410,7 +412,7 @@ sub revisionDiff {
             $Foswiki::cfg{RCS}{diffCmd},
             REVISION1 => '1.' . $rev1,
             REVISION2 => '1.' . $rev2,
-            FILENAME  => $this->{rcsFile},
+            FILENAME  => $this->tocs( $this->{rcsFile} ),
             CONTEXT   => $contextLines
         );
 
@@ -504,7 +506,7 @@ sub _lock {
     # Try and get a lock on the file
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-        FILENAME => $this->{file} );
+        FILENAME => $this->tocs( $this->{file} ) );
 
     if ($exit) {
 
@@ -513,11 +515,13 @@ sub _lock {
         # scenarios - see Item2102
         if ( ( time - ( stat( $this->{rcsFile} ) )[9] ) > 3600 ) {
             warn 'Automatic recovery: breaking lock for ' . $this->{file};
-            Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{breaklockCmd},
-                FILENAME => $this->{file} );
+            Foswiki::Sandbox->sysCommand(
+                $Foswiki::cfg{RCS}{breaklockCmd},
+                FILENAME => $this->tocs( $this->{file} )
+            );
             ( $rcsOutput, $exit ) =
               Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-                FILENAME => $this->{file} );
+                FILENAME => $this->tocs( $this->{file} ) );
         }
         if ($exit) {
 
@@ -545,7 +549,7 @@ sub getRevisionAtTime {
     my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{rlogDateCmd},
         DATE     => $sdate,
-        FILENAME => $this->{file}
+        FILENAME => $this->tocs( $this->{file} )
     );
 
     my $version = undef;

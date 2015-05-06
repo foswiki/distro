@@ -180,14 +180,14 @@ sub internalLink {
     # whole link, and first of each word. TODO: Try to turn this off,
     # avoiding spaces being stripped elsewhere
     $topic = ucfirst($topic);
-    $topic =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/g;
+    $topic =~ s/\s([[:alnum:]])/\U$1/g;
 
     # If locales are in effect, the above conversions will taint the topic
     # name (Foswiki:Tasks:Item2091)
     $topic = Foswiki::Sandbox::untaintUnchecked($topic);
 
     # Add <nop> before WikiWord inside link text to prevent double links
-    $linkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/g;
+    $linkText =~ s/(?<=[\s\(])([[:upper:]])/<nop>$1/g;
     return _renderWikiWord( $this, $web, $topic, $linkText, $anchor,
         $linkIfAbsent, $keepWebPrefix, $params );
 }
@@ -747,17 +747,6 @@ sub protectPlainText {
                    |$Foswiki::regex{abbrevRegex}))/<nop>$1/gx;
 
     $text =~ s/([@%])/<nop>$1<nop>/g;    # email address, macro
-
-    # Encode special chars into XML &#nnn; entities for use in RSS feeds
-    # - no encoding for HTML pages, to avoid breaking international
-    # characters. Only works for ISO-8859-1 sites, since the Unicode
-    # encoding (&#nnn;) is identical for first 256 characters.
-    # I18N TODO: Convert to Unicode from any site character set.
-    if (   $this->{session}->inContext('rss')
-        && $Foswiki::cfg{Site}{CharSet} =~ m/^iso-?8859-?1$/i )
-    {
-        $text =~ s/([\x7f-\xff])/"\&\#" . unpack( 'C', $1 ) .';'/ge;
-    }
 
     return $text;
 }
@@ -1557,7 +1546,7 @@ sub _handleSquareBracketedLink {
     $link = ucfirst($link);
 
     # Collapse spaces and capitalise following letter
-    $link =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/g;
+    $link =~ s/\s([[:alnum:]])/\U$1/g;
 
     # Get rid of remaining spaces, i.e. spaces in front of -'s and ('s
     $link =~ s/\s//g;

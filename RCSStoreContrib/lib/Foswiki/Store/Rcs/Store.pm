@@ -43,7 +43,6 @@ use Foswiki          ();
 use Foswiki::Meta    ();
 use Foswiki::Sandbox ();
 use Foswiki::Serialise();
-use JSON;
 
 BEGIN {
 
@@ -53,8 +52,6 @@ BEGIN {
         import locale();
     }
 }
-
-our $json = JSON->new->pretty(0);
 
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
@@ -512,170 +509,32 @@ sub topicExists {
     return $handler->storedDataExists();
 }
 
-sub _readChanges {
-    my ( $file, $web ) = @_;
-
-    my $all_lines = Foswiki::Sandbox::untaintUnchecked(
-        Foswiki::Store::Rcs::Handler->readFile($file) );
-
-    # Look at the first line to deduce format
-    if ( $all_lines =~ /^\[/s ) {
-        my $changes;
-        eval { $changes = $json->decode($all_lines); };
-        print STDERR "Corrupt $file: $@\n" if ($@);
-
-        foreach my $entry (@$changes) {
-            if ( $entry->{path} && $entry->{path} =~ /^(.*)\.(.*)$/ ) {
-                $entry->{topic} = $2;
-            }
-            elsif ( $entry->{oldpath} && $entry->{oldpath} =~ /^(.*)\.(.*)$/ ) {
-                $entry->{topic} = $2;
-            }
-            $entry->{user} =
-                $Foswiki::Plugins::SESSION
-              ? $Foswiki::Plugins::SESSION->{users}
-              ->getWikiName( $entry->{cuid} )
-              : $entry->{cuid};
-            $entry->{more} =
-              ( $entry->{minor} ? 'minor ' : '' ) . ( $entry->{comment} || '' );
-        }
-        return @$changes;
-    }
-
-    # Decode the mess that was the old changes format
-    my @changes;
-    foreach my $line ( split( /[\r\n]+/, $all_lines ) ) {
-        my @row = split( /\t/, $line );
-
-        # Old (pre 1.2) format
-
-        # Create a hash for this line
-        my %row;
-
-        $row{topic} =
-          Foswiki::Sandbox::untaint( shift(@row),
-            \&Foswiki::Sandbox::validateTopicName );
-        $row{user}     = shift(@row);
-        $row{time}     = shift(@row) || 0;
-        $row{revision} = shift(@row) || 1;
-        $row{more}     = shift(@row) || '';
-
-        # Try and decode 'more', for compatibility mode
-        my $ok = 0;
-        if ( $row{more} ) {
-            eval {
-                my $decoded = $json->decode( $row{more} );
-                while ( my ( $k, $v ) = each %$decoded ) {
-                    $row{$k} = $v;
-                }
-                $ok = 1;
-            };
-        }
-        if ( !$ok ) {
-
-            # Couldn't decode more as JSON. Fill in 1.2 fields
-            if ( $row{revision} > 1 ) {
-                $row{verb} = 'update';
-            }
-            else {
-                $row{verb} = 'insert';
-            }
-            $row{minor} = ( $row{more} =~ /minor/ );
-            $row{cuid}  = $row{user};
-            $row{path}  = $web;
-            $row{path} .= ".$row{topic}" if $row{topic};
-            $row{comment} = $row{more};
-            if ( $row{more} =~ /Moved from (\w+)/ ) {
-                $row{oldpath} = $1;
-            }
-            if ( $row{more} =~ /Deleted attachment (\S+)/ ) {
-                $row{attachment} = $1;
-            }
-        }
-        push( @changes, \%row );
-    }
-    return @changes;
-}
-
 # Record a change in the web history
 sub recordChange {
-    my ( $this, %args ) = @_;
+    my $this = shift;
+    my %args = @_;
 
-    if (DEBUG) {
-        if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
-            ASSERT( ( caller || 'undef' ) eq __PACKAGE__ );
-        }
-        else {
-            ASSERT( ( caller || 'undef' ) ne __PACKAGE__ );
-        }
-        ASSERT( $args{verb} );
-        ASSERT( $args{cuid} );
-        ASSERT( $args{revision} );
-        ASSERT( $args{path} );
-        ASSERT( !defined $args{more} );
-        ASSERT( !defined $args{user} );
-    }
-
-    #    my ( $meta, $cUID, $rev, $more ) = @_;
-    #    $more ||= '';
+    my $web = $args{path};
 
     # Support for Foswiki < 1.2
-    my $web   = $args{path};
     my $topic = '.';
     if ( $web =~ /\./ ) {
         ( $web, $topic ) = Foswiki->normalizeWebTopicName( undef, $web );
     }
 
-    # Can't log changes in a non-existent web
-    return unless ( -d "$Foswiki::cfg{DataDir}/$web" );
-
-    my $file = "$Foswiki::cfg{DataDir}/$web/.changes";
-    my @changes;
-    my $text = '';
-    my $t    = time;
-
-    if ( -e $file ) {
-        @changes = _readChanges( $file, $web );
-        my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
-        while ( scalar(@changes) && $changes[0]->{time} < $cutoff ) {
-            shift(@changes);
-        }
-    }
-
-    # Add the new change to the end of the file
-    $args{time} = time;
-    push( @changes, \%args );
-
-    if ( $Foswiki::cfg{RCS}{TabularChangeFormat} ) {
-        $args{topic} ||= $topic;
-        foreach (@changes) {
-            my $hash = $_;
-            $_ = [
-                $hash->{topic},    $hash->{cuid}, $hash->{time},
-                $hash->{revision}, $json->encode($hash)
-            ];
-        }
-
-        $text = join( "\n", map { join( "\t", @$_ ) } @changes );
-    }
-    else {
-        $text = $json->encode( \@changes );
-    }
-
-    Foswiki::Store::Rcs::Handler->saveFile( $file, $text );
+    my $handler = $this->getHandler($web);
+    $handler->recordChange(%args);
 }
 
 # Implement Foswiki::Store
 sub eachChange {
     my ( $this, $meta, $since ) = @_;
 
-    my $file = "$Foswiki::cfg{DataDir}/" . $meta->web . "/.changes";
+    my $handler = $this->getHandler( $meta->web );
     require Foswiki::ListIterator;
 
     my @changes;
-    if ( -r $file ) {
-        @changes = reverse grep { $_->{time} >= $since } _readChanges($file);
-    }
+    @changes = reverse grep { $_->{time} >= $since } $handler->readChanges();
     return Foswiki::ListIterator->new( \@changes );
 }
 

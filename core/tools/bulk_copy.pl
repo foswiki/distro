@@ -71,7 +71,12 @@ sub call {
     my @p = map {
         ref($_)
           ? $_
-          : Encode::decode( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1', $_ )
+          : Encode::decode(
+            $Foswiki::cfg{Site}{CharSet}
+              || $Foswiki::cfg{Store}{CharSet}
+              || 'iso-8859-1',
+            $_
+          )
     } @_;
     my $json_text = $json->encode( \@p );
     print TO_B $json_text . "\n";

@@ -1187,7 +1187,7 @@ sub formatResult {
     # render each item differently, based on SEARCH param 'itemview'
     if (   $item->topic
         && defined $itemView
-        && $itemView =~ m/([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/ )
+        && $itemView =~ m/([[:alnum:].\s\(\)\$]+)/ )
     {
 
         # brackets added to regex to allow $formfield(name)

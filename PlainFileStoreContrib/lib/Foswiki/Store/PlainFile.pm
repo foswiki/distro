@@ -7,20 +7,29 @@
 Single-file implementation of =Foswiki::Store= that uses normal
 files in a standard directory structure to store versions.
 
-   * Webs map to directories; webs only "exist" if they contain a preferences topic.
-   * Topics are in data/.../topic.txt. If there is no .txt for a topic, the topic
-     does not exist, even if there is a history.
+   * Webs map to directories; webs only "exist" if they contain a
+     preferences topic.
+   * Topics are in data/.../topic.txt. If there is no .txt for a topic,
+     the topic does not exist, even if there is a history.
    * Topic histories are in data/.../topic,pfv/
       * Each rev of the topic has a numbered file containing the text of that
         rev (1 2 3 etc) each with a corresponding metafile 1.m 2.m etc.
    * Attachment histories are in data/.../topic,pfv/ATTACHMENTS/attachmentname/
       * Each rev of an attachment has a numbered file containing the data for
-        that rev (same as a topic), each with a corresponding metafile (same as a topic)
-   * The latest rev always has a history file (note: this means that large attachments are
-     stored twice; same as in the RCS stores)
+        that rev (same as a topic), each with a corresponding metafile
+        (same as a topic)
+   * The latest rev always has a history file (note: this means that
+    large attachments are stored at least twice; same as in the RCS stores)
    * 'date' always comes from the file modification date
    * 'author' and 'comment' come from the metafile
    * 'version' comes from the name of the version file
+
+A note on character encodings. This module is designed to work best when
+data is stored using UTF-8, but can also use an alternate encoding by
+setting {Store}{Encoding}. Conversion to/from the alternate
+encoding is done at the lowest possible level - before calling file-level
+operations - so in general, strings can be assumed to be UTF-8 encoded
+byte strings.
 
 =cut
 
@@ -147,7 +156,7 @@ sub moveAttachment {
     # No need to save damage; we're not looking inside
 
     my $oldLatest = _latestFile( $oldTopicObject, $oldAtt );
-    if ( -e $oldLatest ) {
+    if ( _exists($oldLatest) ) {
         my $newLatest = _latestFile( $newTopicObject, $newAtt );
         _moveFile( $oldLatest, $newLatest );
         _moveFile(
@@ -179,7 +188,7 @@ sub copyAttachment {
     # No need to save damage; we're not looking inside
 
     my $oldbase = _getPub($oldTopicObject);
-    if ( -e "$oldbase/$oldAtt" ) {
+    if ( _exists("$oldbase/$oldAtt") ) {
         my $newbase = _getPub($newTopicObject);
         _copyFile(
             _latestFile( $oldTopicObject, $oldAtt ),
@@ -208,8 +217,8 @@ sub attachmentExists {
     ASSERT($att) if DEBUG;
 
     # No need to save damage; we're not looking inside
-    return -e _latestFile( $meta, $att )
-      || -e _historyFile( $meta, $att );
+    return _exists( _latestFile( $meta, $att ) )
+      || _exists( _historyFile( $meta, $att ) );
 }
 
 # Implement Foswiki::Store
@@ -224,7 +233,7 @@ sub moveTopic {
     _moveFile( _latestFile($oldTopicObject), _latestFile($newTopicObject) );
     _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
     my $pub = _getPub($oldTopicObject);
-    if ( -e $pub ) {
+    if ( _exists($pub) ) {
         _moveFile( $pub, _getPub($newTopicObject) );
     }
     if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
@@ -259,7 +268,7 @@ sub moveWeb {
     _moveFile( $oldbase, $newbase );
 
     $oldbase = _getPub($oldWebObject);
-    if ( -e $oldbase ) {
+    if ( _exists($oldbase) ) {
         $newbase = _getPub($newWebObject);
 
         _moveFile( $oldbase, $newbase );
@@ -299,10 +308,10 @@ sub openAttachment {
 sub getRevisionHistory {
     my ( $this, $meta, $attachment ) = @_;
 
-    unless ( -e _historyDir( $meta, $attachment ) ) {
+    unless ( _exists( _historyDir( $meta, $attachment ) ) ) {
         my @list = ();
         require Foswiki::ListIterator;
-        if ( -e _latestFile( $meta, $attachment ) ) {
+        if ( _exists( _latestFile( $meta, $attachment ) ) ) {
             push( @list, 1 );
         }
         return Foswiki::ListIterator->new( \@list );
@@ -352,7 +361,7 @@ sub getVersionInfo {
     my $is_latest = 0;
     if ( $rev && $rev > 0 && $rev < $nr ) {
         $df = _historyFile( $meta, $attachment, $rev );
-        unless ( -e $df ) {
+        unless ( _exists($df) ) {
 
             # May arise if the history is not continuous, or if
             # there is no history
@@ -400,7 +409,7 @@ sub saveAttachment {
     _saveStream( $latest, $stream );
     my $hf = _historyFile( $meta, $name, $rn );
     _mkPathTo($hf);
-    File::Copy::copy( $latest, $hf )
+    File::Copy::copy( _tocs($latest), _tocs($hf) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
 
     my $comment;
@@ -433,7 +442,7 @@ sub saveTopic {
 
     _saveDamage($meta);
 
-    my $verb = ( -e _latestFile($meta) ) ? 'update' : 'insert';
+    my $verb = ( _exists( _latestFile($meta) ) ) ? 'update' : 'insert';
     my @revs;
     my $rn = _numRevisions( \@revs, $meta ) + 1;
 
@@ -451,7 +460,7 @@ sub saveTopic {
     # doesn't matter, so long as it's >= $latest)
     my $hf = _historyFile( $meta, undef, $rn );
     _mkPathTo($hf);
-    File::Copy::copy( $latest, $hf )
+    File::Copy::copy( _tocs($latest), _tocs($hf) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     if ( $options->{forcedate} ) {
         utime( $options->{forcedate}, $options->{forcedate}, $latest )   # touch
@@ -490,7 +499,7 @@ sub repRev {
     my $latest = _latestFile($meta);
     my $hf     = _historyFile( $meta, undef, $rn );
     my $t      = ( stat $latest )[9];                 # SMELL: use TOPICINFO?
-    unlink($hf);
+    unlink( _tocs($hf) );
 
     my $ti = $meta->get('TOPICINFO');
     $ti->{version} = $rn;
@@ -500,7 +509,7 @@ sub repRev {
     _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
     _mkPathTo($hf);
-    File::Copy::copy( $latest, $hf )
+    File::Copy::copy( _tocs($latest), _tocs($hf) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     my $mf = _metaFile( $meta, undef, $rn );
     _writeMetaFile( $mf, $cUID, $options{comment} );
@@ -541,7 +550,7 @@ sub delRev {
     }
 
     my $hf = _historyFile( $meta, undef, $rev );
-    unlink $hf;
+    unlink _tocs($hf);
 
     # Get the new top rev - which may or may not be -1, depending if
     # the history is complete or not
@@ -551,7 +560,7 @@ sub delRev {
     my $thf = _latestFile($meta);
 
     # Copy it up to the latest file, then refresh the time on the history
-    File::Copy::copy( $hf, $thf )
+    File::Copy::copy( _tocs($hf), _tocs($thf) )
       or die "PlainFile: failed to copy to $thf: $!";
     utime( undef, undef, $hf )    # touch
       or die "PlainFile: could not touch $hf: $!";
@@ -576,7 +585,7 @@ sub delRev {
 sub atomicLockInfo {
     my ( $this, $meta ) = @_;
     my $filename = _getData($meta) . '.lock';
-    if ( -e $filename ) {
+    if ( _exists($filename) ) {
         my $t = _readFile($filename);
         return split( /\s+/, $t, 2 );
     }
@@ -596,8 +605,8 @@ sub atomicUnlock {
     my ( $this, $meta, $cUID ) = @_;
 
     my $filename = _getData($meta) . '.lock';
-    if ( -e $filename ) {
-        unlink($filename)
+    if ( _exists($filename) ) {
+        unlink( _tocs($filename) )
           or die "PlainFile: failed to delete $filename: $!";
     }
 }
@@ -609,9 +618,10 @@ sub webExists {
     return 0 unless defined $web;
     $web =~ s#\.#/#g;
 
-    return 1 if ( -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
+    return 1
+      if ( _exists( _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) ) );
 
-    #ASSERT(!-d _getData( $web ), $web) if DEBUG;
+    #ASSERT(!_exists( _getData( $web )), $web) if DEBUG;
     return 0;
 }
 
@@ -623,8 +633,8 @@ sub topicExists {
     $web =~ s#\.#/#g;
     return 0 unless defined $topic && $topic ne '';
 
-    return -e _latestFile( $web, $topic )
-      || -e _historyDir( $web, $topic );
+    return _exists( _latestFile( $web, $topic ) )
+      || _exists( _historyDir( $web, $topic ) );
 }
 
 # Implement Foswiki::Store
@@ -640,9 +650,9 @@ sub eachAttachment {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _attachmentsDir($meta) )
+    opendir( $dh, _tocs( _attachmentsDir($meta) ) )
       or return new Foswiki::ListIterator( [] );
-    my @list = grep { !/^[.*_]/ && !/,pfv$/ } readdir($dh);
+    my @list = map { _fromcs($_) } grep { !/^[.*_]/ && !/,pfv$/ } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -654,7 +664,7 @@ sub eachTopic {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _getData( $meta->web ) )
+    opendir( $dh, _tocs( _getData( $meta->web ) ) )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -662,7 +672,8 @@ sub eachTopic {
     my @list =
       map { /^(.*)\.txt$/; $1; }
       sort
-      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
+      map { _fromcs($_) } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -682,7 +693,7 @@ sub eachWeb {
     my @list;
     my $dh;
 
-    if ( opendir( $dh, $dir ) ) {
+    if ( opendir( $dh, _tocs($dir) ) ) {
         @list = map {
 
             # Tradeoff: correct validation of every web name, which allows
@@ -693,11 +704,11 @@ sub eachWeb {
             Foswiki::Sandbox::untaintUnchecked($_)
           }
 
-          # The -e on the web preferences is used in preference to a
+          # The _exists on the web preferences is used in preference to a
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
           # WebPreferences.txt in it", this works.
-          grep { !/\./ && -e "$dir/$_$wptn" } readdir($dh);
+          grep { !/\./ && _exists("$dir/$_$wptn") } readdir($dh);
         closedir($dh);
     }
 
@@ -723,15 +734,15 @@ sub remove {
     if ( $meta->topic ) {
 
         # Topic or attachment
-        unlink( _latestFile( $meta, $attachment ) );
-        _rmtree( _historyDir( $meta, $attachment ) );
-        _rmtree( _getPub($meta) ) unless ($attachment);    # topic only
+        unlink( _tocs( _latestFile( $meta, $attachment ) ) );
+        _rmtree( _tocs( _historyDir( $meta, $attachment ) ) );
+        _rmtree( _tocs( _getPub($meta) ) ) unless ($attachment);    # topic only
     }
     else {
 
         # Web
-        _rmtree( _getData($meta) );
-        _rmtree( _getPub($meta) );
+        _rmtree( _tocs( _getData($meta) ) );
+        _rmtree( _tocs( _getPub($meta) ) );
     }
 
     return unless ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 );
@@ -800,7 +811,7 @@ sub getRevisionAtTime {
 
     my $hd = _historyDir($meta);
     my $d;
-    unless ( opendir( $d, $hd ) ) {
+    unless ( opendir( $d, _tocs($hd) ) ) {
         return 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
         return undef;
     }
@@ -824,7 +835,7 @@ sub getLease {
 
     my $filename = _getData($meta) . '.lease';
     my $lease;
-    if ( -e $filename ) {
+    if ( _exists($filename) ) {
         my $t = _readFile($filename);
         $lease = { split( /\r?\n/, $t ) };
     }
@@ -839,8 +850,8 @@ sub setLease {
     if ($lease) {
         _saveFile( $filename, join( "\n", %$lease ) );
     }
-    elsif ( -e $filename ) {
-        unlink($filename)
+    elsif ( _exists($filename) ) {
+        unlink( _tocs($filename) )
           or die "PlainFile: failed to delete $filename: $!";
     }
 }
@@ -849,12 +860,12 @@ sub setLease {
 sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
     my $webdir = _getData($web) . '/';
-    if ( opendir( my $W, $webdir ) ) {
+    if ( opendir( my $W, _tocs($webdir) ) ) {
         foreach my $f ( readdir($W) ) {
             my $file = $webdir . $f;
             if ( $file =~ m/^(.*)\.lease$/ ) {
-                if ( !-e "$1,pfv" ) {
-                    unlink($file);
+                if ( !_exists("$1,pfv") ) {
+                    unlink( _tocs($file) );
                 }
             }
         }
@@ -865,6 +876,35 @@ sub removeSpuriousLeases {
 #############################################################################
 # PRIVATE FUNCTIONS
 #############################################################################
+
+# Convert to/from {Store}{CharSet}. Overridden in BEGIN if charset is utf-8
+if (   $Foswiki::cfg{Store}{CharSet}
+    && $Foswiki::cfg{Store}{CharSet} !~ /^utf-?8$/i )
+{
+    *Foswiki::Store::PlainFile::_tocs = sub {
+        return Encode::encode(
+            $Foswiki::cfg{Store}{CharSet},
+            Encode::decode_utf8( $_[0], Encode::FB_CROAK ),
+            Encode::FB_CROAK
+        );
+    };
+    *Foswiki::Store::PlainFile::_fromcs = sub {
+        return Encode::encode_utf8(
+            Encode::decode(
+                $Foswiki::cfg{Store}{CharSet},
+                $_[0], Encode::FB_PERLQQ
+            )
+        );
+      }
+}
+else {
+    *Foswiki::Store::PlainFile::_tocs   = sub { $_[0] };
+    *Foswiki::Store::PlainFile::_fromcs = sub { $_[0] };
+}
+
+sub _exists {
+    return -e _tocs( $_[0] );
+}
 
 # Get the absolute file path to a file in data. $what can be a Meta or
 # a string path (e.g. a web name)
@@ -891,7 +931,7 @@ sub _getPub {
 sub _loadRevs {
     my ( $revs, $dir ) = @_;
     my $d;
-    opendir( $d, $dir ) or die "PlainFile: '$dir': $!";
+    opendir( $d, _tocs($dir) ) or die "PlainFile: '$dir': $!";
 
     # Read, untaint, sort in reverse
     @$revs = sort { $b <=> $a }
@@ -975,13 +1015,13 @@ sub _metaFile {
 sub _numRevisions {
     my ( $revs, $meta, $attachment ) = @_;
 
-    return 0 unless -e _latestFile( $meta, $attachment );
+    return 0 unless _exists( _latestFile( $meta, $attachment ) );
 
     my $dir = _historyDir( $meta, $attachment );
 
     # we know that if there is no history
     # then only rev 1 exists
-    return 1 unless -e $dir;
+    return 1 unless _exists($dir);
 
     _loadRevs( $revs, $dir ) unless scalar(@$revs);
     return 1 unless scalar(@$revs);    # one implicit revision
@@ -1011,9 +1051,9 @@ sub _saveDamage {
     my $d;
 
     my $latest = _latestFile( $meta, $attachment );
-    return unless ( -e $latest );
+    return unless ( _exists($latest) );
 
-    if ( -e "$latest,v" && !$Foswiki::inUnitTestMode ) {
+    if ( _exists("$latest,v") && !$Foswiki::inUnitTestMode ) {
         die <<DONE;
 PlainFileStore is selected but you have ,v files present in the directory tree, Save aborted to avoid loss of topic history.
 Did you remember to convert the store?  The administrator should review tools/change_store.pl,  or select an RCS based store.
@@ -1046,7 +1086,7 @@ DONE
 
     my $hf = _historyFile( $meta, $attachment, $rev );
     _mkPathTo($hf);
-    File::Copy::copy( $latest, $hf )
+    File::Copy::copy( _tocs($latest), _tocs($hf) )
       or die "PlainFile: failed to copy to $hf: $!";
 }
 
@@ -1060,7 +1100,7 @@ sub _latestIsNewer {
     $latest ||= _latestFile( $meta, $attachment );
 
     my $hd = _historyDir( $meta, $attachment );
-    return 1 unless ( -e $hd );
+    return 1 unless ( _exists($hd) );
 
     _loadRevs( $revs, $hd ) unless scalar(@$revs);
     return 0 unless scalar(@$revs);    # no history
@@ -1077,7 +1117,7 @@ sub _latestIsNewer {
 
 sub _readMetaFile {
     my $mf = shift;
-    return () unless -e $mf;
+    return () unless _exists($mf);
     return split( "\n", _readFile($mf), 2 );
 }
 
@@ -1191,12 +1231,12 @@ sub recordChange {
         ($web) = Foswiki->normalizeWebTopicName( undef, $web );
     }
 
-    # Can't log changes in a non-existent web
-    return unless ( -d _getData($web) );
+    # Can't log changes in a non_existent web
+    return unless ( _exists( _getData($web) ) );
 
     my $file = _getData($web) . '/.changes';
     my @changes;
-    if ( -e $file ) {
+    if ( _exists($file) ) {
         @changes = _readChanges( $file, $web );
 
         # Trim old entries
@@ -1232,14 +1272,14 @@ sub _readFile {
 
     my $data;
     my $IN_FILE;
-    open( $IN_FILE, '<', $name )
+    open( $IN_FILE, '<', _tocs($name) )
       or die "PlainFile: failed to read $name: $!";
     binmode($IN_FILE);
     local $/ = undef;
     $data = <$IN_FILE>;
     close($IN_FILE);
     $data = '' unless defined $data;
-    return $data;
+    return _fromcs($data);
 }
 
 # Open a stream onto a file
@@ -1259,7 +1299,7 @@ sub _openStream {
         $path = _latestFile( $meta, $att );
         _mkPathTo($path) if ( $mode =~ m/>/ );
     }
-    unless ( open( $stream, $mode, $path ) ) {
+    unless ( open( $stream, $mode, _tocs($path) ) ) {
         die("PlainFile: open stream $mode '$path' failed: $!");
     }
     binmode $stream;
@@ -1271,7 +1311,7 @@ sub _saveFile {
     my ( $file, $text ) = @_;
     _mkPathTo($file);
     my $fh;
-    open( $fh, '>', $file )
+    open( $fh, '>', _tocs($file) )
       or die("PlainFile: failed to create file $file: $!");
     flock( $fh, LOCK_EX )
       or die("PlainFile: failed to lock file $file: $!");
@@ -1293,7 +1333,7 @@ sub _saveStream {
 
     _mkPathTo($file);
     my $F;
-    open( $F, '>', $file ) or die "PlainFile: open $file failed: $!";
+    open( $F, '>', _tocs($file) ) or die "PlainFile: open $file failed: $!";
     binmode($F) or die "PlainFile: failed to binmode $file: $!";
     my $text;
     while ( read( $fh, $text, 1024 ) ) {
@@ -1308,15 +1348,15 @@ sub _saveStream {
 # if the destination already exists it's an error.
 sub _moveFile {
     my ( $from, $to ) = @_;
-    die "PlainFile: move target $to already exists" if -e $to;
+    die "PlainFile: move target $to already exists" if _exists($to);
     _mkPathTo($to);
     my $ok;
-    if ( -d $from ) {
-        $ok = File::Copy::Recursive::dirmove( $from, $to );
+    if ( _exists($from) ) {
+        $ok = File::Copy::Recursive::dirmove( _tocs($from), _tocs($to) );
     }
     else {
-        ASSERT( -e $from, $from ) if DEBUG;
-        $ok = File::Copy::move( $from, $to );
+        ASSERT( _exists($from), $from ) if DEBUG;
+        $ok = File::Copy::move( _tocs($from), _tocs($to) );
     }
     $ok or die "PlainFile: move $from to $to failed: $!";
 }
@@ -1326,14 +1366,14 @@ sub _moveFile {
 sub _copyFile {
     my ( $from, $to ) = @_;
 
-    die "PlainFile: move target $to already exists" if -e $to;
+    die "PlainFile: move target $to already exists" if _exists($to);
     _mkPathTo($to);
     my $ok;
-    if ( -d $from ) {
-        $ok = File::Copy::Recursive::dircopy( $from, $to );
+    if ( _exists($from) ) {
+        $ok = File::Copy::Recursive::dircopy( _tocs($from), _tocs($to) );
     }
     else {
-        $ok = File::Copy::copy( $from, $to );
+        $ok = File::Copy::copy( _tocs($from), _tocs($to) );
     }
     $ok or die "PlainFile: copy $from to $to failed: $!";
 }
@@ -1353,21 +1393,22 @@ sub _mkPathTo {
     umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
 
     eval {
-        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
+        File::Path::mkpath( _tocs($path), 0,
+            $Foswiki::cfg{Store}{dirPermission} );
     };
     if ($@) {
         die("PlainFile: failed to create ${path}: $!");
     }
 }
 
-# Remove an entire directory tree
+# Remove an entire directory tree (requires root to be _tocs'ed already)
 sub _rmtree {
     my $root = shift;
     my $D;
     if ( opendir( $D, $root ) ) {
         foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
             $entry =~ m/^(.*)$/;
-            $entry = $root . '/' . $1;
+            $entry = "$root/$1";
             if ( -d $entry ) {
                 _rmtree($entry);
             }
@@ -1402,7 +1443,7 @@ sub _getTimestamp {
     my ($file) = @_;
 
     my $date = 0;
-    if ( -e $file ) {
+    if ( _exists($file) ) {
 
         # If the stat fails, stamp it with some arbitrary static
         # time in the past (00:40:05 on 5th Jan 1989)
@@ -1418,12 +1459,12 @@ sub _getRevision {
     my $nr = _numRevisions( $revs, $meta, $attachment );
     if ( $nr && $version && $version <= $nr ) {
         my $fn = _historyDir( $meta, $attachment ) . "/$version";
-        if ( -e $fn ) {
+        if ( _exists($fn) ) {
             return ( _readFile($fn), $version == $nr );
         }
     }
     my $latest = _latestFile( $meta, $attachment );
-    return ( undef, 0 ) unless -e $latest;
+    return ( undef, 0 ) unless _exists($latest);
 
     # no version given, give latest (may not be checked in yet)
     return ( _readFile($latest), 1 );

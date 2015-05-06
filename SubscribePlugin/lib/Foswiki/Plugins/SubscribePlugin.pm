@@ -17,6 +17,7 @@ use Assert;
 use Error ':try';
 use JSON           ();
 use HTML::Entities ();
+use Encode         (':fallbacks');
 
 our $VERSION = '3.2';
 our $RELEASE = '24 Nov 2014';
@@ -39,7 +40,7 @@ sub initPlugin {
         $activeWebs =~ s/\s*\,\s*/\|/g;    # Change comma's to "or"
         $activeWebs =~ s/^\s*//;           # Drop leading spaces
         $activeWebs =~ s/\s*$//;           # Drop trailing spaces
-             #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//g
+                                           #$activeWebs =~ s/[^[:alnum:]\|]//g
              #  ;    # Filter any characters not valid in WikiWords
         Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0
           unless ( $WEB =~ qr/^($activeWebs)$/ );
@@ -126,9 +127,6 @@ sub _SUBSCRIBE {
             validation_key       => '?%NONCE%'
         }
     );
-
-    # $json is UTF8 - must convert to the site encoding
-    $json = $Foswiki::Plugins::SESSION->UTF82SiteCharSet($json);
 
     my $data = HTML::Entities::encode_entities($json);
     $tmpl =~ s/\%JSON_DATA\%/$data/g;

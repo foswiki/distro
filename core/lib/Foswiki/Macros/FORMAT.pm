@@ -57,7 +57,7 @@ sub FORMAT {
             # from Search::_makeTopicPattern (plus an added . to
             # allow web.topic)
             my @topics = map {
-                s/[^\*\_\-\+\.\/$Foswiki::regex{mixedAlphaNum}]//g;
+                s/[^\*\_\-\+\.\/[:alnum:]]//g;
                 s/\*/\.\*/g;
                 $_
             } @list;

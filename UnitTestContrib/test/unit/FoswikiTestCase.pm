@@ -204,10 +204,6 @@ my %foswiki_things = (
               && defined $Foswiki::cfg{ScriptUrlPaths}{view}
               && !( $Foswiki::cfg{ScriptUrlPaths}{view} =~ m/view$/ ) );
     },
-    'unicode' => sub {
-        return ( defined $Foswiki::cfg{Site}{CharSet}
-              && $Foswiki::cfg{Site}{CharSet} =~ m/^utf-?\d{1,2}$/i );
-    },
     'PlatformWindows' => sub {
         return ( $Foswiki::cfg{OS} eq 'WINDOWS'
               && ( $Foswiki::cfg{DetailedOS} ne 'cygwin' ) );

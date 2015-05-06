@@ -238,14 +238,6 @@ sub LogDispatchFileRollingLogger {
     return;
 }
 
-sub CharsetUtf8 {
-    $Foswiki::cfg{Site}{CharSet} = 'utf8';
-}
-
-sub Charset8859 {
-    $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
-}
-
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
@@ -280,7 +272,7 @@ sub fixture_groups {
         }
     }
 
-    return ( \@groups, ( [ 'CharsetUtf8', 'Charset8859' ] ) );
+    return \@groups;
 }
 
 sub verify_eachEventSince_MultiLevelsV0 {
