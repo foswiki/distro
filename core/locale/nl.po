@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-02 20:57+0200\n"
+"PO-Revision-Date: 2015-05-06 09:14+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1044,8 +1044,8 @@ msgstr ""
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
-"Aangevinkte pagina&#39;s zullen worden bijgewerkt zodat ze verwijzen naar de "
-"nieuwe locatie van de pagina."
+"Aangevinkte pagina&&#39;s zullen worden bijgewerkt zodat ze verwijzen naar "
+"de nieuwe locatie van de pagina."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
@@ -1754,7 +1754,8 @@ msgstr "Verberg help"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
-"Hi&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web aanmaken."
+"Hi&&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web "
+"aanmaken."
 
 #: core/data/System/ManagingTopics.txt:100
 msgid "History"
@@ -3436,8 +3437,8 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"De aangevinkte pagina&#39;s zullen worden bijgewerkt (je zal een ander "
-"formulier te zien krijgen waarin je pagina&#39;s kunt hernoemen die zijn "
+"De aangevinkte pagina&&#39;s zullen worden bijgewerkt (je zal een ander "
+"formulier te zien krijgen waarin je pagina&&#39;s kunt hernoemen die zijn "
 "vergendeld)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
@@ -4398,7 +4399,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&euml;ren. Dit kan je doen door %1 in te "
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
 "gestuurd, of door %2 te bezoeken"
 
@@ -4501,7 +4502,7 @@ msgstr "Je handtekening om te kopi&&euml;ren en plakken"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
-msgstr "Je signatuur om te kopi&euml;ren/plakken:"
+msgstr "Je signatuur om te kopi&&euml;ren/plakken:"
 
 #: core/templates/messages.tmpl:209
 msgid ""
