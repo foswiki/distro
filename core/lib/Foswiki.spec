@@ -901,7 +901,6 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{ReplaceIfEditedAgainWithin}',
     '{ScriptSuffix}',
     '{ScriptUrlPath}',
-    '{Site}{CharSet}',
     '{Site}{Locale}',
     '{Site}{LocaleRegexes}',
     '{SitePrefsTopicName}',
@@ -970,7 +969,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # files that were already uploaded, or files that were created directly
 # on the server.
 #
-$Foswiki::cfg{UploadFilter} = '^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi)?)$';
+$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,
@@ -1279,48 +1278,25 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 #---++ Locale
 # Enable operating system level locales and internationalisation support
 # for 8-bit character sets. This may be required for correct functioning
-# of the programs that Foswiki calls when your wiki content uses
-# international character sets.
+# of the programs that Foswiki calls.
 
 # **BOOLEAN LABEL="Use Locale" **
 # Enable the use of {Site}{Locale} - *Caution:*: Perl locales are badly broken
-# in some versions of perl. For this reason locales are disabled in Foswiki.
-# If you enable them they can be made to work, but collation will only work
-# with single-byte character sets.
+# in some versions of perl. For this reason locales are disabled in Foswiki
+# by default.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
-# **STRING 50 LABEL="Site Locale" DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'" CHECK="also:{Site}{CharSet}" **
+# **STRING 50 LABEL="Site Locale" DISPLAY_IF="{UseLocale}" CHECK="iff:'{UseLocale}'" **
 # Site-wide locale - used by Foswiki and external programs such as grep, and to
-# specify the character set and language in which content must be presented
+# specify the language in which content must be presented
 # for the user's web browser.
 # 
 # Note that {Site}{Locale} is ignored unless {UseLocale} is set.
 # 
 # Locale names are not standardised. On Unix/Linux check 'locale -a' on
 # your system to see which locales are supported by your system.
-# You may also need to check what charsets your browsers accept - the
-# 'preferred MIME names' at http://www.iana.org/assignments/character-sets
-# are a good starting point.
-# 
-# WARNING: Topics are stored in site character set format, so data
-# conversion of file names and contents will be needed if you change
-# locales after creating topics whose names or contents include 8-bit
-# characters.
-# 
-# Examples:
-#    * =en.utf8= - English encoded using UTF8
-#    * =en_US.ISO-8859-1= - US english with ISO-8859-1 encoding
-#    * =de_AT.ISO-8859-15= - Austria with ISO-8859-15 for Euro
-#    * =ru_RU.KOI8-R= - Russian encoded using KOI8-R
-#    * =ja_JP.eucjp= - Japan
-#    * =C= - English only; no I18N features regarding character encodings
-#      and external programs.
+#
 #$Foswiki::cfg{Site}{Locale} = 'en.utf8';
-
-# **STRING 50 LABEL="Site Character Set" CHECK="also:{Site}{Locale}" **
-# Set this to match your site locale (from 'locale -a').
-# If you don't define it, it will automatically be defaulted to iso-8859-1
-# $Foswiki::cfg{Site}{CharSet} = undef;
 
 # **SELECT gmtime,servertime LABEL="Display Time Values" **
 # Set the timezone (this only effects the display of times,
@@ -1340,33 +1316,6 @@ $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 # English name of the month
 $Foswiki::cfg{DefaultDateFormat} = '$day $month $year';
 
-# **BOOLEAN LABEL="Locale Regular Expressions" EXPERT**
-# Disable to force explicit listing of national chars in
-# regexes, rather than relying on locale-based regexes. Intended
-# for Perl 5.6 or higher on platforms with broken locales: should
-# only be disabled if you have locale problems.
-$Foswiki::cfg{Site}{LocaleRegexes} = $TRUE;
-
-# **STRING LABEL="Upper National Characters" DISPLAY_IF="! {UseLocale} || ! {Site}{LocaleRegexes}"  CHECK="iff:'! {UseLocale} || ! {Site}{LocaleRegexes}'"**
-# If a suitable working locale is not available ({UseLocale}
-# is disabled), OR  you are using Perl 5.005 (with or without working
-# locales), OR {Site}{LocaleRegexes} is disabled, you can use WikiWords with
-# accented national characters by putting any '8-bit' accented
-# national characters within these strings . {UpperNational}
-# should contain upper case non-ASCII letters.  This is termed
-# 'non-locale regexes' mode.
-# If 'non-locale regexes' is in effect, WikiWord linking will work,
-# but  some features such as sorting of WikiWords in search results
-# may not. These features depend on {UseLocale}, which can be set
-# independently of {Site}{{LocaleRegexes}, so they will work with Perl
-# 5.005 as long as {UseLocale} is set and you have working
-# locales.
-$Foswiki::cfg{UpperNational} = '';
-
-# **STRING LABEL="Lower National Characters" DISPLAY_IF=" ! {UseLocale}" CHECK="iff:'!{UseLocale}'"**
-#
-$Foswiki::cfg{LowerNational} = '';
-
 # **BOOLEAN LABEL="Enable Plural to Singular"**
 # Change non-existent plural topic name to singular.
 # For example, =TestPolicies= to =TestPolicy=. Only works in English.
@@ -1380,6 +1329,15 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # **SELECTCLASS Foswiki::Store::* LABEL="Store Implementation"**
 # Store implementation.
 # $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
+
+# **STRING 50 LABEL="Store Character Encoding" CHECK="undefok" EXPERT **
+# Set this when you are using a store that was initiated under an old
+# version of Foswiki, where the {Site}{CharSet} was set to something other
+# than 'utf-8', and you cannot convert the store to UTF8 for some reason.
+# This option takes the name of the encoding e.g. 'iso-8859-1'.
+# Note: you are *STRONGLY* recommended to convert the entire store to
+# UTF-8 in-place, as setting this option will incur a performance penatly.
+# $Foswiki::cfg{Store}{Encoding} = undef;
 
 # **PERL LABEL="Implementation Classes" EXPERT**
 # Customisation of the Foswiki Store implementation. This allows

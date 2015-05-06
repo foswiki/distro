@@ -111,6 +111,8 @@ use warnings;
 use Error qw(:try);
 use Assert;
 use Errno 'EINTR';
+use Encode ();
+
 use Foswiki::Serialise ();
 
 #use Foswiki::Iterator::NumberRangeIterator;
@@ -3434,18 +3436,7 @@ sub _summariseTextSimple {
     my ( $this, $text, $limit ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    # SMELL: need to avoid splitting within multi-byte characters
-    # by encoding bytes as Perl UTF-8 characters.
-    # This avoids splitting within a Unicode codepoint (or a UTF-16
-    # surrogate pair, which is encoded as a single Perl UTF-8 character),
-    # but we ideally need to avoid splitting closely related Unicode
-    # codepoints.
-    # Specifically, this means Unicode combining character sequences (e.g.
-    # letters and accents)
-    # Might be better to split on \b if possible.
-
-    $text =~
-      s/^(.{$limit}.*?)($Foswiki::regex{mixedAlphaNumRegex}).*$/$1$2 \.\.\./s;
+    $text =~ s/^(.{$limit}.*?)([[:alnum:]]).*$/$1$2.../s;
 
     return $this->_makeSummaryTextSafe($text);
 }

@@ -150,8 +150,6 @@ sub viewfile {
 
     # decode filename in case it is urlencoded and/or utf8, see Item9462
     $fileName = Foswiki::urlDecode($fileName);
-    my $decodedFileName = $session->UTF82SiteCharSet($fileName);
-    $fileName = $decodedFileName if defined $decodedFileName;
 
     # Note that there may be directories below the pub/web/topic, so
     # simply sanitizing the attachment name won't work.

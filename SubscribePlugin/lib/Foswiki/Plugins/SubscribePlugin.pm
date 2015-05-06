@@ -39,7 +39,7 @@ sub initPlugin {
         $activeWebs =~ s/\s*\,\s*/\|/g;    # Change comma's to "or"
         $activeWebs =~ s/^\s*//;           # Drop leading spaces
         $activeWebs =~ s/\s*$//;           # Drop trailing spaces
-             #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//g
+                                           #$activeWebs =~ s/[^[:alnum:]\|]//g
              #  ;    # Filter any characters not valid in WikiWords
         Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0
           unless ( $WEB =~ qr/^($activeWebs)$/ );

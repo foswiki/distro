@@ -203,7 +203,7 @@ sub parsePageList {
     # $4: child depth
 
     while ( $spec =~
-s/^\s*([-+])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
+s/^\s*([-+])?\s*((?:[[:alnum:]]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
       )
     {
         my ( $us, $webTopic, $options, $childDepth ) =

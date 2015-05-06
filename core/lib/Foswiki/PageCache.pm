@@ -422,7 +422,7 @@ sub addDependency {
     my ( $this, $depWeb, $depTopic ) = @_;
 
     # exclude invalid topic names
-    return unless $depTopic =~ m/^[$Foswiki::regex{upperAlpha}]/;
+    return unless $depTopic =~ m/^[[:upper:]]/;
 
     # omit dependencies triggered from inside a dirtyarea
     my $session = $Foswiki::Plugins::SESSION;

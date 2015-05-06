@@ -2594,7 +2594,6 @@ sub do_attachment {
     my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
 
-    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");

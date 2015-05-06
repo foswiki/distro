@@ -67,8 +67,7 @@ sub test_simple {
    * Italiano
 LANGS
     chomp $expected;
-    $expected = Encode::encode( $Foswiki::cfg{Site}{CharSet},
-        $expected, Encode::FB_CROAK );
+    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -81,8 +80,7 @@ sub test_format {
 de-Deutsch|en-English|fr-Français|it-Italiano
 LANGS
     chomp $expected;
-    $expected = Encode::encode( $Foswiki::cfg{Site}{CharSet},
-        $expected, Encode::FB_CROAK );
+    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -96,8 +94,7 @@ sub test_selected {
 de-Deutsch|en-English|fr-Français**|it-Italiano
 LANGS
     chomp $expected;
-    $expected = Encode::encode( $Foswiki::cfg{Site}{CharSet},
-        $expected, Encode::FB_CROAK );
+    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -111,8 +108,7 @@ sub test_standard_esc {
 de\$<Deutsch>,en\$<English>,fr\$<Français>&,it\$<Italiano>
 LANGS
     chomp $expected;
-    $expected = Encode::encode( $Foswiki::cfg{Site}{CharSet},
-        $expected, Encode::FB_CROAK );
+    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 

@@ -86,8 +86,7 @@ sub _lookupIcon {
                         sub {
                             my $tok = shift;
                             die "Bad filetype $tok"
-                              unless $tok =~
-                              m/^[$Foswiki::regex{mixedAlphaNum}]+$/;
+                              unless $tok =~ m/^[[:alnum:]]+$/;
                             return $tok;
                         }
                     );
