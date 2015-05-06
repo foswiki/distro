@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 19:20+0200\n"
+"PO-Revision-Date: 2015-05-06 20:55+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -155,7 +155,7 @@ msgstr "chaq %2 choHtaH %1."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "%2 mIchDaq %1 choHmey"
+msgstr "%2 mIch %1 choHmey"
 
 #: core/templates/registerapprove.tmpl:3
 msgid "%1 registration approval required"
@@ -406,8 +406,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-msgstr ""
-"*ror*: <nop>HovHommey jojDaq mu&&#39;mey lan: =<nop>*mu&&#39;<nop>meylIj*="
+msgstr "*ror*: <nop>HovHommey jojDaq mu&&#39;mey lan: =<nop>*mu&&#39;meylIj*="
 
 #: core/data/System/WikiSyntaxSummary.txt:10
 msgid ""
@@ -420,7 +419,7 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
-"*rarwI&&#39;* =http://yahoo.com= pagh =[<nop>[http://yahoo.com/][Yahoo "
+"*rarwI&&#39;mey* =http://yahoo.com= pagh =[<nop>[http://yahoo.com/][Yahoo "
 "Delbogh mu&&#39;]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
@@ -430,6 +429,8 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
+"*wanHa&&#39;* bIng tlheghHommey jojDaq mu&&#39;mey lan: "
+"=_<nop>mu&&#39;meylIj_="
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
@@ -1401,7 +1402,7 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
-"ghItlh pong DaghItlhHa&&#39;a&&#39;? ghItlhvaD potlh Degh&&#39;a&&#39;/"
+"ghItlh pong <nop>DaghItlhHa&&#39;a&&#39;? ghItlhvaD potlh Degh&&#39;a&&#39;/"
 "DeghHom &&#39;e&&#39; yIqaw."
 
 #: core/templates/registermessages.tmpl:196
@@ -1794,7 +1795,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr ""
+msgstr "%1vaD Foswiki chaw&&#39; ngoq chu&&#39;moHlu&&#39;pu&&#39;"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
@@ -1802,16 +1803,16 @@ msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr ""
+msgstr "tep chelmeH yIghojchu&&#39;choH"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "ghItlh DuHmey lISmeH mIw yajchu&&#39;choH"
 
 #: core/data/System/WebSearch.txt:274
 msgid "Get notified on changes on this search"
-msgstr ""
+msgstr "nejwI&&#39;vam choHmey qImchoH"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #: PatternSkin/data/System/PatternSkinElements.txt:456
@@ -1832,12 +1833,16 @@ msgstr ""
 #: core/templates/messages.tmpl:270 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
+"&&#39;Internet janDaq yIchegh &&#39;ej juHlIj De&&#39;wI&&#39;lIjDaq "
+"choHmeylIj tIpol."
 
 #: core/templates/messages.tmpl:494
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
+"nungbogh navDaq yIchegh, chabHommey <nop>JavaScript je tIchu&&#39; &&#39;ej "
+"yInIDqa&&#39;"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -1845,7 +1850,7 @@ msgstr "ghantoHmey QaQ:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr ""
+msgstr "ghItlhmeH pab"
 
 #: core/data/Main/WikiGroups.txt:62
 msgid "Group"
@@ -1855,6 +1860,8 @@ msgstr "ghom"
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
+"ghom tu&&#39;lu&&#39;be&&#39; &&#39;ej <nop>DachenmoH "
+"chaw&&#39;be&&#39;lu&&#39;"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1871,7 +1878,7 @@ msgstr "ghommey"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Having problems logging in?"
-msgstr ""
+msgstr "bI&&#39;ellaHbe&&#39;&&#39;a&&#39;?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Header rows"
@@ -2157,20 +2164,20 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:114
 msgid "Incorrect [[%1][WikiName]]"
-msgstr ""
+msgstr "[[%1][WikiName]] muj"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Incorrect [[%1][WikiNames:]]"
-msgstr ""
+msgstr "[[%1][wIqIpongmey]] muj:"
 
 #: core/templates/registermessages.tmpl:211
 #: core/templates/registermessages.tmpl:218
 msgid "Incorrect [[%1][username]]"
-msgstr ""
+msgstr "[[%1][lo&&#39;wI&&#39; pong]] muj"
 
 #: core/templates/messages.tmpl:311
 msgid "Incorrect parameters to the =%1= script"
-msgstr ""
+msgstr "=%1= ngoqDaq ghunmeH mu&&#39;mey qab tu&&#39;lu&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2189,12 +2196,12 @@ msgstr "tetlh"
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 #: PatternSkin/data/System/PatternSkinElements.txt:450
 msgid "Info"
-msgstr ""
+msgstr "<nop>HIchuH"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:2
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Insert a color code"
-msgstr ""
+msgstr "nguvlu&&#39;meH ngoq chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -2215,15 +2222,15 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; taDaq Devbogh rarwI&&#39; chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Insert a macro"
-msgstr ""
+msgstr "mIwHom chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Insert a mathematical formula"
-msgstr ""
+msgstr "<nop>SImwI ngoq chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
@@ -2260,11 +2267,11 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:79
 msgid "Invalid Activation Code"
-msgstr ""
+msgstr "qab chu&&#39;meH ngoq"
 
 #: core/templates/messages.tmpl:176
 msgid "Invalid Input"
-msgstr ""
+msgstr "qab Doch <nop>DaghItlhta&&#39;bogh"
 
 #: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
@@ -2272,11 +2279,11 @@ msgstr ""
 #: core/templates/registermessages.tmpl:260
 #: core/templates/registermessages.tmpl:269
 msgid "Invalid e-mail address"
-msgstr ""
+msgstr "qab QIn Quv"
 
 #: core/templates/messages.tmpl:96
 msgid "Invalid topic name."
-msgstr ""
+msgstr "qab ghItlh pong."
 
 #: core/templates/messages.tmpl:334
 msgid ""
@@ -2307,11 +2314,11 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
 msgid "Italic"
-msgstr ""
+msgstr "wanHa&&#39;"
 
 #: core/data/Main/GroupViewTemplate.txt:256
 msgid "Join %1"
-msgstr ""
+msgstr "%1 muv"
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:7
@@ -2335,11 +2342,11 @@ msgstr "<nop>jIH <nop>neH"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:64
 msgid "Justify text"
-msgstr ""
+msgstr "meyrI&&#39; rurmoH"
 
 #: core/data/System/WebSearch.txt:193
 msgid "Keyword search"
-msgstr "mu&&#39; <nop>nejwI&&#39;"
+msgstr "mu&&#39; nejwI&&#39;"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "Last"
@@ -2360,7 +2367,7 @@ msgstr "choHlu&&#39;"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
-msgstr "choHlu&&#39; <nop>poH"
+msgstr "choHlu&&#39; poH"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
 msgid "Last name:"
@@ -2496,7 +2503,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "More formatting help"
-msgstr "latlh ghunmeH <nop>QaH"
+msgstr "latlh ghunmeH <nop>QaH Sam"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
@@ -2594,9 +2601,8 @@ msgid "Navigate to a similar topic"
 msgstr "pongvam rurbogh ghItlhDaq <nop>ghoS"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:161
-#, fuzzy
 msgid "Never mind"
-msgstr "<nop>buSQo&rsquo;"
+msgstr "<nop>HIbuSQo&&#39;"
 
 #: core/templates/registermessages.tmpl:17
 msgid "New User Registration disabled"
@@ -3019,11 +3025,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:491
 msgid "Please notify your %1 administrator."
-msgstr ""
+msgstr "DaH %1 loHwI&#39;lIj yIghuHmoH."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
-msgstr ""
+msgstr "<nop>DaH yI&&#39;ol"
 
 #: core/templates/mailresetpassword.tmpl:16
 msgid ""
@@ -3078,7 +3084,6 @@ msgid "Preview your changes"
 msgstr "choHmeylIj &&#39;ol"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
-#, fuzzy
 msgid "Previous"
 msgstr "<nop>HeD"
 
@@ -5268,12 +5273,10 @@ msgid "accesskey='c'"
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:17
-#, fuzzy
 msgid "and"
-msgstr "&&rsquo;ej"
+msgstr "&&#39;ej"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
-#, fuzzy
 msgid "by %1 "
 msgstr "qon %1 "
 
@@ -5333,7 +5336,7 @@ msgstr "<nop>QaH"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
-msgstr "batlh ghItlhmeH <nop>qeSmey"
+msgstr "batlh ghItlhmeH <nop>qeSmey laD"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
@@ -5346,7 +5349,7 @@ msgstr "ghunwI&&#39; ngoq"
 #: NatEditPlugin/templates/form.natedit.tmpl:4
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
-msgstr ""
+msgstr "De&&#39; poQlu&&#39;bogh &&#39;ang"
 
 #: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
@@ -5379,7 +5382,6 @@ msgstr "<nop>DaH %1"
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
 #: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
-#, fuzzy
 msgid "or"
 msgstr "pagh"
 
