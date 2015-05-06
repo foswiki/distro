@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:31+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-06 09:33+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4653,15 +4653,16 @@ msgstr "Dieses System ist auf die Verwendung von Benutzernamen konfiguriert."
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
 msgstr ""
+"Dieses System ist nicht auf die Verwendung von User-Login konfiguriert. "
+"Kehren Sie zu [[%1]] zurück."
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Dieses Topic:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#, fuzzy
 msgid "This username is already in use."
-msgstr "Dieser Anmeldename wird schon von einem anderen Benutzer verwendet."
+msgstr "Dieser Benutzername wird schon verwendet."
 
 #: core/templates/messages.tmpl:29
 msgid ""
