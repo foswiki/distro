@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:18+0200\n"
-"Last-Translator: Robert Schüttler <rober@cis.fu-berlin.de>\n"
+"PO-Revision-Date: 2015-05-06 09:24+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -1564,10 +1564,9 @@ msgstr ""
 "Bitte informieren Sie Ihren %4 Administrator."
 
 #: core/templates/messages.tmpl:110
-#, fuzzy
 msgid "During rename of web %1 to %2 an error was found."
 msgstr ""
-"Während des Umbenennens des Webs %1 nach %2 ist der Fehler (%3) aufgetreten."
+"Während des Umbenennens des Webs %1 nach %2 ist ein Fehler (%3) aufgetreten."
 
 #: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
 msgid ""
@@ -1968,13 +1967,12 @@ msgstr ""
 "Gehen Sie mit Ihrem Browser zurück und speichern Sie alle Änderungen lokal."
 
 #: core/templates/messages.tmpl:494
-#, fuzzy
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
-"Navigieren Sie zur vorherigen Seite zurück und aktivieren Sie Cookies und "
-"<nop>JavaScript, bevor Sie es erneut versuchen"
+"Navigieren Sie zur vorigen Seite zurück und aktivieren Sie Cookies und <nop>"
+"JavaScript, bevor Sie es erneut versuchen"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -2011,9 +2009,8 @@ msgid "Having problems logging in?"
 msgstr "Probleme beim Anmelden?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Header rows"
-msgstr "Überschriften-Zeilen"
+msgstr "Überschriftzeilen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
@@ -2456,9 +2453,8 @@ msgid "Invalid e-mail address"
 msgstr "Ungültige E-Mail Adresse"
 
 #: core/templates/messages.tmpl:96
-#, fuzzy
 msgid "Invalid topic name."
-msgstr "Topic Name"
+msgstr "Ungültiger Topic-Name."
 
 #: core/templates/messages.tmpl:334
 msgid ""
@@ -3455,13 +3451,12 @@ msgid "Remember me on this computer"
 msgstr "Auf diesem Computer eingeloggt bleiben"
 
 #: core/templates/registermessages.tmpl:292
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"Vergessen Sie nicht auch ihr Benutzer-Topic mit der neuen E-Mail zu "
-"aktualisieren."
+"Vergessen Sie nicht, Ihr Benutzer-Topic [[%1]] zu aktualisieren, falls Sie "
+"auch dort Ihre geänderte E-Mail anzeigen möchten."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -4219,13 +4214,12 @@ msgid "The Free and Open Source Wiki."
 msgstr "Das freie und queeloffene Wiki."
 
 #: core/templates/messages.tmpl:417
-#, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
 msgstr ""
-"Warnung: Konnte das INCLUDE '%1' nicht durchführen, der Pfad ist leer oder "
-"beinhaltet unerlaubte Zeichen."
+"Warnung: Konnte das INCLUDE '%1' nicht durchführen, weil der Pfad leer ist "
+"oder unerlaubte Zeichen beinhaltet."
 
 #: core/templates/registermessages.tmpl:115
 msgid ""
@@ -4383,9 +4377,8 @@ msgid "The lease on this topic expired %1 ago."
 msgstr "Die Leihfrist von diesem Topic endete vor %1."
 
 #: core/templates/messages.tmpl:97
-#, fuzzy
 msgid "The name of the topic (%1) contained invalid characters."
-msgstr "Der Topic-Name darf nicht leer sein."
+msgstr "Der Name für das Topic (%1) enthält ungültige Zeichen."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
