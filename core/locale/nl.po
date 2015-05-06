@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-02 20:58+0200\n"
+"PO-Revision-Date: 2015-05-06 09:14+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -971,7 +971,7 @@ msgstr ""
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "CHANGE (wijzigen) voor %1 is niet toegestaan door %2"
 
 #: core/templates/messages.tmpl:373 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
@@ -1013,7 +1013,7 @@ msgstr "Upload afbreken"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "Kan abonnement niet wijzigen: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
@@ -1037,7 +1037,7 @@ msgstr "Categorie&&euml;n"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
-msgstr ""
+msgstr "naar het midden zetten"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
@@ -1049,7 +1049,7 @@ msgstr "Wachtwoord wijzigen"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Wijziging kan niet worden afgemaakt"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -1141,8 +1141,8 @@ msgstr ""
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
-"Aangevinkte pagina&#39;s zullen worden bijgewerkt zodat ze verwijzen naar de "
-"nieuwe locatie van de pagina."
+"Aangevinkte pagina&&#39;s zullen worden bijgewerkt zodat ze verwijzen naar "
+"de nieuwe locatie van de pagina."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
@@ -1981,27 +1981,27 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
-msgstr ""
+msgstr "kop 1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:29
 msgid "Heading 2"
-msgstr ""
+msgstr "Kop 2"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:30
 msgid "Heading 3"
-msgstr ""
+msgstr "Kop 3"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:31
 msgid "Heading 4"
-msgstr ""
+msgstr "Kop 4"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:32
 msgid "Heading 5"
-msgstr ""
+msgstr "Kop 5"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
-msgstr ""
+msgstr "Kop 6"
 
 #: core/templates/foswiki.tmpl:165
 msgid "Hello %1!"
@@ -2022,7 +2022,7 @@ msgstr "Help"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
-msgstr ""
+msgstr "Dag, %1"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -2036,7 +2036,8 @@ msgstr "Verberg help"
 #: core/templates/messages.tmpl:122
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
-"Hi&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web aanmaken."
+"Hi&&euml;rarchische Webs zijn uitgeschakeld; je kunt geen genest web "
+"aanmaken."
 
 #: core/data/System/ManagingTopics.txt:98
 msgid "History"
@@ -2044,7 +2045,7 @@ msgstr "Geschiedenis"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Horizontal ruler"
-msgstr ""
+msgstr "Horizontale lijn"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
@@ -4309,8 +4310,8 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"De aangevinkte pagina&#39;s zullen worden bijgewerkt (je zal een ander "
-"formulier te zien krijgen waarin je pagina&#39;s kunt hernoemen die zijn "
+"De aangevinkte pagina&&#39;s zullen worden bijgewerkt (je zal een ander "
+"formulier te zien krijgen waarin je pagina&&#39;s kunt hernoemen die zijn "
 "vergendeld)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
@@ -5511,7 +5512,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&euml;ren. Dit kan je doen door %1 in te "
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
 "gestuurd, of door %2 te bezoeken"
 
@@ -5628,7 +5629,7 @@ msgstr "Je handtekening om te kopi&&euml;ren/plakken:"
 
 #: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
-msgstr "Je signatuur om te kopi&euml;ren/plakken:"
+msgstr "Je signatuur om te kopi&&euml;ren/plakken:"
 
 #: core/templates/registermessages.tmpl:324
 msgid ""
