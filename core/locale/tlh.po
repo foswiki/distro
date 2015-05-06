@@ -135,9 +135,7 @@ msgstr "[[%2][%3]] <nop>choHtaH %1."
 
 #: core/templates/registermessages.tmpl:284
 msgid "%1 is in at least one group and cannot be removed"
-msgstr ""
-"wa&&rsquo; <nop>ghomDaq <nop>ghaHtaHmo&&rsquo; %1, ghaH "
-"<nop>vIteqlaHbe&&rsquo;"
+msgstr "wa&&rsquo; ghomDaq ghaHtaHmo&&rsquo; %1, ghaH <nop>vIteqlaHbe&&rsquo;"
 
 #: core/templates/messages.tmpl:133
 msgid "%1 is not a valid form name"
@@ -564,7 +562,7 @@ msgstr ""
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
 "ghItlh chu&&rsquo; <nop>chenmoHmeH, De&&rsquo; <nop>wa&&rsquo;DIch <nop>"
-"noblaH <nop>ghantoH."
+"noblaH ghantoH."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
@@ -1235,7 +1233,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:294
 msgid "Could not find template"
-msgstr "<nop>ghantoH <nop>vISamlaHbe'"
+msgstr "ghantoH <nop>vISamlaHbe'"
 
 #: core/templates/messages.tmpl:383
 msgid "Could not perform search. Error was: %1"
@@ -1355,7 +1353,7 @@ msgstr ""
 
 #: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
-msgstr "<nop>ghantoH motlh"
+msgstr "ghantoH motlh"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
@@ -2418,7 +2416,7 @@ msgstr "&&rsquo;el"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
-msgstr "&&rsquo;<nop>elHa&&rsquo;"
+msgstr "&&rsquo;elHa&&rsquo;"
 
 #: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
@@ -2435,7 +2433,7 @@ msgstr "&&rsquo;el"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
 msgid "Login username:"
-msgstr "&&rsquo;<nop>elmeH lo&&rsquo;<nop>wI&&rsquo; pong:"
+msgstr "&&rsquo;elmeH lo&&rsquo;<nop>wI&&rsquo; pong:"
 
 #: core/templates/login.tmpl:77
 #, fuzzy
@@ -3865,7 +3863,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
-msgstr "<nop>ghantoH %1 tu'lu'be'"
+msgstr "ghantoH %1 tu'lu'be'"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:82
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
@@ -4101,7 +4099,7 @@ msgstr ""
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
-msgstr "&&rsquo;<nop>elmeH pong Dalo&&rsquo;bogh"
+msgstr "&&rsquo;elmeH pong Dalo&&rsquo;bogh"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
@@ -4143,8 +4141,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:105
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
-"lo&&rsquo;wI&&rsquo; chu&&rsquo;lu&&rsquo;mo&&rsquo; vaj &&rsquo;<nop>ellaH "
-"<nop>ghaH."
+"lo&&rsquo;wI&&rsquo; chu&&rsquo;lu&&rsquo;mo&&rsquo; vaj &&rsquo;ellaH ghaH."
 
 #: core/templates/registermessages.tmpl:354
 msgid "The user has been removed from the Authentication System."
@@ -4483,7 +4480,7 @@ msgstr "ghItlh polmeH Qagh"
 
 #: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
-msgstr "%1 mIch ghItlh <nop>ghantoHmey"
+msgstr "%1 mIch ghItlh ghantoHmey"
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:139
 msgid "Topic title"
@@ -4640,7 +4637,7 @@ msgstr "%1 <nop>yIlo'."
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:68
 msgid "Use template:"
-msgstr "<nop>ghantoH yIlo':"
+msgstr "ghantoH yIlo':"
 
 #: core/data/System/CompleteDocumentation.txt:12
 msgid ""
@@ -4795,7 +4792,7 @@ msgstr ""
 
 #: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
-msgstr "<nop>ghantoHmey &&rsquo;ang"
+msgstr "ghantoHmey &&rsquo;ang"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
