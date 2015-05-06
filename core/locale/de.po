@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:37+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-06 09:39+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -5288,8 +5288,8 @@ msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
-"Wiki-Administratoren sollten sich informieren über das [[%1"
-"][SecurityFeatures-Topic auf Foswiki.org]]."
+"Wiki-Administratoren sollten sich über das [[%1][SecurityFeatures-Topic auf "
+"Foswiki.org]] informieren."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5419,12 +5419,12 @@ msgstr ""
 "create-Option nicht aktiv ist."
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
-"Sie müssen wahrscheinlich Ihren Administrator, %1, fragen, um das zu tun."
+"Sie können Ihren Nutzernamen nicht selbst ändern: Fragen Sie Ihren "
+"Administrator, um das zu erledigen."
 
 #: core/templates/messages.tmpl:493
 #, fuzzy
