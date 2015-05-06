@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-06 09:34+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4866,7 +4866,7 @@ msgstr "Nochmal versuchen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
@@ -4882,7 +4882,7 @@ msgstr "Letzte Änderung rückgängig"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Unescape markup"
-msgstr ""
+msgstr "Markupschutz entfernen"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -4893,12 +4893,11 @@ msgid "Unrecognized action command %1"
 msgstr "Aktions Befehl %1 nicht erkannt"
 
 #: core/templates/messages.tmpl:401
-#, fuzzy
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
-"Unsichere Weiterleitung zu %1 gesperrt: der Zielname stimmt nicht mit %2 "
+"Unsichere Weiterleitung zu %1 gesperrt: der Zielrechner stimmt nicht mit %2 "
 "überein und ist nicht in der Ausnahmenliste {PermittedRedirectHostUrls} "
 "aufgeführt."
 
