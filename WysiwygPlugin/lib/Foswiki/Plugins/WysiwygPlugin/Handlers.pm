@@ -11,8 +11,6 @@ use Error (':try');
 
 use CGI qw( :cgi );
 
-use Encode ();
-
 use Foswiki::Func                              ();    # The plugins API
 use Foswiki::Plugins                           ();    # For the API version
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
@@ -64,13 +62,6 @@ sub _OTOPICTAG {
     }
 
     return $topic;
-}
-
-# Assert that the given text is octets encoded according to $encoding
-sub _assertEncoding {
-    my ( $encoding, $text ) = @_;
-    eval { Encode::decode( $encoding, $text, Encode::FB_CROAK ); };
-    ASSERT( !$@, $@ );
 }
 
 # This handler is used to determine whether the topic is editable by
@@ -149,13 +140,9 @@ sub afterEditHandler {
 }
 
 # Invoked to convert HTML to TML
-# $text is a foswiki string i.e. octets encoded according to {Site}{CharSet},
-# and so is the result.
+# $text is a foswiki string, i.e. octets encoded in utf8, and so is the result.
 sub TranslateHTML2TML {
     my ( $text, %opts ) = @_;
-
-    # ASSERT $text is encoded in the site charset
-    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
@@ -186,18 +173,7 @@ sub TranslateHTML2TML {
     $opts{ignoreattrs} =
       Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_IGNOREATTRS');
 
-    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-
-    $text = Encode::decode( WC::site_encoding(), $text );
-
-    # $text is now Perl internal (Unicode) characters.
-
     $text = $html2tml->convert( $text, \%opts );
-
-    $text = _to_SiteCharSet_octets($text);
-
-    # ASSERT $text is encoded in the site charset
-    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
     return $top . $text . $bottom;
 }
@@ -528,13 +504,9 @@ sub addXMLTag {
 }
 
 # Invoked to convert TML to HTML
-# $text is a foswiki string i.e. octets encoded according to {Site}{CharSet},
-# and so is the result.
+# $text is a foswiki string, i.e. octets encoded in utf8, and so is the result.
 sub TranslateTML2HTML {
     my ( $text, %opts ) = @_;
-
-    # ASSERT $text is encoded in the site charset
-    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
 
     unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
@@ -592,9 +564,6 @@ WARNING
           . CGI::div( { class => 'WYSIWYG_PROTECTED' }, $html );
     }
 
-    # ASSERT $text is still encoded in the site charset
-    _assertEncoding( WC::site_encoding(), $text ) if DEBUG;
-
     return $html;
 }
 
@@ -618,48 +587,13 @@ sub _isKnownColour {
     return undef;
 }
 
-# Convert a perl string containing TML or HTML to the site charset,
-# handling any characters that can't be represented in the site charset
-# by converting them to entities.
-sub _to_SiteCharSet_octets {
-    my $text = shift;
-
-    if ( WC::site_encoding() !~ /^utf-?8/ ) {
-
-        # The site charset is a non-UTF-8 8-bit charset
-
-        # Make sure that characters that cannot be represented in
-        # the site charset are now encoded as entities. Named
-        # entities are used if available, otherwise numeric entities,
-        # because named entities produce more readable TML
-        WC::convertNotRepresentabletoEntity($text);
-    }
-
-    # Encode $text in the site charset
-    # The Encode::FB_HTMLCREF should not be needed, as all characters
-    # in $text are supposed to be representable in the site charset.
-    # In debug mode, we ASSERT if there are any alien chars.
-    $text =
-      Encode::encode( WC::site_encoding(), $text,
-        (DEBUG) ? Encode::FB_CROAK : Encode::FB_HTMLCREF );
-
-    # $text is now octets encoded as per the site charset.
-
-    return $text;
-}
-
 # Text that is taken from a web page and added to the parameters of an XHR
 # by JavaScript is UTF-8 encoded. This is because UTF-8 is the default encoding
 # for XML, which XHR was designed to transport. For usefulness in Javascript
 # the response to an XHR should also be UTF-8 encoded.
 # This function generates such a response.
-# BE CAREFUL - $text is a perl string, not octets encoded using the
-# site charset!
 sub returnRESTResult {
     my ( $response, $status, $text ) = @_;
-
-    # Convert $string to octets
-    $text = Encode::encode_utf8($text);
 
     # Foswiki 1.0 introduces the Foswiki::Response object, which handles all
     # responses.
@@ -710,13 +644,6 @@ sub REST_TML2HTML {
 
     my $tml = Foswiki::Func::getCgiQuery()->param('text');
 
-    # ASSERT $tml contains octets that are valid UTF-8.
-    _assertEncoding( 'utf-8', $tml ) if DEBUG;
-
-    # Convert the UTF-8 to the site charset
-    $tml = Encode::decode( 'utf-8', $tml, Encode::FB_CROAK );
-    $tml = _to_SiteCharSet_octets($tml);
-
     # if the secret ID is present, don't convert again. We are probably
     # going 'back' to this page (doesn't work on IE :-( )
     if ( $tml =~ /<!--$SECRET_ID-->/ ) {
@@ -730,10 +657,6 @@ sub REST_TML2HTML {
     # in during final cleanup.
     $html = '<!--' . $SECRET_ID . '-->' . $html;
 
-    # Convert the result back to perl characters for passing
-    # to returnRESTResult
-    $html = Encode::decode( WC::site_encoding(), $html );
-
     returnRESTResult( $response, 200, $html );
 
     return;    # to prevent further processing
@@ -744,12 +667,6 @@ sub REST_HTML2TML {
     my ( $session, $plugin, $verb, $response ) = @_;
 
     my $html = Foswiki::Func::getCgiQuery()->param('text');
-
-    # ASSERT $html contains octets that are valid UTF-8.
-    _assertEncoding( 'utf-8', $html ) if DEBUG;
-
-    # Convert to perl characters (as required by HTML2TML::convert)
-    $html = Encode::decode( 'utf-8', $html );
 
     $html =~ s/<!--$SECRET_ID-->//go;
     unless ($html2tml) {
@@ -773,7 +690,6 @@ sub REST_HTML2TML {
         }
     );
 
-    # The result is in perl characters, so we can just sling it back
     returnRESTResult( $response, 200, $tml );
 
     return;    # to prevent further processing

@@ -101,7 +101,7 @@ sub process {
     $response->header(
         -status  => $status,
         -type    => 'application/json',
-        -charset => $Foswiki::cfg{Site}{CharSet},
+        -charset => 'utf-8',
 
         # HTTP/1.0
         -Pragma => 'no-cache',

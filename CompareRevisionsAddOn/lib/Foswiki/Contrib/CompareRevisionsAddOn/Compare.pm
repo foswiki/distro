@@ -12,6 +12,7 @@ package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 
 use strict;
 use warnings;
+use Assert;
 
 use Foswiki::UI      ();
 use Foswiki::Func    ();
@@ -111,14 +112,16 @@ sub compare {
       if defined $savedskin;
     $query->param( 'skin', 'classic' );
 
-    # Get the HTML trees of the specified versions
+    # Get the HTML trees of the specified versions.
+    # Note that the trees are built using UNICODE text, and it is
+    # only at the end that the result is converted back to utf8 bytes.
 
     my $tree2 = _getTree( $session, $webName, $topic, $rev2 );
     if ( $tree2 =~ /^http:.*oops/ ) {
         Foswiki::Func::redirectCgiQuery( $query, $tree2 );
     }
 
-    # TablePlugin must reinitiatilise to reset all table counters (Item1911)
+    # TablePlugin must reinitialise to reset all table counters (Item1911)
     if ( defined &Foswiki::Plugins::TablePlugin::initPlugin ) {
         if ( defined &Foswiki::Plugins::TablePlugin::initialiseWhenRender ) {
             Foswiki::Plugins::TablePlugin::initialiseWhenRender();
@@ -182,7 +185,6 @@ sub compare {
     $tmpl_d = $tmpl_a  unless $tmpl_d =~ /\S/;
 
     # Start the output
-
     my $output = '';
 
     # Compare the trees
@@ -267,14 +269,6 @@ sub compare {
 
     }
 
-    # Item12337: part of alternative fix for Item11755
-    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
-    $output = Encode::encode( $charset, $output );
-
-    # Item12423: include rest of template after recoding
-    # (avoids double-encoding in header/footer)
-    $output = $tmpl_before . $output;
-
     # Print remainder of document
 
     my $revisions = "";
@@ -336,9 +330,10 @@ sub compare {
 
 }
 
+# Get the rendered version of a document as HTML tree
+# CAUTION: the utf8 content of the topic is automatically decoded to unicode,
+# and it's unicode that will appear in the tree.
 sub _getTree {
-
-    # Purpose: Get the rendered version of a document as HTML tree
 
     my ( $session, $webName, $topicName, $rev ) = @_;
 
@@ -356,12 +351,6 @@ sub _getTree {
 
     $text =~ s/^\s*//;
     $text =~ s/\s*$//;
-
-    # Item12337: part of alternative fix for Item11755
-    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
-    $text = Encode::decode( $charset, $text );
-
-    # Generate tree
 
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
@@ -387,6 +376,7 @@ sub _getTree {
     return $tree;
 }
 
+# All strings are UNICODE
 sub _findSubChanges {
 
     # Purpose: Finds and formats changes between two HTML::Elements.
@@ -418,8 +408,8 @@ sub _findSubChanges {
     my @list2 = $e2->content_list;
 
     if ( @list1 && @list2 ) {    # Two non-empty lists
-        die "Huch!:" . $e1->tag . "!=" . $e2->tag
-          if $e1->tag ne $e2->tag;
+        ASSERT( $e1->tag eq $e2->tag, "Huch!:" . $e1->tag . "!=" . $e2->tag )
+          if DEBUG;
         $text1 = $e1->starttag;
         $text2 = $e2->starttag;
         my @changes =
@@ -497,9 +487,9 @@ sub _addClass {
     }
 }
 
+# Compare two text elements. Output as in _findSubChanges
+# All strings are UNICODE
 sub _compareText {
-
-    # Purpose: Compare two text elements. Output as in _findSubChanges
 
     my ( $text1, $text2 ) = @_;
 
@@ -553,33 +543,36 @@ sub _compareText {
     return ( $ctext1 || '', $ctext2 || '' );
 }
 
+# Format text with a class.
+# All strings are UNICODE
 sub _getTextWithClass {
 
-    # Purpose: Format text with a class
-
     my ( $element, $class ) = @_;
+    my $result;
 
     if ( ref($element) eq $HTMLElement ) {
         _addClass( $element, $class ) if $class;
 
-# Item11755: prevent entity mangling
-# SMELL: Alternative to  $tree->no_expand_entities(1);  See Item12337 and Item12407
-# This fix is not 100%,  but helps in some cases.  The real solution is to install
-# latest HTML::Tree.
+        # Item11755: prevent entity mangling
+        # SMELL: Alternative to  $tree->no_expand_entities(1);
+        # See Item12337 and Item12407
+        # This fix is not 100%,  but helps in some cases.
+        # The real solution is to install the latest HTML::Tree!
         my $entities = ($v40plus) ? '' : '<>&';
-        return $element->as_HTML( $entities, undef, {} );
+        $result = $element->as_HTML( $entities, undef, {} );
     }
     elsif ($class) {
-        return '<span class="' . $class . '">' . $element . '</span>';
+        $result = '<span class="' . $class . '">' . $element . '</span>';
     }
     else {
-        return $element;
+        $result = $element;
     }
+    return $result;
 }
 
+# Get test from an action.
+# All strings are UNICODE
 sub _getTextFromAction {
-
-    # Purpose:
 
     my $action = shift;
 

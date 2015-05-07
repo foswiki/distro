@@ -64,7 +64,7 @@ THERE
         name     => 'numericEntityWithoutName',
         exec     => ROUNDTRIP | CHARSETS,
         tml      => '&#9792;',
-        finaltml => _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
+        finaltml => chr(9792),
     },
     {
         name     => 'numericEntityWithName',
@@ -72,23 +72,6 @@ THERE
         tml      => '&#945;',
         finaltml => '&alpha;',
     },
-
-    # This test's finaltml is correct for ISO-8859-1 and ISO-8859-15,
-    # but not necessarily any other charsets
-    (
-        (
-            not $Foswiki::cfg{Site}{CharSet}
-              or $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i
-        )
-        ? {
-            name     => 'safeNamedEntity',
-            exec     => ROUNDTRIP | CHARSETS,
-            tml      => '&Aring;',
-            finaltml => chr(0xC5),
-          }
-        : ()
-    ),
-
     {
         name => 'namedEntity',
         exec => ROUNDTRIP,
@@ -410,11 +393,6 @@ HERE
     },
 ];
 
-sub _siteCharsetIsUTF8 {
-    undef $WC::encoding;
-    return WC::site_encoding() =~ /^utf-?8/;
-}
-
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
@@ -471,11 +449,9 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     # common entity name
     my $testText     = "A \x{eb} B &#x2640; C";
     my $expectedText = $testText;
-    if ( _siteCharsetIsUTF8() ) {
-        $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
-        $testText     = Encode::encode_utf8($testText);
-        $expectedText = Encode::encode_utf8($expectedText);
-    }
+    $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
+    $testText     = Encode::encode_utf8($testText);
+    $expectedText = Encode::encode_utf8($expectedText);
 
     # Create the test topic
     my $topicName = $this->{test_topic} . "For9170";

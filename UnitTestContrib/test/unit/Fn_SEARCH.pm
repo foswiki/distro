@@ -4034,10 +4034,8 @@ sub _cut_the_crap {
     $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
     $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
     $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
-    $result = Encode::decode_utf8($result);
-    $result =
-      HTML::Entities::encode_entities( $result, '^\n\x20-\x25\x27-\x7e' );
-    return Encode::encode_utf8($result);
+    HTML::Entities::encode_entities( $result, '\x00-\x09\x0B-\x1F' );
+    return $result;
 }
 
 sub test_no_format_no_junk {
@@ -6149,7 +6147,6 @@ footer: \$web=$this->{test_web}", $result
   excludetopic="*Other*"
 }%'
     );
-
     $this->assert_str_equals(
         "   1 OkATopic
    1 OkBTopic

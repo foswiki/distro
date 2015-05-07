@@ -51,7 +51,6 @@ use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
-use Encode (':fallbacks');
 
 use 5.006;                        # First version to accept v-numbers.
 
@@ -3821,6 +3820,7 @@ used *only* if there is *absolutely no alternative*.
 
 sub readFile {
     my $name = shift;
+    ASSERT(0) if DEBUG;
     my $IN_FILE;
     open( $IN_FILE, "<$name" ) || return '';
     local $/ = undef;

@@ -25,7 +25,7 @@ sub handle {
 
     my $request = $session->{request};
 
-    # transform to site charset
+    # Hack the parameters
     foreach my $key ( $request->multi_param() ) {
         my @val = $request->multi_param($key);
 
@@ -38,10 +38,10 @@ sub handle {
         }
 
         if ( ref $val[0] eq 'ARRAY' ) {
-            $request->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
+            $request->param( $key, $val[0] );
         }
         else {
-            $request->param( $key, [ map( toSiteCharSet($_), @val ) ] );
+            $request->param( $key, [@val] );
         }
     }
 
@@ -112,17 +112,6 @@ sub stringifyError {
       if defined $error->{params};
 
     return $s;
-}
-
-sub toSiteCharSet {
-    my $string = shift;
-
-    my $charSet = Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} );
-    return $string if ( !$charSet || $charSet =~ m/^utf-?8$/i );
-
-    # converts to {Site}{CharSet}, generating HTML NCR's when needed
-    my $octets = Encode::decode( 'utf-8', $string );
-    return Encode::encode( $charSet, $octets, &Encode::FB_HTMLCREF() );
 }
 
 1;

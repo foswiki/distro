@@ -61,21 +61,6 @@ our $PROTECTOFF = '</span>';
 our $LINKOFF    = '</span>';
 our $NOP        = "$PROTECTON<nop>$PROTECTOFF";
 
-# When CHARSETS is set on a test, then we generate a verify method instead
-# of a test to test different character sets (a known problem area)
-sub fixture_groups {
-    return ( [ 'utf8', 'iso8859' ] );
-}
-
-# the two most commonly used charsets
-sub utf8 {
-    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
-}
-
-sub iso8859 {
-    $Foswiki::cfg{Site}{CharSet} = 'iso8859-1';
-}
-
 sub gen_compare_tests {
     my $class  = shift;
     my $data   = shift;
@@ -86,7 +71,7 @@ sub gen_compare_tests {
             next unless ( $picked{ $datum->{name} } );
         }
 
-        my $method = ( $datum->{exec} & CHARSETS ) ? 'verify' : 'test';
+        my $method = 'test';
 
         if ( ( MASK & $datum->{exec} ) & TML2HTML ) {
             my $fn = $class . '::' . $method . 'TML2HTML_' . $datum->{name};

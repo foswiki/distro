@@ -12,7 +12,7 @@ package Foswiki::Serialise::Json;
 
 use strict;
 use warnings;
-use JSON::Any;
+use JSON;
 
 =begin TML
 
@@ -26,36 +26,30 @@ sub new {
     return $this;
 }
 
-#The JSON serialisation uses JSON::Any to select the 'best' available JSON implementation - JSON::XS being much faster.
-
-#TODO: should really use encode_json / decode_json as those will use utf8,
-#but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub write {
     my $module = shift;
     my ($result) = @_;
 
     return '' if ( not( defined($result) ) );
-    my $j = JSON::Any->new( allow_nonref => 1 );
-    return $j->to_json( $result, { allow_nonref => 1 } );
+    my $j = JSON->new->allow_nonref(1);
+    return $j->encode($result);
 }
 
-#TODO: should really use encode_json / decode_json as those will use utf8,
-#but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub read {
     my $module = shift;
     my ($result) = @_;
 
     return if ( $result eq '' );
 
-    my $j = JSON::Any->new( allow_nonref => 1 );
-    return $j->from_json($result);
+    my $j = JSON->new->allow_nonref(1);
+    return $j->decode($result);
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
