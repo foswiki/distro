@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:14+0200\n"
+"PO-Revision-Date: 2015-05-07 14:11+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1658,7 +1658,7 @@ msgstr "Foswiki wachtwoord opnieuw ingesteld voor %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Hulp bij het toevoegen van bestanden"
+msgstr "Lees meer informatie over het toevoegen van bestanden"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
@@ -1683,7 +1683,8 @@ msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Ga terug met je browser en vul de informatie bij de verplichte velden in"
+"Ga terug met je browser en vul de informatie bij de verplichte velden in "
+"voor dat je opslaat"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
