@@ -264,7 +264,8 @@ sub finalizeHeaders {
 }
 
 sub write {
-    print $_[1];
+    my $s = $_[1];
+    print Encode::encode_utf8($s);
 }
 
 1;

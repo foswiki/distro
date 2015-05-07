@@ -13,6 +13,7 @@ Pure perl implementation of the flat file search in Forking.pm.
 use strict;
 use warnings;
 use Assert;
+use Encode;
 
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
 our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
@@ -98,6 +99,8 @@ sub _search {
             while ( my $line = <$file> ) {
                 if ( &$doMatch($line) ) {
                     chomp($line);
+                    Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+                        $line, Encode::FB_PERLQQ );
                     push( @{ $seen{$webtopic} }, $line );
                     if ( $options->{files_without_match} ) {
                         close($file);

@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 use JSON                                    ();
-use Encode                                  ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw( :try );
 use Foswiki::Func    ();
@@ -37,11 +36,9 @@ sub new {
 
     # get json-rpc request object
     my $data = $request->param('POSTDATA');
-    if ($data) {
-        $data = fromUtf8($data);
-    }
-    else {
-        # minimal stup
+    unless ($data) {
+
+        # minimal setup
         $data = '{"jsonrpc":"2.0"}';
     }
     writeDebug("data=$data") if TRACE;
@@ -60,7 +57,7 @@ sub new {
     # override json-rpc params using url params
     foreach my $key ( $request->multi_param() ) {
         next if $key =~ /^(POSTDATA|method|id|jsonrpc)$/;  # these are different
-        my @vals = map( fromUtf8($_), $request->multi_param($key) );
+        my @vals = $request->multi_param($key);
         if ( scalar(@vals) == 1 ) {
             $this->param( $key => $vals[0] )
               ;    # set json-rpc params using url params
@@ -192,18 +189,6 @@ sub json {
 # static
 sub writeDebug {
     Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
-}
-
-###############################################################################
-sub fromUtf8 {
-    my $string = shift;
-
-    return $string unless $string;
-    return $string
-      if $Foswiki::Plugins::VERSION >
-      2.1;    # not required on "newer" foswikis, is it?
-
-    return Encode::decode_utf8($string);
 }
 
 1;

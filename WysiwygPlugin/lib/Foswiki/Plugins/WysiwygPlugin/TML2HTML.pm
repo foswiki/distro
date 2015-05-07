@@ -341,20 +341,13 @@ sub _processTags {
     return $stackTop;
 }
 
-sub _percentHighBit {
-    my $url = shift;
-    return $url if $Foswiki::cfg{Site}{CharSet} eq 'utf-8';
-    $url =~ s/([\x80-\xFF])/'%'.ord($1)/ge;
-    return $url;
-}
-
 sub _expandURL {
     my ( $this, $url ) = @_;
 
     if ( $this->{opts}->{expandVarsInURL} ) {
         $url = $this->{opts}->{expandVarsInURL}->( $url, $this->{opts} );
     }
-    return _percentHighBit($url);
+    return $url;
 }
 
 # Lifted straight out of DevelopBranch Render.pm

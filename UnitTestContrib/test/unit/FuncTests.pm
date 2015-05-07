@@ -2569,20 +2569,13 @@ sub DISABLEDtest_unicode_attachment {
 # Test that we can attach a file named with unicode chars.
 sub test_unicode_attachment_utf8_encoded {
     my ($this) = @_;
-    require Encode;
-    my $utfname    = Encode::encode( 'utf-8', $uniname );
-    my $utfcomment = Encode::encode( 'utf-8', $unicomment );
 
     $this->assert( utf8::is_utf8($uniname),
         "The attachment name '$uniname' doesn\'t have utf8 flag set" );
     $this->assert( utf8::is_utf8($uniname),
         "The attachment comment '$unicomment' doesn\'t have utf8 flag set" );
-    $this->assert( !utf8::is_utf8($utfname),
-        "Our utf-8 encoded attachment name '$utfname' has utf8 flag set" );
-    $this->assert( !utf8::is_utf8($utfname),
-        "Our utf-8 encoded attachment comment '$utfcomment' has utf8 flag set"
-    );
-    $this->do_attachment( $utfname, $utfcomment );
+
+    $this->do_attachment( $uniname, $unicomment );
 
     return;
 }

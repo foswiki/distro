@@ -372,7 +372,7 @@ our @SAFE_ENTITIES = (
 our $safe_entities;
 
 sub safeEntities {
-    unless ($safe_entities) {
+    unless ( defined $safe_entities ) {
         foreach my $entity (@SAFE_ENTITIES) {
 
             # Decode the entity name to unicode
@@ -384,52 +384,25 @@ sub safeEntities {
     return $safe_entities;
 }
 
-our $representable_entities;
 our $encoded_nbsp;
 
 # Given a unicode string, decode all entities in it that can be mapped
 # to the current site encoding
 sub decodeRepresentableEntities {
-    if ( !$representable_entities ) {
-        if ( WC::site_encoding() =~ /^utf-?8/ ) {
 
-            # UTF-8 can do all entities
-            $representable_entities = \%HTML::Entities::entity2char;
-        }
-        else {
+    # Expand entities
+    HTML::Entities::decode_entities($str);
 
-            # Filter the entity set to those that can be
-            # represented in the site charset
-            while ( my ( $entity, $unicode ) =
-                each %HTML::Entities::entity2char )
-            {
-                eval {
-                    my $uncool = $unicode;
-                    Encode::encode( WC::site_encoding(), $uncool,
-                        Encode::FB_CROAK );
-                };
-                unless ($@) {
-
-                    # $unicode can be encoded in the site charset
-                    $representable_entities->{$entity} = $unicode;
-                }
-            }
-        }
-
-        # Remember what &nbsp; expands to (may be a single char, may be
-        # a codepoint, depending on the site encoding) as we want to
-        # may this codepoint back to $WC::NBSP
+    unless ( defined $encoded_nbsp ) {
         $encoded_nbsp = '&nbsp;';
-        HTML::Entities::_decode_entities( $encoded_nbsp,
-            $representable_entities );
+        HTML::Entities::decode_entities($encoded_nbsp);
         ASSERT( $encoded_nbsp ne '&nbsp;' ) if DEBUG;
     }
-    HTML::Entities::_decode_entities( $_[0], $representable_entities );
 
     # Replace expansion of &nbsp; with $WC::NBSP
-    $_[0] =~ s/$encoded_nbsp/$WC::NBSP/g;
+    $str =~ s/$encoded_nbsp/$WC::NBSP/g;
 
-    return $_[0];
+    return $str;
 }
 
 # DEBUG

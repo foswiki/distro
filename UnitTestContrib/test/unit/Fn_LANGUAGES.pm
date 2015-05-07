@@ -9,7 +9,6 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Error qw( :try );
-use Encode;
 
 my $topicObject;
 
@@ -54,6 +53,7 @@ sub setLocalSite {
     $Foswiki::cfg{Languages}{de}{Enabled} = 1;
     $Foswiki::cfg{Languages}{fr}{Enabled} = 1;
     $Foswiki::cfg{Languages}{it}{Enabled} = 1;
+    $Foswiki::cfg{Languages}{ru}{Enabled} = 1;
 }
 
 sub test_simple {
@@ -63,11 +63,11 @@ sub test_simple {
     my $expected = <<LANGS;
    * Deutsch
    * English
-   * Fran�ais
+   * Français
    * Italiano
+   * Русский
 LANGS
     chomp $expected;
-    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -77,10 +77,9 @@ sub test_format {
     my $result = $topicObject->expandMacros(
         '%LANGUAGES{format="$langtag-$langname" separator="|"}%');
     my $expected = <<LANGS;
-de-Deutsch|en-English|fr-Fran�ais|it-Italiano
+de-Deutsch|en-English|fr-Français|it-Italiano|ru-Русский
 LANGS
     chomp $expected;
-    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -91,10 +90,9 @@ sub test_selected {
 '%LANGUAGES{format="$langtag-$langname$marker" separator="|" marker="**" selection="fr"}%'
     );
     my $expected = <<LANGS;
-de-Deutsch|en-English|fr-Fran�ais**|it-Italiano
+de-Deutsch|en-English|fr-Français**|it-Italiano|ru-Русский
 LANGS
     chomp $expected;
-    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -105,10 +103,9 @@ sub test_standard_esc {
 '%LANGUAGES{format="$nop$langtag$dollar$lt$langname$gt$marker" separator="$comma" marker="$amp" selection="fr"}%'
     );
     my $expected = <<LANGS;
-de\$<Deutsch>,en\$<English>,fr\$<Fran�ais>&,it\$<Italiano>
+de\$<Deutsch>,en\$<English>,fr\$<Français>&,it\$<Italiano>,ru\$<Русский>
 LANGS
     chomp $expected;
-    $expected = Encode::encode( 'utf-8', $expected, Encode::FB_CROAK );
     $this->assert_str_equals( $expected, $result );
 }
 
