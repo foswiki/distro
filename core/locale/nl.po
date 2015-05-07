@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:14+0200\n"
+"PO-Revision-Date: 2015-05-07 14:11+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1789,9 +1789,8 @@ msgid "Fields marked %1 are required"
 msgstr "Velden gemarkeerde met %1 zijn verplicht"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required."
-msgstr "Velden gemarkeerde met %1 zijn verplicht"
+msgstr "Met <span class='required'>*</span> markeerde velden zijn verplicht."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
@@ -1898,9 +1897,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr ""
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "heeft meer informatie over het toevoegen van bestanden."
+msgstr "Lees meer informatie over het toevoegen van bestanden"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
@@ -1922,12 +1920,12 @@ msgid "Go back"
 msgstr "Terug"
 
 #: core/templates/messages.tmpl:198
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
-"Ga terug met je browser en vul de informatie bij de verplichte velden in."
+"Ga terug met je browser en vul de informatie bij de verplichte velden in "
+"voor dat je opslaat"
 
 #: core/templates/messages.tmpl:270 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -2366,9 +2364,8 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:103
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:84
-#, fuzzy
 msgid "Insert an attachment"
-msgstr "Bijlage verwijderen"
+msgstr "Bijlage bijvoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
@@ -2407,9 +2404,8 @@ msgid "Invalid e-mail address"
 msgstr "Ongeldig e-mailadres"
 
 #: core/templates/messages.tmpl:96
-#, fuzzy
 msgid "Invalid topic name."
-msgstr "Paginanaam"
+msgstr "ongeldige paginanaam."
 
 #: core/templates/messages.tmpl:334
 msgid ""
