@@ -25,7 +25,6 @@ sub handle {
 
     my $request = $session->{request};
 
-    # Hack the parameters
     foreach my $key ( $request->multi_param() ) {
         my @val = $request->multi_param($key);
 
@@ -38,10 +37,10 @@ sub handle {
         }
 
         if ( ref $val[0] eq 'ARRAY' ) {
-            $request->param( $key, $val[0] );
+            $request->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
         }
         else {
-            $request->param( $key, [@val] );
+            $request->param( $key, [ map( toSiteCharSet($_), @val ) ] );
         }
     }
 
@@ -112,6 +111,27 @@ sub stringifyError {
       if defined $error->{params};
 
     return $s;
+}
+
+sub toSiteCharSet {
+    my $string = shift;
+
+    return $string unless $string;
+
+    # Convert to unicode if the core supports it
+    return Encode::decode_utf8($string)
+      if $Foswiki::USE_UNICODE;
+
+    return $string
+      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+
+    # If the site charset is not utf-8, need to convert it
+    require Encode;
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        Encode::decode_utf8($string),
+        Encode::FB_PERLQQ
+    );
 }
 
 1;

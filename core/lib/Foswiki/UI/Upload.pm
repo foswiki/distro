@@ -115,12 +115,12 @@ sub _upload {
 
     Foswiki::UI::checkValidationKey($session);
 
-    my $hideFile    = $query->param('hidefile')    || '';
-    my $fileComment = $query->param('filecomment') || '';
-    my $createLink  = $query->param('createlink')  || '';
+    my $hideFile    = $query->param('hidefile')            || '';
+    my $fileComment = $query->unicode_param('filecomment') || '';
+    my $createLink  = $query->param('createlink')          || '';
     my $doPropsOnly = $query->param('changeproperties');
-    my $filePath    = $query->param('filepath')    || '';
-    my $fileName    = $query->param('filename')    || '';
+    my $filePath    = $query->unicode_param('filepath')    || '';
+    my $fileName    = $query->unicode_param('filename')    || '';
     if ( $filePath && !$fileName ) {
         $filePath =~ m|([^/\\]*$)|;
         $fileName = $1;
@@ -149,7 +149,7 @@ sub _upload {
     my ( $fileSize, $fileDate, $tmpFilePath ) = '';
 
     unless ($doPropsOnly) {
-        my $fh = $query->param('filepath');
+        my $fh = $query->unicode_param('filepath');
 
         try {
             $tmpFilePath = $query->tmpFileName($fh);

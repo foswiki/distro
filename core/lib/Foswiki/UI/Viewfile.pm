@@ -70,13 +70,13 @@ sub viewfile {
 
         # Attachment name is passed in URL params. This is a (possibly
         # / separated) path relative to the pub/Web/Topic
-        $fileName = $query->param('filename');
+        $fileName = $query->unicode_param('filename');
     }
     else {
 
         # This is a standard path extended by the attachment name e.g.
         # /Web/Topic/Attachment.gif
-        $pathInfo = $query->path_info();
+        $pathInfo = Encode::decode_utf8( $query->path_info() );
     }
 
     # If we have path_info but no ?filename=

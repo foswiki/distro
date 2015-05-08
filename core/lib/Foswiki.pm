@@ -72,8 +72,9 @@ our %macros;
 our %contextFreeSyntax;
 our $VERSION;
 our $RELEASE;
-our $TRUE  = 1;
-our $FALSE = 0;
+our $UNICODE = 1;  # flag that extensions can use to test if the core is unicode
+our $TRUE    = 1;
+our $FALSE   = 0;
 our $engine;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
 our $system_message;             # Important broadcast message from the system
@@ -1002,7 +1003,7 @@ Returns undef if the target is not valid, and the target URL otherwise.
 sub redirectto {
     my ( $this, $url ) = @_;
 
-    my $redirecturl = $this->{request}->param('redirectto');
+    my $redirecturl = $this->{request}->unicode_param('redirectto');
     $redirecturl = $url unless $redirecturl;
 
     return unless $redirecturl;
@@ -1657,7 +1658,7 @@ sub _parsePath {
 
     foreach (@parts) {
 
-        # Lax check on name to elimnate evil characters.
+        # Lax check on name to eliminate evil characters.
         my $p = Foswiki::Sandbox::untaint( $_,
             \&Foswiki::Sandbox::validateTopicName );
         unless ($p) {
@@ -2038,11 +2039,12 @@ sub new {
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $defaultweb =
+      $query->unicode_param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = $query->path_info() || '';
+    my $webtopic      = Encode::decode_utf8( $query->path_info() || '' );
     my $topicOverride = '';
-    my $topic         = $query->param('topic');
+    my $topic         = $query->unicode_param('topic');
     if ( defined $topic ) {
         if ( $topic =~ m/[\/.]+/ ) {
             $webtopic = $topic;
@@ -2818,6 +2820,8 @@ this method.
 sub urlEncode {
     my $text = shift;
 
+    # URLs work quite happily with %-encoded utf-8 characters
+    $text = Encode::encode_utf8($text);
     $text =~ s{([^0-9a-zA-Z-_.:~!*/])}{sprintf('%%%02x',ord($1))}ge;
 
     return $text;

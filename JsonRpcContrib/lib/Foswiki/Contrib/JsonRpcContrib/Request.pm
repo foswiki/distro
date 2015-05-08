@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 use JSON                                    ();
+use Encode                                  ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw( :try );
 use Foswiki::Func    ();
@@ -36,7 +37,10 @@ sub new {
 
     # get json-rpc request object
     my $data = $request->param('POSTDATA');
-    unless ($data) {
+    if ($data) {
+        $data = toSiteCharSet($data);
+    }
+    else {
 
         # minimal setup
         $data = '{"jsonrpc":"2.0"}';
@@ -57,7 +61,7 @@ sub new {
     # override json-rpc params using url params
     foreach my $key ( $request->multi_param() ) {
         next if $key =~ /^(POSTDATA|method|id|jsonrpc)$/;  # these are different
-        my @vals = $request->multi_param($key);
+        my @vals = map( toSiteCharSet($_), $request->multi_param($key) );
         if ( scalar(@vals) == 1 ) {
             $this->param( $key => $vals[0] )
               ;    # set json-rpc params using url params
@@ -73,7 +77,7 @@ sub new {
     $this->id($id) if defined $id;
 
     # copy method to json-rpc request
-    $method = $request->param("method") if defined $request->param("method");
+    $method = $request->param('method') if defined $request->param("method");
     $this->method($method) if defined $method;
 
     # check that this is a http POST
@@ -189,6 +193,27 @@ sub json {
 # static
 sub writeDebug {
     Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
+}
+
+###############################################################################
+sub toSiteCharSet {
+    my $string = shift;
+
+    return $string unless $string;
+
+    # Convert to unicode if the core supports it
+    return Encode::decode_utf8($string)
+      if $Foswiki::USE_UNICODE;
+
+    return $string
+      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+
+    # If the site charset is not utf-8, need to convert it
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        Encode::decode_utf8($string),
+        Encode::FB_PERLQQ
+    );
 }
 
 1;
