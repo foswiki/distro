@@ -57,7 +57,7 @@ sub resetPassword {
     unless (@userNames) {
         throw Foswiki::OopsException( 'register', def => 'no_users_to_reset' );
     }
-    my $introduction = $query->param('Introduction') || '';
+    my $introduction = $query->unicode_param('Introduction') || '';
 
     # need admin priv if resetting bulk, or resetting another user
     my $isBulk = ( scalar(@userNames) > 1 );
@@ -251,7 +251,7 @@ sub changePasswordAndOrEmail {
     my $passwordA   = $query->param('password');
     my $passwordB   = $query->param('passwordA');
     my $email       = $query->param('email');
-    my $topicName   = $query->param('TopicName');
+    my $topicName   = $query->unicode_param('TopicName');
 
     # check if required fields are filled in
     unless ($login) {

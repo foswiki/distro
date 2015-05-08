@@ -23,6 +23,26 @@ our %xmltagPlugin;
 our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
 
+sub toSiteCharSet {
+    my $string = shift;
+
+    return $string unless $string;
+
+    # Convert to unicode if the core supports it
+    return Encode::decode_utf8($string)
+      if $Foswiki::USE_UNICODE;
+
+    return $string
+      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+
+    # If the site charset is not utf-8, need to convert it
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        Encode::decode_utf8($string),
+        Encode::FB_PERLQQ
+    );
+}
+
 sub _SECRET_ID {
     $SECRET_ID;
 }
@@ -35,7 +55,8 @@ sub _OWEBTAG {
     return $web unless $query;
 
     if ( defined( $query->param('templatetopic') ) ) {
-        my @split = split( /\./, $query->param('templatetopic') );
+        my @split =
+          split( /\./, toSiteCharSet( $query->param('templatetopic') ) );
 
         if ( $#split == 0 ) {
             return $web;
@@ -56,7 +77,8 @@ sub _OTOPICTAG {
     return $topic unless $query;
 
     if ( defined( $query->param('templatetopic') ) ) {
-        my @split = split( /\./, $query->param('templatetopic') );
+        my @split =
+          split( /\./, toSiteCharSet( $query->param('templatetopic') ) );
 
         return $split[$#split];
     }
@@ -80,7 +102,7 @@ sub beforeEditHandler {
             # redirect
             my $query = Foswiki::Func::getCgiQuery();
             foreach my $p (qw( skin cover )) {
-                my $arg = $query->param($p);
+                my $arg = toSiteCharSet( $query->param($p) );
                 if ( $arg && $arg =~ s/\b$skin\b// ) {
                     if ( $arg =~ /^[\s,]*$/ ) {
                         $query->delete($p);
@@ -203,9 +225,12 @@ sub beforeCommonTagsHandler {
     my $web   = $_[2];
     my ( $meta, $text );
     my $altText = $query->param('templatetopic');
-    if ( $altText && Foswiki::Func::topicExists( $web, $altText ) ) {
-        ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( $web, $altText );
+    if ($altText) {
+        $altText = toSiteCharSet($altText);
+        if ( Foswiki::Func::topicExists( $web, $altText ) ) {
+            ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( $web, $altText );
+        }
     }
 
     $_[0] = _WYSIWYG_TEXT( $Foswiki::Plugins::SESSION, {}, $topic, $web );
@@ -644,13 +669,15 @@ sub REST_TML2HTML {
 
     my $tml = Foswiki::Func::getCgiQuery()->param('text');
 
+    return '' unless $tml;
+
     # if the secret ID is present, don't convert again. We are probably
     # going 'back' to this page (doesn't work on IE :-( )
     if ( $tml =~ /<!--$SECRET_ID-->/ ) {
         return $tml;
     }
 
-    my $html = TranslateTML2HTML($tml);
+    my $html = TranslateTML2HTML( toSiteCharSet($tml) );
 
     # Add the secret id to trigger reconversion. Doesn't work if the
     # editor eats HTML comments, so the editor may need to put it back
@@ -667,6 +694,10 @@ sub REST_HTML2TML {
     my ( $session, $plugin, $verb, $response ) = @_;
 
     my $html = Foswiki::Func::getCgiQuery()->param('text');
+
+    return '' unless $html;
+
+    $html = toSiteCharSet($html);
 
     $html =~ s/<!--$SECRET_ID-->//go;
     unless ($html2tml) {

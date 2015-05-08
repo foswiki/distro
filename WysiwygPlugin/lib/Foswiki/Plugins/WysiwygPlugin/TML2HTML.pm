@@ -970,7 +970,7 @@ m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
         $class = " class='$class'";
     }
 
-    $url = _percentHighBit($url);
+    $url = Foswiki::urlEncode($url);
     return $this->_liftOutGeneral(
         "<a$class$dataWikiword href=\"$url\">$text<\/a>",
         { tag => 'NONE', protect => 0, tmltag => 0 }

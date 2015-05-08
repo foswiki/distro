@@ -42,7 +42,7 @@ our $recursionBlock;
 our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
-sub WHY { 0 }
+use constant WHY => 1;
 
 #simple Browser detection.
 our %defaultINIT_BROWSER = (
@@ -302,8 +302,8 @@ sub wysiwygEditingNotPossibleForThisContent {
         );
     };
     if ($@) {
-        print STDERR
-          "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@\n"
+        Foswiki::Func::writeDebug(
+            "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@")
           if (WHY);
         return "TML2HTML conversion fails";
     }
