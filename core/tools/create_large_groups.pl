@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 # Create a large set of users and populate groups with them
 # (group size 10000/5000/2500/..)
 

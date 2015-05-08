@@ -728,7 +728,7 @@ sub test_generic_check_URL {
     $this->assert_num_equals( 0, scalar( @{ $report->{reports} } ) );
 
     # Test with expansion
-    $Foswiki::cfg{host} = 'myhost.com';
+    $Foswiki::cfg{host} = 'google.com';
     $params->{set}->{'{UnitTestContrib}{Configure}{URL}'} =
       'http://$Foswiki::cfg{host}';
     $report =
@@ -747,7 +747,7 @@ sub test_generic_check_URL {
     $this->assert_num_equals( 1, scalar( @{ $report->{reports} } ) );
     $r = $report->{reports}->[0];
     $this->assert_str_equals( 'notes',                           $r->{level} );
-    $this->assert_str_equals( 'Expands to: =http://myhost.com=', $r->{text} );
+    $this->assert_str_equals( 'Expands to: =http://google.com=', $r->{text} );
 }
 
 sub test_generic_check_URLPATH {

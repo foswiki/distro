@@ -154,19 +154,19 @@ a {
   border:0;
   border-radius:0;
 }
-.node .ui-button.ui-state-hover {
+.node :not(.feedback_button).ui-button.ui-state-hover {
   color:#ffffff;
   background-color:#0055b5;
 }
-.node .ui-button.ui-state-hover .ui-button-text{
+.node :not(.feedback_button).ui-button.ui-state-hover .ui-button-text{
   color:#ffffff;
 }
 .button_box {
   margin-left:-0.5em;
 }
 .button_box,
-.button_box :not(.feedback_button) .ui-button-text {
-  color:#999;
+.button_box .ui-button-text {
+  color:#444;
   text-transform:lowercase;
 }
 .button_box label {

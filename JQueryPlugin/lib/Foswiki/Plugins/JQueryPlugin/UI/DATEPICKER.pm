@@ -33,7 +33,7 @@ sub new {
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/datepicker/',
             javascript   => ['jquery.ui.datepicker.init.js'],
-            dependencies => [ 'ui', ],
+            dependencies => [ 'ui', 'livequery' ],
         ),
         $class
     );

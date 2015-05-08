@@ -449,8 +449,8 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 .
          $this->_liftOutLink($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/geixo;
 
     $text =~
-      s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
-    $text =~ s/\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
+s/(?<!\!)\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
+    $text =~ s/(?<!\!)\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
 
     $text =~ s/(<[^>]+>)/$this->_protectMacrosInHTML($1)/ge;
 
@@ -462,10 +462,10 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 .
 
     # Handle [[][]] links by letting the WYSIWYG handle them as standard links
     $text =~
-      s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2,'TMLlink')/ge;
+s/(?<!\!)\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2,'TMLlink')/ge;
 
     # Handle [[]] links
-    $text =~ s/\[\[([^\]]*)\]\]/$this->_liftOutSquab($1,$1,'TMLlink')/ge;
+    $text =~ s/(?<!\!)\[\[([^\]]*)\]\]/$this->_liftOutSquab($1,$1,'TMLlink')/ge;
 
     # protect some HTML tags, excluding noautolink and nop, handled later.
     $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML|NOAUTOLINK|NOP)\b)[A-Z]+(\s[^>]*)?>)/

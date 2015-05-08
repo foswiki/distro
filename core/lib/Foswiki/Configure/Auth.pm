@@ -29,6 +29,10 @@ sub checkAccess {
     my $session = shift;
     my $json    = shift;    # JSON needs throw JSON errors.
 
+    return
+      if ( defined $Foswiki::cfg{LoginManager}
+        && $Foswiki::cfg{LoginManager} eq 'none' );
+
     my $wikiname = Foswiki::Func::getWikiName( $session->{user} );
 
     return

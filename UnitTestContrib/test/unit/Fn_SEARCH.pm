@@ -245,6 +245,18 @@ sub verify_b {
     return;
 }
 
+sub verify_stop_word_Item13383 {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"a" type="word" pager="on"}%');
+
+    $this->assert_matches( qr#Number of topics: <span>0</span>#, $result );
+
+    return;
+}
+
 sub verify_topicName {
     my $this = shift;
 

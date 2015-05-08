@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 
 # This script is used by the build script when building a Foswiki release.
 # It is used to create the documents in the Foswiki root.

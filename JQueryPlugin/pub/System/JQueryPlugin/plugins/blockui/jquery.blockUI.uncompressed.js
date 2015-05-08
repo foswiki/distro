@@ -409,8 +409,9 @@
 				if (opts.focusInput)
 					setTimeout(focus, 20);
 			}
-			else
+			else {
 				center(lyr3[0], opts.centerX, opts.centerY);
+                        }
 
 			if (opts.timeout) {
 				// auto-unblock

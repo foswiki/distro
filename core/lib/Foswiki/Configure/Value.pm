@@ -100,6 +100,8 @@ our %CHECK_options = (
     partsreq => -1,    # for URL
     perms    => -1,    # file permissions
     schemes  => -1,    # for URL
+    user     => -1,    # for URL
+    pass     => -1,    # for URL
 );
 
 our %rename_options = ( nullok => 'undefok' );

@@ -124,7 +124,7 @@ var foswiki = foswiki || {
     return _getPubUrl(1, web, topic, file, params);
   };
   foswiki.getPubUrlPath = function(web, topic, params) {
-    return _getScriptUrl(0, script, web, topic, params);
+    return _getPubUrl(0, web, topic, params);
   };
 
   /**

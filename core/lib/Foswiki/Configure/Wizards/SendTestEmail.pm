@@ -41,7 +41,7 @@ sub send {
 
     Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
-    if ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
+    if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
         $noredirect = 1;    # FCGI doesn't allow redirection of STDERR
     }
 

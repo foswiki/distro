@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-19 09:54+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/de/>\n"
+"PO-Revision-Date: 2015-05-06 09:39+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "Gruppen-Topic für %1 aktualisiert."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
-msgstr "Auf %1 gibt es eine Liste anderer Foswiki Benutzer."
+msgstr "Auf %1 gibt es eine Liste anderer Foswiki-Benutzer"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
@@ -192,7 +192,7 @@ msgstr "%1 um Web spezifische Einstellungen vorzunehmen"
 msgid "%1 to start working on the new web"
 msgstr "%1 um im neuen Web anzufangen zu arbeiten"
 
-#: core/templates/messages.tmpl:447 core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
 msgstr "%1 Topic existiert nicht"
 
@@ -294,9 +294,9 @@ msgstr "(Anhang löschen)"
 
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
-msgstr "(Löschen)"
+msgstr "(löschen)"
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:509
 msgid "(disabled)"
 msgstr "(deaktiviert)"
 
@@ -479,7 +479,7 @@ msgstr "*Absätze* abtrennen durch eine Leerzeile"
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne Verweise* Topic Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
+"*interne Verweise* Topic-Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
 "Homepage]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
@@ -555,9 +555,8 @@ msgstr ""
 "abgelehnt wurde"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
-#, fuzzy
 msgid "<nop>WikiName:"
-msgstr "Wiki-Name:"
+msgstr "<nop>WikiName:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -573,7 +572,7 @@ msgstr ""
 "Aus Sicherheitsgrünnden wird an manchen Dateinamen eine =.txt= Endung "
 "angehängt"
 
-#: core/templates/messages.tmpl:417 core/templates/messages.tmpl:428
+#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -594,7 +593,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Eine Bestätigungs E-Mail wurde an %1 gesendet"
 
-#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -642,7 +641,7 @@ msgstr "Änderungen verwerfen und verlassen"
 msgid "Access Denied"
 msgstr "Zugriff verweigert"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
 msgstr "Zugriffskontrolle für %1 fehlgeschlagen"
 
@@ -660,7 +659,7 @@ msgstr "Funktions-Tasten:"
 msgid "Action"
 msgstr "Aktion"
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:392
 msgid "Action %1: %2 by user %3."
 msgstr "Aktion %1: %2 durch Benutzer %3."
 
@@ -842,7 +841,7 @@ msgstr "Neue Datei anhängen"
 msgid "Attachment"
 msgstr "Anhang"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
 msgstr "Anhang '%1' existiert nicht"
 
@@ -1259,10 +1258,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:394 core/templates/messages.tmpl:401
-#: core/templates/messages.tmpl:406 core/templates/messages.tmpl:443
-#: core/templates/messages.tmpl:456 core/templates/messages.tmpl:463
-#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
+#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Kontaktieren Sie %1, wenn Sie Fragen haben."
 
@@ -1396,7 +1395,7 @@ msgstr "Gruppe existiert nicht und Anlegemodus wurde nicht angefordert"
 msgid "Create personal sidebar"
 msgstr "Persönliche Seitenleiste anlegen"
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:443
 msgid "Create the topic"
 msgstr "Das Topic anlegen"
 
@@ -1565,10 +1564,9 @@ msgstr ""
 "Bitte informieren Sie Ihren %4 Administrator."
 
 #: core/templates/messages.tmpl:110
-#, fuzzy
 msgid "During rename of web %1 to %2 an error was found."
 msgstr ""
-"Während des Umbenennens des Webs %1 nach %2 ist der Fehler (%3) aufgetreten."
+"Während des Umbenennens des Webs %1 nach %2 ist ein Fehler (%3) aufgetreten."
 
 #: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
 msgid ""
@@ -1582,30 +1580,30 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-Mail erfolgreich geändert!"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:477
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 "ENCODE fehlgeschlagen - =type= kann nicht zusammen mit =old= und =new= "
 "verwendet werden "
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:479
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 "ENCODE fehlgeschlagen - =old= und =new= müssen gemeinsam angegeben werden"
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:481
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE fehlgeschlagen - Token '%PARAM1%' taucht in =old= mehrfach auf "
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:487
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND fehlgeschlagen - Zugriff zu '%PARAM1%' verweigert"
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:483
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND fehlgeschlagen - kein Makro"
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:485
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND fehlgeschlagen - Topic '%PARAM1%' existiert nicht"
 
@@ -1735,7 +1733,7 @@ msgstr ""
 "Geben Sie Benutzer oder Gruppen ein, die Sie zu dieser Gruppe hinzufügen "
 "möchten"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:497
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 "Fehler beim Laden des Plugins aufgetreten; siehe Fehlermeldungen weiter "
@@ -1951,7 +1949,7 @@ msgid "Globe"
 msgstr "Weltkugel"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
-#: core/templates/messages.tmpl:470 core/templates/registermessages.tmpl:369
+#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Zurück"
 
@@ -1968,14 +1966,13 @@ msgid "Go back in your browser and save your changes locally."
 msgstr ""
 "Gehen Sie mit Ihrem Browser zurück und speichern Sie alle Änderungen lokal."
 
-#: core/templates/messages.tmpl:492
-#, fuzzy
+#: core/templates/messages.tmpl:494
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
-"Navigieren Sie zur vorherigen Seite zurück und aktivieren Sie Cookies und "
-"<nop>JavaScript, bevor Sie es erneut versuchen"
+"Navigieren Sie zur vorigen Seite zurück und aktivieren Sie Cookies und <nop>"
+"JavaScript, bevor Sie es erneut versuchen"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -2012,9 +2009,8 @@ msgid "Having problems logging in?"
 msgstr "Probleme beim Anmelden?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
-#, fuzzy
 msgid "Header rows"
-msgstr "Überschriften-Zeilen"
+msgstr "Überschriftzeilen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
@@ -2191,7 +2187,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Bei Unklarheiten können Sie hier mehr erfahren: %1"
 
-#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
 msgid "If you came here by clicking on a question mark link"
 msgstr "Wenn Sie durch einen Klick auf ein Fragezeichen hierher gekommen sind"
 
@@ -2247,7 +2243,7 @@ msgstr ""
 "Wenn Sie einen Link auf diese Seite erhalten haben oder nur das Topic "
 "ansehen wollen: [[%1][speichern abbrechen]] um nach %2 zu gehen."
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:442
 msgid "If you want to create the topic"
 msgstr "Wenn Sie das Topic anlegen wollen"
 
@@ -2259,7 +2255,7 @@ msgstr ""
 "Wenn Sie nach einem Wort auf der Stoppwortliste suchen wollen, setzen Sie "
 "ein Plus-Zeichen direkt vor das Wort"
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:437
 msgid "If you would like to create this web"
 msgstr "Wenn Sie dieses Web anlegen wollen"
 
@@ -2457,9 +2453,8 @@ msgid "Invalid e-mail address"
 msgstr "Ungültige E-Mail Adresse"
 
 #: core/templates/messages.tmpl:96
-#, fuzzy
 msgid "Invalid topic name."
-msgstr "Topic Name"
+msgstr "Ungültiger Topic-Name."
 
 #: core/templates/messages.tmpl:334
 msgid ""
@@ -2670,7 +2665,7 @@ msgstr "Fehlende Felder"
 msgid "Missing action command"
 msgstr "Fehlender Aktions-Befehl"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
 msgstr "Fehlender oder ungültiger Web-Name"
 
@@ -3010,7 +3005,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Nur Administratoren dürfen andere Benutzerkonten entfernen."
 
-#: core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:406
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Nur Mitglieder von %1 dürfen diese Aktion durchführen."
 
@@ -3232,7 +3227,7 @@ msgstr ""
 "ist, und versuchen Sie es erneut. Wenn Sie nicht weiter kommen, schreiben "
 "Sie eine E-Mail an %2."
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:491
 msgid "Please notify your %1 administrator."
 msgstr "Bitte informieren Sie Ihren %1-Administrator."
 
@@ -3251,12 +3246,12 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr "Plugin-Handler"
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:507
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 "Plugin-Modul hat nicht true zurückgeliefert. Siehe Fehlermeldungen unten."
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:499
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 "Plugin-Modul ist nicht definiert. Prüfen Sie die Konfiguration. Siehe "
@@ -3443,7 +3438,7 @@ msgstr "Verwandte Topics:"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
 msgid "Related topics:"
 msgstr "Verwandte Topics:"
 
@@ -3456,13 +3451,12 @@ msgid "Remember me on this computer"
 msgstr "Auf diesem Computer eingeloggt bleiben"
 
 #: core/templates/registermessages.tmpl:292
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"Vergessen Sie nicht auch ihr Benutzer-Topic mit der neuen E-Mail zu "
-"aktualisieren."
+"Vergessen Sie nicht, Ihr Benutzer-Topic [[%1]] zu aktualisieren, falls Sie "
+"auch dort Ihre geänderte E-Mail anzeigen möchten."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -4117,7 +4111,7 @@ msgstr ""
 msgid "Table"
 msgstr "Tabelle"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
 msgstr "Die Vorlage %1 existiert nicht"
 
@@ -4171,7 +4165,7 @@ msgstr "Der Benutzer wurde bereits aktiviert"
 msgid "The %1 topic already exists"
 msgstr "Das Topic %1 existiert bereits"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:429
 msgid "The %1 web does not exist"
 msgstr "Das %1 Web existiert nicht"
 
@@ -4219,14 +4213,13 @@ msgstr "Der Administrator hat das Ändern von Passwörtern abgeschaltet."
 msgid "The Free and Open Source Wiki."
 msgstr "Das freie und queeloffene Wiki."
 
-#: core/templates/messages.tmpl:415
-#, fuzzy
+#: core/templates/messages.tmpl:417
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
 msgstr ""
-"Warnung: Konnte das INCLUDE '%1' nicht durchführen, der Pfad ist leer oder "
-"beinhaltet unerlaubte Zeichen."
+"Warnung: Konnte das INCLUDE '%1' nicht durchführen, weil der Pfad leer ist "
+"oder unerlaubte Zeichen beinhaltet."
 
 #: core/templates/registermessages.tmpl:115
 msgid ""
@@ -4384,9 +4377,8 @@ msgid "The lease on this topic expired %1 ago."
 msgstr "Die Leihfrist von diesem Topic endete vor %1."
 
 #: core/templates/messages.tmpl:97
-#, fuzzy
 msgid "The name of the topic (%1) contained invalid characters."
-msgstr "Der Topic-Name darf nicht leer sein."
+msgstr "Der Name für das Topic (%1) enthält ungültige Zeichen."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
@@ -4508,18 +4500,16 @@ msgid "There were errors adding to the %2 group. %1 "
 msgstr "Beim Hinzufügen zur Gruppe %2 sind Fehler aufgetreten. %1 "
 
 #: core/templates/registermessages.tmpl:425
-#, fuzzy
 msgid "There were errors removing %1 from the %2 group."
-msgstr "Beim Entfernen von %1 aus der Gruppe %2 gab es Probleme. "
+msgstr "Beim Entfernen von %1 aus der Gruppe %2 sind Fehler aufgetreten."
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
-msgstr ""
+msgstr "Diese Schritte treffen unter Umständen nicht auf Ihr System zu."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
-#, fuzzy
 msgid "This WikiName is already in use."
-msgstr "Dieser Wiki-Name wird schon von jemand anders benutzt."
+msgstr "Dieser WikiName wird bereits verwendet."
 
 # Punkt setzen?
 #: core/templates/messages.tmpl:228
@@ -4591,9 +4581,8 @@ msgstr ""
 "Registrierung in %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-#, fuzzy
 msgid "This is not a valid WikiName."
-msgstr "Dies ist kein gültiger Wiki-Name."
+msgstr "Dies ist kein gültiger WikiName."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4617,14 +4606,12 @@ msgstr ""
 "Benutzerkonto haben, können Sie sich [[%1][registrieren]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "This must be a unique WikiName."
-msgstr "Dies muss ein eindeutiger Wiki-Name sein."
+msgstr "Dies muss ein eindeutiger WikiName sein."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
-#, fuzzy
 msgid "This must be a valid login username."
-msgstr "Dies muss ein eindeutiger Wiki-Name sein."
+msgstr "Dies muss ein eindeutiger WikiName sein."
 
 #: core/templates/renamedelete.tmpl:31
 msgid ""
@@ -4661,16 +4648,21 @@ msgstr "Diese Seite benötigt ein Passwort mit mindestens %1 Zeichen"
 
 #: core/data/System/UserName.txt:9
 msgid "This system is configured to use usernames"
+msgstr "Dieses System ist auf die Verwendung von Benutzernamen konfiguriert."
+
+#: core/templates/messages.tmpl:385
+msgid "This system is not configured to support user login. Return to [[%1]]."
 msgstr ""
+"Dieses System ist nicht auf die Verwendung von User-Login konfiguriert. "
+"Kehren Sie zu [[%1]] zurück."
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Dieses Topic:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#, fuzzy
 msgid "This username is already in use."
-msgstr "Dieser Anmeldename wird schon von einem anderen Benutzer verwendet."
+msgstr "Dieser Benutzername wird schon verwendet."
 
 #: core/templates/messages.tmpl:29
 msgid ""
@@ -4691,6 +4683,9 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
+"Obwohl eher unüblich, können Sie das spezielle [[%1.Macros][Makro]]-Präfix "
+"==%<nop>USERSWEB%== für <nop>WikiNamen verwenden, also beispielsweise "
+"==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
@@ -4720,7 +4715,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Um das Topic trotzdem zu bearbeiten drücken Sie "
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]"
 msgstr "Um sich als ein anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
 
@@ -4744,7 +4739,7 @@ msgstr "Nach Web"
 msgid "To web:"
 msgstr "Nach Web:"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
 msgstr "Zu tiefe Rekursion beim Einlesen des Templates %1"
 
@@ -4871,7 +4866,7 @@ msgstr "Nochmal versuchen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
@@ -4887,7 +4882,7 @@ msgstr "Letzte Änderung rückgängig"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Unescape markup"
-msgstr ""
+msgstr "Markupschutz entfernen"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -4897,13 +4892,12 @@ msgstr "Benutzer und/oder Passwort nicht erkannt"
 msgid "Unrecognized action command %1"
 msgstr "Aktions Befehl %1 nicht erkannt"
 
-#: core/templates/messages.tmpl:399
-#, fuzzy
+#: core/templates/messages.tmpl:401
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
-"Unsichere Weiterleitung zu %1 gesperrt: der Zielname stimmt nicht mit %2 "
+"Unsichere Weiterleitung zu %1 gesperrt: der Zielrechner stimmt nicht mit %2 "
 "überein und ist nicht in der Ausnahmenliste {PermittedRedirectHostUrls} "
 "aufgeführt."
 
@@ -4923,7 +4917,6 @@ msgid "Unsubscribe from this topic (s)"
 msgstr "Abonnement dieses Topics beenden (s)"
 
 #: core/templates/registermessages.tmpl:204
-#, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "Nicht unterstützter [[%1][Anmeldename]]"
 
@@ -5002,17 +4995,15 @@ msgstr ""
 "[Referenzhandbuch]] online nutzen."
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid ""
 "Use this button to load the content.%BR% *Caution* the search on this topic "
 "can be very resource intensive. Only load the content if you really need it, "
 "otherwise review the WebChanges topic from each web."
 msgstr ""
-"Benutzen Sie diesen Button, um den Inhalt zu laden.%BR% *Achtung*: der "
-"Inhalt ist sehr umfangreich und beim Laden kann Ihr Browser stark "
-"beansprucht werden. Am besten laden Sie den Inhalt nur, wenn Sie ihn "
-"ausdrucken wollen - ansonsten können Sie auch einfach das [[ReferenceManual]"
-"[Referenzhandbuch]] online nutzen."
+"Benutzen Sie diese Schaltfläche, um den Inhalt zu laden.%BR% *Achtung*: Die "
+"Suche in diesem Topic ist sehr ressourcenintensiv. Am besten laden Sie den "
+"Inhalt nur, wenn Sie ihn wirklich dringend benötigen – ansonsten können Sie "
+"auch einfach das Topic WebChanges jedes Webs nutzen."
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
@@ -5056,9 +5047,8 @@ msgid "Username"
 msgstr "Benutzername"
 
 #: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
 msgid "Username %1."
-msgstr "Benutzername"
+msgstr "Benutzername %1."
 
 #: core/templates/login.tmpl:47
 msgid "Username or email address"
@@ -5097,7 +5087,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "Wörtlich"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
@@ -5230,13 +5220,12 @@ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Warnung: Tabellendefinition in \\'include\\'-Topic %1 existiert nicht!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
-#, fuzzy
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
-"Sie haben anscheinend !JavaScript deaktiviert. Bitte aktivieren Sie !"
-"JavaScript, um sich zu registrieren."
+"Sie haben scheinbar !JavaScript deaktiviert. Bitte aktivieren Sie "
+"!JavaScript, um sich zu registrieren."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5295,11 +5284,12 @@ msgid "Why am I being asked to confirm?"
 msgstr "Warum werde ich zur Bestätigung aufgefordert?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
-#, fuzzy
 msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
-msgstr "Wiki-Administratoren sollten sich informieren über die %1."
+msgstr ""
+"Wiki-Administratoren sollten sich über das [[%1][SecurityFeatures-Topic auf "
+"Foswiki.org]] informieren."
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5372,16 +5362,16 @@ msgstr ""
 "einen Namen beginnend mit einem Unterstrich und ausschließlich "
 "alphanumerischen Zeichen."
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:470
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Sie versuchen, einen Anhang abzurufen, der nicht existiert."
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:456
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 "Sie versuchen ein Topic von einer Vorlage zu erzeugen, die nicht existiert."
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:450
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
@@ -5389,11 +5379,11 @@ msgstr ""
 "Sie versuchen eine Aktion auf einem Topic durchzuführen welches nicht "
 "existiert (Aktion '%1')."
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:463
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Sie versuchen ein Topic umzubenennen, welches nicht existiert."
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5429,14 +5419,14 @@ msgstr ""
 "create-Option nicht aktiv ist."
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
-"Sie müssen wahrscheinlich Ihren Administrator, %1, fragen, um das zu tun."
+"Sie können Ihren Nutzernamen nicht selbst ändern: Fragen Sie Ihren "
+"Administrator, um das zu erledigen."
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:493
 #, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
@@ -5538,7 +5528,7 @@ msgstr ""
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "Ihr [[%1][Wikiname]] lautet %2 und Ihr Benutzername ist =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
@@ -5688,27 +5678,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Deutsch"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:169
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
 msgstr "Zugriff auf root verweigert"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:105
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
 msgstr "Zugriff auf das Topic nicht gestattet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:141
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
 msgstr "Zugriff zum Web nicht gestattet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:179
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
 msgstr "Zugriff auf root nicht gestattet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:128
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
 msgstr "Zugriff auf das Topic nicht gestattet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:153
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
 msgstr "Zugriff zu diesem Web nicht gestattet"
 
@@ -5754,7 +5744,7 @@ msgstr "Unterschiede"
 msgid "don't forget to check your Topic Settings"
 msgstr "vergessen Sie nicht, Ihre Topic Einstellungen zu überprüfen"
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr "earlyInitPlugin fehlgeschlagen. Siehe untenstehende Fehlerliste."
 
@@ -5796,7 +5786,7 @@ msgstr "im Quelltext Format"
 msgid "indicates mandatory fields"
 msgstr "kennzeichnet Pflichtfelder"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
 msgstr "initPlugin wurde nicht definiert. Siehe untenstehende Fehlerliste."
 

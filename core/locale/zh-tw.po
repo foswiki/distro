@@ -190,7 +190,7 @@ msgstr "%1 設定子網屬性"
 msgid "%1 to start working on the new web"
 msgstr "%1 開始使用新子網"
 
-#: core/templates/messages.tmpl:447 core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
 msgstr "%1 主題不存在"
 
@@ -294,7 +294,7 @@ msgstr "(刪除附件)"
 msgid "(delete)"
 msgstr "(刪除)"
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:509
 msgid "(disabled)"
 msgstr "(禁止)"
 
@@ -543,7 +543,7 @@ msgstr "<strong>需要確認！</strong>按 OK 確認此變更是故意的<br/>�
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "因安全考量，部分檔案會加上 =.txt= 的副檔名"
 
-#: core/templates/messages.tmpl:417 core/templates/messages.tmpl:428
+#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -562,7 +562,7 @@ msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組�
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認的電子郵件已寄往 %1"
 
-#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -604,7 +604,7 @@ msgstr "放棄改變並離開"
 msgid "Access Denied"
 msgstr "禁止訪問"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:390
 msgid "Access check on %1 failed"
 msgstr "訪問檢查%1失敗"
 
@@ -622,7 +622,7 @@ msgstr "快捷鍵："
 msgid "Action"
 msgstr "功能"
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:392
 msgid "Action %1: %2 by user %3."
 msgstr "功能 %1: %2 由使用者 %."
 
@@ -787,7 +787,7 @@ msgstr "增加新檔"
 msgid "Attachment"
 msgstr "附件"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
 msgstr "附件 '%1' 不存在"
 
@@ -1191,10 +1191,10 @@ msgstr "使用 Foswiki 的[[%1][主題版本比較工具 (diff)]]確認您的修
 msgid "Conflict"
 msgstr "衝突"
 
-#: core/templates/messages.tmpl:394 core/templates/messages.tmpl:401
-#: core/templates/messages.tmpl:406 core/templates/messages.tmpl:443
-#: core/templates/messages.tmpl:456 core/templates/messages.tmpl:463
-#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
+#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1"
 
@@ -1320,7 +1320,7 @@ msgstr "未指定建立且群組不存在"
 msgid "Create personal sidebar"
 msgstr "建立個人的側欄"
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:443
 msgid "Create the topic"
 msgstr "建立主題"
 
@@ -1495,27 +1495,27 @@ msgstr "主題 %1 存檔時發生版本控制錯誤。請通知 %2 管理員。"
 msgid "E-mail changed successfully!"
 msgstr "電子郵件變更成功!"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:477
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "編碼失敗 - =type= 不能與 =old= 和 =new= 同時使用"
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:479
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "編碼失敗 - 必須同時指定 =old= 和 =new="
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:481
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "編碼失敗 - 符號 '%PARAM1%' 在 =old= 中重複"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:487
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "編碼失敗 - '%PARAM1%' 拒絕讀取"
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:483
 msgid "EXPAND failed - no macro"
 msgstr "編碼失敗 - 無巨集"
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:485
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "擴展失敗 - 無 '%PARAM1%' 主題"
 
@@ -1632,7 +1632,7 @@ msgstr "輸入 WikiWord 為主題名或是點選允許非 WikiWord 選項。"
 msgid "Enter users or groups to add to this group"
 msgstr "輸入使用者或群組加入這個群組"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:497
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1843,7 +1843,7 @@ msgid "Globe"
 msgstr "球形"
 
 #: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
-#: core/templates/messages.tmpl:470 core/templates/registermessages.tmpl:369
+#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "返回"
 
@@ -1857,7 +1857,7 @@ msgstr "回到瀏覽器的上一頁，並再存檔前輸入所有必備的欄位
 msgid "Go back in your browser and save your changes locally."
 msgstr "回瀏覽器的上一頁並儲存本地所有變更。"
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:494
 #, fuzzy
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
@@ -2055,7 +2055,7 @@ msgstr "若您將開發 Foswiki 應用程式，請參考 %1 內正確的參數�
 msgid "If you are unsure what this means, read: %1"
 msgstr "若您不確定這是什麼意思，請讀: %1"
 
-#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
 msgid "If you came here by clicking on a question mark link"
 msgstr "若您是點問號連結才來這裏"
 
@@ -2105,7 +2105,7 @@ msgstr ""
 "若您從收到的電子郵件連到這兒或只是瀏覽這個主題，請 [[%1][取消存檔]] 並轉到 "
 "%2。"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:442
 msgid "If you want to create the topic"
 msgstr "讓您想建立這主題"
 
@@ -2115,7 +2115,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:437
 msgid "If you would like to create this web"
 msgstr "讓您想建立這子網"
 
@@ -2518,7 +2518,7 @@ msgstr "缺少欄位"
 msgid "Missing action command"
 msgstr "缺少功能命令"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
 msgstr ""
 
@@ -2854,7 +2854,7 @@ msgstr "註冊後您可以帳號 %1 和密碼登入."
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "只有 %1 的成員允許使用這些功能。"
 
-#: core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:406
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成員允許使用這些功能。"
 
@@ -3083,7 +3083,7 @@ msgid ""
 "If you get stuck, please contact %2."
 msgstr "請確認 %1 的拼寫正確並重試。若仍不成功，請發郵件給 %2。"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:491
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr "電子郵件寄送失敗，請通知您的 %1 管理員 %2"
@@ -3101,11 +3101,11 @@ msgstr "請至 %1 將您的密碼設成自己較容易記的."
 msgid "Plugin handlers"
 msgstr "外掛處理程序"
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:507
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:499
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3298,7 +3298,7 @@ msgstr "相關主題"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
 msgid "Related topics:"
 msgstr "相關主題:"
 
@@ -3972,7 +3972,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
 msgstr "範本 %1 不存在"
 
@@ -4026,7 +4026,7 @@ msgstr "用戶已經啟動"
 msgid "The %1 topic already exists"
 msgstr "主題 %1 已存在"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:429
 msgid "The %1 web does not exist"
 msgstr "子網 %1 不存在"
 
@@ -4071,7 +4071,7 @@ msgstr "系統管理員禁止新用戶註冊。"
 msgid "The Free and Open Source Wiki."
 msgstr "自由且開源的 Wiki。"
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:417
 #, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
@@ -4456,6 +4456,10 @@ msgstr "本站的密碼至少要 %1 個字元"
 msgid "This system is configured to use usernames"
 msgstr ""
 
+#: core/templates/messages.tmpl:385
+msgid "This system is not configured to support user login. Return to [[%1]]."
+msgstr ""
+
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "主題:"
@@ -4511,7 +4515,7 @@ msgstr "要將上面的檢索結果顯示於文章內，請複製並貼上下面
 msgid "To edit the topic anyway, click "
 msgstr "強制編輯本主題，請按"
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]"
 msgstr ""
 
@@ -4535,7 +4539,7 @@ msgstr "到子網"
 msgid "To web:"
 msgstr "到子網:"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4686,7 +4690,7 @@ msgstr "無法識別用戶和/或密碼"
 msgid "Unrecognized action command %1"
 msgstr "無法識別的功能 %1"
 
-#: core/templates/messages.tmpl:399
+#: core/templates/messages.tmpl:401
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5146,26 +5150,26 @@ msgstr ""
 "您想建立子網範本（建立新子網用的子網），子網名稱必須始於下劃線，且之後只用英"
 "文字母及數字。"
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:470
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "%1 的附件不存在。"
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:456
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "您將建立的主題，其範本並不存在。"
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:450
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "您將處理的主題並不存在（處理 %1）。"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:463
 msgid "You are trying to rename a topic that does not exist."
 msgstr "您將更名的主題並不存在。"
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5202,7 +5206,7 @@ msgid ""
 "for you."
 msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:493
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5413,27 +5417,27 @@ msgstr "[3 個空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 msgid "_language_name"
 msgstr "正體中文"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:169
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
 msgstr "禁止瀏覽根目錄"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:105
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
 msgstr "禁止瀏覽主題"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:141
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
 msgstr "禁止瀏覽子網"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:179
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
 msgstr "不允許瀏覽根目錄"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:128
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
 msgstr "不允許瀏覽主題"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:153
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
 msgstr "不允許瀏覽子網"
 
@@ -5480,7 +5484,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "別忘了檢查您的主題設定"
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -5523,7 +5527,7 @@ msgstr "源碼模式"
 msgid "indicates mandatory fields"
 msgstr "指出必填欄位"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 

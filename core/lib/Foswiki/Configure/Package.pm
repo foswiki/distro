@@ -53,17 +53,18 @@ use Foswiki::Plugins               ();
 
 ---++ ClassMethod new(%options)
    * =%options= - A hash of options for the installation
-      * =root= => The root path of the Foswiki installation
-        - used for file operations - REQUIRED
-      * =module=   => 'Module' Name of the package being installed - REQUIRED
-      * =repository= => The source repository information
-      * =EXPANDED= => 0/1     Specify that archive file has already been expanded (for unit tests)
-      * =USELOCAL= => 0/1     If local versions of _installer or archives are found, use them instead of download.
-      * =NODEPS=   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
-                            (CPAN and external dependencies are not handled by this module.)
-      * =SIMULATE= => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
-      * =CONTINUE= => 0/1     If set to 1, the installation will continue even if errors are encountered. (future)
-      * seen       => \%seen  Hash of modules already seen, to be installed.
+      * =root=       => 'path'  The root path of the Foswiki installation used for file operations - REQUIRED
+      * =module=     => 'name'  Name of the package being installed - REQUIRED
+      * =repository= => hash    The source repository information, built from $Foswiki::cfg{ExtensionsRepositories}
+      * =DIR=        => 'dir'   Directory containing expanded package,  Used with EXPANDED => 1
+      * =EXPANDED=   => 0/1     Specify that archive file has already been expanded (for unit tests)
+      * =USELOCAL=   => 0/1     If local versions of _installer or archives are found, use them instead of download.
+      * =NODEPS=     => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
+                                (CPAN and external dependencies are not handled by this module.)
+      * =SIMULATE=   => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
+      * =ENABLE=     => 0/1     Set to 0 to prevent extension from being enabled.  Defaults to ENABLE => 1
+      * seen         => \%seen  Hash of modules already seen, to be installed.
+      * =CONTINUE=   => ... (FUTURE) ... continue processing after errors.  Not implemented
 
 =cut
 
@@ -421,9 +422,9 @@ sub install {
     $reporter->NOTE( <<WRAPUP );
 > Before proceeding, review the dependency reports of each installed extension
   and resolve any dependencies, as required.
-   * External dependencies are never automatically resolved by Foswiki.
+   * External non-perl dependencies are never automatically resolved by Foswiki.
    * Dependencies noted as 'Optional' will not be automatically resolved, and
-   * CPAN dependencies are not resolved by the web installer.
+   * CPAN dependencies are never automatically resolved.
 
 > After your configuration has been saved:
    * Visit <a href="$extUrl" target="_blank">$this->{_pkgname} extension page</a>
@@ -434,60 +435,64 @@ WRAPUP
         $reporter->WARN(<<HERE);
 > CPAN dependencies were detected, but will not be automatically
 installed by the Web installer.  The following dependencies should be
-manually resolved as required. 
+manually resolved as required.
 HERE
         foreach my $dep ( sort { lc($a) cmp lc($b) } keys %cpanDeps ) {
             $reporter->NOTE("\t* $dep");
         }
+        $reporter->NOTE("");
     }
 
+    $reporter->NOTE(<<HERE);
+> The following configuration changes are needed to enable plugins.
+These will be automatically applied when the configuration is saved.
+HERE
+
+    my $enabled =
+      ( defined $this->option('ENABLE') ) ? $this->option('ENABLE') : 1;
+
+    $reporter->NOTE("> Simulated:") if ( $this->option('SIMULATE') );
     foreach my $plu ( sort { lc($a) cmp lc($b) } keys %plugins ) {
         my $clef = "{Plugins}{$plu}";
-        my $old  = eval("\$Foswiki::cfg${clef}{Enabled}");
-        if ( !$old ) {
-            if ( $this->option('SIMULATE') ) {
-                $reporter->NOTE("\t* ${clef}{Enabled} = 1");
-            }
-            else {
-                eval("\$Foswiki::cfg${clef}{Enabled}=1");
-                $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
+        if ( $this->option('SIMULATE') ) {
+            $reporter->NOTE("\t* ${clef}{Enabled} = $enabled");
+        }
+        else {
+            eval("\$Foswiki::cfg${clef}{Enabled}=$enabled");
+            $reporter->CHANGED("{Plugins}{$plu}{Enabled}");
 
-                # Add it to the $spec
-                $spec->addChild(
-                    Foswiki::Configure::Value->new(
-                        'BOOLEAN',
-                        LABEL   => $plu,
-                        keys    => "{Plugins}{$plu}{Enabled}",
-                        CHECKER => 'PLUGIN_MODULE',
-                        default => '1'
-                    )
-                );
-            }
+            # Add it to the $spec
+            $spec->addChild(
+                Foswiki::Configure::Value->new(
+                    'BOOLEAN',
+                    LABEL   => $plu,
+                    keys    => "{Plugins}{$plu}{Enabled}",
+                    CHECKER => 'PLUGIN_MODULE',
+                    default => '1'
+                )
+            );
         }
 
-        $old = eval("\$Foswiki::cfg${clef}{Module}");
-        if ( !$old || $old ne "Foswiki::Plugins::$plu" ) {
-            if ( $this->option('SIMULATE') ) {
-                $reporter->NOTE(
-                    "\t* ${clef}{Module} = 'Foswiki::Plugins::$plu'");
-            }
-            else {
-                eval("\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'");
-                $reporter->CHANGED("{Plugins}{$plu}{Module}");
+        if ( $this->option('SIMULATE') ) {
+            $reporter->NOTE("\t* ${clef}{Module} = 'Foswiki::Plugins::$plu'");
+        }
+        else {
+            eval("\$Foswiki::cfg${clef}{Module}='Foswiki::Plugins::$plu'");
+            $reporter->CHANGED("{Plugins}{$plu}{Module}");
 
-                # Add it to the $spec
-                $spec->addChild(
-                    Foswiki::Configure::Value->new(
-                        'STRING',
-                        LABEL   => "$plu Module",
-                        keys    => "{Plugins}{$plu}{Module}",
-                        CHECKER => 'PLUGIN_MODULE',
-                        default => 'Foswiki::Plugins::$plu'
-                    )
-                );
-            }
+            # Add it to the $spec
+            $spec->addChild(
+                Foswiki::Configure::Value->new(
+                    'STRING',
+                    LABEL   => "$plu Module",
+                    keys    => "{Plugins}{$plu}{Module}",
+                    CHECKER => 'PLUGIN_MODULE',
+                    default => 'Foswiki::Plugins::$plu'
+                )
+            );
         }
     }
+    $reporter->NOTE('');
 
     unless ( $this->option('SIMULATE') ) {
         $reporter->WARN(

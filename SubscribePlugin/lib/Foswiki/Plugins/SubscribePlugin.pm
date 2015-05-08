@@ -12,15 +12,14 @@ WikiGuest cannot be subscribed, only logged-in users.
 =cut
 
 use strict;
-use Foswiki::Func ();
+use Foswiki::Func                  ();
+use Foswiki::Plugins::JQueryPlugin ();
 use Assert;
 use Error ':try';
-use JSON           ();
-use HTML::Entities ();
-use Encode         (':fallbacks');
+use JSON ();
 
-our $VERSION = '3.2';
-our $RELEASE = '24 Nov 2014';
+our $VERSION = '3.3';
+our $RELEASE = '4 May 2015';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -58,6 +57,9 @@ sub initPlugin {
         http_allow   => 'POST'
     );
 
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
+        'Foswiki::Plugins::SubscribePlugin::JQuery' );
+
     undef $tmpls;
     return 1;
 }
@@ -84,66 +86,25 @@ sub _SUBSCRIBE {
       ( $params->{unsubscribe}
           || Foswiki::Contrib::MailerContrib::isSubscribedTo( $web, $who,
             $topic ) ) ? 1 : 0;
+    my $doUnsubscribe = Foswiki::isTrue($unsubscribe);
 
-    my $tmpl = _template_text(
-        ( Foswiki::Func::isTrue($unsubscribe) ? 'un' : '' ) . 'subscribe' );
+    my $tmpl;
 
-    my %urlparms;
-    if ( defined $params->{format} || $params->{formatunsubscribe} ) {
+    $tmpl = $doUnsubscribe ? $params->{formatunsubscribe} : $params->{format};
+    $tmpl = _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe' )
+      unless defined $tmpl;
 
-        # Legacy
-        $urlparms{subscribe_subscriber} = $who;
-        $urlparms{subscribe_topic}      = "$web.$topic";
+    my $action =
+      $session->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
 
-        my $actionName;
-        if ($unsubscribe) {
-            $tmpl = $params->{formatunsubscribe}
-              if ( $params->{formatunsubscribe} );
-            $actionName = $session->i18n->maketext('Unsubscribe');
-            $urlparms{subscribe_remove} = 1;
-        }
-        else {
-            $tmpl = $params->{format} if $params->{format};
-            $actionName = $session->i18n->maketext('Subscribe');
-            $urlparms{subscribe_remove} = 0;
-        }
-        $tmpl =~ s/\$action/$actionName/g;
-        $tmpl =~ s/\$wikiname/$who/g;
-        $tmpl =~ s/\$topics/$topic/g;
-    }
+    $tmpl =~ s/\$action/$action/g;
+    $tmpl =~ s/\$topic/$web.$topic/g;
+    $tmpl =~ s/\$(subscriber|wikiname)/$who/g;
+    $tmpl =~ s/\$remove/$unsubscribe/g;
+    $tmpl =~ s/\$nonce/_getNonce($session)/ge;
 
-    my $url =
-      Foswiki::Func::getScriptUrl( 'SubscribePlugin', 'subscribe', 'rest',
-        %urlparms );
+    Foswiki::Plugins::JQueryPlugin::createPlugin("subscribe");
 
-    $tmpl =~ s/\$url/$url/g;
-
-    # REST parameters
-    my $json = JSON::to_json(
-        {
-            subscribe_topic      => "$web.$topic",
-            subscribe_subscriber => $who,
-            subscribe_remove     => $unsubscribe,
-            validation_key       => '?%NONCE%'
-        }
-    );
-
-    my $data = HTML::Entities::encode_entities($json);
-    $tmpl =~ s/\%JSON_DATA\%/$data/g;
-
-    # Add nonce, required for Foswiki < 1.2
-    $tmpl =~ s/\%NONCE\%/_getNonce($session)/ge;
-
-    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Subscribe',
-        'Foswiki::Plugins::SubscribePlugin::JQuery' );
-    unless (
-        Foswiki::Plugins::JQueryPlugin::createPlugin(
-            "Subscribe", $Foswiki::Plugins::SESSION
-        )
-      )
-    {
-        die 'Failed to register "subscribe" JQuery plugin';
-    }
     return $tmpl;
 }
 
@@ -162,8 +123,7 @@ sub _rest_subscribe {
     my $isSubs   = 0;
 
     # We have been asked to subscribe
-    my $topics = $query->param('subscribe_topic')
-      || $query->param('topic');
+    my $topics = $query->param('topic');
     unless ($topics) {
         $status = 400;
         $text   = _template_text('no_subscribe_topic');
@@ -173,14 +133,14 @@ sub _rest_subscribe {
         $topics = $1;    # Untaint - we will check it later
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( undef, $topics );
-        my $who = $query->param('subscribe_subscriber');
+        my $who = $query->param('subscriber');
         $who ||= $cur_user;
         if ( $who eq $Foswiki::cfg{DefaultUserWikiName} ) {
             $status = 400;
             $text   = _template_text('cannot_subscribe');
         }
         else {
-            my $unsubscribe = $query->param('subscribe_remove');
+            my $unsubscribe = $query->param('remove');
             ( $text, $status ) =
               _subscribe( $web, $topic, $who, $cur_user, $unsubscribe );
             $isSubs =

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1428697623" format="1.1" reprev="3" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430795834" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -12,14 +12,14 @@ _This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2_
 ---++ Overview
 
 Foswiki is a fork from  TWiki 4.2.3. (TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.)
-Note that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred. Foswiki 1.2 diverges significantly in some areas. 
+Note that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred. Foswiki 1.2 diverges significantly in some areas.
 
 If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.UpgradingFromOlderTWikiReleases.
 
 ---+++ Upgrade requirements
    * Please review the Foswiki:System.AdminSkillsAssumptions before you upgrade your site.
    * Carefully review Foswiki:System.SystemRequirements. Foswiki no longer ships with CPAN libraries. CPAN dependencies must be installed prior to upgrade.
-   * Before upgrading, you a backup of your topics is strongly recommended.
+   * Before upgrading, a backup of your topics is strongly recommended.
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write.
 
 ---++ Upgrading to a new patch release
@@ -29,13 +29,14 @@ To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
 <div class='foswikiHelp'>
-%T% If you use the Foswiki PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version.
+%T% If you use the Foswiki !PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version. Visit your site with the Query parameter =?refresh=all=
 </div>
 
 ---++ Upgrade procedure: upgrading to a new major or minor version
 
 The following is a high level view of the upgrade procedure:
 
+   1 *Before the upgrade*
    1 *Prepare* for all upgrade steps.
    1 *Install the new Foswiki version* and configure it with the same settings as the old version.<br />
       * %T% Windows server users: Don't forget to rerun =tools/rewriteshebang.pl= to fix up the Perl locations
@@ -46,7 +47,6 @@ The following is a high level view of the upgrade procedure:
    1 *Apply your site customizations*: skin, logos, menu bars, forms for personal information, and so forth.
    1 *Validate your Wiki* applications and other key functionality.
    1 *Switch your production site* from the old installation to the new installation.
-   <div class='foswikiHelp'>%I% %STARTSECTION{"cacheadvice"}%Managing caches of static =.js=, =.css= files: some parts of Foswiki use URI versioning to help web browsers obtain a current version of these files when they change, but currently other parts do not. You may need to get your users to clear their browser's cache after upgrading your site to a new major or minor release (usually not necessary for patch upgrades). An alternative approach is to manage your web server configuration to strategically set appropriate expiry times for static files (see [[Foswiki:Support.PerformanceSupplement#ModExpires][performance supplement]])%ENDSECTION{"cacheadvice"}%</div>
 
 More details for each step appear in the following sections. The steps may need to be modified or otherwise tailored with specifics for your installation. In particular, you must take care to preserve any special configuration or customizations you have made, especially if you have modified any of the default software files or system topics that are contained within the installation package.
 
@@ -60,23 +60,39 @@ After the upgrade, in the new installation, the %USERSWEB% web is used for user 
 
 The =configure= page mentioned in this document is accessible via your web browser at <kbd>http://yourdomain/&lt;newwiki&gt;/bin/configure</kbd><sticky>&nbsp;</sticky>.
 
+---+++ Before the upgrade
+
+*Managing caches of static =.js=, =.css= files*:
+
+If you are using Expires tags, (you should be!) it is very important to take the longest expiration time into consideration. Clients will locally cache  !JavaScript and CSS until the time expires, unless they clear their cache.  *There are significant changes to the !JavaScript and CSS files shipped with Foswiki 1.2.  Clients using locally cached data will not operate correctly.*
+
+   * Prior to the upgrade, reduce the Expires tags to a short duration, for example 1 hour.
+      * Examine your Apache configuration for statements like: =ExpiresDefault "access plus 11 days"=,  change it to =ExpiresDefault "access plus 1 hour"=
+   * Defer the upgrade until the longest expiration time has passed. If the longest time was 2 weeks, delay the upgrade for 2 weeks.
+   * Complete the upgrade.
+   * Once confident that further upgrades, or fallback are not required, restore the original far future expiration.
+
+If these steps are not done, users will have to clear their cache, or "shift-reload" the Foswiki pages to refresh cached information.
+
 ---+++ Prepare for all upgrade steps
 
 *Download the Foswiki distribution* from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
 
-*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.*  Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies= 
+*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.*  Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
-*Read the Foswiki:System.ReleaseNotes01x02* and *learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
+*Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
+   * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
+   * Foswiki:System.ReleaseNotes01x00 if upgrading from an older release of Foswiki 1.0.x
 
 *Check that all the extensions (plugins, contribs, skins) used by your old installation are available with the new release.* Familiarize yourself with any new behaviour that you will have to adapt to or any configuration changes you will have to perform.
 
-   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 1.2.*  It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.  
+   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 1.2.*  It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
    * *Review the deprecated jQuery javascript plugins.* The !JQueryPlugin has several changes in available jQuery !JavaScript plugins.  Determine if any of these will impact your !JavaScript enabled topics.
 
 *Choose the character encoding to be used in your site.*   Previous versions of Foswiki defaulted to =iso-8859-1= encoding (The "Latin Alphabet 1, intended for US and Western European languages). Foswiki 1.2 defaults to =UTF-8= encoding, which provides better support for international character sets. You must match the prior encoding if you intend to use topic created on an older version of Foswiki.  *If you change encoding of existing topics, you must use the non-default Foswiki:Extensions.CharsetConverterContrib to modify the character encoding.  Changes in character encoding must be done using the RCS based store.*
 
-*Choose your desired Store.* Foswiki ships with two native stores. 
-   * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki. 
+*Choose your desired Store.* Foswiki ships with two native stores.
+   * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki.
    * !PlainFileStoreContrib requires that topic history be converted to a new history format.  =perl -I lib tools/change_store.pl -help= for more information on conversion.
    * %X% If you intend to change the topic character encoding, this *must* be done prior to conversion to the !PlainFileStore.
 
@@ -109,13 +125,13 @@ The =configure= page mentioned in this document is accessible via your web brows
 
 Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the %SANDBOXWEB% web).
 
-<div class="foswikiHelp">%X% *Caution:* If you intend to migrate data, you should select the !RcsStoreContrib  If topic history has been created with the wrong store, if has to either be removed or migrated when changing the type of store. If Foswiki encounters mixed RCS and !PlainFile topic history, it will "die" to prevent topic history corruption.</div>
+<div class="foswikiHelp">%X% *Caution:* If you intend to migrate data, you should select the !RcsStoreContrib  If topic history has been created with the wrong store, it has to either be removed or migrated when changing the type of store. If Foswiki encounters mixed RCS and !PlainFile topic history, it will "die" to prevent topic history corruption.</div>
 
 To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic. By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 ---+++ Install extensions
 
-Install all of the extensions that were installed in your old site. In particular, start with any extensions required for the authentication and authorization methods you use (if any). You can use the _Find more extensions_ button in the _Extensions_ section of the =configure= page to install and configure extensions from the Foswiki:Extensions repository. You can also install extensions manually; see the instructions on the extension's web page from where you obtained the extension (for Foswiki extensions, on foswiki.org).
+Install all of the extensions that were installed in your old site. In particular, start with any extensions required for the authentication and authorization methods you use (if any). You can use the _Install, Update or Remove extensions_ tab in the _Extensions_ section of the =configure= page to review installed extensions, search for extensions or all available extensions and configure extensions from the Foswiki:Extensions repository. You can also install extensions manually; see the instructions on the extension's web page from where you obtained the extension (for Foswiki extensions, on foswiki.org).
 
 Check the plugin topics from your old Foswiki installation and transfer the plugin settings to the =[[%LOCALSITEPREFS%]]= topic in your new Foswiki site, prefixing each setting with the name of the plugin in uppercase followed by an underscore. For example, to copy over the =DEFAULT_TYPE= setting from the =CommentPlugin= topic in the old site to the new site, copy the value to a =COMMENTPLUGIN_DEFAULT_TYPE= setting in the =[[%LOCALSITEPREFS%]]= topic in the new site.
 
@@ -129,6 +145,14 @@ Commonly-customized plugin settings include the following:
    * =TablePlugin= - TABLEATTRIBUTES
 
 Activate, and if required, configure the installed extensions in =configure=.
+
+#CopyWorkingDirWorkareas
+---+++ Copy parts of the =working= directory
+
+The working directory contains some critical information for some extensions, found below the =foswiki/working/work_areas= directory.
+ Extensions use it to store persistent information critical to operation. For example, the =MailerContrib= directory contains the timestamps of the last notification email run per web.
+If not copied, the next =mailnotify= run will notify all recorded changes.
+This is the most common data that should be copied.  Review other non-default extensions to determine if anything else should be copied.
 
 #CopyNonDefaultWebs
 ---+++ Copy content from non-default webs in old installation to the new installation
@@ -187,10 +211,10 @@ The convertStore.pl utility will copy the =data= and =pub= directories into a ne
 
    $ Validate the store in-place: =perl -I lib tools/change_store.pl -q -v !RcsLite !RcsLite=
       * Any topics with inconsistent revisions are reported
-      * Any pub files without Attachment metadata in the topic are reported. 
+      * Any pub files without Attachment metadata in the topic are reported.
    $ Convert the store to PlainFile, creating directories under =./newstore=: =perl -I lib tools/change_store.pl -s . -t newstore -q !RcsLite !PlainFile=
       * Any "unattached" attachments will be listed, and can be piped to a command to copy separately
-      * The %SYSTEMWEB% will be copied but *will be incomplete / unusable*.  
+      * The %SYSTEMWEB% will be copied but *will be incomplete / unusable*.
 
 ---+++ Apply preferences from old installation
 
@@ -219,9 +243,12 @@ Execute your test plan to validate the Wiki applications and other key functiona
 
 ---+++ Switch your production site from the old installation to the new installation
 
-%X% *If you are converting from RCS to !PlainFile store, you must not repeat any copy step from the old to the new version once you've run the conversion.
+%X% *If you are converting from RCS to !PlainFile store, you must not repeat any copy step from the old to the new version once you've run the conversion.*
 
-If you had been running your old installation in parallel with the new one during a test phase, then disable your old installation, and repeat the step " [[#CopyNonDefaultWebs][Copy content from non-default webs in old installation to the new installation]]".
+If you had been running your old installation in parallel with the new one during a test phase, then disable your old installation, and repeat the steps:
+   * [[#CopyNonDefaultWebs][Copy content from non-default webs in old installation to the new installation]]".
+   * [[#CopyWorkingDirWorkareas][Copy extension operational information from working, to the new installation]]
+
 
 Change your web server configuration so that the new installation is accessible to all of your users, and so the old installation is no longer accessible.
 
@@ -234,82 +261,9 @@ Re-execute your test plan to verify that your newly-upgraded site is accessible 
 
 Re-execute your test plan to verify that your Wiki applications and other key functionality work as intended.
 
-
----++ Important changes for the upgrader - since Foswiki 1.0.4
-
-An additional security feature has been added to Foswiki 1.0.5 so that saving data now requires the http method POST. This means that it is no longer possible to store data via an "&lt;a href=..." link or img tag. It also means that if you have an application with an HTML form that creates new topics you must specify in the form tag method="post". This change is done to further tighten the security of Foswiki.
-<pre class='tml'>&lt;form name="new" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post"&gt;
-    ...
-&lt;/form&gt;
-</pre>
-
-The template webs _default and _empty are frequent targets for spammers because these webs are normally not monitored very carefully by the community around a Foswiki installation. These webs are now write protected so on an administrator can edit topics in these webs. When an administrator creates a new web it is important to remember to remove the access restriction from the !%WEBPREFSTOPIC% in the new web.
-
----++ Important changes for the upgrader - since Foswiki 1.0.5
-
-Foswiki 1.0.6 introduces a major security enhancement, protecting against Cross-Site Request Forgery. The extra safe "double submit" algorithm, as recommended by the [[http://www.owasp.org][Open Web Application Security Project (OWASP)]] project has been used. This is the same algorithm used by several major banks and other security-conscious institutions, and requires that users have Javascript enabled.
-
-See Foswiki:Support.SecurityFeatures for more information on these, and other, Foswiki security features. This is recommended reading for all Foswiki administrators.
-
-If these new countermeasures against CSRF creates problems for your users and your applications, you can alter the way the protection works or disable it. These are the configure parameters you need to visit (note that some are expert settings).
-
-   * ={Validation}{Method}= is by default "strikeone" which is the highest level of security and requires that users have Javascript enabled. You can lower this setting to "embedded" which uses a less safe validation method but does not require javascript. If you want to disable CSRF protection set it to "none". It is highly recommended to keep it at "strikeone".
-   * ={Validation}{ValidForTime}= is the time the validation key is valid. It is by default 1 hour. If your users often edit pages longer you can increase this time. Your users can still save pages with an expired validation key but they will be asked to confirm the saving.
-   * ={Validation}{MaxKeysPerSession}= is the maximum number of validation keys to store in a session. There is one key stored for each page rendered. If the number of keys exceeds this number, the oldest keys will be force-expired to bring the number down. If you have users that are very fast at editing pages and experience expired keys, you can increase this number. The default is 1000 and should be much higher than any normal person will experience.
-   * ={Validation}{ExpireKeyOnUse}= defines if validation keys expire when they are used for storing data. This prevents an attacker from evesdropping communication between server and browser and reuse keys. Unfortunately it also means that if a user edits a page, saves it, uses the back button of the browser, corrects his previous editing, and then saves again, he is asked to confirm that he intended to save the topic. Another use case is if you create an application with multiple forms and multiple submit buttons on a topic and you submit multiple times from this topic without navigating away from it, you will be asked to confirm the submission each time. If this is not acceptable to your use of Foswiki, you can turn off ={Validation}{ExpireKeyOnUse}=.
-
 <!-- %JQREQUIRE{"chili"}% -->
 %STOPINCLUDE%
 
----++ Important changes for the upgrader - since Foswiki 1.0.x
-
----+++ [[VarADDTOZONE][ADDTOZONE]] instead of [[VarADDTOHEAD][ADDTOHEAD]]
-
-Foswiki 1.1.0 introduces the concept of _zones_, realised by the [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros. Although [[VarADDTOHEAD][ADDTOHEAD]] will continue to work, there may be problems with Foswiki applications that use [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;...= markup to the page where dependencies have been required which are now added with =%<nop>ADDTOZONE{"script"...=.
-
-Foswiki treats the =head= and =script= zones of a page separately and won't be able to order these dependencies properly unless the ={MergeHeadAndScriptZones}= option is set in %IF{"context command_line" then="=configure=" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%. *This feature will be removed in a future version of Foswiki.*
-
-See also Foswiki:Development.UpdatingExtensionsScriptZone, [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
-
----+++ JQueryPlugin
-
-Foswiki 1.1.x ships with JQueryPlugin by default. If you are upgrading from a 1.0.x site that used previous versions of JQueryPlugin, care needs to be taken to ensure that your existing jQuery code is compatible with the new JQueryPlugin.
-   * The =foswiki= DOM object is no longer automatically populated from =&lt;meta .../&gt;= tags. See [[JQueryCodingStandards#Propagating_perl_settings_to_javascript][JQueryCodingStandards]] to learn about the new =foswiki.getPreference('SOMETHING');= method.
-   * JQueryPlugin now uses the [[VarADDTOZONE][script zone]] to add =&lt;script&gt;...= markup. If your existing wiki applications used something like
-   <verbatim class='tml'>%JQREQUIRE{"cycle"}%%ADDTOHEAD{"MyApp" requires="JQUERYPLUGIN::CYCLE" text="<script..."}%</verbatim>
-   then this code will no longer be guaranteed to be ordered after the =JQUERYPLUGIN::CYCLE= markup, unless ={MergeHeadAndScriptZones}= has been enabled in %IF{"context command_line" then="=configure=" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%. It needs to be re-written as per the instructions at Foswiki:Development.UpdatingExtensionsScriptZone. See also [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
-
----+++ JavascriptFiles and !BehaviourContrib
-
-If you have written wiki applications or plugins that assumed the presence of certain Foswiki JS libraries, such as =behaviour= (no longer shipped with Foswiki), =%SYSTEMWEB%/JavascriptFiles/foswikilib.js=, =%SYSTEMWEB%/JavascriptFiles/foswikilib.js=, =%SYSTEMWEB%/JavascriptFiles/foswikilib.js= etc. these should now be explicitly required into the page using
-<verbatim class='tml'>%TMPL:P{"JavascriptFiles/foswikiPref"}%</verbatim>
-
-as instructed at Foswiki:Development.UsingADDTOZONE
-
----+++ TinyMCEPlugin =TINYMCEPLUGIN_INIT= changes
-
-TinyMCEPlugin 's configuration scheme has been reorganised. If you had a customised =TINYMCEPLUGIN_INIT= preference variable on Foswiki 1.0.x, it will need to be removed, re-built, replaced with a dedicated topic section or replaced with newly introduced preference variables for Foswiki 1.1.x. See [[TinyMCEPlugin#UpgradeFrom01x00][upgrade advice]] for more information.
-
----+++ Logging
-
-Foswiki 1.1 uses a new configurable location for logs (a pluggable logging API has been introduced):
-| *Old location* | *New location* |
-| =data/warnYYYYMM= | =working/logs/error.log= |
-| =data/logYYYYMM= | =working/logs/events.log= |
-| =data/configure.log= | =working/logs/configure.log= |
-The currently used log file is always the same name. They are renamed to somehthing resembling the old scheme on a monthly basis automatically.
-
-<div>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x02#Release01x02Changes][release notes]]</div>
-
-#ManagingBrowserCache
----+++ Managing caches of static files during upgrade
-
-%INCLUDE{"%TOPIC%" section="cacheadvice"}%
-
----++ Important changes for the upgrader - since Foswiki 1.1.4
-
-Due to fixes to the authentication session cookies when using =http= and =https=, your users may need to login again. This applies to both =TemplateLogin= and =ApacheLogin=.
-
 ---
 
-*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix
+*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix, %SYSTEMWEB%.ReleaseNotes01x00, %SYSTEMWEB%.ReleaseNotes01x01

@@ -514,6 +514,16 @@ Handler for "logon" action.
 sub logon {
     my $session = shift;
 
+    if ( defined $Foswiki::cfg{LoginManager}
+        && $Foswiki::cfg{LoginManager} eq 'none' )
+    {
+        throw Foswiki::OopsException(
+            'attention',
+            status => 500,
+            def    => 'login_disabled',
+        );
+    }
+
     my $action = $session->{request}->param('foswikiloginaction');
     $session->{request}->delete('foswikiloginaction');
 

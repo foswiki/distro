@@ -83,7 +83,11 @@ sub query {
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
-        return Foswiki::Search::InfoCache->new( $session, '' );
+         #Note: Must return an empty results set, including pager, to avoid crash. Item13383
+        my $resultset =
+          new Foswiki::Search::ResultSet( [], $options->{groupby},
+            $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+        return $this->addPager( $resultset, $options );
     }
 
     my $date = $options->{'date'} || '';

@@ -1426,11 +1426,15 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Datepicker 
 ----------------------------------*/
+input.jqUIDatepicker {
+  position:relative;
+  z-index: 3;
+}
 .ui-datepicker { 
   width: 17em; 
   padding:0px;
   display:none;
-  z-index:3 !important; /* > than anything ui-slider, < than ui-dialog */
+  z-index: 4;
 }
 .ui-datepicker-inline {
   display:block;
@@ -1499,7 +1503,15 @@ table.ui-datepicker-inline {
   color:#999;
 }
 
+.ui-datepicker .ui-datepicker-today {
+  background: #efffd8;
+  color:#599E00;
+}
+.ui-datepicker .ui-datepicker-today a {
+  border-color:transparent;
+}
 .ui-datepicker td a:active,
+.ui-datepicker td a:hover,
 .ui-datepicker .ui-datepicker-week-day .ui-state-active,
 .ui-datepicker .ui-datepicker-week-end .ui-state-active,
 .ui-datepicker td .ui-state-active {
