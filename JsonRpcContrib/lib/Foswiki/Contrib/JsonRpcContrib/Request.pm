@@ -202,8 +202,7 @@ sub toSiteCharSet {
     return $string unless $string;
 
     # Convert to unicode if the core supports it
-    return Encode::decode_utf8($string)
-      if $Foswiki::USE_UNICODE;
+    return Encode::decode_utf8($string) if $Foswiki::UNICODE;
 
     return $string
       if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );

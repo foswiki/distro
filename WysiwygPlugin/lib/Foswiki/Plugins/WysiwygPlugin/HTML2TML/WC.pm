@@ -389,6 +389,7 @@ our $encoded_nbsp;
 # Given a unicode string, decode all entities in it that can be mapped
 # to the current site encoding
 sub decodeRepresentableEntities {
+    my $str = shift;
 
     # Expand entities
     HTML::Entities::decode_entities($str);

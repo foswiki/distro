@@ -26,11 +26,10 @@ our $SECRET_ID =
 sub toSiteCharSet {
     my $string = shift;
 
-    return $string unless $string;
+    return $string unless defined $string;
 
     # Convert to unicode if the core supports it
-    return Encode::decode_utf8($string)
-      if $Foswiki::USE_UNICODE;
+    return Encode::decode_utf8($string) if $Foswiki::UNICODE;
 
     return $string
       if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
@@ -54,9 +53,10 @@ sub _OWEBTAG {
 
     return $web unless $query;
 
-    if ( defined( $query->param('templatetopic') ) ) {
+    my $tt = $query->param('templatetopic');
+    if ( defined($tt) ) {
         my @split =
-          split( /\./, toSiteCharSet( $query->param('templatetopic') ) );
+          split( /\./, toSiteCharSet($tt) );
 
         if ( $#split == 0 ) {
             return $web;
@@ -76,9 +76,10 @@ sub _OTOPICTAG {
 
     return $topic unless $query;
 
-    if ( defined( $query->param('templatetopic') ) ) {
+    my $tt = $query->param('templatetopic');
+    if ( defined($tt) ) {
         my @split =
-          split( /\./, toSiteCharSet( $query->param('templatetopic') ) );
+          split( /\./, toSiteCharSet($tt) );
 
         return $split[$#split];
     }
@@ -668,6 +669,7 @@ sub REST_TML2HTML {
     my ( $session, $plugin, $verb, $response ) = @_;
 
     my $tml = Foswiki::Func::getCgiQuery()->param('text');
+    $tml = toSiteCharSet($tml);
 
     return '' unless $tml;
 
