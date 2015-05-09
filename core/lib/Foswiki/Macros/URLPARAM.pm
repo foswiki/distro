@@ -51,7 +51,7 @@ sub URLPARAM {
             }
         }
         else {
-            $value = $this->{request}->unicode_param($param);
+            $value = $this->{request}->param($param);
             $value =
               _handleURLPARAMValue( $value, $newLine, $encode, $default );
         }

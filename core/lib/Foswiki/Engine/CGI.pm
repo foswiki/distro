@@ -20,6 +20,7 @@ use Foswiki::Engine ();
 our @ISA = ('Foswiki::Engine');
 
 use Assert;
+use Foswiki                  ();
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
@@ -213,6 +214,11 @@ sub prepareBody {
     # sub-processes (see long comment ****)
     $CONSTRUCTOR_PID = $$;
 
+    # Note that we handle unicode conversion in the various prepare*
+    # methods, rather than using the CGI -utf8 option, which is documented
+    # as breaking uploads (though cdot believes this is because of the
+    # deprecated dual nature of param delivering lightweight file handles,
+    # and it would probably work in Foswiki. Just not tried it)
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
@@ -226,8 +232,19 @@ sub prepareBodyParameters {
     return unless $ENV{CONTENT_LENGTH};
     my @plist = $this->{cgi}->multi_param();
     foreach my $pname (@plist) {
-        my @values = map { "$_" } $this->{cgi}->multi_param($pname);
-        (undef) = $req->bodyParam( -name => $pname, -value => \@values );
+        my $upname = Encode::decode_utf8($pname);
+        my @values;
+        if ($Foswiki::UNICODE) {
+            @values =
+              map { Encode::decode_utf8($_) } $this->{cgi}->multi_param($pname);
+        }
+        else {
+            @values = $this->{cgi}->multi_param($pname);
+        }
+        $req->bodyParam( -name => $upname, -value => \@values );
+
+        # Note that we record the encoded name of the upload. It will be
+        # decoded in prepareUploads, which rewrites the {uploads} hash.
         $this->{uploads}{$pname} = 1 if scalar( $this->{cgi}->upload($pname) );
     }
 }
@@ -238,8 +255,9 @@ sub prepareUploads {
     return unless $ENV{CONTENT_LENGTH};
     my %uploads;
     foreach my $key ( keys %{ $this->{uploads} } ) {
-        my $fname = $this->{cgi}->param($key);
-        $uploads{"$fname"} = new Foswiki::Request::Upload(
+        my $fname  = $this->{cgi}->param($key);
+        my $ufname = Encode::decode_utf8($fname);
+        $uploads{$ufname} = new Foswiki::Request::Upload(
             headers => $this->{cgi}->uploadInfo($fname),
             tmpname => $this->{cgi}->tmpFileName($fname),
         );

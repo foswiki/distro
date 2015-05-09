@@ -40,7 +40,7 @@ sub evaluate {
       unless $session;
     my $text = $a->_evaluate(@_) || '';
     if ( $text && defined( $session->{request}->param($text) ) ) {
-        return $session->{request}->unicode_param($text);
+        return $session->{request}->param($text);
     }
 
     $text = "%$text%";

@@ -1003,7 +1003,7 @@ Returns undef if the target is not valid, and the target URL otherwise.
 sub redirectto {
     my ( $this, $url ) = @_;
 
-    my $redirecturl = $this->{request}->unicode_param('redirectto');
+    my $redirecturl = $this->{request}->param('redirectto');
     $redirecturl = $url unless $redirecturl;
 
     return unless $redirecturl;
@@ -2039,12 +2039,11 @@ sub new {
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb =
-      $query->unicode_param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
     my $webtopic      = Encode::decode_utf8( $query->path_info() || '' );
     my $topicOverride = '';
-    my $topic         = $query->unicode_param('topic');
+    my $topic         = $query->param('topic');
     if ( defined $topic ) {
         if ( $topic =~ m/[\/.]+/ ) {
             $webtopic = $topic;

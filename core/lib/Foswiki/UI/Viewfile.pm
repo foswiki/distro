@@ -70,7 +70,7 @@ sub viewfile {
 
         # Attachment name is passed in URL params. This is a (possibly
         # / separated) path relative to the pub/Web/Topic
-        $fileName = $query->unicode_param('filename');
+        $fileName = $query->param('filename');
     }
     else {
 
