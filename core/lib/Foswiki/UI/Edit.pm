@@ -61,8 +61,8 @@ sub init_edit {
       Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
     my $onlyNewTopic =
       Foswiki::isTrue( scalar( $query->param('onlynewtopic') ) );
-    my $formTemplate  = $query->unicode_param('formtemplate')  || '';
-    my $templateTopic = $query->unicode_param('templatetopic') || '';
+    my $formTemplate  = $query->param('formtemplate')  || '';
+    my $templateTopic = $query->param('templatetopic') || '';
     my $notemplateexpansion =
       Foswiki::isTrue( scalar( $query->param('notemplateexpansion') ) );
 
@@ -71,8 +71,8 @@ sub init_edit {
          $query->param('contenttype')
       || $query->param('apptype')
       || 'text/html';
-    my $parentTopic = $query->unicode_param('topicparent') || '';
-    my $ptext = $query->unicode_param('text');
+    my $parentTopic = $query->param('topicparent') || '';
+    my $ptext = $query->param('text');
 
     my $revision;
     if ( defined $query->param('rev') ) {
@@ -186,7 +186,7 @@ sub init_edit {
 
     # Get edit template
     my $template =
-         $query->unicode_param('template')
+         $query->param('template')
       || $session->{prefs}->getPreference('EDIT_TEMPLATE')
       || $templateName;
 

@@ -108,7 +108,7 @@ sub preview {
     my $saveCmd = $query->param('cmd') || '';
     $tmpl =~ s/%CMD%/$saveCmd/g;
 
-    my $redirectTo = $query->unicode_param('redirectto') || '';
+    my $redirectTo = $query->param('redirectto') || '';
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     $formName ||= '';
@@ -160,14 +160,14 @@ sub preview {
          #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
     $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
 
-    my $templatetopic = $query->unicode_param('templatetopic');
+    my $templatetopic = $query->param('templatetopic');
 
     #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
     $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g if ( defined($templatetopic) );
 
     #this one's worrying, its special, and not set much at all
     #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
-    my $newtopic = $query->unicode_param('newtopic');
+    my $newtopic = $query->param('newtopic');
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );

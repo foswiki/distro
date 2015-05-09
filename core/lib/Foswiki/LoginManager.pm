@@ -633,7 +633,7 @@ sub redirectToLoggedOutUrl {
 
     #TODO: consider if we should risk passing on the urlparams on logout
     my $path_info = Encode::decode_utf8( $session->{request}->path_info() );
-    if ( my $topic = $session->{request}->unicode_param('topic') )
+    if ( my $topic = $session->{request}->param('topic') )
     {    #we should at least respect the ?topic= request
         my $topicRequest = Foswiki::Sandbox::untaintUnchecked($topic);
         ( my $web, $topic ) =

@@ -92,7 +92,7 @@ sub dispatch {
 
     # get topic parameter and set the location overriding any
     #  other value derived from the namespace param
-    my $topic = $request->unicode_param('topic')
+    my $topic = $request->param('topic')
       || $Foswiki::cfg{HomeTopicName};
     ( $session->{webName}, $session->{topicName} ) =
       Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
@@ -184,7 +184,7 @@ sub dispatch {
     };
 
     # finally
-    my $redirectto = $request->unicode_param('redirectto');
+    my $redirectto = $request->param('redirectto');
     if ( $code == 0 && defined $redirectto ) {
         my $url;
         if ( $redirectto =~ /^https?:/ ) {
