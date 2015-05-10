@@ -612,7 +612,7 @@ sub _bootstrapStoreSettings {
         if ( !$Foswiki::inUnitTestMode ) {
 
             # Untaint PATH so we can check for grep on the path
-            my $x = $ENV{PATH};
+            my $x = $ENV{PATH} || '';
             $x =~ m/^(.*)$/;
             $ENV{PATH} = $1;
             `grep -V 2>&1`;

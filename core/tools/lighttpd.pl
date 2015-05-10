@@ -88,6 +88,9 @@ if ( !-e "/usr/share/lighttpd/create-mime.assign.pl" ) {
   \));
 }
 
+use Data::Dumper;
+print STDERR Data::Dumper::Dumper( \%ENV );
+
 # write configuration file
 open( CONF, '>', $conffile )
   or
@@ -97,6 +100,7 @@ print CONF <<EOC
 server.modules = (
    "mod_rewrite",
    "mod_alias",
+   "mod_setenv",
    "mod_cgi",
    "mod_fastcgi"
 )
@@ -113,7 +117,10 @@ $mime_mapping
 # SMELL: lighttpd on case insensitive file systems converts PATH_INFO to Lower Case!
 server.force-lowercase-filenames = "disable"
 
-# request debugging
+# Set the ENV variable for the path.
+setenv.add-environment = ("PATH" => env.PATH )
+
+# request debugging - UNCOMMENT TO ENABLE
 #debug.log-request-handling = "enable"
 
 # default landing page
@@ -141,7 +148,8 @@ if ($__fastcgi) {
   ";
 }
 else {
-    print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }', "\n";
+    print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "' . $^X
+      . '" ) }', "\n";
 }
 
 close(CONF);
