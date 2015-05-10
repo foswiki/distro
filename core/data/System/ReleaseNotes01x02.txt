@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430847033" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431220264" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -346,6 +346,7 @@ As of this release,
    * Danish, French and Czech are >99% complete
    * German is >97%
    * Other languages are 60% complete or lower.
+   * A new translation has been added: Klingon
 
 For more details on translation status,  see Foswiki:Community.TranslationTeam and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
 Foswiki thanks the Translators for their efforts.  If you are interesting in helping with the translation, please contact foswiki-translations@lists.sourceforge.net.
@@ -835,6 +836,9 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13391][Item13391]] | CLI extension installer rewritten to use tools/configure |
 | [[%BUGS%/Item13392][Item13392]] | Add extensions to PERLDEPENDENCYREPORT. |
 | [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
+| [[%BUGS%/Item13398][Item13398]] | Lighttpd configuration enhancements. Pass through PATH and Perl version. |
+| [[%BUGS%/Item13400][Item13400]] | Redirect after logout fails to honor ={ForceDefaultUrlHost}= setting. |
+
 </noautolink>
 
 ---
