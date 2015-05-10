@@ -32,8 +32,7 @@ sub check_current_value {
         # Warn re known broken locale setup
         $this->WARN( <<HERE );
 Using Perl on Windows, which may have missing or incorrect locales (in Cygwin
-or ActiveState Perl, respectively) - turning off {Site}{LocaleRegexes} is
-recommended unless you know your version of Perl has working locale support.
+or ActiveState Perl, respectively).
 HERE
     }
 

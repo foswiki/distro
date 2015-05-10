@@ -320,7 +320,7 @@ sub sanitizeAttachmentName {
     $fileName =~ s/$Foswiki::cfg{NameFilter}//g;
 
     # Append .txt to some files
-    $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/gi;
+    $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/g;
 
     # Untaint
     $fileName = untaintUnchecked($fileName);

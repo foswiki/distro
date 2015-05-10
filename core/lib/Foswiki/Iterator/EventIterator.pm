@@ -3,7 +3,6 @@ package Foswiki::Iterator::EventIterator;
 
 use strict;
 use warnings;
-use utf8;
 use Assert;
 
 BEGIN {

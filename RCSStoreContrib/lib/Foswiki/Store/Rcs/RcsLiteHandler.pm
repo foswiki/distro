@@ -581,7 +581,7 @@ sub _delLastRevision {
     my ($lastText) = $this->getRevision($numRevisions);
     $this->{revs}[$numRevisions]->{text} = $lastText;
     $this->{head} = $numRevisions;
-    Foswiki::Store::Rcs::Handler::saveFile( $this, $this->{file}, $lastText );
+    $this->saveFile( $this->{file}, $lastText );
 }
 
 # implements Rcs::Handler

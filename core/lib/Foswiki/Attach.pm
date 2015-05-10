@@ -374,7 +374,7 @@ sub getAttachmentLink {
     my $prefs    = $this->{session}->{prefs};
 
     # I18N: URL-encode the attachment filename
-    my $fileURL = Foswiki::urlEncodeAttachment($attName);
+    my $fileURL = Foswiki::urlEncode($attName);
 
     if ( $attName =~ m/\.(gif|jpg|jpeg|png)$/i ) {
 

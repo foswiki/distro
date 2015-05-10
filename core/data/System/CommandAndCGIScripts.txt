@@ -20,8 +20,6 @@ default behaviour if no value is given.
 ---+++ General Information
 ---++++ CGI environment
 In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default user is used (usually =guest=).
----+++++ Character Encodings and Ajax
-Requests that are made using Ajax always pass parameters encoded using UTF-8, independent of the ={Site}{Charset}= used. For this reason, scripts (such as =save=) that accept text parameters should *not* be called using Ajax if the server is *not* using a UTF-8 ={Site}{CharSet}=. Functions that are called through the =rest= script must be written bearing in mind that data they receive from CGI parameters will be Unicode, and must be converted to the ={Site}{Charset}= before processing.
 
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line.

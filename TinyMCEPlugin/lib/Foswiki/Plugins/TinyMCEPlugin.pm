@@ -69,12 +69,14 @@ sub beforeEditHandler {
 
     my $mess = _notAvailable();
     if ($mess) {
-        if ( ( $mess !~ /^Disabled/ || DEBUG )
+        my $disabled = ( $mess !~ /^Disabled/ );
+        $mess = 'WYSIWYG could not be started: ' . $mess;
+        if ( ( $disabled || DEBUG )
             && defined &Foswiki::Func::setPreferencesValue )
         {
-            Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE',
-                'WYSIWYG could not be started: ' . $mess );
+            Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE', $mess );
         }
+        Foswiki::Func::writeDebug($mess) if DEBUG;
         return;
     }
     if ( defined &Foswiki::Func::setPreferencesValue ) {
@@ -108,11 +110,12 @@ sub beforeEditHandler {
 
     $mess = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($text);
     if ($mess) {
+        $mess = 'WYSIWYG could not be started: ' . $mess;
         if ( defined &Foswiki::Func::setPreferencesValue ) {
-            Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE',
-                'WYSIWYG could not be started: ' . $mess );
-            Foswiki::Func::setPreferencesValue( 'EDITOR_HELP', undef );
+            Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE', $mess );
+            Foswiki::Func::setPreferencesValue( 'EDITOR_HELP',    undef );
         }
+        Foswiki::Func::writeDebug($mess) if DEBUG;
         return;
     }
 

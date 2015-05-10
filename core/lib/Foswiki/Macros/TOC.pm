@@ -117,7 +117,7 @@ sub TOC {
         next if ( $name eq 'topic' );
         next if ( $name eq 'text' );
         next if ( $name eq 'refresh' );
-        push @qparams, $name => scalar( $query->param($name) );
+        push( @qparams, $name => scalar( $query->param($name) ) );
     }
 
     # Extract anchor targets. This has to generate *identical* anchor
@@ -210,7 +210,7 @@ sub TOC {
 
         # Special case: 'Site:page' Interwiki link
         $text =~ s/(^|[\s\-\*\(])
-                   ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gx;
+                   ([[:alnum:]]+\:)/$1<nop>$2/gx;
 
         # Prevent duplicating id attributes
         $text =~ s/id=["'][^"']*?["']//gi;

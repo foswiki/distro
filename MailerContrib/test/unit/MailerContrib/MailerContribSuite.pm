@@ -3,7 +3,6 @@ package MailerContribSuite;
 use strict;
 use warnings;
 use locale;
-use utf8;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
@@ -43,8 +42,7 @@ my %finalText = (
     TestTopic21     => "smoke me a kipper, I'll be back for breakfast",
     TestTopicDenied => "   * Set ALLOWTOPICVIEW = TestUser1\n",
 
-    # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
-    # encoding.
+    # High-bit chars
     'RequêtesNon' => "makê it so, number onê",
     'RequêtesOui' => "you're such a smêêêêêê heeee",
 
@@ -222,55 +220,27 @@ sub set_up {
             email     => "email11\@example.com",
             entry     => "email11\@example.com: FakeTestTopic1 FakeTestTopic11",
             topicsout => ""
+        },
+
+        # High-bit chars
+        {
+            name      => "High bit",
+            email     => "test1\@example.com",
+            entry     => "TestUser1 : Requêtes*",
+            topicsout => "RequêtesNon RequêtesOui",
+        },
+
+        # Multi-byte chars
+        {
+            name      => 'Multi byte',
+            email     => "test2\@example.com",
+            entry     => 'TestUser1 : 官話',
+            topicsout => '官話'
         }
     );
 
-    if ( !$high_bit_disabled ) {
-        if (  !$Foswiki::cfg{Site}{CharSet}
-            || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859/
-            || $Foswiki::cfg{Site}{CharSet} =~ /^utf-8/ )
-        {
-
-            # High-bit chars
-            push(
-                @specs,    # Francais
-                {
-                    name      => "High bit",
-                    email     => "test1\@example.com",
-                    entry     => "TestUser1 : Requêtes*",
-                    topicsout => "RequêtesNon RequêtesOui",
-                },
-            );
-        }
-        else {
-            print STDERR
-              "WARNING: No high-bit tests with $Foswiki::cfg{Site}{CharSet}\n";
-            $high_bit_disabled = 1;
-        }
-        if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-8/ ) {
-
-            # Multi-byte chars
-            push(
-                @specs,    # Mandarin
-                {
-                    name      => 'Multi byte',
-                    email     => "test2\@example.com",
-                    entry     => 'TestUser1 : 官話',
-                    topicsout => '官話'
-                },
-            );
-        }
-        else {
-            print STDERR
-"WARNING: No multi-byte tests with $Foswiki::cfg{Site}{CharSet}\n";
-        }
-    }
-
     my $s = "";
     foreach my $spec (@specs) {
-        while ( my ( $k, $v ) = each %$spec ) {
-            $spec->{$k} = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $v );
-        }
         $s .= "   * $spec->{entry}\n";
     }
     foreach my $web ( $this->{test_web}, $testWeb2 ) {

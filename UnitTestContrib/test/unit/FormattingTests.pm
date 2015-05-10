@@ -1003,8 +1003,7 @@ sub test_shortAcronyms {
     # is loaded.  So Render has to be reloaded to recomplile the
     # regular expressions.
     my $abbrevLength = 2;
-    $Foswiki::regex{abbrevRegex} =
-      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/;
+    $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
     $this->{session}->renderer->finish();
     Class::Unload->unload('Foswiki::Render');
@@ -1033,8 +1032,7 @@ ACTUAL
     # SMELL: Reset the regular expressions back to default
     # and compile render again so subsequent tests don't fail.
     $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $Foswiki::regex{abbrevRegex} =
-      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/;
+    $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
     $this->{session}->renderer->finish();
     Class::Unload->unload('Foswiki::Render');

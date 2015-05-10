@@ -7,20 +7,29 @@
 Single-file implementation of =Foswiki::Store= that uses normal
 files in a standard directory structure to store versions.
 
-   * Webs map to directories; webs only "exist" if they contain a preferences topic.
-   * Topics are in data/.../topic.txt. If there is no .txt for a topic, the topic
-     does not exist, even if there is a history.
+   * Webs map to directories; webs only "exist" if they contain a
+     preferences topic.
+   * Topics are in data/.../topic.txt. If there is no .txt for a topic,
+     the topic does not exist, even if there is a history.
    * Topic histories are in data/.../topic,pfv/
       * Each rev of the topic has a numbered file containing the text of that
         rev (1 2 3 etc) each with a corresponding metafile 1.m 2.m etc.
    * Attachment histories are in data/.../topic,pfv/ATTACHMENTS/attachmentname/
       * Each rev of an attachment has a numbered file containing the data for
-        that rev (same as a topic), each with a corresponding metafile (same as a topic)
-   * The latest rev always has a history file (note: this means that large attachments are
-     stored twice; same as in the RCS stores)
+        that rev (same as a topic), each with a corresponding metafile
+        (same as a topic)
+   * The latest rev always has a history file (note: this means that
+    large attachments are stored at least twice; same as in the RCS stores)
    * 'date' always comes from the file modification date
    * 'author' and 'comment' come from the metafile
    * 'version' comes from the name of the version file
+
+A note on character encodings. This module is designed to work best when
+data is stored using UTF-8, but can also use an alternate encoding by
+setting {Store}{Encoding}. Conversion to/from the alternate
+encoding is done at the lowest possible level - before calling file-level
+operations - so in general, strings can be assumed to be UTF-8 encoded
+byte strings.
 
 =cut
 
@@ -609,9 +618,10 @@ sub webExists {
     return 0 unless defined $web;
     $web =~ s#\.#/#g;
 
-    return 1 if ( -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
+    return 1
+      if ( -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
 
-    #ASSERT(!-d _getData( $web ), $web) if DEBUG;
+    #ASSERT(!-e _getData( $web ), $web) if DEBUG;
     return 0;
 }
 
@@ -642,7 +652,11 @@ sub eachAttachment {
     my $dh;
     opendir( $dh, _attachmentsDir($meta) )
       or return new Foswiki::ListIterator( [] );
-    my @list = grep { !/^[.*_]/ && !/,pfv$/ } readdir($dh);
+    my @list = grep { !/^[.*_]/ && !/,pfv$/ }
+
+      # readdir only understands bytes, have to decode to what we saved (which
+      # is always UTF8)
+      map( Encode::decode_utf8($_), readdir($dh) );
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -662,7 +676,11 @@ sub eachTopic {
     my @list =
       map { /^(.*)\.txt$/; $1; }
       sort
-      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
+
+      # readdir only understands bytes, have to decode to what we saved
+      # (which is always UTF8)
+      map( Encode::decode_utf8($_), readdir($dh) );
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -697,7 +715,11 @@ sub eachWeb {
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
           # WebPreferences.txt in it", this works.
-          grep { !/\./ && -e "$dir/$_$wptn" } readdir($dh);
+          grep { !/\./ && -e "$dir/$_$wptn" }
+
+          # readdir only understands bytes, have to decode to what we saved
+          # (which is always UTF8)
+          map( Encode::decode_utf8($_), readdir($dh) );
         closedir($dh);
     }
 
@@ -850,6 +872,8 @@ sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
     my $webdir = _getData($web) . '/';
     if ( opendir( my $W, $webdir ) ) {
+
+        # Don't need to decode the dir entires, we're not passing them back
         foreach my $f ( readdir($W) ) {
             my $file = $webdir . $f;
             if ( $file =~ m/^(.*)\.lease$/ ) {
@@ -1191,8 +1215,8 @@ sub recordChange {
         ($web) = Foswiki->normalizeWebTopicName( undef, $web );
     }
 
-    # Can't log changes in a non-existent web
-    return unless ( -d _getData($web) );
+    # Can't log changes in a non_existent web
+    return unless ( -e _getData($web) );
 
     my $file = _getData($web) . '/.changes';
     my @changes;
@@ -1228,18 +1252,26 @@ sub eachChange {
 
 # Read an entire file
 sub _readFile {
-    my ($name) = @_;
+    my $name = shift;
 
-    my $data;
     my $IN_FILE;
+
+    # Note: we don't use an IO layer here in case there is an encoding
+    # error in the file being read; we want to PERLQQ those.
     open( $IN_FILE, '<', $name )
       or die "PlainFile: failed to read $name: $!";
     binmode($IN_FILE);
     local $/ = undef;
-    $data = <$IN_FILE>;
+    my $data = <$IN_FILE>;
     close($IN_FILE);
     $data = '' unless defined $data;
-    return $data;
+    return Encode::decode(
+        $Foswiki::cfg{Store}{CharSet} || 'utf-8',
+        $data,
+
+        #Encode::FB_CROAK # DEBUG
+        Encode::FB_PERLQQ
+    );
 }
 
 # Open a stream onto a file
@@ -1277,8 +1309,9 @@ sub _saveFile {
       or die("PlainFile: failed to lock file $file: $!");
     binmode($fh)
       or die("PlainFile: failed to binmode $file: $!");
-    print $fh $text
-      or die("PlainFile: failed to print into $file: $!");
+    print $fh Encode::encode( $Foswiki::cfg{Store}{CharSet} || 'utf-8',
+        $text, Encode::FB_PERLQQ )
+      or die("PlainFile: failed to print to $file: $!");
     close($fh)
       or die("PlainFile: failed to close file $file: $!");
 
@@ -1311,7 +1344,7 @@ sub _moveFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if ( -d $from ) {
+    if ( -e $from ) {
         $ok = File::Copy::Recursive::dirmove( $from, $to );
     }
     else {
@@ -1329,7 +1362,7 @@ sub _copyFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if ( -d $from ) {
+    if ( -e $from ) {
         $ok = File::Copy::Recursive::dircopy( $from, $to );
     }
     else {
@@ -1365,9 +1398,12 @@ sub _rmtree {
     my $root = shift;
     my $D;
     if ( opendir( $D, $root ) ) {
+
+        # Don't need to decode the directory entries, we're not
+        # passing them back
         foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
             $entry =~ m/^(.*)$/;
-            $entry = $root . '/' . $1;
+            $entry = "$root/$1";
             if ( -d $entry ) {
                 _rmtree($entry);
             }
@@ -1423,6 +1459,7 @@ sub _getRevision {
         }
     }
     my $latest = _latestFile( $meta, $attachment );
+
     return ( undef, 0 ) unless -e $latest;
 
     # no version given, give latest (may not be checked in yet)
@@ -1458,7 +1495,7 @@ sub _split {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2012 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2012-2015 Crawford Currie http://c-dot.co.uk
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

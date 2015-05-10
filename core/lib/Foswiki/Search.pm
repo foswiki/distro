@@ -341,6 +341,7 @@ sub searchWeb {
     # need to tell the Meta::query pager settings so it can optimise
     require Digest::MD5;
     my $string_id = $params{_RAW} || 'we had better not go there';
+    $string_id = Encode::encode_utf8($string_id);
     my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
     $params{pager_urlparam_id} = $paging_ID;
 
@@ -1187,7 +1188,7 @@ sub formatResult {
     # render each item differently, based on SEARCH param 'itemview'
     if (   $item->topic
         && defined $itemView
-        && $itemView =~ m/([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/ )
+        && $itemView =~ m/([[:alnum:].\s\(\)\$]+)/ )
     {
 
         # brackets added to regex to allow $formfield(name)

@@ -25,7 +25,6 @@ sub handle {
 
     my $request = $session->{request};
 
-    # transform to site charset
     foreach my $key ( $request->multi_param() ) {
         my @val = $request->multi_param($key);
 
@@ -117,12 +116,20 @@ sub stringifyError {
 sub toSiteCharSet {
     my $string = shift;
 
-    my $charSet = Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} );
-    return $string if ( !$charSet || $charSet =~ m/^utf-?8$/i );
+    return $string unless $string;
 
-    # converts to {Site}{CharSet}, generating HTML NCR's when needed
-    my $octets = Encode::decode( 'utf-8', $string );
-    return Encode::encode( $charSet, $octets, &Encode::FB_HTMLCREF() );
+    return $string if $Foswiki::UNICODE;
+
+    return $string
+      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+
+    # If the site charset is not utf-8, need to convert it
+    require Encode;
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        Encode::decode_utf8($string),
+        Encode::FB_PERLQQ
+    );
 }
 
 1;

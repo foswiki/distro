@@ -2,7 +2,6 @@
 package Foswiki::Logger::PlainFile::EventIterator;
 use strict;
 use warnings;
-use utf8;
 use Assert;
 
 use Fcntl qw(:flock);
@@ -31,7 +30,6 @@ package Foswiki::Logger::PlainFile;
 
 use strict;
 use warnings;
-use utf8;
 use Assert;
 
 use Foswiki::Logger                           ();
@@ -133,15 +131,6 @@ sub log {
 
     my $file;
     my $mode = '>>';
-
-  # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
-  # way for any encoding, not just utf8. Babar says: check what Catalyst does.
-  #
-  # Item12027: this only makes sense for Unicode strings, not UTF-8 byte strings
-    unless ( utf8::is_utf8($message) ) {
-        require Encode;
-        $message = Encode::decode( 'utf-8', $message, 0 );
-    }
 
     if ( open( $file, $mode, $log ) ) {
         binmode $file, ":encoding(utf-8)";

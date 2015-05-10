@@ -92,7 +92,8 @@ sub dispatch {
 
     # get topic parameter and set the location overriding any
     #  other value derived from the namespace param
-    my $topic = $request->param("topic") || $Foswiki::cfg{HomeTopicName};
+    my $topic = $request->param('topic')
+      || $Foswiki::cfg{HomeTopicName};
     ( $session->{webName}, $session->{topicName} ) =
       Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $topic );
@@ -113,10 +114,10 @@ sub dispatch {
     }
 
     # if there's login info, try and apply it
-    my $userName = $request->param("username");
+    my $userName = $request->param('username');
     if ($userName) {
         writeDebug("checking password for $userName") if TRACE;
-        my $pass = $request->param("password") || '';
+        my $pass = $request->param('password') || '';
         unless ( $session->{users}->checkPassword( $userName, $pass ) ) {
             Foswiki::Contrib::JsonRpcContrib::Response->print(
                 $session,
@@ -183,7 +184,7 @@ sub dispatch {
     };
 
     # finally
-    my $redirectto = $request->param("redirectto");
+    my $redirectto = $request->param('redirectto');
     if ( $code == 0 && defined $redirectto ) {
         my $url;
         if ( $redirectto =~ /^https?:/ ) {

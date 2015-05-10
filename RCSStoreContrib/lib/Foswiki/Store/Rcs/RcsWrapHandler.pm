@@ -170,7 +170,7 @@ sub repRev {
         _deleteRevision( $this, $rev );
     }
 
-    Foswiki::Store::Rcs::Handler::saveFile( $this, $this->{file}, $text );
+    $this->saveFile( $this->{file}, $text );
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
@@ -238,7 +238,7 @@ sub _deleteRevision {
               . ' failed: '
               . $rcsOut );
     }
-    Foswiki::Store::Rcs::Handler::saveFile( $this, $this->{file}, $rcsOut );
+    $this->saveFile( $this->{file}, $rcsOut );
 }
 
 # implements Rcs::Handler
@@ -279,8 +279,7 @@ sub getRevision {
         # for evidence that this code is needed.
         $tmpfile    = Foswiki::Store::Rcs::Handler::mkTmpFilename($this);
         $tmpRevFile = $tmpfile . ',v';
-        require File::Copy;
-        File::Copy::copy( $this->{rcsFile}, $tmpRevFile );
+        $this->_copyFile( $this->{rcsFile}, $tmpRevFile );
         my ( $rcsOutput, $status ) =
           Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},
             FILENAME => $tmpRevFile );

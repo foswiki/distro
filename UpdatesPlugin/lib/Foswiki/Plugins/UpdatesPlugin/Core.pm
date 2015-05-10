@@ -282,7 +282,7 @@ sub printRESTResponse {
     $response->header(
         -status  => 200,
         -type    => 'text/plain',
-        -charset => $Foswiki::cfg{Site}{CharSet}
+        -charset => 'utf-8'
     );
     $response->print($content);
 }

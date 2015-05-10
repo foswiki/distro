@@ -46,7 +46,7 @@ sub new {
         status           => undef,
         headers          => {},
         body             => undef,
-        charset          => $Foswiki::cfg{Site}{CharSet},
+        charset          => 'utf-8',
         cookies          => [],
         outputHasStarted => 0,
     };
@@ -369,23 +369,6 @@ Gets/Sets response body. Note: do not use this method for output, use
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
-
-        # There *is* a risk that a unicode string could reach this far - for
-        # example, if it comes from a plugin. We need to force such strings
-        # into the "Foswiki canonical" representation of a string of bytes.
-        # The output may be crap, but at least it won't trigger a
-        # "Wide character in print" error.
-        if ( utf8::is_utf8($body)
-            and ( $Foswiki::cfg{Site}{CharSet} || '' ) ne 'utf-8' )
-        {
-            require Encode;
-
-            # used to encode to 'iso-8859-1', but that seems wrong in
-            # light of the cfg settings
-            $body =
-              Encode::encode( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
-                $body, 0 );
-        }
         $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
     }

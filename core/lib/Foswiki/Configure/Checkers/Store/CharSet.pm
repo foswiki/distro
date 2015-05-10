@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Site::CharSet;
+package Foswiki::Configure::Checkers::Store::CharSet;
 
 use strict;
 use warnings;
@@ -13,28 +13,23 @@ sub check_current_value {
     # Test if this is actually an available encoding:
     eval {
         require Encode;
-        Encode::encode( $Foswiki::cfg{Site}{CharSet}, 'test', 0 );
+        Encode::encode( $Foswiki::cfg{Store}{CharSet}, 'test', 0 );
     };
     if ($@) {
-        $reporter->ERROR(
-"Unknown Charaset requested. Foswiki will not function correctly with this setting."
-        );
+        $reporter->ERROR("Unknown store character set requested.");
         print STDERR "encode failed $@ \n";
-
-        #SMELL  Need to override so Foswiki can produce output
-        $Foswiki::cfg{Site}{CharSet} = 'C';    # C should always be safe.
         return;
     }
 
-    if ( $Foswiki::cfg{Site}{CharSet} =~
+    if ( $Foswiki::cfg{Store}{CharSet} =~
 m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
       )
     {
 
         $reporter->ERROR(
             <<HERE
-Cannot use this multi-byte encoding ('$Foswiki::cfg{Site}{CharSet}') as site character
-encoding. Please set a different character encoding setting.
+Cannot use this multi-byte encoding ('$Foswiki::cfg{Store}{CharSet}')
+as {Store}{CharSet}. Please set a different character encoding setting.
 HERE
         );
     }
@@ -47,7 +42,7 @@ HERE
     $charset =~ s/^eucjp$/euc-jp/i;
     $charset = lc($charset);
 
-    if ( $charset && ( lc( $Foswiki::cfg{Site}{CharSet} ) ne $charset ) ) {
+    if ( $charset && ( lc( $Foswiki::cfg{Store}{CharSet} ) ne $charset ) ) {
         $reporter->ERROR(
             <<HERE
 The Character set determined by the configured Locale, and this character set,
@@ -57,12 +52,13 @@ HERE
     }
 
     if ( $Foswiki::cfg{isBOOTSTRAPPING}
-        && ( lc( $Foswiki::cfg{Site}{CharSet} ne 'iso-8859-1' ) ) )
+        && ( lc( $Foswiki::cfg{Store}{CharSet} ne 'iso-8859-1' ) ) )
     {
         $reporter->WARN( <<HERE );
-The BOOTSTRAP process has guessed a site Character Set of =$Foswiki::cfg{Site}{CharSet}=.
-This is different from the Foswiki 1.1 default of =iso-8859-1=.  If you intend to migrate
-data from prior releases of Foswiki or TWiki, you should either match the previously used Character Set.
+The BOOTSTRAP process has guessed the store is using utf-8.
+This is different from the Foswiki 1.1 default of =iso-8859-1=.
+If you intend to migrate data from prior releases of Foswiki or TWiki,
+you should either match the previously used {Site}{CharSet}
 or migrate data using <a href="http://foswiki.org/Extensions/CharsetConverterContrib" target="_blank">CharsetConverterContrib</a>
 HERE
     }

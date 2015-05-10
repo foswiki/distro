@@ -1454,18 +1454,10 @@ sub _getReferenceRE {
                 if ( $options{in_noautolink} ) {
 
                     # web name used to refer to a topic
-                    $re =
-                        $squabo
-                      . $matchWeb
-                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
-                      . $squabc;
+                    $re = $squabo . $matchWeb . "(\.[[:alnum:]]+)" . $squabc;
                 }
                 else {
-                    $re =
-                        $bow
-                      . $matchWeb
-                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
-                      . $eow;
+                    $re = $bow . $matchWeb . "(\.[[:alnum:]]+)" . $eow;
                 }
             }
             else {
@@ -1477,18 +1469,18 @@ sub _getReferenceRE {
                     $re =
                         $squabo
                       . $matchWeb
-                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
-                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
-                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
+                      . "(([\/\.][[:upper:]]"
+                      . "[[:alnum:]_]*)+"
+                      . "\.[[:alnum:]]*)"
                       . $squabc;
                 }
                 else {
                     $re =
                         $bow
                       . $matchWeb
-                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
-                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
-                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
+                      . "(([\/\.][[:upper:]]"
+                      . "[[:alnum:]_]*)+"
+                      . "\.[[:alnum:]]*)"
                       . $eow;
                 }
             }

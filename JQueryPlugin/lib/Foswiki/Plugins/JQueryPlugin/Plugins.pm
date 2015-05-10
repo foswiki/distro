@@ -282,7 +282,8 @@ sub load {
         eval "use $pluginDesc->{class};";
 
         if ($@) {
-            print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
+            Foswiki::Func::writeDebug(
+                "ERROR: can't load jQuery plugin $pluginName: $@");
             $pluginDesc->{instance} = 0;
         }
         else {

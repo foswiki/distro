@@ -51,8 +51,6 @@ sub set_up {
     my ($this) = shift;
     $this->SUPER::set_up(@_);
 
-    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
-
     my $timestamp = time();
 
     my ($topicObject) =
@@ -4048,10 +4046,7 @@ sub _cut_the_crap {
     $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
     $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
     $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
-    $result =
-      HTML::Entities::encode_entities(
-        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result ),
-        '^\n\x20-\x25\x27-\x7e' );
+    HTML::Entities::encode_entities( $result, '\x00-\x09\x0B-\x1F' );
     return $result;
 }
 
@@ -4254,13 +4249,9 @@ CRUD
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
     $result =
-      HTML::Entities::encode_entities(
-        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result ),
-        '^\n\x20-\x25\x27-\x7e' );
+      HTML::Entities::encode_entities( $result, '^\n\x20-\x25\x27-\x7e' );
     $result2 =
-      HTML::Entities::encode_entities(
-        Encode::decode( $Foswiki::cfg{Site}{CharSet}, $result2 ),
-        '^\n\x20-\x25\x27-\x7e' );
+      HTML::Entities::encode_entities( $result2, '^\n\x20-\x25\x27-\x7e' );
 
     $this->assert_html_equals( $result, $result2 );
 
@@ -4653,7 +4644,7 @@ sub test_summary_default_word_search {
       );
 
     $this->assert_html_equals( <<'CRUD', $result );
-Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was ...
+Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was...
 CRUD
 
     return;
@@ -4676,7 +4667,7 @@ sub test_summary_short_word_search {
       );
 
     $this->assert_html_equals( <<'CRUD', $result );
-Alan says<nop>: 'I was ...
+Alan says<nop>: 'I was...
 CRUD
 
     return;
@@ -6168,7 +6159,6 @@ footer: \$web=$this->{test_web}", $result
   excludetopic="*Other*"
 }%'
     );
-
     $this->assert_str_equals(
         "   1 OkATopic
    1 OkBTopic
@@ -6284,12 +6274,12 @@ sub test_format_tokens {
 '$percntUSERINFO{$quot$pattern(.*?POTLEADER *= *([^\n]*).*)$quot format=$quot$emails$quot}$percnt'
           => $emailAddress,
         '$summary'     => qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
-        '$summary(29)' => qq{$header \* Set ...},
+        '$summary(29)' => qq{$header \* Set P...},
         '$summary(showvarnames)' =>
           qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
         '$summary(searchcontext)' =>
           qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
-        '$summary(searchcontext, 29)' => qq{$header \* Set ...},
+        '$summary(searchcontext, 29)' => qq{$header \* Set P...},
         '$summary(noheader)' => qr/^\* Set ${nop}POTLEADER = ${nop}ScumBag$/,
         '$pattern(.*?POTLEADER *= *([^\n]*).*)' => 'ScumBag',
         '$count(.*S.*)'                         => 2,          # Not sure why...

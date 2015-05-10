@@ -20,7 +20,8 @@ are signalled using exceptions. Foswiki::AccessControlException is
 used for access control exceptions, and Error::Simple for all other
 types of error.
 
-The reference implementations of this base class =Foswiki::Store::PlainFileStore=,
+The reference implementations of this base class
+=Foswiki::Store::PlainFileStore=,
 which can be obtained from PlainFileStoreContrib.
 
 Methods of this class and all subclasses should *only* be called from
@@ -42,6 +43,10 @@ undef and '' are treated as referring to the *latest* (most recent)
 revision of the object. Version numbers are required to increase (later
 version numbers are greater than earlier) but are *not* required to be
 sequential.
+
+*IMPORTANT:* the store must be able to handle unicode topic and
+attachment names, and unicode topic content. The store is expected
+to do any necessary encoding/decoding from/to unicode.
 
 =cut
 

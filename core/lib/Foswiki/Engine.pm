@@ -173,10 +173,11 @@ sub prepareConnection { }
 
 ---++ ObjectMethod prepareQueryParameters( $req, $queryString )
 
-Should fill $req's query parameters field.
+Populates $req with parameters extracted by parsing a
+byte string (which may include url-encoded characters, which may
+in turn be parts of utf8-encoded characters).
 
-This method populates $req as it should if given $queryString parameter.
-Subclasses may redefine this method and call SUPER with query string obtained.
+Note that parameter names and values are decoded to unicode.
 
 =cut
 
@@ -191,12 +192,14 @@ sub prepareQueryParameters {
         if ( defined $value ) {
             $value =~ tr/+/ /;
             $value =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+            $value = Encode::decode_utf8($value);
         }
         if ( defined $param ) {
             $param =~ tr/+/ /;
             $param =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-            push @{ $params{$param} }, $value;
-            push @plist, $param;
+            $param = Encode::decode_utf8($param);
+            push( @{ $params{$param} }, $value );
+            push( @plist,               $param );
         }
     }
     foreach my $param (@plist) {
@@ -270,7 +273,9 @@ sub prepareBody { }
 Abstract method, must be defined by inherited classes.
    * =$req= - Foswiki::Request object to populate
 
-Should fill $req's body parameters.
+Should fill $req's body parameters (parameters that are set in the
+request body, as against the query string). Implementations must
+convert parameter values to unicode.
 
 =cut
 
@@ -283,8 +288,10 @@ sub prepareBodyParameters { }
 Abstract method, must be defined by inherited classes.
    * =$req= - Foswiki::Request object to populate
 
-Should fill $req's uploads field. Its a hashref whose keys are
-parameter names and values Foswiki::Request::Upload objects.
+Should fill $req's {uploads} field. This is a hashref whose keys are
+upload names and values Foswiki::Request::Upload objects.
+
+Implementations must convert upload names to unicode.
 
 =cut
 

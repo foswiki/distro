@@ -25,13 +25,9 @@ HMMM
 
     $reporter->NOTE("You are running CGI Version $cgiver.");
 
-    if (   $cgiver > 4.10
-        && $cgiver < 4.14
-        && $Foswiki::cfg{Site}{CharSet} =~ m/utf-?8/i )
-    {
+    if ( $cgiver > 4.10 && $cgiver < 4.14 ) {
         $reporter->ERROR( <<OOPS );
-CGI Versions 4.11 - 4.13 are known to corrupt topic & form data when using UTF-8.
-Your ={Site}{CharSet}= is set to =$Foswiki::cfg{Site}{CharSet}=.
+CGI Versions 4.11 .. 4.13 are known to corrupt topic & form data.
 OOPS
     }
 

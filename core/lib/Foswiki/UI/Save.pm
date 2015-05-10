@@ -177,16 +177,17 @@ sub buildNewTopic {
         $ancestorRev = 0;
     }
 
-    if ( defined( $query->param('text') ) ) {
+    $text = $query->param('text');
+    if ( defined $text ) {
 
         # text is defined in the query, save that text, overriding anything
         # from the template or the previous rev of the topic
-        $text = $query->param('text');
         $text =~ s/\r//g;
         $text .= "\n" unless $text =~ m/\n$/s;
     }
-
-    $text = '' unless defined $text;
+    else {
+        $text = '';
+    }
 
     # Change the parent, if appropriate
     my $newParent = $query->param('topicparent');
@@ -631,7 +632,7 @@ WARN
         # replace top revision with the text from the query, trying to
         # make it look as much like the original as possible. The query
         # text is expected to contain %META as well as text.
-        $topicObject->text( scalar( $query->param('text') ) );
+        $topicObject->text( $query->param('text') );
 
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );

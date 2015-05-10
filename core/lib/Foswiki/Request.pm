@@ -416,6 +416,7 @@ sub bodyParam {
    * Called with name and list of values or with 
      -name => 'name', -value => 'value' or -name => 'name', -values => [ ... ]
      sets parameter value
+   * Returns parameter values as UTF-8 encoded binary strings
 
 Resonably compatible with CGI.
 
@@ -430,6 +431,9 @@ The following are *scalar* contexts:
    * =lc($query->param( ...= is OK
    * =... if ( $query->param( ...= is OK
 
+In a list context, you should call =multi_param= (fully compatible) to
+retrieve list parameters.
+
 =cut
 
 sub multi_param {
@@ -443,6 +447,7 @@ sub param {
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
+    # param() - just return the list of param names
     return @{ $this->{param_list} } unless defined $key;
 
 # list context can be dangerous so warn:
@@ -469,6 +474,20 @@ sub param {
     else {
         return wantarray ? () : undef;
     }
+}
+
+=begin TML
+
+---++ ObjectMethod unicode_param( $name ) -> $firstValue
+
+Special case of param() which takes care of decoding the parameter with
+name $name from utf8 to unicode.
+
+=cut
+
+sub unicode_param {
+    my ( $this, $key ) = @_;
+    return Encode::decode_utf8( $this->param($key) );
 }
 
 =begin TML

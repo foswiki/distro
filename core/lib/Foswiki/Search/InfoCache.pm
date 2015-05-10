@@ -465,8 +465,7 @@ sub getTopicListIterator {
     my $it;
     if (   $casesensitive
         && $options->{includeTopics}
-        && $options->{includeTopics} =~
-        m/^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ )
+        && $options->{includeTopics} =~ m/^([[:alnum:]]+(,\s*|\|))+$/ )
     {
 
         # topic list without wildcards
