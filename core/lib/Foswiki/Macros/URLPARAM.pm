@@ -38,6 +38,8 @@ sub URLPARAM {
                         expandStandardEscapes($_)
                     } @valueArray;
                 }
+
+                # SMELL: the $separator is not being encoded
                 $value = join(
                     $separator,
                     map {

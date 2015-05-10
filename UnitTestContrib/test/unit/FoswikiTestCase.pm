@@ -1016,12 +1016,61 @@ sub finishFoswikiSession {
     return;
 }
 
+=begin TML
+
+---++ ObjectMethod toSiteCharSet($s) -> $string
+
+Encode in-file data into the site charset for passing to core functions
+and checking results.
+
+Test files using this function whether they 'use utf8' or not. in either
+case, the string passed will be encoded into the correct representation for
+the core.
+
+Note that while it is only strictly necessary to call this on strings
+that contain high-bit characters, for completeness and clean code it
+should be called on *all* string constants used in tests.
+
+=cut
+
+sub toSiteCharSet {
+    my ( $this, $string ) = @_;
+
+    return $string unless $string;
+
+    # Convert the string to unicode unambiguously
+    my $unicode;
+    if ( utf8::is_utf8($string) ) {
+
+        # if the caller has 'use utf8' then strings passed in will already
+        # be unicode, and the is_utf8 flag will be on.
+        $unicode = $string;
+    }
+    else {
+        # If the data is pure ASCII, then the encoding is unambiguous.
+        # We have >=0x80 characters. We can assume that there are no
+        # multi-byte characters in the string (because if there were, the
+        # author would have turned 'use utf8' on, right?). In either case,
+        # calling decode_utf8 is the right course of action (the only
+        # encodings valid in test source files are utf8 and iso-8859-1)
+        $unicode = Encode::decode_utf8($string);
+    }
+
+    return $unicode if $Foswiki::UNICODE;
+
+    # If the site charset is not unicode, need to convert it
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        $unicode,
+        Encode::FB_CROAK    # should never happen
+    );
+}
 1;
 __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2008-2014 Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors
 
 Additional copyrights apply to some or all of the code in this file
 as follows:
