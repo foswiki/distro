@@ -647,7 +647,13 @@ sub redirectToLoggedOutUrl {
     }
 
     my $redirectUrl;
-    if ($path_info) {
+    if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
+
+        # ForceDefaultUrlHost enabled - probably a reverse proxy.
+        $path_info ||= '';
+        $redirectUrl = $session->{urlHost} . $path_info;
+    }
+    elsif ($path_info) {
         $redirectUrl = $session->{request}->url() . $path_info;
     }
     else {
