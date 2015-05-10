@@ -369,7 +369,10 @@ Gets/Sets response body. Note: do not use this method for output, use
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
-        $this->{headers}->{'Content-Length'} = length($body);
+        use bytes;
+        my $len = bytes::length($body);
+        no bytes;
+        $this->{headers}->{'Content-Length'} = $len;
         $this->{body} = $body;
     }
     return $this->{body};
