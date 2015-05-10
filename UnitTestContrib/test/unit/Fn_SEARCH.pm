@@ -14,6 +14,8 @@
 #
 package Fn_SEARCH;
 
+use utf8;
+
 use strict;
 use warnings;
 
@@ -47,14 +49,15 @@ sub run_in_new_process {
     return 1;
 }
 
+our $AElig;
+
 sub set_up {
     my ($this) = shift;
     $this->SUPER::set_up(@_);
 
     my $timestamp = time();
-
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'OkÆTopic' );
+    $AElig = $this->toSiteCharSet('OkÆTopic');
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $AElig );
     $topicObject->text("BLEEGLE blah/matchme.blah");
     $topicObject->save( forcedate => $timestamp + 120 );
     $topicObject->finish();
@@ -67,7 +70,8 @@ sub set_up {
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SomeOtherÆØÅTopic' );
+      Foswiki::Func::readTopic( $this->{test_web},
+        $this->toSiteCharSet('SomeOtherÆØÅTopic') );
     $topicObject->text("forrin speak");
     $topicObject->save( forcedate => $timestamp + 720 );
     $topicObject->finish();
@@ -205,14 +209,15 @@ sub tear_down {
 sub verify_simple {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
+    my $result = $this->{test_topicObject}->expandMacros(
+        $this->toSiteCharSet(
 '%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="$topic"}%'
-      );
+        )
+    );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     return;
 }
@@ -238,7 +243,7 @@ sub verify_b {
 '%SEARCH{"\bmatc[h]me\b" type="regex" topic="OkATopic,OkBTopic,OkÆTopic" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -267,9 +272,9 @@ sub verify_topicName {
 '%SEARCH{"Ok.*" type="regex" scope="topic" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     return;
 }
@@ -282,9 +287,9 @@ sub verify_regex_trivial {
 '%SEARCH{"blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     return;
 }
@@ -299,9 +304,9 @@ sub verify_literal {
 '%SEARCH{"blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     return;
 }
@@ -316,9 +321,9 @@ sub verify_keyword {
 '%SEARCH{"blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     return;
 }
@@ -333,8 +338,8 @@ sub verify_word {
         '%SEARCH{"blah" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
     # 'blah' is in OkATopic, but not as a word
     $this->assert_does_not_match( qr/OkBTopic/, $result, $result );
@@ -371,7 +376,7 @@ sub verify_scope_all_type_word {
 '%SEARCH{"Virtual Beer" type="word" scope="all" nonoise="on" format="$topic"}%'
       );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 RealBeer
 VirtualBeer
 VirtualLife
@@ -410,7 +415,7 @@ sub verify_scope_all_type_keyword {
 '%SEARCH{"Virtual Beer" type="keyword" scope="all" nonoise="on" format="$topic"}%'
       );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 FamouslyBeered
 RealBeer
 VirtualBeer
@@ -450,7 +455,7 @@ sub verify_scope_all_type_literal {
 '%SEARCH{"Virtual Beer" type="literal" scope="all" nonoise="on" format="$topic"}%'
       );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 RealBeer
 VirtualBeer
 EXPECT
@@ -571,10 +576,11 @@ sub _septic {
     $head = $head        ? 'header="HEAD"'      : '';
     $foot = $foot        ? 'footer="FOOT"'      : '';
     $sep  = defined $sep ? "separator=\"$sep\"" : '';
-    my $result =
-      $this->{test_topicObject}->expandMacros(
+    my $result = $this->{test_topicObject}->expandMacros(
+        $this->toSiteCharSet(
 "%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" excludetopic=\"Some*\" format=\"\$topic\" $head $foot $sep}%"
-      );
+        )
+    );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 
@@ -880,9 +886,9 @@ sub verify_regex_match {
 '%SEARCH{"match" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -898,9 +904,9 @@ sub verify_literal_match {
 '%SEARCH{"match" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -916,9 +922,9 @@ sub verify_keyword_match {
 '%SEARCH{"match" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -934,7 +940,7 @@ sub verify_word_match {
 '%SEARCH{"match" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/${AElig}/,             $result );
     $this->assert_does_not_match( qr/OkBTopic/,             $result );
     $this->assert_does_not_match( qr/OkATopic/,             $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
@@ -954,9 +960,9 @@ sub verify_regex_matchme {
 '%SEARCH{"matchme" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -972,9 +978,9 @@ sub verify_literal_matchme {
 '%SEARCH{"matchme" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -990,9 +996,9 @@ sub verify_keyword_matchme {
 '%SEARCH{"matchme" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
-    $this->assert_matches( qr/OkBTopic/,  $result );
-    $this->assert_matches( qr/OkATopic/,  $result );
+    $this->assert_matches( qr/${AElig}/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
 
     return;
@@ -1008,7 +1014,7 @@ sub verify_word_matchme {
 '%SEARCH{"matchme" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/,             $result );
     $this->assert_does_not_match( qr/OkATopic/,             $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
@@ -1028,7 +1034,7 @@ sub verify_minus_regex {
 '%SEARCH{"matchme -dont" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/${AElig}/,             $result );
     $this->assert_does_not_match( qr/OkBTopic/,             $result );
     $this->assert_does_not_match( qr/OkATopic/,             $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
@@ -1046,7 +1052,7 @@ sub verify_minus_literal {
 '%SEARCH{"matchme -dont" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/,            $result );
+    $this->assert_does_not_match( qr/${AElig}/,             $result );
     $this->assert_does_not_match( qr/OkBTopic/,             $result );
     $this->assert_does_not_match( qr/OkATopic/,             $result );
     $this->assert_does_not_match( qr/SomeOtherÆØÅTopic/, $result );
@@ -1064,7 +1070,7 @@ sub verify_minus_keyword {
 '%SEARCH{"matchme -dont" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1081,7 +1087,7 @@ sub verify_minus_word {
 '%SEARCH{"matchme -dont" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1100,7 +1106,7 @@ sub verify_slash_regex {
 '%SEARCH{"blah/matchme.blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1117,7 +1123,7 @@ sub verify_slash_literal {
 '%SEARCH{"blah/matchme.blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1134,7 +1140,7 @@ sub verify_slash_keyword {
 '%SEARCH{"blah/matchme.blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1151,7 +1157,7 @@ sub verify_slash_word {
 '%SEARCH{"blah/matchme.blah" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_matches( qr/OkÆTopic/, $result );
+    $this->assert_matches( qr/${AElig}/, $result );
     $this->assert_does_not_match( qr/OkBTopic/, $result );
     $this->assert_does_not_match( qr/OkATopic/, $result );
 
@@ -1170,9 +1176,9 @@ sub verify_quote_regex {
 '%SEARCH{"\"BLEEGLE dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/,  $result );
+    $this->assert_does_not_match( qr/${AElig}/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
 
     return;
 }
@@ -1187,9 +1193,9 @@ sub verify_quote_literal {
 '%SEARCH{"\"BLEEGLE dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/,  $result );
+    $this->assert_does_not_match( qr/${AElig}/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
 
     return;
 }
@@ -1204,7 +1210,7 @@ sub verify_quote_keyword {
 '%SEARCH{"\"BLEEGLE dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
       );
 
-    $this->assert_does_not_match( qr/OkÆTopic/, $result );
+    $this->assert_does_not_match( qr/${AElig}/, $result );
     $this->assert_matches( qr/OkBTopic/, $result );
     $this->assert_matches( qr/OkATopic/, $result );
 
@@ -1219,8 +1225,8 @@ sub verify_quote_word {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"\"BLEEGLE dont\"" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
-    $this->assert_does_not_match( qr/OkÆTopic/, $result );
-    $this->assert_does_not_match( qr/OkATopic/,  $result );
+    $this->assert_does_not_match( qr/${AElig}/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
     $this->assert_matches( qr/OkBTopic/, $result );
 
     return;
@@ -1229,13 +1235,15 @@ sub verify_quote_word {
 sub verify_SEARCH_3860 {
     my $this = shift;
 
-    my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
+    my $result =
+      $this->{test_topicObject}->expandMacros( $this->toSiteCharSet(<<'HERE') );
 %SEARCH{"BLEEGLE" topic="OkÆTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
     my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
-    $result = $this->{test_topicObject}->expandMacros( <<'HERE');
+    $result =
+      $this->{test_topicObject}->expandMacros( $this->toSiteCharSet(<<'HERE') );
 %SEARCH{"BLEEGLE" topic="OkÆTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
@@ -1340,7 +1348,7 @@ sub verify_search_numpty_word {
 sub set_up_for_formatted_search {
     my $this = shift;
 
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 !MichaelAnchor, One/WIKI.NET and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
 
 This text is fill in text which is there to ensure that the unique word below does not show up in a summary.
@@ -1407,7 +1415,10 @@ sub test_footer_with_ntopics {
       );
 
     $this->assert_str_equals(
-        join( "\n", sort qw(OkATopic OkBTopic OkÆTopic) ) . "\nTotal found: 3",
+        $this->toSiteCharSet(
+            join( "\n", sort qw(OkATopic OkBTopic OkÆTopic) )
+          )
+          . "\nTotal found: 3",
         $result
     );
 
@@ -1449,18 +1460,20 @@ sub test_nofinalnewline {
     my $this = shift;
 
     # nofinalnewline="off"
-    my $result =
-      $this->{test_topicObject}->expandMacros(
+    my $result = $this->{test_topicObject}->expandMacros(
+        $this->toSiteCharSet(
 '%SEARCH{"name~\'OkÆTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
-      );
+        )
+    );
 
-    $this->assert_str_equals( "OkÆTopic\n", $result );
+    $this->assert_str_equals( "${AElig}\n", $result );
 
     # nofinalnewline="on"
-    $result =
-      $this->{test_topicObject}->expandMacros(
+    $result = $this->{test_topicObject}->expandMacros(
+        $this->toSiteCharSet(
 '%SEARCH{"name~\'OkÆTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
-      );
+        )
+    );
 
     $this->assert_str_equals( "OkÆTopic", $result );
 
@@ -1611,7 +1624,7 @@ sub test_METASEARCH {
 
 sub set_up_for_queries {
     my $this = shift;
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 something before. Another
 This is QueryTopic FURTLE
 somethig after
@@ -1683,7 +1696,7 @@ HERE
     $topicObject->save();
     $topicObject->finish();
 
-    $text = <<'HERE';
+    $text = $this->toSiteCharSet(<<'HERE');
 first line
 This is QueryTopicTwo SMONG
 third line
@@ -2209,7 +2222,7 @@ sub verify_likeQuery {
 
 sub test_metacache_madness {
     my ($this) = @_;
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 This is QueryTopicTwo SMONG
 HERE
     my ($topicObject) =
@@ -2421,7 +2434,7 @@ sub test_formatOfLinks {
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'Item977' );
-    $topicObject->text(<<'HERE');
+    $topicObject->text( $this->toSiteCharSet(<<'HERE') );
 ---+ Apache
 
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
@@ -2875,7 +2888,7 @@ sub verify_Search_expression {
     my $actual =
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%');
-    my $expected = <<'HERE';
+    my $expected = $this->toSiteCharSet(<<'HERE');
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
 
@@ -2884,7 +2897,7 @@ HERE
     $actual =
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%');
-    $expected = <<'HERE';
+    $expected = $this->toSiteCharSet(<<'HERE');
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
     $this->assert_str_equals( $expected, $actual );
@@ -3405,7 +3418,7 @@ sub test_paging_three_webs_fourth_page {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -3431,7 +3444,7 @@ sub test_paging_three_webs_way_too_far {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -3581,7 +3594,7 @@ sub test_paging_three_webs_fourth_page_zeroresultsset {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 Empty
 EXPECT
     $expected =~ s/\n$//s;
@@ -3611,7 +3624,7 @@ sub test_paging_three_webs_way_too_far_zeroresultsset {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 Empty
 EXPECT
     $expected =~ s/\n$//s;
@@ -3798,7 +3811,7 @@ sub test_paging_with_limit_fourth_page {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -3825,7 +3838,7 @@ sub test_paging_with_limit_way_too_far {
 }%'
     );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -4000,17 +4013,19 @@ GNURF
 
     #order by modified, limit=2, with groupby=none
     # As order is last modification time, we need to ensure they're different
-    # and that the order is fixed. So creating a buch of test topics
-    #
-    # SMELL: Topic date 0 does not work correctly before Foswiki 1.2
-    my $mainDate = ( $this->check_dependency('Foswiki,>=,1.2') ) ? 0 : 10;
-    my %testWebs = ( Main => $mainDate, System => 60, Sandbox => 120 );
+    # and that the order is fixed. So creating a bunch of test topics
+    # SMELL: cdot disabled this test, because it craps all over Main,
+    # System and Sandbox webs :-(
+    return;
+
+    my $now = time;
+    my %testWebs = ( Main => 0, System => 60, Sandbox => 120 );
     while ( my ( $web, $delay ) = each %testWebs ) {
-        my ($ltopicObject) = Foswiki::Func::readTopic( "$web", 'TheTopic' );
+        my ($ltopicObject) = Foswiki::Func::readTopic( $web, 'TheTopic' );
         $ltopicObject->text(<<'CRUD');
 Just some dummy search topic.
 CRUD
-        $ltopicObject->save( forcedate => $delay );
+        $ltopicObject->save( forcedate => $now - 240 + $delay );
         $ltopicObject->finish();
     }
 
@@ -4857,7 +4872,7 @@ RESULT
 sub verify_date_param {
     my $this = shift;
 
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 ---+ Progressive Sexuality
 A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. 
 
@@ -4901,7 +4916,7 @@ RESULT
 
 sub verify_nl_in_result {
     my $this = shift;
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 Radical Meta-Physics
 Marxism
 Crime
@@ -5445,7 +5460,7 @@ sub test_formatdotBang {
 }%
 '
     );
-    my $expected = <<'HERE';
+    my $expected = $this->toSiteCharSet(<<'HERE');
    * !System.!WebHome
    * !System.!WebPreferences
    * !System.!WebTopicList
@@ -5474,7 +5489,8 @@ sub test_delayed_expansion {
         },
         $this->{test_topicObject}
     );
-    $this->assert_str_equals( <<'EXPECT', $result . "\n" );
+    $this->assert_str_equals(
+        $this->toSiteCharSet(<<'EXPECT'), $result . "\n" );
 WebHome, WebIndex, WebPreferences, WebHome, WebIndex, WebPreferences
 EXPECT
 
@@ -5490,7 +5506,8 @@ EXPECT
         },
         $this->{test_topicObject}
     );
-    $this->assert_str_equals( <<'EXPECT', $result . "\n" );
+    $this->assert_str_equals(
+        $this->toSiteCharSet(<<'EXPECT'), $result . "\n" );
 %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%
 EXPECT
 
@@ -5509,7 +5526,8 @@ EXPECT
         },
         $this->{test_topicObject}
     );
-    $this->assert_str_equals( <<'EXPECT', $result . "\n" );
+    $this->assert_str_equals(
+        $this->toSiteCharSet(<<'EXPECT'), $result . "\n" );
 %INCLUDE{Main.WebHeader}%WebHome, WebIndex, WebPreferences%INCLUDE{Main.WebFooter}%%INCLUDE{Main.WebHeader}%WebHome, WebIndex, WebPreferences%INCLUDE{Main.WebFooter}%
 EXPECT
 
@@ -5520,7 +5538,7 @@ EXPECT
 #order tests.
 sub set_up_for_sorting {
     my $this = shift;
-    my $text = <<'HERE';
+    my $text = $this->toSiteCharSet(<<'HERE');
 something before. Another
 This is QueryTopic FURTLE
 somethig after
@@ -5637,7 +5655,7 @@ HERE
     );
     $topicObject->finish();
 
-    $text = <<'HERE';
+    $text = $this->toSiteCharSet(<<'HERE');
 first line
 This is QueryTopicTwo SMONG
 third line
@@ -5753,7 +5771,7 @@ HERE
     );
     $topicObject->finish();
 
-    $text = <<'HERE';
+    $text = $this->toSiteCharSet(<<'HERE');
 first line
 This is QueryTopicThree SMONG
 third line
@@ -6398,7 +6416,7 @@ sub test_minus_scope_all {
 '%SEARCH{"-Virtual" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
-    my $expected = <<'EXPECT';
+    my $expected = $this->toSiteCharSet(<<'EXPECT');
 FamouslyBeered
 NoBeer
 NoLife
@@ -6416,7 +6434,7 @@ EXPECT
 '%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
-    $expected = <<'EXPECT';
+    $expected = $this->toSiteCharSet(<<'EXPECT');
 FamouslyBeered
 NoBeer
 NoLife
@@ -6432,7 +6450,7 @@ EXPECT
 '%SEARCH{"-Virtual Beer" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
-    $expected = <<'EXPECT';
+    $expected = $this->toSiteCharSet(<<'EXPECT');
 FamouslyBeered
 NoBeer
 NoLife
@@ -6445,7 +6463,7 @@ EXPECT
 '%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic" excludetopic="SomeOther*"}%'
       );
 
-    $expected = <<'EXPECT';
+    $expected = $this->toSiteCharSet(<<'EXPECT');
 FamouslyBeered
 NoBeer
 NoLife
@@ -6788,7 +6806,7 @@ HERE
 sub test_pager_details_Item10350_one {
     my $this = shift;
 
-    my $search = <<'HERE';
+    my $search = $this->toSiteCharSet( $this->toSiteCharSet(<<'HERE') );
 %SEARCH{
     "web"
     type="text"
@@ -6816,7 +6834,7 @@ THERE
 sub test_pager_details_Item10350_two {
     my $this = shift;
 
-    my $search = <<'HERE';
+    my $search = $this->toSiteCharSet(<<'HERE');
 %SEARCH{
     "web"
     type="text"
@@ -6849,7 +6867,7 @@ THERE
 sub verify_search_for_star {
     my $this = shift;
 
-    my $search = <<'HERE';
+    my $search = $this->toSiteCharSet(<<'HERE');
 %SEARCH{ 
     "*" 
     type="word" 
