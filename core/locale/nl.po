@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-07 14:11+0200\n"
+"PO-Revision-Date: 2015-05-11 09:23+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -5461,7 +5461,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
-msgstr "Je bent *niet* geregistreerd"
+msgstr "Je bent *niet* geregistreerd."
 
 #: core/templates/messages.tmpl:247
 msgid ""
@@ -5481,7 +5481,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:334
 msgid "You may need to close your browser to make this change take effect."
-msgstr "Je moet misschien je browser sluiten om deze verandering te zien."
+msgstr "Je moet misschien je browser sluiten om deze wijziging te zien."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
@@ -5587,7 +5587,7 @@ msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
 "Je persoonlijke %1 pagina bevindt zich op %2. Je kan het aanpassen zoals je "
-"zelf wilt."
+"zelf wilt:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
