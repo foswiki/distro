@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-07 14:07+0200\n"
+"PO-Revision-Date: 2015-05-11 14:54+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -139,7 +139,7 @@ msgstr "wa&&#39; ghomDaq ghaHtaHmo&&#39; %1, ghaH teqlaHbe&&#39; vay&&#39;"
 
 #: core/templates/messages.tmpl:133
 msgid "%1 is not a valid form name"
-msgstr ""
+msgstr "_Form_ pong QaQ &&#39;oHbe&&#39; %1"
 
 #: core/templates/messages.tmpl:128
 msgid "%1 is not a valid value for the %2 parameter"
@@ -192,7 +192,7 @@ msgstr "QIn Quv %2 lo&&#39;taHvIS muv &&#39;e&&#39; nID %1"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render/Moved.pm:67
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr ""
+msgstr "%3 %2vo&&#39; %1Daq pongqa&&#39; pagh vIHmoHta&&#39; %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -204,7 +204,7 @@ msgstr "qun"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
-msgstr ""
+msgstr "tlha&&#39;taH"
 
 #: core/templates/registermessages.tmpl:219
 msgid "'%1' is not a valid [[%2][login username]]."
@@ -250,11 +250,11 @@ msgstr "(tep)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
-msgstr ""
+msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
 
 #: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
-msgstr ""
+msgstr "(Hoch mIchmey cheghbogh rarwI&&#39;mey&&#39;e&&#39;)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
@@ -262,7 +262,7 @@ msgstr "(paq <nop>HaSta)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
-msgstr ""
+msgstr "(Form qa&&#39;)"
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
@@ -290,7 +290,7 @@ msgstr "(chu&&#39;Ha&&#39;lu&&#39;)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
-msgstr ""
+msgstr "(Form choH)"
 
 #: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
@@ -368,6 +368,9 @@ msgid ""
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
 msgstr ""
+"*peqIm, loHwI&&#39;pu&&#39;&&#39;e&&#39;: lo&&#39;wI&&#39; QIn Quv <nop>"
+"DachoHmeH Form-vam Dalo&&#39;laH. lo&&#39;wI&&#39; [[%1][lo&&#39;wI&&#39; "
+"pong]], [[%1][wIqI-pong]] ghap yIghItlh &&#39;ej QIn Quv chu&&#39; yIghItlh."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -505,11 +508,11 @@ msgstr ""
 
 #: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
-msgstr "<em>%1 mIchDaq</em> <nop>neH"
+msgstr "<em>%1 mIchDaq</em> neH"
 
 #: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
-msgstr "<em>mIchmeyDaq <nop>luleghlaHbogh Hoch <nop>neH</em>"
+msgstr "<em>mIchmeyDaq luleghlaHbogh Hoch neH</em>"
 
 #: core/templates/registermessages.tmpl:63
 msgid ""
@@ -558,7 +561,7 @@ msgstr ""
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1284
 msgid "A confirmation e-mail has been sent to %1"
-msgstr ""
+msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
 #: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
@@ -575,6 +578,9 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
+"lo&&#39;wI&&#39; '%1' pongmo&&#39; (wIqI-pong %2) <nop>QInlIj Sovlu&&#39;"
+"boghvaD chaw&&#39; ngoq chu&&#39; ngeHlu&&#39;pu&&#39;. Qapbe&&#39;chugh QIn "
+"QuvlIj, vaj %3 yIrI&&#39;."
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -590,7 +596,7 @@ msgstr ""
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr ""
+msgstr "<nop>QaHlIj poQ lo&&#39;wI&&#39; muvchu&&#39;meH"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
@@ -642,12 +648,12 @@ msgstr "jeSwI&&#39; chel"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
 msgid "Add a new form to <nop>%1"
-msgstr ""
+msgstr "<nop>%1Daq Form chu&&#39; chel"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
 msgid "Add form"
-msgstr ""
+msgstr "Form chel"
 
 #: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
@@ -659,15 +665,15 @@ msgstr "jeSwI&&#39;pu&&#39; chel..."
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
-msgstr ""
+msgstr "ghItlhvamDaq lo&&#39;wI&&#39; vu&&#39;meH <nop>DuHmey chel."
 
 #: core/templates/messages.tmpl:231
 msgid "Adding a %1 preference in WebPreferences"
-msgstr ""
+msgstr "WebPreferencesDaq %1 DuH chellI&&#39;"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
-msgstr ""
+msgstr "Foswiki loHwI&&#39; lo&&#39;wI&&#39; &&#39;olwI&&#39;"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:27
 msgid "Admin Maintenance"
@@ -686,10 +692,12 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
+"Form-vam <nop>DangeHDI&&#39; vaj QIn <nop>QuvlIj choHlu&&#39; &&#39;ej Form-"
+"vamDaq bIchegh."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr ""
+msgstr "Form-vam <nop>DangeHDI&&#39; vaj chaw&&#39; ngoqlIj choHlu&&#39;."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
 msgid ""
@@ -722,6 +730,9 @@ msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
+"Qapbe&&#39;chugh vaj cheghmeH leQ yI&&#39;uy, "
+"[[%SYSTEMWEB%.UserRegistration]]Daq yIghegh &&#39;ej latlh lo&&#39;wI&&#39; "
+"pong yIwIv."
 
 #: core/lib/Foswiki/UI/Rename.pm:223
 msgid "An attachment with the same name already exists in this topic."
@@ -731,6 +742,7 @@ msgstr "pongvam ghajbogh tep <nop>ghajtaH ghItlhvam."
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
+"QIn ngeHlaHbe&&#39; De&&#39;wI&&#39;. DaH %1 loHwI&&#39;lIj (%2) yIrI&&#39;"
 
 #: core/templates/moveattachment.tmpl:49
 msgid ""
@@ -746,7 +758,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
-msgstr ""
+msgstr "&&#39;ej mung mIch ghItlhmey luchellu&&#39;"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
@@ -766,6 +778,7 @@ msgstr "De&&#39; chel"
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
+"ghItlhvamDaq mIllogh ghItlhHom joq chel; tep tu&&#39;lu&&#39;bogh loH (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -792,7 +805,7 @@ msgstr "tep '%1' tu&&#39;lu&&#39;be&&#39;"
 
 #: core/templates/messages.tmpl:56
 msgid "Attachment delete failed"
-msgstr ""
+msgstr "Qagh tep polHa&&#39;meH mIw"
 
 #: core/lib/Foswiki/UI/Rename.pm:190
 msgid "Attachment does not exist."
@@ -804,7 +817,7 @@ msgstr "tep qun"
 
 #: core/templates/messages.tmpl:47
 msgid "Attachment move failed"
-msgstr ""
+msgstr "Qagh tep vIHmoHmeH mIw"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
@@ -829,14 +842,14 @@ msgstr "%1 tep"
 
 #: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
-msgstr ""
+msgstr "ghItlh bejlu&&#39;taHvIS tep lu&&#39;anglu&&#39;be&&#39;."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
-msgstr "<nop>yIqIm"
+msgstr "yIqIm"
 
 #: core/templates/attachtables.tmpl:30
 msgid "Attribute"
@@ -848,12 +861,12 @@ msgstr ""
 
 #: core/data/_default/WebHome.txt:5
 msgid "Available Information"
-msgstr ""
+msgstr "Delbogh De&&#39; tu&&#39;lu&&#39;bogh"
 
 #: PatternSkin/templates/changeform.pattern.tmpl:13
 #: core/templates/changeform.tmpl:33
 msgid "Available form templates"
-msgstr ""
+msgstr "Form ghantoHmey lutu&&#39;lu&&#39;bogh"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
@@ -865,19 +878,19 @@ msgstr "ghItlhDaq chegh"
 
 #: core/templates/more.tmpl:87
 msgid "Backlinks"
-msgstr ""
+msgstr "cheghbogh rarwI&&#39;mey"
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Backlinks to %1 in %2 Web"
-msgstr ""
+msgstr "%2 mIch %1Daq Qeqbogh rarwI&&#39;mey&&#39;e&&#39;"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
-msgstr ""
+msgstr "Hoch mIchmey %1Daq Qeqbogh rarwI&&#39;mey&&#39;e&&#39;"
 
 #: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
-msgstr ""
+msgstr "cheghbogh rarwI&&#39;mey:"
 
 #: core/templates/registermessages.tmpl:226
 msgid "Bad password"
@@ -885,15 +898,15 @@ msgstr "chaw&&#39; ngoq qab"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "qImwI&&#39; qab '%1'"
 
 #: core/templates/messages.tmpl:143
 msgid "Base web %1 is missing or does not exist"
-msgstr ""
+msgstr "Hutlh mIch motlh %1 pagh &&#39;oH tu&&#39;be&&#39;lu&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr ""
+msgstr "jatlhwI&&#39; meyrI&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
@@ -905,7 +918,7 @@ msgstr "pong porgh je"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
-msgstr ""
+msgstr "moQHommey tetlh"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -923,20 +936,21 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "choHmey (CHANGE) chaw&&#39;be&&#39; %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
 
 #: core/templates/messages.tmpl:373 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; %1 vISamlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:375
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
+"%1 QIn Quv vISamlaHbe&&#39; (chaw&&#39; ngoq choHmeH &&#39;oH poQlu&&#39;)"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
@@ -961,7 +975,7 @@ msgstr "qIl"
 #: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
-msgstr ""
+msgstr "choH &&#39;e&&#39; mev &&#39;ej choHmey woD"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
 msgid "Cancel upload"
@@ -969,35 +983,35 @@ msgstr "jabbI&&#39;ID qIl"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
-msgstr ""
+msgstr "qImwI&&#39; ghu&&#39; choHlaHbe&&#39;: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
-msgstr ""
+msgstr "taHqu&&#39;mo&&#39; &&#39;oH, %1 vIchenmoHlaHbe&&#39;."
 
 #: core/templates/messages.tmpl:138
 msgid "Cannot create web %1 because it already exists"
-msgstr ""
+msgstr "taHqu&&#39;mo&&#39; mIch %1, &&#39;oH vIchenmoHlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr ""
+msgstr "taHqu&&#39; mo&&#39; %1, %2vaD &&#39;oH vIpongqa&&#39;laHbe&&#39;."
 
 #: core/data/System/WebSearch.txt:184
 msgid "Case sensitive"
-msgstr ""
+msgstr "potlh DeghHom/Degh&&#39;a&&#39;"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:36
 msgid "Categories"
-msgstr ""
+msgstr "Seghmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
-msgstr ""
+msgstr "jojDaq lan"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
 msgid "Change E-mail Address"
-msgstr ""
+msgstr "QIn Quv choH"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1005,23 +1019,23 @@ msgstr "chaw&&#39; ngoq choH"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "choHmey vIrInmoHlaHbe&&#39;"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
-msgstr ""
+msgstr "DelwI&&#39; DuHmey je neH choH"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:44
 msgid "Change e-mail address"
-msgstr ""
+msgstr "QIn Quv choH"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
 msgid "Change form"
-msgstr ""
+msgstr "Form qa&&#39;"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
-msgstr ""
+msgstr "choHta&&#39;"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1030,49 +1044,49 @@ msgstr "Hol choH"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr ""
+msgstr "Hoch mIchmeyDaq <nop>%1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr ""
+msgstr "%2 mIchDaq <nop>%1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr ""
+msgstr "Hoch mIchmeyDaq %1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr ""
+msgstr "%2 mIchDaq %1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
-msgstr ""
+msgstr "chaw&&#39; ngoq choH"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Change properties only"
-msgstr ""
+msgstr "DuHmey neH choH"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr ""
+msgstr "<nop>%1 DaHjaj Form choH"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
-msgstr ""
+msgstr "ghItlh choH"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by:"
-msgstr ""
+msgstr "choHta&&#39;:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
-msgstr ""
+msgstr "choHlu&&#39;"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
-msgstr ""
+msgstr "choHlu&&#39;:"
 
 #: MailerContrib/templates/mailnotify.tmpl:11
 #: PatternSkin/data/Main/WebLeftBarExample.txt:10
@@ -1088,11 +1102,11 @@ msgstr "choHmey"
 #. ($rLow, $rHigh)
 #: core/lib/Foswiki/UI/RDiff.pm:620
 msgid "Changes from r%1 to r%2"
-msgstr ""
+msgstr "D%1vo&&#39; D%2Daq choHmey"
 
 #: core/templates/messages.tmpl:296
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "{TemplateDir} {TemplatePath} je DuHmey tI&&#39;ol."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1104,16 +1118,16 @@ msgstr ""
 
 #: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
-msgstr ""
+msgstr "%1 mIch puq ghItlhmey"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
-msgstr ""
+msgstr "%1vaD Form chu&&#39; yIwIv"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:121
 msgid "Clear all"
-msgstr ""
+msgstr "Hoch wIvHa&&#39;"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
@@ -1130,29 +1144,29 @@ msgstr "<nop>SoQmoH"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "nguvmoH"
 
 #: core/templates/messages.tmpl:153
 msgid "Color %1 has an invalid format"
-msgstr ""
+msgstr "qarbe&&#39;ba&&#39; %1 nguvmoHmeH ngoq"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "tutmey"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
-msgstr ""
+msgstr "yI&&#39;el"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
-msgstr ""
+msgstr "ghItlhHom"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
 msgid "Commenting is disabled for static viewing"
-msgstr ""
+msgstr "bejmeH ghItlhHommey luchu&&#39;Ha&&#39;lu&&#39;"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
@@ -1168,7 +1182,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
 msgid "Compare revisions"
-msgstr ""
+msgstr "Dotlhmey &&#39;ol"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 msgid "Confirm password:"
@@ -1186,7 +1200,7 @@ msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
-msgstr ""
+msgstr "qaD"
 
 #: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
 #: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
@@ -1209,7 +1223,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:288
 msgid "Continue and try to rename web?"
-msgstr ""
+msgstr "mIch Dapongqa&&#39;rup&&#39;a&&#39;?"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:18
 msgid "Continue editing"
@@ -1227,7 +1241,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "ghItlh chu&&#39;Daq ghItlhvam velqa&&#39; lan (tep chenmoHqa&&#39; je)."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1263,7 +1277,7 @@ msgstr "ghantoH SamlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:383
 msgid "Could not perform search. Error was: %1"
-msgstr ""
+msgstr "Qapbe&&#39; nejwI&&#39;. Qagh yIbuS: %1"
 
 #: core/templates/messages.tmpl:194
 msgid "Could not save %1."
@@ -1287,7 +1301,7 @@ msgstr "%1 mIchDaq ghItlh chu&&#39; <nop>chenmoH"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
-msgstr ""
+msgstr "tepvaD Devbogh rarwI&&#39; chenmoH"
 
 #: core/data/Main/WikiGroups.txt:17
 msgid "Create a new group"
@@ -1295,11 +1309,11 @@ msgstr "ghom chu&rsquo; chenmoH"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
 msgid "Create a new table"
-msgstr ""
+msgstr "Table chu&&#39; chenmoH"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Create account"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; ta chenmoH"
 
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
@@ -1337,6 +1351,7 @@ msgstr "ghItlhvam <nop>chenmoH"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
 msgid "Create your account to edit pages on this site."
 msgstr ""
+"<nop>DaqvamDaq ghItlhmey <nop>DachenmoHmeH lo&&#39;wI&&#39; talIj yIchenmoH."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
@@ -1357,7 +1372,7 @@ msgstr "DaHjaj chaw&&#39; ngoq:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
-msgstr ""
+msgstr "De&&#39; tlheghmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1403,7 +1418,7 @@ msgstr "ghItlh polHa&&#39;..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
-msgstr ""
+msgstr "De&&#39;vam yIDel vaj meqDaj yajchoH latlhwI&&#39;pu&&#39;."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Description"
@@ -1411,7 +1426,7 @@ msgstr "Delbogh mu&&#39;mey"
 
 #: core/data/System/WebIndex.txt:3
 msgid "Detailed topic list for %1 Web"
-msgstr ""
+msgstr "%1 mIch ghItlhmey tetlh"
 
 #: core/lib/Foswiki/Form.pm:425
 msgid "Details in separate window"
@@ -1419,7 +1434,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
-msgstr ""
+msgstr "ngoDHommey:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
@@ -1435,12 +1450,12 @@ msgstr ""
 
 #: core/templates/rdiff.tmpl:14
 msgid "Difference Topic"
-msgstr ""
+msgstr "Dochmey pIm"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
 msgid "Difference:"
-msgstr ""
+msgstr "pIm:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
@@ -1452,7 +1467,7 @@ msgstr "choHmeylIj Dapol &&#39;e&&#39; yIlIjQo&&#39;"
 
 #: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
-msgstr ""
+msgstr "TableDaq tep &&#39;angQo&&#39;"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:16
 msgid "Documentation"
@@ -1668,6 +1683,7 @@ msgstr ""
 #: core/templates/messages.tmpl:355
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr ""
+"Qagh: ngoqvam lajbe&&#39;lu&&#39;. ('http://domain/...' &&#39;oH net pIH)"
 
 #: core/templates/messages.tmpl:188
 msgid "Errors"
@@ -1683,7 +1699,7 @@ msgstr "Qagh ghomvo&&#39; <nop>jeSwI&&#39;pu&&#39; teqmeH mIw"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Escape markup"
-msgstr ""
+msgstr "Escape markup"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:124
 msgid "Everybody"
@@ -1770,48 +1786,48 @@ msgstr "chaw&&#39; ngoqlIj <nop>DalIj&&#39;a&&#39;?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: core/templates/messages.tmpl:208
 msgid "Form Definition %1 missing"
-msgstr ""
+msgstr "Hutlh Form DelwI&&#39; %1"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:24
 msgid "Form based input"
-msgstr ""
+msgstr "Form poQbogh De&&#39;SuqwI&&#39;"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:12
 msgid "Form data"
-msgstr ""
+msgstr "Form De&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
-msgstr ""
+msgstr "Form DelwI&&#39;"
 
 #: core/templates/messages.tmpl:205
 msgid "Form definition '%1' not found"
-msgstr ""
+msgstr "Form DelwI&&#39; '%1' Samlu&&#39;be&&#39;"
 
 #: core/templates/messages.tmpl:213
 msgid "Form definition missing"
-msgstr ""
+msgstr "Hutlh Form DelwI&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
 msgid "Format selected text"
-msgstr ""
+msgstr "mu&&#39;mey luwIvlu&&#39;bogh nguvmoH"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
 msgid "Formatted Search"
-msgstr "<nop>nejwI&&#39; le&&#39;qu&&#39;"
+msgstr "nejwI&&#39; le&&#39;qu&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Formula"
-msgstr ""
+msgstr "SImmeH ngoq"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr ""
+msgstr "Foswiki lo&&#39;wI&&#39; &&#39;olwI&&#39;"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1855,6 +1871,8 @@ msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
+"&&#39;Internet janlIjDaq yIchegh &&#39;ej Hoch De&&#39;&&#39;e&&#39; "
+"poQlu&&#39;bogh yIghItlhqa&&#39; bIpolqa&&#39;pa&&#39;"
 
 #: core/templates/messages.tmpl:270 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1908,7 +1926,7 @@ msgstr "bI&&#39;ellaHbe&&#39;&&#39;a&&#39;?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Header rows"
-msgstr ""
+msgstr "nach tlheghmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
@@ -2261,7 +2279,7 @@ msgstr "<nop>SImwI ngoq chel"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr ""
+msgstr "Table chu&&#39; roQ"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
@@ -3150,19 +3168,19 @@ msgstr ""
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
-msgstr "latlh <nop>laD"
+msgstr "latlh laD"
 
 #: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
-msgstr "qen ghItlhmey luchoHlu'bogh"
+msgstr "qen ghItlhmey luchoHlu&&#39;"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "Recently changed topics in %1 Web"
-msgstr "qen %1 mIchDaq ghItlhmey luchoHlu'bogh"
+msgstr "qen %1 mIchDaq ghItlhmey luchoHlu&&#39;bogh"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "Recently changed topics in all Webs"
-msgstr "qen Hoch mIchmeyDaq ghItlhmey luchoHlu'bogh"
+msgstr "qen Hoch mIchmeyDaq ghItlhmey luchoHlu&&#39;bogh"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
@@ -3183,38 +3201,42 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
 #: core/templates/foswiki.tmpl:167
 msgid "Register"
-msgstr ""
+msgstr "muv"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
+"DaH &&#39;elta&&#39;bogh lo&&#39;wI&&#39; QIn Quvmey&&#39;e&&#39; "
+"Sovlu&&#39;bogh"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:129
 #: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Registered users"
-msgstr ""
+msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
 msgid "Registration"
-msgstr ""
+msgstr "muvmeH mIw"
 
 #: core/lib/Foswiki/UI/Register.pm:711
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
 msgstr ""
+"QaplaHbe&&#39; muvmeH mIw. <nop>FoswikivamDaq QIn jabbI&&#39;IDmey "
+"luchu&&#39;Ha&&#39;lu&&#39;"
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
-msgstr ""
+msgstr "wa&&#39;logh neH muvmeH ngoq lo&&#39;laH vay&&#39;."
 
 #: core/templates/registerdenied.tmpl:9
 msgid "Registration for %1 has been denied"
-msgstr ""
+msgstr "%1 muvmeH lajHa&&#39;lu&&#39;"
 
 #: core/templates/registermessages.tmpl:55
 msgid "Registration has been denied"
-msgstr ""
+msgstr "muvmeH mIw lajHa&&#39;lu&&#39;"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
@@ -3229,7 +3251,7 @@ msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
-msgstr ""
+msgstr "loHwI&&#39;vaD ghItlhmey:"
 
 #: core/data/System/SiteTools.txt:150
 #: core/data/System/SkinTemplateTokens.txt:181
@@ -3281,14 +3303,16 @@ msgstr "jeSwI&&#39;pu&&#39; teq..."
 #: core/templates/registermessages.tmpl:346
 msgid "Remove of user account other than your own is denied"
 msgstr ""
+"lo&&#39;wI&&#39; ta&&#39;e&&#39; Davu&&#39;be&&#39;bogh <nop>DapolHa&&#39; "
+"net chaw&&#39;be&&#39;"
 
 #: core/data/Main/GroupViewTemplate.txt:239
 msgid "Remove selected members"
-msgstr ""
+msgstr "jeSwI&&#39;pu&&#39;&&#39;e&&#39; luwIvlu&&#39;bogh teq"
 
 #: core/templates/registermessages.tmpl:286
 msgid "Remove the member from the group(s) %1 first."
-msgstr ""
+msgstr "bIruchpa&&#39;, %1 ghom(mey)vo&&#39; jeSwI&&#39; yIteq."
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -3330,7 +3354,7 @@ msgstr "qa&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
-msgstr ""
+msgstr "Form qa&&#39;..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
@@ -3888,7 +3912,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
-msgstr ""
+msgstr "Table"
 
 #: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
@@ -4471,7 +4495,7 @@ msgstr "ghItlh tepmey"
 
 #: core/templates/messages.tmpl:224
 msgid "Topic can not be upgraded from old style category table"
-msgstr ""
+msgstr "Table Segh tIQ rurmeH ghItlh Dachu&&#39;moHlaHbe&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
@@ -4554,7 +4578,7 @@ msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:17
 msgid "Try Again"
-msgstr "<nop>nIDqa&&#39;"
+msgstr "nIDqa&&#39;"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
@@ -4570,7 +4594,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
 msgid "Undo last change"
-msgstr ""
+msgstr "nungbogh choH ta&&#39;Ha&&#39;"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Unescape markup"
@@ -4589,6 +4613,8 @@ msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"%1 Devqa&&#39;wI&&#39; QaDHa&&#39; lajbe&&#39;lu&&#39;. %2 rurbe&&#39; host "
+"&&#39;ej {PermittedRedirectHostUrls}Daq &&#39;oH Samlu&&#39;be&&#39;."
 
 #: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
@@ -4607,7 +4633,7 @@ msgstr "ghItlhvam qImHa&&#39;choH"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][username]]"
-msgstr ""
+msgstr "[[%1][username]] lajHa&&#39;lu&&#39;bogh"
 
 #: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
 msgid "Update"
@@ -4891,6 +4917,8 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
+"Qu&&#39;vatlh: ghItlh %1Daq Table DelwI&&#39; \\'include\\' "
+"tu&&#39;tlu&&#39;be&&#39;!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5358,7 +5386,7 @@ msgstr "choH"
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
 msgid "edit form"
-msgstr ""
+msgstr "Form choH"
 
 #: core/templates/messages.tmpl:170
 msgid "fields are required."
@@ -5434,7 +5462,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
 msgid "restore form"
-msgstr ""
+msgstr "Form tI&&#39;"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:132
 #: NatEditPlugin/templates/edit.natedit.tmpl:163
@@ -5534,6 +5562,8 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
+"title='naDev Qeqbogh rarwI&&#39;mey SammeH %1 mIchDaq nej' accesskey='b'>"
+"cheghbogh rarwI&&#39;mey"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
