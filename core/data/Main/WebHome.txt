@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431315343" format="1.1" version="1"}%
 ---+!! Welcome to the <nop>%USERSWEB% web 
 Congratulations, you have finished installing Foswiki.
 
@@ -10,9 +10,9 @@ and [[%LOCALSITEPREFS%]]). Replace this text with a description of your new
 %IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
 ---++ <nop>%WEB% Web Utilities
-   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
-   * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
-   * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors %IF{"context registration_enabled" then="
+   * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user"}% %IF{"istopic '%WIKIUSERSTOPIC%'" then="
+   * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site"}%
    * [[WikiGroups]] - list of groups used for access control
    * [[WebTopicList]] - all topics in alphabetical order
    * [[WebChanges]] - recent topic changes in this web

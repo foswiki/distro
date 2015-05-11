@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1423445948" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431315343" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -10,8 +10,8 @@
    * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
    * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
    * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
-   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
-   * %IF{"istopic '%STATISTICSTOPIC%'" else=" $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt" then="[[$percntSTATISTICSTOPIC$percnt][ $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt]]"}%
+   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]] %IF{"istopic '%STATISTICSTOPIC%'" then="
+   * [[$percntSTATISTICSTOPIC$percnt][ $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt]]"}%
    * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
 
    * <b>%MAKETEXT{"User Reference"}%</b>
