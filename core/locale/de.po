@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-12 16:40+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -944,7 +944,7 @@ msgstr "Ungültiger Abonnent '%1'"
 
 #: core/templates/messages.tmpl:143
 msgid "Base web %1 is missing or does not exist"
-msgstr "Basis Web %1 fehlt oder existiert nicht"
+msgstr "Basis-Web %1 fehlt oder existiert nicht"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
