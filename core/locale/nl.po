@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-07 14:11+0200\n"
+"PO-Revision-Date: 2015-05-12 10:19+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -3535,7 +3535,7 @@ msgstr "Het nieuwe web is aangemaakt"
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr ""
-"Het wachtwoord dat je hebt ingevoerd in het *oude wachtwoord* veld is "
+"Het wachtwoord dat je hebt ingevoerd in het *oude wachtwoord*-veld is "
 "onjuist."
 
 #: core/templates/messages.tmpl:370
@@ -4292,7 +4292,7 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"Je kan ook de namen gebruiken van de standaard HTML-kleuren (black, silver, "
+"Je kunt ook de namen gebruiken van de standaard HTML-kleuren (black, silver, "
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, of aqua)"
 
@@ -4334,7 +4334,7 @@ msgstr "Je kunt je niet registreren op deze site."
 
 #: core/templates/messages.tmpl:292
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr "Je kunt niet twee keer registreren; de naam %1 is al geregistreerd."
+msgstr "Je kunt niet twee keer registreren, de naam %1 is al geregistreerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
@@ -4400,7 +4400,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kun je doen door %1 in te "
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
 "gestuurd, of door %2 te bezoeken"
 
@@ -4466,7 +4466,7 @@ msgstr "Je wachtwoord is niet gewijzigd."
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
-"Je persoonlijke %1 pagina bevindt zich op %2. Je kan het aanpassen zoals je "
+"Je persoonlijke %1 pagina bevindt zich op %2. Je kunt het aanpassen zoals je "
 "zelf wilt:"
 
 #: core/templates/messages.tmpl:184
@@ -4499,7 +4499,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
-msgstr "Je handtekening om te kopi&&euml;ren en plakken"
+msgstr "Je handtekening om te kopi&&euml;ren/plakken"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
@@ -4715,22 +4715,22 @@ msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Zoek in alle webs naar pagina&#39;s die hierheen linken' "
-"accesskey='l'>A&lle webs"
+"accesskey='l'>A&lle Webs"
 
 #: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' "
-"accesskey='w'>Verwijzingen in &web"
+"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' accesskey='w'>"
+"Verwijzingen in &Web"
 
 #: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
-"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' "
-"accesskey='w'>Verwijzingen in &web"
+"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' accesskey='w'>"
+"Verwijzingen in &Web"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
