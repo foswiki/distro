@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:38+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-12 16:39+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -576,15 +576,16 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Ein Foswikisystem ist in Webs unterteilt; jedes Web steht für ein Thema oder "
-"einen Arbeitsbereich. Sie versuchen in ein Web zu %1, dass nicht existiert."
+"Ein Foswiki-System ist in Webs unterteilt; jedes Web steht für ein Thema "
+"oder einen Arbeitsbereich. Sie versuchen in ein Web zu %1, das nicht "
+"existiert."
 
 #: core/templates/messages.tmpl:154
 msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr ""
-"Eine Farbdefition beginnt mit einem # Zeichen, gefolgt von 6 Zahlen in "
+"Eine Farbdefinition beginnt mit einem # Zeichen, gefolgt von 6 Zahlen in "
 "Hexadezimal, z.B. =#FFFF00=."
 
 #. ($data->{Email})
@@ -647,11 +648,11 @@ msgstr "Zugriffskontrolle für %1 fehlgeschlagen"
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
 #: PatternSkin/templates/edit.pattern.tmpl:68
 msgid "Access keys"
-msgstr "Funktions-Tasten"
+msgstr "Funktionstasten"
 
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "Access keys:"
-msgstr "Funktions-Tasten:"
+msgstr "Funktionstasten:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
