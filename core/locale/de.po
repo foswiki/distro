@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:33+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-12 16:34+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -206,7 +206,7 @@ msgstr "%1 hat sich versucht mit der E-Mail %2 zu registrieren"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render/Moved.pm:67
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 wurde durch %4 von %2 nach %3 umbenannt oder verschoben."
+msgstr "%1 wurde durch %4 von %2 nach %3 umbenannt oder verschoben"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
