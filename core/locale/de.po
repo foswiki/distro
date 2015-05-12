@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-01 18:48+0200\n"
+"PO-Revision-Date: 2015-05-12 16:43+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
@@ -184,7 +184,7 @@ msgstr "%1 hat sich versucht mit der E-Mail %2 zu registrieren"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:269
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
+msgstr "%1 wurde durch %4 von %2 nach %3 umbenannt oder verschoben"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
@@ -534,16 +534,16 @@ msgstr ""
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Aus Sicherheitsgründen wird an manchen Dateinamen eine =.txt= Endung "
-"angehängt"
+"Aus Sicherheitsgründen wird an manche Dateinamen die Endung =.txt= angehängt"
 
 #: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Ein Foswiki-System ist in Webs unterteilt; jedes für ein Thema, ein Bereich "
-"für Zusammenarbeit. Sie versuchen in ein Web zu %1, dass nicht existiert."
+"Ein Foswiki-System ist in Webs unterteilt; jedes Web steht für ein Thema "
+"oder einen Arbeitsbereich. Sie versuchen in ein Web zu %1, das nicht "
+"existiert."
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -647,7 +647,7 @@ msgstr "Zeile hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
-msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen"
+msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
@@ -810,7 +810,7 @@ msgstr "Verschieben des Anhangs fehlgeschlagen"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
-msgstr "Anhangsname:"
+msgstr "Name des Anhangs:"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -924,8 +924,8 @@ msgstr "Benutzer %1 konnte nicht gefunden werden"
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
-"E-Mail Adresse von %1 unbekannt (wird für das Zurücksetzen des Passworts "
-"benötigt)"
+"E-Mail-Adresse von %1 konnte nicht ermittelt werden (wird für das "
+"Zurücksetzen des Passworts benötigt)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
@@ -957,7 +957,9 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Konnte %1 nicht nach %2 umbenennen, da es bereits existiert."
+msgstr ""
+"Konnte %1 nicht nach %2 umbenennen, da ein Topic mit dem Namen bereits "
+"existiert"
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -994,7 +996,7 @@ msgstr "Sprache wechseln"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "Verweise in Topics ändern, die aus allen Webs auf !%1 zeigen:"
+msgstr "Verweise in Topicsin allen Webs ändern, die auf !%1 zeigen:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
