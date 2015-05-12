@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-12 16:34+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -569,8 +569,7 @@ msgstr ""
 #: core/templates/messages.tmpl:244
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Aus Sicherheitsgrünnden wird an manchen Dateinamen eine =.txt= Endung "
-"angehängt"
+"Aus Sicherheitsgründen wird an manche Dateinamen die Endung =.txt= angehängt"
 
 #: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
 msgid ""
