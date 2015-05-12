@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:39+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-12 16:40+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -696,7 +696,7 @@ msgstr "Benutzer hinzufügen..."
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
-msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen"
+msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen."
 
 #: core/templates/messages.tmpl:231
 msgid "Adding a %1 preference in WebPreferences"
@@ -704,7 +704,7 @@ msgstr "Füge eine %1 Variable in WebPreferences hinzu"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
-msgstr "Foswiki Admin Benutzer Authentifizierung"
+msgstr "Foswiki Admin-Benutzer Authentifizierung"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:27
 msgid "Admin Maintenance"
@@ -784,7 +784,7 @@ msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
 msgstr ""
-"Eine Fehler-Seite wird angezeigt, wenn eines der Topics von einem anderen "
+"Eine Fehlerseite wird angezeigt, wenn eines der Topics von einem anderen "
 "Benutzer gesperrt ist."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
@@ -797,7 +797,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
-msgstr "Und mit Topics aus dem Basis Web angereichert"
+msgstr "Und mit Topics aus dem Basis-Web angereichert"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
