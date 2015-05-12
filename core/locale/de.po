@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-12 16:39+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -670,7 +670,7 @@ msgstr "Aktionen"
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
 msgid "Add"
-msgstr "hinzufügen"
+msgstr "Hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
