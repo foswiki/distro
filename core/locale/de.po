@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:40+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-05-12 16:41+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -967,7 +967,7 @@ msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
-"Vorhandene Formular-Daten gehen jedoch verloren (Sie können diese jederzeit "
+"Vorhandene Formulardaten gehen jedoch verloren (Sie können diese jederzeit "
 "aus der Topic-Historie entnehmen)"
 
 #: core/data/Trash/WebHome.txt:7
@@ -997,8 +997,8 @@ msgstr "Benutzer %1 konnte nicht gefunden werden"
 #: core/templates/messages.tmpl:375
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
-"E-Mail Adresse von %1 konnte nicht ermittelt werden (wird für das "
-"Zurücksetzen des Passworts benötigt"
+"E-Mail-Adresse von %1 konnte nicht ermittelt werden (wird für das "
+"Zurücksetzen des Passworts benötigt)"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
