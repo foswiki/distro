@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-12 16:40+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -863,7 +863,7 @@ msgstr "Verschieben des Anhangs fehlgeschlagen"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
-msgstr "Anhangs Name:"
+msgstr "Name des Anhangs:"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
