@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-11 09:23+0200\n"
+"PO-Revision-Date: 2015-05-12 10:27+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1273,7 +1273,7 @@ msgstr "Ga verder om de pagina aan te maken"
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr ""
+msgstr "Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1344,9 +1344,8 @@ msgid "Create a new group"
 msgstr "Nieuwe groep aanmaken"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
-#, fuzzy
 msgid "Create a new table"
-msgstr "Nieuwe pagina aanmaken"
+msgstr "Nieuwe tabel aanmaken"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 #, fuzzy
@@ -2101,6 +2100,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Als Foswiki niet een geregistreerd e-mailadres van jou kan vinden in de "
+"geheime database, kun je je wachtwoord niet opnieuw instellen of op de "
+"hoogte gehouden worden van paginawijzigingen."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2355,7 +2357,7 @@ msgstr ""
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr ""
+msgstr "Nieuwe tabel invoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
@@ -2462,9 +2464,8 @@ msgid "Jump"
 msgstr "Direct naar pagina"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "Zet pagina terug naar deze revisie"
+msgstr "Spring naar de eerste revisie"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
@@ -2480,43 +2481,37 @@ msgid "Justify text"
 msgstr ""
 
 #: core/data/System/WebSearch.txt:193
-#, fuzzy
 msgid "Keyword search"
-msgstr "Pas zoekactie aan"
+msgstr "Keyword zoeken"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "Last"
-msgstr "Achternaam:"
+msgstr "Laatste"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Laatste bewerker"
+msgstr "Laatst bewerkt door"
 
 #: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
 msgid "Last editor"
 msgstr "Laatste bewerker"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Last modified"
-msgstr "Laatst bewerkt op"
+msgstr "Laatst bewerkt"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
 msgstr "Laatst bewerkt op"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
-#, fuzzy
 msgid "Last name:"
 msgstr "Achternaam:"
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(revisie %1)"
+msgstr "Laatste revisie: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
@@ -2582,9 +2577,8 @@ msgid "Login"
 msgstr "Inloggen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
-#, fuzzy
 msgid "Login username:"
-msgstr "Inlognaam %1"
+msgstr "Inlognaam:"
 
 #: core/templates/login.tmpl:77
 msgid "Logon"
@@ -2654,18 +2648,16 @@ msgid "More objects to insert"
 msgstr ""
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid "More on hiding attachments"
-msgstr "Verplaats of verwijder bijlage"
+msgstr "Meer over het verbergen van bijlagen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "More tools"
 msgstr ""
 
 #: core/data/System/TopicsAndWebs.txt:52
-#, fuzzy
 msgid "More topic actions"
-msgstr "Meer pagina acties..."
+msgstr "Meer pagina acties"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:89
@@ -2783,9 +2775,8 @@ msgid "New parent web:"
 msgstr "Nieuw bovenliggend web:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
-#, fuzzy
 msgid "New password:"
-msgstr "Nieuw wachtwoord"
+msgstr "Nieuw wachtwoord:"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
@@ -2817,9 +2808,8 @@ msgid "No  members"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:69
-#, fuzzy
 msgid "No changes"
-msgstr "(wijzigingen)"
+msgstr "Geen wijzigingen"
 
 #: core/templates/more.tmpl:206
 msgid "No child topics"
@@ -2843,14 +2833,12 @@ msgid "No previous revision exists."
 msgstr "Er is geen vorige paginarevisie beschikbaar."
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
-#, fuzzy
 msgid "No topic to subscribe to"
-msgstr "Verplaats pagina naar web:"
+msgstr ""
 
 #: core/templates/renamebase.tmpl:45
-#, fuzzy
 msgid "No topics to update."
-msgstr "Verplaats pagina naar web:"
+msgstr "Geen pagina's om te bij te werken."
 
 #: core/templates/messages.tmpl:320 core/templates/registermessages.tmpl:399
 msgid "No username specified"
@@ -2874,9 +2862,8 @@ msgid "Not sure this is right, please confirm!"
 msgstr ""
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Notation"
-msgstr "Blijf op de hoogte"
+msgstr ""
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2930,9 +2917,8 @@ msgid "Number of topics:"
 msgstr "Aantal pagina&#39;s:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
-#, fuzzy
 msgid "Number of topics: %1"
-msgstr "Aantal pagina&#39;s:"
+msgstr "Aantal pagina&#39;s: %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:72
 #, fuzzy
@@ -2992,9 +2978,8 @@ msgid "Only members or admins may update group."
 msgstr ""
 
 #: core/templates/more.tmpl:57 core/templates/more.tmpl:74
-#, fuzzy
 msgid "Only update linked topics in %1 web"
-msgstr "Onderliggende pagina&#39;s in %1 web"
+msgstr "Werk alleen gelinkte pagina&#39;s bij in %1 web"
 
 #: core/templates/login.tmpl:8
 msgid ""
@@ -3004,27 +2989,24 @@ msgstr ""
 "nieuw wachtwoord in]]."
 
 #: core/templates/renamedelete.tmpl:23
-#, fuzzy
 msgid "Optionally change attachment name:"
-msgstr "Verander eventueel de paginanaam:"
+msgstr "Verander eventueel de naam van de bijlage:"
 
 #: core/templates/renamedelete.tmpl:21
 msgid "Optionally change topic name:"
 msgstr "Verander eventueel de paginanaam:"
 
 #: core/templates/renameattachmentdelete.tmpl:34
-#, fuzzy
 msgid "Optionally enter a different attachment name:"
-msgstr "Voer eventueel een andere paginanaam in:"
+msgstr "Voer eventueel een andere naam voor de bijlage in:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
-#, fuzzy
 msgid "Options"
-msgstr "Actie"
+msgstr "Opties"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
 #, fuzzy
@@ -3067,14 +3049,12 @@ msgstr "Wachtwoord opnieuw instellen niet gelukt"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:156
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#, fuzzy
 msgid "Password:"
-msgstr "Wachtwoord"
+msgstr "Wachtwoord:"
 
 #: core/templates/registermessages.tmpl:127
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "Wachtwoord opnieuw instellen niet gelukt"
+msgstr "Wachtwoorden uitgeschakeld"
 
 #: core/templates/registermessages.tmpl:176
 msgid "Passwords do not match"
@@ -3096,9 +3076,8 @@ msgid "Pick one of the %1."
 msgstr "Kies een van de %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
-msgstr "Standaardpagina voor weggegooide bijlagen"
+msgstr "Locatie voor verwijderde pagina&#39;s en bijlagen"
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -3110,9 +3089,8 @@ msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
-#, fuzzy
 msgid "Please confirm your password."
-msgstr "Je wachtwoord:"
+msgstr "Bevestig je wachtwoord."
 
 #: core/templates/registermessages.tmpl:200
 #: core/templates/registermessages.tmpl:87
@@ -3181,13 +3159,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Ga terug met je browser en kies een paginanaam dat een %1.WikiWord is of "
-"vink de checkbox 'niet-<nop>WikiWoord mag gebruikt worden' aan"
+"Ga terug met je browser en kies een [[%SYSTEMWEB%.WikiWord][Wikiwoord]] als "
+"paginanaam, of vink de checkbox aan dat een niet-Wikiwoord gebruikt mag "
+"worden"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3221,10 +3199,8 @@ msgstr ""
 "mail %2."
 
 #: core/templates/messages.tmpl:491
-#, fuzzy
 msgid "Please notify your %1 administrator."
-msgstr ""
-"Een e-mail kon niet worden verstuurd. Stel je %1 beheerder, %2, op de hoogte."
+msgstr "Stel je %1 beheerder op de hoogte."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
@@ -3281,9 +3257,8 @@ msgid "Preview"
 msgstr "voorvertoning"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
-#, fuzzy
 msgid "Preview your changes"
-msgstr "Bekijk recente wijzigingen in:"
+msgstr "Bekijk je wijzigingen"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Previous"
@@ -3291,27 +3266,24 @@ msgstr ""
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:35
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:36
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr "title='Printbare versie van deze pagina' accesskey='p'>&Printversie"
+msgstr "Printbare versie van deze pagina (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
 msgstr "Eigenschappen"
 
 #: core/lib/Foswiki/Render/Moved.pm:60
-#, fuzzy
 msgid "Put it back..."
-msgstr "terugplaatsen"
+msgstr "Terugplaatsen..."
 
 #: core/data/System/WebSearch.txt:205
 msgid "Query Search"
 msgstr "Query Search"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
-#, fuzzy
 msgid "Question:"
-msgstr "Versie"
+msgstr "Vraag:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -3339,14 +3311,12 @@ msgid "Recently changed topics"
 msgstr "Recent gewijzigd"
 
 #: core/data/System/SiteChanges.txt:19
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Recent gewijzigd"
+msgstr "Recent gewijzigde pagina's in %1 Web"
 
 #: core/data/System/SiteChanges.txt:20
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Recent gewijzigd"
+msgstr "Recent gewijzigde pagina's in alle Webs"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
@@ -3482,9 +3452,8 @@ msgid "Remove selected members"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:286
-#, fuzzy
 msgid "Remove the member from the group(s) %1 first."
-msgstr "Verwijder de gebruiker eerst van groep(en) %1"
+msgstr "Verwijder de gebruiker eerst van groep(en) %1."
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -3495,23 +3464,20 @@ msgid "Rename failed"
 msgstr "Hernoemen mislukt"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Pagina hernoemen of verplaatsen"
+msgstr "%1 hernoemen of verplaatsen"
 
 #: core/templates/more.tmpl:70
 msgid "Rename or move topic"
 msgstr "Pagina hernoemen of verplaatsen"
 
 #: core/templates/more.tmpl:78
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Pagina hernoemen of verplaatsen"
+msgstr "Pagina hernoemen of verplaatsen..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Hernoem, verplaats of verwijder dit web:"
+msgstr "Hernoem, verplaats of verwijder dit web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -3524,9 +3490,8 @@ msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
-#, fuzzy
 msgid "Replace"
-msgstr "Vervang formulier..."
+msgstr "Vervangen"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -3556,14 +3521,12 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:187
-#, fuzzy
 msgid "Restore"
 msgstr "Herstellen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
-#, fuzzy
 msgid "Restore and Continue"
-msgstr "Pagina herstellen"
+msgstr "Herstellen en doorgaan"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and continue editing"
@@ -3605,14 +3568,12 @@ msgid "Results from %1 web"
 msgstr "Resultaten van %1 web"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Resultaten van %1 web"
+msgstr "Resultaten van %1 web:"
 
 #: core/templates/registermessages.tmpl:362
-#, fuzzy
 msgid "Return to %1"
-msgstr "Ga terug naar %1."
+msgstr "Ga terug naar %1"
 
 #: core/templates/registermessages.tmpl:342
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
@@ -3623,14 +3584,12 @@ msgid "Return to %1."
 msgstr "Ga terug naar %1."
 
 #: core/templates/registermessages.tmpl:348
-#, fuzzy
 msgid "Return to [_0]"
-msgstr "Ga terug naar %1."
+msgstr "Ga terug naar [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
-#, fuzzy
 msgid "Retype new password:"
-msgstr "Typ wachtwoord opnieuw"
+msgstr "Typ wachtwoord opnieuw:"
 
 #: core/templates/messages.tmpl:27
 #, fuzzy
@@ -3676,23 +3635,20 @@ msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:57
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
-#, fuzzy
 msgid "Save"
-msgstr "Opgeslagen in:"
+msgstr "Opslaan"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
-#, fuzzy
 msgid "Save and Continue"
-msgstr "value='Bewaren en Doorgaan' accesskey='b'"
+msgstr "Bewaren en Doorgaan"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and continue editing"
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
-#, fuzzy
 msgid "Save and exit"
-msgstr "Opgeslagen in:"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -4105,7 +4061,7 @@ msgstr "Wissel tussen vaste or proportionele tekenbreedte"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Switch to wysiwyg"
-msgstr ""
+msgstr "naar wysiwyg omschakelen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Symbol"
@@ -4125,7 +4081,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
-msgstr ""
+msgstr "Tabel"
 
 #: core/templates/messages.tmpl:455
 msgid "Template %1 does not exist"
@@ -5232,9 +5188,8 @@ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Let op: ingevoegde pagina bestaat niet!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "Let op: ingevoegde pagina bestaat niet!"
+msgstr "Let op: tabeldefinitie in \\'include\\' pagina %1 bestaat niet!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5413,7 +5368,7 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"Je kan ook de namen gebruiken van de standaard HTML-kleuren (black, silver, "
+"Je kunt ook de namen gebruiken van de standaard HTML-kleuren (black, silver, "
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, of aqua)"
 
@@ -5447,7 +5402,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr "Je kan niet twee keer registreren, de naam %1 is al geregistreerd."
+msgstr "Je kunt niet twee keer registreren, de naam %1 is al geregistreerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
@@ -5508,7 +5463,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kun je doen door %1 in te "
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
 "gestuurd, of door %2 te bezoeken"
 
@@ -5586,7 +5541,7 @@ msgstr "Je wachtwoord:"
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
-"Je persoonlijke %1 pagina bevindt zich op %2. Je kan het aanpassen zoals je "
+"Je persoonlijke %1 pagina bevindt zich op %2. Je kunt het aanpassen zoals je "
 "zelf wilt:"
 
 #: core/templates/registermessages.tmpl:138
@@ -5621,7 +5576,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:48
 msgid "Your signature to copy/paste"
-msgstr "Je handtekening om te kopi&&euml;ren/plakken:"
+msgstr "Je handtekening om te kopi&&euml;ren/plakken"
 
 #: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
