@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-06 09:39+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-12 16:33+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -55,7 +55,7 @@ msgstr "%1 (Standard)"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen!"
+msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
@@ -77,7 +77,7 @@ msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "%1 cannot be removed from %2"
-msgstr "%1 kann nicht aus %2 entfernt werden"
+msgstr "%1 konnte nicht aus der Gruppe %2 entfernt werden"
 
 #: core/templates/registerdenied.tmpl:11
 msgid "%1 denied the registration."
@@ -94,7 +94,7 @@ msgstr "Auf %1 gibt es eine Liste anderer Foswiki-Benutzer"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 wurde mit der E-Mail %2 registriert und freigeschaltet"
+msgstr "%1 wurde mit der E-Mail %2 bestätigt und registriert"
 
 #: core/templates/messages.tmpl:332
 msgid ""
