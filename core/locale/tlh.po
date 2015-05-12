@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 20:57+0200\n"
+"PO-Revision-Date: 2015-05-12 21:10+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -3720,7 +3720,7 @@ msgstr ""
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
-msgstr "QaH &&#39;ang"
+msgstr "<nop>QaH &&#39;ang"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
@@ -5620,8 +5620,7 @@ msgstr "title='ghItlhvam <nop>qImchoH' accesskey='s'><nop>qImchoH (s)"
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr ""
-"title='ghItlhvam <nop>qImHa&&#39;choH' accesskey='s'><nop>qImHa&&#39;choH "
-"(&s)"
+"title='ghItlhvam qImHa&&#39;choH' accesskey='s'><nop>qImHa&&#39;choH (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
