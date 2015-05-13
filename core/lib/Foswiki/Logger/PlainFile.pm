@@ -224,7 +224,7 @@ sub eachEventSince {
             next unless -r $logfile;
 
             my $fh;
-            if ( open( $fh, '<', $logfile ) ) {
+            if ( open( $fh, '<:encoding(utf-8)', $logfile ) ) {
                 my $logIt =
                   new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
                     $reqLevel, $version, $logfile );

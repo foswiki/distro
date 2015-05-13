@@ -62,9 +62,11 @@ sub loadExtraConfig {
     my $this = shift;
     $this->SUPER::loadExtraConfig(@_);
 
-    #    $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
-    $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::PlainFile";
-    $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
+    $Foswiki::cfg{Store}{Implementation}   = "Foswiki::Store::RcsLite";
+    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 0;
+
+    #$Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::PlainFile";
+
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {

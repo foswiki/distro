@@ -2,6 +2,7 @@ package EngineTests;
 
 use strict;
 use warnings;
+use utf8;
 our @ISA;
 
 BEGIN {
@@ -23,7 +24,17 @@ use Foswiki::Response;
 use File::Spec;
 use File::Temp;
 use Cwd;
-use Storable qw(freeze thaw);
+
+#use Storable qw(freeze thaw); # unreliable
+sub freeze {
+    return Data::Dumper->Dump( [ $_[0] ] );
+}
+
+sub thaw {
+    my $VAR1;
+    eval $_[0] or die $@;
+    return $VAR1;
+}
 
 sub list_tests {
     my $this = shift;
@@ -67,7 +78,8 @@ sub test_simple_request {
     $req->header( 'X-Header1' => 'v1' );
     $req->header( 'X-Header2' => 'v2' );
     my $response = $this->make_request($req);
-    my $result   = thaw( $response->content )->{request};
+    my $result   = thaw( $response->content );
+    $result = $result->{request};
 
     $this->assert_str_equals( 'GET', $result->method, 'Wrong Method' );
     $this->assert( length( $result->remote_addr ) > 0, 'remote_addr not set' );
@@ -128,7 +140,7 @@ sub test_header {
     foreach my $r (@referer) {
         $req->header( Referer => $r );
         foreach my $a (@agent) {
-            $req->header( 'User-Agent' => $a );
+            $req->header( 'User-Agent' => Encode::encode_utf8($a) );
             my $response = $this->make_request($req);
             my $result   = thaw( $response->content )->{request};
             $this->assert_str_equals(
@@ -136,11 +148,9 @@ sub test_header {
                 $result->header('Referer'),
                 'Wrong Referer header'
             );
-            $this->assert_str_equals(
-                $a,
-                $result->header('User-Agent'),
-                'Wrong User-Agent header'
-            );
+            $this->assert_str_equals( $a, $result->header('User-Agent'),
+                "Wrong User-Agent header $a!="
+                  . $result->header('User-Agent') );
             while ( my ( $key, $value ) = each %custom ) {
                 $this->assert_str_equals( $value, $result->header($key),
                     "Wrong $key header" );
@@ -163,14 +173,14 @@ sub test_cookie {
         -name  => '<SID>',
         -value => '<>.,;:?/°^~ºª§=+-_)\'(*&%$#@!¹²³£¢¬',
     );
-
     $req->cookies( { SID => $jar{SID} } );
     my $response = $this->make_request($req);
-    my $result   = thaw( $response->content )->{request};
+    my $con      = $response->content;
+    my $result   = thaw($con)->{request};
     $this->assert_deep_equals(
         { SID => $jar{SID} },
         $result->cookies,
-        'Wrong Cookies'
+        'Wrong Cookies ' . $con
     );
 
     $req->cookies( { '<SID>' => $jar{'<SID>'} } );

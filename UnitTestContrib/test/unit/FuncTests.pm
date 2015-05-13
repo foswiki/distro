@@ -538,7 +538,7 @@ sub test_saveTopicRoundTrip {
     my $this     = shift;
     my $topic    = 'SaveTopicText2';
     my $origtext = <<'NONNY';
-'Tis some text
+Tis some text
 and a trailing newline
 
 
@@ -1006,17 +1006,27 @@ sub test_subweb_attachments {
     #
     my $ft = '';
     $ft = Foswiki::Func::getPubDir() . "/" . $web;
-    $this->assert( ( -d $ft ), "Web directory for attachment not created" );
-    $ft .= "/" . $topic;
-    $this->assert( ( -d $ft ), "Topic directory for attachment not created?" );
-    $this->assert( ( -e $ft . "/$name1" ),
-        "Attachment file $ft/$name1  was not written to disk?" );
-    $this->assert( ( -e $ft . "/$name1,v" ),
-        "Attachment RCS Filename $ft/$name1,v was not written to disk?" );
-    $this->assert( ( -e $ft . "/$name2,v" ),
-        "Attachment RCS Filename $ft/$name2,v was not written to disk?" );
-    $this->assert( ( -e $ft . "/$name2" ),
-        "Attachment file $ft/$name2  was not written to disk?" );
+    if ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|RcsWrap|RcsWrite/ )
+    {
+        $this->assert( ( -d $ft ), "Web directory for attachment not created" );
+        $ft .= "/" . $topic;
+        $this->assert( ( -d $ft ),
+            "Topic directory for attachment not created?" );
+        $this->assert( ( -e $ft . "/$name1" ),
+            "Attachment file $ft/$name1  was not written to disk?" );
+        if ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap|RcsWrite/ ) {
+            $this->assert(
+                ( -e $ft . "/$name1,v" ),
+                "Attachment RCS Filename $ft/$name1,v was not written to disk?"
+            );
+            $this->assert(
+                ( -e $ft . "/$name2,v" ),
+                "Attachment RCS Filename $ft/$name2,v was not written to disk?"
+            );
+        }
+        $this->assert( ( -e $ft . "/$name2" ),
+            "Attachment file $ft/$name2  was not written to disk?" );
+    }
 
     $meta->finish();
     ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
@@ -2154,6 +2164,8 @@ gnnnnh
 & embed&embed&embed
 $lt
 TEST
+
+    #"
     my $output = Foswiki::Func::decodeFormatTokens($input);
     $this->assert_str_equals( $expected, $output );
 
@@ -2621,13 +2633,15 @@ sub do_attachment {
     my ($sanitized) = Foswiki::Sandbox::sanitizeAttachmentName($name);
     $this->assert_str_equals( $name, $sanitized );
 
-    require File::Spec;
-    $this->assert(
-        -f File::Spec->catfile(
-            File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
-            $this->{test_web}, $this->{test_topic}, $name
-        )
-    );
+    if ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|Rcs/ ) {
+        require File::Spec;
+        $this->assert(
+            -f File::Spec->catfile(
+                File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
+                $this->{test_web}, $this->{test_topic}, $name
+            )
+        );
+    }
     my $itr = $this->{test_topicObject}->eachAttachment();
     $this->assert( $itr->hasNext() );
 
@@ -2741,7 +2755,11 @@ sub test_getScriptUrlPath_spec {
 
 # Verify that saveTopicText uses embedded meta
 sub test_saveTopicTextEmbeddedMeta {
-    my $this     = shift;
+    my $this = shift;
+
+    # Only works on filesystem based stores
+    return unless ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|Rcs/ );
+
     my $topic    = 'SaveTopicText2';
     my $origtext = <<'NONNY';
 %META:TOPICINFO{author="BaseUserMapping_123" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%
@@ -2752,8 +2770,9 @@ and a trailing newline
 %META:FIELD{name="FORM" title="Blah" value="FORM GOOD"}%
 %META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
 NONNY
-    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
 
+    #'
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
     my $rawtext = Foswiki::Func::readFile(
         $Foswiki::cfg{DataDir} . '/' . $this->{test_web} . "/$topic.txt" );
     $this->assert_str_not_equals( $origtext, $rawtext );
@@ -2769,16 +2788,20 @@ NONNY
     #print STDERR "\n   orig  ".join("\n   * ", @orig_metas)."\n";
     $this->assert_equals( 4, scalar(@orig_metas) );
     my @raw_metas;
+
     $rawtext =~ s/^(\%META:[^}]*}%)/push(@raw_metas, $1)/gems;
 
-#print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
-#in 1.0.10 the FILEATTACHMENT is removed - presumably because the file is not there?
-#in 1.1 the FILEATTACHMENT is kept - frustrating.
-#TODO: check this
+    #print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
+    #in 1.0.10 the FILEATTACHMENT is removed - presumably because the
+    # file is not there?
+    #in 1.1 the FILEATTACHMENT is kept - frustrating.
+    #TODO: check this
     $this->assert_equals( 4, scalar(@raw_metas) );
 
-#TOPICINFO from commit
-#make sure that the save changed the topicinfo (this is the 1.1.0 introduced bug (fixed in 1.1.4) where by we use the TOPICINFO passed to saveTopicText literally, without recording who actually called save)
+    #TOPICINFO from commit
+    # make sure that the save changed the topicinfo (this is the 1.1.0
+    # introduced bug (fixed in 1.1.4) where by we use the TOPICINFO passed
+    # to saveTopicText literally, without recording who actually called save)
     $this->assert_str_not_equals( shift @orig_metas, shift @raw_metas );
 
     #FORM

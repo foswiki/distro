@@ -233,12 +233,13 @@ sub run_testcase {
     my ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
 
     unless ( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
-        $this->assert( open( my $F, '>', "${testcase}_run.html" ) );
+        $this->assert(
+            open( my $F, '>:encoding(utf8)', "${testcase}_run.html" ) );
         print $F $text;
         $this->assert( close $F );
         $query->delete('test');
         ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
-        $this->assert( open( $F, '>', "${testcase}.html" ) );
+        $this->assert( open( $F, '>:encoding(utf8)', "${testcase}.html" ) );
         print $F $text;
         $this->assert( close $F );
         $this->assert( 0,

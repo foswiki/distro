@@ -257,7 +257,12 @@ sub _ensureRead {
     }
 
     my $fh;
-    unless ( open( $fh, '<', $this->{rcsFile} ) ) {
+    unless (
+        open(
+            $fh, '<', Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
+        )
+      )
+    {
 
         #warn( 'Failed to open ' . $this->{rcsFile} . ': ' . $!);
         $this->{state} = 'nocommav';
@@ -417,7 +422,7 @@ sub _formatString {
     my ($str) = @_;
     $str ||= '';
     $str =~ s/@/@@/go;
-    return '@' . $str . '@';
+    return '@' . Foswiki::Store::Rcs::Handler::encode($str) . '@';
 }
 
 # Write content of the RCS file
@@ -541,8 +546,16 @@ sub _writeMe {
     my ($this) = @_;
     my $out;
 
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{rcsFile} );
-    unless ( open( $out, '>', $this->{rcsFile} ) ) {
+    chmod(
+        $Foswiki::cfg{Store}{filePermission},
+        Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
+    );
+    unless (
+        open(
+            $out, '>', Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
+        )
+      )
+    {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
@@ -551,7 +564,10 @@ sub _writeMe {
         _write( $this, $out );
         close($out);
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{rcsFile} );
+    chmod(
+        $Foswiki::cfg{Store}{filePermission},
+        Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
+    );
 }
 
 # implements Rcs::Handler

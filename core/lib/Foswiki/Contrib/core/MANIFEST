@@ -452,7 +452,6 @@ lib/Foswiki/Configure/Checkers/LogFileName.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Action.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
-lib/Foswiki/Configure/Checkers/LowerNational.pm 0444
 lib/Foswiki/Configure/Checkers/MailProgram.pm 0444
 lib/Foswiki/Configure/Checkers/MaxLSCBackups.pm 0444
 lib/Foswiki/Configure/Checkers/MergeHeadAndScriptZones.pm 0444
@@ -477,12 +476,12 @@ lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/EnableGuestSessions.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
-lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/SENDERHOST.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/Username.pm 0444
 lib/Foswiki/Configure/Checkers/Store/EgrepCmd.pm 0444
+lib/Foswiki/Configure/Checkers/Store/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Store/FgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/Store/overrideUmask.pm 0444
@@ -490,7 +489,6 @@ lib/Foswiki/Configure/Checkers/Store/SearchAlgorithm.pm 0444
 lib/Foswiki/Configure/Checkers/STRING.pm 0444
 lib/Foswiki/Configure/Checkers/TempfileDir.pm 0444
 lib/Foswiki/Configure/Checkers/TemplatePath.pm 0444
-lib/Foswiki/Configure/Checkers/UpperNational.pm 0444
 lib/Foswiki/Configure/Checkers/URLPATH.pm 0444
 lib/Foswiki/Configure/Checkers/URL.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444

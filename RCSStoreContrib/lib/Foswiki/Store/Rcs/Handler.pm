@@ -83,7 +83,7 @@ sub new {
         return $store->{handler_cache}->{$id};
     }
 
-    # web, topic and attachment are all held encoded in {Store}{CharSet}
+    # web, topic and attachment are all held encoded in unicode
     my $this = bless(
         {
             web        => $web,
@@ -122,6 +122,68 @@ sub new {
     $Foswiki::cfg{Store}{RememberChangesFor} ||= 31 * 24 * 60 * 60;
 
     return $this;
+}
+
+=begin TML
+
+---++ StaticMethod encode($string) -> $encoded_string
+
+Convert a string in the site encoding into the store encoding. This is
+used to encode strings for printing to files.
+
+=cut
+
+sub encode {
+    my ( $str, $fn ) = @_;
+
+    return $str unless defined $str;
+
+    if ( $Foswiki::UNICODE && !$fn ) {
+        return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+            $str, Encode::FB_CROAK );
+    }
+
+    # otherwise we are using the old {Site}{CharSet} encoding
+    # and the string needs no conversion
+    return $str;
+}
+
+=begin TML
+
+---++ StaticMethod decode($encoded_string) -> $string
+
+Convert a string from the store encoding into unicode.
+
+=cut
+
+sub decode {
+    my $str = shift;
+
+    return $str unless defined $str;
+
+    if ($Foswiki::UNICODE) {
+        return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+            $str, Encode::FB_PERLQQ );
+    }
+
+    # otherwise we are using the old {Site}{CharSet} encoding
+    # and the string needs no conversion
+    return $str;
+}
+
+# Convert a unicode filename to bytes. Normally a NOP, used for debugging
+# encodings
+sub fn2b {
+    $_[0];
+}
+
+# Convert bytes to a unicode filename.
+# encodings
+if ($Foswiki::UNICODE) {
+    *Foswiki::Store::Rcs::Handler::b2fn = \&Encode::decode_utf8;
+}
+else {
+    *Foswiki::Store::Rcs::Handler::b2fn = sub { $_[0] };
 }
 
 =begin TML
@@ -173,7 +235,8 @@ sub mkPathTo {
     $path = File::Spec->catpath( $volume, $path, '' );
 
     eval {
-        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
+        File::Path::mkpath( fn2b($path), 0,
+            $Foswiki::cfg{Store}{dirPermission} );
     };
     if ($@) {
         throw Error::Simple("Rcs::Handler: failed to create ${path}: $!");
@@ -563,7 +626,7 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
     my $dh;
-    opendir( $dh, "$Foswiki::cfg{DataDir}/$this->{web}" )
+    opendir( $dh, fn2b("$Foswiki::cfg{DataDir}/$this->{web}") )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -572,7 +635,7 @@ sub getTopicNames {
       map { /^(.*)\.txt$/; $1; }
       sort
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
-      map( Encode::decode_utf8($_), readdir($dh) );
+      map( b2fn($_), readdir($dh) );
     closedir($dh);
     return @topicList;
 }
@@ -620,7 +683,7 @@ sub getWebNames {
     my @tmpList;
     my $dh;
     my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
-    if ( opendir( $dh, $dir ) ) {
+    if ( opendir( $dh, fn2b($dir) ) ) {
         @tmpList = map {
             Foswiki::Sandbox::untaint( $_, \&Foswiki::Sandbox::validateWebName )
           }
@@ -630,7 +693,7 @@ sub getWebNames {
           # the definition of a Web in this handler is "a directory with a
           # WebPreferences.txt in it", this works.
           grep { !/\./ && -e "$dir/$_/$webid" }
-          map( Encode::decode_utf8($_), readdir($dh) );
+          map( b2fn($_), readdir($dh) );
         closedir($dh);
     }
 
@@ -757,8 +820,8 @@ sub remove {
     else {
 
         # Topic or attachment
-        unlink( $this->{file} );
-        unlink( $this->{rcsFile} );
+        unlink( fn2b( $this->{file} ) );
+        unlink( fn2b( $this->{rcsFile} ) );
         if ( !$this->{attachment} ) {
             _rmtree("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}");
         }
@@ -823,7 +886,12 @@ sub copyTopic {
     }
 
     my $dh;
-    if ( opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" ) ) {
+    if (
+        opendir(
+            $dh, fn2b("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}")
+        )
+      )
+    {
         for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaint( $att,
                 \&Foswiki::Sandbox::validateAttachmentName );
@@ -922,8 +990,8 @@ sub setLock {
         my $lockTime = time();
         $this->saveFile( $filename, $cUID . "\n" . $lockTime );
     }
-    elsif ( -e $filename ) {
-        unlink($filename)
+    elsif ( -e fn2b($filename) ) {
+        unlink( fn2b($filename) )
           || throw Error::Simple(
             'Rcs::Handler: failed to delete ' . $filename . ': ' . $! );
     }
@@ -965,8 +1033,8 @@ sub setLease {
     if ($lease) {
         $this->saveFile( $filename, join( "\n", %$lease ) );
     }
-    elsif ( -e $filename ) {
-        unlink($filename)
+    elsif ( -e fn2b($filename) ) {
+        unlink( fn2b($filename) )
           || throw Error::Simple(
             'Rcs::Handler: failed to delete ' . $filename . ': ' . $! );
     }
@@ -1004,12 +1072,12 @@ some store implementations when a topic is created, but never saved.
 sub removeSpuriousLeases {
     my ($this) = @_;
     my $web = "$Foswiki::cfg{DataDir}/$this->{web}";
-    if ( opendir( my $W, $web ) ) {
+    if ( opendir( my $W, fn2b($web) ) ) {
         foreach my $f ( readdir($W) ) {
-            my $file = $web . $f;
+            my $file = $web . b2fn($f);
             if ( $file =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink("$1.lease");    # $file is tainted
+                    unlink( fn2b("$1.lease") );    # $file is tainted
                 }
             }
         }
@@ -1044,14 +1112,17 @@ sub saveStream {
       || throw Error::Simple(
         'Rcs::Handler: close ' . $this->{file} . ' failed: ' . $! );
 
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
+    chmod(
+        $Foswiki::cfg{Store}{filePermission},
+        Foswiki::Store::Rcs::Handler::fn2b( $this->{file} )
+    );
 }
 
 sub _copyFile {
     my ( $this, $from, $to ) = @_;
 
     $this->mkPathTo($to);
-    unless ( File::Copy::copy( $from, $to ) ) {
+    unless ( File::Copy::copy( fn2b($from), fn2b($to) ) ) {
         throw Error::Simple(
             'Rcs::Handler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
@@ -1061,14 +1132,13 @@ sub _moveFile {
     my ( $this, $from, $to ) = @_;
     ASSERT( -e $from ) if DEBUG;
     $this->mkPathTo($to);
-    unless ( File::Copy::move( $from, $to ) ) {
+    unless ( File::Copy::move( fn2b($from), fn2b($to) ) ) {
         throw Error::Simple(
             'Rcs::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
 }
 
 # Used by subclasses
-# $name and $text must be encoded in {Store}{CharSet}
 sub saveFile {
     my ( $this, $name, $text ) = @_;
     $this->mkPathTo($name);
@@ -1082,8 +1152,7 @@ sub saveFile {
     binmode($fh)
       or throw Error::Simple(
         'Rcs::Handler: failed to binmode ' . $name . ': ' . $! );
-    print $fh Encode::encode( $Foswiki::cfg{Store}{CharSet} || 'utf-8',
-        $text, Encode::FB_PERLQQ )
+    print $fh encode($text)
       or throw Error::Simple(
         'Rcs::Handler: failed to print into ' . $name . ': ' . $! );
     close($fh)
@@ -1108,7 +1177,7 @@ sub readFile {
     }
     $data ||= '';
     return Encode::decode(
-        $Foswiki::cfg{Store}{CharSet} || 'utf-8',
+        $Foswiki::cfg{Store}{Encoding} || 'utf-8',
         $data,
 
         #Encode::FB_CROAK # DEBUG
@@ -1120,7 +1189,7 @@ sub readFile {
 sub mkTmpFilename {
     my $tmpdir = File::Spec->tmpdir();
     my $file = _mktemp( 'foswikiAttachmentXXXXXX', $tmpdir );
-    return File::Spec->catfile( $tmpdir, $file );
+    return File::Spec->catfile( $tmpdir, fn2b($file) );
 }
 
 # Adapted from CPAN - File::MkTemp
@@ -1130,8 +1199,8 @@ sub _mktemp {
 
     ASSERT( @_ == 1 || @_ == 2 || @_ == 3 ) if DEBUG;
 
-    ( $template, $dir, $ext ) = @_;
-    @template = split //, $template;
+    ( $template, $dir, $ext ) = map { fn2b($_) } @_;
+    @template = split( //, $template );
 
     ASSERT( $template =~ /XXXXXX$/ ) if DEBUG;
 
@@ -1179,14 +1248,15 @@ sub _rmtree {
     my $root = shift;
     my $D;
 
-    if ( opendir( $D, $root ) ) {
-        foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
-            $entry =~ /^(.*)$/;
+    if ( opendir( $D, fn2b($root) ) ) {
+        foreach my $entry ( map { b2fn($_) } grep { !/^\.+$/ } readdir($D) ) {
+            $entry =~ /^(.*)$/;    # untaint
             $entry = $root . '/' . $1;
-            if ( -d $entry ) {
+
+            if ( -d fn2b($entry) ) {
                 _rmtree($entry);
             }
-            elsif ( !unlink($entry) && -e $entry ) {
+            elsif ( !unlink( fn2b($entry) ) && -e fn2b($entry) ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
                     throw Error::Simple( 'Rcs::Handler: Failed to delete file '
                           . $entry . ': '
@@ -1206,6 +1276,7 @@ sub _rmtree {
 
         if ( !rmdir($root) ) {
             if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
+                print `ls -lR $root`;
                 throw Error::Simple(
                     'Rcs::Handler: Failed to delete ' . $root . ': ' . $! );
             }
@@ -1420,10 +1491,10 @@ sub getAttachmentList {
       shift;    # Internal flag for change_store, returns directory names.
     my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
-    opendir( $dh, $dir ) || return ();
+    opendir( $dh, fn2b($dir) ) || return ();
     my @files =
       grep { !/^[.*_]/ && !/,v$/ && ( $incDir || -f "$dir/$_" ) }
-      map( Encode::decode_utf8($_), readdir($dh) );
+      map( b2fn($_), readdir($dh) );
     closedir($dh);
     return @files;
 }

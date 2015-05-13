@@ -1,7 +1,18 @@
 package Foswiki::UI::Test;
 
 use strict;
-use Storable qw(thaw freeze);
+
+#use Storable qw(thaw freeze); # unreliable
+
+sub freeze {
+    return Data::Dumper->Dump( [ $_[0] ] );
+}
+
+sub thaw {
+    my $VAR1;
+    eval $_[0] or die $@;
+    return $VAR1;
+}
 
 sub test {
     my $session = shift;

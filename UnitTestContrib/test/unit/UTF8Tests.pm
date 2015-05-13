@@ -1,7 +1,7 @@
 #
 # Currently a mostly empty test package; waiting for someone with an interest
 # in UTF-8 to develop some meaningful tests. Specifically, manipulation of
-# $Foswiki::cfg{Store}{CharSet}
+# $Foswiki::cfg{Store}{Encoding}
 # $Foswiki::cfg{UseLocale}
 # $Foswiki::cfg{Site}{Locale}
 # $Foswiki::cfg{Site}{Lang}

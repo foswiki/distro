@@ -6,7 +6,6 @@ use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
 
 use Foswiki;
-use Storable qw(freeze thaw);
 
 my $CRLF = "\015\012";
 
