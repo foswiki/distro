@@ -12,8 +12,8 @@ UI delegate for viewfile function
 use strict;
 use warnings;
 use integer;
-use CGI::Carp qw( fatalsToBrowser );
 
+use Assert;
 use Foswiki                ();
 use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
@@ -214,9 +214,16 @@ sub _suffixToMimeType {
     my $mimeType = 'text/plain';
     if ( $attachment && $attachment =~ m/\.([^.]+)$/ ) {
         my $suffix = $1;
-        my $types  = Foswiki::readFile( $Foswiki::cfg{MimeTypesFileName} );
-        if ( $types =~ m/^([^#]\S*).*?\s$suffix(?:\s|$)/im ) {
-            $mimeType = $1;
+        if ( open( my $fh, '<', $Foswiki::cfg{MimeTypesFileName} ) ) {
+            local $/ = undef;
+            my $types = <$fh>;
+            close($fh);
+            if ( $types =~ m/^([^#]\S*).*?\s$suffix(?:\s|$)/im ) {
+                $mimeType = $1;
+            }
+        }
+        elsif (DEBUG) {
+            ASSERT(0);
         }
     }
     return $mimeType;

@@ -31,6 +31,13 @@ encoding is done at the lowest possible level - before calling file-level
 operations - so in general, strings can be assumed to be UTF-8 encoded
 byte strings.
 
+NOTE: Perl's low-level file operations treat file names as sequences of
+bytes. When a function such as 'open' is called and is passed a unicode
+string, 'open' interprets that string as a string of bytes. As such it is
+not necessary to change the encoding of strings passed to these low-level
+functions. However the encoding of strings *returned* by them must be
+decoded to unicode, if $Foswiki::UNICODE is true.
+
 =cut
 
 package Foswiki::Store::PlainFile;
@@ -135,6 +142,9 @@ sub readTopic {
     $ri{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
       $ri{version} ||= $version;
     $ri{date} ||= ( stat( _latestFile($meta) ) )[9];
+    if ( $meta->get('TOPICINFO') ) {
+        $ri{comment} ||= $meta->get('TOPICINFO')->{comment};
+    }
 
     $meta->setRevisionInfo(%ri);
 
@@ -143,6 +153,7 @@ sub readTopic {
     # what happens on checking
 
     $meta->setLoadStatus( $version, $isLatest );
+
     return ( $version, $isLatest );
 }
 
@@ -233,7 +244,7 @@ sub moveTopic {
     _moveFile( _latestFile($oldTopicObject), _latestFile($newTopicObject) );
     _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
     my $pub = _getPub($oldTopicObject);
-    if ( -e $pub ) {
+    if ( -d $pub ) {
         _moveFile( $pub, _getPub($newTopicObject) );
     }
     if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
@@ -268,7 +279,7 @@ sub moveWeb {
     _moveFile( $oldbase, $newbase );
 
     $oldbase = _getPub($oldWebObject);
-    if ( -e $oldbase ) {
+    if ( -d $oldbase ) {
         $newbase = _getPub($newWebObject);
 
         _moveFile( $oldbase, $newbase );
@@ -308,7 +319,7 @@ sub openAttachment {
 sub getRevisionHistory {
     my ( $this, $meta, $attachment ) = @_;
 
-    unless ( -e _historyDir( $meta, $attachment ) ) {
+    unless ( -d _historyDir( $meta, $attachment ) ) {
         my @list = ();
         require Foswiki::ListIterator;
         if ( -e _latestFile( $meta, $attachment ) ) {
@@ -634,7 +645,7 @@ sub topicExists {
     return 0 unless defined $topic && $topic ne '';
 
     return -e _latestFile( $web, $topic )
-      || -e _historyDir( $web, $topic );
+      || -d _historyDir( $web, $topic );
 }
 
 # Implement Foswiki::Store
@@ -654,9 +665,9 @@ sub eachAttachment {
       or return new Foswiki::ListIterator( [] );
     my @list = grep { !/^[.*_]/ && !/,pfv$/ }
 
-      # readdir only understands bytes, have to decode to what we saved (which
-      # is always UTF8)
-      map( Encode::decode_utf8($_), readdir($dh) );
+      # readdir only understands bytes, have to decode.
+      map { Encode::decode_utf8($_) } readdir($dh);
+
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -679,7 +690,7 @@ sub eachTopic {
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
 
       # readdir only understands bytes, have to decode to what we saved
-      # (which is always UTF8)
+      # (which is assumed to be utf8 encoded)
       map( Encode::decode_utf8($_), readdir($dh) );
     closedir($dh);
 
@@ -711,14 +722,13 @@ sub eachWeb {
             Foswiki::Sandbox::untaintUnchecked($_)
           }
 
-          # The -e on the web preferences is used in preference to a
-          # -d to avoid having to validate the web name each time. Since
-          # the definition of a Web in this handler is "a directory with a
+          # The -e on the web preferences is used in preference to any
+          # other mechanism for performance. Since the definition
+          # of a Web in this store is "a directory with a
           # WebPreferences.txt in it", this works.
           grep { !/\./ && -e "$dir/$_$wptn" }
 
           # readdir only understands bytes, have to decode to what we saved
-          # (which is always UTF8)
           map( Encode::decode_utf8($_), readdir($dh) );
         closedir($dh);
     }
@@ -1266,7 +1276,7 @@ sub _readFile {
     close($IN_FILE);
     $data = '' unless defined $data;
     return Encode::decode(
-        $Foswiki::cfg{Store}{CharSet} || 'utf-8',
+        $Foswiki::cfg{Store}{Encoding} || 'utf-8',
         $data,
 
         #Encode::FB_CROAK # DEBUG
@@ -1309,7 +1319,7 @@ sub _saveFile {
       or die("PlainFile: failed to lock file $file: $!");
     binmode($fh)
       or die("PlainFile: failed to binmode $file: $!");
-    print $fh Encode::encode( $Foswiki::cfg{Store}{CharSet} || 'utf-8',
+    print $fh Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
         $text, Encode::FB_PERLQQ )
       or die("PlainFile: failed to print to $file: $!");
     close($fh)
@@ -1344,7 +1354,7 @@ sub _moveFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if ( -e $from ) {
+    if ( -d $from ) {
         $ok = File::Copy::Recursive::dirmove( $from, $to );
     }
     else {
@@ -1362,7 +1372,7 @@ sub _copyFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if ( -e $from ) {
+    if ( -d $from ) {
         $ok = File::Copy::Recursive::dircopy( $from, $to );
     }
     else {

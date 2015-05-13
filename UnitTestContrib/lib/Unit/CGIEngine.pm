@@ -13,7 +13,6 @@ BEGIN {
 use Foswiki;
 use Foswiki::UI;
 use Foswiki::Request;
-use Storable qw(freeze thaw);
 use IO::Handle ();
 
 my $CRLF = "\015\012";
@@ -144,8 +143,7 @@ sub _perform_request {
         local %ENV = ( %$env, FOSWIKI_ACTION => 'test' );
         $Foswiki::engine->run();
     };
-
-    return HTTP::Message->parse($out);
+    return HTTP::Message->parse( Encode::decode_utf8($out) );
 }
 
 sub make_request {

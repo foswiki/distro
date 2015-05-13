@@ -212,7 +212,7 @@ sub test_sanitizeAttachmentNama_unicode {
         'Our attachment name string doesn\'t have utf8 flag set' );
     my $query;
 
-    $Foswiki::cfg{Store}{CharSet} = 'utf-8';
+    $Foswiki::cfg{Store}{Encoding} = 'utf-8';
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");

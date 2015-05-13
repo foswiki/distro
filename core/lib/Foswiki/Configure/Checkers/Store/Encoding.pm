@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Store::CharSet;
+package Foswiki::Configure::Checkers::Store::Encoding;
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ sub check_current_value {
     # Test if this is actually an available encoding:
     eval {
         require Encode;
-        Encode::encode( $Foswiki::cfg{Store}{CharSet}, 'test', 0 );
+        Encode::encode( $Foswiki::cfg{Store}{Encoding}, 'test', 0 );
     };
     if ($@) {
         $reporter->ERROR("Unknown store character set requested.");
@@ -21,15 +21,15 @@ sub check_current_value {
         return;
     }
 
-    if ( $Foswiki::cfg{Store}{CharSet} =~
+    if ( $Foswiki::cfg{Store}{Encoding} =~
 m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
       )
     {
 
         $reporter->ERROR(
             <<HERE
-Cannot use this multi-byte encoding ('$Foswiki::cfg{Store}{CharSet}')
-as {Store}{CharSet}. Please set a different character encoding setting.
+Cannot use this multi-byte encoding ('$Foswiki::cfg{Store}{Encoding}')
+as {Store}{Encoding}. Please set a different character encoding setting.
 HERE
         );
     }
@@ -42,7 +42,7 @@ HERE
     $charset =~ s/^eucjp$/euc-jp/i;
     $charset = lc($charset);
 
-    if ( $charset && ( lc( $Foswiki::cfg{Store}{CharSet} ) ne $charset ) ) {
+    if ( $charset && ( lc( $Foswiki::cfg{Store}{Encoding} ) ne $charset ) ) {
         $reporter->ERROR(
             <<HERE
 The Character set determined by the configured Locale, and this character set,
@@ -52,7 +52,7 @@ HERE
     }
 
     if ( $Foswiki::cfg{isBOOTSTRAPPING}
-        && ( lc( $Foswiki::cfg{Store}{CharSet} ne 'iso-8859-1' ) ) )
+        && ( lc( $Foswiki::cfg{Store}{Encoding} ne 'iso-8859-1' ) ) )
     {
         $reporter->WARN( <<HERE );
 The BOOTSTRAP process has guessed the store is using utf-8.

@@ -50,7 +50,7 @@ not been run yet). It may also be explicitly selected in
 =configure=.
 
 Plain file implementation of the Foswiki Logger interface. Mostly
-compatible with TWiki (and Foswiki 1.0.0) log files, except that dates
+compatible with Foswiki 1.0.0 log files, except that dates
 are recorded using ISO format, and include the time, and it dies when
 a log can't be written (rather than printing a warning).
 
@@ -202,7 +202,7 @@ sub eachEventSince {
             my $logTime = $logYear . sprintf( "%02d", $logMonth );
             $logfile =~ s/%DATE%/$logTime/g;
             my $fh;
-            if ( -f $logfile && open( $fh, '<', $logfile ) ) {
+            if ( -f $logfile && open( $fh, '<:encoding(utf-8)', $logfile ) ) {
                 my $logIt =
                   new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
                     $reqLevel, $version, $logfile );

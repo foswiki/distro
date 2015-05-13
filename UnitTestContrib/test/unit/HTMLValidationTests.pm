@@ -448,7 +448,7 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
             }
             else {                  # save the output html..
                 open( my $fh, '>', $outfile ) or die "Can't open $outfile: $!";
-                print $fh $text;
+                print $fh Encode::encode_utf8($text);
                 close $fh;
             }
             $this->assert_equals( '', $output,

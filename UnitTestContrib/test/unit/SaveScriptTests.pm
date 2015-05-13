@@ -630,7 +630,12 @@ sub test_prevTopicFormSave {
         }
     );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    my ( $responseText, $result, $stdout, $stderr ) =
+      $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    # Uncomment to get output from command
+    #print STDERR $responseText . $result . $stdout . $stderr . "\n";
+
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, 'PrevTopicFormSave' );
     my $text = $meta->text;
