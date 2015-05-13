@@ -3151,7 +3151,7 @@ sub innerExpandMacros {
     );
 
     # Escape ' !%VARIABLE%'
-    $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/g;
+    $$text =~ s/(?<=[\s\(\.])!%($regex{tagNameRegex})/&#37;$1/g;
 
     # Make sure func works, for registered tag handlers
     if (SINGLE_SINGLETONS) {

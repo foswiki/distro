@@ -387,7 +387,7 @@ sub test_GeneralEscaping {
    * <code> A != B </code>
 
    * %WEB%.%TOPIC%
-   * !WEB%.!%TOPIC%
+   * !%WEB%.!%TOPIC%
 
    * !*Bold* *Bold*
    * !=Code= =Code=
@@ -422,7 +422,7 @@ TOPIC
  <p></p> <ul>
  <li> <span class='foswikiRedFG'>
  </li> <li> &#37;RED%
- </li> <li> (!<span class='foswikiRedFG'>)
+ </li> <li> (&#37;RED%)
  </li></ul> 
  <p></p> <ul>
  <li> notAWikiWord
@@ -439,7 +439,7 @@ TOPIC
  </li></ul> 
  <p></p> <ul>
  <li> <a href="${scriptUrl}/TestTopicRenderTests">TestTopicRenderTests</a>
- </li> <li> <nop>WEB%.!TestTopicRenderTests
+ </li> <li> &#37;WEB%.&#37;TOPIC%
  </li></ul> 
  <p></p> <ul>
  <li> <nop>*Bold* <strong>Bold</strong>
