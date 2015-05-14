@@ -3,6 +3,7 @@
 package Fn_LANGUAGES;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
