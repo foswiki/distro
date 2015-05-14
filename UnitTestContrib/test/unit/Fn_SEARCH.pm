@@ -4659,7 +4659,7 @@ sub test_summary_default_word_search {
       );
 
     $this->assert_html_equals( <<'CRUD', $result );
-Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was...
+Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I wa...
 CRUD
 
     return;
@@ -4682,7 +4682,7 @@ sub test_summary_short_word_search {
       );
 
     $this->assert_html_equals( <<'CRUD', $result );
-Alan says<nop>: 'I was...
+Alan says<nop>: 'I wa...
 CRUD
 
     return;
@@ -6292,12 +6292,12 @@ sub test_format_tokens {
 '$percntUSERINFO{$quot$pattern(.*?POTLEADER *= *([^\n]*).*)$quot format=$quot$emails$quot}$percnt'
           => $emailAddress,
         '$summary'     => qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
-        '$summary(29)' => qq{$header \* Set P...},
+        '$summary(29)' => qq{$header \* Set...},
         '$summary(showvarnames)' =>
           qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
         '$summary(searchcontext)' =>
           qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
-        '$summary(searchcontext, 29)' => qq{$header \* Set P...},
+        '$summary(searchcontext, 29)' => qq{$header \* Set...},
         '$summary(noheader)' => qr/^\* Set ${nop}POTLEADER = ${nop}ScumBag$/,
         '$pattern(.*?POTLEADER *= *([^\n]*).*)' => 'ScumBag',
         '$count(.*S.*)'                         => 2,          # Not sure why...
