@@ -339,7 +339,7 @@ sub _discover_languages {
         foreach my $tag ( available_languages() ) {
             my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
-            print LANGUAGE "$tag=$name\n" if $cache_open;
+            print LANGUAGE Encode::encode_utf8("$tag=$name\n") if $cache_open;
 
             # Filter on enabled languages
             next

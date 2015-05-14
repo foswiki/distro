@@ -313,11 +313,10 @@ my $Function = {
     PERCENTILE       => \&_PERCENTILE,
     PI               => sub { 3.1415926535897932384 },
     PRODUCT          => \&_PRODUCT,
-    PROPER           => sub {    # FIXME: I18N
-                         my $rslt = lc( $_[0]);
-                         $rslt =~ s/(^|[^a-z])([a-z])/$1 . uc($2)/ge;
-                         return $rslt;
-                       },
+    PROPER           => sub {
+        $_[0] =~ s/(\w+)/\u\L$1/g;
+        return $_[0];
+    },
     PROPERSPACE      => sub { _properSpace($_[0]) },
     RAND             => sub {
                         my $max = _getNumber($_[0]);
