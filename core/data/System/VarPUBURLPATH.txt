@@ -1,16 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416397793" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431621876" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarPUBURLPATH
 ---+++ PUBURLPATH{...} -- generate a relative URL for an attachment
    * =%<nop>PUBURLPATH%= expands to =%PUBURLPATH%=
-   * =%<nop>PUBURLPATH{web="System"}%= expands to =%PUBURLPATH{web="System"}%=
-   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures"}%=
-   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures"}%=
-   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures" attachment="icon_plus.png"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures" attachment="icon_plus.png"}%=
-   * Also supports =topic_version= and =attachment_version= parameters.
-   * Any unrecognised parameters will be
-     added to the returned URL as URL parameters. %BR% For example, =%<nop>PUBURL{web="System" topic="MainFeatures" attachment="icon_plus.png" zero="0"}%= expands to =%PUBURL{web="System" topic="MainFeatures" attachment="icon_plus.png" zero="0"}%=
-Note: this macro will only generate a relative URL if the store supports them, and the context allows it.
-Otherwise it will generate the same as =[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]]=
+   * =%<nop>PUBURLPATH{"icon_plus.png"}%= expands to ==%<nop>PUBURLPATH{"icon_plus.png"}%=
+   * =%<nop>PUBURLPATH{path="System"}%= expands to =%PUBURLPATH{path="System"}%=
+   * =%<nop>PUBURLPATH{path="System.MainFeatures"}%= expands to =%PUBURLPATH{path="System.MainFeatures"}%=
+   * =%<nop>PUBURLPATH{path="System.MainFeatures" "icon_plus.png"}%= expands to =%PUBURLPATH{path="System.MainFeatures" "icon_plus.png"}%=
+   * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implements to select specific attachment versions. However simple file-based stores do not normally support them.
+   <div class="foswikiHelp">
+   %X% This macro will only generate a relative URL if the store supports them, and the context allows it. Otherwise it will generate the same as =[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]]= <br><br>%X% The 'old' way of building URLs using =PUBURLPATHPATH= involved concatenating the web and topic names to the =PUBURLPATH= e.g. =%<nop>PUBURLPATH%/%<nop>WEB%/%<nop>TOPIC%=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURLPATH%{path="System.MainFeatures"}%=, which will handle URL encoding for you.<br><br>%I% [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]] provides a shorter way to refer to the attachments on the current topic.</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

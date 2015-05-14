@@ -114,7 +114,7 @@ sub finalizeHeaders { }
 
 sub write {
     my ( $this, $buffer ) = @_;
-    print $buffer;
+    print Encode::encode_utf8($buffer);
 }
 
 1;
