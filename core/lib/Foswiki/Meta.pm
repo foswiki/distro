@@ -3436,7 +3436,7 @@ sub _summariseTextSimple {
     my ( $this, $text, $limit ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    $text =~ s/^(.{$limit}.*?)([[:alnum:]]).*$/$1$2.../s;
+    $text =~ s/^(.{$limit}).*$/$1.../s;
 
     return $this->_makeSummaryTextSafe($text);
 }

@@ -359,8 +359,8 @@ sub getRenderedVersion {
 
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
     # user-defined anchors is not sensible.
-    $text =~
-s/^(\#$Foswiki::regex{wikiWordRegex})/'<span id="'.$anchors->add( $1 ).'" \/>'/gem;
+    $text =~ s{^(\#$Foswiki::regex{wikiWordRegex})}
+    {'<span id="'.$anchors->add( $1 ).'"></span>'}gem;
 
     # Headings
     # '<h6>...</h6>' HTML rule

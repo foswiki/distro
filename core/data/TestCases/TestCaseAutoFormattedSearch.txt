@@ -84,7 +84,7 @@ Forma...
 ---++ Expected
 
 <!-- expected with $parent -->
-Revision 4 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
+Revision 1 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
 <!-- /expected -->
 
 ---++ Actual

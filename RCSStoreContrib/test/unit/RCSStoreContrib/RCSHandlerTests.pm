@@ -371,7 +371,9 @@ sub verify_simple14 {
 
 sub verify_simple15 {
     my $this = shift;
-    $this->checkGetRevision( [ "a" . chr(0xFF), "b" . chr(0xFF) ] );
+    use utf8;
+    $this->checkGetRevision( [ "aŠňáĺľ", "bŠňáĺľ" ] );
+    no utf8;
 }
 
 sub verify_simple16 {
