@@ -80,7 +80,7 @@ sub _loadLexicon {
         unless (
             eval {
                 Locale::Maketext::Lexicon->import(
-                    { $lang => [ Gettext => $langFile ] } );
+                    { _decode => 1, $lang => [ Gettext => $langFile ] } );
                 1;
             }
           )
@@ -320,7 +320,7 @@ sub _discover_languages {
     #use the cache, if available
     if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         $cache_open = 1;
-        foreach my $line (<LANGUAGE>) {
+        foreach my $line ( map { Encode::decode( 'utf-8', $_ ) } <LANGUAGE> ) {
             my ( $key, $name ) = split( '=', $line );
 
             # Filter on enabled languages
