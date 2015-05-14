@@ -1053,6 +1053,7 @@ sub getLease {
 
     my $filename = $this->_controlFileName('lease');
     if ( -e $filename ) {
+
         my $t = $this->readFile($filename);
         my $lease = { split( /\r?\n/, $t ) };
         return $lease;
@@ -1074,10 +1075,10 @@ sub removeSpuriousLeases {
     my $web = "$Foswiki::cfg{DataDir}/$this->{web}";
     if ( opendir( my $W, fn2b($web) ) ) {
         foreach my $f ( readdir($W) ) {
-            my $file = $web . b2fn($f);
+            my $file = $web . '/' . b2fn($f);
             if ( $file =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink( fn2b("$1.lease") );    # $file is tainted
+                    unlink( fn2b("$1.lease") );
                 }
             }
         }

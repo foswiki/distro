@@ -970,7 +970,9 @@ m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
         $class = " class='$class'";
     }
 
-    $url = Foswiki::urlEncode($url);
+    # SMELL: we can't Foswiki::urlEncode here, because it will change the text
+    # of the link and we need to keep it as written
+    #    $url = Foswiki::urlEncode($url);
     return $this->_liftOutGeneral(
         "<a$class$dataWikiword href=\"$url\">$text<\/a>",
         { tag => 'NONE', protect => 0, tmltag => 0 }

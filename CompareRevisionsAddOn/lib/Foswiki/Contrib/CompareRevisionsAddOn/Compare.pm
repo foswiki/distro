@@ -185,7 +185,7 @@ sub compare {
     $tmpl_d = $tmpl_a  unless $tmpl_d =~ /\S/;
 
     # Start the output
-    my $output = '';
+    my $output = $tmpl_before;
 
     # Compare the trees
 

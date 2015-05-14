@@ -2811,8 +2811,8 @@ RFC 1738, Dec. '94:
     reserved purposes may be used unencoded within a URL.
     </verbatim>
 
-Reserved characters are $&+,/:;=?@ - these are _also_ encoded by
-this method.
+However this function is tuned for use with Foswiki. As such, it
+encodes *all* characters except 0-9a-zA-Z-_.:~!*#/
 
 =cut
 
@@ -2821,7 +2821,7 @@ sub urlEncode {
 
     # URLs work quite happily with %-encoded utf-8 characters
     $text = Encode::encode_utf8($text);
-    $text =~ s{([^0-9a-zA-Z-_.:~!*/])}{sprintf('%%%02x',ord($1))}ge;
+    $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
 
     return $text;
 }
