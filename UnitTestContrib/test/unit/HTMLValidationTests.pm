@@ -411,27 +411,36 @@ sub verify_switchboard_function {
             );
         }
         else {
+            my $warn = qr/$testcase \(\d+:\d+\) Warning:/;
             for ($output) {
 
                 # Remove OK warnings
                 # Empty title, no easy fix and harmless
                 # Empty style, see Item11608
-s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
-s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
+s/^$warn trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
+                s/^$warn inserting implicit <(?:ins)>\n?$//gm;
 
-# Remove warnings about HTML5 not being covered by HTML::Tidy properly, see Item13134
-s/^$testcase \(\d+:\d+\) Warning: <a> proprietary attribute "data-.*"//gm;
-s/^$testcase \(\d+:\d+\) Warning: <textarea> proprietary attribute "data-.*?"//gm;
-s/^$testcase \(\d+:\d+\) Warning: <input> proprietary attribute "placeholder"//gm;
-s/^$testcase \(\d+:\d+\) Warning: <meta> proprietary attribute "charset"//gm;
-s/^$testcase \(\d+:\d+\) Warning: <meta> lacks "content" attribute//gm;
-s/^$testcase \(\d+:\d+\) Warning: <[^>]+> proprietary attribute "class"//gm;
+                # Remove warnings about HTML5 not being covered by
+                # HTML::Tidy properly, see Item13134
+                s/^$warn <a> proprietary attribute "data-.*$//gm;
+                s/^$warn <textarea> proprietary attribute "data-.*$//gm;
+                s/^$warn <input> proprietary attribute "placeholder".*$//gm;
+                s/^$warn <meta> proprietary attribute "charset".*$//gm;
+                s/^$warn <meta> lacks "content" attribute.*$//gm;
+                s/^$warn <[^>]+> proprietary attribute "class".*$//gm;
 
                 # These elements are no longer suppported in HTML5
-s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute//gm;
+                s/^$warn <table> lacks "summary" attribute$//gm;
 
-                s/^\s*$//;
+                if ($Foswiki::UNICODE) {
 
+                    # With unicode core, links may include unicode
+                    # characters that *should* be url-encoded, but
+                    # often are not (though it's not seen as an
+                    # error by modern browsers)
+                    s/^$warn <a> escaping malformed.*$//gm;
+                }
+                s/^\s*$//s;
             }
 
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )

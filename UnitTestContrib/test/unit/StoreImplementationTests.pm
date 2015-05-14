@@ -852,7 +852,6 @@ sub verify_setLease_getLease {
     $meta->finish();
 
     $this->{sut}->removeSpuriousLeases( $this->{t_web} );
-
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $this->assert_null( $this->{sut}->getLease($meta) );
