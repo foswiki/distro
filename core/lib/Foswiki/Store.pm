@@ -159,40 +159,31 @@ ERROR
 
 =begin TML
 
----++ ObjectMethod getAttachmentURL( %options ) -> $url
+---++ ObjectMethod getAttachmentURL( $web, $topic, $attachment, %options ) -> $url
 
 Get a URL that points at an attachment. The URL may be absolute, or
 relative to the the page being rendered (if that makes sense for the
 store implementation).
+   * =$session - the current Foswiki session
+   * =$web= - name of the web for the URL
+   * =$topic= - name of the topic
+   * =$attachment= - name of the attachment, defaults to no attachment
+   * %options - parameters to be attached to the URL
 
-%options are:
-   * =web= - name of the web for the URL
-   * =topic= - name of the topic
-   * =attachment= - name of the attachment, defaults to no attachment
+Supported %options are:
    * =topic_version= - version of topic to retrieve attachment from
    * =attachment_version= - version of attachment to retrieve
-   * =*= - all other entries in the %options hash are used as additional
-     URL parameters that are added to the returned URL.
+   * =absolute= - if the returned URL must be absolute, rather than relative
 
-If =web= is not given, =topic= and =attachment= are ignored, giving
-a link to the root of all attachments.
-
-If =topic= is not given, =attachment= is ignored. If it is given but
-=attachment= is not, then a list of attachments to the specified topic
-version will be returned.
+If =$web= is not given, =$topic= and =$attachment= are ignored/
+If =$topic= is not given, =$attachment= is ignored.
 
 If =topic_version= is not given, the most recent revision of the topic
-will be linked. Similarly if attachment_version= is not given, the most recent
+should be linked. Similarly if attachment_version= is not given, the most recent
 revision of the attachment will be assumed. If =topic_version= is specified
 but =attachment_version= is not (or the specified =attachment_version= is not
 present), then the most recent version of the attachment in that topic version
-will be linked.
-
-If =attachment= is not given, then
-the URL will refer to an index of the attachments on the topic. If =topic=
-is not given, it will yield an index of the topics in the web that have
-attachments. If =$web= is not given, it will yield an index of the webs that
-contain topics that have attachments.
+will be linked. Stores may not support =topic_version= and =attachment_version=.
 
 The default implementation is suitable for use with stores that put
 attachments in a web-visible directory, pointed at by
@@ -204,27 +195,22 @@ can call SUPER::getAttachmentURL)
 =cut
 
 sub getAttachmentURL {
-    my ( $this, %options ) = @_;
+    my ( $this, $session, $web, $topic, $attachment, %options ) = @_;
     my $url = $Foswiki::cfg{PubUrlPath} || '';
-    my @params;
 
-    if ( $options{topic} ) {
-        ( $options{web}, $options{topic} ) =
-          Foswiki::Func::normalizeWebTopicName( $options{web},
-            $options{topic} );
+    if ($topic) {
+        ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $web, $topic );
     }
 
-    if ( $options{web} ) {
-        $url .= '/' . Foswiki::urlEncode( $options{web} );
-        delete $options{web};
-        if ( $options{topic} ) {
+    if ($web) {
+        $url .= '/' . Foswiki::urlEncode($web);
+        if ($topic) {
             if ( defined $options{topic_version} ) {
 
                 # TODO: check that the given topic version exists
             }
-            $url .= '/' . Foswiki::urlEncode( $options{topic} );
-            delete $options{topic};
-            if ( $options{attachment} ) {
+            $url .= '/' . Foswiki::urlEncode($topic);
+            if ($attachment) {
                 if ( defined $options{attachment_version} ) {
 
                     # TODO: check that this attachment version actually
@@ -233,17 +219,18 @@ sub getAttachmentURL {
 
                 # TODO: check that the attachment actually exists on the
                 # topic at this revision
-                $url .= '/' . Foswiki::urlEncode( $options{attachment} );
-                delete $options{attachment};
+                $url .= '/' . Foswiki::urlEncode($attachment);
             }
         }
     }
-    while ( my ( $k, $v ) = each %options ) {
-        next if $k eq 'absolute' || $k =~ m/^_/;
-        push( @params, $k, $v );
-    }
 
-    $url .= Foswiki::make_params(@params) if scalar(@params);
+    if ( $options{absolute} && $url !~ /^[a-z]+:/ ) {
+
+        # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
+        # "absolute URI". Foswiki bastardises this definition by assuming
+        # that all relative URLs lack the <authority> component as well.
+        $url = "$session->{urlHost}$url";
+    }
 
     return $url;
 }

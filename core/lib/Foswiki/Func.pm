@@ -236,36 +236,38 @@ sub getViewUrl {
 
 =begin TML
 
----+++ getPubUrlPath( %options ) -> $url
+---+++ getPubUrlPath( $web, $topic, $attachment, %options ) -> $url
 
 Get pub URL path/attachment URL
 
 Return: with no parameters, returns the URL path of the root of
 all attachments.
 
-Since Foswiki 1.2 this method accepts =\%options= as follows:
-   * =web= - name of web
-   * =topic= - name of topic (ignored if =web= is not given)
-   * =attachment= - name of attachment (ignored if =web= or =topic= not given)
+Prior to Foswiki 1.2, URLs to attachments had to be constructed by the caller.
+For example, =%<nop>PUBURL%/Main/JohnSmith/picture.gif=
+This method of constructing URLs causes many problems, and is
+*strongly* discouraged.
+
+Since Foswiki 1.2 this function accepts parameters as follows:
+   * =$web= - name of web
+   * =$topic= - name of topic (ignored if =web= is not given)
+   * =$attachment= - name of attachment (ignored if =web= or =topic= not given)
+   * =%options= - additional options
+%options may include:
    * =topic_version= - version of topic to retrieve attachment from
    * =attachment_version= - version of attachment to retrieve
    * =absolute= - requests an absolute URL (rather than a relative path)
-   * =url_params= - optional reference to an hash that specifies additional
-     URL parameters to be added to the returned URL.
 
-If =web= is not given, =topic= and =attachment= are ignored, giving
-a link to the root of all attachments.
-
-If =topic= is not given, =attachment= is ignored. If it is given but
-=attachment= is not, then a list of attachments to the specified topic
-version will be returned.
+If =$web= is not given, =$topic= and =$attachment= are ignored.
+If =$topic= is not given, =$attachment= is ignored.
 
 If =topic_version= is not given, the most recent revision of the topic
 will be linked. Similarly if attachment_version= is not given, the most recent
 revision of the attachment will be assumed. If =topic_version= is specified
 but =attachment_version= is not (or the specified =attachment_version= is not
 present), then the most recent version of the attachment in that topic version
-will be linked.
+will be linked. Not all stores support retrieving old attachment versions
+this way.
 
 If =absolute= is not specified (or is 0), this function will generate
 relative URLs. However if Foswiki is running in an absolute URL context
@@ -276,8 +278,7 @@ absolute URLs will always be generated.
 =cut
 
 sub getPubUrlPath {
-    my (%options) = @_;
-    return $Foswiki::Plugins::SESSION->getPubURL(%options);
+    return $Foswiki::Plugins::SESSION->getPubURL(@_);
 }
 
 =begin TML

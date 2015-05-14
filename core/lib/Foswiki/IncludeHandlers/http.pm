@@ -40,12 +40,7 @@ sub INCLUDE {
     # attachment URLs, it is the only place this can really be done.
     unless ($template_url) {
         $template_url = quotemeta(
-            $session->getPubURL(
-                web        => 'WEB',
-                topic      => 'TOPIC',
-                attachment => 'ATTACHMENT',
-                absolute   => 1
-            )
+            $session->getPubURL( 'WEB', 'TOPIC', 'ATTACHMENT', absolute => 1 )
         );
         $template_url =~ s/WEB/($Foswiki::regex{webNameRegex})/;
         $template_url =~ s{TOPIC}{([^/.]+)};

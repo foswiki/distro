@@ -128,12 +128,7 @@ sub _getIconURL {
     my $a = $1;
     my ( $w, $t ) =
       $this->normalizeWebTopicName( $Foswiki::cfg{SystemWebName}, $path );
-    return $this->getPubURL(
-        web        => $w,
-        topic      => $t,
-        attachment => $a,
-        absolute   => $params->{absolute}
-    );
+    return $this->getPubURL( $w, $t, $a, %$params );
 }
 
 =begin TML

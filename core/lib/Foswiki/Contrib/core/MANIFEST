@@ -583,6 +583,8 @@ lib/Foswiki/LoginManager/Session.pm 0444
 lib/Foswiki/LoginManager/TemplateLogin.pm 0444
 lib/Foswiki/Macros/ADDTOHEAD.pm 0444
 lib/Foswiki/Macros/ADDTOZONE.pm 0444
+lib/Foswiki/Macros/ATTACHURL.pm 0444
+lib/Foswiki/Macros/ATTACHURLPATH.pm 0444
 lib/Foswiki/Macros/DISPLAYDEPENDENCIES.pm 0444
 lib/Foswiki/Macros/ENCODE.pm 0444
 lib/Foswiki/Macros/ENV.pm 0444
@@ -605,6 +607,8 @@ lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
 lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
+lib/Foswiki/Macros/PUBURL.pm 0444
+lib/Foswiki/Macros/PUBURLPATH.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444
 lib/Foswiki/Macros/RELATIVETOPICPATH.pm 0444
@@ -612,6 +616,8 @@ lib/Foswiki/Macros/RENDERZONE.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
 lib/Foswiki/Macros/REVINFO.pm 0444
 lib/Foswiki/Macros/REVTITLE.pm 0444
+lib/Foswiki/Macros/SCRIPTURL.pm 0444
+lib/Foswiki/Macros/SCRIPTURLPATH.pm 0444
 lib/Foswiki/Macros/SERVERINFORMATION.pm 0444
 lib/Foswiki/Macros/SET.pm 0444
 lib/Foswiki/Macros/SEARCH.pm 0444
