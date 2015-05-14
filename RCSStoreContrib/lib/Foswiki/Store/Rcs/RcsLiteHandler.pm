@@ -268,7 +268,7 @@ sub _ensureRead {
         $this->{state} = 'nocommav';
         return;
     }
-    binmode($fh);
+    binmode( $fh, $Foswiki::UNICODE ? ':utf8' : undef );
 
     my $state   = 'admin.head';    # reset to start
     my $term    = ';';
@@ -422,7 +422,7 @@ sub _formatString {
     my ($str) = @_;
     $str ||= '';
     $str =~ s/@/@@/go;
-    return '@' . Foswiki::Store::Rcs::Handler::encode($str) . '@';
+    return '@' . $str . '@';
 }
 
 # Write content of the RCS file
@@ -560,7 +560,7 @@ sub _writeMe {
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
     else {
-        binmode($out);
+        binmode( $out, $Foswiki::UNICODE ? ':utf8' : undef );
         _write( $this, $out );
         close($out);
     }

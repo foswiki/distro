@@ -389,10 +389,9 @@ our $encoded_nbsp;
 # Given a unicode string, decode all entities in it that can be mapped
 # to the current site encoding
 sub decodeRepresentableEntities {
-    my $str = shift;
 
     # Expand entities
-    HTML::Entities::decode_entities($str);
+    HTML::Entities::decode_entities( $_[0] );
 
     unless ( defined $encoded_nbsp ) {
         $encoded_nbsp = '&nbsp;';
@@ -401,9 +400,7 @@ sub decodeRepresentableEntities {
     }
 
     # Replace expansion of &nbsp; with $WC::NBSP
-    $str =~ s/$encoded_nbsp/$WC::NBSP/g;
-
-    return $str;
+    $_[0] =~ s/$encoded_nbsp/$WC::NBSP/g;
 }
 
 # DEBUG

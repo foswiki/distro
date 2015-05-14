@@ -177,7 +177,7 @@ sub buildNewTopic {
         $ancestorRev = 0;
     }
 
-    $text = $query->param('text');
+    $text = $query->param('text') if scalar $query->param('text');
     if ( defined $text ) {
 
         # text is defined in the query, save that text, overriding anything
