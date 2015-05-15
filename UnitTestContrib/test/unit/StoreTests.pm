@@ -40,25 +40,6 @@ use Error qw( :try );
 my $web   = "TemporaryTestStoreWeb";
 my $topic = "TestStoreTopic";
 
-sub set_up {
-    my $this = shift;
-
-    $this->SUPER::set_up();
-
-    my $testWebObj = $this->populateNewWeb($web);
-    $testWebObj->finish();
-
-    #  Store doesn't do access checks anyway, so run as admin
-    #  so that Func:: works
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
-
-    ASSERT( open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/testfile.gif" ) );
-    print $FILE "one two three";
-    ASSERT( close($FILE) );
-
-    return;
-}
-
 sub tear_down {
     my $this = shift;
 
@@ -72,8 +53,19 @@ sub tear_down {
 }
 
 sub set_up_for_verify {
+    my $this = shift;
 
-    # Required to satisfy superclass
+    my $testWebObj = $this->populateNewWeb($web);
+    $testWebObj->finish();
+
+    #  Store doesn't do access checks anyway, so run as admin
+    #  so that Func:: works
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+
+    # Source data for attachments
+    ASSERT( open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/testfile.gif" ) );
+    print $FILE "one two three";
+    ASSERT( close($FILE) );
 
     return;
 }
@@ -539,7 +531,7 @@ sub verify_beforeSaveHandlerChangeMeta {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    foreach my $fld (qw(rev version date)) {
+    foreach my $fld (qw(rev version date comment)) {
         delete $meta->get('TOPICINFO')->{$fld};
         delete $readMeta->get('TOPICINFO')->{$fld};
     }
@@ -591,7 +583,7 @@ sub verify_beforeSaveHandlerChangeBoth {
     # set expected meta. Changes in the *meta object* take priority
     # over conflicting changes in the *text*.
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    foreach my $fld (qw(rev version date)) {
+    foreach my $fld (qw(rev version date comment)) {
         delete $meta->get('TOPICINFO')->{$fld};
         delete $readMeta->get('TOPICINFO')->{$fld};
     }
@@ -944,13 +936,18 @@ sub verify_eachAttachment {
     ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
-    my ($f) =
-      "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
-    $this->assert( open( my $F, ">", $f ) );
-    print $F "Naff\n";
-    close($F);
-    $this->assert( -e $f );
+    my $expected = "testfile.gif";
 
+    if ( $Foswiki::cfg{Store}{Implementation} =~ /Rcs|PlainFile/ ) {
+        my ($f) =
+"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/xtra.dat";
+        $this->assert( open( my $F, ">", $f ) );
+        print $F "Naff\n";
+        close($F);
+        $this->assert( -e $f );
+
+        $expected .= " xtra.dat";
+    }
     $meta->save();
     $meta->finish();
     ($meta) =
@@ -958,18 +955,16 @@ sub verify_eachAttachment {
 
     my $it = $this->{session}->{store}->eachAttachment($meta);
     my $list = join( ' ', sort $it->all() );
-    $this->assert_str_equals( "noise.dat testfile.gif", $list );
+    $this->assert_str_equals( $expected, $list );
 
-    $this->assert(
-        Foswiki::Func::attachmentExists(
-            $this->{test_web}, $this->{test_topic}, 'testfile.gif'
-        )
-    );
-    $this->assert(
-        Foswiki::Func::attachmentExists(
-            $this->{test_web}, $this->{test_topic}, 'noise.dat'
-        )
-    );
+    foreach my $a ( split( / /, $expected ) ) {
+        $this->assert(
+            Foswiki::Func::attachmentExists(
+                $this->{test_web}, $this->{test_topic}, $a
+            ),
+            "'$a' missing"
+        );
+    }
 
     my ($preDeleteMeta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -985,11 +980,6 @@ sub verify_eachAttachment {
             $this->{test_web}, $this->{test_topic}, 'testfile.gif'
         )
     );
-    $this->assert(
-        Foswiki::Func::attachmentExists(
-            $this->{test_web}, $this->{test_topic}, 'noise.dat'
-        )
-    );
 
     my ($postDeleteMeta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -1000,9 +990,11 @@ sub verify_eachAttachment {
     $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT},
         $postDeleteMeta->{FILEATTACHMENT} );
 
-    $it = $this->{session}->{store}->eachAttachment($postDeleteMeta);
-    $list = join( ' ', sort $it->all() );
-    $this->assert_str_equals( "noise.dat", $list );
+    if ( $expected =~ /xtra/ ) {
+        $it = $this->{session}->{store}->eachAttachment($postDeleteMeta);
+        $list = join( ' ', sort $it->all() );
+        $this->assert_str_equals( "xtra.dat", $list );
+    }
     $preDeleteMeta->finish();
     $postDeleteMeta->finish();
 

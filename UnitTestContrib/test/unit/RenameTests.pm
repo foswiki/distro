@@ -2188,6 +2188,8 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
 sub test_rename_attachment_not_in_meta {
     my $this = shift;
 
+    return unless $Foswiki::cfg{Store}{Implementation} =~ /Rcs/;
+
     my ($to) = Foswiki::Func::readTopic( $this->{test_web}, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
@@ -2209,7 +2211,9 @@ sub test_rename_attachment_not_in_meta {
         }
     );
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text);
+
+    ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(

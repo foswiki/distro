@@ -26,6 +26,27 @@ my %cfg;
 
 use Data::Dumper;
 
+sub fixture_groups {
+    my $this = shift;
+    my @groups;
+
+    return [ 'RcsWrap', 'RcsLite' ];
+}
+
+sub RcsWrap {
+    my $this = shift;
+    $Foswiki::cfg{Store}{Implementation}   = 'Foswiki::Store::RcsWrap';
+    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 1;
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+}
+
+sub RcsLite {
+    my $this = shift;
+    $Foswiki::cfg{Store}{Implementation}   = 'Foswiki::Store::RcsLite';
+    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 1;
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+}
+
 sub set_up_topic {
     my $this = shift;
 
@@ -95,18 +116,13 @@ sub touchFile {
     close(FILE);
 }
 
-sub test_no_autoattach {
-}
+sub verify_autoattach {
+    my $this = shift;
 
-sub test_autoattach {
-
-    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 1;
-
-    my $this  = shift;
     my $topic = "UnitTest1";
     $this->set_up_topic($topic);
-    $this->verify_normal_attachment( $topic, "afile.txt" );
-    $this->verify_normal_attachment( $topic, "bfile.txt" );
+    $this->check_normal_attachment( $topic, "afile.txt" );
+    $this->check_normal_attachment( $topic, "bfile.txt" );
 
     sleep 2;    # make sure attachment timestamps can change
 
@@ -226,7 +242,7 @@ sub printAttachments {
     }
 }
 
-sub verify_normal_attachment {
+sub check_normal_attachment {
     my $this = shift;
 
     my $topic      = shift;
