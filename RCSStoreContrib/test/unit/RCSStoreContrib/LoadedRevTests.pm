@@ -7,7 +7,7 @@
 # will be loaded.
 #
 # These tests are conducted at the Foswiki::Meta object level, so need
-# to be run for each different store implementation.
+# to be run for each different RCS store implementation.
 #
 package LoadedRevTests;
 use strict;
