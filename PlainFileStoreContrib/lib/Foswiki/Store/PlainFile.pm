@@ -888,7 +888,9 @@ sub removeSpuriousLeases {
             my $file = $webdir . $f;
             if ( $file =~ m/^(.*)\.lease$/ ) {
                 if ( !-e "$1,pfv" ) {
-                    unlink($file);
+
+                    # Implicit untaint
+                    unlink("$1.lease");
                 }
             }
         }

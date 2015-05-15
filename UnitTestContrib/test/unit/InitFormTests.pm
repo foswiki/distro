@@ -112,7 +112,7 @@ sub set_up {
         # FW 1.2 and later
         $aurl =
           $this->{session}
-          ->getPubURL( web => $testweb, topic => $testform, absolute => 1 );
+          ->getPubURL( $testweb, $testform, undef, absolute => 1 );
     }
     else {
         # up to FW 1.1.9

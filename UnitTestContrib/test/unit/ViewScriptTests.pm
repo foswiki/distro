@@ -225,7 +225,8 @@ sub setup_view {
     );
 
     my $editUrl =
-      $this->{session}->getScriptUrl( '0', 'edit', $this->{test_web}, '' );
+      $this->{session}
+      ->getScriptUrl( '0', 'edit', $this->{test_web}, 'WebHome' );
 
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
@@ -307,8 +308,7 @@ HERE
         $hdr, "contenttype=text/plain should return text/plain - got $hdr" );
     $this->assert_does_not_match( qr#<(noautolink|nop)>#, $text,
         "autolink or nop found in text skin" );
-    $this->assert_equals( "$topic2plain", $text,
-        "Unexpected output from contentype=text/plain skin=text" );
+    $this->assert_equals( $topic2plain, $text );
 
     return;
 }
