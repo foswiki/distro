@@ -843,9 +843,10 @@ sub getRevisionAtTime {
           if ( $time >= ( stat( _latestFile($meta) ) )[9] );
     }
 
-    foreach my $rev ( reverse @revs ) {
+    foreach my $rev (@revs) {
         return $rev if ( $time >= ( stat("$hd/$rev") )[9] );
     }
+
     return undef;
 }
 

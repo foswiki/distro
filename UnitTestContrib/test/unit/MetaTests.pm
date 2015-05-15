@@ -534,7 +534,7 @@ sub test_attachmentStreams {
     $x = <$fh>;
 
     # Foswiki::Store::_MemoryFile::CLOSE returns undef :-(
-    $this->assert( !defined close($fh) );
+    close($fh);
     $this->assert_str_equals(
         'Twas brillig, and the slithy toves did gyre and gimbal in the wabe',
         $x );
@@ -544,7 +544,7 @@ sub test_attachmentStreams {
     $x = <$fh>;
 
     # Foswiki::Store::_MemoryFile::CLOSE returns undef :-(
-    $this->assert( !defined close($fh) );
+    close($fh);
     $this->assert_str_equals( 'All mimsy were the borogroves', $x );
 
     return;
@@ -555,7 +555,8 @@ sub test_testAttachment {
 
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     print $fh "No! Not the bore worms!";
-    $this->assert( close($fh) );
+
+    #$this->assert( close($fh) );
 
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
@@ -636,8 +637,8 @@ EVIL
 
     # SMELL: setEmbeddedStoreForm has been eating two newlines by now,
     # yet the serializer refused to remove the bad META records either.
-    # ... a rather pathologiccal unit test.
-    $this->assert_equals( $text, $topicObject->text() . "\n\n" );
+    # ... a rather pathological unit test.
+    $this->assert_equals( $text, $topicObject->text() . "\n" );
 
     $topicObject->expandMacros( $topicObject->text() );
     $topicObject->expandNewTopic();
