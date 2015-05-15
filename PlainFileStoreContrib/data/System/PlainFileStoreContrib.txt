@@ -29,6 +29,13 @@ The !PlainFileStoreContrib implements topic and attachment histories by keeping 
 The latest rev also has a history file (note: this means that
 everything is stored at least twice; same as in the RCS stores)
 
+%X%
+   * Automatic attachment of files placed in pub directories is not supported
+     for performance reasons.
+   * Mapping the 'TWiki' web to the Foswiki 'System' web (as required for
+     the !TWikiCompatibilityPlugin) is *not* supported. If you require
+     TWiki compatibility, use one of the !RCSStoreContrib stores.
+
 Developers note: this contrib is tested using the standard store unit tests.
 
 ---++ Moving between store implementations

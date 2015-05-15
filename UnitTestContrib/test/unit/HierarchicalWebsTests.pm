@@ -12,16 +12,19 @@ sub set_up {
     my $this = shift;
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    $this->SUPER::set_up();
-    $this->{sub_web}      = "Subweb";
+    $this->{sub_web} = "Subweb";
     $this->{sub_web_path} = "$this->{test_web}/$this->{sub_web}";
-    my $webObject = $this->populateNewWeb( $this->{sub_web_path} );
-    $webObject->finish();
+    $this->SUPER::set_up();
 }
 
 sub set_up_for_verify {
     my $this = shift;
+
     $this->createNewFoswikiSession();
+
+    # subweb of test web, so default tear_down will nosh it
+    my $webObject = $this->populateNewWeb( $this->{sub_web_path} );
+    $webObject->finish();
 }
 
 sub verify_createSubSubWeb {

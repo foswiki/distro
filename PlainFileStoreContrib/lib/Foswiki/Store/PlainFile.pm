@@ -656,12 +656,11 @@ sub getApproxRevTime {
 }
 
 # Implement Foswiki::Store
-# An attachment is only an attachment if it has a presence in the meta-data
 sub eachAttachment {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _attachmentsDir($meta) )
+    opendir( $dh, _getPub($meta) )
       or return new Foswiki::ListIterator( [] );
     my @list = grep { !/^[.*_]/ && !/,pfv$/ }
 
@@ -951,7 +950,7 @@ sub _latestFile {
 }
 
 # Get the absolute file path to the attachments metadir for a topic
-sub _attachmentsDir {
+sub _attachmentsHistoryDir {
     return _getData( $_[0] ) . ',pfv/ATTACHMENTS';
 }
 
@@ -977,7 +976,7 @@ sub _historyDir {
         # a subdir with the same name as the topic and "extension" ,pfm
         # This keeps the pub directory "clean"; a requirement when these
         # files are visible via a web interface.
-        return _attachmentsDir($p1) . "/${p2}";
+        return _attachmentsHistoryDir($p1) . "/${p2}";
     }
     else {
 
@@ -1357,8 +1356,7 @@ sub _moveFile {
     if ( -d $from ) {
         $ok = File::Copy::Recursive::dirmove( $from, $to );
     }
-    else {
-        ASSERT( -e $from, $from ) if DEBUG;
+    elsif ( -e $from ) {
         $ok = File::Copy::move( $from, $to );
     }
     $ok or die "PlainFile: move $from to $to failed: $!";

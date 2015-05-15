@@ -88,7 +88,7 @@ sub fixture_groups {
     # Uncomment below to test one store in isolation
     # return [ ref($this) . '_PlainFile' ];
     #    return [ ref($this) . '_RcsWrap' ];
-    return [ ref($this) . '_RcsLite' ];
+    #return [ ref($this) . '_RcsLite' ];
     return \@groups;
 }
 
