@@ -52,11 +52,8 @@ sub _checkDir {
       Foswiki::Configure::FileUtil::findFileOnTree( $ddir, qr/,v$/, qr/,pfv$/ );
 
     if ($bad) {
-        $reporter->ERROR(
-'Choose one of the RCS stores. Loss of history possible if this setting is saved!'
-        );
         $reporter->WARN(
-'RCS files detected, Migrate RCS files using =tools/change_store.pl=.'
+'RCS ,v files detected. Loss of the history stored in these files is possible if you continue with the PlainFile store. You may want to consider migrating RCS files using =tools/change_store.pl=, or choosing one of the RCS stores.'
         );
         $reporter->NOTE("First RCS file encountered: $bad");
         return 1;
