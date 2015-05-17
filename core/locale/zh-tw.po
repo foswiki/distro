@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 11:46+0200\n"
+"PO-Revision-Date: 2015-05-17 08:26+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -571,14 +571,11 @@ msgstr ""
 "與 %1 相似的主題在另一個子網內。請確認子網名沒有拼錯；必要時請修正連結。"
 
 #: core/templates/messages.tmpl:377
-#, fuzzy
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
-msgstr ""
-"系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信"
-"箱失效，請聯繫 %3。"
+msgstr "系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信箱失效，請聯繫 %3。"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -1202,7 +1199,7 @@ msgstr "如有問題，請聯繫 %1"
 msgid ""
 "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
-msgstr ""
+msgstr "聯絡 <a href=\\'mailto:%1\\'>網站管理員</a> 尋求協助。"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
