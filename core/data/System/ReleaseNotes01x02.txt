@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431220264" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431855011" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -325,9 +325,9 @@ The Foswiki Store has been restructured into separate pluggable store implementa
    * RCSStoreContrib: This implements the RCSWrap and RCSLite "Revision Control System" based stores, compatible with prior versions of Foswiki and TWiki.
    * PlainFileStoreContrib: A new plain file store that saves topic and attachment as time-stamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performing_ than the RCS store. Existing topics can be migrated to the new store. *Store formats may not be mixed*. One store must be selected.
 
-The utility to migrate between store implementations is =tools/change_store.pl=. Be sure to backup your system before running the conversion. For information on how to run the tool, run:
+The utility to migrate between stores is =tools/bulk_copy.pl=. Be sure to backup everything before running the conversion. For information on how to run the tool, run:
 <verbatim>cd foswiki/tools
-perl -I ../lib change_store.pl --help</verbatim>
+perl -I ../lib bulk_copy.pl --help</verbatim>
 
 ---+++ New "Natural Editor", !NatEditPlugin replaces the old !WikiText editor
 The !NatEditPlugin, a component of the optional !NatSkin, is now the default

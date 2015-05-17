@@ -4,7 +4,7 @@
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
@@ -25,8 +25,8 @@
 #
 # The script forks itself to operate as two processes; the "sender", which
 # is the source of the topics, and the "receiver", which is the target.
-# The processes communicate with eachother through anonymous pipes, using
-# JSON encoded messages.
+# The processes communicate with each other through anonymous pipes, using
+# utf-8 JSON encoded messages.
 #
 # The API used for manipulation is the Foswiki::Meta API. This API
 # shelters the script from the details of the store implementation.
@@ -53,8 +53,11 @@ our %control = (
     xtopic     => [], # List of topics to exclude
     latest     => [], # List of topics for which only the latest is to be copied
     quiet      => 0,  # shhhh
-    check_only => 0   # If true, don't copy, just check
+    check_only => 0,  # If true, don't copy, just check
 );
+
+# Charset used on this site (sender and receiver may differ)
+our $site_charset;
 
 #######################################################################
 # Sender
@@ -64,24 +67,49 @@ sub announce {
       unless $control{quiet};
 }
 
+# Decode parameters from the site charset. Recurses into arrays
+# and hashes, and maps references to scalars to the undecoded scalar
+# value.
+sub decode_cs {
+    my $item = shift;
+    my $res;
+    if ( ref($item) eq 'HASH' ) {
+        $res = {};
+        while ( my ( $k, $v ) = each %$item ) {
+            $res->{ decode_cs($k) } = decode_cs($v);
+        }
+    }
+    elsif ( ref($item) eq 'ARRAY' ) {
+        $res = [];
+        foreach my $e (@$item) {
+            push( @$res, decode_cs($e) );
+        }
+    }
+    elsif ( ref($item) ) {
+        $res = $$item;
+    }
+    elsif ( !$Foswiki::UNICODE ) {
+        eval {
+            $res = Encode::decode( $site_charset, $item, Encode::FB_CROAK );
+        };
+        Carp::confess("$site_charset $@") if $@;
+    }
+    else {
+        $res = $item;
+    }
+    return $res;
+}
+
 # RPC call to a function in the receiver. Scalar parameters are
 # unencoded from the site charset. Other parameters are left
 # untouched.
 sub call {
-    my @p = map {
-        ref($_)
-          ? $_
-          : Encode::decode(
-            $Foswiki::cfg{Site}{CharSet}
-              || $Foswiki::cfg{Store}{CharSet}
-              || 'iso-8859-1',
-            $_
-          )
-    } @_;
-    my $json_text = $json->encode( \@p );
-    print TO_B $json_text . "\n";
+    my $p         = decode_cs( \@_ );
+    my $json_text = $json->encode($p);
+    print TO_B Encode::encode_utf8($json_text) . "\n";
     $/ = "\n";
     my $response = <FROM_B>;
+    return undef unless defined $response;
     return $json->decode($response);
 }
 
@@ -93,20 +121,21 @@ sub copy_webs {
     while ( $wit->hasNext() ) {
         my $web = $wit->next();
 
-        # Are we skipping this web?
-        if ( grep( /^$web$/, @{ $control{xweb} } ) ) {
-            announce "- Skipping xweb $web";
+        my $forced = scalar( @{ $control{iweb} } );
+        if ( $forced && !grep( $web =~ /^$_([\/.]|$)/, @{ $control{iweb} } ) ) {
+            announce "- Skipping not-iweb $web";
             next;
         }
-        my $forced = scalar( @{ $control{iweb} } );
-        if ( $forced && !grep( /^$web$/, @{ $control{iweb} } ) ) {
-            announce "- Skipping not-iweb $web";
+
+        # Are we skipping this web?
+        if ( grep( $web =~ /^$_([\/.]|$)/, @{ $control{xweb} } ) ) {
+            announce "- Skipping xweb $web";
             next;
         }
         my $exists = call( "webExists", $web );
         if ($exists) {
             announce "- Web '$web' already exists in target";
-            if ( !$forced ) {
+            if ( !$forced && !$control{check_only} ) {
                 announce "\t- skipped";
                 next;
             }
@@ -121,7 +150,7 @@ sub copy_web {
     my ($web) = @_;
 
     # Copy the web
-    announce "Copying $web";
+    announce "Copy web $web";
     my $webMO = Foswiki::Meta->new( $session, $web );
 
     # saveWeb returns the name of the WebPreferences topic,
@@ -130,7 +159,7 @@ sub copy_web {
     my $tit = $webMO->eachTopic();
     while ( $tit->hasNext() ) {
         my $topic = $tit->next();
-        if ( grep( /^$topic$/, @{ $control{xtopic} } ) ) {
+        if ( grep { $topic =~ /(^|[\/.])$_$/ } @{ $control{xtopic} } ) {
             announce "- Skipping xtopic $web.$topic";
             next;
         }
@@ -139,7 +168,7 @@ sub copy_web {
         if ( $topic ne $wpt ) {
             my $forced = scalar( @{ $control{itopic} } );
             if ( $forced
-                && !grep( /^$topic$/, @{ $control{itopic} } ) )
+                && !grep { $topic =~ /(^|[\/.])$_$/ } @{ $control{itopic} } )
             {
                 announce "- Skipping not-itopic $web.$topic";
                 next;
@@ -159,10 +188,11 @@ sub copy_web {
 sub copy_topic {
     my ( $web, $topic ) = @_;
 
-    announce "Copying $web.$topic";
+    announce "Copy topic $web.$topic";
     my $topicMO = Foswiki::Meta->new( $session, $web, $topic );
     my @rev_list = $topicMO->getRevisionHistory()->all();
-    if ( grep( /^$topic$/, @{ $control{latest} } ) ) {
+    if ( grep { $topic =~ /^$_$/ } @{ $control{latest} } ) {
+        announce "\t-only latest";
 
         # Only do latest rev
         @rev_list = ( shift @rev_list );
@@ -183,7 +213,7 @@ sub copy_topic {
         # Again this is working around the fact that the RCS stores
         # don't clean up META:TOPICINFO unless it's explicitly asked for
         my $info = $topicMO->getRevisionInfo();
-        announce "\tVersion $tv by $info->{author} at "
+        announce " Version $tv by $info->{author} at "
           . Foswiki::Time::formatTime( $info->{date} );
 
         # Serialise it
@@ -231,7 +261,7 @@ sub copy_topic {
             local $/ = undef;
             my $att_data = <$fh>;
 
-            announce "\t\tAttach $att_name\[$att_info->{version}\]";
+            announce "    Attach $att_name\[$att_info->{version}\]";
             call( 'saveAttachmentRev',
                 $web, $topic, $att_name, $att_info, \$att_data );
         }
@@ -248,12 +278,16 @@ sub dispatch {
 
     return 0 unless $data;
     my $fn = shift(@$data);
-    my @p  = map {
-        ref($_)
-          ? $_
-          : Encode::encode( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
-            $_, Encode::FB_HTMLCREF )
-    } @$data;
+    my @p;
+    eval {
+        @p = map {
+            ref($_)
+              ? $_
+              : Encode::encode( $site_charset, $_, Encode::FB_HTMLCREF )
+        } @$data;
+    };
+    if ($@) {
+    }
     no strict 'refs';
     my $response = &$fn(@p);
     use strict 'refs';
@@ -286,7 +320,7 @@ sub saveWeb {
     my $web = shift;
     return '' if $session->webExists($web);
     my $mo = Foswiki::Meta->new( $session, $web );
-    return 0 if $control{check};
+    return 0 if $control{check_only};
     $mo->populateNewWeb();
 
     # Return the name of the web preferences topic, as it was just created
@@ -304,7 +338,7 @@ sub saveTopicRev {
     my $info = $mo->get('TOPICINFO');
 
 #announce "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
-    return 0 if $control{check};
+    return 0 if $control{check_only};
 
     # When saving over existing revs of a topic, must make sure we
     # fully delete the existing data
@@ -325,7 +359,7 @@ sub saveTopicRev {
         dontlog          => 1,
         minor            => 1,
 
-        # Don't call handlers (1.2+ only)
+        # Don't call handlers (works on 1.2+ only)
         nohandlers => 1
     );
 }
@@ -337,19 +371,30 @@ sub saveAttachmentRev {
     my $mo = Foswiki::Meta->new( $session, $web, $topic );
     my $fh;
     open( $fh, '<', $data );    # Open string for input
-    return 0 if $control{check};
+    return 0 if $control{check_only};
     $mo->attach(
         name          => $attachment,
         dontlog       => 1,
         notopicchange => 1,
-        author        => _encode( $info->{author} ),
+        author        => $info->{author},
         filedate      => $info->{date},
         forcedate     => $info->{date},
         stream        => $fh,
 
-        # Don't call handlers (1.2+ only)
+        # Don't call handlers (works on 1.2+ only)
         nohandlers => 1
     );
+}
+
+# convert * and ? to regex, and quotemeta other re chars
+sub wildcard2regex {
+    my $a = shift;
+    foreach (@$a) {
+        s/(\[\]\.\{\}\|\(\)\^\$)/\\$1/g;
+        s/\./\\./g;
+        s/\*/.*/g;
+        s/\?/./g;
+    }
 }
 
 #######################################################################
@@ -411,6 +456,11 @@ announce "xtopic: " . join( ',', @{ $control{xtopic} } )
 announce "latest: " . join( ',', @{ $control{latest} } )
   if ( scalar( @{ $control{latest} } ) );
 
+# Convert latest to regex
+wildcard2regex( $control{latest} );
+wildcard2regex( $control{iweb} );
+wildcard2regex( $control{xweb} );
+
 pipe( FROM_A, TO_B ) or die "pipe: $!";
 pipe( FROM_B, TO_A ) or die "pipe: $!";
 
@@ -440,6 +490,11 @@ if ( my $pid = fork() ) {
 
     $session = Foswiki->new();
 
+    $site_charset =
+      $Foswiki::UNICODE
+      ? 'utf-8'
+      : ( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1' );
+
     copy_webs();
 
     print TO_B "0\n";
@@ -466,9 +521,14 @@ else {
 
     $session = Foswiki->new();
 
+    $site_charset =
+      $Foswiki::UNICODE
+      ? 'utf-8'
+      : ( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1' );
+
     $/ = "\n";
     while ( my $message = <FROM_A> ) {
-        last unless dispatch($message);
+        last unless dispatch( Encode::decode_utf8($message) );
         $/ = "\n";
     }
 
@@ -482,8 +542,10 @@ __END__
 
 =head1 tools/bulk_copy.pl
 
-Shell script to copy all content (topics and attachments), complete with
-histories, from one local installation to another local installation.
+Copies all content (topics and attachments), complete with
+histories, from one local installation to another local installation on the
+same machine. The main purpose is to transfer Foswiki database contents
+between different store implementations.
 
 It is assumed that:
 
@@ -501,7 +563,7 @@ It is assumed that:
     run it as the web user e.g. www-data)
 
 =item B<4.> If the target installation is older than 1.2, then any plugins
-    that implement before- or after Save/Edit handlers have been disabled.
+    that implement before- or after- Save/Edit handlers have been disabled.
 
 =back
 
@@ -509,8 +571,15 @@ The script is a literal copy of topics, attachments and their histories
 from one installation to another. No attempt is made to map users (it is
 assumed that the same set of users exists in both stores), and there is
 no mapping of URLs or other modification of content. The two installations
-may use different store implementations (in fact, this is one of the main
-motivators for this script!)
+may use different store implementations (in fact, this is the main
+motivation).
+
+Note that if the destination store uses a smaller character set than
+the the source store (for example, you are trying to copy from a utf-8
+store to an iso-8859-1 store) then characters that cannot be represented in
+the destination character set will be converted to HTML entities.
+
+See 'CHANGING STORES' below for more detailed information.
 
 =head1 SYNOPSIS
 
@@ -549,7 +618,9 @@ be reported but not copied.
     Alternatively you can use --xweb to specify a web that is *not*
     to be copied.
 
-    You can have as many B<--web> and B<--xweb> options as you want.
+    You can have as many --iweb and --xweb options as you want,
+    and the options support wildcards e.g. --iweb 'Projects/*' will
+    process all subwebs of "Projects".
 
 =item B<--itopic> topic
 
@@ -563,18 +634,22 @@ be reported but not copied.
     Alternatively you can use --xtopic to specify a topic
     that is *not* to be copied.
 
-    You can have as many --topic and --xtopic options as you want.
+    You can have as many --itopic and --xtopic options as you want,
+    and the options support wildcards e.g. --xtopic 'Web*' will skip
+    all topics with a name starting with "Web".
 
 =item B<--latest> topic
 
     Specifies a topic name that will cause the script to transfer
-    only the latest rev of that topic, ignoring the history. Only
+    B<only> the latest rev of that topic, ignoring the history. Only
     attachments present in the latest rev of the topic will be
-    transferred. Simple topic name, does not support web specifiers.
+    transferred. Specify a Web.Topic name - you can use the standard
+    file wildcards '*' and '?'.
+
     You can have as many -latest options as you want. NOTE: to avoid
-    excess working, you are recommended to -latest WebStatistics (and
+    excess working, you are recommended to -latest '*.WebStatistics' (and
     any other file that has many auto-generated versions that don't
-    really need to be kept)
+    really need to be kept.)
 
 =head2 Miscellaneous
 
@@ -595,5 +670,29 @@ be reported but not copied.
 =item B<--version>
 
     Outputs the version number of this script.
+
+=head1 CHANGING STORES
+
+The main purpose of this script is to support transferring Foswiki database
+content between different store implementations. You might use it when
+when transferring from an existing RCS-based store to a new PlainFile based
+store, for example. We will use the example of upgrading an existing
+Foswiki-1.1.9 installation (which uses an RCS store) to a new Foswiki-1.2.0
+installation (which uses PlainFile).
+
+First, set up your two installations, so that they do not share any data
+areas. You don't have to make them web-accessible. Let's say they are in
+'/var/www/foswiki/Foswiki-1.1.9/bin' and '/var/www/foswiki/Foswiki-1.2.0/bin'.
+
+Now, decide what webs need to be transferred. As a general guide, you should
+*not* copy the System web, otherwise you may overwrite topics
+that are shipped with the release. You should also add a --latest option to
+exclude statistics topics.
+
+perl bulk_copy.pl --xweb System --latest '*.WebStatistics' 
+
+Note that only topics and attachments that do not exist in the destination
+system can be copied this way. If you want to merge revisions in different
+installations together, you will have to do that manually.
 
 =back

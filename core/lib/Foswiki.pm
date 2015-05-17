@@ -149,6 +149,11 @@ sub _getLibDir {
 
 BEGIN {
 
+    # First thing we do; make sure we can read and print unicode
+    binmode( STDIN,  ":utf8" );
+    binmode( STDOUT, ":utf8" );
+    binmode( STDERR, ":utf8" );
+
     #Monitor::MARK("Start of BEGIN block in Foswiki.pm");
     if (DEBUG) {
         if ( not $Assert::soft ) {

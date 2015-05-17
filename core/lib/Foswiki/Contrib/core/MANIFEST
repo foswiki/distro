@@ -955,7 +955,7 @@ templates/view.xml.tmpl 0444
 templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
 templates/viewtopicactionbuttons.tmpl 0444
-tools/change_store.pl 0755 Store format conversion script
+tools/bulk_copy.pl 0755 Data transfer script
 tools/configure 0755
 tools/convertTopicSettings.pl 0755
 tools/dependencies 0755

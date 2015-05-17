@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430795834" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1431855011" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -93,8 +93,7 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Choose your desired Store.* Foswiki ships with two native stores.
    * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki.
-   * !PlainFileStoreContrib requires that topic history be converted to a new history format.  =perl -I lib tools/change_store.pl -help= for more information on conversion.
-   * %X% If you intend to change the topic character encoding, this *must* be done prior to conversion to the !PlainFileStore.
+   * !PlainFileStoreContrib requires that topic histories be converted to a new history format.  =perl -I lib tools/bulk_copy.pl --help= for more information on conversion.
 
 *If you are using authentication, prepare a test plan to verify that your authentication mechanism is working correctly.* Make sure you are able to test logins by a sufficient sample of users to cover all categories of users of your site. For example, users of various groups may need to be tested. In particular, ensure you test that non-admin users cannot access topics restricted to admins.
 
@@ -205,16 +204,17 @@ By default, empty =DENYTOPIC= rules will be ignored by Foswiki 1.2.  You must ch
 
 When =convertTopicSettings= saves the modified topics, they will be saved by user _UnknownUser_.
 
----+++ Convert to Plain File Store (optional)
+---+++ (Optional) Convert RCS store to !PlainFile
 
-The convertStore.pl utility will copy the =data= and =pub= directories into a new structure, with new revision data.  It also will _validate_ the contents of topics and verify that the revision history is consistent and complete.  *Subdirectories below topic directories within the =pub= directory are not copied!*  Because of this, it is not possible to completely convert the %SYSTEMWEB% directory.  We recommend using the new %SYSTEMWEB% shipped with Foswiki 1.2.  Normally the %SYSTEMWEB% does not contain any topic history, however if %SYSTEMWEB% topics have been edited, then conversion may be required. If you attempt to convert the %SYSTEMWEB%, you will need to copy critical =pub= subdirectories, found under =pub/%SYSTEMWEB%/JQueryPlugin/..=,  =pub/%SYSTEMWEB%/TinyMCEPlugin/..=, and other key components.
+By default Foswiki 1.2.0 uses a new store implementation, called 'PlainFile'.
+This store implementation offers significantly better performance when you
+have topics with long histories, at the cost of fractionally more disk space.
+If you have an existing RCS-based Wiki, you can continue using RCS, but new
+installations will use !PlainFile.
 
-   $ Validate the store in-place: =perl -I lib tools/change_store.pl -q -v !RcsLite !RcsLite=
-      * Any topics with inconsistent revisions are reported
-      * Any pub files without Attachment metadata in the topic are reported.
-   $ Convert the store to PlainFile, creating directories under =./newstore=: =perl -I lib tools/change_store.pl -s . -t newstore -q !RcsLite !PlainFile=
-      * Any "unattached" attachments will be listed, and can be piped to a command to copy separately
-      * The %SYSTEMWEB% will be copied but *will be incomplete / unusable*.
+Changing from RCS to !PlainFile is accomplished using the =tools/bulk_copy.pl=
+script to copy existing content from your current install to the new install.
+See =perl tools/bulk_copy.pl --help= for more information.
 
 ---+++ Apply preferences from old installation
 
