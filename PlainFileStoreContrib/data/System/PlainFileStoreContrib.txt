@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1431855011" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -42,27 +42,7 @@ Developers note: this contrib is tested using the standard store unit tests.
 
 ---+++ Foswiki < 1.2
 
-The =tools/change_store = script included in this module allows you to move
-between different store implementations. The script uses internal, unpublished
-store APIs.
-
-To support source and destination store implementations that both use files on
-disc pointed at by ={DataDir}= and ={PubDir}=, the the script supports
-redirecting the output of the conversion to a different directory.
-
-Run the script without parameters to get instructions:
-
-<verbatim>
-$ tools/change_store.pl -I lib
-</verbatim>
-
-%X% *it is dangerous* to run two different store implementations over the
-same data, so once you have completed the transfer you should *remove* all ,v files from the store. *All* of them.
-
----+++ Foswiki 1.2 and later
-
-The =tools/bulk_copy.pl= script should be used to move topics between two
-Foswiki instances running different store implementations. *Do not* share data areas between store implementations.
+The =tools/bulk_copy.pl= script (part of the Foswiki 1.2.0 release package, or available from [[https://raw.githubusercontent.com/foswiki/distro/master/core/tools/bulk_copy.pl][github]] or ) allows you to move between different store implementations. *Do not* share data areas between different store implementations.
 
 ---++ Developer Notes
 Testing is performed using the standard system tests. Because some
@@ -85,14 +65,8 @@ Many thanks to the following sponsors for supporting this work
    * [[http://c-dot.co.uk][C-Dot Consulting]]
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
-|  Dependencies: | %$DEPENDENCIES% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.3 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
-|  1.2 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
-|  1.1 (30 Mar 2012) | Removed dependency on VC |
-|  1.0 (23 Mar 2012) | Initial version |
-
-
+---++ Dependencies
+%$DEPENDENCIES%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie http://c-dot.co.uk"}%
