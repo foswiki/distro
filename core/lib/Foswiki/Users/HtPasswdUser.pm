@@ -220,12 +220,37 @@ sub _unlockPasswdFile {
     close($fh);
 }
 
-# Read the password file. The content of the file is cached in
-# the password object.
-# We put a shared lock while reading if requested to prevent
-# other processes from writing while we read but still allows
-# parallel reading. The caller must never request a shared lock
-# if there is already an exclusive lock.
+=begin TML
+
+---++ _readPasswd ( $lock, $cache );
+
+Read the password file. The content of the file is cached in
+the password object.
+
+We put a shared lock while reading if requested to prevent
+other processes from writing while we read but still allows
+parallel reading. The caller must never request a shared lock
+if there is already an exclusive lock.
+
+   * if $lockShared is true, a shared lock is requested./
+   * if $cache is true, the in-memory cache will be returned if available.
+
+This routine implements the auto-detection code for password entries:
+
+%TABLE{sort="off"}%
+| *Type* | *Length* | *Matches* |
+| htdigest-md5 | n/a | $Foswiki::cfg{AuthRealm} | (Realm has to be an exact match) |
+| sha1 | 33 | =^\{SHA\}= |
+| crypt-md5 | 34 | =^\$1\$= |
+| apache-md5 | 37 | =^\$apr1\$= |
+| bcrypt | 60 | =^\$2a\$= |
+| crypt | 13 | | next field contains an email address |
+| plain | any | | next field contains an email address |
+| sha | | | (I don't recall what this encoding is, maybe an older implementation?) |
+| htdigest-md5 | any | | If next field contains a md5 hash, Fallthru match in case realm changed |
+
+=cut
+
 sub _readPasswd {
     my ( $this, $lockShared, $noCache ) = @_;
 
@@ -376,7 +401,15 @@ sub _readPasswd {
     return $data;
 }
 
-# Dumps the memory password database to a newline separated string
+=begin TML
+
+---++ _dumpPasswd( $db ) -> $boolean
+
+Dumps the memory password database to a newline separated string
+
+
+=cut
+
 sub _dumpPasswd {
     my $db = shift;
     my @entries;
@@ -397,7 +430,7 @@ sub _dumpPasswd {
               if ( TRACE > 1 );
 
             # htdigest format
-            $entry .= "$Foswiki::cfg{AuthRealm}:";
+            $entry .= "$db->{$login}->{realm}:";
         }
         $db->{$login}->{pass}   ||= '';
         $db->{$login}->{emails} ||= '';
@@ -412,6 +445,18 @@ sub _dumpPasswd {
     #    }
     return join( "\n", @entries ) . "\n";
 }
+
+=begin TML
+
+---++ _savePasswd( $db ) -> $passwordE
+
+Creates a new password file, and saves the content of the
+internal password database to the file.
+
+After writing the file, the cache timestamp is reset.
+
+The umask is overridden during save, so that the password file is not world or group readable.
+=cut
 
 sub _savePasswd {
     my $this = shift;
@@ -453,6 +498,22 @@ EoT
         ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9] );
     umask($oldMask);    # Restore original umask
 }
+
+=begin TML
+
+---++ encrypt( $login, $passwordU, $fresh ) -> $passwordE
+
+Will return an encrypted password. Repeated calls
+to encrypt with the same login/passU will return the same passE.
+
+However if the passU is changed, and subsequently changed _back_
+to the old login/passU pair, then the old passE is no longer valid.
+
+If $fresh is true, then a new password not based on any pre-existing
+salt will be used. Set this if you are generating a completely
+new password.
+
+=cut
 
 sub encrypt {
     my ( $this, $login, $passwd, $fresh, $entry ) = @_;
@@ -593,6 +654,18 @@ sub encrypt {
     die 'Unsupported password encoding ' . $enc;
 }
 
+=begin TML
+
+---++ ObjectMethod fetchPass( $login ) -> $passwordE
+
+Implements Foswiki::Password
+
+Returns encrypted password if succeeds.
+Returns 0 if login is invalid.
+Returns undef otherwise.
+
+=cut
+
 sub fetchPass {
     my ( $this, $login ) = @_;
     my $ret = 0;
@@ -627,6 +700,24 @@ sub fetchPass {
     }
     return (wantarray) ? ( $ret, $db->{$login} ) : $ret;
 }
+
+=begin TML
+
+---++ setPassword( $login, $newPassU, $oldPassU ) -> $boolean
+
+If the $oldPassU matches matches the user's password, then it will
+replace it with $newPassU.
+
+If $oldPassU is not correct and not 1, will return 0.
+
+If $oldPassU is 1, will force the change irrespective of
+the existing password, adding the user if necessary.
+
+Otherwise returns 1 on success, undef on failure.
+
+The password file is locked for exclusive access before being updated.
+
+=cut
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
@@ -680,6 +771,17 @@ sub setPassword {
     return 1;
 }
 
+=begin TML
+
+---++ ObjectMethod removeUser( $login ) -> $boolean
+
+Removes the user identified by $login from the database
+and saves the password file.
+
+Returns 1 on success, undef on failure.
+
+=cut
+
 sub removeUser {
     my ( $this, $login ) = @_;
     my $result = undef;
@@ -716,6 +818,18 @@ sub removeUser {
     return $result;
 }
 
+=begin TML
+
+---++ ObjectMethod checkPassword( $login, $password ) -> $boolean
+
+Checks the validity of $password by looking up the user in the
+password file, and comparing the stored hash to the computed
+hash of the supplied password.
+
+Returns 1 on success, 0 on failure.
+
+=cut
+
 sub checkPassword {
     my ( $this, $login, $password ) = @_;
     my ( $pw, $entry ) = $this->fetchPass($login);
@@ -747,9 +861,26 @@ sub checkPassword {
     return 0;
 }
 
+=begin TML
+
+---++ ObjectMethod isManagingEmails()  -> $boolean
+
+Returns true if the password manager is managing emails.  This
+implementaiton always returns true.
+
+=cut
+
 sub isManagingEmails {
     return 1;
 }
+
+=begin TML
+
+---++ ObjectMethod getEmails($login)  -> @array
+
+Looks up the user in the database, Returns a list of email addresses
+for the user.  or returns an empty list.
+=cut
 
 sub getEmails {
     my ( $this, $login ) = @_;
@@ -763,6 +894,14 @@ sub getEmails {
 
     return;
 }
+
+=begin TML
+
+---++ ObjectMethod setEmails($login, @emails )  -> $boolean
+
+Sets the identified user $login to the list of @emails.
+
+=cut
 
 sub setEmails {
     my $this   = shift;
@@ -794,7 +933,15 @@ sub setEmails {
     return 1;
 }
 
-# Searches the password DB for users who have set this email.
+=begin TML
+
+---++ ObjectMethod findUseByEmail($email )  -> @array
+
+Searches the password DB for users who have set this email.
+and returns and array of $login identifiers. 
+
+=cut
+
 sub findUserByEmail {
     my ( $this, $email ) = @_;
     my $logins = [];
