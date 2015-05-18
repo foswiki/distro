@@ -14,14 +14,13 @@ BEGIN {
 sub PUBURL {
     my ( $this, $params, $topicObject, $relative ) = @_;
     my ( $web, $topic, $attachment );
-    if ( defined $params->{path} ) {
-        my @path = split( /[\/.]+/, $params->{path} );
-        if ( scalar(@path) > 1 ) {
-            $topic = pop(@path);
-        }
-        $web = join( '/', @path ) if scalar(@path);
+    $web = $params->{web};
+    if ( defined $params->{topic} ) {
+        my @path = split( /[\/.]+/, $params->{topic} );
+        $topic = pop(@path) if scalar(@path);
+        $web = join( '/', @path ) if scalar(@path);    # web= is ignored
     }
-    $attachment = $params->{_DEFAULT} if defined $params->{_DEFAULT};
+    $attachment = $params->{_DEFAULT};
     $params->{absolute} = 1 unless $relative;
     return $this->getPubURL( $web, $topic, $attachment, %{$params} );
 }

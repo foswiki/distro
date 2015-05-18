@@ -8,7 +8,7 @@ use Foswiki::Macros::PUBURL;
 
 sub ATTACHURL {
     my ( $this, $params, $topicObject ) = @_;
-    $params->{path} = $topicObject->getPath();
+    $params->{topic} = $topicObject->getPath();
     return PUBURL( @_, 0 );
 }
 

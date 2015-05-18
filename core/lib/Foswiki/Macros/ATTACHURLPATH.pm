@@ -8,7 +8,7 @@ use Foswiki::Macros::PUBURL;
 
 sub ATTACHURLPATH {
     my ( $this, $params, $topicObject ) = @_;
-    $params->{path} = $topicObject->getPath();
+    $params->{topic} = $topicObject->getPath();
     return PUBURL( @_, 1 );
 }
 
