@@ -19,12 +19,13 @@ sub SCRIPTURL {
       map { $_ => $params->{$_} }
       grep { !/^(_.*|path)$/ }
       keys %$params;
-    my $script = $params->{_DEFAULT};
-    my ( $web, $topic );
-    if ( defined $params->{path} ) {
-        my @path = split( /[\/.]+/, $params->{path} );
-        $topic = scalar( @path > 1 ) ? pop(@path) : undef;
-        $web = join( '/', @path );
+    my ( $web, $topic, $script );
+    $script = $params->{_DEFAULT};
+    $web    = $params->{web};
+    if ( defined $params->{topic} ) {
+        my @path = split( /[\/.]+/, $params->{topic} );
+        $topic = pop(@path) if scalar(@path);
+        $web = join( '/', @path ) if scalar(@path);    # web= is ignored
     }
     return $this->getScriptUrl( !$relative, $script, $web, $topic, @p );
 }

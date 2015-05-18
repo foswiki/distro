@@ -3,15 +3,15 @@
 #VarSCRIPTURL
 ---+++ SCRIPTURL{"script"} -- URL of script
    * Expands to the base URL of scripts
-   * The optional =path= parameter can be used to add a =Web.Topic= (or =Web/Topic=, or just a =Web=)
+   * The optional =web= and =topic= parameters can be used to add a =Web.Topic= (or =Web/Topic=, or just a =Web=)
    * Any other parameters to the macro will be added as parameters to the URL
-   * Example: =%<nop>SCRIPTURL{"view" path="Cartoons.EvilMonkey"}%= will expand to =%SCRIPTURL{"view" path="Cartoons.EvilMonkey"}%=
-   * Example: =%<nop>SCRIPTURL{"view" path="Cartoons"}%= will expand to =%SCRIPTURL{"view" path="Cartoons"}%=
-   * Example: =%<nop>SCRIPTURL{"view" path="Cartoons.EvilMonkey" rev="1"}%= will expand to =%SCRIPTURL{"view" path="Cartoons.EvilMonkey" rev="1" }%=
-   * Example: =%<nop>SCRIPTURL{"edit" path="Cartoons.EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURL{"edit" path="Cartoons.EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
+   * Example: =%<nop>SCRIPTURL{"view" topic="Cartoons.EvilMonkey"}%= will expand to =%SCRIPTURL{"view" topic="Cartoons.EvilMonkey"}%=
+   * Example: =%<nop>SCRIPTURL{"view" web="Cartoons"}%= will expand to =%SCRIPTURL{"view" web="Cartoons"}%=
+   * Example: =%<nop>SCRIPTURL{"view" topic="Cartoons.EvilMonkey" rev="1"}%= will expand to =%SCRIPTURL{"view" topic="Cartoons.EvilMonkey" rev="1" }%=
+   * Example: =%<nop>SCRIPTURL{"edit" web="Cartoons" topic="EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURL{"edit" web="Cartoons" topic="EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
    * Example: =%<nop>SCRIPTURL%= expands to =%SCRIPTURL%=
    * Example: =%<nop>SCRIPTURL{script}%= expands to =%SCRIPTURL{script}%=
    <div class="foswikiHelp">%X% In most cases you should use [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]] instead, as it works much better with URL rewriting<p></p>
    %X% The =edit= script should always be used in conjunction a =t="%<nop>GMTIME{"$epoch"}%"= parameter to ensure pages about to be edited are not cached in the browser<p></p>
-   %X% The 'old' way of building URLs using =SCRIPTURL= involved concatenating the web and topic names to the =SCRIPTURL= e.g. =%<nop>SCRIPTURL{"script"}%/Cartoons/EvilMonkey=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>SCRIPTURL%{"script" path="Cartoons.EvilMonkey"}%=, which will handle URL encoding for you.</div>
+   %X% The 'old' way of building URLs using =SCRIPTURL= involved concatenating the web and topic names to the =SCRIPTURL= e.g. =%<nop>SCRIPTURL{"script"}%/Cartoons/EvilMonkey=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>SCRIPTURL%{"script" topic="Cartoons.EvilMonkey"}%=, which will handle URL encoding for you.</div>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]

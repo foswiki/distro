@@ -114,15 +114,20 @@ sub test_PUBURL {
     my $t    = Foswiki::Func::expandCommonVariables('%PUBURL%');
     $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}", $t );
-    $t = Foswiki::Func::expandCommonVariables('%PUBURL{path="Web"}%');
+    $t = Foswiki::Func::expandCommonVariables('%PUBURL{web="Web"}%');
     $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web", $t );
-    $t = Foswiki::Func::expandCommonVariables('%PUBURL{path="Web.Topic"}%');
+    $t = Foswiki::Func::expandCommonVariables('%PUBURL{topic="Web.Topic"}%');
+    $this->assert_URI_equals(
+        "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic",
+        $t );
+    $t =
+      Foswiki::Func::expandCommonVariables('%PUBURL{web="Web" topic="Topic"}%');
     $this->assert_URI_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic",
         $t );
     $t = Foswiki::Func::expandCommonVariables(
-        '%PUBURL{path="Web.Topic" "att.dat"}%');
+        '%PUBURL{topic="Web.Topic" "att.dat"}%');
     $this->assert_URI_equals(
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat",
         $t
@@ -133,12 +138,13 @@ sub test_PUBURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%PUBURLPATH%');
     $this->assert_URI_equals( $Foswiki::cfg{PubUrlPath}, $t );
-    $t = Foswiki::Func::expandCommonVariables('%PUBURLPATH{path="Web"}%');
+    $t = Foswiki::Func::expandCommonVariables('%PUBURLPATH{web="Web"}%');
     $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web", $t );
-    $t = Foswiki::Func::expandCommonVariables('%PUBURLPATH{path="Web.Topic"}%');
+    $t =
+      Foswiki::Func::expandCommonVariables('%PUBURLPATH{topic="Web.Topic"}%');
     $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic", $t );
     $t = Foswiki::Func::expandCommonVariables(
-        '%PUBURLPATH{path="Web.Topic" "att.dat"}%');
+        '%PUBURLPATH{topic="Web.Topic" "att.dat"}%');
     $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/Web/Topic/att.dat",
         $t );
 }
