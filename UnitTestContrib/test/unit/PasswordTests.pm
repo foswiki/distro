@@ -1,6 +1,7 @@
 package PasswordTests;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
@@ -28,9 +29,9 @@ sub set_up {
         lion    => { pass => 'roar',     emails => 'lion@pride' },
         dodo    => { pass => '3zmVlgI9', emails => 'dodo@extinct' },
         tortise => { pass => 'slowone',  emails => 'turtle@soup' },
-        mole    => { pass => '',         emails => 'mole@hill' }
+        mole    => { pass => '',         emails => 'mole@hill' },
+        'áśčśě' => { pass => 'áśčÁŠŤśěž', emails => 'antz@hill' }
     };
-
     $this->{users2} = {
         alligator =>
           { pass => 'gnu', emails => $this->{users1}->{alligator}->{emails} },
@@ -40,10 +41,14 @@ sub set_up {
         lion =>
           { pass => 'antelope', emails => $this->{users1}->{lion}->{emails} },
         dodo => { pass => 'b2rd', emails => $this->{users1}->{dodo}->{emails} },
-        tortise =>
-          { pass => 'slower', emails => $this->{users1}->{tortise}->{emails} },
         mole =>
           { pass => 'earthworm', emails => $this->{users1}->{mole}->{emails} },
+        tortise =>
+          { pass => 'slower', emails => $this->{users1}->{tortise}->{emails} },
+        'áśčśě' => {
+            pass   => 'Šťěř',
+            emails => $this->{users1}->{'áśčśě'}->{emails}
+        }
     };
 
     return;
@@ -165,7 +170,8 @@ sub doTests {
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /alligator/ ) {
             $this->assert(
-                $impl->checkPassword( $user, $this->{users2}->{$user}->{pass} )
+                $impl->checkPassword( $user, $this->{users2}->{$user}->{pass} ),
+                $user
             );
         }
         else {
@@ -296,9 +302,9 @@ sub test_disabled_entry {
 # The following lines were generated with the apache htdigest and htpasswd command
 # Each one generated with an empty password.
 
-    open( my $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( my $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
-    print $fh <<'DONE';
+    print $fh Encode::encode_utf8(<<'DONE');
 alligator:Pfo62LcyAuTjA:crypt@example.com
 bat:$apr1$RnkZeOAr$1hvvdLQLXWUMQJyCAxsXW.:apache-md5@example.com
 budgie:{SHA}2jmj7l5rSw0yVb/vlWAYkK/YBwk=:sha1@example.com
@@ -319,7 +325,7 @@ DONE
     # Make sure file is detected as modified.
     sleep 2;
 
-    open( $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 crypt::crypt@example.com
@@ -389,7 +395,9 @@ sub test_htpasswd_auto {
 # The following lines were generated with the apache htdigest and htpasswd command
 # Used to verify the encode autodetect feature.
 
-    open( my $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    my @users =
+      ( 'alligator', 'bat', 'budgie', 'dodo', 'lion', 'mole', 'tortise' );
+    open( my $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 alligator:njQ4t57Dts41s
@@ -404,7 +412,7 @@ DONE
 
     # First try - no emails in file
     # check it
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         $this->assert(
             $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
             "Failure for $user" );
@@ -427,7 +435,7 @@ DONE
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # Test again with email addresses present
-    open( $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 alligator:njQ4t57Dts41s:ally@masai.mara
@@ -441,7 +449,7 @@ DONE
     $this->assert( close($fh) );
 
     # check it
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         $this->assert(
             $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
             "Failure for $user" );
@@ -461,7 +469,7 @@ DONE
     #dumpFile();
 
     # force-change them to users2 password,  Verify emails have survived.
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         my $added = $impl->setPassword(
             $user,
             $this->{users2}->{$user}->{pass},
@@ -481,7 +489,7 @@ DONE
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # force-change them to users2 password again,  Verify emails have survived.
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         my $added = $impl->setPassword(
             $user,
             $this->{users2}->{$user}->{pass},
@@ -507,7 +515,7 @@ DONE
     $Foswiki::cfg{AuthRealm} = 'Another New Realm';
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         my $added = $impl->setPassword(
             $user,
             $this->{users2}->{$user}->{pass},
@@ -531,7 +539,7 @@ DONE
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # force-change them to users2 password again, migrating to apache_md5.
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         my $added = $impl->setPassword(
             $user,
             $this->{users2}->{$user}->{pass},
@@ -553,7 +561,7 @@ DONE
     $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
 
     # force-change them to users2 password again, migrating to bcrypt.
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
+    foreach my $user (@users) {
         my $added = $impl->setPassword(
             $user,
             $this->{users2}->{$user}->{pass},
@@ -577,7 +585,9 @@ DONE
 }
 
 sub dumpFile {
-    open( my $IN_FILE, '<', "$Foswiki::cfg{TempfileDir}/junkpasswd" ) or die $!;
+    open( my $IN_FILE, '<:encoding(utf-8)',
+        "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+      or die $!;
     my $line;
     while ( defined( $line = <$IN_FILE> ) ) {
         print STDERR $line . "\n";
@@ -709,7 +719,7 @@ sub test_htpasswd_htdigest_preserves_email {
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
     $impl->ClearCache() if $impl->can('ClearCache');
 
-    my @users = keys %{ $this->{users1} };
+    my @users = sort keys %{ $this->{users1} };
     foreach my $algo (
         'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
         'crypt-md5',  'md5',          'bcrypt'
@@ -726,10 +736,15 @@ sub test_htpasswd_htdigest_preserves_email {
     }
 
     #dumpFile();
-
+    @users = sort keys %{ $this->{users1} };
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    foreach my $user ( keys %{ $this->{users1} } ) {
+    foreach my $algo (
+        'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
+        'crypt-md5',  'md5',          'bcrypt'
+      )
+    {
+        my $user = pop @users;
         $this->assert_str_equals(
             $this->{users1}->{$user}->{emails},
             join( ";", $impl->getEmails($user) )

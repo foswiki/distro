@@ -261,8 +261,10 @@ sub _readPasswd {
             && -e $Foswiki::cfg{Htpasswd}{FileName} )
         {
             my $fileTime = ( stat(_) )[9];
-            $this->ClearCache()
-              if ( $fileTime > $this->PasswordTimestamp() );
+            if ( $fileTime > $this->PasswordTimestamp() ) {
+                print STDERR "REREAD FROM FILE\n";
+                $this->ClearCache();
+            }
         }
 
         return $this->PasswordData() if ( $this->PasswordData() );
@@ -287,7 +289,7 @@ sub _readPasswd {
 
     local $/ = "\n";
 
-    open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
+    open( $IN_FILE, '<:encoding(utf-8)', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
@@ -465,7 +467,8 @@ sub _savePasswd {
     unless ( -e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
 
        # Item4544: Document special format used in .htpasswd for email addresses
-        open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" )
+        open( my $readme, '>:encoding(utf-8)',
+            "$Foswiki::cfg{Htpasswd}{FileName}.README" )
           or throw Error::Simple(
             $Foswiki::cfg{Htpasswd}{FileName} . '.README open failed: ' . $! );
 
@@ -485,7 +488,7 @@ EoT
     my $oldMask = umask(077);    # Access only by owner
     my $fh;
 
-    open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
+    open( $fh, '>:encoding(utf-8)', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!");
     print $fh $content;
@@ -530,7 +533,8 @@ sub encrypt {
             return 0;
         }
 
-        my $encodedPassword = '{SHA}' . Digest::SHA::sha1_base64($passwd) . '=';
+        my $encodedPassword = '{SHA}'
+          . Digest::SHA::sha1_base64( Encode::encode_utf8($passwd) ) . '=';
 
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;
@@ -550,7 +554,8 @@ sub encrypt {
                 $saltchars[ int( rand( $#saltchars + 1 ) ) ]
               . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
         }
-        return crypt( $passwd, substr( $salt, 0, 2 ) );
+        return crypt( Encode::encode_utf8($passwd),
+            Encode::encode_utf8( substr( $salt, 0, 2 ) ) );
 
     }
     elsif ( $enc eq 'md5' || $enc eq 'htdigest-md5' ) {
@@ -558,7 +563,7 @@ sub encrypt {
         # SMELL: what does this do if we are using a htpasswd file?
         my $realm = $entry->{realm} || $Foswiki::cfg{AuthRealm};
         my $toEncode = "$login:$realm:$passwd";
-        return Digest::MD5::md5_hex($toEncode);
+        return Digest::MD5::md5_hex( Encode::encode_utf8($toEncode) );
 
     }
     elsif ( $enc eq 'apache-md5' ) {
@@ -586,8 +591,8 @@ sub encrypt {
                 ];
             }
         }
-        return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
-            substr( $salt, 0, 14 ) );
+        return Crypt::PasswdMD5::apache_md5_crypt( Encode::encode_utf8($passwd),
+            Encode::encode_utf8( substr( $salt, 0, 14 ) ) );
     }
     elsif ( $enc eq 'crypt-md5' ) {
         my $salt;
@@ -611,11 +616,13 @@ sub encrypt {
 
         # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
         if ( $this->{APR} ) {
-            return Crypt::PasswdMD5::unix_md5_crypt( $passwd,
-                substr( $salt, 0, 11 ) );
+            return Crypt::PasswdMD5::unix_md5_crypt(
+                Encode::encode_utf8($passwd),
+                Encode::encode_utf8( substr( $salt, 0, 11 ) ) );
         }
         else {
-            return crypt( $passwd, substr( $salt, 0, 11 ) );
+            return crypt( Encode::encode_utf8($passwd),
+                Encode::encode_utf8( substr( $salt, 0, 11 ) ) );
         }
 
     }
@@ -645,11 +652,14 @@ sub encrypt {
                   % ( $#saltchars + 1 )
                 ];
             }
-            $salt = Crypt::Eksblowfish::Bcrypt::en_base64($salt);
+            $salt =
+              Crypt::Eksblowfish::Bcrypt::en_base64(
+                Encode::encode_utf8($salt) );
             $salt = '$2a$08$' . $salt;
         }
         $salt = substr( $salt, 0, 29 );
-        return Crypt::Eksblowfish::Bcrypt::bcrypt( $passwd, $salt );
+        return Crypt::Eksblowfish::Bcrypt::bcrypt( Encode::encode_utf8($passwd),
+            Encode::encode_utf8($salt) );
     }
     die 'Unsupported password encoding ' . $enc;
 }
