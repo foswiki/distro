@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-04 18:53+0200\n"
-"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
+"PO-Revision-Date: 2015-05-19 14:54+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
 "Language: da\n"
@@ -4157,7 +4157,7 @@ msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr "The Free and Open Source Wiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:417
 msgid ""
@@ -4251,13 +4251,10 @@ msgstr ""
 "bruger Foswiki forsigtighedsprincippet."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
-#, fuzzy
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
 msgstr ""
-"The details about REST Handlers are only available to users with Admin "
-"authority."
 
 #: core/templates/registermessages.tmpl:243
 #: core/templates/registermessages.tmpl:261
@@ -4821,9 +4818,8 @@ msgid "Undo last change"
 msgstr "Fortryd sidste ændring"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
-#, fuzzy
 msgid "Unescape markup"
-msgstr "Unescape markup"
+msgstr ""
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
