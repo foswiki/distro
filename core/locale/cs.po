@@ -6,10 +6,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-01 22:07+0200\n"
-"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/cs/>\n"
+"PO-Revision-Date: 2015-05-19 14:52+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2899,7 +2899,6 @@ msgid "Numbered list"
 msgstr "Číslovaný seznam"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
-#, fuzzy
 msgid "OEmbed"
 msgstr "OEmbed"
 
@@ -5397,7 +5396,7 @@ msgstr "Vaše [[%1][Wikiname]] je %2 a vaše uživatelské jméno je =%3=."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your [[%1][username]]:"
-msgstr "Vaše [[%1][username]]:"
+msgstr "Vaše [[%1][uživatelské jméno]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5519,7 +5518,7 @@ msgstr "Klikni na [[%1][Odstranění chyb v textu stránky]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr "[[%1][username]]:"
+msgstr "[[%1][uživatelské jméno]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
