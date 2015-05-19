@@ -19,20 +19,19 @@ sub fixture_groups {
     my @page;
 
     foreach my $dir (@INC) {
-        if (
-            opendir(
-                my $D, File::Spec->catdir( $dir, 'Foswiki', 'PageCache' )
-            )
-          )
-        {
+        my $d = File::Spec->catdir( $dir, 'Foswiki', 'PageCache', 'DBI' );
+        if ( opendir( my $D, $d ) ) {
             foreach my $alg ( readdir $D ) {
-                next unless $alg =~ s/^(.*)\.pm$/$1/;
-                next if defined &{$alg};
-                $ENV{PATH} =~ m/^(.*)$/ms;
-                local $ENV{PATH} = $1;
-                ($alg) = $alg =~ m/^(.*)$/ms;
+                next if $alg =~ /^\./;
+                next unless $alg =~ /^(.*)\.pm$/;
+                $alg = $1;
+                next if ( grep { $_ eq $alg } @page );
+                if ( defined &{$alg} ) {
+                    push( @page, $alg );
+                    next;
+                }
 
-                if ( eval "require Foswiki::PageCache::$alg; 1;" ) {
+                if ( eval "require Foswiki::PageCache::DBI::$alg; 1;" ) {
                     no strict 'refs';
                     *{$alg} = sub {
                         my $this = shift;
@@ -51,20 +50,41 @@ sub fixture_groups {
         }
     }
 
-    return ( \@page, [ 'DBFileMeta', 'BDBMeta' ],
-        [ 'NoCompress', 'Compress' ] );
+    return (
+        \@page,    #[ 'DBFileMeta', 'BDBMeta' ],
+        [ 'NoCompress', 'Compress' ]
+    );
 }
 
-sub DBFileMeta {
-    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::PageCache::DB_File';
-
-    return;
+sub SQLite {
+    require Foswiki::PageCache::DBI::SQLite;
+    die $@ if $@;
+    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::SQLite';
+    $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
+      "$Foswiki::cfg{WorkingDir}/${$}_sqlite.db";
+    $Foswiki::cfg{Cache}{Enabled} = 1;
 }
 
-sub BDBMeta {
-    $Foswiki::cfg{MetaCacheManager} = 'Foswiki::PageCache::BDB';
+sub PostgreSQL {
+    require Foswiki::PageCache::DBI::PostgreSQL;
+    die $@ if $@;
+    $Foswiki::cfg{Cache}{Implementation} =
+      'Foswiki::PageCache::DBI::PostgreSQL';
+    $Foswiki::cfg{Cache}{Enabled} = 1;
+}
 
-    return;
+sub MySQL {
+    require Foswiki::PageCache::DBI::MySQL;
+    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MySQL';
+    $Foswiki::cfg{Cache}{Enabled}        = 1;
+}
+
+sub Generic {
+    $Foswiki::cfg{Cache}{DSN} =
+      "dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/${$}_generic.db";
+    require Foswiki::PageCache::DBI::Generic;
+    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
+    $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
 
 sub Compress {
@@ -99,23 +119,30 @@ sub _mangleID {
 
 sub set_up {
     my $this = shift;
+    $Foswiki::cfg{Cache}{Enabled} = 0;
     $this->SUPER::set_up();
 
-    $Foswiki::cfg{Cache}{Enabled}  = 0;
-    $Foswiki::cfg{HttpCompress}    = 0;
+    $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
     $UI_FN ||= $this->getUIFn('view');
 
     return;
 }
 
-sub verify_view {
+sub tear_down {
     my $this = shift;
+    $this->SUPER::tear_down();
+    unlink("$Foswiki::cfg{WorkingDir}/${$}_sqlite.db");
+    unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
+}
+
+sub check_view {
+    my ( $this, $pathinfo ) = @_;
 
     $UI_FN ||= $this->getUIFn('view');
 
     my $query = Unit::Request->new( { skin => ['none'], } );
-    $query->path_info("/");
+    $query->path_info($pathinfo);
     $query->method('POST');
 
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -139,6 +166,7 @@ sub verify_view {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
 
     # This second request should be satisfied from the cache
+    # How do we know it was?
     my $p2start = Benchmark->new();
     my ($two) = $this->capture(
         sub {
@@ -153,6 +181,45 @@ sub verify_view {
     print STDERR "R2 " . timestr( timediff( $p2end, $p2start ) ) . "\n";
 
     # Massage the HTML for comparison
+
+    while (
+        $one =~ s/\s*(<link class=['"]head ([^'"]+).*?<!--\2[^>]*-->)\s*//s )
+    {
+        my $link    = quotemeta($1);
+        my $section = $2;
+        $this->assert( $two =~ s/\s*$link\s*//s, "$section link missing" );
+    }
+
+    while ( $one =~
+        s/\s*(<script class=['"]script ([^'"]+).*?<!--\2[^>]*-->)\s*//s )
+    {
+        my $link    = quotemeta($1);
+        my $section = $2;
+        $this->assert( $two =~ s/\s*$link\s*//s, "$section script missing" );
+    }
+
+    while ( $one =~ s/\s*(<!--\[if( lte)? IE( \d+)?\]>.*?<!\[endif\]-->)\s*//s )
+    {
+        my $link = quotemeta($1);
+        $link =~ s//\\s+/gs;
+        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
+    }
+
+    # Purge troublesome IE conditionals
+    while ( $one =~ s/\s*(<!--\[if( lte)? IE( \d+)?\]>)\s*//s ) {
+        my $link = quotemeta($1);
+        $link =~ s//\\s+/gs;
+        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
+    }
+    while ( $one =~ s/\s*(<!\[endif\]>)\s*//s ) {
+        my $link = quotemeta($1);
+        $link =~ s//\\s+/gs;
+        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
+    }
+
+    $one =~ s/(data-validation-key=["']\?)[a-f0-9]{32}/${1}s1id/sg;
+    $two =~ s/(data-validation-key=["']\?)[a-f0-9]{32}/${1}s1id/sg;
+
     for ( $one, $two ) {
         $this->assert( s/\r//g,        'Failed to remove \r' );
         $this->assert( s/^.*?\n\n+//s, 'Failed to remove HTTP headers' );
@@ -181,6 +248,21 @@ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$
     $this->assert_html_equals( $one, $two );
 
     return;
+}
+
+sub verify_simple_view {
+    my $this = shift;
+    $this->check_view('/');
+}
+
+sub verify_topic_view {
+    my $this = shift;
+    $this->check_view("/$Foswiki::cfg{SystemWebName}/SystemRequirements");
+}
+
+sub verify_utf8_view {
+    my $this = shift;
+    $this->check_view("/TestCases/Šňáĺľ/ŠňáĺľŠťěř");
 }
 
 1;
