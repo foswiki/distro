@@ -2886,13 +2886,15 @@ Return: =$text= Content of file, empty if not found
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
 
+Text is decoded from utf-8 during the read.
+
 =cut
 
 sub readFile {
     my $name = shift;
     my $data = '';
     my $IN_FILE;
-    open( $IN_FILE, '<', $name ) || return '';
+    open( $IN_FILE, '<:encoding(utf-8)', $name ) || return '';
     local $/ = undef;    # set to read to EOF
     $data = <$IN_FILE>;
     close($IN_FILE);
@@ -2911,12 +2913,14 @@ Return:                none
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
 
+Text is encoded using utf-8 before saving.
+
 =cut
 
 sub saveFile {
     my ( $name, $text ) = @_;
     my $FILE;
-    unless ( open( $FILE, '>', $name ) ) {
+    unless ( open( $FILE, '>:encoding(utf-8)', $name ) ) {
         die "Can't create file $name - $!\n";
     }
     print $FILE $text;

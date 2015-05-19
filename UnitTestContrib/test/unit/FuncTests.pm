@@ -151,6 +151,19 @@ sub write_file {
     return $filehandle;
 }
 
+sub test_saveFile_readFile {
+    my $this = shift;
+    my $text = <<POWETRY;
+Dolorěṁ dêḻêcťůṡ iľļó áńįṁị îpşaṁ auṫ. Sapìëňte possiṁuś ratìoňe ļaboŕįõsām ĥįc ṗariatúř ëť. Rerụṁ ìṫaqūė excēpțuři ńeṁọ vọḻuṗťaś volŭṗtaş aüteṁ ratiòne ńéṡcîuṉț. Mødí qúø veḻîṫ saèpe ŕēpelĺènḋuś eť. Culṗă ṗraēsēńtium vero äb ödïo. Vero ċőrṗöŕīŝ doļőŕ ḋůċimus ḻàḃorum ódio paríatur quia. Reịçîêndįṡ eț pāřiatūr omṅis. Consěqúatůr íṁpedįť ćòṅsēquatuř quăși. Cöňseqųaṫùr dīștinçtío nëṁó ịste.
+Voḻŭṗťas illo rèćusandaė ęt dįcťã nôṉ qųaŝ qui pørŕo. Iṗsűm ñọn iŝte võłůpṫáțųṁ. Unde qùo űť cumque ṗerḟeŕenḋiš ďiĝnisšįmoş et. Vọľuptațèṁ ňịĥil ďọļôr doloř ešť verītátïş. Uńdē ĥìc ēūm viṫae ut oṁñịș ďọloř. Dọlõrėm ṗerfërêndìș miňus řąťìọnë exṗlićåḃo. Temṗọrá nôbîs teṁpore pariaṫůr et. Voľuptáțê ṫenetur omniš est áụt eĺigendi. Quí vèlit ea moĺlìṫiā qụişqüãṁ möĺeštîaë đebitîṡ veĺit năṁ.
+POWETRY
+    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    Foswiki::Func::saveFile( $f, $text );
+    my $newtext = Foswiki::Func::readFile($f);
+    $this->assert_str_equals( $text, $newtext );
+    unlink($f);
+}
+
 sub test_createWeb_permissions {
     my $this = shift;
     use Error qw( :try );
@@ -2764,6 +2777,12 @@ sub test_saveTopicTextEmbeddedMeta {
     my $origtext = <<'NONNY';
 %META:TOPICINFO{author="BaseUserMapping_123" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%
 'Tis some text
+
+Sïṁîḻīqųē éț äůț ąśśùṁěṅďă
+
+Sêqui dòĺórém ḟụģìt molļîṫīã òmnis. Sụṅť quãsí ręṗudịanđae õćcåęcatï ṁołlitia įṗšam. Hic fuga iurë ėarum qŭo arcĥīťèctò. Aütem nątüṡ ḃëàtãe ęț eaqųë. Rėrụṁ êā répřehëṅdeřïť āĺiqŭám ēšť bêătâe eă deḃitis omnīs. Añimi vįțaê volụṗṫaṫëṁ ofḟiĉiis. Ađipiscį ḋóĺõřęmqùe éṫ vọlüptatụṁ. Práèşēntiuṁ ęiuș ḟačere eṫ esț cörrŭpțị àțquè. Nôstruṁ esť ïṁṗeďïț ařchïtęçțø dïģnissiṁóś pêrḟeŕeṉdis. Súscïpiť oṁṅis ęxĉepturi ãd ṉïĥįļ oḟfičia oṁnis ñám acčusàńťiům.
+Siť vołupťäțùm ṡụšcïṗìt řérúṁ eñíṁ ët qúia võlŭptåțem. Istė eòŝ veŕo ṫęṁṗóre qűia nihiľ ařċhìtêctọ døľořěṁquë. Quì asperṉățúr dișțínćtio ņọn. Tøtàm ēűm şapiėṉťě ńëquè mõļėștiäe īđ ēt eoś ṗérḟèreṉdiŝ. Suňt qui undē sūnt voluptäș åspêrnåtűr nequė ëlïgëndị quï. Et diĝníšșimos ċulṗa pāřįáťűř üt nuṁquâm. Harŭm ċoṅšéqŭaṫuř voļűṗťãṡ aċćuşamuş rąțìonė ḃeatäė. Añimî éx ćoṅsêċtetúŕ âlīqųîḋ îṅ řatįoņé. Eṫ šéd iuşṫo ćónseqụațuř ēt eť recuṡandäe.
+
 and a trailing newline
 
 %META:FORM{name="TestForm"}%
