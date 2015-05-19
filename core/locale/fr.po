@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-07 14:12+0200\n"
+"PO-Revision-Date: 2015-05-19 12:12+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -1561,10 +1561,8 @@ msgstr ""
 "informer l'administrateur de %4."
 
 #: core/templates/messages.tmpl:110
-#, fuzzy
 msgid "During rename of web %1 to %2 an error was found."
-msgstr ""
-"Une erreur est survenue lors du déplacement du fichier attaché =%1= vers %2."
+msgstr "Une erreur est survenue lors du renommage du Web %1 vers %2."
 
 #: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
 msgid ""
@@ -3446,12 +3444,11 @@ msgid "Remember me on this computer"
 msgstr "Se souvenir de moi sur cet ordinateur"
 
 #: core/templates/registermessages.tmpl:292
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"N'oubliez pas de mettre à jour votre page personnelle pour que la "
+"N'oubliez pas de mettre à jour votre page personnelle [[%1]] pour que la "
 "modification de votre adresse e-mail y apparaisse aussi."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
@@ -4672,9 +4669,10 @@ msgid "This system is configured to use usernames"
 msgstr "Ce système est configuré pour utiliser des noms de connexion"
 
 #: core/templates/messages.tmpl:385
-#, fuzzy
 msgid "This system is not configured to support user login. Return to [[%1]]."
-msgstr "Ce système est configuré pour utiliser des noms de connexion"
+msgstr ""
+"Ce système n'est pas configuré pour utiliser des noms de connexion. "
+"Retournez vers [[%1]]."
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
