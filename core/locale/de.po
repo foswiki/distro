@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:43+0200\n"
+"PO-Revision-Date: 2015-05-19 12:02+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -4084,7 +4084,6 @@ msgid "Superscript"
 msgstr "Hochgestellter Text"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-#, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Zeichensatz in monotype oder proportional wechseln"
 
@@ -5429,7 +5428,6 @@ msgstr ""
 "Administrator, um das zu erledigen."
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5535,9 +5533,8 @@ msgstr "Ihr [[%1][Wikiname]] lautet %2 und Ihr Benutzername ist =%3=."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "Nicht unterstützter [[%1][Anmeldename]]"
+msgstr "Ihr [[%1][Benutzername]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
