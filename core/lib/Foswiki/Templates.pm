@@ -586,7 +586,7 @@ sub _readFile {
     my ( $session, $fn ) = @_;
     my $F;
 
-    if ( open( $F, '<', $fn ) ) {
+    if ( open( $F, '<:encoding(utf-8)', $fn ) ) {
         local $/;
         my $text = <$F>;
         close($F);
@@ -624,7 +624,7 @@ sub saveTemplateToCache {
     my $filename = Foswiki::Sandbox::untaintUnchecked(
         $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
 
-    open( my $file, '>', $filename ) or do {
+    open( my $file, '>:encoding(utf-8)', $filename ) or do {
         die "Can't create file $filename - $!\n" if DEBUG;
         print STDERR "Can't create file $filename - $!\n";
 
@@ -646,7 +646,7 @@ sub getTemplateFromCache {
         $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
 
     if ( -e $filename ) {
-        open( my $in_file, '<', $filename ) or return;
+        open( my $in_file, '<:encoding(utf-8)', $filename ) or return;
         local $/ = undef;    # set to read to EOF
         my $data = <$in_file>;
         close($in_file);
