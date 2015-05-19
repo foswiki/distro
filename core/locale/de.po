@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 12:05+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-19 12:07+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -3824,7 +3824,7 @@ msgstr "Auswählen"
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr ""
-"Eine neue Datei auf Ihrem Rechner wählen, um den Anhang zu aktualisieren."
+"Eine neue Datei auf Ihrem Rechner wählen, um den Anhang zu aktualisieren"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "Select all"
@@ -4390,6 +4390,8 @@ msgstr "Der Name, den Sie bei der Anmeldung eingeben"
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
 msgstr ""
+"Das neue Eltern-Web (%1) darf weder mit dem alten noch mit dem neuen Web-"
+"Namen identisch sein."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
