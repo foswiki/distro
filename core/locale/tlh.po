@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 15:38+0200\n"
+"PO-Revision-Date: 2015-05-19 20:31+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -123,7 +123,7 @@ msgstr "mIch chu&&#39; <nop>pongmeH <nop>lI&&#39;be&&#39; %1"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
-msgstr "DaH &&#39;elta&&#39; %1 <nop>rIntaH"
+msgstr "<nop>DaH &&#39;elta&&#39; %1 rIntaH"
 
 #: core/templates/messages.tmpl:300
 msgid "%1 is currently set to %2"
@@ -1339,7 +1339,7 @@ msgstr "%1 mIchDaq ghItlh chu&&#39; <nop>chenmoH"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
-msgstr "tepvaD Devbogh rarwI&&#39; chenmoH"
+msgstr "tepvaD Qeqbogh rarwI&&#39; chenmoH"
 
 #: core/data/Main/WikiGroups.txt:17
 msgid "Create a new group"
@@ -1424,7 +1424,7 @@ msgstr "yIqIm, %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Debug"
-msgstr "QaghHa&&#39;moH"
+msgstr "<nop>QaghHa&&#39;moH"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:119
 #: NatEditPlugin/templates/edit.natedit.tmpl:155
@@ -1588,7 +1588,7 @@ msgstr "Qagh EXPAND - Hutlh ghItlh '%PARAM1%'"
 #: NatEditPlugin/templates/settings.natedit.tmpl:26
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
-msgstr "ngoqvetlh ghaj Hoch lISmeH DuH"
+msgstr "ngoqvetlh ghaj Hoch lISmeH <nop>DuH"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
 #: core/templates/viewtopicactionbuttons.tmpl:48
@@ -1810,7 +1810,7 @@ msgstr "rurbogh ghItlhmey Sam"
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
-msgstr "%1Daq Devbogh ghItlhmey Sam ..."
+msgstr "%1Daq Qeqbogh ghItlhmey Sam ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
 msgid "First"
@@ -2080,7 +2080,7 @@ msgstr ""
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
-msgstr "DaH %1vaD %2 ponglu&&#39;. yIqaw&&#39;eghmoH."
+msgstr "<nop>DaH %1vaD %2 ponglu&&#39;. yIqaw&&#39;eghmoH."
 
 #: core/templates/login.tmpl:71
 msgid "I forgot my password"
@@ -2337,7 +2337,7 @@ msgstr "HurvaD, ghItlhvaD ghap rarwI&&#39; chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
-msgstr "lo&&#39;wI&&#39; taDaq Devbogh rarwI&&#39; chel"
+msgstr "lo&&#39;wI&&#39; taDaq Qeqbogh rarwI&&#39; chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Insert a macro"
@@ -2767,7 +2767,7 @@ msgstr "mIch pong chu&&#39;:"
 
 #: core/templates/more.tmpl:156
 msgid "Newer revision:"
-msgstr ""
+msgstr "Dothl chu&&#39;:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Next"
@@ -3084,11 +3084,11 @@ msgstr "<nop>DaH <nop>lo'wI' pong yIghItlh."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
 msgid "Please enter a password."
-msgstr "DaH chaw' ngoq <nop>yIghItlh."
+msgstr "<nop>DaH chaw&&#39; ngoq <nop>yIghItlh."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
 msgid "Please enter a valid email address."
-msgstr "DaH QIn Quv qar yIghItlh."
+msgstr "<nop>DaH QIn Quv qar yIghItlh."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
@@ -3151,7 +3151,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:491
 msgid "Please notify your %1 administrator."
-msgstr "DaH %1 loHwI&#39;lIj yIghuHmoH."
+msgstr "<nop>DaH %1 loHwI&#39;lIj yIghuHmoH."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:55
 msgid "Please validate"
@@ -4123,20 +4123,24 @@ msgstr ""
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr ""
+"muvlu&&#39;meH [[%1][&&#39;elwI&&#39; lo&&#39;wI&&#39; pong]] poQlu&&#39;. "
+"muvmeH mIw lajHa&&#39;lu&&#39;."
 
 #: core/templates/registermessages.tmpl:80
 msgid "The activation code %1 is invalid."
-msgstr "<nop>lI'be' <nop>chu'meH ngoq %1."
+msgstr "lI&&#39;be&&#39; chu&&#39;meH ngoq %1."
 
 #: core/templates/moveattachment.tmpl:48
 msgid "The attachment and any history will be moved to the new topic."
-msgstr ""
+msgstr "ghItlh chu&&#39;Daq tep qun je luvIHmoHlu&&#39; je."
 
 #: core/templates/moveattachment.tmpl:26
 msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"<nop>DoS ghItlhDaq tep tu&&#39;lu&&#39;bogh pong rurchuch tep qan pong, vaj "
+"&&#39;oHvaD latlh pong ponglu&&#39; (roD pongDaq mI&&#39; chellu&&#39;)."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
@@ -4149,12 +4153,16 @@ msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"Dochmey SammeH, <nop>DIbmeylIj nIH &&#39;e&&#39; nID HIvwI&&#39;. chaq "
+"loHwI&&#39; DIb lurur DIbmeyvetlh."
 
 #: core/templates/messages.tmpl:343
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
 msgstr ""
+"choHmeH Qorwaghvo&&#39; lengta&&#39; %1 &&#39;ej pol &&#39;e&&#39; "
+"lIjpu&&#39; &&#39;e&&#39; vInoH."
 
 #: core/templates/renamebase.tmpl:72
 msgid ""
@@ -4179,17 +4187,17 @@ msgstr ""
 #: core/templates/registermessages.tmpl:243
 #: core/templates/registermessages.tmpl:261
 msgid "The e-mail address for this account has been rejected."
-msgstr ""
+msgstr "tavamvaD QIn Quv lajHa&&#39;lu&&#39;."
 
 #: core/templates/registermessages.tmpl:252
 #: core/templates/registermessages.tmpl:270
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr ""
+msgstr "tavamvaD QIn Quv lo&&#39;taH latlh lo&&#39;wI&&#39;."
 
 #: core/templates/registermessages.tmpl:234
 msgid "The e-mail address for this account is not valid."
-msgstr ""
+msgstr "tavamvaD QaQbe&&#39; QIn Quvvam."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
@@ -4222,6 +4230,8 @@ msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr ""
+"mIchvam ghItlhmeyDaq Qeq ghItlhmeyvetlh, &&#39;ach bIH Danaw&&#39; net "
+"chaw&&#39;be&&#39;:"
 
 #: core/templates/messages.tmpl:215
 msgid "The form should be defined in the topic %1"
@@ -5401,6 +5411,8 @@ msgstr ""
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
+"patvamDaq lo&&#39;wI&&#39; pong DachenmoHmeH pab DayajmeH [[%1][naDev "
+"yI&&#39;uy]]"
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
@@ -5443,7 +5455,7 @@ msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
-msgstr ""
+msgstr "mIchDaq naw&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
@@ -5467,7 +5479,7 @@ msgstr "choH, chu&&#39;moH, Dotlhmey, vIHmoH, polHa&&#39;..."
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
-msgstr ""
+msgstr "ghItlhmey lurarlu&&#39;bogh wIvmeH meyrI&&#39;Hommey&&#39;e&&#39;"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5530,7 +5542,7 @@ msgstr "De&&#39; poQlu&&#39;bogh &&#39;ang"
 
 #: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin lISlu&&#39;be&&#39;. bIngDaq Qaghmey tIbuS."
 
 #: core/data/System/SiteChanges.txt:63
 msgid "last change"
@@ -5568,11 +5580,11 @@ msgstr "ghItlh &&#39;ol"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "public view access"
-msgstr ""
+msgstr "leghlaH Hoch"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
 msgid "restore"
-msgstr ""
+msgstr "polqa&&#39;"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
 msgid "restore form"
@@ -5586,10 +5598,14 @@ msgstr "%1 naw&&#39; SoQmoH"
 #: NatEditPlugin/templates/edit.natedit.tmpl:127
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
+"chaw&&#39; choH: laDlaH patvamDaq ta ghajbogh "
+"lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39; neH"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
+"chaw&&#39; choH: ghItlhlaH patvamDaq ta ghajbogh "
+"lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39; neH"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5612,11 +5628,11 @@ msgstr "ghom, lo&&#39;wI&&#39; tetlh ghap lIS"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:137
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "ghItlhvam naw&&#39; lajHa&&#39;chu&&#39;"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "ghItlhvam choHmeH chaw&&#39; lajHa&&#39;chu&&#39;"
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
