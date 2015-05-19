@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 12:03+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-05-19 12:04+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -1043,9 +1043,7 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr ""
-"Konnte %1 nicht nach %2 umbenennen, da ein Topic mit dem Namen bereits "
-"existiert"
+msgstr "Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
 
 #: core/data/System/WebSearch.txt:184
 msgid "Case sensitive"
@@ -2222,7 +2220,7 @@ msgstr "Wenn Sie Fragen zur Registrierung senden Sie eine E-Mail an %1."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 #: core/templates/login.tmpl:82
 msgid "If you have any questions, please contact %1"
-msgstr "Wenn Sie Fragen haben wenden Sie sich bitte an %1."
+msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/data/System/VarMAKETEXT.txt:23
