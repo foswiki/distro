@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 12:12+0200\n"
-"Last-Translator: Guilain Cabannes <guilain@cabannes.info>\n"
+"PO-Revision-Date: 2015-05-19 15:16+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -4082,7 +4082,6 @@ msgid "Superscript"
 msgstr "Exposant"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
-#, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Passer en police à espacement fixe ou proportionnel"
 
@@ -4401,6 +4400,8 @@ msgstr "Le nom avec lequel vous vous connectez"
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
 msgstr ""
+"Le nouveau web parent (%1) ne peut pas être le même que le vieux ou le "
+"nouveau nom de web."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -5245,7 +5246,6 @@ msgstr ""
 "pas !"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
-#, fuzzy
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
@@ -5455,7 +5455,6 @@ msgstr ""
 "l'administrateur de le faire pour vous."
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
