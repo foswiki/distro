@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-18 15:27+0200\n"
+"PO-Revision-Date: 2015-05-19 15:38+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -1141,10 +1141,14 @@ msgstr "{TemplateDir} {TemplatePath} je DuHmey tI&&#39;ol."
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
+"ghItlh Daq chu&&#39;vaD rarmeH ghItlhmey luwIvlu&&#39;bogh "
+"luchu&&#39;moHlu&&#39;."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
+"mIch pong chu&&#39;vaD rarmeH ghItlhmey luwIvlu&&#39;bogh "
+"luchu&&#39;moHlu&&#39;."
 
 #: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
@@ -1681,6 +1685,8 @@ msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
+"ghotqoqlIj <nop>DachoHmeH chaw&&#39; ngoq chu&&#39; lo&&#39;wI&&#39; pong "
+"chu&&#39; je tIghItlh"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Enter parent name"
@@ -1689,6 +1695,8 @@ msgstr "qup pong ghItlh"
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
+"DaH wIqI loHmeH lo&&#39;wI&&#39; pong yIghItlh, pagh %1 &&#39;elmeH ngoq "
+"yIghItlh"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
@@ -1780,11 +1788,13 @@ msgstr "Qagh URL %1 chelmeH mIw"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
-msgstr ""
+msgstr "mu&&#39;mey&&#39;e&&#39; lutlhejbogh %1 lupoQlu&&#39;"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr ""
+"mu&&#39;mey&&#39;e&&#39; lutlhejbogh <span class='required'>*</span> "
+"lupoQlu&&#39;."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
@@ -1792,7 +1802,7 @@ msgstr "De&&#39;"
 
 #: core/templates/messages.tmpl:237
 msgid "File has been uploaded with different name"
-msgstr ""
+msgstr "latlh pong ghaj De&&#39;&&#39;e&&#39; lablu&&#39;bogh"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
@@ -2033,6 +2043,8 @@ msgstr "<nop>QaH So&&#39;"
 #: core/templates/messages.tmpl:122
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
+"<nop>DaHjaj puqmIchmey luchu&&#39;Ha&&#39;lu&&#39;. mIchHommey "
+"<nop>DachenmoHlaHbe&&#39;."
 
 #: core/data/System/ManagingTopics.txt:98
 msgid "History"
@@ -2048,7 +2060,7 @@ msgstr "mIlloghlIj Dachel <nop>DaneH&&#39;a&&#39;?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
-msgstr ""
+msgstr "chay&&#39; muvmeH mIwlIj Dachu&&#39;laH"
 
 #: core/templates/registerfailednotremoved.tmpl:13
 msgid ""
@@ -2068,7 +2080,7 @@ msgstr ""
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
-msgstr ""
+msgstr "DaH %1vaD %2 ponglu&&#39;. yIqaw&&#39;eghmoH."
 
 #: core/templates/login.tmpl:71
 msgid "I forgot my password"
@@ -2136,7 +2148,7 @@ msgstr "naDev DuDevta&&#39;chugh ghelwI&&#39; Degh rarwI&&#39;"
 
 #: core/templates/registermessages.tmpl:97
 msgid "If you don't receive a verification email within the next hour, "
-msgstr ""
+msgstr "qaStaHvIS wa&&#39; rep pIq &&#39;olmeH QIn <nop>DaHevbe&&#39;chugh, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "If you enter a different name, make sure the topic exists."
@@ -2228,7 +2240,7 @@ msgstr "%2Daq mIllogh %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
-msgstr ""
+msgstr "mIlloghmey lu&&#39;aghlu&&#39;, rarwI&&#39; luHev latlh tepmey."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:7
 msgid ""
@@ -2240,10 +2252,12 @@ msgstr ""
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
+"ZIP De&&#39; &&#39;aplo&&#39; Daghajchugh vaj ghItlhDaq Hoch ngaSbogh "
+"De&&#39; ghItlhHommey lupollu&&#39;"
 
 #: core/data/System/WebSearch.txt:174
 msgid "In reversed order"
-msgstr ""
+msgstr "tagh QavwI&&#39;"
 
 #: core/templates/messages.tmpl:242
 msgid ""
@@ -2253,7 +2267,7 @@ msgstr ""
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:25
 msgid "Including"
-msgstr ""
+msgstr "Dochmey chel (include)"
 
 #: core/templates/registermessages.tmpl:300
 msgid "Incorrect Password"
@@ -2261,7 +2275,7 @@ msgstr "chaw&&#39; ngoq qarHa&&#39;"
 
 #: core/templates/registermessages.tmpl:307
 msgid "Incorrect Prefix"
-msgstr ""
+msgstr "moHaq qarHa&&#39;"
 
 #: core/templates/registermessages.tmpl:114
 msgid "Incorrect [[%1][WikiName]]"
@@ -2319,7 +2333,7 @@ msgstr "rarwI&&#39; chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:102
 msgid "Insert a link to a topic or an external resource"
-msgstr ""
+msgstr "HurvaD, ghItlhvaD ghap rarwI&&#39; chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
@@ -2394,6 +2408,11 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
+"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+"DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh _polqu&&#39;"
+"_ %1 &&#39;oH <nop>DachoHtaHvIS SoH, choHmeylIj lupollu&&#39; &&#39;ej ngab "
+"pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form De&&#39; choHmeH mIw, vaj "
+"qaSchugh ghu&&#39;vetlh, %1 DarI&&#39; net chup bIruchpa&&#39;."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2562,7 +2581,7 @@ msgstr "<nop>mIwHommey"
 
 #: core/templates/messages.tmpl:186
 msgid "Mail to"
-msgstr ""
+msgstr "QIn HevwI&&#39;"
 
 #: core/data/System/WebSearch.txt:178
 msgid "Make search:"
@@ -2570,7 +2589,7 @@ msgstr "<nop>nejwI&&#39; <nop>chenmoH:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "&&#39;aqroS %1 mIch Dochmey"
 
 #: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2583,11 +2602,11 @@ msgstr "Hutlhbogh De&&#39;"
 
 #: core/templates/messages.tmpl:37
 msgid "Missing action command"
-msgstr ""
+msgstr "Hutlh vangmeH ra&&#39;wI&&#39;"
 
 #: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Hutlh mIch pong, pagh Qagh &&#39;oH"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:54
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
@@ -2600,7 +2619,7 @@ msgstr "latlh ghItlh %1 <nop>DuHmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
-msgstr ""
+msgstr "latlh Degh nguvmoHmeH <nop>DuHmey"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "More formatting help"
@@ -2612,7 +2631,7 @@ msgstr "latlh <nop>chelmeH Dochmey"
 
 #: core/templates/attachagain.tmpl:17
 msgid "More on hiding attachments"
-msgstr ""
+msgstr "tep So&&#39;meH qeSmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "More tools"
@@ -4206,19 +4225,19 @@ msgstr ""
 
 #: core/templates/messages.tmpl:215
 msgid "The form should be defined in the topic %1"
-msgstr ""
+msgstr "ghItlh %1Daq Form lISnISlu&&#39;"
 
 #: core/templates/messages.tmpl:341
 msgid "The lease on this topic expired %1 ago."
-msgstr ""
+msgstr "%1 ret Dor ghItlhvam qav&&#39;ap poH."
 
 #: core/templates/messages.tmpl:97
 msgid "The name of the topic (%1) contained invalid characters."
-msgstr ""
+msgstr "Deghmey QaQbe&&#39; ngaS ghItlh pong (%1)."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
-msgstr ""
+msgstr "chIm ghItlh pong net chaw&&#39;be&&#39;."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4227,14 +4246,16 @@ msgstr "&&#39;elmeH pong Dalo&&#39;bogh"
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
 msgstr ""
+"pong chu&&#39;, pong qan je rur qup web pong chu&&#39; (%1) net "
+"chaw&&#39;be&&#39;."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
-msgstr ""
+msgstr "taHnIS ghItlh chu&&#39; <nop>DawIvbogh."
 
 #: core/templates/messages.tmpl:15
 msgid "The new web has been created"
-msgstr ""
+msgstr "mIch chu&&#39; chenmoHlu&&#39;ta&&#39;"
 
 #: core/templates/registermessages.tmpl:301
 msgid "The password you entered in the *old password* field is incorrect."
@@ -4262,6 +4283,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:177
 msgid "The two passwords you entered do not match."
 msgstr ""
+"nIbbe&&#39; cha&&#39; chaw&&#39; ngoqmey&&#39;e&&#39; DaghItlhta&&#39;bogh."
 
 #: core/templates/registermessages.tmpl:105
 msgid "The user %1 has already been activated, and should be able to log in."
@@ -5110,6 +5132,11 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
+"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+"DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh _polqu&&#39;"
+"_ %1 &&#39;oH <nop>DachoHtaHvIS SoH, choHmeylIj lupollu&&#39; &&#39;ej ngab "
+"pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form De&&#39; choHmeH mIw, vaj "
+"qaSchugh ghu&&#39;vetlh, %1 DarI&&#39; net chup bIruchpa&&#39;."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
