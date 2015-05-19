@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 10:19+0200\n"
+"PO-Revision-Date: 2015-05-19 14:49+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1393,7 +1393,7 @@ msgstr "E-mail succesvol gewijzigd!"
 
 #: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "ENCODE mislukt - =type= kan niet worden gebruikt naast =old= en =new="
+msgstr "ENCODE mislukt - =type= kan niet worden gebruikt naast =old= en =new= "
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
@@ -1401,7 +1401,7 @@ msgstr "ENCODE mislukt - zowel =old= als =new= moeten worden ingevoerd"
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE mislukt - '%PARAM1%' staat ook in =old="
+msgstr "ENCODE mislukt - '%PARAM1%' staat ook in =old= "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -2144,7 +2144,7 @@ msgstr "Log uit"
 
 #: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
-msgstr "Log in om verder te gaan"
+msgstr "Log in om verder te gaan."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2551,7 +2551,7 @@ msgstr "Kies een van de %1."
 
 #: core/data/Trash/WebPreferences.txt:10
 msgid "Place for trashed topics and attachments."
-msgstr "Locatie voor verwijderde pagina&#39;s en bijlagen"
+msgstr "Locatie voor verwijderde pagina&#39;s en bijlagen."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2865,7 +2865,7 @@ msgid ""
 "or is the same or later than the current revision (%2)"
 msgstr ""
 "Verzochte revisie (%1) is illegaal of ongeldig. Deze bestaat niet in de "
-"geschiedenis, of is gelijk aan of later dan de huidige revisie (%2)."
+"geschiedenis, of is gelijk aan of later dan de huidige revisie (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -3389,7 +3389,7 @@ msgstr "De beheerder heeft het wijzigen van wachtwoord uitgeschakeld."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr "De Vrije en Open Source Wiki"
+msgstr "De Vrije en Open Source Wiki."
 
 #: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
@@ -3466,7 +3466,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
-msgstr "Het e-mailadres voor dit account is ongeldig."
+msgstr "Het e-mailadres voor dit account is niet geldig."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
@@ -3594,7 +3594,7 @@ msgstr "Er zou een regel moeten zijn die %1 bevat; kijk uit naar %2 (of %3)"
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Er zijn fouten opgetreden bij het toevoegen aan de %2 groep. %1"
+msgstr "Er zijn fouten opgetreden bij het toevoegen aan de %2 groep. %1 "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3965,7 +3965,7 @@ msgstr "Gebruiker %1 heeft geen CHANGE toestemming voor %2."
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
-msgstr "Gebruiker %1 behoort niet tot de groep, en kan niet worden verwijderd."
+msgstr "Gebruiker %1 behoort niet tot de groep, en kan niet worden verwijderd"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -4057,7 +4057,7 @@ msgstr "Bekijk revisie:"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "View sequential topic history"
-msgstr "Bekijk totale paginageschiedenis"
+msgstr ""
 
 #: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
@@ -4211,7 +4211,7 @@ msgstr ""
 "Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
 "wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
 "mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
-"op met %1."
+"op met %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -4696,7 +4696,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Bewerk wiki tekst' accesskey='w'>Be&werk wiki tekst "
+msgstr "title='Bewerk wiki tekst' accesskey='w'>Be&werk wiki tekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
