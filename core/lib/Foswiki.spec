@@ -1607,7 +1607,10 @@ $Foswiki::cfg{Cache}{DependencyFilter} =
 $Foswiki::cfg{Cache}{DBI}{TablePrefix} = 'foswiki_cache';
 
 # **STRING 80 LABEL="DBI DSN" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /Generic$/'"**
-# Generic database driver. See the docu of your DBI driver for the exact syntax of the DSN parameter string.
+# Default database driver DSN. See the documentation of your DBI driver for the
+# exact syntax of the DSN parameter string. *NOTE* this is a default, used only
+# by the 'Generic' DBI driver. It is ignored by the SQLite, MySQL and
+# PostGreSQL drivers, which all have their own ways of setting the DSN.
 $Foswiki::cfg{Cache}{DBI}{DSN} = '';
 
 # **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/ '"**
@@ -1619,7 +1622,7 @@ $Foswiki::cfg{Cache}{DBI}{Username} = '';
 $Foswiki::cfg{Cache}{DBI}{Password} = '';
 
 # **STRING 80 LABEL="Database Filename" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::SQLite'" CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::SQLite$/'"**
-# Name of the SQL
+# Name of the SQLite database file.
 $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
   '$Foswiki::cfg{WorkingDir}/sqlite.db';
 
