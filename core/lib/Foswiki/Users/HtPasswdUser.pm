@@ -289,7 +289,8 @@ sub _readPasswd {
 
     local $/ = "\n";
 
-    open( $IN_FILE, '<:encoding(utf-8)', $Foswiki::cfg{Htpasswd}{FileName} )
+    my $enc = $Foswiki::cfg{Htpasswd}{CharacterEncoding} || 'utf-8';
+    open( $IN_FILE, "<:encoding($enc)", $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
@@ -467,8 +468,7 @@ sub _savePasswd {
     unless ( -e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
 
        # Item4544: Document special format used in .htpasswd for email addresses
-        open( my $readme, '>:encoding(utf-8)',
-            "$Foswiki::cfg{Htpasswd}{FileName}.README" )
+        open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" )
           or throw Error::Simple(
             $Foswiki::cfg{Htpasswd}{FileName} . '.README open failed: ' . $! );
 
@@ -488,7 +488,8 @@ EoT
     my $oldMask = umask(077);    # Access only by owner
     my $fh;
 
-    open( $fh, '>:encoding(utf-8)', $Foswiki::cfg{Htpasswd}{FileName} )
+    my $enc = $Foswiki::cfg{Htpasswd}{CharacterEncoding} || 'utf-8';
+    open( $fh, ">:encoding($enc)", $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!");
     print $fh $content;

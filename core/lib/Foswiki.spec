@@ -650,6 +650,13 @@ $Foswiki::cfg{MinPasswordLength} = 7;
 # email addresses from an existing file.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
+# **STRING LABEL="Password File Character Encodingname" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/i'"**
+# Character encoding used in the password file. This will default to utf-8, which allows any unicode
+# character to be used in usernames, passwords and email addresses. The only time you should change it
+# is if you have an existing password file that uses a different encoding (and even then only if there
+# is at least one character in that file that has a codepoint that would conflict with utf-8).
+# $Foswiki::cfg{Htpasswd}{CharacterEncoding} = 'utf-8';
+
 # **PATH LABEL="Password Lock-Filename" EXPERT DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/i'"**
 # Path to the lockfile for the password file.  This normally does not need
 # to be changed; however if two Foswiki installations share and update a
