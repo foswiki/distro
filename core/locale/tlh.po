@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 20:31+0200\n"
+"PO-Revision-Date: 2015-05-20 12:03+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -1065,7 +1065,7 @@ msgstr "Form qa&&#39;"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
-msgstr "choHta&&#39;"
+msgstr "Daq choH"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1335,7 +1335,7 @@ msgstr "ghItlh chu&&#39; <nop> chenmoH"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
-msgstr "%1 mIchDaq ghItlh chu&&#39; <nop>chenmoH"
+msgstr "%1 mIchDaq ghItlh chu&&#39; chenmoH"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
@@ -2718,7 +2718,7 @@ msgstr "pong:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
-msgstr "pongvam rurbogh ghItlhDaq <nop>ghoS"
+msgstr "pongvam rurbogh ghItlhDaq ghoS"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:161
 msgid "Never mind"
@@ -4551,19 +4551,19 @@ msgstr ""
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
-msgstr "ghItlhDaq"
+msgstr "<nop>DoS ghItlh"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
-msgstr "ghItlhDaq:"
+msgstr "<nop>DoS ghItlh:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
-msgstr "mIchDaq"
+msgstr "<nop>DoS mIch"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
-msgstr "mIchDaq:"
+msgstr "<nop>DoS mIch:"
 
 #: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
