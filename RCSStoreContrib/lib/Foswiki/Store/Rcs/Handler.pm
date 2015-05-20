@@ -1607,8 +1607,11 @@ sub recordChange {
         foreach (@changes) {
             my $hash = $_;
             $_ = [
-                $hash->{topic},    $hash->{cuid}, $hash->{time},
-                $hash->{revision}, $json->encode($hash)
+                $hash->{topic}       || '?',
+                $hash->{cuid}        || '?',
+                $hash->{time}        || '?',
+                $hash->{revision}    || '?',
+                $json->encode($hash) || '?'
             ];
         }
 
@@ -1664,11 +1667,9 @@ sub readChanges {
         # Create a hash for this line
         my %row;
 
-        $row{topic} =
-          Foswiki::Sandbox::untaint( shift(@row),
-            \&Foswiki::Sandbox::validateTopicName );
-        $row{user}     = shift(@row);
-        $row{time}     = shift(@row) || 0;
+        $row{topic} = Foswiki::Sandbox::untaintUnchecked( shift(@row) ) || '?';
+        $row{user}  = shift(@row)                                       || '?';
+        $row{time}  = shift(@row)                                       || 0;
         $row{revision} = shift(@row) || 1;
         $row{more}     = shift(@row) || '';
 
