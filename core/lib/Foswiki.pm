@@ -841,7 +841,7 @@ sub generateHTTPHeaders {
       ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
 
     # add http compression and conditional cache controls
-    if ( !$this->inContext('command_line') && $text ) {
+    if ( $Foswiki::engine->isa('Foswiki::Engine::CGI') && $text ) {
 
         if ( $Foswiki::cfg{HttpCompress}
             && ( $ENV{'HTTP_ACCEPT_ENCODING'} || $ENV{'SPDY'} ) )
@@ -857,8 +857,15 @@ sub generateHTTPHeaders {
                 $text = $cachedPage->{data};
             }
             else {
+                # SMELL: this assumes we can just chuck the $text at the
+                # response and get it printed, but unicode support requires
+                # that the CGI response utf8-encodes what is written to it.
+                # We don't want to utf-8 encode the zipped content, and the
+                # CGI Engine won't as long as the Content-Encoding includes
+                # 'gzip'. If any other compression method is used, this has
+                # to be considered.
                 require Compress::Zlib;
-                $text = Compress::Zlib::memGzip($text);
+                $text = Compress::Zlib::memGzip( Encode::encode_utf8($text) );
             }
         }
         elsif ($cachedPage
@@ -873,7 +880,9 @@ sub generateHTTPHeaders {
             # only know situation this can happen is for older browsers like IE6
             # which does not understand gzip'ed http encodings
             require Compress::Zlib;
-            $text = Compress::Zlib::memGunzip( $cachedPage->{data} );
+            $text =
+              Encode::decode_utf8(
+                Compress::Zlib::memGunzip( $cachedPage->{data} ) );
         }
 
         # we need to force the browser into a check on every

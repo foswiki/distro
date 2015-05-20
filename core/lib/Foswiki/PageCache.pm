@@ -136,7 +136,10 @@ sub genVariationKey {
     # add a flag to distinguish compressed from uncompressed cache entries
     $variationKey .= '::'
       . (
-        ( $Foswiki::cfg{HttpCompress} && $session->inContext('command_line') )
+        (
+                 $Foswiki::cfg{HttpCompress}
+              && $Foswiki::engine->isa('Foswiki::Engine::CLI')
+        )
         ? 1
         : 0
       );
@@ -243,11 +246,11 @@ sub cachePage {
     unless ($isDirty) {
         $data =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-        if ( $Foswiki::cfg{HttpCompress}
-            && !$session->inContext('command_line') )
+        if (   $Foswiki::cfg{HttpCompress}
+            && $Foswiki::engine->isa('Foswiki::Engine::CGI') )
         {
             require Compress::Zlib;
-            $data = Compress::Zlib::memGzip($data);
+            $data = Compress::Zlib::memGzip( Encode::encode_utf8($data) );
         }
         $etag = $time;
         $lastModified = Foswiki::Time::formatTime( $time, '$http', 'gmtime' );
