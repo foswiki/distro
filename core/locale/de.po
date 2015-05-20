@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-12 16:43+0200\n"
+"PO-Revision-Date: 2015-05-20 12:08+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
@@ -957,9 +957,7 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr ""
-"Konnte %1 nicht nach %2 umbenennen, da ein Topic mit dem Namen bereits "
-"existiert"
+msgstr "Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -987,7 +985,7 @@ msgstr "Nur Kommentar und Eigenschaften ändern"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
-msgstr "Geändert von"
+msgstr "Ändern von"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1057,8 +1055,8 @@ msgstr "Überprüfen Sie die Einstellungen für {TemplateDir} und {TemplatePath}
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
-"Die ausgewählten Topics werden aktualisiert, so dass Sie auf den neuen Ort "
-"des Topics zeigen."
+"Die ausgewählten Topics werden dahingehend aktualisiert, dass sie auf den "
+"neuen Ort des Topics zeigen."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
@@ -1921,7 +1919,7 @@ msgstr "Wenn Sie Fragen zur Registrierung senden Sie eine E-Mail an %1."
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
-msgstr "Wenn Sie Fragen haben wenden Sie sich bitte an %1."
+msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1"
 
 #: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
@@ -2390,7 +2388,7 @@ msgstr "Es existiert keine vorherige Revision."
 
 #: core/templates/renamebase.tmpl:45
 msgid "No topics to update."
-msgstr "Keine Topics zu aktualisieren"
+msgstr "Keine Topics zu aktualisieren."
 
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:530
 msgid "No username specified"
@@ -2573,7 +2571,7 @@ msgstr "Wählen Sie eine der %1."
 
 #: core/data/Trash/WebPreferences.txt:10
 msgid "Place for trashed topics and attachments."
-msgstr "Sammelstelle für entfernte Topics und Anhänge"
+msgstr "Sammelstelle für gelöschte Topics und Anhänge."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2892,8 +2890,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
-"Gewünschte Revision (%1) ist ungültig. Sie existiert nicht in der Historie "
-"oder ist mit der aktuellen Revision (%2) identisch, oder neuer."
+"Gewünschte Revision (%1) ist ungültig. Sie existiert entweder nicht in der "
+"Historie oder sie ist mit der aktuellen Revision (%2) identisch oder neuer"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2998,7 +2996,7 @@ msgstr ""
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr "Sandkasten: nicht eingeschränktes Web als Bereich für Experimente"
+msgstr "Sandkasten: nicht eingeschränktes Web als Bereich für Experimente."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -3131,7 +3129,7 @@ msgstr "Wählen Sie die Gruppe %1 um beizutreten"
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr ""
-"Wählen Sie eine neue Datei auf Ihrem Rechner, um den Anhang zu aktualisieren."
+"Eine neue Datei auf Ihrem Rechner wählen, um den Anhang zu aktualisieren"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "Select all"
@@ -3149,7 +3147,7 @@ msgstr "Ober-Topic auswählen"
 
 #: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
-msgstr "Fügen Sie Ihre Signatur unter dem Text ein, indem Sie sie kopieren."
+msgstr "Fügen Sie Ihre Signatur unter dem Text ein, indem Sie sie kopieren"
 
 #: core/data/System/WebSearch.txt:181
 msgid "Selections apply to search in \"text body\""
@@ -3425,7 +3423,7 @@ msgstr "Der Administrator hat das Ändern von Passwörtern abgeschaltet."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr "Das freie und queeloffene Wiki."
+msgstr "Das freie und quelloffene Wiki."
 
 #: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
@@ -3473,8 +3471,8 @@ msgid ""
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 "Die ausgewählten Topics werden aktualisiert (ein weiteres Formular wird "
-"erscheinen, welches Ihnen erlaubt, _eventuell_ alle Topics umzubennen, die "
-"gesperrt sind)"
+"erscheinen, welches Ihnen _letztendlich_ erlaubt, alle Topics umzubennen, "
+"die gesperrt sind)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
