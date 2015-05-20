@@ -638,11 +638,16 @@ $contentType is text/plain.
 
 sub writeCompletePage {
     my ( $this, $text, $pageType, $contentType ) = @_;
+
+# true if the body is to be output without encoding to utf8 first. This is the case
+# if the body has been gzipped and/or rendered from the cache
+    my $binary_body = 0;
+
     $contentType ||= 'text/html';
 
     my $cgis = $this->{users}->getCGISession();
     if (   $cgis
-        && $contentType eq 'text/html'
+        && $contentType =~ m!^text/html!
         && $Foswiki::cfg{Validation}{Method} ne 'none' )
     {
 
@@ -700,19 +705,19 @@ sub writeCompletePage {
         ) if ($cgis);
     }
 
-    if ( $contentType ne 'text/plain' ) {
+    if ( $contentType !~ m!^text/plain! ) {
 
         $text = $this->_renderZones($text);
     }
 
-    # SMELL: can't compute; faking content-type for backwards compatibility;
-    # any other information might become bogus later anyway
     # Validate format of content-type (defined in rfc2616)
     my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/;
     if ( $contentType =~ m/($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/i ) {
         $contentType = $1;
     }
     else {
+        # SMELL: can't compute; faking content-type for backwards compatibility;
+        # any other information might become bogus later anyway
         $contentType = "text/plain;contenttype=invalid";
     }
     my $hdr = "Content-type: " . $1 . "\r\n";
@@ -720,13 +725,12 @@ sub writeCompletePage {
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
 
-    # cache final page, but only view
+    # cache final page, but only view and rest
     my $cachedPage;
     if ( $contentType ne 'text/plain' ) {
 
         # Remove <nop> and <noautolink> tags
         $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
-
         if ( $Foswiki::cfg{Cache}{Enabled}
             && ( $this->inContext('view') || $this->inContext('rest') ) )
         {
@@ -762,35 +766,183 @@ BOGUS
     $this->{response}->pushHeader( 'X-Foswiki-Monitor-renderTime',
         $this->{request}->getTime() );
 
-    $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
+    my $hopts = { 'Content-Type' => $contentType };
 
-    # SMELL: null operation. the http headers are written out
-    # during Foswiki::Engine::finalize
-    # $hdr = $this->{response}->printHeaders;
-    $this->{response}->print($text);
+    $this->setCacheControl( $pageType, $hopts );
+
+    if ($cachedPage) {
+        $text = '' unless $this->setETags( $cachedPage, $hopts );
+    }
+
+    if ( $Foswiki::cfg{HttpCompress} && length($text) ) {
+
+        # Generate a zipped page, if the client accepts them
+
+        # SMELL: $ENV{SPDY} is a non-standard way to detect spdy protocol
+        if ( my $encoding = _gzipAccepted() ) {
+            $hopts->{'Content-Encoding'} = $encoding;
+            $hopts->{'Vary'}             = 'Accept-Encoding';
+
+            # check if we take the version from the cache. NOTE: we don't
+            # set X-Foswiki-Pagecache because this is *not* coming from
+            # the cache (well it is, but it was only just put there)
+            if ( $cachedPage && !$cachedPage->{isdirty} ) {
+                $text = $cachedPage->{data};
+            }
+            else {
+                # Not available from the cache, or it has dirty areas
+                require Compress::Zlib;
+                $text = Compress::Zlib::memGzip( Encode::encode_utf8($text) );
+            }
+            $binary_body = 1;
+        }
+    }    # Otherwise fall through and generate plain text
+
+    # Generate (and print) HTTP headers.
+    $this->generateHTTPHeaders($hopts);
+
+    if ($binary_body) {
+        $this->{response}->body($text);
+    }
+    else {
+        $this->{response}->print($text);
+    }
+}
+
+# PRIVATE
+sub _gzipAccepted {
+    my $encoding;
+    if ( ( $ENV{'HTTP_ACCEPT_ENCODING'} || '' ) =~
+        /(?:^|\b)((?:x-)?gzip)(?:$|\b)/ )
+    {
+        $encoding = $1;
+    }
+    elsif ( $ENV{'SPDY'} ) {
+        $encoding = 'gzip';
+    }
+    return $encoding;
 }
 
 =begin TML
 
----++ ObjectMethod generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage )
+---++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
 
-All parameters are optional.
+Try and satisfy the current request for the given web.topic from the cache, given
+the current action (view, edit, rest etc).
 
-   * =$pageType= - May be "edit", which will cause headers to be generated that force caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused data loss with IE5 and IE6.
-   * =$contentType= - page content type | text/html
-   * =$text= - page content
-   * =$cachedPage= - a pointer to the page container as fetched from the page cache
+If the action is satisfied, the cache content is written to the output and
+true is returned. Otherwise ntohing is written, and false is returned.
+
+Designed for calling from Foswiki::UI::*
 
 =cut
 
-sub generateHTTPHeaders {
-    my ( $this, $pageType, $contentType, $text, $cachedPage ) = @_;
+sub satisfiedByCache {
+    my ( $this, $action, $web, $topic ) = @_;
 
-    my $hopts = {};
+    my $cache = $this->{cache};
+    return 0 unless $cache;
 
-    # Handle Edit pages - future versions will extend to caching
-    # of other types of page, with expiry time driven by page type.
+    my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
+    return 0 unless $cachedPage;
+
+    Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
+      if Foswiki::PageCache::TRACE();
+    if ( int( $this->{response}->status() || 200 ) >= 500 ) {
+        Foswiki::Func::writeDebug(
+            "Cache retrieval skipped due to non-200 status code "
+              . $this->{response}->status() )
+          if DEBUG;
+        return 0;
+    }
+    Monitor::MARK("found page in cache");
+
+    my $hdrs = { 'Content-Type' => $cachedPage->{contenttype} };
+
+    # render uncacheable areas
+    my $text = $cachedPage->{data};
+
+    if ( $cachedPage->{isdirty} ) {
+        $cache->renderDirtyAreas( \$text );
+
+        # dirty pages are cached in unicode
+        $text = Encode::encode_utf8($text);
+    }
+    elsif ( $Foswiki::cfg{HttpCompress} ) {
+
+        # Does the client accept gzip?
+        if ( my $encoding = _gzipAccepted() ) {
+
+            # Cache has compressed data, just whack it out
+            $hdrs->{'Content-Encoding'} = $encoding;
+            $hdrs->{'Vary'}             = 'Accept-Encoding';
+
+            # Mark the response so we know it was satisfied from the cache
+            $hdrs->{'X-Foswiki-PageCache'} = 1;
+        }
+        else {
+        # e.g. CLI request satisfied from the cache, or old browser that doesn't
+        # support gzip. Non-isdirty pages are cached already utf8-encoded, so
+        # all we have to do is unzip.
+            require Compress::Zlib;
+            $text = Compress::Zlib::memGunzip( $cachedPage->{data} );
+        }
+    }    # else { Non-isdirty pages are stored already utf8-encoded }
+
+    # set status
+    my $response = $this->{response};
+    if ( $cachedPage->{status} == 302 ) {
+        $response->redirect( $cachedPage->{location} );
+    }
+    else {
+
+     # See Item9941
+     # Don't allow a 200 status to overwrite a status (possibly an error status)
+     # coming from elsewhere in the code. Note that 401's are not cached (they
+     # fail Foswiki::PageCache::isCacheable) but all other statuses are.
+     # SMELL: Cdot doesn't think any other status can get this far.
+        $response->status( $cachedPage->{status} )
+          unless int( $cachedPage->{status} ) == 200;
+    }
+
+    # set remaining headers
+    $text = undef unless $this->setETags( $cachedPage, $hdrs );
+    $this->generateHTTPHeaders($hdrs);
+
+    # send it out
+    $response->body($text) if defined $text;
+
+    Monitor::MARK('Wrote HTML');
+    $this->logger->log(
+        {
+            level    => 'info',
+            action   => $action,
+            webTopic => $web . '.' . $topic,
+            extra    => '(cached)',
+        }
+    );
+
+    return 1;
+}
+
+=begin TML
+
+---++ ObjectMethod setCacheControl( $pageType, \%hopts )
+
+Set the cache control headers in a response
+
+   * =$pageType= - page type - 'view', ;edit' etc
+   * =\%hopts - ref to partially filled in hash of headers
+
+=cut
+
+sub setCacheControl {
+    my ( $this, $pageType, $hopts ) = @_;
+
     if ( $pageType && $pageType eq 'edit' ) {
+
+        # Edit pages - future versions will extend to
+        # of other types of page, with expiry time driven by page type.
 
         # Get time now in HTTP header format
         my $lastModifiedString =
@@ -809,8 +961,82 @@ sub generateHTTPHeaders {
         # is cached until required expiry time.
         $hopts->{'last-modified'} = $lastModifiedString;
         $hopts->{expires}         = "+${expireHours}h";
-        $hopts->{'cache-control'} = "max-age=$expireSeconds";
+        $hopts->{'Cache-Control'} = "max-age=$expireSeconds";
     }
+    else {
+
+        # we need to force the browser into a check on every
+        # request; let the server decide on an 304 as below
+        my $cacheControl = 'max-age=0';
+
+        # allow the admin to disable us from setting the max-age, as then
+        # it can't be set by apache
+        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} }
+          if ( $Foswiki::cfg{BrowserCacheControl}
+            && defined(
+                $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} } ) );
+
+        # don't remove the 'if'; we need the header to not be there at
+        # all for the browser to use the cached version
+        $hopts->{'Cache-Control'} = $cacheControl if ( $cacheControl ne '' );
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod setETags( $cachedPage, \%hopts ) -> $boolean
+
+Set etags (and modify status) depending on what the cached page specifies.
+Return 1 if the page has been modified since it was last retrieved, 0 otherwise.
+
+   * =$cachedPage= - page cache to use
+   * =\%hopts - ref to partially filled in hash of headers
+
+=cut
+
+sub setETags {
+    my ( $this, $cachedPage, $hopts ) = @_;
+
+    # check etag and last modification time
+    my $etag         = $cachedPage->{etag};
+    my $lastModified = $cachedPage->{lastmodified};
+
+    $hopts->{'ETag'}          = $etag         if $etag;
+    $hopts->{'Last-Modified'} = $lastModified if $lastModified;
+
+    # only send a 304 if both criteria are true
+    return 1
+      unless (
+           $etag
+        && $lastModified
+
+        && $ENV{'HTTP_IF_NONE_MATCH'}
+        && $etag eq $ENV{'HTTP_IF_NONE_MATCH'}
+
+        && $ENV{'HTTP_IF_MODIFIED_SINCE'}
+        && $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'}
+      );
+
+    # finally decide on a 304 reply
+    $hopts->{'Status'} = '304 Not Modified';
+
+    #print STDERR "NOT modified\n";
+    return 0;
+}
+
+=begin TML
+
+---++ ObjectMethod generateHTTPHeaders( \%hopts )
+
+All parameters are optional.
+   * =\%hopts - optional ref to partially filled in hash of headers (will be written to)
+
+=cut
+
+sub generateHTTPHeaders {
+    my ( $this, $hopts ) = @_;
+
+    $hopts ||= {};
 
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
@@ -827,122 +1053,23 @@ sub generateHTTPHeaders {
         }
     }
 
+    my $contentType = $hopts->{'Content-Type'};
     $contentType = 'text/html' unless $contentType;
     $contentType .= '; charset=utf-8'
-      if $contentType ne ''
-      && $contentType =~ m!^text/!
+      if $contentType =~ m!^text/!
       && $contentType !~ /\bcharset\b/;
 
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
-
-    # New (since 1.026)
-    $this->{plugins}
-      ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
-
-    # add http compression and conditional cache controls
-    if ( $Foswiki::engine->isa('Foswiki::Engine::CGI') && $text ) {
-
-        if ( $Foswiki::cfg{HttpCompress}
-            && ( $ENV{'HTTP_ACCEPT_ENCODING'} || $ENV{'SPDY'} ) )
-        { # SMELL: SPDY is a non-standard way to detect spdy protocol set by web server
-            my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';
-            $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
-
-            $hopts->{'Content-Encoding'} = $encoding;
-            $hopts->{'Vary'}             = 'Accept-Encoding';
-
-            # check if we take the version from the cache
-            if ( $cachedPage && !$cachedPage->{isdirty} ) {
-                $text = $cachedPage->{data};
-            }
-            else {
-                # SMELL: this assumes we can just chuck the $text at the
-                # response and get it printed, but unicode support requires
-                # that the CGI response utf8-encodes what is written to it.
-                # We don't want to utf-8 encode the zipped content, and the
-                # CGI Engine won't as long as the Content-Encoding includes
-                # 'gzip'. If any other compression method is used, this has
-                # to be considered.
-                require Compress::Zlib;
-                $text = Compress::Zlib::memGzip( Encode::encode_utf8($text) );
-            }
-        }
-        elsif ($cachedPage
-            && !$cachedPage->{isdirty}
-            && $Foswiki::cfg{HttpCompress} )
-        {
-
-            # Outch, we need to uncompressed pages from cache again
-            # Note, this is effort to avoid under any circumstances as
-            # the page has been compressed when it has been created and now
-            # is uncompressed again to get back the original. For now the
-            # only know situation this can happen is for older browsers like IE6
-            # which does not understand gzip'ed http encodings
-            require Compress::Zlib;
-            $text =
-              Encode::decode_utf8(
-                Compress::Zlib::memGunzip( $cachedPage->{data} ) );
-        }
-
-        # we need to force the browser into a check on every
-        # request; let the server decide on an 304 as below
-        my $cacheControl = 'max-age=0';
-
-#allow the admin to disable us from setting the max-age, as then it can't be set by apache
-        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} }
-          if ( $Foswiki::cfg{BrowserCacheControl}
-            && defined(
-                $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} } ) );
-
-#don't remove if, we need the header to not be there at all for the browser to use the cached version
-        $hopts->{'Cache-Control'} = $cacheControl if ( $cacheControl ne '' );
-
-        # check etag and last modification time
-        # if we have a cached page on the server side
-        if ($cachedPage) {
-            my $etag         = $cachedPage->{etag};
-            my $lastModified = $cachedPage->{lastmodified};
-
-            $hopts->{'ETag'}          = $etag         if $etag;
-            $hopts->{'Last-Modified'} = $lastModified if $lastModified;
-
-            # only send a 304 if both criteria are true
-            my $etagFlag         = 1;
-            my $lastModifiedFlag = 1;
-
-            # check etag
-            unless ( $ENV{'HTTP_IF_NONE_MATCH'}
-                && $etag eq $ENV{'HTTP_IF_NONE_MATCH'} )
-            {
-                $etagFlag = 0;
-            }
-
-            # check last-modified
-            unless ( $ENV{'HTTP_IF_MODIFIED_SINCE'}
-                && $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'} )
-            {
-                $lastModifiedFlag = 0;
-            }
-
-            # finally decide on a 304 reply
-            if ( $etagFlag && $lastModified ) {
-                $hopts->{'Status'} = '304 Not Modified';
-                $text = '';
-
-                #print STDERR "NOT modified\n";
-            }
-        }
-
-        # write back to text
-        $_[3] = $text;
-    }
 
     $hopts->{'X-FoswikiAction'} = $this->{request}->action;
     $hopts->{'X-FoswikiURI'}    = $this->{request}->uri;
 
     # Turn off XSS protection in DEBUG so it doesn't mask problems
     $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
+
+    $this->{plugins}
+      ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there

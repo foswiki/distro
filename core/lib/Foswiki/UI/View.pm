@@ -82,60 +82,14 @@ sub view {
         $topicObject->finish();
     }
 
-    my $cache    = $session->{cache};
-    my $response = $session->{response};
-    my $method   = $session->{request}->method || '';
+    return if $session->satisfiedByCache( 'view', $web, $topic );
 
-    my $cachedPage;
-    $cachedPage = $cache->getPage( $web, $topic ) if $cache;
-    if ($cachedPage) {
-        print STDERR "found $web.$topic in cache\n"
-          if $Foswiki::cfg{Cache}{Debug};
-        Monitor::MARK("found page in cache");
+    Foswiki::Func::writeDebug("computing page for $web.$topic")
+      if Foswiki::PageCache::TRACE();
 
-        # render uncacheable areas
-        my $text = $cachedPage->{data};
-        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isdirty};
-
-        # set status
-        my $status = $cachedPage->{status};
-        if ( $status == 302 ) {
-            $response->redirect( $cachedPage->{location} );
-        }
-        else {
-
-            # See Item9941 to understand why do not set status when 200
-            $response->status($status) unless $status eq 200;
-        }
-
-        $response->pushHeader( 'X-Foswiki-PageCache', 1 );
-        $response->pushHeader( 'X-Foswiki-Monitor-renderTime',
-            $session->{request}->getTime() );
-
-        # set headers
-        $session->generateHTTPHeaders( 'view', $cachedPage->{contenttype},
-            $text, $cachedPage );
-
-        # send it out
-        $response->print($text);
-
-        Monitor::MARK('Wrote HTML');
-        $session->logger->log(
-            {
-                level    => 'info',
-                action   => 'view',
-                webTopic => $web . '.' . $topic,
-                extra    => '(cached)',
-            }
-        );
-
-        return;
-    }
-
-    print STDERR "computing page for $web.$topic\n"
-      if $Foswiki::cfg{Cache}{Debug};
-
-    my $raw = $query->param('raw') || '';
+    my $response     = $session->{response};
+    my $method       = $session->{request}->method || '';
+    my $raw          = $query->param('raw') || '';
     my $requestedRev = $query->param('rev');
 
     my $contentType = $query->param('contenttype');
@@ -271,7 +225,8 @@ sub view {
     else {    # Topic does not exist yet
         $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
-# If user would not be able to access the topic, don't reveal that it does not exist
+        # If user would not be able to access the topic, don't reveal that
+        # it does not exist
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
         $indexableView = 0;

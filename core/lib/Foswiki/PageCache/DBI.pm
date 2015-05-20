@@ -135,7 +135,9 @@ sub setPageVariation {
 
     my $webTopic = $web . '.' . $topic;
 
-    $variation->{md5} = Digest::MD5::md5_hex( $web, $topic, $variationKey )
+    $variation->{md5} =
+      Digest::MD5::md5_hex(
+        Encode::encode_utf8( $web . $topic . $variationKey ) )
       unless defined $variation->{md5};
 
     #writeDebug("INSERT topic $webTopic, variation=$variationKey");
@@ -284,7 +286,9 @@ sub deletePage {
         if ( defined $variationKey ) {
 
             #writeDebug( "DELETE page $webTopic variation=" . $variationKey );
-            my $md5 = Digest::MD5::md5_hex( $web, $topic, $variationKey );
+            my $md5 =
+              Digest::MD5::md5_hex(
+                Encode::encode_utf8( $web . $topic . $variationKey ) );
             my $fileName =
               Foswiki::Sandbox::normalizeFileName(
                 $this->{cacheDir} . '/' . $md5 );

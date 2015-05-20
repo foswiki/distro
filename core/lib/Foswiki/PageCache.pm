@@ -73,10 +73,6 @@ BEGIN {
 # Enable output
 use constant TRACE => 0;
 
-sub writeDebug {
-    print STDERR "$_[0]\n" if TRACE;
-}
-
 =begin TML
 
 ---++ ClassMethod new( ) -> $object
@@ -186,13 +182,14 @@ m/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|
         foreach my $val (@vals) {
             next unless defined $val;    # wtf?
             $variationKey .= '::' . $key . '=' . $val;
-            writeDebug("adding urlparam key=$key val=$val");
+            Foswiki::Func::writeDebug("adding urlparam key=$key val=$val")
+              if TRACE;
         }
     }
 
     $variationKey =~ s/'/\\'/g;
 
-    writeDebug("variation key = '$variationKey'");
+    Foswiki::Func::writeDebug("variation key = '$variationKey'") if TRACE;
 
     # cache it
     $this->{variationKey} = $variationKey;
@@ -218,8 +215,7 @@ sub cachePage {
     my $topic   = $session->{topicName};
     $web =~ s/\//./g;
 
-    writeDebug("called cachePage($web, $topic)");
-
+    Foswiki::Func::writeDebug("called cachePage($web, $topic)") if TRACE;
     return undef unless $this->isCacheable( $web, $topic );
 
     # delete page and all variations if we ask for a refresh copy
@@ -234,7 +230,7 @@ sub cachePage {
         $this->deletePage( $web, $topic, $variationKey );
     }
 
-    # prepair page variation
+    # prepare page variation
     my $isDirty =
       ( $data =~ m/<dirtyarea[^>]*?>/ )
       ? 1
@@ -246,11 +242,13 @@ sub cachePage {
     unless ($isDirty) {
         $data =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-        if (   $Foswiki::cfg{HttpCompress}
-            && $Foswiki::engine->isa('Foswiki::Engine::CGI') )
-        {
+        # clean pages are stored utf8-encoded, whether plaintext or zip
+        $data = Encode::encode_utf8($data);
+        if ( $Foswiki::cfg{HttpCompress} ) {
+
+            # Cache compressed page
             require Compress::Zlib;
-            $data = Compress::Zlib::memGzip( Encode::encode_utf8($data) );
+            $data = Compress::Zlib::memGzip($data);
         }
         $etag = $time;
         $lastModified = Foswiki::Time::formatTime( $time, '$http', 'gmtime' );
@@ -282,6 +280,7 @@ sub cachePage {
     }
 
     # store page variation
+    Foswiki::Func::writeDebug("PageCache: Stored data") if TRACE;
     return undef
       unless $this->setPageVariation( $web, $topic, $variationKey, $variation );
 
@@ -305,7 +304,7 @@ sub getPage {
 
     $web =~ s/\//./g;
 
-    writeDebug("getPage($web.$topic)");
+    Foswiki::Func::writeDebug("getPage($web.$topic)") if TRACE;
 
     # check url param
     my $session = $Foswiki::Plugins::SESSION;
@@ -329,8 +328,9 @@ sub getPage {
 
     my $variation = $this->getPageVariation( $web, $topic, $variationKey );
 
-   # check expiry date of this entry; return undef if it did expire, not deleted
-   # from cache as it will be recomputed during a normal view cycle
+    # check expiry date of this entry; return undef if it did expire, not
+    # deleted from cache as it will be recomputed during a normal view
+    # cycle
     return undef
       if defined($variation)
       && defined( $variation->{expire} )
@@ -378,12 +378,12 @@ sub isCacheable {
 
     my $webTopic = $web . '.' . $topic;
 
-    writeDebug("isCacheable($webTopic)");
+    Foswiki::Func::writeDebug("isCacheable($webTopic)") if TRACE;
 
     my $isCacheable = $this->{isCacheable}{$webTopic};
     return $isCacheable if defined $isCacheable;
 
-    writeDebug("... checking");
+    Foswiki::Func::writeDebug("... checking") if TRACE;
 
     # by default we try to cache as much as possible
     $isCacheable = 1;
@@ -408,7 +408,7 @@ sub isCacheable {
 
     # TODO: give plugins a chance - create a callback to intercept cacheability
 
-    writeDebug("isCacheable=$isCacheable");
+    Foswiki::Func::writeDebug("isCacheable=$isCacheable") if TRACE;
     $this->{isCacheable}{$webTopic} = $isCacheable;
     return $isCacheable;
 }
@@ -437,12 +437,12 @@ sub addDependency {
     # exclude unwanted dependencies
     if ( $depWebTopic =~ m/^($Foswiki::cfg{Cache}{DependencyFilter})$/ ) {
 
-#writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}");
+#Foswiki::Func::writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}") if TRACE;
         return;
     }
     else {
 
-        #writeDebug("addDependency($depWeb.$depTopic)");
+        #Foswiki::Func::writeDebug("addDependency($depWeb.$depTopic)") if TRACE;
     }
 
     # collect them; defer writing them to the database til we cache this page
@@ -490,7 +490,8 @@ sub getWebDependencies {
             my ( $depWeb, $depTopic ) =
               $session->normalizeWebTopicName( $web, $dep );
 
-            writeDebug("found webdep $depWeb.$depTopic");
+            Foswiki::Func::writeDebug("found webdep $depWeb.$depTopic")
+              if TRACE;
             $this->{webDeps}{ $depWeb . '.' . $depTopic } = 1;
         }
     }
@@ -603,7 +604,7 @@ retrieving it again.
 sub renderDirtyAreas {
     my ( $this, $text ) = @_;
 
-    writeDebug("renderDirtyAreas called text=$$text");
+    Foswiki::Func::writeDebug("renderDirtyAreas called text=$$text") if TRACE;
 
     my $session = $Foswiki::Plugins::SESSION;
     $session->enterContext('dirtyarea');
@@ -628,14 +629,15 @@ s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea(
 
     $session->leaveContext('dirtyarea');
 
-    writeDebug("done renderDirtyAreas");
+    Foswiki::Func::writeDebug("done renderDirtyAreas") if TRACE;
 }
 
 # called by renderDirtyAreas() to process each dirty area in isolation
 sub _handleDirtyArea {
     my ( $this, $args, $text, $topicObj ) = @_;
 
-    writeDebug("_handleDirtyArea($args) called in text='$text'");
+    Foswiki::Func::writeDebug("_handleDirtyArea($args) called in text='$text'")
+      if TRACE;
 
     # add dirtyarea params
     my $params  = new Foswiki::Attrs($args);
@@ -653,7 +655,7 @@ sub _handleDirtyArea {
         $prefs->popTopicContext();
     };
 
-    writeDebug("out text='$text'");
+    Foswiki::Func::writeDebug("out text='$text'") if TRACE;
     return $text;
 }
 

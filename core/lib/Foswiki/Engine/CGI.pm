@@ -278,19 +278,12 @@ sub finalizeHeaders {
     $this->SUPER::finalizeHeaders( $res, $req );
 
     my $hdr = $res->printHeaders;
-    if ( ( $res->headers->{'Content-Encoding'} || '' ) =~ /gzip/ ) {
-
-        # Content has come from cache; don't encode it
-        $this->write($hdr);
-    }
-    else {
-        $this->write( Encode::encode_utf8($hdr) );
-    }
+    $this->write($hdr);
 }
 
 sub write {
-    my $s = $_[1];
-    print $s;
+    my ( $this, $buffer ) = @_;
+    print $buffer;
 }
 
 1;

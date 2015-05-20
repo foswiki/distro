@@ -150,7 +150,7 @@ sub header {
     }
 
     $type ||= 'text/html' unless defined($type);
-    $charset ||= 'iso-8859-1';
+    $charset ||= 'utf-8';
 
     $type .= "; charset=$charset"
       if $type ne ''
@@ -361,18 +361,19 @@ sub cookies {
 
 ---++ ObjectMethod body( [ $body ] ) -> $body
 
-Gets/Sets response body. Note: do not use this method for output, use
-=print= instead. 
+Gets/Sets response body. Note that =$body= must be a byte string.
+Replaces the entire body; if you want to generate the body incrementally,
+use =print= instead.
+
+Note that the =$body= returned is a byte string (utf8 encoded if =print=
+was used to create it)
 
 =cut
 
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
-        use bytes;
-        my $len = bytes::length($body);
-        no bytes;
-        $this->{headers}->{'Content-Length'} = $len;
+        $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
     }
     return $this->{body};
@@ -418,14 +419,14 @@ sub redirect {
 
 ---++ ObjectMethod print(...)
 
-Add content to the end of the body.
+Add text content to the end of the body. Content may be unicode.
 
 =cut
 
 sub print {
     my $this = shift;
     $this->{body} = '' unless defined $this->{body};
-    $this->body( $this->{body} . join( '', @_ ) );
+    $this->body( $this->{body} . Encode::encode_utf8( join( '', @_ ) ) );
 }
 
 =begin TML

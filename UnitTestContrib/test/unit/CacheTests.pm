@@ -50,10 +50,7 @@ sub fixture_groups {
         }
     }
 
-    return (
-        \@page,    #[ 'DBFileMeta', 'BDBMeta' ],
-        [ 'NoCompress', 'Compress' ]
-    );
+    return ( \@page, [ 'view', 'rest' ], [ 'NoCompress', 'Compress' ] );
 }
 
 sub SQLite {
@@ -101,6 +98,16 @@ sub NoCompress {
     return;
 }
 
+sub view {
+    my $this = shift;
+    $this->{uifn} = 'view';
+}
+
+sub rest {
+    my $this = shift;
+    $this->{uifn} = 'rest';
+}
+
 my %twistyIDs;
 
 # Convert the random IDs into sequential ones, so that we have some hope of
@@ -136,21 +143,22 @@ sub tear_down {
     unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
 }
 
-sub check_view {
+sub check {
     my ( $this, $pathinfo ) = @_;
 
-    $UI_FN ||= $this->getUIFn('view');
-
+    $UI_FN ||= $this->getUIFn( $this->{uifn} );
+    $Foswiki::cfg{Cache}{Debug} = 1;
     my $query = Unit::Request->new( { skin => ['none'], } );
     $query->path_info($pathinfo);
-    $query->method('POST');
+    $query->method('GET');
 
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login},
+        $query, { $this->{uifn} => 1 } );
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
     my $p1start = Benchmark->new();
-    my ($one) = $this->capture(
+    my ( $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
             &{$UI_FN}( $this->{session} );
@@ -162,13 +170,15 @@ sub check_view {
 
     my $p1end = Benchmark->new();
     print STDERR "R1 " . timestr( timediff( $p1end, $p1start ) ) . "\n";
+    print STDERR "$stderr\n";
 
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login},
+        $query, { $this->{uifn} => 1 } );
 
     # This second request should be satisfied from the cache
     # How do we know it was?
     my $p2start = Benchmark->new();
-    my ($two) = $this->capture(
+    ( my $two, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
             &{$UI_FN}( $this->{session} );
@@ -179,50 +189,15 @@ sub check_view {
     );
     my $p2end = Benchmark->new();
     print STDERR "R2 " . timestr( timediff( $p2end, $p2start ) ) . "\n";
-
-    # Massage the HTML for comparison
-
-    while (
-        $one =~ s/\s*(<link class=['"]head ([^'"]+).*?<!--\2[^>]*-->)\s*//s )
-    {
-        my $link    = quotemeta($1);
-        my $section = $2;
-        $this->assert( $two =~ s/\s*$link\s*//s, "$section link missing" );
-    }
-
-    while ( $one =~
-        s/\s*(<script class=['"]script ([^'"]+).*?<!--\2[^>]*-->)\s*//s )
-    {
-        my $link    = quotemeta($1);
-        my $section = $2;
-        $this->assert( $two =~ s/\s*$link\s*//s, "$section script missing" );
-    }
-
-    while ( $one =~ s/\s*(<!--\[if( lte)? IE( \d+)?\]>.*?<!\[endif\]-->)\s*//s )
-    {
-        my $link = quotemeta($1);
-        $link =~ s//\\s+/gs;
-        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
-    }
-
-    # Purge troublesome IE conditionals
-    while ( $one =~ s/\s*(<!--\[if( lte)? IE( \d+)?\]>)\s*//s ) {
-        my $link = quotemeta($1);
-        $link =~ s//\\s+/gs;
-        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
-    }
-    while ( $one =~ s/\s*(<!\[endif\]>)\s*//s ) {
-        my $link = quotemeta($1);
-        $link =~ s//\\s+/gs;
-        $this->assert( $two =~ s/\s*$link\s*//s, "$link missing" );
-    }
-
-    $one =~ s/(data-validation-key=["']\?)[a-f0-9]{32}/${1}s1id/sg;
-    $two =~ s/(data-validation-key=["']\?)[a-f0-9]{32}/${1}s1id/sg;
+    print STDERR "$stderr\n";
 
     for ( $one, $two ) {
         $this->assert( s/\r//g,        'Failed to remove \r' );
         $this->assert( s/^.*?\n\n+//s, 'Failed to remove HTTP headers' );
+    }
+    return if $one eq $two;
+
+    for ( $one, $two ) {
         $this->assert(
             s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs,
             'Failed to replace all value=key with dummy key "vkey"'
@@ -250,19 +225,19 @@ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$
     return;
 }
 
-sub verify_simple_view {
+sub verify_simple {
     my $this = shift;
-    $this->check_view('/');
+    $this->check('/');
 }
 
-sub verify_topic_view {
+sub verify_topic {
     my $this = shift;
-    $this->check_view("/$Foswiki::cfg{SystemWebName}/SystemRequirements");
+    $this->check("/$Foswiki::cfg{SystemWebName}/FileAttribute");
 }
 
-sub verify_utf8_view {
+sub verify_utf8_topic {
     my $this = shift;
-    $this->check_view("/TestCases/Šňáĺľ/ŠňáĺľŠťěř");
+    $this->check("/TestCases/Šňáĺľ/ŠňáĺľŠťěř");
 }
 
 1;

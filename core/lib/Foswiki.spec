@@ -1588,10 +1588,6 @@ $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 # database driver connecting to a real SQL engine.
 $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
 
-# **BOOLEAN LABEL="Debug Page-Cache" EXPERT DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
-# Enable cache debug - UI::View and UI::Rest record debug messages.
-$Foswiki::cfg{Cache}{Debug} = $FALSE;
-
 # **PATH LABEL="Cache Root Directory" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
 # Specify the directory where binary large objects will be stored.
 $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';

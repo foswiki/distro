@@ -409,7 +409,7 @@ sub finalizeCookies {
    * =$req= - Foswiki::Request object to get data from
 
 Should send $res' body to client. This method calls =write()=
-as needed, sou engines should redefine that method insted of this one.
+as needed, so engines should redefine that method insted of this one.
 
 =cut
 

@@ -449,7 +449,7 @@ sub _execute {
             $html .= CGI::h1( {}, 'Bad Request' );
             $html .= CGI::p( {}, $e->{reason} );
             $html .= CGI::end_html();
-            $res->print($html);
+            $res->print( Encode::encode_utf8($html) );
         }
         $Foswiki::engine->finalizeError( $res, $session->{request} );
     }
@@ -467,7 +467,7 @@ sub _execute {
         if (DEBUG) {
 
             # output the full message and stacktrace to the browser
-            $res->print( $e->stringify() );
+            $res->print( Encode::encode_utf8( $e->stringify() ) );
         }
         else {
             my $mess = $e->stringify();
@@ -483,7 +483,7 @@ sub _execute {
             # cut out pathnames from public announcement
             $mess =~ s#/[\w./]+#path#g unless DEBUG;
             $text .= $mess;
-            $res->print($text);
+            $res->print( Encode::encode_utf8($text) );
         }
     }
     otherwise {
@@ -495,7 +495,7 @@ sub _execute {
         $res->print("Unspecified internal error\n\n");
         if (DEBUG) {
             eval "require Data::Dumper";
-            $res->print( Data::Dumper::Dumper( \$e ) );
+            $res->print( Encode::encode_utf8( Data::Dumper::Dumper( \$e ) ) );
         }
     };
     $session->finish() if $session;
