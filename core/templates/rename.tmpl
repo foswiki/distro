@@ -12,7 +12,7 @@
 %TMPL:DEF{"newattachment"}%<input name="newattachment" class="foswikiInputField" value="%NEW_FILENAME%" size="36" />%TMPL:END%
 
 %TMPL:DEF{"newtopic"}%<input name="newtopic" class="foswikiInputField" value="%NEW_TOPIC%" size="36" /><br />
-%TMPL:P{"nonwikiword"}%%TMPL:END%
+%TMPL:P{"onlywikiname"}%%TMPL:END%
 
 
 %TMPL:DEF{"newweb"}%<select name="newweb" class="foswikiSelect">%WEBLIST{"<option $marker value=$qname>$name</option>" webs="%NEW_WEB%,public" selection="%NEW_WEB%" separator=" "}%</select>%TMPL:END%

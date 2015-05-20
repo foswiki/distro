@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427838713" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -395,7 +395,7 @@ Rename a topic or an attachment.
 | =newattachment= | New name for attachment | _same as =attachment=, if given_ |
 | =newtopic= | new topic name | _required_ |
 | =newweb= | new web name | _required_ |
-| =nonwikiword= | if =on=, a non-wikiword is acceptable for the new topic name | =off= |
+| =onlywikiname= | if =off=, a non-wikiword is acceptable for the new topic name | =on= |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 
 <div class="foswikiHelp">

@@ -30,7 +30,7 @@
             // or not.
             var inputName = $('input[name=topic]', $form).val(),
                 re = foswiki.getPreference('NAMEFILTER'),
-                userAllowsNonWikiWord = true,
+                onlyWikiName = false,
                 finalName,
                 feedbackHeader,
                 feedbackText,
@@ -49,13 +49,13 @@
                 $('.webTopicCreatorError', $form).html('');
                 return false;
             }
-            $('input[name=nonwikiword]', $form).each(function (index, el) {
-                userAllowsNonWikiWord = el.checked;
+            $('input[name=onlywikiname]', $form).each(function (index, el) {
+                onlyWikiName = el.checked;
             });
             if (cleanName.length === 0) {
                 return false;
             }
-            if (userAllowsNonWikiWord) {
+            if (onlyWikiName) {
                 // Take out all illegal chars
                 cleanName = inputName.replace(re, '');
                 // Capitalize just the first character
@@ -78,7 +78,7 @@
                 $('.webTopicCreatorFeedback', $form).html('');
                 $('.webTopicCreatorError', $form).html('');
             }
-            if (foswiki.String.isWikiWord(finalName) || userAllowsNonWikiWord) {
+            if (foswiki.String.isWikiWord(finalName) || !onlyWikiName) {
                 $('input[type=submit]', $form).removeClass('foswikiSubmitDisabled').attr('disabled', false);
                 $('.webTopicCreatorError', $form).html('');
                 return true;

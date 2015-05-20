@@ -44,7 +44,7 @@ parameters:
 | =attachment= | |
 | =confirm= | if defined, requires a second level of confirmation |
 | =currentwebonly= | if defined, searches current web only for links to this topic |
-| =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name |
+| =onlywikiname= | if defined, only a wikiword is acceptable for the new topic name |
 | =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). |
 
 =cut
@@ -156,7 +156,7 @@ sub _renameTopicOrAttachment {
                 }
                 return $topic;
             },
-            Foswiki::isTrue( scalar( $query->param('nonwikiword') ) )
+            !Foswiki::isTrue( scalar( $query->param('onlywikiname') ) )
         );
     }
 
@@ -1009,16 +1009,11 @@ sub _replaceWebReferences {
 
 # Display screen so user can decide on new web, topic, attachment names.
 sub _newTopicOrAttachmentScreen {
-    my ( $session, $from, $to, $attachment, $toattachment, $confirm,
-        $doAllowNonWikiWord )
-      = @_;
+    my ( $session, $from, $to, $attachment, $toattachment, $confirm ) = @_;
 
     my $query          = $session->{cgiQuery};
     my $tmpl           = '';
     my $currentWebOnly = $query->param('currentwebonly') || '';
-
-    my $nonWikiWordFlag = '';
-    $nonWikiWordFlag = 'checked="checked"' if ($doAllowNonWikiWord);
 
     if ($attachment) {
         my $tmplname = $query->param('template');
@@ -1078,7 +1073,6 @@ sub _newTopicOrAttachmentScreen {
     $tmpl =~ s/%NEW_FILENAME%/$toattachment/g;
     $tmpl =~ s/%NEW_WEB%/$to->web()/ge;
     $tmpl =~ s/%NEW_TOPIC%/$to->topic()/ge;
-    $tmpl =~ s/%NONWIKIWORDFLAG%/$nonWikiWordFlag/g;
 
     if ( !$attachment ) {
         my $refs;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
@@ -58,7 +58,7 @@ We are going to create a new topic from scratch first, before having a look at t
 
 #ExampleCreateForm
 <form action="%SCRIPTURLPATH{"edit"}%/%SANDBOXWEB%" >
-<input type="hidden" name="nonwikiword"  value="on" />
+<input type="hidden" name="onlywikiname"  value="off" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---+++ !!Topic name:

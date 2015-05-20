@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1409564927" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
 %{<verbatim class="tml">
 ===================================================
 	Create new topic template
@@ -52,7 +52,7 @@
 }%%TMPL:DEF{"topicnamestep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Topic name:"}%
 %TMPL:P{"topicname"}%
-%TMPL:P{"nonwikiword"}%
+%TMPL:P{"onlywikiname"}%
 </div>%TMPL:END%%{
 ---------------------------------------------------
 	topicparentstep

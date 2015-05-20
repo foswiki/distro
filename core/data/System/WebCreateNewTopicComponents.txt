@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426558085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -133,7 +133,7 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
     else="%IF{"$BASETOPIC='WebCreateNewTopic'" then="" else="%BASETOPIC%"}%"
 }%" />%ENDSECTION{"topicname"}%
 
-%STARTSECTION{"wikiword"}%%TMPL:P{"nonwikiword"}%%ENDSECTION{"wikiword"}%
+%STARTSECTION{"wikiword"}%%TMPL:P{"onlywikiname"}%%ENDSECTION{"wikiword"}%
 
 %STARTSECTION{"topicnamefeedback"}%<span class="webTopicCreatorFeedback foswikiGrayText"><!--generated name will be put here--></span>%ENDSECTION{"topicnamefeedback"}%
 

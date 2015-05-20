@@ -12,4 +12,4 @@
 %TMPL:DEF{"newparentweb"}%<input type="hidden" name="newparentweb" value="%NEW_PARENTWEB%" />%NEW_PARENTWEB%%TMPL:END%
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword"}%" /><input type="submit" class="foswikiSubmit" value="%RENAMEWEB_SUBMIT%" /> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?action=renameweb&confirm=cancel">%TMPL:P{"canceltopicaction"}%</a>%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="hidden" name="onlywikiname" value="%URLPARAM{"onlywikiname"}%" /><input type="submit" class="foswikiSubmit" value="%RENAMEWEB_SUBMIT%" /> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?action=renameweb&confirm=cancel">%TMPL:P{"canceltopicaction"}%</a>%TMPL:END%

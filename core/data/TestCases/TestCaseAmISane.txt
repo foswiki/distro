@@ -64,7 +64,7 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 | =attach=, =upload= | Attach =volcano.jpg= to topic WasteOfSpace | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace">click here</a> |
 | =attach=, =upload= | Attach =volcano-2.jpg= as a new version of =volcano.jpg=. Create a link to the attachment. | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace?filename=volcano.jpg">click here</a> |
 | =rename= | Rename topic WasteOfSpace. Rename it to NotAWaste within this web, and take care to clear the checkboxes so this topic doesn't get munged. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/WasteOfSpace">click here</a> |
-| =rename= | Delete topic QuickScriptsCheck, checking refs within the current web _only_. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/QuickScriptsCheck?newweb=Trash&nonwikiword=on&currentwebonly=on">click here</a> |
+| =rename= | Delete topic QuickScriptsCheck, checking refs within the current web _only_. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/QuickScriptsCheck?newweb=Trash&onlywikiname=off&currentwebonly=on">click here</a> |
 | =view= | Create non-existant (should redirect to create screen, which is an =oops= test) | <a href="%SCRIPTURLPATH%/view%SCRIPTSUFFIX%/%WEB%/DontCreateThisTopic">click here</a> |
 | =viewfile= | Click on the links to =viewfile= the images attached to NotAWaste | <a href="%SCRIPTURLPATH%/viewfile%SCRIPTSUFFIX%/%WEB%/NotAWaste?filename=volcano.jpg&rev=1">revision 1</a> <a href="%SCRIPTURLPATH%/viewfile/%SCRIPTSUFFIX%/%WEB%/NotAWaste?filename=volcano.jpg&rev=2">revision2</a> |
 

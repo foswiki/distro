@@ -1304,7 +1304,7 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
             action           => ['rename'],
             newweb           => [ $this->{test_web} ],
             newtopic         => ['Tmp2'],
-            nonwikiword      => '1',
+            onlywikiname     => '0',
             referring_topics => [ "$this->{test_web}.OldTopic", ],
             topic            => 'Tmp1',
 

@@ -30,7 +30,7 @@
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Name of copy"}%</h3>
 <p><input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30" /></p>
-%TMPL:P{"nonwikiwordwarning"}%
+%TMPL:P{"onlywikinamewarning"}%
 </div>
 <div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" value="%MAKETEXT{"Copy topic..."}%" /></p>
@@ -42,7 +42,7 @@
 <input type="hidden" name="nowysiwyg" value="1" />
 <input type="hidden" name="notemplateexpansion" value="on" />
 <input type="hidden" name="action_save" value="1" />
-%TMPL:P{"nonwikiwordallowed"}%
+%TMPL:P{"onlywikinameallowed"}%
 </form>
 %TMPL:END%
 
@@ -51,7 +51,7 @@
 %TMPL:DEF{"delete"}%<h2>%MAKETEXT{"Delete topic"}%</h2>
 <form name="delete" action="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%" method="post">
 <input type="hidden" name="newweb" value="%TRASHWEB%" />
-<input type="hidden" name="nonwikiword" value="on" />
+<input type="hidden" name="onlywikiname" value="on" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p><input type="checkbox" class="foswikiCheckbox" id="delete_currentwebonly" name="currentwebonly" /><label for="delete_currentwebonly">%MAKETEXT{"Only update linked topics in [_1] web" args="%WEB%"}%</label></p>

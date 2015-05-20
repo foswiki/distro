@@ -249,7 +249,7 @@ sub _action_createweb {
     my $newTopic = $query->param('newtopic');
 
     if ($newTopic) {
-        my $nonww = Foswiki::isTrue( scalar( $query->param('nonwikiword') ) );
+        my $nonww = !Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
 
         # Validate
         $newTopic = Foswiki::Sandbox::untaint(
@@ -286,8 +286,8 @@ sub _action_createweb {
 ---++ StaticMethod _action_create()
 
 Creates a topic to new topic with name passed in query param 'topic'.
-Creates an exception when the topic name is not valid; the topic name does not have to be a WikiWord if parameter 'nonwikiword' is set to 'on'.
-Redirects to the edit screen.
+Creates an exception when the topic name is not valid; the topic name does not have to be a
+WikiWord if parameter 'onlywikiname' is set to 'off'. Redirects to the edit screen.
 
 Copy an existing topic using:
 	<form action="%SCRIPTURL{manage}%/%WEB%/">
@@ -346,7 +346,7 @@ sub _action_create {
             unless (
                 Foswiki::isValidTopicName(
                     $topic,
-                    Foswiki::isTrue( scalar( $query->param('nonwikiword') ) )
+                    !Foswiki::isTrue( scalar( $query->param('onlywikiname') ) )
                 )
               )
             {

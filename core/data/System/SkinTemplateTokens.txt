@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278862" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Template Tokens
@@ -127,7 +127,6 @@ merely a placeholder that is replaced by the script.
 | %<nop>NEW_FILENAME% | |
 | %<nop>NEW_WEB% | |
 | %<nop>NEW_TOPIC% | |
-| %<nop>NONWIKIWORDFLAG% | |
 | %<nop>GLOBAL_SEARCH% | |
 | %<nop>LOCAL_SEARCH% | |
 | %<nop>SEARCH_COUNT% | |

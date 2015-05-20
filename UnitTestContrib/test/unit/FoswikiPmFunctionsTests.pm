@@ -25,7 +25,7 @@ sub test_isValidTopicName_WebHome {
     return;
 }
 
-sub test_isValidTopicName_WebHome_NOT_nonwikiword {
+sub test_isValidTopicName_WebHome_onlywikiname {
     my $this = shift;
 
     my $result = Foswiki::isValidTopicName( 'WebHome', 0 );
@@ -37,7 +37,7 @@ sub test_isValidTopicName_WebHome_NOT_nonwikiword {
     return;
 }
 
-sub test_isValidTopicName_Aa_nonwikiword {
+sub test_isValidTopicName_Aa_not_onlywikiname {
     my $this = shift;
 
     my $result = Foswiki::isValidTopicName( 'Aa', 1 );
@@ -49,7 +49,7 @@ sub test_isValidTopicName_Aa_nonwikiword {
     return;
 }
 
-sub test_isValidTopicName_Aa_NOT_nonwikiword {
+sub test_isValidTopicName_Aa_onlywikiname {
     my $this = shift;
 
     my $result = Foswiki::isValidTopicName( 'Aa', 0 );

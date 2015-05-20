@@ -35,7 +35,7 @@
 
 %TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%NEW_FILENAME%" size="36" /><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
 
-%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="%URLPARAM{"newtopic" default="TrashAttachment"}%" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
+%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="%URLPARAM{"newtopic" default="TrashAttachment"}%" size="36" /><input type="hidden" name="onlywikiname" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"[_1] is the default topic for deleted attachments." args="[[%TRASHWEB%.TrashAttachment][TrashAttachment]]"}% %MAKETEXT{"If you enter a different name, make sure the topic exists."}%</p>%TMPL:END%

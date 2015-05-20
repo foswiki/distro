@@ -11,10 +11,10 @@
 
 
 %TMPL:DEF{"totopictitle"}%---+++ %MAKETEXT{"To topic:"}% <nop>%NEW_TOPIC%
-<input type="hidden" name="newtopic" value="%NEW_TOPIC%" />%TMPL:P{"nonwikiwordallowed"}%%TMPL:END%
+<input type="hidden" name="newtopic" value="%NEW_TOPIC%" />%TMPL:P{"onlywikinameallowed"}%%TMPL:END%
 
 %TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"To attachment:"}% <nop>%NEW_TOPIC%
-<input type="hidden" name="newattachment" value="%NEW_TOPIC%" />%TMPL:P{"nonwikiwordallowed"}%%TMPL:END%
+<input type="hidden" name="newattachment" value="%NEW_TOPIC%" />%TMPL:P{"onlywikinameallowed"}%%TMPL:END%
 
 
 %TMPL:DEF{"movewebhelp"}%%TMPL:END%
@@ -30,4 +30,4 @@
 %TMPL:DEF{"notecheckmarkedtopics"}%%TMPL:END%
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword"}%" /><input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="hidden" name="onlywikiname" value="%URLPARAM{"onlywikiname"}%" /><input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
