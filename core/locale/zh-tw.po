@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-17 08:26+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,7 +246,7 @@ msgstr "(*建議：*上傳您的圖片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -326,10 +326,10 @@ msgstr "(移動附件)"
 msgid "(no parent, orphaned topic)"
 msgstr "(無父主題，孤立主題)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -368,7 +368,7 @@ msgstr "(單字元名字)"
 msgid "(single character last name)"
 msgstr "(單字元姓氏)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(忽略)"
 
@@ -575,7 +575,9 @@ msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
-msgstr "系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信箱失效，請聯繫 %3。"
+msgstr ""
+"系統為用戶 %1 (!WikiName %2) 產生的新密碼已寄到您註冊的電子信箱。若您的註冊信"
+"箱失效，請聯繫 %3。"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -1217,7 +1219,7 @@ msgstr "繼續編輯"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2599,7 +2601,7 @@ msgstr "移動到子網:"
 msgid "Move topic to web:"
 msgstr "移動主題到子網:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "移動/更名"
 
@@ -2611,7 +2613,7 @@ msgstr "我的連結"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "新"
 
@@ -3046,7 +3048,7 @@ msgstr "請返回瀏覽器的上一頁，並再檢查一次."
 #, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "請返回瀏覽器的上一頁，並選擇一個 %1.WikiWord 的主題名，或是點選 \"允許非"
 "WikiWord\"選項。"
@@ -3215,7 +3217,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "更新"
 
@@ -3278,7 +3280,7 @@ msgid "Related Topics for Administrators:"
 msgstr "電子郵件寄送失敗，請通知您的 %1 管理員 %2"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 #, fuzzy
 msgid "Related Topics:"
@@ -3291,7 +3293,7 @@ msgstr "相關主題"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3890,7 +3892,6 @@ msgstr "提交"
 msgid "Submitted content:"
 msgstr "提交內容:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4401,7 +4402,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -4450,8 +4451,9 @@ msgid "This site requires at least %1 character passwords"
 msgstr "本站的密碼至少要 %1 個字元"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
-msgstr ""
+#, fuzzy
+msgid "This system is configured to use usernames."
+msgstr "%1 不是個合適的表單名稱"
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -4693,7 +4695,6 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5410,7 +5411,7 @@ msgstr "[3 個空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "正體中文"
 

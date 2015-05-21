@@ -233,7 +233,7 @@ msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
 msgid "(=all= to show all topics)"
 msgstr "(=alle= for å se alle sider)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Denne meldingen blir fjernet automatisk)"
 
@@ -313,10 +313,10 @@ msgstr "(flytt vedlegg)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen foreldre, foreldreløs side)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -355,7 +355,7 @@ msgstr "(enkelt bokstav fornavn)"
 msgid "(single character last name)"
 msgstr "(enkelt bokstav etternavn)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(oversett)"
 
@@ -1252,7 +1252,7 @@ msgstr "Fortsett redigering"
 msgid "Continue to create the new page"
 msgstr "Fortsett å lage ny side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2666,7 +2666,7 @@ msgstr "Flytt til web:"
 msgid "Move topic to web:"
 msgstr "Flytt side til web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
@@ -2678,7 +2678,7 @@ msgstr "Mine linker"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "NY"
 
@@ -3106,7 +3106,7 @@ msgstr "Vennligst gå tilbake i nettleseren og sjekk på nytt."
 #, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Vennligst gå tilbake i nettleseren og velg et sidenavn som er et %1.WikiOrd "
 "eller huk av i tillat ikke-WikiOrd boksen"
@@ -3279,7 +3279,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Oppdater"
 
@@ -3342,7 +3342,7 @@ msgid "Related Topics for Administrators:"
 msgstr "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 #, fuzzy
 msgid "Related Topics:"
@@ -3355,7 +3355,7 @@ msgstr "Relaterte Sider"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3966,7 +3966,6 @@ msgstr "Send"
 msgid "Submitted content:"
 msgstr "Sendt innhold:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4510,7 +4509,7 @@ msgstr ""
 "Dette er Trash. Her kan du ta tilbake slettede sider; slettede vedlegg "
 "finner du i TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er grunnen til av konvertering er deaktivert:"
 
@@ -4565,8 +4564,9 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Denne webløsningen krever minst %1 tegns passord"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
-msgstr ""
+#, fuzzy
+msgid "This system is configured to use usernames."
+msgstr "'%1' er ikke et gyldig skjemanavn"
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -4817,7 +4817,6 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5566,7 +5565,7 @@ msgstr ""
 "[verdi]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Norsk"
 

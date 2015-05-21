@@ -5,8 +5,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-04-30 04:18+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
-"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/ko/>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -244,7 +244,7 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -324,10 +324,10 @@ msgstr ""
 msgid "(no parent, orphaned topic)"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -367,7 +367,7 @@ msgstr ""
 msgid "(single character last name)"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr ""
 
@@ -1240,7 +1240,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2614,7 +2614,9 @@ msgstr "더 보기..."
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr "더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 (m)"
+msgstr ""
+"더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 "
+"(m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2647,7 +2649,7 @@ msgstr "이동할 웹:"
 msgid "Move topic to web:"
 msgstr "토픽을 다음 Web 으로 이동하기:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "이동/이름변경"
 
@@ -2660,7 +2662,7 @@ msgstr "링크"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr ""
 
@@ -3099,7 +3101,7 @@ msgstr ""
 #: core/templates/messages.tmpl:85
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
@@ -3263,7 +3265,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "새로고침"
 
@@ -3326,7 +3328,7 @@ msgstr ""
 "이메일은 전송되지 않을 수 있습니다. 해당 내용을 %1 관리자에게 알려주세요, %2"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 #, fuzzy
 msgid "Related Topics:"
@@ -3339,7 +3341,7 @@ msgstr "관련된 토픽"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3932,7 +3934,6 @@ msgstr "제출"
 msgid "Submitted content:"
 msgstr "제출된 컨텐츠:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4426,7 +4427,7 @@ msgid ""
 "TrashAttachment."
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4475,8 +4476,9 @@ msgid "This site requires at least %1 character passwords"
 msgstr ""
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
-msgstr ""
+#, fuzzy
+msgid "This system is configured to use usernames."
+msgstr "'%1'은 유효하지 않은 %2 입니다."
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -4719,7 +4721,6 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5414,7 +5415,7 @@ msgid ""
 msgstr ""
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "한글"
 
@@ -5645,8 +5646,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' accesskey='m'>더 많은 토픽 액션 "
-"(&M)"
+"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' "
+"accesskey='m'>더 많은 토픽 액션 (&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 #, fuzzy

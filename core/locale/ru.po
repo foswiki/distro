@@ -258,7 +258,7 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr "(введите =all= для вывода без ограничений)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -340,10 +340,10 @@ msgstr "(переместить файл)"
 msgid "(no parent, orphaned topic)"
 msgstr "(нет родителя, тема–сирота)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -383,7 +383,7 @@ msgstr "(одна буква из имени)"
 msgid "(single character last name)"
 msgstr "(одна буква из фамилии)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(пропущено)"
 
@@ -1325,7 +1325,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "Продолжить для создания новой страницы"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2814,7 +2814,7 @@ msgstr "Переместить в раздел:"
 msgid "Move topic to web:"
 msgstr "Переместить тему в раздел:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Переместить/Переименовать"
 
@@ -2826,7 +2826,7 @@ msgstr "Мои ссылки"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "НОВАЯ"
 
@@ -3281,7 +3281,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Пожалуйста, вернитесь <a href=\"javascript:history.go(-1)\">на предыдущую "
 "страницу</a>, используя стандартные средства навигации Вашего браузера, и "
@@ -3461,7 +3461,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Обновить"
 
@@ -3526,7 +3526,7 @@ msgstr ""
 "об этом Вашего %1 администратора, %2"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 #, fuzzy
 msgid "Related Topics:"
@@ -3539,7 +3539,7 @@ msgstr "Связанные темы"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -4156,7 +4156,6 @@ msgstr "Применить"
 msgid "Submitted content:"
 msgstr "Предоставленные Вами сведения:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4696,7 +4695,7 @@ msgstr ""
 "Это Свалка. Здесь Вы можете восстановить ранее удаленные темы; удалённые "
 "файлы находятся в TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4748,8 +4747,9 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Требуется ввести пароль длиной не менее %1 символов"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
-msgstr ""
+#, fuzzy
+msgid "This system is configured to use usernames."
+msgstr "'%1' неправильный %2 "
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -5006,7 +5006,6 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5761,7 +5760,7 @@ msgstr ""
 "[значение]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Русский"
 

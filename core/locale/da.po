@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-19 14:54+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,7 +245,7 @@ msgstr "(*Forslag:* Hvad med at uploade et billede af dig selv til din side?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= for at vise alle sider)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Denne besked vil automatisk blive fjernet)"
 
@@ -325,10 +325,10 @@ msgstr "(flyt vedhæftet fil)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen forælder, forældreløs side)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -367,7 +367,7 @@ msgstr "(første bogstav i fornavn)"
 msgid "(single character last name)"
 msgstr "(første bogstav i efternavn)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(skippet)"
 
@@ -1276,7 +1276,7 @@ msgstr "Fortsæt editering"
 msgid "Continue to create the new page"
 msgstr "Fortsæt med at oprette den nye side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2716,7 +2716,7 @@ msgstr "Flyt til web:"
 msgid "Move topic to web:"
 msgstr "Flyt side til web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
@@ -2728,7 +2728,7 @@ msgstr "Mine links"
 msgid "My Profile"
 msgstr "Min profil"
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "NY"
 
@@ -3149,9 +3149,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
 #: core/templates/messages.tmpl:85
+#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Benyt venligst tilbage-knapppen i din browser, og vælg et sidenavn der er et "
 "[[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds non-<nop>WikiWord i "
@@ -3318,7 +3319,7 @@ msgstr "Gendan forrige ændring"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Genopfrisk"
 
@@ -3381,7 +3382,7 @@ msgid "Related Topics for Administrators:"
 msgstr "Relaterede sider for administratorer:"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 msgid "Related Topics:"
 msgstr "Relaterede sider:"
@@ -3393,7 +3394,7 @@ msgstr "Relaterede sider:"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3983,7 +3984,6 @@ msgstr "Send"
 msgid "Submitted content:"
 msgstr "Tilføjet indhold:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4535,7 +4535,7 @@ msgstr ""
 "Dette er skraldespanden (Trash webbet). Her kan du gendanne slettede sider; "
 "slettede vedhæftede filer findes på siden TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
@@ -4587,7 +4587,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Dette site kræver at en adgangskode har mindst %1 karakterer"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
+#, fuzzy
+msgid "This system is configured to use usernames."
 msgstr "Dette system er konfigureret til at anvende brugernavne"
 
 #: core/templates/messages.tmpl:385
@@ -4837,7 +4838,6 @@ msgstr ""
 "Usikker omdirigering til %1 er ikke tilladt. Den anmodede vært matcher ikke "
 "%2, og er ikke i {PermittedRedirectHostUrls}."
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5599,7 +5599,7 @@ msgstr ""
 "[mellemrum] = [værdi]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Dansk"
 

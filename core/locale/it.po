@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-19 15:13+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -240,7 +240,7 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr "(=all= per visualizzare tutte le pagine)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Questo messaggio verrà rimosso automaticamente)"
 
@@ -320,10 +320,10 @@ msgstr "(sposta l'allegato)"
 msgid "(no parent, orphaned topic)"
 msgstr "(nessun padre, pagina orfana)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -362,7 +362,7 @@ msgstr "(singolo carattere del nome)"
 msgid "(single character last name)"
 msgstr "(singolo carattere del cognome)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(saltato)"
 
@@ -1281,7 +1281,7 @@ msgstr "Continua la modifica"
 msgid "Continue to create the new page"
 msgstr "Continua per creare la nuova pagina"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -2726,7 +2726,7 @@ msgstr "Sposta nel Web:"
 msgid "Move topic to web:"
 msgstr "Sposta la pagina nel Web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Sposta/Rinomina"
 
@@ -2738,7 +2738,7 @@ msgstr "Link personali"
 msgid "My Profile"
 msgstr "Il mio profilo"
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "NUOVO"
 
@@ -3159,9 +3159,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Torna indietro nel browser e ricontrolla."
 
 #: core/templates/messages.tmpl:85
+#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
 "WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-Wiki Word"
@@ -3328,7 +3329,7 @@ msgstr "Ripristina il precedente cambiamento"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Aggiorna"
 
@@ -3391,7 +3392,7 @@ msgid "Related Topics for Administrators:"
 msgstr "Pagine di interesse per gli amministratori:"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 msgid "Related Topics:"
 msgstr "Pagine correlate:"
@@ -3403,7 +3404,7 @@ msgstr "Pagine correlate:"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -4000,7 +4001,6 @@ msgstr "Invia"
 msgid "Submitted content:"
 msgstr "Contenuto inviato:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4556,7 +4556,7 @@ msgstr ""
 "Ecco il cestino. Qui puoi recuperare le pagine cancellate. Per gli allegati "
 "guarda invece in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr "Ecco perché la conversione è disattivata:"
 
@@ -4610,7 +4610,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Questo sito richiede password di almeno %1 caratteri"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
+#, fuzzy
+msgid "This system is configured to use usernames."
 msgstr "Questo sistema è configurato per utilizzare nomi utente"
 
 #: core/templates/messages.tmpl:385
@@ -4866,7 +4867,6 @@ msgstr ""
 "Negato il trasferimento non sicuro verso %1. L'indirizzo richiesto non "
 "corrisponde a %2 e non è elencato in {PermittedRedirectHostUrls}."
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5631,7 +5631,7 @@ msgstr ""
 "[valore]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Italiano"
 

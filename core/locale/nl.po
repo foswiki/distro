@@ -240,7 +240,7 @@ msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Dit bericht wordt automatisch verwijderd)"
 
@@ -320,10 +320,10 @@ msgstr "(bijlage verplaatsen)"
 msgid "(no parent, orphaned topic)"
 msgstr "(geen bovenliggende pagina, verweesde pagina)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -362,7 +362,7 @@ msgstr "(enkel teken voornaam)"
 msgid "(single character last name)"
 msgstr "(enkel teken achternaam)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(overgeslagen)"
 
@@ -538,7 +538,8 @@ msgstr ""
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
-msgstr "<nop>%1 (%2) werd via email ingelicht dat de registratie geweigerd werd"
+msgstr ""
+"<nop>%1 (%2) werd via email ingelicht dat de registratie geweigerd werd"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 msgid "<nop>WikiName:"
@@ -1269,11 +1270,12 @@ msgstr "Doorgaan met bewerken"
 msgid "Continue to create the new page"
 msgstr "Ga verder om de pagina aan te maken"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr "Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
+msgstr ""
+"Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -2089,8 +2091,8 @@ msgstr "Pictogram"
 #: core/data/System/WebPreferences.txt:34
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Idee&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%2'>"
-"Stuur feedback</a>"
+"Idee&euml;n, verzoeken of problemen met betrekking tot %1? <a "
+"href='%2'>Stuur feedback</a>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -2705,7 +2707,7 @@ msgstr "Verplaats naar web:"
 msgid "Move topic to web:"
 msgstr "Verplaats pagina naar web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Verplaats/Hernoem"
 
@@ -2717,7 +2719,7 @@ msgstr "Mijn links"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "NIEUW"
 
@@ -3137,9 +3139,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/messages.tmpl:85
+#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Ga terug met je browser en kies een [[%SYSTEMWEB%.WikiWord][Wikiwoord]] als "
 "paginanaam, of vink de checkbox aan dat een niet-Wikiwoord gebruikt mag "
@@ -3304,7 +3307,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Verversen"
 
@@ -3367,7 +3370,7 @@ msgid "Related Topics for Administrators:"
 msgstr "Gerelateerde pagina&#39;s voor beheerders:"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 msgid "Related Topics:"
 msgstr "Gerelateerde pagina&#39;s:"
@@ -3379,7 +3382,7 @@ msgstr "Gerelateerde pagina&#39;s:"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3967,7 +3970,6 @@ msgstr "Versturen"
 msgid "Submitted content:"
 msgstr "Verstuurde gegevens:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4493,7 +4495,7 @@ msgstr ""
 "Dit is de Prullenmand. Hier kun je verwijderingen van pagina&#39;s ongedaan "
 "maken; verwijderde bijlagen staan in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4544,8 +4546,9 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
-msgstr ""
+#, fuzzy
+msgid "This system is configured to use usernames."
+msgstr "Dit moet een geldige login gebruikersnaam zijn."
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -4793,7 +4796,6 @@ msgid ""
 "is not in {PermittedRedirectHostUrls}."
 msgstr ""
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5517,7 +5519,7 @@ msgstr ""
 "[waarde]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Nederlands"
 

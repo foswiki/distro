@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-20 12:08+0200\n"
 "Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -248,7 +248,7 @@ msgstr "(*Vorschlag:* Wie wäre es, wenn Sie Ihr Foto an Ihre Seite anhängen?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= um alle Topics anzuzeigen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:590
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Diese Nachricht wird automatisch entfernt)"
 
@@ -328,10 +328,10 @@ msgstr "(Anhang verschieben)"
 msgid "(no parent, orphaned topic)"
 msgstr "(kein Ober-Topic, verwaistes Topic)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1110 core/lib/Foswiki/UI/Rename.pm:1126
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1186
-#: core/lib/Foswiki/UI/Rename.pm:1189 core/lib/Foswiki/UI/Rename.pm:1224
-#: core/lib/Foswiki/UI/Rename.pm:1247 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
+#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
+#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
+#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -370,7 +370,7 @@ msgstr "(Erster Buchstabe des Vornamens)"
 msgid "(single character last name)"
 msgstr "(Erster Buchstabe des Nachnamens)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1098
+#: core/lib/Foswiki/UI/Rename.pm:1092
 msgid "(skipped)"
 msgstr "(übersprungen)"
 
@@ -1043,7 +1043,8 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
+msgstr ""
+"Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
 
 #: core/data/System/WebSearch.txt:184
 msgid "Case sensitive"
@@ -1289,7 +1290,7 @@ msgstr "Bearbeiten fortsetzen"
 msgid "Continue to create the new page"
 msgstr "Fahren Sie fort, um die neue Seite anzulegen"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:586
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1971,8 +1972,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
 msgstr ""
-"Navigieren Sie zur vorigen Seite zurück und aktivieren Sie Cookies und <nop>"
-"JavaScript, bevor Sie es erneut versuchen"
+"Navigieren Sie zur vorigen Seite zurück und aktivieren Sie Cookies und "
+"<nop>JavaScript, bevor Sie es erneut versuchen"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Good examples:"
@@ -2751,7 +2752,7 @@ msgstr "In folgendes Web verschieben:"
 msgid "Move topic to web:"
 msgstr "Topic in folgendes Web verschieben:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1196
+#: core/lib/Foswiki/UI/Rename.pm:1190
 msgid "Move/Rename"
 msgstr "Verschieben/Umbenennen"
 
@@ -2763,7 +2764,7 @@ msgstr "Meine Verweise"
 msgid "My Profile"
 msgstr "Mein Profil"
 
-#: core/lib/Foswiki/Search.pm:1254
+#: core/lib/Foswiki/Search.pm:1255
 msgid "NEW"
 msgstr "NEU"
 
@@ -3188,9 +3189,10 @@ msgstr ""
 "Bitte gehen Sie mit Ihrem Browser zurück und überprüfen Sie es noch einmal."
 
 #: core/templates/messages.tmpl:85
+#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
+"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Bitten gehen Sie mit Ihrem Browser zurück und wählen Sie einen Topic-Namen, "
 "der ein [[%SYSTEMWEB%.WikiWord][WikiWort]] ist oder erlauben Sie die "
@@ -3359,7 +3361,7 @@ msgstr "Vorherige Änderung wiederherstellen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1195
+#: core/lib/Foswiki/UI/Rename.pm:1189
 msgid "Refresh"
 msgstr "Neu laden"
 
@@ -3422,7 +3424,7 @@ msgid "Related Topics for Administrators:"
 msgstr "Relevante Topics für Administratoren:"
 
 #: core/data/System/SiteTools.txt:150
-#: core/data/System/SkinTemplateTokens.txt:181
+#: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:307
 msgid "Related Topics:"
 msgstr "Verwandte Topics:"
@@ -3434,7 +3436,7 @@ msgstr "Verwandte Topics:"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:688
+#: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -4035,7 +4037,6 @@ msgstr "Übermitteln"
 msgid "Submitted content:"
 msgstr "Übertragender Inhalt:"
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:106
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #: core/templates/viewtopicactionbuttons.tmpl:78
@@ -4601,7 +4602,7 @@ msgstr ""
 "wiederherstellen; gelöschte Anhänge befinden sich in im Topic "
 "TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:588
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
 msgstr "Aus folgendem Grund ist die Konvertierung deaktiviert:"
 
@@ -4655,7 +4656,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Diese Seite benötigt ein Passwort mit mindestens %1 Zeichen"
 
 #: core/data/System/UserName.txt:9
-msgid "This system is configured to use usernames"
+#, fuzzy
+msgid "This system is configured to use usernames."
 msgstr "Dieses System ist auf die Verwendung von Benutzernamen konfiguriert."
 
 #: core/templates/messages.tmpl:385
@@ -4691,9 +4693,9 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
-"Obwohl eher unüblich, können Sie das spezielle [[%1.Macros][Makro]]-Präfix "
-"==%<nop>USERSWEB%== für <nop>WikiNamen verwenden, also beispielsweise "
-"==%<nop>USERSWEB%.%WIKINAME%==."
+"Obwohl eher unüblich, können Sie das spezielle [[%1.Macros][Makro]]-Präfix =="
+"%<nop>USERSWEB%== für <nop>WikiNamen verwenden, also beispielsweise =="
+"%<nop>USERSWEB%.%WIKINAME%==."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
@@ -4909,7 +4911,6 @@ msgstr ""
 "überein und ist nicht in der Ausnahmenliste {PermittedRedirectHostUrls} "
 "aufgeführt."
 
-#: SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin.pm:101
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
@@ -5232,8 +5233,8 @@ msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
-"Sie haben scheinbar !JavaScript deaktiviert. Bitte aktivieren Sie "
-"!JavaScript, um sich zu registrieren."
+"Sie haben scheinbar !JavaScript deaktiviert. Bitte aktivieren Sie !"
+"JavaScript, um sich zu registrieren."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5683,7 +5684,7 @@ msgstr ""
 
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:349
+#: core/lib/Foswiki/I18N.pm:341
 msgid "_language_name"
 msgstr "Deutsch"
 
