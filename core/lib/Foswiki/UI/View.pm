@@ -22,6 +22,7 @@ use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
 use Foswiki::Store         ();
 use Foswiki::Serialise     ();
+use Foswiki::PageCache     ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
