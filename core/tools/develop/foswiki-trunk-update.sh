@@ -40,6 +40,9 @@ git clean -fdx \
 --exclude="core/data/Trash" --exclude="core/pub/Trash" \
 --exclude="core/data/configur*" --exclude="core/data/debug*" --exclude="core/data/error*" --exclude="core/data/events*" --exclude="core/data/log*" --exclude="core/data/warn*"
 
+# Regenrate the languages list - pick up encoding, spelling changes,  and new languages.
+rm $ROOT/core/working/languages.cache
+
 echo Pulling updates from github
 git pull --force
 cd $ROOT/FoswikiOrgPlugin
