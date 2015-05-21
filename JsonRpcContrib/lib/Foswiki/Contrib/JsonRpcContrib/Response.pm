@@ -51,20 +51,27 @@ sub print {
         'Content-Type' => 'application/json',
     };
 
+    # SMELL: code duplication with core ($Foswiki::UNICODE only)
     my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';
     $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
+    my $compressed = 0;
 
     if ( $Foswiki::cfg{HttpCompress} || $ENV{'SPDY'} ) {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
-
         require Compress::Zlib;
-        $text = Compress::Zlib::memGzip($text);
+        $text       = Compress::Zlib::memGzip($text);
+        $compressed = 1;
     }
 
     $response->setDefaultHeaders($hopts);
 
-    $response->print($text);
+    if ($compressed) {
+        $response->body($text);
+    }
+    else {
+        $response->print($text);
+    }
 }
 
 ##############################################################################
