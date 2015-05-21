@@ -639,8 +639,9 @@ $contentType is text/plain.
 sub writeCompletePage {
     my ( $this, $text, $pageType, $contentType ) = @_;
 
-# true if the body is to be output without encoding to utf8 first. This is the case
-# if the body has been gzipped and/or rendered from the cache
+    # true if the body is to be output without encoding to utf8
+    # first. This is the case if the body has been gzipped and/or
+    # rendered from the cache
     my $binary_body = 0;
 
     $contentType ||= 'text/html';

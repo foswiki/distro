@@ -378,8 +378,6 @@ sub isCacheable {
 
     my $webTopic = $web . '.' . $topic;
 
-    Foswiki::Func::writeDebug("isCacheable($webTopic)") if TRACE;
-
     my $isCacheable = $this->{isCacheable}{$webTopic};
     return $isCacheable if defined $isCacheable;
 

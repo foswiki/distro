@@ -26,6 +26,14 @@ sub fixture_groups {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
                 next if ( grep { $_ eq $alg } @page );
+
+                my $dbcheckfn = "dbcheck_$alg";
+                no strict 'refs';
+                if ( defined &{$dbcheckfn} ) {
+                    next unless &$dbcheckfn();
+                }
+                use strict 'refs';
+
                 if ( defined &{$alg} ) {
                     push( @page, $alg );
                     next;
@@ -53,6 +61,44 @@ sub fixture_groups {
     return ( \@page, [ 'view', 'rest' ], [ 'NoCompress', 'Compress' ] );
 }
 
+sub dbcheckDBI {
+    my ( $dbn, $cfg ) = @_;
+    my $dbh;
+    eval {
+        require DBI;
+        my $dsn =
+            "dbi:$dbn:database="
+          . ( $Foswiki::cfg{Cache}{DBI}{$cfg}{Database} || 'foswiki' )
+          . ';host='
+          . ( $Foswiki::cfg{Cache}{DBI}{$cfg}{Host} || 'localhost' )
+          . (
+            $Foswiki::cfg{Cache}{DBI}{$cfg}{Port}
+            ? ';port=' . $Foswiki::cfg{Cache}{DBI}{$cfg}{Port}
+            : ''
+          );
+        $dbh = DBI->connect(
+            $dsn,
+            $Foswiki::cfg{Cache}{DBI}{$cfg}{Username},
+            $Foswiki::cfg{Cache}{DBI}{$cfg}{Password},
+            {
+                PrintError => 0,
+                RaiseError => 1
+            }
+        );
+        $dbh->disconnect() if $dbh;
+    };
+    if ($@) {
+        print STDERR
+"**** Could not use $cfg; is the database installed and configured?\n";
+    }
+    return ( $dbh && !$@ ) ? 1 : 0;
+}
+
+sub dbcheck_SQLite {
+    $Foswiki::cfg{Cache}{DSN} = "dbi:SQLite:dbname=generic.db";
+    return dbcheckDBI( 'SQLite', 'Generic' );
+}
+
 sub SQLite {
     require Foswiki::PageCache::DBI::SQLite;
     die $@ if $@;
@@ -60,6 +106,10 @@ sub SQLite {
     $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
       "$Foswiki::cfg{WorkingDir}/${$}_sqlite.db";
     $Foswiki::cfg{Cache}{Enabled} = 1;
+}
+
+sub dbcheck_PostgreSQL {
+    return dbcheckDBI( 'Pg', 'PostgreSQL' );
 }
 
 sub PostgreSQL {
@@ -70,14 +120,22 @@ sub PostgreSQL {
     $Foswiki::cfg{Cache}{Enabled} = 1;
 }
 
+sub dbcheck_MySQL {
+    return dbcheckDBI( 'mysql', 'MySQL' );
+}
+
 sub MySQL {
     require Foswiki::PageCache::DBI::MySQL;
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MySQL';
     $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
 
+sub dbcheck_Generic {
+    return dbcheck_SQLite();
+}
+
 sub Generic {
-    $Foswiki::cfg{Cache}{DSN} =
+    $Foswiki::cfg{Cache}{DBI}{DSN} =
       "dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/${$}_generic.db";
     require Foswiki::PageCache::DBI::Generic;
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
@@ -132,8 +190,6 @@ sub set_up {
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
     $UI_FN ||= $this->getUIFn('view');
-
-    return;
 }
 
 sub tear_down {
@@ -167,10 +223,9 @@ sub check {
                 $this->{session}{request} );
         }
     );
-
     my $p1end = Benchmark->new();
-    print STDERR "R1 " . timestr( timediff( $p1end, $p1start ) ) . "\n";
-    print STDERR "$stderr\n";
+
+    #print STDERR "P1: $stderr\n" if $stderr;
 
     $this->createNewFoswikiSession( $this->{test_user_login},
         $query, { $this->{uifn} => 1 } );
@@ -188,13 +243,24 @@ sub check {
         }
     );
     my $p2end = Benchmark->new();
-    print STDERR "R2 " . timestr( timediff( $p2end, $p2start ) ) . "\n";
-    print STDERR "$stderr\n";
 
-    for ( $one, $two ) {
-        $this->assert( s/\r//g,        'Failed to remove \r' );
-        $this->assert( s/^.*?\n\n+//s, 'Failed to remove HTTP headers' );
-    }
+    #print STDERR "P2: $stderr\n" if $stderr;
+
+    $this->assert( $one =~ s/\r//g,          'Failed to remove \r' );
+    $this->assert( $one =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
+    my $one_head = $1;
+    $this->assert( $one_head !~ /X-Foswiki-Pagecache/i, $one_head );
+
+    $this->assert( $two =~ s/\r//g,          'Failed to remove \r' );
+    $this->assert( $two =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
+    my $two_heads = $1;
+    $this->assert( $two_heads =~ /^X-Foswiki-Pagecache: 1$/im, $two_heads );
+
+    print STDERR "To cache:   "
+      . timestr( timediff( $p1end, $p1start ) ) . "\n";
+    print STDERR "From cache: "
+      . timestr( timediff( $p2end, $p2start ) ) . "\n";
+
     return if $one eq $two;
 
     for ( $one, $two ) {

@@ -323,8 +323,9 @@ sub view {
         push @qparams, $name => scalar( $query->param($name) );
     }
 
-# SMELL: %QUERYPARAMSTRING% isn't a documented macro, and is no longer used in core
-# or core extensions. Maintained for legacy only.
+    # SMELL: %QUERYPARAMSTRING% isn't a documented macro, and is
+    # no longer used in core or core extensions. Maintained for
+    # legacy only.
     if ( $tmpl =~ m/%QUERYPARAMSTRING%/ ) {
         my $qps = Foswiki::make_params(@qparams);
         $qps =~ s/^.*\?/;/; # remove any anchor (there should be none) and the ?
