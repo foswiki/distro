@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426279004" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432177474" format="1.1" version="1"}%
 %META:TOPICPARENT{name="GlossaryOfTerms"}%
 ---+ %MAKETEXT{"The name you log in with"}%
 
@@ -6,7 +6,7 @@
 uniquely identifies you to the system. The exact format of the username
 depends upon how your system is configured."}%
 
-%IF{"{Register}{AllowLoginName}" then="%MAKETEXT{"This system is configured to use usernames"}%" else="%MAKETEXT{"This system is not configured
+%IF{"{Register}{AllowLoginName}" then="%MAKETEXT{"This system is configured to use usernames."}%" else="%MAKETEXT{"This system is not configured
 to use a distinct username. You will log in using your [[[_1].WikiName][WikiName]]." args="%SYSTEMWEB%"}%"}%
 %IF{"{TemplateLogin}{AllowLoginUsingEmailAddress}" then="%MAKETEXT{"On this system, once you are registered, you may also log in using your email address."}%"}%
 
