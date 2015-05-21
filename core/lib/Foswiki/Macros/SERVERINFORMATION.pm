@@ -175,7 +175,8 @@ DONE
         my $ver;
         eval { $ver = $pmod->VERSION() };
         $ver ||= '';
-        $report .= "| $pmod | $ver | =$INC{$mod}= |\n";
+        my $incmod = $INC{$mod} || '(?)';
+        $report .= "| $pmod | $ver | =$incmod= |\n";
     }
     return $report;
 }
