@@ -14,6 +14,7 @@ use strict;
 use warnings;
 use Foswiki ();
 use Error qw( :try );
+use Foswiki::PageCache ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
