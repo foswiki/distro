@@ -1,6 +1,7 @@
 package ResponseTests;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
@@ -203,7 +204,7 @@ sub test_body {
     for ( my $i = 0 ; $i < $length ; $i++ ) {
         $body .= chr( int( rand(256) ) );
     }
-    $res->print($body);
+    $res->body($body);
     $this->assert_str_equals( $body, $res->body, 'Wrong returned body' );
     $this->assert_num_equals(
         $length,
@@ -211,6 +212,16 @@ sub test_body {
         'Wrong Content-Length header'
     );
     return;
+}
+
+sub test_print {
+    my ($this) = @_;
+    my $res = Foswiki::Response->new('');
+    my $body =
+'تمام انسان آزاد اور حقوق و عزت کے اعتبار سے برابر پیدا ہوئے ہیں۔ انہیں ضمیر اور عقل ودیعت ہوئی ہے۔ اس لئے انہیں ایک دوسرے کے ساتھ بھائی چارے کا سلوک کرنا چاہئے۔';
+    $res->print($body);
+    $this->assert_str_equals( Encode::encode_utf8($body),
+        $res->body, 'Wrong returned body' );
 }
 
 sub test_redirect {
