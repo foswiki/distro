@@ -62,9 +62,9 @@ sub set_up {
     $Foswiki::cfg{TemplatePath} =
 '$Foswiki::cfg{PubDir}/$web/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$web/$name.tmpl,$Foswiki::cfg{TemplateDir}/$name.tmpl,$web.$skinSkin$nameTemplate,$Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate,$web.$nameTemplate,$Foswiki::cfg{SystemWebName}.$nameTemplate';
     $Foswiki::cfg{TemplatePath} =~
-      s/\$Foswiki::cfg{TemplateDir}/$Foswiki::cfg{TemplateDir}/geo;
+      s/\$Foswiki::cfg\{TemplateDir\}/$Foswiki::cfg{TemplateDir}/geo;
     $Foswiki::cfg{TemplatePath} =~
-      s/\$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{SystemWebName}/ge;
+      s/\$Foswiki::cfg\{SystemWebName\}/$Foswiki::cfg{SystemWebName}/ge;
 
     return;
 }

@@ -290,10 +290,11 @@ HERE
             $this->assert_matches( qr/^BottomOfTopic.*^$comm/ms, $text );
         }
         elsif ( $type eq "above" ) {
-            $this->assert_matches( qr/^TopOfTopic.*^$comm.*$refexpr/ms, $text );
+            $this->assert_matches( qr/^TopOfTopic.*^$comm.*\Q$refexpr\E/ms,
+                $text );
         }
         elsif ( $type eq "below" ) {
-            $this->assert_matches( qr/$refexpr.*$comm.*^BottomOfTopic/ms,
+            $this->assert_matches( qr/\Q$refexpr\E.*$comm.*^BottomOfTopic/ms,
                 $text );
         }
     }

@@ -540,8 +540,8 @@ sub checkDifferences {
     ($to)   = $rcs->getRevision(2);
 
     # strip off all topic info
-    $from =~ s/^%META:TOPICINFO{(.*)}%\n//m;
-    $to   =~ s/^%META:TOPICINFO{(.*)}%\n//m;
+    $from =~ s/^%META:TOPICINFO\{(.*)\}%\n//m;
+    $to   =~ s/^%META:TOPICINFO\{(.*)\}%\n//m;
 
     $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
 
@@ -771,7 +771,7 @@ sub verify_MissingVrestoreRev {
     $this->assert( -e "$file,v" );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 1/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO\{.*?\}%\nRev 1/, $text );
 
     unlink($file);
     unlink("$file,v");
@@ -809,7 +809,7 @@ HERE
     $this->assert( -e "$file,v" );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\n2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO\{.*?\}%\n2/, $text );
 
     unlink($file);
     unlink("$file,v");
@@ -850,10 +850,10 @@ HERE
     $this->assert_matches( qr/^Rev 1/, $text );
 
     ($text) = $rcs->getRevision(2);
-    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO\{.*?\}%\nRev 2/, $text );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO\{.*?\}%\nRev 2/, $text );
 
     $rcs->deleteRevision();
 

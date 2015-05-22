@@ -195,8 +195,8 @@ sub setRow {
         if ( $n < scalar( @{ $this->{cols} } ) ) {
 
             # Restore the EDITCELL from the old value, if present
-            if (   $val !~ /%EDITCELL{.*?}%/
-                && $this->{cols}->[$n]->{text} =~ m/(%EDITCELL{.*?}%)/ )
+            if (   $val !~ /%EDITCELL\{.*?\}%/
+                && $this->{cols}->[$n]->{text} =~ m/(%EDITCELL\{.*?\}%)/ )
             {
                 $val .= $1;
             }

@@ -982,7 +982,7 @@ sub filter_txt {
 
 # Replace the version (SVN Rev or wrongly saved number) with rev 1.
 # Item10629: Must preserve version for CompareRevisionAddOnDemoTopic, or nothing to demo
-            $text =~ s/^(%META:TOPICINFO{.*version=").*?(".*}%)$/${1}1$2/m
+            $text =~ s/^(%META:TOPICINFO\{.*version=").*?(".*\}%)$/${1}1$2/m
               unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
             $text =~ s/%\$(\w+)%/&_expand($this,$1)/ge;
             return $text;

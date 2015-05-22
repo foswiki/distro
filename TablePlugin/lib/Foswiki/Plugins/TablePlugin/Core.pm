@@ -707,7 +707,7 @@ sub _processTableRow {
             my $type = '';
 
             # Fixup for EditRowPlugin - add ** if erpJS_sort
-            s/(.*)/*$1*/ if /erpJS_sort {headrows: \d/;
+            s/(.*)/*$1*/ if /erpJS_sort \{headrows: \d/;
 
             if (/^\s*\*(.*)\*\s*$/) {
                 $value = $1;

@@ -567,9 +567,9 @@ NONNY
     $meta->finish();
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
     my $matchText =
-'%META:TOPICINFO{author="BaseUserMapping_666" comment="atp save" date=".*?" format="1.1" version="2"}%'
+'%META:TOPICINFO\{author="BaseUserMapping_666" comment="atp save" date=".*?" format="1.1" version="2"\}%'
       . "\n"
-      . $origtext;
+      . "\Q$origtext\E";
     $this->assert_matches( qr/$matchText/, $text2 );
 
     return;

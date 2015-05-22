@@ -52,13 +52,13 @@ sub commonTagsHandler {
         "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )")
       if $debug;
 
-    $_[0] =~ s/%RDIFF2COMPARE{"?(.*?)"?}%/&_handleRdiff2Compare($1)/ge;
+    $_[0] =~ s/%RDIFF2COMPARE\{"?(.*?)"?\}%/&_handleRdiff2Compare($1)/ge;
 }
 
 sub _handleRdiff2Compare {
 
     my $text = shift;
-    $text =~ s{/rdiff  $Foswiki::cfg{ScriptSuffix}/}
+    $text =~ s{/rdiff  $Foswiki::cfg\{ScriptSuffix\}/}
               {/compare$Foswiki::cfg{ScriptSuffix}/}xmsg;
     return $text;
 

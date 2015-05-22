@@ -162,7 +162,7 @@ sub test_SimpleTopicSave {
       Foswiki::Func::readTopicText( $this->{test_web}, 'TestTopic' );
 
     #remove the TOPICINFO
-    $rawFirst =~ s/^%META:TOPICINFO{.*?}%\n//m;
+    $rawFirst =~ s/^%META:TOPICINFO\{.*?\}%\n//m;
 
     $this->assert_equals( $text, $rawFirst );
 

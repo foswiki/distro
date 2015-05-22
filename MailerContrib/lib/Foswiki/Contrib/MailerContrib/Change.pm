@@ -173,7 +173,7 @@ sub expandDiff {
             $this->{TOPIC}, $this->{CURR_REV} );
         return '' unless ( $b->haveAccess('VIEW') );
         my $btext = Foswiki::Serialise::serialise( $b, 'Embedded' );
-        $btext =~ s/^%META:TOPICINFO{.*}%$//;
+        $btext =~ s/^%META:TOPICINFO\{.*\}%$//;
 
         return $btext if ( $this->{BASE_REV} < 1 );
 
@@ -182,7 +182,7 @@ sub expandDiff {
             $this->{TOPIC}, $this->{BASE_REV} );
         return '' unless ( $a->haveAccess('VIEW') );
         my $atext = Foswiki::Serialise::serialise( $a, 'Embedded' );
-        $atext =~ s/^%META:TOPICINFO{.*}%$//;
+        $atext =~ s/^%META:TOPICINFO\{.*\}%$//;
 
         require Foswiki::Merge;
         my $blocks = Foswiki::Merge::simpleMerge( $atext, $btext, qr/[\r\n]+/ );

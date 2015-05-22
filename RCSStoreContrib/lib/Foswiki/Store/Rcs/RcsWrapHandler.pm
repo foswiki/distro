@@ -414,7 +414,7 @@ sub revisionDiff {
         );
 
         # prevent diffing TOPICINFO
-        $tmp =~ s/^.%META:TOPICINFO{(.*)}%\n//mg;
+        $tmp =~ s/^.%META:TOPICINFO\{(.*)\}%\n//mg;
 
         # comment out because we get a non-zero status for a good result!
         #if( $exit ) {

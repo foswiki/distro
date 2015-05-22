@@ -81,13 +81,13 @@ sub preRenderingHandler {
     # Plugins, TOC and SEARCH can be rendered
     if ( $_[0] =~ m/%RENDERLIST/ ) {
         unless ( $_[0] =~
-s/%RENDERLIST{(.*?)}%\s*(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
+s/%RENDERLIST\{(.*?)\}%\s*(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
           )
         {
 
             # Cairo compatibility fallback
             $_[0] =~
-s/%RENDERLIST{(.*?)}%\s*(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
+s/%RENDERLIST\{(.*?)\}%\s*(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
         }
     }
 }

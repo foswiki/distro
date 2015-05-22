@@ -3610,7 +3610,7 @@ sub summariseChanges {
     return '' if ( $orev == $nrev );    # same rev, no differences
 
     my $nstring = $this->stringify();
-    $nstring =~ s/^%META:TOPICINFO{.*?}%//ms;
+    $nstring =~ s/^%META:TOPICINFO\{.*?}%//ms;
 
     #print "SSSSSS nstring\n($nstring)\nSSSSSS\n\n";
 
@@ -3628,7 +3628,7 @@ sub summariseChanges {
     }
 
     my $ostring = $oldTopicObject->stringify();
-    $ostring =~ s/^%META:TOPICINFO{.*?}%$//ms;
+    $ostring =~ s/^%META:TOPICINFO\{.*?}%$//ms;
 
     #print "SSSSSS ostring\n$ostring\nSSSSSS\n\n";
 

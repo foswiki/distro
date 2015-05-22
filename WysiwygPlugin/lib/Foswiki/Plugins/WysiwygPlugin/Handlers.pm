@@ -351,7 +351,7 @@ sub _populateVars {
     # and build the list of values in order of @nvars.
     for my $i ( 0 .. $#VARS ) {
         my $nvar = $VARS[$i];
-        $opts->{match}[$i] = $nvar;
+        $opts->{match}[$i] = "\Q$nvar\E";
         $nexp[$i] ||= '';    # Avoid undefined issues.
     }
     $opts->{exp} = \@nexp;

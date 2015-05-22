@@ -31,7 +31,7 @@ NotTOAutoLink
 HERE
 
 my $topic2meta =
-'%META:TOPICINFO{author="BaseUserMapping_666"( comment="")? date="[0-9]{10,10}" format="1.1" version="1"}%'
+'%META:TOPICINFO\{author="BaseUserMapping_666"( comment="")? date="[0-9]{10,10}" format="1.1" version="1"\}%'
   . "\n";
 my $topic2metaQ = $topic2meta;
 $topic2metaQ =~ s/"/&quot;/g;

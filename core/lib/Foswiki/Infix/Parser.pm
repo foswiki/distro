@@ -256,7 +256,7 @@ sub _parse {
                 # Handle escaped characters in the string. This is where
                 # expansions such as \n are handled
                 $val =~
-s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'"')/ge;
+s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1.'"')/ge;
                 push( @opands,
                     $this->{node_factory}
                       ->newLeaf( $val, Foswiki::Infix::Node::STRING ) );

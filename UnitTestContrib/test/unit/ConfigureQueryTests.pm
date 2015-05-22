@@ -65,8 +65,10 @@ sub test_getcfg_nokey {
     my $reporter = Foswiki::Configure::Reporter->new();
     Foswiki::Configure::Query::getcfg( $params, $reporter );
     $this->assert( $reporter->has_level('errors') );
-    $this->assert_matches( qr/^{Peed}{Skills} not defined/,
-        $reporter->messages()->[0]->{text} );
+    $this->assert_matches(
+        qr/^\{Peed\}\{Skills\} not defined/,
+        $reporter->messages()->[0]->{text}
+    );
 }
 
 # For stripping parents in the spec tree if needed for print debug
@@ -232,7 +234,7 @@ sub test_getspec_badkey {
     catch Error::Simple with {
         my $mess = shift;
         $this->assert_matches(
-            qr/^\$Not_found = {\s*\'keys\' => \'{BadKey}\'\s*};/, $mess );
+            qr/^\$Not_found = \{\s*\'keys\' => \'\{BadKey\}\'\s*\};/, $mess );
     }
     otherwise {
         $this->assert(0);

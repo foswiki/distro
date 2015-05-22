@@ -50,7 +50,7 @@ sub render {
     my $json = JSON->new()->convert_blessed();
 
     my $text = $this->{text};
-    if ( $text =~ s/%EDITCELL{(.*?)}%// ) {
+    if ( $text =~ s/%EDITCELL\{(.*?)\}%// ) {
         my %p  = Foswiki::Func::extractParameters($1);
         my $cd = $this->{row}->{table}->parseFormat( $p{_DEFAULT} );
         $colDef = $cd->[0];
@@ -80,7 +80,7 @@ sub render {
             else {
 
                 # Chop out meta-text
-                $text =~ s/%EDITCELL{(.*?)}%\s*$//;
+                $text =~ s/%EDITCELL\{(.*?)\}%\s*$//;
             }
         }
 

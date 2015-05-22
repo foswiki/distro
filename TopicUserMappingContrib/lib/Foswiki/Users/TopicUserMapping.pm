@@ -1000,7 +1000,7 @@ sub _writeGroupTopic {
         or ( $text =~ m/^(\t|   )+\* Member list \(comma-separated list\):$/ )
         or ( $text =~ m/^(\t|   )+\* Persons\/group who can change the list:$/ )
         or ( $text =~ m/^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$/ )
-        or ( $text =~ m/^\*%MAKETEXT{"Related topics:"}%.*$/ )
+        or ( $text =~ m/^\*%MAKETEXT\{"Related topics:"\}%.*$/ )
       )
     {
         if ( !defined($allowChangeString) ) {
@@ -1013,7 +1013,7 @@ sub _writeGroupTopic {
         $text =~ s/^(\t|   )+\* Member list \(comma-separated list\):$//s;
         $text =~ s/^(\t|   )+\* Persons\/group who can change the list:$//s;
         $text =~ s/^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$//s;
-        $text =~ s/^\*%MAKETEXT{"Related topics:"}%.*$//s;
+        $text =~ s/^\*%MAKETEXT\{"Related topics:"\}%.*$//s;
 
         $text .= "\nEdit this topic to add a description to the $groupName\n";
 

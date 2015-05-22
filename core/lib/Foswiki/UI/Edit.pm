@@ -398,7 +398,7 @@ sub init_edit {
         # No need to check permissions; we are admin if we got here.
         my $rawText = Foswiki::Serialise::serialise( $basemeta, 'Embedded' );
 
-        $rawText =~ s/^%META:TOPICINFO{.*?}%$//m;
+        $rawText =~ s/^%META:TOPICINFO\{.*?}%$//m;
         $topicObject->text($rawText);
         $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/g;
         $extraLog = "(Admin cmd=$adminCmd)";

@@ -3901,7 +3901,7 @@ sub _renderZones {
     # NOTE: once a zone has been rendered it is cleared, so cannot
     # be rendered again.
 
-    $text =~ s/${RENDERZONE_MARKER}RENDERZONE{(.*?)}${RENDERZONE_MARKER}/
+    $text =~ s/${RENDERZONE_MARKER}RENDERZONE\{(.*?)\}${RENDERZONE_MARKER}/
       _renderZoneById($this, $1)/geo;
 
     # get the head zone and insert it at the end of the </head>

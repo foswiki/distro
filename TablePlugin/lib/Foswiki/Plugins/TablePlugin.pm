@@ -70,7 +70,7 @@ sub preRenderingHandler {
       || 'all';
     return
       unless ( $sort && $sort =~ m/^(all|attachments)$/ )
-      || $_[0] =~ m/%TABLE{.*?}%/;
+      || $_[0] =~ m/%TABLE\{.*?\}%/;
 
     _readPluginSettings() if !%pluginAttributes;
 

@@ -322,7 +322,7 @@ sub _getTOPICINFO {
         local $/ = "\n";
         my $ti = <$f>;
         close($f);
-        if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
+        if ( defined $ti && $ti =~ /^%META:TOPICINFO\{(.*)\}%/ ) {
             my $a = Foswiki::Attrs->new($1);
 
             # Default bad revs to 1, not 0, because this is coming from
@@ -384,7 +384,7 @@ sub savePendingCheckin {
         my $rev =
           $this->revisionHistoryExists() ? $this->getLatestRevisionID() : 1;
 
-        $t =~ s/^%META:TOPICINFO{.*?}%\n//m;
+        $t =~ s/^%META:TOPICINFO\{.*?\}%\n//m;
         $t =
             '%META:TOPICINFO{author="'
           . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
@@ -410,7 +410,7 @@ sub _cacheMetaInfo {
     my $info;
 
     # remove the previous record
-    if ( $text =~ s/^%META:TOPICINFO{(.*)}%\n//m ) {
+    if ( $text =~ s/^%META:TOPICINFO\{(.*)\}%\n//m ) {
         $info = Foswiki::Attrs->new($1);
 
     }

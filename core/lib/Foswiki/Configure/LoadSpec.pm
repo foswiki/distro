@@ -523,11 +523,11 @@ safe for use in an eval.
 
 sub protectKeys {
     my $k = shift;
-    $k =~ s/^{(.*)}$/$1/;
+    $k =~ s/^\{(.*)\}$/$1/;
     return '{'
       . join(
         '}{', map { protectKey($_) }
-          split( /}{/, $k )
+          split( /\}\{/, $k )
       ) . '}';
 }
 

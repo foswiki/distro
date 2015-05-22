@@ -71,16 +71,16 @@ sub _search {
     }
 
     if ( $options->{casesensitive} ) {
-        $program =~ s/%CS{(.*?)\|.*?}%/$1/g;
+        $program =~ s/%CS\{(.*?)\|.*?\}%/$1/g;
     }
     else {
-        $program =~ s/%CS{.*?\|(.*?)}%/$1/g;
+        $program =~ s/%CS\{.*?\|(.*?)\}%/$1/g;
     }
     if ( $options->{files_without_match} ) {
-        $program =~ s/%DET{.*?\|(.*?)}%/$1/g;
+        $program =~ s/%DET\{.*?\|(.*?)\}%/$1/g;
     }
     else {
-        $program =~ s/%DET{(.*?)\|.*?}%/$1/g;
+        $program =~ s/%DET\{(.*?)\|.*?\}%/$1/g;
     }
     if ( $options->{wordboundaries} ) {
 
@@ -88,7 +88,7 @@ sub _search {
         # be UTF8 encoded
         # TODO when testing UTF-8 code, try quotemeta. It should
         # work with a decent perl
-        $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
+        $searchString =~ s#([][|/\\\$\^*()+\{\};@?.\{\}])#\\$1#g;
         $searchString = '\b' . $searchString . '\b';
     }
 

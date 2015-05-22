@@ -612,8 +612,8 @@ sub revisionDiff {
     my ($text2) = $this->getRevision($rev2);
 
     # prevent diffing TOPICINFO
-    $text1 =~ s/^%META:TOPICINFO{(.*)}%\n//m;
-    $text2 =~ s/^%META:TOPICINFO{(.*)}%\n//m;
+    $text1 =~ s/^%META:TOPICINFO\{(.*)\}%\n//m;
+    $text2 =~ s/^%META:TOPICINFO\{(.*)\}%\n//m;
 
     my $lNew = _split($text1);
     my $lOld = _split($text2);

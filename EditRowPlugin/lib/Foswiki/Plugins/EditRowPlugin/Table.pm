@@ -501,7 +501,7 @@ sub _getColsFromURPs {
         my $val      = $urps->{$cellName};
 
         # Check current value for format-overriding EDITCELL
-        if ( $cell->{text} && $cell->{text} =~ /%EDITCELL{(.*?)}%/ ) {
+        if ( $cell->{text} && $cell->{text} =~ /%EDITCELL\{(.*?)\}%/ ) {
             my %p  = Foswiki::Func::extractParameters($1);
             my $cd = $this->parseFormat( $p{_DEFAULT} );
             $colDef = $cd->[0];
@@ -584,7 +584,7 @@ sub saveCellCmd {
     my $ot  = $this->{rows}->[$row]->{cols}->[$col]->{text};
 
     my $nt = $urps->{CELLDATA};
-    if ( $ot =~ /(%EDITCELL{.*?}%)/ ) {
+    if ( $ot =~ /(%EDITCELL\{.*?\}%)/ ) {
 
         # Restore the %EDITCELL
         $nt = $1 . $nt;

@@ -94,7 +94,7 @@ sub _handleURLPARAMValue {
     }
 
     # Block expansion of %URLPARAM in the value to prevent recursion
-    $value =~ s/%URLPARAM{/%<nop>URLPARAM{/g;
+    $value =~ s/%URLPARAM\{/%<nop>URLPARAM{/g;
     return $value;
 }
 

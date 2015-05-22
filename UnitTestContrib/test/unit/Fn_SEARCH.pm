@@ -2157,7 +2157,7 @@ HERE
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"^[%]META:FIELD{name=\"FieldA\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldB\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldC\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldD\".*\bvalue=\"A\"|^[%]META:FIELD{name=\"FieldE\".*\bvalue=\"A\"" type="regex" nonoise="on" format="$topic" separator=" "}%'
+'%SEARCH{"^[%]META:FIELD\{name=\"FieldA\".*\bvalue=\"A\";^[%]META:FIELD\{name=\"FieldB\".*\bvalue=\"A\";^[%]META:FIELD\{name=\"FieldC\".*\bvalue=\"A\";^[%]META:FIELD\{name=\"FieldD\".*\bvalue=\"A\"|^[%]META:FIELD\{name=\"FieldE\".*\bvalue=\"A\"" type="regex" nonoise="on" format="$topic" separator=" "}%'
       );
     my $retime = Benchmark::timediff( Benchmark->new(), $start );
     $this->assert_str_equals( 'QueryTopic1 QueryTopic2', $result );

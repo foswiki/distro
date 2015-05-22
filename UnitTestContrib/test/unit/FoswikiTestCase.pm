@@ -647,7 +647,7 @@ sub set_up {
 
                 # Add the config unless already defined in LocalSite.cfg
                 $config =~
-s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "exists $2"); ''/ges;
+s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "exists $2"); ''/ges;
             }
         }
     }

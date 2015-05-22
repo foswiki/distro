@@ -498,7 +498,7 @@ sub loadTemplates {
 # SMELL: the only META tags in a template will be METASEARCH
 # Why the heck are they being filtered????
 #TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
-    $tmpl =~ s/\%META{.*?}\%//g;    # remove %META{'parent'}%
+    $tmpl =~ s/\%META\{.*?\}\%//g;    # remove %META{'parent'}%
 
     # Split template into 5 sections
     my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
@@ -1237,7 +1237,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
                 # defuse SEARCH in current topic to prevent loop
-                $text =~ s/%SEARCH{.*?}%/SEARCH{...}/g;
+                $text =~ s/%SEARCH\{.*?\}%/SEARCH{...}/g;
             }
             $out =~ s/\$text/$text/gs;
         }

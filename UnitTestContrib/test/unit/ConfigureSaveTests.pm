@@ -51,16 +51,20 @@ sub test_changecfg {
 
     # Check report
     my %expected = (
-        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |" => 'notes',
-        '| {\'Test-Key\'} | undef | \'newtestkey\' |' => 'notes',
-        '| {TestA} | undef | \'Shingle\' |' => 'notes',
-        '| {TestB}{Ruin} | undef | \'Ribbed\' |' => 'notes',
+        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |"                    => 'notes',
+        '| {\'Test-Key\'} | undef | \'newtestkey\' |'                => 'notes',
+        '| {TestA} | undef | \'Shingle\' |'                          => 'notes',
+        '| {TestB}{Ruin} | undef | \'Ribbed\' |'                     => 'notes',
         '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |', => 'notes',
-        '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |' => 'notes',
-        '| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |' => 'notes',
-        q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |> => 'notes',
-        '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |' => 'notes',
-        );
+        '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |' =>
+          'notes',
+'| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |'
+          => 'notes',
+q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
+          => 'notes',
+        '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |' =>
+          'notes',
+    );
     my $ms = $reporter->messages();
 
     #print STDERR Data::Dumper->Dump([$ms]);
@@ -81,15 +85,19 @@ sub test_changecfg {
     $this->assert_str_equals( 'notes', $r->{level} );
     $r = shift(@$ms);
 
-    for (my $i = 0; $i < scalar(@$ms); $i++) {
+    for ( my $i = 0 ; $i < scalar(@$ms) ; $i++ ) {
         my $r = $ms->[$i];
-        if (($expected{$r->{text}}//'') eq $r->{level}) {
-            delete $expected{$r->{text}};
+        if ( ( $expected{ $r->{text} } // '' ) eq $r->{level} ) {
+            delete $expected{ $r->{text} };
         }
     }
 
     #print STDERR Data::Dumper->Dump([$ms]);
-    $this->assert_num_equals(0, scalar keys %expected, Data::Dumper->Dump([\%expected]) );
+    $this->assert_num_equals(
+        0,
+        scalar keys %expected,
+        Data::Dumper->Dump( [ \%expected ] )
+    );
 
     # Check it was written correctly
     $this->assert( open( F, '<', $this->{lscpath} ), $@ );
@@ -98,9 +106,10 @@ sub test_changecfg {
     close F;
 
     # Check for expected messages
-    $this->assert_matches( qr/^# {'Test-Key'} was not found in .spec$/m,  $c );
-    $this->assert_matches( qr/^# {TestA} was not found in .spec$/m,       $c );
-    $this->assert_matches( qr/^# {TestB}{Ruin} was not found in .spec$/m, $c );
+    $this->assert_matches( qr/^# \{'Test-Key'\} was not found in .spec$/m, $c );
+    $this->assert_matches( qr/^# \{TestA\} was not found in .spec$/m,      $c );
+    $this->assert_matches( qr/^# \{TestB\}\{Ruin\} was not found in .spec$/m,
+        $c );
 
     # TODO: check backup succeeded
 

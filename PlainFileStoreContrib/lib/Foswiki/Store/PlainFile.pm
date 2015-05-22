@@ -1066,7 +1066,7 @@ DONE
     unless ($attachment) {
         my $t = _readFile($latest);
 
-        $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
+        $t =~ s/^%META:TOPICINFO\{(.*)\}%$//m;
         $t =
             '%META:TOPICINFO{author="'
           . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID

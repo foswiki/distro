@@ -319,7 +319,7 @@ sub migrateToFileAttachmentMacro {
         my $line = '';
         require Foswiki::Attrs;
         foreach $line ( split( /\r?\n/, $atext ) ) {
-            if ( $line =~ m/%FILEATTACHMENT{\s"([^"]*)"([^}]*)}%/ ) {
+            if ( $line =~ m/%FILEATTACHMENT\{\s"([^"]*)"([^}]*)\}%/ ) {
                 my $name   = $1;
                 my $values = new Foswiki::Attrs($2);
                 $values->{name} = $name;

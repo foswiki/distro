@@ -645,13 +645,13 @@ EVIL
     $topicObject->renderTML( $topicObject->text() );
     $topicObject->renderFormForDisplay();
     $text = $topicObject->text();
-    $this->assert_matches( qr/%META:TOPICINFO{bad="bad"}%/,      $text );
-    $this->assert_matches( qr/%META:TOPICPARENT{bad="bad"}%/,    $text );
-    $this->assert_matches( qr/%META:FORM{bad="bad"}%/,           $text );
-    $this->assert_matches( qr/%META:FIELD{bad="bad"}%/,          $text );
-    $this->assert_matches( qr/%META:FILEATTACHMENT{bad="bad"}%/, $text );
-    $this->assert_matches( qr/%META:TOPICMOVED{bad="bad"}%/,     $text );
-    $this->assert_does_not_match( qr/%META:TOPICMOVED{}%/, $text );
+    $this->assert_matches( qr/%META:TOPICINFO\{bad="bad"\}%/,      $text );
+    $this->assert_matches( qr/%META:TOPICPARENT\{bad="bad"\}%/,    $text );
+    $this->assert_matches( qr/%META:FORM\{bad="bad"\}%/,           $text );
+    $this->assert_matches( qr/%META:FIELD\{bad="bad"\}%/,          $text );
+    $this->assert_matches( qr/%META:FILEATTACHMENT\{bad="bad"\}%/, $text );
+    $this->assert_matches( qr/%META:TOPICMOVED\{bad="bad"\}%/,     $text );
+    $this->assert_does_not_match( qr/%META:TOPICMOVED\{\}%/, $text );
 
     # Item2554
     $text = <<'EVIL';
@@ -663,7 +663,7 @@ EVIL
         $text );
     $topicObject->save();
     $text = $topicObject->text();
-    $this->assert_does_not_match( qr/%META:TOPICPARENT{}%/, $text );
+    $this->assert_does_not_match( qr/%META:TOPICPARENT\{\}%/, $text );
 
     $text = <<"GOOD";
 %META:TOPICINFO{version="1" date="9876543210" author="AlbertCamus" format="1.1"}%

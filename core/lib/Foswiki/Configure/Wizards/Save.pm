@@ -186,7 +186,7 @@ sub save {
             # Clean out deprecated settings, so they don't occlude the
             # replacements
             foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
-                $old_content =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
+                $old_content =~ s/\$\QFoswiki::cfg$key\E\s*=.*?;\s*//sg;
             }
         }
     }
