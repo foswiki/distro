@@ -58,7 +58,7 @@ sub commonTagsHandler {
 sub _handleRdiff2Compare {
 
     my $text = shift;
-    $text =~ s{/rdiff  $Foswiki::cfg\{ScriptSuffix\}/}
+    $text =~ s{/rdiff  $Foswiki::cfg{ScriptSuffix}/}
               {/compare$Foswiki::cfg{ScriptSuffix}/}xmsg;
     return $text;
 
