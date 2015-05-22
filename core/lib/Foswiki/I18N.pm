@@ -13,6 +13,7 @@ package Foswiki::I18N;
 use strict;
 use warnings;
 use Assert;
+use Error qw(:try);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -269,9 +270,20 @@ sub maketext {
         );
     }
 
-    my $result = $this->SUPER::maketext( $text, @args );
-
-    return $result;
+    my $result = '';
+    try {
+        $result = $this->SUPER::maketext( $text, @args );
+        return $result;
+    }
+    catch Error with {
+        my $e = shift;
+        print STDERR
+          "#### Error: MAKETEXT - String translation failed for \"$text\". "
+          . $e->stringify()
+          if DEBUG;
+        return
+"<span class='foswikiAlert'>ERROR: Translation failed, see server error log.</span>";
+    }
 }
 
 =begin TML
