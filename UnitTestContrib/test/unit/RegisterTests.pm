@@ -1690,7 +1690,8 @@ sub verify_resetPasswordNoPassword {
 
     $query->path_info( '/' . $this->{users_web} . '/WebHome' );
     my $fh;
-    open( $fh, ">", $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
+    open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+      || die $!;
     close($fh) || die $!;
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -2249,7 +2250,9 @@ sub test_4061 {
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
-    $this->assert( open( my $fh, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
+    $this->assert(
+        open( my $fh, "<:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+    );
     my ( $before, $stuff );
     {
         local $/ = undef;
@@ -2268,7 +2271,9 @@ sub test_4061 {
             $e->stringify() );
 
         # Verify that they have not been added to .htpasswd
-        $this->assert( open( $fh, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
+        $this->assert(
+            open( $fh, "<:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+        );
         {
             local $/ = undef;
             $stuff = <$fh>;

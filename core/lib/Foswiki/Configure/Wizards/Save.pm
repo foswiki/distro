@@ -253,6 +253,9 @@ sub save {
                     return undef;
                 }
             }
+            elsif (TRACE_SAVE) {
+                print STDERR "NO SPEC FOR $k=\n";
+            }
             if ( defined $v ) {
                 print STDERR "SETTING $k="
                   . ( ref($v) ? Data::Dumper->Dump( [$v] ) : $v ) . "\n"

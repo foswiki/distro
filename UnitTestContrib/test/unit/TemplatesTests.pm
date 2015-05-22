@@ -5,6 +5,7 @@
 package TemplatesTests;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
@@ -84,7 +85,7 @@ sub write_template {
     if ( $tmpl =~ m!^(.*)/[^/]*$! ) {
         File::Path::mkpath("$test_tmpls/$1") unless -d "$test_tmpls/$1";
     }
-    ASSERT( open( my $F, '>', "$test_tmpls/$tmpl.tmpl" ) );
+    ASSERT( open( my $F, '>:encoding(utf-8)', "$test_tmpls/$tmpl.tmpl" ) );
     print $F $content;
     ASSERT( close($F) );
 
@@ -95,7 +96,7 @@ sub write_topic {
     my ( $web, $topic, $content ) = @_;
 
     File::Path::mkpath("$test_data/$web") unless -d "$test_data/$web";
-    ASSERT( open( my $F, '>', "$test_data/$web/$topic.txt" ) );
+    ASSERT( open( my $F, '>:encoding(utf-8)', "$test_data/$web/$topic.txt" ) );
     $content = $content || "$web/$topic";
     print $F $content;
     ASSERT( close($F) );

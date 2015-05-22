@@ -70,7 +70,8 @@ sub loadExtraConfig {
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
         my $fh;
-        open( $fh, ">", $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
+        open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+          || die $!;
         close($fh) || die $!;
     }
     $Foswiki::cfg{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';

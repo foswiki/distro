@@ -11,6 +11,7 @@ use strict;
 use warnings;
 use Foswiki;
 use Error qw(:try);
+use utf8;
 
 use Foswiki::Configure::Wizards::Save;
 use Foswiki::Configure::Reporter;
@@ -24,9 +25,9 @@ sub test_changecfg {
         set => {
 
             # Unspecced items
-            '{TestA}'       => 'Shingle',
-            '{TestB}{Ruin}' => 'Ribbed',
-            '{"Test-Key"}'  => 'newtestkey',
+            '{TestA}'      => 'Shingle',
+            '{TestB}{Sit}' => 'بیٹھنا',
+            '{"Test-Key"}' => 'newtestkey',
 
             # Specced items
             '{UnitTestContrib}{Configure}{NUMBER}' => '99',
@@ -51,10 +52,11 @@ sub test_changecfg {
 
     # Check report
     my %expected = (
-        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |"                    => 'notes',
-        '| {\'Test-Key\'} | undef | \'newtestkey\' |'                => 'notes',
-        '| {TestA} | undef | \'Shingle\' |'                          => 'notes',
-        '| {TestB}{Ruin} | undef | \'Ribbed\' |'                     => 'notes',
+        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |"     => 'notes',
+        '| {\'Test-Key\'} | undef | \'newtestkey\' |' => 'notes',
+        '| {TestA} | undef | \'Shingle\' |'           => 'notes',
+'| {TestB}{Sit} | undef | "\x{628}\x{6cc}\x{679}\x{6be}\x{646}\x{627}" |'
+          => 'notes',
         '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |', => 'notes',
         '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |' =>
           'notes',
@@ -70,7 +72,7 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     #print STDERR Data::Dumper->Dump([$ms]);
 
     # Since fe67109ef03617bb76df0058fa880a2588ec138b the imposed config
-    # in ConfigureTestCase is no longer the shole story, as all the crud from
+    # in ConfigureTestCase is no longer the whole story, as all the crud from
     # Foswiki.spec and extension.specs will be added back in to the config.
     # So we have to be a bit selective about what we test.
 
@@ -85,18 +87,25 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     $this->assert_str_equals( 'notes', $r->{level} );
     $r = shift(@$ms);
 
-    for ( my $i = 0 ; $i < scalar(@$ms) ; $i++ ) {
-        my $r = $ms->[$i];
-        if ( ( $expected{ $r->{text} } // '' ) eq $r->{level} ) {
-            delete $expected{ $r->{text} };
-        }
-    }
+    $ms = [
+        grep {
+            if ( ( $expected{ $_->{text} } // '' ) eq $_->{level} )
+            {
+                delete $expected{ $_->{text} };
+            }
+            elsif ( $_->{text} =~ /{Test/ ) {
+                print STDERR "NO MATCH '$_->{text}'\n";
+            }
+            $_->{text} =~ /{Test/;
+        } @$ms
+    ];
 
-    #print STDERR Data::Dumper->Dump([$ms]);
     $this->assert_num_equals(
         0,
         scalar keys %expected,
-        Data::Dumper->Dump( [ \%expected ] )
+        "EXPECTED "
+          . Data::Dumper->Dump( [ \%expected ] ) . " GOT "
+          . Data::Dumper->Dump( [$ms] )
     );
 
     # Check it was written correctly
@@ -106,10 +115,9 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     close F;
 
     # Check for expected messages
-    $this->assert_matches( qr/^# \{'Test-Key'\} was not found in .spec$/m, $c );
-    $this->assert_matches( qr/^# \{TestA\} was not found in .spec$/m,      $c );
-    $this->assert_matches( qr/^# \{TestB\}\{Ruin\} was not found in .spec$/m,
-        $c );
+    $this->assert_matches( qr/^# {'Test-Key'} was not found in .spec$/m, $c );
+    $this->assert_matches( qr/^# {TestA} was not found in .spec$/m,      $c );
+    $this->assert_matches( qr/^# {TestB}{Sit} was not found in .spec$/m, $c );
 
     # TODO: check backup succeeded
 
@@ -125,9 +133,9 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
 
     $this->assert_null( $blah{TempfileDir} );
     $this->assert_num_equals( 99, $blah{UnitTestContrib}{Configure}{NUMBER} );
-    $this->assert_str_equals( 'newtestkey', $blah{'Test-Key'} );
-    $this->assert_str_equals( 'Shingle',    $blah{'TestA'} );
-    $this->assert_str_equals( 'Ribbed',     $blah{'TestB'}{'Ruin'} );
+    $this->assert_str_equals( 'newtestkey',   $blah{'Test-Key'} );
+    $this->assert_str_equals( 'Shingle',      $blah{'TestA'} );
+    $this->assert_str_equals( 'بیٹھنا', $blah{'TestB'}{'Sit'} );
 }
 
 1;

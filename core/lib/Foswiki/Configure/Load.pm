@@ -193,10 +193,12 @@ sub readConfig {
                 }
                 $validLSC = 0;
             }
-            elsif ( not $return eq '1' ) {
-                print STDERR
-                  "Running file $file returned  unexpected results: $return \n";
-            }
+
+            # Pointless (says CDot), Config.spec does not need 1; at the end
+            #elsif ( not $return eq '1' ) {
+            #   print STDERR
+            #   "Running file $file returned  unexpected results: $return \n";
+            #}
             if ($errorMessage) {
                 die <<GOLLYGOSH;
 Content-type: text/plain
