@@ -262,7 +262,6 @@ sub _readPasswd {
         {
             my $fileTime = ( stat(_) )[9];
             if ( $fileTime > $this->PasswordTimestamp() ) {
-                print STDERR "REREAD FROM FILE\n";
                 $this->ClearCache();
             }
         }

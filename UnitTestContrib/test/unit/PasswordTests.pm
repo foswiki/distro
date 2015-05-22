@@ -244,8 +244,6 @@ sub skip {
                   'Missing Crypt::PasswdMD5',
                 'PasswordTests::test_htpasswd_auto' =>
                   'Missing Crypt::PasswdMD5',
-                'PasswordTests::test_ApacheHtpasswdUser_md5' =>
-                  'Missing Crypt::PasswdMD5',
                 'PasswordTests::test_htpasswd_htdigest_preserves_email' =>
                   'Missing Crypt::PasswdMD5',
             }
@@ -259,13 +257,6 @@ sub skip {
                   'Missing Crypt::Eksblowfish::Bcrypt',
             }
         },
-        {
-            condition => { without_dep => 'Apache::Htpasswd' },
-            tests     => {
-                'PasswordTests::test_ApacheHtpasswdUser_crypt' =>
-                  'Missing Apache::Htpasswd',
-            }
-        }
     );
 }
 
@@ -771,129 +762,6 @@ sub test_htpasswd_apache_md5 {
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, 0 );
-
-    return;
-}
-
-sub test_ApacheHtpasswdUser_md5 {
-    my $this = shift;
-
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'apache-md5';
-
-    if ( !eval "require Apache::Htpasswd; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    if ( !eval "require Foswiki::Users::ApacheHtpasswdUser; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
-
-    # it should work the same as htpasswd (without salt)
-    $this->doTests( $impl, $SALTED );
-
-    # Verify the passwords using HdPaswdUser for compatibility
-    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache() if $impl->can('ClearCache');
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
-        if ( $user !~ /(?:alligator|mole|budgie)/ ) {
-            $this->assert(
-                $impl->checkPassword( $user, $this->{users2}->{$user}->{pass} )
-            );
-        }
-    }
-
-    return;
-}
-
-sub test_ApacheHtpasswdUser_crypt {
-    my $this = shift;
-
-    if ( $^O =~ m/^MSWin/i ) {
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN ApacheHtpasswdUser_crypt TESTS on Windows");
-    }
-
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt';
-
-    if ( !eval "require Apache::Htpasswd; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    if ( !eval "require Foswiki::Users::ApacheHtpasswdUser; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
-
-    $this->doTests($impl);
-
-    # Verify the passwords using HdPaswdUser for compatibility
-    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache() if $impl->can('ClearCache');
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
-        if ( $user !~ /(?:alligator|mole|budgie)/ ) {
-            $this->assert(
-                $impl->checkPassword( $user, $this->{users2}->{$user}->{pass} )
-            );
-        }
-    }
-
-    return;
-}
-
-# SMELL: Apache;:Htpasswd Version 1.8  doesn't appear to actually support writing
-# plain text passwords.  So this test will fail.  The htpasswd file has
-# encrypted passwords regardless of 'plain' setting.
-sub DISABLE_test_ApacheHtpasswdUser_plain {
-    my $this = shift;
-
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'plain';
-
-    if ( !eval "require Apache::Htpasswd; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    if ( !eval "require Foswiki::Users::ApacheHtpasswdUser; 1;" ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
-    }
-
-    my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
-
-    $this->doTests($impl);
-
-    # Verify the passwords using HdPaswdUser for compatibility
-    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache() if $impl->can('ClearCache');
-    foreach my $user ( sort keys %{ $this->{users1} } ) {
-        if ( $user !~ /(?:alligator|mole|budgie)/ ) {
-            $this->assert(
-                $impl->checkPassword( $user, $this->{users2}->{$user}->{pass} )
-            );
-        }
-    }
 
     return;
 }

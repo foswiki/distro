@@ -52,9 +52,7 @@ sub check_current_value {
     my $e = '';
 
     return
-      if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser'
-        && $Foswiki::cfg{PasswordManager} ne
-        'Foswiki::Users::ApacheHtpasswdUser' );
+      if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' );
 
     my $passwordFile = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($passwordFile);
@@ -155,15 +153,6 @@ sub check_current_value {
         }
     }
 
-    if (   $enc ne 'crypt'
-        && $enc ne 'apache-md5'
-        && $Foswiki::cfg{PasswordManager} eq
-        'Foswiki::Users::ApacheHtpasswdUser' )
-    {
-        $reporter->ERROR(
-"PasswordManager ApacheHtpasswdUser only supports crypt and apache-md5 encryption.  Use HtPasswdUser for other Encoding types."
-        );
-    }
 }
 
 sub checkEncoding {

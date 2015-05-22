@@ -8,14 +8,12 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     #NOTE:  If there are any other PasswordManagers that require .htpasswd,
     #       they should be added to this list.
-    return 
-      if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser'
-        && $Foswiki::cfg{PasswordManager} ne
-        'Foswiki::Users::ApacheHtpasswdUser' );
+    return
+      if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' );
 
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($f);

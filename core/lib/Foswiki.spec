@@ -617,14 +617,9 @@ $Foswiki::cfg{FeatureAccess}{Configure} = '';
 # The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of
 # Foswiki.
-# Foswiki ships with two alternative password manager implementations:
+# Foswiki ships with one password manager implementation:
 #    * =Foswiki::Users::HtPasswdUser= - handles 'htpasswd' format files, with
 #      passwords encoded as per the HtpasswdEncoding
-#    * =Foswiki::Users::ApacheHtpasswdUser= - should behave identically to
-#      HtpasswdUser for crypt encoding, but uses the CPAN:Apache::Htpasswd
-#      package to interact with Apache. It is shipped mainly as a
-#      demonstration of how to write a new password manager.
-#      *It is not recommended for production use*
 # You can provide your own alternative by implementing a new subclass of
 # Foswiki::Users::Password, and pointing {PasswordManager} at it in
 # lib/LocalSite.cfg.

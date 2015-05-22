@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431855011" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432316213" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -100,12 +100,13 @@ A conversion tool is available in the tools directory.  =tools/convertTopicSetti
 
 For additional information run =perl tools/convertTopicSettings.pl -help=
 
----+++ Deprecation of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
+---+++ Removal of !PasswordManager =Foswiki::Users::ApacheHtpasswdUser=
 
 This password manager was included primarily as demonstration code and was not
 fully functional.  The default =Foswiki::Users::HtPasswdUser=  provides
 better functionality and it works.  The modules are compatible and no changes
-are needed.
+are needed.  The decision was made to completely remove this module because
+it was no longer compatible with the new Foswiki utf-8 & unicode support.
 
 ---+++ Deprecation of jQuery plugins
 A number of jQuery plugins have been deprecated  and should be disabled in the configuration. Recommended replacements:

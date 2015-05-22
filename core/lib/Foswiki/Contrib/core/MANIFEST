@@ -459,7 +459,6 @@ lib/Foswiki/Configure/Checkers/NUMBER.pm 0444
 lib/Foswiki/Configure/Checkers/OCTAL.pm 0444
 lib/Foswiki/Configure/Checkers/OS.pm 0444
 lib/Foswiki/Configure/Checkers/Password.pm 0444
-lib/Foswiki/Configure/Checkers/PasswordManager.pm 0444
 lib/Foswiki/Configure/Checkers/PATH.pm 0444
 lib/Foswiki/Configure/Checkers/PERL.pm 0444
 lib/Foswiki/Configure/Checkers/PLUGIN_MODULE.pm 0444
@@ -748,7 +747,6 @@ lib/Foswiki/UI/View.pm 0444
 lib/Foswiki/UI/Viewfile.pm 0444
 lib/Foswiki/UserMapping.pm 0444
 lib/Foswiki/Users.pm 0444
-lib/Foswiki/Users/ApacheHtpasswdUser.pm 0444
 lib/Foswiki/Users/BaseUserMapping.pm 0444
 lib/Foswiki/Users/HtPasswdUser.pm 0444
 lib/Foswiki/Users/Password.pm 0444
