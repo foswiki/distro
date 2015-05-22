@@ -245,7 +245,7 @@ sub check_perltidy {
 # Return error message if TOPICINFO is bad per the rules.
 sub checkTOPICINFO {
     my ( $ti, $err ) = @_;
-    unless ( $ti =~ /^%META:TOPICINFO{(.*)}%$/ ) {
+    unless ( $ti =~ /^%META:TOPICINFO\{(.*)\}%$/ ) {
         push( @$err, 'No TOPICINFO' );
         return;
     }
@@ -267,7 +267,7 @@ sub checkTOPICINFO {
 sub checkFILEATTACHMENT {
     my ( $lines, $err ) = @_;
     foreach my $meta (@$lines) {
-        if ( $meta =~ /^%META:FILEATTACHMENT{(.*)}%/ ) {
+        if ( $meta =~ /^%META:FILEATTACHMENT\{(.*)\}%/ ) {
             my $attrs = new Foswiki::Attrs($1);
             my $name = $attrs->{name} || '';
             if ($name) {
