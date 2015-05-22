@@ -42,7 +42,7 @@ use Foswiki::Plugins::TestFixturePlugin::HTMLDiffer ();
 # Stubs are provided for all the published handlers so you can hack
 # the plugin to do other tests as well.
 #
-use CGI qw( :any );
+use CGI;
 
 our $VERSION = '1.200';
 $VERSION = eval $VERSION;
@@ -180,7 +180,7 @@ sub initPlugin {
 }
 
 sub commonTagsHandler {
-    $_[0] =~ s/%FRIENDLYTAG{(.*?)}%/&_extractParams($1)/ge;
+    $_[0] =~ s/%FRIENDLYTAG\{(.*?)\}%/&_extractParams($1)/ge;
 }
 
 sub _extractParams {
