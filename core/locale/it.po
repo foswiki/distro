@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 15:13+0200\n"
+"PO-Revision-Date: 2015-05-22 14:21+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4610,9 +4610,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Questo sito richiede password di almeno %1 caratteri"
 
 #: core/data/System/UserName.txt:9
-#, fuzzy
 msgid "This system is configured to use usernames."
-msgstr "Questo sistema è configurato per utilizzare nomi utente"
+msgstr "Questo sistema è configurato per utilizzare nomi utente."
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
