@@ -329,7 +329,11 @@ sub _hoistDOT {
                 # $PHOLD is a placholder for the RHS term
                 return {
                     field => 'text',
-                    regex => '^%' . $lhs . '{.*\\b' . $rhs . "=\\\"$PHOLD\\\""
+                    regex => '^%'
+                      . $lhs
+                      . '\\{.*\\b'
+                      . $rhs
+                      . "=\\\"$PHOLD\\\""
                 };
             }
 
@@ -348,7 +352,7 @@ sub _hoistDOT {
                 return {
                     field => 'text',
                     regex =>
-                      "^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"$PHOLD\\\""
+"^%META:FIELD\\{name=\\\"$rhs\\\".*\\bvalue=\\\"$PHOLD\\\""
                 };
             }
 
@@ -382,7 +386,7 @@ sub _hoistDOT {
             return {
                 field => 'text',
                 regex =>
-"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
+"^%META:FIELD\\{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
             };
         }
     }
