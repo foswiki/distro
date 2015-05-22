@@ -116,8 +116,11 @@ sub generateValidationKey {
 
     # Use scalar keys %$actions to ensure we generate a unique token
     # for each form on a page.
-    my $nonce =
-      Digest::MD5::md5_hex( $context, $cgis->id(), scalar( keys %$actions ) );
+    my $nonce = Digest::MD5::md5_hex(
+        Encode::encode_utf8(
+            $context . $cgis->id() . scalar( keys %$actions )
+        )
+    );
     my $action = $nonce;
     if ($strikeone) {
 

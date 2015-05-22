@@ -303,7 +303,15 @@ sub verify_topic {
 
 sub verify_utf8_topic {
     my $this = shift;
-    $this->check("/TestCases/Šňáĺľ/ŠňáĺľŠťěř");
+    use utf8;
+    my $web   = "$this->{test_web}/Šňáĺľ";
+    my $topic = 'ŠňáĺľŠťěř';
+    Foswiki::Func::createWeb($web);
+    my ($meta) = Foswiki::Func::readTopic( $web, $topic );
+    $meta->text($topic);
+    $meta->save();
+
+    $this->check("/$web/$topic");
 }
 
 1;
