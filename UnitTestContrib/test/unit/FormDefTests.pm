@@ -339,7 +339,7 @@ sub test_Item972_selectPlusValues {
       Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
     $topicObject->text( <<'FORM');
 | *Name* | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
-| Select | select+values | 5 | , =0, One, Two=2, Three=III, Four | Various values |
+| Select | select+values | 5 | , =0, One, Two=2, Th%72ee=III, Four | Various values |
 FORM
     $topicObject->save();
     $topicObject->finish();

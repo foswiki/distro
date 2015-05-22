@@ -2891,9 +2891,7 @@ sub entityEncode {
 ---++ StaticMethod entityDecode ( $encodedText ) -> $text
 
 Decodes all numeric entities (e.g. &amp;#123;). _Does not_ decode
-named entities such as &amp;amp; (use HTML::Entities for that, though
-you will have to convert to unicode when you call it, and back again
-afterwards)
+named entities such as &amp;amp; (use HTML::Entities for that)
 
 =cut
 

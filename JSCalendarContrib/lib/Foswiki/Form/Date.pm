@@ -53,9 +53,8 @@ sub renderForEdit {
         {
             onclick => "return showCalendar('id$this->{name}','$ifFormat')",
             src     => Foswiki::Func::getPubUrlPath(
-                web        => $Foswiki::cfg{SystemWebName},
-                topic      => 'JSCalendarContrib',
-                attachment => 'img.gif'
+                $Foswiki::cfg{SystemWebName}, 'JSCalendarContrib',
+                'img.gif'
             ),
             alt   => 'Calendar',
             class => 'foswikiButton foswikiEditFormCalendarButton'

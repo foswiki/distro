@@ -53,23 +53,28 @@ sub getOptions {
     return $options if $options;
     $options = $this->SUPER::getOptions();
 
-    if ( $this->{type} =~ m/\+values/ ) {
-        $this->{valueMap} = ();
-        $this->{_options} = ();
-        my $str;
-        foreach my $val (@$options) {
-            if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
-                $str = $1;
-                $val = $2;
-                $str =~ s/\\=/=/g;
+    unless ( $this->{valueMap} ) {
+
+        # 1.2.0 does the value map for you in the superclass.
+        if ( $this->{type} =~ m/\+values/ ) {
+            $this->{valueMap} = ();
+            $this->{_options} = ();
+            my $str;
+            foreach my $val (@$options) {
+                if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
+                    $str = $1;
+                    $val = $2;
+                    $str =~ s/\\=/=/g;
+                }
+                else {
+                    $str = $val;
+                }
+                $str =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+                $this->{valueMap}{$val} = $str;
+                push @{ $this->{_options} }, $val;
             }
-            else {
-                $str = $val;
-            }
-            $this->{valueMap}{$val} = Foswiki::urlDecode($str);
-            push @{ $this->{_options} }, $val;
+            $options = $this->{_options};
         }
-        $options = $this->{_options};
     }
 
     return $options;

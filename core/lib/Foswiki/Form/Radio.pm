@@ -35,38 +35,6 @@ sub finish {
     undef $this->{valueMap};
 }
 
-sub getOptions {
-    my $this = shift;
-
-    return $this->{_options} if $this->{_options};
-    my $vals = $this->SUPER::getOptions(@_);
-
-    if ( $this->{type} =~ m/\+values/ ) {
-
-        # create a values map
-
-        $this->{valueMap} = ();
-        $this->{_options} = ();
-        my $str;
-        foreach my $val (@$vals) {
-            if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
-                $str = TAINT($1);
-                my $descr = $this->{_descriptions}{$val};
-                $val = $2;
-                $this->{_descriptions}{$val} = $descr;
-                $str =~ s/\\=/=/g;
-            }
-            else {
-                $str = $val;
-            }
-            $this->{valueMap}{$val} = Foswiki::urlDecode($str);
-            push @{ $this->{_options} }, $val;
-        }
-    }
-
-    return $vals;
-}
-
 sub getDisplayValue {
     my ( $this, $value ) = @_;
 

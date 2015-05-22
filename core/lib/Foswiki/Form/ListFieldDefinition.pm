@@ -42,6 +42,10 @@ sub finish {
     undef $this->{_descriptions};
 }
 
+sub isMultiValued { return ( shift->{type} =~ m/\+multi/ ); }
+
+sub isValueMapped { return ( shift->{type} =~ m/\+values/ ); }
+
 # PROTECTED - parse the {value} and extract a list of options.
 # Done lazily to avoid repeated topic reads.
 sub getOptions {
@@ -55,6 +59,7 @@ sub getOptions {
     my %descr = ();
 
     @vals = split( /,/, $this->{value} );
+
     if ( !scalar(@vals) ) {
         my $topic = $this->{definingTopic} || $this->{name};
         my $session = $this->{session};
@@ -96,8 +101,51 @@ sub getOptions {
     }
     @vals = map { $_ =~ s/^\s*(.*)\s*$/$1/; $_; } @vals;
 
-    $this->{_options}      = \@vals;
     $this->{_descriptions} = \%descr;
+
+    if ( $this->isValueMapped() ) {
+
+        # create a values map
+        $this->{valueMap} = ();
+        $this->{_options} = ();
+        my $str;
+        foreach my $val (@vals) {
+            if ( $val =~ m/^(.*[^\\])*=(.*)$/ ) {
+                $str = TAINT( $1 || '' );    # label
+                      # Copy the description to the real value
+                my $descr = $this->{_descriptions}{$val};
+                $val = $2;
+                $this->{_descriptions}{$val} = $descr;
+
+                # Unescape = - legacy! Entities should suffice
+                $str =~ s/\\=/=/g;
+            }
+            else {
+                # Label and value are the same
+                $str = $val;
+            }
+
+            # SMELL: when it was first coded, the subclasses of
+            # ListFieldDefinition all did an urlDecode on labels in
+            # parsed +values. This was undocumented, but presumably
+            # was intended to protect any characters that might
+            # interfere with the rendering of the form table,
+            # but were desireable in the label. Quite why
+            # URL encoding was chosen over the more obvious
+            # entity encoding is obscure, as is the reasoning behind
+            # applying the encoding to the label, but not the value.
+            # For compatibility we retain this decoding step here.
+            # It remains undocumented, and therefore a potential
+            # gotcha for the unwary.
+            $str =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+
+            $this->{valueMap}{$val} = $str;
+            push @{ $this->{_options} }, $val;
+        }
+    }
+    else {
+        $this->{_options} = \@vals;
+    }
 
     return $this->{_options};
 }

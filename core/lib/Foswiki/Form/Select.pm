@@ -52,40 +52,6 @@ sub getDefaultValue {
     return ( exists( $this->{default} ) ? $this->{default} : '' );
 }
 
-sub getOptions {
-    my $this = shift;
-
-    my $vals = $this->{_options};
-    return $vals if $vals;
-
-    $vals = $this->SUPER::getOptions(@_);
-
-    if ( $this->isValueMapped() ) {
-
-        # create a values map
-
-        $this->{valueMap} = ();
-        $this->{_options} = ();
-        my $str;
-        foreach my $val (@$vals) {
-            if ( $val =~ m/^(.*[^\\])*=(.*)$/ ) {
-                $str = TAINT( $1 || '' );
-                my $descr = $this->{_descriptions}{$val};
-                $val = $2;
-                $this->{_descriptions}{$val} = $descr;
-                $str =~ s/\\=/=/g;
-            }
-            else {
-                $str = $val;
-            }
-            $this->{valueMap}{$val} = Foswiki::urlDecode($str);
-            push @{ $this->{_options} }, $val;
-        }
-    }
-
-    return $vals;
-}
-
 =begin TML
 
 ---++ ObjectMethod finish()
@@ -105,10 +71,6 @@ sub finish {
 
     return;
 }
-
-sub isMultiValued { return ( shift->{type} =~ m/\+multi/ ); }
-
-sub isValueMapped { return ( shift->{type} =~ m/\+values/ ); }
 
 sub getDisplayValue {
     my ( $this, $value ) = @_;
