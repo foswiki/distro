@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 15:17+0200\n"
+"PO-Revision-Date: 2015-05-22 14:20+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3181,7 +3181,6 @@ msgid "Please go back in your browser and check again."
 msgstr "Veuillez retourner à la page précédente et vérifier."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
@@ -4666,9 +4665,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
 
 #: core/data/System/UserName.txt:9
-#, fuzzy
 msgid "This system is configured to use usernames."
-msgstr "Ce système est configuré pour utiliser des noms de connexion"
+msgstr "Ce système est configuré pour utiliser des noms de connexion."
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
