@@ -61,9 +61,9 @@ sub _renderCellData {
 
         # SMELL: assumption about storage of meta-data embedded in topic
         # text
-        $data =~ s/^%META:FIELD{(.*)}%.*$/
+        $data =~ s/^%META:FIELD\{(.*)\}%.*$/
           _renderAttrs($1, '|*FORM FIELD $title*|$name|$value|')/gem;
-        $data =~ s/^%META:([A-Z]+){(.*)}%$/
+        $data =~ s/^%META:([A-Z]+)\{(.*)\}%$/
           '|*META '.$1.'*|'._renderAttrs($2).'||'/gem;
         if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
             $data = "\n"
@@ -491,7 +491,7 @@ sub diff {
       Foswiki::Store::cleanUpRevID( scalar( $query->param('rev2') ) );
 
     my $tmpl = $session->templates->readTemplate('rdiff');
-    $tmpl =~ s/\%META{.*?}\%//g;    # remove %META{'parent'}%
+    $tmpl =~ s/\%META\{.*?\}\%//g;    # remove %META{'parent'}%
 
     # The template is split by up to 4 %REPEAT% tags. The sections are:
     # $before - text before any output

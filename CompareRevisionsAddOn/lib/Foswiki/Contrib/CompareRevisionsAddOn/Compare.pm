@@ -162,8 +162,8 @@ sub compare {
     my $tmpl = Foswiki::Func::readTemplate(
         $interweave ? 'compareinterweave' : 'comparesidebyside' );
 
-    $tmpl =~ s/\%META{.*?\}\%\s*//g;    # Meta data already processed
-                                        # in _getTree
+    $tmpl =~ s/\%META\{.*?\}\%\s*//g;    # Meta data already processed
+                                         # in _getTree
     $tmpl = Foswiki::Func::expandCommonVariables( $tmpl, $topic, $webName );
     $tmpl =~ s/%REVTITLE1%/$revtitle1/g;
     $tmpl =~ s/%REVTITLE2%/$revtitle2/g;
