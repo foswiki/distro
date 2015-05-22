@@ -115,9 +115,10 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     close F;
 
     # Check for expected messages
-    $this->assert_matches( qr/^# {'Test-Key'} was not found in .spec$/m, $c );
-    $this->assert_matches( qr/^# {TestA} was not found in .spec$/m,      $c );
-    $this->assert_matches( qr/^# {TestB}{Sit} was not found in .spec$/m, $c );
+    $this->assert_matches( qr/^# \{'Test-Key'\} was not found in .spec$/m, $c );
+    $this->assert_matches( qr/^# \{TestA}\ was not found in .spec$/m,      $c );
+    $this->assert_matches( qr/^# \{TestB\}\{Sit\} was not found in .spec$/m,
+        $c );
 
     # TODO: check backup succeeded
 
