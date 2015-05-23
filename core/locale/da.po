@@ -48,6 +48,10 @@ msgstr "%*(%1,sekund) "
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr "%1 (standard)"
@@ -381,6 +385,15 @@ msgstr ""
 "Angiv brugerens [[%1][brugernavn]] eller [[%1][WikiNavn]] og den nye e-mail-"
 "adresse."
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*Lokal fil:* Hvis du vælger en anden fil i feltet _Lokal fil:_, er det denne "
+"fil der vil blive opdateret eller tilføjet."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -415,14 +428,6 @@ msgstr ""
 "eller personbeskyttelseslove, der omfatter denne type information. Hvis du "
 "er i tvivl kan du kontakte %1 for nærmere detaljer angående "
 "databeskyttelsesreglerne for denne Foswiki-server."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*Lokal fil:* Hvis du vælger en anden fil i feltet _Lokal fil:_, er det denne "
-"fil der vil blive opdateret eller tilføjet."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -667,7 +672,8 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+#, fuzzy
+msgid "Add Members to %1"
 msgstr "Tilføj medlemmer til"
 
 #. ("$theWeb.$theTopic")
@@ -820,7 +826,7 @@ msgstr "Vedhæft en fil til siden %1"
 msgid "Attach image or document on %1"
 msgstr "Vedhæft billede eller dokument til %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Vedhæft ny fil"
@@ -863,15 +869,11 @@ msgstr "Vedhæftede filer"
 msgid "Attachments %1"
 msgstr "Vedhæftede filer %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Hjælp til vedhæftede filer"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Vedhæftede filer på %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Filen vil ikke blive vist ved almindelig sidevisning."
 
@@ -1163,9 +1165,13 @@ msgstr "Datter-sider i %1-webbet"
 msgid "Choose a new form for %1"
 msgstr "Vælg en ny formular for %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Nulstil alle"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Nulstil alle"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1200,7 +1206,7 @@ msgid "Come on in"
 msgstr "Velkommen ind"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
@@ -1344,7 +1350,7 @@ msgstr "Opret ny side"
 msgid "Create New Topic in %1 Web"
 msgstr "Opret ny side i %1-webbet"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Lav et link til den vedhæftede fil"
 
@@ -1442,14 +1448,15 @@ msgstr "Standard-skabelon"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Slet"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Slet vedhæftet fil"
 
 #: core/templates/more.tmpl:51
@@ -1460,7 +1467,7 @@ msgstr "Slet side"
 msgid "Delete topic..."
 msgstr "Slet side..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen så andre får et indtryk af hvad den indeholder."
 
@@ -1509,7 +1516,7 @@ msgstr "Læs mere om hvordan du starter din egen side med Foswiki"
 msgid "Do not forget to save your changes"
 msgstr "glem ikke at gemme dine ændringer"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Vis ikke den vedhæftede fil i tabellen over vedhæftede filer på siden"
 
@@ -2033,6 +2040,7 @@ msgstr "Hej, %1"
 msgid "Hide file"
 msgstr "Skjul fil"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2254,7 +2262,7 @@ msgstr "Billede"
 msgid "Image %1 of %2"
 msgstr "Billede %1 af %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "Vedhæftede billeder vises direkte på siden, for andre typer vedhæftede filer "
@@ -2270,7 +2278,7 @@ msgstr ""
 "besøge en side http<nop>://forbrydelse.org, som indeholder noget smart "
 "ondsindet javascript."
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 "Hvis det er en zip-fil, så vedhæft alle de inkluderede filer til denne side"
@@ -2527,7 +2535,7 @@ msgstr "Seneste revision: %1"
 msgid "Leave %1"
 msgstr "Forlad %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr "Lad feltet være fravalgt hvis du ønsker at vedhæfte zip-filen selv"
 
@@ -2686,7 +2694,7 @@ msgstr ""
 "Mere: Slet eller omdøb denne side; sæt side-forælder; se og sammenlign "
 "revisioner (m)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Flyt"
@@ -2696,20 +2704,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Flyt %1 til trash-web"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Flyt vedhæftet fil"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Flyt vedhæftet fil"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Flyt eller slet vedhæftet fil"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Flyt eller slet vedhæftet fil"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Flyt til web:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Flyt til web:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3260,7 +3278,7 @@ msgstr "Forrige"
 msgid "Printable version of this topic (p)"
 msgstr "Printbar version af denne side (p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Egenskaber"
 
@@ -3391,8 +3409,6 @@ msgstr "Relaterede sider:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3423,7 +3439,8 @@ msgid "Remember your password?"
 msgstr "Kan du huske din adgangskode?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+#, fuzzy
+msgid "Remove Members from %1"
 msgstr "Fjern medlemmer fra"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3703,6 +3720,11 @@ msgstr "Søgemuligheder"
 msgid "Search result"
 msgstr "Søgeresultat"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "Søgeresultat"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Søgestreng"
@@ -3776,7 +3798,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Vælg alle"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3823,7 +3846,7 @@ msgstr "Send e-mail"
 msgid "Sequential"
 msgstr "Sekventiel"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Vælg alle"
 
@@ -3838,6 +3861,11 @@ msgstr "Vælg ny side-forælder"
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
 msgstr "Vis version %1 op til version %2"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Hjælp til vedhæftede filer"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4627,6 +4655,7 @@ msgstr ""
 "[[%1.Macros][macro]] præfiks for !WikiNames, som eksempel, ==%<nop>USERSWEB%."
 "%WIKINAME%==."
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr "Titel:"
@@ -4886,17 +4915,17 @@ msgstr "Opgraderet gruppe"
 msgid "Upload a file"
 msgstr "Vedhæft ny fil"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Vedhæft fil"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr "Vedhæft flere filer i en samlet zip-fil"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Vedhæft op til %1 KB."
 
@@ -5599,7 +5628,7 @@ msgstr ""
 "[mellemrum] = [værdi]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Dansk"
 
@@ -5646,10 +5675,6 @@ msgstr "ændre visningsindstillinger"
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "ændre, opdatér, se tidligere versioner, flyt, slet..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "flueben for sider med referencer"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5735,7 +5760,6 @@ msgid "now %1"
 msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5929,6 +5953,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "flueben for sider med referencer"
 
 #~ msgid "Choose files"
 #~ msgstr "Vælg filer"

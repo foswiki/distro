@@ -8,8 +8,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-22 22:11+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +46,10 @@ msgstr "%*(%1,sekund) "
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
+
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
@@ -369,6 +373,15 @@ msgstr ""
 "*Administrátoři:* Emailovou adresu uživatele můžete změnit pomocí tohoto "
 "formuláře. Zadejte [[%1][username]] nebo [[%1][WikiName]] a nový e-mail."
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*Lokální soubor:* Pokud vyberete jiný soubor jako _lokální:_, tak to bude "
+"ten, který bude změněn nebo přidán."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -401,14 +414,6 @@ msgstr ""
 "mít zákony týkající se administrace takových databází. Pokud máte "
 "pochybnosti, kontaktujte prosím %1 kvůli detailům, týkajících se ochrany dat "
 "na tomto serveru před registrací."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*Lokální soubor:* Pokud vyberete jiný soubor jako _lokální:_, tak to bude "
-"ten, který bude změněn nebo přidán."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -650,7 +655,8 @@ msgid "Add"
 msgstr "Přidat"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+#, fuzzy
+msgid "Add Members to %1"
 msgstr "Přidat členy do"
 
 #. ("$theWeb.$theTopic")
@@ -803,7 +809,7 @@ msgstr "Připoj soubor k %1"
 msgid "Attach image or document on %1"
 msgstr "Připoj obrázek nebo soubor k %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Připoj nový soubor"
@@ -846,15 +852,11 @@ msgstr "Přílohy"
 msgid "Attachments %1"
 msgstr "Přílohy %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Pomoc k přílohám"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Přílohy článku %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Přílohy nebudou zobrazeny v pohledu s názvem stránky."
 
@@ -1143,9 +1145,13 @@ msgstr "Podřízené články v %1 webu"
 msgid "Choose a new form for %1"
 msgstr "Vyberte nový formulář pro %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Vymaž vše"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Vymaž vše"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1179,7 +1185,7 @@ msgid "Come on in"
 msgstr "Přejdi k"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Komentář"
@@ -1322,7 +1328,7 @@ msgstr "Nový članek"
 msgid "Create New Topic in %1 Web"
 msgstr "Nový článek v %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Odkaz na přilohu"
 
@@ -1420,14 +1426,15 @@ msgstr "Výchozí šablona"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Smazat"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Smazat přílohu"
 
 #: core/templates/more.tmpl:51
@@ -1438,7 +1445,7 @@ msgstr "Vymazat článek"
 msgid "Delete topic..."
 msgstr "Vymazat článek..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
 
@@ -1487,7 +1494,7 @@ msgstr "Zjistěte si detaily o tom jak vytvořit váš nový web za pomoci Foswi
 msgid "Do not forget to save your changes"
 msgstr "Nezapomeňte uložit Vaše změny"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Neukazovat přílohu v tabulce"
 
@@ -2005,6 +2012,7 @@ msgstr "Ahoj, %1"
 msgid "Hide file"
 msgstr "Skrýt soubor"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2223,7 +2231,7 @@ msgstr "Obraz"
 msgid "Image %1 of %2"
 msgstr "Obraz %1 z %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Obrázky budou zobrazeny, pro ostatní přílohy bude vytvořen odkaz."
 
@@ -2237,7 +2245,7 @@ msgstr ""
 "stránky http<nop>://crime.org, která obsahuje chytrý (a zároveň možná i "
 "nebezpečný) javascript."
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr "Pokud se jedná o soubory typu ZIP archiv, připojte je k tomuto článku"
 
@@ -2493,7 +2501,7 @@ msgstr "Poslední revize: %1"
 msgid "Leave %1"
 msgstr "Ponechej %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor"
 
@@ -2652,7 +2660,7 @@ msgstr ""
 "Více: smayat nebo přejmenovat tento článek; nastavit nadřízený článek; "
 "ukázat a porovnat revize (m)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Přesun"
@@ -2662,20 +2670,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Přesunout %1 do koše"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Přesun přílohy"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Přesun přílohy"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Přesun nebo smazání přílohy"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Přesun nebo smazání přílohy"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Přesun do:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Přesun do:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3221,7 +3239,7 @@ msgstr "Předchozí"
 msgid "Printable version of this topic (p)"
 msgstr "Verze pro tisk (p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -3351,8 +3369,6 @@ msgstr "Související články:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3384,7 +3400,8 @@ msgid "Remember your password?"
 msgstr "Pamatujete si Vaše heslo?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+#, fuzzy
+msgid "Remove Members from %1"
 msgstr "Odstraň členy z"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3665,6 +3682,11 @@ msgstr "Možnosti prohledávání"
 msgid "Search result"
 msgstr "Výsledek hledání"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "Výsledek hledání"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Hledej řetězec"
@@ -3738,7 +3760,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Vyberte nový lokální soubor pro změnu přílohy"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Vyber vše"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3781,7 +3804,7 @@ msgstr "Zašli mail"
 msgid "Sequential"
 msgstr "Sekvenčně"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Nastav vše"
 
@@ -3796,6 +3819,11 @@ msgstr "Nastavit nový nadřízený článek"
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
 msgstr "Zobraz %1 revizí až do revize %2"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Ukaž přílohy"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4572,6 +4600,7 @@ msgstr ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] pro !WikiNames, například  =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr "Název:"
@@ -4830,17 +4859,17 @@ msgstr "Upgradovaná skupina"
 msgid "Upload a file"
 msgstr "Nahraj přílohu"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Nahraj přílohu"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr "Nahraj více příloh v rámci jednoho ZIP souboru"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Maximální velikost přílohy je %1 KB."
 
@@ -5524,7 +5553,7 @@ msgstr ""
 "[násobek 3 mezer] * [mezera] Nastav [mezera] VARIABLENAME [mezera] = [mezera]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Čeština"
 
@@ -5571,10 +5600,6 @@ msgstr "změň nastavení pro zobrazení"
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "změnit, aktualizovat, předchozí revize, přesunout, vymazat..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "zatržení u odkazovaných článků"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5661,7 +5686,6 @@ msgid "now %1"
 msgstr "nyní je %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5853,6 +5877,12 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Attachments help"
+#~ msgstr "Pomoc k přílohám"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "zatržení u odkazovaných článků"
 
 #~ msgid "Choose files"
 #~ msgstr "Vyber soubory"
@@ -6485,9 +6515,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #~ msgid "Revision:"
 #~ msgstr "Revize:"
-
-#~ msgid "Show attachments"
-#~ msgstr "Ukaž přílohy"
 
 #~ msgid ""
 #~ "Step 2: Continue to <input type='submit' class='twikiButton' "

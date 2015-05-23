@@ -49,6 +49,10 @@ msgstr "%*(%1,秒)"
 msgid "%1"
 msgstr "%1 "
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr ""
@@ -396,6 +400,15 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*ローカルファイル:* もし _ローカルファイル_以外のファイルが選択されると、 そ"
+"のファイルが更新又は追加されます。"
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -429,14 +442,6 @@ msgstr ""
 "る国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可"
 "能性がありますので、もっと詳しい説明を確認したい場合には、登録する前にFoswiki"
 "のデータ守護の方針をご一覧ください。"
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*ローカルファイル:* もし _ローカルファイル_以外のファイルが選択されると、 そ"
-"のファイルが更新又は追加されます。"
 
 #: core/templates/attachagain.tmpl:17
 #, fuzzy
@@ -681,8 +686,9 @@ msgid "Add"
 msgstr "追加"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
-msgstr ""
+#, fuzzy
+msgid "Add Members to %1"
+msgstr "ユーザを追加します"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -842,7 +848,7 @@ msgstr "ファイルを %1に添付します"
 msgid "Attach image or document on %1"
 msgstr "画像を%1に添付します"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "新しいファイルを添付します"
@@ -889,15 +895,11 @@ msgstr "添付ファイル"
 msgid "Attachments %1"
 msgstr "%1 の添付ファイル "
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "ヘルプファイルの添付"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "%1 の添付ファイル "
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "添付ファイルがトピックのビューページに表示されません"
 
@@ -1194,9 +1196,13 @@ msgstr "%1ウェブの中の子トピック"
 msgid "Choose a new form for %1"
 msgstr " %1 のために新しいフォームを選択します"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "全てクリアします"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "全てクリアします"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1230,7 +1236,7 @@ msgid "Come on in"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "コメント"
@@ -1373,7 +1379,7 @@ msgstr "新トピックを作成します"
 msgid "Create New Topic in %1 Web"
 msgstr "Neues Topic im %1 Web anlegen"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "添付ファイルへのリンクを作成します"
 
@@ -1479,14 +1485,15 @@ msgstr "デフォルトテンプレート"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "削除"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "添付ファイルを削除します"
 
 #: core/templates/more.tmpl:51
@@ -1497,7 +1504,7 @@ msgstr "トピックを削除します"
 msgid "Delete topic..."
 msgstr "トピックを削除..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "他の人に理解してもらうためにファイルの内容を説明します。"
 
@@ -1550,7 +1557,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "変更を保存することを忘れないでください"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "添付ファイルをテーブルに表示しません"
 
@@ -2084,6 +2091,7 @@ msgstr ""
 msgid "Hide file"
 msgstr "ファイルを隠します"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2294,7 +2302,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "%1ウェブは存在しません"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "画像が表示されます。他の添付ファイルのリンクが作成されます"
 
@@ -2305,7 +2313,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
@@ -2579,7 +2587,7 @@ msgstr "(改訂 %1)"
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2747,7 +2755,7 @@ msgstr ""
 "title='このトピックの削除、又はリネーム。親トピックの設定。バージョンの確認、"
 "比較' accesskey='m'>もっと多くのトピックアクション"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "移動"
@@ -2758,20 +2766,30 @@ msgid "Move %1 to Trash Web"
 msgstr "ウェブに移動します:"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "添付ファイルを移動します"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "添付ファイルを移動します"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "%1を移動、又は削除します"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "添付ファイルを移動又は削除します"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "ウェブに移動します:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "ウェブに移動します:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3345,7 +3363,7 @@ msgstr "前のアップロード"
 msgid "Printable version of this topic (p)"
 msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印刷用バージョン"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "プロパティ"
 
@@ -3482,8 +3500,6 @@ msgstr "関連トピック："
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3516,7 +3532,7 @@ msgstr "パスワードを保存しますか？"
 
 #: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
-msgid "Remove Members from"
+msgid "Remove Members from %1"
 msgstr "まず、ユーザーをグループ %1から削除してください"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3814,6 +3830,11 @@ msgstr "他の検索オプション:"
 msgid "Search result"
 msgstr "(検索結果)"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "(検索結果)"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "検索する文字列"
@@ -3888,7 +3909,8 @@ msgid "Select a new local file to update attachment"
 msgstr "新しいファイルを選択して添付ファイルを更新します"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "全て選択"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3936,7 +3958,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "シーケンシャル"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "全て設定"
 
@@ -3952,6 +3974,11 @@ msgstr "新しい親トピックを設定します"
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "前のトピックバージョンを確認します"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "添付ファイルを表示します"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4704,6 +4731,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
 msgid "Title:"
@@ -4974,18 +5002,18 @@ msgstr "ニューグループ"
 msgid "Upload a file"
 msgstr "ファイルをアップロードします"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "ファイルをアップロードします"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 #, fuzzy
 msgid "Upload multiple attachments in one zip file"
 msgstr " %2 で添付ファイル %1を更新します"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "アップロードファイルのサイズの上限： %1 KB."
 
@@ -5657,7 +5685,7 @@ msgstr ""
 
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "日本語"
 
@@ -5704,10 +5732,6 @@ msgstr ""
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "変更、更新、前のバージョン、移動、削除……"
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "関連トピックの選択"
 
 #: core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -5797,7 +5821,6 @@ msgid "now %1"
 msgstr "現在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -6003,6 +6026,12 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Attachments help"
+#~ msgstr "ヘルプファイルの添付"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "関連トピックの選択"
 
 #, fuzzy
 #~ msgid "Upload"
@@ -6616,9 +6645,6 @@ msgstr ""
 #~ msgid "See %1 for more information."
 #~ msgstr " %1 よりもっと多くの情報を見ます"
 
-#~ msgid "Show attachments"
-#~ msgstr "添付ファイルを表示します"
-
 #~ msgid ""
 #~ "Step 2: Continue to &lt;input type='submit' class='twikiButton' "
 #~ "value='Edit' /&gt; and save %1 to activate the new parent"
@@ -7225,9 +7251,6 @@ msgstr ""
 
 #~ msgid "move"
 #~ msgstr "移動"
-
-#~ msgid "move or delete %1"
-#~ msgstr "%1を移動、又は削除します"
 
 #~ msgid "note"
 #~ msgstr "注意"

@@ -44,6 +44,10 @@ msgstr ""
 msgid "%1"
 msgstr ""
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr ""
@@ -364,6 +368,12 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -385,12 +395,6 @@ msgid ""
 "governing the maintenance of such databases. If you are in doubt, you should "
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
-msgstr ""
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
 msgstr ""
 
 #: core/templates/attachagain.tmpl:17
@@ -600,7 +604,7 @@ msgid "Add"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+msgid "Add Members to %1"
 msgstr ""
 
 #. ("$theWeb.$theTopic")
@@ -740,7 +744,7 @@ msgstr ""
 msgid "Attach image or document on %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr ""
@@ -783,15 +787,11 @@ msgstr ""
 msgid "Attachments %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr ""
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr ""
 
@@ -1074,9 +1074,12 @@ msgstr ""
 msgid "Choose a new form for %1"
 msgstr ""
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr ""
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+msgid "Clear all topics"
 msgstr ""
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1109,7 +1112,7 @@ msgid "Come on in"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr ""
@@ -1243,7 +1246,7 @@ msgstr ""
 msgid "Create New Topic in %1 Web"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr ""
 
@@ -1341,14 +1344,14 @@ msgstr ""
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr ""
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+msgid "Delete attachment %1"
 msgstr ""
 
 #: core/templates/more.tmpl:51
@@ -1359,7 +1362,7 @@ msgstr ""
 msgid "Delete topic..."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr ""
 
@@ -1406,7 +1409,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr ""
 
@@ -1901,6 +1904,7 @@ msgstr ""
 msgid "Hide file"
 msgstr ""
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2088,7 +2092,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 
@@ -2099,7 +2103,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
@@ -2340,7 +2344,7 @@ msgstr ""
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2497,7 +2501,7 @@ msgid ""
 "revisions (m)"
 msgstr ""
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr ""
@@ -2507,11 +2511,15 @@ msgid "Move %1 to Trash Web"
 msgstr ""
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+msgid "Move attachment %1"
 msgstr ""
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+msgid "Move or Delete %1:"
 msgstr ""
 
 #: core/templates/attachagain.tmpl:21
@@ -2519,8 +2527,11 @@ msgid "Move or delete attachment"
 msgstr ""
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:21
+msgid "Move to web: %1"
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:18
@@ -3051,7 +3062,7 @@ msgstr ""
 msgid "Printable version of this topic (p)"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr ""
 
@@ -3174,8 +3185,6 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3204,7 +3213,7 @@ msgid "Remember your password?"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+msgid "Remove Members from %1"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3477,6 +3486,10 @@ msgstr ""
 msgid "Search result"
 msgstr ""
 
+#: core/data/System/WebSearch.txt:238
+msgid "Search results"
+msgstr ""
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr ""
@@ -3548,7 +3561,7 @@ msgid "Select a new local file to update attachment"
 msgstr ""
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+msgid "Select all topics"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3591,7 +3604,7 @@ msgstr ""
 msgid "Sequential"
 msgstr ""
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr ""
 
@@ -3605,6 +3618,10 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+msgid "Show attachments help"
 msgstr ""
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
@@ -4298,6 +4315,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr ""
@@ -4550,17 +4568,17 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr ""
 
@@ -5170,7 +5188,7 @@ msgid ""
 msgstr ""
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr ""
 
@@ -5216,10 +5234,6 @@ msgstr ""
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
-msgstr ""
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:76
@@ -5306,7 +5320,6 @@ msgid "now %1"
 msgstr ""
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25

@@ -49,6 +49,10 @@ msgstr "%*(%1,seconde,seconden) "
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr "%1 (standaard)"
@@ -373,6 +377,15 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*Lokaal bestand:* Als je een nieuw of ander bestand kiest bij _Lokaal "
+"bestand:_, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -408,14 +421,6 @@ msgstr ""
 "wordt bepaald. In geval van twijfel kun je contact opnemen met %1 voor "
 "details aangaande het databeschermingsbeleid van deze webserver voordat je "
 "overgaat tot registratie."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*Lokaal bestand:* Als je een nieuw of ander bestand kiest bij _Lokaal "
-"bestand:_, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -660,7 +665,8 @@ msgid "Add"
 msgstr "Toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+#, fuzzy
+msgid "Add Members to %1"
 msgstr "Voeg leden toe aan"
 
 #. ("$theWeb.$theTopic")
@@ -815,7 +821,7 @@ msgstr "Voeg bijlage toe aan pagina %1"
 msgid "Attach image or document on %1"
 msgstr "Voeg afbeelding of document toe aan %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Voeg nieuwe bijlage toe"
@@ -858,15 +864,11 @@ msgstr "Bijlagen"
 msgid "Attachments %1"
 msgstr "Bijlagen %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Hulp bij bijlagen"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Bijlagen van %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Bijlage zal niet worden getoond in de lijst van bijlagen op de pagina."
 
@@ -1160,9 +1162,13 @@ msgstr "Onderliggende pagina&#39;s in %1 web"
 msgid "Choose a new form for %1"
 msgstr "Kies een nieuw formulier voor %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Vink uit"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Vink uit"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1197,7 +1203,7 @@ msgid "Come on in"
 msgstr "Kom binnen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Toelichting"
@@ -1338,7 +1344,7 @@ msgstr "Nieuwe pagina aanmaken"
 msgid "Create New Topic in %1 Web"
 msgstr "Nieuwe pagina aanmaken in %1 Web"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Maak een link naar de bijlage"
 
@@ -1436,14 +1442,15 @@ msgstr "Standaard template"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Verwijder"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Bijlage verwijderen"
 
 #: core/templates/more.tmpl:51
@@ -1454,7 +1461,7 @@ msgstr "Pagina verwijderen"
 msgid "Delete topic..."
 msgstr "Verwijder pagina..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Beschrijf de bijlage zodat anderen weten wat het is."
 
@@ -1503,7 +1510,7 @@ msgstr "Ontdek de details, en hoe je je eigen site begint met Foswiki"
 msgid "Do not forget to save your changes"
 msgstr "Vergeet niet om je wijzigingen te bewaren"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Toon bijlage niet in de tabel"
 
@@ -2029,6 +2036,7 @@ msgstr "Dag, %1"
 msgid "Hide file"
 msgstr "Verberg bestand"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2248,7 +2256,7 @@ msgstr "Afbeelding"
 msgid "Image %1 of %2"
 msgstr "Afbeelding %1 van %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "Afbeeldingen worden getoond op de pagina; voor anderssoortige bestanden "
@@ -2264,7 +2272,7 @@ msgstr ""
 "achtergelaten om je te verleiden een pagina te bezoeken op http<nop>://"
 "misdaad.nl, met slim javascript op de pagina."
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr "Bij een zip bestand: voeg alle gezipte bestanden toe aan de pagina"
 
@@ -2522,7 +2530,7 @@ msgstr "Laatste revisie: %1"
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr "Niet aanvinken als je het zip bestand zelf wilt toevoegen"
 
@@ -2681,7 +2689,7 @@ msgstr ""
 "Meer: verwijder of hernoem deze pagina; bovenliggende pagina instellen, "
 "bekijk en vergelijk revisies (m)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Verplaats"
@@ -2691,20 +2699,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Verplaats %1 naar Trash-Web"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Bijlage verplaatsen"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Verplaats bijlage"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Verplaats of verwijder bijlage"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Verplaats of verwijder bijlage"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Verplaats naar web:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Verplaats naar web:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3252,7 +3270,7 @@ msgstr ""
 msgid "Printable version of this topic (p)"
 msgstr "Printbare versie van deze pagina (p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Eigenschappen"
 
@@ -3383,8 +3401,6 @@ msgstr "Gerelateerde pagina&#39;s:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3415,7 +3431,8 @@ msgid "Remember your password?"
 msgstr "Weet je je wachtwoord toch?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+#, fuzzy
+msgid "Remove Members from %1"
 msgstr "Verwijder leden uit"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3698,6 +3715,11 @@ msgstr "Zoekopties"
 msgid "Search result"
 msgstr "Zoekresultaten"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "Zoekresultaten"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Zoektekst"
@@ -3771,7 +3793,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Kies een nieuw lokaal bestand om deze bijlage bij te werken"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Vink aan"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3814,7 +3837,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "Sequentieel"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Vink aan"
 
@@ -3829,6 +3852,11 @@ msgstr "Bovenliggende pagina instellen"
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
 msgstr "Bekijk %1 revisies tot en met revisie %2"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Hulp bij bijlagen"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4585,6 +4613,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr "Titel:"
@@ -4847,17 +4876,17 @@ msgstr "Groep opgewaardeerd"
 msgid "Upload a file"
 msgstr "Bestand uploaden"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Bestand uploaden"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr "Voeg meerdere bijlagen toe met 1 zip bestand"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Uploaden is mogelijk tot %1 KB."
 
@@ -5522,7 +5551,7 @@ msgstr ""
 "[waarde]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Nederlands"
 
@@ -5569,10 +5598,6 @@ msgstr ""
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "veranderen, bijwerken, voorgaande versies, verplaaten, verwijderen..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "checkboxes van paginaverwijzingen"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5658,7 +5683,6 @@ msgid "now %1"
 msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5852,6 +5876,9 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "checkboxes van paginaverwijzingen"
 
 #, fuzzy
 #~ msgid "Upload"

@@ -50,6 +50,10 @@ msgstr "%*(%1,秒)"
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr ""
@@ -399,6 +403,13 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr "*本地档案:* 若您选择不同的 _本地档案:_ ，这个档案将被更新或新增。"
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -429,12 +440,6 @@ msgstr ""
 "这些资料（虽然密码已加密，为避免垃圾邮件而将电子邮件地址变形）。您的国家/或伺"
 "服器所在国家可能有相关资料保护法主管此类资料，如有疑问请在注册前向 %1 询问本"
 "主机的资料保护策略。"
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr "*本地档案:* 若您选择不同的 _本地档案:_ ，这个档案将被更新或新增。"
 
 #: core/templates/attachagain.tmpl:17
 #, fuzzy
@@ -662,8 +667,9 @@ msgid "Add"
 msgstr "加一列"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
-msgstr ""
+#, fuzzy
+msgid "Add Members to %1"
+msgstr "加一列"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -816,7 +822,7 @@ msgstr "为 %1 附档"
 msgid "Attach image or document on %1"
 msgstr "为 %1 附图"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "增加新档"
@@ -863,15 +869,11 @@ msgstr "附件 "
 msgid "Attachments %1"
 msgstr "%1 的附件"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "附件说明"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "%1 的附件"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "主题浏览时将不显示附件。"
 
@@ -1164,9 +1166,13 @@ msgstr "在%1子网中的子主题"
 msgid "Choose a new form for %1"
 msgstr "为 %1 选个新表单"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "全部清除"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "全部清除"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1199,7 +1205,7 @@ msgid "Come on in"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "评论"
@@ -1337,7 +1343,7 @@ msgstr "建立新主题"
 msgid "Create New Topic in %1 Web"
 msgstr "在 %1 子网中建立新主题"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "建立附件连结"
 
@@ -1444,14 +1450,15 @@ msgstr "预设范本"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "删除"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "删除附件"
 
 #: core/templates/more.tmpl:51
@@ -1462,7 +1469,7 @@ msgstr "删除主题"
 msgid "Delete topic..."
 msgstr "删除主题..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "档案说明，方便其他人了解档案内容。"
 
@@ -1512,7 +1519,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "别忘记储存变更"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "表格内不显示附件"
 
@@ -2035,6 +2042,7 @@ msgstr ""
 msgid "Hide file"
 msgstr "隐藏档案 "
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2238,7 +2246,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "子网 %1 不存在"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "将显示图片，或建立其他附件的连结。"
 
@@ -2249,7 +2257,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
@@ -2513,7 +2521,7 @@ msgstr "(修订版 %1)"
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2678,7 +2686,7 @@ msgstr ""
 "title='主题删除或改名；设定父主题；查看和比较版本' accesskey='m'>更多主题功能"
 "(&M)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "移动"
@@ -2689,20 +2697,30 @@ msgid "Move %1 to Trash Web"
 msgstr "移动到子网:"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "移动附件"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "移动附件"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "移动或删除附件"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "移动或删除附件"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "移动到子网:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "移动到子网:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3274,7 +3292,7 @@ msgstr ""
 msgid "Printable version of this topic (p)"
 msgstr "title='列印本主题' accesskey='p' >列印(&P)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "属性"
 
@@ -3409,8 +3427,6 @@ msgstr "相关主题"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3441,7 +3457,7 @@ msgstr "记住密码?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
-msgid "Remove Members from"
+msgid "Remove Members from %1"
 msgstr "请先将用户从 %1 群组删除。"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3736,6 +3752,11 @@ msgstr "其他搜寻选项:"
 msgid "Search result"
 msgstr "(搜寻结果)"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "(搜寻结果)"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "搜寻字串"
@@ -3808,7 +3829,8 @@ msgid "Select a new local file to update attachment"
 msgstr "选择本地的新档来更新附件"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "全选"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3856,7 +3878,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "连续的"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "设定所有"
 
@@ -3872,6 +3894,11 @@ msgstr "设定新父主题"
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "检视主题的前一个版本"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "附件说明"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4610,6 +4637,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
 msgid "Title:"
@@ -4878,18 +4906,18 @@ msgstr "建立新主题"
 msgid "Upload a file"
 msgstr "上传档案"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "上传档案"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 #, fuzzy
 msgid "Upload multiple attachments in one zip file"
 msgstr "在 %2 更新附件 %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "上传档案大小上限 %1 KB."
 
@@ -5541,7 +5569,7 @@ msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "简体中文"
 
@@ -5588,10 +5616,6 @@ msgstr ""
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "变更，更新，前一个版本，移动，删除..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "勾选参考主题"
 
 #: core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -5681,7 +5705,6 @@ msgid "now %1"
 msgstr "现在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5881,6 +5904,9 @@ msgstr "浏览"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "勾选参考主题"
 
 #, fuzzy
 #~ msgid "Upload"

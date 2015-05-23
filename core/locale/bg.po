@@ -50,6 +50,10 @@ msgstr "%*(%1,секунда) "
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr ""
@@ -387,6 +391,15 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*Локален файл:*Ако изберете различен файл в _Локален файл:_, той ще бъде "
+"заместен или добавен."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -423,14 +436,6 @@ msgstr ""
 "бази от данни. Ако имате някакви съмнения, трябва да се свържете с %1 за "
 "подробности по политиката за защита на данните на този Foswiki-съръвър преди "
 "да се регистрирате"
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*Локален файл:*Ако изберете различен файл в _Локален файл:_, той ще бъде "
-"заместен или добавен."
 
 #: core/templates/attachagain.tmpl:17
 #, fuzzy
@@ -678,8 +683,9 @@ msgid "Add"
 msgstr "Добавяне на ред"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
-msgstr ""
+#, fuzzy
+msgid "Add Members to %1"
+msgstr "Добавяне на ред"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -842,7 +848,7 @@ msgstr "Прикрепяне на файл към %1"
 msgid "Attach image or document on %1"
 msgstr "Прикрепяне на картинка или документ към %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Прикрепяне на нов файл"
@@ -889,15 +895,11 @@ msgstr "Притурки"
 msgid "Attachments %1"
 msgstr "Притурки към %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Помощ относно притурките"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Притурки към %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Притурките няма да се показват в страницата."
 
@@ -1196,9 +1198,13 @@ msgstr "Подстраници в раздел %1"
 msgid "Choose a new form for %1"
 msgstr "Изберете нова форма за %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Изчистван на всичко"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Изчистван на всичко"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1233,7 +1239,7 @@ msgid "Come on in"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Коментар"
@@ -1376,7 +1382,7 @@ msgstr "Нова Страница"
 msgid "Create New Topic in %1 Web"
 msgstr "Създаване на нова страница в Раздел %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Създаване на връзка към притурката(прикачения файл)"
 
@@ -1482,14 +1488,15 @@ msgstr "Шаблон по подразбиране"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Изтриване"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Изтриване на притурка"
 
 #: core/templates/more.tmpl:51
@@ -1500,7 +1507,7 @@ msgstr "Изтриване на страница"
 msgid "Delete topic..."
 msgstr "Изтриване на страница..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Опишете файла, така че другите да знаят каво е това."
 
@@ -1552,7 +1559,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "Не забравяйте да запишете промените си!"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Да не се показват притурките в таблицата."
 
@@ -2093,6 +2100,7 @@ msgstr ""
 msgid "Hide file"
 msgstr "Скриване на файла"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2296,7 +2304,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "Разделът %1 не съществува"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "Картинките ще бъдат показани. За другите файлове ще бъде създадена връзка "
@@ -2309,7 +2317,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
@@ -2575,7 +2583,7 @@ msgstr "(версия %1)"
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2739,7 +2747,7 @@ msgstr ""
 "title='Изтриване или преименуване на страницата; задаване на родителска "
 "страница; преглед и сравнение' revisions' accesskey='m'>Още действия"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Преместване"
@@ -2750,20 +2758,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Преместване в раздел:"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Преместване на притурка"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Преместване на притурка"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Преместване или изтриване на притурка"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Преместване или изтриване на притурка"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Преместване в раздел:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Преместване в раздел:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3336,7 +3354,7 @@ msgstr ""
 msgid "Printable version of this topic (p)"
 msgstr "title='Версия за печат на тази страница' accesskey='p'>Версия за печат"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Свойства"
 
@@ -3472,8 +3490,6 @@ msgstr "Подобни"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3506,7 +3522,7 @@ msgstr "Запомняне на паролата?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
-msgid "Remove Members from"
+msgid "Remove Members from %1"
 msgstr "Запомни ме"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3802,6 +3818,11 @@ msgstr "Други възможности за търсене"
 msgid "Search result"
 msgstr "(резултати от търсенето)"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "(резултати от търсенето)"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Низ за търсене"
@@ -3876,7 +3897,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Изберете нов локален фай, за да обновите притурката"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Избор на всичко"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3925,7 +3947,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "Последователно"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Отбелязване на всички"
 
@@ -3941,6 +3963,11 @@ msgstr "Задай нов родител на страницата"
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Виж предната версия на страницата"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Помощ относно притурките"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4648,6 +4675,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
 msgid "Title:"
@@ -4914,18 +4942,18 @@ msgstr "Нова Страница"
 msgid "Upload a file"
 msgstr "Качване"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Качване"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 #, fuzzy
 msgid "Upload multiple attachments in one zip file"
 msgstr "Обновяване на прикрепен файл %1 на %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Качване на файлове до %1 KB."
 
@@ -5567,7 +5595,7 @@ msgid ""
 msgstr ""
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Български"
 
@@ -5614,10 +5642,6 @@ msgstr ""
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "промяна, обновяване, предишни версии, преместване, изтриване"
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "Отметки на реферирани страници"
 
 #: core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -5707,7 +5731,6 @@ msgid "now %1"
 msgstr "сега %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5916,6 +5939,9 @@ msgstr "виж"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "Отметки на реферирани страници"
 
 #, fuzzy
 #~ msgid "Upload"

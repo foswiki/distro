@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-23 06:57+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,6 +47,10 @@ msgstr "%*(%1,secondo) "
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
+
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
@@ -376,6 +380,15 @@ msgstr ""
 "questo modulo. Inserire il [[%1][nome utente]] o il [[%1][WikiName]] degli "
 "utenti e i nuovi indirizzi e-mail."
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*File locale:* Se selezioni un file differente in  _File locale:_, sarà "
+"questo ad essere aggiornato o aggiunto."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -409,14 +422,6 @@ msgstr ""
 "dati che regolano la gestione di tale database. In caso di dubbio contatta "
 "%1 per i dettagli circa la Politica di Protezione dei Dati in vigore su "
 "questo server Foswiki, prima di registrarti."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*File locale:* Se selezioni un file differente in  _File locale:_, sarà "
-"questo ad essere aggiornato o aggiunto."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -663,7 +668,8 @@ msgid "Add"
 msgstr "Aggiungi"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+#, fuzzy
+msgid "Add Members to %1"
 msgstr "Aggiungi membri a"
 
 #. ("$theWeb.$theTopic")
@@ -819,7 +825,7 @@ msgstr "Allega un file a %1"
 msgid "Attach image or document on %1"
 msgstr "Allega un'immagine o un documento a %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Allega un nuovo file"
@@ -862,15 +868,11 @@ msgstr "Allegati"
 msgid "Attachments %1"
 msgstr "Allegati %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Aiuto sugli allegati"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Allegati di %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "L'allegato non verrà mostrato nella visualizzazione della pagina."
 
@@ -1168,9 +1170,13 @@ msgstr "Pagine figlie nel Web %1"
 msgid "Choose a new form for %1"
 msgstr "Scegli un nuovo modulo per %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Pulisci tutto"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Pulisci tutto"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1205,7 +1211,7 @@ msgid "Come on in"
 msgstr "Vieni in"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Commento"
@@ -1350,7 +1356,7 @@ msgstr "Crea Nuova Pagina"
 msgid "Create New Topic in %1 Web"
 msgstr "Crea una Nuova Pagina nel Web %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Crea un collegamento al file allegato"
 
@@ -1448,14 +1454,15 @@ msgstr "Modello predefinito"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Elimina"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Elimina allegato"
 
 #: core/templates/more.tmpl:51
@@ -1466,7 +1473,7 @@ msgstr "Elimina la pagina"
 msgid "Delete topic..."
 msgstr "Elimina la pagina..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Descrivi il file in modo che si sappia cos'è."
 
@@ -1515,7 +1522,7 @@ msgstr "Scopri i dettagli e come iniziare il proprio sito con Foswiki"
 msgid "Do not forget to save your changes"
 msgstr "Non dimenticare di salvare i cambiamenti"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Non mostrare l'allegato nella tabella"
 
@@ -2041,6 +2048,7 @@ msgstr "Ciao, %1"
 msgid "Hide file"
 msgstr "Nascondi il file"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2260,7 +2268,7 @@ msgstr "Immagine"
 msgid "Image %1 of %2"
 msgstr "Immagine %1 di %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "Le immagini verranno visualizzate, per gli altri allegati invece verrà "
@@ -2276,7 +2284,7 @@ msgstr ""
 "visitare una pagina su http<nop>://crime.org, che contiene del codice  "
 "javascript malevolo."
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 "In caso di file zip, allegare in questa pagina tutti i file in esso contenuti"
@@ -2535,7 +2543,7 @@ msgstr "Ultima revisione: %1"
 msgid "Leave %1"
 msgstr "Lascia %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 "Lasciare deselezionato se si desidera allegare il file zip e non i singoli "
@@ -2696,7 +2704,7 @@ msgstr ""
 "Altro: eliminare o rinominare questa pagina; indicare la pagina padre; "
 "visualizzare e confrontare le versioni (m)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Sposta"
@@ -2706,20 +2714,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Sposta %1 nel cestino"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Sposta allegato"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Sposta file allegato"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Sposta o cancella il file allegato"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Sposta o cancella il file allegato"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Sposta nel Web:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Sposta nel Web:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3163,9 +3181,8 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
-"Torna indietro nel browser e scegli un nome di pagina che sia "
-"[[%SYSTEMWEB%.WikiWord][WikiWord]] o controlla che sia attivata l'opzione "
-"non-WikiWord"
+"Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
+"WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-WikiWord"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3270,7 +3287,7 @@ msgstr "Precedente"
 msgid "Printable version of this topic (p)"
 msgstr "Versione stampabile di questa pagina (p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Proprietà"
 
@@ -3401,8 +3418,6 @@ msgstr "Pagine correlate:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3433,7 +3448,8 @@ msgid "Remember your password?"
 msgstr "Ricordi la tua password?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+#, fuzzy
+msgid "Remove Members from %1"
 msgstr "Rimuove i membri da"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3718,6 +3734,11 @@ msgstr "Opzioni di ricerca"
 msgid "Search result"
 msgstr "Risultato della ricerca"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "Risultato della ricerca"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Testo della ricerca"
@@ -3791,7 +3812,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Seleziona un nuovo file locale per aggiornare l'allegato"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Seleziona tutto"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3836,7 +3858,7 @@ msgstr "Invia e-mail"
 msgid "Sequential"
 msgstr "Sequenziali"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Definisci tutto"
 
@@ -3851,6 +3873,11 @@ msgstr "Definisci la nuova pagina padre"
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
 msgstr "Mostra dalla versione %1 alla versione %2"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Aiuto sugli allegati"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4650,6 +4677,7 @@ msgstr ""
 "la speciale ==%<nop>USERSWEB%== [[%1.Macros][macro]] prefisso per !"
 "WikiNames, ad esempio, ==%<nop>USERSWEB%.%WIKINAME%==."
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr "Titolo:"
@@ -4914,17 +4942,17 @@ msgstr "Gruppo aggiornato"
 msgid "Upload a file"
 msgstr "Carica un file"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Carica file"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr "Carica più allegati contenuti in un file ZIP"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Carica fino a %1 KB."
 
@@ -5630,7 +5658,7 @@ msgstr ""
 "[valore]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Italiano"
 
@@ -5677,10 +5705,6 @@ msgstr "modifica opzioni di visualizzazione"
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "modifica, aggiorna, versione precedente, sposta, cancella..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "marcature delle pagine refenziate"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5766,7 +5790,6 @@ msgid "now %1"
 msgstr "adesso %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5964,6 +5987,9 @@ msgstr "vista"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "il motivo per cui ti è stato chiesto di confermare"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "marcature delle pagine refenziate"
 
 #~ msgid "Choose files"
 #~ msgstr "Scegli i file"

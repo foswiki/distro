@@ -47,6 +47,10 @@ msgstr "%*(%1,sekund) "
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr ""
@@ -388,6 +392,15 @@ msgid ""
 "address."
 msgstr ""
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*Lokal fil:* Om du väljer en fil från din hårddisk (i fältet _Lokal fil_) så "
+"kommer denna fil att uppdateras eller läggas till."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -422,14 +435,6 @@ msgstr ""
 "en data- eller personuppgiftslag som omfattar denna typ av information. Om "
 "du är tveksam kan du kontakta %1 för mer detaljer angående "
 "dataskyddsreglerna för denna webbserver innan du registrerar dig."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*Lokal fil:* Om du väljer en fil från din hårddisk (i fältet _Lokal fil_) så "
-"kommer denna fil att uppdateras eller läggas till."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -674,8 +679,9 @@ msgid "Add"
 msgstr "Lägg till"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
-msgstr ""
+#, fuzzy
+msgid "Add Members to %1"
+msgstr "Lägg till användare"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -836,7 +842,7 @@ msgstr "Bifoga en fil till sidan %1"
 msgid "Attach image or document on %1"
 msgstr "Bifoga bild eller dokument till %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Bifoga en ny fil"
@@ -880,15 +886,11 @@ msgstr "Bifogade filer"
 msgid "Attachments %1"
 msgstr "Bifogade filer till %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "Hjälp kring bifogade filer"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Bifogade filer till %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Filen kommer inte att visas när man tittar på sidan."
 
@@ -1184,9 +1186,13 @@ msgstr "Dottersidor i avdelningen %1"
 msgid "Choose a new form for %1"
 msgstr "Välj ett nytt formulär för %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Nollställ alla"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Nollställ alla"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1221,7 +1227,7 @@ msgid "Come on in"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
@@ -1370,7 +1376,7 @@ msgstr "Skapa ny sida"
 msgid "Create New Topic in %1 Web"
 msgstr "Skapa ny sida i avdelning %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Skapa en länk till den bifogade filen"
 
@@ -1473,14 +1479,15 @@ msgstr "Förvald mall"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Radera"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "Radera bifogad fil"
 
 #: core/templates/more.tmpl:51
@@ -1491,7 +1498,7 @@ msgstr "Radera sida"
 msgid "Delete topic..."
 msgstr "Radera sida..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen så att andra vet vad det är."
 
@@ -1543,7 +1550,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "Glöm inte att spara dina ändringar"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Visa inte i tabellen över bifogade filer"
 
@@ -2083,6 +2090,7 @@ msgstr ""
 msgid "Hide file"
 msgstr "Göm fil"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2296,7 +2304,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "Avdelningen %1 finns inte"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Bilder visas direkt på sidan. För andra bifogade filer skapas en länk."
 
@@ -2307,7 +2315,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
@@ -2579,7 +2587,7 @@ msgstr "(version %1)"
 msgid "Leave %1"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2744,7 +2752,7 @@ msgstr ""
 "title='Radera eller döp om denna sida; sätt föräldrasida; se och jämför "
 "versioner' accesskey='m'>Fler alternativ för sidan (&M)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Flytta"
@@ -2755,20 +2763,30 @@ msgid "Move %1 to Trash Web"
 msgstr "Flytta till avdelning:"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "Flytta bifogad fil"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Flytta bifogad fil"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "Flytta eller radera bifogad fil"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "Flytta eller radera bifogad fil"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "Flytta till avdelning:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "Flytta till avdelning:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3351,7 +3369,7 @@ msgstr ""
 "title='Utskriftsvänlig version av denna sida' accesskey='p'>Utskriftsvänlig "
 "(&P)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -3487,8 +3505,6 @@ msgstr "Relaterade sidor"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3521,7 +3537,7 @@ msgstr "Kommer du ihåg ditt lösenord?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
 #, fuzzy
-msgid "Remove Members from"
+msgid "Remove Members from %1"
 msgstr "Kom ihåg mig"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3821,6 +3837,11 @@ msgstr "Ytterligare sökmöjligheter:"
 msgid "Search result"
 msgstr "(sökresultat)"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "(sökresultat)"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Söksträng"
@@ -3895,7 +3916,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Välj en ny lokal fil för att uppdatera den bifogade filen."
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Välj alla"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3944,7 +3966,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "Sekvensiell"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "Välj alla"
 
@@ -3960,6 +3982,11 @@ msgstr "Välj ny förälder till sidan"
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Visa en tidigare version av sidan"
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "Hjälp kring bifogade filer"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4727,6 +4754,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
 msgid "Title:"
@@ -5000,18 +5028,18 @@ msgstr "Skapa grupp"
 msgid "Upload a file"
 msgstr "Ladda upp fil"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Ladda upp fil"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 #, fuzzy
 msgid "Upload multiple attachments in one zip file"
 msgstr "Uppdatera den bifogade filen %1 på sidan %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "Filer upp till %1 kB kan laddas upp."
 
@@ -5696,7 +5724,7 @@ msgstr ""
 
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Svenska"
 
@@ -5743,10 +5771,6 @@ msgstr ""
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "ändra, uppdatera, tidigare versioner, flytta, radera..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "kryssrutor för sidor med referenser"
 
 #: core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -5836,7 +5860,6 @@ msgid "now %1"
 msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -6050,6 +6073,9 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "kryssrutor för sidor med referenser"
 
 #, fuzzy
 #~ msgid "Upload"

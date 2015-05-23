@@ -46,6 +46,10 @@ msgstr "%*(%1,lup) "
 msgid "%1"
 msgstr "%1"
 
+#: core/templates/searchformat.tmpl:24
+msgid "%1 %2 Page %3 of %4 %5 %6"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
 msgstr "%1 (motlh)"
@@ -374,6 +378,15 @@ msgstr ""
 "wI&&#39; pong]], [[%1][wIqI-pong]] ghap yIghItlh &&#39;ej QIn Quv chu&&#39; "
 "yIghItlh."
 
+#: core/templates/attachagain.tmpl:19
+#, fuzzy
+msgid ""
+"*Attach new file:* If you select a different file in the browser, it is this "
+"that will be updated or added."
+msgstr ""
+"*De&&#39;wI&&#39; De&&#39;:* <i>De&&#39;wI&&#39; De&&#39;</i>Daq latlh "
+"De&&#39; <nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -399,23 +412,14 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*potlh:* &&#39;Internet toy&&#39;wI&&#39; qawHaqDaq Form-vamDaq "
-"De&&#39;&&#39;e&&#39; Dapolbogh lanlu&&#39;. qawHaqvam naw&&#39;laH Hoch "
-"ghot&&#39;e&&#39;, &&#39;Internetvo&&#39; toy&&#39;wI&&#39; naw&&#39;"
-"laHchugh. (&&#39;ach reH QIn Quvmey, chaw&&#39; ngoqmey je "
-"lu&&#39;So&&#39;lu&&#39; vaj veQ QInmey <nop>DaHevbe&&#39;). chaq De&&#39;"
-"vetlh <nop>QaDmoHmeH pabmey ghaj Sep&&#39;e&&#39; <nop>DaDabbogh. chaq "
-"chutmeyvetlh ghaj je toy&&#39;wI&&#39; Sep. bIHonchugh, vaj %1 "
-"<nop>DarI&&#39;nIS &&#39;ej toy&&#39;wI&&#39;vam De&&#39; polmeH ngoch <nop>"
-"DalaDnIS bImuvpa&&#39;."
-
-#: core/templates/attachagain.tmpl:19
-msgid ""
-"*Local file:* If you select a different file in _Local file:_, it is this "
-"that will be updated or added."
-msgstr ""
-"*De&&#39;wI&&#39; De&&#39;:* <i>De&&#39;wI&&#39; De&&#39;</i>Daq latlh "
-"De&&#39; <nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+"*potlh:* &&#39;Internet toy&&#39;wI&&#39; qawHaqDaq Form-vamDaq De&&#39;"
+"&&#39;e&&#39; Dapolbogh lanlu&&#39;. qawHaqvam naw&&#39;laH Hoch ghot&&#39;"
+"e&&#39;, &&#39;Internetvo&&#39; toy&&#39;wI&&#39; naw&&#39;laHchugh. (&&#39;"
+"ach reH QIn Quvmey, chaw&&#39; ngoqmey je lu&&#39;So&&#39;lu&&#39; vaj veQ "
+"QInmey <nop>DaHevbe&&#39;). chaq De&&#39;vetlh <nop>QaDmoHmeH pabmey ghaj "
+"Sep&&#39;e&&#39; <nop>DaDabbogh. chaq chutmeyvetlh ghaj je toy&&#39;wI&&#39; "
+"Sep. bIHonchugh, vaj %1 <nop>DarI&&#39;nIS &&#39;ej toy&&#39;wI&&#39;vam "
+"De&&#39; polmeH ngoch <nop>DalaDnIS bImuvpa&&#39;."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -423,8 +427,8 @@ msgid ""
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*<nop>DuHmey:* <nop>QInHom leghlaHghach (So&&#39;lu&&#39;chugh tep) je neH "
-"<nop>DachoHmeH, &&#39;ej De&&#39; chu&&#39; Dalab <nop>DaneHchugh, vaj \""
-"<nop>DuHmey neH choH\" yI&&#39;uy."
+"<nop>DachoHmeH, &&#39;ej De&&#39; chu&&#39; Dalab <nop>DaneHchugh, vaj "
+"\"<nop>DuHmey neH choH\" yI&&#39;uy."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -516,10 +520,11 @@ msgid ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
-"<a href='%1'>RSS feed</a>, choHmey chu&&#39; &&#39;angmeH <a href='%2'>50</a>"
-", <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <"
-"a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
-"ghItlhmey &&#39;ang, <a href='%7' rel='nofollow'>Hoch choHmey &&#39;ang</a>"
+"<a href='%1'>RSS feed</a>, choHmey chu&&#39; &&#39;angmeH <a href='%2'>50</"
+"a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</"
+"a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</"
+"a> ghItlhmey &&#39;ang, <a href='%7' rel='nofollow'>Hoch choHmey &&#39;ang</"
+"a>"
 
 #: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
@@ -542,8 +547,8 @@ msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
-"<nop>%1vaD <%2> QIn ngeHlu&&#39;pu&&#39;, vaj muvmeH mIwDaj "
-"lajHa&&#39;lu&&#39;pu&&#39; &&#39;e&&#39; <nop>SovchoH"
+"<nop>%1vaD <%2> QIn ngeHlu&&#39;pu&&#39;, vaj muvmeH mIwDaj lajHa&&#39;"
+"lu&&#39;pu&&#39; &&#39;e&&#39; <nop>SovchoH"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 msgid "<nop>WikiName:"
@@ -661,7 +666,8 @@ msgid "Add"
 msgstr "chel"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-msgid "Add Members to"
+#, fuzzy
+msgid "Add Members to %1"
 msgstr "jeSwI&&#39; chel"
 
 #. ("$theWeb.$theTopic")
@@ -816,7 +822,7 @@ msgstr "%1<nop>Daq De&&#39; chel"
 msgid "Attach image or document on %1"
 msgstr "%1<nop>Daq mIllogh De&&#39; ghap chel"
 
-#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "De&&#39; chu&&#39; chel"
@@ -859,15 +865,11 @@ msgstr "tepmey"
 msgid "Attachments %1"
 msgstr "tepmey %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:18
-msgid "Attachments help"
-msgstr "tep <nop>QaH"
-
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "%1 tep"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "ghItlh bejlu&&#39;taHvIS tep lu&&#39;anglu&&#39;be&&#39;."
 
@@ -1159,9 +1161,13 @@ msgstr "%1 mIch puq ghItlhmey"
 msgid "Choose a new form for %1"
 msgstr "%1vaD Form chu&&#39; yIwIv"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:121
+#: core/lib/Foswiki/Form/Checkbox.pm:87
 msgid "Clear all"
+msgstr "Hoch wIvHa&&#39;"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
+#, fuzzy
+msgid "Clear all topics"
 msgstr "Hoch wIvHa&&#39;"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
@@ -1196,7 +1202,7 @@ msgid "Come on in"
 msgstr "yI&&#39;el"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "ghItlhHom"
@@ -1279,8 +1285,8 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
-"ghItlh De&&#39;mo&&#39; <nop>HTMLvaD ghItlh choHmeH mIw "
-"chu&&#39;Ha&&#39;lu&&#39; vaj WYSIWYG Dalo&&#39;laHbe&&#39;."
+"ghItlh De&&#39;mo&&#39; <nop>HTMLvaD ghItlh choHmeH mIw chu&&#39;Ha&&#39;"
+"lu&&#39; vaj WYSIWYG Dalo&&#39;laHbe&&#39;."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1343,7 +1349,7 @@ msgstr "ghItlh chu&&#39; <nop> chenmoH"
 msgid "Create New Topic in %1 Web"
 msgstr "%1 mIchDaq ghItlh chu&&#39; chenmoH"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "tepvaD Qeqbogh rarwI&&#39; chenmoH"
 
@@ -1443,14 +1449,15 @@ msgstr "ghantoH motlh"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:25
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:40 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "polHa&&#39;"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-msgid "Delete attachment"
+#, fuzzy
+msgid "Delete attachment %1"
 msgstr "tep polHa&&#39;"
 
 #: core/templates/more.tmpl:51
@@ -1461,7 +1468,7 @@ msgstr "ghItlh polHa&&#39;"
 msgid "Delete topic..."
 msgstr "ghItlh polHa&&#39;..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
+#: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr "De&&#39;vam yIDel vaj meqDaj yajchoH latlhwI&&#39;pu&&#39;."
 
@@ -1486,8 +1493,8 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
-"ghItlh pong <nop>DaghItlhHa&&#39;&&#39;a&&#39;? ghItlhvaD potlh "
-"Degh&&#39;a&&#39;/<nop>DeghHom &&#39;e&&#39; yIqaw."
+"ghItlh pong <nop>DaghItlhHa&&#39;&&#39;a&&#39;? ghItlhvaD potlh Degh&&#39;"
+"a&&#39;/<nop>DeghHom &&#39;e&&#39; yIqaw."
 
 #: core/templates/registermessages.tmpl:196
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -1512,7 +1519,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "choHmeylIj Dapol &&#39;e&&#39; yIlIjQo&&#39;"
 
-#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "<nop>TableDaq tep &&#39;angQo&&#39;"
 
@@ -2044,6 +2051,7 @@ msgstr "qIm, %1"
 msgid "Hide file"
 msgstr "De&&#39; So&&#39;"
 
+#: PatternSkin/templates/attach.pattern.tmpl:19
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:55
 msgid "Hide help"
@@ -2205,8 +2213,8 @@ msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
-"chaw&&#39; ngoq Daghajbe&&#39;chugh pagh &&#39;oH <nop>DachoH <nop>"
-"DaneHchugh vaj naDev yIghoS:%1"
+"chaw&&#39; ngoq Daghajbe&&#39;chugh pagh &&#39;oH <nop>DachoH "
+"<nop>DaneHchugh vaj naDev yIghoS:%1"
 
 #: core/templates/messages.tmpl:313
 msgid ""
@@ -2257,7 +2265,7 @@ msgstr "mIllogh"
 msgid "Image %1 of %2"
 msgstr "%2Daq mIllogh %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "mIlloghmey lu&&#39;aghlu&&#39;, rarwI&&#39; luHev latlh tepmey."
 
@@ -2268,7 +2276,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 "ZIP De&&#39; &&#39;aplo&&#39; Daghajchugh vaj ghItlhDaq Hoch ngaSbogh "
@@ -2429,11 +2437,12 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; <nop>"
-"DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh _polqu&&#39;"
-"_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj lupollu&&#39; &&#39;ej "
-"ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form De&&#39; choHmeH mIw, vaj "
-"qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net chup bIruchpa&&#39;."
+"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+"<nop>DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh "
+"_polqu&&#39;_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj "
+"lupollu&&#39; &&#39;ej ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form "
+"De&&#39; choHmeH mIw, vaj qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net "
+"chup bIruchpa&&#39;."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2522,7 +2531,7 @@ msgstr "Dotlh Qav: %1"
 msgid "Leave %1"
 msgstr "%1vo&&#39; mej"
 
-#: PatternSkin/templates/attach.pattern.tmpl:51
+#: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
@@ -2681,7 +2690,7 @@ msgstr ""
 "latlh: ghItlhvam polHa&&#39; pagh pongqa&&#39;, qup ghItlh lIS, Dotlhmey "
 "&&#39;ol (m)"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "vIHmoH"
@@ -2691,20 +2700,30 @@ msgid "Move %1 to Trash Web"
 msgstr "<nop>veQmIchDaq %1 lan"
 
 #: core/templates/moveattachment.tmpl:9
-msgid "Move attachment"
+#, fuzzy
+msgid "Move attachment %1"
 msgstr "tep vIHmoH"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "De&&#39; tep vIHmoH"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "Move or Delete %1:"
+msgstr "tep vIHmoH pagh polHa&&#39;"
+
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
 msgstr "tep vIHmoH pagh polHa&&#39;"
 
 #: core/templates/moveattachment.tmpl:31
-#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
+msgstr "mIchvamDaq lan:"
+
+#: core/templates/renameattachmentdelete.tmpl:21
+#, fuzzy
+msgid "Move to web: %1"
 msgstr "mIchvamDaq lan:"
 
 #: core/templates/renamedelete.tmpl:18
@@ -3245,7 +3264,7 @@ msgstr "<nop>HeD"
 msgid "Printable version of this topic (p)"
 msgstr "ghItlhvam ghItlhwI&&#39; nav (p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:63
+#: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
 msgstr "<nop>DuHmey"
 
@@ -3372,8 +3391,6 @@ msgstr "rurbogh ghItlhmey:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1003
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1016
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:686
 #: core/data/System/FormattedSearch.txt:400
@@ -3396,15 +3413,16 @@ msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"lo&&#39;wI&&#39; ghItlhlIj [[%1]] yIchu&&#39;moH je, pa&&#39; QIn <nop>"
-"QuvlIj chu&&#39; &&#39;anglu&&#39; je <nop>DaneHchugh."
+"lo&&#39;wI&&#39; ghItlhlIj [[%1]] yIchu&&#39;moH je, pa&&#39; QIn "
+"<nop>QuvlIj chu&&#39; &&#39;anglu&&#39; je <nop>DaneHchugh."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
 msgstr "chaw&&#39; ngoqlIj <nop>DaSov&&#39;a&&#39;?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-msgid "Remove Members from"
+#, fuzzy
+msgid "Remove Members from %1"
 msgstr "jeSwI&&#39; teq"
 
 #: core/data/Main/GroupViewTemplate.txt:165
@@ -3686,6 +3704,11 @@ msgstr "nejwI&&#39; <nop>DuHmey"
 msgid "Search result"
 msgstr "Dochmey Sambogh"
 
+#: core/data/System/WebSearch.txt:238
+#, fuzzy
+msgid "Search results"
+msgstr "Dochmey Sambogh"
+
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Doch nejbogh"
@@ -3759,7 +3782,8 @@ msgid "Select a new local file to update attachment"
 msgstr "tep chu&&#39;moHmeH De&&#39;wI&&#39;lIjDaq De&&#39; chu&&#39; yIwIv"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "Select all"
+#, fuzzy
+msgid "Select all topics"
 msgstr "Hoch wIv"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
@@ -3803,7 +3827,7 @@ msgstr "QIn ngeH"
 msgid "Sequential"
 msgstr "bIngDaq"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:114
+#: core/lib/Foswiki/Form/Checkbox.pm:80
 msgid "Set all"
 msgstr "<nop>Hoch <nop>wIv"
 
@@ -3818,6 +3842,11 @@ msgstr "ghItlh qup chu&&#39; wIv"
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
 msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:18
+#, fuzzy
+msgid "Show attachments help"
+msgstr "tep <nop>QaH"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4101,8 +4130,8 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"lamveyqoq &&#39;oH %1 mIch. naDev bIqeqmeH bIQujlaH. Hoch Dachel <nop>"
-"DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 <nop>DaSuch net chup. "
+"lamveyqoq &&#39;oH %1 mIch. naDev bIqeqmeH bIQujlaH. Hoch Dachel "
+"<nop>DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 <nop>DaSuch net chup. "
 "pabqoqvam yIbuS: reH ghItlh bIS&&#39;ubDaq ponglIj, poH je tIghItlh."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
@@ -4334,8 +4363,8 @@ msgstr ""
 #: core/templates/registermessages.tmpl:177
 msgid "The two passwords you entered do not match."
 msgstr ""
-"nIbbe&&#39; cha&&#39; chaw&&#39; ngoqmey&&#39;e&&#39; "
-"<nop>DaghItlhta&&#39;bogh."
+"nIbbe&&#39; cha&&#39; chaw&&#39; ngoqmey&&#39;e&&#39; <nop>DaghItlhta&&#39;"
+"bogh."
 
 #: core/templates/registermessages.tmpl:105
 msgid "The user %1 has already been activated, and should be able to log in."
@@ -4555,6 +4584,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
+#: NatEditPlugin/templates/edit.natedit.tmpl:76
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title:"
 msgstr "pong:"
@@ -4812,17 +4842,17 @@ msgstr "ghom chu&&#39;moHlu&&#39;pu&&#39;"
 msgid "Upload a file"
 msgstr "De&&#39; lab"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachagain.pattern.tmpl:30
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "De&&#39; lab"
 
-#: PatternSkin/templates/attach.pattern.tmpl:50
+#: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:42
+#: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
 msgstr "%1 KB &&#39;oH jabbI&&#39;ID &&#39;aqroS&&#39;e&&#39;."
 
@@ -5067,8 +5097,8 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
-"Qu&&#39;vatlh: ghItlh %1Daq Table <nop>DelwI&&#39; \\'include\\' "
-"tu&&#39;tlu&&#39;be&&#39;!"
+"Qu&&#39;vatlh: ghItlh %1Daq Table <nop>DelwI&&#39; \\'include\\' tu&&#39;"
+"tlu&&#39;be&&#39;!"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -5184,11 +5214,12 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
-"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; <nop>"
-"DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh _polqu&&#39;"
-"_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj lupollu&&#39; &&#39;ej "
-"ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form De&&#39; choHmeH mIw, vaj "
-"qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net chup bIruchpa&&#39;."
+"qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+"<nop>DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh "
+"_polqu&&#39;_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj "
+"lupollu&&#39; &&#39;ej ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form "
+"De&&#39; choHmeH mIw, vaj qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net "
+"chup bIruchpa&&#39;."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
@@ -5308,8 +5339,8 @@ msgstr ""
 #: core/templates/registermessages.tmpl:334
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
-"choHmeyvam <nop>DaleghmeH chaq &&#39;Internet <nop>janlIj "
-"Dachu&&#39;nISqa&&#39;."
+"choHmeyvam <nop>DaleghmeH chaq &&#39;Internet <nop>janlIj Dachu&&#39;"
+"nISqa&&#39;."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
@@ -5456,8 +5487,8 @@ msgstr ""
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site"
 msgstr ""
-"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]["
-"naDev yI&&#39;uy]]"
+"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]"
+"[naDev yI&&#39;uy]]"
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
@@ -5474,7 +5505,7 @@ msgid ""
 msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
-#: core/lib/Foswiki/I18N.pm:341
+#: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "tlhIngan Hol"
 
@@ -5521,10 +5552,6 @@ msgstr "<nop>HaSta <nop>DuHmey choH"
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "choH, chu&&#39;moH, Dotlhmey, vIHmoH, polHa&&#39;..."
-
-#: PatternSkin/templates/renamebase.pattern.tmpl:19
-msgid "checkboxes of referenced topics"
-msgstr "ghItlhmey lurarlu&&#39;bogh wIvmeH meyrI&&#39;Hommey&&#39;e&&#39;"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "close display options"
@@ -5610,7 +5637,6 @@ msgid "now %1"
 msgstr "<nop>DaH %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
@@ -5810,3 +5836,6 @@ msgstr "bej"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "qatlh naDev bI&&#39;olnIS"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "ghItlhmey lurarlu&&#39;bogh wIvmeH meyrI&&#39;Hommey&&#39;e&&#39;"
