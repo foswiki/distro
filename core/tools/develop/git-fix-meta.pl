@@ -1,6 +1,6 @@
 #! /usr/bin/env perl
 #
-# git-fix-meta.pl
+# git-fix-meta.pl [path/to/file1] [path/to/file2]
 #
 # Run this script from the root of your checkout.  It lists all modified
 # files, and makes the following fixups to the topic metadata
@@ -11,11 +11,30 @@
 #  - Converts autoattached files to hidden attachments
 #  - Adds a user= when missing from attachments.
 #
-my @files = `git status -uno --porcelain`;
+# If run with one or more optional filenames, the git status command is omitted
+# and the named files are updated.
+#
+
+use warnings;
+use strict;
+
+my $gitstatus;
+my @files;
+
+if (@ARGV) {
+    @files     = @ARGV;
+    $gitstatus = 0;
+}
+else {
+    @files     = `git status -uno --porcelain`;
+    $gitstatus = 1;
+}
 
 foreach my $f (@files) {
-    chomp $f;
-    $f = substr( $f, 3 );
+    if ($gitstatus) {
+        chomp $f;
+        $f = substr( $f, 3 );
+    }
     next
       unless $f =~
 /data\/(?:System|Sandbox|TestCases|Main|_empty|_default|Trash|TWiki)\/.*?\.txt$/;
