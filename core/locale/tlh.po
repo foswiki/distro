@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 10:04+0200\n"
+"PO-Revision-Date: 2015-05-23 13:33+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -414,8 +414,8 @@ msgid ""
 "*Local file:* If you select a different file in _Local file:_, it is this "
 "that will be updated or added."
 msgstr ""
-"*De&&#39;wI&&#39; De&&#39;:* _De&&#39;wI&&#39; De&&#39;_Daq latlh De&&#39; "
-"DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+"*De&&#39;wI&&#39; De&&#39;:* <i>De&&#39;wI&&#39; De&&#39;</i>Daq latlh "
+"De&&#39; <nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -880,7 +880,7 @@ msgstr "Qu&&#39;vatlh"
 
 #: core/templates/attachtables.tmpl:30
 msgid "Attribute"
-msgstr "Attribute"
+msgstr "Segh"
 
 #: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
@@ -1912,7 +1912,7 @@ msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "tep chelmeH mIw yIghojchu&&#39;choH"
+msgstr "tep chelmeH mIw yIyajqu&&#39;choH"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:32
 #: core/templates/settings.tmpl:25
@@ -2684,7 +2684,7 @@ msgstr ""
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
 msgid "Move"
-msgstr "<nop>vIHmoH"
+msgstr "vIHmoH"
 
 #: core/templates/renamedelete.tmpl:9
 msgid "Move %1 to Trash Web"
@@ -2692,15 +2692,15 @@ msgstr "<nop>veQmIchDaq %1 lan"
 
 #: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
-msgstr "tep <nop>vIHmoH"
+msgstr "tep vIHmoH"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
-msgstr "De&&#39; tep <nop>vIHmoH"
+msgstr "De&&#39; tep vIHmoH"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
-msgstr "tep <nop>vIHmoH pagh <nop>polHa&&#39;"
+msgstr "tep vIHmoH pagh polHa&&#39;"
 
 #: core/templates/moveattachment.tmpl:31
 #: core/templates/renameattachmentdelete.tmpl:21
