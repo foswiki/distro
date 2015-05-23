@@ -1,6 +1,7 @@
 package CacheTests;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
@@ -311,7 +312,7 @@ sub verify_utf8_topic {
     $meta->text($topic);
     $meta->save();
 
-    $this->check("/$web/$topic");
+    $this->check( Encode::encode_utf8("/$web/$topic") );
 }
 
 1;
