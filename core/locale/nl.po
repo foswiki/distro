@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 14:50+0200\n"
+"PO-Revision-Date: 2015-05-23 22:15+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -661,7 +661,7 @@ msgstr "Toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:203
 msgid "Add Members to"
-msgstr ""
+msgstr "Voeg leden toe aan"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -924,7 +924,7 @@ msgstr "Verkeerd wachtwoord"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
 msgid "Bad subscriber '%1'"
-msgstr ""
+msgstr "Ongeldige abonnee '%1'"
 
 #: core/templates/messages.tmpl:143
 msgid "Base web %1 is missing or does not exist"
@@ -936,7 +936,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
-msgstr ""
+msgstr "Vet"
 
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
@@ -967,7 +967,7 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "CHANGE (wijzigen) is niet toegestaan door %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
@@ -1100,7 +1100,7 @@ msgstr "Alleen eigenschappen wijzigen"
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr ""
+msgstr "Huidig formulier van <nop>%1 vervangen"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
@@ -1138,6 +1138,7 @@ msgstr "Wijzigingen van r%1 naar r%2"
 #: core/templates/messages.tmpl:296
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Kijk je configuratie instellingen na voor {TemplateDir} en {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:37
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1181,7 +1182,7 @@ msgstr "Sluiten"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #: core/templates/messages.tmpl:153
 msgid "Color %1 has an invalid format"
@@ -1193,7 +1194,7 @@ msgstr ""
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
-msgstr ""
+msgstr "Kom binnen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1279,7 +1280,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Kopieer deze pagina (met alle bijlagen) naar een nieuwe pagina."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1771,11 +1772,11 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
-msgstr ""
+msgstr "Defecte plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:306
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Toevoegen van gebruiker is niet gelukt: "
 
 #: core/templates/messages.tmpl:379
 msgid "Failed to include URL %1"
@@ -1792,7 +1793,7 @@ msgstr "Met <span class='required'>*</span> markeerde velden zijn verplicht."
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:123
 msgid "File"
-msgstr ""
+msgstr "Bestand"
 
 #: core/templates/messages.tmpl:237
 msgid "File has been uploaded with different name"
@@ -1816,7 +1817,7 @@ msgstr "Voornaam:"
 
 #: core/data/System/WikiName.txt:6
 msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
-msgstr ""
+msgstr "Bijvoorbeeld is de wiki-naam van Tim Berners-Lee [[TimBernersLee]]"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -1824,6 +1825,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"Voor meer uitgebreide informatie over cross-site request forgery, en de "
+"gevaren die dit brengt, zie [[%1][het Cross-site request forgery artikel op "
+"Wikipedia]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1836,7 +1840,7 @@ msgstr "Je wachtwoord vergeten?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
-msgstr ""
+msgstr "Formulier"
 
 #: core/templates/messages.tmpl:208
 msgid "Form Definition %1 missing"
@@ -1849,7 +1853,7 @@ msgstr ""
 #: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:12
 msgid "Form data"
-msgstr ""
+msgstr "Formuliergegevens"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
@@ -1873,7 +1877,7 @@ msgstr "Pas zoekactie aan"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Formula"
-msgstr ""
+msgstr "Formule"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -1944,7 +1948,7 @@ msgstr "Goede voorbeelden:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr ""
+msgstr "Goede stijl"
 
 #: core/data/Main/WikiGroups.txt:62
 msgid "Group"
@@ -1970,7 +1974,7 @@ msgstr "Groepen"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Having problems logging in?"
-msgstr ""
+msgstr "Probleemen bij het inloggen?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Header rows"
@@ -2327,15 +2331,15 @@ msgstr "Informatie"
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:2
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:96
 msgid "Insert a color code"
-msgstr ""
+msgstr "Kleurencode hier invoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
-msgstr ""
+msgstr "Datum invoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:106
 msgid "Insert a horizontal ruler"
-msgstr ""
+msgstr "Horizontale lijn invoegen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:66
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:83
@@ -2352,7 +2356,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
 msgid "Insert a macro"
-msgstr ""
+msgstr "Macro invoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:107
 msgid "Insert a mathematical formula"
@@ -4546,9 +4550,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
 
 #: core/data/System/UserName.txt:9
-#, fuzzy
 msgid "This system is configured to use usernames."
-msgstr "Dit moet een geldige login gebruikersnaam zijn."
+msgstr "Dit systeem is geconfigureerd om gebruikersnaamen te gebruiken."
 
 #: core/templates/messages.tmpl:385
 msgid "This system is not configured to support user login. Return to [[%1]]."
