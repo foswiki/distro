@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-22 21:32+0200\n"
+"PO-Revision-Date: 2015-05-23 10:04+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -235,7 +235,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:230
 msgid "(=all= to show all topics)"
-msgstr "(Hoch ghItlhmey &&#39;angmeH =all=)"
+msgstr "(Hoch ghItlhmey &&#39;angmeH =all= yIghItlh)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
@@ -516,11 +516,10 @@ msgid ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
-"<a href='%1'>RSS feed</a>, choHmey chu&&#39; &&#39;<nop>angmeH <a "
-"href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' "
-"rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' "
-"rel='nofollow'>1000</a> ghItlhmey &&#39;ang, <a href='%7' "
-"rel='nofollow'>Hoch choHmey &&#39;ang</a>"
+"<a href='%1'>RSS feed</a>, choHmey chu&&#39; &&#39;angmeH <a href='%2'>50</a>"
+", <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <"
+"a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+"ghItlhmey &&#39;ang, <a href='%7' rel='nofollow'>Hoch choHmey &&#39;ang</a>"
 
 #: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
@@ -910,11 +909,11 @@ msgstr "cheghbogh rarwI&&#39;mey"
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Backlinks to %1 in %2 Web"
-msgstr "%2 mIch %1Daq Qeqbogh rarwI&&#39;mey&&#39;e&&#39;"
+msgstr "%1Daq Qeqbogh %2 mIch rarwI&&#39;mey&&#39;e&&#39;"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
-msgstr "Hoch mIchmey %1Daq Qeqbogh rarwI&&#39;mey&&#39;e&&#39;"
+msgstr "%1Daq Qeqbogh Hoch mIchmey rarwI&&#39;mey&&#39;e&&#39;"
 
 #: core/templates/viewtopicactionbuttons.tmpl:102
 msgid "Backlinks:"
@@ -1076,19 +1075,19 @@ msgstr "Hol choH"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "Hoch mIchmeyDaq <nop>%1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
+msgstr "Hoch mIchmeyDaq <nop>%1Daq SIqbogh rarwI&&#39;mey choH:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "%2 mIchDaq <nop>%1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
+msgstr "%2 mIchDaq <nop>%1vaD SIqbogh rarwI&&#39;mey choH:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "Hoch mIchmeyDaq %1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
+msgstr "Hoch mIchmeyDaq %1Daq SIqbogh rarwI&&#39;mey choH:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "%2 mIchDaq %1vaD rarbogh ghItlh rarwI&&#39;mey choH:"
+msgstr "%2 mIchDaq %1Daq SIqbogh rarwI&&#39;mey choH:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -2607,7 +2606,7 @@ msgstr "QIn <nop>HevwI&&#39;"
 
 #: core/data/System/WebSearch.txt:178
 msgid "Make search:"
-msgstr "<nop>nejwI&&#39; <nop>chenmoH:"
+msgstr "nejwI&&#39; chenmoH:"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Maximum %1 items per web"
@@ -2637,7 +2636,7 @@ msgstr "nejwI&&#39; lIS"
 
 #: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
-msgstr "latlh ghItlh %1 <nop>DuHmey"
+msgstr "%1 ghItlh latlh <nop>DuHmey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2791,7 +2790,7 @@ msgstr "mIch pong chu&&#39;:"
 
 #: core/templates/more.tmpl:156
 msgid "Newer revision:"
-msgstr "Dothl chu&&#39;:"
+msgstr "Dotlh chu&&#39;:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Next"
@@ -3404,11 +3403,11 @@ msgstr "chaw&&#39; ngoqlIj <nop>DaSov&&#39;a&&#39;?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
 msgid "Remove Members from"
-msgstr "jeSwI&&#39;pu&&#39; teq"
+msgstr "jeSwI&&#39; teq"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
-msgstr "jeSwI&&#39;pu&&#39; teq..."
+msgstr "jeSwI&&#39; teq..."
 
 #: core/templates/registermessages.tmpl:346
 msgid "Remove of user account other than your own is denied"
@@ -3641,7 +3640,7 @@ msgstr "naDev pol:"
 #: core/data/System/WebSearch.txt:43 core/data/System/WebSearch.txt:65
 #: core/data/System/WebSearch.txt:83
 msgid "Search"
-msgstr "nej"
+msgstr "nejwI&&#39;"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
@@ -3800,7 +3799,7 @@ msgstr "QIn ngeH"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
 msgid "Sequential"
-msgstr "tlheghDaq"
+msgstr "bIngDaq"
 
 #: core/lib/Foswiki/Form/Checkbox.pm:114
 msgid "Set all"
@@ -3825,7 +3824,7 @@ msgstr "<nop>QaH &&#39;ang"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:84
 msgid "Shrink edit box"
@@ -4590,11 +4589,11 @@ msgstr ""
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
-msgstr "<nop>DoS ghItlh"
+msgstr "<nop>DoS pong"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
-msgstr "<nop>DoS ghItlh:"
+msgstr "<nop>DoS pong:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
@@ -4699,7 +4698,7 @@ msgstr "%1 mIch ghItlhmey:"
 
 #: core/data/System/WebSearch.txt:230
 msgid "Topics per web"
-msgstr "mIch ghItlhmey"
+msgstr "mIchvam ghItlhmey"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
@@ -4958,7 +4957,7 @@ msgstr "ghItlh qun naQ &&#39;ang"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
-msgstr "Doch pIm &&#39;ang"
+msgstr "Doch pIm &&#39;angmeH:"
 
 #: core/templates/more.tmpl:162
 msgid "View differences"
@@ -5293,8 +5292,8 @@ msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Deghmeyvetlh <nop>DapoQchugh, chaq wIqI loHwI&&#39;lIj DaponlaH vaj mIwvam "
-"choH ghaH."
+"Deghmeyvetlh <nop>DapoQchugh, chaq wIqI loHwI&&#39;lIj <nop>DaponlaH vaj "
+"mIwvam choH ghaH."
 
 #: core/templates/registermessages.tmpl:107
 msgid ""
@@ -5727,15 +5726,15 @@ msgstr "title='ghItlhwI&&#39; nav &&#39;ang' accesskey='p'>ghItlhwI&&#39; nav"
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
-"title='<nop>naDev <nop>chIjbogh ghItlhmey <nop>SammeH Hoch <nop>mIchmeyDaq "
-"nej' accesskey='l'>Hoch mIchmey (&l)"
+"title='naDev SIqbogh ghItlhmey <nop>SammeH Hoch <nop>mIchmeyDaq nej' "
+"accesskey='l'>Hoch mIchmey (&l)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='naDev Qeqbogh rarwI&&#39;mey SammeH %1 mIchDaq nej' "
+"title='naDev Qeqbogh rarwI&&#39;mey <nop>DaSammeH %1 mIchDaq nej' "
 "accesskey='b'>cheghbogh rarwI&&#39;mey"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
