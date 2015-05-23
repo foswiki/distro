@@ -99,7 +99,7 @@
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Select topic parent"}%</h3>
-%INCLUDE{"System.JQueryAjaxHelper" section="topicselector" INPUT_NAME="topicparent" EXCLUDE="%TOPIC%" PLACEHOLDER="%IF{"'NONE%META{"parent" dontrecurse="on"}%'='NONE'" then="(none)" else='%SEARCH{ "name = '%TOPIC%'" scope="topic" type="query" nosearch="on" nototal="on" format="$parent" }%' }%"}%
+%INCLUDE{"System.JQueryAjaxHelper" section="topicselector" INPUT_NAME="topicparent" EXCLUDE="%TOPIC%" PLACEHOLDER="%IF{"'NONE%META{"parent" dontrecurse="on"}%'='NONE'" then="(none)" else='%SEARCH{topic="%TOPIC%" scope="topic" type="query" nosearch="on" nototal="on" format="$parent" }%' }%"}%
 </div>
 <div class="foswikiFormStep foswikiLast">
 <p><input type='submit' class='foswikiButton' value='%MAKETEXT{"Set new parent"}%' /></p>
