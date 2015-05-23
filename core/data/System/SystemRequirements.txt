@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430841963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432355029" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ System Requirements
 
@@ -37,7 +37,7 @@ perl tools/dependencies
 
 %TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
 
-Install apache and rcs ==apt-get install apache2 rcs==
+Install apache and rcs: ==apt-get install apache2 rcs==
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
@@ -50,6 +50,7 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | Digest::SHA | =libdigest-sha-perl= | *First shipped in perl 5.9.3 |
 | Encode | =libencode-perl= | |
 | Error | =liberror-perl= | |
+| FCGI | =libfcgi-perl= | Optional, needed for fastcgi / fcgi apache modules |
 | File::Copy::Recursive | =libfile-copy-recursive-perl= | |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Tree | =libhtml-tree-perl= | |
@@ -61,6 +62,8 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | LWP | =libwww-perl= | |
 | URI | =liburi-perl= | |
 | version | =libversion-perl= | First shipped perl 5.10.1, must be version 0.77 or newer |
+
+Note: to install all the above: =apt-get install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}% 
 
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
