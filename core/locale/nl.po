@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 14:49+0200\n"
+"PO-Revision-Date: 2015-05-23 22:12+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1566,11 +1566,11 @@ msgstr "Kwaadwillend persoon"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
-msgstr "Niet geladen plugins"
+msgstr "Defecte plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Toevoegen van gebruiker is niet gelukt:"
+msgstr "Toevoegen van gebruiker is niet gelukt: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
