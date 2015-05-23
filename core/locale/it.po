@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-22 14:21+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-05-23 06:57+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -3159,13 +3159,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Torna indietro nel browser e ricontrolla."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
-"Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
-"WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-Wiki Word"
+"Torna indietro nel browser e scegli un nome di pagina che sia "
+"[[%SYSTEMWEB%.WikiWord][WikiWord]] o controlla che sia attivata l'opzione "
+"non-WikiWord"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
