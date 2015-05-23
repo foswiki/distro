@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 13:33+0200\n"
+"PO-Revision-Date: 2015-05-23 21:45+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -311,7 +311,7 @@ msgstr "(latlh)"
 
 #: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
-msgstr "(tep <nop>vIHmoH)"
+msgstr "(tep vIHmoH)"
 
 #: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
@@ -1225,7 +1225,7 @@ msgstr "Dotlhmey &&#39;ol"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 msgid "Confirm password:"
-msgstr "chaw&&#39; ngoq &&#39;ol:"
+msgstr "chaw&&#39; ngoq yIghItlhqa&&#39;:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -2867,6 +2867,8 @@ msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
 msgstr ""
+"yIqIm: tep <nop>DavIHmoHta&&#39;DI&&#39; vaj Qapbe&&#39;choH tepvamDaq "
+"SIqbogh URLmey."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
@@ -4176,7 +4178,7 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"<nop>DoS ghItlhDaq tep tu&&#39;lu&&#39;bogh pong rurchuch tep qan pong, vaj "
+"<nop>DoS ghItlhDaq tep tu&&#39;lu&&#39;bogh pong rurchugh tep qan pong, vaj "
 "&&#39;oHvaD latlh pong ponglu&&#39; (roD pongDaq mI&&#39; chellu&&#39;)."
 
 #: core/templates/renameattachmentdelete.tmpl:43
@@ -4184,6 +4186,8 @@ msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"<nop>DoS ghItlhDaq tep '%FILENAME%' tu&&#39;lu&&#39;chugh, vaj &&#39;oHvaD "
+"latlh pong pongnISlu&&#39;."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -5362,7 +5366,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "reH QIn <nop>QuvlIj peghlu&&#39;."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -5374,7 +5378,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1. %2"
-msgstr ""
+msgstr "%1Daq pongvam &&#39;aghlu&&#39;. %2"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
