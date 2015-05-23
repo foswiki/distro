@@ -18,14 +18,14 @@
 
 
 
-%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move to web:"}% <nop>%TRASHWEB%%TMPL:END%
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move to web: [_1]" args="<nop>%TRASHWEB%"}% %TMPL:END%
 
 
 
 %TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Delete"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment"}% [[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]"}%%TMPL:END%
 
 
 

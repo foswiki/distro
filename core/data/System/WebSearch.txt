@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432417054" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -235,7 +235,7 @@
 
 %STARTSECTION{"searchresults"}%%IF{
 	"$'URLPARAM{search}'!=''"
-	then="<h2>Search results</h2>
+	then="<h2>%MAKETEXT{"Search results"}%</h2>
 $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent"
 }%%SEARCH{
 	"%URLPARAM{"search" encode="quote"}%"

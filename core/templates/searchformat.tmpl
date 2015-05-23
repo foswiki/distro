@@ -21,5 +21,5 @@
 %TMPL:DEF{SEARCH:pager_previous}%[[$previousurl][< Previous]]%TMPL:END%
 %TMPL:DEF{SEARCH:pager_next}%[[$nexturl][Next >]]%TMPL:END%
 %TMPL:DEF{SEARCH:pager}%<div class="foswikiSearchResultsPager">
-$previousbutton $sep Page $currentpage of $numberofpages $sep $nextbutton
+%MAKETEXT{"[_1] [_2] Page [_3] of [_4] [_5] [_6]" args="$previousbutton,$sep,$currentpage,$numberofpages,$sep,$nextbutton"}%
 </div>%TMPL:END%

@@ -19,8 +19,12 @@
 
 
 
-%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
-
+%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited">
+%MAKETEXT{"Move or Delete [_1]:" args="=%FILENAME%="}%
+%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" value=" %MAKETEXT{"Move"}% "}%
+%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{%FILENAME%}%" value=" %MAKETEXT{"Delete"}% "}%
+</input></div>
+%TMPL:END%
 
 
 %TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %TMPL:P{"canceltopicaction"}%%TMPL:END%
