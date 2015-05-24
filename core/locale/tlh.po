@@ -241,6 +241,11 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr "(Hoch ghItlhmey &&#39;angmeH =all= yIghItlh)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(<nop>QInvam polHa&&#39; De&&#39;wI&&#39;)"
@@ -1157,6 +1162,11 @@ msgstr ""
 msgid "Child topics in %1 web"
 msgstr "%1 mIch puq ghItlhmey"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "%1Daq Qeqbogh %2 mIch rarwI&&#39;mey&&#39;e&&#39;"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "%1vaD Form chu&&#39; yIwIv"
@@ -1823,6 +1833,11 @@ msgstr "latlh pong ghaj De&&#39;&&#39;e&&#39; lablu&&#39;bogh"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "rurbogh ghItlhmey Sam"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "%1Daq Qeqbogh ghItlhmey Sam ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2823,12 +2838,23 @@ msgstr "ghobe&&#39;"
 msgid "No  members"
 msgstr "pagh jeSwI&&#39;pu&&#39;"
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(Hoch mIchmey cheghbogh rarwI&&#39;mey&&#39;e&&#39;)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
+
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "pagh choHmey"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "pagh puq ghItlhmey"
 
 #: core/templates/registermessages.tmpl:366
@@ -3712,6 +3738,11 @@ msgstr "Dochmey Sambogh"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Doch nejbogh"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "naDev rarbogh ghItlhmey <nop>DaSammeH %1 mIchDaq nej"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

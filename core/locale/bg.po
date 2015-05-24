@@ -255,6 +255,11 @@ msgstr "(*Предложение:* Можете да прикачите ваша
 msgid "(=all= to show all topics)"
 msgstr "(=всички= за показване на всички страници)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(обратни връзки в раздел %1)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
@@ -1194,6 +1199,11 @@ msgstr ""
 msgid "Child topics in %1 web"
 msgstr "Подстраници в раздел %1"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Обратни връзки към %1 в %2 Раздел"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Изберете нова форма за %1"
@@ -1870,6 +1880,11 @@ msgstr "Файлът бе качен с различно име"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Търсене на подобни страници"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Намери страници, които имат връзки към %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2886,13 +2901,24 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(връзки \"назад\" във всички раздели)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(обратни връзки в раздел %1)"
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(промени)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Няма подстраници"
 
 #: core/templates/registermessages.tmpl:366
@@ -3826,6 +3852,11 @@ msgstr "(резултати от търсенето)"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Низ за търсене"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Търсене в Раздел %1 за страници, които сочат насам"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

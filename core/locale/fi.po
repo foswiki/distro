@@ -254,6 +254,11 @@ msgstr "(*Ehdotus:* Mitä jos lataisit kuvasi aiheeseesi?)"
 msgid "(=all= to show all topics)"
 msgstr "(=kaikki= näyttääksesi kaikki aiheet)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(käänteislinkit %1 verkossa)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
@@ -1184,6 +1189,11 @@ msgstr "Valitut aiheet päivitetään viittaamaan uuteen verkkonimeen."
 msgid "Child topics in %1 web"
 msgstr "Aliaiheet %1 verkossa"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Käänteislinkit %1 %2 verkossa"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Valitse uusi malli %1"
@@ -1862,6 +1872,11 @@ msgstr "Tiedosto on lähetetty eri nimellä"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Etsi samankaltaisia aiheita"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2893,13 +2908,24 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(Käänteislinkit kaikissa verkoissa)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(käänteislinkit %1 verkossa)"
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(muutokset)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Ei ala-aiheita"
 
 #: core/templates/registermessages.tmpl:366
@@ -3840,6 +3866,11 @@ msgstr "(haun tulos)"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Etsi merkkijonoa"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

@@ -244,6 +244,11 @@ msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(teruglinks in %1 Web)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Dit bericht wordt automatisch verwijderd)"
@@ -1158,6 +1163,11 @@ msgstr ""
 msgid "Child topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Verwijzingen naar %1 in %2 Web"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Kies een nieuw formulier voor %1"
@@ -1809,6 +1819,11 @@ msgstr "Het bestand is geupload met een andere naam"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Vind soortgelijke pagina's"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Pagina's die verwijzen naar %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2822,12 +2837,23 @@ msgstr "Nee"
 msgid "No  members"
 msgstr "Geen leden"
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(teruglinks in alle Webs)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(teruglinks in %1 Web)"
+
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Geen wijzigingen"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Geen onderliggende pagina&#39;s"
 
 #: core/templates/registermessages.tmpl:366
@@ -3723,6 +3749,11 @@ msgstr "Zoekresultaten"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Zoektekst"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Zoek in %1 Web naar pagina&#39;s die hierheen linken"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

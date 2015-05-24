@@ -203,7 +203,7 @@ then="-->"
 
 
 %TMPL:DEF{"childtopics"}%<h2>%MAKETEXT{"Child topics in [_1] web" args="<nop>%WEB%"}%</h2>
-   * %METASEARCH{type="parent" web="%WEB%" topic="%TOPIC%" default="%MAKETEXT{"No child topics"}%"}%
+   * <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinkchildren" title="%MAKETEXT{"Search the [_1] Web for all children of this topic." args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that are children of [_1] ..." args="<nop>%TOPIC%"}%</a>,
 %TMPL:END%
 
 

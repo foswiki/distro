@@ -267,6 +267,11 @@ msgstr "(*建议：*上传您的图片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 显示所有主题)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(%1 子网中的反向连结)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
@@ -1162,6 +1167,11 @@ msgstr "选定的主题，文中连结将更改为新子网。"
 msgid "Child topics in %1 web"
 msgstr "在%1子网中的子主题"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "%2 子网中指向 %1 的反向连结"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "为 %1 选个新表单"
@@ -1814,6 +1824,11 @@ msgstr "档案已用其他名称上传"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "寻找相似主题"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "找连到 %1 的主题..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2825,13 +2840,24 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(所有子网中的反向连结)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(%1 子网中的反向连结)"
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(变更)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "无子主题"
 
 #: core/templates/registermessages.tmpl:366
@@ -3760,6 +3786,11 @@ msgstr "(搜寻结果)"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "搜寻字串"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "在 %1 子网中搜寻连结至此的主题"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

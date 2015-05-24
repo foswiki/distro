@@ -257,6 +257,11 @@ msgstr "(*Förslag:* Varför inte ladda upp en bild av dig själv till din sida?
 msgid "(=all= to show all topics)"
 msgstr "(=alla= för att visa alla sidor)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(referenser hit inom avdelning %1)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Detta meddelande kommer att tas bort automatiskt)"
@@ -1182,6 +1187,11 @@ msgstr "Markerade sidor uppdateras för att peka på det nya avdelningsnamnet"
 msgid "Child topics in %1 web"
 msgstr "Dottersidor i avdelningen %1"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Referenser till %1 inom avdelning %2"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Välj ett nytt formulär för %1"
@@ -1862,6 +1872,11 @@ msgstr "Filen har laddats upp under annat namn"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Hitta liknande sidor"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Hitta sidor som refererar till %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2891,13 +2906,24 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(referenser hit från alla avdelningar)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(referenser hit inom avdelning %1)"
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(ändringar)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Inga dottersidor"
 
 #: core/templates/registermessages.tmpl:366
@@ -3845,6 +3871,11 @@ msgstr "(sökresultat)"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Söksträng"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Sök i avdelning %1 efter sidor som länkar till denna"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

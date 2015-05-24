@@ -238,6 +238,11 @@ msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= pro všechny články)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(zpětné odkazy v %1 Webu)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Tato zpráva bude automaticky odstraněna)"
@@ -1141,6 +1146,11 @@ msgstr "Označené články budou aktualizovány do bodu do nového jména webu.
 msgid "Child topics in %1 web"
 msgstr "Podřízené články v %1 webu"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Zpětné odkazy na %1 v %2 Webu"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Vyberte nový formulář pro %1"
@@ -1785,6 +1795,11 @@ msgstr "Soubor byl nahrán pod odlišným jménem"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Najít obdobné články"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Najít články které odkazují na %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2793,12 +2808,23 @@ msgstr "Ne"
 msgid "No  members"
 msgstr "Žádní členové"
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(zpětné odkazy ve všech Webech)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(zpětné odkazy v %1 Webu)"
+
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Beze změn"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Žádné podřízené články"
 
 #: core/templates/registermessages.tmpl:366
@@ -3690,6 +3716,11 @@ msgstr "Výsledek hledání"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Hledej řetězec"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Hledej články ve webu %1 které sem odkazují"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

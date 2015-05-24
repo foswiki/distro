@@ -7,8 +7,8 @@
     nosearch="on"
     excludetopic="%TOPIC%"
     web="%WEB%"
+    zeroresults="%MAKETEXT{"No backlinks in this web"}%"
     }%%TMPL:END%
-
 
 %TMPL:DEF{"searchallwebs"}%%SEARCH{
     search="%WEB%.%TOPIC%([^A-Za-z0-9]|$)|%WEB%.%SPACEOUT{"%TOPIC%" separator="([^A-Za-z0-9]*?)"}%([^A-Za-z0-9]|$)"
@@ -17,8 +17,16 @@
     nosearch="on"
     excludetopic="%TOPIC%"
     web="all,-%WEB%"
+    zeroresults="%MAKETEXT{"No backlinks in public webs"}%"
     }%%TMPL:END%
 
+%TMPL:DEF{"searchchildren"}%%SEARCH{
+    "parent.name='%TOPIC%'"
+    type="query"
+    web="%WEB%"
+    nosearch="on"
+    zeroresults="%MAKETEXT{"No child topics found."}%"
+    }%%TMPL:END%
 
 %TMPL:DEF{"topicinfo"}%%TMPL:END%
 %TMPL:DEF{"topicaction"}%%TMPL:END%

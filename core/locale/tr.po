@@ -245,6 +245,10 @@ msgstr "(*Tavsiye: :* Kişisel konunuza fotoğrafınızı ekleyebilirsiniz?)"
 msgid "(=all= to show all topics)"
 msgstr ""
 
+#: core/templates/backlinkchildren.tmpl:2
+msgid "(Children in %1 Web)"
+msgstr ""
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Bu mesah otomatik olarak kaldırılacaktır)"
@@ -1103,6 +1107,10 @@ msgstr ""
 msgid "Child topics in %1 web"
 msgstr ""
 
+#: core/templates/backlinkchildren.tmpl:5
+msgid "Children of %1 in %2 Web"
+msgstr ""
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr ""
@@ -1740,6 +1748,10 @@ msgstr ""
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Benzer konuları bul"
+
+#: core/templates/more.tmpl:206
+msgid "Find topics that are children of %1 ..."
+msgstr ""
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2720,13 +2732,22 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "Genel kullanıma açık tüm web'ler"
+
+#: core/templates/backlinks.tmpl:10
+msgid "No backlinks in this web"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(değişiklikler)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+msgid "No child topics found."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:366
@@ -3626,6 +3647,10 @@ msgstr "Tüm weblerde ara"
 
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
+msgstr ""
+
+#: core/templates/more.tmpl:206
+msgid "Search the %1 Web for all children of this topic."
 msgstr ""
 
 #: core/templates/more.tmpl:90

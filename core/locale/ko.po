@@ -248,6 +248,11 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr ""
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "%1 Web에서만 검색하기"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr ""
@@ -1128,6 +1133,10 @@ msgstr ""
 msgid "Child topics in %1 web"
 msgstr ""
 
+#: core/templates/backlinkchildren.tmpl:5
+msgid "Children of %1 in %2 Web"
+msgstr ""
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr ""
@@ -1772,6 +1781,10 @@ msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
+msgstr ""
+
+#: core/templates/more.tmpl:206
+msgid "Find topics that are children of %1 ..."
 msgstr ""
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
@@ -2763,13 +2776,23 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "_모든 공개된 Web에서_ 링크 찾기"
+
+#: core/templates/backlinks.tmpl:10
+msgid "No backlinks in this web"
+msgstr ""
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "변경내역"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "하위 토픽이 없음"
 
 #: core/templates/registermessages.tmpl:366
@@ -3685,6 +3708,10 @@ msgstr "문자 검색"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "문자 검색"
+
+#: core/templates/more.tmpl:206
+msgid "Search the %1 Web for all children of this topic."
+msgstr ""
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -5968,9 +5995,6 @@ msgstr "당신의 확인이 요청된 이유입니다."
 
 #~ msgid "scans links in _%1 web_ only"
 #~ msgstr " _%1 Web_ 에서만 링크 찾기"
-
-#~ msgid "scans links in _all public webs_"
-#~ msgstr "_모든 공개된 Web에서_ 링크 찾기"
 
 #~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 #~ msgstr "title='이 토픽의 원문 편집하기' accesskey='w'>원문편집(&w)"

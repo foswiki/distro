@@ -1,0 +1,10 @@
+%{ This is a default template }%%TMPL:INCLUDE{"backlinks"}%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(Children in [_1] Web)" args="%WEB%"}% %TMPL:END%
+
+
+%TMPL:DEF{"resultsheader"}%<p> *%MAKETEXT{"Children of [_1] in [_2] Web" args="[[%TOPIC%]], <nop>%WEB%"}%* </p>%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"resultsheader"}%
+%TMPL:P{"searchchildren"}%
+%TMPL:END%

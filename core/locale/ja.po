@@ -265,6 +265,11 @@ msgstr "(*提案:* あなたのトピックに関するピクチャをアップ�
 msgid "(=all= to show all topics)"
 msgstr "(=全て= 全てのトピックを表示します)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "( %1 ウェッブの中のバックリンク)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(このメッセージは自動に取り去れます。)"
@@ -1192,6 +1197,11 @@ msgstr "チェックされたトピックが更新され、新しいウェブ名
 msgid "Child topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "%2ウェブの中の%1へのバックリンク"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr " %1 のために新しいフォームを選択します"
@@ -1861,6 +1871,11 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr ""
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "%1へリンクするトピックを検索します..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2894,13 +2909,24 @@ msgstr ""
 msgid "No  members"
 msgstr ""
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(全てのウェブの中のバックリンク)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "( %1 ウェッブの中のバックリンク)"
+
 #: core/data/System/SiteChanges.txt:69
 #, fuzzy
 msgid "No changes"
 msgstr "(変更)"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "子トピック無し"
 
 #: core/templates/registermessages.tmpl:366
@@ -3838,6 +3864,11 @@ msgstr "(検索結果)"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "検索する文字列"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "%1ウェブからここへリンクされるトピックを検索します"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"

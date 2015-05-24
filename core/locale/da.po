@@ -249,6 +249,11 @@ msgstr "(*Forslag:* Hvad med at uploade et billede af dig selv til din side?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= for at vise alle sider)"
 
+#: core/templates/backlinkchildren.tmpl:2
+#, fuzzy
+msgid "(Children in %1 Web)"
+msgstr "(referencer i %1-webbet)"
+
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
 msgstr "(Denne besked vil automatisk blive fjernet)"
@@ -1161,6 +1166,11 @@ msgstr "Markederede sider vil blive opdateret til at pege på det nye webnavn."
 msgid "Child topics in %1 web"
 msgstr "Datter-sider i %1-webbet"
 
+#: core/templates/backlinkchildren.tmpl:5
+#, fuzzy
+msgid "Children of %1 in %2 Web"
+msgstr "Referencer til %1 fra %2 webbet"
+
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Vælg en ny formular for %1"
@@ -1814,6 +1824,11 @@ msgstr "Filen er blevet uploadet under et ændret navn"
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Find lignende sider"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Find topics that are children of %1 ..."
+msgstr "Find sider der refererer til %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2827,12 +2842,23 @@ msgstr "Nej"
 msgid "No  members"
 msgstr "Ingen medlemmer"
 
+#: core/templates/backlinks.tmpl:20
+#, fuzzy
+msgid "No backlinks in public webs"
+msgstr "(referencer fra alle webs)"
+
+#: core/templates/backlinks.tmpl:10
+#, fuzzy
+msgid "No backlinks in this web"
+msgstr "(referencer i %1-webbet)"
+
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Ingen ændringer"
 
-#: core/templates/more.tmpl:206
-msgid "No child topics"
+#: core/templates/backlinks.tmpl:28
+#, fuzzy
+msgid "No child topics found."
 msgstr "Ingen dattersider"
 
 #: core/templates/registermessages.tmpl:366
@@ -3728,6 +3754,11 @@ msgstr "Søgeresultat"
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
 msgstr "Søgestreng"
+
+#: core/templates/more.tmpl:206
+#, fuzzy
+msgid "Search the %1 Web for all children of this topic."
+msgstr "Søg i %1-webbet efter sider der linker til denne side"
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
