@@ -900,7 +900,8 @@ sub installFromMANIFEST {
             # Can't $_ eq '1;' because /^1;$/ is less picky about newlines
             next if /^1;$/;
             $localConfiguration .= $_;
-            if (m/^\$Foswiki::cfg{Plugins}{$module}{(\S+)}\s+=\s+(\S+);/) {
+            if (m/^\$Foswiki::cfg\{Plugins\}\{$module\}\{(\S+)\}\s+=\s+(\S+);/)
+            {
                 if ( $1 eq 'Enabled' ) {
                     $enabled = $2;
                 }
