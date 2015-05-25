@@ -219,11 +219,14 @@ GOLLYGOSH
         delete $Foswiki::cfg{StoreImpl};
     }
     foreach my $el ( keys %remap ) {
+
+        # Only remap if the old key extsts, and the new key does NOT exist
         if ( ( eval("exists \$Foswiki::cfg$el") ) ) {
             eval( <<CODE );
-\$Foswiki::cfg$remap{$el}=\$Foswiki::cfg$el;
+\$Foswiki::cfg$remap{$el}=\$Foswiki::cfg$el unless ( exists \$Foswiki::cfg$remap{$el} );
 delete \$Foswiki::cfg$el;
 CODE
+            print STDERR "REMAP failed $@" if ($@);
         }
     }
 
@@ -248,8 +251,9 @@ CODE
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
     *TWiki::cfg = \%Foswiki::cfg;
 
-    # Add explicit {Site}{CharSet} for older extensions.
-    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+# Add explicit {Site}{CharSet} for older extensions.  And if not present, default to utf-8.
+# Smell,  it was just deleted a few lines back, when the remap is applied.
+    $Foswiki::cfg{Site}{CharSet} = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
 
     # Explicit return true if we've completed the load
     return $validLSC;
