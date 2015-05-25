@@ -645,7 +645,7 @@ $Foswiki::cfg{MinPasswordLength} = 7;
 # email addresses from an existing file.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
-# **STRING LABEL="Password File Character Encodingname" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/i'"**
+# **STRING LABEL="Password File Character Encodingname" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="undefok iff:'{PasswordManager}=~/htpasswd/i'"**
 # Character encoding used in the password file. This will default to utf-8, which allows any unicode
 # character to be used in usernames, passwords and email addresses. The only time you should change it
 # is if you have an existing password file that uses a different encoding (and even then only if there
@@ -1339,6 +1339,8 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # This option takes the name of the encoding e.g. 'iso-8859-1'.
 # Note: you are *STRONGLY* recommended to convert the entire store to
 # UTF-8 in-place, as setting this option will incur a performance penatly.
+# See =tools/bulk_copy.pl= for details on converting your store.
+# Leave this undefined to use the default of utf-8 encoding.
 # $Foswiki::cfg{Store}{Encoding} = undef;
 
 # **PERL LABEL="Implementation Classes" EXPERT**

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Store::Encoding;
+package Foswiki::Configure::Checkers::Htpasswd::CharacterEncoding;
 
 use strict;
 use warnings;
@@ -10,12 +10,13 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $Foswiki::cfg{Store}{Encoding} ) {
+    if ( $Foswiki::cfg{Htpasswd}{CharacterEncoding} ) {
 
         # Test if this is actually an available encoding:
         eval {
             require Encode;
-            Encode::encode( $Foswiki::cfg{Store}{Encoding}, 'test', 0 );
+            Encode::encode( $Foswiki::cfg{Htpasswd}{CharacterEncoding},
+                'test', 0 );
         };
         if ($@) {
             $reporter->ERROR("Unknown store character set requested.");
@@ -23,15 +24,15 @@ sub check_current_value {
             return;
         }
 
-        if ( $Foswiki::cfg{Store}{Encoding} =~
+        if ( $Foswiki::cfg{Htpasswd}{CharacterEncoding} =~
 m/^(?:iso-?2022-?|hz-?|gb2312|gbk|gb18030|.*big5|.*shift_?jis|ms.kanji|johab|uhc)/i
           )
         {
 
             $reporter->ERROR(
                 <<HERE
-Cannot use this multi-byte encoding ('$Foswiki::cfg{Store}{Encoding}')
-as {Store}{Encoding}. Please set a different character encoding setting.
+Cannot use this multi-byte encoding ('$Foswiki::cfg{Htpasswd}{CharacterEncoding}')
+as {Htpasswd}{CharacterEncoding}. Please set a different character encoding setting.
 HERE
             );
         }
@@ -44,7 +45,9 @@ HERE
         $charset =~ s/^eucjp$/euc-jp/i;
         $charset = lc($charset);
 
-        if ( $charset && ( lc( $Foswiki::cfg{Store}{Encoding} ) ne $charset ) )
+        if ( $charset
+            && ( lc( $Foswiki::cfg{Htpasswd}{CharacterEncoding} ) ne $charset )
+          )
         {
             $reporter->ERROR(
                 <<HERE
@@ -56,15 +59,21 @@ HERE
     }
 
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
-        if ( !$Foswiki::cfg{Store}{Encoding}
-            || ( lc( $Foswiki::cfg{Store}{Encoding} ne 'iso-8859-1' ) ) )
+        if (
+            !$Foswiki::cfg{Htpasswd}{CharacterEncoding}
+            || (
+                lc(
+                    $Foswiki::cfg{Htpasswd}{CharacterEncoding} ne 'iso-8859-1'
+                )
+            )
+          )
         {
             $reporter->WARN( <<HERE );
-The BOOTSTRAP process has set the default character set encoding to utf-8.
-This is different from the Foswiki 1.1 default of =iso-8859-1=.
-If you intend to migrate data from prior releases of Foswiki or TWiki,
-you should either match the previously used {Site}{CharSet}
-or migrate data using =tools/bulk_copy.pl=.
+The BOOTSTRAP process has left the =.htpasswd= file character set encoding as utf-8.
+In most systems this should work fine.  However if you are migrating existing data 
+and have user information that doesn't map to utf-8, you should set this field to
+the encoding used in your existing system.  In most cases this will be =iso-8859-1=.
+Only set this if errors are encountered when processing your existing password file.
 HERE
         }
     }
