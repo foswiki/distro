@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-26 15:32+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-05-26 15:33+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -5517,8 +5517,8 @@ msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
-"Sie haben möglicherweise einen Registrierungs-Verifikations-Link angeklickt, "
-"den Sie bereits verwendet haben."
+"Sie haben möglicherweise einen Bestätigungs-Link der Registrierung "
+"angeklickt, den Sie bereits verwendet haben."
 
 #: core/templates/registermessages.tmpl:334
 msgid "You may need to close your browser to make this change take effect."
@@ -5643,7 +5643,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Ihr persönliches Foswiki Topic %1 wurde angelegt"
+msgstr "Ihr persönliches Foswiki-Topic %1 wurde angelegt"
 
 #: core/templates/registermessages.tmpl:294
 msgid ""
@@ -5680,7 +5680,7 @@ msgstr "Ihre Signatur zum Kopieren/Einfügen"
 
 #: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
-msgstr "Ihre Signatur zum Kopieren/Einfügen"
+msgstr "Ihre Signatur zum Kopieren/Einfügen:"
 
 #: core/templates/registermessages.tmpl:324
 msgid ""
