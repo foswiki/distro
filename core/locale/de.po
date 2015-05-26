@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-26 15:08+0200\n"
+"PO-Revision-Date: 2015-05-26 15:31+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -1101,11 +1101,11 @@ msgstr "Verweise in Topicsin allen Webs ändern, die auf !%1 zeigen:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "Verweise in Topics ändern, die auf !%1 zeigen (nur im %2 Web):"
+msgstr "Verweise in Topics ändern, die aus dem %2 Web auf !%1 zeigen:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "Verweise in Topics ändern, die auf %1 zeigen (alle Webs):"
+msgstr "Verweise in Topics ändern, die aus allen Webs auf %1 zeigen:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
@@ -1428,7 +1428,7 @@ msgstr "Erzeugt eine neue Version des Topics beim Speichern"
 
 #: core/templates/messages.tmpl:230
 msgid "Creating a suitable Form Definition topic"
-msgstr "Legen Sie ein geeignetes Topic für die Formular-Definition an"
+msgstr "Legen Sie ein geeignetes Topic für die Formulardefinition an"
 
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:12
@@ -1463,7 +1463,7 @@ msgstr "Standard"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
-msgstr "Standard Template"
+msgstr "Standard-Template"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
@@ -1704,7 +1704,7 @@ msgstr "E-Mail-Adresse:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "E-Mail wurde für diese Foswiki Installation deaktiviert"
+msgstr "E-Mail wurde für diese Foswiki-Installation deaktiviert"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -1731,7 +1731,7 @@ msgstr "Neues übergeordnetes Topic"
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
-"Bitte geben Sie den Administrator Benutzernamen oder den Login aus %1 ein"
+"Bitte geben Sie den Administrator-Benutzernamen oder den Login aus %1 ein"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
@@ -1772,12 +1772,12 @@ msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
-"Fehler: Nicht unterstützter Inhalts-Typ: %1 (Muss =text/html=, =text/plain= "
+"Fehler: Nicht unterstützter Inhaltstyp: %1 (Muss =text/html=, =text/plain= "
 "oder =text/css= sein)"
 
 #: core/templates/messages.tmpl:355
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
-msgstr "Fehler: Nicht unterstütztes Protokoll. (Muss 'http://domain/..' sein)"
+msgstr "Fehler: Nicht unterstütztes Protokoll. (Muss 'http://domain/...' sein)"
 
 #: core/templates/messages.tmpl:188
 msgid "Errors"
@@ -1890,7 +1890,7 @@ msgstr "Formular"
 
 #: core/templates/messages.tmpl:208
 msgid "Form Definition %1 missing"
-msgstr "Formular-Definition %1 fehlt"
+msgstr "Formulardefinition %1 fehlt"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:24
 msgid "Form based input"
@@ -1911,7 +1911,7 @@ msgstr "Formulardefinition '%1' nicht gefunden"
 
 #: core/templates/messages.tmpl:213
 msgid "Form definition missing"
-msgstr "Formular-Definition fehlt"
+msgstr "Formulardefinition fehlt"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
 msgid "Format selected text"
@@ -1927,7 +1927,7 @@ msgstr "Formel"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr "Foswiki Benutzer Authentifizierung"
+msgstr "Foswiki Benutzerauthentifizierung"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1939,7 +1939,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr "Foswiki Passwort zurücksetzen für %1"
+msgstr "Foswiki-Passwort zurücksetzen für %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
@@ -2112,8 +2112,8 @@ msgid ""
 "automatically."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine Betrugs-Anmeldung handelt. Der Benutzer '%1' "
-"konnte nicht automatisch entfernt werden."
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '%"
+"1' konnte nicht automatisch entfernt werden."
 
 #: core/templates/registerfailedremoved.tmpl:13
 msgid ""
@@ -2122,9 +2122,9 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine Betrugs-Anmeldung handelt. Der Benutzer '%1' "
-"wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-Topic "
-"manuell entfernen."
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '%"
+"1' wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-"
+"Topic manuell entfernen."
 
 #: core/templates/messages.tmpl:239
 msgid ""
@@ -2197,7 +2197,7 @@ msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
 msgstr ""
-"Wenn Sie eine Foswiki Anwendung entwickeln, finden Sie unter %1 eine "
+"Wenn Sie eine Foswiki-Anwendung entwickeln, finden Sie unter %1 eine "
 "Beschreibung der korrekten Parameter."
 
 #: core/templates/validate.tmpl:42
@@ -2481,12 +2481,11 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"Normaler Weise können Sie einfach editieren, solange Sie nicht das "
-"angehängte Formular ändern wollen. Wenn %1 das Topic speichert während Sie "
-"es bearbeiten, werden ihre Änderungen zusammengeführt ohne das etwas "
-"verloren geht. Formulardaten können jedoch nicht so einfach zusammengeführt "
-"werden, so dass sie sich in einem solchen Fall vorher mit %1 absprechen "
-"sollten."
+"Normalerweise können Sie einfach editieren, solange Sie nicht das angehängte "
+"Formular ändern wollen. Wenn %1 das Topic speichert während Sie es "
+"bearbeiten, werden ihre Änderungen zusammengeführt ohne das etwas verloren "
+"geht. Formulardaten können jedoch nicht so einfach zusammengeführt werden, "
+"so dass sie sich in einem solchen Fall vorher mit %1 absprechen sollten."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2506,7 +2505,7 @@ msgid ""
 msgstr ""
 "Es ist meist besser einen kurzen Namen für das neue Web zu wählen, da es "
 "nachher leichter ist darauf zu verweisen. Zeichen wie z.B. Leerzeichen, die "
-"nicht in Web Namen erlaubt sind, werden automatisch entfernt."
+"nicht in Web-Namen erlaubt sind, werden automatisch entfernt."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:43
 msgid "Italic"
@@ -2680,7 +2679,7 @@ msgstr "Fehlende Felder"
 
 #: core/templates/messages.tmpl:37
 msgid "Missing action command"
-msgstr "Fehlender Aktions-Befehl"
+msgstr "Fehlender Aktionsbefehl"
 
 #: core/templates/messages.tmpl:415
 msgid "Missing or illegal web name"
@@ -2722,7 +2721,7 @@ msgstr "Mehr Topic-Aktionen"
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "More topic actions..."
-msgstr "Mehr Topic Aktionen..."
+msgstr "Mehr Topic-Aktionen..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
@@ -2842,7 +2841,7 @@ msgstr "Neues Passwort:"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
-msgstr "Neuer Topic Name %1 ist kein %2"
+msgstr "Neuer Topic-Name %1 ist kein %2"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 msgid "New user registration is disabled on this site."
@@ -2850,11 +2849,11 @@ msgstr "Die Registrierung für neue Benutzer ist abgeschaltet."
 
 #: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
-msgstr "Neuer Web Name:"
+msgstr "Neuer Web-Name:"
 
 #: core/templates/more.tmpl:156
 msgid "Newer revision:"
-msgstr "Neuere Revision"
+msgstr "Neuere Revision:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Next"
@@ -3193,7 +3192,7 @@ msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
-msgstr "Bitte geben Sie das Wiki Admin Passwort ein"
+msgstr "Bitte geben Sie das Passwort des Wiki-Administrators ein"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 msgid "Please enter the same password as above."
@@ -3212,7 +3211,7 @@ msgstr "Bitte geben Sie Ihren Nachnamen an."
 msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 "Bitte gehen Sie mit Ihrem Browser _zurück_ und versuchen Sie einen neuen "
-"Namen"
+"Namen."
 
 #: core/templates/messages.tmpl:254
 msgid "Please go back in your browser and check again."
@@ -3355,7 +3354,7 @@ msgstr "Frage:"
 #: PatternSkin/data/_default/WebLeftBar.txt:10
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
-msgstr "RSS Feed"
+msgstr "RSS-Feed"
 
 #: core/templates/registernotify.tmpl:11
 msgid ""
@@ -3425,7 +3424,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
-msgstr "Der Registrierungs Code kann nur einmal verwendet werden."
+msgstr "Der Registrierungs-Code kann nur einmal verwendet werden."
 
 #: core/templates/registerdenied.tmpl:9
 msgid "Registration for %1 has been denied"
@@ -3603,11 +3602,11 @@ msgstr "Topic wiederherstellen"
 
 #: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
-msgstr "Vorherige Topic Revision wiederherstellen:"
+msgstr "Vorherige Topic-Revision wiederherstellen:"
 
 #: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
-msgstr "Vorherige Topic Revision wiederherstellen"
+msgstr "Vorherige Topic-Revision wiederherstellen"
 
 #: core/templates/more.tmpl:173
 msgid ""
@@ -3821,7 +3820,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:209
 msgid "See %1 for information about Form Definitions."
-msgstr "Konsultieren Sie %1 für Informationen über Forumular Definitionen"
+msgstr "Konsultieren Sie %1 für Informationen über Formulardefinitionen."
 
 #: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
@@ -3996,8 +3995,7 @@ msgstr "Entschuldigung, die Registrierung wurde temporär abgeschaltet."
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr ""
-"Das Passwort-System ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
+msgstr "Das Passwortsystem ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
@@ -4186,7 +4184,7 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"Danke für ihre Registrierung für die %1 Kollaborations Plattform. Bitte "
+"Danke für ihre Registrierung für die %1 Kollaborations-Plattform. Bitte "
 "speichern Sie diese E-Mail als zukünftige Referenz."
 
 #: core/templates/registerconfirm.tmpl:10
@@ -4194,7 +4192,7 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
 msgstr ""
-"Danke für ihre Registrierung für die %1 Kollaborations Plattform. Ihr "
+"Danke für ihre Registrierung für die %1 Kollaborations-Plattform. Ihr "
 "Verifizierungs-Code lautet %2."
 
 #: core/templates/registermessages.tmpl:103
@@ -4381,7 +4379,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:371
 msgid "The entry for user %1 was missing in the password system."
-msgstr "Der Eintrag für Benutzer %1 fehlt im Passwort System."
+msgstr "Der Eintrag für Benutzer %1 fehlt im Passwortsystem."
 
 #: core/templates/messages.tmpl:238
 msgid "The file has been uploaded and attached properly to the %1 topic."
@@ -4461,7 +4459,7 @@ msgstr "Das benötigte Feld %1 wurde nicht ausgefüllt."
 #: core/templates/registermessages.tmpl:9
 msgid "The selected User System does not support new user registration."
 msgstr ""
-"Das ausgewählte Benutzer System unterstützt keine Registrierung von neuen "
+"Das ausgewählte Benutzersystem unterstützt keine Registrierung von neuen "
 "Benutzern."
 
 #: core/templates/messages.tmpl:218
@@ -4685,7 +4683,7 @@ msgstr "Diese Seite wurde zum Zeitpunkt %1 zwischengespeichert."
 
 #: core/templates/messages.tmpl:226
 msgid "This requires the form definition to be present."
-msgstr "Dazu wird die Forumalr Definition benötigt."
+msgstr "Dazu wird die Formulardefinition benötigt."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
@@ -4869,7 +4867,7 @@ msgstr "Topic-Vorlagen im %1 Web"
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:139
 msgid "Topic title"
-msgstr "Topic Titel"
+msgstr "Topic-Titel"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
@@ -4885,7 +4883,7 @@ msgstr "Topics im %1 Web:"
 
 #: core/data/System/WebSearch.txt:230
 msgid "Topics per web"
-msgstr "Topics per Web"
+msgstr "Topics pro Web"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
@@ -5067,7 +5065,7 @@ msgstr "%1 ist nicht in der Gruppe und kann deshalb nicht entfernt werden"
 
 #: core/templates/registermessages.tmpl:353
 msgid "User Account %1 Deleted"
-msgstr "Benutzer Zugang %1 gelöscht"
+msgstr "Benutzerkonto %1 gelöscht"
 
 #: core/templates/registermessages.tmpl:341
 msgid "User Account was not supplied"
@@ -5075,7 +5073,7 @@ msgstr "Benutzerkonto wurde nicht angegeben"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
-msgstr "Benutzer Referenz"
+msgstr "Benutzer-Handbücher"
 
 #: core/templates/oopsregister.tmpl:6
 msgid "User Registration"
@@ -5176,7 +5174,7 @@ msgstr "Spätere anzeigen"
 
 #: core/templates/more.tmpl:137
 msgid "View previous topic revision"
-msgstr "Vorherige Topic Revision ansehen"
+msgstr "Vorherige Topic-Revision ansehen"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
@@ -5206,7 +5204,7 @@ msgstr "Topic ansehen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "View total topic history"
-msgstr "Topic Historie ansehen"
+msgstr "Topic-Historie ansehen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
