@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 22:15+0200\n"
+"PO-Revision-Date: 2015-05-26 18:03+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -51,7 +51,7 @@ msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
 msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr ""
+msgstr "%1 %2 pagina %3 van %4 %5 %6"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
@@ -245,9 +245,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(teruglinks in %1 Web)"
+msgstr "(onderliggende pagina&&#39;s in %1 Web)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
@@ -670,9 +669,8 @@ msgid "Add"
 msgstr "Toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "Voeg leden toe aan"
+msgstr "Voeg leden toe aan %1"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1164,9 +1162,8 @@ msgid "Child topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
 
 #: core/templates/backlinkchildren.tmpl:5
-#, fuzzy
 msgid "Children of %1 in %2 Web"
-msgstr "Verwijzingen naar %1 in %2 Web"
+msgstr "Onderliggende pagina&&#39;s van %1 in %2 Web"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1177,9 +1174,8 @@ msgid "Clear all"
 msgstr "Vink uit"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Clear all topics"
-msgstr "Vink uit"
+msgstr "Vink alle pagina&&#39;s uit"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
@@ -1459,9 +1455,8 @@ msgid "Delete"
 msgstr "Verwijder"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "Bijlage verwijderen"
+msgstr "Bijlage %1 verwijderen"
 
 #: core/templates/more.tmpl:51
 msgid "Delete topic"
@@ -1821,9 +1816,8 @@ msgid "Find similar topics"
 msgstr "Vind soortgelijke pagina's"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
-msgstr "Pagina's die verwijzen naar %1 ..."
+msgstr "Onderliggende pagina&&#39;s van %1 vinden..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2714,18 +2708,16 @@ msgid "Move %1 to Trash Web"
 msgstr "Verplaats %1 naar Trash-Web"
 
 #: core/templates/moveattachment.tmpl:9
-#, fuzzy
 msgid "Move attachment %1"
-msgstr "Bijlage verplaatsen"
+msgstr "Bijlage %1 verplaatsen"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Verplaats bijlage"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "Move or Delete %1:"
-msgstr "Verplaats of verwijder bijlage"
+msgstr "Verplaats of verwijder bijlage %1:"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -2736,9 +2728,8 @@ msgid "Move to web:"
 msgstr "Verplaats naar web:"
 
 #: core/templates/renameattachmentdelete.tmpl:21
-#, fuzzy
 msgid "Move to web: %1"
-msgstr "Verplaats naar web:"
+msgstr "Verplaats naar web: %1"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
@@ -2838,23 +2829,20 @@ msgid "No  members"
 msgstr "Geen leden"
 
 #: core/templates/backlinks.tmpl:20
-#, fuzzy
 msgid "No backlinks in public webs"
-msgstr "(teruglinks in alle Webs)"
+msgstr "geen teruglinks in openbare Webs"
 
 #: core/templates/backlinks.tmpl:10
-#, fuzzy
 msgid "No backlinks in this web"
-msgstr "(teruglinks in %1 Web)"
+msgstr "Geen teruglinks in dit Web"
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Geen wijzigingen"
 
 #: core/templates/backlinks.tmpl:28
-#, fuzzy
 msgid "No child topics found."
-msgstr "Geen onderliggende pagina&#39;s"
+msgstr "Geen onderliggende pagina&&#39;s gevonden."
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
@@ -3457,9 +3445,8 @@ msgid "Remember your password?"
 msgstr "Weet je je wachtwoord toch?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Verwijder leden uit"
+msgstr "Verwijder leden uit %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3742,7 +3729,6 @@ msgid "Search result"
 msgstr "Zoekresultaten"
 
 #: core/data/System/WebSearch.txt:238
-#, fuzzy
 msgid "Search results"
 msgstr "Zoekresultaten"
 
@@ -3751,9 +3737,8 @@ msgid "Search string"
 msgstr "Zoektekst"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Search the %1 Web for all children of this topic."
-msgstr "Zoek in %1 Web naar pagina&#39;s die hierheen linken"
+msgstr "Zoek in het %1 Web naar onderliggende pagina&#39;s van deze pagina."
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -3824,9 +3809,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Kies een nieuw lokaal bestand om deze bijlage bij te werken"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all topics"
-msgstr "Vink aan"
+msgstr "Vink alles aan"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
@@ -3885,9 +3869,8 @@ msgid "Show %1 revisions up to revision %2"
 msgstr "Bekijk %1 revisies tot en met revisie %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
-#, fuzzy
 msgid "Show attachments help"
-msgstr "Hulp bij bijlagen"
+msgstr "Hulp bij bijlagen tonen"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
