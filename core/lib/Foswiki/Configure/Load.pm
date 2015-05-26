@@ -95,6 +95,7 @@ sub _workOutOS {
         $Foswiki::cfg{OS} = 'OS2';
     }
     else {
+
         # Erm.....
         $Foswiki::cfg{OS} = 'UNIX';
     }
@@ -251,9 +252,9 @@ CODE
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
     *TWiki::cfg = \%Foswiki::cfg;
 
-# Add explicit {Site}{CharSet} for older extensions.  And if not present, default to utf-8.
-# Smell,  it was just deleted a few lines back, when the remap is applied.
-    $Foswiki::cfg{Site}{CharSet} = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
+    # Add explicit {Site}{CharSet} for older extensions. Default to utf-8.
+    # Explanation is in http://foswiki.org/Tasks/Item13435
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
 
     # Explicit return true if we've completed the load
     return $validLSC;
@@ -589,6 +590,7 @@ sub _bootstrapStoreSettings {
           if (TRAUTO);
     }
     else {
+
         # SMELL: The fork to `grep goes into a loop in the unit tests
         # Not sure why, for now just default to pure perl bootstrapping
         # in the unit tests.
@@ -676,6 +678,7 @@ sub bootstrapWebSettings {
           if (TRAUTO);
     }
     else {
+
         # OK, so this is barfilicious. Think of something better.
         $Foswiki::cfg{DefaultUrlHost} = "$protocol://localhost";
         print STDERR
