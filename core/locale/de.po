@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-20 12:08+0200\n"
+"PO-Revision-Date: 2015-05-26 15:33+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
@@ -4010,7 +4010,7 @@ msgstr "Benutzerkonto %1 gelöscht"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:16
 msgid "User Reference"
-msgstr "Benutzerreferenz"
+msgstr "Benutzer-Handbücher"
 
 #: core/templates/login.tmpl:43
 msgid "Username"
@@ -4329,9 +4329,9 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"Sie können auch Namen der standardisierten HTML-Farben verwenden (black, "
-"silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
-"yellow, navy, blue, teal, or aqua)"
+"Sie können auch die Namen der Standard-HTML-Farben verwenden (black, silver, "
+"gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
+"blue, teal, oder aqua)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:175
 #: core/templates/registernotify.tmpl:24
@@ -4395,15 +4395,15 @@ msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Eventuell bekommen Sie ihren Wiki-Administrator dazu Änderungen an den "
-"Einstellungen vorzunehmen, die besser für ihre Umgebung passen."
+"Eventuell können Sie ihren Wiki-Administrator dazu bringen, an den "
+"Einstellungen Änderungen vorzunehmen, die besser für Ihre Umgebung passen."
 
 #: core/templates/messages.tmpl:694
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
-"Sie haben möglicherweise einen Link zur Verifikation der Registrierung "
+"Sie haben möglicherweise einen Bestätigungs-Link der Registrierung "
 "angeklickt, den Sie bereits verwendet haben."
 
 #: core/templates/messages.tmpl:201
