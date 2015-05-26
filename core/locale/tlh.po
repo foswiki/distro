@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 21:45+0200\n"
+"PO-Revision-Date: 2015-05-26 15:20+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -242,9 +242,8 @@ msgid "(=all= to show all topics)"
 msgstr "(Hoch ghItlhmey &&#39;angmeH =all= yIghItlh)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
+msgstr "(%1 mIch puqqoqpu&&#39;)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
@@ -384,13 +383,12 @@ msgstr ""
 "yIghItlh."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*De&&#39;wI&&#39; De&&#39;:* <i>De&&#39;wI&&#39; De&&#39;</i>Daq latlh "
-"De&&#39; <nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+"*De&&#39; chu&&#39;chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; <nop>"
+"DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -671,9 +669,8 @@ msgid "Add"
 msgstr "chel"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "jeSwI&&#39; chel"
+msgstr "%1Daq jeSwI&&#39; chel"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1163,9 +1160,8 @@ msgid "Child topics in %1 web"
 msgstr "%1 mIch puq ghItlhmey"
 
 #: core/templates/backlinkchildren.tmpl:5
-#, fuzzy
 msgid "Children of %1 in %2 Web"
-msgstr "%1Daq Qeqbogh %2 mIch rarwI&&#39;mey&&#39;e&&#39;"
+msgstr "%2 mIch %1 puqpu&&#39;&&#39;e&&#39;"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1176,7 +1172,6 @@ msgid "Clear all"
 msgstr "Hoch wIvHa&&#39;"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Clear all topics"
 msgstr "Hoch wIvHa&&#39;"
 
@@ -1466,9 +1461,8 @@ msgid "Delete"
 msgstr "polHa&&#39;"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "tep polHa&&#39;"
+msgstr "tep %1 polHa&&#39;"
 
 #: core/templates/more.tmpl:51
 msgid "Delete topic"
@@ -1835,9 +1829,8 @@ msgid "Find similar topics"
 msgstr "rurbogh ghItlhmey Sam"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
-msgstr "%1Daq Qeqbogh ghItlhmey Sam ..."
+msgstr "%1 puq ghItlhmey Sam ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2715,18 +2708,16 @@ msgid "Move %1 to Trash Web"
 msgstr "<nop>veQmIchDaq %1 lan"
 
 #: core/templates/moveattachment.tmpl:9
-#, fuzzy
 msgid "Move attachment %1"
-msgstr "tep vIHmoH"
+msgstr "tep %1 vIHmoH"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "De&&#39; tep vIHmoH"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "Move or Delete %1:"
-msgstr "tep vIHmoH pagh polHa&&#39;"
+msgstr "tep %1 vIHmoH pagh &&#39;oH polHa&&#39;:"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -2737,9 +2728,8 @@ msgid "Move to web:"
 msgstr "mIchvamDaq lan:"
 
 #: core/templates/renameattachmentdelete.tmpl:21
-#, fuzzy
 msgid "Move to web: %1"
-msgstr "mIchvamDaq lan:"
+msgstr "mIchvamDaq lan: %1"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
@@ -2839,23 +2829,22 @@ msgid "No  members"
 msgstr "pagh jeSwI&&#39;pu&&#39;"
 
 #: core/templates/backlinks.tmpl:20
-#, fuzzy
 msgid "No backlinks in public webs"
-msgstr "(Hoch mIchmey cheghbogh rarwI&&#39;mey&&#39;e&&#39;)"
+msgstr ""
+"mIchmeyDaq leghlaHbogh Hoch, cheghbogh rarwI&&#39;mey "
+"tu&&#39;lu&&#39;be&&#39;"
 
 #: core/templates/backlinks.tmpl:10
-#, fuzzy
 msgid "No backlinks in this web"
-msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
+msgstr "(mIchvamDaq cheghbogh rarwI&&#39;mey tu&&#39;lu&&#39;be&&#39;)"
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "pagh choHmey"
 
 #: core/templates/backlinks.tmpl:28
-#, fuzzy
 msgid "No child topics found."
-msgstr "pagh puq ghItlhmey"
+msgstr "pagh puq ghItlhmey Samlu&&#39;."
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
@@ -3447,9 +3436,8 @@ msgid "Remember your password?"
 msgstr "chaw&&#39; ngoqlIj <nop>DaSov&&#39;a&&#39;?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "jeSwI&&#39; teq"
+msgstr "%1vo&&#39; jeSwI&&#39; teq"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3731,7 +3719,6 @@ msgid "Search result"
 msgstr "Dochmey Sambogh"
 
 #: core/data/System/WebSearch.txt:238
-#, fuzzy
 msgid "Search results"
 msgstr "Dochmey Sambogh"
 
@@ -3740,9 +3727,8 @@ msgid "Search string"
 msgstr "Doch nejbogh"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Search the %1 Web for all children of this topic."
-msgstr "naDev rarbogh ghItlhmey <nop>DaSammeH %1 mIchDaq nej"
+msgstr "ghItlhvam puqpu&&#39; <nop>DaSammeH %1 mIchDaq nej."
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -3813,9 +3799,8 @@ msgid "Select a new local file to update attachment"
 msgstr "tep chu&&#39;moHmeH De&&#39;wI&&#39;lIjDaq De&&#39; chu&&#39; yIwIv"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all topics"
-msgstr "Hoch wIv"
+msgstr "Hoch ghItlhmey wIv"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
@@ -3875,9 +3860,8 @@ msgid "Show %1 revisions up to revision %2"
 msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
-#, fuzzy
 msgid "Show attachments help"
-msgstr "tep <nop>QaH"
+msgstr "tep <nop>QaH &&#39;ang"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -5809,7 +5793,7 @@ msgstr "title='retlhDaq' accesskey='s'>retlhDaq"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='ghItlhvam <nop>qImchoH' accesskey='s'><nop>qImchoH (s)"
+msgstr "title='ghItlhvam qImchoH' accesskey='s'>qImchoH (s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
