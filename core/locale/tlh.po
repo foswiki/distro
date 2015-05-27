@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-26 15:20+0200\n"
+"PO-Revision-Date: 2015-05-27 23:35+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -48,7 +48,7 @@ msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
 msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr ""
+msgstr "%1 %2 %4 navmey nav %3 %5 %6"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
@@ -4435,7 +4435,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:221
 msgid "There should be a line that includes %1, look for %2 (or %3)"
-msgstr ""
+msgstr "%1 chelbogh tlhegh tu&&#39;lu&&#39; net poQ. <nop>DaH %2 (%3 qoj) yInej"
 
 #: core/templates/registermessages.tmpl:376
 msgid "There were errors adding to the %2 group. %1 "
@@ -4490,6 +4490,8 @@ msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
 msgstr ""
+"<nop>QInHomlIj lIw ru&&#39; Dalegh. ghItlh yIlabqa&&#39; vaj "
+"<nop>QInHomna&&#39;lIj <nop>DaleghlaH."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -4545,6 +4547,8 @@ msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
 msgstr ""
+"pongvetlh wIvlu&&#39; vaj %1 mIchDaq latlh rurbogh pong ghajbogh ghItlhmey "
+"qaDlaHbe&&#39; ghItlh."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:3
 msgid ""
@@ -4558,7 +4562,7 @@ msgstr "%1 ghItlhvam velqa&&#39; pollu&&#39;."
 
 #: core/templates/messages.tmpl:226
 msgid "This requires the form definition to be present."
-msgstr ""
+msgstr "naDev Form <nop>DelwI&&#39; poQlu&&#39;."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
@@ -4566,7 +4570,7 @@ msgstr "Foswikimo&&#39; Qap Daqvam"
 
 #: core/templates/registermessages.tmpl:227
 msgid "This site requires at least %1 character passwords"
-msgstr ""
+msgstr "%1 Deghmey ghajnIS chaw&&#39; ngoq &&#39;e&&#39; poQ Daqvam"
 
 #: core/data/System/UserName.txt:9
 msgid "This system is configured to use usernames."
@@ -4606,7 +4610,7 @@ msgstr "pong:"
 
 #: core/templates/registerapprove.tmpl:12
 msgid "To approve this registration, visit %2"
-msgstr ""
+msgstr "muvmeH mIwlIj Da&&#39;olmeH, %2 yISuch"
 
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
@@ -4614,7 +4618,7 @@ msgstr "tepvaD:"
 
 #: core/templates/registerapprove.tmpl:14
 msgid "To block this registration,  visit %2"
-msgstr ""
+msgstr "muvmeH mIwvam <nop>DabotmeH, %2 yISuch"
 
 #: core/data/System/WebSearch.txt:284
 msgid ""
@@ -4630,7 +4634,7 @@ msgstr "ghItlh <nop>DachoH <nop>DaneHchugh, vaj yI&&#39;uy "
 
 #: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]"
-msgstr ""
+msgstr "latlh lo&&#39;wI&&#39; <nop>DaDameH, vaj [[%1][yI&&#39;elqa&&#39;]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -4735,7 +4739,7 @@ msgstr "ghItlh pong"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
-msgstr ""
+msgstr "latlh ghItlh mojta&&#39; ghItlh"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:107
 msgid "Topic will be named: "
@@ -4795,7 +4799,7 @@ msgstr "ngoq meSHa&&#39;"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
-msgstr ""
+msgstr "lo&&#39;wI&&#39;, chaw&&#39; ngoq joq ghovbe&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:42
 msgid "Unrecognized action command %1"
@@ -4865,7 +4869,7 @@ msgstr "De&&#39; lab"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Upload multiple attachments in one zip file"
-msgstr ""
+msgstr "wa&&#39; ZIP De&&#39;Daq tepmey law&&#39; lI&&#39;"
 
 #: PatternSkin/templates/attach.pattern.tmpl:43
 msgid "Upload up to %1 KB."
@@ -4926,11 +4930,11 @@ msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; De&&#39; Daj"
 
 #: core/templates/oopsregister.tmpl:6
 msgid "User Registration"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; muvmeH mIw"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid ""
@@ -5039,7 +5043,7 @@ msgstr "Dotlh &&#39;ang:"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:20
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
-msgstr ""
+msgstr "tlha&&#39;bogh ghItlh qun &&#39;ang"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
@@ -5312,16 +5316,19 @@ msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
 msgstr ""
+"lo&&#39;wI&&#39; ponglIj <nop>DachoHlaHbe&&#39;: &&#39;oH choHlaH loHwI&#39; "
+"neH."
 
 #: core/templates/messages.tmpl:493
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
 msgstr ""
+"bIruchlaHbe&&#39;, chabmey <nop>JavaScript qoj Dachu&&#39;Ha&&#39;mo&&#39;."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr ""
+msgstr "cha&&#39;logh bImuvlaHbe&&#39;. pong %1 muvta&&#39; rIntaH."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
@@ -5335,7 +5342,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
-msgstr ""
+msgstr "bImuvta&&#39;*be&&#39;*qu&&#39;."
 
 #: core/templates/messages.tmpl:247
 msgid ""
@@ -5385,11 +5392,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:233
 msgid "You will probably have to ask your administrator, %1, to do this."
-msgstr ""
+msgstr "Dochvam <nop>DachavmeH loHwI&&#39;lI&&#39; <nop>DatlhobnISba&&#39;."
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "muvmeH mIwlIj lajlu&&#39;DI&&#39; vaj QIn <nop>DaHevbej."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
@@ -5429,10 +5436,12 @@ msgstr "%1Daq pongvam &&#39;aghlu&&#39;. %2"
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
 msgstr ""
+"ponglIj, tuq ponglIj je, &&#39;ach bIH jojDaq Degh chIm "
+"tu&&#39;lu&&#39;be&&#39;."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
-msgstr ""
+msgstr "DaH %1 &&#39;oH chaw&&#39; ngoqlIj&&#39;e&&#39;."
 
 #: core/templates/registermessages.tmpl:133
 msgid "Your password has not been changed."
@@ -5451,17 +5460,19 @@ msgstr "chaw&&#39; ngoqlIj:"
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
-msgstr ""
+msgstr "%2Daq %1 nuv talIj cherlu&&#39;. <nop>DachoHlaHchu&&#39;:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
-msgstr ""
+msgstr "Foswiki nuv talIj %1 cherlu&&#39; rIntaH"
 
 #: core/templates/registermessages.tmpl:294
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
+"QIn <nop>QuvmeylIj luchu&&#39;moHlu&&#39;ta&&#39;:  "
+"<noautolink>%1</noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
