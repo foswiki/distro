@@ -124,53 +124,6 @@ sub new {
     return $this;
 }
 
-=begin TML
-
----++ StaticMethod encode($string) -> $encoded_string
-
-Convert a string in the site encoding into the store encoding. This is
-used to encode strings for printing to files.
-
-=cut
-
-sub encode {
-    my ( $str, $fn ) = @_;
-
-    return $str unless defined $str;
-
-    if ( $Foswiki::UNICODE && !$fn ) {
-        return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-            $str, Encode::FB_CROAK );
-    }
-
-    # otherwise we are using the old {Site}{CharSet} encoding
-    # and the string needs no conversion
-    return $str;
-}
-
-=begin TML
-
----++ StaticMethod decode($encoded_string) -> $string
-
-Convert a string from the store encoding into unicode.
-
-=cut
-
-sub decode {
-    my $str = shift;
-
-    return $str unless defined $str;
-
-    if ($Foswiki::UNICODE) {
-        return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-            $str, Encode::FB_PERLQQ );
-    }
-
-    # otherwise we are using the old {Site}{CharSet} encoding
-    # and the string needs no conversion
-    return $str;
-}
-
 # Convert a unicode filename to bytes. Normally a NOP, used for debugging
 # encodings
 sub fn2b {
@@ -1153,7 +1106,7 @@ sub saveFile {
     binmode($fh)
       or throw Error::Simple(
         'Rcs::Handler: failed to binmode ' . $name . ': ' . $! );
-    print $fh encode($text)
+    print $fh $text
       or throw Error::Simple(
         'Rcs::Handler: failed to print into ' . $name . ': ' . $! );
     close($fh)
@@ -1176,14 +1129,7 @@ sub readFile {
         $data = <$IN_FILE>;
         close($IN_FILE);
     }
-    $data ||= '';
-    return Encode::decode(
-        $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-        $data,
-
-        #Encode::FB_CROAK # DEBUG
-        Encode::FB_PERLQQ
-    );
+    return $data;
 }
 
 # Used by subclasses

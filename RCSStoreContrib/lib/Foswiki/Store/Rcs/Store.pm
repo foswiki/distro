@@ -96,7 +96,7 @@ sub readTopic {
     return ( undef, undef ) unless $handler->storedDataExists();
 
     ( my $text, $isLatest ) = $handler->getRevision($version);
-
+    $text = Encode::decode_utf8( $text, Encode::FB_CROAK ) if $Foswiki::UNICODE;
     $text =~ s/\r//g;    # Remove carriage returns
     Foswiki::Serialise::deserialise( $text, 'Embedded', $topicObject );
 
@@ -270,8 +270,16 @@ sub getRevisionDiff {
     ASSERT( defined($contextLines) ) if DEBUG;
 
     my $rcs = $this->getHandler( $topicObject->web, $topicObject->topic );
-    return $rcs->revisionDiff( $topicObject->getLoadedRev(), $rev2,
-        $contextLines );
+    my $diffs =
+      $rcs->revisionDiff( $topicObject->getLoadedRev(), $rev2, $contextLines );
+    if ($Foswiki::UNICODE) {
+        foreach my $d (@$diffs) {
+            for my $i ( 1, 2 ) {
+                $d->[$i] = Encode::decode_utf8( $d->[$i], Encode::FB_CROAK );
+            }
+        }
+    }
+    return $diffs;
 }
 
 sub _getAttachmentVersionInfo {
@@ -308,6 +316,12 @@ sub _getAttachmentVersionInfo {
           $this->getHandler( $topicObject->web, $topicObject->topic,
             $attachment );
         $info = $handler->getInfo( $rev || 0 );
+        $info->{author} =
+          Encode::decode_utf8( $info->{author}, Encode::FB_CROAK )
+          if $info->{author};
+        $info->{comment} =
+          Encode::decode_utf8( $info->{comment}, Encode::FB_CROAK )
+          if $info->{comment};
     }
 
     return $info;
@@ -342,8 +356,15 @@ sub getVersionInfo {
     if ( not defined $info ) {
         my $handler =
           $this->getHandler( $topicObject->web, $topicObject->topic );
-
         $info = $handler->getInfo($rev);
+        if ($Foswiki::UNICODE) {
+            $info->{author} =
+              Encode::decode_utf8( $info->{author}, Encode::FB_CROAK )
+              if $info->{author};
+            $info->{comment} =
+              Encode::decode_utf8( $info->{comment}, Encode::FB_CROAK )
+              if $info->{comment};
+        }
     }
 
     # make sure there's at least author, date and version
@@ -364,6 +385,11 @@ sub saveAttachment {
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
     my $comment = $options->{comment} || '';
 
+    if ($Foswiki::UNICODE) {
+        $comment = Encode::encode_utf8($comment);
+        $cUID    = Encode::encode_utf8($cUID);
+    }
+
     $handler->addRevisionFromStream( $stream, $comment, $cUID,
         $options->{forcedate} );
 
@@ -379,7 +405,6 @@ sub saveTopic {
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my $verb = ( $topicObject->existsInStore() ) ? 'update' : 'insert';
-    my $comment = ( ref $options ) ? $options->{comment} : $options;
 
     # just in case they are not sequential
     my $nextRev = $handler->getNextRevisionID();
@@ -395,12 +420,16 @@ sub saveTopic {
             author  => $cUID,
         );
     }
+    my $comment = $options->{comment} || '';
 
-    $handler->addRevisionFromText(
-        Foswiki::Serialise::serialise( $topicObject, 'Embedded' ),
-        $options->{comment} || '',
-        $cUID, $options->{forcedate}
-    );
+    my $text = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
+    if ($Foswiki::UNICODE) {
+        $text    = Encode::encode_utf8($text);
+        $cUID    = Encode::encode_utf8($cUID);
+        $comment = Encode::encode_utf8($cUID);
+    }
+    $handler->addRevisionFromText( $text, $comment, $cUID,
+        $options->{forcedate} );
 
     # reload the topic object
     $topicObject->unload();
@@ -414,14 +443,16 @@ sub repRev {
 
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
-    my $info = $topicObject->getRevisionInfo();
+    my $info    = $topicObject->getRevisionInfo();
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
-    $handler->replaceRevision(
-        Foswiki::Serialise::serialise( $topicObject, 'Embedded' ),
-        'reprev',
-        $cUID,
-        defined $options{forcedate} ? $options{forcedate} : $info->{date}
-    );
+    my $text    = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
+    if ($Foswiki::UNICODE) {
+        $text = Encode::encode_utf8($text);
+        $cUID = Encode::encode_utf8($cUID);
+    }
+
+    $handler->replaceRevision( $text, 'reprev', $cUID,
+        defined $options{forcedate} ? $options{forcedate} : $info->{date} );
 
     my $rev = $handler->getLatestRevisionID();
 

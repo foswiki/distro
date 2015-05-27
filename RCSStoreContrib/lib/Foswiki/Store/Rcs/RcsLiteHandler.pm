@@ -268,7 +268,7 @@ sub _ensureRead {
         $this->{state} = 'nocommav';
         return;
     }
-    binmode( $fh, $Foswiki::UNICODE ? ':utf8' : undef );
+    binmode($fh);
 
     my $state   = 'admin.head';    # reset to start
     my $term    = ';';
@@ -560,7 +560,7 @@ sub _writeMe {
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
     else {
-        binmode( $out, $Foswiki::UNICODE ? ':utf8' : undef );
+        binmode($out);
         _write( $this, $out );
         close($out);
     }

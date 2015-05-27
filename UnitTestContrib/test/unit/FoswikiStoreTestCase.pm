@@ -18,7 +18,7 @@ sub rcs_is_installed {
     if ( !defined($rcs_installed) ) {
         $ENV{PATH} =~ m/^(.*)$/ms;
         local $ENV{PATH} = $1;    # untaint
-        if ( eval { `co -V`; 1; } )    # Check to see if we have co
+        if ( eval { `co --version`; 1; } )    # Check to see if we have co
         {
             $rcs_installed = 1;
         }
