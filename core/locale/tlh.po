@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-27 23:35+0200\n"
+"PO-Revision-Date: 2015-05-28 21:41+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr "wIqIpong"
+msgstr "wIqI-pong"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -555,7 +555,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
 msgid "<nop>WikiName:"
-msgstr "wIqIpong:"
+msgstr "wIqI-pong:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
@@ -2150,6 +2150,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using"
 msgstr ""
+"Qaghmeymo&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;be&&#39;chugh, vaj "
+"lo&&#39;wI&&#39;pu&&#39; muvmoHlaH loHwI&&#39;pu&&#39;. janvam lulo&&#39;laH:"
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -2316,7 +2318,7 @@ msgstr "moHaq qarHa&&#39;"
 
 #: core/templates/registermessages.tmpl:114
 msgid "Incorrect [[%1][WikiName]]"
-msgstr "[[%1][WikiName]] muj"
+msgstr "[[%1][wIqI-pong]] muj"
 
 #: core/templates/registermessages.tmpl:117
 msgid "Incorrect [[%1][WikiNames:]]"
@@ -3387,6 +3389,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;. chaq Qapbe&&#39; "
+"{EnableNewUserRegistration}, chaq Qagh chaw&&#39; ngoq pat. <nop>SeHlawDaq "
+"Qaghmey tI&&#39;ol."
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3583,8 +3588,8 @@ msgstr "%1Daq chegh"
 #: core/templates/registermessages.tmpl:342
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
-"%1Daq chegh &&#39;ej [[%2][wIqI-pong]] [[%3][lo&&#39;wI&&#39; pong]] ghap "
-"ghItlh."
+"%1Daq yIchegh &&#39;ej [[%2][wIqI-pong]] [[%3][lo&&#39;wI&&#39; pong]] ghap "
+"yIghItlh."
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
@@ -4451,7 +4456,7 @@ msgstr "chaq patlIjDaq Qapchu&&#39;be&&#39; mIwmeyvam."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 msgid "This WikiName is already in use."
-msgstr "wIqIpongvam lo&&#39;taH vay&&#39;."
+msgstr "wIqI-pongvam lo&&#39;taH vay&&#39;."
 
 #: core/templates/messages.tmpl:228
 msgid "This can be automatically upgraded by:"
@@ -4484,6 +4489,11 @@ msgid ""
 "subscribe, please add a bullet with your %2 in alphabetical order to this "
 "list:"
 msgstr ""
+"qawmoHbogh jan &&#39;oH janvam&&#39;e&&#39;. %1 mIchDaq vay&&#39; "
+"choHlu&&#39;DI&&#39; vaj <nop>SoHvaD QIn ngeHlu&&#39;. <nop>QaQbej janvam, "
+"vaj not naDev bIcheghnIS, choHmey Da&&#39;olmeH. vay&&#39; <nop>DaqImchoH "
+"<nop>DaneHchugh, vaj tetlhvamDaq <nop>HovHom, %2lIj je yIghItlh. taghbogh "
+"Deghmey pab yIbuS, tetlh yImISHa&&#39;moHQo&&#39;:"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
 msgid ""
@@ -4511,7 +4521,7 @@ msgstr "%1 muvmeH mIwmo&&#39; QIn Quv ngeHta&&#39; De&&#39;wI&&#39;."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 msgid "This is not a valid WikiName."
-msgstr "pabbe&&#39; wIqIpongvam."
+msgstr "pabbe&&#39; wIqI-pongvam."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -4536,7 +4546,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "This must be a unique WikiName."
-msgstr "wIqIpong le&&#39;qu&&#39; poQlu&&#39;."
+msgstr "wIqI-pong le&&#39;qu&&#39; poQlu&&#39;."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "This must be a valid login username."
@@ -5401,8 +5411,8 @@ msgstr "muvmeH mIwlIj lajlu&&#39;DI&&#39; vaj QIn <nop>DaHevbej."
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
 msgstr ""
-"%2 &&#39;oH [[%1][wIqIponglIj]]&&#39;e&&#39; &&#39;ej =%3= &&#39;oH lo&&#39;"
-"wI&&#39; ponglIj&&#39;e&&#39;."
+"%2 &&#39;oH [[%1][wIqI-ponglIj]]&&#39;e&&#39; &&#39;ej =%3= &&#39;oH "
+"lo&&#39;wI&&#39; ponglIj&&#39;e&&#39;."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
