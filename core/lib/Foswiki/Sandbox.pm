@@ -698,7 +698,7 @@ sub sysCommand {
     }
     unlink($stderrCache);
 
-    return ( Encode::decode_utf8($data), $exit, $stderr );
+    return ( $data, $exit, $stderr );
 }
 
 1;

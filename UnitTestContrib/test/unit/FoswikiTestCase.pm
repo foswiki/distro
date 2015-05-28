@@ -519,7 +519,6 @@ sub populateNewWeb {
         $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
     }
     $webObject->populateNewWeb( $template, $opts );
-
     return $webObject;
 }
 

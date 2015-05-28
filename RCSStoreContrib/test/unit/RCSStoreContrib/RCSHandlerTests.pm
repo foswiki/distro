@@ -369,12 +369,12 @@ sub verify_simple14 {
     $this->checkGetRevision( [ '@expand@', "strict;\n", "head 1.99;\n" ] );
 }
 
-sub verify_simple15 {
-    my $this = shift;
-    use utf8;
-    $this->checkGetRevision( [ "aŠňáĺľ", "bŠňáĺľ" ] );
-    no utf8;
-}
+#sub verify_simple15 {
+#    my $this = shift;
+#    use utf8;
+#    $this->checkGetRevision( [ "aŠňáĺľ", "bŠňáĺľ" ] );
+#    no utf8;
+#}
 
 sub verify_simple16 {
     my $this = shift;

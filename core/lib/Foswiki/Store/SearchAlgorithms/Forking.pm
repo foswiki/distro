@@ -165,7 +165,8 @@ sub _search {
                 # throw Error::Simple(
                 #      "$program Grep for '$searchString' returned error")
             }
-            $matches .= $m;
+            $matches .=
+              Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8', $m );
         }
     }
     my %seen;

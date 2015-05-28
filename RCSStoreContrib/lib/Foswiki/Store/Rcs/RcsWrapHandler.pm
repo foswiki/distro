@@ -25,6 +25,16 @@ our @ISA = ('Foswiki::Store::Rcs::Handler');
 
 use Foswiki::Sandbox ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+
+    *_decode = \&Foswiki::Store::Rcs::Store::_decode;
+    *_encode = \&Foswiki::Store::Rcs::Store::_encode;
+}
+
 sub new {
     return shift->SUPER::new(@_);
 }
@@ -55,9 +65,10 @@ sub initBinary {
 
     return if $this->revisionHistoryExists();
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initBinaryCmd},
-        FILENAME => $this->{file} );
+    my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+        $Foswiki::cfg{RCS}{initBinaryCmd},
+        FILENAME => _encode( $this->{file} )
+    );
     if ($exit) {
         throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
               . $this->hidePath( $this->{file} )
@@ -82,9 +93,9 @@ sub initText {
 
     return if $this->revisionHistoryExists();
 
-    my ( $rcsOutput, $exit ) =
+    my ( $rcsOutput, $exit, $stdErr ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initTextCmd},
-        FILENAME => $this->{file} );
+        FILENAME => _encode( $this->{file} ) );
     if ($exit) {
         $rcsOutput ||= '';
         throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
@@ -125,7 +136,7 @@ sub ci {
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
-            FILENAME => $this->{file},
+            FILENAME => _encode( $this->{file} ),
             COMMENT  => $comment,
             DATE     => $date
         );
@@ -135,7 +146,7 @@ sub ci {
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
-            FILENAME => $this->{file},
+            FILENAME => _encode( $this->{file} ),
             COMMENT  => $comment
         );
     }
@@ -149,7 +160,7 @@ sub ci {
               . $rcsOutput
               . ( (DEBUG) ? $stderr : '' ) );
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file} ) );
 }
 
 # implements Rcs::Handler
@@ -179,14 +190,14 @@ sub repRev {
         $Foswiki::cfg{RCS}{ciDateCmd},
         DATE     => $date,
         USERNAME => $user,
-        FILENAME => $this->{file},
+        FILENAME => _encode( $this->{file} ),
         COMMENT  => $comment
     );
     if ($exit) {
         $rcsOut = $Foswiki::cfg{RCS}{ciDateCmd} . "\n" . $rcsOut;
         return $rcsOut;
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file} ) );
 }
 
 # implements Rcs::Handler
@@ -203,18 +214,18 @@ sub _deleteRevision {
     # delete latest revision (unlock (may not be needed), delete revision)
     my ( $rcsOut, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
-        FILENAME => $this->{file} );
+        FILENAME => _encode( $this->{file} ) );
     if ($exit) {
         throw Error::Simple(
             $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
     }
 
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file} ) );
 
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
+        FILENAME => _encode( $this->{file} )
     );
 
     if ($exit) {
@@ -229,7 +240,7 @@ sub _deleteRevision {
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{coCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
+        FILENAME => _encode( $this->{file} )
     );
 
     if ($exit) {
@@ -268,7 +279,7 @@ sub getRevision {
     my $tmpfile;
     my $tmpRevFile;
     my $coCmd = $Foswiki::cfg{RCS}{coCmd};
-    my $file  = $this->{file};
+    my $file  = _encode( $this->{file} );
     if ( $Foswiki::cfg{RCS}{coMustCopy} ) {
 
         # Need to take temporary copy of topic, check it out to file,
@@ -310,7 +321,7 @@ sub getRevision {
     # is required.
 
     if ($tmpfile) {
-        $text = Foswiki::Store::Rcs::Handler::readFile( $this, $tmpfile );
+        $text = $this->readFile($tmpfile);
         for ( $tmpfile, $tmpRevFile ) {
             my $f = Foswiki::Sandbox::untaintUnchecked($_);
             unlink $f or warn "Could not delete $f: $!";
@@ -337,7 +348,7 @@ sub getInfo {
     my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{infoCmd},
         REVISION => '1.' . $version,
-        FILENAME => $this->{rcsFile}
+        FILENAME => _encode( $this->{rcsFile} )
     );
     if ( !$exit ) {
         if ( $rcsOut =~
@@ -373,7 +384,7 @@ sub _numRevisions {
 
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{histCmd},
-        FILENAME => $this->{rcsFile} );
+        FILENAME => _encode( $this->{rcsFile} ) );
     if ($exit) {
         throw Error::Simple( 'RCS: '
               . $Foswiki::cfg{RCS}{histCmd} . ' of '
@@ -409,7 +420,7 @@ sub revisionDiff {
             $Foswiki::cfg{RCS}{diffCmd},
             REVISION1 => '1.' . $rev1,
             REVISION2 => '1.' . $rev2,
-            FILENAME  => $this->{rcsFile},
+            FILENAME  => _encode( $this->{rcsFile} ),
             CONTEXT   => $contextLines
         );
 
@@ -503,20 +514,22 @@ sub _lock {
     # Try and get a lock on the file
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-        FILENAME => $this->{file} );
+        FILENAME => _encode( $this->{file} ) );
 
     if ($exit) {
 
         # if the lock has been set more than 24h ago, let's try to break it
         # and then retry.  Should not happen unless in Cairo upgrade
         # scenarios - see Item2102
-        if ( ( time - ( stat( $this->{rcsFile} ) )[9] ) > 3600 ) {
+        if ( ( time - ( stat( _encode( $this->{rcsFile} ) ) )[9] ) > 3600 ) {
             warn 'Automatic recovery: breaking lock for ' . $this->{file};
-            Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{breaklockCmd},
-                FILENAME => $this->{file} );
+            Foswiki::Sandbox->sysCommand(
+                $Foswiki::cfg{RCS}{breaklockCmd},
+                FILENAME => _encode( $this->{file} )
+            );
             ( $rcsOutput, $exit ) =
               Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-                FILENAME => $this->{file} );
+                FILENAME => _encode( $this->{file} ) );
         }
         if ($exit) {
 
@@ -528,7 +541,7 @@ sub _lock {
                   . $rcsOutput );
         }
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file} ) );
 }
 
 # implements Rcs::Handler
@@ -536,7 +549,7 @@ sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
     unless ( $this->revisionHistoryExists() ) {
-        return ( $date >= ( stat( $this->{file} ) )[9] ) ? 1 : undef;
+        return ( $date >= ( stat( _encode( $this->{file} ) ) )[9] ) ? 1 : undef;
     }
 
     require Foswiki::Time;
@@ -544,7 +557,7 @@ sub getRevisionAtTime {
     my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{rlogDateCmd},
         DATE     => $sdate,
-        FILENAME => $this->{file}
+        FILENAME => _encode( $this->{file} )
     );
 
     my $version = undef;
@@ -555,7 +568,7 @@ sub getRevisionAtTime {
     if ( $version && !$this->noCheckinPending() ) {
 
         # Check the file date
-        $version++ if ( $date >= ( stat( $this->{file} ) )[9] );
+        $version++ if ( $date >= ( stat( _encode( $this->{file} ) ) )[9] );
     }
     return $version;
 }
@@ -563,7 +576,7 @@ sub getRevisionAtTime {
 1;
 __END__
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 

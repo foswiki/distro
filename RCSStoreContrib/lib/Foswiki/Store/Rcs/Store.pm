@@ -51,6 +51,38 @@ BEGIN {
         require locale;
         import locale();
     }
+
+    # The RCS Handler code works on bytes, so we have to mediate
+    if ($Foswiki::UNICODE) {
+        require Encode;
+
+        *_decode = sub {
+            return $_[0] unless defined $_[0];
+            my $s = $_[0];
+            return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+                $s, Encode::FB_CROAK );
+        };
+
+        *_encode = sub {
+            return $_[0] unless defined $_[0];
+            my $s = $_[0];
+            return Encode::encode(
+                $Foswiki::cfg{Store}{Encoding} || 'utf-8', $s,
+
+                # Throw an exception if the {Store}{Encoding}
+                # can't represent a unicode character
+                Encode::FB_CROAK
+            );
+        };
+        *_stat   = sub { stat( _encode( $_[0] ) ); };
+        *_unlink = sub { unlink( _encode( $_[0] ) ); };
+    }
+    else {
+        *_decode = sub { return $_[0] };
+        *_encode = sub { return $_[0] };
+        *_stat   = \&stat;
+        *_unlink = \&unlink;
+    }
 }
 
 # Note to developers; please undef *all* fields in the object explicitly,
@@ -96,7 +128,8 @@ sub readTopic {
     return ( undef, undef ) unless $handler->storedDataExists();
 
     ( my $text, $isLatest ) = $handler->getRevision($version);
-    $text = Encode::decode_utf8( $text, Encode::FB_CROAK ) if $Foswiki::UNICODE;
+    $text = '' unless defined $text;
+    $text = _decode($text);
     $text =~ s/\r//g;    # Remove carriage returns
     Foswiki::Serialise::deserialise( $text, 'Embedded', $topicObject );
 
@@ -220,7 +253,7 @@ sub moveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler =
-      $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic, '' );
+      $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic );
     my $rev = $handler->getLatestRevisionID();
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
@@ -272,11 +305,9 @@ sub getRevisionDiff {
     my $rcs = $this->getHandler( $topicObject->web, $topicObject->topic );
     my $diffs =
       $rcs->revisionDiff( $topicObject->getLoadedRev(), $rev2, $contextLines );
-    if ($Foswiki::UNICODE) {
-        foreach my $d (@$diffs) {
-            for my $i ( 1, 2 ) {
-                $d->[$i] = Encode::decode_utf8( $d->[$i], Encode::FB_CROAK );
-            }
+    foreach my $d (@$diffs) {
+        foreach my $i ( 1, 2 ) {
+            _decode( $d->[$i] );
         }
     }
     return $diffs;
@@ -316,12 +347,8 @@ sub _getAttachmentVersionInfo {
           $this->getHandler( $topicObject->web, $topicObject->topic,
             $attachment );
         $info = $handler->getInfo( $rev || 0 );
-        $info->{author} =
-          Encode::decode_utf8( $info->{author}, Encode::FB_CROAK )
-          if $info->{author};
-        $info->{comment} =
-          Encode::decode_utf8( $info->{comment}, Encode::FB_CROAK )
-          if $info->{comment};
+        _decode( $info->{author} );
+        _decode( $info->{comment} );
     }
 
     return $info;
@@ -357,14 +384,8 @@ sub getVersionInfo {
         my $handler =
           $this->getHandler( $topicObject->web, $topicObject->topic );
         $info = $handler->getInfo($rev);
-        if ($Foswiki::UNICODE) {
-            $info->{author} =
-              Encode::decode_utf8( $info->{author}, Encode::FB_CROAK )
-              if $info->{author};
-            $info->{comment} =
-              Encode::decode_utf8( $info->{comment}, Encode::FB_CROAK )
-              if $info->{comment};
-        }
+        _decode( $info->{author} );
+        _decode( $info->{comment} );
     }
 
     # make sure there's at least author, date and version
@@ -385,10 +406,8 @@ sub saveAttachment {
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
     my $comment = $options->{comment} || '';
 
-    if ($Foswiki::UNICODE) {
-        $comment = Encode::encode_utf8($comment);
-        $cUID    = Encode::encode_utf8($cUID);
-    }
+    $comment = _encode($comment);
+    $cUID    = _encode($cUID);
 
     $handler->addRevisionFromStream( $stream, $comment, $cUID,
         $options->{forcedate} );
@@ -423,11 +442,9 @@ sub saveTopic {
     my $comment = $options->{comment} || '';
 
     my $text = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
-    if ($Foswiki::UNICODE) {
-        $text    = Encode::encode_utf8($text);
-        $cUID    = Encode::encode_utf8($cUID);
-        $comment = Encode::encode_utf8($cUID);
-    }
+    $text    = _encode($text);
+    $cUID    = _encode($cUID);
+    $comment = _encode($comment);
     $handler->addRevisionFromText( $text, $comment, $cUID,
         $options->{forcedate} );
 
@@ -446,10 +463,7 @@ sub repRev {
     my $info    = $topicObject->getRevisionInfo();
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my $text    = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
-    if ($Foswiki::UNICODE) {
-        $text = Encode::encode_utf8($text);
-        $cUID = Encode::encode_utf8($cUID);
-    }
+    $text = _encode($text);
 
     $handler->replaceRevision( $text, 'reprev', $cUID,
         defined $options{forcedate} ? $options{forcedate} : $info->{date} );

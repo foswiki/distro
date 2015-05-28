@@ -26,9 +26,6 @@ use Foswiki       ();
 use Foswiki::Meta ();
 use Error qw( :try );
 
-my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
-my $data2 = "$data XXX $data";
-
 sub skip {
     my ( $this, $test ) = @_;
     my $Item11708 = 'Item11708 Store API fixed in Foswiki 1.2+';
@@ -50,40 +47,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $Foswiki::cfg{Site}{Locale}               = 'en_US.utf-8';
-    $Foswiki::cfg{UseLocale}                  = 1;
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 0;
-
-    $this->{tmpdatafile} = "$Foswiki::cfg{TempfileDir}/testfile.gif";
-    ASSERT( open( my $FILE, '>', $this->{tmpdatafile} ) );
-    print $FILE $data;
-    ASSERT( close($FILE) );
-
-    # Ignore the standard {test_web} and {test_topic} - they were created
-    # using the default store, and we're changing the store impl.
-
-    $this->{t_web}   = 'TemporaryStoreTestsWeb';
-    $this->{t_web2}  = 'TemporaryStoreTestsWeb2';
-    $this->{t_topic} = 'TestTopic';
-
-    return;
-}
-
-sub tear_down {
-    my $this = shift;
-
-    # {sut} is still active
-    $this->removeWeb( $this->{t_web} )
-      if ( $this->{sut}->webExists( $this->{t_web} ) );
-
-    $this->removeWeb( $this->{t_web2} )
-      if ( $this->{sut}->webExists( $this->{t_web2} ) );
-
-    unlink( $this->{tmpdatafile} );
-
-    $this->SUPER::tear_down();
-
-    return;
 }
 
 sub set_up_for_verify {
@@ -99,8 +63,6 @@ sub set_up_for_verify {
     # quietly ignore here)
     $this->assert( !$this->{sut}->webExists( $this->{t_web} ) );
     $this->assert( !$this->{sut}->webExists( $this->{t_web2} ) );
-
-    return;
 }
 
 # Create a simple topic containing only text
@@ -116,10 +78,12 @@ sub verify_simpleTopic {
     $meta->text("1 2 3");
     $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
     $meta->finish();
-
     $this->assert( $this->{sut}->topicExists( $web, $topic ) );
+
     $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+
     my ( $rev, $isLatest ) = $this->{sut}->readTopic($meta);
+
     $this->assert_num_equals( 1, $rev );
     $this->assert($isLatest);
 
@@ -328,8 +292,7 @@ sub verify_moveTopic {
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    my $f;
-    open( $f, '<', $this->{tmpdatafile} );
+    my $f = $this->open_data('t_datapath');
     $this->{sut}->saveAttachment(
         $meta, "Attachment1", $f,
         $this->{test_user_cuid},
@@ -508,22 +471,18 @@ sub verify_openAttachment {
 
     $this->_makeWeb();
 
-    ASSERT( open( my $FILE, '>', "$this->{tmpdatafile}2" ) );
-    print $FILE $data2;
-    ASSERT( close($FILE) );
-
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $meta->text("One");
     $meta->saveAs();
     $meta->attach(
-        name    => "testfile.gif",
-        file    => $this->{tmpdatafile},
+        name    => $this->{t_datafile},
+        file    => $this->{t_datapath},
         comment => "a comment"
     );
     $meta->attach(
-        name    => "testfile.gif",
-        file    => "$this->{tmpdatafile}2",
+        name    => $this->{t_datafile},
+        file    => $this->{t_datapath2},
         comment => "a comment"
     );
 
@@ -533,17 +492,19 @@ sub verify_openAttachment {
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
 
     local $/;
-    my $f = $this->{sut}->openAttachment( $meta, "testfile.gif", "<" );
-    $this->assert_equals( $data2, <$f> );
+    my $f = $this->{sut}->openAttachment( $meta, $this->{t_datafile}, "<" );
+    $this->assert_equals( $this->{t_data2}, <$f> );
     close($f);
 
     $f =
-      $this->{sut}->openAttachment( $meta, "testfile.gif", "<", version => 1 );
-    $this->assert_equals( $data, <$f> );
+      $this->{sut}
+      ->openAttachment( $meta, $this->{t_datafile}, "<", version => 1 );
+    $this->assert_equals( $this->{t_data}, <$f> );
     close($f);
     $f =
-      $this->{sut}->openAttachment( $meta, "testfile.gif", "<", version => 2 );
-    $this->assert_equals( $data2, <$f> );
+      $this->{sut}
+      ->openAttachment( $meta, $this->{t_datafile}, "<", version => 2 );
+    $this->assert_equals( $this->{t_data2}, <$f> );
     close($f);
 
     return;
@@ -560,13 +521,13 @@ sub verify_eachAttachment {
     $meta->saveAs();
 
     $meta->attach(
-        name    => "testfile.gif",
-        file    => $this->{tmpdatafile},
+        name    => $this->{t_datafile},
+        file    => $this->{t_datapath},
         comment => "a comment"
     );
     $meta->attach(
-        name    => "noise.dat",
-        file    => $this->{tmpdatafile},
+        name    => $this->{t_datafile2},
+        file    => $this->{t_datapath2},
         comment => "a comment"
     );
 
@@ -575,33 +536,42 @@ sub verify_eachAttachment {
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
 
-    my $it = $this->{sut}->eachAttachment($meta);
-    my $list = join( ' ', sort $it->all() );
-    $this->assert_str_equals( "noise.dat testfile.gif", $list );
+    my $it   = $this->{sut}->eachAttachment($meta);
+    my @list = $it->all();
+    $this->assert( scalar(@list) == 2 );
+    @list = grep { !/$this->{t_datafile}/ } @list;
+    $this->assert( scalar(@list) == 1 );
+    @list = grep { !/$this->{t_datafile2}/ } @list;
+    $this->assert( scalar(@list) == 0 );
 
-    $this->assert( $this->{sut}->attachmentExists( $meta, 'testfile.gif' ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta, 'noise.dat' ) );
+    $this->assert(
+        $this->{sut}->attachmentExists( $meta, $this->{t_datafile} ) );
+    $this->assert(
+        $this->{sut}->attachmentExists( $meta, $this->{t_datafile2} ) );
 
     my $preDeleteMeta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
 
     sleep(1);    #ensure different timestamp on topic text
-    $meta->removeFromStore('testfile.gif');
+    $meta->removeFromStore( $this->{t_datafile} );
     $meta->finish();
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     $this->assert(
         $this->{sut}->topicExists( $this->{t_web}, $this->{t_topic} ) );
-    $this->assert( !$this->{sut}->attachmentExists( $meta, 'testfile.gif' ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta, 'noise.dat' ) );
+    $this->assert(
+        !$this->{sut}->attachmentExists( $meta, $this->{t_datafile} ) );
+    $this->assert(
+        $this->{sut}->attachmentExists( $meta, $this->{t_datafile2} ) );
 
     my $postDeleteMeta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
 
-    $it = $this->{sut}->eachAttachment($postDeleteMeta);
-    $list = join( ' ', sort $it->all() );
-    $this->assert_str_equals( "noise.dat", $list );
+    $it   = $this->{sut}->eachAttachment($postDeleteMeta);
+    @list = $it->all();
+    $this->assert( scalar(@list) == 1 );
+    $this->assert_str_equals( $this->{t_datafile2}, $list[0] );
     $preDeleteMeta->finish();
     $postDeleteMeta->finish();
 
@@ -618,8 +588,7 @@ sub verify_moveAttachment {
     $meta->text("Web 1 Topic 1");
     $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
 
-    my $f;
-    open( $f, '<', $this->{tmpdatafile} );
+    my $f = $this->open_data('t_datapath');
     $this->{sut}->saveAttachment(
         $meta, "Attachment1", $f,
         $this->{test_user_cuid},
@@ -706,8 +675,7 @@ sub verify_copyAttachment {
     $meta->text("Web 1 Topic 1");
     $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
 
-    my $f;
-    open( $f, '<', $this->{tmpdatafile} );
+    my $f = $this->open_data('t_datapath');
     $this->{sut}->saveAttachment(
         $meta, "Attachment1", $f,
         $this->{test_user_cuid},
@@ -790,8 +758,7 @@ sub verify_moveWeb {
     $meta->finish();
 
     $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
-    my $f;
-    open( $f, '<', $this->{tmpdatafile} );
+    my $f = $this->open_data('t_datapath');
     $this->{sut}->saveAttachment(
         $meta, "Attachment1", $f,
         $this->{test_user_cuid},

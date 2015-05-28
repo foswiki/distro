@@ -16,8 +16,11 @@ There are a number of references to RCS below; however this class is
 useful as a base class for handlers for all kinds of version control
 systems which use files on disk.
 
-For readers who are familiar with Foswiki version 1.0.0, this class
-is analagous to =Foswiki::Store::RcsFile=.
+A note on character encodings. The RCS handler classes treat
+web, topic and attachment *names* coming from the caller as _character_
+(i.e. UNICODE) data. *Content*, however, is always assumed to be bytes.
+This is done so that the handlers can operate on text (topic) content
+and binary (attachment) data using the same functions.
 
 =cut
 
@@ -36,6 +39,7 @@ use Encode ();
 use JSON   ();
 
 use Foswiki::Store                         ();
+use Foswiki::Store::Rcs::Store             ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Attrs                         ();
@@ -51,6 +55,13 @@ BEGIN {
         require locale;
         import locale();
     }
+
+    *_decode = \&Foswiki::Store::Rcs::Store::_decode;
+    *_encode = \&Foswiki::Store::Rcs::Store::_encode;
+    *_stat   = \&Foswiki::Store::Rcs::Store::_stat;
+    *_unlink = \&Foswiki::Store::Rcs::Store::_unlink;
+    *_e      = sub { -e _encode( $_[0] ) };
+    *_d      = sub { -d _encode( $_[0] ) };
 }
 
 our $json = JSON->new->utf8(1)->pretty(0);
@@ -83,7 +94,7 @@ sub new {
         return $store->{handler_cache}->{$id};
     }
 
-    # web, topic and attachment are all held encoded in unicode
+    # web, topic and attachment are all held unicode
     my $this = bless(
         {
             web        => $web,
@@ -122,21 +133,6 @@ sub new {
     $Foswiki::cfg{Store}{RememberChangesFor} ||= 31 * 24 * 60 * 60;
 
     return $this;
-}
-
-# Convert a unicode filename to bytes. Normally a NOP, used for debugging
-# encodings
-sub fn2b {
-    $_[0];
-}
-
-# Convert bytes to a unicode filename.
-# encodings
-if ($Foswiki::UNICODE) {
-    *Foswiki::Store::Rcs::Handler::b2fn = \&Encode::decode_utf8;
-}
-else {
-    *Foswiki::Store::Rcs::Handler::b2fn = sub { $_[0] };
 }
 
 =begin TML
@@ -180,7 +176,7 @@ sub mkPathTo {
 
     my ( $this, $file ) = @_;
 
-    $file = Foswiki::Sandbox::untaintUnchecked($file);
+    $file = _encode( Foswiki::Sandbox::untaintUnchecked($file) );
 
     ASSERT( File::Spec->file_name_is_absolute($file) ) if DEBUG;
 
@@ -188,8 +184,7 @@ sub mkPathTo {
     $path = File::Spec->catpath( $volume, $path, '' );
 
     eval {
-        File::Path::mkpath( fn2b($path), 0,
-            $Foswiki::cfg{Store}{dirPermission} );
+        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
     };
     if ($@) {
         throw Error::Simple("Rcs::Handler: failed to create ${path}: $!");
@@ -308,8 +303,8 @@ sub noCheckinPending {
 # See perldoc perlport for more on this.
             local ${^WIN32_SLOPPY_STAT} =
               1;    # don't need to open the file on Win32
-            my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
-            my $fileTime = ( stat( $this->{file} ) )[9];
+            my $rcsTime  = ( _stat( $this->{rcsFile} ) )[9];
+            my $fileTime = ( _stat( $this->{file} ) )[9];
             $isValid =
               ( $fileTime - $rcsTime > 1 ) ? 0 : 1;    # grace period of one sec
         }
@@ -562,7 +557,7 @@ Get the time of the most recent revision
 =cut
 
 sub getLatestRevisionTime {
-    my @e = stat( shift->{file} );
+    my @e = _stat( shift->{file} );
     return $e[9] || 0;
 }
 
@@ -579,7 +574,7 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
     my $dh;
-    opendir( $dh, fn2b("$Foswiki::cfg{DataDir}/$this->{web}") )
+    opendir( $dh, _encode("$Foswiki::cfg{DataDir}/$this->{web}") )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -588,7 +583,9 @@ sub getTopicNames {
       map { /^(.*)\.txt$/; $1; }
       sort
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
-      map( b2fn($_), readdir($dh) );
+
+      # Must _decode before applying the NameFilter and sort
+      map( _decode($_), readdir($dh) );
     closedir($dh);
     return @topicList;
 }
@@ -636,17 +633,18 @@ sub getWebNames {
     my @tmpList;
     my $dh;
     my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
-    if ( opendir( $dh, fn2b($dir) ) ) {
+    my $edir  = _encode($dir);
+    if ( opendir( $dh, $edir ) ) {
         @tmpList = map {
-            Foswiki::Sandbox::untaint( $_, \&Foswiki::Sandbox::validateWebName )
+            Foswiki::Sandbox::untaint( _decode($_),
+                \&Foswiki::Sandbox::validateWebName )
           }
 
           # The -e on the web preferences is used in preference to a
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
           # WebPreferences.txt in it", this works.
-          grep { !/\./ && -e "$dir/$_/$webid" }
-          map( b2fn($_), readdir($dh) );
+          grep { !/\./ && -e "$edir/$_/$webid" } readdir($dh);
         closedir($dh);
     }
 
@@ -667,7 +665,7 @@ sub moveWeb {
         "$Foswiki::cfg{DataDir}/$this->{web}",
         "$Foswiki::cfg{DataDir}/$newWeb"
     );
-    if ( -e "$Foswiki::cfg{PubDir}/$this->{web}" ) {
+    if ( _e "$Foswiki::cfg{PubDir}/$this->{web}" ) {
         $this->_moveFile(
             "$Foswiki::cfg{PubDir}/$this->{web}",
             "$Foswiki::cfg{PubDir}/$newWeb"
@@ -695,7 +693,7 @@ does; that is regarded as a "non-topic".
 sub getRevision {
     my ($this) = @_;
     if ( $this->storedDataExists() ) {
-        return ( readFile( $this, $this->{file} ), 1 );
+        return ( $this->readFile( $this->{file} ), 1 );
     }
     return ( undef, undef );
 }
@@ -711,7 +709,7 @@ Establishes if there is stored data associated with this handler.
 sub storedDataExists {
     my $this = shift;
     return 0 unless $this->{file};
-    return -e $this->{file};
+    return _e $this->{file};
 }
 
 =begin TML
@@ -725,7 +723,7 @@ Establishes if htere is history data associated with this handler.
 sub revisionHistoryExists {
     my $this = shift;
     return 0 unless $this->{rcsFile};
-    return -e $this->{rcsFile};
+    return _e $this->{rcsFile};
 }
 
 =begin TML
@@ -767,16 +765,17 @@ sub remove {
     if ( !$this->{topic} ) {
 
         # Web
-        _rmtree("$Foswiki::cfg{DataDir}/$this->{web}");
-        _rmtree("$Foswiki::cfg{PubDir}/$this->{web}");
+        _rmtree( _encode "$Foswiki::cfg{DataDir}/$this->{web}" );
+        _rmtree( _encode "$Foswiki::cfg{PubDir}/$this->{web}" );
     }
     else {
 
         # Topic or attachment
-        unlink( fn2b( $this->{file} ) );
-        unlink( fn2b( $this->{rcsFile} ) );
+        _unlink( $this->{file} );
+        _unlink( $this->{rcsFile} );
         if ( !$this->{attachment} ) {
-            _rmtree("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}");
+            _rmtree(
+                _encode "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" );
         }
     }
 }
@@ -809,7 +808,7 @@ sub moveTopic {
 
     # Move attachments
     my $from = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
-    if ( -e $from ) {
+    if ( _e $from ) {
         my $to = "$Foswiki::cfg{PubDir}/$new->{web}/$new->{topic}";
         $this->_moveFile( $from, $to );
     }
@@ -841,7 +840,7 @@ sub copyTopic {
     my $dh;
     if (
         opendir(
-            $dh, fn2b("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}")
+            $dh, _encode("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}")
         )
       )
     {
@@ -939,12 +938,14 @@ sub setLock {
     my ( $this, $lock, $cUID ) = @_;
 
     my $filename = $this->_controlFileName('lock');
+    ASSERT($filename);
     if ($lock) {
         my $lockTime = time();
+        ASSERT($filename);
         $this->saveFile( $filename, $cUID . "\n" . $lockTime );
     }
-    elsif ( -e fn2b($filename) ) {
-        unlink( fn2b($filename) )
+    elsif ( _e $filename ) {
+        _unlink($filename)
           || throw Error::Simple(
             'Rcs::Handler: failed to delete ' . $filename . ': ' . $! );
     }
@@ -962,7 +963,7 @@ sub isLocked {
     my $this = shift;
 
     my $filename = $this->_controlFileName('lock');
-    if ( -e $filename ) {
+    if ( _e $filename ) {
         my $t = $this->readFile($filename);
         return split( /\s+/, $t, 2 );
     }
@@ -986,8 +987,8 @@ sub setLease {
     if ($lease) {
         $this->saveFile( $filename, join( "\n", %$lease ) );
     }
-    elsif ( -e fn2b($filename) ) {
-        unlink( fn2b($filename) )
+    elsif ( _e $filename ) {
+        _unlink($filename)
           || throw Error::Simple(
             'Rcs::Handler: failed to delete ' . $filename . ': ' . $! );
     }
@@ -1005,7 +1006,7 @@ sub getLease {
     my ($this) = @_;
 
     my $filename = $this->_controlFileName('lease');
-    if ( -e $filename ) {
+    if ( _e $filename ) {
 
         my $t = $this->readFile($filename);
         my $lease = { split( /\r?\n/, $t ) };
@@ -1025,13 +1026,13 @@ some store implementations when a topic is created, but never saved.
 
 sub removeSpuriousLeases {
     my ($this) = @_;
-    my $web = "$Foswiki::cfg{DataDir}/$this->{web}";
-    if ( opendir( my $W, fn2b($web) ) ) {
+    my $web = _encode("$Foswiki::cfg{DataDir}/$this->{web}");
+    if ( opendir( my $W, $web ) ) {
         foreach my $f ( readdir($W) ) {
-            my $file = $web . '/' . b2fn($f);
+            my $file = $web . '/' . $f;
             if ( $file =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink( fn2b("$1.lease") );
+                    unlink("$1.lease");
                 }
             }
         }
@@ -1041,7 +1042,8 @@ sub removeSpuriousLeases {
 
 sub test {
     my ( $this, $test ) = @_;
-    return eval "-$test '$this->{file}'";
+    my $f = _encode( $this->{file} );
+    return eval "-$test '$f'";
 }
 
 # Used by subclasses
@@ -1052,13 +1054,15 @@ sub saveStream {
 
     $this->mkPathTo( $this->{file} );
     my $F;
-    open( $F, '>', $this->{file} )
+    my $efile = _encode( $this->{file} );
+    open( $F, '>', $efile )
       || throw Error::Simple(
         'Rcs::Handler: open ' . $this->{file} . ' failed: ' . $! );
     binmode($F)
       || throw Error::Simple(
         'Rcs::Handler: failed to binmode ' . $this->{file} . ': ' . $! );
     my $text;
+
     while ( read( $fh, $text, 1024 ) ) {
         print $F $text;
     }
@@ -1066,17 +1070,14 @@ sub saveStream {
       || throw Error::Simple(
         'Rcs::Handler: close ' . $this->{file} . ' failed: ' . $! );
 
-    chmod(
-        $Foswiki::cfg{Store}{filePermission},
-        Foswiki::Store::Rcs::Handler::fn2b( $this->{file} )
-    );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $efile );
 }
 
 sub _copyFile {
     my ( $this, $from, $to ) = @_;
 
     $this->mkPathTo($to);
-    unless ( File::Copy::copy( fn2b($from), fn2b($to) ) ) {
+    unless ( File::Copy::copy( _encode($from), _encode($to) ) ) {
         throw Error::Simple(
             'Rcs::Handler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
@@ -1084,9 +1085,9 @@ sub _copyFile {
 
 sub _moveFile {
     my ( $this, $from, $to ) = @_;
-    ASSERT( -e $from ) if DEBUG;
+    ASSERT( _e $from ) if DEBUG;
     $this->mkPathTo($to);
-    unless ( File::Copy::move( fn2b($from), fn2b($to) ) ) {
+    unless ( File::Copy::move( _encode($from), _encode($to) ) ) {
         throw Error::Simple(
             'Rcs::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
@@ -1097,7 +1098,7 @@ sub saveFile {
     my ( $this, $name, $text ) = @_;
     $this->mkPathTo($name);
     my $fh;
-    open( $fh, '>', $name )
+    open( $fh, '>', _encode($name) )
       or throw Error::Simple(
         'Rcs::Handler: failed to create file ' . $name . ': ' . $! );
     flock( $fh, LOCK_EX )
@@ -1123,7 +1124,7 @@ sub readFile {
     my $IN_FILE;
 
     # Note: no IO layer; we want to trap encoding errors
-    if ( open( $IN_FILE, '<', $name ) ) {
+    if ( open( $IN_FILE, '<', _encode($name) ) ) {
         binmode($IN_FILE);
         local $/ = undef;
         $data = <$IN_FILE>;
@@ -1136,7 +1137,7 @@ sub readFile {
 sub mkTmpFilename {
     my $tmpdir = File::Spec->tmpdir();
     my $file = _mktemp( 'foswikiAttachmentXXXXXX', $tmpdir );
-    return File::Spec->catfile( $tmpdir, fn2b($file) );
+    return File::Spec->catfile( $tmpdir, _encode($file) );
 }
 
 # Adapted from CPAN - File::MkTemp
@@ -1146,7 +1147,7 @@ sub _mktemp {
 
     ASSERT( @_ == 1 || @_ == 2 || @_ == 3 ) if DEBUG;
 
-    ( $template, $dir, $ext ) = map { fn2b($_) } @_;
+    ( $template, $dir, $ext ) = map { _encode($_) } @_;
     @template = split( //, $template );
 
     ASSERT( $template =~ /XXXXXX$/ ) if DEBUG;
@@ -1195,18 +1196,18 @@ sub _rmtree {
     my $root = shift;
     my $D;
 
-    if ( opendir( $D, fn2b($root) ) ) {
-        foreach my $entry ( map { b2fn($_) } grep { !/^\.+$/ } readdir($D) ) {
+    if ( opendir( $D, $root ) ) {
+        foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
             $entry =~ /^(.*)$/;    # untaint
             $entry = $root . '/' . $1;
 
-            if ( -d fn2b($entry) ) {
+            if ( -d $entry ) {
                 _rmtree($entry);
             }
-            elsif ( !unlink( fn2b($entry) ) && -e fn2b($entry) ) {
+            elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
                     throw Error::Simple( 'Rcs::Handler: Failed to delete file '
-                          . $entry . ': '
+                          . _decode($entry) . ': '
                           . $! );
                 }
                 else {
@@ -1215,7 +1216,7 @@ sub _rmtree {
                     # subprocesses haven't exited yet, because the
                     # subprocess still has the file open. Live with it.
                     print STDERR 'WARNING: Failed to delete file ',
-                      $entry, ": $!\n";
+                      _decode($entry), ": $!\n";
                 }
             }
         }
@@ -1223,12 +1224,16 @@ sub _rmtree {
 
         if ( !rmdir($root) ) {
             if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                print `ls -lR $root`;
-                throw Error::Simple(
-                    'Rcs::Handler: Failed to delete ' . $root . ': ' . $! );
+
+                #print `ls -lR $root`;
+                throw Error::Simple( 'Rcs::Handler: Failed to delete '
+                      . _decode($root) . ': '
+                      . $! );
             }
             else {
-                print STDERR 'WARNING: Failed to delete ' . $root . ': ' . $!,
+                print STDERR 'WARNING: Failed to delete '
+                  . _decode($root) . ': '
+                  . $!,
                   "\n";
             }
         }
@@ -1314,13 +1319,13 @@ sub openStream {
         if ( $mode =~ />/ ) {
             $this->mkPathTo( $this->{file} );
         }
-        if ( -d $this->{file} ) {
+        if ( _d $this->{file} ) {
             throw Error::Simple( 'Rcs::Handler: stream open '
                   . $this->{file}
                   . ' failed: '
                   . 'Read requested on directory.' );
         }
-        unless ( open( $stream, $mode, $this->{file} ) ) {
+        unless ( open( $stream, $mode, _encode $this->{file} ) ) {
             throw Error::Simple( 'Rcs::Handler: stream open '
                   . $this->{file}
                   . ' failed: '
@@ -1438,10 +1443,11 @@ sub getAttachmentList {
       shift;    # Internal flag for change_store, returns directory names.
     my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
-    opendir( $dh, fn2b($dir) ) || return ();
+    my $ed = _encode($dir);
+    opendir( $dh, $ed ) || return ();
     my @files =
-      grep { !/^[.*_]/ && !/,v$/ && ( $incDir || -f "$dir/$_" ) }
-      map( b2fn($_), readdir($dh) );
+      map { _decode($_) }
+      grep { !/^[.*_]/ && !/,v$/ && ( $incDir || -f "$ed/$_" ) } readdir($dh);
     closedir($dh);
     return @files;
 }
@@ -1453,7 +1459,7 @@ sub _getAttachmentStats {
     my %attachmentList = ();
     my $dir            = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     foreach my $attachment ( $this->getAttachmentList() ) {
-        my @stat = stat( $dir . "/" . $attachment );
+        my @stat = _stat( $dir . "/" . $attachment );
         $attachmentList{$attachment} =
           _constructAttributesForAutoAttached( $attachment, \@stat );
     }
@@ -1533,7 +1539,7 @@ sub recordChange {
     my $webpath = "$Foswiki::cfg{DataDir}/$this->{web}";
 
     # Can't log changes in a non-existent web
-    return unless ( -d $webpath );
+    return unless ( _d $webpath );
 
     my $text = '';
     my $t    = time;
@@ -1574,7 +1580,7 @@ sub readChanges {
     my ($this) = @_;
 
     my $file = "$Foswiki::cfg{DataDir}/$this->{web}/.changes";
-    return () unless ( -r $file );
+    return () unless ( -r _encode($file) );
 
     my $all_lines =
       Foswiki::Sandbox::untaintUnchecked( $this->readFile($file) );

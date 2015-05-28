@@ -1,6 +1,7 @@
 package FoswikiStoreTestCase;
 use strict;
 use warnings;
+use utf8;
 
 # Specialisation of FoswikiFnTestCase used to perform tests over all
 # viable store implementations.
@@ -36,15 +37,24 @@ sub set_up {
     $this->SUPER::set_up();
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
+    # Data for attachments
+    $this->{t_data} = join( '', map( chr($_), ( 0 .. 255 ) ) );
+    $this->{t_data2} = join( '', map( chr( 255 - $_ ), ( 0 .. 255 ) ) );
     return;
 }
 
 sub tear_down {
     my $this = shift;
 
+    unlink( $this->{t_datapath} )  if $this->{t_datapath};
+    unlink( $this->{t_datapath2} ) if $this->{t_datapath2};
+    $this->removeWeb( $this->{t_web} )
+      if ( $this->{t_web}
+        && $this->{session}->{store}->webExists( $this->{t_web} ) );
+    $this->removeWeb( $this->{t_web2} )
+      if ( $this->{t_web2}
+        && $this->{session}->{store}->webExists( $this->{t_web2} ) );
     $this->SUPER::tear_down();
-
-    return;
 }
 
 sub set_up_for_verify {
@@ -69,7 +79,7 @@ sub fixture_groups {
                 ($alg) = $alg =~ m/^(.*)$/ms;    # untaint
                 eval "require Foswiki::Store::$alg;";
                 $this->assert( !$@, $@ );
-                my $algname = ref($this) . '_' . $alg;
+                my $algname = $alg;
                 next if defined &{$algname};
                 no strict 'refs';
                 *{$algname} = sub {
@@ -85,11 +95,72 @@ sub fixture_groups {
         }
     }
 
-    # Uncomment below to test one store in isolation
-    # return [ ref($this) . '_PlainFile' ];
-    #    return [ ref($this) . '_RcsWrap' ];
-    #return [ ref($this) . '_RcsLite' ];
-    return \@groups;
+    #return ( [ 'PlainFile' ], [ 'utf8' ] );
+    if ($Foswiki::UNICODE) {
+        return ( \@groups, [ 'iso8859', 'utf8', ] );
+    }
+    else {
+        return \@groups;
+    }
+}
+
+sub _mkFiles {
+    my $this = shift;
+    my $FILE;
+    my $enc = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
+
+    $this->{t_datapath}  = "$Foswiki::cfg{TempfileDir}/TestAttachData";
+    $this->{t_datapath2} = "$Foswiki::cfg{TempfileDir}/TestAttachData2";
+
+    open( $FILE, ">", $this->{t_datapath} );
+    print $FILE $this->{t_data};
+    close($FILE);
+
+    open( $FILE, ">", $this->{t_datapath2} );
+    print $FILE $this->{t_data2};
+    close($FILE);
+}
+
+sub utf8 {
+    my $this = shift;
+    $Foswiki::cfg{Site}{Locale} = 'en_US.utf-8';
+    $Foswiki::cfg{UseLocale} = 1;
+    undef $Foswiki::cfg{Store}{Encoding};
+    $this->{t_web}       = 'Temporary普通话Web1';
+    $this->{t_web2}      = 'Temporary国语Web2';
+    $this->{t_topic}     = 'Testру́сскийTopic';
+    $this->{t_datafile}  = "ŠňáĺľŠťěř.gif";
+    $this->{t_datapath}  = "$Foswiki::cfg{TempfileDir}/$this->{t_datafile}";
+    $this->{t_datafile2} = "پښتانهټبرونه.gif";
+    $this->{t_datapath2} = "$Foswiki::cfg{TempfileDir}/$this->{t_datafile2}";
+    $this->_mkFiles();
+}
+
+sub iso8859 {
+    my $this = shift;
+
+    $Foswiki::cfg{Site}{Locale}    = 'en_US.iso-8859-1';
+    $Foswiki::cfg{UseLocale}       = 1;
+    $Foswiki::cfg{Store}{Encoding} = 'iso-8859-1';
+    my $s =
+      Encode::decode( 'iso-8859-1',
+        join( '', map( chr($_), ( 160 .. 255 ) ) ) );
+    my $n = $s;
+    $n =~ s/$Foswiki::cfg{NameFilter}//g;
+    $this->{t_web}       = "Temporary${n}Web1";
+    $this->{t_web2}      = "Temporary${n}Web2";
+    $this->{t_topic}     = "Test${n}Topic";
+    $this->{t_datafile}  = "${n}1.gif";
+    $this->{t_datafile2} = "${n}2.gif";
+    $this->_mkFiles();
+}
+
+sub open_data {
+    my ( $this, $k ) = @_;
+
+    my $fh;
+    open( $fh, '<', $this->{$k} );
+    return $fh;
 }
 
 1;

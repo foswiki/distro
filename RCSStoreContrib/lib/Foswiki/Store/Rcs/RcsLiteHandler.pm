@@ -87,6 +87,7 @@ package Foswiki::Store::Rcs::RcsLiteHandler;
 use strict;
 use warnings;
 
+use Foswiki::Store::Rcs::Store   ();
 use Foswiki::Store::Rcs::Handler ();
 our @ISA = ('Foswiki::Store::Rcs::Handler');
 
@@ -121,6 +122,16 @@ use constant CAN_IGNORE_COMMENT => 0;    # 1
 #           representing the parse state when the parse finished.
 #           If the parse was successful this will be 'parsed'.
 #
+
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+
+    *_decode = \&Foswiki::Store::Rcs::Store::_decode;
+    *_encode = \&Foswiki::Store::Rcs::Store::_encode;
+}
 
 # implements Rcs::Handler
 sub new {
@@ -257,12 +268,7 @@ sub _ensureRead {
     }
 
     my $fh;
-    unless (
-        open(
-            $fh, '<', Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
-        )
-      )
-    {
+    unless ( open( $fh, '<', _encode( $this->{rcsFile} ) ) ) {
 
         #warn( 'Failed to open ' . $this->{rcsFile} . ': ' . $!);
         $this->{state} = 'nocommav';
@@ -546,16 +552,8 @@ sub _writeMe {
     my ($this) = @_;
     my $out;
 
-    chmod(
-        $Foswiki::cfg{Store}{filePermission},
-        Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
-    );
-    unless (
-        open(
-            $out, '>', Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
-        )
-      )
-    {
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{rcsFile} ) );
+    unless ( open( $out, '>', _encode( $this->{rcsFile} ) ) ) {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
@@ -564,10 +562,7 @@ sub _writeMe {
         _write( $this, $out );
         close($out);
     }
-    chmod(
-        $Foswiki::cfg{Store}{filePermission},
-        Foswiki::Store::Rcs::Handler::fn2b( $this->{rcsFile} )
-    );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{rcsFile} ) );
 }
 
 # implements Rcs::Handler
@@ -849,7 +844,7 @@ sub getRevisionAtTime {
 
     $this->_ensureRead( -1, 1 );    # read history only
     if ( $this->{state} eq 'nocommav' ) {
-        return ( $date >= ( stat( $this->{file} ) )[9] ) ? 1 : undef;
+        return ( $date >= ( stat( _encode( $this->{file} ) ) )[9] ) ? 1 : undef;
     }
 
     my $version = $this->{head};
@@ -861,7 +856,7 @@ sub getRevisionAtTime {
     if ( $version == $this->{head} && !$this->noCheckinPending() ) {
 
         # Check the file date
-        $version++ if ( $date >= ( stat( $this->{file} ) )[9] );
+        $version++ if ( $date >= ( stat( _encode( $this->{file} ) ) )[9] );
     }
     return $version;
 }
@@ -888,7 +883,7 @@ sub stringify {
 1;
 __END__
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 
