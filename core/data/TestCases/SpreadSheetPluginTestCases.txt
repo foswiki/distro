@@ -1,5 +1,4 @@
-%META : TOPICINFO {
-    author = "ProjectContributor" date = "1352097306" format="1.1" version="1"}%
+%META:TOPICINFO{ author="ProjectContributor" date="1352097306" format="1.1" version="1"}%
 ---+ !SpreadSheetPlugin Testing
 
 Use this topic to verify proper operation of the SpreadSheetPlugin in your environment.
