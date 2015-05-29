@@ -1178,28 +1178,31 @@ sub _BITXOR {
 # SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
 # which would require two operators.   An XOR with itself would clear the field not flip all the bits.
 # This should probably be called a BITNOT.
-    if ( scalar(@arr) == 1 ) {
-        use bytes;
-        my $ff = chr(255) x length( $_[0] );
-        $result = $_[0] ^ $ff;
-        no bytes;
-    }
+#if ( scalar(@arr) == 1 ) {
+#    use bytes;
+#    my $ff = chr(255) x length( $_[0] );
+#    $result = $_[0] ^ $ff;
+#    no bytes;
+#}
 
     # This is a standard bit-wise xor of a list of integers.
-    else {
-        @arr = _getListAsInteger( $_[0] );
-        return '' unless scalar @arr;
-        $result = int( shift(@arr) );
-        if ( scalar(@arr) > 0 ) {
-            foreach my $i (@arr) {
-                next unless defined $i;
-                $result = ( $result ^ int($i) );
-            }
-        }
-        else {
-            $result = 0;
+    #else {
+    @arr = _getListAsInteger( $_[0] );
+
+    return '' unless scalar @arr;
+    my $ent = shift(@arr);
+    $result = ( defined $ent ) ? int($ent) : 0;
+    if ( scalar(@arr) > 0 ) {
+        foreach my $i (@arr) {
+            next unless defined $i;
+            $result = ( $result ^ int($i) );
         }
     }
+    else {
+        $result = 0;
+    }
+
+    #}
     return $result;
 }
 

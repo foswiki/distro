@@ -144,10 +144,14 @@ sub test_AVERAGE {
 sub test_BITXOR {
     my ($this) = @_;
 
-    # TWiki compatibility - performs bitwise not of string for single argument
-    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
-    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
-    $this->assert_equals( $this->CALC('$BITXOR($BITXOR(Aa))'),    'Aa' );
+# TWiki compatibility (deprecated) - performs bitwise not of string for single argument
+# $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
+# $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
+
+    $this->assert_equals( '30', $this->CALC('$HEXENCODE($BITXOR(Aa))') )
+      ;    # non-numeric string,  returns 0
+    $this->assert_equals( '30', $this->CALC('$HEXENCODE($BITXOR(1))') )
+      ;    # Single entry, returns 0
 
     # Bitwise xor of integers.  12= b1100  7=b0111 = b1011 = 11
     $this->assert_equals( $this->CALC('$BITXOR(12, 7)'), '11' );

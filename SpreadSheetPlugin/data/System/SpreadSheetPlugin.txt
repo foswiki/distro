@@ -96,16 +96,17 @@ Conventions for Syntax:
    * Related: =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
 
 #FuncBITXOR
----+++ BITXOR( text ) or  BITXOR( integer, list ) -- bit-wise XOR
+---+++ <strike>BITXOR( text ) or</strike>  BITXOR( integer, list ) -- bit-wise XOR
 This function has two modes of operation.
    * If passed a list,  performs a bit-wise XOR of the integers in the list.
       * Syntax: ==$BITXOR( integer, list )==
       * Example: ==%<nop>CALC{"$BITXOR(7, 12)")% returns ==3== ( b0111 xor b1100 = b0011 )
-   * If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
+
+   * *Deprecated,  no longer functional* <strike>If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
       * Each bit of each character of =text= is flipped, useful to obfuscate text. Bit-XORing text twice will restore the original text.
       * Syntax: ==$BITXOR( text )==
       * Example: ==%<nop>CALC{"$BITXOR(A123)"}%== returns ==&Yuml;&Icirc;&Iacute;&Igrave;==
-      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything==
+      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything== </strike>
    * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
 
 #FuncCEILING
@@ -994,7 +995,8 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 ---++ Info
 
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.
+|  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.<br />\
+                  Foswikitask:Item13440: Document issues with BITXOR.  Foswiki unicode core won't support a simple byte based xor of strings. |
 |  02 Jan 2015: (1.18) | Foswikitask:Item12739: fixed use of uninitialized value, Add triple-quote for escaped strings,  Add RANDSTRING() function.<br />\
                   Add the base conversion functions: <noautolink> DEC2BIN() BIN2DEC() DEC2HEX() HEX2DEC() DEC2OCT() and OCT2DEC().</noautolink> <br />\
                   Add LISTEACH() as an alias for LISTMAP() |
