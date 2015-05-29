@@ -20,7 +20,7 @@
 
 
 %TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited">
-%MAKETEXT{"Move or Delete [_1]:" args="=%FILENAME%="}%
+%MAKETEXT{"More actions for [_1]:" args="=%FILENAME%="}%
 %BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" value=" %MAKETEXT{"Move"}% "}%
 %BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{%FILENAME%}%" value=" %MAKETEXT{"Delete"}% "}%
 </input></div>

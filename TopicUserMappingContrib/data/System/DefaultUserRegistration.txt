@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1428712476" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432874667" format="1.1" version="1"}%
 <noautolink>
 <!--
 	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
@@ -95,9 +95,9 @@
 
 %STARTSECTION{"note:registrationNotEnabled"}%%IF{
    "$USERNAME ingroup 'AdminGroup'"
-   then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system.  Check the configuration for errors."}%</strong>
+   then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system. Check the configuration for errors."}%</strong>
 
-          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using"}% [[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]."
+          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using [_1]." args="[[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]"}%"
    else="<strong>%MAKETEXT{"New user registration is disabled on this site."}%</strong>"
 }%
 %ENDSECTION{"note:registrationNotEnabled"}%
@@ -317,7 +317,7 @@ text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRe
 	Required field wiki name
 -->
 %STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"<nop>WikiName:"}%</label>
-<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]. [_2]" args="%WIKITOOLNAME% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
+<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]." args="%WIKITOOLNAME%"}% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
 <!--
@@ -470,4 +470,4 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 -->
 </noautolink>
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" user="ProjectContributor" date="1428712476" size="2027" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" user="ProjectContributor" date="1432874667" size="2027" version="1"}%
