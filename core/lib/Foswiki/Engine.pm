@@ -192,12 +192,12 @@ sub prepareQueryParameters {
         if ( defined $value ) {
             $value =~ tr/+/ /;
             $value =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-            $value = Encode::decode_utf8($value);
+            $value = Foswiki::decode_utf8($value);
         }
         if ( defined $param ) {
             $param =~ tr/+/ /;
             $param =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-            $param = Encode::decode_utf8($param);
+            $param = Foswiki::decode_utf8($param);
             push( @{ $params{$param} }, $value );
             push( @plist,               $param );
         }

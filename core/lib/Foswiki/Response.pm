@@ -426,7 +426,7 @@ Add text content to the end of the body. Content may be unicode.
 sub print {
     my $this = shift;
     $this->{body} = '' unless defined $this->{body};
-    $this->body( $this->{body} . Encode::encode_utf8( join( '', @_ ) ) );
+    $this->body( $this->{body} . Foswiki::encode_utf8( join( '', @_ ) ) );
 }
 
 =begin TML

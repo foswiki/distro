@@ -81,29 +81,14 @@ BEGIN {
 
         # Interface to file operations.
 
-        *_decode = sub {
-            return $_[0] unless defined $_[0];
-            my $s = $_[0];
-            return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-                $s, Encode::FB_HTMLCREF );
-        };
+        *_decode = \&Foswiki::Store::decode;
 
         # readdir returns bytes
         *_readdir = sub {
             map { _decode($_) } readdir( $_[0] );
         };
 
-        *_encode = sub {
-            return $_[0] unless utf8::is_utf8( $_[0] );
-            my $s = $_[0];
-            return Encode::encode(
-                $Foswiki::cfg{Store}{Encoding} || 'utf-8', $s,
-
-                # Throw an exception if the {Store}{Encoding}
-                # can't represent a unicode character
-                Encode::FB_CROAK
-            );
-        };
+        *_encode = \&Foswiki::Store::encode;
 
         # The remaining file level functions work on wide chars,
         # silently converting to utf-8. But we want to explicitly
@@ -365,7 +350,7 @@ sub testAttachment {
 sub openAttachment {
     my ( $this, $meta, $att, $mode, @opts ) = @_;
     ASSERT($att) if DEBUG;
-    return _openStream( $meta, $att, $mode, @opts );
+    return _openBinaryStream( $meta, $att, $mode, @opts );
 }
 
 # Implement Foswiki::Store
@@ -650,7 +635,7 @@ sub atomicLockInfo {
     my ( $this, $meta ) = @_;
     my $filename = _getData($meta) . '.lock';
     if ( _e $filename ) {
-        my $t = _readFile($filename);
+        my $t = _readTextFile($filename);
         return split( /\s+/, $t, 2 );
     }
     return ( undef, undef );
@@ -899,7 +884,7 @@ sub getLease {
     my $filename = _getData($meta) . '.lease';
     my $lease;
     if ( _e $filename ) {
-        my $t = _readFile($filename);
+        my $t = _readTextFile($filename);
         $lease = { split( /\r?\n/, $t ) };
     }
     return $lease;
@@ -1108,7 +1093,7 @@ DONE
     # No existing revs; create
     # If this is a topic, correct the TOPICINFO
     unless ($attachment) {
-        my $t = _readFile($latest);
+        my $t = _readTextFile($latest);
 
         $t =~ s/^%META:TOPICINFO\{(.*)\}%$//m;
         $t =
@@ -1158,7 +1143,7 @@ sub _latestIsNewer {
 sub _readMetaFile {
     my $mf = shift;
     return () unless _e $mf;
-    return split( "\n", _readFile($mf), 2 );
+    return split( "\n", _readTextFile($mf), 2 );
 }
 
 sub _writeMetaFile {
@@ -1170,7 +1155,7 @@ sub _writeMetaFile {
 sub _readChanges {
     my ( $file, $web ) = @_;
 
-    my $all_lines = Foswiki::Sandbox::untaintUnchecked( _readFile($file) );
+    my $all_lines = Foswiki::Sandbox::untaintUnchecked( _readTextFile($file) );
 
     # Look at the first line to deduce format
     if ( $all_lines =~ m/^\[/s ) {
@@ -1307,7 +1292,7 @@ sub eachChange {
 }
 
 # Read an entire (text) file
-sub _readFile {
+sub _readTextFile {
     my $name = shift;
 
     my $IN_FILE;
@@ -1331,7 +1316,7 @@ sub _readFile {
 }
 
 # Open a stream onto a (binary) file
-sub _openStream {
+sub _openBinaryStream {
     my ( $meta, $att, $mode, %opts ) = @_;
     my $stream;
 
@@ -1515,7 +1500,7 @@ sub _getRevision {
     if ( $nr && $version && $version <= $nr ) {
         my $fn = _historyDir( $meta, $attachment ) . "/$version";
         if ( _e $fn ) {
-            return ( _readFile($fn), $version == $nr );
+            return ( _readTextFile($fn), $version == $nr );
         }
     }
     my $latest = _latestFile( $meta, $attachment );
@@ -1523,7 +1508,7 @@ sub _getRevision {
     return ( undef, 0 ) unless _e $latest;
 
     # no version given, give latest (may not be checked in yet)
-    return ( _readFile($latest), 1 );
+    return ( _readTextFile($latest), 1 );
 }
 
 # Split a string on \n making sure we have all newlines. If the string

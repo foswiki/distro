@@ -487,7 +487,7 @@ name $name from utf8 to unicode.
 
 sub unicode_param {
     my ( $this, $key ) = @_;
-    return Encode::decode_utf8( $this->param($key) );
+    return Foswiki::decode_utf8( $this->param($key) );
 }
 
 =begin TML

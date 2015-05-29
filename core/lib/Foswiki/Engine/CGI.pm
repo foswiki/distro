@@ -232,11 +232,12 @@ sub prepareBodyParameters {
     return unless $ENV{CONTENT_LENGTH};
     my @plist = $this->{cgi}->multi_param();
     foreach my $pname (@plist) {
-        my $upname = Encode::decode_utf8($pname);
+        my $upname = Foswiki::decode_utf8($pname);
         my @values;
         if ($Foswiki::UNICODE) {
             @values =
-              map { Encode::decode_utf8($_) } $this->{cgi}->multi_param($pname);
+              map { Foswiki::decode_utf8($_) }
+              $this->{cgi}->multi_param($pname);
         }
         else {
             @values = $this->{cgi}->multi_param($pname);
@@ -256,7 +257,7 @@ sub prepareUploads {
     my %uploads;
     foreach my $key ( keys %{ $this->{uploads} } ) {
         my $fname  = $this->{cgi}->param($key);
-        my $ufname = Encode::decode_utf8($fname);
+        my $ufname = Foswiki::decode_utf8($fname);
         $uploads{$ufname} = new Foswiki::Request::Upload(
             headers => $this->{cgi}->uploadInfo($fname),
             tmpname => $this->{cgi}->tmpFileName($fname),

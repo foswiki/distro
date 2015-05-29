@@ -56,24 +56,8 @@ BEGIN {
     if ($Foswiki::UNICODE) {
         require Encode;
 
-        *_decode = sub {
-            return $_[0] unless defined $_[0];
-            my $s = $_[0];
-            return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-                $s, Encode::FB_CROAK );
-        };
-
-        *_encode = sub {
-            return $_[0] unless defined $_[0];
-            my $s = $_[0];
-            return Encode::encode(
-                $Foswiki::cfg{Store}{Encoding} || 'utf-8', $s,
-
-                # Throw an exception if the {Store}{Encoding}
-                # can't represent a unicode character
-                Encode::FB_CROAK
-            );
-        };
+        *_decode = \&Foswiki::Store::decode;
+        *_encode = \&Foswiki::Store::encode;
         *_stat   = sub { stat( _encode( $_[0] ) ); };
         *_unlink = sub { unlink( _encode( $_[0] ) ); };
     }

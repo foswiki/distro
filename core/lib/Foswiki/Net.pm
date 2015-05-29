@@ -258,7 +258,7 @@ sub getExternalResource {
         if ( defined $options{content} ) {
 
             # Force body encoding to octets
-            $options{content} = Encode::encode_utf8( $options{content} );
+            $options{content} = Foswiki::encode_utf8( $options{content} );
             $req .= 'Content-length: ' . length( $options{content} ) . "\r\n";
         }
 

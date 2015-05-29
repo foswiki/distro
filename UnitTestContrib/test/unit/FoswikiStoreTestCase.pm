@@ -104,7 +104,7 @@ sub fixture_groups {
     }
 }
 
-sub _mkFiles {
+sub _make_data {
     my $this = shift;
     my $FILE;
     my $enc = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
@@ -121,6 +121,14 @@ sub _mkFiles {
     close($FILE);
 }
 
+sub open_data {
+    my ( $this, $k ) = @_;
+
+    my $fh;
+    open( $fh, '<', $this->{$k} );
+    return $fh;
+}
+
 sub utf8 {
     my $this = shift;
     $Foswiki::cfg{Site}{Locale} = 'en_US.utf-8';
@@ -133,7 +141,7 @@ sub utf8 {
     $this->{t_datapath}  = "$Foswiki::cfg{TempfileDir}/$this->{t_datafile}";
     $this->{t_datafile2} = "پښتانهټبرونه.gif";
     $this->{t_datapath2} = "$Foswiki::cfg{TempfileDir}/$this->{t_datafile2}";
-    $this->_mkFiles();
+    $this->_make_data();
 }
 
 sub iso8859 {
@@ -152,15 +160,7 @@ sub iso8859 {
     $this->{t_topic}     = "Test${n}Topic";
     $this->{t_datafile}  = "${n}1.gif";
     $this->{t_datafile2} = "${n}2.gif";
-    $this->_mkFiles();
-}
-
-sub open_data {
-    my ( $this, $k ) = @_;
-
-    my $fh;
-    open( $fh, '<', $this->{$k} );
-    return $fh;
+    $this->_make_data();
 }
 
 1;

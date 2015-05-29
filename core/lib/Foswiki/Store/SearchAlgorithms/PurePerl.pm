@@ -95,12 +95,17 @@ sub _search {
 
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         my $file;
-        if ( open( $file, '<', "$sDir/$topic.txt" ) ) {
+        my $enc = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
+        if (
+            open(
+                $file, "<:encoding($enc)",
+                Foswiki::Store::encode("$sDir/$topic.txt")
+            )
+          )
+        {
             while ( my $line = <$file> ) {
                 if ( &$doMatch($line) ) {
                     chomp($line);
-                    Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-                        $line, Encode::FB_PERLQQ );
                     push( @{ $seen{$webtopic} }, $line );
                     if ( $options->{files_without_match} ) {
                         close($file);

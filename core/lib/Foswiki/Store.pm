@@ -235,6 +235,43 @@ sub getAttachmentURL {
     return $url;
 }
 
+=begin TML
+
+---++ StaticMethod decode($octets) -> $unicode
+
+Utility function to decode a binary string of octets read from
+the store and known known to be encoded using the
+currently selected {Store}{Encoding} (or UTF-8 if none is set)
+into perl characters (unicode). May die if $octets contains
+an invalid byte sequence for the encoding.
+
+=cut
+
+sub decode {
+    return $_[0] unless defined $_[0];
+    my $s = $_[0];
+    return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+        $s, Encode::FB_CROAK );
+}
+
+=begin TML
+
+---++ StaticMethod encode($unicode) -> $octets
+
+Utility function to encode a perl character string into
+a string of octets encoded using the currently selected
+{Store}{Encoding} (or UTF-8 if none is set). May die if
+=$unicode= cannot be represented in the {Store}{Encoding}.
+
+=cut
+
+sub encode {
+    return $_[0] unless defined $_[0];
+    my $s = $_[0];
+    return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+        $s, Encode::FB_CROAK );
+}
+
 1;
 __END__
 # Comment out the above two lines (1; __END__) during development of a
@@ -928,7 +965,7 @@ sub removeSpuriousLeases {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

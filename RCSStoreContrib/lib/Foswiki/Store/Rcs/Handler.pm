@@ -56,8 +56,8 @@ BEGIN {
         import locale();
     }
 
-    *_decode = \&Foswiki::Store::Rcs::Store::_decode;
-    *_encode = \&Foswiki::Store::Rcs::Store::_encode;
+    *_decode = \&Foswiki::Store::decode;
+    *_encode = \&Foswiki::Store::encode;
     *_stat   = \&Foswiki::Store::Rcs::Store::_stat;
     *_unlink = \&Foswiki::Store::Rcs::Store::_unlink;
     *_e      = sub { -e _encode( $_[0] ) };

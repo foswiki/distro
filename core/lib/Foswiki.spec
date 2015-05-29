@@ -1369,21 +1369,17 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 2678400;
 # **SELECTCLASS Foswiki::Store::SearchAlgorithms::* LABEL="Search Algorithm" **
 # This is the algorithm used to perform plain text (not query) searches.
 # Foswiki has two built-in search algorithms, both of which are designed to
-# work with the default flat-file database.
+# work with the default flat-file databases (RcsWrap, RcsLite, and PlainFile).
 #    * The default 'Forking' algorithm, which forks a subprocess that
 #      runs a 'grep' command, is recommended for Linux/Unix.
 #      Forking may also work OK on Windows if you keep the directory path
 #      to Foswiki very short.
 #    * The 'PurePerl' algorithm, which is written in Perl and
-#      usually only used for native Windows installations where forking
+#      usually used on native Windows installations where forking
 #      is not stable, due to limitations in the length of command lines.
 # On Linux/Unix you will be just fine with the 'Forking' implementation.
 # However if you find searches run very slowly, you may want to try a
 # different algorithm, which may work better on your configuration.
-# For example, there is an alternative algorithm available from
-# [[http://foswiki.org/Extensions/NativeSearchContrib][NativeSearchContrib]],
-# that usually gives better performance with mod_perl and Speedy CGI, but
-# requires root access to install.
 #
 # Other store implementations and indexing search engines (for example,
 # [[http://foswiki.org/Extensions/KinoSearchContrib][KinoSearchContrib]])

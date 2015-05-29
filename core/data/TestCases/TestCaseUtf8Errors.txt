@@ -6,11 +6,11 @@
 
 -->
 
----++ Demo of *some* UTF8 errors
+---++ Demo of some UTF8 challenges
 
-View the topic with System.EditRowPlugin disabled, and the utf8 text is rendered
-correctly.   [[%TOPIC%?debugenableplugins=JQueryPlugin][Click here to reload this topic with only the JQueryPlugin enabled]].
+*Note* this page uses Javascript to perform some check. The source is included inline below.
 
+[[%TOPIC%?debugenableplugins=JQueryPlugin][Click here to reload this topic with only the JQueryPlugin enabled]].
 
 %TOC%
 
@@ -20,7 +20,7 @@ correctly.   [[%TOPIC%?debugenableplugins=JQueryPlugin][Click here to reload thi
 | Q-plain | %PLTWL1%,%PUTWL1%,%PWTWL1%,%PTTWL1% | %QUERY{"preferences[name =~ 'TWL1'].value"}% | :FWTEST: |
 | Q-json | ["%PLTWL1%","%PUTWL1%","%PWTWL1%","%PTTWL1%"] | %QUERY{"preferences[name =~ 'TWL1'].value" style="json"}% | :FWTEST: |
 
----++ Regex QUERY - fails for character classes and case comparisons too...
+---++ Regex QUERY
 | *Testname* | *Wanted* | *Actual* | *Result* |
 | asc-re2: /AbCdefgh/ =~ /\wCde\w/ | 1 | %QUERY{"preferences[name='PWTWA1'].value =~ '\wCde\w'"}% | :FWTEST: |
 | asc-re3: /AbCdefgh/ =~ /(?i)cDE/ | 1 | %QUERY{"preferences[name='PWTWA1'].value =~ '(?i)cDE'"}% | :FWTEST: |
@@ -29,19 +29,19 @@ correctly.   [[%TOPIC%?debugenableplugins=JQueryPlugin][Click here to reload thi
 | utf-re3: /ÌæĈąṁēńã/ =~ /(?i)ĉĄṀ/ | 1 | %QUERY{"preferences[name='PWTWL1'].value =~ '(?i)ĉĄṀ'"}% | :FWTEST: |
 | utf-re4: /ÌæĈąṁēńã/ =~ /[<nop>[:upper:]]/ | 1 | %QUERY{"preferences[name='PWTWL1'].value =~ '[[:upper:]]'"}% | :FWTEST: |
 
----++ QUERY lc/uc - fails
+---++ QUERY lc/uc
 | *Testname* | *Wanted* | *Actual* | *Result* |
 | WTWA1: lc(%PWTWA1%) | %PLTWA1% | %QUERY{"lc(preferences[name='PWTWA1'].value)"}% | :FWTEST: |
 | WTWA1: uc(%PWTWA1%) | %PUTWA1% | %QUERY{"uc(preferences[name='PWTWA1'].value)"}% | :FWTEST: |
 | WTWL1: lc(%PWTWL1%) | %PLTWL1% | %QUERY{"lc(preferences[name='PWTWL1'].value)"}% | :FWTEST: |
 | WTWL1: uc(%PWTWL1%) | %PUTWL1% | %QUERY{"uc(preferences[name='PWTWL1'].value)"}% | :FWTEST: |
 
----++ SEARCH with regex containing character classes such \w
+---++ SEARCH
+With regex containing character classes such \w
 | *Testname* | *Wanted* | *Actual* | *Result* |
-| search for =\dxx= <br> _$pattern_ regex charclass<br> =\w*xx\w*= | abc1xxdef,áčž2xxøđß,ábc3xxdeš,qwe4xxuio | %SEARCH{ "\dxx" type="regex" nonoise="on" topic="%TOPIC%" multiple="on" separator="," format="$pattern(.*?(\w*xx\w*).*)" }% | :FWTEST: |
-| Besides the =\w= regex error, I actually don't understand why found the string =<nop>d<nop>x<nop>x<nop>= too. The regex contais the =\d= as a character class. ||||
+| search for =\dxx= <br> _$pattern_ regex charclass<br> =\w*xx\w*= | abc1xxdef,abc1xxdef,áčž2xxøđß,ábc3xxdeš,qwe4xxuio | %SEARCH{ "\dxx" type="regex" nonoise="on" topic="%TOPIC%" multiple="on" separator="," format="$pattern(.*?(\w*\dxx\w*).*)" }% | :FWTEST: |
 
----++ Calc ERRORS (many string operation - examples (here are more))
+---++ CALC
 | *Test* | *Wanted* | *Actual* | *Result* |
 | %<nop>CALC{"$FIND(e, abcdefgh, 2)"}% | 5 | %CALC{"$FIND(e, abcdefgh, 2)"}% | :FWTEST: |
 | %<nop>CALC{"$FIND(ó, śõñļóțķụ, 2)"}% | 5 | %CALC{"$FIND(ó, śõñļóțķụ, 2)"}% | :FWTEST: |
@@ -59,12 +59,11 @@ correctly.   [[%TOPIC%?debugenableplugins=JQueryPlugin][Click here to reload thi
 | %<nop>CALC{"$TRANSLATE(cumi,ci,čí)"}% | čumí | %CALC{"$TRANSLATE(cumi,ci,čí)"}% | :FWTEST: |
 | %<nop>CALC{"$TRANSLATE(čumí,čí,ci)"}% | cumi | %CALC{"$TRANSLATE(čumí,čí,ci)"}% | :FWTEST: |
 
-------
----++ Non critical (but annoying) errors
-The table sorting doesn't sorts by the accented characters. For
-this will be need to use *utf8 + locale* based sorting, what is
-correctly available only from perl v5.20 (using an special pragma
-usable from v.5.16).
+---++ SPACEOUT
+=%<nop>SPACEOUT{"UśđáṁAŝșūṁėṉďáCøṅŝêĉṫēťúŕDøḻóř" separator=", "}%=
+%SPACEOUT{"UśđáṁAŝșūṁėṉďáCøṅŝêĉṫēťúŕDøḻóř" separator=", "}%
+
+---++ TABLE and EDITTABLE
 
 Try: sort by the *Dolořęṁ* column.
 
@@ -77,16 +76,6 @@ Try: sort by the *Dolořęṁ* column.
 | 12 | C | Špec error handling | Jack | 1-Dec-02 | |
 | 5 |   | Ábc | John | | |
 | *Nìsi* | *Aḻíqúid* | *Dolořęṁ* | *Fáčërę* | *Omņįs* | *Iṗsuṁ* |
-
-The =%<nop>SPACEOUT{"SomeUtfText"}%= won't add spaces even if the Uppercases are ASCII.
-=%<nop>SPACEOUT{"UśđáṁAŝșūṁėṉďáCøṅŝêĉṫēťúŕDøḻóř" separator=", "}%=
-%SPACEOUT{"UśđáṁAŝșūṁėṉďáCøṅŝêĉṫēťúŕDøḻóř" separator=", "}%
-
----+ Strange Errors
----++ EDITTABLE
-The following *NOT utf8* table using the %<nop>EDITTABLE% (copy
-from the System.EditRowPlugin), screws the normal Utf8 topic text.
-(also somewhat changes the width of the previous table).
 
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | radio, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *Nr* | *Project* | *State* | *Progress* | *Timestamp* |

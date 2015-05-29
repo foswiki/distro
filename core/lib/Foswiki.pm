@@ -147,6 +147,32 @@ sub _getLibDir {
     return $foswikiLibDir;
 }
 
+# Character encoding/decoding stubs. Done so we can ovveride
+# if necessary (e.g. on OSX we may want to monkey-patch in a
+# NFC/NFD module)
+
+=begin TML
+
+---++ StaticMethod decode_utf8($octets) -> $unicode
+
+Decode a binary string of octets known to be encoded using UTF-8 into
+perl characters (unicode).
+
+=cut
+
+*decode_utf8 = \&Encode::decode_utf8;
+
+=begin TML
+
+---++ StaticMethod encode_utf8($unicode) -> $octets
+
+Encode a perl character string into a binary string of octets
+encoded using UTF-8.
+
+=cut
+
+*encode_utf8 = \&Encode::encode_utf8;
+
 BEGIN {
 
     # First thing we do; make sure we print unicode errors
@@ -793,7 +819,7 @@ BOGUS
             else {
                 # Not available from the cache, or it has dirty areas
                 require Compress::Zlib;
-                $text = Compress::Zlib::memGzip( Encode::encode_utf8($text) );
+                $text = Compress::Zlib::memGzip( encode_utf8($text) );
             }
             $binary_body = 1;
         }
@@ -867,7 +893,7 @@ sub satisfiedByCache {
         $cache->renderDirtyAreas( \$text );
 
         # dirty pages are cached in unicode
-        $text = Encode::encode_utf8($text);
+        $text = encode_utf8($text);
     }
     elsif ( $Foswiki::cfg{HttpCompress} ) {
 
@@ -2151,7 +2177,7 @@ sub new {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = Encode::decode_utf8( $query->path_info() || '' );
+    my $webtopic      = decode_utf8( $query->path_info() || '' );
     my $topicOverride = '';
     my $topic         = $query->param('topic');
     if ( defined $topic ) {
@@ -2928,7 +2954,7 @@ sub urlEncode {
     my $text = shift;
 
     # URLs work quite happily with %-encoded utf-8 characters
-    $text = Encode::encode_utf8($text);
+    $text = encode_utf8($text);
     $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
 
     return $text;
@@ -2949,7 +2975,7 @@ sub urlDecode {
     my $text = shift;
 
     $text =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-    $text = Encode::decode_utf8($text);
+    $text = decode_utf8($text);
 
     return $text;
 }

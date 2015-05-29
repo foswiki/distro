@@ -332,7 +332,7 @@ sub _discover_languages {
     #use the cache, if available
     if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         $cache_open = 1;
-        foreach my $line ( map { Encode::decode( 'utf-8', $_ ) } <LANGUAGE> ) {
+        foreach my $line ( map { Foswiki::decode_utf8($_) } <LANGUAGE> ) {
             my ( $key, $name ) = split( '=', $line );
 
             # Filter on enabled languages
@@ -351,7 +351,7 @@ sub _discover_languages {
         foreach my $tag ( available_languages() ) {
             my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
-            print LANGUAGE Encode::encode_utf8("$tag=$name\n") if $cache_open;
+            print LANGUAGE Foswiki::encode_utf8("$tag=$name\n") if $cache_open;
 
             # Filter on enabled languages
             next

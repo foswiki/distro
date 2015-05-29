@@ -129,8 +129,8 @@ BEGIN {
         import locale();
     }
 
-    *_decode = \&Foswiki::Store::Rcs::Store::_decode;
-    *_encode = \&Foswiki::Store::Rcs::Store::_encode;
+    *_decode = \&Foswiki::Store::decode;
+    *_encode = \&Foswiki::Store::encode;
 }
 
 # implements Rcs::Handler

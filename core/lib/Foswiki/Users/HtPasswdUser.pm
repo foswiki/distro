@@ -534,7 +534,7 @@ sub encrypt {
         }
 
         my $encodedPassword = '{SHA}'
-          . Digest::SHA::sha1_base64( Encode::encode_utf8($passwd) ) . '=';
+          . Digest::SHA::sha1_base64( Foswiki::encode_utf8($passwd) ) . '=';
 
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;
@@ -554,8 +554,8 @@ sub encrypt {
                 $saltchars[ int( rand( $#saltchars + 1 ) ) ]
               . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
         }
-        return crypt( Encode::encode_utf8($passwd),
-            Encode::encode_utf8( substr( $salt, 0, 2 ) ) );
+        return crypt( Foswiki::encode_utf8($passwd),
+            Foswiki::encode_utf8( substr( $salt, 0, 2 ) ) );
 
     }
     elsif ( $enc eq 'md5' || $enc eq 'htdigest-md5' ) {
@@ -563,7 +563,7 @@ sub encrypt {
         # SMELL: what does this do if we are using a htpasswd file?
         my $realm = $entry->{realm} || $Foswiki::cfg{AuthRealm};
         my $toEncode = "$login:$realm:$passwd";
-        return Digest::MD5::md5_hex( Encode::encode_utf8($toEncode) );
+        return Digest::MD5::md5_hex( Foswiki::encode_utf8($toEncode) );
 
     }
     elsif ( $enc eq 'apache-md5' ) {
@@ -591,8 +591,9 @@ sub encrypt {
                 ];
             }
         }
-        return Crypt::PasswdMD5::apache_md5_crypt( Encode::encode_utf8($passwd),
-            Encode::encode_utf8( substr( $salt, 0, 14 ) ) );
+        return Crypt::PasswdMD5::apache_md5_crypt(
+            Foswiki::encode_utf8($passwd),
+            Foswiki::encode_utf8( substr( $salt, 0, 14 ) ) );
     }
     elsif ( $enc eq 'crypt-md5' ) {
         my $salt;
@@ -617,12 +618,12 @@ sub encrypt {
         # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
         if ( $this->{APR} ) {
             return Crypt::PasswdMD5::unix_md5_crypt(
-                Encode::encode_utf8($passwd),
-                Encode::encode_utf8( substr( $salt, 0, 11 ) ) );
+                Foswiki::encode_utf8($passwd),
+                Foswiki::encode_utf8( substr( $salt, 0, 11 ) ) );
         }
         else {
-            return crypt( Encode::encode_utf8($passwd),
-                Encode::encode_utf8( substr( $salt, 0, 11 ) ) );
+            return crypt( Foswiki::encode_utf8($passwd),
+                Foswiki::encode_utf8( substr( $salt, 0, 11 ) ) );
         }
 
     }
@@ -654,12 +655,13 @@ sub encrypt {
             }
             $salt =
               Crypt::Eksblowfish::Bcrypt::en_base64(
-                Encode::encode_utf8($salt) );
+                Foswiki::encode_utf8($salt) );
             $salt = '$2a$08$' . $salt;
         }
         $salt = substr( $salt, 0, 29 );
-        return Crypt::Eksblowfish::Bcrypt::bcrypt( Encode::encode_utf8($passwd),
-            Encode::encode_utf8($salt) );
+        return Crypt::Eksblowfish::Bcrypt::bcrypt(
+            Foswiki::encode_utf8($passwd),
+            Foswiki::encode_utf8($salt) );
     }
     die 'Unsupported password encoding ' . $enc;
 }
