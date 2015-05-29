@@ -150,6 +150,7 @@ sub _doCalc {
         $recurseFunc = \&_recurseFuncCutWhitespace;
     }
     else {
+
 # recursively evaluate functions without removing white space (compatible with old spec)
         $recurseFunc = \&_recurseFunc;
     }
@@ -205,8 +206,10 @@ sub _addNestingLevel {
 sub _recurseFunc {
 
     # Handle functions recursively
+    no warnings 'uninitialized';
     $_[0] =~
 s/\$([A-Z]+[A-Z0-9]*)$escToken([0-9]+)\((.*?)$escToken\2\)/_doFunc($1,$3)/geos;
+    use warnings 'uninitialized';
 
     # Clean up unbalanced mess
     $_[0] =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
@@ -250,7 +253,7 @@ my $Function = {
     EXEC             => \&_EXEC,
     EXISTS           => sub { ( Foswiki::Func::topicExists( $web, $_[0] ) ) ? 1 : 0 },
     EXP              => sub { exp( _getNumber($_[0]) ) },
-    # FILTER - Filter out characters from a string.
+    FILTER           => \&_FILTER,
     FIND             => \&_FIND,
     FLOOR            => \&_FLOOR,
     FORMAT           => \&_FORMAT,
@@ -274,10 +277,10 @@ my $Function = {
                         my $rslt = _safeEvalPerl($_[0]);
                         return ( $rslt =~ /^ERROR/ ) ? $rslt : int( _getNumber($rslt) );
                        },
-    # ISDIGIT
-    # ISLOWER
-    # ISUPPER
-    # ISWIKIWORD
+    ISDIGIT          => sub { ($_[0] =~ m/^[[:digit:]]+$/ ) ? 1 : 0 },
+    ISLOWER          => sub { ($_[0] =~ m/^[[:lower:]]+$/ ) ? 1 : 0 },
+    ISUPPER          => sub { ($_[0] =~ m/^[[:upper:]]+$/ ) ? 1 : 0 },
+    ISWIKIWORD       => sub { (Foswiki::isValidWikiWord( $_[0] ) ) ? 1 : 0 },
     LEFT             => sub { my $i = $rPos + 1; return "R$i:C1..R$i:C$cPos" },
     LEFTSTRING       => \&_LEFTSTRING,
     LENGTH           => sub { length( $_[0] ) },
@@ -380,7 +383,6 @@ my $Function = {
     XOR              => \&_XOR,
 };
 #>>>
-
 $Function->{MIDSTRING} = $Function->{SUBSTRING};    # MIDSTRING Undocumented
 $Function->{DURATION} = $Function->{SUMDAYS};  # DURATION undocumented, for Sven
 $Function->{MULT}     = $Function->{PRODUCT};  # MULT deprecated
@@ -492,7 +494,6 @@ sub _NOP {
 
     # pass everything through, this will allow plugins to defy plugin order
     # for example the %SEARCH{}% variable
-    $_[0] =~ s/\$per/%/g;
     $_[0] =~ s/\$per(cnt)?/%/g;
     $_[0] =~ s/\$quot/"/g;
     return $_[0];
@@ -503,6 +504,7 @@ sub _WHILE {
 
     # WHILE(condition, do something)
     my ( $condition, $str ) = _properSplit( $_[0], 2 );
+    return '' unless defined $condition;
     my $result;
     my $i = 0;
     while (1) {
@@ -794,6 +796,9 @@ sub _PERCENTILE {
 sub _PRODUCT {
     my $result = 0;
     my @arr    = _getListAsFloat( $_[0] );
+
+    # no arguments,  return 0.
+    return 0 unless scalar @arr;
     $result = 1;
     foreach my $i (@arr) {
         $result *= $i if defined $i;
@@ -886,6 +891,7 @@ sub _GET {
 # =========================
 sub _SET {
     my ( $name, $value ) = split( /,\s*/, $_[0], 2 );
+    return '' unless defined $name;
     $name =~ s/[^a-zA-Z0-9\_]//g;
     if ( $name && defined($value) ) {
         $value =~ s/\s*$//;
@@ -897,6 +903,7 @@ sub _SET {
 # =========================
 sub _SETIFEMPTY {
     my ( $name, $value ) = split( /,\s*/, $_[0], 2 );
+    return '' unless defined $name;
     $name =~ s/[^a-zA-Z0-9\_]//g;
     if ( $name && defined($value) && !$varStore{$name} ) {
         $value =~ s/\s*$//;
@@ -908,11 +915,13 @@ sub _SETIFEMPTY {
 # =========================
 sub _SETM {
     my ( $name, $value ) = split( /,\s*/, $_[0], 2 );
+    return '' unless defined $name;
     $name =~ s/[^a-zA-Z0-9\_]//g;
     if ($name) {
         my $old = $varStore{$name};
-        $old             = "" unless ( defined($old) );
-        $value           = _safeEvalPerl("$old $value");
+        $old   = "" unless ( defined($old) );
+        $value = "" unless ( defined($value) );
+        $value = _safeEvalPerl("$old $value");
         $varStore{$name} = $value;
     }
     return '';
@@ -1178,7 +1187,8 @@ sub _BITXOR {
 
     # This is a standard bit-wise xor of a list of integers.
     else {
-        @arr    = _getListAsInteger( $_[0] );
+        @arr = _getListAsInteger( $_[0] );
+        return '' unless scalar @arr;
         $result = int( shift(@arr) );
         if ( scalar(@arr) > 0 ) {
             foreach my $i (@arr) {
@@ -1444,6 +1454,19 @@ sub _EXACT {
     return ( $str1 eq $str2 ) ? 1 : 0;
 }
 
+# =========================
+sub _FILTER {
+    my $result = '';
+    my ( $filter, $string ) = split( /,\s*/, $_[0], 2 );
+    if ( defined $string ) {
+        $filter =~ s/\$comma/,/g;
+        $filter =~ s/\$sp/ /g;
+        eval '$string =~ s/$filter//go';
+        $result = $string;
+    }
+    return $result;
+}
+
 # ========================
 sub _FIND {
     return _SEARCH( $_[0], 'FIND' );
@@ -1472,6 +1495,7 @@ sub _REPLACE {
     my ( $string, $start, $num, $replace ) = split( /,\s*/, $_[0], 4 );
     $string = "" unless ( defined $string );
     my $result = $string;
+    $start ||= 0;
     $start-- unless ( $start < 1 );
     $num     = 0  unless ($num);
     $replace = "" unless ( defined $replace );
@@ -1683,6 +1707,7 @@ sub _getNumber {
 # =========================
 sub _safeEvalPerl {
     my ($theText) = @_;
+    $theText = '' unless defined $theText;
 
     # Allow only simple math with operators - + * / % ( )
     $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
@@ -1794,6 +1819,7 @@ sub _getList {
     my ($theAttr) = @_;
 
     my @list = ();
+    return @list unless $theAttr;
     $theAttr =~ s/^\s*//;    # Drop leading / trailing spaces
     $theAttr =~ s/\s*$//;
     foreach ( split( /\s*,\s*/, $theAttr ) ) {

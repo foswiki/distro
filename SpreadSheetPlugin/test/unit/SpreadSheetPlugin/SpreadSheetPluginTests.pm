@@ -460,6 +460,17 @@ sub test_FIND {
     $this->assert( $this->CALC('$FIND(@, fluffy, 1)') == 0 );
 }
 
+sub test_FILTER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$FILTER(f, fluffy)') eq 'luy' );
+    $this->assert_equals( $this->CALC('$FILTER(an Franc, San Francisco)'),
+        'Sisco' );
+    $this->assert(
+        $this->CALC('$FILTER($sp, The quick brown)') eq 'Thequickbrown' );
+    $this->assert(
+        $this->CALC('$FILTER([^a-zA-Z0-9 ], Stupid mistake*%@^! Fixed)') );
+}
+
 sub test_FLOOR {
     my ($this) = @_;
     $this->assert( $this->CALC('$FLOOR(5)') == 5 );
@@ -666,6 +677,34 @@ sub test_INT {
     $this->assert( $this->CALC('$INT($VALUE(09))') == 9 );
     $this->assert(
         $this->CALC('$INT(10 / 0)') eq 'ERROR: Illegal division by zero' );
+}
+
+sub test_ISDIGIT {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISDIGIT(123)') );
+    $this->assert( !$this->CALC('$ISDIGIT(-34)') );
+    $this->assert( !$this->CALC('$ISDIGIT(18.23)') );
+}
+
+sub test_ISLOWER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISLOWER(abcdefg)') );
+    $this->assert( !$this->CALC('$ISLOWER(abUPcdefg)') );
+    $this->assert( !$this->CALC('$ISLOWER(ab12cdefg)') );
+}
+
+sub test_ISUPPER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISUPPER(ASDFASD)') );
+    $this->assert( !$this->CALC('$ISUPPER(WikiWord)') );
+    $this->assert( !$this->CALC('$ISUPPER(123ABC)') );
+}
+
+sub test_ISWIKIWORD {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISWIKIWORD(MyWikiWord)') );
+    $this->assert( $this->CALC('$ISWIKIWORD(MyWord23)') );
+    $this->assert( !$this->CALC('$ISWIKIWORD(fooBar)') );
 }
 
 sub test_LEFT {
@@ -956,9 +995,8 @@ sub test_MOD {
 
 sub test_NOP {
     my ($this) = @_;
-    $this->assert( $this->CALC('$NOP(abcd)') eq 'abcd' );
-    $this->assert(
-        $this->CALC('$NOP($perabc$percntdef$quot)') eq '%abc%cntdef"' );
+    $this->assert( $this->CALC('$NOP(abcd)')                   eq 'abcd' );
+    $this->assert( $this->CALC('$NOP($perabc$percntdef$quot)') eq '%abc%def"' );
 }
 
 sub test_NOT {

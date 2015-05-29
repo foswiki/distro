@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1352097306" format="1.1" version="1"}%
+%META : TOPICINFO {
+    author = "ProjectContributor" date = "1352097306" format="1.1" version="1"}%
 ---+ !SpreadSheetPlugin Testing
 
 Use this topic to verify proper operation of the SpreadSheetPlugin in your environment.
@@ -35,7 +36,7 @@ __NOTE:__ All functions that follow are tested via:
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected ABOVE -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> A1 </td>
 <td> B1 </td>
@@ -45,8 +46,8 @@ __NOTE:__ All functions that follow are tested via:
 <td> B2 </td>
 </tr>
 <tr>
-<td> $ABOVE()=R0:C1..R2:C1 </td>
-<td> $ABOVE()=R0:C2..R2:C2 </td>
+<td> $ABOVE()=R1:C1..R2:C1 </td>
+<td> $ABOVE()=R1:C2..R2:C2 </td>
 </tr></tbody></table>
 <!-- /expected -->
 </td><td>
@@ -167,7 +168,7 @@ __NOTE:__ All functions that follow are tested via:
 <ul>
 <li>$BITXOR()=||
 </li>
-<li>$BITXOR(A123)=|¾ÎÍÌ|
+<li>$BITXOR(7,12)=|11|
 </li>
 <li>$BITXOR($BITXOR(anything))=|anything|
 </li>
@@ -177,7 +178,7 @@ __NOTE:__ All functions that follow are tested via:
 ---+++ Actual
 <!-- actual -->
    * $BITXOR()=|%CALCULATE{$BITXOR()}%|
-   * $BITXOR(A123)=|%CALCULATE{$BITXOR(A123)}%|
+   * $BITXOR(7,12)=|%CALCULATE{$BITXOR(7,12)}%|
    * $BITXOR($BITXOR(anything))=|%CALCULATE{$BITXOR($BITXOR(anything))}%|
 <!-- /actual -->
 </td></tr></table>
@@ -237,7 +238,7 @@ __NOTE:__ All functions that follow are tested via:
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected COLUMN -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> $COLUMN()=1 </td>
 <td> $COLUMN()=2 </td>
@@ -871,7 +872,7 @@ __NOTE:__ All functions that follow are tested via:
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected LEFT -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> 1 </td>
 <td> 2 </td>
@@ -936,7 +937,7 @@ __NOTE:__ All functions that follow are tested via:
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected LENGTH -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> Apple </td>
 <td> Banana </td>
@@ -1498,7 +1499,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 </li>
 <li>$PRODUCT(0)=|0|
 </li>
-<li>$PRODUCT()=|1|
+<li>$PRODUCT()=|0|
 </li>
 </ul>
 <!-- /expected -->
@@ -1659,7 +1660,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected RIGHT -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> $SUM($RIGHT())=&#124;3&#124; </td>
 <td> 1 </td>
@@ -1686,7 +1687,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 <ul>
 <li>$RIGHTSTRING(abcdefg)=|g|
 </li>
-<li>$RIGHTSTRING(abcdefg, 0)=|g|
+<li>$RIGHTSTRING(abcdefg, 0)=||
 </li>
 <li>$RIGHTSTRING(abcdefg, 1)=|g|
 </li>
@@ -1747,7 +1748,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 <!-- expected ROW -->
 
 
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> $ROW()=1 </td>
 <td> $ROW()=1 </td>
@@ -2109,7 +2110,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected SUMPRODUCT -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> 1 </td>
 <td> 2 </td>
@@ -2136,7 +2137,7 @@ $LISTJOIN($n, Apple, Orange, Apple, Kiwi)=|%CALCULATE{$LISTJOIN($n, Apple, Orang
 <table class="testSideBySide"><tr><td>
 ---+++ Expected
 <!-- expected T -->
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody>
+<table class="foswikiTable"><tbody>
 <tr>
 <td> 1 </td>
 <td> 2 </td>
