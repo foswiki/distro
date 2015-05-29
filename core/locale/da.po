@@ -460,8 +460,8 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
-"*eksterne links* brug et sidenavn eller URL: =http://yahoo.com= eller "
-"=[<nop>[http://yahoo.com/][link til Yahoo]]="
+"*eksterne links* brug et sidenavn eller URL: =http://yahoo.com= eller =[<nop>"
+"[http://yahoo.com/][link til Yahoo]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
@@ -2141,9 +2141,10 @@ msgstr ""
 "sådan en side, så bliver du bedt om a bekræfte forespørgslen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 "Hvis registrering ikke er deaktiveret pga. fejl, kan administratorer stadig "
 "registrere brugere ved at anvende"
@@ -2666,6 +2667,11 @@ msgstr "Tilpas søgning"
 msgid "More Actions on Topic %1"
 msgstr "Flere muligheder med siden %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Flere muligheder med siden %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Flere tegn formater"
@@ -2726,11 +2732,6 @@ msgstr "Flyt vedhæftet fil"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Flyt vedhæftet fil"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Flyt eller slet vedhæftet fil"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3408,9 +3409,10 @@ msgid "Registration has been denied"
 msgstr "Brugerregistrering er ikke tilladt"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 "Registrering er deaktiveret enten på grund af konfigurations-setting "
@@ -4700,7 +4702,8 @@ msgid "To attachment:"
 msgstr "Til vedhæftet fil:"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+#, fuzzy
+msgid "To block this registration, visit %2"
 msgstr "For at blokere denne registrering se %2"
 
 #: core/data/System/WebSearch.txt:284
@@ -4716,7 +4719,8 @@ msgid "To edit the topic anyway, click "
 msgstr "For at fortsætte med at editere siden alligevel, klik "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+#, fuzzy
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "For at logge på som anden bruger gør det [[%1][her]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5306,10 +5310,11 @@ msgid "You"
 msgstr "Dig selv"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "Du *skal* have mindst en registreret e-mail-adresse for at kunne nulstille "
 "dit password. Hvis ingen af dine registrerede e-mail-adresser er valide, og "
@@ -5551,7 +5556,8 @@ msgstr ""
 "fortsætte."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+#, fuzzy
+msgid "Your name as displayed by %1."
 msgstr "Dit navn som vist af %1. %2"
 
 #: core/data/System/WikiName.txt:4
@@ -5984,6 +5990,10 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Flyt eller slet vedhæftet fil"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "flueben for sider med referencer"

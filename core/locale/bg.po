@@ -1732,8 +1732,8 @@ msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
 msgstr ""
-"Не сте предоставили име за файла или файла, който се опитвате да "
-"качите( %1 ) е празен. Не може да качите празен файл."
+"Не сте предоставили име за файла или файла, който се опитвате да качите"
+"( %1 ) е празен. Не може да качите празен файл."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
 #, fuzzy
@@ -2194,7 +2194,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2715,6 +2715,11 @@ msgstr "Промяна на търсенето"
 msgid "More Actions on Topic %1"
 msgstr "Още действия за страница %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Още действия за страница %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2780,11 +2785,6 @@ msgstr "Преместване на притурка"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Преместване на притурка"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Преместване или изтриване на притурка"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3490,7 +3490,7 @@ msgstr "Кодовете за регистрация могат да се пол
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4722,7 +4722,7 @@ msgid "To attachment:"
 msgstr "Прикачени файлове към страницата"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr ""
 
 #: core/data/System/WebSearch.txt:284
@@ -4736,7 +4736,7 @@ msgid "To edit the topic anyway, click "
 msgstr "За да редактирате страницата, щракнете "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5331,7 +5331,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "*трябва* да имате поне един валиден e-mail-адрес, за да можете да нулирате "
 "паролата си. Ако нито един от регистрираните e-mail-адреси не е валиден, "
@@ -5528,7 +5528,7 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -5971,6 +5971,10 @@ msgstr "виж"
 msgid "why you are being asked to confirm"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Преместване или изтриване на притурка"
+
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "Отметки на реферирани страници"
 
@@ -6360,15 +6364,13 @@ msgstr ""
 #~ msgstr "&WYSIWYG"
 
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
-#~ "Моля вижте <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> за повече информация относно "
-#~ "прикрепване на файлове."
+#~ "Моля вижте <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> за "
+#~ "повече информация относно прикрепване на файлове."
 
 #~ msgid "WYSIWYG"
 #~ msgstr "WYSIWYG"

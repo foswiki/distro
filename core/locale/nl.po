@@ -2136,7 +2136,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2655,6 +2655,11 @@ msgstr "Pas zoekactie aan"
 msgid "More Actions on Topic %1"
 msgstr "Meer pagina-acties voor pagina %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Meer pagina-acties voor pagina %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr ""
@@ -2714,10 +2719,6 @@ msgstr "Bijlage %1 verplaatsen"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Verplaats bijlage"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-msgid "Move or Delete %1:"
-msgstr "Verplaats of verwijder bijlage %1:"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3388,9 +3389,10 @@ msgid "Registration has been denied"
 msgstr "Registratie werd geweigerd"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 "Registratie is uitgeschakeld of door de configuratie setting "
@@ -4641,7 +4643,8 @@ msgid "To attachment:"
 msgstr "Naar bijlage:"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+#, fuzzy
+msgid "To block this registration, visit %2"
 msgstr "Om deze registratie te blokkeren, ga naar %2"
 
 #: core/data/System/WebSearch.txt:284
@@ -4657,7 +4660,7 @@ msgid "To edit the topic anyway, click "
 msgstr "Om de pagina toch te bewerken, klik "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5230,10 +5233,11 @@ msgid "You"
 msgstr "Jij"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
 "wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
@@ -5460,7 +5464,7 @@ msgstr ""
 "nu daarheen geleid - zo niet, [[%2][klik om door te gaan]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -5890,6 +5894,9 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Verplaats of verwijder bijlage %1:"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "checkboxes van paginaverwijzingen"

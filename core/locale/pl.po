@@ -446,9 +446,8 @@ msgstr ""
 "*Właściwości:* Komentarz oraz wyświetlanie załącznika w tabeli załączników "
 "mogą zostać zmienione bez ponownego ładowania pliku. Należy w tym celu "
 "kliknąć \"Zmień tylko komentarz i właściwości\"; więcej: <a target="
-"\"HiddenAttachment\" onclick=\"return "
-"launchWindow('%1','HiddenAttachment')\" href=\"%2\" "
-"rel='nofollow'>HiddenAttachment</a>."
+"\"HiddenAttachment\" onclick=\"return launchWindow"
+"('%1','HiddenAttachment')\" href=\"%2\" rel='nofollow'>HiddenAttachment</a>."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -2192,7 +2191,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2735,6 +2734,11 @@ msgstr "Zmień"
 msgid "More Actions on Topic %1"
 msgstr "Inne operacje dla strony %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Inne operacje dla strony %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2801,11 +2805,6 @@ msgstr "Przenieś załącznik"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Przenieś załącznik"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Przenieś lub usuń: %1"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3521,7 +3520,7 @@ msgstr "Przykro nam, ale Rejestracja została tymczasowo wyłączona"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4819,8 +4818,9 @@ msgid "To attachment:"
 msgstr "Załączniki"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
-msgstr ""
+#, fuzzy
+msgid "To block this registration, visit %2"
+msgstr "Dziękujemy za zarejestrowanie się"
 
 #: core/data/System/WebSearch.txt:284
 msgid ""
@@ -4836,7 +4836,7 @@ msgstr "Aby mimo wszystko przeprowadzić edycję strony, kliknij "
 
 #: core/templates/messages.tmpl:394
 #, fuzzy
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Różnice można przejrzeć [[%1][tutaj]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5443,7 +5443,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "Aby móc zresetować hasło, *musisz* mieć przynajmniej jeden poprawny adres "
 "email. Jeśli żaden z zarejestrowanych adresów email nie jest poprawny, to "
@@ -5670,7 +5670,7 @@ msgstr ""
 "[tutaj]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -6116,6 +6116,10 @@ msgstr "wyświetl"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "dlaczego jesteś pytany o potwierdzenie"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Przenieś lub usuń: %1"
 
 #~ msgid "Attachments help"
 #~ msgstr "Pomoc o załącznikach"
@@ -6671,8 +6675,8 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 
 #, fuzzy
 #~ msgid ""
-#~ "It's usually best to choose a <a target='WikiWord' onclick="
-#~ "\"launchWindow('%SYSTEMWEB%','WikiWord'); return false;\" href='%1' "
+#~ "It's usually best to choose a <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%SYSTEMWEB%','WikiWord'); return false;\" href='%1' "
 #~ "rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
 #~ "linking may not work. Characters not allowed in topic names, such as "
 #~ "spaces will automatically be removed."
@@ -6685,14 +6689,12 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
-#~ "*Pomoc:* <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a>"
+#~ "*Pomoc:* <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a>"
 
 #~ msgid "WYSIWYG"
 #~ msgstr "WYSIWYG"
@@ -6754,13 +6756,13 @@ msgstr "dlaczego jesteś pytany o potwierdzenie"
 #~ "razem powinno się udać."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
-#~ "managing webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Pomoc do "
-#~ "zarządzania działami</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Pomoc do zarządzania "
+#~ "działami</a>"
 
 #~ msgid ""
 #~ "<span class='FoswikiAlert'><b>Do not forget</b></span> to save your "

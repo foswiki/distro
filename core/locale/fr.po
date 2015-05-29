@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-26 15:16+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2159,9 +2159,10 @@ msgstr ""
 "telle page, il vous est alors demandé de confirmer la requête."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 "Si l'inscription n'est pas désactivée par des erreurs, les administrateurs "
 "peuvent toujours inscrire des utilisateurs sur ce site en utilisant"
@@ -2696,6 +2697,11 @@ msgstr "Modifier la recherche"
 msgid "More Actions on Topic %1"
 msgstr "Autres actions sur la page %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Autres actions sur la page %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Autres formatages de caractères"
@@ -2756,11 +2762,6 @@ msgstr "Déplacer le fichier attaché"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Déplacer le fichier attaché"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Déplacer ou supprimer le fichier attaché"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3441,9 +3442,10 @@ msgid "Registration has been denied"
 msgstr "L'inscription a été refusée"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 "L'enregistrement est désactivé soit par le paramètre de configuration "
@@ -4778,7 +4780,8 @@ msgid "To attachment:"
 msgstr "Vers le fichier attaché :"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+#, fuzzy
+msgid "To block this registration, visit %2"
 msgstr "Pour bloquer cette inscription,  visitez %2"
 
 #: core/data/System/WebSearch.txt:284
@@ -4794,7 +4797,8 @@ msgid "To edit the topic anyway, click "
 msgstr "Pour modifier la page tout de même, cliquez "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+#, fuzzy
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 "Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire [[%1]"
 "[ici]]"
@@ -5392,10 +5396,11 @@ msgid "You"
 msgstr "Vous"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "Pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
 "moins une adresse e-mail valide lors de votre inscription. Si aucune des "
@@ -5640,7 +5645,8 @@ msgstr ""
 "être redirigé automatiquement. Sinon, [[%2][cliquez ici]] pour vous y rendre."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+#, fuzzy
+msgid "Your name as displayed by %1."
 msgstr "Votre nom tel qu'affiché par %1. %2"
 
 #: core/data/System/WikiName.txt:4
@@ -6088,6 +6094,10 @@ msgstr "visualiser"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Déplacer ou supprimer le fichier attaché"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "les pages référencées"

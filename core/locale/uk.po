@@ -2205,7 +2205,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2748,6 +2748,11 @@ msgstr "Змінити пошук"
 msgid "More Actions on Topic %1"
 msgstr "Другие действия над темой %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Другие действия над темой %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2813,11 +2818,6 @@ msgstr "Перемістити файл"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Перемістити прикріплений файл"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Перемісити чи вилучити прикріплені файли"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3546,7 +3546,7 @@ msgstr "Реєстраційні коди можуть бути використ
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4839,7 +4839,7 @@ msgstr "Прикріплені файли"
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "Спасибі за реєстрацію"
 
 #: core/data/System/WebSearch.txt:284
@@ -4854,7 +4854,7 @@ msgstr "Якщо Ви наполягаєте на редагуванні сто�
 
 #: core/templates/messages.tmpl:394
 #, fuzzy
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Ви можете подивитися відмінності [[%1][тут]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5452,7 +5452,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "У Вас *повинен* бути хоч би одна правильно зареєстрована адреса електронної "
 "пошти, щоб можна було скинути Ваш пароль. Якщо жодна із зареєстрованих Вами "
@@ -5680,7 +5680,7 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -6132,6 +6132,10 @@ msgstr "Проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Перемісити чи вилучити прикріплені файли"
 
 #~ msgid "Attachments help"
 #~ msgstr "Довідка щодо прикріплених файлів"
@@ -6614,10 +6618,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "*Подсказка:* Вы можете прочитать в <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' "
@@ -6686,13 +6689,13 @@ msgstr ""
 #~ "сработать."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
-#~ "managing webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','УправлениеРазделами')\" href='%2' "
-#~ "rel='nofollow'>Справка по Управлению Разделами</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','УправлениеРазделами')\" href='%2' rel='nofollow'>Справка по "
+#~ "Управлению Разделами</a>"
 
 #~ msgid ""
 #~ "<span class='twikiAlert'><b>Do not forget</b></span> to save your changes."

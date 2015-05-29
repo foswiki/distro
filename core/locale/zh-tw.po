@@ -2050,7 +2050,7 @@ msgstr "若 Foswiki 發現一個來自某網頁的可疑的請求，將會要求
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2553,6 +2553,11 @@ msgstr "修改搜尋:"
 msgid "More Actions on Topic %1"
 msgstr "主題 %1 的更多功能"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "主題 %1 的更多功能"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "多字格式"
@@ -2611,11 +2616,6 @@ msgstr "移動附件"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "移動附件"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "移動或刪除附件"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3310,7 +3310,7 @@ msgstr "抱歉，暫時禁用註冊。"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4560,7 +4560,7 @@ msgstr "到附件："
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "謝謝您註冊"
 
 #: core/data/System/WebSearch.txt:284
@@ -4574,7 +4574,7 @@ msgid "To edit the topic anyway, click "
 msgstr "強制編輯本主題，請按"
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5161,7 +5161,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "您 *必須* 至少有 1 個有效的註冊電子郵件才能重設密碼。若您忘記密碼且註冊用的郵"
 "件地址已失效，後請聯繫 %1。"
@@ -5371,7 +5371,7 @@ msgstr ""
 "您的語言將在下個螢幕改成 %1。現在您即將轉到那裏。若否，請[[%2][點擊這裏]]。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -5805,6 +5805,10 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "移動或刪除附件"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "勾選參考主題"

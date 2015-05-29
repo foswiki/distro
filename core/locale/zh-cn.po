@@ -2136,7 +2136,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2654,6 +2654,11 @@ msgstr "修改搜寻:"
 msgid "More Actions on Topic %1"
 msgstr "主题 %1 的更多功能"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "主题 %1 的更多功能"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2719,11 +2724,6 @@ msgstr "移动附件"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "移动附件"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "移动或删除附件"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3429,7 +3429,7 @@ msgstr "抱歉，暂时禁用注册。"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4686,7 +4686,7 @@ msgstr "主题附件"
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "谢谢您注册"
 
 #: core/data/System/WebSearch.txt:284
@@ -4700,7 +4700,7 @@ msgid "To edit the topic anyway, click "
 msgstr "强制编辑本主题，请按"
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5291,7 +5291,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "您 *必须* 至少有 1 个有效的注册电子邮件才能重设密码。若您忘记密码且注册用的邮"
 "件地址已失效，后请联系 %1。"
@@ -5501,7 +5501,7 @@ msgstr ""
 "您的语言将在下个荧幕改成 %1。现在您即将转到那里。若否，请[[%2][点击这里]]。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -5935,6 +5935,10 @@ msgstr "浏览"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "移动或删除附件"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "勾选参考主题"

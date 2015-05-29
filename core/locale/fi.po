@@ -2190,7 +2190,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2722,6 +2722,11 @@ msgstr "Muuta hakua"
 msgid "More Actions on Topic %1"
 msgstr "Lisää toimintoja aiheessa %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Lisää toimintoja aiheessa %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2787,11 +2792,6 @@ msgstr "Siirrä liite"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Siirrä tiedostoliite"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Siirrä tai poista liite"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3505,7 +3505,7 @@ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4797,7 +4797,7 @@ msgstr "Aiheen liitteet"
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "Kiitos rekisteröitymisestä"
 
 #: core/data/System/WebSearch.txt:284
@@ -4814,7 +4814,7 @@ msgstr "Muokataksesi kuitenkin aihetta, klikkaa "
 
 #: core/templates/messages.tmpl:394
 #, fuzzy
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Voit nähdä eroavaisuudet [[%1][täällä]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5414,7 +5414,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "sinulla *täytyy* olla vähintään yksi validi rekisteröity sähköposti, jotta "
 "voit resetoida salasanasi. Jos yksikään sinun rekisteröidyistä "
@@ -5499,11 +5499,11 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"Voit myös käyttää HTML standardien värinimiä  (black(=musta), "
-"silver(=hopea), gray(=harmaa), white(=valkoinen), maroon(=kastajanruskea), "
-"red(=punainen), purple(=purppura), fuchsia(=fuksia), green(=vihreä), lime, "
-"olive(=oliivin vihreä), yellow(=keltainen), navy(=tumman sininen), "
-"blue(=sininen), teal(=tavi), tai aqua)"
+"Voit myös käyttää HTML standardien värinimiä  (black(=musta), silver"
+"(=hopea), gray(=harmaa), white(=valkoinen), maroon(=kastajanruskea), red"
+"(=punainen), purple(=purppura), fuchsia(=fuksia), green(=vihreä), lime, olive"
+"(=oliivin vihreä), yellow(=keltainen), navy(=tumman sininen), blue"
+"(=sininen), teal(=tavi), tai aqua)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
 #: core/templates/registernotify.tmpl:25
@@ -5646,7 +5646,7 @@ msgstr ""
 "[klikata tästä jatkaaksesi]]"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -6093,6 +6093,10 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Siirrä tai poista liite"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "valintaruudut viitettyihin aiheisiin"

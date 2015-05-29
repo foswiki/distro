@@ -2219,7 +2219,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2759,6 +2759,11 @@ msgstr "Изменить поиск"
 msgid "More Actions on Topic %1"
 msgstr "Другие действия над темой %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Другие действия над темой %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2824,11 +2829,6 @@ msgstr "Переместить файл"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Переместить прикрепленный файл"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Переместить или удалить вложение"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3554,7 +3554,7 @@ msgstr "Простите, регистрация временно отключе
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4860,7 +4860,7 @@ msgstr "Прикрепленные файлы"
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "Спасибо за регистрацию"
 
 #: core/data/System/WebSearch.txt:284
@@ -4877,7 +4877,7 @@ msgstr "Если вы настаиваете на редактировании �
 
 #: core/templates/messages.tmpl:394
 #, fuzzy
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Вы можете посмотреть различия [[%1][здесь]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5480,7 +5480,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "У Вас *должен* быть хотя бы один правильно зарегистрированный адрес "
 "электронной почты, чтобы можно было сбросить Ваш пароль. Если ни один из "
@@ -5711,7 +5711,7 @@ msgstr ""
 "перенаправлены туда. Если этого не произойдёт, [[%2][жмите сюда]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -6166,6 +6166,10 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Переместить или удалить вложение"
 
 #~ msgid "Attachments help"
 #~ msgstr "Помощь по вложениям"
@@ -6713,8 +6717,8 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "It's usually best to choose a <a target='WikiWord' onclick="
-#~ "\"launchWindow('%SYSTEMWEB%','WikiWord'); return false;\" href='%1' "
+#~ "It's usually best to choose a <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%SYSTEMWEB%','WikiWord'); return false;\" href='%1' "
 #~ "rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
 #~ "linking may not work. Characters not allowed in topic names, such as "
 #~ "spaces will automatically be removed."
@@ -6727,10 +6731,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "*Подсказка:* Вы можете прочитать в <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' "
@@ -6802,13 +6805,13 @@ msgstr ""
 #~ "сработать."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
-#~ "managing webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','УправлениеРазделами')\" href='%2' "
-#~ "rel='nofollow'>Справка по Управлению Разделами</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','УправлениеРазделами')\" href='%2' rel='nofollow'>Справка по "
+#~ "Управлению Разделами</a>"
 
 #~ msgid ""
 #~ "<span class='twikiAlert'><b>Do not forget</b></span> to save your changes."

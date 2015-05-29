@@ -2114,9 +2114,10 @@ msgstr ""
 "takové stránky, zeptá se vás na potvrzení požadavku."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 "Jestliže registrace není možná z důvodu chyb, administrátoři mohou stále "
 "registrovat uživatele na tento web za použití"
@@ -2632,6 +2633,11 @@ msgstr "Změň hledání"
 msgid "More Actions on Topic %1"
 msgstr "Další akce s článkem %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Další akce s článkem %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Víceznakové formáty"
@@ -2692,11 +2698,6 @@ msgstr "Přesun přílohy"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Přesun přílohy"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Přesun nebo smazání přílohy"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3369,9 +3370,10 @@ msgid "Registration has been denied"
 msgstr "Registrace byla zamítnuta"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 "Registrace není povolena buď z důvodu nastavení {EnableNewUserRegistration}, "
@@ -4645,7 +4647,8 @@ msgid "To attachment:"
 msgstr "K příloze:"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+#, fuzzy
+msgid "To block this registration, visit %2"
 msgstr "K zablokování této registrace, navštivte %2"
 
 #: core/data/System/WebSearch.txt:284
@@ -4659,7 +4662,8 @@ msgid "To edit the topic anyway, click "
 msgstr "Pokud chcete článek přesto editovat, stiskněte "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+#, fuzzy
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Pro přihlášení jako jiný uživatel, prosím pokračujte [[%1][zde]]"
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5242,10 +5246,11 @@ msgid "You"
 msgstr "Ty"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
 "resetovat Vaše heslo. Pokud žádná z Vašich registrovaných emailových adres "
@@ -5477,7 +5482,8 @@ msgstr ""
 "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+#, fuzzy
+msgid "Your name as displayed by %1."
 msgstr "Vaše jméno je zobrazeno %1. %2"
 
 #: core/data/System/WikiName.txt:4
@@ -5908,6 +5914,10 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Přesun nebo smazání přílohy"
 
 #~ msgid "Attachments help"
 #~ msgstr "Pomoc k přílohám"
@@ -6430,11 +6440,11 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #, fuzzy
 #~ msgid ""
-#~ "It's usually best to choose a <a target='WikiWord' onclick="
-#~ "\"launchWindow('%1','WikiWord'); return false;\" href='%2' "
-#~ "rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
-#~ "linking may not work. Characters not allowed in topic names, such as "
-#~ "spaces will automatically be removed."
+#~ "It's usually best to choose a <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%1','WikiWord'); return false;\" href='%2' rel='nofollow'>WikiWord</a> "
+#~ "for the new topic name, otherwise automatic linking may not work. "
+#~ "Characters not allowed in topic names, such as spaces will automatically "
+#~ "be removed."
 #~ msgstr ""
 #~ "Obvykle je nejlépe vybrat <a target='WikiWord' onclick=\"return "
 #~ "launchWindow('%1','WikiWord')\" href='%1' rel='nofollow'>WikiWord</a> pro "
@@ -6454,10 +6464,9 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "*Nápověda:* Podívejte se na  <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' rel='nofollow'>Přílohy</a> "
@@ -6513,13 +6522,13 @@ msgstr "proč jste byl dotazován na potvrzení"
 #~ "to pracovat."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
-#~ "managing webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Nápověda k "
-#~ "řízení webů</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Nápověda k řízení webů</"
+#~ "a>"
 
 #~ msgid "Deleted"
 #~ msgstr "Vymazáno"

@@ -1991,7 +1991,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2472,6 +2472,10 @@ msgstr ""
 msgid "More Actions on Topic %1"
 msgstr ""
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+msgid "More actions for %1:"
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr ""
@@ -2528,10 +2532,6 @@ msgstr ""
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
-msgstr ""
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-msgid "Move or Delete %1:"
 msgstr ""
 
 #: core/templates/attachagain.tmpl:21
@@ -3183,7 +3183,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4353,7 +4353,7 @@ msgid "To attachment:"
 msgstr ""
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr ""
 
 #: core/data/System/WebSearch.txt:284
@@ -4367,7 +4367,7 @@ msgid "To edit the topic anyway, click "
 msgstr ""
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -4926,7 +4926,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:193
@@ -5117,7 +5117,7 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4

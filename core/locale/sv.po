@@ -2190,7 +2190,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:298
@@ -2720,6 +2720,11 @@ msgstr "Anpassa sökning"
 msgid "More Actions on Topic %1"
 msgstr "Fler alternativ för sidan %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Fler alternativ för sidan %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 #, fuzzy
 msgid "More character formats"
@@ -2785,11 +2790,6 @@ msgstr "Flytta bifogad fil"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Flytta bifogad fil"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
-msgid "Move or Delete %1:"
-msgstr "Flytta eller radera bifogad fil"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3506,7 +3506,7 @@ msgstr "Tyvärr, registreringen är tillfälligt avstängd"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 
@@ -4803,7 +4803,7 @@ msgstr "Filer bifogade till sidan"
 
 #: core/templates/registerapprove.tmpl:14
 #, fuzzy
-msgid "To block this registration,  visit %2"
+msgid "To block this registration, visit %2"
 msgstr "Tack för att du registrerade dig"
 
 #: core/data/System/WebSearch.txt:284
@@ -4819,7 +4819,7 @@ msgid "To edit the topic anyway, click "
 msgstr "För att ändå redigera sidan, klicka "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5422,7 +5422,7 @@ msgstr ""
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "du *måste* ha minst en registrerad e-postadress för att kunna nollställa "
 "ditt lösenord. Om ingen av dina registrerade e-postadresser är giltig och du "
@@ -5646,7 +5646,7 @@ msgstr ""
 "annars [[%2][här]] för att fortsätta."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+msgid "Your name as displayed by %1."
 msgstr ""
 
 #: core/data/System/WikiName.txt:4
@@ -6104,6 +6104,10 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Flytta eller radera bifogad fil"
 
 #~ msgid "checkboxes of referenced topics"
 #~ msgstr "kryssrutor för sidor med referenser"

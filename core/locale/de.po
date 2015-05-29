@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-27 23:52+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2112,8 +2112,8 @@ msgid ""
 "automatically."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '%"
-"1' konnte nicht automatisch entfernt werden."
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer "
+"'%1' konnte nicht automatisch entfernt werden."
 
 #: core/templates/registerfailedremoved.tmpl:13
 msgid ""
@@ -2122,8 +2122,8 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '%"
-"1' wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-"
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer "
+"'%1' wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-"
 "Topic manuell entfernen."
 
 #: core/templates/messages.tmpl:239
@@ -2165,9 +2165,10 @@ msgstr ""
 "stammen könnte, wird es Sie um eine zusätzliche Bestätigung bitten."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 "Wenn Registrierungen nicht durch einen Systemfehler unmöglich sind, können "
 "Administratoren immer noch Benutzer registrieren via"
@@ -2694,6 +2695,11 @@ msgstr "Suche verändern"
 msgid "More Actions on Topic %1"
 msgstr "Weitere Aktionen für Topic %1"
 
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#, fuzzy
+msgid "More actions for %1:"
+msgstr "Weitere Aktionen für Topic %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr "Weitere Zeichenformate"
@@ -2753,10 +2759,6 @@ msgstr "Anhang %1 verschieben"
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Dateianhang verschieben"
-
-#: PatternSkin/templates/attachagain.pattern.tmpl:23
-msgid "Move or Delete %1:"
-msgstr "%1 verschieben oder löschen:"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Move or delete attachment"
@@ -3435,9 +3437,10 @@ msgid "Registration has been denied"
 msgstr "Registrierung wurde abgewiesen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
-"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
 "Registrierung ist deaktiviert; entweder durch die Einstellung "
@@ -3995,7 +3998,8 @@ msgstr "Entschuldigung, die Registrierung wurde temporär abgeschaltet."
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr "Das Passwortsystem ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
+msgstr ""
+"Das Passwortsystem ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
@@ -4748,7 +4752,8 @@ msgid "To attachment:"
 msgstr "Zu Anhang:"
 
 #: core/templates/registerapprove.tmpl:14
-msgid "To block this registration,  visit %2"
+#, fuzzy
+msgid "To block this registration, visit %2"
 msgstr "Um diese Registrierung zu sperren, besuchen Sie %2"
 
 #: core/data/System/WebSearch.txt:284
@@ -4764,7 +4769,8 @@ msgid "To edit the topic anyway, click "
 msgstr "Um das Topic trotzdem zu bearbeiten drücken Sie "
 
 #: core/templates/messages.tmpl:394
-msgid "To login as another user please do so [[%1][here]]"
+#, fuzzy
+msgid "To login as another user please do so [[%1][here]]."
 msgstr "Um sich als ein anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
@@ -5355,10 +5361,11 @@ msgid "You"
 msgstr "Sie"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1"
+"have forgotten your password, contact %1."
 msgstr ""
 "Sie *müssen* zumindest eine gültige E-Mail registriert haben, um Ihr "
 "Passwort zurücksetzen zu können. Falls keine Ihrer E-Mail Adressen gültig "
@@ -5607,7 +5614,8 @@ msgstr ""
 "um weiter zu kommen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-msgid "Your name as displayed by %1. %2"
+#, fuzzy
+msgid "Your name as displayed by %1."
 msgstr "Ihr Name, wie er online auf %1 sichtbar sein soll. %2"
 
 #: core/data/System/WikiName.txt:4
@@ -6048,6 +6056,9 @@ msgstr "Ansehen"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "warum Sie zur Bestätigung aufgefordert werden"
+
+#~ msgid "Move or Delete %1:"
+#~ msgstr "%1 verschieben oder löschen:"
 
 #~ msgid "Attachments help"
 #~ msgstr "Hilfe zu Anhängen"
@@ -6636,17 +6647,17 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ "wenn Sie etwas schnell korrigieren wollen"
 
 #~ msgid ""
-#~ "It's usually best to choose a <a target='WikiWord' onclick="
-#~ "\"launchWindow('%1','WikiWord'); return false;\" href='%2' "
-#~ "rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
-#~ "linking may not work. Characters not allowed in topic names, such as "
-#~ "spaces will automatically be removed."
+#~ "It's usually best to choose a <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%1','WikiWord'); return false;\" href='%2' rel='nofollow'>WikiWord</a> "
+#~ "for the new topic name, otherwise automatic linking may not work. "
+#~ "Characters not allowed in topic names, such as spaces will automatically "
+#~ "be removed."
 #~ msgstr ""
-#~ "Es ist meist besser ein <a target='WikiWord' onclick="
-#~ "\"launchWindow('%1','WikiWord'); return false;\" href='%2' "
-#~ "rel='nofollow'>WikiWort</a> für das neue Topic zu wählen, da ansonsten "
-#~ "automatische Verweise nicht funktionieren. Zeichen die in Topic Namen "
-#~ "nicht erlaubt sind (z.B. Leerzeichen) werden automatisch entfernt."
+#~ "Es ist meist besser ein <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%1','WikiWord'); return false;\" href='%2' rel='nofollow'>WikiWort</a> "
+#~ "für das neue Topic zu wählen, da ansonsten automatische Verweise nicht "
+#~ "funktionieren. Zeichen die in Topic Namen nicht erlaubt sind (z.B. "
+#~ "Leerzeichen) werden automatisch entfernt."
 
 #~ msgid "or [[%1][log in as administrator]]"
 #~ msgstr "oder [[%1][als Administrator anmelden]]"
@@ -6658,10 +6669,9 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ msgstr "&WYSIWYG"
 
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return "
-#~ "launchWindow('%1','FileAttachment')\" href='' "
-#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
-#~ "files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "Für mehr Informationen über den Umgang mit Dateianhängen lesen Sie bitte "
 #~ "<a target='Macros' onclick=\"return launchWindow('%1','FileAttachment')\" "
@@ -6723,13 +6733,13 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ "versuchen Sie es noch noch einmal; beim zweiten Mal sollte es gehen."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
-#~ "managing webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return "
-#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Hilfe für "
-#~ "das Verwalten von Webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Hilfe für das Verwalten "
+#~ "von Webs</a>"
 
 #~ msgid ""
 #~ "<span class='twikiAlert'><b>Do not forget</b></span> to save your changes."
@@ -6921,8 +6931,8 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ "Alternatively go <a href=\"javascript:history.back()\">back</a> in your "
 #~ "browser and choose a different username."
 #~ msgstr ""
-#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history."
-#~ "back()\">zurück</a> und versuchen Sie einen anderen Benutzernamen."
+#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history.back"
+#~ "()\">zurück</a> und versuchen Sie einen anderen Benutzernamen."
 
 #~ msgid "An e-mail could not be delivered."
 #~ msgstr "Eine E-Mail konnte nicht zugestellt werden."
@@ -7301,8 +7311,8 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ "Please go <a href=\"javascript:history.back()\">back</a> in your browser "
 #~ "and try again."
 #~ msgstr ""
-#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history."
-#~ "back()\">zurück</a> und versuchen Sie es erneut."
+#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history.back"
+#~ "()\">zurück</a> und versuchen Sie es erneut."
 
 #~ msgid "Please notify your %1 administrator %2"
 #~ msgstr "Bitte informieren Sie Ihren %1 Administrator %2"
@@ -7679,8 +7689,8 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ "You might go <a href=\"javascript:history.back()\">back</a> in your "
 #~ "browser and save your changes locally."
 #~ msgstr ""
-#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history."
-#~ "back()\">zurück</a> und speichern Sie alle Änderungen lokal."
+#~ "Bitte gehen Sie mit Ihrem Browser <a href=\"javascript:history.back"
+#~ "()\">zurück</a> und speichern Sie alle Änderungen lokal."
 
 #~ msgid "Your [[%1][homepage]] has _not_ been removed yet."
 #~ msgstr "Ihre [[%1][Profilseite]] ist noch _nicht_ gelöscht worden."
@@ -7780,8 +7790,8 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 
 #~ msgid "Registered users can [%1[change]] and [%2[reset]] their passwords."
 #~ msgstr ""
-#~ "Registrierte Benutzer können ihre Passwörter [%1[ändern]] und "
-#~ "[%2[zurücksetzen]]."
+#~ "Registrierte Benutzer können ihre Passwörter [%1[ändern]] und [%2"
+#~ "[zurücksetzen]]."
 
 #~ msgid "&Attach"
 #~ msgstr "&Anhang"
