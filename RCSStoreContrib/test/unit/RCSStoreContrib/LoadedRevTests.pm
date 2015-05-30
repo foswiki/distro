@@ -44,9 +44,9 @@ sub skip {
             condition => { with_dep => 'Foswiki,>=,1.2' },
             tests     => {
                 'LoadedRevTests::verify_borked_TOPICINFO_load_behind_RcsWrap' =>
-                  'Not useful on 1.2+',
+                  'Not applicable on 1.2+',
                 'LoadedRevTests::verify_borked_TOPICINFO_load_behind_RcsLite' =>
-                  'Not useful on 1.2+',
+                  'Not applicable on 1.2+',
             }
         }
     );
