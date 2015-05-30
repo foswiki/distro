@@ -24,7 +24,7 @@ sub new {
 }
 
 sub fixture_groups {
-    return [ 'RcsWrap', 'RcsLite' ];
+    return ( [ 'RcsWrap', 'RcsLite' ] );
 }
 
 sub RcsWrap {
@@ -33,6 +33,23 @@ sub RcsWrap {
 
 sub RcsLite {
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+}
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,>=,1.2' },
+            tests     => {
+                'LoadedRevTests::verify_borked_TOPICINFO_load_behind_RcsWrap' =>
+                  'Not useful on 1.2+',
+                'LoadedRevTests::verify_borked_TOPICINFO_load_behind_RcsLite' =>
+                  'Not useful on 1.2+',
+            }
+        }
+    );
 }
 
 # Topic has not been saved. Loaded rev should be undef *even after
@@ -173,6 +190,9 @@ WHEE
 # When the topic is first loaded, the version number will be imaginary.
 sub verify_borked_TOPICINFO_load_behind {
     my $this = shift;
+
+    # This test is no longer useful on 1.2.0, as the underlying bug has been
+    # fixed
 
     # Start by creating a topic with a valid rev no (1)
     # Rev 1: Your grandmother smells of elderberries
