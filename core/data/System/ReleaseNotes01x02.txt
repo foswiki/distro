@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432316213" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1432952291" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -156,6 +156,17 @@ A table statement with the initsort parameter e.g.  =%<nop>TABLE{ initsort="... 
 will cause confusion as the table will be resorted every time a row is opened for
 edit, as well as when the whole table is opened for edit.
 </noautolink>
+
+---+++ The SpreadSheetPlugin =$BITXOR(string)= has been remove.
+
+The =$BITXOR(string)= function in SpreadSheetPlugin is not compatible with the
+implementation of utf-8 and unicode.  It opereates at the "byte" level
+assuming that each character is represented by a single byte.  With utf-8 and
+unicode, characters can be represented by 1, 2, or 3 or more bytes. The
+concept of obfuscating string data by flipping the bits is not compatible.
+
+=$BITXOR(string)= is treated as =$BITXOR()= and returns zero.
+
 ---++ Important changes in Foswiki 1.2
 ---+++ Installation process has changed significantly!
 You should not visit 'bin/configure' as your first access.  After extracting
@@ -164,12 +175,26 @@ the Foswiki code and preparing your web server:
    * Follow the link in the banner of that initial page to access configure.
    * After saving the configuration, return to your wiki pages, register your initial user and add them to the !AdminGroup.
 
+---++++ Improvements in International Character Set support
+
+Foswiki 1.2 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
+preserved during edit.   The Foswiki core has been fully converted to utf-8 and unicode. All encoding / decoding is done "at the edge", when reading from
+/ writing to the Foswiki store.
+
+   * New sites will use utf-8 by default.  Internationalizaiton should just work.
+   * Sites migrating data from a previous installation have two choices:
+      * Set ={Store}{Encoding} to match the previous ={Site}{CharSet}=. (Default was =iso-8859-1=)
+      * Migrate the data to utf-8 by using the =tools/bulk_copy.pl= script. This is the recommended solution.
+   * Support for Locales is known to have issues.  ={UseLocales}= should not be enabled in the configuration.
+
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
+should review the existing data and determine if migration to utf-8 should be performed.
+</div>
+
 ---+++ Perl libraries and paths
 
-Foswiki no longer ships Perl CPAN libraries for use as a last
-resort. If it is not possible or convenient to install perl libraries, then
-install the Foswiki:Extensions.CpanContrib to get pre-built libraries
-for Foswiki to use.
+Foswiki no longer ships Perl CPAN libraries for use as a last resort. If it is not possible or convenient to install perl libraries, then
+install the Foswiki:Extensions.CpanContrib to get pre-built libraries for Foswiki to use.
 
 The setup of the perl =@INC= path has been simplified, and the =foswiki/bin/LocalLib.cfg=
 setting for =$CPANBASE= has been completely eliminated.  A simple method of
@@ -210,17 +235,6 @@ extension fails to check for access permission, then these new methods will
 not block access.
 </div>
 
----++++ Improvements in International Character Set support
-
-Foswiki 1.2 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
-preserved during edit.  There are still some limitations however with Foswiki internationalization.  [[%BUGS%/Item13388][Item13388]] for more information.
-
-   * Support for Locales is known to have issues.  ={UseLocales}= should not be enabled in the configuration.
-   * !%QUERY% and !%SEARCH% macros do not operate correctly on utf-8 data when using:
-      * Regular expressions containing locale sensitive strings such as =\w= or =[[:upper:]]=
-      * =uc= and =lc= case conversions.
-   * The !SpreadSheetPlugin character string handling functions do not work correctly on utf-8 data.
-
 ---++++ CGI Related changes
 ---+++++ Session ID Security improvements.
 
@@ -249,7 +263,7 @@ However if guests are permitted to update, for example by using the CommentPlugi
 [[%SCRIPTURLPATH{"configure"}%][configure =Security and Authentication= tab]] interface for more information.
 
 ---+++++ Other CGI related changes
-<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have ={Site}{CharSet}= set to utf-8, you must not use CGI versions 4.11-4.13.
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* If you have ={Store}{Encoding}= set to utf-8, you must not use CGI versions 4.11-4.13.
 With those CGI releases, topic and form data can be corrupted during save.  CGI version 4.14 released 1 April 2015 is recommended.</div>
 
 Also note that with CGI 4.14, there have been come internal changes that might impact non-default or locally written extensions.  If you have locally written
@@ -839,6 +853,11 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
 | [[%BUGS%/Item13398][Item13398]] | Lighttpd configuration enhancements. Pass through PATH and Perl version. |
 | [[%BUGS%/Item13400][Item13400]] | Redirect after logout fails to honor ={ForceDefaultUrlHost}= setting. |
+| [[%BUGS%/Item13415][Item13415]] | Rename script =nonwikiword= parameter renamed to =onlywikiword=. |
+| [[%BUGS%/Item13422][Item13422]] | More Topic Actions page is extremely slow due to embedded searches. |
+| [[%BUGS%/Item13423][Item13423]] | Perl 5.22 deprcates unescaped { and } within regular expressions. |
+| [[%BUGS%/Item13427][Item13427]] | =ApacheHtpasswdUser= password manager has been removed from Foswiki. |
+| [[%BUGS%/Item13440][Item13440]] | Remove the SpreadSheetPlugin =$BITXOR(string)= functionality. |
 
 </noautolink>
 
