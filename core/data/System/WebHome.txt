@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
----+!! Welcome to the %WEB% Web
+%META:TOPICINFO{author="ProjectContributor" date="1433037425" format="1.1" version="1"}%
+---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
 
