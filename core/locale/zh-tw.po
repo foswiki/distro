@@ -839,7 +839,7 @@ msgid "Attachments will not be shown in topic view page."
 msgstr "主題瀏覽時將不顯示附件。"
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
-#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopslanguagechanged.tmpl:11
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
@@ -920,7 +920,7 @@ msgid ""
 "through the topic history)"
 msgstr "但已存在的表單資料將遺失（但您可利用主題歷史找回這些資料）"
 
-#: core/data/Trash/WebHome.txt:7
+#: core/data/Trash/WebHome.txt:8
 msgid ""
 "By default, viewing the Trash web is restricted to %1. If you would like to "
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
@@ -3683,7 +3683,7 @@ msgstr "搜尋哪里:"
 msgid "Searched:"
 msgstr "搜尋:"
 
-#: core/data/Trash/WebHome.txt:5
+#: core/data/Trash/WebHome.txt:6
 msgid "Security Note:"
 msgstr "安全提示:"
 
@@ -4453,7 +4453,7 @@ msgstr "這是用戶在 %1 註冊的自動電子郵件通知。"
 msgid "This is not a valid WikiName."
 msgstr "%1 不是個合適的表單名稱"
 
-#: core/data/Trash/WebHome.txt:2
+#: core/data/Trash/WebHome.txt:3
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
@@ -5108,7 +5108,9 @@ msgstr ""
 msgid "Welcome to %1 ... meet people on this site"
 msgstr ""
 
-#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+#: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
+#: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
+#: core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr "歡迎來到 %1 子網"
 
@@ -5363,12 +5365,10 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:16
-msgid ""
-"Your language will be changed to %1 from the next screen. You will be "
-"redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr ""
-"您的語言將在下個螢幕改成 %1。現在您即將轉到那裏。若否，請[[%2][點擊這裏]]。"
+#: core/templates/oopslanguagechanged.tmpl:14
+#, fuzzy
+msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+msgstr "您的密碼已改成 %1。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5593,7 +5593,7 @@ msgstr "最近更新的主題"
 msgid "manage"
 msgstr "管理"
 
-#: core/data/Trash/WebHome.txt:11
+#: core/data/Trash/WebHome.txt:12
 msgid "more..."
 msgstr "更多..."
 
@@ -5805,6 +5805,13 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "您的語言將在下個螢幕改成 %1。現在您即將轉到那裏。若否，請[[%2][點擊這"
+#~ "裏]]。"
 
 #, fuzzy
 #~ msgid "Move or Delete %1:"

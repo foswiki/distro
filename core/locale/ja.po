@@ -909,7 +909,7 @@ msgid "Attachments will not be shown in topic view page."
 msgstr "添付ファイルがトピックのビューページに表示されません"
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
-#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopslanguagechanged.tmpl:11
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
@@ -994,7 +994,7 @@ msgstr ""
 "既にフォームに書き入れたデータが削除されることになります。というのにトピック"
 "履歴から削除したデータを取り出せます。"
 
-#: core/data/Trash/WebHome.txt:7
+#: core/data/Trash/WebHome.txt:8
 msgid ""
 "By default, viewing the Trash web is restricted to %1. If you would like to "
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
@@ -3884,7 +3884,7 @@ msgstr "検索先:"
 msgid "Searched:"
 msgstr "検索結果:"
 
-#: core/data/Trash/WebHome.txt:5
+#: core/data/Trash/WebHome.txt:6
 msgid "Security Note:"
 msgstr "安全上のご注意："
 
@@ -4668,7 +4668,7 @@ msgstr ""
 msgid "This is not a valid WikiName."
 msgstr "'%1' は無効です。"
 
-#: core/data/Trash/WebHome.txt:2
+#: core/data/Trash/WebHome.txt:3
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
@@ -5342,7 +5342,9 @@ msgstr ""
 msgid "Welcome to %1 ... meet people on this site"
 msgstr ""
 
-#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+#: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
+#: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
+#: core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr " %1ウェブへようこそ"
 
@@ -5603,13 +5605,10 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:16
-msgid ""
-"Your language will be changed to %1 from the next screen. You will be "
-"redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr ""
-"次のスクリーンからあなたの言語は%1 に変更されます。今すぐそこに移動します。移"
-"動しなかった場合は、[[%2][ここをクリック]]して、移動してください。"
+#: core/templates/oopslanguagechanged.tmpl:14
+#, fuzzy
+msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+msgstr "あなたのパスワードは %1に変更されました"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5840,7 +5839,7 @@ msgstr "(変更)"
 msgid "manage"
 msgstr "管理"
 
-#: core/data/Trash/WebHome.txt:11
+#: core/data/Trash/WebHome.txt:12
 msgid "more..."
 msgstr "もっと多く……"
 
@@ -6058,6 +6057,13 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "次のスクリーンからあなたの言語は%1 に変更されます。今すぐそこに移動しま"
+#~ "す。移動しなかった場合は、[[%2][ここをクリック]]して、移動してください。"
 
 #, fuzzy
 #~ msgid "Move or Delete %1:"

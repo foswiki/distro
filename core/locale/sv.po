@@ -900,7 +900,7 @@ msgid "Attachments will not be shown in topic view page."
 msgstr "Filen kommer inte att visas när man tittar på sidan."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
-#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopslanguagechanged.tmpl:11
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
@@ -984,7 +984,7 @@ msgstr ""
 "Men befintligt formulärdata går förlorat (det kan alltid återställas genom "
 "sidhistoriken)"
 
-#: core/data/Trash/WebHome.txt:7
+#: core/data/Trash/WebHome.txt:8
 msgid ""
 "By default, viewing the Trash web is restricted to %1. If you would like to "
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
@@ -3891,7 +3891,7 @@ msgstr "Sök var:"
 msgid "Searched:"
 msgstr "Sök efter:"
 
-#: core/data/Trash/WebHome.txt:5
+#: core/data/Trash/WebHome.txt:6
 msgid "Security Note:"
 msgstr "Säkerhetsinformation:"
 
@@ -4690,7 +4690,7 @@ msgstr "Detta är ett automatgenerarat meddelande om registrering i %1."
 msgid "This is not a valid WikiName."
 msgstr "%1 är inte ett giltigt formulärnamn"
 
-#: core/data/Trash/WebHome.txt:2
+#: core/data/Trash/WebHome.txt:3
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
@@ -5369,7 +5369,9 @@ msgstr ""
 msgid "Welcome to %1 ... meet people on this site"
 msgstr ""
 
-#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+#: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
+#: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
+#: core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr "Välkommen till avdelning %1"
 
@@ -5637,13 +5639,10 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:16
-msgid ""
-"Your language will be changed to %1 from the next screen. You will be "
-"redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr ""
-"Språket byts till %1 från nästa skärmbild. Du blir nu omdirigerad. Klicka "
-"annars [[%2][här]] för att fortsätta."
+#: core/templates/oopslanguagechanged.tmpl:14
+#, fuzzy
+msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+msgstr "Ditt lösenord ändrades till %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5878,7 +5877,7 @@ msgstr "Senast ändrade sidor"
 msgid "manage"
 msgstr "uppdatera"
 
-#: core/data/Trash/WebHome.txt:11
+#: core/data/Trash/WebHome.txt:12
 msgid "more..."
 msgstr "mer..."
 
@@ -6104,6 +6103,13 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Språket byts till %1 från nästa skärmbild. Du blir nu omdirigerad. Klicka "
+#~ "annars [[%2][här]] för att fortsätta."
 
 #, fuzzy
 #~ msgid "Move or Delete %1:"

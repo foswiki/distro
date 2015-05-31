@@ -876,7 +876,7 @@ msgid "Attachments will not be shown in topic view page."
 msgstr "ghItlh bejlu&&#39;taHvIS tep lu&&#39;anglu&&#39;be&&#39;."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
-#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopslanguagechanged.tmpl:11
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
@@ -958,7 +958,7 @@ msgid ""
 msgstr ""
 "&&#39;ach Form De&&#39; <nop>DachIlbej (reH Dotlh tIQDaq Datlhapqa&&#39;laH)"
 
-#: core/data/Trash/WebHome.txt:7
+#: core/data/Trash/WebHome.txt:8
 msgid ""
 "By default, viewing the Trash web is restricted to %1. If you would like to "
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
@@ -3752,7 +3752,7 @@ msgstr "nejmeH Daq:"
 msgid "Searched:"
 msgstr "nejpu&&#39;:"
 
-#: core/data/Trash/WebHome.txt:5
+#: core/data/Trash/WebHome.txt:6
 msgid "Security Note:"
 msgstr "Hung qeS:"
 
@@ -4527,7 +4527,7 @@ msgstr "%1 muvmeH mIwmo&&#39; QIn Quv ngeHta&&#39; De&&#39;wI&&#39;."
 msgid "This is not a valid WikiName."
 msgstr "pabbe&&#39; wIqI-pongvam."
 
-#: core/data/Trash/WebHome.txt:2
+#: core/data/Trash/WebHome.txt:3
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
@@ -5174,7 +5174,9 @@ msgstr "<em>Foswiki ghajbogh</em> De&&#39;wI&&#39; toywI&&#39;"
 msgid "Welcome to %1 ... meet people on this site"
 msgstr "%1 yI&&#39;el... naDev ghotpu&&#39; <nop>DaqIHlaH"
 
-#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+#: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
+#: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
+#: core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr "%1 mIchDaq nuqneH"
 
@@ -5437,13 +5439,10 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr "reH QIn <nop>QuvlIj peghlu&&#39;."
 
-#: core/templates/oopslanguagechanged.tmpl:16
-msgid ""
-"Your language will be changed to %1 from the next screen. You will be "
-"redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr ""
-"narghDI&#39; <nop>HaSta veb, %1 Hol Dalo&#39;choH. pa&#39; "
-"<nop>DajaHmoHlu&#39;. Qapbe&#39;chugh, vaj [[%2][naDev yI&#39;uy]]."
+#: core/templates/oopslanguagechanged.tmpl:14
+#, fuzzy
+msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+msgstr "DaH %1 &&#39;oH chaw&&#39; ngoqlIj&&#39;e&&#39;."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
@@ -5667,7 +5666,7 @@ msgstr "choH Qav"
 msgid "manage"
 msgstr "vu&&#39;"
 
-#: core/data/Trash/WebHome.txt:11
+#: core/data/Trash/WebHome.txt:12
 msgid "more..."
 msgstr "latlh..."
 
@@ -5879,6 +5878,13 @@ msgstr "bej"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "qatlh naDev bI&&#39;olnIS"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "narghDI&#39; <nop>HaSta veb, %1 Hol Dalo&#39;choH. pa&#39; "
+#~ "<nop>DajaHmoHlu&#39;. Qapbe&#39;chugh, vaj [[%2][naDev yI&#39;uy]]."
 
 #~ msgid "Move or Delete %1:"
 #~ msgstr "tep %1 vIHmoH pagh &&#39;oH polHa&&#39;:"

@@ -919,7 +919,7 @@ msgid "Attachments will not be shown in topic view page."
 msgstr "Вложения не будут показаны на странице темы."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
-#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopslanguagechanged.tmpl:11
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
@@ -1003,7 +1003,7 @@ msgstr ""
 "Но существующие данные формы будут потеряны (вы всегда можете достать эти "
 "данные через историю темы)"
 
-#: core/data/Trash/WebHome.txt:7
+#: core/data/Trash/WebHome.txt:8
 msgid ""
 "By default, viewing the Trash web is restricted to %1. If you would like to "
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
@@ -3938,7 +3938,7 @@ msgstr "Где искать:"
 msgid "Searched:"
 msgstr "Найдено:"
 
-#: core/data/Trash/WebHome.txt:5
+#: core/data/Trash/WebHome.txt:6
 msgid "Security Note:"
 msgstr "Примечание по безопасности:"
 
@@ -4745,7 +4745,7 @@ msgstr "Это автоматическое уведомление о регис
 msgid "This is not a valid WikiName."
 msgstr "'%1' неправильный %2 "
 
-#: core/data/Trash/WebHome.txt:2
+#: core/data/Trash/WebHome.txt:3
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
@@ -5428,7 +5428,9 @@ msgstr ""
 msgid "Welcome to %1 ... meet people on this site"
 msgstr ""
 
-#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+#: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
+#: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
+#: core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr "Добро пожаловать в раздел %1"
 
@@ -5702,13 +5704,10 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:16
-msgid ""
-"Your language will be changed to %1 from the next screen. You will be "
-"redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr ""
-"Язык интерфейса изменится на %1 со следующего экрана. Сейчас Вы будете "
-"перенаправлены туда. Если этого не произойдёт, [[%2][жмите сюда]]."
+#: core/templates/oopslanguagechanged.tmpl:14
+#, fuzzy
+msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+msgstr "Ваш пароль изменен на %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5942,7 +5941,7 @@ msgstr "Недавно изменённые темы"
 msgid "manage"
 msgstr "управление"
 
-#: core/data/Trash/WebHome.txt:11
+#: core/data/Trash/WebHome.txt:12
 msgid "more..."
 msgstr "больше..."
 
@@ -6166,6 +6165,13 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Язык интерфейса изменится на %1 со следующего экрана. Сейчас Вы будете "
+#~ "перенаправлены туда. Если этого не произойдёт, [[%2][жмите сюда]]."
 
 #, fuzzy
 #~ msgid "Move or Delete %1:"
