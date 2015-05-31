@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-28 21:41+0200\n"
+"PO-Revision-Date: 2015-05-31 18:19+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -2146,13 +2146,12 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
 "Qaghmeymo&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;be&&#39;chugh, vaj "
-"lo&&#39;wI&&#39;pu&&#39; muvmoHlaH loHwI&&#39;pu&&#39;. janvam lulo&&#39;laH:"
+"lo&&#39;wI&&#39;pu&&#39; muvmoHmeH %1 lulo&&#39;laH loHwI&&#39;pu&&#39;."
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -2659,9 +2658,8 @@ msgid "More Actions on Topic %1"
 msgstr "%1 ghItlh latlh <nop>DuHmey"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "%1 ghItlh latlh <nop>DuHmey"
+msgstr "latlh %1 <nop>DuHmey:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -3386,7 +3384,6 @@ msgid "Registration has been denied"
 msgstr "muvmeH mIw lajHa&&#39;lu&&#39;"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -4631,7 +4628,6 @@ msgid "To attachment:"
 msgstr "tepvaD:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
 msgstr "muvmeH mIwvam <nop>DabotmeH, %2 yISuch"
 
@@ -4648,9 +4644,8 @@ msgid "To edit the topic anyway, click "
 msgstr "ghItlh <nop>DachoH <nop>DaneHchugh, vaj yI&&#39;uy "
 
 #: core/templates/messages.tmpl:394
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
-msgstr "latlh lo&&#39;wI&&#39; <nop>DaDameH, vaj [[%1][yI&&#39;elqa&&#39;]]"
+msgstr "latlh lo&&#39;wI&&#39; <nop>DaDameH, vaj [[%1][yI&&#39;elqa&&#39;]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5440,14 +5435,12 @@ msgid "Your email address will be kept confidential."
 msgstr "reH QIn <nop>QuvlIj peghlu&&#39;."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "DaH %1 &&#39;oH chaw&&#39; ngoqlIj&&#39;e&&#39;."
+msgstr "<nop>DaH %1 Hol Dalo&&#39;choH. [[%2][bIruchmeH yI&&#39;uy]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "%1Daq pongvam &&#39;aghlu&&#39;. %2"
+msgstr "%1Daq pongvam &&#39;aghlu&&#39;."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
