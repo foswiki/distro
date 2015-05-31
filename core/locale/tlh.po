@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 20:19+0200\n"
+"PO-Revision-Date: 2015-05-31 20:36+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -2792,7 +2792,7 @@ msgstr "QIn Quvmey chu&&#39; (tetlhDaq wav Deghmey chIm):"
 #: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
-msgstr ""
+msgstr "%1Daq ghItlhmey chu&&#39;, ghItlhmey choHlu&&#39;bogh, %2 tagh:"
 
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
@@ -3111,6 +3111,7 @@ msgstr "tep polHa&&#39;bogh Daq &&#39;oSwI&&#39;"
 #: core/templates/registermessages.tmpl:427
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
+"bIvangpa&&#39;, ghomvam <nop>DachoHmeH DIb Daghaj &&#39;e&&#39; yI&&#39;ol."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
 msgid "Please confirm your password."
@@ -3506,7 +3507,7 @@ msgstr "Form qa&&#39;..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
-msgstr ""
+msgstr "&&#39;olmeH tlhobwI&&#39;"
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3770,7 +3771,7 @@ msgstr "Form Delbogh De&&#39; <nop>DaSammeH %1 yIlaD."
 #: core/templates/registermessages.tmpl:429
 #: core/templates/registermessages.tmpl:438
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "chavmeylIj Da&&#39;angmeH %MAINWEB%.WikiGroups yISuch."
 
 #: core/data/System/WebIndex.txt:13
 msgid "See also the faster %1"
