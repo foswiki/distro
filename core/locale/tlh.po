@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 18:19+0200\n"
+"PO-Revision-Date: 2015-05-31 20:19+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -387,8 +387,8 @@ msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*De&&#39; chu&&#39;chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; "
-"<nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+"*De&&#39; chu&&#39; chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; <nop>"
+"DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -396,9 +396,9 @@ msgid ""
 "comment shown in the topic will change, but the comment shown against the "
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
-"*choH <nop>QInHom*: <nop>QInHom <nop>DachoHmeH _<nop>DuHmey choH_ Dalo&&#39;"
-"chugh, vaj ghItlhDaq &&#39;anglu&&#39;bogh <nop>QInHom&&#39;e&&#39; "
-"choHlu&&#39;, &&#39;ach tep qunDaq ratlh tep <nop>QInHom qan."
+"*choH <nop>QInHom*: <nop>QInHom <nop>DachoHmeH _<nop>DuHmey neH choH_ "
+"Dalo&&#39;chugh, vaj ghItlhDaq &&#39;anglu&&#39;bogh <nop>QInHom&&#39;e&&#39;"
+" choHlu&&#39;, &&#39;ach tep qunDaq ratlh tep <nop>QInHom qan."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -657,7 +657,7 @@ msgstr "vang"
 
 #: core/templates/messages.tmpl:392
 msgid "Action %1: %2 by user %3."
-msgstr "ta&&#39; %1: %2 ta&&#39;pu&&#39; lo&&#39;wI&&#39; %3."
+msgstr "%1: %2, vangchugh lo&&#39;wI&&#39; %3."
 
 #: core/data/Main/WikiGroups.txt:64
 msgid "Actions"
@@ -1328,7 +1328,7 @@ msgstr "mIch chu&rsquo; %1 chenmoHlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:294
 msgid "Could not find template"
-msgstr "ghantoH <nop>SamlaHbe&&#39;"
+msgstr "ghantoH <nop>vISamlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:383
 msgid "Could not perform search. Error was: %1"
@@ -3570,6 +3570,7 @@ msgstr ""
 #: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
+"wa&&#39; Dotlh neH ghajmo&&#39; ghItlhvam, &&#39;oH Dapolqa&&#39;laHbe&&#39;."
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -4033,7 +4034,7 @@ msgstr "ghItlhvam qImchoH"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "Subscribe to this topic (s)"
-msgstr "ghItlhvam qImchoH (s)"
+msgstr "ghItlhvam qImchoH"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
 msgid "Subscript"
@@ -4645,7 +4646,7 @@ msgstr "ghItlh <nop>DachoH <nop>DaneHchugh, vaj yI&&#39;uy "
 
 #: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]."
-msgstr "latlh lo&&#39;wI&&#39; <nop>DaDameH, vaj [[%1][yI&&#39;elqa&&#39;]]."
+msgstr "latlh lo&&#39;wI&&#39; <nop>DagheSmeH, vaj [[%1][yI&&#39;elqa&&#39;]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5091,15 +5092,15 @@ msgstr ""
 
 #: core/templates/messages.tmpl:363
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Qu&&#39;vatlh: ghItlh %1.%2Daq &&#39;ay&&#39; %3 <nop>SamlaHbe&&#39;"
+msgstr "Qu&&#39;vatlh: ghItlh %1.%2Daq &&#39;ay&&#39; %3 <nop>vISamlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:361
 msgid "Warning: Can't find topic %1.%2"
-msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>SamlaHbe&&#39;"
+msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
 
 #: core/templates/messages.tmpl:359
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>SamlaHbe&&#39;"
+msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
 
 #: core/lib/Foswiki/UI/Register.pm:1277
 msgid "Warning: Could not send confirmation email"
@@ -5566,7 +5567,7 @@ msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
-msgstr "mIchDaq naw&&#39; chaw&&#39;be&&#39;lu&&#39;"
+msgstr "mIchDaq naw\\' chaw\\'be\\'lu\\'"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
@@ -5813,7 +5814,7 @@ msgstr "title='retlhDaq' accesskey='s'>retlhDaq"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='ghItlhvam qImchoH' accesskey='s'>qImchoH (s)"
+msgstr "title='ghItlhvam qImchoH' accesskey='s'>qImchoH"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
