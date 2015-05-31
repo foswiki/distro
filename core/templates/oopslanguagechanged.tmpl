@@ -6,11 +6,9 @@
 
 %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"oktopicaction"}%%TMPL:END%
 
-%TMPL:DEF{"script"}%<meta http-equiv="refresh" content="0;url=%SCRIPTURL{view}%/%WEB%/%TOPIC%?%QUERYPARAMS{encoding="safe" separator=";"}%" />%TMPL:END%
-
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
 
 %TMPL:DEF{"webaction"}% *%MAKETEXT{"Attention"}%* %TMPL:END%
 
 %TMPL:DEF{"message"}%%SESSION_VARIABLE{"LANGUAGE" set="%URLPARAM{language}%"}%
-%MAKETEXT{"Your language will be changed to [_1] from the next screen. You will be redirected to there right now. If you aren't, ~[~[[_2]~]~[click to proceed~]~]." args="*%SESSION_VARIABLE{LANGUAGE}%*, %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%"}%%TMPL:END%
+%MAKETEXT{"Your language has been changed to [_1]. ~[~[[_2]~]~[click to proceed~]~]." args="*%SESSION_VARIABLE{LANGUAGE}%*, %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%"}%%TMPL:END%
