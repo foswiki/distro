@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 18:22+0200\n"
+"PO-Revision-Date: 2015-05-31 19:57+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -5603,7 +5603,7 @@ msgstr "Ihre E-Mail-Adresse wird nicht veröffentlicht oder weitergegeben."
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr ""
-"Ihre Sprache wurde auf %1 umgestellt. [[%2][Klicken Sie hier zum "
+"Ihre Sprache wird jetzt auf %1 umgestellt. [[%2][Klicken Sie hier zum "
 "fortfahren]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
