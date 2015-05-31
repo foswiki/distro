@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-27 23:52+0200\n"
+"PO-Revision-Date: 2015-05-31 18:22+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2165,13 +2165,12 @@ msgstr ""
 "stammen könnte, wird es Sie um eine zusätzliche Bestätigung bitten."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
-"Wenn Registrierungen nicht durch einen Systemfehler unmöglich sind, können "
-"Administratoren immer noch Benutzer registrieren via"
+"Falls Registrierungen nicht durch einen Systemfehler unmöglich sind, können "
+"Administratoren immer noch Benutzer über %1 registrieren."
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -2696,9 +2695,8 @@ msgid "More Actions on Topic %1"
 msgstr "Weitere Aktionen für Topic %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "Weitere Aktionen für Topic %1"
+msgstr "Weitere Aktionen für %1:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -3437,7 +3435,6 @@ msgid "Registration has been denied"
 msgstr "Registrierung wurde abgewiesen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -4752,7 +4749,6 @@ msgid "To attachment:"
 msgstr "Zu Anhang:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
 msgstr "Um diese Registrierung zu sperren, besuchen Sie %2"
 
@@ -4769,9 +4765,8 @@ msgid "To edit the topic anyway, click "
 msgstr "Um das Topic trotzdem zu bearbeiten drücken Sie "
 
 #: core/templates/messages.tmpl:394
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
-msgstr "Um sich als ein anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
+msgstr "Um sich als anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5363,7 +5358,6 @@ msgid "You"
 msgstr "Sie"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -5607,14 +5601,14 @@ msgid "Your email address will be kept confidential."
 msgstr "Ihre E-Mail-Adresse wird nicht veröffentlicht oder weitergegeben."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Ihr Passwort wurde in %1 geändert."
+msgstr ""
+"Ihre Sprache wurde auf %1 umgestellt. [[%2][Klicken Sie hier zum "
+"fortfahren]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "Ihr Name, wie er online auf %1 sichtbar sein soll. %2"
+msgstr "Ihr Name, wie er online auf %1 sichtbar sein soll."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
