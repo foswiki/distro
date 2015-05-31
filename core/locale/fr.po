@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-26 15:16+0200\n"
+"PO-Revision-Date: 2015-05-31 18:33+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -675,9 +675,8 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "Ajouter des membres à"
+msgstr "Ajouter des membres à %1"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1186,7 +1185,6 @@ msgid "Clear all"
 msgstr "Désélectionner toutes"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Clear all topics"
 msgstr "Désélectionner toutes"
 
@@ -1473,9 +1471,8 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "Supprimer le fichier attaché"
+msgstr "Supprimer le fichier attaché %1"
 
 #: core/templates/more.tmpl:51
 msgid "Delete topic"
@@ -2698,9 +2695,8 @@ msgid "More Actions on Topic %1"
 msgstr "Autres actions sur la page %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "Autres actions sur la page %1"
+msgstr "Autres actions pour %1:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2755,9 +2751,8 @@ msgid "Move %1 to Trash Web"
 msgstr "Déplacer %1 vers le Web Trash (poubelle)"
 
 #: core/templates/moveattachment.tmpl:9
-#, fuzzy
 msgid "Move attachment %1"
-msgstr "Déplacer le fichier attaché"
+msgstr "Déplacer le fichier attaché %1"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
@@ -2772,9 +2767,8 @@ msgid "Move to web:"
 msgstr "Vers le web :"
 
 #: core/templates/renameattachmentdelete.tmpl:21
-#, fuzzy
 msgid "Move to web: %1"
-msgstr "Vers le web :"
+msgstr "Vers le web: %1"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
@@ -3500,9 +3494,8 @@ msgid "Remember your password?"
 msgstr "Vous souvenez-vous de votre mot de passe ?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Supprimer des membres de"
+msgstr "Supprimer des membres de %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3791,7 +3784,6 @@ msgid "Search result"
 msgstr "Résultat de la recherche"
 
 #: core/data/System/WebSearch.txt:238
-#, fuzzy
 msgid "Search results"
 msgstr "Résultat de la recherche"
 
@@ -3878,7 +3870,6 @@ msgstr ""
 "actuellement) pour mettre à jour ce fichier attaché"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all topics"
 msgstr "Tout sélectionner"
 
@@ -3943,9 +3934,8 @@ msgid "Show %1 revisions up to revision %2"
 msgstr "Afficher %1 versions jusqu'à la version %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
-#, fuzzy
 msgid "Show attachments help"
-msgstr "Aide sur les fichiers attachés"
+msgstr "Montrer aide sur les fichiers attachés"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -4780,9 +4770,8 @@ msgid "To attachment:"
 msgstr "Vers le fichier attaché :"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
-msgstr "Pour bloquer cette inscription,  visitez %2"
+msgstr "Pour bloquer cette inscription, visitez %2"
 
 #: core/data/System/WebSearch.txt:284
 msgid ""
@@ -4797,11 +4786,10 @@ msgid "To edit the topic anyway, click "
 msgstr "Pour modifier la page tout de même, cliquez "
 
 #: core/templates/messages.tmpl:394
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
-"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire [[%1]"
-"[ici]]"
+"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire "
+"[[%1][ici]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5639,14 +5627,14 @@ msgid "Your email address will be kept confidential."
 msgstr "Votre adresse e-mail restera confidentielle."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Votre mot de passe a été modifié ; il est maintenant %1."
+msgstr ""
+"Votre langue a été modifié ; il est maintenant %1. [[%2][cliquez ici pour "
+"continuer]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "Votre nom tel qu'affiché par %1. %2"
+msgstr "Votre nom tel qu'affiché par %1."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
