@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-26 18:03+0200\n"
+"PO-Revision-Date: 2015-05-31 18:29+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -382,13 +382,12 @@ msgid ""
 msgstr ""
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*Lokaal bestand:* Als je een nieuw of ander bestand kiest bij _Lokaal "
-"bestand:_, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
+"*Nieuw bestand toevoegen:* Als je een nieuw of ander bestand in je browser "
+"kiest, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -2656,9 +2655,8 @@ msgid "More Actions on Topic %1"
 msgstr "Meer pagina-acties voor pagina %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "Meer pagina-acties voor pagina %1"
+msgstr "Meer acties voor %1:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -3176,7 +3174,6 @@ msgid "Please go back in your browser and check again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
@@ -3389,7 +3386,6 @@ msgid "Registration has been denied"
 msgstr "Registratie werd geweigerd"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -4643,7 +4639,6 @@ msgid "To attachment:"
 msgstr "Naar bijlage:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
 msgstr "Om deze registratie te blokkeren, ga naar %2"
 
@@ -5235,7 +5230,6 @@ msgid "You"
 msgstr "Jij"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -5244,7 +5238,7 @@ msgstr ""
 "Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
 "wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
 "mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
-"op met %1"
+"op met %1."
 
 #: core/templates/registermessages.tmpl:193
 msgid "You are already registered."
@@ -5458,9 +5452,8 @@ msgid "Your email address will be kept confidential."
 msgstr ""
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Je wachtwoord is veranderd in %1."
+msgstr "Je taal werd omgeschakeld naar %1. [[%2][klik hier om verder te gaan]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
