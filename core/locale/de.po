@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 21:55+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:03+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -326,7 +326,7 @@ msgstr "(Einloggen)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
-msgstr "(Mehr)"
+msgstr "(mehr)"
 
 #: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
@@ -347,7 +347,7 @@ msgstr "(nichts)"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "(otherwise search %1 Web only)"
-msgstr "(ansonsten nur %1 Web durchsuchen)"
+msgstr "(ansonsten nur %1-Web durchsuchen)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
@@ -389,7 +389,7 @@ msgid ""
 "address."
 msgstr ""
 "*Administratoren:* Sie können die E-Mail-Adressen von Benutzern mit diesem "
-"Formular ändern. Geben Sie den Login oder [[%1][WikiNamen]] des Benutzers "
+"Formular ändern. Geben Sie den Login- oder [[%1][WikiNamen]] des Benutzers "
 "und die neue E-Mail-Adresse ein."
 
 #: core/templates/attachagain.tmpl:19
@@ -407,9 +407,9 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 "*Änderungskommentar:* Wenn Sie mit _Eigenschaften ändern_ einen Kommentar "
-"ändern wird der Kommentar im Topic sich ändern, jedoch bleibt der "
-"ursprünglich gemachte Kommentar zum Zeitpunkt des Hochladens in der Historie "
-"bestehen."
+"ändern, wird der im Topic angezeigte Kommentar sich ändern, jedoch bleibt "
+"der ursprünglich zum Zeitpunkt des Hochladens gemachte Kommentar in der "
+"Historie bestehen."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -446,15 +446,15 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
-msgstr "*Fett* Wörter/Sätze in Sternchen setzen: =<nop>*your phrase*="
+msgstr "*Fett* Wörter/Sätze in Sternchen einschließen: =<nop>*Ihr Text*="
 
 #: core/data/System/WikiSyntaxSummary.txt:10
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
 msgstr ""
-"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: =&&nbsp;&&nbsp;&&nbsp;"
-"*&&nbsp;"
+"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: "
+"=&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Ihr Text="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
@@ -467,27 +467,27 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
-"*Überschriften* 3 Minuszeichen, 1 bis 6 Pluszeichen, 1 Leerzeichen: =---+"
-"+&&nbsp;Ihre Überschrift="
+"*Überschriften* 3 Bindestriche, 1 bis 6 Pluszeichen, 1 Leerzeichen: "
+"=---++&&nbsp;Ihre Überschrift="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-msgstr "*Kursiv* Wörter/Sätze in Unterstriche setzen: =_<nop>your words_="
+msgstr "*Kursiv* Wörter/Sätze in Unterstriche einschließen: =_<nop>Ihr Text_="
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
-"*Dicktengleiche Schrift* Wörter/Sätze in Gleichheitszeichen setzen: "
-"=<nop>=Ihr Text=="
+"*Dicktengleiche Schrift* (Schreibmaschinenstil) Wörter/Sätze in "
+"Gleichheitszeichen einschließen: =<nop>=Ihr Text=="
 
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
-msgstr "*Absätze* abtrennen durch eine Leerzeile"
+msgstr "*Absätze* durch eine Leerzeile voneinander trennen"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne Verweise* Topic-Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
+"*interne Verweise* Topicnamen benutzen: =%1= oder =[<nop>[%1][Unsere "
 "Homepage]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
@@ -540,7 +540,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:91
 msgid "<em>in %1 web</em> only"
-msgstr "nur <em>im %1 Web</em>"
+msgstr "nur <em>im %1-Web</em>"
 
 #: core/templates/more.tmpl:89
 msgid "<em>in all public webs</em>"
@@ -593,13 +593,13 @@ msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr ""
-"Eine Farbdefinition beginnt mit einem # Zeichen, gefolgt von 6 Zahlen in "
-"Hexadezimal, z.B. =#FFFF00=."
+"Eine Farbdefinition beginnt mit einem #-Zeichen, gefolgt von 6 "
+"Hexadezimalzahlen, z.B. =#FFFF00=."
 
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1284
 msgid "A confirmation e-mail has been sent to %1"
-msgstr "Eine Bestätigungs E-Mail wurde an %1 gesendet"
+msgstr "Eine Bestätigungs-E-Mail wurde an %1 gesendet"
 
 #: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
@@ -609,7 +609,7 @@ msgid ""
 msgstr ""
 "Ein Verweis zu einem Topic, das sich in einem anderen Web befindet, wird wie "
 "folgt geschrieben: %1. Stellen Sie sicher, dass der Name des Webs auf der "
-"vorherigen Seiten nicht falsch geschrieben ist; falls notwendig korrigieren "
+"vorherigen Seite nicht falsch geschrieben ist; falls notwendig, korrigieren "
 "Sie den Verweis."
 
 #: core/templates/messages.tmpl:377
@@ -618,19 +618,20 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Ein neues vom System erzeugtes Passwort für den Login-Namen '%1' (!WikiName "
-"%2) wurde an die dafür gespeicherte E-Mail-Adresse gesendet. Falls diese E-"
-"Mail-Adresse nicht mehr gültig ist, nehmen Sie bitte mit %3 Kontakt auf."
+"Ein neues vom System erzeugtes Passwort für Ihren Login-Namen „%1“ ("
+"!WikiName %2) wurde an die dafür gespeicherte E-Mail-Adresse gesendet. Falls "
+"diese E-Mail-Adresse nicht mehr gültig ist, nehmen Sie bitte mit %3 Kontakt "
+"auf."
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
-"Eine Topic-Vorlage bestimmt den initialen Inhalt eines neu angelegten Topics."
+"Eine Topicvorlage bestimmt den initialen Inhalt eines neu angelegten Topics."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
-"Ein Topic mit diesem Namen existiert, es wurde jedoch umbenannt oder nach %1 "
+"Es gab ein Topic mit diesem Namen, es wurde jedoch umbenannt oder nach %1 "
 "verschoben."
 
 #: core/templates/registerapprove.tmpl:9
@@ -708,7 +709,7 @@ msgstr "Benutzerverwaltungsoptionen zu diesem Topic hinzufügen."
 
 #: core/templates/messages.tmpl:231
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Füge eine %1 Variable in WebPreferences hinzu"
+msgstr "Füge eine %1-Variable in WebPreferences hinzu"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -731,8 +732,8 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
-"Nachdem Sie dieses Formular abgesendet haben wird ihre E-Mail geändert und "
-"Sie wieder auf dieses Formular geführt."
+"Nach Absenden dieses Formulars wird ihre E-Mail geändert und Sie werden "
+"wieder auf dieses Formular geführt."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
