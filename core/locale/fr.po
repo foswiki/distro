@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 18:33+0200\n"
+"PO-Revision-Date: 2015-06-01 09:02+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -244,9 +244,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= pour afficher toutes les pages)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(liens entrants dans le Web %1)"
+msgstr "(pages filles dans le Web %1)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
@@ -385,13 +384,12 @@ msgstr ""
 "de l'utilisateur et la nouvelle adresse e-mail."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*Fichier local :* Si vous choisissez un fichier différent dans _Fichier "
-"local_, c'est celui-là qui sera mis à jour ou ajouté."
+"*Ajouter nouveau fichier:* Si vous choisissez un fichier différent dans "
+"votre ordinateur, c'est celui-là qui sera mis à jour ou ajouté."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -1172,9 +1170,8 @@ msgid "Child topics in %1 web"
 msgstr "Pages filles dans le web %1"
 
 #: core/templates/backlinkchildren.tmpl:5
-#, fuzzy
 msgid "Children of %1 in %2 Web"
-msgstr "Liens pointant vers %1 dans le Web %2"
+msgstr "Pages filles de %1 dans le Web %2"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1834,9 +1831,8 @@ msgid "Find similar topics"
 msgstr "Trouver des pages similaires"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
-msgstr "Chercher les pages qui contiennent un lien pointant vers %1..."
+msgstr "Chercher les pages qui sont des filles de %1..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2156,13 +2152,13 @@ msgstr ""
 "telle page, il vous est alors demandé de confirmer la requête."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
-"Si l'inscription n'est pas désactivée par des erreurs, les administrateurs "
-"peuvent toujours inscrire des utilisateurs sur ce site en utilisant"
+"Si l'enregistrement n'est pas désactivé en raison d'erreurs, les "
+"administrateurs peuvent toujours enregistrer des utilisateurs sur ce site en "
+"utilisant %1."
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -2869,23 +2865,20 @@ msgid "No  members"
 msgstr "Aucun membre"
 
 #: core/templates/backlinks.tmpl:20
-#, fuzzy
 msgid "No backlinks in public webs"
-msgstr "(liens entrants dans tous les Webs)"
+msgstr "(liens entrants dans les Webs publics)"
 
 #: core/templates/backlinks.tmpl:10
-#, fuzzy
 msgid "No backlinks in this web"
-msgstr "(liens entrants dans le Web %1)"
+msgstr "pas de liens entrants dans ce Web"
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Aucun changement"
 
 #: core/templates/backlinks.tmpl:28
-#, fuzzy
 msgid "No child topics found."
-msgstr "Pas de pages filles"
+msgstr "Pas de pages filles trouvées."
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
@@ -3438,7 +3431,6 @@ msgid "Registration has been denied"
 msgstr "L'inscription a été refusée"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3446,7 +3438,7 @@ msgid ""
 msgstr ""
 "L'enregistrement est désactivé soit par le paramètre de configuration "
 "{EnableNewUserRegistration}, soit en raison d'erreurs affectant le système "
-"de mot de passe.  Vérifiez la présence d'erreurs dans la configuration."
+"de mot de passe. Vérifiez la présence d'erreurs dans la configuration."
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3794,9 +3786,8 @@ msgid "Search string"
 msgstr "Texte recherché"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Search the %1 Web for all children of this topic."
-msgstr "Chercher, dans le Web %1, les liens pointant ici"
+msgstr "Chercher, dans le Web %1, les pages filles de cette page."
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -5388,7 +5379,6 @@ msgid "You"
 msgstr "Vous"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -5397,7 +5387,7 @@ msgstr ""
 "Pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
 "moins une adresse e-mail valide lors de votre inscription. Si aucune des "
 "adresses e-mail que vous avez fournies n'est valide, et que vous avez oublié "
-"votre mot de passe, contactez %1"
+"votre mot de passe, contactez %1."
 
 #: core/templates/registermessages.tmpl:193
 msgid "You are already registered."
@@ -5727,12 +5717,11 @@ msgstr ""
 "Votre inscription a échoué car elle n'a pas passé les tests de validation."
 
 #: core/templates/registermessages.tmpl:220
-#, fuzzy
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Cliquez ici]] pour de l'aide sur la création d'un nom de connexion "
-"valide pour ce site"
+"valide pour ce site."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
