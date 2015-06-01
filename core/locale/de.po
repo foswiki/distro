@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:04+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:08+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -766,15 +766,15 @@ msgstr "Alle öffentlichen Webs"
 
 #: core/templates/foswiki.tmpl:45
 msgid "Allow only <nop>WikiWord for the new topic name"
-msgstr "Nur <nop>WikiWort als neuen Topic-Namen erlauben"
+msgstr "Nur <nop>WikiWort als neuen Topicnamen erlauben"
 
 #: core/templates/registermessages.tmpl:198
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
-"Alternativ können Sie zurück drücken, um in %SYSTEMWEB%.UserRegistration "
-"einen anderen Benutzernamen zu wählen."
+"Alternativ können Sie zurückgehen, um in %SYSTEMWEB%.UserRegistration einen "
+"anderen Benutzernamen zu wählen."
 
 #: core/lib/Foswiki/UI/Rename.pm:223
 msgid "An attachment with the same name already exists in this topic."
@@ -784,7 +784,7 @@ msgstr "Ein Anhang mit dem selben Namen existiert bereits in diesem Topic."
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
-"Eine E-Mail konnte nicht zugestellt werden. Bitte informieren Sie Ihren %1 "
+"Eine E-Mail konnte nicht zugestellt werden. Bitte informieren Sie Ihren %1-"
 "Administrator, %2"
 
 #: core/templates/moveattachment.tmpl:49
@@ -805,7 +805,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:16
 msgid "And populated with topics from the base web"
-msgstr "Und mit Topics aus dem Basis-Web angereichert"
+msgstr "Und mit Topics aus dem Basisweb angereichert"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
@@ -837,7 +837,7 @@ msgstr "Datei an das Topic %1 hängen"
 
 #: PatternSkin/templates/attach.pattern.tmpl:11
 msgid "Attach image or document on %1"
-msgstr "Bild oder Dokument an %1 hängen"
+msgstr "Bild oder Dokument an %1 anhängen"
 
 #: PatternSkin/templates/attach.pattern.tmpl:41 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
@@ -851,7 +851,7 @@ msgstr "Anhang"
 
 #: core/templates/messages.tmpl:469
 msgid "Attachment '%1' does not exist"
-msgstr "Anhang '%1' existiert nicht"
+msgstr "Anhang ‚%1‘ existiert nicht"
 
 #: core/templates/messages.tmpl:56
 msgid "Attachment delete failed"
@@ -888,7 +888,7 @@ msgstr "Anhänge von %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
-msgstr "Anhänge in der normalen Ansicht nicht angezeigen."
+msgstr "Anhänge in der normalen Ansicht nicht anzeigen."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:11
@@ -903,7 +903,7 @@ msgstr "Attribut"
 
 #: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
-msgstr "Automatische Benachrichtigung bei Änderung des Topics"
+msgstr "Automatische Benachrichtigung bei Topicänderungen"
 
 #: core/data/_default/WebHome.txt:5
 msgid "Available Information"
