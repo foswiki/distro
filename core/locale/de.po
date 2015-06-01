@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:08+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:12+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -916,7 +916,7 @@ msgstr "Verfügbare Formularvorlagen"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Verfügbare Formularvorlagen im %1 Web:"
+msgstr "Verfügbare Vorlagen im %1-Web:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -948,7 +948,7 @@ msgstr "Ungültiger Abonnent '%1'"
 
 #: core/templates/messages.tmpl:143
 msgid "Base web %1 is missing or does not exist"
-msgstr "Basis-Web %1 fehlt oder existiert nicht"
+msgstr "Basisweb %1 fehlt oder existiert nicht"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
@@ -981,8 +981,8 @@ msgid ""
 "in WebPreferences."
 msgstr ""
 "Standardmäßig ist der Zugriff auf das Trash-Web der %1 vorbehalten. Wenn Sie "
-"allen Benutzern den Zugriff erlauben wollen entfernen Sie die =ALLOWWEBVIEW= "
-"Restriktion in den WebPreferences."
+"allen Benutzern den Zugriff erlauben wollen, entfernen Sie die Beschränkung "
+"=ALLOWWEBVIEW= aus den WebPreferences."
 
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
@@ -1039,11 +1039,11 @@ msgstr "Kann Abonnement nicht ändern: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
-msgstr "Konnte %1 nicht anlegen, da es bereits existiert."
+msgstr "Konnte %1 nicht anlegen, da es bereits vorhanden ist."
 
 #: core/templates/messages.tmpl:138
 msgid "Cannot create web %1 because it already exists"
-msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
+msgstr "Konnte Web %1 nicht anlegen, da es bereits vorhanden ist"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
 msgid "Cannot rename %1 to %2 because it already exists."
