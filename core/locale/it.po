@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 06:57+0200\n"
-"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"PO-Revision-Date: 2015-06-01 22:25+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,9 +245,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= per visualizzare tutte le pagine)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(collegamenti nel Web %1)"
+msgstr "(pagine figlia nel Web %1)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "(This message will be removed automatically)"
@@ -673,9 +672,8 @@ msgid "Add"
 msgstr "Aggiungi"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "Aggiungi membri a"
+msgstr "Aggiungi membri a %1"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1148,7 +1146,7 @@ msgstr "Variazioni"
 #. ($rLow, $rHigh)
 #: core/lib/Foswiki/UI/RDiff.pm:620
 msgid "Changes from r%1 to r%2"
-msgstr "Cambia da  r%1 a r%2"
+msgstr "Cambia da r%1 a r%2"
 
 #: core/templates/messages.tmpl:296
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
@@ -1172,9 +1170,8 @@ msgid "Child topics in %1 web"
 msgstr "Pagine figlie nel Web %1"
 
 #: core/templates/backlinkchildren.tmpl:5
-#, fuzzy
 msgid "Children of %1 in %2 Web"
-msgstr "Collegamenti a %1 nel Web %2"
+msgstr "pagine figlia de %1 nel Web %2"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1185,7 +1182,6 @@ msgid "Clear all"
 msgstr "Pulisci tutto"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Clear all topics"
 msgstr "Pulisci tutto"
 
@@ -1471,9 +1467,8 @@ msgid "Delete"
 msgstr "Elimina"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "Elimina allegato"
+msgstr "Elimina allegato %1"
 
 #: core/templates/more.tmpl:51
 msgid "Delete topic"
@@ -1832,9 +1827,8 @@ msgid "Find similar topics"
 msgstr "Trova pagine simili"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
-msgstr "Trova le pagine collegate a %1 ..."
+msgstr "Trova le pagine figlia a %1 ..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
@@ -2150,13 +2144,12 @@ msgstr ""
 "inviata dall'utente, verrà chiesto di confermare la richiesta."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
 "Se la registrazione non viene disattivata da errori, gli amministratori "
-"possono comunque registrare gli utenti di questo sito utilizzando"
+"possono comunque registrare gli utenti di questo sito utilizzando %1."
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -2678,9 +2671,8 @@ msgid "More Actions on Topic %1"
 msgstr "Manutenzione della pagina %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "Manutenzione della pagina %1"
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2735,9 +2727,8 @@ msgid "Move %1 to Trash Web"
 msgstr "Sposta %1 nel cestino"
 
 #: core/templates/moveattachment.tmpl:9
-#, fuzzy
 msgid "Move attachment %1"
-msgstr "Sposta allegato"
+msgstr "Sposta allegato %1"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
@@ -2752,9 +2743,8 @@ msgid "Move to web:"
 msgstr "Sposta nel Web:"
 
 #: core/templates/renameattachmentdelete.tmpl:21
-#, fuzzy
 msgid "Move to web: %1"
-msgstr "Sposta nel Web:"
+msgstr "Sposta nel Web: %1"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
@@ -2855,23 +2845,20 @@ msgid "No  members"
 msgstr "Nessun membro"
 
 #: core/templates/backlinks.tmpl:20
-#, fuzzy
 msgid "No backlinks in public webs"
-msgstr "(collegamenti in tutti i Web)"
+msgstr ""
 
 #: core/templates/backlinks.tmpl:10
-#, fuzzy
 msgid "No backlinks in this web"
-msgstr "(collegamenti nel Web %1)"
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
 msgstr "Nessun cambiamento"
 
 #: core/templates/backlinks.tmpl:28
-#, fuzzy
 msgid "No child topics found."
-msgstr "Nessuna pagina figlia"
+msgstr "Nessuna pagina figlia."
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
@@ -3420,7 +3407,6 @@ msgid "Registration has been denied"
 msgstr "La registrazione è stata negata"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3478,9 +3464,8 @@ msgid "Remember your password?"
 msgstr "Ricordi la tua password?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Rimuove i membri da"
+msgstr "Rimuove i membri da %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3765,7 +3750,6 @@ msgid "Search result"
 msgstr "Risultato della ricerca"
 
 #: core/data/System/WebSearch.txt:238
-#, fuzzy
 msgid "Search results"
 msgstr "Risultato della ricerca"
 
@@ -3847,7 +3831,6 @@ msgid "Select a new local file to update attachment"
 msgstr "Seleziona un nuovo file locale per aggiornare l'allegato"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all topics"
 msgstr "Seleziona tutto"
 
@@ -4726,7 +4709,6 @@ msgid "To attachment:"
 msgstr "Allegati alla pagina:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
 msgstr "Per bloccare questa registrazione, visita %2"
 
@@ -4743,10 +4725,9 @@ msgid "To edit the topic anyway, click "
 msgstr "Per modificare la pagina comunque, clicca "
 
 #: core/templates/messages.tmpl:394
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
-"Per accedere come un altro utente si prega di farlo selezionando [[%1][qui]]"
+"Per accedere come un altro utente si prega di farlo selezionando [[%1][qui]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5576,14 +5557,12 @@ msgid "Your email address will be kept confidential."
 msgstr "Il tuo indirizzo email verrà mantenuto riservato."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Password modificata in %1."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "Il tuo nome come mostrato da %1. %2"
+msgstr "Il tuo nome come mostrato da %1."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
@@ -5672,12 +5651,11 @@ msgstr ""
 "validazione."
 
 #: core/templates/registermessages.tmpl:220
-#, fuzzy
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Seleziona qui]] per una guida su come creare un nome utente valido per "
-"questo sito"
+"questo sito."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
