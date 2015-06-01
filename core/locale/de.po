@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 09:03+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-06-01 09:05+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4628,7 +4628,7 @@ msgstr "Dies ist eine automatisierte E-Mail von %1."
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 "Dies ist eine automatisierte E-Mail-Benachrichtung über die "
-"Benutzerregistrierung in %1"
+"Benutzerregistrierung in %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 msgid "This is not a valid WikiName."
@@ -4801,7 +4801,7 @@ msgstr "Zu tiefe Rekursion beim Einlesen des Templates %1"
 #: PatternSkin/data/_default/WebLeftBar.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
-msgstr "Werkzeugbox"
+msgstr "Werkzeuge"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:119
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
@@ -4821,12 +4821,12 @@ msgstr "Topic-Speichern-Fehler"
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
-msgstr "Topic Anhänge"
+msgstr "Topic-Anhänge"
 
 #: core/templates/messages.tmpl:224
 msgid "Topic can not be upgraded from old style category table"
 msgstr ""
-"Topic konnte nicht im Stil der alten Kategorie-Tabelle aktualisiert werden"
+"Topic konnte nicht im Stil der alten Kategorietabelle aktualisiert werden"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
@@ -4844,11 +4844,11 @@ msgstr "Topic-Liste für das %1-Web"
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
 msgid "Topic name"
-msgstr "Topic Name"
+msgstr "Topic-Name"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:53
 msgid "Topic name:"
-msgstr "Topic Name:"
+msgstr "Topic-Name:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:61
 msgid "Topic parent:"
@@ -4858,7 +4858,7 @@ msgstr "Ober-Topic:"
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
-msgstr "Topic Revision:"
+msgstr "Topic-Revision:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
@@ -5708,7 +5708,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
-msgstr "[[%1][Topic-Text austesten(debuggen)]]."
+msgstr "[[%1][Topic-Text testen]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
@@ -5787,7 +5787,7 @@ msgstr "Unterschiede"
 
 #: core/templates/messages.tmpl:302
 msgid "don't forget to check your Topic Settings"
-msgstr "vergessen Sie nicht, Ihre Topic Einstellungen zu überprüfen"
+msgstr "vergessen Sie nicht, Ihre Topic-Einstellungen zu überprüfen"
 
 #: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
@@ -5824,7 +5824,7 @@ msgstr "Groß-/Kleinschreibung ignorieren"
 
 #: core/templates/more.tmpl:141
 msgid "in raw text format"
-msgstr "im Quelltext Format"
+msgstr "im Quelltextformat"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:4
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
@@ -5955,7 +5955,7 @@ msgstr "title='Topic-Text bearbeiten' >Bearbeiten"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Topic Text editieren' accesskey='e'>&Editieren"
+msgstr "title='Topic-Text editieren' accesskey='e'>&Editieren"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
@@ -5963,7 +5963,7 @@ msgstr "title='verwoben' accesskey='v'>verwoben (&v)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr "title='Druckversion von diesem Topic' accesskey='p'>Druckversion (&p)"
+msgstr "title='Druckversion dieses Topics' accesskey='p'>Druckversion (&p)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
