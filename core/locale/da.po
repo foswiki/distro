@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 14:54+0200\n"
+"PO-Revision-Date: 2015-06-01 21:51+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -677,9 +677,8 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "Tilføj medlemmer til"
+msgstr "Tilføj medlemmer til %1"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1465,9 +1464,8 @@ msgid "Delete"
 msgstr "Slet"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "Slet vedhæftet fil"
+msgstr "Slet vedhæftet fil %1"
 
 #: core/templates/more.tmpl:51
 msgid "Delete topic"
@@ -2725,9 +2723,8 @@ msgid "Move %1 to Trash Web"
 msgstr "Flyt %1 til trash-web"
 
 #: core/templates/moveattachment.tmpl:9
-#, fuzzy
 msgid "Move attachment %1"
-msgstr "Flyt vedhæftet fil"
+msgstr "Flyt vedhæftet fil %1"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
@@ -2742,9 +2739,8 @@ msgid "Move to web:"
 msgstr "Flyt til web:"
 
 #: core/templates/renameattachmentdelete.tmpl:21
-#, fuzzy
 msgid "Move to web: %1"
-msgstr "Flyt til web:"
+msgstr "Flyt til web: %1"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Move topic to web:"
@@ -2845,14 +2841,12 @@ msgid "No  members"
 msgstr "Ingen medlemmer"
 
 #: core/templates/backlinks.tmpl:20
-#, fuzzy
 msgid "No backlinks in public webs"
-msgstr "(referencer fra alle webs)"
+msgstr ""
 
 #: core/templates/backlinks.tmpl:10
-#, fuzzy
 msgid "No backlinks in this web"
-msgstr "(referencer i %1-webbet)"
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
@@ -3469,9 +3463,8 @@ msgid "Remember your password?"
 msgstr "Kan du huske din adgangskode?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Fjern medlemmer fra"
+msgstr "Fjern medlemmer fra %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3751,7 +3744,6 @@ msgid "Search result"
 msgstr "Søgeresultat"
 
 #: core/data/System/WebSearch.txt:238
-#, fuzzy
 msgid "Search results"
 msgstr "Søgeresultat"
 
@@ -3760,9 +3752,8 @@ msgid "Search string"
 msgstr "Søgestreng"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Search the %1 Web for all children of this topic."
-msgstr "Søg i %1-webbet efter sider der linker til denne side"
+msgstr "Søg i %1-webbet efter sider der linker til denne side."
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -4721,9 +4712,8 @@ msgid "To edit the topic anyway, click "
 msgstr "For at fortsætte med at editere siden alligevel, klik "
 
 #: core/templates/messages.tmpl:394
-#, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
-msgstr "For at logge på som anden bruger gør det [[%1][her]]"
+msgstr "For at logge på som anden bruger gør det [[%1][her]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5551,14 +5541,12 @@ msgid "Your email address will be kept confidential."
 msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Din adgangskode er opdateret til %1."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "Dit navn som vist af %1. %2"
+msgstr "Dit navn som vist af %1."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
