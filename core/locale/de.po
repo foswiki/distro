@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 09:08+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 09:11+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -151,7 +151,7 @@ msgstr "%1 ist in mindestens einer Gruppe und konnte nicht gelöscht werden"
 
 #: core/templates/messages.tmpl:133
 msgid "%1 is not a valid form name"
-msgstr "%1 ist kein gültiger Formular-Name"
+msgstr "%1 ist kein gültiger Formularname"
 
 #: core/templates/messages.tmpl:128
 msgid "%1 is not a valid value for the %2 parameter"
@@ -159,11 +159,11 @@ msgstr "%1 ist kein gültiger Wert für den Parameter %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 ist das Standard-Topic für gelöschte Anhänge."
+msgstr "%1 ist das Standardtopic für gelöschte Anhänge."
 
 #: core/templates/messages.tmpl:339
 msgid "%1 may still be editing %2."
-msgstr "%2 wird noch von %1 bearbeitet."
+msgstr "%2 wird möglicherweise noch von %1 bearbeitet."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -190,11 +190,11 @@ msgstr "%1 um ein weiteres Web anzulegen"
 
 #: core/templates/messages.tmpl:20
 msgid "%1 to customize the web specific preferences"
-msgstr "%1 um Web spezifische Einstellungen vorzunehmen"
+msgstr "%1 um webspezifische Einstellungen vorzunehmen"
 
 #: core/templates/messages.tmpl:19
 msgid "%1 to start working on the new web"
-msgstr "%1 um im neuen Web anzufangen zu arbeiten"
+msgstr "%1 um mit der Arbeit im neuen Web anzufangen"
 
 #: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
 msgid "%1 topic does not exist"
