@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:12+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:14+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -1170,12 +1170,12 @@ msgstr ""
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
-"Ausgewählte Topics werden aktualisiert, damit sie auf den neuen Web-Namen "
+"Ausgewählte Topics werden aktualisiert, damit sie auf den neuen Webnamen "
 "zeigen."
 
 #: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
-msgstr "Unter-Topics im %1 Web"
+msgstr "Untertopics im %1-Web"
 
 #: core/templates/backlinkchildren.tmpl:5
 msgid "Children of %1 in %2 Web"
@@ -1199,7 +1199,7 @@ msgid ""
 "references."
 msgstr ""
 "Klicken, um das Topic an seine vorherige Stelle zu verschieben, mit der "
-"Möglichkeit die Querverweise zu ändern."
+"Möglichkeit, die Querverweise zu ändern."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
@@ -1263,8 +1263,8 @@ msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
 msgstr ""
-"Bestätigen Sie Ihre Änderungen, indem Sie Foswikis [[%1][Topic Historien-"
-"Vergleichs-Werkzeug (diff)]] verwenden."
+"Bestätigen Sie Ihre Änderungen, indem Sie Foswikis [[%1][Topic-Historien-"
+"Vergleichswerkzeug (diff)]] verwenden."
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -1291,7 +1291,7 @@ msgstr "Kontext"
 
 #: core/templates/messages.tmpl:288
 msgid "Continue and try to rename web?"
-msgstr "Wollen Sie weitermachen und versuchen, das Web umzubenennen?"
+msgstr "Wollen Sie fortfahren und versuchen, das Web umzubenennen?"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:18
 msgid "Continue editing"
@@ -1327,7 +1327,7 @@ msgid ""
 "collaboration platform is the property of the contributing authors."
 msgstr ""
 "Das Urheberrecht &&copy; liegt bei den mitwirkenden Autoren. Alle Inhalte "
-"dieser Kollaborations-Plattform sind Eigentum der Autoren."
+"dieser Kollaborationsplattform sind Eigentum der Autoren."
 
 #: core/data/System/WebPreferences.txt:34
 msgid ""
@@ -1335,7 +1335,7 @@ msgid ""
 "the property of the contributing authors."
 msgstr ""
 "Das Urheberrecht &&copy; liegt bei den mitwirkenden Autoren. Alle Inhalte "
-"dieser Kollaborations-Plattform sind Eigentum der Autoren."
+"dieser Kollaborationsplattform sind Eigentum der Autoren."
 
 #: core/templates/messages.tmpl:164
 msgid "Could not create the new web %1"
@@ -1343,7 +1343,7 @@ msgstr "Neues Web %1 konnte nicht angelegt werden"
 
 #: core/templates/messages.tmpl:294
 msgid "Could not find template"
-msgstr "Template konnte nicht gefunden werden"
+msgstr "Vorlage konnte nicht gefunden werden"
 
 #: core/templates/messages.tmpl:383
 msgid "Could not perform search. Error was: %1"
@@ -1367,7 +1367,7 @@ msgstr "Neues Topic anlegen"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
-msgstr "Neues Topic im %1 Web anlegen"
+msgstr "Neues Topic im %1-Web anlegen"
 
 #: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
@@ -1463,7 +1463,7 @@ msgstr "Standard"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
-msgstr "Standard-Template"
+msgstr "Standardvorlage"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/data/System/PatternSkinElements.txt:454
@@ -1488,7 +1488,7 @@ msgstr "Topic löschen..."
 #: PatternSkin/templates/attach.pattern.tmpl:58
 msgid "Describe the file so other people know what it is."
 msgstr ""
-"Beschreiben Sie die Datei, damit andere Benutzer wissen was sie beinhaltet."
+"Beschreiben Sie die Datei, damit andere Benutzer wissen, was sie beinhaltet."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Description"
@@ -1511,8 +1511,8 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
-"Haben Sie den Topic-Namen richtig geschrieben? Denken Sie daran, daß "
-"zwischen Groß- und Kleinschreibung unterschieden wird."
+"Haben Sie den Topicnamen richtig geschrieben? Denken Sie daran, daß zwischen "
+"Groß- und Kleinschreibung unterschieden wird."
 
 #: core/templates/registermessages.tmpl:196
 msgid "Did you want to [[%1][reset %2's password]]?"
