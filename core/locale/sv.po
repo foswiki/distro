@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-27 21:41+0200\n"
-"Last-Translator: Erik <er-boktid@aman.se>\n"
+"PO-Revision-Date: 2015-06-01 22:28+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -132,7 +132,7 @@ msgstr "%1 är inte ett giltigt formulärnamn"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "%1 är inte ett giltigt värde för parametern %2 "
+msgstr "%1 är inte ett giltigt värde för parametern %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -733,7 +733,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
-msgstr "Och populerad med sidor från basavdelningen."
+msgstr "Och populerad med sidor från basavdelningen"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
@@ -824,7 +824,7 @@ msgstr "Filen kommer inte att visas när man tittar på sidan."
 #: core/templates/oopsleaseconflict.tmpl:4
 #: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
-msgstr "Obs!"
+msgstr "Obs"
 
 #: core/templates/attachtables.tmpl:30
 msgid "Attribute"
@@ -836,7 +836,7 @@ msgstr "Automatiserade meddelanden om ändringar på sidan"
 
 #: core/data/_default/WebHome.txt:5
 msgid "Available Information"
-msgstr "Information i denna avdening:"
+msgstr "Information i denna avdening"
 
 #: PatternSkin/templates/changeform.pattern.tmpl:13
 #: core/templates/changeform.tmpl:33
