@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-23 22:12+0200\n"
+"PO-Revision-Date: 2015-06-01 22:48+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -4570,7 +4570,7 @@ msgstr "en"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "door %1"
+msgstr "door %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
@@ -4674,7 +4674,7 @@ msgstr "revisie %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr "het begin"
+msgstr "vanaf begin"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
