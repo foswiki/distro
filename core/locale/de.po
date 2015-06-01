@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-06-01 22:04+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -758,7 +758,7 @@ msgstr "Linksbündig"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
-msgstr "Rechtsbündig ausrichten"
+msgstr "Rechtsbündig"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
 msgid "All public webs"
