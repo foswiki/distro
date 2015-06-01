@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 20:36+0200\n"
+"PO-Revision-Date: 2015-06-01 08:54+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -3516,6 +3516,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
+"QaQbe&&#39;law&&#39; Dotlh <nop>DapoQbogh (%1). chaq qunDaq &&#39;oH "
+"tu&&#39;lu&&#39;be&&#39;, pagh chaq nIb Dotlh chu&&#39; (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -3527,7 +3529,7 @@ msgstr "chaw&&#39; ngoq chu&&#39;moH"
 
 #: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not available."
-msgstr ""
+msgstr "chaw&&#39; ngoq choHmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:187
@@ -3611,6 +3613,8 @@ msgstr "chaw&&#39; ngoq chu&&#39; yIghItlh:"
 msgid ""
 "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
 msgstr ""
+"ghItlh <nop>DachoHtaHvIS, Dotlh %1 choHlI&&#39; %2 &&#39;ej &&#39;oH "
+"polDI&&#39; ghaH, Dotlh %3 moj ghItlh."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:87
@@ -3866,7 +3870,7 @@ msgstr "ghItlh qup chu&&#39; wIv"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
-msgstr ""
+msgstr "%1 Dotlhmey &&#39;ang. %2 &&#39;oH Dotlh <nop>HochDIch&&#39;e&&#39;"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Show attachments help"
@@ -3974,6 +3978,8 @@ msgstr "ghommey/lo&&#39;<nop>wI&&#39; le&&#39;"
 #: core/data/System/SiteChanges.txt:92
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Hoch mIchmey Da&&#39;angmeH, =all= yIghItlh, pagh mIchmey&&#39;e&&#39; "
+"wavbogh <nop>DoDmey tetlh yIchenmoH: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
@@ -4057,7 +4063,7 @@ msgstr "Qapchu' ghomvo' jeSwI' teqmeH Qu'"
 
 #: core/data/System/WebSearch.txt:217
 msgid "Summaries"
-msgstr ""
+msgstr "lutHommey"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:53
 msgid "Superscript"
@@ -4318,6 +4324,8 @@ msgstr "ngaQ ghItlhmeyvetlh vaj bIH vIHmoHlaHbe&&#39; vay&&#39;:"
 #: core/templates/messages.tmpl:284
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
+"mIchvam ghItlhmey bIH ghItlhmey veb&&#39;e&&#39;, &&#39;ach bIH "
+"luchoHlI&&#39; vay&&#39;:"
 
 #: core/templates/messages.tmpl:281
 msgid ""
@@ -4363,16 +4371,20 @@ msgstr "mIch chu&&#39; chenmoHlu&&#39;ta&&#39;"
 
 #: core/templates/registermessages.tmpl:301
 msgid "The password you entered in the *old password* field is incorrect."
-msgstr ""
+msgstr "qarbe&&#39; *chaw&&#39; ngoqlIj qan* <nop>DaghItlhta&&#39;bogh."
 
 #: core/templates/registermessages.tmpl:308
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
+"lo&&#39;wI&&#39; polHa&&#39;lu&&#39;bogh Dapongqa&&#39;meH moHaq "
+"<nop>DaghItlhta&&#39;bogh Dalo&&#39; net chaw&&#39;be&&#39;."
 
 #: core/templates/messages.tmpl:196
 msgid "The required field %1 was not filled in."
 msgstr ""
+"De&&#39;letbaQ %1 De&&#39;&&#39;e&&#39; poQlu&&#39;bogh "
+"<nop>DaghItlhta&&#39;be&&#39;."
 
 #: core/templates/registermessages.tmpl:9
 msgid "The selected User System does not support new user registration."
@@ -4382,7 +4394,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:218
 msgid "The topic is in an old format"
-msgstr ""
+msgstr "ghItlh Segh qan &&#39;oH ghItlhvam Segh&&#39;e&&#39;"
 
 #: core/templates/registermessages.tmpl:177
 msgid "The two passwords you entered do not match."
@@ -5523,12 +5535,11 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:220
-#, fuzzy
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
-"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]"
-"[naDev yI&&#39;uy]]"
+"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]["
+"naDev yI&&#39;uy]]."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
