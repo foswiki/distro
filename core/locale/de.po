@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:03+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:04+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -737,17 +737,16 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr ""
-"Nachdem Sie dieses Formular abgesendet haben wird ihr Passwort geändert."
+msgstr "Nach Absenden dieses Formulars wird ihr Passwort geändert."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"Nachdem Sie das Formular abschickt haben erhalten Sie eine E-Mail mit Ihrem "
-"neuen, vom System generierten Passwort, und einen Verweis zu der Seite, wo "
-"Sie das Passwort ändern können."
+"Nach Absenden dieses Formulars erhalten Sie eine E-Mail mit Ihrem neuen, vom "
+"System generierten Passwort und einen Verweis zu der Seite, wo Sie das "
+"Passwort ändern können."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
@@ -755,7 +754,7 @@ msgstr "Ah, nein!"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
-msgstr "Nach links ausrichten"
+msgstr "Linksbündig ausrichten"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:65
 msgid "Align right"
