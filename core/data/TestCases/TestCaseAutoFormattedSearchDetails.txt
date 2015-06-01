@@ -17,9 +17,9 @@ The major risk is the default formatting where web's are separated - for paging 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
-<div class="foswikiSummary">Welcome to the web Congratulations, you have finished installing Foswiki. This site is running Foswiki release *, Plugin API version * To learn more about Foswi...</div></div>
+<div class="foswikiSummary">Congratulations, you have finished installing Foswiki. This site is running Foswiki release *, Plugin API version * To learn more about Foswiki, visit the web. P...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href=/Main/ProjectContributor> @WIKIWORD </a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
@@ -65,7 +65,7 @@ The major risk is the default formatting where web's are separated - for paging 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
-<div class="foswikiSummary">Welcome to the System Web This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, th...</div></div>
+<div class="foswikiSummary">This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, the web is read only; even ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
