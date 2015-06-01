@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:18+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:21+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -1721,8 +1721,8 @@ msgstr "Bearbeitungsfenster vergrößern"
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
-"Geben Sie einen neuen Benutzernamen und ein Passwort ein, um Ihre Identität "
-"zu wechseln"
+"Geben Sie einen neuen Benutzernamen und ein neues Passwort ein, um Ihre "
+"Identität zu wechseln"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Enter parent name"
@@ -1731,12 +1731,12 @@ msgstr "Neues übergeordnetes Topic"
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
-"Bitte geben Sie den Administrator-Benutzernamen oder den Login aus %1 ein"
+"Bitte geben Sie den Administratorbenutzernamen oder den Login aus %1 ein"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Bitte wählen Sie einen Topic-Namen, der ein <nop>WikiWort ist, oder erlauben "
+"Bitte wählen Sie einen Topicnamen, der ein <nop>WikiWort ist, oder erlauben "
 "Sie die Verwendung von Nicht-<nop>WikiWörtern in der Auswahlbox."
 
 #: core/data/Main/GroupViewTemplate.txt:209
@@ -1748,8 +1748,8 @@ msgstr ""
 #: core/templates/messages.tmpl:497
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
-"Fehler beim Laden des Plugins aufgetreten; siehe Fehlermeldungen weiter "
-"unten."
+"Beim Laden des Plugins ist ein Fehler aufgetreten; siehe Fehlermeldungen "
+"weiter unten."
 
 #: core/templates/registermessages.tmpl:91
 msgid "Error registering new user"
@@ -1772,8 +1772,8 @@ msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
-"Fehler: Nicht unterstützter Inhaltstyp: %1 (Muss =text/html=, =text/plain= "
-"oder =text/css= sein)"
+"Fehler: Nicht unterstützter Inhaltstyp: %1 (Erlaubt sind nur =text/html=, "
+"=text/plain= oder =text/css=)"
 
 #: core/templates/messages.tmpl:355
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
@@ -1852,7 +1852,7 @@ msgstr "Unter-Topics von %1 finden..."
 
 #: core/templates/more.tmpl:88 core/templates/more.tmpl:90
 msgid "Find topics that link to %1 ..."
-msgstr "Topics finden die auf %1 verweisen ..."
+msgstr "Topics finden, die auf %1 verweisen ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:19
 msgid "First"
@@ -1873,7 +1873,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 "Für mehr Informationen zu Cross-Site-Request-Forgery und den damit "
-"verbundenen Gefahren, siehe [[%1][Wikipedia-Eintrag zu CSRF]]."
+"verbundenen Gefahren siehe [[%1][Wikipedia-Eintrag zu CSRF]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1882,7 +1882,7 @@ msgstr "Neue Revision erzwingen"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 msgid "Forgotten your password?"
-msgstr "Haben Sie ihr Passwort vergessen?"
+msgstr "Haben Sie Ihr Passwort vergessen?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
@@ -1927,7 +1927,7 @@ msgstr "Formel"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr "Foswiki Benutzerauthentifizierung"
+msgstr "Foswiki-Benutzerauthentifizierung"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1996,7 +1996,7 @@ msgstr "Gute Beispiele:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr "Guter Stil"
+msgstr "[[GoodStyle][Guter Stil]]"
 
 #: core/data/Main/WikiGroups.txt:62
 msgid "Group"
@@ -2013,7 +2013,7 @@ msgstr "Gruppenname"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 msgid "Group names must end in Group"
-msgstr "Gruppennamen müssen auf \"Group\" enden"
+msgstr "Gruppennamen müssen auf „Group“ enden"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:16
 #: PatternSkin/data/System/WebLeftBarExample.txt:8
@@ -2026,7 +2026,7 @@ msgstr "Probleme beim Anmelden?"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:36
 msgid "Header rows"
-msgstr "Überschriftzeilen"
+msgstr "Überschriftenzeilen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
@@ -2071,7 +2071,7 @@ msgstr "Hilfe"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:7
 msgid "Hi, %1"
-msgstr "Hallo, %1"
+msgstr "Hallo %1"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
@@ -2099,11 +2099,11 @@ msgstr "Horizontale Trennlinie"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
-msgstr "Möchten Sie ihr Foto anhängen?"
+msgstr "Möchten Sie Ihr Foto anhängen?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
-msgstr "Wie Sie ihre %1 Registrierung aktivieren"
+msgstr "Wie Sie Ihre %1-Registrierung aktivieren"
 
 #: core/templates/registerfailednotremoved.tmpl:13
 msgid ""
@@ -2123,8 +2123,8 @@ msgid ""
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
 "werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer "
-"'%1' wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-"
-"Topic manuell entfernen."
+"‚%1‘ wurde automatisch entfernt, allerdings müssen Sie das persönliche Topic "
+"des Benutzers eventuell noch manuell entfernen."
 
 #: core/templates/messages.tmpl:239
 msgid ""
@@ -2153,7 +2153,7 @@ msgid ""
 "notifications of topic changes."
 msgstr ""
 "Wenn Foswiki für Sie keine registrierte E-Mail-Adresse in der Datenbank "
-"findet, werden Sie weder Ihr Passwort zurücksetzen, noch die E-Mail-"
+"findet, werden Sie weder Ihr Passwort zurücksetzen noch die E-Mail-"
 "Benachrichtigungsfunktion nutzen können."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
@@ -2161,7 +2161,7 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
-"Wenn Foswiki eine verdächtige Anfrage bemerkt, die von einer solche Seite "
+"Wenn Foswiki eine verdächtige Anfrage bemerkt, die von einer solchen Seite "
 "stammen könnte, wird es Sie um eine zusätzliche Bestätigung bitten."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
@@ -2178,7 +2178,7 @@ msgid ""
 "is pointing to a template that doesn't exist."
 msgstr ""
 "Wenn es nicht daran liegt, könnte es sein, dass Sie eine Einstellung für %1 "
-"haben, die auf ein Template verweist, das nicht existiert."
+"haben, die auf eine Vorlage verweist, die nicht existiert."
 
 #: core/templates/messages.tmpl:222
 msgid "If this line isn't present see _upgrade_ section below"
