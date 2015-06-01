@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 09:11+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 21:54+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -202,7 +202,7 @@ msgstr "Topic %1 existiert nicht"
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 hat sich versucht mit der E-Mail %2 zu registrieren"
+msgstr "%1 hat versucht, sich mit der E-Mail %2 zu registrieren"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -230,7 +230,7 @@ msgstr "'%1' ist kein gültiger [[%2][Anmelde-/Benutzername]]."
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
-msgstr "'Neues Topic anlegen' Seite wurde verschoben"
+msgstr "Die Seite 'Neues Topic anlegen' wurde verschoben"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
@@ -270,7 +270,7 @@ msgstr "(Anhang)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
-msgstr "(Querverweise im %1 Web)"
+msgstr "(Querverweise im %1-Web)"
 
 #: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
@@ -302,7 +302,7 @@ msgstr "(Anhang löschen)"
 
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
-msgstr "(löschen)"
+msgstr "(Löschen)"
 
 #: core/templates/messages.tmpl:509
 msgid "(disabled)"
