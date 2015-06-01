@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:23+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-01 22:24+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -2230,7 +2230,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
 msgid "If you have any questions about registration, send an e-mail to %1."
-msgstr "Wenn Sie Fragen zur Registrierung senden Sie eine E-Mail an %1."
+msgstr "Wenn Sie Fragen zur Registrierung haben, senden Sie eine E-Mail an %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -2242,7 +2242,7 @@ msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1"
 #: core/data/System/VarMAKETEXT.txt:23
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
-msgstr "Wenn Sie Fragen haben wenden Sie sich bitte an %1."
+msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
 #: core/templates/registernotify.tmpl:26
