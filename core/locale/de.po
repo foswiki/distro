@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 08:40+0200\n"
+"PO-Revision-Date: 2015-06-01 09:03+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
@@ -1109,7 +1109,7 @@ msgstr "Verweise in Topics ändern, die aus allen Webs auf %1 zeigen:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "Verweise in Topics ändern, die auf %1 zeigen (nur im %2 Web):"
+msgstr "Verweise in Topics ändern, die aus dem %2 Web auf %1 zeigen:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -1765,7 +1765,7 @@ msgstr "Fehler beim Speichern des Topics"
 
 #: core/templates/messages.tmpl:353
 msgid "Error: File attachment at %1,%2 does not exist"
-msgstr "Fehler: Dateianhang von %1, %2 existiert nicht"
+msgstr "Fehler: Dateianhang an %1, %2 existiert nicht"
 
 #: core/templates/messages.tmpl:357
 msgid ""
@@ -4542,7 +4542,7 @@ msgstr ""
 #: core/templates/messages.tmpl:221
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
-"Es sollte eine Zeile geben, die %1 inkludiert, bitte nach %2 (oder %2) "
+"Es sollte eine Zeile geben, die %1 inkludiert, bitte nach %2 (oder %3) "
 "schauen"
 
 #: core/templates/registermessages.tmpl:376
@@ -4600,7 +4600,7 @@ msgstr ""
 "Dies ist ein Abonnement-Service, um automatisch per E-Mail benachrichtigt zu "
 "werden, wenn ein Topic im %1 Web sich geändert hat. Um sich für diesen "
 "Service anzumelden fügen Sie einfach ihren %2 in alphabetischer Reihenfolge "
-"zu dieser Liste hinzu."
+"zu dieser Liste hinzu:"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
 msgid ""
@@ -4627,8 +4627,8 @@ msgstr "Dies ist eine automatisierte E-Mail von %1."
 #: core/templates/registernotifyadmin.tmpl:9
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
-"Dies ist eine automatisierte E-Mail Benachrichtung über die Benutzer "
-"Registrierung in %1"
+"Dies ist eine automatisierte E-Mail Benachrichtung über die "
+"Benutzerregistrierung in %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 msgid "This is not a valid WikiName."
