@@ -2798,6 +2798,7 @@ msgid "Newer revision:"
 msgstr "Novější revize:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Následující"
 
@@ -3258,6 +3259,7 @@ msgid "Preview your changes"
 msgstr "Zobrazit náhled změn"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Předchozí"
 
@@ -5567,8 +5569,9 @@ msgid ""
 msgstr "Vaše registrace nebyla úspěšná, protože neprošla validačními testy."
 
 #: core/templates/registermessages.tmpl:220
+#, fuzzy
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Click here]] pro průvodce vytvářením validního uživatelského jména pro "
 "tento web"

@@ -2897,6 +2897,7 @@ msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr ""
 
@@ -3385,6 +3386,7 @@ msgid "Preview your changes"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr ""
 
@@ -5732,7 +5734,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 
 #: core/templates/messages.tmpl:220

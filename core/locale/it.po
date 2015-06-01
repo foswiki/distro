@@ -2842,6 +2842,7 @@ msgid "Newer revision:"
 msgstr "Ultima versione:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Prossimo"
 
@@ -3306,6 +3307,7 @@ msgid "Preview your changes"
 msgstr "Anteprima delle modifiche"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Precedente"
 
@@ -5670,8 +5672,9 @@ msgstr ""
 "validazione."
 
 #: core/templates/registermessages.tmpl:220
+#, fuzzy
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Seleziona qui]] per una guida su come creare un nome utente valido per "
 "questo sito"

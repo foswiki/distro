@@ -2832,6 +2832,7 @@ msgid "Newer revision:"
 msgstr "Nyere version:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Næste"
 
@@ -3297,6 +3298,7 @@ msgid "Preview your changes"
 msgstr "Gennemse dine ændringer"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Forrige"
 
@@ -5640,8 +5642,9 @@ msgstr ""
 "Din brugerregistrering fejlede fordi den ikke bestod validerings tests."
 
 #: core/templates/registermessages.tmpl:220
+#, fuzzy
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Klik her]] for vejledning for at oprette et gyldigt brugernavn på "
 "denne side"

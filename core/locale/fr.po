@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-05-31 18:33+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2856,6 +2856,7 @@ msgid "Newer revision:"
 msgstr "Nouvelle version :"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Suivant"
 
@@ -3324,6 +3325,7 @@ msgid "Preview your changes"
 msgstr "Prévisualiser vos changements"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Précédent"
 
@@ -4788,8 +4790,8 @@ msgstr "Pour modifier la page tout de même, cliquez "
 #: core/templates/messages.tmpl:394
 msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
-"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire "
-"[[%1][ici]]."
+"Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire [[%1]"
+"[ici]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5725,8 +5727,9 @@ msgstr ""
 "Votre inscription a échoué car elle n'a pas passé les tests de validation."
 
 #: core/templates/registermessages.tmpl:220
+#, fuzzy
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Cliquez ici]] pour de l'aide sur la création d'un nom de connexion "
 "valide pour ce site"

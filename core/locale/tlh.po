@@ -387,8 +387,8 @@ msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*De&&#39; chu&&#39; chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; <nop>"
-"DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+"*De&&#39; chu&&#39; chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; "
+"<nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -397,8 +397,8 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 "*choH <nop>QInHom*: <nop>QInHom <nop>DachoHmeH _<nop>DuHmey neH choH_ "
-"Dalo&&#39;chugh, vaj ghItlhDaq &&#39;anglu&&#39;bogh <nop>QInHom&&#39;e&&#39;"
-" choHlu&&#39;, &&#39;ach tep qunDaq ratlh tep <nop>QInHom qan."
+"Dalo&&#39;chugh, vaj ghItlhDaq &&#39;anglu&&#39;bogh <nop>QInHom&&#39;"
+"e&&#39; choHlu&&#39;, &&#39;ach tep qunDaq ratlh tep <nop>QInHom qan."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -2819,6 +2819,7 @@ msgid "Newer revision:"
 msgstr "Dotlh chu&&#39;:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Duv"
 
@@ -3274,6 +3275,7 @@ msgid "Preview your changes"
 msgstr "choHmeylIj &&#39;ol"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "<nop>HeD"
 
@@ -5521,8 +5523,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:220
+#, fuzzy
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]"
 "[naDev yI&&#39;uy]]"

@@ -2816,6 +2816,7 @@ msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Volgende"
 
@@ -3274,6 +3275,7 @@ msgid "Preview your changes"
 msgstr "Bekijk je wijzigingen"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr ""
 
@@ -5453,7 +5455,8 @@ msgstr ""
 
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Je taal werd omgeschakeld naar %1. [[%2][klik hier om verder te gaan]]."
+msgstr ""
+"Je taal werd omgeschakeld naar %1. [[%2][klik hier om verder te gaan]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5541,7 +5544,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
-"[[%1][Click here]] for guidance on creating a valid username for this site"
+"[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 
 #: core/templates/messages.tmpl:220
