@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-31 18:29+0200\n"
+"PO-Revision-Date: 2015-06-01 22:48+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -936,7 +936,7 @@ msgstr "Basisweb %1 ontbreekt of bestaat niet"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr ""
+msgstr "Citaat"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
@@ -1201,7 +1201,7 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr ""
+msgstr "Kolommen"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Come on in"
@@ -1264,7 +1264,7 @@ msgstr "Neem bij vragen contact op met %1."
 msgid ""
 "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
-msgstr ""
+msgstr "Contacteer <a href=\\'mailto:%1\\'>je site administrator</a> voor hulp."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -1404,7 +1404,7 @@ msgstr "Maak je account aan om pagina&#39;s op deze site te bewerken."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
-msgstr ""
+msgstr "Maakt een nieuwe versie van de pagina bij het bewaren"
 
 #: core/templates/messages.tmpl:230
 msgid "Creating a suitable Form Definition topic"
@@ -1421,7 +1421,7 @@ msgstr "Huidige wachtwoord:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
-msgstr ""
+msgstr "Data rijen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1682,7 +1682,7 @@ msgstr "E-mail is gedeactiveerd voor deze Foswiki installatie"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
-msgstr ""
+msgstr "extern object inbouwen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
@@ -1700,7 +1700,7 @@ msgstr ""
 
 #: core/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Enter parent name"
-msgstr ""
+msgstr "bovenliggende pagina ingeven"
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1775,11 +1775,11 @@ msgstr "Kwaadwillend persoon"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Exit"
-msgstr ""
+msgstr "Afsluiten"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:70
 msgid "External"
-msgstr ""
+msgstr "Extern"
 
 #: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
@@ -1912,7 +1912,7 @@ msgstr "Foswiki wachtwoord opnieuw ingesteld voor %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr ""
+msgstr "Kijk naar de nieuwe versie <a href='%1' rel='nofollow'>hier</a>."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2137,6 +2137,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
+"Beheerders kunnen gebruikers registreren met %1 - als registratie niet is "
+"geblokkeerd door foutmeldingen."
 
 #: core/templates/messages.tmpl:298
 msgid ""
@@ -4047,11 +4049,11 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:385
 msgid "Success adding members to group"
-msgstr ""
+msgstr "leden bij groep toevoegen is gelukt"
 
 #: core/templates/registermessages.tmpl:434
 msgid "Success removing members from group"
-msgstr ""
+msgstr "leden van groep verwijderen is gelukt"
 
 #: core/data/System/WebSearch.txt:217
 msgid "Summaries"
@@ -4071,11 +4073,11 @@ msgstr "naar wysiwyg omschakelen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Symbol"
-msgstr ""
+msgstr "Symbool"
 
 #: core/data/Main/GroupViewTemplate.txt:141
 msgid "System user list."
-msgstr ""
+msgstr "Systeem gebruikerslijst."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -4232,18 +4234,24 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"De bijlage kan worden hernoemd (bijvoorbeeld door een nummer toe te voegen "
+"aan de naam) als een bijlage met deze naam al bestaat bij de andere pagina."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"De bijlage moet misschien worden hernoemd als een bijlage met naam "
+"'%FILENAME%' al bestaat bij de andere pagina."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"De aanvaller probeert jouw rechten te gebruiken, bijvoorbeeld om "
+"administator rechten te krijgen."
 
 #: core/templates/messages.tmpl:343
 msgid ""
@@ -4269,6 +4277,9 @@ msgid ""
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
+"De controles door Foswiki worden soms geactiveerd door een onschuldige "
+"actie, bijvoorbeeld als je klikt om de Terug knop na het bewaren van een "
+"pagina. Foswiki gebruikt dan de methode \"veiligheid voor alles\"."
 
 #: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
@@ -4300,6 +4311,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Het e-mailadres in je persoonlijke pagina is blanco gelaten. Als je een e-"
+"mailadres kenbaar wilt maken aan andere gebruikers, kun je je persoonlijke "
+"pagina handmatig aanpassen om een e-mail toe te voegen. Deze hoeft niet "
+"hetzelfde te zijn als het adres dat door Foswiki wordt gebruikt."
 
 #: core/templates/messages.tmpl:371
 msgid "The entry for user %1 was missing in the password system."
@@ -4347,7 +4362,7 @@ msgstr "De naam van de pagina mag niet leeg zijn."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
-msgstr ""
+msgstr "De naam waarmee je inlogt"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
@@ -4412,13 +4427,15 @@ msgstr ""
 
 #: core/templates/messages.tmpl:177
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "De waarde voor =%1= is afgekeurd."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
+"Het is hun bedoeling om schadelijke data te bewaren door een request te "
+"sturen aan jouw server, gebruik makend van je browser en online identiteit."
 
 #: core/templates/messages.tmpl:274
 msgid "There are problems with renaming this web:"
@@ -4454,7 +4471,7 @@ msgstr "Er zijn fouten opgetreden bij het toevoegen aan de %2 groep. %1 "
 
 #: core/templates/registermessages.tmpl:425
 msgid "There were errors removing %1 from the %2 group."
-msgstr ""
+msgstr "Er is iets misgegaan bij het verwijderen van %1 uit de %2 groep."
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
@@ -4462,7 +4479,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 msgid "This WikiName is already in use."
-msgstr ""
+msgstr "Deze Wiki-naam wordt reeds gebruikt."
 
 #: core/templates/messages.tmpl:228
 msgid "This can be automatically upgraded by:"
@@ -4486,7 +4503,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
-msgstr ""
+msgstr "Deze groep zou geen leden moeten hebben."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -4513,7 +4530,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "Dit staat ook bekend als Cross-site Request Forgery, of CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
@@ -4543,7 +4560,7 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Waarom de omzetting is uitgeschakeld:"
 
 #: core/templates/login.tmpl:33
 msgid ""
@@ -4574,10 +4591,12 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"Deze pagina legt uit welke veiligheidsmaatregelen Foswiki, de software "
+"achter deze site, neemt om deze site te beschermen tegen aanvallers."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
 msgid "This page was cached on %1."
-msgstr ""
+msgstr "Van deze pagina werd een cache gemaakt om %1."
 
 #: core/templates/messages.tmpl:226
 msgid "This requires the form definition to be present."
@@ -4682,7 +4701,7 @@ msgstr "Naar web:"
 
 #: core/templates/messages.tmpl:490
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Teveel recursie tijdens het verwerken van template %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -4810,11 +4829,11 @@ msgstr "Probeer opnieuw"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
-msgstr ""
+msgstr "Onveranderde secties voor en na elke wijziging"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:44
 msgid "Underline"
@@ -4876,7 +4895,7 @@ msgstr "Links verversen"
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
-msgstr ""
+msgstr "Opwaarderen"
 
 #: core/data/Main/GroupViewTemplate.txt:172
 msgid "Upgrade group topic..."
@@ -4939,7 +4958,7 @@ msgstr ""
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "Gebruiker %1 heeft geen CHANGE toestemming voor %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
@@ -4990,20 +5009,20 @@ msgstr "Gebruikers"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Gebruikers kunnen niet worden toegevoegd aan %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Gebruikers kunnen niet worden verwijderd van %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:152
 msgid "Users who may edit:"
-msgstr ""
+msgstr "Gebruikers die mogen bewerken:"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:116
 msgid "Users who may view:"
-msgstr ""
+msgstr "Gebuikers die mogen kijken:"
 
 #: core/templates/registermessages.tmpl:316
 msgid ""
@@ -5168,7 +5187,7 @@ msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "Web Wijzigingen kennisgevingsdienst"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:10
 #: core/data/System/SiteChanges.txt:90
@@ -5177,11 +5196,11 @@ msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Webserver <em>met Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "Welkom bij %1 ... zie wie op deze site is aangemeld"
 
 #: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
 #: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
@@ -5199,11 +5218,11 @@ msgstr "Wie"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Wie doet dit verzoek eigenlijk?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
-msgstr ""
+msgstr "Gehele pagina"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
@@ -5364,6 +5383,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Je verandert je e-mailadres door dit in te vullen in het formulier in op je "
+"persoonlijke pagina. Als het formulierveld Email niet bestaat zal het zoeken "
+"naar een regel als deze:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
@@ -5399,10 +5421,14 @@ msgstr "Je moet een paginanaam opgeven."
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
+"Je moet een geldige groepnaam aangeven, als je leden bij een groep wil "
+"toevoegen."
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
+"Je moet een geldige groepnaam aangeven, als je leden uit een groep wil "
+"verwijderen."
 
 #: core/templates/messages.tmpl:322
 msgid "You need to specify a valid member to add to a group."
@@ -5451,7 +5477,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Je e-mailadres zal vertrouwelijk worden gehouden."
 
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
@@ -5460,11 +5486,11 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
-msgstr ""
+msgstr "Je naam zoals hij op %1 te zien zal zijn."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
-msgstr ""
+msgstr "Je naam, meestal je voor- en achternaam zonder spatie er tussen."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5508,6 +5534,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Je geregistreerde e-mailadressen worden door Foswiki gebruikt om e-mails te "
+"versturen, waaronder meldingen van wachtwoord aanpassingen."
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
@@ -5553,7 +5581,7 @@ msgstr "[[%1][Paginatekst debuggen]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][Gebruikersnaam]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5602,11 +5630,11 @@ msgstr "en"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "door %1 "
 
 #: core/data/System/SiteChanges.txt:75
 msgid "change display options"
-msgstr ""
+msgstr "verander weergave opties"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -5623,7 +5651,7 @@ msgstr "standaard zoals gedefinieerd in de %1"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
-msgstr ""
+msgstr "Wijzigingen"
 
 #: core/templates/messages.tmpl:302
 msgid "don't forget to check your Topic Settings"
@@ -5631,7 +5659,7 @@ msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 
 #: core/templates/messages.tmpl:505
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin is mislukt. Zie meldingen hieronder."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
@@ -5673,7 +5701,7 @@ msgstr "velden zijn verplicht"
 
 #: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin is niet gedefinieerd. Zie meldingen hieronder."
 
 #: core/data/System/SiteChanges.txt:63
 msgid "last change"
@@ -5689,7 +5717,7 @@ msgstr "meer..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "nieuw"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -5762,7 +5790,7 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:37
 msgid "the beginning"
-msgstr ""
+msgstr "vanaf begin"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
