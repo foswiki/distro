@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-06-01 09:05+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -3332,7 +3332,7 @@ msgstr "Vorherige"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:35
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
-msgstr "Druckversion von diesem Topic (p)"
+msgstr "Druckversion dieses Topics (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:64
 msgid "Properties"
