@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432952291" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1433282411" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -63,7 +63,7 @@ Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
 <div class='foswikiHelp'>
    * !JavaScript is now required for most operations other than simple page views.
    * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prerequisite modules. Check dependencies by running  =perl tools/dependencies=
-   * Perl 5.8.8 is the minimum perl version.  Perl 5.12+ is recommended.
+   * Perl 5.8.8 is the minimum perl version. The newer the better. There are know issues with international characters and Perl 5.16.x   See [[%BUGS%/Item13424][Item13424]]. For international character set support, Perl 5.18+ is recommended.
 </div>
 
 ---++ Deprecation
@@ -189,6 +189,7 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
 should review the existing data and determine if migration to utf-8 should be performed.
+See the Foswiki:System.UpgradeGuide for more details.
 </div>
 
 ---+++ Perl libraries and paths
@@ -549,7 +550,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12411][Item12411]] | rest validates the request even if validation disabled in core. |
 | [[%BUGS%/Item12438][Item12438]] | Trunk statistics script only processes the Main web by default |
 | [[%BUGS%/Item12447][Item12447]] | Handle international topic names |
-| [[%BUGS%/Item12450][Item12450]] | Remove T®wiki ref in installation instructions |
+| [[%BUGS%/Item12450][Item12450]] | Remove TWiki references in installation instructions |
 | [[%BUGS%/Item12472][Item12472]] | $loadedRev undefined in VC::Store for RcsLite |
 | [[%BUGS%/Item12475][Item12475]] | Move =lib/CPAN/lib= modules to a separate CpanContrib |
 | [[%BUGS%/Item12477][Item12477]] | Spurious entries being added to .changes |
