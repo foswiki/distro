@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 08:54+0200\n"
+"PO-Revision-Date: 2015-06-02 16:22+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -5582,7 +5582,7 @@ msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
-msgstr "mIchDaq naw\\' chaw\\'be\\'lu\\'"
+msgstr "mIchDaq naw' chaw'be'lu'"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
