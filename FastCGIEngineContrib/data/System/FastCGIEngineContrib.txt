@@ -396,6 +396,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 ---++ Info
 
 | Change History: | |
+|  29 Mar 2015 | (1.01) Foswikitask:Item13342 - Add missing dependency, don't re-init back end after every transaction while bootstrapping. |
 |  14 Jan 2015 | (1.00) Foswikitask:Item13010 - make checking =LocalSite.cfg= for changes optional so that it can be disabled for improved stability on high traffic sites |
 |  29 Aug 2014 | (0.97) Foswikitask:Item13010 - fixed instability running under FCGI::ProcManager |
 |  20 Feb 2014 | (0.96) Foswikitask:Item12755 - fixed socket not being closed properly on a reExec; work around error in FCGI.pm; added =quiet= parameter to suppress normal messages; fixed tainted pid filename; | 

@@ -133,12 +133,6 @@ sub run {
         if ( defined $localSiteCfg ) {
             $lastMTime = ( stat $localSiteCfg )[9];
         }
-        else {
-            # Set $mtime to 1,  this causes a reinit after each transation
-            # and is changed to the LocalSite.cfg mtime once the file exists.
-            $mtime = 1;
-        }
-
     }
 
     while ( $r->Accept() >= 0 ) {
