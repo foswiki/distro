@@ -15,6 +15,7 @@ package Foswiki::Engine::FastCGI;
 use strict;
 use warnings;
 
+use Foswiki ();
 use Foswiki::Sandbox ();
 use Foswiki::Engine::CGI;
 our @ISA = qw( Foswiki::Engine::CGI );
