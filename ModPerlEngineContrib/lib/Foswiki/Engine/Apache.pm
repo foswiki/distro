@@ -9,7 +9,7 @@
 #
 # http://search.cpan.org/perldoc?Catalyst
 #
-# for credits and liscence details.
+# for credits and license details.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,6 +36,7 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache;
 
 use strict;
+
 use Foswiki::Engine;
 our @ISA = qw( Foswiki::Engine );
 
@@ -176,10 +177,16 @@ sub prepareBodyParameters {
                 @values = $this->{query}->multi_param($pname);
             }
             else {
-                @values = $this->{query}->param($pname);
+                @values = ( $this->{query}->param($pname) );
             }
-            $req->bodyParam( -name => $pname, -value => \@values );
-            $this->{uploads}->{$pname} = 1
+            my $upname = $pname;
+            if ($Foswiki::UNICODE) {
+                @values = map { Foswiki::decode_utf8($_) } @values;
+                $upname = Foswiki::decode_utf8($pname);
+            }
+
+            $req->bodyParam( -name => $upname, -value => \@values );
+            $this->{uploads}->{$upname} = 1
               if scalar $this->{query}->upload($pname);
         }
     }
@@ -192,6 +199,7 @@ sub prepareBodyParameters {
     else {
         if ( $req->header('Content-type') =~ m#application/json# ) {
             $this->{query}->read( my $data, $contentLength );
+            $data = Foswiki::decode_utf8($data) if $Foswiki::UNICODE;
             $req->bodyParam( -name => 'POSTDATA', -value => $data );
         }
     }
