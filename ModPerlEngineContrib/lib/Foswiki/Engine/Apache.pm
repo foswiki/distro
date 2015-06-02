@@ -181,8 +181,8 @@ sub prepareBodyParameters {
             }
             my $upname = $pname;
             if ($Foswiki::UNICODE) {
-                @values = map { Encode::decode_utf8($_) } @values;
-                $upname = Encode::decode_utf8($pname);
+                @values = map { Foswiki::decode_utf8($_) } @values;
+                $upname = Foswiki::decode_utf8($pname);
             }
 
             $req->bodyParam( -name => $upname, -value => \@values );
@@ -199,7 +199,7 @@ sub prepareBodyParameters {
     else {
         if ( $req->header('Content-type') =~ m#application/json# ) {
             $this->{query}->read( my $data, $contentLength );
-            $data = Encode::decode_utf8($data) if $Foswiki::UNICODE;
+            $data = Foswiki::decode_utf8($data) if $Foswiki::UNICODE;
             $req->bodyParam( -name => 'POSTDATA', -value => $data );
         }
     }
