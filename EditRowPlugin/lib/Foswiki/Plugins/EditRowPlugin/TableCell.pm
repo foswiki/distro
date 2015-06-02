@@ -47,7 +47,7 @@ sub render {
     my ( $this, $opts, $render_opts ) = @_;
 
     my $colDef = $opts->{col_defs}->[ $this->{number} ] || $defCol;
-    my $json = JSON->new()->convert_blessed();
+    my $json = JSON->new()->convert_blessed->allow_blessed();
 
     my $text = $this->{text};
     if ( $text =~ s/%EDITCELL\{(.*?)\}%// ) {
