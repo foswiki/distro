@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:25+0200\n"
+"PO-Revision-Date: 2015-06-02 12:59+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
@@ -385,13 +385,12 @@ msgstr ""
 "utenti e i nuovi indirizzi e-mail."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*File locale:* Se selezioni un file differente in  _File locale:_, sarà "
-"questo ad essere aggiornato o aggiunto."
+"*File differente:* Se selezioni un file differente, sarà questo ad essere "
+"aggiornato o aggiunto."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
