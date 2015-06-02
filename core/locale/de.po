@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 22:24+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-06-02 12:56+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -5075,7 +5075,7 @@ msgstr "Benutzerkonto wurde nicht angegeben"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
-msgstr "Benutzer-Handbücher"
+msgstr "Benutzerhandbücher"
 
 #: core/templates/oopsregister.tmpl:6
 msgid "User Registration"
