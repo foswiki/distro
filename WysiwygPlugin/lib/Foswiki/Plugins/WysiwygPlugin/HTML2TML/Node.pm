@@ -1483,13 +1483,6 @@ sub _handleA {
             $origWikiword = $this->{attrs}->{'data-wikiword'};
         }
 
-# SMELL:  Item11814 - decoding corrupts URL's that must be encoded,  ex. embedded Newline
-# No unit test covers why the decode is required.  However restricting it to known
-# protocols fixes Item11814.  Need to figure out if this can just be removed?
-#if ( $href !~ /${WC::PROTOCOL}[^?]*/ ) {
-#    $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-#}
-
         if ( $this->{context} && $this->{context}->{rewriteURL} ) {
             $href = $this->{context}->{rewriteURL}->( $href, $this->{context} );
         }
@@ -1744,25 +1737,22 @@ sub _handleIMG {
     # Hack out mce_src, which is TinyMCE-specific and causes indigestion
     # when the topic is reloaded
     delete $this->{attrs}->{mce_src} if defined $this->{attrs}->{mce_src};
-    if ( $this->{context} && $this->{context}->{rewriteURL} ) {
-        my $href = $this->{attrs}->{src};
-
-        # decode URL params in the href
-        $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-        $href = &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
-        $this->{attrs}->{src} = $href;
-    }
 
     return ( 0, undef )
       unless $this->{context}
       && defined $this->{context}->{convertImage};
 
-    my $alt =
-      &{ $this->{context}->{convertImage} }
-      ( $this->{attrs}->{src}, $this->{context} );
+    my $href = $this->{attrs}->{src};
+    if ( $this->{context} && $this->{context}->{rewriteURL} ) {
+        $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+        $href = &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
+    }
+    my $alt = &{ $this->{context}->{convertImage} }( $href, $this->{context} );
     if ($alt) {
         return ( 0, $alt );
     }
+
+    # leave the _endecoded_ url in the src attribute!
     return ( 0, undef );
 }
 
