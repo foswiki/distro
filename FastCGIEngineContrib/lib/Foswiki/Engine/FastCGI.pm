@@ -186,7 +186,11 @@ sub preparePath {
 }
 
 sub write {
-    syswrite STDOUT, $_[1];
+    if ($Foswiki::UNICODE) {
+        syswrite STDOUT, Foswiki::encode_utf8($_[1]);
+    } else {
+        syswrite STDOUT, $_[1];
+    }
 }
 
 sub closeSocket {
