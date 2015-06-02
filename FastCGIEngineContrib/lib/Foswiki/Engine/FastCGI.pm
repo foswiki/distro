@@ -193,7 +193,7 @@ sub preparePath {
 
 sub write {
     if ($Foswiki::UNICODE) {
-        syswrite STDOUT, Encode::encode_utf8($_[1]);
+        syswrite STDOUT, Foswiki::encode_utf8($_[1]);
     } else {
         syswrite STDOUT, $_[1];
     }
