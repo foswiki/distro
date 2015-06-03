@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-02 12:59+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-06-03 07:06+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -50,7 +50,7 @@ msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
 msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr ""
+msgstr "%1 %2 Pagina %3 di %4 %5 %6"
 
 #: core/data/System/SiteChanges.txt:83
 msgid "%1 (default)"
@@ -2671,7 +2671,7 @@ msgstr "Manutenzione della pagina %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
 msgid "More actions for %1:"
-msgstr ""
+msgstr "Più azioni per %1:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2845,11 +2845,11 @@ msgstr "Nessun membro"
 
 #: core/templates/backlinks.tmpl:20
 msgid "No backlinks in public webs"
-msgstr ""
+msgstr "No collegamenti nei Web pubblici"
 
 #: core/templates/backlinks.tmpl:10
 msgid "No backlinks in this web"
-msgstr ""
+msgstr "Nessun collegamento in questo Web"
 
 #: core/data/System/SiteChanges.txt:69
 msgid "No changes"
@@ -3757,9 +3757,8 @@ msgid "Search string"
 msgstr "Testo della ricerca"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Search the %1 Web for all children of this topic."
-msgstr "Cerca nelle pagine del Web %1 qui collegate"
+msgstr "Cerca nelle pagine del Web %1 collegate a questa pagina."
 
 #: core/templates/more.tmpl:90
 msgid "Search the %1 Web for topics that link to here"
@@ -3892,9 +3891,8 @@ msgid "Show %1 revisions up to revision %2"
 msgstr "Mostra dalla versione %1 alla versione %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
-#, fuzzy
 msgid "Show attachments help"
-msgstr "Aiuto sugli allegati"
+msgstr "Mostra l'aiuto sugli allegati"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -5319,7 +5317,6 @@ msgid "You"
 msgstr "Tu"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -5327,7 +5324,7 @@ msgid ""
 msgstr ""
 "Per ridefinire la password *devi* possedere almeno un indirizzo e-mail "
 "valido registrato. Se nessuno degli indirizzi e-mail che ti riguardano è "
-"valido e hai dimenticato la password, contatta %1"
+"valido e hai dimenticato la password, contatta %1."
 
 #: core/templates/registermessages.tmpl:193
 msgid "You are already registered."
@@ -5557,7 +5554,7 @@ msgstr "Il tuo indirizzo email verrà mantenuto riservato."
 
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr ""
+msgstr "La lingua è stata cambiata in %1. [[%2][seleziona per continuare]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
