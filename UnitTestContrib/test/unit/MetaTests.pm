@@ -886,30 +886,6 @@ EXPECTED
     return;
 }
 
-#lets see what happens when we use silly TOPICINFO
-#http://foswiki.org/Tasks/Item2274
-sub test_BadRevisionInfo {
-    my $this = shift;
-
-    my $in  = '$Rev$';
-    my $rev = Foswiki::Store::cleanUpRevID($in);
-    $this->assert( defined($rev) );
-    $this->assert_equals( 0, $rev );
-
-    #svn attribute not set - still a valid topic.
-    my $broken = '$' . 'Rev' . '$';    #stop svn from filling in the number..
-    $rev = Foswiki::Store::cleanUpRevID($broken);
-    $this->assert( defined($rev) );
-    $this->assert_equals( 0, $rev );
-
-    #we recognise a txt file that has not been written by foswiki as rev=0
-    $rev = Foswiki::Store::cleanUpRevID('');
-    $this->assert( defined($rev) );
-    $this->assert_equals( 0, $rev );
-
-    return;
-}
-
 sub test_getRevisionHistory {
     my $this = shift;
     my $topicObject =

@@ -1409,13 +1409,13 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # Similarly for %DET, which controls whether matching lines are required.
 # (see the documentation on these options with GNU grep for details).
 $Foswiki::cfg{Store}{EgrepCmd} =
-  'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+  'grep -E %CS{|-i}% %DET{|-l}% -a -H -- %TOKEN|U% %FILES|F%';
 
 # **COMMAND LABEL="Fgrep Command" EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'" CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
 # Full path to GNU-compatible fgrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{Store}{FgrepCmd} =
-  'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+  'grep -F %CS{|-i}% %DET{|-l}% -a -H -- %TOKEN|U% %FILES|F%';
 
 #---++ File system settings
 # Generic settings

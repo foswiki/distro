@@ -985,6 +985,10 @@ sub filter_txt {
             $text =~ s/^(%META:TOPICINFO\{.*version=").*?(".*\}%)$/${1}1$2/m
               unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
             $text =~ s/%\$(\w+)%/&_expand($this,$1)/ge;
+
+            # Hack to support those who edit topics using Foswiki, where
+            # % gets encoded as %25 in field values
+            $text =~ s/%25\$(\w+)%25/&_expand($this,$1)/ge;
             return $text;
         }
     );

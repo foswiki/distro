@@ -403,8 +403,6 @@ sub verify_repRevTopic {
     $this->assert_str_equals( $deffo_cuid, $info->{author} );
 }
 
-# Change tests won't work in 1.2 because the recordChange calls have
-# moved to Foswiki::Meta
 sub verify_eachChange {
     my $this = shift;
     my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
@@ -461,9 +459,11 @@ sub verify_eachChange {
     $this->assert_str_equals( "ClutterBuck", $change->{topic} );
     $this->assert_equals( 2, $change->{revision} );
     $this->assert( !$it->hasNext() );
-    $meta->finish();
 
-    return;
+    $this->assert( 1, $this->{sut}->getRevisionAtTime( $meta, $start ) );
+    $this->assert( 2, $this->{sut}->getRevisionAtTime( $meta, $mid ) );
+
+    $meta->finish();
 }
 
 sub verify_openAttachment {
@@ -882,6 +882,155 @@ sub verify_atomicLocks {
     $this->assert_null($u);
     $this->assert_null($t);
     $meta->finish();
+}
+
+#lets see what happens when we use silly TOPICINFO
+#http://foswiki.org/Tasks/Item2274
+sub test_cleanUpRevID {
+    my $this = shift;
+
+    my $rev = Foswiki::Store::cleanUpRevID('$Rev$');
+    $this->assert_not_null($rev);
+    $this->assert_equals( 0, $rev );
+
+    $rev = Foswiki::Store::cleanUpRevID('1.666');
+    $this->assert_equals( 666, $rev );
+
+    $rev = Foswiki::Store::cleanUpRevID('46');
+    $this->assert_equals( 46, $rev );
+
+    #we recognise a txt file that has not been written by foswiki as rev=0
+    $rev = Foswiki::Store::cleanUpRevID('');
+    $this->assert_not_null($rev);
+    $this->assert_equals( 0, $rev );
+
+    return;
+}
+
+sub test_getWorkArea {
+    my $this = shift;
+
+    # Must return a valid dirpath
+    my $dir = $this->{session}->{store}->getWorkArea("test_work_area_$$");
+    $this->assert( -d $dir );
+    $this->assert( open( F, ">", "$dir/blah.dat" ) );
+    close(F);
+    unlink("$dir/blah.dat");
+    rmdir($dir);
+}
+
+sub verify_getAttachmentURL {
+
+    # Hmm, tricky. About all we can do is verify that we are given
+    # back a url. We *could* LWP it, but...
+    my $this = shift;
+
+    my $url = $this->{sut}->getAttachmentURL('System');
+}
+
+sub verify_getRevisionHistory {
+    my $this = shift;
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
+        "Rev 1" );
+    $this->{sut}->saveTopic( $topicObject, $this->{test_user_cuid} );
+    $topicObject->finish();
+
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
+    my $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
+    $topicObject->text('Rev 2');
+    $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
+    $topicObject->text('Rev 3');
+    $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 3, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
+    # SMELL: need to test attachments too
+
+    $this->assert_equals( 4, $this->{sut}->getNextRevision($topicObject) );
+    $topicObject->finish();
+}
+
+sub verify_query {
+    my $this = shift;
+    my %salgs;
+
+    foreach my $dir (@INC) {
+        if ( opendir( my $Dir, "$dir/Foswiki/Store/SearchAlgorithms" ) ) {
+            foreach my $alg ( readdir $Dir ) {
+                next unless $alg =~ m/^(.*)\.pm$/;
+                $alg = $1;
+
+                # skip forking search for now, its extremely broken
+                # on windows
+                next if ( $^O eq 'MSWin32' && $alg eq 'Forking' );
+                $salgs{$alg} = 1;
+            }
+            closedir($Dir);
+        }
+    }
+
+    my @topics = ( 'AsciiName', $this->{t_topic} );
+    my $topiclist = join( ',', @topics );
+    foreach my $t (@topics) {
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $this->{test_web}, $t,
+            "Target $this->{t_topic}" );
+        $topicObject->save();
+    }
+
+    foreach my $sa ( sort keys %salgs ) {
+        if ( $sa eq 'Forking'
+            && ( $Foswiki::cfg{Store}{Encoding} || '' ) eq 'iso-8859-1' )
+        {
+            print STDERR "**** SKIPPING Forking with iso-8859-1\n";
+            next;
+        }
+        $Foswiki::cfg{Store}{SearchAlgorithm} =
+          "Foswiki::Store::SearchAlgorithms::$sa";
+
+        print STDERR "**** $Foswiki::cfg{Store}{SearchAlgorithm} on "
+          . ( $Foswiki::cfg{Store}{Encoding} || 'utf-8' ) . "\n";
+        $this->createNewFoswikiSession('AdminUser');
+
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $this->{test_web},
+            'WebPreferences' );
+
+        my $result = $topicObject->expandMacros(
+            $this->toSiteCharSet(
+"%SEARCH{\"Target\" web=\"$this->{test_web}\" format=\"\$topic\"}%"
+            )
+        );
+
+        foreach my $t (@topics) {
+            $this->assert_matches( qr/$t/, $result );
+        }
+    }
 }
 
 1;

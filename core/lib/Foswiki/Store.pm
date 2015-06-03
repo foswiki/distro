@@ -112,6 +112,8 @@ This method should be used to sanitise user-provided revision IDs.
 Returns 0 if it was unable to determine a valid rev number from the
 string passed.
 
+Works with RCS format (e.g. 1.2) rev IDs and plain integer numbers.
+
 =cut
 
 sub cleanUpRevID {
@@ -876,15 +878,11 @@ sub remove {
 Search for data in the store (not web based).
    * =$query= either a =Foswiki::Search::Node= or a =Foswiki::Query::Node=.
    * =$inputTopicSet= is a reference to an iterator containing a list
-     of topic in this web, if set to undef, the search/query algo will
-     create a new iterator using eachTopic() 
+     of topic paths. If set to undef, the search/query algo will
+     create a new iterator using eachWeb()/eachTopic() 
      and the topic and excludetopics options
 
 Returns a =Foswiki::Search::InfoCache= iterator
-
-This will become a 'query engine' factory that will allow us to plug in
-different query 'types' (Sven has code for 'tag' and 'attachment' waiting
-for this)
 
 =cut
 
