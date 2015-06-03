@@ -486,11 +486,12 @@
     var erp_dirtyVeto = false;
 
     // Make sure thead, tbody, tfoot are consistent with headerrows
-    // and footerrows, otherwise lots won't work correctly
+    // and footerrows, otherwise things won't work correctly
     var repair_table = function($table, info) {
         var hr, fr;
         if (!info)
             return; // nothing to do
+
         if (typeof info.headerrows !== "undefined")
             hr = info.headerrows;
         else if (info.TABLE && typeof info.TABLE.headerrows !== "undefined")
@@ -499,27 +500,44 @@
             fr = info.footerrows;
         else if (info.TABLE && typeof info.TABLE.footerrows !== "undefined")
             fr = info.TABLE.footerrows;
-        var $thead = $table.children("thead");
-        var $tbody = $table.children("tbody");
 
-        while ($thead.children().length < hr) {
-            if ($tbody.children().length > 0)
-                $tbody.children().first().detach().appendTo($thead);
-            else if ($tfoot.children().length > 0)
-                $tfoot.children().first().detach().appendTo($thead);
-            else
-                break;
+        var $tbody = $table.children("tbody");
+        if ($tbody.length === 0)
+            return; // nothing can save us now
+
+        if (hr > 0) {
+            var $thead = $table.children("thead");
+            if ($thead.length === 0) {
+                $thead = $("<thead></thead>");
+                $thead.prependTo($table);
+            }
+
+            while ($thead.children().length < hr) {
+                if ($tbody.children().length > 0)
+                    $tbody.children().first().detach().appendTo($thead);
+                else if ($tfoot.children().length > 0)
+                    $tfoot.children().first().detach().appendTo($thead);
+                else
+                    break;
+            }
         }
 
-        var $tfoot = $table.children("tfoot");
-        if (!$tfoot && fr > 0)
-            $tfoot = $("<tfoot></tfoot>").appendTo($table);
+        if (fr > 0) {
+            var $tfoot = $table.children("tfoot");
+            if ($tfoot.length === 0) {
+                $tfoot = $("<tfoot></tfoot>");
+                // Strictly speaking the DOM wants the tfoot before
+                // the tbody, but within JS that doesn't really matter,
+                // and it's easier to get your head around it this way.
+                $tfoot.appendTo($table);
+            }
 
-        while ($tfoot.children().length < fr) {
-            if ($tbody.children().length > 0)
-                $tbody.children().last().detach().prependTo($tfoot);
-            else
-                break;
+            while ($tfoot.children().length < fr) {
+                if ($tbody.children().length > 0)
+                    $tbody.children().last().detach().prependTo($tfoot);
+                else
+                    break;
+            }
         }
     };
 

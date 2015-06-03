@@ -121,7 +121,7 @@ sub isHeader {
             }
         }
     }
-    return $this->{isHeader};
+    return $this->{isHeader} || 0;
 }
 
 =begin TML
@@ -136,7 +136,7 @@ sub isFooter {
     if ($set) {
         $this->{isFooter} = $set;
     }
-    return $this->{isFooter};
+    return $this->{isFooter} || 0;
 }
 
 =begin TML

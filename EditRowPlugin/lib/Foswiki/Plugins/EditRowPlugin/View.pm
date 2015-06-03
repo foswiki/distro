@@ -223,8 +223,9 @@ sub process {
             {INCLUDINGTOPIC}
           )
         {
-            $precruft  = "<!-- STARTINCLUDE $_[2].$_[1] -->\n";
-            $postcruft = "\n<!-- (?:END|STOP)INCLUDE $_[2].$_[1] -->";
+            my $id = "!$_[1].$_[2]:T" . $table->number();
+            $precruft  = "<!-- STARTINCLUDE $id -->\n";
+            $postcruft = "\n<!-- ENDINCLUDE $id -->";
         }
         $_         = $precruft . $line . $postcruft;
         $hasTables = 1;

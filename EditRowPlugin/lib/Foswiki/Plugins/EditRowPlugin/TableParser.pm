@@ -33,6 +33,7 @@ sub parse {
 
     $this->{params} = $erps;    # url params
 
+    # Put everything between STARTINCLUDE...ENDINCLUDE tags to stop
     # them from processing as tables by converting them to verbatim.
     $text =~ s/<!-- (STARTINCLUDE .*?) -->/<verbatim \001="$1">/g;
     $text =~ s/<!-- ((?:END|STOP)INCLUDE .*?) -->/<\/verbatim \001="$1">/g;

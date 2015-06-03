@@ -76,7 +76,6 @@ The following entries in attrs are supported:
 
 sub new {
     my ( $class, $spec, $attrs ) = @_;
-
     my $this = bless(
         {
             spec   => $spec,
@@ -182,8 +181,8 @@ sub makeConsistent {
 
     my $minRows = $this->getHeaderRows() + $this->getFooterRows();
     if ( $this->totalRows() < $minRows ) {
-        if ( defined $this->{headerrows} ) {
-            while ( $this->totalRows() < $this->{headerrows} ) {
+        if ( $this->getHeaderRow() ) {
+            while ( $this->totalRows() < $this->getHeaderRows() ) {
                 my @vals =
                   map { "*$_->{initial_value}*" } @{ $this->{colTypes} };
                 push( @vals, '*?*' ) unless scalar(@vals);

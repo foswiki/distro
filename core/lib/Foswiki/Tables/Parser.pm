@@ -17,7 +17,7 @@ package Foswiki::Tables::Parser;
 use strict;
 use Assert;
 
-use constant TRACE => 0;
+use constant TRACE => 1;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -137,6 +137,7 @@ sub parse {
 
         # Call the per-line event
         if ( _enabled( \%scope ) ) {
+            print STDERR "Processing $line\n" if TRACE;
             if ( &$dispatch( 'early_line', $line, $in_table ) ) {
                 print STDERR "early_line returned 1\n" if TRACE;
                 if ($in_table) {
@@ -147,8 +148,9 @@ sub parse {
                     &$dispatch('close_table');
                 }
 
-               #an EDITTABLE macro starts a new table
-               #this allows us to create new tables from just an EDITTABLE macro
+                # an EDITTABLE macro starts a new table
+                # this allows us to create new tables from
+                # just an EDITTABLE macro
                 print STDERR "Open TABLE\n" if TRACE;
                 &$dispatch('open_table');
                 $in_table = 1;
@@ -158,7 +160,7 @@ sub parse {
 
             if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
 
-                print STDERR "interesting $line\n" if TRACE;
+                print STDERR "Tablerow $line\n" if TRACE;
 
                 if ( $line =~ s/\\$// ) {
 
@@ -224,7 +226,7 @@ sub parse {
 
             # fall through to allow dispatch of line event
         }
-
+        print STDERR "Dispatch $line\n" if TRACE;
         &$dispatch( 'line', _rewrite( $line, \@comments ) );
 
     }    # end of per-line loop
