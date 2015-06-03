@@ -145,7 +145,9 @@ sub render {
                         my %td = $this->{row}->{table}->getParams();
                         $td{TABLE} = $this->{row}->{table}->{TABLE}
                           if $this->{row}->{table}->{TABLE};
-                        $sopts->{'data-erp-tabledata'} = $json->encode( \%td );
+                        my $tabd = $json->encode( \%td );
+                        $tabd =~ s/([|])/sprintf('&#%02d', ord($1))/ge;
+                        $sopts->{'data-erp-tabledata'} = $tabd;
                         $render_opts->{need_tabledata} = 0;
                     }
 
@@ -156,8 +158,11 @@ sub render {
                     }
 
                     # Finally add the column to the data for the cell
-                    $sopts->{'data-erp-data'} =
-                      $json->encode( { $this->getParams(), %$data } );
+                    my $tabd = $json->encode( { $this->getParams(), %$data } );
+
+                    # protect anything that might break the table renderer
+                    $tabd =~ s/([|])/sprintf('&#%02d', ord($1))/ge;
+                    $sopts->{'data-erp-data'} = $tabd;
 
                     $sopts->{class} = join( ' ', @css_classes );
                 }

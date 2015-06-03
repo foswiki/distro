@@ -294,7 +294,8 @@ sub render {
             }
         }
         else {
-            push( @out, $row->render( \%row_opts, \%render_opts ) );
+            my $r = $row->render( \%row_opts, \%render_opts );
+            push( @out, $r );
         }
         $r++;
     }
