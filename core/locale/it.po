@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-03 07:06+0200\n"
+"PO-Revision-Date: 2015-06-03 07:35+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
@@ -1416,7 +1416,7 @@ msgstr "Registrati per poter modificare le pagine su questo sito."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
-msgstr "Crea una nuova revisione della pagina al salvataggio"
+msgstr "Crea una nuova versione della pagina al salvataggio"
 
 #: core/templates/messages.tmpl:230
 msgid "Creating a suitable Form Definition topic"
@@ -1491,7 +1491,7 @@ msgstr "Elenco dettagliato delle pagine nel  web %1"
 
 #: core/lib/Foswiki/Form.pm:425
 msgid "Details in separate window"
-msgstr "Dettagli in altra finestra"
+msgstr "Dettagli in finestra separata"
 
 #: core/templates/registermessages.tmpl:356
 msgid "Details:"
@@ -2499,11 +2499,11 @@ msgstr "Vai a"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to first revision"
-msgstr "Salta alla prima revisione"
+msgstr "Salta alla prima versione"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr "Salta all'ultima revisione (%1)"
+msgstr "Salta all'ultima versione (%1)"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:134
 #: NatEditPlugin/templates/edit.natedit.tmpl:165
@@ -2545,7 +2545,7 @@ msgstr "Cognome:"
 
 #: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
-msgstr "Ultima revisione: %1"
+msgstr "Ultima versione: %1"
 
 #: core/data/Main/GroupViewTemplate.txt:268
 msgid "Leave %1"
@@ -4394,9 +4394,7 @@ msgstr "Utente collegato con il nome"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
-msgstr ""
-"Il nuovo web genitore (%1) potrebbe non essere lo stesso del vecchio o del "
-"nuovo nome web."
+msgstr "Il nuovo genitore Web (%1) pon può essere uguale al precedente."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
