@@ -182,7 +182,8 @@ EXPECTED
     my $e_tabledata = {
         version => $a_tabledata->{version} || "VERSION",
         topic   => "$this->{test_web}.$this->{test_topic}",
-        table   => "EDITTABLE_0"
+        table   => "EDITTABLE_0",
+        TABLE => { '_RAW' => '' }
     };
 
     my $e_trdata = { row => 0 };
