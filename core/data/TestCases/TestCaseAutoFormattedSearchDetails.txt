@@ -16,24 +16,24 @@ The major risk is the default formatting where web's are separated - for paging 
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%MAINWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Congratulations, you have finished installing Foswiki. This site is running Foswiki release *, Plugin API version * To learn more about Foswiki, visit the web. P...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href=/Main/ProjectContributor> @WIKIWORD </a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor"> @WIKIWORD </a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMAR...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebTopicList"><b>WebTopicList</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -172,22 +172,22 @@ The major risk is the default formatting where web's are separated - for paging 
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki release , Plugin API version To learn more about ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">nop Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMARY ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebTopicList"><b>WebTopicList</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
