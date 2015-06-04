@@ -181,7 +181,7 @@ sub makeConsistent {
 
     my $minRows = $this->getHeaderRows() + $this->getFooterRows();
     if ( $this->totalRows() < $minRows ) {
-        if ( $this->getHeaderRow() ) {
+        if ( $this->getHeaderRows() ) {
             while ( $this->totalRows() < $this->getHeaderRows() ) {
                 my @vals =
                   map { "*$_->{initial_value}*" } @{ $this->{colTypes} };

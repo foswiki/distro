@@ -17,7 +17,7 @@ package Foswiki::Tables::Parser;
 use strict;
 use Assert;
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
