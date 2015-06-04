@@ -3182,45 +3182,33 @@ BLAH
 BLAH
     },
     {
-        name => 'Item11784_114_ColorMarkup',
-        exec => TML2HTML | HTML2TML | ROUNDTRIP,
-        pref => 'RED=<font color="#ff0000">',
-        tml  => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        finaltml => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        html => <<'BLAH',
+        name     => 'Item11784_114_ColorMarkup',
+        exec     => TML2HTML | HTML2TML | ROUNDTRIP,
+        pref     => 'RED=<font color="#ff0000">',
+        tml      => "=A %RED%Red text%ENDCOLOR%\n",
+        finaltml => "=A %RED%Red text%ENDCOLOR%\n",
+        html     => <<'BLAH',
 <p>=A <span class='WYSIWYG_COLOR' style='color:#ff0000'>Red text</span>
 </p>
 BLAH
     },
     {
-        name => 'Item11784_115_ColorMarkup',
-        exec => TML2HTML | HTML2TML | ROUNDTRIP,
-        pref => 'RED=<span class="foswikiRedFG">',
-        tml  => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        finaltml => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        html => <<'BLAH',
+        name     => 'Item11784_115_ColorMarkup',
+        exec     => TML2HTML | HTML2TML | ROUNDTRIP,
+        pref     => 'RED=<span class="foswikiRedFG">',
+        tml      => "=A %RED%Red text%ENDCOLOR%\n",
+        finaltml => "=A %RED%Red text%ENDCOLOR%\n",
+        html     => <<'BLAH',
 <p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
 </p>
 BLAH
     },
     {
-        name => 'Item11784_Default_ColorMarkup',
-        exec => TML2HTML | HTML2TML | ROUNDTRIP,
-        tml  => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        finaltml => <<'BLAH',
-=A %RED%Red text%ENDCOLOR%
-BLAH
-        html => <<'BLAH',
+        name     => 'Item11784_Default_ColorMarkup',
+        exec     => TML2HTML | HTML2TML | ROUNDTRIP,
+        tml      => "=A %RED%Red text%ENDCOLOR%\n",
+        finaltml => "=A %RED%Red text%ENDCOLOR%\n",
+        html     => <<'BLAH',
 <p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
 </p>
 BLAH
@@ -4033,7 +4021,6 @@ sub escapeNbsp {
 
 sub convertImage {
     my $url = shift;
-
     if ( $url eq "test_image" ) {
         return '%TRANSLATEDIMAGE%';
     }

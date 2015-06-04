@@ -1744,15 +1744,17 @@ sub _handleIMG {
 
     my $href = $this->{attrs}->{src};
     if ( $this->{context} && $this->{context}->{rewriteURL} ) {
-        $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-        $href = &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
+        my $new =
+          &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
+        if ( $new && $new ne $href ) {
+            $this->{attrs}->{src} = $href = $new;
+        }
     }
     my $alt = &{ $this->{context}->{convertImage} }( $href, $this->{context} );
     if ($alt) {
         return ( 0, $alt );
     }
 
-    # leave the _endecoded_ url in the src attribute!
     return ( 0, undef );
 }
 

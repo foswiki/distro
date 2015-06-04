@@ -395,7 +395,11 @@ sub postConvertURL {
 
     for my $i ( 0 .. $#VARS ) {
         next unless $opts->{exp}->[$i];
-        $url =~ s/^$opts->{exp}->[$i]/$VARS[$i]/;
+
+        # URLs passed here will be URL-encoded, so
+        # we have to url-encode the test expression.
+        my $test = quotemeta( Foswiki::urlEncode( $opts->{exp}->[$i] ) );
+        $url =~ s/^$test/$VARS[$i]/g;
     }
 
     if ( $url =~ m#^%SCRIPTURL(?:PATH)?(?:{"view"}%|%/+view[^/]*)/+([/\w.]+)$#
@@ -416,7 +420,8 @@ sub postConvertURL {
     return $url . $parameters . $anchor;
 }
 
-# Callback used to convert an image reference into a Foswiki variable.
+# Callback used to convert an IMG reference into a Foswiki variable,
+# given the src= URL
 sub _convertImage {
     my ( $src, $opts ) = @_;
 
@@ -425,6 +430,7 @@ sub _convertImage {
     # block calls to beforeCommonTagshandler
     local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;
 
+    # SMELL: this is not documented anywhere; is it still useful?
     unless ($imgMap) {
         $imgMap = {};
         my $imgs = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_ICONS');

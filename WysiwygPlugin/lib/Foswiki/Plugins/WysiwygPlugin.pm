@@ -42,7 +42,7 @@ our $recursionBlock;
 our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
-use constant WHY => 1;
+use constant WHY => 0;
 
 #simple Browser detection.
 our %defaultINIT_BROWSER = (
