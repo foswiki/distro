@@ -16,24 +16,24 @@ The major risk is the default formatting where web's are separated - for paging 
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%MAINWEB%/WebHome"><b>WebHome</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Congratulations, you have finished installing Foswiki. This site is running Foswiki release *, Plugin API version * To learn more about Foswiki, visit the web. P...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor"> @WIKIWORD </a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/ProjectContributor"> @WIKIWORD </a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMAR...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebTopicList"><b>WebTopicList</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -43,21 +43,21 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary"> %<noexpand>TWISTY{ link="" icon="add"}%" mode="div" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" section="js" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTem...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -67,21 +67,21 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, the web is read only; even ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = * Set NOAUTOLINK = off TOC settings * ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -91,21 +91,21 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">TestCases Web Preferences * Set BROADCASTMESSAGE = NOTE: This is the TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web, you ca...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -133,19 +133,19 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">nop TestCases Web Preferences * Set BROADCASTMESSAGE = NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
@@ -154,40 +154,40 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Welcome to the System Web This is where Foswiki keeps system documentation, including documentation that is included with optional extensions. For most people, the ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebHome"><b>WebHome</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki release , Plugin API version To learn more about ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">nop Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMARY ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebTopicList"><b>WebTopicList</b></a>
+<a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
@@ -196,19 +196,19 @@ The major risk is the default formatting where web's are separated - for paging 
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " type "submit"}%</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
 <div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set WEBSUMMARY = Sandbox test area to experiment in an unrestricted hands on web. ...</div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebTopicList"><b>WebTopicList</b></a>
 <div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/@REX(Main|TemporarySemiAutomaticTestCaseTestsUsersWeb)/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /DISABLE expected -->
