@@ -245,11 +245,17 @@
 
         // The request will update the entire container.
 	table.css('cursor', 'wait');
+        var tid = table.attr('id');
+        if (!tid) {
+            tid = 'table' + Date.now();
+            table.attr('id', tid);
+        }
         $.ajax({
             url: foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save',
             type: "POST",
             data: move_data,
             success: function(response) {
+                var table = $('#' + tid);
                 if (response.indexOf("RESPONSE") != 0) {
                     // We got something other than a REST response -
                     // probably an auth prompt. Need to edit the
@@ -264,7 +270,6 @@
                 } else {
                     var newtable = $(response.replace(/^RESPONSE/, ''));
                     newtable.addClass("erp_new_table");
-                    var table = container.closest("table");
                     table.replaceWith(newtable);
                     $(document).find(".erp_new_table").each(
                         function(index, value) {
@@ -281,7 +286,7 @@
             error: function(jqXHR, textStatus, errorThrown) {
                 // Cancel the drag
                 dragee.fadeTo("fast", 1.0);
-                table.css("cursor", "auto");
+                $('#' + tid).css("cursor", "auto");
                 var mess = jqXHR.responseText;
                 if (mess && mess.indexOf('RESPONSE') == 0)
                     mess = mess.replace(/^RESPONSE/, ': ');

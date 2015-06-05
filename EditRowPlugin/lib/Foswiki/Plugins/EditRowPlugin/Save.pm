@@ -223,7 +223,7 @@ sub process {
 
         # The leading text RESPONSE is required so that a single 0 value can
         # be returned - see Item10794
-        $response->body("RESPONSE$result");
+        $response->print("RESPONSE$result");
 
         # Add new validation key to HTTP header
         if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
