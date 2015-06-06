@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433282411" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1433562782" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -11,7 +11,7 @@ _This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2_
 
 ---++ Overview
 
-Foswiki is a fork from  TWiki 4.2.3. (TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.)
+Foswiki is a fork from TWiki 4.2.3. (TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.)
 Note that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred. Foswiki 1.2 diverges significantly in some areas.
 
 If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.UpgradingFromOlderTWikiReleases.
@@ -24,7 +24,7 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations.   We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
 
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
@@ -64,10 +64,10 @@ The =configure= page mentioned in this document is accessible via your web brows
 
 *Managing caches of static =.js=, =.css= files*:
 
-If you are using Expires tags, (you should be!) it is very important to take the longest expiration time into consideration. Clients will locally cache  !JavaScript and CSS until the time expires, unless they clear their cache.  *There are significant changes to the !JavaScript and CSS files shipped with Foswiki 1.2.  Clients using locally cached data will not operate correctly.*
+If you are using Expires tags, (you should be!) it is very important to take the longest expiration time into consideration. Clients will locally cache !JavaScript and CSS until the time expires, unless they clear their cache. *There are significant changes to the !JavaScript and CSS files shipped with Foswiki 1.2. Clients using locally cached data will not operate correctly.*
 
    * Prior to the upgrade, reduce the Expires tags to a short duration, for example 1 hour.
-      * Examine your Apache configuration for statements like: =ExpiresDefault "access plus 11 days"=,  change it to =ExpiresDefault "access plus 1 hour"=
+      * Examine your Apache configuration for statements like: =ExpiresDefault "access plus 11 days"=, change it to =ExpiresDefault "access plus 1 hour"=
    * Defer the upgrade until the longest expiration time has passed. If the longest time was 2 weeks, delay the upgrade for 2 weeks.
    * Complete the upgrade.
    * Once confident that further upgrades, or fallback are not required, restore the original far future expiration.
@@ -78,7 +78,7 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Download the Foswiki distribution* from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
 
-*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.*  Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
+*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
 *Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
    * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
@@ -86,28 +86,28 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Check that all the extensions (plugins, contribs, skins) used by your old installation are available with the new release.* Familiarize yourself with any new behaviour that you will have to adapt to or any configuration changes you will have to perform.
 
-   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 1.2.*  It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
-   * *Review the deprecated jQuery javascript plugins.* The !JQueryPlugin has several changes in available jQuery !JavaScript plugins.  Determine if any of these will impact your !JavaScript enabled topics.
+   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 1.2.* It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
+   * *Review the deprecated jQuery javascript plugins.* The !JQueryPlugin has several changes in available jQuery !JavaScript plugins. Determine if any of these will impact your !JavaScript enabled topics.
 
 *Choose the character encoding to be used in your site.*
    * Previous versions of Foswiki defaulted to =iso-8859-1= encoding (The "Latin Alphabet 1, intended for US and Western European languages).
    * Foswiki 1.2 defaults to =UTF-8= encoding, which provides better support for international character sets.
 
-You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki.  There are two common use cases:
-   * Case 1: Your existing site uses the default =iso-8859-1= or any other common encoding.  All topics are consistent with this encoding.   You have two options:
-      1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 1.2.  Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 1.2.0 ={Store}{Encoding}=.  We recommend you leave 1.2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
+You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
+   * Case 1: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
+      1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 1.2. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 1.2.0 ={Store}{Encoding}=. We recommend you leave 1.2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
       2. Set the 1.2 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 1.2 unmodified.
-   * Case 2: Your site contains a mix of encodings.   This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
-      * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_.  Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based  upon their content.   *This is rather unpredictable and may require manual intervention.*
-      * *We *strongly* recommend that a backup be taken before attempting to use the CharsetConverterContrib. As it modifies topics and attachments in-place,  it can cause damage and data loss.
+   * Case 2: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
+      * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_. Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based upon their content. *This is rather unpredictable and may require manual intervention.*
+      * *We *strongly* recommend that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The recommended =bulk_copy.pl= script does not modify existing topics.
 
 *Choose your desired Store.* Foswiki ships with two native stores.
    * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki.
-   * !PlainFileStoreContrib requires that topic histories be converted to a new history format. This can be done at the same time you convert the character set.  =perl -I lib tools/bulk_copy.pl --help= for more information on conversion.
+   * !PlainFileStoreContrib requires that topic histories be converted to a new history format. This can be done at the same time you convert the character set. =perl -I lib tools/bulk_copy.pl --help= for more information on conversion.
 
 *If you are using authentication, prepare a test plan to verify that your authentication mechanism is working correctly.* Make sure you are able to test logins by a sufficient sample of users to cover all categories of users of your site. For example, users of various groups may need to be tested. In particular, ensure you test that non-admin users cannot access topics restricted to admins.
 
-   * *Empty DENYTOPICxxxx rules are deprecated*  They are disabled by default. We recommend converting any existing rules into =&nbsp;&nbsp;&nbsp;* Set ALLOWTOPICxxxx = *= wildcard allow rules. Use =perl tools/convertTopicSettings.pl -help= for further information on the conversion process.
+   * *Empty DENYTOPICxxxx rules are deprecated* They are disabled by default. We recommend converting any existing rules into =&nbsp;&nbsp;&nbsp;* Set ALLOWTOPICxxxx = *= wildcard allow rules. Use =perl tools/convertTopicSettings.pl -help= for further information on the conversion process.
 
 *Identify all essential Wiki topics and Wiki applications* that must be fully functional upon completion of the upgrade. Prepare a test plan to verify their functionality. If you are using access controls, ensure that the test plan will adequately test all categories and groups of users of your site.
 
@@ -134,8 +134,17 @@ You _must_ match the prior encoding, or convert old data to the new encoding if 
 
 Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the %SANDBOXWEB% web).
 
-<div class="foswikiHelp">%X% *Caution:* If you intend to migrate data, you should select the !RcsStoreContrib  If topic history has been created with the wrong store, it has to either be removed or migrated when changing the type of store. If Foswiki encounters mixed RCS and !PlainFile topic history, it will "die" to prevent topic history corruption.</div>
+<div class="foswikiHelp">%X% *Caution:* If you intend to copy data from an older installation without using =bulk_copy.pl= to change Stores, you should select the !RcsStoreContrib in the configuration.
+Once topic history has been created with the wrong store, it has to either be removed, or old data should be migrated with =bulk_copy.pl=.
+If Foswiki encounters mixed RCS and !PlainFile topic history, it will "die" to prevent topic history corruption.</div>
 
+<div class="foswikiHelp">If you want to run Foswiki 1.2 in parallel with Foswiki 1.1.9, you can do this safely if the following conditions are met:
+   * The RCS store is used on both installations. (RCSWrap and RCSLite are compatible.
+   * The 1.2.0 ={Store}{Encoding}= must match the 1.1.9 ={Site}{CharSet}=
+   * The 1.2.0 ={AccessControlACL}{EnableDeprecatedEmptyDeny}= setting should be enabled.
+   * The 1.2.0 ={Htpasswd}{CharacterEncoding}= should match your 1.1.9 ={Site}{CharSet}=
+   * The 1.2.0 ={RCS}{TabularChangeFormat}= should be enabled for compatible .changes file format.
+</div>
 To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic. By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 ---+++ Install extensions
@@ -148,7 +157,7 @@ Commonly-customized plugin settings include the following:
    * =CommentPlugin= - DEFAULT_TYPE
    * =EditTablePlugin= *Deprecated! Replaced with EditRowPlugin* - CHANGEROWS, <nop>QUIETSAVE, EDITBUTTON
    * =InterwikiPlugin= - RULESTOPIC
-   * =InterWikis= - If you added your own rules, make sure you copy over the rules to the new installation.  Use of a local rules topic is the preferred way to customize the links.
+   * =InterWikis= - If you added your own rules, make sure you copy over the rules to the new installation. Use of a local rules topic is the preferred way to customize the links.
    * =SlideShowPlugin= - If you changed the embedded 'Default Slide Template', then copy your customized template to the topic in the new installation. You should prefer creating your own slide show template in a separate topic, so you will not have to take special steps over upgrades to preserve your modifications to the default slide template.
    * =SmiliesPlugin= - If you added your own smileys, make sure you copy over your customizations to the topic in the new installatin.
    * =TablePlugin= - TABLEATTRIBUTES
@@ -161,14 +170,36 @@ Activate, and if required, configure the installed extensions in =configure=.
 The working directory contains some critical information for some extensions, found below the =foswiki/working/work_areas= directory.
  Extensions use it to store persistent information critical to operation. For example, the =MailerContrib= directory contains the timestamps of the last notification email run per web.
 If not copied, the next =mailnotify= run will notify all recorded changes.
-This is the most common data that should be copied.  Review other non-default extensions to determine if anything else should be copied.
+This is the most common data that should be copied. Review other non-default extensions to determine if anything else should be copied.
 
+#CopyDataFromOldInstallation
+---+++ Copy the data using =tools/bulk_copy.pl=
+
+This is the recommended way to migrate your system. Assume that you have the
+following setup:
+   * Existing: =/var/www/f119=
+   * New: =/var/www/f120=
+Use the =bulk_copy.pl= tool to migrate your data:
+
+<verbatim>
+cd /var/www/f120/tools
+perl bulk_copy.pl --xweb System --xweb _default --xweb _empty --latest '*.WebStatistics' /var/www/f119/bin /var/www/f120/bin
+</verbatim>
+
+This will copy all webs, topics and attachments except for the contents of the
+System web. This is the recommended solution.
+
+---+++ Manual copy steps (not recommended)
+These steps can be used to manually migrate data when not changing the Store
+type or encoding.
+
+%TWISTY{showlink="Show manual migration steps"}%
+<div class="foswikiHelp">%X% Content should be copied using the =tools/bulk_copy.pl= script. This will allow conversion to =utf-8= and the !PlainFile Store. Only proceed with this step if you will be remaining on the RCS store with your existing character encoding.</div>
+
+<blockquote>
 #CopyNonDefaultWebs
----+++ Copy content from non-default webs in old installation to the new installation
-
-*Be sure to select an "RCS Store" =RcsWrap= or =RcsLite= on the new installation.* The !PlainFile store is not compatible with topic history written on previous versions of Foswiki.  If you have created or updated topics using !PlainFileStore, you should either start over, or plan to to remove all =,pfv= directories from the system so that there is no history in the !PlainFileStore format.
-
-*If you intend to change character encoding to* ==UTF-8==, you should install and run the Foswiki:Extensions.CharsetConverterContrib on your existing data before migrating it to Foswiki 1.2.  The !CharsetConverterContrib only supports the RCS style Store.  Once you have converted the characterset to =UTF-8= then you can convert to !PlainFileStore
+---++++ Copy content from non-default webs in old installation to the new installation
+*Be sure to select an "RCS Store" =RcsWrap= or =RcsLite= on the new installation.* The !PlainFile store is not compatible with topic history written on previous versions of Foswiki. If you have created or updated topics using !PlainFileStore, you should either start over, or plan to to remove all =,pfv= directories from the system so that there is no history in the !PlainFileStore format.
 
 *Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; %SYSTEMWEB%, %USERSWEB%, Trash, %SANDBOXWEB%, _default, and _empty.
    * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
@@ -177,7 +208,7 @@ This is the most common data that should be copied.  Review other non-default ex
 *Verify that existing topics are operational* and (if you converted to =UTF-8=) that any international characters have been properly converted and are displayed correctly.
 
 #CopyUsersAndCustomizations
----+++ Copy users, user topics, and site customizations to =%USERSWEB%= web
+---++++ Copy users, user topics, and site customizations to =%USERSWEB%= web
 
 *Copy all topics and attachments from &lt;old_users_web&gt;:* copy all files from =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/data/%USERSWEB%/=, and copy all files from =&lt;oldwiki&gt;/pub/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/pub/%USERSWEB%/= . *Do not overwrite any topics already present in the =&lt;newwiki&gt;/data/%USERSWEB%/= directory.*
    * In addition to all the user topics, if you have created =&lt;old_users_web&gt;.NewUserTemplate= in the old installation, this step will copy over your template for user topics to the new installation.
@@ -200,8 +231,8 @@ This is the most common data that should be copied.  Review other non-default ex
 *Copy over any topics and attachments you want to preserve from the %SANDBOXWEB% web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/%SANDBOXWEB%/= to =&lt;newwiki&gt;/data/%SANDBOXWEB%= and from =&lt;oldwiki&gt;/pub/%SANDBOXWEB%/= to =&lt;newwiki&gt;/pub/%SANDBOXWEB%= . Some pages you may wish to preserve are the =%HOMETOPIC%= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The %SANDBOXWEB% web often contains work-in-progress topics that users will want to keep.
 
 Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
-
-*Execute your test plans for authentication and authorization.* Test that users that you have transferred from the old installation can login with any problems, and that access controls work appropriately: check that users are able to view and edit pages for which they have access, and are denied permission to view or edit pages for which they do not have access. Also check that pages restricted to the admin group are not accessible by non-admin users, and that administrators continue to have access.
+</blockquote>
+%ENDTWISTY{}%
 
 ---+++ Convert empty DENY ACLs to ALLOW * wildcards
 
@@ -214,21 +245,10 @@ By default, empty =DENYTOPIC= rules will be ignored by Foswiki 1.2.  You must ch
 
 When =convertTopicSettings= saves the modified topics, they will be saved by user _UnknownUser_.
 
----+++ (Optional) Convert RCS store to !PlainFile
-
-By default Foswiki 1.2.0 uses a new store implementation, called 'PlainFile'.
-This store implementation offers significantly better performance when you
-have topics with long histories, at the cost of fractionally more disk space.
-If you have an existing RCS-based Wiki, you can continue using RCS, but new
-installations will use !PlainFile.
-
-Changing from RCS to !PlainFile is accomplished using the =tools/bulk_copy.pl=
-script to copy existing content from your current install to the new install.
-See =perl tools/bulk_copy.pl --help= for more information.
-
 ---+++ Apply preferences from old installation
 
 If you have not already set your desired site-wide preferences, as described in the section " [[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
+(These should have been copied when your %USERSWEB% was migrated.)
 
 If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.%WIKIPREFSTOPIC%=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
 
@@ -250,6 +270,9 @@ If you customized these topics in your old installation, transfer the changes to
 ---+++ Validate your Wiki applications and other key functionality
 
 Execute your test plan to validate the Wiki applications and other key functionality that need to be up and running after the upgrade.
+
+*Execute your test plans for authentication and authorization.* Test that users that you have transferred from the old installation can login with any problems, and that access controls work appropriately: check that users are able to view and edit pages for which they have access, and are denied permission to view or edit pages for which they do not have access. Also check that pages restricted to the admin group are not accessible by non-admin users, and that administrators continue to have access.
+
 
 ---+++ Switch your production site from the old installation to the new installation
 
