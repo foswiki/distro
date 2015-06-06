@@ -22,7 +22,7 @@ sub check_current_value {
         $reporter->NOTE( <<HERE);
 PlainFile history found.  This is the correct choice.
 *Caution* If you intend to migrate data from an older system, you will
-need to migrate your data using the =tools/change_store.pl= script!
+need to migrate your data using the =tools/bulk_copy.pl= script!
 HERE
     }
     else {
@@ -37,7 +37,7 @@ one of the RCS based store now before editing any wiki topics or registering any
 HERE
             $reporter->NOTE( <<HERE);
 If you want to convert to the =PlainFile= store, you will
-need to migrate your data using the =tools/change_store.pl= script!
+need to migrate your data using the =tools/bulk_copy.pl= script!
 HERE
         }
     }
@@ -53,7 +53,7 @@ sub _checkDir {
 
     if ($bad) {
         $reporter->WARN(
-'RCS ,v files detected. Loss of the history stored in these files is possible if you continue with the PlainFile store. You may want to consider migrating RCS files using =tools/change_store.pl=, or choosing one of the RCS stores.'
+'RCS ,v files detected. Loss of the history stored in these files is possible if you continue with the PlainFile store. You may want to consider migrating RCS files using =tools/bulk_copy.pl=, or choosing one of the RCS stores.'
         );
         $reporter->NOTE("First RCS file encountered: $bad");
         return 1;

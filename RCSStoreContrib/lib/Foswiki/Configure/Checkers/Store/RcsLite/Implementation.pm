@@ -30,7 +30,7 @@ sub _checkDir {
 'Possible loss of history if this setting is saved!'
         );
         $reporter->WARN(
-'PlainFile revision directories detected, Migrate your store using =tools/change_store.pl=.'
+'PlainFile revision directories detected, Migrate your store using =tools/bulk_copy.pl=.'
         );
         $reporter->NOTE("First PlainFile revision directory encountered: $bad");
         return;
