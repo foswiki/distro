@@ -32,7 +32,8 @@ sub checkRCSProgram {
         $err .= $key . ' is not set';
     }
     else {
-        my $version = `$prog --version` || '';
+        #SMELL: Old versions of RCS require -V, newer --version, and they complain
+        my $version = `$prog -V --version` || '';
         if (
             $version !~ /Can't exec/
 
