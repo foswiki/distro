@@ -1,0 +1,2 @@
+FCGI, >0.67, cpan, Required for nginx, and other web servers when configured for FastCGI support
+FCGI::ProcManager, >0.23, cpan, Optional. Required on nginx for dynamic FCGI handler management.
