@@ -1,0 +1,9 @@
+# Release manifest for ModPerlEngineContrib
+data/System/ModPerlEngineContrib.txt 0644 Documentation
+lib/Foswiki/Contrib/ModPerlEngineContrib/DEPENDENCIES 0644
+lib/Foswiki/Contrib/ModPerlEngineContrib.pm 0644 Perl module
+lib/Foswiki/Engine/Apache.pm 0644 Perl module
+lib/Foswiki/Engine/Apache/MP13.pm 0644 Perl module
+lib/Foswiki/Engine/Apache2.pm 0644 Perl module
+lib/Foswiki/Engine/Apache2/MP20.pm 0644 Perl module
+tools/mod_perl_startup.pl 0755 Perl script

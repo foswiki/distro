@@ -1,0 +1,141 @@
+%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
+---+!! !ModPerlEngineContrib
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = Permits Foswiki to be executed under mod_perl
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Overview
+
+This is a runtime engine component from [[Foswiki:Development.FoswikiStandAlone][Foswiki Standalone]] architecture.
+
+[[http://en.wikipedia.org/wiki/Mod_perl][mod_perl]] is the
+[[http://perl.apache.org/][Perl API]] to the
+[[http://httpd.apache.org/][Apache]] web server. It permits hooking applications
+into Apache, providing good performance and great flexibility.
+
+It has better performance than
+[[http://en.wikipedia.org/wiki/Common_Gateway_Interface][CGI]] because it loads
+and compiles apps at Apache initialization and apps are kept in memory as long
+as Apache itself, so there is no need to fork+load+compile all the code for
+each request.
+
+---++ Installation Instructions
+
+Install [[Foswiki:Extensions/ModPerlEngineContrib][ModPerlEngineContrib]]
+either manually (download the package and extract its contents over your
+foswiki directory) or using [[%SCRIPTURL{"configure"}%][configure]]
+(under =Extensions= section, push the =Find More Extensions= button).
+
+Visit the [[Foswiki:Support/ApacheConfigGenerator][apache config generator]]
+and fill in the fields according to your environment. Select __mod_perl__ as your
+__Runtime Engine__ and choose your apache version. Push the ==Update config file== 
+button and you'll get your config file.
+
+%X% %RED% When installed for the first time, Foswiki *must* be configured. Run
+[[%SCRIPTURL{"configure"}%][configure]] *before* enabling this contrib
+or else Apache will not start, reporting an error about a missing
+=lib/LocalSite.cfg= %ENDCOLOR%
+
+In the web server configuration, you will need to load =mod_perl= but it is also recommended to load the
+[[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
+If =apreq= is not loaded, the following error may be encountered in certain situations, e.g., during login:
+<verbatim>
+apache2: symbol lookup error: /usr/lib/perl5/auto/APR/Request/Apache2/Apache2.so: undefined symbol: apreq_handle_apache2
+</verbatim>
+
+---+++ Confirming =mod_perl= installation
+
+You may (though not necessarily) be able to confirm that =mod_perl= is installed and enabled by checking
+in configure's "Environment Variables" section.  a sample:
+
+| SERVER_SIGNATURE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 Server at 127.0.0.1 Port 2116 |
+| SERVER_SOFTWARE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 |
+
+Another technique to see which modules are enabled is using =apache2ctl=
+<verbatim>
+$ apache2ctl -M | grep perl_module
+ perl_module (shared)
+</verbatim>
+If not found, enable mod_perl with 
+<verbatim>
+$ a2enmod mod_perl
+</verbatim>
+
+
+---+++ Foswiki configuration tuning
+
+Forking new processes under =mod_perl= can be very slow, so some configuration
+changes are recommended.
+
+Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation=
+button to show the expert settings.
+Go to =Store Settings=:
+   * ={StoreImpl}=: adjust to =RcsLite=
+   * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
+
+---+++ =mod_perl+ configuration tuning
+
+=mod_perl= limits the size of attachments to 64M by default.  Set the
+=APREQ2_ReadLimit= to the maximum expected upload to permit larger
+attachments.
+
+Note that this should be kept in sync with the Foswiki =ATTACHFILESIZELIMIT=,
+set in %USERSWEB%.SitePreferences, default taken from
+%SYSTEMWEB%.SitePreferences.
+<verbatim>
+<IfModule mod_perl.c>
+   PerlSwitches -wT
+   # mod_perl_startup.pl must exist, otherwise Apache will not start.
+   PerlRequire "/var/www/foswiki/tools/mod_perl_startup.pl"
+   APREQ2_ReadLimit  104857600
+</IfModule>
+</verbatim>
+
+---++ Known Issues
+
+   * Apache must be =restart=ed in order for configuration changes take effect.
+   * The =bin/configure= script is an exception and should be run as a plain 
+   CGI script.  The required =SetHandler cgi-script= should already be specified
+   in the =<Files configure.*>= in your Apache config or =bin/.htaccess= file.
+<blockquote><verbatim>
+   <FilesMatch "configure.*">
+      SetHandler cgi-script
+      .
+      .
+   </FilesMatch>
+</verbatim></blockquote>
+   * If you are using some extension that add files to the =bin/= 
+   directory, you may face problems as they were not designed to be executed 
+   under =mod_perl=.  You should configure them to be run as plain CGI scripts.
+   You can replace =Files= directive by
+   [[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] 
+   and list all the exceptions.
+
+---++ List of Files
+
+   | *File* | *Description* |
+%$MANIFEST%
+
+---++ Info
+
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Sep 2009 (0.9.2) | Improved documentation regarding module apreq |
+|  12 Apr 2009 (0.9.1) | Improved documentation |
+|  12 Jan 2009 (0.9.0) | Initial Release |
+|  Dependencies: | %$DEPENDENCIES% |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.GilmarSantosJr"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/ModPerlEngineContrib"}%

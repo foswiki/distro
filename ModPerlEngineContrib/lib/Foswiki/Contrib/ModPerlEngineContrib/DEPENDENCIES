@@ -1,0 +1,4 @@
+mod_perl,>=1.24,cpan,Required if you're using Apache 1.3 and plan to enable mod_perl
+mod_perl2,>=2.0,cpan,Required if you're using Apache 2.x and plan to enable mod_perl
+Apache::Request,>=1.30,cpan,Optional. Recommended if you're using Apache 1.3 and plan to enable mod_perl
+Apache2::Request,>=2.0,cpan,Optional. Recommended if you're using Apache 2.x and plan to enable mod_perl
