@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1433863566" format="1.1" version="1"}%
 #VarSUBSCRIBE
 ---+++ SUBSCRIBE{ _attributes_ } - subscribe the current user for notification of changes to the current topic
 %STARTSECTION{"subscribe_attributes"}%
@@ -9,9 +9,11 @@ Anywhere in a topic or template:
      | =who= | Logged-in user | Who to subscribe (wikiname, no web) |
      | =topic= | Current topic | Topic to subscribe to. Wildcards may be used e.g. =topic="Item*"= will subscribe to all topics starting with =Item=. Use =topic="%USERSWEB%.*"= to subscribe to the !WebNotify for the %USERSWEB% web. |
      | =unsubscribe= | Not set | If set to "on", will *unsubscribe* the user |
-     | =format= | Simple HTML link with an action anchor "Subscribe" or "Unsubscribe" | Defines custom look-and-feel for subscribe link using the following format variables: =$topics=, =$url=, =$wikiname=, =$action= *DEPRECATED do not use* |
-     | =formatunsubscribe= | =format= | Serves same function as =format=, but allows the user to define a different format than =subscribe=. *DEPRECATED do not use* |
 
 The format of the Subscribe/Unsubscribe button is defined in a template file =templates/subscribe.tmpl=. The normal skin mechanisms can be used to override this with your own local definitions. The default template works with Javascript to provide a smooth interactive experience.
+
+%X% The =format=  and =formatunsubscribe= parameters have been removed and will
+be ignored. The version of !PatternSkin shipped with Foswiki 1.1.9 used these
+parameters.
 
 %ENDSECTION{"subscribe_attributes"}%

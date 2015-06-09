@@ -88,11 +88,7 @@ sub _SUBSCRIBE {
             $topic ) ) ? 1 : 0;
     my $doUnsubscribe = Foswiki::isTrue($unsubscribe);
 
-    my $tmpl;
-
-    $tmpl = $doUnsubscribe ? $params->{formatunsubscribe} : $params->{format};
-    $tmpl = _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe' )
-      unless defined $tmpl;
+    my $tmpl = _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe' );
 
     my $action =
       $session->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
@@ -105,7 +101,7 @@ sub _SUBSCRIBE {
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("subscribe");
 
-    return $tmpl;
+    return "<span class='foswikiRequiresChangePermission'>$tmpl</span>";
 }
 
 # subscribe_topic (topic is used if subscribe_topic is missing)
