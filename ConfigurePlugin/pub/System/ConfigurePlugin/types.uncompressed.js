@@ -28,6 +28,7 @@ var Types = {};
               cols = m[1];
               rows = m[2];
               value = typeof(val) === "undefined" ? '' : val;
+              value = value.replace(/&/g, "&amp;");
               this.$ui = $('<textarea id="' + _id_ify(this.spec.keys) + 
                           '" rows="' + rows + 
                           '" cols="' + cols + 
