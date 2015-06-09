@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1433813774" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -76,6 +76,9 @@ Most will customise top, bottom, and left bars.
 See these topics for more information: %SYSTEMWEB%.WebLeftBarCookbook, %SYSTEMWEB%.WebLeftBarExample, %SYSTEMWEB%.WebLeftBarLogin, %SYSTEMWEB%.WebLeftBarPersonalTemplate, %SYSTEMWEB%.WebLeftBarSearch, %SYSTEMWEB%.WebLeftBarWebsList, %SYSTEMWEB%.WebTopBarExample, and %SYSTEMWEB%.WebBottomBarExample.
 
 ---+++ Installation
+<div class="foswikiNotification">
+*This release of PatternSkin is not compatible with Foswiki versions older than Foswiki 1.2.0*
+</div>
 <div class="foswikiNotification">
 *Upgrade notice for Foswiki 1.0 users*
 
@@ -172,9 +175,10 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  31 Oct 2012: | v.6.0.0: Updated styles for forms and form elements. Simpler login screen. Theme "115" provides legacy support. |
+|  31 Oct 2012: | v.6.00: Updated styles for forms and form elements. Simpler login screen. Theme "115" provides legacy support, Change to decimal versions. |
 |  26 May 2012: | v.5.5.1: !WebCreateNewTopicTemplate functionality moved to core. |
-|  23 Apr 2012: | v.5.5:  | Foswiki 1.2.0 release. Foswikitask:Item11783 - use new INCLUDE topic list feature |
+|  23 Apr 2012: | v.5.5:  Foswiki 1.2.0 release. Foswikitask:Item11783 - use new INCLUDE topic list feature. %BR%\
+                  *This change breaks compatibility with releases older than Foswiki 1.2.* |
 |  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency %BR%\
                    Foswikitask:Item11622: Add &lt;div> to revision information%BR%\
                    Foswikitask:Item11623: Improve linking of user topics for unknown but previously registered users. |
@@ -234,19 +238,19 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20639" version="1"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="786" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1007" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="474" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" user="ProjectContributor" date="1427079357" size="177943" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="5545" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="92238" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1732" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="2618" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" user="ProjectContributor" date="1427079357" size="129505" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="3869" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20605" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="620" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="41616" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" user="ProjectContributor" date="1427079357" size="33112" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1305" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="20639" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="786" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1007" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="474" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" user="ProjectContributor" date="1433813774" size="177943" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" user="ProjectContributor" date="1433813774" size="5545" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="92238" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1732" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="2618" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" user="ProjectContributor" date="1433813774" size="129505" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" user="ProjectContributor" date="1433813774" size="3869" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="20605" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="620" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="41616" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="33112" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1305" version="1"}%
