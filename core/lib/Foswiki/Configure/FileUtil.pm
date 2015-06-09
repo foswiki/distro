@@ -824,6 +824,9 @@ sub _untar {
 
             my @members = $tar->list_files();
             foreach my $file (@members) {
+
+                #SMELL: Some tarfiles return a trigger for long filenames
+                next if ( $file eq '././@LongLink' );
                 my $err = $tar->extract($file);
                 unless ($err) {
                     return 'Failed to extract ', $file, ' from tar file ',
