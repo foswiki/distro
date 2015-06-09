@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1429105830" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1433818090" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -130,4 +130,5 @@ controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
 </div>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1429105830" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1433818090" size="52064" user="ProjectContributor" version="1"}%
+
