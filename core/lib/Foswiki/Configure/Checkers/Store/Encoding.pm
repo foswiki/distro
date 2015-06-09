@@ -36,22 +36,26 @@ HERE
             );
         }
 
-        # Extract the character set from locale for consistency check
-        my $charset;
-        $Foswiki::cfg{Site}{Locale} =~ m/\.([a-z0-9_-]+)$/i;
-        $charset = $1 || '';    # no guess?
-        $charset =~ s/^utf8$/utf-8/i;
-        $charset =~ s/^eucjp$/euc-jp/i;
-        $charset = lc($charset);
+        if ( $Foswiki::cfg{UseLocale} ) {
 
-        if ( $charset && ( lc( $Foswiki::cfg{Store}{Encoding} ) ne $charset ) )
-        {
-            $reporter->ERROR(
-                <<HERE
+            # Extract the character set from locale for consistency check
+            my $charset;
+            $Foswiki::cfg{Site}{Locale} =~ m/\.([a-z0-9_-]+)$/i;
+            $charset = $1 || '';    # no guess?
+            $charset =~ s/^utf8$/utf-8/i;
+            $charset =~ s/^eucjp$/euc-jp/i;
+            $charset = lc($charset);
+
+            if ( $charset
+                && ( lc( $Foswiki::cfg{Store}{Encoding} ) ne $charset ) )
+            {
+                $reporter->ERROR(
+                    <<HERE
 The Character set determined by the configured Locale, and this character set,
 are inconsistent.  Recommended setting:  =$charset=
 HERE
-            );
+                );
+            }
         }
     }
 
