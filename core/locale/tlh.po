@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-02 16:22+0200\n"
+"PO-Revision-Date: 2015-06-09 16:51+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -229,7 +229,7 @@ msgstr "(%1 &&#39;ol)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
-msgstr "(%1 qaD %2)"
+msgstr "(%1 - %2)"
 
 #: core/templates/registermessages.tmpl:139
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
@@ -1856,6 +1856,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"cross-site-tlhobbogh-<nop>HeSwI&&#39; nIw lIbbogh Qob je Dayajchu&&#39;meH, "
+"wIqIpeDIya' [[%1][Cross-site request forgery ghItlh]] yIlaD."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
 #: PatternSkin/templates/edit.pattern.tmpl:23
@@ -1916,6 +1918,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Hoch tlhobwI&&#39; jabbI&&#39;IDmey&&#39;e&&#39; Hevbogh  &&#39;oH &&#39;ol "
+"Foswiki. chIch bIH ngeHta&&#39; lo&&#39;wI&&#39; &&#39;e&&#39; &&#39;ol je."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -2144,6 +2148,8 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"tlhobwI&&#39; pIH Hevchugh Foswiki, vaj &&#39;oH Dachaw&&#39; SoH tlhob "
+"Foswiki."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
 msgid ""
@@ -2544,6 +2550,8 @@ msgstr "%1vo&&#39; mej"
 #: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
+"meyrI&&#39;Hom yIwIvQo&&#39; ZIP De&&#39; naQ Dalab &&#39;e&&#39; "
+"<nop>DaHechchugh"
 
 #: core/data/System/WebSearch.txt:225
 msgid "Limit results to:"
