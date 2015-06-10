@@ -52,7 +52,9 @@ sub test_SUBSCRIBE_1 {
 
     $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
+<span class="foswikiRequiresChangePermission">
 <a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="0">Subscribe</a>
+</span>
 HTML
 }
 
@@ -68,7 +70,9 @@ sub test_SUBSCRIBE_2 {
     $subscribe =~ s/data-validation-key=".*" //g;
 
     $this->assert_html_equals( <<HTML, $subscribe );
+<span class="foswikiRequiresChangePermission">
 <a href="#" class="subscribe_link" data-topic="Kitties.Tobermory" data-subscriber="TobermoryCat" data-remove="1" >Unsubscribe</a>
+</span>
 HTML
 }
 
@@ -80,8 +84,11 @@ sub test_SUBSCRIBE_format {
 "%SUBSCRIBE{format=\"\$topic \$wikiname \$action\" who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web}
     );
+    $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-$this->{test_web}.$this->{test_topic} $this->{test_user_wikiname} Subscribe
+<span class='foswikiRequiresChangePermission'>
+<a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="0" >Subscribe</a>
+</span>
 HTML
 }
 
@@ -93,8 +100,11 @@ sub test_SUBSCRIBE_formatunsubscribe {
 "%SUBSCRIBE{formatunsubscribe=\"\$topic \$wikiname \$action\" unsubscribe=\"yes\" who=\"$this->{test_user_wikiname}\"}%",
         $this->{test_topic}, $this->{test_web}
     );
+    $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-$this->{test_web}.$this->{test_topic} $this->{test_user_wikiname} Unsubscribe
+<span class="foswikiRequiresChangePermission">
+<a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="1" >Unsubscribe</a>
+</span>
 HTML
 }
 
