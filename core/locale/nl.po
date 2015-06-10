@@ -248,7 +248,7 @@ msgstr "(=all= om alle pagina&#39;s te tonen)"
 msgid "(Children in %1 Web)"
 msgstr "(onderliggende pagina&&#39;s in %1 Web)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
 msgid "(This message will be removed automatically)"
 msgstr "(Dit bericht wordt automatisch verwijderd)"
 
@@ -1264,7 +1264,8 @@ msgstr "Neem bij vragen contact op met %1."
 msgid ""
 "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
 "assistance."
-msgstr "Contacteer <a href=\\'mailto:%1\\'>je site administrator</a> voor hulp."
+msgstr ""
+"Contacteer <a href=\\'mailto:%1\\'>je site administrator</a> voor hulp."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -1282,7 +1283,7 @@ msgstr "Doorgaan met bewerken"
 msgid "Continue to create the new page"
 msgstr "Ga verder om de pagina aan te maken"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -4242,8 +4243,8 @@ msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
-"De bijlage moet misschien worden hernoemd als een bijlage met naam "
-"'%FILENAME%' al bestaat bij de andere pagina."
+"De bijlage moet misschien worden hernoemd als een bijlage met naam '%FILENAME"
+"%' al bestaat bij de andere pagina."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4558,7 +4559,7 @@ msgstr ""
 "Dit is de Prullenmand. Hier kun je verwijderingen van pagina&#39;s ongedaan "
 "maken; verwijderde bijlagen staan in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "This is why the conversion is disabled:"
 msgstr "Waarom de omzetting is uitgeschakeld:"
 

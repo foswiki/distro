@@ -245,7 +245,7 @@ msgstr "(Hoch ghItlhmey &&#39;angmeH =all= yIghItlh)"
 msgid "(Children in %1 Web)"
 msgstr "(%1 mIch puqqoqpu&&#39;)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
 msgid "(This message will be removed automatically)"
 msgstr "(<nop>QInvam polHa&&#39; De&&#39;wI&&#39;)"
 
@@ -1285,7 +1285,7 @@ msgstr "choHqa&&#39;"
 msgid "Continue to create the new page"
 msgstr "ghItlh chu&&#39; chenmoHmeH yIruch"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -3524,8 +3524,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
-"QaQbe&&#39;law&&#39; Dotlh <nop>DapoQbogh (%1). chaq qunDaq &&#39;oH "
-"tu&&#39;lu&&#39;be&&#39;, pagh chaq nIb Dotlh chu&&#39; (%2)"
+"QaQbe&&#39;law&&#39; Dotlh <nop>DapoQbogh (%1). chaq qunDaq &&#39;oH tu&&#39;"
+"lu&&#39;be&&#39;, pagh chaq nIb Dotlh chu&&#39; (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -4391,8 +4391,8 @@ msgstr ""
 #: core/templates/messages.tmpl:196
 msgid "The required field %1 was not filled in."
 msgstr ""
-"De&&#39;letbaQ %1 De&&#39;&&#39;e&&#39; poQlu&&#39;bogh "
-"<nop>DaghItlhta&&#39;be&&#39;."
+"De&&#39;letbaQ %1 De&&#39;&&#39;e&&#39; poQlu&&#39;bogh <nop>DaghItlhta&&#39;"
+"be&&#39;."
 
 #: core/templates/registermessages.tmpl:9
 msgid "The selected User System does not support new user registration."
@@ -4557,7 +4557,7 @@ msgstr ""
 "lu&&#39;bogh Datlhapqa&&#39;laH; TrashAttachmentDaq bIH tepmey&&#39;e&&#39; "
 "lupolHa&&#39;pu&&#39;bogh."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "This is why the conversion is disabled:"
 msgstr "ngoDvammo&&#39; choHwI&&#39; chu&&#39;Ha&&#39;lu&&#39;:"
 
@@ -5546,8 +5546,8 @@ msgstr ""
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
-"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]["
-"naDev yI&&#39;uy]]."
+"patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]"
+"[naDev yI&&#39;uy]]."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."

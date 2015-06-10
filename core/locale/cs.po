@@ -243,7 +243,7 @@ msgstr "(=all= pro všechny články)"
 msgid "(Children in %1 Web)"
 msgstr "(zpětné odkazy v %1 Webu)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
 msgid "(This message will be removed automatically)"
 msgstr "(Tato zpráva bude automaticky odstraněna)"
 
@@ -1271,7 +1271,7 @@ msgstr "Pokračuj v editaci"
 msgid "Continue to create the new page"
 msgstr "Pokračuj ve vytváření nové stránky"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -4542,7 +4542,7 @@ msgid ""
 msgstr ""
 "Toto je Koš. Zde můžete obnovit články; smazané přílohy jsou v koši příloh."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "This is why the conversion is disabled:"
 msgstr "Toto je důvod vypnuté konverze:"
 

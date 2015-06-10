@@ -242,7 +242,7 @@ msgstr "(=alle= for å se alle sider)"
 msgid "(Children in %1 Web)"
 msgstr "(referanser i %1 weben)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
 msgid "(This message will be removed automatically)"
 msgstr "(Denne meldingen blir fjernet automatisk)"
 
@@ -1268,7 +1268,7 @@ msgstr "Fortsett redigering"
 msgid "Continue to create the new page"
 msgstr "Fortsett å lage ny side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -4569,7 +4569,7 @@ msgstr ""
 "Dette er Trash. Her kan du ta tilbake slettede sider; slettede vedlegg "
 "finner du i TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er grunnen til av konvertering er deaktivert:"
 

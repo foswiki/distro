@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-06-02 12:56+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -256,7 +256,7 @@ msgstr "(=all= um alle Topics anzuzeigen)"
 msgid "(Children in %1 Web)"
 msgstr "(Unter-Topics im %1 Web)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
 msgid "(This message will be removed automatically)"
 msgstr "(Diese Nachricht wird automatisch entfernt)"
 
@@ -453,8 +453,8 @@ msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
 msgstr ""
-"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: "
-"=&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Ihr Text="
+"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;Ihr Text="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
@@ -467,8 +467,8 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
-"*Überschriften* 3 Bindestriche, 1 bis 6 Pluszeichen, 1 Leerzeichen: "
-"=---++&&nbsp;Ihre Überschrift="
+"*Überschriften* 3 Bindestriche, 1 bis 6 Pluszeichen, 1 Leerzeichen: =---+"
+"+&&nbsp;Ihre Überschrift="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
@@ -618,8 +618,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Ein neues vom System erzeugtes Passwort für Ihren Login-Namen „%1“ ("
-"!WikiName %2) wurde an die dafür gespeicherte E-Mail-Adresse gesendet. Falls "
+"Ein neues vom System erzeugtes Passwort für Ihren Login-Namen „%1“ (!"
+"WikiName %2) wurde an die dafür gespeicherte E-Mail-Adresse gesendet. Falls "
 "diese E-Mail-Adresse nicht mehr gültig ist, nehmen Sie bitte mit %3 Kontakt "
 "auf."
 
@@ -1301,7 +1301,7 @@ msgstr "Bearbeiten fortsetzen"
 msgid "Continue to create the new page"
 msgstr "Fahren Sie fort, um die neue Seite anzulegen"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:583
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -4642,7 +4642,7 @@ msgstr ""
 "wiederherstellen; gelöschte Anhänge befinden sich in im Topic "
 "TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "This is why the conversion is disabled:"
 msgstr "Aus folgendem Grund ist die Konvertierung deaktiviert:"
 
