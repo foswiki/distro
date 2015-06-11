@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-20 11:46+0200\n"
+"PO-Revision-Date: 2015-06-11 13:08+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -103,7 +103,7 @@ msgstr "%1 已使用電子郵件地址 %2 註冊"
 
 #: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
-msgstr "％1 已收到您瀏覽器發出的可疑修改請求。"
+msgstr "％1 收到來自瀏覽器發出的可疑修改要求。"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -372,9 +372,7 @@ msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
 "comment shown in the topic will change, but the comment shown against the "
 "attachment history will be the comment when the file was uploaded."
-msgstr ""
-"*修改評論:* 若使用 _變更屬性_ 變更評論，文章的評論將會改變，但附件歷史中的評"
-"論並不會改變。 "
+msgstr "*修改評論:* 若使用 _變更屬性_ 改變評論，文章的評論將會改變，但附件歷史中的評論仍為檔案上傳時的評論。"
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -643,7 +641,7 @@ msgstr "進階搜尋"
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
-msgstr "表單提交後，您的密碼將被修改，並返回本表單"
+msgstr "表單提交後，您的電郵將被修改，您將返回本表單。"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
@@ -1437,7 +1435,7 @@ msgstr "輸入 WikiWord 為主題名或是點選允許非 WikiWord 選項。"
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr "開啟外掛時發生錯誤。請見以下錯誤訊息。"
+msgstr "載入插件時遇到錯誤。請參考如下錯誤。"
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1488,7 +1486,7 @@ msgstr "外掛失敗"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "無法新增使用者："
+msgstr "增加使用者失敗: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1619,7 +1617,7 @@ msgstr "群組"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr "群組不存在且不準建立"
+msgstr "群組不存在，且不能建立"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1627,7 +1625,7 @@ msgstr "群組名稱"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
-msgstr "群組名稱必需以 Group 結尾"
+msgstr "群組名稱必須以 Group 結尾"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1653,7 +1651,7 @@ msgstr "説明"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
-msgstr "隱藏檔案 "
+msgstr "隱藏檔案"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
@@ -1662,7 +1660,7 @@ msgstr "隱藏説明"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
-msgstr "目前禁用次子網，您無法建立巢狀子網。"
+msgstr "目前禁用階層式子網，您無法建立巢狀子網。"
 
 #: core/data/System/ManagingTopics.txt:100
 msgid "History"
@@ -1670,7 +1668,7 @@ msgstr "歷史"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
-msgstr "附上您的照片嗎?"
+msgstr "附上您的照片如何?"
 
 #: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
@@ -1681,8 +1679,7 @@ msgid ""
 "However, sending a confirmation e-mail to %2 failed, suggesting that this "
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
-msgstr ""
-"然而，確認的電子郵件無法寄給 %2，表示可能是個假註冊。用戶 '%1' 無法自動移除。"
+msgstr "然而，確認電郵無法寄給 %2，表示可能是假註冊。用戶 '%1' 無法自動移除。"
 
 #: core/templates/registerfailedremoved.tmpl:12
 msgid ""
@@ -1713,9 +1710,7 @@ msgid ""
 "If Foswiki can't find a registered e-mail for you in the secret database, "
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
-msgstr ""
-"若 Foswiki 在祕密資料庫中找不到您的註冊電郵，您將無法重設密碼或利用主題更新的"
-"電郵通知。"
+msgstr "如果 Foswiki 在秘密資料庫中找不到您註冊的電子郵件，您將無法重設密碼或利用文件變更的電子郵件通知。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -1759,7 +1754,7 @@ msgstr "若您是點問號連結才來這裏"
 
 #: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
-msgstr "若您未在一小時內收到確認的電子郵件，"
+msgstr "若您未在一小時內收到確認的電子郵件， "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "If you enter a different name, make sure the topic exists."
@@ -1776,19 +1771,19 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:31
 msgid "If you have any questions about registration, send an e-mail to %1."
-msgstr "有任何關於註冊的問題，請寄電子郵件給 %1。"
+msgstr "任何有關於註冊的問題，請寄電子郵件給 %1。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
-msgstr "任何問題，請聯繫 %1。"
+msgstr "若有任何問題，請聯繫 %1"
 
 #: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
-msgstr "任何問題，請聯繫 %1。"
+msgstr "若有任何問題，請聯繫 %1。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:176
 #: core/templates/registernotify.tmpl:25
@@ -2396,7 +2391,7 @@ msgstr "密碼重設失敗"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
-msgstr "密碼禁用"
+msgstr "禁用密碼"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2421,7 +2416,7 @@ msgstr "丟棄附件的存放地"
 
 #: core/templates/messages.tmpl:508 core/templates/messages.tmpl:558
 msgid "Please check to ensure you have permission to modify the group."
-msgstr "請確認您有足夠權限可修改此群組。"
+msgstr "請確認您有足夠的權限能修改此群組。"
 
 #: core/templates/messages.tmpl:298 core/templates/messages.tmpl:364
 msgid "Please contact %1 if you have any questions."
@@ -2440,11 +2435,11 @@ msgstr "請輸入 Wiki 管理員的密碼"
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
 msgid "Please go _back_ in your browser and try a new name."
-msgstr "請_返回_瀏覽器的上一頁，並試一個新名字."
+msgstr "請_返回_瀏覽器的上一頁，並試一個新名字。"
 
 #: core/templates/messages.tmpl:425
 msgid "Please go back in your browser and check again."
-msgstr "請返回瀏覽器的上一頁，並再檢查一次."
+msgstr "請返回瀏覽器的上一頁，再檢查一次。"
 
 #: core/templates/messages.tmpl:88
 msgid ""
@@ -2571,11 +2566,11 @@ msgstr "最近更新的主題"
 
 #: core/data/System/SiteChanges.txt:5
 msgid "Recently changed topics in %1 Web"
-msgstr "%1 子網的最近更新主題"
+msgstr "最近 %1 子網更新的主題"
 
 #: core/data/System/SiteChanges.txt:6
 msgid "Recently changed topics in all Webs"
-msgstr "所有子網最的最近更新主題"
+msgstr "所有子網內最近更新的主題"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
