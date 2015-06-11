@@ -1578,7 +1578,7 @@ qr/Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required[- ]+perl mod
         warnings =>
 "Foswiki::Contrib::QuickMenuSkin version >=[0-9.]+ required[- ]+perl module is not installed[- ]+Required",
         warnings =>
-"Cwd version > [0-9.]+ required[- ]+installed version is [0-9.]+[- ]+This module is shipped as part of standard perl",
+"Cwd version > [0-9.]+ required[- ]+installed version is [0-9._]+[- ]+This module is shipped as part of standard perl",
         warnings => "htmldoc is type 'c', and cannot be automatically checked."
     );
 
