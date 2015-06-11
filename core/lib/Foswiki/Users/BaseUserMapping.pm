@@ -34,6 +34,7 @@ use Foswiki::UserMapping ();
 our @ISA = ('Foswiki::UserMapping');
 
 use Assert;
+use Encode;
 use Error ();
 use Digest::MD5 qw(md5_hex);
 use Crypt::PasswdMD5 qw(apache_md5_crypt);
@@ -445,6 +446,9 @@ sub checkPassword {
     my ( $this, $login, $pass ) = @_;
 
     my $hash = $this->{L2P}->{$login};
+
+    # All of the digest / hash routines require bytes
+    $pass = Encode::encode_utf8($pass);
 
     if ($hash) {
         if ( length($hash) == 13 ) {

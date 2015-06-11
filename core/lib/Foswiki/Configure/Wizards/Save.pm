@@ -29,6 +29,7 @@ our @ISA = ('Foswiki::Configure::Wizard');
 use constant TRACE_SAVE => 0;
 
 use constant STD_HEADER => <<'HERE';
+use utf8;
 # Local site settings for Foswiki. This file is managed by the 'configure'
 # CGI script, though you can also make (careful!) manual changes with a
 # text editor.  See the Foswiki.spec file in this directory for documentation
@@ -357,8 +358,8 @@ sub save {
 
         if (%orig_content) {
             $reporter->NOTE('| *Key* | *Old* | *New* |');
-            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg,
-                $reporter, $logger, '' );
+            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, $reporter,
+                $logger, '' );
         }
     }
     else {

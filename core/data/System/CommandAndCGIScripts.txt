@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434069056" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -635,13 +635,16 @@ This is a fully functional command line interface to the Foswiki configuration. 
 
 =tools/configure [-search] [-getspec] [-getcfg] [-check] [-wizard] [-method] [-save] [-json] [-trace] [-help] [-noprompt] [-expert]=
 
+Note: if you need to pass in international characters, it needs to be run with the =perl -CA= command argument.
+
 | *Function* | *Usage* |
 | Bootstrap a new install without helptext | =tools/configure -save -expert= |
-| Set a variable | =tools/configure -save -set {Password}='newadminpassword' -set {WebMasterEmail}='newadmin@yourco.com'= |
+| Set multiple variables | =tools/configure -save -set {Password}='newadminpassword' -set {WebMasterEmail}='newadmin@yourco.com'= |
 | Check a setting or section of settings. | =tools/configure -check Internationalisation= |
 | Run a wizard | =tools/configure -wizard Email -method send_test_email= |
+| Set admin password that contains international characters | =perl -CA tools/configure -save -set {Password}='tajemstv&iacute;'= |
 
-For full help, run =tools/configure -help=
+For full help, run =tools/configure -help=.
 
 ---+++ =dependencies=
 Generates a report of missing or all dependencies.  This report is also available to administrators at [[%SYSTEMWEB%.PerlDependencyReport]]

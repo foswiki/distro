@@ -6,6 +6,7 @@ use warnings;
 use Assert;
 
 use Crypt::PasswdMD5;
+use Encode;
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
@@ -83,7 +84,7 @@ sub _setPassword {
   #      . Crypt::PasswdMD5::apache_md5_crypt( $passwd, substr( $salt, 0, 14 ) )
   #      . "\n";
 
-    return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
+    return Crypt::PasswdMD5::apache_md5_crypt( Encode::encode_utf8($passwd),
         substr( $salt, 0, 14 ) );
 }
 1;

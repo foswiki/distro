@@ -147,6 +147,13 @@ my $result = Getopt::Long::GetOptions(
     'search=s' => \&_scalar,
     'save'     => \&_scalar,
     'set=s%'   => \%{ $params->{set} },
+
+    #SMELL: This would allow utf-8 for any config parameters, but can't
+    #        be assumed for all shells.  Running "perl -CA configure ... "
+    #        works instead.
+    #'set=s%'   => sub {
+    #    $params->{set}->{$_[1]} = Encode::decode_utf8($_[2]);
+    #    },
     'trace'    => \&_scalar,
     'wizard=s' => \&_scalar,
     'expert'   => \&_scalar,
@@ -531,3 +538,13 @@ and report the results.
 
 will set the values of {ScriptSuffix} and {MainWebName} and save a new
 configuration.
+
+=head2 NOTES
+
+If you want to enter international characters into config variables, you will need to
+run the command with the perl -CA option.
+
+ $ perl -CA configure -save -set {Password}='passwordWithUTF8'
+
+will cause perl to treat the command line options as utf-8 strings and correctly
+encode international characters.

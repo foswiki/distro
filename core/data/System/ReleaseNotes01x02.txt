@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433282411" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434069056" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 1
 
@@ -299,6 +299,9 @@ information, such as the new information topics:
 Configure can now be run from the command line using the =foswiki/tools/configure= script. It can be run interactively using =tools/configure -save=  and will prompt for the required minimum configuration options. It can also be run without prompting. Here is an example of a complete Foswiki configuration from the shell, configured for short URLs:
 <verbatim>tools/configure -save -noprompt
 tools/configure -save -set {Password}='mypassword' -set {DefaultUrlHost}='http://your.site.com' -set {PubUrlPath}='/pub' -set {ScriptUrlPath}='/bin' -set {ScriptUrlPaths}{view}=''  -set {FeatureAccess}{Configure}='JoeUser, FredAdmin' -set {WebMasterEmail}='webmaster@your.site.com</verbatim>
+
+If any of your variables contain international characters, you need to run configure with the perl -CA option.
+<verbatim>perl -CA tools/configure -save set ...</verbatim>
 
 Full help on the available options can be viewed using =tools/configure --help=
 
