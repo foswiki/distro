@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-03-07 01:33+0200\n"
+"PO-Revision-Date: 2015-06-13 01:40+0200\n"
 "Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -1090,9 +1090,8 @@ msgid "Color %1 has an invalid format"
 msgstr "A cor %1 tem um formato inválido"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
-#, fuzzy
 msgid "Come on in"
-msgstr "Come on in"
+msgstr "Entre"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1399,34 +1398,28 @@ msgid "E-mail changed successfully!"
 msgstr "E-mail alterado com sucesso!"
 
 #: core/templates/messages.tmpl:699
-#, fuzzy
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+msgstr "ENCODE falhou - =type= não pode ser usado concomitante a =old= e =new= "
 
 #: core/templates/messages.tmpl:700
-#, fuzzy
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "ENCODE failed - both of =old= and =new= must be given"
+msgstr "ENCODE falhou - ambos =old= e =new= devem ser dados"
 
 #: core/templates/messages.tmpl:701
-#, fuzzy
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+msgstr "ENCODE falhou - token '%PARAM1%' repete em =old= "
 
 #: core/templates/messages.tmpl:704
-#, fuzzy
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr "EXPAND failed - access to '%PARAM1%' denied"
+msgstr "EXPAND falhou - acesso negado a '%PARAM1%'"
 
 #: core/templates/messages.tmpl:702
-#, fuzzy
 msgid "EXPAND failed - no macro"
-msgstr "EXPAND failed - no macro"
+msgstr "EXPAND falhou - no macro"
 
 #: core/templates/messages.tmpl:703
-#, fuzzy
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr "EXPAND failed - no such topic '%PARAM1%'"
+msgstr "EXPAND falhou - não existe tópico '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
