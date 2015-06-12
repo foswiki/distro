@@ -43,11 +43,14 @@ our $installRoot;
 sub _getPackage {
     my ( $this, $reporter, $module, $repo, $seen ) = @_;
 
-    my ( $fwi, $ver, $fwp ) =
-      Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
-    ASSERT( $fwi, "No Foswiki.pm" ) if DEBUG;
-
-    my @instRoot = File::Spec->splitdir($fwp);
+# Attempt to locate an "installation root".  This is a bit tricky because of
+# varied installations. bin and lib might be relocated to outside of the installation
+# directory. pub, data, working and templates are jiggered with by VirtualHostingContrib
+# LocalesDir seems to be about the safest option.
+#
+# SMELL:  We really ought to let the package installer run without the concept of
+# a root directory.
+    my @instRoot = File::Spec->splitdir( $Foswiki::cfg{LocalesDir} );
     pop(@instRoot);
 
     # SMELL: Force a trailing separator - Linux and Windows are inconsistent
