@@ -37,7 +37,7 @@ GetOptions(
     "simulate|n" => \$simulate,      # -n       SIMULATE
     "nodeps|o"   => \$nodeps,        # -o       NODEPS
     "expanded|x=s" =>
-      \$expanded,    # -u       EXPANDED  (Pass in directory location)
+      \$expanded,    # -x       EXPANDED  (Pass in directory location)
     "enable!" => \$enable,    # -e       ENABLE
 ) or die("Error in command line arguments\n");
 
@@ -107,9 +107,8 @@ sub ask {
 sub usage {
     print STDERR <<DONE ;
 
-This is tools/extender.pl. It is called either as part of a custom
-installer, or from the tools/extension_installer generic
-installation script.
+This is Foswiki extensions installer. It is called either as part of a custom
+installer, or from the tools/extension_installer generic installation script.
 
 When used as a custom installer:
 
@@ -138,11 +137,21 @@ post-install steps.
 "uninstall" will remove all files that were installed for
 $MODULE even if they have been locally modified.
 
+The "install" and "uninstall" actions make a backup of the extension before
+making any changes.  The backup is based up on the files listed in the manifest.
+
 -r reuse packages previously downloaded
--u <directory> Use expanded: the archive has already been downloaded and unpacked into <directory>
+-x <directory> Use expanded: the archive has already been downloaded and unpacked into <directory>
 -n Simulate; don't write any files into my current install, just tell me what you would have done
 -o Only install the single extension, no dependencies.
 -e enable any installed plugins (This is the default),  specify -noe or --noenable to negate.
+
+The -r "reuse" option will look for previously downloaded files in two locations:
+   The Foswiki "installation root" - the parent directory of the Locales directory
+   The working/configure/download directory.
+If the archive or installer file are not found, then new copies will be downloaded.
+
+The -x "expanded" argument requires that the ${MODULE}_installer file be located in that directory
 
 "manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
