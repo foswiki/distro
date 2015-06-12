@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-11 13:44+0200\n"
+"PO-Revision-Date: 2015-06-12 06:19+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -3285,23 +3285,20 @@ msgid "Remember me on this computer"
 msgstr "在此電腦上記住我"
 
 #: core/templates/registermessages.tmpl:292
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
-msgstr "請記得更新您用戶主題中的郵件位址，以反應實情。"
+msgstr "若您希望電子郵件的變化一併反映，請記得更新您的主題 [[%1]]。"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
 msgstr "記住密碼?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "將用戶自群組中刪除"
+msgstr "將用戶自 %1 中刪除"
 
 #: core/data/Main/GroupViewTemplate.txt:165
-#, fuzzy
 msgid "Remove members..."
 msgstr "移除使用者…"
 
