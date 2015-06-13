@@ -782,14 +782,14 @@ sub remove {
 
         # Topic or attachment
         _unlink( _latestFile( $meta, $attachment ) );
-        _rmtree( _historyDir( $meta, $attachment ) );
-        _rmtree( _getPub($meta) ) unless ($attachment);    # topic only
+        _rmtree( _encode( _historyDir( $meta, $attachment ) ) );
+        _rmtree( _encode( _getPub($meta) ) ) unless ($attachment);  # topic only
     }
     else {
 
         # Web
-        _rmtree( _getData($meta) );
-        _rmtree( _getPub($meta) );
+        _rmtree( _encode( _getData($meta) ) );
+        _rmtree( _encode( _getPub($meta) ) );
     }
 
     return unless ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 );
@@ -1438,7 +1438,7 @@ sub _mkPathTo {
 
 # Remove an entire directory tree. $root must be encoded.
 sub _rmtree {
-    my $root = _encode(shift);
+    my $root = shift;
     my $D;
     if ( opendir( $D, $root ) ) {
 
