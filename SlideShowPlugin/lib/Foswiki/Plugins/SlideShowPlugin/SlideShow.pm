@@ -63,7 +63,7 @@ sub renderSlideShow {
         $textPre = $1;
         $text    = $2;
     }
-    elsif ( $text =~ /^(.*)%SLIDESHOWSTART{(.*?)}%(.*)$/s ) {
+    elsif ( $text =~ /^(.*)%SLIDESHOWSTART\{(.*?)\}%(.*)$/s ) {
         $textPre = $1;
         $args    = $2;
         $text    = $3;
