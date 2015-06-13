@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430594300" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434207915" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -10,6 +10,11 @@ core).
    * For perl modules, the module name links to the module information on the [[https://metacpan.org][Comprehensive Perl Archive Network (CPAN)]].
 
    * For extensions, the module name links to the Extension topic in the [[http://foswiki.org/Extensions][Foswiki Extensions web]]. (The extension topic might not exist for extensions installed from other sources).
+
+<div class="foswikiHelp"><b>Note:</b> Not all missing dependencies need
+resolution.  Optional or "recommended" dependencies will note when they are
+needed, and should only be installed if you know that your particular
+installation will require them.</div>
 
 %IF{"$include='all'" else="
 %BUTTON{
