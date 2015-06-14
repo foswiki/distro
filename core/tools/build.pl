@@ -46,6 +46,26 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
+    my $uglify = `echo ''|uglifyjs --version 2>&1`;
+    if ($?) {
+        print "$uglify\n";
+        print "Install node.js 'uglifyjs' (npm --global install uglifyjs)\n";
+        die "Building a release not possible. js compressor is missing.";
+    }
+    else {
+        print "Building with $uglify\n";
+    }
+
+    my $cssmin = `echo ''|cssmin -h 2>&1`;
+    if ($?) {
+        print "$cssmin\n";
+        print "Install node.js 'cssmin' (npm --global install cssmin)\n";
+        die "Building a release not possible. CSS minifier is missing.";
+    }
+    else {
+        print "Building with node.js cssmin\n";
+    }
+
     while ( scalar(@ARGV) > 1 ) {
         my $arg = pop(@ARGV);
         if ( $arg eq '-auto' ) {
@@ -229,6 +249,7 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
             die $@ if $@;
         }
         else {
+
             # This is a rebuild, just use the same name.
             $name = "$RELEASE";
         }
