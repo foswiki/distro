@@ -28,7 +28,7 @@ sub form_repair {
             my ( $this, $text ) = @_;
 
             # Don't replace existing form
-            return $text if $text =~ /^\%META:FORM{/m;
+            return $text if $text =~ /^\%META:FORM\{/m;
 
             # Extract form data from text
             my %data = (
