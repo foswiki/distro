@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432417054" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434250432" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
@@ -49,7 +49,7 @@
   expand="0"
   format="$percntIF{\"istopic '%USERSWEB%.$wikiname'\" then=\"%USERSWEB%.$wikiname\" else=\"<nop>$wikiname\"}$percnt" 
   separator=", "
-  zeroresults="%IF{"'%groupname%' != 'NobodyGroup'" then="%MAKETEXT{"No  members"}%$n()"}%"
+  zeroresults="%IF{"'%groupname%' != 'NobodyGroup'" then="%MAKETEXT{"No members"}%$n()"}%"
 }%
 <!-- -->%ENDSECTION{"rendergroup"}%
 </verbatim>

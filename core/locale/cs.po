@@ -2806,10 +2806,6 @@ msgstr "Následující"
 msgid "No"
 msgstr "Ne"
 
-#: core/data/Main/GroupViewTemplate.txt:52
-msgid "No  members"
-msgstr "Žádní členové"
-
 #: core/templates/backlinks.tmpl:20
 #, fuzzy
 msgid "No backlinks in public webs"
@@ -2833,6 +2829,11 @@ msgstr "Žádné podřízené články"
 #: core/templates/registermessages.tmpl:417
 msgid "No group name specified"
 msgstr "Nebylo uvedeno jméno skupiny"
+
+#: core/data/Main/GroupViewTemplate.txt:52
+#, fuzzy
+msgid "No members"
+msgstr "Žádní členové"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
@@ -3400,7 +3401,7 @@ msgstr "Související články:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:686
+#: core/data/System/CommandAndCGIScripts.txt:689
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9

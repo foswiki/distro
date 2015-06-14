@@ -2914,11 +2914,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:52
-#, fuzzy
-msgid "No  members"
-msgstr "no son miembros"
-
 #: core/templates/backlinks.tmpl:20
 #, fuzzy
 msgid "No backlinks in public webs"
@@ -2944,6 +2939,11 @@ msgstr "No hay temas hijo"
 #, fuzzy
 msgid "No group name specified"
 msgstr "No se especificó un nombre del grupo"
+
+#: core/data/Main/GroupViewTemplate.txt:52
+#, fuzzy
+msgid "No members"
+msgstr "no son miembros"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
@@ -3549,7 +3549,7 @@ msgstr "Temas relacionados"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:686
+#: core/data/System/CommandAndCGIScripts.txt:689
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9

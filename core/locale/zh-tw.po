@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-06-12 06:19+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -385,7 +385,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
-msgstr "*管理者：* 你能使用此表變更使用者的電郵。輸入使用者 [[%1][登錄名]] 或 [[%1][WikiName]] 與新的電郵。"
+msgstr ""
+"*管理者：* 你能使用此表變更使用者的電郵。輸入使用者 [[%1][登錄名]] 或 [[%1]"
+"[WikiName]] 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -398,7 +400,9 @@ msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
 "comment shown in the topic will change, but the comment shown against the "
 "attachment history will be the comment when the file was uploaded."
-msgstr "*修改評論:* 若使用 _變更屬性_ 改變評論，文章的評論將會改變，但附件歷史中的評論仍為檔案上傳時的評論。"
+msgstr ""
+"*修改評論:* 若使用 _變更屬性_ 改變評論，文章的評論將會改變，但附件歷史中的評"
+"論仍為檔案上傳時的評論。"
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -2020,7 +2024,9 @@ msgid ""
 "If Foswiki can't find a registered e-mail for you in the secret database, "
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
-msgstr "如果 Foswiki 在秘密資料庫中找不到您註冊的電子郵件，您將無法重設密碼或利用文件變更的電子郵件通知。"
+msgstr ""
+"如果 Foswiki 在秘密資料庫中找不到您註冊的電子郵件，您將無法重設密碼或利用文件"
+"變更的電子郵件通知。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2695,10 +2701,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:52
-msgid "No  members"
-msgstr "無成員"
-
 #: core/templates/backlinks.tmpl:20
 msgid "No backlinks in public webs"
 msgstr "公共子網內無反向連結"
@@ -2719,6 +2721,11 @@ msgstr "無子主題。"
 #: core/templates/registermessages.tmpl:417
 msgid "No group name specified"
 msgstr "未指定群組名稱"
+
+#: core/data/Main/GroupViewTemplate.txt:52
+#, fuzzy
+msgid "No members"
+msgstr "無成員"
 
 #: core/templates/registermessages.tmpl:43
 msgid "No pending registration was found for the verification code %1."
@@ -3042,7 +3049,8 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
-"請返回瀏覽器的上一頁，並選擇一個 [[%SYSTEMWEB%.WikiWord][WikiWord]] 的主題名，或是清除只有 WikiWord 選項。"
+"請返回瀏覽器的上一頁，並選擇一個 [[%SYSTEMWEB%.WikiWord][WikiWord]] 的主題"
+"名，或是清除只有 WikiWord 選項。"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3268,7 +3276,7 @@ msgstr "相關主題:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:686
+#: core/data/System/CommandAndCGIScripts.txt:689
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:25
 #: core/data/System/SkinTemplateViewTemplate.txt:9
