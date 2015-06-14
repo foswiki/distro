@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430799774" format="1.1" reprev="8" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434252448" format="1.1"  version="1"}%
 <noautolink>
 ---+!! Installation Guide
 <div class='foswikiHelp' style='border:2px orange solid' >
@@ -285,10 +285,10 @@ There is an optional _internal admin_ (%IF{"$skin = 'plain'" then="<nop>Main.<no
    * *Setting password from =bin/configure= interface:* The password can be set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.  Enter the password in plain text.  It will be automatically hashed when saved, and cannot be recovered.
    * *Setting the password from the command line:*  The password can also be set via command line configuration tool, using the following command: <verbatim>
 tools/configure -save -set {Password}='adminpass'</verbatim>
-   * *Manually setting admin user in  =LocalSite.cfg=:* Follow these steps:
+   * *Manually setting admin user in  =LocalSite.cfg=:* Follow these steps: (%X% Caution: This procedure only works for plain ascii passwords, it does not handle international characters.)
       1 Generate the hashed password using the Apache =htpasswd= tool: (replacing ={password}= with your password)<verbatim>
-$htpasswd -bn  admin {password}</verbatim>
-      2 Copy the password hash that's generated
+htpasswd -bn  admin {password}</verbatim>
+      2 Copy the password hash that's generated.  (The part after =admin:= ex: ==$apr1$Oc.PLq8V$wslABA3mWXfYT/wH0Hsom0==)
       3 Search =LocalSite.cfg= for =$Foswiki::cfg{Password}=, Replace the existing line, or if not found, insert a new line in the file, as shown:<verbatim>
 $Foswiki::cfg{Password} = '{password hash}';</verbatim>
 
