@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434325977" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -63,6 +63,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jun 2014: (1.22)  | Foswikitask:Item13287: Foswikitask:Item13387: Regular expression enhancements, better UTF-8 support. |
 |  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
 |  24 May 2014: (1.20)  | Foswikitask:Item12819: Expand variables defined in !InterWiki links%BR% \
                           Foswikitask:Item11587: Replace call to deprecated =Foswiki::Func::readTopicText()= |
@@ -101,7 +102,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2014 %SYSTEMWEB%.ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2015 %SYSTEMWEB%.ProjectContributor"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%
