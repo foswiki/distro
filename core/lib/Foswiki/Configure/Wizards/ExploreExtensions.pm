@@ -81,6 +81,17 @@ sub _getListOfExtensions {
         my $url = $place->{data}
           . "JsonReport?contenttype=application/json;skin=text;release=$release;version=$version;pluginsapi=$pluginsapi";
         while ( my ( $k, $v ) = each %search ) {
+            if ( $k =~ m/name|text/ && $v ) {
+                eval { qr/$v/ };
+                if ($@) {
+                    my $msg = Foswiki::Configure::Reporter::stripStacktrace($@);
+                    $reporter->ERROR(<<"MESS");
+Invalid regular expression: $msg <p />
+See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> for help with Perl regular expressions.
+MESS
+                    return undef;
+                }
+            }
             $url .= ";$k=" . Foswiki::urlEncode($v);
         }
         if ( defined( $place->{user} ) ) {
@@ -117,9 +128,22 @@ sub _getListOfExtensions {
                     push( @{ $this->{errors} }, $errorMsg );
                 }
                 else {
+
                     # probably a normal extensions JsonReport.
-                    foreach my $row ( @{ JSON->new->decode($page) } ) {
-                        $this->_studyRow( $row, $place );
+                    eval {
+                        foreach my $row ( @{ JSON->new->decode($page) } )
+                        {
+                            last if $@;
+                            $this->_studyRow( $row, $place );
+                        }
+                    };
+                    if ($@) {
+                        my $msg =
+                          Foswiki::Configure::Reporter::stripStacktrace($@);
+                        $msg .= "<br/> Response from server: $page";
+                        $reporter->ERROR(<<"MESS");
+Failure processing response from the repository search: $msg <p />
+MESS
                     }
                 }
 
