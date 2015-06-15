@@ -4,15 +4,15 @@ package Foswiki::Contrib::FamFamFamContrib;
 use strict;
 use warnings;
 
-our $VERSION = '1.6';
-our $RELEASE = '1.6';
+our $VERSION = '1.7';
+our $RELEASE = '1.7';
 our $SHORTDESCRIPTION =
   'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434331133" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -66,11 +66,12 @@ eg
 
 
 |  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
-|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
+|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner, Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  18 Dec 2014 (1.6)   | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
-                         Foswikitask:Item12913: Fix some MANIFEST issues<br />\
-                         Foswikitask:Item11411: Implement Foswiki:Development.HtmlAttributesShouldUseSingleQuotes |
+|  14 Jun 2015 (1.7) | Foswikitask:Item13393: SubscribePlugin changes to FamFamFam templates. |
+|  18 Dec 2014 (1.6) | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
+                       Foswikitask:Item12913: Fix some MANIFEST issues<br />\
+                       Foswikitask:Item11411: Implement Foswiki:Development.HtmlAttributesShouldUseSingleQuotes |
 |  13 Mar 2012 (1.5)   | added 119 GeoSilk icons |
 |  06 Apr 2012 (1.4.4) | Released with Foswiki 1.1.5. Foswikitask:Item11383 - remove redundant %<nop>REVARG% from templates. |
 |  12 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. Foswikitask:Item11341 - Add a Cog icon. |
@@ -108,9 +109,9 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1427079357" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1427079357" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1427079357" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1427079357" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1427079357" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1427079357" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h"  date="1434331133" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h"  date="1434331133" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h"  date="1434331133" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h"  date="1434331133" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h"  date="1434331133" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h"  date="1434331133" size="13799"  user="ProjectContributor" version="1"}%
