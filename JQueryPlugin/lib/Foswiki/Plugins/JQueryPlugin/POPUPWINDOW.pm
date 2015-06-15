@@ -114,8 +114,8 @@ sub handlePopUpWindow {
     push( @options, "createnew:$createnew" )   if defined $createnew;
     push( @options, "center:$center" )         if defined $center;
 
-    # use '|' instead of ',' to be able to use inside MAKETEXT args
-    my $optionsStr = join( '|', @options );
+    # use ';' instead of ',' to be able to use inside MAKETEXT args
+    my $optionsStr = join( ';', @options );
 
     my $result = $LINK_STUB;
     $result =~ s/\$URL/$url/;
