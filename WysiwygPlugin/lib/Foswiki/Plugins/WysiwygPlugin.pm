@@ -30,8 +30,8 @@ use Assert;
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
-our $VERSION = '1.30';
-our $RELEASE = '16 May 2013';
+our $VERSION = '1.31';
+our $RELEASE = '14 Jun 2015';
 
 our %xmltag;
 
