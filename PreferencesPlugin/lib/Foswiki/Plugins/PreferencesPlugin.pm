@@ -15,8 +15,8 @@ use Foswiki::Plugins ();    # For the API version
 
 use vars qw( @shelter );
 
-our $VERSION = '1.15';
-our $RELEASE = '1.15';
+our $VERSION = '1.16';
+our $RELEASE = '1.16';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -44,7 +44,7 @@ sub beforeCommonTagsHandler {
     ### my ( $text, $topic, $web ) = @_;
     my $topic = $_[1];
     my $web   = $_[2];
-    return unless ( $_[0] =~ m/%EDITPREFERENCES(?:{(.*?)})?%/ );
+    return unless ( $_[0] =~ m/%EDITPREFERENCES(?:\{(.*?)\})?%/ );
 
     require CGI;
     require Foswiki::Attrs;
@@ -96,7 +96,7 @@ s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]
         }
         $_[0] = $outtext;
 
-        $_[0] =~ s/%EDITPREFERENCES({.*?})?%/
+        $_[0] =~ s/%EDITPREFERENCES(\{.*?\})?%/
           _generateControlButtons($web, $topic)/ge;
         my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'viewauth' );
         my $startForm = CGI::start_form(
@@ -142,7 +142,7 @@ s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]
     }
 
     # implicit action="view", or drop through from "save" or "cancel"
-    $_[0] =~ s/%EDITPREFERENCES({.*?})?%/_generateEditButton($web, $topic)/ge;
+    $_[0] =~ s/%EDITPREFERENCES(\{.*?\})?%/_generateEditButton($web, $topic)/ge;
 }
 
 # Use the post-rendering handler to plug our formatted editor units
