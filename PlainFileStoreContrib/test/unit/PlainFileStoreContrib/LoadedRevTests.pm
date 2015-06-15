@@ -195,6 +195,7 @@ SICK
     }
 
     # .txt TOPICINFO borked: We are the knights who say Ni!
+    # In PFS, this will create rev 3 when the repair is done
     open( $f, '>',
         "$Foswiki::cfg{DataDir}/$this->{test_web}/BorkedTOPICINFO.txt" )
       || return;
@@ -204,12 +205,11 @@ We are the knights who say Ni!
 SICK
     close($f);
 
-    # The load shouldn't access the history
+    # The load will repair due to file times
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO" );
-    $this->assert_equals( 1, $topicObject->getLoadedRev() )
-      ;    # still reads it from the botched cache
+    $this->assert_equals( 3, $topicObject->getLoadedRev() );
     $this->assert_matches( qr/knights who say Ni/, $topicObject->text() );
 
     # Now if we load the latest, we will see a rev number of
@@ -239,16 +239,15 @@ SICK
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 3 );
-    $this->assert_equals( 3, $topicObject->getLoadedRev() )
-      ;    # that's 3 because there's a checkin pending
-    $this->assert_matches( qr/lovely muck/, $topicObject->text() );
+    $this->assert_equals( 3, $topicObject->getLoadedRev() );
+    $this->assert_matches( qr/knights who say Ni/, $topicObject->text() );
 
     # load out of range rev
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 4 );
     $this->assert_equals( 3, $topicObject->getLoadedRev() );
-    $this->assert_matches( qr/lovely muck/, $topicObject->text() );
+    $this->assert_matches( qr/knights who say Ni/, $topicObject->text() );
 
     #  commit the pending checkin
     $topicObject->save( forcenewrevision => 1 );
