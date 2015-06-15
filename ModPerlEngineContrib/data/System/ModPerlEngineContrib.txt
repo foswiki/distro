@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426155318" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434337224" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -123,6 +123,13 @@ set in %USERSWEB%.SitePreferences, default taken from
 ---++ Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jun 2015 (1.00) | Released with Foswiki 1.2.0.<br />\
+                        Foswikitask:Item13378: Foswikitask:Item13405: Update for UNICODE core<br />\
+                        Foswikitask:Item13228: Fix JSON operation with ApacheRequest2<br />\
+                        Foswikitask:Item13125: CGI updates<br />\
+                        Foswikitask:Item13225: Fix compatibility with Apache 2.4<br />\
+                        Foswikitask:Item13052: Documentation improvements for APREQ2_ReadLimit<br />\
+                        Foswikitask:Item9139: Improve compatibility. |
 |  03 Sep 2009 (0.9.2) | Improved documentation regarding module apreq |
 |  12 Apr 2009 (0.9.1) | Improved documentation |
 |  12 Jan 2009 (0.9.0) | Initial Release |
@@ -132,7 +139,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.GilmarSantosJr"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009-2015 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

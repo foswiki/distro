@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278547" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434338491" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -10,7 +10,7 @@ One line description, required for extensions repository catalog.
 %TOC%
 
 The _User Mapping Manager_ interface provides services for mapping between a 'user identity' as used when talking to an external authentication provider,
-an internal canonical user ID, and the displayed name used to identify the user in topics. 
+an internal canonical user ID, and the displayed name used to identify the user in topics.
 This is the default <nop>TopicUserMapping in which user information is stored in topics - one per user, and then any mapping needed is done using the
 <nop>%WIKIUSERSTOPIC% topic in the %USERSWEB%.
 
@@ -18,30 +18,30 @@ It includes the topics that are used when registering and managing users and gro
    * Registration and user management topics
       * %SYSTEMWEB%.UserRegistration
       * %SYSTEMWEB%.ResetPassword
-      * %SYSTEMWEB%.ChangePassword           
-      * %SYSTEMWEB%.ChangeEmailAddress       
-      * %SYSTEMWEB%.BulkRegistration         
-      * %SYSTEMWEB%.BulkResetPassword        
+      * %SYSTEMWEB%.ChangePassword
+      * %SYSTEMWEB%.ChangeEmailAddress
+      * %SYSTEMWEB%.BulkRegistration
+      * %SYSTEMWEB%.BulkResetPassword
    * Documentation topics
-      * %SYSTEMWEB%.ManagingUsers            
+      * %SYSTEMWEB%.ManagingUsers
       * %SYSTEMWEB%.UserToolsCategory
    * default groups and user
       * %USERSWEB%.NobodyGroup
       * %USERSWEB%.AdminGroup
-      * %USERSWEB%.RegistrationAgent    
+      * %USERSWEB%.RegistrationAgent
    * User lists
-      * %USERSWEB%.UserList                  
-      * %USERSWEB%.UserListHeader            
-      * %USERSWEB%.UserListByDateJoined      
-      * %USERSWEB%.UserListByLocation           
+      * %USERSWEB%.UserList
+      * %USERSWEB%.UserListHeader
+      * %USERSWEB%.UserListByDateJoined
+      * %USERSWEB%.UserListByLocation
    * User and Group template files
       * %SYSTEMWEB%.NewUserTemplate
       * %SYSTEMWEB%.UserForm
       * %SYSTEMWEB%.UserFormHelp
       * %SYSTEMWEB%.UsersTemplate
-      * %USERSWEB%.UserHomepageHeader        
+      * %USERSWEB%.UserHomepageHeader
       * %SYSTEMWEB%.UserSetting
-      * %USERSWEB%.GroupTemplate        
+      * %USERSWEB%.GroupTemplate
 
 If you are developing a non-topic based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
 
@@ -62,8 +62,16 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2014 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2015 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.51 (14 Jun 2015) | Released with Foswiki 1.2.0<br />\
+                        Foswikitask:Item13423: Perl 5.22 deprecations.<br />\
+                        Foswikitask:Item13323: Use /usr/bin/perl in scripts<br />\
+                        Foswikitask:Item13294: Improvements in translation strings <br />\
+                        Foswikitask:Item12162: Disable password reset if email disabled<br />\
+                        Foswikitask:Item13287: Improvements in regular expressions<br />\
+                        Foswikitask:Item2257: Improve performance of BulkResetPassword<br />\
+                        Note: This version is *Not compatible with Foswiki 1.1.x* |
 |  4.50 (18 Dec 2014)  | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page<br />\
                          Foswikitask:Item13106: removed blockquote where possible<br />\
                          Foswikitask:Item13027: Most try..catch clauses were catching Error::Simple, which is effective only for catching Foswiki-specific exceptions<br />\
@@ -113,7 +121,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  4.2.0 (22 Jan 2008) | Distributed with TWiki 4.2.0 |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% | 
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
