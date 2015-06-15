@@ -4,8 +4,8 @@ package Foswiki::Plugins::MailerContribPlugin;
 use strict;
 use warnings;
 
-our $VERSION           = '2.81';
-our $RELEASE           = '2.81';
+our $VERSION           = '2.82';
+our $RELEASE           = '2.82';
 our $SHORTDESCRIPTION  = 'Supports e-mail notification of changes';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -76,7 +76,7 @@ sub _restNotify {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
