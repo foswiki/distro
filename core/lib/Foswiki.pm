@@ -205,8 +205,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v1.1.999_002');
-    $RELEASE = 'Foswiki-1.2.0_Beta_1';
+    use version 0.77; $VERSION = version->declare('v1.1.999_003');
+    $RELEASE = 'Foswiki-1.2.0_Beta_2';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
