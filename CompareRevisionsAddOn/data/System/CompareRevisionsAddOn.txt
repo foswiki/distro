@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434329709" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -132,10 +132,11 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
 ---++ Add-On Info
 
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2015 Kenneth Lavrsen and Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jun 2015 (1.114)  | Foswikitask:Item13423: Perl 5.22 deprecations.  Foswikitask:Item13378: Support utf-8 internally. |
 |  18 Dec 2014 (1.113)  | Foswikitask:Item13068: Remove the CompareRevisionsAddOn demo, don't ship revision history<br />\
-                          Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>/
+                          Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>\
                           Foswikitask:Item12875: Implement controls on access to topic History |
 |  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson. Convert to simple decimal version. |
 |  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
@@ -174,12 +175,12 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1426439233" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1426439233" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1434329709" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1434329709" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors,  2008-2015 All Rights Reserved"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
