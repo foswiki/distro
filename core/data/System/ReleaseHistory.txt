@@ -1,13 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430847033" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434387485" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 <noautolink>
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
----++ Foswiki Release 1.2.0 Beta 2 - 05 May 2015
+---++ Foswiki Release 1.2.0 Beta 2 - 15 Jun 2015
 
-Foswiki 1.2.0 Beta 2 was built on 05 May 2015. It is a release that contains more than 124 checkins since Beta 1,
+Foswiki 1.2.0 Beta 2 was built on 15 Jun 2015. It is a release that contains more than 480 checkins since Beta 1,
 
 ---++ Foswiki Release 1.2.0 Beta 1 - 02 Apr 2015
 

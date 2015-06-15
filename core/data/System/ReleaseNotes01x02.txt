@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434069056" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434387485" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2.0 Beta 1
+---+!! Foswiki Release 1.2.0 Beta 2
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -45,7 +45,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
    * Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015. It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
-   * Foswiki 1.2.0 Beta 2 was built on 05 May 2015. It is a release that contains more than 124 checkins since Beta 1,
+   * Foswiki 1.2.0 Beta 2 was built on 15 Jun 2015. It is a release that contains more than 480 checkins since Beta 1,
 
 
 ---++ Pre-installed Extensions
@@ -185,7 +185,7 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
    * Sites migrating data from a previous installation have two choices:
       * Set ={Store}{Encoding} to match the previous ={Site}{CharSet}=. (Default was =iso-8859-1=)
       * Migrate the data to utf-8 by using the =tools/bulk_copy.pl= script. This is the recommended solution.
-   * Support for Locales is known to have issues.  ={UseLocales}= should not be enabled in the configuration.
+   * Support for Locales is still known to have issues.  ={UseLocales}= should not be enabled in the configuration.
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
 should review the existing data and determine if migration to utf-8 should be performed.
@@ -273,13 +273,13 @@ extensions and use the =CGI::= HTML generation functions, you should review the 
 ---+++ Configure has been given a major restructuring
 | *Foswiki is now able to run without a configuration (=LocalSite.cfg=)* After initial installation, just point your browser at the default URL for Foswiki. Foswiki will "bootstrap" itself and provide a link to configure to establish the initial configuration. |
 
-   * Configure is now a conventional "Foswiki Engine" based script. This means that to use configure you *must* be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
-      * You can register an initial user and add them to the !AdminGroup while in "Bootstrap mode" before saving your initial configuration.
+   * Configure is now a conventional "Foswiki Engine" based script. This means that to use configure you *must* either:
+      * be running in bootstrap mode, or
+      * be logged in to Foswiki and be in the admin group, or have appropriate permissions granted.
    * Configure now requires !JavaScript.
       * Configuration parameters are checked and saved through AJAX.
-      * Configure only transmits changed settings, greatly reducing the required bandwidth and improving performance.
    * Performance
-      * !JavaScript minimizes the data transmitted to/from the client. The entire configuration is not sent for each transaction.
+      * Configure only transmits changed settings, greatly reducing the required bandwidth and improving performance.
 ---++++ Changes to configure Authentication
    * Configure requires that the user has logged in to Foswiki and either be in the !AdminGroup, or be identified as an authorized configure user.
    * The "admin" superuser password is now optional:
@@ -360,12 +360,11 @@ heavily on !JavaScript and jQuery.   Users that must edit without the use of
 
 ---++ Translation Status
 
-As of this release, 
-   * Italian translation is 100% complete
-   * Danish, French and Czech are >99% complete
-   * German is >97%
+As of this release,
+   * Czech, Danish, French, German and Italian are >99% complete.
+   * Dutch, Norwegian, and Portuguese (Brazil) are 70-88% complete.
    * Other languages are 60% complete or lower.
-   * A new translation has been added: Klingon
+   * A new translation has been added: Klingon, 94% translated.
 
 For more details on translation status,  see Foswiki:Community.TranslationTeam and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
 Foswiki thanks the Translators for their efforts.  If you are interesting in helping with the translation, please contact foswiki-translations@lists.sourceforge.net.
@@ -405,6 +404,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[Foswiki:Development.LinksInPreview][LinksInPreview]] | It would be useful to have links enabled in edit previews |
 | [[Foswiki:Development.MakeStartPageCOnfigurable][MakeStartPageCOnfigurable]] | Add Foswiki:Extensions.HomePagePlugin as a core extension |
 | [[Foswiki:Development.MoveCPANLibToSeparateContrib][MoveCPANLibToSeparateContrib]] | Move foswiki core lib/CPAN into its own !CpanContrib |
+| [[Foswiki:Development.MultiStoreRefactor][MultiStoreRefactor]] | Restructure the Store backend to be pluggable. |
 | [[Foswiki:Development.OneStepUserDeletion][OneStepUserDeletion]] | Create mechanism for easy user deletion - Move Foswiki:Extensions.AntiWikiSpamPlugin remove user code to core. |
 | [[Foswiki:Development.PluggableAccessControlImplementation][PluggableAccessControlImplementation]] | Pluggable Access Control Implementation |
 | [[Foswiki:Development.ProtectConfigureUsingHtigestByDefault][ProtectConfigureUsingHtigestByDefault]] | Improve default protection of configure script |
@@ -415,6 +415,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[Foswiki:Development.ReplaceEditTablePluginWithEditRowPlugin][ReplaceEditTablePluginWithEditRowPlugin]] | replace edit table plugin with edit row plugin |
 | [[Foswiki:Development.RequirePerl588][RequirePerl588]] | Move to 5.8.8 for various reasons |
 | [[Foswiki:Development.ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the Foswiki:Extensions.SubscribePlugin with Foswiki 1.2 |
+| [[Foswiki:Development.SpecFileSyntaxEnhancements][SpecFileSyntaxEnhancements]] | Simplify and extend the syntax of Config.spec files |
 | [[Foswiki:Development.SupportBlockquoteAndIndenting][SupportBlockquoteAndIndenting]] | Support =&lt;blockquote&gt;= and paragraph indenting in Foswiki:Extensions.TinyMCEPlugin |
 | [[Foswiki:Development.SupportShorterACRONYMS][SupportShorterACRONYMS]] | We need support in my company for two letter ACRONYMS |
 | [[Foswiki:Development.TopicAddressing][TopicAddressing]] | Consistent methods for breaking apart topic names/"addresses" |
@@ -822,6 +823,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 <noautolink>
 | [[%BUGS%/Item801][Item801]] | Don't hardcode rcs program paths in Configure. |
 | [[%BUGS%/Item11834][Item11834]] | Hide the details in the Extension installation report. |
+| [[%BUGS%/Item13294][Item13294]] | Numerous string changes to improve translation quality. |
 | [[%BUGS%/Item13309][Item13309]] | Errors in the EditRowPlugin backwards compatibility. |
 | [[%BUGS%/Item13313][Item13313]] | Improvements to the migrate store script.  |
 | [[%BUGS%/Item13315][Item13315]] | Improve new user experience with Configure. |
@@ -861,7 +863,16 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13422][Item13422]] | More Topic Actions page is extremely slow due to embedded searches. |
 | [[%BUGS%/Item13423][Item13423]] | Perl 5.22 deprcates unescaped { and } within regular expressions. |
 | [[%BUGS%/Item13427][Item13427]] | =ApacheHtpasswdUser= password manager has been removed from Foswiki. |
+| [[%BUGS%/Item13431][Item13431]] | Removed auto-redirect on language change. |
+| [[%BUGS%/Item13438][Item13438]] | Errors when encoding a JSON string. |
 | [[%BUGS%/Item13440][Item13440]] | Remove the SpreadSheetPlugin =$BITXOR(string)= functionality. |
+| [[%BUGS%/Item13441][Item13441]] | EditRowPlugin truncates displayed table under some conditions. |
+| [[%BUGS%/Item13449][Item13449]] | Some tar files fail to expand using Archive::Tar. |
+| [[%BUGS%/Item13454][Item13454]] | SubscribePlugin should be backwards compatible to 1.1.9 |
+| [[%BUGS%/Item13455][Item13455]] | PlainFileStore fails to remove utf-8 filenames from store. |
+| [[%BUGS%/Item13456][Item13456]] | Admin password should support non-latin characters. |
+| [[%BUGS%/Item13457][Item13457]] | Extension installer doesn't find local archives or installers. |
+
 
 </noautolink>
 
