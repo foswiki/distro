@@ -150,6 +150,9 @@ Most features of the EditTablePlugin are supported, with the exception of the
 
 The EditRowPlugin also enhances features previously provided by
 the TablePlugin. The EditRowPlugin adds client side !JavaScript based sorting of tables, which has significant performance advantages.
+(Client-side sorting is provided only for tables on pages with an active %EDIT
+table or row macro.  The Foswiki:Extensions.JQTablePlugin is able to
+completely eliminate server side table sorting.)
 
 The TablePlugin and EditRowPlugin can be used together, with one exception.
 A table statement with the initsort parameter e.g.  =%<nop>TABLE{ initsort="... " ]%=
