@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431855011" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434341853" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -65,12 +65,22 @@ Many thanks to the following sponsors for supporting this work
    * [[http://c-dot.co.uk][C-Dot Consulting]]
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
+|  Change History: | |
+|  1.40   (14 Jun 2015) | Released with Foswiki 1.2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
+                          Foswikitask:Item13455: Don't encode filenames read from directories<br />\
+                          Foswikitask:Item13432: Character encoding<br />\
+                          Foswikitask:Item13423: Perl 5.22 deprecations<br /> |
+| 1.2.1 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
+| 1.2.0 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
+| 1.1.0 (30 Mar 2012) | Removed dependency on VC |
+| 1.0.0 (23 Mar 2012) | Initial version |
+
 ---++ Dependencies
 %$DEPENDENCIES%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie http://c-dot.co.uk"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2012-2013 Crawford Currie"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2012-2015 Crawford Currie, Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
