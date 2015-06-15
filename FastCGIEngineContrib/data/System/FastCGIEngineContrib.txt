@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1426155318" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1434332843" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -396,6 +396,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 ---++ Info
 
 | Change History: | |
+|  14 Jun 2015 | (1.02) Foswikitask:Item10751 - Prepare for Unicode core. |
 |  29 Mar 2015 | (1.01) Foswikitask:Item13342 - Add missing dependency, don't re-init back end after every transaction while bootstrapping. |
 |  14 Jan 2015 | (1.00) Foswikitask:Item13010 - make checking =LocalSite.cfg= for changes optional so that it can be disabled for improved stability on high traffic sites |
 |  29 Aug 2014 | (0.97) Foswikitask:Item13010 - fixed instability running under FCGI::ProcManager |
