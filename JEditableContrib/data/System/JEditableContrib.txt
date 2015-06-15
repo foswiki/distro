@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427072597" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434333981" format="1.1" version="1"}%
 ---+!! !%TOPIC%
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -21,6 +21,8 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 ---++ Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.71 | Foswikitask:Item12864: Use simple decimal VERSION strings |
+| 1.7.1 | Initial release |
 |  Dependencies: | %$DEPENDENCIES% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
@@ -30,9 +32,9 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2015 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JEditableContrib"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/JEditableContrib"}%
-%META:FILEATTACHMENT{name="jquery.jeditable_src.js" attr="h" comment="" user="ProjectContributor" date="1427072597" size="24351" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jeditable.js" attr="h" comment="" user="ProjectContributor" date="1427072597" size="7945" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jeditable_src.js" attr="h" comment="" user="ProjectContributor" date="1434333981" size="24351" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jeditable.js" attr="h" comment="" user="ProjectContributor" date="1434333981" size="7945" version="1"}%
