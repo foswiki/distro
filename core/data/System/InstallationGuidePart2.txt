@@ -233,9 +233,10 @@ The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extension
 ---+++++ Manual installation
    * Most extensions can have their archives expanded from the root of the foswiki installation.
    * If web and topic names are non-standard, files will need to be manually copied.
-   * The LocalSite.cfg file will need to be manually updated with:
-      * $Foswiki::cfg{Plugins}{SomePlugin}{Module}
-      * $Foswiki::cfg{Plugins}{SomePlugin}{Enable}
+   * If scripts are included, the "shebang" line might need to be adjusted.
+   * The !LocalSite.cfg file will need to be manually updated with:
+      * =$Foswiki::cfg{Plugins}{SomePlugin}{Module}=
+      * =$Foswiki::cfg{Plugins}{SomePlugin}{Enable}=
       * ... and any settings copied from the extension's =Config.spec= file.
 
 ---+++++!! When using either the web or shell installation tools:
