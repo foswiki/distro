@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434477046" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434479616" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -190,6 +190,8 @@ Extensions can be installed using any of several different methods:
    * by manually downloading the attachments from the Foswiki:Extensions web
       * And running the _installer
       * Or by manually expanding the archive into the installation.
+To update an extension, simply re-run the installer. If prompted, tell it to download fresh copies from the repository.
+
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
 
 The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
@@ -219,6 +221,7 @@ The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extension
    * Plugins will be automatically enabled and the configuration saved. Add the =-noenable= option to save the configuration with the plugin(s) disabled.
 
 ---+++++ When installing extensions from the command line: (no Internet access)
+%T% Use this method to install a back-level version of an extension.  Manually download the old archives and installer from the repository using the attachments dialog.
    * Manually copy the =[SomeExtension]_installer=, and =[SomeExtension].tgz= files into the Foswiki root.
       * Alternatively, they can be copied into the =working/configure/download= directory.
    * The =[SomeExtension]_installer= package must be run from the root directory of the Foswiki installation.
@@ -252,18 +255,18 @@ retrieved by using the "usage" command:  =tools/extension_installer usage= or
    * Other Extensions dependent on the removed extension may become non-operational.
 </div>
 
-The web and command line interfaces can be used to uninstall extensions.  When an extension is remove, the following occurs:
+The web and command line interfaces can be used to uninstall extensions. When an extension is removed, the following occurs:
    * The =_installer= package is used to recover the manifest. If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory
       * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ installer's manifest. It is preferable to always save the =_installer= modules.
    * The Extension files along with any =,v= revision control files will be removed, including the =_installer=.
       * Any additional files saved locally are not removed.
    * A complete log of the steps taken is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
+   * The Plugin ={Module}= and ={Enable}= settings will be removed from the configuration, and the configuration will be saved.
+      * Other settings from the Config.spec will be preserved.
 
-   * Plugin modules __are not automatically disabled in the configuration__ - they must be disabled manually.
-
-Run the uninstall from the "root" of the Foswiki installation:
-=working/configure/pkgdata/SomeExtension_installer uninstall=
+Run the uninstall from the "root" of the Foswiki installation:%BR%
+=perl working/configure/pkgdata/SomeExtension_installer uninstall=
 
 ---++++ Restoring a removed, or previous version of an extension
 
