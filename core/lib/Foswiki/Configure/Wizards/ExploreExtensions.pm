@@ -133,7 +133,6 @@ MESS
                     eval {
                         foreach my $row ( @{ JSON->new->decode($page) } )
                         {
-                            last if $@;
                             $this->_studyRow( $row, $place );
                         }
                     };
