@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434468639" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICON
 ---+++ JQICON{"name" ...} -- render an image 
@@ -25,13 +25,13 @@
                  <li> =$iconTitle=: title attribute-value; if the =title= parameter to JQICON is set, this expands to =title='...'= </li> \
                 </ul> | =&lt;img src='$iconPath' class='$iconClass' $iconAlt$iconTitle/>= |
    * Example for famfamfam icons:<verbatim class="tml">
-JQICON{"tick" alt="alternative content" title="this is a tick icon"}%
-JQICON{"cross"}%
-JQICON{"disk"}%
-JQICON{"star"}%
-JQICON{"lightbulb"}%
-JQICON{"camera"}%
-JQICON{"date"}%
+%JQICON{"tick" alt="alternative content" title="this is a tick icon"}%
+%JQICON{"cross"}%
+%JQICON{"disk"}%
+%JQICON{"star"}%
+%JQICON{"lightbulb"}%
+%JQICON{"camera"}%
+%JQICON{"date"}%
      </verbatim> Produces:
      %JQICON{"tick" alt="alternative content" title="this is a tick icon"}% 
      %JQICON{"cross"}% 

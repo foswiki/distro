@@ -24,8 +24,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '6.12';
-our $RELEASE           = '30 Apr 2015';
+our $VERSION           = '6.13';
+our $RELEASE           = '16 Jun 2015';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -368,12 +368,13 @@ sub handleJQueryIcon {
         $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
         $iconPath   = '';
         $iconClass  = "foswikiIcon jqIcon fa $iconName";
+        createPlugin("fontawesome");
     }
 
     # default img based
     else {
         $iconFormat =
-'<img src=\'$iconPath\' class=\'$iconClass\' $iconStyle $iconAlt$iconTitle/>'
+'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle/>'
           unless $iconFormat;
         $iconPath =
           Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
