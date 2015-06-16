@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430799774" format="1.1" version="1"}%
-%META:TOPICPARENT{name="InstallationGuide"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Administrator Skills Assumptions
 
 Several skills (i.e. knowing how to do something) are needed to set up and maintenance of a Foswiki installation. Remember that several layers of technology are

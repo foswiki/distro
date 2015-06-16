@@ -1,12 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Text Editor
 
-A text editor, or text processor, handles plain text only, different from a _word processor_ because it doesn't do display formatting like bold type, or mixed font styles, sizes and colors. Advanced text editors are typically used by computer programmers, and have text manipulation features not found or regularly used in word processors, like _regular expression_ search and replace, clip libraries, bookmarks to tag individual lines, upfront display of line numbers, file size and the like, and the ability to save in PC, Mac and Unix formats.
+A text editor is different from a [[WYSIWYG]] editor because it doesn't do display formatting like bold type, or mixed font styles, sizes and colors.
 
-HTML editors are text editors with built-in formatting functions.
-
-Windows *Notepad* is a simple text editor, designed to be small and fast loading, for taking quick notes.
-
----
-*Related Topics:* UserDocumentationCategory
+Advanced text editors are typically used by computer programmers, and have text manipulation features not found or regularly used in word processors, like _regular expression_ search and replace, clip libraries, bookmarks to tag individual lines, upfront display of line numbers, file size and the like, and the ability to save in PC, Mac and Unix formats.

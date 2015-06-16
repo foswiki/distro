@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426810437" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434484983" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
 
-_Restricting read and write access to topics and webs, by users and groups_
+Restricting read and write access to topics and webs, by users and groups
 
 Access Control allows you restrict access to single topics and entire webs, by individual user and by user Groups. Access control, combined with UserAuthentication, lets you easily create and manage an extremely flexible, fine-grained privilege system.
 

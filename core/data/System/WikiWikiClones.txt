@@ -1,9 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UserDocumentationCategory"}%
-Foswiki is a Wiki Wiki clone and has its root in JOS Wiki via TWiki<sup>&reg;</sup>.
-
-   * Foswiki's home is at http://foswiki.org/
-   * Foswiki takes a lot of ideas from [[http://c2.com/~ward/][Ward Cunningham]]'s remarkable [[http://c2.com/cgi/wiki?WikiWikiWeb][Wiki Wiki Web]] invention
-   * A list of Wiki Wiki clones can be found at http://c2.com/cgi/wiki?WikiWikiClones
-
-TWiki<sup>&reg;</sup> is a registered trademark of Peter Thoeny.

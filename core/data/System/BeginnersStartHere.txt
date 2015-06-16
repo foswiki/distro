@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1430521934" format="1.1" reprev="4" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434484983" format="1.1" reprev="4" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! %TOPIC%
 
 This is a short introduction to Foswiki.
@@ -360,13 +360,13 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1430521934" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1430521934" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1430521934" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1430521934" size="2394" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1430521934" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1430521934" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1430521934" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1430521934" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1430521934" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1430521934" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1434484983" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1434484983" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1434484983" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attachment="Motorola_logo.gif" attr="h" comment="" date="1434484983" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attachment="lego.gif" attr="h" comment="" date="1434484983" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attachment="hula.gif" attr="h" comment="" date="1434484983" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attachment="EpicGames_logo.gif" attr="h" comment="" date="1434484983" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attachment="Disney_logo.gif" attr="h" comment="" date="1434484983" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attachment="BT_logo.gif" attr="h" comment="" date="1434484983" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attachment="camel.png" attr="h" comment="" date="1434484983" size="1687" user="ProjectContributor" version="1"}%

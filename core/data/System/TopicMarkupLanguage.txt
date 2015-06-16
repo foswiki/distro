@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is !TML?
 
----+ Topic Markup Language
+The special text format used in Foswiki topics to simplify topic text.
 
 Foswiki lets you work using a WYSIWYG editor, which for most people is the easiest way to enter and edit text. many people prefer typing and editing in plain text (i.e. text without visible formatting), and Foswiki provides a simple formatting language called TML (Topic Markup Language) for this (you don't need to know HTML, though you can use it if you want). Topics are stored in TML, and differences are displayed using it, so it's worth knowing the basics even if you only use WYSIWYG. It's all laid out below.
 

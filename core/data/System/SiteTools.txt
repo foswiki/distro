@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278824" format="1.1" version="1"}%
-
-%META:TOPICPARENT{name="AdminToolsCategory"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Site Tools
 
-_Utilities for searching, navigation, and monitoring site activity_
+Utilities for searching, navigation, and monitoring site activity
 
 Site Tools include utilities for navigating, searching and keeping up with site activity.
 

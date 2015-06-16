@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Category"}%
 ---+ Developer Documentation
-
+ List of documents for application developers as well as developers of skins and extensions.
 %TOC%
 
 ---++ Application Developer Topics
@@ -60,7 +60,6 @@ Topics for programmers that which to design new skins and develop new extensions
    $ [[PerlDoc]] : This topic is a helper topic that enables displaying the inline documentation of the Foswiki perl modules. It is used in the [[DevelopingPlugins]] topic
 
 ---+++ Background on functionalities
-   $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
    $ [[AppendixCascadingStyleSheets]] : Listing of CSS class names emitted from Foswiki core code and standard extensions
    $ [[JavascriptFiles]] : Foswiki Javascript support comprises a number of base Javascript files, attached to this topic, that provide support for features in the basic screens, and are used by most skins. 
    $ [[SkinTemplates]] : Skin templates are used when composing the output from all actions, such as view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files. This topic describes the special template directives. Both for Skin developers and for advanced wiki application development.
@@ -90,7 +89,5 @@ More in-depth developer documentation can be found in the [[Foswiki:Support.Supp
 Really detailed documentation, includigng how to get started as a core developer, can be found on the [[Foswiki:Development.WebHome][Foswiki developer site]].
 
 ---++ Related Topics
-   $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
-   $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
-   $ [[UserDocumentationCategory]] : List of documents for the everyday user from beginner to advanced user
-   $ [[UserToolsCategory]] :  List of tools the user may need for setting and resetting passwords, changing email address etc.
+%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"
+nonoise="on" format="   $dollar [[$topic]] : $pattern(.*?---[^\n]+\n+([^\n]*).*)"}%

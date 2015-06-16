@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
----+ Permissions settings of the webs on this Foswiki site
+----
+Permissions settings of the webs on this Foswiki site
 %STARTINCLUDE%
 | *Web* | *Sitemap* | *VIEW* || *CHANGE* || *RENAME* ||
 | *&nbsp;* | *Listed* | *DENY* | *ALLOW* | *DENY* | *ALLOW* | *DENY* | *ALLOW* |

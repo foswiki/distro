@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Plugins
 
-_Extensions that use a simple API to talk to Foswiki_
+Extensions that use a simple API to talk to Foswiki
 
 %TOC%
 

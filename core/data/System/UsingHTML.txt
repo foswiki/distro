@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---++ Using HTML
+
+When, and how, to use HTML in topics.
 
 %STARTINCLUDE%
 You can use most HTML tags in topics without a problem. This is useful where you want to

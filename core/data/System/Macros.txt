@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417318221" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
 
-_Special text strings expand on the fly to display user data or system info_
+Special text strings expand on the fly to display information, or trigger a function.
 
 Macros are text strings in one of two forms:
 

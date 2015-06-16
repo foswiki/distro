@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434252448" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
+Manually installing Foswiki
 <div class='foswikiHelp' style='border:2px orange solid' >
 This guide describes the steps for manually installing Foswiki, with __specific steps for installations on Linux with the Apache web server__.%BR%
 If you would prefer to use a different web server, please refer to supplemental documentation when you reach the Apache-specific steps:

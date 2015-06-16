@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432355029" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
 Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.

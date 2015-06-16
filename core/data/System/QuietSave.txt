@@ -1,5 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UserDocumentationCategory"}%
-Like Save but does not e-mail people on the WebNotify notification list - same effect as checking "Minor changes, don't notify".
-
-*Related Topics:* UserDocumentationCategory

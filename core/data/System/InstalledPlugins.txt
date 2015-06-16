@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1401324697" format="1.1" version="1"}%
-%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Installed Plugins
 
 This site is running Foswiki version *%WIKIVERSION%* %IF{ "$ 'ENV{MOD_PERL}' = 'not set'" else="under *%ENV{MOD_PERL}%* "}%, Release *%WIKIRELEASE%*,  Foswiki API version *%PLUGINVERSION{}%* 

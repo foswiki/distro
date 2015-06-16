@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431315343" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -34,11 +34,8 @@
    * %WEBPREFSTOPIC%
 
    * <b>%MAKETEXT{"Categories"}%</b>
-   * [[AdminDocumentationCategory][Admin Documentation]]
-   * [[AdminToolsCategory][Admin Tools]]
-   * [[DeveloperDocumentationCategory][Developer Doc]]
-   * [[UserDocumentationCategory][User Documentation]]
-   * [[UserToolsCategory][User Tools]]
+%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"
+nonoise="on" format="   * [[$topic]]"}%
 %ENDSECTION{"topics"}%
 
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%

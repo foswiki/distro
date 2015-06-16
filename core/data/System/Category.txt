@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1434485265" format="1.1" version="1"}%
+%SEARCH{"parent.name='%BASETOPIC%'" web="%BASEWEB%" type="query"
+nonoise="on" format="   $dollar [[$topic]] : $pattern(.*?---[^\n]+\n+([^\n]*).*)"}%
+
+---++ Related Topics
+%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"
+nonoise="on" format="   $dollar [[$topic]] : $pattern(.*?---[^\n]+\n+([^\n]*).*)"}%

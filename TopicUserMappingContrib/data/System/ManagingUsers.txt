@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278493" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Manage Users
 
-_Register users on your Foswiki site; change/reset/install passwords; remove user accounts_
+Register users on your Foswiki site; change/reset/install passwords; remove user accounts
 
 %TOC%
 

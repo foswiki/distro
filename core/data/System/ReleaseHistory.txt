@@ -1,5 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434387485" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+--- 
+History of Foswiki
 %STARTINCLUDE%
 <noautolink>
 ---+ Appendix A: Foswiki Development Time-line
@@ -734,7 +736,7 @@ See more details at TWikiReleaseNotes04x00
    * *01 Feb 2001* - TWiki:Main.PeterThoeny 
       * Fixed TWiki:Codev/CreateLinkToAttachedFileBug.
    * *21 Jan 2001* - TWiki:Main.PeterThoeny 
-      * Added a "Minor change, don't notify" checkbox in preview. More in DontNotify.
+      * Added a "Minor change, don't notify" checkbox in preview.
    * *21 Jan 2001* - TWiki:Main.PeterThoeny 
       * Added Bold Fixed formatting using double-equal signs, e.g. write =<nop>==Bold Fixed==<nop>= to get ==Bold Fixed==.
    * *20 Jan 2001* - TWiki:Main.PeterThoeny 
@@ -931,7 +933,7 @@ See more details at TWikiReleaseNotes04x00
    * *27 Jul 1998* - TWiki:Main.PeterThoeny 
       * Added automatic links to topics in other TWiki webs by specifying &lt;web name&gt;.&lt;topic name&gt;, e.g. =Know.WebSeach= .
    * *23 Jul 1998* - TWiki:Main.PeterThoeny 
-      * Installed initial version, based on the JOS Wiki. See WikiWikiClones for details.
+      * Installed initial version, based on the JOS Wiki. A list of Wiki Wiki clones can be found at http://c2.com/cgi/wiki?WikiWikiClones
 
 ---++ Dev Flow
 

@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ManagingUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
 Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch.

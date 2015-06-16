@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! Hierarchical Navigation
 
-*Navigation block that displays the current topic, its parent and children (if any).* 
+Navigation block that displays the current topic, its parent and children (if any).
 This is intended to be included in other topics, for example in a side navigation bar (!WebLeftBar).
 
 <div class="foswikiHelp">

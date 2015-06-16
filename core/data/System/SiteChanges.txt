@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425928477" format="1.1" version="1"}%
-%META:TOPICPARENT{name="SiteTools"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %TOPIC%
+Recent changes
 %IF{"context isadmin" then='<div class="foswikiHelp">%T% This topic can be resource intensive on a large site with a large public web.
 The Foswiki:Extensions.SolrPlugin can be used to replace this search with a high performing indexed search.  Large sites should
 consider installing the Solr serverlet and indexing system to improve

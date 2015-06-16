@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1428785755" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -45,7 +45,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) *Note* it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
       * Set NOSEARCHALL =
-   * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and acronyms (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
+   * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and [[%SYSTEMWEB%.ACRONYM][acronyms]] (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
       * Set NOAUTOLINK =
       * *Note:* Use the =[<nop>[...][...]]= syntax to link topics in case you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
    * If you use non !WikiWords for topic names (for example "Expenses" or "Mighty1") and if you use bracket notation to link to those topics, it is useful to *turn of all warnings* (like: "WARNING: This topic name is not recommended because it will not be linked automatically") and checkboxes ("Allow non !WikiWord for the new topic name"). Can be overwritten by web preferences. Set to =on= to activate:
@@ -105,10 +105,10 @@ be removed from Foswiki 1.2.0.
    * Style of the user signature
       * Set SIGNATUREFORMAT = -- %WIKIUSERNAME% - %DATE%
 
-   * Default state of the *Force New Revision* (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
+   * Default state of the *Force New Revision* check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set FORCENEWREVISIONCHECKBOX =
 
-   * Default state of the *Minor Changes, Don't Notify* (DontNotify) check box in preview. Check box is initially checked if =Set DONTNOTIFYCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
+   * Default state of the *Minor Changes, Don't Notify* check box in preview. Check box is initially checked if =Set DONTNOTIFYCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set DONTNOTIFYCHECKBOX =
 
    * Default state of the *link* check box in the attach file page. Checkbox is initially checked if =Set ATTACHLINKBOX = checked="checked"=, or unchecked if empty (=Set ATTACHLINKBOX ==). If checked, a link is created to the attached file at the end of the topic: (can be overwritten by user preferences)

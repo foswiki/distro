@@ -1,2 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
-This topic has been deprecated - please see [[Macros]] instead.

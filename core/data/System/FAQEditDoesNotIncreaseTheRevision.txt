@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 The same topic revision will be used when you save a topic again within a certain time frame (one hour by default, configurable with configure item ={ReplaceIfEditedAgainWithin}=). This is to prevent unnecessary topic revisions when you do several edit cycles in a row. Note that a new revision *is* created if another person edits the same topic, regardless of the time.
 
-%SYSTEMWEB%.PatternSkin offers the ability to [[ForceNewRevision][force a new revision]] during save.
+%SYSTEMWEB%.PatternSkin offers the ability to force a new revision during save.
 
 %META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="EditDoesNotIncreaseTheRevision" to="FaqEditDoesNotIncreaseTheRevision"}%
@@ -10,4 +10,4 @@ The same topic revision will be used when you save a topic again within a certai
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Why does the topic revision not increase when I edit a topic?"}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="UserDocumentationCategory, ForceNewRevision"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="UserDocumentationCategory"}%

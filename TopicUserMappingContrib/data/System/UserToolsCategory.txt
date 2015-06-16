@@ -1,27 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Category"}%
 ---+ A List of User Tools
 
-   $ [[ChangeEmailAddress]] : Change your email address
-   $ [[ChangePassword]] : Change your password
-   $ [[UserRegistration]] : Register as a user on this wiki
-   $ [[ResetPassword]] : Reset your password
-   $ [[SiteChanges]] : Recently Changed Topics in all Webs
-   $ [[WebAtom]] : When viewed this topic returns an ATOM feed of the changes in the web. There is a WebAtom topic in each web
-   $ [[WebChanges]] : This topic list all the changes in the current web. There is a WebChanges topic in each web
-   $ [[WebCreateNewTopic]] : This topic shows a form from which the user can create a new topic in the current web. There is a WebCreateNewTopic in each web
-   $ [[%HOMETOPIC%]] : %HOMETOPIC% is the default landing page for a web. There is always a %HOMETOPIC% in a web
-   $ [[WebIndex]] : This topic provides an alphabetical list of all topics in the current web. There is a WebIndex topic in each web. The list is more verbose than the WebTopicList
-   $ [[WebNotify]] : This is a subscription service to be automatically notified by e-mail when topics change in this web. Each has its own WebNotify topic. Users can add their names to this topic and be notified by email about changes in the web
-   $ [[WebRss]] : When viewed this topic returns an RSS feed of the changes in the web. There is a WebRss topic in each web
-   $ [[WebSearchAdvanced]] : Same as WebSearch except it starts in the advanced tab
-   $ [[WebSearch]] : Search this web for text. Each web has a WebSearch topic. You can search in current web or all webs
-   $ <noautolink>%IF{"istopic '%STATISTICSTOPIC%'" then="[[%STATISTICSTOPIC%]]" else="%STATISTICSTOPIC%"}% : Statistics for the use of the current web</noautolink>
-   $ [[WebTopicList]] : List of all topics in the current web. Displays only the topic names. WebIndex shows a more verbose list. There is a WebTopicList in each web
+List of tools the user may need for setting and resetting passwords, changing email address etc.
 
----++ Related Topics
-
-   $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
-   $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
-   $ [[UserDocumentationCategory]] : List of documents for the everyday user from beginner to advanced user
-   $ [[DeveloperDocumentationCategory]] : List of documents for application developers as well as developers of skins and extensions.
+%INCLUDE{"Category"}%

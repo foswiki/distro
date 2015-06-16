@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
+
+Embed topics, or subsections of topics, or other web pages.
 
 The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specified topic at the place where the [[VarINCLUDE][INCLUDE]] is used. The whole content or only parts of of a page can be included.
 <div class="foswikiHelp">

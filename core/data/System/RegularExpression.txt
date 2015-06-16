@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Regular Expressions
 
+Regular expressions (REs), unlike simple text queries, allow you to search for text which matches a particular pattern.
+
 %TOC%
 ---++ Introduction
-
-Regular expressions (REs), unlike simple queries, allow you to search for text which matches a particular pattern.
 
 REs are similar to (but much more powerful than) the "wildcards" used in the command-line interfaces found in operating systems such as Unix and MS-DOS. REs are supported by sophisticated search engines, as well as by many Unix-based languages and tools ( e.g., =awk=, =grep=, =lex=, =perl=, and =sed= ).
 

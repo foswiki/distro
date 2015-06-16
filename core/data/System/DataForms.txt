@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418790324" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
-_This page introduces structured data, and explains how to set up and work with data forms._
+
+Structured data, how to set up and work with data forms.
 
 %TOC%
 

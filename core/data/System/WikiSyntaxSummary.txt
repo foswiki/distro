@@ -1,6 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426792401" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
-This page provides online help for new users of Foswiki when editing a page.  If there's some formatting that your contributors use often, you can customize this for your site's particular needs.
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+--- 
+Online help for new users of Foswiki when editing a page.
+
+If there's some formatting that your contributors use often, you can customize this for your site's particular needs.
 
 Keeping this help text short and simple is important since this page is aimed at new users. It does include pop-up links for more detailed help.
 

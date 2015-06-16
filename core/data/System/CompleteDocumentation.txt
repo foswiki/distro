@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425928477" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 ---+!! Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.
@@ -62,8 +62,6 @@ This page contains all documentation topics as one long, complete reference shee
 %INCLUDE{"ManagingUsers" headingoffset="1"}%
 
 %INCLUDE{"ReleaseHistory" headingoffset="1"}%
-
-%INCLUDE{"AppendixEncodeURLsWithUTF8" headingoffset="1"}%
 
 %INCLUDE{"AppendixCascadingStyleSheets" headingoffset="1"}%
 %ENDSECTION{"content"}%%

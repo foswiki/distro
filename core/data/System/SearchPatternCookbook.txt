@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
-%META:TOPICPARENT{name="FormattedSearch"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Search Pattern Cookbook
 
 The Search function is very powerful. Searches using a RegularExpression play an important part of tapping Foswiki's full potential. Unfortunately RegularExpressions can be incredibly obscure to the uninitiated. 

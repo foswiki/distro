@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599048" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.9
@@ -748,7 +748,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item660][Item660]] | "Running from configure, disabling CPAN" message needs clarification/fix |
 | [[%BUGS%/Item686][Item686]] | Add FLASHNOTE to default templates |
 | [[%BUGS%/Item758][Item758]] | Raw view break Chinese characters in UTF-8 |
-| [[%BUGS%/Item794][Item794]] | Information in %SYSTEMWEB%.ForceNewRevision is confusing |
+| [[%BUGS%/Item794][Item794]] | Information in !ForceNewRevision is confusing |
 | [[%BUGS%/Item817][Item817]] | Malformed header anchors if header contains non A-Za-z0-9_ characters - advanced solution |
 | [[%BUGS%/Item935][Item935]] | Func::saveTopicText ignorepermissions is not working as advertised |
 | [[%BUGS%/Item986][Item986]] | Authen::SASL required by Net::SMTP for authentication |

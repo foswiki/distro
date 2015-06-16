@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.

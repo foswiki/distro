@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416565920" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Contribs
 
-_Extensions to Foswiki that are not plugins_
+Extensions to Foswiki that are not [[%SYSTEMWEB%.plugins]]
 
 %TOC%
 

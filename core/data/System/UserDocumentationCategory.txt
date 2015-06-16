@@ -1,65 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278980" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Category"}%
 ---+ A List of User Documentation
 
-   $ [[AccessKeys]] : Access keys are keyboard shortcuts which allow the user to navigate around a website or a piece of computer software without having to use a mouse or other pointing device
-   $ [[ACRONYM]] : An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase. An acronym of 3 or more letters will be automatically linked only if a topic of that name already exists in the Web
-   $ [[BeginnersStartHere]] : This is a short introductory training course for Foswiki beginners
-   $ [[DataForms]] : Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications
-   $ [[FAQDeleteOrRenameAnAttachment]] : How to delete or rename a file attachment
-   $ [[FAQDeleteOrRenameATopic]] : How to delete or rename a topic
-   $ [[DocumentGraphics]] : This is a Foswiki icon library. The graphics can be used in topics and by web applications
-   $ [[FAQEditDoesNotIncreaseTheRevision]] : Explanation why editing and saving a topic does not always increase the revision
-   $ [[EditTablePlugin]] : Edit tables using edit fields, date pickers and drop down boxes
-   $ [[FileAttachment]] : Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC.
-   $ [[FileAttribute]] : Description of the hidden attribute for file attachments
-   $ [[ForceNewRevision]] : The "Force new revision" checkbox is a way to force a separate new revision when you save even if you make subsequent edits within a one hour period.  
-   $ [[FormattedSearch]] : Foswiki's inline search feature allows flexible formatting of search result. This is a key feature for most Foswiki applications
-   $ [[FormatTokens]] : Description of the format tokens such as $n, $quot, $percent etc used in [[FormattedSearch]] and a few other macros.
-   $ [[FrequentlyAskedQuestions]] : A list of frequently asked questions about the use of Foswiki
-   $ [[GlossaryOfTerms]] : Definitions of common Foswiki terms like web, topic, data form, templates, macros, preferences etc
-   $ [[GoBox]] : Description of the box at the top or sidebar of each page, also called Jump box.
-   $ [[GoodStyle]] : List of hints and recommendations that are considered basic knowledge when starting to edit existing topics
-   $ [[HiddenAttachment]] : How to hide/unhide file attachments in normal topic view
-   $ [[IncludeTopicsAndWebPages]] : Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
-   $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site. Users will find links to all the user documentation for each plugin
-   $ [[InterwikiPlugin]] : This plugin links =ExternalSite:Page= text to external sites based on aliases defined in the [[InterWikis]]  topic
-   $ !LoginName : See [[UserName]] 
-   $ [[Macros]] : An explanation of the term Macro and a list of most the Macros defined on this Foswiki
-   $ [[MacrosQuickStart]] : Short introduction to Macros
-   $ [[MainFeatures]] : A brief list of the main features of Foswiki with links how to learn more
-   $ [[ManagingTopics]] : How to rename, move, copy, and delete individual topics
-   $ [[ManagingWebs]] : An introduction to webs. Includes the tool for the administrator to add new webs
-   $ [[PreferenceSettings]] : Introduction to preference settings. Ie. Macros defined in topics that can be used site wide, per web or in a single topic
-   $ [[QuerySearch]] : Query searches help you search the contents of forms attached to your topics, as well as the values of other meta-data attached to the topic using simple query language
-   $ [[QuietSave]] : Short explanation of the term Quiet Save
-   $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
-   $ [[RegularExpression]] : A short introduction to regular expressions
-   $ [[SearchHelp]] : An introduction to searching
-   $ [[SearchPatternCookbook]] : A cookbook with many examples how to use the powerful SEARCH feature in wiki applications. See examples of both regular expression searches, query searches, and the use of formatted output
-   $ [[ShortcutMacros]] : A list of macros that can be used as shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like
-   $ [[FAQSimultaneousEdits]] : Description of what happens if two users try to edit the same topic simultaneously
-   $ [[SmiliesPlugin]] : Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon. This topic lists the smilies supported
-   $ [[SpreadSheetPlugin]] : Foswiki Spreadsheet Plugin adds spreadsheet capabilities to Foswiki topics and many functions for manipulating numbers and text. See this topic for a full list of all the many functions in the CALC Macro
-   $ [[TablePlugin]] : Table plugin enables control of the formatting of table incl column widths, styles, sorting etc.
-   $ [[TopicMarkupLanguage]] : The language used when editing topics as plain text
-   $ [[TimeSpecifications]] : Time formats recognised by Foswiki
-   $ [[TinyMCEFrequentlyAskedQuestions]] : Frequently Asked Questions about the Tiny MCE WYSIWYG editor
-   $ [[TinyMCEPlugin]] : Description of the Tiny MCE Editor which is the WYSIWYG Editor of Foswiki
-   $ [[TopicsAndWebs]] : An introduction to topics and webs
-   $ [[TwentyMinuteTutorial]] : A compact, 20-minute primer
-   $ [[UserName]] : Explanation of the term username
-   $ [[UserSetting]] : How each user can alter settings that affect the use and looks of Foswiki
-   $ [[UsersGuide]] : The main entry page for the basic user documentation
-   $ [[UsingHTML]] : How to use HTML in topics
-   $ [[WebLeftBarCookbook]] : Instructions and tips how to use personal left bars
-   $ [[WelcomeGuest]] : A short introduction to a Foswiki based website
-   $ [[FAQWhatIsWikiWiki]] : An explanation of this !WikiWiki thing
-   $ [[WikiCulture]] : Wiki - culture, concepts and principles
-   $ [[WikiWord]] : Explanation of the term WikiWord
+Documentation mainly useful to end users
 
----++ Related Topics
-   $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
-   $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
-   $ [[DeveloperDocumentationCategory]] : List of documents for application developers as well as developers of skins and extensions.
-   $ [[UserToolsCategory]] :  List of tools the user may need for setting and resetting passwords, changing email address etc.
+%INCLUDE{"Category"}%

@@ -1,6 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426980358" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
----+!! What makes Foswiki the ideal collaboration tool?
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+---+!! What makes Foswiki ....
+
+the ideal collaboration tool?
+
 <div class="explanation explanationBg">
 ---++ Foswiki is...
 <table cellpadding="0" cellspacing="0" class="explanationTable">
@@ -138,7 +141,7 @@ Foswiki is supported by a large number of volunteers who enjoy creating the best
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
-%META:FILEATTACHMENT{name="icon_plus.png" attr="" comment="" user="ProjectContributor" date="1426980358" size="2983" version="1"}%
-%META:FILEATTACHMENT{name="grad_bg_table.png" attr="" comment="" user="ProjectContributor" date="1426980358" size="2960" version="1"}%
-%META:FILEATTACHMENT{name="grids-min.css" attr="" comment="" user="ProjectContributor" date="1426980358" size="5087" version="1"}%
-%META:FILEATTACHMENT{name="grids-min.css.gz" attr="" comment="" user="ProjectContributor" date="1426980358" size="1203" version="1"}%
+%META:FILEATTACHMENT{name="icon_plus.png" attr="" comment="" user="ProjectContributor" date="1434484983" size="2983" version="1"}%
+%META:FILEATTACHMENT{name="grad_bg_table.png" attr="" comment="" user="ProjectContributor" date="1434484983" size="2960" version="1"}%
+%META:FILEATTACHMENT{name="grids-min.css" attr="" comment="" user="ProjectContributor" date="1434484983" size="5087" version="1"}%
+%META:FILEATTACHMENT{name="grids-min.css.gz" attr="" comment="" user="ProjectContributor" date="1434484983" size="1203" version="1"}%

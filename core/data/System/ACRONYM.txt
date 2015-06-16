@@ -1,27 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is an !ACRONYM?
 
-An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase.  A very familiar example would be WWW standing for World
-Wide Web. In Foswiki, an acronym of 3 or more letters will be automatically linked _only if a topic of that name already exists in the Web._  
+Linking topics using acronyms.
 
-When you type an Acronym, you establish a possible hyperlink. It's as easy as that.
+An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase. An acronym of 3 or more letters will be automatically linked if (and only if) a topic of that name already exists in the current web.
 
 Just like !WikiWord linking, acronym linking is easy to use:
    * You don't have to know the full path to where the topic is stored - you just type the name
    * You don't need to write HTML
    * Without HTML, the topic text is easier to read when editing
    * Easy linking leads to interesting texts with links placed in context
-
----++ Syntax of an Acronym
-   * 3 or more Uppercase letter(s)
-
-Acronym syntax in [[Wikipedia:Extended_Backus_Naur_Form][Extended Backus.Naur form]] (EBNF):
-<verbatim>
-    Acronym        = 3*upperLetters ;
-    upperLetters   = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I"
-                    | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R"
-                    | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;</verbatim>
 
 ---++ Examples of Acronyms
 

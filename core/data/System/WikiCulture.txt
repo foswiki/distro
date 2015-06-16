@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420222138" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Wiki - culture, concepts and principles
+
+General concept and idea of wikis.
 
 %TOC%
 

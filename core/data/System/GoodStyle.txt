@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Collaboration Tips
-_A short list of hints and recommendations that are considered basic knowledge when starting to edit existing topics._
+A short list of hints and recommendations that are considered basic knowledge when starting to edit existing topics.
 
 #SignAndDate
    * If a *discussion* is going on:

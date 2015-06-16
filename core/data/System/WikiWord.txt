@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is a !WikiWord?
 A !WikiWord consists of two or more words with initial capitals, run together. WikiWords are used to refer to topics.
@@ -15,7 +15,7 @@ A !WikiWord consists of two or more words with initial capitals, run together. W
    * It leads to interesting Wiki topics
    * It avoids over-general topics because at least two words are required
 
-<div class="foswikiHelp">%T% Note that Acronyms (words consisting of 3 or more upper-case letters) are also auto-linked, but _only_ if the topic already exists.  See ACRONYM.</div>
+<div class="foswikiHelp">%T% Note that [[%SYSTEMWEB%.ACRONYM][acronyms]] are also auto-linked, but _only_ if the topic already exists.</div>
 
 ---++ Syntax of a !WikiWord
 
@@ -80,7 +80,7 @@ When you write a !WikiWord, it becomes a link. There are more ways
    * Sometimes you have to be creative to find a good <nop>WikiName. Examples:
       * To create a topic about the the *Bread Slicer 1.2* product, use =BreadSlicer1dot2= or =BreadSlicer1pt2=, but not =BreadSlicer1.2=.
       * Numbers are considered lowercase which makes =Year2K= and =Y2K= !WikiWords but not =Y2000= and =Y2k=.
-   * Turn acronyms into !WikiWords, i.e. take =FaqIndex= for a "FAQ index" topic.
+   * Turn [[%SYSTEMWEB%.ACRONYM][acronyms]] into !WikiWords, i.e. take =FaqIndex= for a "FAQ index" topic.
    * It is possible to turn off the auto-linking of !WikiWords and to rely only on the bracket notation using the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
    <div class="foswikiHelp">%X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =%SANDBOXWEB%.%HOMETOPIC%= becomes %SANDBOXWEB%.%HOMETOPIC%.
    <p></p>

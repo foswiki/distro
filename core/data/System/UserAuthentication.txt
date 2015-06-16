@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278950" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
 
-_Controlling who can access your site_
+Controlling who can access your site
 
 %TOC%
 

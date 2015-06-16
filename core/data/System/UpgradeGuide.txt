@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1433562782" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1434484983" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
 
-<!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
+This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2
 
-_This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2_
+<!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
 
 %TOC%
 

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Reference Manual
 
-_Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki - the Free and Open Source Wiki._
+Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki - the Free and Open Source Wiki.
 
 All manual sections in one big page:
    * [[CompleteDocumentation][Complete Documentation]] (1MB size, over 200 printed pages. Only use this if you require a printed copy.)
@@ -32,9 +32,8 @@ Manual sections in separate pages:
    1. [[Managing Webs]]
    1. [[Managing Users]]
    * *Appendices*
-      * [[ReleaseHistory][A: Development Timeline]]
-      * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
-      * [[AppendixCascadingStyleSheets][C: Cascading Style Sheets]]
+      * [[ReleaseHistory][Development Timeline]]
+      * [[AppendixCascadingStyleSheets][Cascading Style Sheets]]
 
 <div class="foswikiHelp"> %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).

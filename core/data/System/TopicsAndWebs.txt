@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426390934" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Topics
+
+What are Topics and Webs?
 
 %TOC%
 <div style='float: right; width: 307px; padding-left: 1em;'>
@@ -145,4 +147,4 @@ See [[ManagingWebs]]
 
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" date="1426390927" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="diagram.png" date="1434484983" user="ProjectContributor" version="1"}%

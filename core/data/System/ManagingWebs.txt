@@ -1,7 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426390906" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ReferenceManual"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
+Browser-based rename, move, copy, and delete for individual webs
+
 %TOC%
 
 %ADDTOZONE{"head" text="<style type='text/css'>

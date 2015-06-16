@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! 20 Minute Tutorial
 
 This step-by-step, hands-on tutorial gets you up to speed with all the Foswiki basics...

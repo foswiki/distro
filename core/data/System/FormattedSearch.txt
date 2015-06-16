@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430521934" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Formatted Search
 Customize the display of search results.
 

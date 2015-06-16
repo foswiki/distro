@@ -1,7 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426278774" format="1.1" version="1"}%
-%META:TOPICPARENT{name="UsersGuide"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Glossary of Terms
+
+Glossary of Foswiki-specific terminology.
 
    $ Attachment: Any type of file that is uploaded via browser and attached to a _topic_, where it can be viewed and downloaded. [[FileAttachments][Details...]]
    $ Contrib: Any _Extension_ that is not a _Plugin_.

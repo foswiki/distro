@@ -1,4 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserToolsCategory"}%
+Register on this site
 <!--
       * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
 -->
@@ -22,4 +24,4 @@ To create a custom UserRegistration page for your site:
 Note: You cannot set macros in an included topic. Users visiting %SYSTEMWEB.UserRegistration will be viewing the results of an INCLUDE.
 </div>'}%
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="198" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" user="ProjectContributor" date="1434484983" size="198" version="1"}%

@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426984193" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
 
-_Skins overlay regular templates to give different looks and feels to Foswiki screens._
+Skins overlay regular templates to give different looks and feels to Foswiki screens.
 
 %TOC%
 
@@ -303,4 +304,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="" comment="" date="1426984193" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="" comment="" date="1434484983" size="178" user="ProjectContributor" version="1"}%

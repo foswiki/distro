@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! Country list
 
 List of countries used in the [[UserForm]]. To use this list in Foswiki applications, see the country SEARCH example in [[SearchPatternCookbook]].
@@ -6,7 +7,7 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | *Name* |
 | |
 | Afghanistan |
-| Aland Islands |
+| Åland Islands |
 | Albania |
 | Algeria |
 | American Samoa |
@@ -31,14 +32,14 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Benin |
 | Bermuda |
 | Bhutan |
-| Bolivia |
+| Bolivia, Plurinational State of |
+| Bonaire, Sint Eustatius and Saba |
 | Bosnia and Herzegovina |
 | Botswana |
 | Bouvet Island |
 | Brazil |
 | British Indian Ocean Territory |
-| British Virgin Islands |
-| Brunei |
+| Brunei Darussalam |
 | Bulgaria |
 | Burkina Faso |
 | Burundi |
@@ -52,22 +53,23 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Chile |
 | China |
 | Christmas Island |
-| Cocos Islands |
+| Cocos (Keeling) Islands |
 | Colombia |
 | Comoros |
-| Congo - Brazzaville |
-| Congo - Kinshasa |
+| Congo |
+| Congo, the Democratic Republic of the |
 | Cook Islands |
 | Costa Rica |
+| Côte d'Ivoire |
 | Croatia |
 | Cuba |
+| Curaçao |
 | Cyprus |
 | Czech Republic |
 | Denmark |
 | Djibouti |
 | Dominica |
 | Dominican Republic |
-| East Timor |
 | Ecuador |
 | Egypt |
 | El Salvador |
@@ -75,7 +77,7 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Eritrea |
 | Estonia |
 | Ethiopia |
-| Falkland Islands |
+| Falkland Islands (Malvinas) |
 | Faroe Islands |
 | Fiji |
 | Finland |
@@ -101,19 +103,19 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Guyana |
 | Haiti |
 | Heard Island and McDonald Islands |
+| Holy See (Vatican City State) |
 | Honduras |
 | Hong Kong |
 | Hungary |
 | Iceland |
 | India |
 | Indonesia |
-| Iran |
+| Iran, Islamic Republic of |
 | Iraq |
 | Ireland |
 | Isle of Man |
 | Israel |
 | Italy |
-| Ivory Coast |
 | Jamaica |
 | Japan |
 | Jersey |
@@ -121,9 +123,11 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Kazakhstan |
 | Kenya |
 | Kiribati |
+| Korea, Democratic People's Republic of |
+| Korea, Republic of |
 | Kuwait |
 | Kyrgyzstan |
-| Laos |
+| Lao People's Democratic Republic |
 | Latvia |
 | Lebanon |
 | Lesotho |
@@ -133,7 +137,7 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Lithuania |
 | Luxembourg |
 | Macao |
-| Macedonia |
+| Macedonia, the Former Yugoslav Republic of |
 | Madagascar |
 | Malawi |
 | Malaysia |
@@ -146,8 +150,8 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Mauritius |
 | Mayotte |
 | Mexico |
-| Micronesia |
-| Moldova |
+| Micronesia, Federated States of |
+| Moldova, Republic of |
 | Monaco |
 | Mongolia |
 | Montenegro |
@@ -159,7 +163,6 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Nauru |
 | Nepal |
 | Netherlands |
-| Netherlands Antilles |
 | New Caledonia |
 | New Zealand |
 | Nicaragua |
@@ -167,13 +170,12 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Nigeria |
 | Niue |
 | Norfolk Island |
-| North Korea |
 | Northern Mariana Islands |
 | Norway |
 | Oman |
 | Pakistan |
 | Palau |
-| Palestinian Territory |
+| Palestine, State of |
 | Panama |
 | Papua New Guinea |
 | Paraguay |
@@ -184,15 +186,15 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Portugal |
 | Puerto Rico |
 | Qatar |
-| Reunion |
+| Réunion |
 | Romania |
-| Russia |
+| Russian Federation |
 | Rwanda |
-| Saint Barth&eacute;lemy |
-| Saint Helena |
+| Saint Barthélemy |
+| Saint Helena, Ascension and Tristan da Cunha |
 | Saint Kitts and Nevis |
 | Saint Lucia |
-| Saint Martin |
+| Saint Martin (French part) |
 | Saint Pierre and Miquelon |
 | Saint Vincent and the Grenadines |
 | Samoa |
@@ -202,14 +204,16 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Senegal |
 | Serbia |
 | Seychelles |
+| Sierra Leone |
 | Singapore |
+| Sint Maarten (Dutch part) |
 | Slovakia |
 | Slovenia |
 | Solomon Islands |
 | Somalia |
 | South Africa |
 | South Georgia and the South Sandwich Islands |
-| South Korea |
+| South Sudan |
 | Spain |
 | Sri Lanka |
 | Sudan |
@@ -218,11 +222,12 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Swaziland |
 | Sweden |
 | Switzerland |
-| Syria |
-| Taiwan |
+| Syrian Arab Republic |
+| Taiwan, Province of China |
 | Tajikistan |
-| Tanzania |
+| Tanzania, United Republic of |
 | Thailand |
+| Timor-Leste |
 | Togo |
 | Tokelau |
 | Tonga |
@@ -232,7 +237,6 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Turkmenistan |
 | Turks and Caicos Islands |
 | Tuvalu |
-| U.S. Virgin Islands |
 | Uganda |
 | Ukraine |
 | United Arab Emirates |
@@ -242,9 +246,10 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Uruguay |
 | Uzbekistan |
 | Vanuatu |
-| Vatican |
-| Venezuela |
-| Vietnam |
+| Venezuela, Bolivarian Republic of |
+| Viet Nam |
+| Virgin Islands, British |
+| Virgin Islands, U.S. |
 | Wallis and Futuna |
 | Western Sahara |
 | Yemen |

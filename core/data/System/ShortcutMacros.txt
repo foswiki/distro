@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
-%META:TOPICPARENT{name="DefaultPreferences"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Shortcuts
 
-_Easy ways to save some typing_
+Easy ways to save some typing, using preference settings.
 
 Some macros are just shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like. These macros are not intended to be customized, though there's nothing stopping you from doing so.
 
@@ -13,5 +13,5 @@ format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+
 *See also:*
    * [[Macros]] - an alphabetical list of all macros
    * %WIKIPREFSTOPIC%#RenderingShortcuts - where shortcuts are defined 
-   * [[Wiki syntax]] - summary of the topic markup language
+   * [[Wiki syntax summary]] - the topic markup language
    * [[StandardColors#ShortCuts]] - shortcuts for some standard colours

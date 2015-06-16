@@ -64,15 +64,14 @@ data/Sandbox/WebSearchAdvanced.txt 0644
 data/Sandbox/WebTopicList.txt 0644
 data/System/ACRONYM.txt 0644
 data/System/AccessControl.txt 0644
-data/System/AccessKeys.txt 0644
 data/System/AdminDocumentationCategory.txt 0644
 data/System/AdminSkillsAssumptions.txt 0644
 data/System/AdminToggle.txt 0644
 data/System/AdminToolsCategory.txt 0644
 data/System/AppendixCascadingStyleSheets.txt 0644
-data/System/AppendixEncodeURLsWithUTF8.txt 0644
 data/System/BeginnersStartHere.txt 0644
 data/System/BookView.txt 0644
+data/System/Category.txt 0644
 data/System/ClassMethod.txt 0644
 data/System/CommandAndCGIScripts.txt 0644
 data/System/CompleteDocumentation.txt 0644
@@ -84,7 +83,6 @@ data/System/DefaultPreferences.txt 0644
 data/System/DefaultWebStatistics.txt 0644
 data/System/DeveloperDocumentationCategory.txt 0644
 data/System/DevelopingPlugins.txt 0644
-data/System/DontNotify.txt 0644
 data/System/EditingShorthand.txt 0644
 data/System/EnhancementRequests.txt 0644
 data/System/ExampleTopicTemplate.txt 0644
@@ -106,7 +104,6 @@ data/System/FAQWhatIsWikiWiki.txt 0644
 data/System/FAQWhyYouAreAskedToConfirm.txt 0644
 data/System/FileAttachment.txt 0644
 data/System/FileAttribute.txt 0644
-data/System/ForceNewRevision.txt 0644
 data/System/FormatTokens.txt 0644
 data/System/FormattedSearch.txt 0644
 data/System/FrequentlyAskedQuestion.txt 0664
@@ -114,7 +111,6 @@ data/System/FrequentlyAskedQuestions.txt 0664
 data/System/GlossaryOfTerms.txt 0644
 data/System/GoBox.txt 0644
 data/System/GoodStyle.txt 0644
-data/System/HiddenAttachment.txt 0644
 data/System/HierarchicalNavigation.txt 0644
 data/System/HierarchicalNavigationChildExample.txt 0644
 data/System/IfStatements.txt 0644
@@ -126,7 +122,6 @@ data/System/InstantEnhancements.txt 0644
 data/System/JavascriptFiles.txt 0644
 data/System/LanguageSelector.txt 0644
 data/System/Macros.txt 0644
-data/System/MacrosQuickStart.txt 0644
 data/System/MainFeatures.txt 0644
 data/System/ManagingTopics.txt 0644
 data/System/ManagingWebs.txt 0644
@@ -146,7 +141,6 @@ data/System/ProjectContributor.txt 0644
 data/System/ProjectLogos.txt 0644
 data/System/PublishedAPI.txt 0644
 data/System/QuerySearch.txt 0644
-data/System/QuietSave.txt 0644
 data/System/ReferenceManual.txt 0644
 data/System/RegularExpression.txt 0644
 data/System/ReleaseHistory.txt 0644
@@ -337,7 +331,6 @@ data/System/VarYELLOW.txt 0644
 data/System/WebAtom.txt 0644
 data/System/WebAtomBase.txt 0644
 data/System/WebChanges.txt 0644
-data/System/WebChangesAlert.txt 0644
 data/System/WebCreateNewTopic.txt 0644
 data/System/WebCreateNewTopicComponents.txt 0644
 data/System/WebCreateNewTopicTemplate.txt 0644
@@ -361,10 +354,8 @@ data/System/WelcomeGuest.txt 0644
 data/System/WikiCulture.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
-data/System/WikiWikiClones.txt 0644
 data/System/WikiWord.txt 0644
 data/System/WYSIWYG.txt 0644
-data/System/YouAreHere.txt 0644
 data/Trash/TrashAttachment.txt 0644
 data/Trash/WebAtom.txt 0644
 data/Trash/WebChanges.txt 0644
