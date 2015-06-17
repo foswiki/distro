@@ -101,7 +101,7 @@ sub _SUBSCRIBE {
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("subscribe");
 
-    return "<span class='foswikiRequiresChangePermission'>$tmpl</span>";
+    return $tmpl;
 }
 
 # subscribe_topic (topic is used if subscribe_topic is missing)
@@ -158,7 +158,7 @@ sub _rest_subscribe {
           if defined $nonce;
     }
 
-    $response->body(
+    $response->print(
         JSON::to_json(
             {
                 message => $text,
