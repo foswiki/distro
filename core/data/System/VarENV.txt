@@ -1,9 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarENV
----+++ ENV{"varname"} -- inspect the value of an environment variable
-   * Returns the current value of the environment variable in the CGI (Common Gateway Interface) environment. This is the environment that the CommandAndCGIScripts are running in.
-   * *Note:* For security reasons, only those environment variables whose names match the regular expression in ={AccessibleENV}= in the *Security Settings/Miscellaneous* section of =configure= can be displayed. Any other variable will just be shown as an empty string, irrespective of its real value.
-   * Example: =%<nop>ENV{MOD_PERL}%= displays as: %ENV{MOD_PERL}%
-   * If an environment variable is undefined (as against being set to the empty string) it will be returned as =not set=.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPHOST][HTTP_HOST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
+---+ ENV -- inspect the value of an environment variable
+Returns the current value of the environment variable in the CGI (Common Gateway Interface) environment. This is the environment that the CommandAndCGIScripts are running in.
+
+If an environment variable is undefined (as against being set to the empty string) it will be returned as =not set=.
+
+*Note:* For security reasons, only those environment variables whose names match the regular expression in the configuration setting ={AccessibleENV}= (in the *Security Settings/Miscellaneous* section of =configure=) can be displayed. Any other variable will just be shown as an empty string, irrespective of its real value.
+---++ Examples
+   * =%<nop>ENV{MOD_PERL}%= displays as: %ENV{MOD_PERL}%
+---++ Related
+ [[VarHTTPHOST][HTTP_HOST]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]

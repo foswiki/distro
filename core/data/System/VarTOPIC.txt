@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarTOPIC
----+++ TOPIC -- name of current topic
+---+ TOPIC -- name of current topic
    * =%<nop>TOPIC%= expands to the name of the topic. If you are looking at the text of an included topic, it is the name of the included topic.
-   * Syntax: =%<nop>TOPIC%=
-   * Expands to: =%INCLUDINGTOPIC%=, renders as [[%INCLUDINGTOPIC%]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEB][WEB]]
+---++ Examples
+   * =%<nop>TOPIC%= expands to =%INCLUDINGTOPIC%=, renders as [[%INCLUDINGTOPIC%]]
+---++ Related
+ [[VarBASETOPIC][BASETOPIC]], [[VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[VarTOPICLIST][TOPICLIST]], [[VarWEB][WEB]]

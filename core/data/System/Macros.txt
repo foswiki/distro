@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -21,12 +21,12 @@ These usually expand into content when a topic is rendered for viewing. There ar
 ---++ Using Macros
 
 To use a macro type its name. For example,
-   * type =%<nop>T%= to get %T% (a [[%SYSTEMWEB%.PreferenceSettings][preference settings]])
+   * type =%<nop>T%= to get %T% (a [[%SYSTEMWEB%.PreferenceSettings][predefined preference setting]])
    * type =%<nop>TOPIC%= to get =%TOPIC%= (a predefined [[VarTOPIC][macro]])
    * type =%<nop>CALC{ "$UPPER(Text)" }%= to get =TEXT= ([[VarCALC][CALC]] is a macro defined by [[SpreadSheetPlugin]])
 
 *Note:*
-   * To leave a macro unexpanded, precede it with an exclamation point, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
+   * To leave a macro unexpanded, precede it with an exclamation mark, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
       * Alternatively, insert a =&lt;nop&gt;= anywhere in the macro, Eg. =%&lt;nop&gt;TOPIC%=
    * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
    * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
@@ -35,10 +35,8 @@ To use a macro type its name. For example,
 ---+++ Order of expansion
 The following describes only these types of macros:
    * [[PreferenceSettings][Preference settings]]
-   * Most macros provided by plugins (those that use [[PerlDoc?module=Foswiki::Func#registerTagHandler][registerTagHandler()]])
-   <div class="foswikiHelp">%X% *Not* those that use [[PerlDoc?module=Foswiki::Func#commonTagsHandler][commonTagsHandler()]]</div>
-   * Most built-in Foswiki macros
-   <div class="foswikiHelp">%X% Notable exceptions include: [[VarCALC][CALC]], [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION, [[VarSTARTINCLUDE][STARTINCLUDE]]/STOPINCLUDE</div>
+   * Most macros provided by plugins (notable exceptions include [[VarCALC][CALC]], [[VarTABLE][TABLE]] and any other macros that are expanded in =commonTagsHandler()=)
+   * Most built-in Foswiki macros (exceptions include [[VarTOC][TOC]] and macros that have start/stop parts e.g: [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION, [[VarSTARTINCLUDE][STARTINCLUDE]]/STOPINCLUDE)
 
 %STARTSECTION{"insideoutlefttoright"}%
 #StandardForm
@@ -277,7 +275,7 @@ From the [[FormattedSearch#ConditionalOutputExample][conditional output example]
 See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]
 
 ---++ Macro Names
-Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. Letters may be upper or lower-case, E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all separate, valid macro names (macros are case sensitive  - =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same).
+Macro names must start with an ASCII letter. The following characters can be ASCII letters, numbers and the underscore '_'. Letters may be upper or lower-case, E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all separate, valid macro names (macros are case sensitive  - =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same).
 
 By convention all settings, predefined macros and macros registered by plugins are always UPPER-CASE.
 <!--
@@ -302,37 +300,73 @@ Most predefined macros return values that were either set in the configuration w
 Your installation of Foswiki %WIKIVERSION% has the following registered macros:
 
 %SEARCH{
-    "^Var[A-Z_0-9]+$"
+    "parent.name='Macros'"
+    type="query"
     topic="Var*"
-    casesensitive="on"
     web="%SYSTEMWEB%"
-    type="regex"
-    scope="topic"
-    format="$percentINCLUDE{$web.$topic}$percent"
+%IF{"'%INCLUDINGTOPIC%'='CompleteDocumentation'"
+then="format=$quot$percentINCLUDE{$quot$topic$quot headingoffset=$quot2$quot}$percent$quot"
+else="format=$quot   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]$quot"
+}%
     nonoise="on"
 }%
 
+---+++ Deprecated macros
+The following macros are deprecated and should not be used.
+%SEARCH{
+    "parent.name='DeprecatedMacros'"
+    type="query"
+    topic="Var*"
+    casesensitive="on"
+    web="%SYSTEMWEB%"
+    format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]"
+    nonoise="on"
+}%
+
+---++ Predefined Preference Settings
+The following preferences are automatically defined in !DefaultPreferences.
+
+---+++ Colours
+Used to start rendering text in a color. The colour will be switched
+off when [[VarENDCOLOR][%<nop>ENDCOLOR%]] is met.
+   * %SEARCH{
+    "^      \* %[A-Z]+% \*Set [A-Z]+ = looks like this"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format=" $pattern(.*?%([A-Z]+)%.*)"
+    nonoise="on"
+    separator = ", "
+}%
+For example, =some %<nop>RED%red%<nop>ENDCOLOR% text= will appear as =some %RED%red%ENDCOLOR% text=
+
 ---+++ Shortcuts
 
-The following macros are [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and are frequently used in topic content.
-   * =%<nop>BR%= - line break
-   * =%<nop>BULLET%= - bullet sign
-   * =%<nop>BB%= - line break and bullet combined
-   * =%<nop>BB2%= - indented line break and bullet
-   * =%<nop>RED% text %<nop>ENDCOLOR%= - colored text (also =%<nop>YELLOW%=, =%<nop>ORANGE%=, =%<nop>PINK%=, =%<nop>PURPLE%=, =%<nop>TEAL%=, =%<nop>NAVY%=, =%<nop>BLUE%=, =%<nop>AQUA%=, =%<nop>LIME%=, =%<nop>GREEN%=, =%<nop>OLIVE%=, =%<nop>MAROON%=, =%<nop>BROWN%=, =%<nop>BLACK%=, =%<nop>GRAY%=, =%<nop>SILVER%=, =%<nop>WHITE%=)
-   * =%<nop>H%= - %H% Help icon
-   * =%<nop>I%= - %I% Idea icon
-   * =%<nop>M%= - %M% Moved to icon
-   * =%<nop>N%= - %N% New icon
-   * =%<nop>P%= - %P% Refactor icon
-   * =%<nop>Q%= - %Q% Question icon
-   * =%<nop>S%= - %S% Red star icon
-   * =%<nop>T%= - %T% Tip icon
-   * =%<nop>U%= - %U% Updated icon
-   * =%<nop>X%= - %X% Alert icon
-   * =%<nop>Y%= - %Y% Done icon
+Things that are frequently  used in topic content, and characters that have to be avoided in their raw form because they would interfere with rendering.
+%SEARCH{
+    "^      \* Shortcut [A-Z]+ --"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format="   * $pattern(.*?Shortcut ([^\n]+).*)"
+    nonoise="on"
+}%
+For example, =%<nop>CARET%= will appear as =%CARET%=
 
-See ShortcutMacros for a full list of predefined shortcuts.
+---+++ Icons
+%SEARCH{
+    "^      \* Set [A-Z] = <img"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format="   * $pattern(.*?Set ([A-Z]).*) - $percent$pattern(.*?Set ([A-Z]).*)$percent"
+    nonoise="on"
+    order="
+}%
+For example, =%<nop>S%= will appear as %S%
 
 %STOPINCLUDE%
 

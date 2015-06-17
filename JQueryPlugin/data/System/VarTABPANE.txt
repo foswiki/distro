@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarTABPANE
----+++ TABPANE{...} -- tabpane widget
-   * This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TABPANE -- tabpane widget
+This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
      <verbatim class="tml">
 %TABPANE%
  %TAB{"tab 1"}%
@@ -31,8 +30,9 @@
  %ENDTAB%
 %ENDTABPANE%
 </verbatim>
-   * Example: see JQueryTabpane for more examples
-   * Parameters:
+---++ Examples
+see JQueryTabpane for more examples
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | select | number or id of tab to select | 1 |
@@ -40,5 +40,6 @@
      | minheight | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
      | class | extra class: use =simple= for a non-3D tabpane | | 
      | animate | (on/off) enables/disables animation of switching tabs | off |
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTAB][TAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane
+---++ Related
+ [[VarTAB][TAB]], [[VarENDTAB][ENDTAB]], [[!VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane
 <!--%JQREQUIRE{"chili"}%-->

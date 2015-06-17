@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarWEB
----+++ WEB -- name of current web
+---+ WEB -- name of current web
    * =%<nop>WEB%= expands to the name of the web where the topic is located. If you are looking at the text of an included topic, it is the web where the included topic is located.
-   * Syntax: =%<nop>WEB%=
-   * Expands to: =<nop>%WEB%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+---++ Examples
+   * =%<nop>WEB%= expands to =<nop>%WEB%=
+---++ Related
+ [[VarBASEWEB][BASEWEB]], [[VarINCLUDINGWEB][INCLUDINGWEB]], [[VarTOPIC][TOPIC]]

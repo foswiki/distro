@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarWIKINAME
----+++ WIKINAME -- your Wiki username
-   * The WikiName is the same as =%<nop>USERNAME%= if not defined in the %USERSWEB%.%WIKIUSERSTOPIC% topic
-   * Syntax: =%<nop>WIKINAME%=
-   * Expands to: =%WIKINAME%=
+---+ WIKINAME -- your Wiki username
+The WikiName is the same as =%<nop>USERNAME%= if not defined in the %USERSWEB%.%WIKIUSERSTOPIC% topic
+---++ Examples
+   * =%<nop>WIKINAME%= expands to =%WIKINAME%=
    <div class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create  new topic. See TemplateTopics#TemplateTopicsVars for details</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERSTOPIC][WIKIUSERSTOPIC]]
+---++ Related
+ [[VarREMOTEUSER][REMOTE_USER]], [[VarUSERINFO][USERINFO]], [[VarUSERNAME][USERNAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]], [[VarWIKIUSERSTOPIC][WIKIUSERSTOPIC]]

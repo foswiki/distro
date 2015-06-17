@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarREVTITLE
----+++ REVTITLE -- =(r1)= The requested revision as displayed in topic breadcrumbs 
-   * Syntax: =%<nop>REVTITLE%=
-   * =%<nop>REVTITLE%= If a topic revision is requested in the URL, it returns the printable revision of the current topic revision. Otherwise returns an empty string.
-   * Expands to: _(simulated)_ =(r3)=  _(actual)_ <code>%REVTITLE%</code>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVARG][REVARG]]
+---+ REVTITLE -- The requested revision as displayed in topic breadcrumbs 
+If a topic revision is requested in the URL, it returns the printable revision of the current topic revision. Otherwise returns an empty string.
+---++ Examples
+   * =%<nop>REVTITLE%= expands to _(simulated)_ =(r3)=  _(actual)_ <code>%REVTITLE%</code>
+---++ Related
+ [[VarREVINFO][REVINFO]], [[VarREVARG][REVARG]]

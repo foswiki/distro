@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarAUTHREALM
----+++ AUTHREALM -- authentication realm
-   * String defined as ={AuthRealm}= expert option in [[%SCRIPTURLPATH{"configure"}%][configure]] =Security And Authentication= tab, =Login sub-tab.. This is used in certain password encodings, and in login templates as part of the login prompt.
-   * Syntax: =%<nop>AUTHREALM%=
-   * Expands to: %AUTHREALM%
-   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVARIABLE][SESSION_VARIABLE]]
+---+ AUTHREALM -- authentication realm
+String defined as the ={AuthRealm}= expert option in [[%SCRIPTURLPATH{"configure"}%][configure]] =Security And Authentication= tab, =Login sub-tab.. This is used in certain password encodings, and in login templates as part of the login prompt.
+---++ Examples
+   * =%<nop>AUTHREALM%= expands to =%AUTHREALM%=
+---++ Related
+ UserAuthentication, [[VarSESSIONID][SESSIONID]], [[VarSESSIONVAR][SESSIONVAR]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]], [[VarSESSIONVARIABLE][SESSION_VARIABLE]]
 

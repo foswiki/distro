@@ -1,14 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarHTTP
----+++ HTTP -- get HTTP headers
+---+ HTTP -- get HTTP headers
    * Called with the name of an HTTP header field, returns its value. Capitalization and the use of hyphens versus underscores are not significant.
-   * Syntax: =%<nop>HTTP%=
-   * Syntax: =%<nop>HTTP{"Header-name"}%=
-   * Examples:
+---++ Parameters
+| *Name* | *Description* |
+| ="name"= | Name of the header to get |
+---++ Examples
      | =%<nop>HTTP%= | %HTTP% |
      | =%<nop>HTTP{"Accept-language"}%= | %HTTP{"Accept-language"}% |
      | =%<nop>HTTP{"User-Agent"}%= | %HTTP{"User-Agent"}% |
    <div class="foswikiHelp">%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPS][HTTPS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
+---++ Related
+ [[VarHTTPS][HTTPS]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]
 

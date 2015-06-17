@@ -1,9 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarFORMAT
----+++ FORMAT{"list" format="" header="" footer="" separator=""} -- format a list of objects
-   * Syntax: =%<nop>FORMAT{"list"}%=
-   * Supported parameters:
+---+ FORMAT -- format a list of objects
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | The list to be expanded into the format. Required. Currently only two types of list data are supported; topic names (=type="topic"=) and plain strings (=type="string"=). | =""= |
@@ -20,9 +18,8 @@
       format="   1 =$topic="
       footer="   1 =default="
    }%</verbatim>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 
----++++ Supported formatting tokens
+---+++ Supported formatting tokens
 If =type="topic"= (the default) the format string can contain _any_ of the
 topic-specific format tokens
 specified in FormattedSearch (=$web=, =$topic=, =$parent=, =$text=, =$locked=,
@@ -45,5 +42,6 @@ capability to render other object types.
 <div class="foswikiHelp">%I% For more sophisticated handling of string lists, consider installing
 Foswiki:Extensions.FilterPlugin.</div>
 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]], FormattedSearch
+---++ Related
+ [[VarSEARCH][SEARCH]], [[VarENCODE][ENCODE]], FormattedSearch
 <!--%JQREQUIRE{"chili"}%-->

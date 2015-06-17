@@ -1,13 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
-#VarTWISTYTOGGLE
----+++ TWISTYTOGGLE
-*Twisty Toggle contents section*
-   * Syntax: =%<nop>TWISTYTOGGLE{id="myid"}%=
-   * Supported parameters:
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TWISTYTOGGLE -- Twisty Toggle contents section
+---++ Parameters
     %TABLE{sort="off"}%
     | *Parameter* | *Value* | *Description* | *Remark* |
-    | =id= | Unique identifier | Used to link [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE ][TWISTYHIDE ]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
+    | =id= | Unique identifier | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
     | =mode= | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
     | =class= | CSS class name | Class for content div or span | optional, default none |
     | =linkclass= | CSS class name | Class for link | optional, default none |
@@ -15,6 +12,8 @@
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
     | =noscript= | ="hide"= | Make content hidden in case use does not have !JavaScript on | optional, default content is shown with no !JavaScript |
-   * Example: <verbatim class="tml">%TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%ENDTWISTYTOGGLE%</verbatim>
-   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
+---++ Examples
+<verbatim class="tml">%TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%ENDTWISTYTOGGLE%</verbatim>
+---++ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
 <!--%JQREQUIRE{"chili"}%-->

@@ -1,13 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284876702" format="1.1" version="1"}%
-%META:TOPICPARENT{name="SpreadSheetPlugin"}%
-#VarCALC
----+++ CALC{"formula"} -- add spreadsheet calculations to tables and outside tables
-   * The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
-   * Syntax: =%<nop>CALC{"formula"}%=
-   * This macro is specifically for manipulating data in tables, and so is evaluated after the normal Macro expansion order. If you need a standard ordered evaluation see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCALCULATE][CALCULATE]]
-   * Examples:
-      * =%<nop>CALC{"$SUM($ABOVE())"}%= returns the sum of all cells above the current cell
-      * =%<nop>CALC{"$EXISTS(<nop>Web.SomeTopic)"}%= returns =1= if the topic exists
-      * =%<nop>CALC{"$UPPER(Collaboration)"}%= returns =COLLABORATION=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCALCULATE][CALCULATE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarIF][IF]], SpreadSheetPlugin
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ CALC -- add spreadsheet calculations to tables and outside tables
+The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
+   * This macro is specifically for manipulating data in tables, and so is evaluated after the normal Macro expansion order. If you need a standard ordered evaluation see [[VarCALCULATE][CALCULATE]]
+---++ Examples
+   * =%<nop>CALC{"$SUM($ABOVE())"}%= returns the sum of all cells above the current cell
+   * =%<nop>CALC{"$EXISTS(<nop>Web.SomeTopic)"}%= returns =1= if the topic exists
+   * =%<nop>CALC{"$UPPER(Collaboration)"}%= returns =COLLABORATION=
+---++ Related
+ [[VarCALCULATE][CALCULATE]], [[VarIF][IF]], SpreadSheetPlugin
 

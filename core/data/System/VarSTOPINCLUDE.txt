@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1396410293" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSTOPINCLUDE
----+++ STOPINCLUDE -- Alias for [[VarENDINCLUDE][ENDINCLUDE]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]]
+---+ STOPINCLUDE -- Alias for ENDINCLUDE
+---++ Related
+ [[VarINCLUDE][INCLUDE]], [[VarSTARTINCLUDE][STARTINCLUDE]]
 

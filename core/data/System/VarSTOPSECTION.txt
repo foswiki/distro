@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1396410293" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSTOPSECTION
----+++ STOPSECTION{"name"} -- Alias for [[VarENDSECTION][ENDSECTION]] 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]]
+---+ STOPSECTION -- Alias for ENDSECTION
+---++ Related
+ [[VarENDSECTION][ENDSECTION]], [[VarSTARTSECTION][STARTSECTION]]
 

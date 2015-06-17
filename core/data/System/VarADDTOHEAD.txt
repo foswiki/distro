@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarADDTOHEAD
----+++ ADDTOHEAD
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeprecatedMacros"}%
+---+ ADDTOHEAD -- deprecated, use ADDTOZONE instead
 
 This macro is deprecated. Please use VarADDTOZONE instead.
 It effecively is a shortcut for =%<nop>ADDTOZONE{"head" ...}%=

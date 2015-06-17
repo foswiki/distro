@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarEXPAND
----+++ EXPAND{"expression" scope="topictoexpandin" ...}%
-Expands macros in =expression= as if they were used in the topic =topictoexpandin=. The viewer must have VIEW access to =topictoexpandin= for this to work. All the standard formatting macros can be used in =expression=, such as =$percent= and =$quot=.
+---+ EXPAND -- expand macros in a string as if they were used in another topic topic
+The viewer must have VIEW access to =topictoexpandin= for this to work. All the standard formatting macros can be used in =expression=, such as =$percent= and =$quot=.
 
 =EXPAND= can be useful when you want to pick up the value of macros defined in another topic. For example, you might want to define a set of preferences in one topic, but pick up their value in another topic (this is very useful when building reusable applications). In this case you can write:
 <pre class="tml">

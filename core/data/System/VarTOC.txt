@@ -1,10 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672591" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarTOC
----+++ TOC{"Topic"} -- table of contents
-   * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in TopicMarkupLanguage (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
-   * Syntax: =%<nop>TOC%= OR =%<nop>TOC{"SomeTopic" ...}%=
-   * Supported parameters:
+---+ TOC -- table of contents
+Shows a Table of Contents that is generated automatically based on headings of a topic. Headings in TopicMarkupLanguage (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
+---++ Parameters
     %TABLE{sort="off" columnwidths="30%,50%,20%"}%
     | *Parameter:* | *Description:* | *Default:* |
     | ="TopicName"= | topic name | Current topic |
@@ -26,5 +24,8 @@ If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<no
    * Examples: <pre class="tml">%<nop>TOC{depth="2"}%
 %<nop>TOC{"CompleteDocumentation" web="%<nop>SYSTEMWEB%" title="Contents:"}%</pre>
    See also: Foswiki:Support/HowToCreateATableOfContents
-   <div class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.</div>
+   <div class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.
+
+%X% If other topics are included using [[VarINCLUDE][INCLUDE]] then any =headingoffset= will not be seen by =TOC=.
+</div>
 <!--%JQREQUIRE{"chili"}%-->

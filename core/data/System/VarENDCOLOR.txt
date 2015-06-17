@@ -1,26 +1,25 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422978021" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %STARTINCLUDE%
-#VarENDCOLOR
----+++ ENDCOLOR -- end colored text
+---+ ENDCOLOR -- end colored text
    * =ENDCOLOR= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of shortcuts.<br/>
    *Example:*
    <pre class="tml">%<nop>GREEN% green text %<nop>ENDCOLOR%</pre>
    *Expands to:* %GREEN% green text %ENDCOLOR%
    %INCLUDE{"%TOPIC%" section="remember"}%
-   * Related: %SEARCH{
+---++ Related
+ %SEARCH{
    "parent.name='StandardColors'"
    type="query"
    excludetopic="%TOPIC%"
    nonoise="on"
-   format="[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
+   format="[[$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
    separator=", "
 }%, [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
 %STOPINCLUDE%
 
 <!-- STOPINCLUDE to help HTML validation from CompleteDocumentation -->
 <verbatim style="display: none;">%STARTSECTION{"varcolor"}%
-#Var%color%
----+++ %color% -- start %CALC{"$LOWER(%color%)"}% colored text
+---+ %color% -- start %CALC{"$LOWER(%color%)"}% colored text
    * =%color%= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.<br/>
    *Example:*
    <pre class="tml">%<nop>%color%% %CALC{"$LOWER(%color%)"}% text %<nop>ENDCOLOR%</pre>

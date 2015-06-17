@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarWIKIPREFSTOPIC
----+++ WIKIPREFSTOPIC -- name of site-wide preferences topic
-   * Syntax: =%<nop>WIKIPREFSTOPIC%=
-   * Expands to: =%WIKIPREFSTOPIC%=, renders as [[%WIKIPREFSTOPIC%]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
+---+ WIKIPREFSTOPIC -- name of site-wide preferences topic
+---++ Examples
+   * =%<nop>WIKIPREFSTOPIC%= expands to =%WIKIPREFSTOPIC%=, renders as [[%WIKIPREFSTOPIC%]]
+---++ Related
+ [[VarHOMETOPIC][HOMETOPIC]], [[VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
 

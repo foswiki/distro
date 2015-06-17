@@ -1,10 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1297286796" format="1.1" version="1"}%
-%META:TOPICPARENT{name="EmptyPlugin"}%
-#VarEXAMPLETAG
----+++ EXAMPLETAG -- example variable
-   * The =%<nop>EXAMPLETAG{}%= variable is handled by the ExamplePlugin
-   * Syntax: =%<nop>EXAMPLETAG{"text" format="..."}%=
-   * Parameter =text="..."= - example text.
-   * Parameter =format="..."= - format of report.
-   * Example: =%<nop>EXAMPLETAG{"hello" format="| $topic: $summary |"}%=
-   * Related: ExamplePlugin
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ EXAMPLETAG -- example variable
+The =%<nop>EXAMPLETAG%= variable is handled by the ExamplePlugin
+
+---++ Parameters
+| *Parameter:* | *Description:* | *Default:* |
+| =text="..."= - | example text | ="..."= |
+| =format="..."= | format of report | |
+
+---++ Examples
+=%<nop>EXAMPLETAG{"hello" format="| $topic: $summary |"}%=
+
+---++ Related
+ExamplePlugin

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarNOTIFYTOPIC
----+++ NOTIFYTOPIC -- name of the notify topic
-   * Syntax: =%<nop>NOTIFYTOPIC%=
-   * Expands to: =%NOTIFYTOPIC%=, renders as [[%NOTIFYTOPIC%]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTATISTICSTOPIC][STATISTICSTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+---+ NOTIFYTOPIC -- name of the notify topic
+---++ Examples
+   * =%<nop>NOTIFYTOPIC%= expands to =%NOTIFYTOPIC%=, renders as [[%NOTIFYTOPIC%]]
+---++ Related
+ [[VarHOMETOPIC][HOMETOPIC]], [[VarSTATISTICSTOPIC][STATISTICSTOPIC]], [[VarTOPIC][TOPIC]]
 

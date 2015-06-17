@@ -1,9 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarFORMFIELD
----+++ FORMFIELD{"fieldname"} -- renders a field in the form attached to some topic
-   * Syntax: =%<nop>FORMFIELD{"fieldname"}%=
-   * Supported parameters:
+---+ FORMFIELD -- renders a field in the form attached to some topic
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="name"= | The name of a [[DataForms][Data form]] field | required |
@@ -24,10 +22,12 @@
       * =$definingTopic= - topic in which the field is defined
 
       * The [[FormatTokens][standard format tokens]] are also expanded
-   * Example: <verbatim class="tml"> %FORMFIELD{"ProjectName"
+---++ Examples
+<verbatim class="tml"> %FORMFIELD{"ProjectName"
    topic="Projects.SushiProject"
    default="(no project name given)"
    alttext="ProjectName field not found in form"
  }%</verbatim>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
+---++ Related
+ [[VarSEARCH][SEARCH]], [[VarQUERY][QUERY]]
 <!--%JQREQUIRE{"chili"}%-->

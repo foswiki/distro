@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarHTTPHOST
----+++ HTTP_HOST -- environment variable
-   * Syntax: =%<nop>HTTP_HOST%=
-   * Expands to: =%HTTP_HOST%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENV][ENV]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
+---+ HTTP_HOST -- environment variable
+---++ Examples
+   * =%<nop>HTTP_HOST%= expands to =%HTTP_HOST%=
+---++ Related
+ [[VarENV][ENV]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]

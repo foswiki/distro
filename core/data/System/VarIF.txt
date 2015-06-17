@@ -1,12 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarIF
----+++ IF{"condition" ...} -- simple conditionals
-   * Evaluate a condition and show one text or another based on the result. See details in [[IfStatements]].
-   * Syntax: <verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim> shows<br/> ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
-   * Example: <verbatim class="tml"> %IF{"defined FUNFACTOR"
+---+ IF -- simple conditionals
+Evaluate a condition and show one text or another based on the result. See details in [[IfStatements]].
+---++ Examples
+   * =%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%= shows<br/> ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
+<verbatim class="tml"> %IF{"defined FUNFACTOR"
    then="FUNFACTOR is defined"
    else="FUNFACTOR is not defined"
  }%</verbatim> renders as <pre class="tml">%IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%</pre>
-   * Related: [[SpreadSheetPlugin#FuncIF][$IF()]] of SpreadSheetPlugin
+
 <!--%JQREQUIRE{"chili"}%-->
+---++ Related
+IfStatements

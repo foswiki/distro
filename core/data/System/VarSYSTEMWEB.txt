@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSYSTEMWEB
----+++ SYSTEMWEB -- name of documentation web
-   * The web containing all documentation and default [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
-   * Syntax: =%<nop>SYSTEMWEB%=
-   * Expands to: =%SYSTEMWEB%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERSWEB][USERSWEB]]
+---+ SYSTEMWEB -- name of documentation web
+The web containing all documentation and default [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
+---++ Examples
+   * =%<nop>SYSTEMWEB%= expands to =%SYSTEMWEB%=
+---++ Related
+ [[VarUSERSWEB][USERSWEB]]

@@ -1,13 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarICONURLPATH
----+++ ICONURLPATH{"name" default="name"} -- URL path of small documentation graphic or icon
-   * Generates the relative URL path of a %ICONTOPIC% image, typically used in an HTML img tag. 
-     Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]] for details on filenames.)
-   * Syntax: =%<nop>ICONURLPATH{"name"}%=
-   * Examples:
-      * =%<nop>ICONURLPATH{"locktopic"}%= returns %ICONURLPATH{"locktopic"}%
-      * =%<nop>ICONURLPATH{"eggysmell.xml"}%= returns %ICONURLPATH{"eggysmell.xml"}%
-      * =%<nop>ICONURLPATH{"/doc/xhtml.xsl"}%= returns %ICONURLPATH{"/doc/xhtml.xsl"}%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]], %WIKIPREFSTOPIC%, FileAttachments, %ICONTOPIC%
+---+ ICONURLPATH -- URL path of small documentation graphic or icon
+Generates the relative URL path of a %ICONTOPIC% image, typically used in an HTML img tag. 
+     Specify image name or full filename (see [[VarICON][ICON]] for details on filenames.)
+---++ Examples
+   * =%<nop>ICONURLPATH{"locktopic"}%= returns %ICONURLPATH{"locktopic"}%
+   * =%<nop>ICONURLPATH{"eggysmell.xml"}%= returns %ICONURLPATH{"eggysmell.xml"}%
+   * =%<nop>ICONURLPATH{"/doc/xhtml.xsl"}%= returns %ICONURLPATH{"/doc/xhtml.xsl"}%
+---++ Related
+ [[VarICON][ICON]], [[VarICONURL][ICONURL]], %ICONTOPIC%
 

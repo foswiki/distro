@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431621876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarATTACHURL
----+++ ATTACHURL -- full URL for attachments in the current topic
-   * Shorthand for [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], with =path= set to the current topic. Otherwise supports all the same parameters.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+---+ ATTACHURL -- full URL for attachments in the current topic
+Shorthand for [[VarPUBURL][PUBURL]], with =path= set to the current topic. Otherwise supports all the same parameters as [[VarPUBURL][PUBURL]].
+---++ Related
+ [[VarATTACHURLPATH][ATTACHURLPATH]], [[VarPUBURL][PUBURL]], [[VarPUBURLPATH][PUBURLPATH]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

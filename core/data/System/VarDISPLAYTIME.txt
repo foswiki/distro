@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarDISPLAYTIME
----+++ DISPLAYTIME{"format"} -- formatted display time
-   * Formatted time - either GMT or Local server time, depending on {DisplayTimeValues} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. Same format qualifiers as =%<nop>GMTIME%=
-   * Syntax: =%<nop>DISPLAYTIME%= OR =%<nop>DISPLAYTIME{"format"}%=
-   * =%<nop>DISPLAYTIME%= The time is shown as hh:mm (24 hour clock)
-      * Expands to: =%DISPLAYTIME%=
-   * Example: <verbatim class="tml">%DISPLAYTIME{"$hou:$min"}%</verbatim><!--%JQREQUIRE{"chili"}%--> expands to =%DISPLAYTIME{"$hou:$min"}%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]
+---+ DISPLAYTIME -- display formatted time
+Formatted time - either GMT or Local server time, depending on {DisplayTimeValues} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. Same format qualifiers as =%<nop>GMTIME%=
+---++ Parameters
+| *Parameter:* | *Description:* |
+| ="format"= | Optional format (see [[VarGMTIME][GMTIME]]) |
+---++ Examples
+   * =%<nop>DISPLAYTIME{"$hou:$min"}%= expands to =%DISPLAYTIME{"$hou:$min"}%=
+---++ Related
+ [[VarGMTIME][GMTIME]], [[VarSERVERTIME][SERVERTIME]]

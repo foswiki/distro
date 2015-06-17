@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSTATISTICSTOPIC
----+++ STATISTICSTOPIC -- name of statistics topic
-   * Syntax: =%<nop>STATISTICSTOPIC%=
-   * Expands to: =%STATISTICSTOPIC%=, renders as [[%STATISTICSTOPIC%]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOTIFYTOPIC][NOTIFYTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+---+ STATISTICSTOPIC -- name of statistics topic
+---++ Examples
+   * =%<nop>STATISTICSTOPIC%= expands to =%STATISTICSTOPIC%=, renders as [[%STATISTICSTOPIC%]]
+---++ Related
+ [[VarHOMETOPIC][HOMETOPIC]], [[VarNOTIFYTOPIC][NOTIFYTOPIC]], [[!VarTOPIC][TOPIC]]
 

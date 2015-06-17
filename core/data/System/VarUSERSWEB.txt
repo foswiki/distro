@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarUSERSWEB
----+++ USERSWEB -- name of users web
+---+ USERSWEB -- name of users web
    * The web containing individual user topics, %USERSWEB%.WikiGroups, and customised site-wide preferences.
-   * Syntax: =%<nop>USERSWEB%=
-   * Expands to: =%USERSWEB%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSYSTEMWEB][SYSTEMWEB]]
+---++ Examples
+   * =%<nop>USERSWEB%= expands to =%USERSWEB%=
+---++ Related
+ [[VarSYSTEMWEB][SYSTEMWEB]]

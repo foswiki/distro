@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarPOPUPWINDOW
----+++ POPUPWINDOW{"topic" ...} -- opens a topic or url in a new window
-   * Parameters: 
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ POPUPWINDOW -- opens a topic or url in a new window
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="topic"=, =topic="topic"=, =topic="web.topic"= | Topic to open | |

@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarWIKITOOLNAME
----+++ WIKITOOLNAME -- name of your site
-   * Syntax: =%<nop>WIKITOOLNAME%=
-   * Expands to: =%WIKITOOLNAME%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIHOMEURL][WIKIHOMEURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIVERSION][WIKIVERSION]]
+---+ WIKITOOLNAME -- name of your site
+---++ Examples
+   * =%<nop>WIKITOOLNAME%= expands to =%WIKITOOLNAME%=
+---++ Related
+ [[VarWIKIHOMEURL][WIKIHOMEURL]], [[VarWIKIVERSION][WIKIVERSION]]
 

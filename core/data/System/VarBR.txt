@@ -1,7 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ShortcutMacros"}%
-#VarBR
-
----+++ BR -- line break
-   * Current value: BR = %BR%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCARET][CARET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVBAR][VBAR]]

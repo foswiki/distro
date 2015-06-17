@@ -1,4 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
-#VarCLEAR
----+++ CLEAR -- a proper clear for floating elements
-   * =%<nop>CLEAR%= will create a proper clear for css floating elements. (often from using =foswikiRight= and =foswikiLeft= css classes)

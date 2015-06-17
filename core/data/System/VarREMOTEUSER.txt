@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarREMOTEUSER
----+++ REMOTE_USER -- environment variable
-   * Syntax: =%<nop>REMOTE_USER%=
-   * Expands to: <code>%REMOTE_USER%</code>
+---+ REMOTE_USER -- environment variable
+---++ Examples
+   * =%<nop>REMOTE_USER%= expands to <code>%REMOTE_USER%</code>
    <div class="foswikiHelp">%X% Displays the user identity established by the Web Server.  Not available when using Template Autentication.
    The =REMOTE_USER= variable only expands when the active script is configured to =Require valid-user= in the Apache configuration.
    Eg. If your site uses Apache authentication and allows guest access, view this page with ==bin/view==  and ==bin/viewauth== to see the effect.</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENV][ENV]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPHOST][HTTP_HOST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKINAME][WIKINAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]]
+---++ Related
+ [[VarENV][ENV]], [[VarHTTPHOST][HTTP_HOST]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarUSERNAME][USERNAME]], [[VarWIKINAME][WIKINAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]]

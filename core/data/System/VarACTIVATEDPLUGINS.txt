@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarACTIVATEDPLUGINS
----+++ ACTIVATEDPLUGINS -- list of currently activated plugins
-   * Syntax: =%<nop>ACTIVATEDPLUGINS%=
-   * Expands to: %ACTIVATEDPLUGINS%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarFAILEDPLUGINS][FAILEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]
+---+ ACTIVATEDPLUGINS -- list of currently activated plugins
+---++ Examples
+   * =%<nop>ACTIVATEDPLUGINS%= expands to %ACTIVATEDPLUGINS%
+---++ Related
+ [[VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[VarFAILEDPLUGINS][FAILEDPLUGINS]], [[VarPLUGINVERSION][PLUGINVERSION]]

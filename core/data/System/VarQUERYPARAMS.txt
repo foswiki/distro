@@ -1,10 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425913636" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarQUERYPARAMS
----+++ QUERYPARAMS -- show parameters to the query
-   * Expands the parameters to the query that was used to display the page.
-   * Syntax: =%<nop>QUERYPARAMS{...}%=
-   * Supported parameters:
+---+ QUERYPARAMS -- show parameters to the query
+Expands the parameters to the query that was used to display the page.
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =format="..."= | Format string for each entry | =$name=$value= |
@@ -16,12 +14,14 @@
 | =$name= | Name of the parameter |
 | =$value= | String value of the parameter. Multi-valued parameters will have a "row" for each value. |
 %INCLUDE{FormatTokens}%</li></ul>
-   * Example:<pre class="tml">
+---++ Examples
+<pre class="tml">
    %<nop>QUERYPARAMS{
      format="&lt;input type='hidden' name='$name' value='$value' encoding="entity" />"
    }%</pre>
 <div class="foswikiHelp">%X% *Security warning!*
 
 Using QUERYPARAMS can easily be misused for cross-site scripting unless specific characters are entity encoded. By default QUERYPARAMS encodes the characters ='"&lt;&gt;%= into HTML entities (same as encoding="safe") which is relatively safe. The safest is to use encoding="entity". When passing QUERYPARAMS inside another macro always use double quotes ("") combined with using QUERYPARAMS with encoding="quote". For maximum security against cross-site scripting you are advised to install the Foswiki:Extensions.SafeWikiPlugin.</div>
-   * See also [[VarQUERYSTRING][QUERYSTRING]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarURLPARAM][URLPARAM]]
+---++ Related
+[[VarQUERYSTRING][QUERYSTRING]], [[VarURLPARAM][URLPARAM]]
 <!--%JQREQUIRE{"chili"}%-->

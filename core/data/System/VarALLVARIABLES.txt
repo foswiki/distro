@@ -1,8 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarALLVARIABLES
----+++ ALLVARIABLES -- list of currently defined macros
-   * Syntax: =%<nop>ALLVARIABLES%=
-   * Expands to: a table showing all defined [[macros]] in the current context
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeprecatedMacros"}%
+---+ ALLVARIABLES -- list of currently defined macros
+Expands to a table showing all defined [[macros]] in the current context
 
 *Deprecated 2009-04-29* in favour of [[VarSHOWPREFERENCE][SHOWPREFERENCE]]

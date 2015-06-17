@@ -1,13 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarICON
----+++ ICON{"name" alt="" default="name"} -- small documentation graphic or icon of common attachment types
-   * Generates a small graphic image from the set attached to %ICONTOPIC%. 
+---+ ICON -- small documentation graphic or icon of common attachment types
+Generates a small graphic image from the set attached to %ICONTOPIC%. 
      Images typically have a 16x16 pixel size. 
      You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
-   * if you specify an icon which cannot be found, the one specified in the =default= parameter will be used (and if that fails, the 'else' icon will be used)
-   * Syntax: =%<nop>ICON{ "filename or icon name" [ default="filename or icon name" ] [ alt="alt text to be added to the HTML img tag" ] }%
-   * Examples:
+If you specify an icon which cannot be found, the one specified in the =default= parameter will be used (and if that fails, the =else= icon will be used)
+---++ Parameters
+| *Parameter:* | *Description:* |
+| ="filename or icon name"= | requested icon |
+| =default= | default icon to use if requested icon is not found |
+| =alt= | alt text to be added to the HTML img tag |
+---++ Examples
       * =%<nop>ICON{"flag-gray"}%= displays as %ICON{"flag-gray"}%
       * =%<nop>ICON{"pdf"}%= displays as %ICON{"pdf"}%
       * =%<nop>ICON{"docx" default="doc"}%= displays as %ICON{"docx" default="doc"}%
@@ -26,5 +29,6 @@ it uses using the =quote= parameter, for example:
    * =%<nop>ICON{"pdf" quote="'"}%= displays as %ICON{"pdf" quote="'"}%
 You can also use formatting tokens such as =$quot= and =$dollar=.
 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, %ICONTOPIC%
+---++ Related
+ [[VarICONURL][ICONURL]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%
 

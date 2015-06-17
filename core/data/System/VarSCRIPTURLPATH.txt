@@ -1,17 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431621876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSCRIPTURLPATH
----+++ SCRIPTURLPATH{"script"} -- URL path of script
-   * Expands to the base URL of scripts, without protocol or host
-   * The optional =web= and =topic= parameters can be used to add a =Web.Topic= (or =Web/Topic=, or just a web)
+---+ SCRIPTURLPATH -- URL path of script(s)
+Expands to the base URL of scripts, without protocol or host
+---++ Parameters
+   * Optional =web= and =topic= parameters can be used to add a =Web.Topic= (or =Web/Topic=, or just a web)
    * Any other parameters to the macro will be added as parameters to the URL
-   * Example: =%<nop>SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%= expands to =%SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%=
-   * Example: =%<nop>SCRIPTURLPATH{"view" web="Cartoons"}%= expands to =%SCRIPTURLPATH{"view" web="Cartoons"}%=
-   * Example: =%<nop>SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey" rev="1"}%= will expand to =%SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey" rev="1" }%=
-   * Example: =%<nop>SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
-   * Example: =%<nop>SCRIPTURLPATH%= expands to =%SCRIPTURLPATH%=
-   * Example: =%<nop>SCRIPTURLPATH{script}%= expands to =%SCRIPTURLPATH{script}%=
+---++ Examples
+   * =%<nop>SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%= expands to =%SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%=
+   * =%<nop>SCRIPTURLPATH{"view" web="Cartoons"}%= expands to =%SCRIPTURLPATH{"view" web="Cartoons"}%=
+   * =%<nop>SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey" rev="1"}%= will expand to =%SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey" rev="1" }%=
+   * =%<nop>SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
+   * =%<nop>SCRIPTURLPATH%= expands to =%SCRIPTURLPATH%=
+   * =%<nop>SCRIPTURLPATH{script}%= expands to =%SCRIPTURLPATH{script}%=
    <div class="foswikiHelp">%X% The =edit= script should always be used in conjunction with a =t="%<nop>GMTIME{"$epoch"}%"= parameter to ensure pages about to be edited are not cached in the browser<p></p>
    %X% See =[[VarSCRIPTURL][SCRIPTURL]]= if you expect to need the protocol and host e.g. if you are saving the HTML of the page and using it on a different host.<p></p>
    %X% The 'old' way of building URLs using =SCRIPTURLPATH= involved concatenating the web and topic names to the =SCRIPTURLPATH= e.g. =%<nop>SCRIPTURLPATH{"script"}%/Cartoons/EvilMonkey=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace such URLs with the equivalent %<nop>SCRIPTURLPATH%{"script" topic="Cartoons.EvilMonkey"}%, which will handle URL encoding for you.</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]]
+---++ Related
+ [[VarPUBURLPATH][PUBURLPATH]], [[VarSCRIPTNAME][SCRIPTNAME]], [[VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[VarSCRIPTURL][SCRIPTURL]]

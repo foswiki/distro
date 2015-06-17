@@ -1,8 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarADDTOZONE
----+++ ADDTOZONE
-
+---+ ADDTOZONE -- add content to a named zone on the page
 <verbatim class="tml">
 %ADDTOZONE{
   "zone"
@@ -10,7 +8,7 @@
 }%
 </verbatim>
 
-*Parameters:*
+---++ Parameters
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. 
      The only zones guaranteed to exist are =head= and =script=. Defaults to =head=. 
    * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
@@ -21,7 +19,7 @@
    * =section="..."= optional, section of the =topic= to be added,
      defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].
 
----++++ What is a "Zone"?
+---++ What is a "Zone"?
 _Zones_ are specific places in the output HTML that are marked by calls to the
 [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content
 together, such as Javascript and CSS, that must be included in the output HTML
@@ -56,13 +54,13 @@ Interesting use cases in wiki applications:
    * Create a =toolbar= zone to add buttons icons
    * Create a =menu= zone to add menu entries
 
----++++ Adding content to a zone
+---+++ Adding content to a zone
 [[%TOPIC%][ADDTOZONE]] adds content to a zone identified with the =id= parameter.
 An =id= identifier is unique within the zone that they are added to. 
 When the same =id= is used in multiple calls to [[%TOPIC%][ADDTOZONE]] the 
 last call will win, that is previous content of the same =id= will be overwritten.
 
----++++ Enforcing a linear order of content within a zone
+---+++ Enforcing a linear order of content within a zone
 An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the
 content of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in
 the =requires= parameter. The =requires= parameter constraints the linear order
@@ -71,7 +69,7 @@ expressed via =requires= are satisfied.  Those =ids= not found in a zone don't
 have any influence on the final ordering. Missing =ids= aren't considered an error
 rather than an over-specified ordering problem.
 
----++++ Working with ={MergeHeadAndScriptZones}= disabled (default)
+---+++ Working with ={MergeHeadAndScriptZones}= disabled (default)
 In this mode, the =head= and =script= zones are treated separately.
 
 Even when =head= and =script= zones are treated separately, the =head= zone will
@@ -79,7 +77,7 @@ always be rendered before the =script= zone, unless otherwise specified using [[
 So any content in the =script= zone that depends on content placed into
 the =head= zone is satisfied intrinsicly as they are both rendered as specified above.
 
----++++ Working with ={MergeHeadAndScriptZones}= enabled
+---+++ Working with ={MergeHeadAndScriptZones}= enabled
 In this mode, the =head= and =script= zones are separate when adding to them,
 but may be treated as merged when you call [[VarRENDERZONE][RENDERZONE]] if
 there are any dependencies specified that only exist in the opposite zone. This
@@ -94,7 +92,8 @@ been added to =script=.
   from a future version of Foswiki.
 </div>
 
----++++ Example: Adding to a zone with missing dependencies
+---++ Examples
+---+++ Adding to a zone with missing dependencies
 You must ensure that no =head= content (and no inline Javascript) depends on
 =script= content.  Any such dependency will be _ignored_. 
 
@@ -127,7 +126,7 @@ debugging.
 <!-- MY::TEST: requires= missing ids: some-id-that-exists-in-script -->
 </verbatim>
 
----++++ Example: Adding Javascript to a page
+---+++ Adding Javascript to a page
 Make sure that all inline Javascript code in the topic (if it is allowed)
 is added to the page using =%<nop>ADDTOZONE{"script"...requires="library-id"}%=
 with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
@@ -149,7 +148,7 @@ where "MyApp::ShakePart" is a unique =id= to identify the text added to
 =script=; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that
 identifier should appear beforehand.
 
----++++ Example: Adding CSS to a page
+---+++ Adding CSS to a page
 <verbatim class="tml">
 %ADDTOZONE{"head"
    id="MyCSS"
@@ -160,7 +159,8 @@ identifier should appear beforehand.
 }%
 </verbatim>
 
-See also [[VarRENDERZONE][RENDERZONE]],
+---++ Related
+[[VarRENDERZONE][RENDERZONE]],
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
 [[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]
 <!-- %JQREQUIRE{"chili"}% -->

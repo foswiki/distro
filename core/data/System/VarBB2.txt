@@ -1,7 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ShortcutMacros"}%
-#VarBB2
----+++ BB2 -- level 2 bullet with line break
-   * Line break and bullet, level 2.
-   * Current value: BB2 = %BB2%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVBAR][VBAR]]

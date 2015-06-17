@@ -1,14 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarICONURL
----+++ ICONURL{"name" default="name"} -- URL of small documentation graphic or icon
-   * Generates the full URL of a %ICONTOPIC% image, which Foswiki renders as an image. 
+---+ ICONURL -- URL of small documentation graphic or icon
+Generates the full URL of a %ICONTOPIC% image, which Foswiki renders as an image. 
      The related =%<nop>ICON{"name"}%= generates the full HTML img tag. 
-     Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]] for details on filenames.)
-   * Syntax: =%<nop>ICONURL{"name"}%=
-   * Examples:
-      * =%<nop>ICONURL{"arrowbright"}%= returns <nop>%ICONURL{"arrowbright"}%
-      * =%<nop>ICONURL{"novel.pdf"}%= returns <nop>%ICONURL{"novel.pdf"}%
-      * =%<nop>ICONURL{"/queen/boheme.mp3"}%= returns <nop>%ICONURL{"/queen/boheme.mp3"}%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]], %WIKIPREFSTOPIC%, FileAttachments, %ICONTOPIC%
+     Specify image name or full filename (see [[VarICON][ICON]] for details on filenames.)
+---++ Parameters
+| *Parameter:* | *Description:* |
+| ="name"= | Name of the icon |
+| =default= | Optional default string |
+---++ Examples
+   * =%<nop>ICONURL{"arrowbright"}%= returns <nop>%ICONURL{"arrowbright"}%
+   * =%<nop>ICONURL{"novel.pdf"}%= returns <nop>%ICONURL{"novel.pdf"}%
+   * =%<nop>ICONURL{"/queen/boheme.mp3"}%= returns <nop>%ICONURL{"/queen/boheme.mp3"}%
+---++ Related
+ [[VarICON][ICON]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%
 

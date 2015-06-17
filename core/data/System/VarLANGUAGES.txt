@@ -1,11 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420159218" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarLANGUAGES
----+++ LANGUAGES -- list available languages
-   * List the languages available (as =PO= files).
+---+ LANGUAGES -- list available languages
+List the languages available (as =PO= files).
      These are the languages in which the user interface is available.
-   * Syntax: =%<nop>LANGUAGES{...}%=
-   * Supported parameters:
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =format=     | format for each item. See below for format tokens available in the format string. | ="   * $langname"= |
@@ -18,5 +16,7 @@
      | =$langname= | language's name, as informed by the translators |
      | =$langtag= | language's tag. Ex: =en=, =pt-br=, etc. |
      | =$marker= | Marker will be substituted only when the item matches the selection. |
-   * Example: =&lt;select&gt;%<nop>LANGUAGES{format="&lt;option $marker value='$langtag'>$langname&lt;/option&gt;" selection="%<nop>LANGUAGE%"}%&lt;/select&gt;= creates an option list of the available languages with the current language selected
+---++ Examples
+   * =%<nop>LANGUAGES%= expands to %LANGUAGES%
+   * =&lt;select&gt;%<nop>LANGUAGES{format="&lt;option $marker value='$langtag'>$langname&lt;/option&gt;" selection="%<nop>LANGUAGE%"}%&lt;/select&gt;= creates an option list of the available languages with the current language selected
 

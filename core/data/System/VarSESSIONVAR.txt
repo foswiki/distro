@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSESSIONVAR
----+++ SESSIONVAR -- name of CGI and session variable that stores the session ID
-   * Syntax: =%<nop>SESSIONVAR%=
-   * Expand to: <tt>%SESSIONVAR%</tt>
-   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVARIABLE][SESSION_VARIABLE]]
+---+ SESSIONVAR -- name of CGI and session variable that stores the session ID
+---++ Examples
+   * =%<nop>SESSIONVAR%= expands to <tt>%SESSIONVAR%</tt>
+---++ Related
+ UserAuthentication, [[VarAUTHREALM][AUTHREALM]], [[VarSESSIONID][SESSIONID]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]], [[VarSESSIONVARIABLE][SESSION_VARIABLE]]
 

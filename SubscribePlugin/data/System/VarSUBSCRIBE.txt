@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433863566" format="1.1" version="1"}%
-#VarSUBSCRIBE
----+++ SUBSCRIBE{ _attributes_ } - subscribe the current user for notification of changes to the current topic
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+---+ SUBSCRIBE{ _attributes_ } - subscribe the current user for notification of changes to the current topic
 %STARTSECTION{"subscribe_attributes"}%
 Anywhere in a topic or template:
    * =%<nop>SUBSCRIBE{...}%= or simply =%<nop>SUBSCRIBE%=

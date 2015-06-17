@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQPLUGINS
----+++ JQPLUGINS{"plugins" ... } -- display a summary of available plugins
-   * Parameters:
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQPLUGINS -- display a summary of available plugins
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "plugins" | this is a regular expression that the plugin identifier must match to be displayed | |
@@ -22,7 +21,8 @@
      | footer | footer string appended to the output; empty when no plugin matches | |
      | separator | separator put between each plugin rendered in a row | =$n= |
      | tagformat | format string to render a link to any tag documentation a plugin implements | =[<nop>[%<nop>SYSTEMWEB%.Var$tag][$tag]]= |
-   * Example: <verbatim class="tml"> %JQPLUGINS{
+---++ Examples
+<verbatim class="tml"> %JQPLUGINS{
    "treeview|slimbox"
    header="   * JQuery Plugins:$n"
    format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
@@ -32,5 +32,6 @@
   header="   * JQuery Plugins:$n"
   format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
 }%
-   * Related: JQueryPlugin
+---++ Related
+ JQueryPlugin
 <!--%JQREQUIRE{"chili"}%-->

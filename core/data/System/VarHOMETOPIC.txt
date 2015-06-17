@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarHOMETOPIC
----+++ HOMETOPIC -- home topic in each web
-   * Syntax: =%<nop>HOMETOPIC%=
-   * Expands to: =%HOMETOPIC%=, renders as [[%HOMETOPIC%]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOTIFYTOPIC][NOTIFYTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTATISTICSTOPIC][STATISTICSTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+---+ HOMETOPIC -- home topic in each web
+---++ Examples
+   * =%<nop>HOMETOPIC%= expands to =%HOMETOPIC%=, renders as [[%HOMETOPIC%]]
+---++ Related
+ [[VarNOTIFYTOPIC][NOTIFYTOPIC]], [[VarSTATISTICSTOPIC][STATISTICSTOPIC]], [[VarTOPIC][TOPIC]]
 

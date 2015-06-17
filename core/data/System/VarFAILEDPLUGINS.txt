@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarFAILEDPLUGINS
----+++ FAILEDPLUGINS -- debugging for plugins that failed to load, and handler list
-   * Syntax: =%<nop>FAILEDPLUGINS%=
-   * Expands to: See [[Plugins#FAILEDPLUGINS]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]
+---+ FAILEDPLUGINS -- debugging for plugins that failed to load, and handler list
+---++ Examples
+   * =%<nop>FAILEDPLUGINS%= expands to %FAILEDPLUGINS%
+---++ Related
+ [[VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[VarPLUGINVERSION][PLUGINVERSION]]
 

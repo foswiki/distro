@@ -1,10 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSESSIONVARIABLE
----+++ SESSION_VARIABLE -- get, set or clear a session variable
-   * Syntax: =%<nop>SESSION_VARIABLE{"name"}%=
-   * Syntax: =%<nop>SESSION_VARIABLE{"name" set="value"}%=
-   * Syntax: =%<nop>SESSION_VARIABLE{"name" clear=""}%=
+---+ SESSION_VARIABLE -- get, set or clear a session variable
+---++ Parameters
+   | *Parameter* | *Description* |
+   | ="name"= | name of variable |
+   | =set= | value to set it to |
+   | =clear= | if it is to be cleared |
    <div class="foswikiHelp">%T% The users ID is in the =AUTHUSER= session variable, and is read-only</div>
-   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]]
+---++ Examples
+   * =%<nop>SESSION_VARIABLE{"MYVAR" set="myval"}%=
+   * =%<nop>SESSION_VARIABLE{"MYVAR" clear=""}%=
+---++ Related
+ UserAuthentication, [[VarAUTHREALM][AUTHREALM]], [[VarSESSIONID][SESSIONID]], [[VarSESSIONVAR][SESSIONVAR]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]]
 

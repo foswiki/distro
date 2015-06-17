@@ -1,20 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSTARTSECTION
----+++ STARTSECTION -- marks the start of a section within a topic
-   * Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
-   * Sections may be given a name to help identify them, and/or a type, which changes how they are used.
-      * =type="section"= - the default, used for a generic section, such as a named section used by [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]].
+---+ STARTSECTION -- marks the start of a section within a topic
+Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
+Sections may be given a name to help identify them, and/or a type, which changes how they are used.
+      * =type="section"= - the default, used for a generic section, such as a named section used by [[VarINCLUDE][INCLUDE]].
       * =type="include"= - like =%<nop>STARTINCLUDE%= ... =%<nop>STOPINCLUDE%= except that you can have as many include blocks as you want which are all merged into one when included (=%<nop>STARTINCLUDE%= is restricted to only one). Sections of type include may not be given a name.
       * =type="expandvariables"= - all macros inside an "expandvariables" type section gets expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
       * =type="templateonly"= - start position of text to be removed when a template topic is used. This is used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
-   * Syntax: =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
-   * Syntax: =%<nop>STARTSECTION{"name" type="section"}% .... %<nop>ENDSECTION{"name" type="section"}%= _(type="section" is the default)_
-   * Syntax: =%<nop>STARTSECTION{type="include"}% ........... %<nop>ENDSECTION{type="include"}%=
-   * Syntax: =%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%=
-   * Syntax: =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
    
-   * Supported parameters:
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default* |
      | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
@@ -24,5 +18,12 @@
    <div class="foswikiHelp">%X% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
    <p></p>
    %X% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOP][NOP]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]]
+---++ Examples
+   * =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
+   * =%<nop>STARTSECTION{"name" type="section"}% .... %<nop>ENDSECTION{"name" type="section"}%= _(type="section" is the default)_
+   * =%<nop>STARTSECTION{type="include"}% ........... %<nop>ENDSECTION{type="include"}%=
+   * =%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%=
+   * =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
+---++ Related
+ [[VarENDSECTION][ENDSECTION]], [[VarINCLUDE][INCLUDE]], [[VarNOP][NOP]], [[VarSTARTINCLUDE][STARTINCLUDE]], [[VarSTOPINCLUDE][STOPINCLUDE]]
 

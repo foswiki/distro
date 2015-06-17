@@ -1,21 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarMETASEARCH
----+++ METASEARCH -- special search of meta data
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeprecatedMacros"}%
+---+ METASEARCH -- special search of meta data
 
-<div class="foswikiHelp">%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.</div>
+<div class="foswikiHelp">%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[VarSEARCH][SEARCH]] and QuerySearch.</div>
 
-   * Syntax: =%<nop>METASEARCH{...}%=
-   * Supported parameters:
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | =type="topicmoved"= | What sort of search is required? <br /> ="topicmoved"= if search for a topic that may have been moved <br /> ="parent"= if searching for topics that have a specific parent i.e. its children <br /> ="field"= if searching for topics that have a particular form field value (use the =name= and =value= parameters to specify which field to search).  | Required |
      | =web="%<nop>WEB%"= | Wiki web to search: A web, a list of webs separated by whitespace, or =all= webs. | Current web |
      | =topic="%<nop>TOPIC%"= | The topic the search relates to, for =topicmoved= and =parent= searches | All topics in a web |
-     | =name= | form field to search, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]). | |
-     | =value= | form field value, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]). | |
+     !| =name= | form field to search, for =field= type searches. May be a regular expression (see [[VarSEARCH][SEARCH]]). | |
+     !| =value= | form field value, for =field= type searches. May be a regular expression (see [[VarSEARCH][SEARCH]]). | |
      | =title="Title"= | Text that is prefixed to any search results | empty |
-     | =format="..."= | Custom format results. Supports same format strings as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]. See *[[FormattedSearch]]* for usage &amp; examples | Results in table |
+     !| =format="..."= | Custom format results. Supports same format strings as [[VarSEARCH][SEARCH]]. See *[[FormattedSearch]]* for usage &amp; examples | Results in table |
      | =default="none"= | Default text shown if no search hit | Empty |
    * Examples: <pre class="tml">
   %<nop>METASEARCH{
@@ -37,6 +35,7 @@
     name="Country"
     value="China"
   }%</pre>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]]
+---++ Related
+ [[VarSEARCH][SEARCH]], [[VarMETA][META]]
 
 <!-- %JQREQUIRE{"chili"}% -->

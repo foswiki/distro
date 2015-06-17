@@ -1,7 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ShortcutMacros"}%
-#VarBB4
----+++ BB4 -- level 4 bullet with line break
-   * Line break and bullet, level 4.
-   * Current value: BB4 = %BB4%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVBAR][VBAR]]

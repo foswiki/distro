@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarREVARG
----+++ REVARG -- =&rev=n= URL revision parameter of current topic
-   * Syntax: =%<nop>REVARG%=
-   * =%<nop>REVARG%= If a topic revision is requested in the URL, it returns the revision of the current topic suitable for concatenation to the view query parameters. Otherwise returns an empty string.
-   * Expands to: _(simulated)_ =&rev=3=  _(actual)_ <code>%REVARG%</code>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVTITLE][REVTITLE]]
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeprecatedMacros"}%
+---+ REVARG -- =&rev=n= parameter of current request
+=%<nop>REVARG%= If a topic revision is requested in the URL, it returns the revision of the current topic suitable for concatenation to the view query parameters. Otherwise returns an empty string.
+---++ Examples
+   * =%<nop>REVARG%= expands to _(simulated)_ =&rev=3=  _(actual)_ <code>%REVARG%</code>
+---++ Related
+ [[VarREVINFO][REVINFO]], [[VarREVTITLE][REVTITLE]]

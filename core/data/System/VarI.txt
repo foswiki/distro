@@ -1,6 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
-%META:TOPICPARENT{name="ShortcutMacros"}%
-#VarI
----+++ I -- idea icon
-   * Current value: I = %I%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarH][H]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarM][M]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarN][N]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarP][P]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQ][Q]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarS][S]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarT][T]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarU][U]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarX][X]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarY][Y]]

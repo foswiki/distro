@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarBUTTON
----+++ BUTTON{"text" ...} -- renders a nice button 
-   * Parameters: 
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ BUTTON -- renders a nice button 
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "text", value="text" | text to be put on this button | |
@@ -26,7 +25,8 @@
                 <li>submit: submits the form that contains the button</li>\
                 <li>save: same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
               </ul> | button | 
-   * Example: <verbatim class="tml">%BUTTON{
+---++ Examples
+<verbatim class="tml">%BUTTON{
     "%MAKETEXT{"Submit"}%"
     onclick="confirm('Are your sure?')"
   }%
@@ -45,4 +45,5 @@
     target="%WEB%.%TOPIC%"
   }% %CLEAR%</div>
    * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
-   * Related: JQueryButton
+---++ Related
+ JQueryButton

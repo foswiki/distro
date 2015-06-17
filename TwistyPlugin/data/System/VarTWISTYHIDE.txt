@@ -1,20 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
-
-#VarTWISTYHIDE
----+++ TWISTYHIDE
-*Hide/close link*
-   * Syntax: =%<nop>TWISTYHIDE{id="myid" ... }%=
-   * Supported parameters:
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TWISTYHIDE - Hide/close link
+---++ Parameters
     %TABLE{sort="off"}%
     | *Parameter* | *Value* | *Description* | *Remark* |
-    | =id= | Unique identifier | Used to link [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE ][TWISTYHIDE ]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]] | required  |
+    | =id= | Unique identifier | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]] | required  |
     | =link= | Link label | Hide link label | optional |
     | =mode= | ="div"= or ="span"= | Specify if the Twisty Hide link will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
-    | =img= | Image url | Specify the url of an image that will be displayed at the *right side* of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
+    | =img= | Image url | Specify the url of an image that will be displayed at the *right side* of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
     | =remember= | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | optional, no default |
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
-   * Example: <verbatim class="tml">%TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%ICONURLPATH{toggleclose}%"}%</verbatim>
-   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
+---++ Examples
+<verbatim class="tml">%TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%ICONURLPATH{toggleclose}%"}%</verbatim>
+---++ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
 <!--%JQREQUIRE{"chili"}%-->

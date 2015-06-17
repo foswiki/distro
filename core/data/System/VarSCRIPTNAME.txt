@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSCRIPTNAME
----+++ SCRIPTNAME -- name of current script
+---+ SCRIPTNAME -- name of current script
    * The name of the current script is shown, including script suffix, if any (for example =viewauth.cgi=)
-   * Syntax: =%<nop>SCRIPTNAME%=
-   * Expands to: =%SCRIPTNAME%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]
+---++ Examples
+   * =%<nop>SCRIPTNAME%= expands to =%SCRIPTNAME%=
+---++ Related
+ [[VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURLPATH][SCRIPTURLPATH]]
 

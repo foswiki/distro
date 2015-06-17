@@ -1,22 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarQUERY
----+++ QUERY -- get the value of meta-data
-   * Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data from one specified topic.
-      * supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements,
-      * gives access to *all* meta-data, including that added by extensions,
-      * supports reporting values using JSON and other standards, simplifying the retrieval of meta-data for REST applications,
-      * replaces the =[[VarFORMFIELD][FORMFIELD]]= macro for most applications.
-   * Syntax: =%<nop>QUERY{ "query" }%=
-   * See !QuerySearch for more details of how to write queries
-   * Parameters:
-      * =style="stylename"= - set the output format (see below)
-      * =rev="version"= - operate on the given version of the current topic.
-        Note that this will _only_ affect simple queries that refer to the
-        current topic, such as =form.name=. More complex queries that use
-        searches or indirection to refer to other topics always use the
-        *latest* version of those topics.
-   * Examples:<pre class="tml">
+---+ QUERY -- get the value of meta-data
+Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data from one specified topic.
+   * supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements,
+   * gives access to *all* meta-data, including that added by extensions,
+   * supports reporting values using JSON and other standards, simplifying the retrieval of meta-data for REST applications,
+   * replaces the =[[VarFORMFIELD][FORMFIELD]]= macro for most applications.
+See !QuerySearch for more details of how to write queries
+---++ Parameters
+   | *Parameter* | *Description* |
+   | ="item"= | The meta-data to query |
+   | =style="stylename"= | set the output format (see below) |
+   | =rev="version"= | operate on the given version of the current topic. Note that this will _only_ affect simple queries that refer to the current topic, such as =form.name=. More complex queries that use searches or indirection to refer to other topics always use the *latest* version of those topics. |
+
+---++ Examples
+<pre class="tml">
       Get the name of the form in the current topic:
       %<nop>QUERY{"form.name"}%
 
@@ -48,5 +46,6 @@ You can make the macro generate different output formats using the =style= param
 
 Only some configuration settings are available via QUERY: %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%
 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]] [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%QuerySearch][QuerySearch]]
+---++ Related
+ [[VarMETA][META]] [[!QuerySearch][QuerySearch]]
 <!--%JQREQUIRE{"chili"}%-->

@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420165291" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarWEBLIST
----+++ WEBLIST{"format"} -- index of all webs
-   * List of all webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
-   * Syntax: =%<nop>WEBLIST{"format" ...}%=
-   * Supported parameters:
+---+ WEBLIST -- index of all webs
+
+Generate a list of all webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
+
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only).  The standard [[format tokens]] may also be used. | =$name= |
@@ -23,5 +23,7 @@
       separator=" "
    }% &lt;/select&gt;&lt;/form&gt;</pre>
    <div class="foswikiHelp">%X% =WEBLIST= will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
+
+---++ Related
+[[VarTOPICLIST][TOPICLIST]], [[VarSEARCH][SEARCH]]
 <!--%JQREQUIRE{"chili"}%-->

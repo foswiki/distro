@@ -1,11 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSEARCH
-
----+++ SEARCH{"text"} -- search content
-   * Inline search, shows a search result embedded in a topic
-   * Syntax: =%<nop>SEARCH{"text" ...}%=
-   * Supported parameters:
+---+ SEARCH -- search content
+Inline search, shows a search result embedded in a topic
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="text"= | Search term. Is a keyword search, literal search, regular expression search, or query, depending on the =type= parameter. SearchHelp has more | required |
@@ -61,6 +58,6 @@ Results are sorted alphanumerically on the web name (major key) and topic name (
 
 <div class="foswikiHelp">%T% The appearance of the table emitted by the [[VarSEARCH][SEARCH]] may be controlled with TablePlugin's =%<nop>TABLE{}%= macro placed just before the =%<nop>SEARCH{}%=.  Example: =%<nop>TABLE{ tablewidth="90%" }%= </div>
 
----
-*Related topics:* FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+---++ Related
+FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[VarTOPICLIST][TOPICLIST]], [[VarWEBLIST][WEBLIST]]
 <!-- %JQREQUIRE{"chili"}% -->

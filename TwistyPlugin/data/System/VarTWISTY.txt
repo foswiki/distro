@@ -1,21 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422978021" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
-#VarTWISTY
----+++ TWISTY
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TWISTY -- generate content block with interactive visibility controls
 This renders the button as well as the toggled content section contained within this and the closing =ENDTWISTY= tag.
-
-Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
+---++ Parameters
     %TABLE{sort="off"}%
     | *Parameter*    | *Value* | *Description* | *Remark* |
-    | =id=           | Unique identifier | Used to link [[#VarTWISTYBUTTON][TWISTYBUTTON]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]] | optional  |
+    | =id=           | Unique identifier | Used to link [[VarTWISTYBUTTON][TWISTYBUTTON]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]] | optional  |
     | =link=         | Link label | Link label for both show and hide links  | optional |
     | =hidelink=     | Link label | Hide link label  | optional |
     | =showlink=     | Link label | Show link label  | optional |
     | =mode=         | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup.  | optional, defaults to =&lt;div&gt;= |
-    | =showimgleft=  | Image url | Specify the url of an image that will be displayed with the show link at the left side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
-    | =hideimgleft=  | Image url | Specify the url of an image that will be displayed with the hide link at the left side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
-    | =showimgright= | Image url | Specify the url of an image that will be displayed with the show link at the right side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
-    | =hideimgright= | Image url | Specify the url of an image that will be displayed with the hide link at the right side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
+    | =showimgleft=  | Image url | Specify the url of an image that will be displayed with the show link at the left side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
+    | =hideimgleft=  | Image url | Specify the url of an image that will be displayed with the hide link at the left side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
+    | =showimgright= | Image url | Specify the url of an image that will be displayed with the show link at the right side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
+    | =hideimgright= | Image url | Specify the url of an image that will be displayed with the hide link at the right side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
     | =remember=     | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<p></p><div class="foswikiHelp">%X% *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked.</div> | optional, no default |
     | =start=        | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart=   | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
@@ -30,14 +28,5 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | =hideimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     | =showimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     
-   * Related: %INCLUDE{"%TOPIC%" includingtopic="%INCLUDINGTOPIC%" section="related"}%
-<!-- %JQREQUIRE{"chili"}% <verbatim class="tml">
-%STARTSECTION{"related"}%%SEARCH{
-  "parent.name='TwistyPlugin'"
-  type="query"
-  topic="Var*"
-  excludetopic="%INCLUDINGTOPIC%"
-  nonoise="on"
-  format="[[%IF{"'%includingtopic%'='Macros'" then="#"}%$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
-  separator=", "
-}%%ENDSECTION{"related"}% </verbatim> -->
+---++ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%

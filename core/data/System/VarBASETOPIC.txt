@@ -1,9 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarBASETOPIC
----+++ BASETOPIC -- base topic where an INCLUDE started
-   * The name of the topic where a single or nested INCLUDE started - same as =%<nop>TOPIC%= if there is no INCLUDE
-   * This _is_ the name of the topic requested by the user.
-   * Syntax: =%<nop>BASETOPIC%=
-   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+---+ BASETOPIC -- base topic where an INCLUDE started
+The name of the topic where a single or nested INCLUDE started - same as =%<nop>TOPIC%= if there is no INCLUDE.
+This is the name of the topic requested by the user.
+---++ Related
+[[VarBASEWEB][BASEWEB]], [[VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[VarINCLUDE][INCLUDE]], [[VarTOPIC][TOPIC]]
 

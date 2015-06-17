@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284876702" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ ENDTWISTYTOGGLE -- Twisty closure
+Will end the most inner unclosed Twisty Toggle section, using the proper tag
+---++ Examples
+=%<nop>ENDTWISTYTOGGLE%=
+---++ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
 
-#VarENDTWISTYTOGGLE
----+++ ENDTWISTYTOGGLE
-*The Twisty closure*
-   * Syntax: =%<nop>ENDTWISTYTOGGLE%=
-      * Will end the most inner unclosed Twisty Toggle section, using the proper tag
-   * Example: =%<nop>ENDTWISTYTOGGLE%=
-   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%

@@ -1,9 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarBASEWEB
----+++ BASEWEB -- base web where an INCLUDE started
-   * The web name where the includes started, e.g. the web of the first topic of nested includes. Same as =%<nop>WEB%= in case there is no include.
-   * This _is_ the name of the web requested by the user.
-   * Syntax: =%<nop>BASEWEB%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEB][WEB]]
+---+ BASEWEB -- base web where an INCLUDE started
+The web name where the includes started, e.g. the web of the first topic of nested includes. Same as =%<nop>WEB%= in case there is no include. This is the name of the web requested by the user.
+
+---++ Related
+ [[VarBASETOPIC][BASETOPIC]], [[VarINCLUDINGWEB][INCLUDINGWEB]], [[VarINCLUDE][INCLUDE]], [[VarWEB][WEB]]
 

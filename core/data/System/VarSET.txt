@@ -1,12 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSET
----+++ SET{"NAME" value="..."} -- set a preference setting during runtime
-   * Syntax: =%<nop>SET{"NAME" value="..."}%=
-   * Example: To cache the result of another macro use =%<nop>SET{"search_result" value="%<nop>SEARCH{...}%"}%=. The result of the =value= expression will be temporarily bound to the variable =%<nop>search_result%= and might be used within the scope of the current topic being processed 
-   * Related: PreferenceSettings
-
-Some notes:
+---+ SET -- set a preference setting during runtime
 
 A preference setting created via %SET will only be usable on the topic where it has been found by the
 parser, similar to normal PreferenceSettings.  Each call to %INCLUDE opens a new scope of preference variables being
@@ -31,3 +25,9 @@ The equivalent %SET statement:
 
 will store the _result_ of the TML expression as a consequence of the parser processing
 macros inside-out-left-to-right.
+
+---++ Examples
+To cache the result of another macro use =%<nop>SET{"search_result" value="%<nop>SEARCH{...}%"}%=. The result of the =value= expression will be temporarily bound to the variable =%<nop>search_result%= and might be used within the scope of the current topic being processed 
+---++ Related
+ PreferenceSettings
+

@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarGMTIME
----+++ GMTIME{"format"} -- formatted GM time
-   * Syntax: =%<nop>GMTIME%= OR =%<nop>GMTIME{"format"}%=
-   * =%<nop>GMTIME%= uses the default date format defined by the {DefaultDateFormat} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
-      * expands to %GMTIME%
-   * Supported special format tokens:
+---+ GMTIME -- formatted Greenwich Mean Time (UTC)
+---++ Parameters
+    | *Parameter*    | *Description* |
+    | ="format"= | optional format |
+=%<nop>GMTIME%= uses the default date format defined by the {DefaultDateFormat} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
+---+++ Supported special format tokens:
      %TABLE{sort="off"}%
      | *Token:* | *Unit:* | *Example* |
      | =$seconds= | seconds | 59 |
@@ -25,7 +25,10 @@
      | =$http= | E-mail & http format timestamp | %GMTIME{"$http"}% |
      | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
    * Tokens can be shortened to 3 characters
-   * Example: <verbatim class="tml">%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</verbatim> expands to <pre>%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</pre>
+---++ Examples
+   * =%<nop>GMTIME%= expands to =%GMTIME%=
+   * =%<nop>GMTIME{"$day $month, $year - $hour:$min:$sec"}%= expands to =%GMTIME{"$day $month, $year - $hour:$min:$sec"}%=
    <div class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]
+---++ Related
+ [[VarGMTIME][GMTIME]], [[VarREVINFO][REVINFO]], [[!VarSERVERTIME][SERVERTIME]]
 <!--%JQREQUIRE{"chili"}%-->

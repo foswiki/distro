@@ -1,13 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434468639" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQICON
----+++ JQICON{"name" ...} -- render an image 
-   * This renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%][configured]] Extensions tab, JQueryPlugin sub-tab in ={JQueryPlugin}{IconSearchPath}= and
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQICON -- render an image 
+Renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%][configured]] Extensions tab, JQueryPlugin sub-tab in ={JQueryPlugin}{IconSearchPath}= and
      defaults to FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons'. The named icon will be picked
      found first on this path of topics where icons are attached to. 
      When the name of the icon starts with =fa-= like in =fa-bold= then icons are taken from the [[http://fontawesome.io/icons/][font-awesome]] iconset.
      Note that these icons use a different way to be inserted them into the page making resizable for one.
-   * Parameters:
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "name" | name of the icon to display | |
@@ -52,5 +51,6 @@
      %JQICON{"fa-pagelines" style="font-size:3em;color:#1F9C1F"}% 
      %JQICON{"fa-pagelines" style="font-size:4em;color:#2D812D"}% 
      %JQICON{"fa-pagelines" style="font-size:5em;color:#315C31"}%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarJQICONPATH][JQICONPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]], JQueryPlugin, FamFamFamSilkIcons
+---++ Related
+ [[VarJQICONPATH][JQICONPATH]], [[VarICON][ICON]], JQueryPlugin, FamFamFamSilkIcons
 <!--%JQREQUIRE{"chili"}%-->

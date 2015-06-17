@@ -1,9 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
-%META:TOPICPARENT{name="HistoryPlugin"}%
-#VarHISTORY
----+++ HISTORY{ _attributes_ } -- control attributes of tables and sorting of table columns
-   * The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
-   * Syntax: =%<nop>HISTORY{ _attributes_ }%=
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ HISTORY -- control attributes of tables and sorting of table columns
+The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
+---++ Parameters
      %STARTSECTION{"history_attributes"}%
      %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*         | *Description*  | *Default&nbsp;value*  |
@@ -25,8 +24,6 @@
      The tokens =$rev1=, =$rev2=, =$nrev= in 'text' or 'url' will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this. | ="$next"= |
      | =footer="text"= | Text to print after the list. May contain the tokens =$next= and =$previous= (see =header=) | ="$previous"= |
 
-     
-     
 Deprecated (but supported) parameters:
      %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*         | *Description*  | *Default&nbsp;value*  |

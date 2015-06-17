@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarINCLUDINGWEB
----+++ INCLUDINGWEB -- web that includes current topic
-   * The web name of the topic that includes the current topic - same as =%<nop>WEB%= if there is no =INCLUDE=.
-   * If a topic is used in a chain of =INCLUDEs=, =INCLUDINGWEB= is set to the topic directly INCLUDing this one, _NOT_ the web that has been requested by the user (which is set in =BASEWEB=)
-   <div class="foswikiHelp">%X% While this Macro may appear to work, unless you require the subtle difference between =INCLUDINGWEB= and =BASEWEB=, you probably should use =BASEWEB= </div>
-   * Syntax: =%<nop>INCLUDINGWEB%=
-   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarWEB][WEB]]
+---+ INCLUDINGWEB -- web that includes current topic
+The web name of the topic that includes the current topic - same as =%<nop>WEB%= if there is no =INCLUDE=.
+If a topic is used in a chain of =INCLUDEs=, =INCLUDINGWEB= is set to the topic directly INCLUDing this one, _NOT_ the web that has been requested by the user (which is given by =BASEWEB=)
+   <div class="foswikiHelp">%X% Be careful of the subtle difference between =INCLUDINGWEB= and =BASEWEB=. You probably should be using =BASEWEB= </div>
+---++ Related
+ [[VarBASEWEB][BASEWEB]], [[VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[VarINCLUDE][INCLUDE]], [[VarWEB][WEB]]
 

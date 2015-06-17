@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarLOCALSITEPREFS
----+++ LOCALSITEPREFS -- web.topicname of site preferences topic
+---+ LOCALSITEPREFS -- web.topicname of site preferences topic
    * The full name of the local site preferences topic. These local site preferences overload the system level preferences defined in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]].
-   * Syntax: =%<nop>LOCALSITEPREFS%=
-   * Expands to: =%LOCALSITEPREFS%=, renders as %LOCALSITEPREFS%
+---++ Examples
+   * =%<nop>LOCALSITEPREFS%= expands to =%LOCALSITEPREFS%=, renders as %LOCALSITEPREFS%

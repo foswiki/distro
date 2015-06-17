@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 ---+!! Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.
@@ -28,7 +28,14 @@ This page contains all documentation topics as one long, complete reference shee
 %INCLUDE{"EditingShorthand" headingoffset="1"}%
 
 %INCLUDE{"Macros" headingoffset="1"}%
-
+%SEARCH{
+    "parent.name='Macros'"
+    type="query"
+    topic="Var*"
+    web="%SYSTEMWEB%"
+    format="$percentINCLUDE{$quot$topic$quot headingoffset=$quot2$quot}$percent"
+    nonoise="on"
+}%
 %INCLUDE{"FormattedSearch" headingoffset="1"}%
 
 %INCLUDE{"FileAttachment" headingoffset="1"}%

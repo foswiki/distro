@@ -1,12 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419285005" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarGROUPINFO
----+++ GROUPINFO{"groupname"} -- retrieve details about a group
-   * Syntax: =%<nop>GROUPINFO%=
-      * Expands to: comma-separated list of all groups
-   * Syntax: =%<nop>GROUPINFO{"groupname"}%=
-      * Expands to: comma-separated list of users in the requested group.  =groupname= can optionally be qualified with the =%USERSWEB%= prefix, any other web prefix will return an empty list.
-   * Parameters:
+---+ GROUPINFO -- retrieve details about a group
+---++ Parameters
+    | *Parameter*    | *Description* |
+     | ="groupname"= | Optional name of group |
      | =format= | Format of a single user or group in the list. \
 <ul> \
 <li> =$name= expands to the group name, and (for users list only) </li> \
@@ -24,5 +21,10 @@
      | =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list | '' |
 
 <div class="foswikiHelp">%X% Note: GROUPINFO will not list members that are hidden from the current authenticated user. If the current user does not have VIEW authority for a user's topic, then the user will not be shown as a group member.</div> 
+---++ Examples
+   * =%<nop>GROUPINFO%= expands to =%GROUPINFO%= (comma-separated list of all groups)
+   * =%<nop>GROUPINFO{AdminGroup"}%= expands to =%GROUPINFO{"AdminGroup"}%= (comma-separated list of users in the requested group)
+   * =groupname= can optionally be qualified with the =%USERSWEB%= prefix, any other web prefix will return an empty list.
 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]]
+---++ Related
+[[VarUSERINFO][USERINFO]]

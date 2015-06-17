@@ -1,8 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarRENDERZONE
----+++ RENDERZONE
-
+---+ RENDERZONE - render the content of a zone
 <verbatim class="tml">
 %RENDERZONE{"zone" ...}%
 </verbatim>
@@ -42,5 +40,8 @@ __Notes:__
      <div class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= will be
      removed from a future version of Foswiki.</div>
 
-See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.
+---++ Related
+[[VarADDTOZONE][ADDTOZONE]]
+[[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
+[[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]
 <!-- %JQREQUIRE{"chili"}% -->

@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarMETA
----+++ META -- displays meta-data
+---+ META -- displays meta-data
 Provided mainly for use in templates, this macro generates the parts of
 the topic view that relate to meta-data (attachments, forms etc.).
 
@@ -42,4 +41,4 @@ The first (unnamed) parameter indicates what meta-data we want to see:
       * =display="on"= - only used with ="formfield"=, retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value.
    * =topic="%USERSWEB%.WebPreferences"= - optional parameter to select which topic to get the meta-data from.
 
-Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQUERY][QUERY]]
+Related: [[VarQUERY][QUERY]]

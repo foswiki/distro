@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431621876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarPUBURL
----+++ PUBURL{...} -- generate an URL for an attachment
+---+ PUBURL -- generate an URL for an attachment
+Generate an absolute URL for an attachment, or for a web or topic within the attachment database.
+---++ Examples
    * =%<nop>PUBURL%= expands to =%PUBURL%=
    * =%<nop>PUBURL{"icon_plus.png"}%= expands to ==%<nop>PUBURL{"icon_plus.png"}%=
    * =%<nop>PUBURL{web="System"}%= expands to =%PUBURL{web="System"}%=
@@ -10,6 +11,7 @@
    * =%<nop>PUBURL{topic="System.MainFeatures"}%= expands to =%PUBURL{topic="System.MainFeatures"}%=
    * =%<nop>PUBURL{topic="System.MainFeatures" "icon_plus.png"}%= expands to =%PUBURL{topic="System.MainFeatures" "icon_plus.png"}%=
    * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implements to select specific attachment versions. However simple file-based stores do not normally support them.
-   <div class="foswikiHelp">%X% The 'old' way of building URLs using =PUBURL= involved concatenating the web and topic names to the =PUBURL= e.g. =%<nop>PUBURL%/Main/SystemFeatures=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURL%{topic="System.MainFeatures"}%=, which will handle URL encoding for you.<br><br>%I% [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]] provides a shorter way to refer to the attachments on the current topic.</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+   <div class="foswikiHelp">%H% The 'old' way of building URLs using =PUBURL= involved concatenating the web and topic names to the =PUBURL= e.g. =%<nop>PUBURL%/Main/SystemFeatures=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURL%{topic="System.MainFeatures"}%=, which will handle URL encoding for you.<br><br>%I% [[VarATTACHURL][ATTACHURL]] provides a shorter way to refer to the attachments on the current topic.</div>
+---++ Related
+ [[VarPUBURLPATH][PUBURLPATH]], [[VarATTACHURL][ATTACHURL]], [[VarATTACHURLPATH][ATTACHURLPATH]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

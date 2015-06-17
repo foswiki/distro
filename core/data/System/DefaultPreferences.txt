@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -178,6 +178,7 @@ be removed from Foswiki 1.2.0.
       * Set MAILTHISTOPICTEXT = Send a link to this page
 
    * URL for current topic
+      * Shortcut TOPICURL -- absolute URL for the current topic
       * Set TOPICURL = %SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%
 
 #RegistrationOptions
@@ -307,24 +308,33 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 ---++ Rendering Shortcuts Settings
 
    * Line break: Note that the setting has an intentional trailing space
+      * Shortcut BR -- line break
       * Set BR = <br />
    
    * Clear floats:
+      * Shortcut CLEAR -- clear floats
       * Set CLEAR = <span class='foswikiClear'></span>
 
    * Bullet sign:
+      * Shortcut BULLET -- %BULLET%
       * Set BULLET = &#8226;
 
    * Vertical bar / pipe symbol:
+      * Shortcut VBAR -- %VBAR%
       * Set VBAR = &#124;
 
    * Vertical caret symbol:
+      * Shortcut CARET -- %CARET%
       * Set CARET = &#94;
 
    * Line break and bullet with different levels of indentation:
+      * Shortcut BB -- line break and bullet
       * Set BB = <br />&#8226;
+      * Shortcut BB2 -- line break and bullet
       * Set BB2 = <br />&nbsp;&nbsp;&#8226;
+      * Shortcut BB3 -- line break and bullet
       * Set BB3 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
+      * Shortcut BB4 -- line break and bullet
       * Set BB4 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
 
    * *Hint:* Above shortcuts are useful in tables where you cannot use newlines
@@ -347,7 +357,8 @@ Note, this feature also must be enabled on the UserRegistration page by adding
      | You type: | =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= |
      | You get: | %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR% |
       * *Note:* =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-        <!-- Two sets of colors follow: Color test and color setting -->
+        <!-- Two sets of colors follow: Color test and color setting. The format of Color test is fixed, and
+             is assumed by the documentation -->
       * %YELLOW% *Set YELLOW = looks like this* %ENDCOLOR%
       * %ORANGE% *Set ORANGE = looks like this* %ENDCOLOR%
       * %RED% *Set RED = looks like this* %ENDCOLOR%

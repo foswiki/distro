@@ -1,9 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarTAB
----+++ TAB{"text" ...} -- tab inside a tabpane widget 
-   * Defines a tab inside a TABPANE area; must be closed using ENDTAB.
-   * Parameters:
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TAB -- tab inside a tabpane widget 
+Defines a tab inside a TABPANE area; must be closed using ENDTAB.
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | "text" | label of the tab | Tab |
@@ -15,4 +14,5 @@
      | width | width of the tab area | auto |
      | height | height of the tab area | auto |
      | container | element where ajax content will be loaded; this is only used together with =url= | |
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTABPANE][TABPANE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane
+---++ Related
+ [[VarENDTAB][ENDTAB]], [[VarTABPANE][TABPANE]], [[VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane

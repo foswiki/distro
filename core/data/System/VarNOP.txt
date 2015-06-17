@@ -1,12 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarNOP
----+++ NOP -- template text not to be expanded in instantiated topics
-   * Syntax: =%<nop>NOP%=
+---+ NOP -- template text not to be expanded in instantiated topics
+   * =%<nop>NOP%=
       * In normal topic text, expands to &lt;nop>, which prevents expansion of adjacent macros and wikiwords
       * When the topic containing this is used as a template for another topic, it is removed.
-   * Syntax: =%<nop>NOP{...}%= *deprecated*
+   * =%<nop>NOP{...}%= *deprecated*
       * In normal topic text, expands to whatever is in the curly braces (if anything).
       <div class="foswikiHelp">%X% *This is deprecated.* Do not use it. Use =%<nop>STARTSECTION{type="templateonly"}%= .. =%<nop>ENDSECTION{type="templateonly"}%= instead (see TemplateTopics for more details).</div>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], TemplateTopics
+---++ Related
+ [[VarSTARTSECTION][STARTSECTION]], TemplateTopics
 

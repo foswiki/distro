@@ -1,10 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417320330" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarTOPICLIST
----+++ TOPICLIST{"format"} -- topic index of a web
-   * List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
-   * Syntax: =%<nop>TOPICLIST{"format" ...}%=
-   * Supported parameters:
+---+ TOPICLIST -- topic index of a web
+List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
+---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="format"= | Format of one line, may include =$web= (name of web), =$topic= (name of the topic), =$marker= (which expands to =marker= for the item matching =selection= only) | ="$topic"= |
@@ -28,5 +26,6 @@
       separator=" "
       selection="%TOPIC%"
    }%</select></verbatim>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+---++ Related
+ [[VarSEARCH][SEARCH]], [[VarWEBLIST][WEBLIST]]
 <!--%JQREQUIRE{"chili"}%-->

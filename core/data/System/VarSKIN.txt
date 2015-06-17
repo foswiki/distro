@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarSKIN
----+++ SKIN -- current skin
-   * =%<nop>SKIN%= expands the skin search path. For instance, =SKIN= can be set to =catskin, bearskin=.
-   * The =SKIN= setting can be overridden using the URL parameter =skin=, such as =?skin=catskin,bearskin=
-   * You can also extend the existing skin path using covers - see [[VarCOVER][COVER]]
-   * Syntax: =%<nop>SKIN%=
-   * Expands to: =%SKIN%=
+---+ SKIN -- current skin
+=%<nop>SKIN%= expands the skin search path. For instance, =SKIN= can be set to =catskin, bearskin=.
+The =SKIN= setting can be overridden using the URL parameter =skin=, such as =?skin=catskin,bearskin=
+You can also extend the existing skin path using covers - see [[VarCOVER][COVER]]
+---++ Examples
+   * =%<nop>SKIN%= expands to =%SKIN%=
    * See [[Skins]] for more information
-   * Related: [[SkinBrowser]]
+---++ Related
+ [[SkinBrowser]]

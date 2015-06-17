@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1422977767" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarENDTAB
----+++ ENDTAB -- ending marker for a tab of a tabpane
-   * This closes a previously opened TAB.
-   * no parameters
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTAB][TAB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTABPANE][TABPANE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDTAB][ENDTAB]], JQueryPlugin, JQueryTabpane
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ ENDTAB -- ending marker for a tab of a tabpane
+This closes a previously opened TAB.
+---++ Related
+ [[VarTAB][TAB]], [[VarTABPANE][TABPANE]], [[VarENDTAB][ENDTAB]], JQueryPlugin, JQueryTabpane
