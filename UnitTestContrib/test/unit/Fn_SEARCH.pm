@@ -6579,6 +6579,8 @@ I'm able to duplicate the issue locally on a 1.1.3 checkout (two webs returned w
 -- %USERSWEB%.GeorgeClark - 15 Mar 2011
 %COMMENT%
 TOPICTEXT
+
+    #'
     $topicObject->save();
     $topicObject->finish();
 
@@ -6599,6 +6601,7 @@ TOPICTEXT
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
 RESULT
 
+    #'
     return;
 }
 
@@ -6867,30 +6870,18 @@ THERE
 sub verify_search_for_star {
     my $this = shift;
 
-    my $search = $this->toSiteCharSet(<<'HERE');
+    my $search = <<'HERE';
 %SEARCH{ 
     "*" 
     type="word" 
     scope="all" 
-    web="all"
-    recurse="" 
-    excludetopic="" 
-    nosearch="" 
-    casesensitive="" 
-    nosummary="" 
-    nototal="" 
-    order="" 
-    reverse="" 
-    pager="on" 
-    limit="50" 
-    pagesize="50" 
-    zeroresults="on" 
+    web="TestCases"
 }%
 HERE
     my $result = $this->{test_topicObject}->expandMacros($search);
 
     # Should get the default search order (or an error message, perhaps?)
-    $this->assert_matches( 'Number of topics: <span>4</span>', $result );
+    $this->assert_matches( 'Number of topics: <span>7</span>', $result );
 
     return;
 }
