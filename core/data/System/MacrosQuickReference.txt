@@ -1,5 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
----+!! Macros Quick Reference
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+%STARTINCLUDE%
+---+ Macros Quick Reference
 
 ---++ Predefined Macros
 
@@ -52,3 +54,5 @@ For example, =%<nop>CARET%= will appear as =%CARET%=
     nonoise="on"
     order="
 }%
+---
+*Related Topics:* [[Macros]], PreferenceSettings, UserDocumentationCategory

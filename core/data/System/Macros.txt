@@ -302,5 +302,5 @@ Most predefined macros return values that were either set in the configuration w
 %STOPINCLUDE%
 
 ---
-*Related Topics:* UserDocumentationCategory
+*Related Topics:* MacrosQuickReference, PreferenceSettings, UserDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
