@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ LOGOUT -- present a full logout link
 %IF{"context authenticated"
@@ -7,5 +7,6 @@
 }%
 ---++ Examples
    * =%<nop>LOGOUT%= expands to %LOGOUT%
+%STOPINCLUDE%
 ---++ Related
  UserAuthentication, [[VarSESSIONID][SESSIONID]], [[VarSESSIONVAR][SESSIONVAR]], [[VarLOGIN][LOGIN]], [[VarSESSIONVARIABLE][SESSION_VARIABLE]]

@@ -1,12 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENDSECTION -- marks the end of a named section within a topic
 If the =STARTSECTION= is named, the corresponding =ENDSECTION= must also be named with the same name. If the =STARTSECTION= specifies a type, then the corresponding =ENDSECTION= must also specify the same type. If the section is unnamed, =ENDSECTION= will match with the nearest unnamed =%<nop>STARTSECTION%= *of the same type* above it. 
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* |
-     | ="name"= | Name of the section. |
-     | =type="..."= | Type of the section being terminated; supported types ="section"=, ="include"=, ="expandvariables"=, ="templateonly"=. |
+     | *Parameter* | *Description* | *Default* |
+     | ="name"= | Name of the section | |
+     | =type= | Type of the section being terminated; supported types =section=, =include=, =expandvariables=, =templateonly=. | =section= |
+---++ Examples
+   * =%<nop>ENDSECTION{"X" type="expandvariables"}%=
+%STOPINCLUDE%
 ---++ Related
  [[VarSTARTSECTION][STARTSECTION]]
 

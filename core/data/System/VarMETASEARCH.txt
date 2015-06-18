@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeprecatedMacros"}%
 ---+ METASEARCH -- special search of meta data
 
@@ -35,6 +35,7 @@
     name="Country"
     value="China"
   }%</pre>
+%STOPINCLUDE%
 ---++ Related
  [[VarSEARCH][SEARCH]], [[VarMETA][META]]
 

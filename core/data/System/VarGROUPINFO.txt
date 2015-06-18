@@ -1,30 +1,30 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ GROUPINFO -- retrieve details about a group
 ---++ Parameters
-    | *Parameter*    | *Description* |
-     | ="groupname"= | Optional name of group |
+    | *Parameter*    | *Description* | *Default* |
+     | ="groupname"= | Optional name of group | |
      | =format= | Format of a single user or group in the list. \
 <ul> \
 <li> =$name= expands to the group name, and (for users list only) </li> \
 <li> =$wikiname=, =$username= and =$wikiusername= to the relevant strings. </li> \
 <li> =$allowschange= returns 0 (false) or 1 (true) if the group can be modified by the group member being processed. </li> \
 <li> The standard FormatTokens are also supported. </li> \
-</ul> |
+</ul> | |
      | =separator= | separator between items in the list | =,= |
-     | =header= | Header for the list | '' |
-     | =footer= | Footer for the list | '' |
+     | =header= | Header for the list |  |
+     | =footer= | Footer for the list |  |
      | =zeroresults= | If set, and there are no Groups or Members that can be shown, the =header= and =footer= are suppressed, and this text is output | =undefined= |
      | =show= | filter the output list of Groups - can be set to =all=, =allowschange=, =denychange=, =allowschange(!UserWikiName)=, =denychange(!UserWikiName)= | =all= |
      | =expand= | Set false if users should not be expanded from nested groups.  Default behavior is to expand all nested groups into a flat list of users. | 1 |
-     | =limit= | If set, limits the number of results to this | infinity |
-     | =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list | '' |
+     | =limit= | If set, limits the number of results to this | &infin; |
+     | =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list |  |
 
 <div class="foswikiHelp">%X% Note: GROUPINFO will not list members that are hidden from the current authenticated user. If the current user does not have VIEW authority for a user's topic, then the user will not be shown as a group member.</div> 
 ---++ Examples
    * =%<nop>GROUPINFO%= expands to =%GROUPINFO%= (comma-separated list of all groups)
    * =%<nop>GROUPINFO{AdminGroup"}%= expands to =%GROUPINFO{"AdminGroup"}%= (comma-separated list of users in the requested group)
    * =groupname= can optionally be qualified with the =%USERSWEB%= prefix, any other web prefix will return an empty list.
-
+%STOPINCLUDE%
 ---++ Related
 [[VarUSERINFO][USERINFO]]

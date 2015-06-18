@@ -1,12 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SHOWPREFERENCE -- show where preferences are defined.
 Preference values are shown in a bulleted list.
-   * =%<nop>SHOWPREFERENCE%=
-      * Show all preferences
-   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%=
-      * Show a single preference
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default:* |
+     | ="name"= | Name of preference to show | |
 ---++ Examples
+   * =%<nop>SHOWPREFERENCE%= will show all preferences
+   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%= will show a single preference
 <verbatim class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</verbatim>
       * Expands as: <pre class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</pre>
    * =%<nop>SHOWPREFERENCE{"PREFERENCENAME,PREFERENCENAME,..."}%=

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ COMMENT -- insert an edit box into the topic to easily add comments.
 %STARTSECTION{"comment_attributes"}%
@@ -18,5 +18,6 @@
 %ENDSECTION{"comment_attributes"}%
 ---++ Examples
    * A =%<nop>COMMENT%= without parameters shows a simple text box.
+%STOPINCLUDE%
 ---++ Related
 CommentPlugin

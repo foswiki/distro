@@ -1,33 +1,33 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ FORMFIELD -- renders a field in the form attached to some topic
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | ="name"= | The name of a [[DataForms][Data form]] field | required |
+     | *Parameter* | *Description* | *Default* |
+     | ="name"= | The name of a [[DataForms][Data form]] field | |
      | =topic="..."= | Topic where form data is located. May be of the form =Web.<nop>TopicName= | Current topic |
-     | =format="..."= | Format string. See Tokens expanded in =format= below. | ="$value"= |
-     | =default="..."= | Text shown if the field is defined in the topic, but the field value is empty. For example, a text field for which all the content has been deleted. | =""= |
-     | =alttext="..."= | Text shown if the field is not defined in the topic (even if it is specified in the form definition). For example, this is used when a field exists in the form definition, but the referring topic hasn't been edited since it was added. | =""= |
-     | =rev="n"= | Specifiy a revision of the topic. If not specified, defaults to the most recent rev (or the viewed rev if viewing an old rev of the same topic) |
-   * Tokens expanded in =format=:
-      * =$value= expands to the *raw* field value
-      * =$value(display)= is the form field value _after_ mapping the stored value to the display value (use with =+values= form fields). If the field type does not support value mapping, renders the same as =$value=
-      * =$name= is the field name
-      * =$title= expands to the field title
-      * =$formname= gives the name of the form the field is in. =$form= is maintained for compatibility, but is deprecated
-      * =$attributes= - from the field definition
-      * =$type= - from the field definition
-      * =$size= - from the field definition
-      * =$definingTopic= - topic in which the field is defined
-
-      * The [[FormatTokens][standard format tokens]] are also expanded
+     | =format= | Format string. See Tokens expanded in =format= below. | =$value= |
+     | =default= | Text shown if the field is defined in the topic, but the field value is empty. For example, a text field for which all the content has been deleted. | |
+     | =alttext= | Text shown if the field is not defined in the topic (even if it is specified in the form definition). For example, this is used when a field exists in the form definition, but the referring topic hasn't been edited since it was added. | |
+     | =rev="n"= | Specify a revision of the topic. If not specified, defaults to the most recent rev (or the viewed rev if viewing an old rev of the same topic) | |
+Tokens expanded in =format=:
+   * =$value= expands to the *raw* field value
+   * =$value(display)= is the form field value _after_ mapping the stored value to the display value (use with =+values= form fields). If the field type does not support value mapping, renders the same as =$value=
+   * =$name= is the field name
+   * =$title= expands to the field title
+   * =$formname= gives the name of the form the field is in. =$form= is maintained for compatibility, but is deprecated
+   * =$attributes= - from the field definition
+   * =$type= - from the field definition
+   * =$size= - from the field definition
+   * =$definingTopic= - topic in which the field is defined
+   * The [[FormatTokens][standard format tokens]] are also expanded
 ---++ Examples
 <verbatim class="tml"> %FORMFIELD{"ProjectName"
    topic="Projects.SushiProject"
    default="(no project name given)"
    alttext="ProjectName field not found in form"
  }%</verbatim>
+%STOPINCLUDE%
 ---++ Related
  [[VarSEARCH][SEARCH]], [[VarQUERY][QUERY]]
 <!--%JQREQUIRE{"chili"}%-->

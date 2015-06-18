@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SESSION_VARIABLE -- get, set or clear a session variable
 ---++ Parameters
@@ -10,6 +10,7 @@
 ---++ Examples
    * =%<nop>SESSION_VARIABLE{"MYVAR" set="myval"}%=
    * =%<nop>SESSION_VARIABLE{"MYVAR" clear=""}%=
+%STOPINCLUDE%
 ---++ Related
  UserAuthentication, [[VarAUTHREALM][AUTHREALM]], [[VarSESSIONID][SESSIONID]], [[VarSESSIONVAR][SESSIONVAR]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]]
 

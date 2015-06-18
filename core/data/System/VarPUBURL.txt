@@ -1,7 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PUBURL -- generate an URL for an attachment
 Generate an absolute URL for an attachment, or for a web or topic within the attachment database.
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+   | ="attachment"= | Name of attachment to link| |
+   | =web= | Web | |
+   | =topic= | Topic, or Web.Topic | |
+   | =topic_version= | Select topic version, if supported | most recent |
+   | =attachment_version= | Select attachment version, if supported | most recent |
 ---++ Examples
    * =%<nop>PUBURL%= expands to =%PUBURL%=
    * =%<nop>PUBURL{"icon_plus.png"}%= expands to ==%<nop>PUBURL{"icon_plus.png"}%=
@@ -10,8 +18,9 @@ Generate an absolute URL for an attachment, or for a web or topic within the att
    * =%<nop>PUBURL{web="System" topic="MainFeatures"}%= expands to =%PUBURL{web="System" topic="MainFeatures"}%=
    * =%<nop>PUBURL{topic="System.MainFeatures"}%= expands to =%PUBURL{topic="System.MainFeatures"}%=
    * =%<nop>PUBURL{topic="System.MainFeatures" "icon_plus.png"}%= expands to =%PUBURL{topic="System.MainFeatures" "icon_plus.png"}%=
-   * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implements to select specific attachment versions. However simple file-based stores do not normally support them.
+   * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implementations to select specific attachment versions. However simple file-based stores do not normally support them.
    <div class="foswikiHelp">%H% The 'old' way of building URLs using =PUBURL= involved concatenating the web and topic names to the =PUBURL= e.g. =%<nop>PUBURL%/Main/SystemFeatures=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURL%{topic="System.MainFeatures"}%=, which will handle URL encoding for you.<br><br>%I% [[VarATTACHURL][ATTACHURL]] provides a shorter way to refer to the attachments on the current topic.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarPUBURLPATH][PUBURLPATH]], [[VarATTACHURL][ATTACHURL]], [[VarATTACHURLPATH][ATTACHURLPATH]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

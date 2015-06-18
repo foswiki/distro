@@ -1,0 +1,54 @@
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+---+!! Macros Quick Reference
+
+---++ Predefined Macros
+
+%SEARCH{
+    "parent.name='Macros'"
+    type="query"
+    topic="Var*"
+    web="%SYSTEMWEB%"
+%IF{"'%INCLUDINGTOPIC%'='CompleteDocumentation'" then="
+    format=\"$n---$n$percentINCLUDE{\"$topic\" headingoffset=\"2\"}$percent\"
+" else="
+    format=\"   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]\"
+"}%
+    nonoise="on"
+}%
+
+---+++ Deprecated macros
+The following macros are deprecated and should not be used.
+%SEARCH{
+    "parent.name='DeprecatedMacros'"
+    type="query"
+    topic="Var*"
+    casesensitive="on"
+    web="%SYSTEMWEB%"
+    format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]"
+    nonoise="on"
+}%
+
+---++ Shortcuts
+
+%SEARCH{
+    "^      \* Shortcut [A-Z]+ --"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format="   * $pattern(.*?Shortcut ([^\n]+).*)"
+    nonoise="on"
+}%
+For example, =%<nop>CARET%= will appear as =%CARET%=
+
+---++ Icons
+%SEARCH{
+    "^      \* Set [A-Z] = <img"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format="   * $pattern(.*?Set ([A-Z]).*) - $percent$pattern(.*?Set ([A-Z]).*)$percent"
+    nonoise="on"
+    order="
+}%

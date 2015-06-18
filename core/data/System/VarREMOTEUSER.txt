@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ REMOTE_USER -- environment variable
 ---++ Examples
@@ -6,5 +6,6 @@
    <div class="foswikiHelp">%X% Displays the user identity established by the Web Server.  Not available when using Template Autentication.
    The =REMOTE_USER= variable only expands when the active script is configured to =Require valid-user= in the Apache configuration.
    Eg. If your site uses Apache authentication and allows guest access, view this page with ==bin/view==  and ==bin/viewauth== to see the effect.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarENV][ENV]], [[VarHTTPHOST][HTTP_HOST]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarUSERNAME][USERNAME]], [[VarWIKINAME][WIKINAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]]

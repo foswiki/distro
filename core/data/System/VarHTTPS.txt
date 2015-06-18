@@ -1,7 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ HTTPS -- get HTTPS headers
 The same as =%<nop>HTTP%= but operates on the HTTPS environment variables present when the SSL protocol is in effect. Can be used to determine whether SSL is turned on.
+---++ Parameters
+   | *Parameter* | *Description* | *Default* |
+   | ="name"= | Name of the header to get | required |
+%STOPINCLUDE%
 ---++ Related
  [[VarHTTP][HTTP]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]
 

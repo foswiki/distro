@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SERVERTIME -- formatted server time
 Same format parameters as [[VarGMTIME]][GMTIME%]], but displaying the server time instead of UTC.
@@ -6,5 +6,6 @@ Same format parameters as [[VarGMTIME]][GMTIME%]], but displaying the server tim
    * =%<nop>SERVERTIME%= elsnds to =%SERVERTIME%=
    * =%<nop>SERVERTIME{"$hou:$min"}%= expands to =%SERVERTIME{"$hou:$min"}%=
 <div class="foswikiHelp"> *%X% Note:* When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarGMTIME][GMTIME]], [[VarSERVERTIME][SERVERTIME]]

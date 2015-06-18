@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ WIKIHOMEURL -- site home URL
 ---++ Examples
    * %<nop>WIKIHOMEURL%= expands to %WIKIHOMEURL%=
    * Normally by default set to =%<nop>SCRIPTURLPATH{"view"}%=
    <div class="foswikiHelp">%X% For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarWIKITOOLNAME][WIKITOOLNAME]]

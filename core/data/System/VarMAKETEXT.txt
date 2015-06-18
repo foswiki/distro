@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
 Strings captured in the =MAKETEXT= macro are automatically mapped to the
@@ -6,61 +6,44 @@ current user's selected language via =locale/*.po= translation files.
 ---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
-     | ="text"= or =string="text"= | The text to be displayed (the _translatable string_). | _none_ |
-     | =args="param1, param2"= | a comma-separated list of arguments to be interpolated in the string, replacing =[_N]= placeholders in it. | _none_ |
-   * Examples:<pre class="tml">
-  %<nop>MAKETEXT{string="Notes:"}%
-  expands to:
-    %MAKETEXT{string="Notes:"}%
-
-  %<nop>MAKETEXT{
-    "If you have any questions, please contact [_1]."
-    args="%<nop>WIKIWEBMASTER%"
-  }%
-  expands to:
-    %MAKETEXT{"If you have any questions, please contact [_1]."
+     | ="text"= <br /> =string="text"= | The text to be displayed (the _translatable string_). | |
+     | =args= | a comma-separated list of arguments to be interpolated in the string, replacing =[_N]= placeholders in it. | |
+---++ Examples
+   * =%<nop>MAKETEXT{string="Edit"}%= expands to =%MAKETEXT{string="Edit"}%=
+   * =%<nop>MAKETEXT{"If you have any questions, please contact [_1]." args="%<nop>WIKIWEBMASTER%"}%= expands to =%MAKETEXT{"If you have any questions, please contact [_1]."
     args="%WIKIWEBMASTER%"
-  }%
-
-  %<nop>MAKETEXT{
-    "Did you want to [<nop>[<nop>[_1]][reset [_2]'s password]]?"
-    args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"
-  }%
-  expands to:
-    %MAKETEXT{
+  }%=
+   * =%<nop>MAKETEXT{"Did you want to [<nop>[<nop>[_1]][reset [_2]'s password]]?" args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"}%= expands to =%MAKETEXT{
       "Did you want to [[[_1]][reset [_2]'s password]]?"
       args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"
-    }%</pre>
-   * *Notes:*
-      * =[_n]= brackets are validated to a positive integer from 1 to 100.
-      * Missing arguments are replaced with an empty string ''.
-      * An ampersand (<code>&amp;</code>) followed by one ascii alphabetic
-        character (a...z, A...Z) in the translatable string will be expanded
-        to an access key string. For example, =&amp;X= will expand to
-        <code>&lt;span class='foswikiAccessKey'&gt;X&lt;/span&gt;</code>.
-        If you want to write an actual ampersand, either follow it with a
-        non-alphabetic character or write two consecutive ampersands
-        (<code>&amp;&amp;</code>).
-      * Translatable strings starting with underscores (<code>_</code>)
-        are reserved. You *cannot* use translatable phrases starting with
-        an underscore.
-      * Make sure that the translatable string is _constant_. Do *not*
-        include <code>%<nop>MACROS%</code> inside the translatable strings
-        as they will be expanded *before* the =%<nop>MAKETEXT{...}%=
-        itself is handled. You can, however, use macros in the =args=, as
-        shown in the examples above.
-      * The string will be output in English if no mapping can be found in
-        the =.po= translation file for the current user's selected language.
-
-   * *Plurals:*
-      * The =%<nop>MAKETEXT= macro also supports a _limited_ subset of the =quant= style bracket notation: <pre class="tml">
-  %<nop>MAKETEXT{string="Edit [*,_1,file]" args="4"}%
-  expands to:
-    %MAKETEXT{string="Edit [*,_1,file]" args="4"}%</pre>
-   * *Notes on plurals:*
-      * Only 3 arguments are supported.
-      * The first parameter must be an asterisk.  Literals =quant=, =numf= or =#= are not supported.
-      * The 2nd parameter must be the argument number
-      * The 3rd parameter is the word or phrase to be made plural.
+    }%=
+---+++ Notes
+   * =[_n]= brackets are validated to a positive integer from 1 to 100.
+   * Missing arguments are replaced with an empty string ''.
+   * An ampersand (<code>&amp;</code>) followed by one ascii alphabetic
+     character (a...z, A...Z) in the translatable string will be expanded
+     to an access key string. For example, =&amp;X= will expand to
+     <code>&lt;span class='foswikiAccessKey'&gt;X&lt;/span&gt;</code>.
+     If you want to write an actual ampersand, either follow it with a
+     non-alphabetic character or write two consecutive ampersands
+     (<code>&amp;&amp;</code>).
+   * Translatable strings starting with underscores (<code>_</code>)
+     are reserved. You *cannot* use translatable phrases starting with
+     an underscore.
+   * Make sure that the translatable string is _constant_. Do *not*
+     include <code>%<nop>MACROS%</code> inside the translatable strings
+     as they will be expanded *before* the =%<nop>MAKETEXT{...}%=
+     itself is handled. You can, however, use macros in the =args=, as
+     shown in the examples above.
+   * The string will be output in English if no mapping can be found in
+     the =.po= translation file for the current user's selected language.
+---++ Plurals
+The =%<nop>MAKETEXT= macro also supports a _limited_ subset of the =quant= style bracket notation:
+   * =%<nop>MAKETEXT{string="Edit [*,_1,file]" args="4"}%= expands to =%MAKETEXT{string="Edit [*,_1,file]" args="4"}%=
+---+++ Notes on plurals
+   * Only 3 arguments are supported.
+   * The first parameter must be an asterisk.  Literals =quant=, =numf= or =#= are not supported.
+   * The 2nd parameter must be the argument number
+   * The 3rd parameter is the word or phrase to be made plural.
 
 <!--%JQREQUIRE{"chili"}%-->

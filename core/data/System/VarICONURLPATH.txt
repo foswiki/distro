@@ -1,12 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ICONURLPATH -- URL path of small documentation graphic or icon
 Generates the relative URL path of a %ICONTOPIC% image, typically used in an HTML img tag. 
      Specify image name or full filename (see [[VarICON][ICON]] for details on filenames.)
+---++ Parameters
+   | *Parameter* | *Description* | *Default* |
+   | ="name"= | Name of the icon, or pathname to extract an extension from | =else= |
+   | =default= | Optional default icon if the primary icon can't be found | =else= |
 ---++ Examples
    * =%<nop>ICONURLPATH{"locktopic"}%= returns %ICONURLPATH{"locktopic"}%
    * =%<nop>ICONURLPATH{"eggysmell.xml"}%= returns %ICONURLPATH{"eggysmell.xml"}%
+   * =%<nop>ICONURLPATH{"notanicon" default="ram"}%= returns <nop>%ICONURLPATH{"notanicon" default="ram"}%
    * =%<nop>ICONURLPATH{"/doc/xhtml.xsl"}%= returns %ICONURLPATH{"/doc/xhtml.xsl"}%
+%STOPINCLUDE%
 ---++ Related
  [[VarICON][ICON]], [[VarICONURL][ICONURL]], %ICONTOPIC%
 

@@ -1,8 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
----+ EXPAND -- expand macros in a string as if they were used in another topic topic
+---+ EXPAND -- expand macros in a string as if they were used in another topic
 The viewer must have VIEW access to =topictoexpandin= for this to work. All the standard formatting macros can be used in =expression=, such as =$percent= and =$quot=.
-
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+   | ="text"= | Text to expand. Note that %-signs must be escaped using =$percent=, or they will be expanded in the context of the calling topic | |
+   | =scope= | Scope to expand the topic in. This is the name of a topic. You can use Web.Topic syntax to refer to a topic in another web | =%<nop>TOPIC%= |
+---++ Examples
 =EXPAND= can be useful when you want to pick up the value of macros defined in another topic. For example, you might want to define a set of preferences in one topic, but pick up their value in another topic (this is very useful when building reusable applications). In this case you can write:
 <pre class="tml">
    *<nop> Set MYPREFERENCE = value
@@ -23,7 +28,9 @@ Additional parameters can be passed to the macro being expanded using the standa
 %EXPAND{"$percentMYPREFERENCE{$quotdefault$quot param=$quotvalue$quot}" scope="SettingsTopic"}%
 </verbatim>
 
-Notes:
-   * =EXPAND= is not very efficient, and should be used sparingly.
-   * To expand a web preference (for example, a web access control) then set =scope="Theotherweb.%<nop>WEBPREFSTOPIC%"=
+<div class="foswikiHelp">
+%X% =EXPAND= is not very efficient, and should be used sparingly.
+
+%H% To expand a web preference (for example, a web access control) then set =scope="Theotherweb.%<nop>WEBPREFSTOPIC%"=
+</div>
 <!--%JQREQUIRE{"chili"}%-->

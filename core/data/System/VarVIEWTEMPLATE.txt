@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SkinTemplates"}%
 ---+ VIEW_TEMPLATE -- Specify VIEW [[%SYSTEMWEB%.SkinTemplates][SkinTemplate]] topic preference
 This preference is used to specify a non-standard [[%SYSTEMWEB%.SkinTemplates][SkinTemplate]] with which to view a topic.
@@ -6,5 +6,6 @@ This preference is used to specify a non-standard [[%SYSTEMWEB%.SkinTemplates][S
 <verbatim>
       * Set VIEW_TEMPLATE = Web/SubWeb.SpecialViewTemplate
 </verbatim>
+%STOPINCLUDE%
 ---++ Related
  [[VarEDITTEMPLATE][EDITTEMPLATE]]

@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ GMTIME -- formatted Greenwich Mean Time (UTC)
 ---++ Parameters
-    | *Parameter*    | *Description* |
-    | ="format"= | optional format |
+    | *Parameter*  | *Description* | *Default* |
+    | ="format"= | format | =$day $month $year - $hour:$min= |
 =%<nop>GMTIME%= uses the default date format defined by the {DefaultDateFormat} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
 ---+++ Supported special format tokens:
      %TABLE{sort="off"}%
@@ -24,11 +24,12 @@
      | =$rcs= | RCS format timestamp | %GMTIME{"$rcs"}% |
      | =$http= | E-mail & http format timestamp | %GMTIME{"$http"}% |
      | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
-   * Tokens can be shortened to 3 characters
+Tokens can be shortened to 3 characters
 ---++ Examples
    * =%<nop>GMTIME%= expands to =%GMTIME%=
    * =%<nop>GMTIME{"$day $month, $year - $hour:$min:$sec"}%= expands to =%GMTIME{"$day $month, $year - $hour:$min:$sec"}%=
    <div class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarGMTIME][GMTIME]], [[VarREVINFO][REVINFO]], [[!VarSERVERTIME][SERVERTIME]]
 <!--%JQREQUIRE{"chili"}%-->

@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ BASETOPIC -- base topic where an INCLUDE started
 The name of the topic where a single or nested INCLUDE started - same as =%<nop>TOPIC%= if there is no INCLUDE.
 This is the name of the topic requested by the user.
+%STOPINCLUDE%
 ---++ Related
 [[VarBASEWEB][BASEWEB]], [[VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[VarINCLUDE][INCLUDE]], [[VarTOPIC][TOPIC]]
 

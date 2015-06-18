@@ -11,8 +11,6 @@ BEGIN {
     }
 }
 
-use Foswiki::Macros::ICONURL ();
-
 # Uses:
 # _ICONSPACE to reference the meta object of the %ICONTOPIC%,
 # _EXT2ICON to record the mapping of file extensions to icon names
@@ -120,10 +118,9 @@ sub _lookupIcon {
 # Private method shared with ICONURL and ICONURLPATH
 sub _getIconURL {
     my ( $this, $params ) = @_;
-    my $path =
-         $this->_lookupIcon( $params->{_DEFAULT} )
-      || $this->_lookupIcon( $params->{default} )
-      || $this->_lookupIcon('else');
+    my $path = $this->_lookupIcon( $params->{_DEFAULT} );
+    $path ||= $this->_lookupIcon( $params->{default} );
+    $path ||= $this->_lookupIcon('else');
     return unless $path && $path =~ s/\/([^\/]+)$//;
     my $a = $1;
     my ( $w, $t ) =

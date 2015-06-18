@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENCODE -- encode characters in a string
 Encode character sequences in ="string"=, by mapping characters (or sequences of characters) to an alternative character (or sequence of characters). This macro can be used to encode strings for use in URLs, to encode to HTML entities, to protect quotes, and for as many other uses as you can imagine.
@@ -6,38 +6,36 @@ Encode character sequences in ="string"=, by mapping characters (or sequences of
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
      | ="string"= | String to encode | "" (empty string) |
-     | =type="encodingname"= | Use a predefined encoding (see below). | Default is 'url'. Parameter =type= not be used if =old= or =new= are given. |
-     | =old="tokenlist"= | Comma-separated list of tokens to replace. Tokens are normally single characters, but can also be sequences of characters. The standard [[format tokens]] may be used in this list. Each token must be unique - you cannot list the same token twice. | May not be used with =type=; required if =new= is used |
-     | =new="tokenlist"= | comma-separated list of replacement tokens. The elements in this list match 1:1 with the elements in the =old= list. Again, the standard [[format tokens]] may be used. An empty element in the =new= list will result in the corresponding token in the =old= list being deleted from the string. If the =new= list is shorter than the =old= list it will be extended to the same length using the empty element. Tokens do not have to be unique. <div class="foswikiHelp">%X% %INCLUDE{"%TOPIC%" section="oldnewwarning"}% (see examples below)</div> | May not be used with =type=; required if =old= is used |
-   * If =ENCODE= is called with no optional parameters (e.g. =%<nop>ENCODE{"string"}%=) then the default =type="url"= encoding will be used.
-   * Predefined encodings.
-      * Unless otherwise specified, the =type= parameter encodes the following "special characters" 
-         * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
-         * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
-         * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
-      * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
-      * =type="html"= As =type="entity"= except it also encodes =\n= (newline)
-      * =type="safe"= Encode just the characters ='"&lt;&gt;%= into HTML entities.
-      * =type="quote"= or =type="quotes"= Escapes double quotes with backslashes (=\"=), does not change any other characters
-      * =type="url"= Encode special characters for use in URL parameters, like a double quote into =%ENCODE{"\""}%=
-   * Examples <pre class="tml">
-   %<nop>ENCODE{"spaced name"}%= expands to
-      %ENCODE{"spaced name"}%
-   %<nop>ENCODE{"| Blah | | More blah |" old="|,$n" new="&amp;#124;,&lt;br /&gt;"}% expands to
-      %ENCODE{"| Blah | | More blah |" old="|,$n" new="&#124;,<br />"}%
+     | =type= | Use a predefined encoding (see below). | Default is 'url'. Parameter =type= not be used if =old= or =new= are given. |
+     | =old= | Comma-separated list of tokens to replace. Tokens are normally single characters, but can also be sequences of characters. The standard [[format tokens]] may be used in this list. Each token must be unique - you cannot list the same token twice. | May not be used with =type=; required if =new= is used |
+     | =new= | comma-separated list of replacement tokens. The elements in this list match 1:1 with the elements in the =old= list. Again, the standard [[format tokens]] may be used. An empty element in the =new= list will result in the corresponding token in the =old= list being deleted from the string. If the =new= list is shorter than the =old= list it will be extended to the same length using the empty element. Tokens do not have to be unique. <div class="foswikiHelp">%X% %INCLUDE{"%TOPIC%" section="oldnewwarning"}% (see examples below)</div> | May not be used with =type=; required if =old= is used |
+If =ENCODE= is called with no optional parameters (e.g. =%<nop>ENCODE{"string"}%=) then the default =type="url"= encoding will be used.
+---++ Predefined encodings
+Unless otherwise specified, the =type= parameter encodes the following "special characters" 
+   * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
+   * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
+   * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
+   * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
+   * =type="html"= As =type="entity"= except it also encodes =\n= (newline)
+   * =type="safe"= Encode just the characters ='"&lt;&gt;%= into HTML entities.
+   * =type="quote"= or =type="quotes"= Escapes double quotes with backslashes (=\"=), does not change any other characters
+   * =type="url"= Encode special characters for use in URL parameters, like a double quote into =%ENCODE{"\""}%=
+---+ Examples
+   * =%<nop>ENCODE{"spaced name"}%= expands to %ENCODE{"spaced name"}%
+   * =%<nop>ENCODE{"| Blah | | More blah |" old="|,$n" new="&amp;#124;,&lt;br /&gt;"}% expands to =%ENCODE{"| Blah | | More blah |" old="|,$n" new="&#124;,<br />"}%=
       - this encoding is useful to protect special TML characters in tables.
-   %<nop>ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}% expands to
-      %ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}%
-   %<nop>ENCODE{"1,2" old="$comma" new=";"}% expands to
-      %ENCODE{"1,2" old="$comma" new=";"}%</pre>
-   * Values for HTML input fields must be entity encoded. %BR% Example: <pre class="tml">&lt;input type="text" name="address" value="%<nop>ENCODE{ "any text" type="entity" }%" /&gt;</pre>
-   * =ENCODE= can be used to filter user input from URL parameters and similar to help protect against cross-site scripting. The safest approach is to use =type="entity"=. This can however prevent an application from fully working. You can alternatively use =type="safe"= which encodes only the characters ='"&lt;&gt;%= into HTML entities. When =ENCODE= is passing a string inside another macro always use double quotes ("") type="quote". For maximum protection against cross-site scripting you are advised to install the Foswiki:Extensions.SafeWikiPlugin.
+   * =%<nop>ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}%= expands to =%ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}%=
+   * =%<nop>ENCODE{"1,2" old="$comma" new=";"}%= expands to =%ENCODE{"1,2" old="$comma" new=";"}%=
+Values for HTML input fields must be entity encoded. %BR% Example: <pre class="tml">&lt;input type="text" name="address" value="%<nop>ENCODE{ "any text" type="entity" }%" /&gt;</pre>
+=ENCODE= can be used to filter user input from URL parameters and similar to help protect against cross-site scripting. The safest approach is to use =type="entity"=. This can however prevent an application from fully working. You can alternatively use =type="safe"= which encodes only the characters ='"&lt;&gt;%= into HTML entities. When =ENCODE= is passing a string inside another macro always use double quotes ("") type="quote". For maximum protection against cross-site scripting you are advised to install the Foswiki:Extensions.SafeWikiPlugin.
 
-   * Double quotes in strings must be escaped when passed into other macros.%BR% Example: <verbatim class="tml">%SEARCH{ "%ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%</verbatim>
-   <div class="foswikiHelp">%X% %STARTSECTION{"oldnewwarning"}%When using =old= and =new=, be aware that the results of applying earlier tokens are not processed again using later tokens.%ENDSECTION{"oldnewwarning"}% For example:<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
+Double quotes in strings must be escaped when passed into other macros.%BR% Example: <verbatim class="tml">%SEARCH{ "%ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%</verbatim>
+
+<div class="foswikiHelp">%X% %STARTSECTION{"oldnewwarning"}%When using =old= and =new=, be aware that the results of applying earlier tokens are not processed again using later tokens.%ENDSECTION{"oldnewwarning"}% For example:<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
    %ENCODE{"A" old="A,B" new="B,C"}% will result in 'B' (not 'C'),
    %ENCODE{"asd" old="as,d" new="d,f"}% will yield 'df', and
    %ENCODE{"A" old="A,AA" new="AA,B"}% will give 'AA' and.
    %ENCODE{"asdf" old="a,asdf" new="a,2"}% will give 'asdf'</verbatim></div>
+%STOPINCLUDE%
 ---++ Related
  [[VarURLPARAM][URLPARAM]]

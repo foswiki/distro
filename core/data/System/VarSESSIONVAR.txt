@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SESSIONVAR -- name of CGI and session variable that stores the session ID
 ---++ Examples
    * =%<nop>SESSIONVAR%= expands to <tt>%SESSIONVAR%</tt>
+%STOPINCLUDE%
 ---++ Related
  UserAuthentication, [[VarAUTHREALM][AUTHREALM]], [[VarSESSIONID][SESSIONID]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]], [[VarSESSIONVARIABLE][SESSION_VARIABLE]]
 

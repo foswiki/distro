@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ATTACHURL -- full URL for attachments in the current topic
 Shorthand for [[VarPUBURL][PUBURL]], with =path= set to the current topic. Otherwise supports all the same parameters as [[VarPUBURL][PUBURL]].
+%STOPINCLUDE%
 ---++ Related
  [[VarATTACHURLPATH][ATTACHURLPATH]], [[VarPUBURL][PUBURL]], [[VarPUBURLPATH][PUBURLPATH]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

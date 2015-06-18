@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERYSTRING -- full, unprocessed string of parameters to this URL
    * String of all the URL parameters that were on the URL used to get to the current page. For example, if you add [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?name=Samantha;age=24;eyes=blue#VarQUERYSTRING][?name=Samantha;age=24;eyes=blue]] to this URL you can see this in action. This string can be appended to a URL to pass parameter values on to another page.
    <div class="foswikiHelp">%X% URLs built this way are typically restricted in length, typically to 2048 characters. If you need more space than this, you will need to use an HTML form and =%<nop>QUERYPARAMS%=</div>
 ---++ Examples
    * =%<nop>QUERYSTRING%= expands to <code> %QUERYSTRING% </code>
+%STOPINCLUDE%
 ---++ Related
  [[VarQUERYPARAMS][QUERYPARAMS]], [[VarURLPARAM][URLPARAM]]
  

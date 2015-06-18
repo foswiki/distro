@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SCRIPTNAME -- name of current script
    * The name of the current script is shown, including script suffix, if any (for example =viewauth.cgi=)
 ---++ Examples
    * =%<nop>SCRIPTNAME%= expands to =%SCRIPTNAME%=
+%STOPINCLUDE%
 ---++ Related
  [[VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURLPATH][SCRIPTURLPATH]]
 

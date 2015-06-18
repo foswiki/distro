@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ STOPSECTION -- Alias for ENDSECTION
+%STOPINCLUDE%
 ---++ Related
  [[VarENDSECTION][ENDSECTION]], [[VarSTARTSECTION][STARTSECTION]]
 

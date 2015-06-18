@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SCRIPTSUFFIX -- script suffix
    * Some <nop>%WIKITOOLNAME% installations require a file extension for CGI scripts, such as =.pl= or =.cgi=
 ---++ Examples
    * =%<nop>SCRIPTSUFFIX%= expands to <code>%SCRIPTSUFFIX%</code>
+%STOPINCLUDE%
 ---++ Related
  [[VarSCRIPTNAME][SCRIPTNAME]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURLPATH][SCRIPTURLPATH]]
 

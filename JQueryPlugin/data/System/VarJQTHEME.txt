@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQTHEME -- switch jQuery UI theme
 Foswiki's default UI theme is configured in  =$Foswiki::cfg{JQueryPlugin}{JQueryTheme}= and defaults to =foswiki=.
@@ -10,10 +10,11 @@ Some Foswiki skins may come with their own jQuery UI matching the overall user e
 
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | "name" | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
+     | *Parameter* | *Description* | *Default* |
+     | ="name"= | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
                 additional themes maybe created using the [[http://jqueryui.com/themeroller/][themeroller]] and installed to \
-                =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$name= | foswiki |
-     | warn | (on/off) allows you to switch off warnings when a theme was not found | on |
+                =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$name= | =foswiki= |
+     | =warn= | (on/off) allows you to switch off warnings when a theme was not found | =on= |
+%STOPINCLUDE%
 ---++ Related
  JQueryUI, [[VarJQREQUIRE][JQREQUIRE]]

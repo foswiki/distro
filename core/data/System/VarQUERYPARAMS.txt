@@ -1,19 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERYPARAMS -- show parameters to the query
 Expands the parameters to the query that was used to display the page.
 ---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
-     | =format="..."= | Format string for each entry | =$name=$value= |
-     | =separator="..."= | Separator string | =separator="$n"= (newline) |
-     | =encoding="entity"= <br /> =encoding="safe"= <br /> =encoding="html"= <br /> =encoding="quotes"= <br /> =encoding="url"= | Control how special characters are encoded. If this parameter is not given, "safe" encoding is performed which HTML entity encodes the characters ='"&lt;&gt;%=. <hr /> =entity=: Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= or =\r=. <hr /> =safe=: Encode characters ='"&lt;&gt;%= into HTML entities. (this is the default) <hr /> =html=: As =type="entity"= except it also encodes =\n= and =\r= <hr /> =quotes=: Escape double quotes with backslashes (=\"=), does not change other characters <hr /> =url=: Encode special characters for URL parameter use, like a double quote into =%22= | =type="safe"= |
-<ul><li>The following escape sequences are expanded in the format string:
+     | =format= | Format string for each entry | =$name=$value= |
+     | =separator= | Separator string | =$n= (newline) |
+     | =encoding= | Control how special characters are encoded. If this parameter is not given, =safe= encoding is performed which HTML entity encodes the characters ='"&lt;&gt;%=. <br /> =entity= - Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= or =\r=. <br /> =safe= - Encode characters ='"&lt;&gt;%= into HTML entities. (this is the default) <br /> =html= - As =type="entity"= except it also encodes =\n= and =\r= <br /> =quotes= - Escape double quotes with backslashes (=\"=), does not change other characters <br /> =url= - Encode special characters for URL parameter use, like a double quote into =%22= | =safe= |
+The following tokens are expanded in the =format= string:
 %TABLE{sort="off"}%
-| *Sequence:* | *Expands To:* |
+| *Token* | *Expands To* |
 | =$name= | Name of the parameter |
 | =$value= | String value of the parameter. Multi-valued parameters will have a "row" for each value. |
-%INCLUDE{FormatTokens}%</li></ul>
+In addition the standard [[format tokens]] are also expanded.
 ---++ Examples
 <pre class="tml">
    %<nop>QUERYPARAMS{
@@ -22,6 +22,7 @@ Expands the parameters to the query that was used to display the page.
 <div class="foswikiHelp">%X% *Security warning!*
 
 Using QUERYPARAMS can easily be misused for cross-site scripting unless specific characters are entity encoded. By default QUERYPARAMS encodes the characters ='"&lt;&gt;%= into HTML entities (same as encoding="safe") which is relatively safe. The safest is to use encoding="entity". When passing QUERYPARAMS inside another macro always use double quotes ("") combined with using QUERYPARAMS with encoding="quote". For maximum security against cross-site scripting you are advised to install the Foswiki:Extensions.SafeWikiPlugin.</div>
+%STOPINCLUDE%
 ---++ Related
 [[VarQUERYSTRING][QUERYSTRING]], [[VarURLPARAM][URLPARAM]]
 <!--%JQREQUIRE{"chili"}%-->

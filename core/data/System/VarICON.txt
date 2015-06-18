@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ICON -- small documentation graphic or icon of common attachment types
 Generates a small graphic image from the set attached to %ICONTOPIC%. 
@@ -6,29 +6,30 @@ Generates a small graphic image from the set attached to %ICONTOPIC%.
      You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
 If you specify an icon which cannot be found, the one specified in the =default= parameter will be used (and if that fails, the =else= icon will be used)
 ---++ Parameters
-| *Parameter:* | *Description:* |
-| ="filename or icon name"= | requested icon |
-| =default= | default icon to use if requested icon is not found |
-| =alt= | alt text to be added to the HTML img tag |
+   | *Parameter* | *Description* | *Default* |
+   | ="filename or icon name"= | requested icon | =else= |
+   | =default= | default icon to use if requested icon is not found | |
+   | =alt= | alt text to be added to the HTML img tag | |
+   | =quote= | allows you to control the quote used in the generated HTML | ="= |
 ---++ Examples
-      * =%<nop>ICON{"flag-gray"}%= displays as %ICON{"flag-gray"}%
-      * =%<nop>ICON{"pdf"}%= displays as %ICON{"pdf"}%
-      * =%<nop>ICON{"docx" default="doc"}%= displays as %ICON{"docx" default="doc"}%
-      * =%<nop>ICON{"smile.pdf"}%= displays as %ICON{"smile.pdf"}%
-      * =%<nop>ICON{"/dont/you/dare/smile.pdf"}%= returns %ICON{"/dont/you/dare/smile.pdf"}%
-      * =%<nop>ICON{"data.unknown" alt="Unknown file type"}%= displays as %ICON{"data.unknown" alt="Unknown file type"}%
-      * =%<nop>ICON{"data.unknown"}%= displays as %ICON{"data.unknown"}%
-      * =%<nop>ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%
-   * Graphic samples: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
-   * File type samples: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
+   * =%<nop>ICON{"flag-gray"}%= displays as %ICON{"flag-gray"}%
+   * =%<nop>ICON{"pdf"}%= displays as %ICON{"pdf"}%
+   * =%<nop>ICON{"docx" default="doc"}%= displays as %ICON{"docx" default="doc"}%
+   * =%<nop>ICON{"smile.pdf"}%= displays as %ICON{"smile.pdf"}%
+   * =%<nop>ICON{"/dont/you/dare/smile.pdf"}%= returns %ICON{"/dont/you/dare/smile.pdf"}%
+   * =%<nop>ICON{"data.unknown" alt="Unknown file type"}%= displays as %ICON{"data.unknown" alt="Unknown file type"}%
+   * =%<nop>ICON{"data.unknown"}%= displays as %ICON{"data.unknown"}%
+   * =%<nop>ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%
+
+   * Graphics: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
+   * File types: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
 
 If you find that ICON is producing broken HTML when it is used in another macro e.g. for formatting search results, then this may be because it is
-using the wrong kind of quotes for the context. You can control the quotes
-it uses using the =quote= parameter, for example:
-   * =%<nop>ICON{"pdf" quote="\""}%= displays as %ICON{"pdf" quote="\""}%
-   * =%<nop>ICON{"pdf" quote="'"}%= displays as %ICON{"pdf" quote="'"}%
-You can also use formatting tokens such as =$quot= and =$dollar=.
+using the wrong kind of quotes for the context. In this case you can control the quotes it uses using the =quote= parameter. For example
+   * =%<nop>ICON{"pdf" quote="'"}%=
+You can also use formatting tokens such as =$quot= and =$dollar= in =quote=.
 
+%STOPINCLUDE%
 ---++ Related
  [[VarICONURL][ICONURL]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%
 

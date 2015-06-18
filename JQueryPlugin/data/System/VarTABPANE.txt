@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABPANE -- tabpane widget
 This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
@@ -30,16 +30,17 @@ This macro starts the tabpane, containing a series of TAB...ENDTABs and ends wit
  %ENDTAB%
 %ENDTABPANE%
 </verbatim>
----++ Examples
-see JQueryTabpane for more examples
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | select | number or id of tab to select | 1 |
-     | automaxexpand | resizes the tabpane to the maximum height to fit into the window | off |
-     | minheight | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
-     | class | extra class: use =simple= for a non-3D tabpane | | 
-     | animate | (on/off) enables/disables animation of switching tabs | off |
+     | *Parameter* | *Description* | *Default* |
+     | =select= | number or id of tab to select | =1= |
+     | =automaxexpand= | resizes the tabpane to the maximum height to fit into the window | =off= |
+     | =minheight= | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
+     | =class= | extra class: use =simple= for a non-3D tabpane | | 
+     | =animate= | enables/disables animation of switching tabs | =off= |
+---++ Examples
+see JQueryTabpane for more examples
+%STOPINCLUDE%
 ---++ Related
  [[VarTAB][TAB]], [[VarENDTAB][ENDTAB]], [[!VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane
 <!--%JQREQUIRE{"chili"}%-->

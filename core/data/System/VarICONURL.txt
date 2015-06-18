@@ -1,17 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ICONURL -- URL of small documentation graphic or icon
 Generates the full URL of a %ICONTOPIC% image, which Foswiki renders as an image. 
      The related =%<nop>ICON{"name"}%= generates the full HTML img tag. 
      Specify image name or full filename (see [[VarICON][ICON]] for details on filenames.)
 ---++ Parameters
-| *Parameter:* | *Description:* |
-| ="name"= | Name of the icon |
-| =default= | Optional default string |
+   | *Parameter* | *Description* | *Default* |
+   | ="name"= | Name of the icon, or pathname to extract an extension from | =else= |
+   | =default= | Optional default icon if the primary icon can't be found | =else= |
 ---++ Examples
+   * =%<nop>ICONURL%= returns <nop>%ICONURL%
    * =%<nop>ICONURL{"arrowbright"}%= returns <nop>%ICONURL{"arrowbright"}%
    * =%<nop>ICONURL{"novel.pdf"}%= returns <nop>%ICONURL{"novel.pdf"}%
+   * =%<nop>ICONURL{"notanicon" default="ram"}%= returns <nop>%ICONURL{"notanicon" default="ram"}%
    * =%<nop>ICONURL{"/queen/boheme.mp3"}%= returns <nop>%ICONURL{"/queen/boheme.mp3"}%
+%STOPINCLUDE%
 ---++ Related
  [[VarICON][ICON]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%
 

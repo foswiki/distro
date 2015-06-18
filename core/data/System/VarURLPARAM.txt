@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ URLPARAM -- get URL or HTTP POST parameter value
 Returns the value of the named parameter in the URL or HTTP POST request.
@@ -6,19 +6,26 @@ Returns the value of the named parameter in the URL or HTTP POST request.
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
      | ="name"= | The name of a URL parameter | required |
-     | =default="..."= | Default value, used if the parameter is not present | empty string |
-     | =newline="&lt;br /&gt;"= | Convert newlines in textarea to other delimiters | no conversion |
-     | =encode="off"= <br /> =encode="entity"= <br /> =encode="safe"= <br /> =encode="url"= <br /> =encode="quote"= | Control how special characters are encoded <hr /> =off=: No encoding. Avoid using this when possible. See the security warning below. <hr /> =entity=: Encode special characters into HTML entities. See [[VarENCODE][ENCODE]] for more details. <hr /> =safe=: Encode characters ='"&lt;&gt;%= into HTML entities. <hr /> =url=: Encode special characters for URL parameter use, like a double quote into =%22= <hr /> =quote=: Escape double quotes with backslashes (=\"=), does not change other characters; required when feeding URL parameters into other macros. | "safe" |
-     | =multiple="on"= %BR% =multiple="[<nop>[$item]]"= | If set, gets all selected elements of a =&lt;select multiple="multiple"&gt;= tag. A format can be specified, with =$item= indicating the element, e.g. =multiple="Option: $item"= (also supports the standard [[format tokens]]) | first element |
-     | =separator=", "= | Separator between multiple selections. Only relevant if multiple is specified | ="\n"= (new line) |
+     | =default= | Default value, used if the parameter is not present | =""= |
+     | =newline= | Convert newlines in textarea to other delimiters | |
+     | =encode= | Control how special characters are encoded <br /> ="off"= - No encoding. Avoid using this when possible. See the security warning below. <br /> ="entity"= - Encode special characters into HTML entities. See [[VarENCODE][ENCODE]] for more details. <br /> ="safe"= - Encode characters ='"&lt;&gt;%= into HTML entities. <br /> ="url"= - Encode special characters for URL parameter use, like a double quote into =%22= <br /> ="quote"= - Escape double quotes with backslashes (=\"=), does not change other characters; required when feeding URL parameters into other macros. | =safe= |
+     | =multiple= | If set, gets all selected elements of a =&lt;select multiple="multiple"&gt;= tag. Can be set to a format string, with =$item= indicating the element, e.g. =multiple="Option: $item"= (also supports the standard [[format tokens]]) | first element |
+     | =separator= | Separator between multiple selections. Only relevant if multiple is specified | =$n= (new line) |
 ---++ Examples
 =%<nop>URLPARAM{"skin"}%= returns =print= for a =.../view/%WEB%/%INCLUDINGTOPIC%?skin=print= URL
-   * *Notes:*
-      !* URL parameters passed into HTML form fields must be entity [[VarENCODE][ENCODEd]].
-      * Double quotes in URL parameters must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="quote" }%" noheader="on" }%=
-      * When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
-      * Watch out for internal parameters, such as =rev=, =skin=, =template=, =topic=, =web=; they have a special meaning in Foswiki. Common parameters and view script specific parameters are documented at CommandAndCGIScripts.
-      * If you have =%<nop>URLPARAM{= in the value of a URL parameter, it will be modified to =%&lt;nop&gt;URLPARAM{=. This is to prevent an infinite loop during expansion.
-      * Security warning! Using URLPARAM can easily be misused for cross-site scripting unless specific characters are entity encoded. By default URLPARAM encodes the characters ='"&lt;&gt;%= into HTML entities (same as encode="safe") which is relatively safe. The safest is to use encode="entity". When passing URLPARAM inside another macro always use double quotes ("") combined with using URLPARAM with encode="quote". For maximum security against cross-site scripting you are adviced to install the Foswiki:Extensions.SafeWikiPlugin.
+<div class="foswikiHelp">
+%H% URL parameters passed into HTML form fields must be [[VarENCODE][entity encoded]].
+
+%H% Double quotes in URL parameters must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="quote" }%" noheader="on" }%=
+
+%H% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+
+%X% Watch out for internal parameters, such as =rev=, =skin=, =template=, =topic=, =web=; they have a special meaning in Foswiki. Common parameters and view script specific parameters are documented at CommandAndCGIScripts.
+
+%X% If you have =%<nop>URLPARAM{= in the value of a URL parameter, it will be modified to =%&lt;nop&gt;URLPARAM{=. This is to prevent an infinite loop during expansion.
+
+%X% Security warning! Using URLPARAM can easily be misused for cross-site scripting unless specific characters are entity encoded. By default URLPARAM encodes the characters ='"&lt;&gt;%= into HTML entities (same as encode="safe") which is relatively safe. The safest is to use encode="entity". When passing URLPARAM inside another macro always use double quotes ("") combined with using URLPARAM with encode="quote". For maximum security against cross-site scripting you are adviced to install the Foswiki:Extensions.SafeWikiPlugin.
+</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarENCODE][ENCODE]], [[VarSEARCH][SEARCH]], FormattedSearch, [[VarQUERYSTRING][QUERYSTRING]]

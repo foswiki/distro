@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENDTAB -- ending marker for a tab of a tabpane
 This closes a previously opened TAB.
+%STOPINCLUDE%
 ---++ Related
  [[VarTAB][TAB]], [[VarTABPANE][TABPANE]], [[VarENDTAB][ENDTAB]], JQueryPlugin, JQueryTabpane

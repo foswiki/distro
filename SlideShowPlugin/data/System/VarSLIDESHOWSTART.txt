@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SLIDESHOWSTART -- convert a topic with headings into a slideshow
 Handled by the SlideShowPlugin
@@ -24,6 +24,7 @@ Handled by the SlideShowPlugin
    * Bullet 2
 %SLIDESHOWEND%
 
+%STOPINCLUDE%
 ---++ Related
  [[VarSLIDESHOWEND][SLIDESHOWEND]], SlideShowPlugin
 <!--%JQREQUIRE{"chili"}%-->

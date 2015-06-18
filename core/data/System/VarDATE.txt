@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ DATE -- signature format date
 ---++ Examples
    * =%<nop>DATE%= expands to =%DATE%=
    * Date format defined as ={DefaultDateFormat}= in [[%SCRIPTURLPATH{"configure"}%][configure]]
    <div class="foswikiHelp">%X% When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarDISPLAYTIME][DISPLAYTIME]], [[VarGMTIME][GMTIME]], [[VarSERVERTIME][SERVERTIME]]

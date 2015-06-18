@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ CALC -- add spreadsheet calculations to tables and outside tables
 The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
@@ -7,6 +7,7 @@ The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There ar
    * =%<nop>CALC{"$SUM($ABOVE())"}%= returns the sum of all cells above the current cell
    * =%<nop>CALC{"$EXISTS(<nop>Web.SomeTopic)"}%= returns =1= if the topic exists
    * =%<nop>CALC{"$UPPER(Collaboration)"}%= returns =COLLABORATION=
+%STOPINCLUDE%
 ---++ Related
  [[VarCALCULATE][CALCULATE]], [[VarIF][IF]], SpreadSheetPlugin
 

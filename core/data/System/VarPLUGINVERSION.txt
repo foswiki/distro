@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PLUGINVERSION -- the version of a Foswiki Plugin, or the Foswiki Plugins API
 Use =%<nop>PLUGINVERSION{"name"}%= to get the version of a specific plugin
 ---++ Examples
    * =%<nop>PLUGINVERSION{"InterwikiPlugin"}%= expands to =%PLUGINVERSION{"InterwikiPlugin"}%=
    * =%<nop>PLUGINVERSION%= to get the version of the API, expands to =%PLUGINVERSION%=
+%STOPINCLUDE%
 ---++ Related
  [[VarWIKIVERSION][WIKIVERSION]], [[VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[#FAILEDPLUGINS][FAILEDPLUGINS]], [[VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]]
 

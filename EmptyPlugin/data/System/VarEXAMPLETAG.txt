@@ -1,15 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
----+ EXAMPLETAG -- example variable
+---+ EXAMPLETAG -- example macro tag
 The =%<nop>EXAMPLETAG%= variable is handled by the ExamplePlugin
 
 ---++ Parameters
-| *Parameter:* | *Description:* | *Default:* |
-| =text="..."= - | example text | ="..."= |
-| =format="..."= | format of report | |
+   | *Parameter* | *Description* | *Default* |
+   | ="..."= | Unnamed parameter | |
+   | =text= - | example text | ="..."= |
+   | =format= | format of report | |
 
 ---++ Examples
-=%<nop>EXAMPLETAG{"hello" format="| $topic: $summary |"}%=
-
+   * =%<nop>EXAMPLETAG{"hello" format="| $topic: $summary |"}%=
+%STOPINCLUDE%
 ---++ Related
 ExamplePlugin

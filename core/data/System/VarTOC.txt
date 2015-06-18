@@ -1,18 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TOC -- table of contents
 Shows a Table of Contents that is generated automatically based on headings of a topic. Headings in TopicMarkupLanguage (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
 ---++ Parameters
     %TABLE{sort="off" columnwidths="30%,50%,20%"}%
-    | *Parameter:* | *Description:* | *Default:* |
+    | *Parameter* | *Description* | *Default* |
     | ="TopicName"= | topic name | Current topic |
-    | =web="Name"= | Name of web | Current web |
-    | =depth="2"= | Limit depth of headings shown in TOC | 6 |
-    | =title="Some text"= | Title to appear at top of TOC | none |
-    | =align="..."= | Align at =left= or =right= side of the page | none |
-    | =id="Some_id"= | Optional ID in case multiple TOCs are on the page and each TOC needs to be addressable with an anchor link. Allowed characters: =a-zA-Z0-9-_=, no spaces. %BR% \
-If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]]. | "foswikiTOC" |
-   * Default settings are defined in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overridden in %LOCALSITEPREFS%:
+    | =web= | Name of web | Current web |
+    | =depth= | Limit depth of headings shown in TOC | =6= |
+    | =title= | Title to appear at top of TOC | |
+    | =align=| Align at =left= or =right= side of the page | |
+    | =id= | Optional ID in case multiple TOCs are on the page and each TOC needs to be addressable with an anchor link. Allowed characters: =a-zA-Z0-9-_=, no spaces. %BR% \
+If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]]. | ="foswikiTOC"= |
+Default settings are defined in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overridden in %LOCALSITEPREFS%:
     <noautolink>
     %TABLE{sort="off" columnwidths="30%,50%,20%"}%
     | *Setting* | *Description* | *Value* |
@@ -21,7 +21,8 @@ If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<no
     | =TOC_TITLE=     | The default TOC title | %TOC_TITLE% |
     | =TOC_HIDE_IF_INCLUDED= | Do not show a TOC if the topic it contains is included in another topic | %TOC_HIDE_IF_INCLUDED% |
     </noautolink>
-   * Examples: <pre class="tml">%<nop>TOC{depth="2"}%
+---++ Examples
+<pre class="tml">%<nop>TOC{depth="2"}%
 %<nop>TOC{"CompleteDocumentation" web="%<nop>SYSTEMWEB%" title="Contents:"}%</pre>
    See also: Foswiki:Support/HowToCreateATableOfContents
    <div class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.

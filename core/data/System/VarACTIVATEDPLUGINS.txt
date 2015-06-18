@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ACTIVATEDPLUGINS -- list of currently activated plugins
 ---++ Examples
    * =%<nop>ACTIVATEDPLUGINS%= expands to %ACTIVATEDPLUGINS%
+%STOPINCLUDE%
 ---++ Related
  [[VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[VarFAILEDPLUGINS][FAILEDPLUGINS]], [[VarPLUGINVERSION][PLUGINVERSION]]

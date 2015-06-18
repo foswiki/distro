@@ -1,18 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TAB -- tab inside a tabpane widget 
 Defines a tab inside a TABPANE area; must be closed using ENDTAB.
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | "text" | label of the tab | Tab |
-     | before  | when switching tabs, this is the javascript fragment to be executed just before the tab is displayed | |
-     | after     | this javascript handler is to be executed after the tab has been made visible | |
-     | afterload | this javascript handler will be called when content loaded asynchronously (using the =url= parameter, below) has finished loading; depending on the network latency, this can be significantly later than execution of the =after= handler above | |
-     | id | id of this tab; this id can be used in the TABPANEs =select= parameter to display this tab; this id is also added to the class attribute of the html element representing the tab button | |
-     | url | link from where to load the content of the tab asynchronously when selecting this tab; the result of the addressed handler will replace the content area; if no url is set the content of the TAB ... ENDTAB area will be shown when the tab is selected | |
-     | width | width of the tab area | auto |
-     | height | height of the tab area | auto |
-     | container | element where ajax content will be loaded; this is only used together with =url= | |
+     | *Parameter* | *Description* | *Default* |
+     | ="text"= | label of the tab | Tab |
+     | =before=  | when switching tabs, this is the javascript fragment to be executed just before the tab is displayed | |
+     | =after=     | this javascript handler is to be executed after the tab has been made visible | |
+     | =afterload= | this javascript handler will be called when content loaded asynchronously (using the =url= parameter, below) has finished loading; depending on the network latency, this can be significantly later than execution of the =after= handler above | |
+     | =id= | id of this tab; this id can be used in the TABPANEs =select= parameter to display this tab; this id is also added to the class attribute of the html element representing the tab button | |
+     | =url= | link from where to load the content of the tab asynchronously when selecting this tab; the result of the addressed handler will replace the content area; if no url is set the content of the TAB ... ENDTAB area will be shown when the tab is selected | |
+     | =width= | width of the tab area | auto |
+     | =height= | height of the tab area | auto |
+     | =container= | element where ajax content will be loaded; this is only used together with =url= | |
+%STOPINCLUDE%
 ---++ Related
  [[VarENDTAB][ENDTAB]], [[VarTABPANE][TABPANE]], [[VarENDTABPANE][ENDTABPANE]], JQueryPlugin, JQueryTabpane

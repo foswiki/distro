@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -297,76 +297,7 @@ Most predefined macros return values that were either set in the configuration w
 %T% *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<nop>BASETOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
 </div>
 
-Your installation of Foswiki %WIKIVERSION% has the following registered macros:
-
-%SEARCH{
-    "parent.name='Macros'"
-    type="query"
-    topic="Var*"
-    web="%SYSTEMWEB%"
-%IF{"'%INCLUDINGTOPIC%'='CompleteDocumentation'"
-then="format=$quot$percentINCLUDE{$quot$topic$quot headingoffset=$quot2$quot}$percent$quot"
-else="format=$quot   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]$quot"
-}%
-    nonoise="on"
-}%
-
----+++ Deprecated macros
-The following macros are deprecated and should not be used.
-%SEARCH{
-    "parent.name='DeprecatedMacros'"
-    type="query"
-    topic="Var*"
-    casesensitive="on"
-    web="%SYSTEMWEB%"
-    format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]"
-    nonoise="on"
-}%
-
----++ Predefined Preference Settings
-The following preferences are automatically defined in !DefaultPreferences.
-
----+++ Colours
-Used to start rendering text in a color. The colour will be switched
-off when [[VarENDCOLOR][%<nop>ENDCOLOR%]] is met.
-   * %SEARCH{
-    "^      \* %[A-Z]+% \*Set [A-Z]+ = looks like this"
-    web="%SYSTEMWEB%"
-    topic="DefaultPreferences"
-    multiple="on"
-    type="regex"
-    format=" $pattern(.*?%([A-Z]+)%.*)"
-    nonoise="on"
-    separator = ", "
-}%
-For example, =some %<nop>RED%red%<nop>ENDCOLOR% text= will appear as =some %RED%red%ENDCOLOR% text=
-
----+++ Shortcuts
-
-Things that are frequently  used in topic content, and characters that have to be avoided in their raw form because they would interfere with rendering.
-%SEARCH{
-    "^      \* Shortcut [A-Z]+ --"
-    web="%SYSTEMWEB%"
-    topic="DefaultPreferences"
-    multiple="on"
-    type="regex"
-    format="   * $pattern(.*?Shortcut ([^\n]+).*)"
-    nonoise="on"
-}%
-For example, =%<nop>CARET%= will appear as =%CARET%=
-
----+++ Icons
-%SEARCH{
-    "^      \* Set [A-Z] = <img"
-    web="%SYSTEMWEB%"
-    topic="DefaultPreferences"
-    multiple="on"
-    type="regex"
-    format="   * $pattern(.*?Set ([A-Z]).*) - $percent$pattern(.*?Set ([A-Z]).*)$percent"
-    nonoise="on"
-    order="
-}%
-For example, =%<nop>S%= will appear as %S%
+%IF{"'%INCLUDINGTOPIC%'!='CompleteDocumentation'" then="See MacrosQuickReference for a complete list of predefined macros in your installation."}%
 
 %STOPINCLUDE%
 

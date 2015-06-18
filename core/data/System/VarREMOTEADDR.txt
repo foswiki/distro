@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ REMOTE_ADDR -- environment variable
 ---++ Examples
    * =%<nop>REMOTE_ADDR%= expands to =%REMOTE_ADDR%=
+%STOPINCLUDE%
 ---++ Related
  [[VarENV][ENV]], [[VarHTTPHOST][HTTP_HOST]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]

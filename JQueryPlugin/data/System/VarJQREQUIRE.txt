@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQREQUIRE -- enable a plugin on the current page
 This macro will load a list of plugins to be added to the current page. Use [[VarJQPLUGINS][JQPLUGINS]] to display
@@ -9,11 +9,12 @@ This macro will load a list of plugins to be added to the current page. Use [[Va
 <div class="foswikiHelp">%H% in case of an error JQREQUIRE will produce an inline HTML error message. </div>
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | "plugin[, plugin, plugin]" | list of plugins to be loaded | |
-     | warn | (on/off) allows you to switch off warnings when a plugin was not found | on |
+     | *Parameter* | *Description* | *Default* |
+     | ="plugin,plugin,plugin"= | comma-separated list of plugins to be loaded | |
+     | =warn= | (on/off) allows you to switch off warnings when a plugin was not found | =on= |
 ---++ Examples
    * =%<nop>JQREQUIRE{"easing,sliding,falling"}%=
+%STOPINCLUDE%
 ---++ Related
  JQueryPlugin, [[VarJQPLUGINS][JQPLUGINS]], [[VarADDTOZONE][ADDTOZONE]]
 

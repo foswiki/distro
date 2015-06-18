@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ NOP -- template text not to be expanded in instantiated topics
    * =%<nop>NOP%=
@@ -7,6 +7,7 @@
    * =%<nop>NOP{...}%= *deprecated*
       * In normal topic text, expands to whatever is in the curly braces (if anything).
       <div class="foswikiHelp">%X% *This is deprecated.* Do not use it. Use =%<nop>STARTSECTION{type="templateonly"}%= .. =%<nop>ENDSECTION{type="templateonly"}%= instead (see TemplateTopics for more details).</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarSTARTSECTION][STARTSECTION]], TemplateTopics
 

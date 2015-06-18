@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ INCLUDE -- include another topic, or subsection of a topic, or a URL, or Foswiki embedded documentation
 
@@ -8,38 +8,39 @@
      | ="SomeTopic"= | The name of a topic located in the current web, i.e. =%<nop>INCLUDE{"WebNotify"}%= | |
      | ="Web.Topic"= | A topic in another web, i.e. =%<nop>INCLUDE{"%SYSTEMWEB%.SiteMap"}%= | |
      | ="Web.Topic, <nop>SomeOtherTopic, <nop>%SYSTEMWEB%.OrOtherTopic"= | A list of topics - =INCLUDE= will include the first topic that exists and the user has permission to VIEW. If a =section= is also specified, it will use the first topic that has that section defined in it. | |
-     | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
-     | =rev="2"= | Include a previous topic revision; N/A for URLs | top revision |
-     | =warn="off"= | Warn if topic include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) | =%<nop>INCLUDEWARNING%= [[%WIKIPREFSTOPIC%][preferences]] setting |
-     | =headingoffset="1"= | Adds the given offset to any HTML headings generated in the included text. Works on headings defined by HTML tags as well as headings defined using foswiki markup. | 0 |
-     | =section="name"= | Includes only the specified named section, as defined in the included topic by the [VarSTARTSECTION][STARTSECTION{"name" type="section"} ]] and [VarENDSECTION][ENDSECTION{"name" type="section"}]] macros. Nothing is shown if the named section does not exists. =section=""= is equivalent to not specifying a section | |
-     | =PARONE="val 1"%BR% PARTWO="val 2"= | Any other parameter will be defined as a macro within the scope of the included topic. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined within the included topic. | |
+     | =pattern= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
+     | =rev= | Include a previous topic revision; N/A for URLs | top revision |
+     | =warn= | Warn if topic include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) | =%<nop>INCLUDEWARNING%= [[%WIKIPREFSTOPIC%][preferences]] setting |
+     | =headingoffset= | Adds the given offset to any HTML headings generated in the included text. Works on headings defined by HTML tags as well as headings defined using foswiki markup. | 0 |
+     | =section= | Includes only the specified named section, as defined in the included topic by the [VarSTARTSECTION][STARTSECTION{"name" type="section"} ]] and [VarENDSECTION][ENDSECTION{"name" type="section"}]] macros. Nothing is shown if the named section does not exists. =section=""= is equivalent to not specifying a section | |
+     | | Any other parameter will be defined as a macro within the scope of the included topic. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined within the included topic. | |
    * Examples: See IncludeTopicsAndWebPages
 
 ---++ (Including a web page) Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
+     | *Parameter* | *Description* | *Default* |
      | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <div class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</div> | |
-     | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
-     | =raw="on"= | When a page is included, normally %WIKITOOLNAME% will process it, doing the following: 1) Alter relative links to point back to originating host, 2) Remove some basic HTML tags (html, head, body, script) and finally 3) Remove newlines from HTML tags spanning multiple lines. If you prefer to include _exactly_ what is in the source of the originating page set this to =on=. %BR% =raw="on"= is short for =disableremoveheaders="on"=, =disableremovescript="on"=, =disableremovebody="on"=, =disablecompresstags="on"= and =disablerewriteurls="on"=. | disabled |
-     | =literal="on"= | While using the =raw= option will indeed include the raw content, the included content will still be processed and rendered like regular topic content. To disable parsing of the included content, set the =literal= option to ="on"=. | disabled |
-     | =disableremoveheaders="on"= | Bypass stripping headers from included HTML (everything until first =&lt;/head&gt;= tag) | disabled |
-     | =disableremovescript="on"= | Bypass stripping all =&lt;script&gt;= tags from included HTML | disabled |
-     | =disableremovebody="on"= | Bypass stripping the =&lt;/body&gt;= tag and everything around over and below it| disabled |
-     | =disablecompresstags="on"= | Bypass replacing newlines in HTML tags with spaces. This compression step rewrites unmatched &lt;'s into =&amp;lt;= entities unless bypassed | disabled |
-     | =disablerewriteurls="on"= | Bypass rewriting relative URLs into absolute ones | disabled |
-     | =warn="off"= | Warn if URL include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) appended with the http error information. | =%<nop>INCLUDEWARNING%= [[%WIKIPREFSTOPIC%][preferences]] setting |
+     | =pattern= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
+     | =raw= | When a page is included, normally %WIKITOOLNAME% will process it, doing the following: 1) Alter relative links to point back to originating host, 2) Remove some basic HTML tags (html, head, body, script) and finally 3) Remove newlines from HTML tags spanning multiple lines. If you prefer to include _exactly_ what is in the source of the originating page set this to =on=. %BR% =raw="on"= is short for =disableremoveheaders="on"=, =disableremovescript="on"=, =disableremovebody="on"=, =disablecompresstags="on"= and =disablerewriteurls="on"=. | disabled |
+     | =literal= | While using the =raw= option will indeed include the raw content, the included content will still be processed and rendered like regular topic content. To disable parsing of the included content, set the =literal= option to ="on"=. | =off= |
+     | =disableremoveheaders= | Bypass stripping headers from included HTML (everything until first =&lt;/head&gt;= tag) | =off= |
+     | =disableremovescript= | Bypass stripping all =&lt;script&gt;= tags from included HTML | =off= |
+     | =disableremovebody= | Bypass stripping the =&lt;/body&gt;= tag and everything around over and below it| =off= |
+     | =disablecompresstags= | Bypass replacing newlines in HTML tags with spaces. This compression step rewrites unmatched &lt;'s into =&amp;lt;= entities unless bypassed | =off= |
+     | =disablerewriteurls= | Bypass rewriting relative URLs into absolute ones | =off= |
+     | =warn= | Warn if URL include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) appended with the http error information. | =%<nop>INCLUDEWARNING%= [[%WIKIPREFSTOPIC%][preferences]] setting |
    <p></p><div class="foswikiHelp">%H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)<p></p>
    %X% Foswiki by default is configured to deny URL format includes.</div>
    * Examples: See IncludeTopicsAndWebPages
 
 ---++ (Including Foswiki embedded module documentation) Parameters
-     %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
-     | =level="1"= | Override the root heading level to the specified number | |
-     | =pattern="..."= |Include a subset of the module. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
+  %TABLE{sort="off"}%
+  | *Parameter* | *Description* | *Default* |
+  | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
+  | =level= | Override the root heading level to the specified number | |
+  | =pattern= |Include a subset of the module. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
    * Examples: See [[%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][%SYSTEMWEB%/PerlDoc?module=Foswiki::Func]]
 
+%STOPINCLUDE%
 ---++ Related
  [[VarBASETOPIC][BASETOPIC]], [[VarBASEWEB][BASEWEB]], [[VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[VarINCLUDINGWEB][INCLUDINGWEB]], [[VarSTARTINCLUDE][STARTINCLUDE]], [[VarENDINCLUDE][ENDINCLUDE]], [[VarSTOPINCLUDE][STOPINCLUDE]], [[VarSTARTSECTION][STARTSECTION]], [[VarENDSECTION][ENDSECTION]]

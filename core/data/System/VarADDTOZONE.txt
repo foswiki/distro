@@ -1,23 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ADDTOZONE -- add content to a named zone on the page
-<verbatim class="tml">
-%ADDTOZONE{
-  "zone"
-  ...
-}%
-</verbatim>
 
 ---++ Parameters
-   * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. 
-     The only zones guaranteed to exist are =head= and =script=. Defaults to =head=. 
-   * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
-      * %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
-   * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.  The content will be rendered even if a specified =id= is missing.
-   * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
-   * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=. Defaults to =%<nop>BASETOPIC%=
-   * =section="..."= optional, section of the =topic= to be added,
-     defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].
+   | *Parameter* | *Description* | *Default* |
+   | ="zone"= | comma-separated list of the names of zones that the content should be added to. The only zones guaranteed to exist are =head= and =script= | =head= |
+   | =id= | =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls. %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call. | |
+   | =requires= | comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.  The content will be rendered even if a specified =id= is missing.| |
+   | =text= | text to be added to the named zone, mutually exclusive with =topic=.| |
+   | =topic= | full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=. | =%<nop>BASETOPIC%=|
+   | =section= | section of the =topic= to be added | the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]] |
 
 ---++ What is a "Zone"?
 _Zones_ are specific places in the output HTML that are marked by calls to the
@@ -159,6 +151,7 @@ identifier should appear beforehand.
 }%
 </verbatim>
 
+%STOPINCLUDE%
 ---++ Related
 [[VarRENDERZONE][RENDERZONE]],
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],

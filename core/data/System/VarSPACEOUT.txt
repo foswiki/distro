@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SPACEOUT -- renders string with spaces inserted in sensible places
 Inserts spaces after lower case letters that are followed by a digit or a capital letter, and after digits that are followed by a capital letter. Useful for spacing out WikiWords
@@ -6,8 +6,9 @@ Inserts spaces after lower case letters that are followed by a digit or a capita
    * =%<nop>SPACEOUT{"WebHome"}%= expands to: =%SPACEOUT{"WebHome"}%=
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
+     | *Parameter* | *Description* | *Default* |
      | =separator= | The separator to put between words e.g. =%<nop>SPACEOUT{"DogsCatsBudgies" separator=", "}%= -> %SPACEOUT{"DogsCatsBudgies" separator=", "}% | ' ' |
    <div class="foswikiHelp">%T% Spaced out !WikiWords are not automatically linked. To =SPACEOUT= a !WikiWord but preserve the link use "double bracket" format. For example, =[<nop>[%HOMETOPIC%][%<nop>SPACEOUT{"Web<nop>Home"}%]]= expands to [[%HOMETOPIC%][%SPACEOUT{"%HOMETOPIC%"}%]]</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarSPACEDTOPIC][SPACEDTOPIC]], [[SpreadSheetPlugin#FuncPROPERSPACE][$PROPERSPACE()]] of SpreadSheetPlugin

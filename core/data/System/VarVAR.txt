@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ VAR -- get a preference value from another web 
 ---++ Parameters
@@ -8,7 +8,7 @@
 ---++ Examples
    * =%<nop>VAR{"WEBBGCOLOR"}%= expands to =%VAR{"WEBBGCOLOR"}%=
    * =%<nop>VAR{"WEBBGCOLOR" web="%USERSWEB%"}%= expands to =%VAR{"WEBBGCOLOR" web="%USERSWEB%"}%=
-
+%STOPINCLUDE%
 ---++ Related
 [[VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
 

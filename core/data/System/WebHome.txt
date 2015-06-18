@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433037425" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
@@ -24,6 +24,7 @@ This site is running Foswiki version *%WIKIVERSION%*, Release *%WIKIRELEASE%*,  
 ---++ Guides
    * [[UsersGuide][User's Guide]] - links to documentation useful for normal users
    * [[Reference Manual]] - full, detailed documentation
+   * [[MacrosQuickReference]] - quick reference guide to Foswiki macros
    * [[http://foswiki.org/Support][Getting help]] - if you get stuck
 
 ---++ Administrators (mostly)

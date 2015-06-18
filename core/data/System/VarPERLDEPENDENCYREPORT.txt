@@ -1,11 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PERLDEPENDENCYREPORT -- report perl module dependencies
 Intended for use by installers / administrators, reports on the status of
 Perl dependencies in the Foswiki core and extensions.
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
+     | *Parameter* | *Description* | *Default* |
      | ="extensions"= | requests dependencies of installed extensions. | (not set) |
+%STOPINCLUDE%
 ---++ Related
 PerlDependencyReport

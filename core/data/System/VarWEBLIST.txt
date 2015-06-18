@@ -1,29 +1,27 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ WEBLIST -- index of all webs
-
-Generate a list of all webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
-
+Generate a list of webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
-     | ="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only).  The standard [[format tokens]] may also be used. | =$name= |
-     | =format="format"= | (Alternative to above) | =$name= |
-     | =separator=", "= | Line separator | =$n= (new line).  Standard [[format tokens]] may also be used. |
-     | =web=""= | if you specify =$web= in format, it will be replaced with this value. | none |
-     | =webs="public"=   | Comma separated list of webs to consider. This list can include two pseudo-webs, =public= which expands to all non-hidden and =webtemplate= which expands to the names of all template webs.%BR% *NOTE:* Administrators will see all webs, not just the public ones | =public= |
-     | =subwebs="%SANDBOXWEB%"=   | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | =""= |
-     | =selection="%<nop>WEB%"= | Entry to be selected in list. If one of the webs matches this selection, then =$marker= in the =format= will be expanded | =selection=%<nop>WEB%= |
-     | =marker="selected"= | Text for =$marker= if the item matches =selection= | =selected="selected"= |
-   * Example, creates a bullet list of all webs: <verbatim class="tml">%WEBLIST{"   * [[$name.%HOMETOPIC%]]"}%</verbatim>
-   * Example, creates a dropdown of all public webs + Trash web, with the current web highlighted: <pre class="tml">&lt;form&gt;&lt;select name="web"&gt;%<nop>WEBLIST{
+     | *Parameter* | *Description* | *Default* |
+     | ="format"= <br> =format="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only).  The standard [[format tokens]] may also be used. | =$name= |
+     | =separator= | Web separator | =$n= (new line).  Standard [[format tokens]] may also be used. |
+     | =web= | if you specify =$web= in format, it will be replaced with this value. | |
+     | =webs=   | Comma separated list of webs to consider. This list can include two pseudo-webs, =public= which expands to all non-hidden and =webtemplate= which expands to the names of all template webs.%BR% *NOTE:* Administrators will see all webs, not just the public ones | =public= |
+     | =subwebs= | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | |
+     | =selection= | Entry to be selected in list. If one of the webs matches this selection, then =$marker= in the =format= will be expanded | =%<nop>WEB%= |
+     | =marker= | Text for =$marker= if the item matches =selection= | =selected="selected"= |
+---++ Examples
+Create a bullet list of all webs: <verbatim class="tml">%WEBLIST{"   * [[$name.%HOMETOPIC%]]"}%</verbatim>
+Create a dropdown of all public webs + Trash web, with the current web highlighted: <pre class="tml">&lt;form&gt;&lt;select name="web"&gt;%<nop>WEBLIST{
       "&lt;option $marker value='$qname'&gt;$name&lt;/option&gt;"
       webs="Trash, public"
       selection="%<nop>WEB%"
       separator=" "
    }% &lt;/select&gt;&lt;/form&gt;</pre>
    <div class="foswikiHelp">%X% =WEBLIST= will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed</div>
-
+%STOPINCLUDE%
 ---++ Related
 [[VarTOPICLIST][TOPICLIST]], [[VarSEARCH][SEARCH]]
 <!--%JQREQUIRE{"chili"}%-->

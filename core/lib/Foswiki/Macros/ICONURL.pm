@@ -17,7 +17,7 @@ BEGIN {
 
 ---++ ObjectMethod ICONURL($params) -> $html
 
-ICONURLPATH macro implementation
+ICONURL macro implementation
 
 =cut
 

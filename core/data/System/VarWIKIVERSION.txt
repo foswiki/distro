@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ WIKIVERSION -- the version of the installed Foswiki engine
 ---++ Examples
    * =%<nop>WIKIVERSION%= expands to =%WIKIVERSION%=
+%STOPINCLUDE%
 ---++ Related
  [[VarPLUGINVERSION][PLUGINVERSION]], [[VarWIKITOOLNAME][WIKITOOLNAME]]

@@ -1,29 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ ENDCOLOR -- end colored text
-   * =ENDCOLOR= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of shortcuts.<br/>
-   *Example:*
-   <pre class="tml">%<nop>GREEN% green text %<nop>ENDCOLOR%</pre>
-   *Expands to:* %GREEN% green text %ENDCOLOR%
-   %INCLUDE{"%TOPIC%" section="remember"}%
----++ Related
- %SEARCH{
-   "parent.name='StandardColors'"
-   type="query"
-   excludetopic="%TOPIC%"
-   nonoise="on"
-   format="[[$topic][$percntCALC{$SUBSTITUTE($topic,Var,,1)}$percnt]]"
-   separator=", "
-}%, [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
-%STOPINCLUDE%
+=ENDCOLOR= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%. It is used to terminate a colour change (revert back to the default colour).
 
-<!-- STOPINCLUDE to help HTML validation from CompleteDocumentation -->
-<verbatim style="display: none;">%STARTSECTION{"varcolor"}%
----+ %color% -- start %CALC{"$LOWER(%color%)"}% colored text
-   * =%color%= is one of the shortcut macros predefined in %WIKIPREFSTOPIC%.  See the section [[%WIKIPREFSTOPIC%#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.<br/>
-   *Example:*
-   <pre class="tml">%<nop>%color%% %CALC{"$LOWER(%color%)"}% text %<nop>ENDCOLOR%</pre>
-   *Expands to:* %%color%% %CALC{"$LOWER(%color%)"}% text %ENDCOLOR%
-   %STARTSECTION{"remember"}%<p></p><div class="foswikiHelp">%X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write <pre class="tml">%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%</pre></div>%ENDSECTION{"remember"}%
-*Related:* [[%IF{"'%includingtopic%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[%WIKIPREFSTOPIC%#RenderingShortcuts][%WIKIPREFSTOPIC%]], StandardColors
-<!--%JQREQUIRE{"chili"}%-->%ENDSECTION{"varcolor"}%</verbatim>
+The following colours are available: %SEARCH{
+    "^      \* %[A-Z]+% \*Set [A-Z]+ = looks like this"
+    web="%SYSTEMWEB%"
+    topic="DefaultPreferences"
+    multiple="on"
+    type="regex"
+    format="$percent<nop>$pattern(.*?%([A-Z]+)%.*)$percent"
+    nonoise="on"
+    separator = ", "
+}%
+---++ Examples
+   * =%<nop>GREEN% green text %<nop>ENDCOLOR%= expands to =%GREEN% green text %ENDCOLOR%=
+%STOPINCLUDE%

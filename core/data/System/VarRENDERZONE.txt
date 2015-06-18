@@ -1,45 +1,47 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERZONE - render the content of a zone
-<verbatim class="tml">
-%RENDERZONE{"zone" ...}%
-</verbatim>
-See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
+Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 
-Parameters:
-   * ="zone"= required, name of the zone.
-   * =format="..."= optional, format string for each item added to the zone, default:
-   <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim>Tokens:
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+   | ="zone"= | name of the zone | | (reguired) |
+   | =format=" | format string for each item added to the zone | <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim> |
+   | =missingtoken= | string assigned to the =$missing= format token for use in the =format= parameter. | \
+   <verbatim class="tml">$id: requires= missing ids: $missingids</verbatim> |
+   | =chomp= | remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression. | =off= |
+   | =header= | prepended to the output | |
+   | =footer= | appended to the output | |
+   | =separator= | put between each item of a zone | |
+The following tokens are expanded in the =format= string:
       * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
       * =$item= - text of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
       * =$zone= - the ="zone"= currently being rendered.
       * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
       * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
-   * =missingtoken="..."= optional, this will be the string assigned to the =$missing= format token for use in the =format= parameter. Default:
-   <verbatim class="tml">$id: requires= missing ids: $missingids</verbatim>
-   * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
-   * =header="..."= optional, prepended to the output
-   * =footer="..."= optional, appended to the output
-   * =separator="..."= optional, put between each item of a zone
 Supports the [[FormatTokens][standard format tokens]] in all parameters.
 
-__Notes:__
-   * =header= and =footer= are *not* output if there is no content in the
+<div class="foswikiHelp">
+%H% =header= and =footer= are *not* output if there is no content in the
      zone (nothing has been =ADDTOZONEd= ). However they *are* output if the
      output is the empty string (at least one =ADDTOZONE= has been processed).
-   * Zones are cleared after being rendered; they are only ever rendered once.
-   * =head= and =script= are _automatic zones_. They don't require a
+
+%H% Zones are cleared after being rendered; they are only ever rendered once.
+
+%H% =head= and =script= are _automatic zones_. They don't require a
      corresponding =RENDERZONE= anywhere in the templates - they are
      automatically inserted before the =&lt;/head&gt;= tag in the output HTML
      page.
-   * Normally, dependencies between individual =ADDTOZONE= statements are
+
+%H% Normally, dependencies between individual =ADDTOZONE= statements are
      resolved within each zone. However, if ={MergeHeadAndScriptZones}= is
      enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], then =head=
      content which requires an =id= that only exists in =script= will be re-ordered 
-     to satisfy this dependency.
-     <div class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= will be
-     removed from a future version of Foswiki.</div>
-
+     to satisfy this dependency. %X% ={MergeHeadAndScriptZones}= will be
+     removed from a future version of Foswiki.
+</div>
+%STOPINCLUDE%
 ---++ Related
 [[VarADDTOZONE][ADDTOZONE]]
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],

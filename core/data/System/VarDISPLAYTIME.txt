@@ -1,11 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ DISPLAYTIME -- display formatted time
 Formatted time - either GMT or Local server time, depending on {DisplayTimeValues} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. Same format qualifiers as =%<nop>GMTIME%=
 ---++ Parameters
-| *Parameter:* | *Description:* |
-| ="format"= | Optional format (see [[VarGMTIME][GMTIME]]) |
+     %TABLE{sort="off"}%
+   | *Parameter* | *Description* | *Default* |
+   | ="format"= | Optional format (see [[VarGMTIME][GMTIME]]) | |
 ---++ Examples
+   * =%<nop>DISPLAYTIME%= expands to =%DISPLAYTIME%=
    * =%<nop>DISPLAYTIME{"$hou:$min"}%= expands to =%DISPLAYTIME{"$hou:$min"}%=
+%STOPINCLUDE%
 ---++ Related
  [[VarGMTIME][GMTIME]], [[VarSERVERTIME][SERVERTIME]]

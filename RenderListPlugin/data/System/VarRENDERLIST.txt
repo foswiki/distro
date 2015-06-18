@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERLIST -- render bullet lists in a variety of formats
 The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
@@ -17,6 +17,7 @@ The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
          * [[Sales.EastCoastTeam][East Coast]]
          * [[Sales.WestCoastTeam][West Coast]]
 </div>
+%STOPINCLUDE%
 ---++ Related
  RenderListPlugin
 <!--%JQREQUIRE{"chili"}%-->

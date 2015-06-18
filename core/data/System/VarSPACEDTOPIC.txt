@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SPACEDTOPIC -- topic name, spaced and URL-encoded *deprecated*
 The current topic name with added URL-encoded spaces, for use in regular expressions that search for backlinks to the current topic
 ---++ Examples
    * =%<nop>SPACEDTOPIC%= expands to =%SPACEDTOPIC%=
    <div class="foswikiHelp">%X% *This is a deprecated macro.* It can be duplicated with =%<nop>ENCODE{%<nop>SPACEOUT{"%<nop>TOPIC%" separator=" *"}%}%= </div>
+%STOPINCLUDE%
 ---++ Related
  [[VarSPACEOUT][SPACEOUT]], [[VarTOPIC][TOPIC]], [[VarENCODE][ENCODE]]
 

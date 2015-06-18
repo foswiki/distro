@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ STARTSECTION -- marks the start of a section within a topic
 Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
@@ -10,20 +10,23 @@ Sections may be given a name to help identify them, and/or a type, which changes
    
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default* |
+     | *Parameter* | *Description* | *Default* |
      | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
-     | =type="..."= | Type of the section; type ="section"=, ="expandvariables"=, ="include"= or ="templateonly"= | ="section"= |
-     | =PARONE="val 1"%BR% PARTWO="val 2"= | Any other parameter will be defined as a default value for a macro within the scope of the section. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined _if_ they are not defined parameters to the INCLUDE, or nested INCLUDEs surrounding it, or previsouly defined Preferences. | |
+     | =type=" | Type of the section; type ="section"=, ="expandvariables"=, ="include"= or ="templateonly"= | ="section"= |
+     | Any other parameter will be defined as a default value for a macro within the scope of the section. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined _if_ they are not defined parameters to the INCLUDE, or nested INCLUDEs surrounding it, or previsouly defined Preferences. |||
      
-   <div class="foswikiHelp">%X% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
-   <p></p>
-   %X% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.</div>
+<div class="foswikiHelp">
+%H% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
+
+%H% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.
+</div>
 ---++ Examples
    * =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
    * =%<nop>STARTSECTION{"name" type="section"}% .... %<nop>ENDSECTION{"name" type="section"}%= _(type="section" is the default)_
    * =%<nop>STARTSECTION{type="include"}% ........... %<nop>ENDSECTION{type="include"}%=
    * =%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%=
    * =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
+%STOPINCLUDE%
 ---++ Related
  [[VarENDSECTION][ENDSECTION]], [[VarINCLUDE][INCLUDE]], [[VarNOP][NOP]], [[VarSTARTINCLUDE][STARTINCLUDE]], [[VarSTOPINCLUDE][STOPINCLUDE]]
 

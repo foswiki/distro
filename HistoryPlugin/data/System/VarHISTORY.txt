@@ -1,16 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ HISTORY -- control attributes of tables and sorting of table columns
 The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
 ---++ Parameters
      %STARTSECTION{"history_attributes"}%
      %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*         | *Description*  | *Default&nbsp;value*  |
-     | none       | Default layout: a simple list of topic revisions using the default format (see below) | |
-     | ="format"= or =format="string"= | Format of one line, may include any variable which is supported by macro [[%SYSTEMWEB%.VarREVINFO][REVINFO]] | <code>"r$rev - $date - $wikiusername"</code> |
-     | =topic="topic"= | Topic name, can be in =web.topic= format | current topic |
-     | =web="web"= | Web name | current web |
-     | =versions="number or range"= | Number or range (format: =from..to=). Examples: %BR% \
+     | *Parameter*         | *Description*  | *Default*  |
+     | ="format"= <br /> =format="format"= | Format of one line, may include any variable which is supported by macro [[%SYSTEMWEB%.VarREVINFO][REVINFO]] | <code>r$rev - $date - $wikiusername</code> |
+     | =topic= | Topic name, can be in =web.topic= format | current topic |
+     | =web= | Web name | current web |
+     | =versions= | Number or range (format: =from..to=). Examples: %BR% \
      To get version 2, write: =versions="2"= %BR% \
      To get version 2 to 3, write: =versions="2..3"= %BR% \
      To get version 2 to the latest, write: =versions="2.."= %BR% \
@@ -18,22 +17,22 @@ The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
      To get all versions up to but not including the latest, write: =versions="..-1"= %BR% \
      To get the versions from 1 to 5 in reverse order, write: =versions="5..1"= \
      | all versions in the order latest to first |
-     | =header="text"= | Text to print before the list. %BR% \
+     | =header= | Text to print before the list. %BR% \
      May contain the tokens =$next= and =$previous= which will be evaluated if there are newer or older revisions available for the topic that are not listed according to =versions= (or =rev1=, =rev2=, =nrev=). %BR% \
      These tokens take the syntax =$next{'some text' url='url'}= (the same for =$previous=). 'some text' is the text which should be printed, 'url' is the url for the corresponding link. %BR% \
-     The tokens =$rev1=, =$rev2=, =$nrev= in 'text' or 'url' will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this. | ="$next"= |
-     | =footer="text"= | Text to print after the list. May contain the tokens =$next= and =$previous= (see =header=) | ="$previous"= |
+     The tokens =$rev1=, =$rev2=, =$nrev= in 'text' or 'url' will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this. | =$next= |
+     | =footer="text"= | Text to print after the list. May contain the tokens =$next= and =$previous= (see =header=) | =$previous= |
 
 Deprecated (but supported) parameters:
      %TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*         | *Description*  | *Default&nbsp;value*  |
-     | =nrev="number"= | Number of revisions to show. Ignored if =versions= is specified, or if both =rev1= and =rev2= are specified. | =10= |
-     | =rev2="number"= | Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |
-     | =rev1="number"= | Oldest revision to show | =rev2-nrev= |
-     | =reverse="boolean"= |Show newest revisions first, if =on= | ="on"= |
+     | *Parameter*         | *Description*  | *Default*  |
+     | =nrev= | Number of revisions to show. Ignored if =versions= is specified, or if both =rev1= and =rev2= are specified. | =10= |
+     | =rev2= | Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |
+     | =rev1= | Oldest revision to show | =rev2-nrev= |
+     | =reverse= |Show newest revisions first, if =on= | ="on"= |
 
 ---+++ Additional macros
-The following macros are replaced only if there is a corresponding =%<nop>HISTORY%= on the page. If more than one =%<nop>HISTORY%= is used on the same page, the values from the last one will be used.
+The following macros are expanded only if there is a corresponding =%<nop>HISTORY%= on the page. If more than one =%<nop>HISTORY%= is used on the same page, the values from the last one will be used.
 
    * =%<nop>HISTORY_REV1%=: Oldest revision from the printed history
    * =%<nop>HISTORY_REV2%=: Latest revision from the printed history

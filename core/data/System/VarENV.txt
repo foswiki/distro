@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENV -- inspect the value of an environment variable
 Returns the current value of the environment variable in the CGI (Common Gateway Interface) environment. This is the environment that the CommandAndCGIScripts are running in.
@@ -8,5 +8,6 @@ If an environment variable is undefined (as against being set to the empty strin
 *Note:* For security reasons, only those environment variables whose names match the regular expression in the configuration setting ={AccessibleENV}= (in the *Security Settings/Miscellaneous* section of =configure=) can be displayed. Any other variable will just be shown as an empty string, irrespective of its real value.
 ---++ Examples
    * =%<nop>ENV{MOD_PERL}%= displays as: %ENV{MOD_PERL}%
+%STOPINCLUDE%
 ---++ Related
  [[VarHTTPHOST][HTTP_HOST]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]

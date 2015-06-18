@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ REVINFO -- revision information of current topic
 =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
@@ -7,26 +7,28 @@
    * =%<nop>REVINFO{"format"}%= expands to =%REVINFO%=
 ---++ Parameters
      %TABLE{sort="off"}%
-     | *Parameter:* | *Description:* | *Default:* |
+     | *Parameter* | *Description* | *Default* |
      | ="format"= | Format of revision information, see supported formatting tokens below | ="r$rev - $date - $wikiusername"= |
-     | =web="..."= | Name of web | Current web |
-     | =topic="..."= | Topic name | Current topic |
-     | =rev="5"= | Specific revision number | Latest revision |
-   * Supported formatting tokens:
+     | =web=" | Name of web | Current web |
+     | =topic=" | Topic name | Current topic |
+     | =rev= | Specific revision number | Latest revision |
+Supported formatting tokens:
      %TABLE{sort="off"}%
-     | *Token:* | *Unit:* | *Example* |
-     | =$web= | Name of web | Current web |
-     | =$topic= | Topic name | Current topic |
-     | =$rev= | Revision number. | =5= |
-     | =$username= | Login username of revision | =jsmith= |
-     | =$wikiname= | WikiName of revision | =JohnSmith= |
-     | =$wikiusername= | <nop>WikiName with %USERSWEB% web prefix | =%USERSWEB%.JohnSmith= |
-     | =$date= | Revision date. Actual date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] | =21 Sep 2006= |
-     | =$time= | Revision time | =23:24:25= |
-     | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
-     !| =$min=, =$sec=, etc. | Same date format qualifiers as [[VarGMTIME][GMTIME{"format"}]] | |
-   * Example, returns revision info of revision 43: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
+     | *Token* | *Unit* |
+     | =$web= | Name of web |
+     | =$topic= | Topic name |
+     | =$rev= | Revision number |
+     | =$username= | Login username of revision |
+     | =$wikiname= | WikiName of revision |
+     | =$wikiusername= | <nop>WikiName with %USERSWEB% web prefix |
+     | =$date= | Revision date. Actual date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] |
+     | =$time= | Revision time |
+     | =$iso= | Revision date in ISO date format |
+     !| =$min=, =$sec=, etc. | Same date format qualifiers as [[VarGMTIME][GMTIME{"format"}]] |
+---++ Examples
+   * <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
    * To get the latest revision, even when looking at an older revision: <verbatim class="tml">%REVINFO{"$rev" rev="-1"}%</verbatim>
+%STOPINCLUDE%
 ---++ Related
  [[VarREVARG][REVARG]],[[VarREVTITLE][REVTITLE]]
 <!--%JQREQUIRE{"chili"}%-->

@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ WIKITOOLNAME -- name of your site
 ---++ Examples
    * =%<nop>WIKITOOLNAME%= expands to =%WIKITOOLNAME%=
+%STOPINCLUDE%
 ---++ Related
  [[VarWIKIHOMEURL][WIKIHOMEURL]], [[VarWIKIVERSION][WIKIVERSION]]
 

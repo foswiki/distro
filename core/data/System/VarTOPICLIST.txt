@@ -1,17 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TOPICLIST -- topic index of a web
 List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
 ---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter:* | *Description:* | *Default:* |
-     | ="format"= | Format of one line, may include =$web= (name of web), =$topic= (name of the topic), =$marker= (which expands to =marker= for the item matching =selection= only) | ="$topic"= |
-     | =format="format"= | (Alternative to above) | ="$topic"= |
-     | =separator=", "= | line separator | ="$n"= (new line) |
-     | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
-     | =selection="TopicA, !TopicB"= | Current value to be selected in list | =(none)= |
-     | =web="Name"= | Name of web | Current web |
-   * Examples: <verbatim class="tml">   Create a bullet list of all topics:
+     | =web= | Name of web | Current web |
+     | ="format"= <br> =format="format"=| Format of one line, may include =$web= (name of web), =$topic= (name of the topic), =$marker= (which expands to =marker= for the item matching =selection= only) | ="$topic"= |
+     | =separator= | topic separator | ="$n"= (new line) |
+     | =marker= | Text for =$marker= if the item matches =selection= | ="selected"= |
+     | =selection= | Current value to be selected in list | =(none)= |
+---++ Examples
+<verbatim class="tml">   Create a bullet list of all topics:
    %TOPICLIST{"   * $web.$topic"}%
 
    Create a comma separated list of all topics:
@@ -26,6 +26,7 @@ List of all topics in a web. The "format" defines the format of one topic item. 
       separator=" "
       selection="%TOPIC%"
    }%</select></verbatim>
+%STOPINCLUDE%
 ---++ Related
  [[VarSEARCH][SEARCH]], [[VarWEBLIST][WEBLIST]]
 <!--%JQREQUIRE{"chili"}%-->

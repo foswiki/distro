@@ -1,44 +1,46 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ META -- displays meta-data
 Provided mainly for use in templates, this macro generates the parts of
 the topic view that relate to meta-data (attachments, forms etc.).
+---++ Parameters
+The unnamed parameter controls what meta-data is displayed, other parameters
+control how it is displayed.
 
-Syntax: =%<nop>META{ "item" ...}%=
-
-Parameters:
-The first (unnamed) parameter indicates what meta-data we want to see:
-   * ="form"= - generates the table showing the form fields. See
-     [[CompleteDocumentation#FormDefinition][Form Definition]].
-   * ="attachments"= - generate a table of attachments
-      * =all="on"= to show hidden attachments.
-      * =title="..."= to show a title - only if attachments are displayed.
-      * =template="..."= to use a custom template for the rendering of 
-        attachments; default =attachtables= is used.
-   * ="moved"= - if a topic was moved or renamed, generates a message with details and a revert link
-      * =prefix="..."=: Prefix that goes before the moved message, but only if the message is generated, default =""=.
-      * =suffix="..."=: Prefix that goes after the moved message, but only if the message is generated, default =""=.
-   * ="parent"= - display details of ancestor topics
-      * =dontrecurse="on"=: By default recurses up tree, this has some cost.
-        Equivalent to =depth=1=
-      * =depth="..."=: Return only the specified ancestor.
-      * =nowebhome="on"=: Suppress <nop>%HOMETOPIC%.
-      * =format="..."=: Format string used to display each parent topic
-        where =$web= expands to the web name, and =$topic= expands to the
-        topic name; default: ="[<nop>[$web.$topic][$topic]]"=
-      * =separator="..."=: Separator between parents; default =" &gt; "=
-      * =prefix="..."=: Prefix that goes before parents, but only if there
-        are parents, default =""=.
-      * =suffix="..."=: Suffix, only appears if there are parents; default
-        =""=.
-   * ="formfield"= - display the value of a single form field
-      * =name="..."=: name of the field.
-      * =newline="..."=: by default, each newline character will be
-        rewritten to =&lt;br /&gt;= to allow metadata that contains newlines
-        to be used in tables, etc. =$n= indicates a newline character.
-      * =bar="..."=: by default, each vertical bar is rewritten to an HTML
-        entity so as to not be mistaken for a table separator.
-      * =display="on"= - only used with ="formfield"=, retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value.
-   * =topic="%USERSWEB%.WebPreferences"= - optional parameter to select which topic to get the meta-data from.
-
-Related: [[VarQUERY][QUERY]]
+---+++ ="form"=
+Generates the table showing the form fields.
+---+++ ="attachments"=
+Generates a table of attachments
+     | *Parameter* | *Description* | *Default* |
+   | =all= | to show hidden attachments | =off= |
+   | =title= | to show a title - only if attachments are displayed | |
+   | =template= | to use a custom template for the rendering of \
+        attachments | =attachtables= |
+---+++ ="moved"=
+If a topic was moved or renamed, generates a message with details and a revert link
+     | *Parameter* | *Description* | *Default* |
+   | =prefix= | Prefix that goes before the moved message, but only if the message is generated | |
+   | =suffix= | Prefix that goes after the moved message, but only if the message is generated | |
+---++ ="parent"=
+Display details of ancestor topics
+     | *Parameter* | *Description* | *Default* |
+   | =dontrecurse= | Recursing up the tree incurs some cost. Equivalent to =depth=1= | =off= |
+   | =depth= | Return only the specified ancestor | |
+   | =nowebhome= | Suppress <nop>%HOMETOPIC% | |
+   | =format= | Format string used to display each parent topic \
+        where =$web= expands to the web name, and =$topic= expands to the \
+        topic name | =[<nop>[$web.$topic][$topic]]= |
+   | =separator= | Separator between parents | =&gt;= |
+   | =prefix= | Prefix that goes before parents, but only if there \
+        are parents | |
+   | =suffix= | Suffix, only appears if there are parents | |
+---++ ="formfield"=
+Display the value of a single form field
+     | *Parameter* | *Description* | *Default* |
+   | =name= | name of the field | |
+   | =newline= | how to represent newlines in the value | =$n= |
+   | =bar= | How to represent vertical bars in the data. Vertical bars are rewritten to an HTML entity by default so as to not be mistaken for a table separator. This option allows you to change what is produced. | =&amp;vbar;= |
+   | =display= | If =on= retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value | =off= |
+   | =topic= | Select which topic to get the meta-data from | |
+---++ Related
+[[VarQUERY][QUERY]]

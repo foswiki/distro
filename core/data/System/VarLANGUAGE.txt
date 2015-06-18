@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ LANGUAGE -- language code for the current user
 Returns the language code for the current user. This is the language used by Foswiki to generate the user interface.
@@ -9,6 +9,7 @@ If a =LANGUAGE= preference is explicitly set, this will be used as the user lang
 
 ---++ Examples
    * =%<nop>LANGUAGE%= expands to =%LANGUAGE%=
+%STOPINCLUDE%
 ---++ Related
  [[VarLANGUAGES][LANGUAGES]]
 

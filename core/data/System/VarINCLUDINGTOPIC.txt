@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ INCLUDINGTOPIC -- name of topic that includes current topic
 The name of the topic that includes the current topic - same as =%<nop>TOPIC%= in case there is no include.
 If a topic is used in a chain of =INCLUDEs=, =INCLUDINGTOPIC= is set to the topic directly INCLUDing this one, _NOT_ the topic that has been requested by the user (which is given by =BASETOPIC=)
    <div class="foswikiHelp">%X% Be careful of the subtle difference between =INCLUDINGTOPIC= and =BASETOPIC=. You probably should be using =BASETOPIC= </div>
+%STOPINCLUDE%
 ---++ Related
  [[VarBASETOPIC][BASETOPIC]], [[VarINCLUDINGWEB][INCLUDINGWEB]], [[VarINCLUDE][INCLUDE]], [[VarTOPIC][TOPIC]]
 

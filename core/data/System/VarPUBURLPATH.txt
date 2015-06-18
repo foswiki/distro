@@ -1,7 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PUBURLPATH -- generate a relative URL for an attachment
 Generate a relative URL for an attachment, or for a web or topic within the attachment database.
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+   | ="attachment"= | Name of attachment to link| |
+   | =web= | Web | |
+   | =topic= | Topic, or Web.Topic | |
+   | =topic_version= | Select topic version, if supported | most recent |
+   | =attachment_version= | Select attachment version, if supported | most recent |
 ---++ Examples
    * =%<nop>PUBURLPATH%= expands to =%PUBURLPATH%=
    * =%<nop>PUBURLPATH{"icon_plus.png"}%= expands to ==%<nop>PUBURLPATH{"icon_plus.png"}%=
@@ -18,6 +26,7 @@ Generate a relative URL for an attachment, or for a web or topic within the atta
 %I% [[VarATTACHURLPATH][ATTACHURLPATH]] provides a shorter way to refer to the attachments on the current topic.
 
 </div>
+%STOPINCLUDE%
 ---++ Related
  [[VarPUBURL][PUBURL]], [[VarATTACHURL][ATTACHURL]], [[VarATTACHURLPATH][ATTACHURLPATH]], [[VarSCRIPTURL][SCRIPTURL]], [[VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
 

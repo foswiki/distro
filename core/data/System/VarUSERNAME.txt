@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERNAME -- your login username
 Foswiki makes names available in three formats: USERNAME like =jsmith=, WIKINAME like =JohnSmith= and WIKIUSERNAME like =%USERSWEB%.JohnSmith=. Un-authenticated users are all %USERSWEB%.WikiGuest.
 ---++ Examples
    * =%<nop>USERNAME%= expands to =%USERNAME%=
    <div class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details</div>
+%STOPINCLUDE%
 ---++ Related
  [[VarREMOTEUSER][REMOTE_USER]], [[VarUSERINFO][USERINFO]], [[VarWIKINAME][WIKINAME]], [[!VarWIKIUSERNAME][WIKIUSERNAME]], UserAuthentication
 

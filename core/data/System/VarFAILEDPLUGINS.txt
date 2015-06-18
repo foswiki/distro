@@ -1,8 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
----+ FAILEDPLUGINS -- debugging for plugins that failed to load, and handler list
+---+ FAILEDPLUGINS -- debugging for plugins that failed to load
+Also generates a list of handlers defined by plugins
 ---++ Examples
-   * =%<nop>FAILEDPLUGINS%= expands to %FAILEDPLUGINS%
+   * =%<nop>FAILEDPLUGINS%=
+%STOPINCLUDE%
 ---++ Related
  [[VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[VarPLUGINVERSION][PLUGINVERSION]]
 

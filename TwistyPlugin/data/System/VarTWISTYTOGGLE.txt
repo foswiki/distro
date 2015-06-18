@@ -1,19 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYTOGGLE -- Twisty Toggle contents section
 ---++ Parameters
     %TABLE{sort="off"}%
-    | *Parameter* | *Value* | *Description* | *Remark* |
-    | =id= | Unique identifier | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
-    | =mode= | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
-    | =class= | CSS class name | Class for content div or span | optional, default none |
-    | =linkclass= | CSS class name | Class for link | optional, default none |
-    | =remember= | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | optional, no default |
-    | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
-    | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
-    | =noscript= | ="hide"= | Make content hidden in case use does not have !JavaScript on | optional, default content is shown with no !JavaScript |
+    | *Parameter* | *Description* | *Default* |
+    | =id= | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
+    | =mode= | ="div"= or ="span"= Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | =&lt;div&gt;= |
+    | =class= | CSS class name for content div or span |  |
+    | =linkclass= | CSS class name for link |  |
+    | =remember= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. |  |
+    | =start= | ="hide"= or ="show"= Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  |  |
+    | =firststart= | ="hide"= or ="show"= Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  |  |
+    | =noscript= | =hide= to make content hidden in case use does not have !JavaScript on |  |
 ---++ Examples
 <verbatim class="tml">%TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%ENDTWISTYTOGGLE%</verbatim>
+%STOPINCLUDE%
 ---++ Related
 %SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
 <!--%JQREQUIRE{"chili"}%-->

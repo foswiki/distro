@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
-%META:TOPICPARENT{name="Macros"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeprecatedMacros"}%
 ---+ TWIKIWEB -- synonym for SYSTEMWEB
 <div class="foswikiHelp">%X% *Deprecated.* Use =%<nop>SYSTEMWEB%= instead</div>

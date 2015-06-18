@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SESSIONID -- unique ID for this session
 ---++ Examples
    * =%<nop>SESSIONID%= expands to =%SESSIONID%=
+%STOPINCLUDE%
 ---++ Related
  UserAuthentication, [[VarAUTHREALM][AUTHREALM]], [[VarSESSIONVAR][SESSIONVAR]], [[VarLOGIN][LOGIN]], [[VarLOGOUT][LOGOUT]], [[VarSESSIONVARIABLE][SESSION_VARIABLE]]
 

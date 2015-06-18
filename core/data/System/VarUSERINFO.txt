@@ -1,25 +1,28 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERINFO -- retrieve details about a user
+---++ Parameters
+     | *Parameter* | *Description* | *Default* |
+   | ="name"= | WikiName or [[UserName][login username]]. May be a group. | current user |
+   | =format= | Format string; see below for supported formatting tokens. | =$username, $wikiusername, $emails= |
+Format tokens that can be used in =format=:
+   | *Token* | *Description* |
+   |  =$emails= | Comma separated list of email addresses known to the user mapper (this would normally be TopicUserMappingContrib). If expanding for a group, then this will be the email addresses of all members. |
+   | =$username= | [[UserName][Login username]]. If expanding for a group, this should expand as =unknown= |
+   | =$wikiname=, =$wikiusername= | The user's =WikiName= and =%USERSWEB%.WikiName=, respectively |
+   | =$groups= | Comma separated list of group membership. Currently only expands for users |
+   | =$isadmin= | Has admin privileges (expands to =true= or =false=) |
+   | =$isgroup= | Is a group (expands to =true= or =false=) |
+The [[FormatTokens][standard format tokens]] are also supported.
 ---++ Examples
    * =%<nop>USERINFO{"name" format="..."}%= expands to <code><literal>%USERINFO%</literal></code> (lists =$username, $wikiusername, $emails=)
----++ Parameters
-      * ="name"= - WikiName or [[UserName][login username]]. May be a group. Defaults to the current user
-      * =format="..."= - Format string; see below for supported formatting tokens. Defaults to =$username, $wikiusername, $emails=
-         * =$emails= - Comma separated list of email addresses known to the user mapper (this would normally be TopicUserMappingContrib). If expanding for a group, then this will be the email addresses of all members.
-         * =$username= - [[UserName][Login username]]. If expanding for a group, this should expand as =unknown=.
-         * =$wikiname=, =$wikiusername= - The user's =WikiName= and =%USERSWEB%.WikiName=, respectively.
-         * =$groups= - Comma separated list of group membership. Currently only expands for users.
-         * =$isadmin= - Has admin privileges (expands to =true= or =false=).
-         * =$isgroup= - Is a group (expands to =true= or =false=).
-         * The [[FormatTokens][standard format tokens]] are also supported.
-   * Examples
-      * With formatted output, using tokens:
+With formatted output, using tokens:
          <verbatim class="tml">%USERINFO{ format="$username is really $wikiname" }%</verbatim>
          Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
-      * Retrieve information about another user. You can use either a wikiname or a username to identify the user. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%:
+Retrieve information about another user. You can use either a wikiname or a username to identify the user. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%:
          <verbatim class="tml">%USERINFO{ "WikiGuest" format="$username is really $wikiname" }%</verbatim>
          Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
+%STOPINCLUDE%
 ---++ Related
  [[VarUSERNAME][USERNAME]], [[VarWIKINAME][WIKINAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]], [[VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress
 <!--%JQREQUIRE{"chili"}%-->
