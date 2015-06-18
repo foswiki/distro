@@ -456,4 +456,43 @@ HTML
     $topicObject->finish();
 }
 
+sub test_ho {
+    my $this = shift;
+    my $text = <<"HERE";
+%TOC%
+---+ A headline
+%STOPINCLUDE%
+%INCLUDE{"$this->{test_topic}" headingoffset="1"}%
+HERE
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
+    $topicObject->save();
+
+    my $res = $topicObject->expandMacros($text);
+    $res = $topicObject->renderTML($res);
+    print STDERR $res;
+    $this->assert_html_equals( <<HTML, $res );
+<div id="foswikiTOC" class="foswikiToc"> <ul>
+<li> <a href="#A_headline"> A headline </a> <ul>
+<li> <a href="#A_headline_AN1"> A headline </a>
+</li></ul> 
+</li></ul> 
+</div>
+<nop><h1 id="A_headline">  A headline </h1>
+<p></p>
+
+<div id="foswikiTOC" class="foswikiToc"> <ul>
+<li> <a href="#A_headline"> A headline </a> <ul>
+<li> <a href="#A_headline_AN1"> A headline </a>
+</li></ul> 
+</li></ul> 
+</div>
+<nop><h2 id="A_headline_AN1">  A headline </h2>
+<p></p>
+HTML
+
+    $topicObject->finish();
+}
+
 1;

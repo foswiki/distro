@@ -147,9 +147,13 @@ sub TOC {
       ( $Foswiki::regex{headerPatternHt}, $Foswiki::regex{headerPatternDa} );
     my @lines = split( /\r?\n/, $text );
     my @targets;
+    my $hoff   = 0;
     my $lineno = 0;
   LINE: foreach my $line (@lines) {
         $lineno++;
+        while ( $line =~ s/<ho .*?\boff=(["'])([-+]?\d+)\1.*?>// ) {
+            $hoff += $2;
+        }
         for my $i ( 0 .. $#regexps ) {
             if ( $line =~ m/$regexps[$i]/ ) {
 
@@ -165,6 +169,7 @@ sub TOC {
 
                 # $i == 1 is $Foswiki::regex{headerPatternDa}
                 $level = length($level) if ( $i == 1 );
+                $level += $hoff;
                 if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
                     my $anchor = $anchors->addUnique($atext);
                     my $target = {
