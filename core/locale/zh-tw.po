@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-11 13:08+0200\n"
+"PO-Revision-Date: 2015-06-18 15:25+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -670,7 +670,7 @@ msgstr "允許新主題名稱使用非<nop>WikiWord"
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
-msgstr "點擊\"返回\"回到 %SYSTEMWEB%.UserRegistration 並選擇另一個用戶名稱。 "
+msgstr "點擊返回到 %SYSTEMWEB%.UserRegistration 並選擇另一個用戶名稱。"
 
 #: core/lib/Foswiki/UI/Rename.pm:205
 msgid "An attachment with the same name already exists in this topic."
@@ -748,7 +748,7 @@ msgstr "附件不存在。"
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
-msgstr "附件史 "
+msgstr "附件史"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
@@ -1835,7 +1835,7 @@ msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr "將 zip 檔內所含的檔案附在這個主題內。"
+msgstr "若是 zip 檔，附加所有檔案到這個主題"
 
 #: core/data/System/WebSearch.txt:176
 msgid "In reversed order"
@@ -1972,7 +1972,7 @@ msgstr "最新版本: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr "若你想附上 zip 檔，請保持未勾選"
+msgstr "若您想附上 zip 檔，請保持未勾選"
 
 #: core/data/System/WebSearch.txt:227
 msgid "Limit results to:"
@@ -1991,7 +1991,7 @@ msgstr "行: %1 到 %2"
 
 #: core/templates/attach.tmpl:35
 msgid "Link"
-msgstr "連結 "
+msgstr "連結"
 
 #: core/data/System/WebSearch.txt:315
 msgid "List topics that start with the letter:"
@@ -2694,7 +2694,7 @@ msgstr "改名/移動"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
 msgid "Render style"
-msgstr "風格"
+msgstr "呈現風格"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2752,7 +2752,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:180
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr "主題無法還原，因為這是版本 1。"
+msgstr "禁止還原因主題內容是第一個版本。"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -2920,7 +2920,7 @@ msgstr "編輯此頁請參考以下說明。"
 
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
-msgstr "查看變更自："
+msgstr "檢查更新始自:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
@@ -2976,7 +2976,7 @@ msgstr "設定新父主題"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
-msgstr "檢視主題的版本 %1 至 %2"
+msgstr "檢視 %1 的版本 %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
