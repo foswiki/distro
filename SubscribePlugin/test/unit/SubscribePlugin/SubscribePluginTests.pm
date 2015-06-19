@@ -52,9 +52,7 @@ sub test_SUBSCRIBE_1 {
 
     $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-<span class="foswikiRequiresChangePermission">
 <a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="0">Subscribe</a>
-</span>
 HTML
 }
 
@@ -70,9 +68,7 @@ sub test_SUBSCRIBE_2 {
     $subscribe =~ s/data-validation-key=".*" //g;
 
     $this->assert_html_equals( <<HTML, $subscribe );
-<span class="foswikiRequiresChangePermission">
 <a href="#" class="subscribe_link" data-topic="Kitties.Tobermory" data-subscriber="TobermoryCat" data-remove="1" >Unsubscribe</a>
-</span>
 HTML
 }
 
@@ -86,9 +82,7 @@ sub test_SUBSCRIBE_format {
     );
     $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-<span class='foswikiRequiresChangePermission'>
 <a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="0" >Subscribe</a>
-</span>
 HTML
 }
 
@@ -102,9 +96,7 @@ sub test_SUBSCRIBE_formatunsubscribe {
     );
     $subscribe =~ s/data-validation-key=".*" //g;
     $this->assert_html_equals( <<HTML, $subscribe );
-<span class="foswikiRequiresChangePermission">
 <a href="#" class="subscribe_link" data-topic="TemporarySubscribePluginTestsTestWebSubscribePluginTests.TestTopicSubscribePluginTests" data-subscriber="ScumBag" data-remove="1" >Unsubscribe</a>
-</span>
 HTML
 }
 
