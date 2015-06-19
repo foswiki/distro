@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-09 16:51+0200\n"
+"PO-Revision-Date: 2015-06-19 08:58+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -2859,7 +2859,6 @@ msgid "No group name specified"
 msgstr "pagh ghpm pong wIvlu&&#39;"
 
 #: core/data/Main/GroupViewTemplate.txt:52
-#, fuzzy
 msgid "No members"
 msgstr "pagh jeSwI&&#39;pu&&#39;"
 
