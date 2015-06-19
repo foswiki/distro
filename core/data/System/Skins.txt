@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -17,7 +17,7 @@ Topic text is not affected by the choice of skin, though a skin can be defined t
 
 ---++ Changing the default skin
 
-%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site (via %LOCALSITEPREFS%), a single web (via its %WEBPREFSTOPIC% topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
+Foswiki ships with the PatternSkin activated by default. You can set the skin for the whole site (via %LOCALSITEPREFS%), a single web (via its %WEBPREFSTOPIC% topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
 
 ---++ Defining Skins
 
@@ -240,8 +240,6 @@ Generating:
 
 [[http://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png' title='Powered by Foswiki' />]]
 
-The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
-
 ---++ Browsing Installed Skins
 
 You can try out all installed skins in the SkinBrowser.
@@ -304,4 +302,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="" comment="" date="1434484983" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="" comment="" date="1434713255" size="178" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ BUTTON -- renders a nice button 
 ---++ Parameters
@@ -45,7 +45,7 @@
     icon="cross"
     target="%WEB%.%TOPIC%"
   }% %CLEAR%</div>
-   * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
+Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
 %STOPINCLUDE%
 ---++ Related
  JQueryButton

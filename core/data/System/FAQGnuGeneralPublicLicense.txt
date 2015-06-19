@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki is distributed under the GNU General Public License, see FAQDownloadSources. GPL is one of the free software licenses that protects the copyright holder, and at the same time allows users to redistribute the software under the terms of the license. Extract:
 
@@ -6,8 +6,9 @@ Foswiki is distributed under the GNU General Public License, see FAQDownloadSour
    * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
    * See the GNU General Public License for more details, published at http://www.gnu.org/copyleft/gpl.html
 
+Foswiki copyrights are held by a non-profit foundation called the [[http://foswiki.org/Community/Association][Foswiki Association]]. This foundation has been set up to represent the interests of users, while remaining independent of any commercial interests.
+
 %META:FORM{name="FAQForm"}%
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="GnuGeneralPublicLicense" to="FaqGnuGeneralPublicLicense"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Foswiki software license"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Foswiki has a GPL (GNU General Public License). What is GPL?"}%

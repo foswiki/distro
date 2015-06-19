@@ -1,11 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki allows multiple simultaneous edits of the same topic, and then merges the different changes automatically. You probably won't even notice this happening unless there is a conflict that cannot be merged automatically. In this case, you may see Foswiki inserting "change marks" into the text to highlight conflicts between your edits and another person's. These change marks are only used if you edit the same part of a topic as someone else, and they indicate what the text used to look like, what the other person's edits were, and what your edits were.
 
 Foswiki will warn if you attempt to edit a topic that someone else is editing. It will also warn if a merge was required during a save.
 
 %META:FORM{name="FAQForm"}%
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="SimultaneousEdits" to="FaqSimultaneousEdits"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="How simultaneous edits are handled in Foswiki"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="What happens if two or more users try to edit the same topic simultaneously?"}%

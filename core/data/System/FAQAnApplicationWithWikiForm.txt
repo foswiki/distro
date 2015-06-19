@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 This answer assumes you have basic knowledge about [[DataForms][Data Forms]].
 
@@ -75,11 +75,10 @@ To list all topics where the author name ends in "Auden":
 </div>
 </div>
 
-VarSEARCH has more information on creating searches.
+[[VarSEARCH][SEARCH]] has more information on using =%<nop>SEARCH=.
 <!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="FAQForm"}%
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="AnApplicationWithWikiForm" to="FaqAnApplicationWithWikiForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Creating applications with DataForms"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I create a simple data form based application?"}%

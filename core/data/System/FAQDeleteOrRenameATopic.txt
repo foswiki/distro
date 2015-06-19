@@ -1,17 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 These two questions are answered together because often when you think you want to delete a page, more often it makes sense to rename the page to contain more context, e.g. rename it to include the date.
 
 You can rename, move and delete topics directly from your browser. Moving lets you transfer a topic from one web to another. The soft delete moves a topic to the special ==Trash== web, where it's hidden but can be "undeleted" with system administrator access.
 
-Click ==[More]== on the control bar at the bottom of the page you want to change, then choose ==[Rename/move]==, and make your changes to that screen. There's a link that launches to the ManagingTopics reference page in a pop-up window.
+Different [[Skins][skins]] have different ways to do this. The default PatternSkin has a 'More topic actions' link at the bottom of the page that launches a tools page, that lets you delete the topic.
 
 %H% The configuration of your site and your own access permissions determine whether you can access these functions.
 
-%H% *For site administrators*: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =data/Trash=.
+%H% *For site administrators*: To remove a topic permanently move it to the Trash web. If you are using one of the file-based stores, you can then delete the relevant files/directories manually from =data/Trash= and =pub/Trash=.
 
 %META:FORM{name="FAQForm"}%
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DeleteOrRenameATopic" to="FaqDeleteOrRenameATopic"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Deleting and renaming topics"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How do I delete or rename a topic?"}%

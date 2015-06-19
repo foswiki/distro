@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434484983" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434713255" format="1.1" reprev="2" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -6,6 +6,8 @@
 Restricting read and write access to topics and webs, by users and groups
 
 Access Control allows you restrict access to single topics and entire webs, by individual user and by user Groups. Access control, combined with UserAuthentication, lets you easily create and manage an extremely flexible, fine-grained privilege system.
+
+Please note FileAttachments are not protected by Foswiki Access Control in a default configuration (though this can be enabled).
 
 %TOC%
 
@@ -46,7 +48,7 @@ In standard Foswiki a user can create an account in UserRegistration. The follow
    * The user is added to the %USERSWEB%.%WIKIUSERSTOPIC% topic.
    * Optionally the user is added to one or more groups.
 
-The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.  By default the non-authenticated user is not permitted to edit topics.  If you require anonymous editing, see [[UserAuthentication#IndividualScripts]].
+The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.  By default the non-authenticated user is not permitted to edit topics.  If you require anonymous editing, see "Controlling access to individual scripts" in UserAuthentication.
 
 <div class='foswikiHelp'>%X% Your local Foswiki may have an alternate user mapping manager installed which doesn't support user registration. Check with your Wiki administrator if you are in doubt.</div>
 
@@ -156,26 +158,30 @@ You can also use an asterisk (*) in any of these settings to match all possible 
 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also need to be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
-%X% *The following information about empty settings has changed in Foswiki 1.2.* The "empty" setting for DENY settings is now ignored, unless disabled in your configuration.
-   * ==Set <nop>ALLOWTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
-   * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means the same as not setting it at all. (As of Foswiki 1.2, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
-
 <div class='foswikiHelp'>
-If your administrator has enabled the old behavior, (Enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration )  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.  In Foswiki 1.2, this function is replaced by setting ALLOW to the * wildcard. See the next section:
-</div>
----++++ Wildcard matching
+%X% If your site started out life using an earlier version of Foswiki, you might have seen that from Foswiki 1.2 onwards, *the empty DENY has been removed*. This rule has been replaced by =*= wildcards in the ALLOW and DENY rules.
 
-Now that the empty DENY has been removed, it is replaced by a wildcard in the ALLOW rule. Foswiki 1.2 has added a wildcard to the ALLOW and DENY rules.  The asterisk (*). When set in a rule, it says that any user identity will match that rule.  Setting * to ALLOW says "Allow ALL", setting * to DENY says "Deny ALL".
+The previous documentation said:
+   * ==Set <nop>ALLOWTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
+   * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
+As of Foswiki 1.2, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
 
-For example if you want completely open access to a topic __for logged in users__ then use the following rules:
-   * <b>Set &lt;nop&gt;ALLOWTOPICVIEW = *</b><br />This allows everyone.
-   * <b>Set &lt;nop&gt;DENYTOPICVIEW = %USERSWEB%.WikiGuest <br /></b>This overrides the ALLOW, and denies the guest user.
 | | *Before Foswiki 1.2* | *Foswiki 1.2 and newer* |
 | Allow ALL users | Set DENY to an empty string | Set ALLOW to * |
 | Allow All logged-in users | <p>Set DENY to %USERSWEB%.WikiGuest</p> <p>Leave ALLOW un-set</p> | &lt;no change from before&gt; |
 | Deny all access | Set ALLOW to NobodyGroup | <p>Set ALLOW to NobodyGroup </p> <p>-or- Set DENY to *</p> |
 | Allow selected users | Set ALLOW to desired users/groups | Set ALLOW to desired users/groups |
 | Deny selected users | Set DENY to desired users/groups | Set DENY to desired users/groups |
+
+If your administrator has enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration then the old behaviour will still work and  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.
+</div>
+---++++ Wildcard matching
+
+When =*= is set in a rule, it says that any user identity will match that rule.  Setting =ALLOW= to =*= says "Allow ALL", setting * to DENY says "Deny ALL".
+
+For example if you want completely open access to a topic __for logged in users__ then use the following rules:
+   * ==Set ALLOWTOPICVIEW = *== <br />This allows everyone.
+   * ==Set DENYTOPICVIEW = %USERSWEB%.WikiGuest== <br /></b>This overrides the ALLOW, and denies the guest user.
 
 <div class='foswikiHelp'>%X% Note that it is not possible to override a DENY with an ALLOW at the same level ALLOW on a topic can override DENY at the web level, but not at the TOPIC level
 
@@ -223,8 +229,6 @@ When deciding whether to grant access, Foswiki evaluates the following rules *in
       * access is *PERMITTED*.
    1 If DENYTOPIC is set to a list of !WikiNames, or set to the * wildcard
       * people in the list will be *DENIED*.
-   1 <strike>If DENYTOPIC is set to _empty_ ( i.e. =Set DENYTOPIC == )</strike> *This option is disabled by default in Foswiki 1.2.*
-      * <strike>access is *PERMITTED* _i.e_ no-one is denied access to this topic.</strike>
    1 If ALLOWTOPIC is set to a list of !WikiNames, or set to the * wildcard
       1 people in the list are *PERMITTED*
       1 everyone else is *DENIED* (nobody is denied if ALLOW is set to *)

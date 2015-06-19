@@ -1,17 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SHOWPREFERENCE -- show where preferences are defined.
-Preference values are shown in a bulleted list.
+Preference values are shown in a bulleted list, together with where they were defined.
 ---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default:* |
-     | ="name"= | Name of preference to show | |
+     | ="name,name,name"= | Comma-separated list of preferences to show | |
 ---++ Examples
    * =%<nop>SHOWPREFERENCE%= will show all preferences
-   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%= will show a single preference
-<verbatim class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</verbatim>
-      * Expands as: <pre class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</pre>
-   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME,PREFERENCENAME,..."}%=
-      * Show all of the preferences in a comma-separated list of preference names. This is particularly useful for reviewing the access controls that apply to a topic.
-      * <verbatim class="tml">%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%</verbatim> expands as: <pre class="tml">%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%</pre>
+   * =%<nop>SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%= expands to
+<pre class="tml">
+%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%
+</pre>
+   * =%<nop>SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%= expands to
+<pre class="tml">
+%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%
+</pre>
 <!--%JQREQUIRE{"chili"}%-->

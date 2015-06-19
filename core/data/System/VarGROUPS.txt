@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeprecatedMacros"}%
 ---+ GROUPS -- a formatted list of groups
 *Deprecated - do not use. Use VarGROUPINFO instead*
-   * Expands to a formatted list of user groups in your %WIKITOOLNAME%.
+   * Expands to a formatted list of user groups.
    * The macro is intended to be used in %USERSWEB%.WikiGroups, to allow a
      group listing for various user mapping managers.
 %STOPINCLUDE%

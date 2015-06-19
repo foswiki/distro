@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434069056" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -491,7 +491,7 @@ The =save= script performs a range of save-related functions.
 | =edit= | The bin script to use to re-edit the topic when action is =checkpoint= | =edit= |
 | =editaction= | When action is =checkpoint=, =add form= or =replace form...=, this is used as the =action= parameter to the =edit= script that is redirected to after the save is complete. | |
 | =editparams= | The parameter string to use to edit the topic when action is =checkpoint= | |
-| =forcenewrevision= | if set, forces a revision even if %WIKITOOLNAME% thinks one isn't needed | |
+| =forcenewrevision= | if set, forces a revision even if Foswiki thinks one isn't needed | |
 | =formtemplate= | if defined, use the named template for the form (will remove the form if set to 'none') | |
 | =newtopic= | If =templatetopic= is given, and this parameter is set to 1 and the topic does not exist, will clear the initial topic text. | |
 | =onlynewtopic= | If set, error if topic already exists | |

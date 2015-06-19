@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426810437" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -243,4 +243,3 @@ Practical introduction to CSS: http://www.w3.org/Style/LieBos2e/enter/
 -->
 %STOPINCLUDE%
 
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="CascadingStyleSheets" to="AppendixCascadingStyleSheets"}%

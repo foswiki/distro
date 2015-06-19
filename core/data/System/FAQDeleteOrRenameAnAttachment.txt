@@ -1,15 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
-You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. The soft delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access. Please note that you cannot rename an attachment in the current Foswiki release.
+You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. Delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access.
 
-Click on ==[Manage]== on the file in the FileAttachment table, then in the *Update attachment* screen choose ==[Move attachment]==, and make your changes to that screen.
+%X% you cannot rename an attachment in the current Foswiki release.
+
+Different [[Skins][skins]] have different ways to do this. The default PatternSkin has a 'manage' link in the FileAttachment table, that then gives you the option to Delet the attachment.
 
 %H% The configuration of your site and your own access permissions determine whether you can access these functions.
 
-%H% *For system administrators*: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =pub/Trash/TrashAttachment=.
+%H% *For system administrators*: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic. If you are using one of the file-based stores, you can then delete the relevant files/directories manually from =pub/Trash/TrashAttachment=.
 
 %META:FORM{name="FAQForm"}%
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DeleteOrRenameAnAttachment" to="FaqDeleteOrRenameAnAttachment"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Deleting and renaming attachments"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How do I delete or rename a file attachment?"}%
