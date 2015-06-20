@@ -186,8 +186,10 @@ sub parse {
 
                 if ( length($line) ) {
 
-                    $line =~ s/\\\|/\007/g;    # protect \| from split
-                         # Expand comments again after we split
+                    # See Item13385 for why this is commented out
+                    #$line =~ s/\\\|/\007/g;    # protect \| from split
+
+                    # Expand comments again after we split
                     my @cols =
                       map { _rewrite( $_, \@comments ) }
                       map { s/\007/|/g; $_ }
