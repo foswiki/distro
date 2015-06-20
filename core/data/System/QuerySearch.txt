@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434785593" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -224,6 +224,7 @@ will return an array of the values of the Published field in all versions author
 
 ---++ Gotchas
    * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=
+   * Query operations are performed in the context of =%<nop>WEB% and =%<nop>TOPIC%. This can cause confusing when they are used in an  <code>%INCLUDE</code>ed topic, where you might expect them to operate in the context of the _including_ topic, rather than the _included_ topic.
 
 ---++ Examples
 ---+++ Query examples
