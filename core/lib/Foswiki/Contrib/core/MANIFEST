@@ -207,12 +207,10 @@ data/System/VarFORMFIELD.txt 0644
 data/System/VarGMTIME.txt 0644
 data/System/VarGROUPINFO.txt 0644
 data/System/VarGROUPS.txt 0644
-data/System/VarH.txt 0644
 data/System/VarHOMETOPIC.txt 0644
 data/System/VarHTTP.txt 0644
 data/System/VarHTTPHOST.txt 0644
 data/System/VarHTTPS.txt 0644
-data/System/VarI.txt 0644
 data/System/VarICON.txt 0644
 data/System/VarICONURL.txt 0644
 data/System/VarICONURLPATH.txt 0644
@@ -226,22 +224,18 @@ data/System/VarLANGUAGES.txt 0644
 data/System/VarLOCALSITEPREFS.txt 0644
 data/System/VarLOGIN.txt 0644
 data/System/VarLOGOUT.txt 0644
-data/System/VarM.txt 0644
 data/System/VarMAINWEB.txt 0644
 data/System/VarMAKETEXT.txt 0644
 data/System/VarMETA.txt 0644
 data/System/VarMETASEARCH.txt 0644
-data/System/VarN.txt 0644
 data/System/VarNONCE.txt 0644
 data/System/VarNOP.txt 0644
 data/System/VarNOTIFYTOPIC.txt 0644
-data/System/VarP.txt 0644
 data/System/VarPERLDEPENDENCYREPORT.txt 0644 System dependency report
 data/System/VarPLUGINDESCRIPTIONS.txt 0644
 data/System/VarPLUGINVERSION.txt 0644
 data/System/VarPUBURL.txt 0644
 data/System/VarPUBURLPATH.txt 0644
-data/System/VarQ.txt 0644
 data/System/VarQUERY.txt 0644
 data/System/VarQUERYPARAMS.txt 0644
 data/System/VarQUERYSTRING.txt 0644
@@ -252,7 +246,6 @@ data/System/VarRENDERZONE.txt 0644
 data/System/VarREVARG.txt 0644
 data/System/VarREVINFO.txt 0644
 data/System/VarREVTITLE.txt 0644
-data/System/VarS.txt 0644
 data/System/VarSCRIPTNAME.txt 0644
 data/System/VarSCRIPTSUFFIX.txt 0644
 data/System/VarSCRIPTURL.txt 0644
