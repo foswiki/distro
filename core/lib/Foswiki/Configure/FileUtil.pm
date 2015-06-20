@@ -343,7 +343,7 @@ sub checkTreePerms {
                 if ( $report{excessPerms}++ < $options{maxExcessPerms} ) {
                     push(
                         @{ $report{messages} },
-"$path - directory permission $omode differs from requested $operm - check directory for possible excess permissions\n"
+"   * $path - directory permission $omode differs from requested $operm - check directory for possible excess permissions"
                     );
                 }
             }
@@ -353,7 +353,7 @@ sub checkTreePerms {
                 if ( $report{fileErrors}++ < $options{maxFileErrors} ) {
                     push(
                         @{ $report{messages} },
-"$path - directory permission $omode differs from requested $operm - check directory for possible insufficient permissions\n"
+"   * $path - directory permission $omode differs from requested $operm - check directory for possible insufficient permissions"
                     );
                 }
             }
@@ -375,7 +375,7 @@ sub checkTreePerms {
                 if ( $report{excessPerms}++ < $options{maxExcessPerms} ) {
                     push(
                         @{ $report{messages} },
-"$path - file permission $omode differs from requested $operm - check file for possible excess permissions\n"
+"   * $path - file permission $omode differs from requested $operm - check file for possible excess permissions."
                     );
                 }
             }
@@ -385,7 +385,7 @@ sub checkTreePerms {
                 if ( $report{fileErrors}++ < $options{maxFileErrors} ) {
                     push(
                         @{ $report{messages} },
-"$path - file permission $omode differs from requested $operm - check file for possible insufficient permissions"
+"   * $path - file permission $omode differs from requested $operm - check file for possible insufficient permissions."
                     );
                 }
             }
@@ -400,7 +400,7 @@ sub checkTreePerms {
             unless ( $report{missingFile}++ > $options{maxMissingFile} ) {
                 push(
                     @{ $report{messages} },
-                    "$path missing $Foswiki::cfg{WebPrefsTopicName} topic"
+                    "   * $path missing $Foswiki::cfg{WebPrefsTopicName} topic."
                 );
             }
         }
@@ -415,7 +415,7 @@ sub checkTreePerms {
     return \%report unless -d $path;
 
     if ( -d $path && !-x $path ) {
-        unshift( @{ $report{messages} }, "$path missing -x permission" );
+        unshift( @{ $report{messages} }, "   * $path missing -x permission" );
         return \%report;
     }
 

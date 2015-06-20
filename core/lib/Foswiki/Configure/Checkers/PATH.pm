@@ -100,10 +100,10 @@ sub validate_permissions {
             my $report =
               Foswiki::Configure::FileUtil::checkTreePerms( $path, $perms,
                 filter => $filter );
-            $fileCount   += $report->{fileCount};
-            $fileErrors  += $report->{fileErrors};
-            $excessPerms += $report->{excessPerms};
-            $missingFile += $report->{missingFile};
+            $fileCount   = $report->{fileCount};
+            $fileErrors  = $report->{fileErrors};
+            $excessPerms = $report->{excessPerms};
+            $missingFile = $report->{missingFile};
             push( @messages, @{ $report->{messages} } );
 
             my $dperm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );
@@ -138,7 +138,9 @@ PREFS
 $excessPerms or more directories appear to have more access permission than requested in the Store configuration. Excess permissions might allow other users on the web server to have undesired access to the files. Verify that the Store expert settings of {Store}{filePermission} ($fperm} and {Store}{dirPermission}) ($dperm}) are set correctly for your environment and correct the file permissions listed below.  (Files were not checked for excessive permissions.)
 PERMS
             }
-            $reporter->NOTE("Finished checking $fileCount files");
+            $reporter->NOTE(
+"Finished checking $fileCount files, Permission: $perms Filter: $filter\n"
+            );
         }
     }
     return;
