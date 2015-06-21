@@ -25,7 +25,6 @@
 use warnings;
 use strict;
 
-use Encode;
 use Getopt::Long;
 use Pod::Usage   ();
 use Data::Dumper ();
@@ -306,25 +305,15 @@ unless ( $Foswiki::cfg{isVALID} ) {
         print
 " The following directory settings have been guessed.  Press enter to confirm each setting:\n";
 
-# Note:  Bootstrap will decode the bytes read from the path into utf-8 characters
-# But the encoding needs to be reversed when passing it through the command prompt
-
-        _prompt( $root, '{ScriptDir}',
-            Encode::encode_utf8( $Foswiki::cfg{ScriptDir} ) );
+        _prompt( $root, '{ScriptDir}', $Foswiki::cfg{ScriptDir} );
         _prompt( $root, '{ScriptSuffix}', $Foswiki::cfg{ScriptSuffix},
             undef, 1 );
-        _prompt( $root, '{DataDir}',
-            Encode::encode_utf8( $Foswiki::cfg{DataDir} ) );
-        _prompt( $root, '{PubDir}',
-            Encode::encode_utf8( $Foswiki::cfg{PubDir} ) );
-        _prompt( $root, '{TemplateDir}',
-            Encode::encode_utf8( $Foswiki::cfg{TemplateDir} ) );
-        _prompt( $root, '{LocalesDir}',
-            Encode::encode_utf8( $Foswiki::cfg{LocalesDir} ) );
-        _prompt( $root, '{WorkingDir}',
-            Encode::encode_utf8( $Foswiki::cfg{WorkingDir} ) );
-        _prompt( $root, '{ToolsDir}',
-            Encode::encode_utf8( $Foswiki::cfg{ToolsDir} ) );
+        _prompt( $root, '{DataDir}',     $Foswiki::cfg{DataDir} );
+        _prompt( $root, '{PubDir}',      $Foswiki::cfg{PubDir} );
+        _prompt( $root, '{TemplateDir}', $Foswiki::cfg{TemplateDir} );
+        _prompt( $root, '{LocalesDir}',  $Foswiki::cfg{LocalesDir} );
+        _prompt( $root, '{WorkingDir}',  $Foswiki::cfg{WorkingDir} );
+        _prompt( $root, '{ToolsDir}',    $Foswiki::cfg{ToolsDir} );
         _prompt( $root, '{Store}{Implementation}',
             $Foswiki::cfg{Store}{Implementation} );
         _prompt( $root, '{Store}{Encoding}', $Foswiki::cfg{Store}{Encoding},

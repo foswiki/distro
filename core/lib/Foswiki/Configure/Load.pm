@@ -18,7 +18,6 @@ use strict;
 use warnings;
 use Cwd qw( abs_path );
 use Assert;
-use Encode;
 use File::Basename;
 use File::Spec;
 use POSIX qw(locale_h);
@@ -413,9 +412,8 @@ sub bootstrapConfig {
         $script = $1;
     }
 
-    print STDERR "AUTOCONFIG: Found Bin dir: "
-      . Encode::decode_utf8($bin)
-      . ", Script name: $script using FindBin\n"
+    print STDERR
+      "AUTOCONFIG: Found Bin dir: $bin, Script name: $script using FindBin\n"
       if (TRAUTO);
 
     $Foswiki::cfg{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
@@ -457,10 +455,6 @@ sub bootstrapConfig {
         $Foswiki::cfg{$key} = File::Spec->rel2abs( $def->{dir}, $root );
         $Foswiki::cfg{$key} = abs_path( $Foswiki::cfg{$key} );
         ( $Foswiki::cfg{$key} ) = $Foswiki::cfg{$key} =~ m/^(.*)$/;    # untaint
-
-        # Need to decode utf8 back to perl characters.  The file path operations
-        # all worked with bytes, but Foswiki needs characters.
-        $Foswiki::cfg{$key} = Encode::decode_utf8( $Foswiki::cfg{$key} );
 
         print STDERR "AUTOCONFIG: $key = $Foswiki::cfg{$key} \n"
           if (TRAUTO);
