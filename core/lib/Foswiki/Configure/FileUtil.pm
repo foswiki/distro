@@ -15,6 +15,7 @@ use warnings;
 
 use Assert;
 
+use Encode;
 use Foswiki::Configure::Reporter ();
 use File::Spec;
 
@@ -423,7 +424,7 @@ sub checkTreePerms {
       or return "Directory $path is not readable.";
 
     foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
-        my $p = $path . '/' . $e;
+        my $p = $path . '/' . Encode::decode_utf8($e);
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
             if ( ref($v) eq 'ARRAY' ) {
