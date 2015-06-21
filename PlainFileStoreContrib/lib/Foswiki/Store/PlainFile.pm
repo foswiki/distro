@@ -667,6 +667,17 @@ sub webExists {
     return 0 unless defined $web;
     $web =~ s#\.#/#g;
 
+    # Foswiki ships with TWikiCompatibilityPlugin but if it is disabled we
+    # do not want the TWiki web to appear as a valid web to anyone.
+    if ( $web eq 'TWiki' ) {
+        unless ( exists $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+            && defined $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+            && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 )
+        {
+            return 0;
+        }
+    }
+
     return 1
       if ( _e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} ) );
 
