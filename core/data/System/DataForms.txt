@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434988360" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -229,6 +229,7 @@ For checkboxes, radio buttons and dropdown lists: predefined input to select fro
    * Field values can also be generated through a %SYSTEMWEB%.FormattedSearch, which must yield a suitable table as the result.
    * Macros in the initial values of a form definition get expanded when the form definition is loaded.
       * If you want to use a =|= character in the initial values field, you have to precede it with a backslash, thus: =\|=.
+         * =\|= escaping is __only active in the Values column._  It is not usable elsewhere.  Use =&amp;vbar;= or =&amp;#124;= in other columns.
       * You can use =&lt;nop>= to prevent macros from being expanded.
       * The [[%SYSTEMWEB%.FormatTokens][Format tokens]] can be used to prevent expansion of other characters.
       

@@ -100,6 +100,9 @@ a table (i.e. not verbatim or literal lines).
 sub parse {
     my ( $text, $dispatch ) = @_;
 
+    # SMELL: Should this be a flag in the call, rathern than caller magic
+    my $procform = ( (caller)[0] eq 'Foswiki::Form' );
+
     my $in_table = 0;
     my %scope = ( verbatim => 0, literal => 0, include => 0 );
     my $openRow;
@@ -186,29 +189,44 @@ sub parse {
 
                 if ( length($line) ) {
 
-                    # See Item13385 for why this is commented out
-                    #$line =~ s/\\\|/\007/g;    # protect \| from split
-
                     # Expand comments again after we split
                     my @cols =
                       map { _rewrite( $_, \@comments ) }
-                      map { s/\007/|/g; $_ }
                       split( /\|/, $line, -1 );
 
                     # Note use of LIMIT=-1 on the split so we don't lose
                     # empty columns
 
-                    foreach my $col (@cols) {
-                        my ( $prec, $text, $postc, $ish ) = split_cell($col);
-                        if ($ish) {
-                            print STDERR "TH '$prec', '$text', '$postc'\n"
+                    my $rowlen = scalar @cols;
+                    for ( my $i = 0 ; $i < $rowlen ; $i++ ) {
+                        if (   $procform
+                            && $i == 3
+                            && ( substr( $cols[$i], -1 ) eq '\\' )
+                            && $i < $rowlen )
+                        {
+# Form definitions allow use of \| escapes in the initial values colunn - column 4
+# So this code removes the "splits" from within the initial values
+# But only when processing a form.  See Item13385
+                            print STDERR "Merging Form values column.\n"
                               if TRACE;
-                            &$dispatch( 'th', $prec, $text, $postc );
+                            chop $cols[$i];
+                            $cols[$i] .= '|' . splice( @cols, $i + 1, 1 );
+                            $rowlen--;
+                            redo;
                         }
                         else {
-                            print STDERR "TD '$prec', '$text', '$postc'\n"
-                              if TRACE;
-                            &$dispatch( 'td', $prec, $text, $postc );
+                            my ( $prec, $text, $postc, $ish ) =
+                              split_cell( $cols[$i] );
+                            if ($ish) {
+                                print STDERR "TH '$prec', '$text', '$postc'\n"
+                                  if TRACE;
+                                &$dispatch( 'th', $prec, $text, $postc );
+                            }
+                            else {
+                                print STDERR "TD '$prec', '$text', '$postc'\n"
+                                  if TRACE;
+                                &$dispatch( 'td', $prec, $text, $postc );
+                            }
                         }
                     }
                 }
