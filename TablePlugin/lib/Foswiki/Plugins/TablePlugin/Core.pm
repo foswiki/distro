@@ -1895,7 +1895,7 @@ sub handler {
         $url = $cgi->url( -absolute => 1, -path => 1 ) . '?';
         my $queryString = $cgi->query_string();
         $url .= $queryString . ';' if $queryString;
-        $url = Foswiki::decode_utf8($url);
+        $url = Foswiki::decode_utf8($url) if $Foswiki::UNICODE;
 
         # Restore parameters, so we don't interfere on the remaining execution
         $cgi->param( -name => 'sortcol', -value => \@origSort )  if @origSort;
