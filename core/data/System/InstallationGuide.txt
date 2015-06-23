@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435069084" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -81,7 +81,7 @@ For more information on the appropriate permissions to ensure security for your 
 #ConfigurePerl
 ---+++ Step 3: Configure location of the Perl executable
 
-If you are running a Linux system with Perl found on the default path or are on a shared hosting site, then you can [[#ConfigureApache][skip this step]]. This step is *required* on Windows installations.
+If you are running a Linux system with Perl found on the default path or are on a shared hosting site, then you can [[#Configure_the_web_server][jump to this step]]. This step is *required* on Windows installations.
 
 The easiest way to fix up the bin scripts is to run the =tools/rewriteshebang.pl= script: <verbatim class='bash'>
 cd /path/to/foswiki/tools
@@ -93,7 +93,7 @@ The script will determine the location of the Perl interpreter and will prompt t
 
 If you get an error about perl command not found,  the you need to find where your perl command is installed and include that in your command.  For example: <verbatim class='bash'>C:\path\to\perl -I ..\lib rewriteshebang.pl</verbatim>
 
-#ConfigureApache
+<span id="Configure_the_web_server">
 ---+++ Step 4: Configure the web server
 
 Foswiki provides several methods to configure Apache depending of your access to *root and sudo* and your preference to set all in one file or several files.
