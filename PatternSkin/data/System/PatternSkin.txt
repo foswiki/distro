@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433813774" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435068785" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -74,6 +74,13 @@ Most will customise top, bottom, and left bars.
    * Topic =WebLeftBar= defines the content of the left bar. Each web has its own =WebLeftBar=. If this topic does not exist the topic =WebLeftBarExample= will define the left bar. Foswiki does not ship with =WebLeftBar= topics so by creating these topics as copies of =WebLeftBarExample= and customizing the copies, you will not later risk that upgrading Foswiki will overwrite your left bars. You can choose to display the =WebLeftBar= on the right side of the screen.
 
 See these topics for more information: %SYSTEMWEB%.WebLeftBarCookbook, %SYSTEMWEB%.WebLeftBarExample, %SYSTEMWEB%.WebLeftBarLogin, %SYSTEMWEB%.WebLeftBarPersonalTemplate, %SYSTEMWEB%.WebLeftBarSearch, %SYSTEMWEB%.WebLeftBarWebsList, %SYSTEMWEB%.WebTopBarExample, and %SYSTEMWEB%.WebBottomBarExample.
+
+---+++ Selecting edit and view templates
+#EditAction
+---++++ EDITACTION -- Selects an edit template
+The =EDITACTION= preference lets you change how editing works, for when you only want to edit _one_ of either the topic text, or the form attached to the topic. If =EDITACTION= is defined as =text=, then hide the form. If =EDITACTION= is defined as =form=, then hide the normal text area and only edit the form.
+   * Example: =Set EDITACTION = text=
+The =Edit= and =Edit wiki text= buttons simply add =;action=text= or =;action=form= to the URL for the edit script, as appropriate. If you have defined =EDITACTION= you can still edit the topic content or the form by removing the =;action=form= or =;action=text= from the edit URL in the browser and reload.
 
 ---+++ Installation
 <div class="foswikiNotification">
@@ -238,19 +245,19 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="20639" version="1"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="786" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1007" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="474" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" user="ProjectContributor" date="1433813774" size="177943" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" user="ProjectContributor" date="1433813774" size="5545" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="92238" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1732" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="2618" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" user="ProjectContributor" date="1433813774" size="129505" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" user="ProjectContributor" date="1433813774" size="3869" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="20605" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" user="ProjectContributor" date="1433813774" size="620" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="41616" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" user="ProjectContributor" date="1433813774" size="33112" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" user="ProjectContributor" date="1433813774" size="1305" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" user="ProjectContributor" date="1435068785" size="20639" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" user="ProjectContributor" date="1435068785" size="786" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" user="ProjectContributor" date="1435068785" size="1007" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" user="ProjectContributor" date="1435068785" size="474" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" user="ProjectContributor" date="1435068785" size="177943" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" user="ProjectContributor" date="1435068785" size="5545" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" user="ProjectContributor" date="1435068785" size="92238" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" user="ProjectContributor" date="1435068785" size="1732" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" user="ProjectContributor" date="1435068785" size="2618" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" user="ProjectContributor" date="1435068785" size="129505" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" user="ProjectContributor" date="1435068785" size="3869" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" user="ProjectContributor" date="1435068785" size="20605" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" user="ProjectContributor" date="1435068785" size="620" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" user="ProjectContributor" date="1435068785" size="41616" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" user="ProjectContributor" date="1435068785" size="33112" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" user="ProjectContributor" date="1435068785" size="1305" version="1"}%

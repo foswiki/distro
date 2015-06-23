@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435068785" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -145,7 +145,7 @@ The =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]= preference (or the =t
 
 The =action= parameter works by loading the =editform.tmpl= or =edittext.tmpl= templates in place of the standard =edit.tmpl=. If an =EDIT_TEMPLATE= has been defined, then it replaces =edit=, e.g. if =EDIT_TEMPLATE=specialed= and =action=form= then the template used will be =specialedform=
 
-In most skins that are based on the default templates (such as Pattern skin) you can easily change the =Edit= and =Edit Wiki<nop>Text= buttons to append the =action= parameter, by setting the [[PreferenceSettings][preference]] [[VarEDITACTION][EDITACTION]] to the value =text= or =form=. (You can always get back to editing the whole topic by removing the =action= parameter from the URL browser Location window, and reloading the edit window).
+In most skins that are based on the default templates (such as [[Pattern skin]]) you can easily change the =Edit= and =Edit Wiki<nop>Text= buttons to append the =action= parameter, by setting the =EDITACTION= [[PreferenceSettings][preference]] to the value =text= or =form= (You can always get back to editing the whole topic by removing the =action= parameter from the URL browser Location window, and reloading the edit window).
 
 #NewTopicCreation
 __New topic creation %ICON{"wip"}%:__

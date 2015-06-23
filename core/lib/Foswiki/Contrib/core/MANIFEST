@@ -193,8 +193,6 @@ data/System/VarBASEWEB.txt 0644
 data/System/VarCOVER.txt 0644
 data/System/VarDATE.txt 0644
 data/System/VarDISPLAYTIME.txt 0644
-data/System/VarEDITACTION.txt 0644
-data/System/VarEDITTEMPLATE.txt 0644
 data/System/VarENCODE.txt 0644
 data/System/VarENDCOLOR.txt 0644
 data/System/VarENDINCLUDE.txt 0644
@@ -276,7 +274,6 @@ data/System/VarUSERINFO.txt 0644
 data/System/VarUSERNAME.txt 0644
 data/System/VarUSERSWEB.txt 0644
 data/System/VarVAR.txt 0644
-data/System/VarVIEWTEMPLATE.txt 0644
 data/System/VarWEB.txt 0644
 data/System/VarWEBLIST.txt 0644
 data/System/VarWEBPREFSTOPIC.txt 0644
