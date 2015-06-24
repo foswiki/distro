@@ -13,8 +13,8 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 # Please use major.minor
-our $VERSION = '2.4';
-our $RELEASE = '14 Jun 2015';
+our $VERSION = '2.5';
+our $RELEASE = '24 Jun 2015';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -130,7 +130,7 @@ sub _restSave {
     unless ( Foswiki::Func::webExists($web) ) {
         if ( $query->header('X-Requested-With') eq 'XMLHttpRequest' ) {
             $response->header( -status => 500 );
-            $response->body("No such web '$web'");
+            $response->print("No such web '$web'");
         }
         else {
             throw Foswiki::OopsException(
@@ -154,7 +154,7 @@ sub _restSave {
         # validation failed - illegal name, don't have a topic name
         if ( $query->header('X-Requested-With') eq 'XMLHttpRequest' ) {
             $response->header( -status => 500 );
-            $response->body("No such topic '$topic'");
+            $response->print("No such topic '$topic'");
         }
         else {
             throw Foswiki::OopsException(
@@ -223,7 +223,7 @@ sub _restSave {
                   . "\n</div>";
                 my $comment =
                   Foswiki::Func::renderText( $output, $web, $topic );
-                $response->body($comment);
+                $response->print($comment);
             }
         }
 
@@ -238,7 +238,7 @@ sub _restSave {
         my $e = shift;
         if ($isXHR) {
             $response->header( -status => 404 );
-            $response->body( $e->stringify );
+            $response->print( $e->stringify );
         }
         else {
             $e->throw();
@@ -260,7 +260,7 @@ sub _restSave {
 
         if ($isXHR) {
             $response->header( -status => 500 );
-            $response->body($e);
+            $response->print($e);
         }
         else {
             $e->throw();
@@ -273,7 +273,7 @@ sub _restSave {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
