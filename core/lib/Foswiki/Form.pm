@@ -206,7 +206,7 @@ sub getAvailableForms {
 =begin TML
 
 ---++ StaticMethod fieldTitle2FieldName($title) -> $name
-Chop out all except A-Za-z0-9_. from a field name to create a
+Chop out all except \w. from a field name to create a
 valid "name" for storing in meta-data
 
 =cut
@@ -215,8 +215,8 @@ sub fieldTitle2FieldName {
     my ($text) = @_;
     return '' unless defined($text);
     $text =~ s/!//g;
-    $text =~ s/<nop>//g;             # support <nop> character in title
-    $text =~ s/[^A-Za-z0-9_\.]//g;
+    $text =~ s/<nop>//g;     # support <nop> character in title
+    $text =~ s/[^\w\.]//g;
     return $text;
 }
 
