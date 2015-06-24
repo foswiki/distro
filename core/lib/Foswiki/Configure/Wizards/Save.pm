@@ -46,6 +46,7 @@ sub _backupCurrentContent {
     my ( $path, $reporter ) = @_;
     my $content;
 
+    # Don't need to open with encoding; we're just shovelling bytes
     if ( open( F, '<', $path ) ) {
         local $/ = undef;
         $content = <F>;
@@ -92,6 +93,7 @@ sub _backupCurrentContent {
     }
 
     # Find the actual filename and open for write
+    # Don't need to open with encoding; we're just shovelling bytes
 
     my $open;
     my $um = umask(0);
@@ -315,7 +317,7 @@ sub save {
             die "***INTERNAL ERROR*** COULD NOT REREAD NEW LSC\n$@" if $@;
         }
         my $um = umask(007);   # Contains passwords, no world access to new file
-        open( F, '>', $lsc )
+        open( F, '>:encoding(utf-8)', $lsc )
           || die "Could not open $lsc for write: $!\n";
         print F $new_content;
         close(F) or die "Close failed for $lsc: $!\n";
