@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-18 15:25+0200\n"
+"PO-Revision-Date: 2015-06-25 12:23+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -761,7 +761,7 @@ msgstr "附件名稱："
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
-msgstr "附件 "
+msgstr "附件"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 msgid "Attachments %1"
@@ -805,7 +805,7 @@ msgstr "可用的表單範本"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr " %1 子網可用的範本"
+msgstr "%1 子網可用的範本:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -1066,7 +1066,7 @@ msgstr "衝突"
 #: core/templates/messages.tmpl:673 core/templates/messages.tmpl:679
 #: core/templates/messages.tmpl:687 core/templates/messages.tmpl:696
 msgid "Contact %1 if you have any questions."
-msgstr "如有問題，請聯繫 %1"
+msgstr "如有問題，請聯繫 %1。"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
 msgid "Context"
@@ -1084,7 +1084,7 @@ msgstr "繼續建立新頁面"
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr "因主題內容禁止在 WYSIWYG 編輯中轉換成 HTML。 "
+msgstr "因主題內容禁止在 WYSIWYG 編輯中轉換成 HTML。"
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1321,7 +1321,7 @@ msgstr "電子郵件變更成功!"
 
 #: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "編碼失敗 - =type= 不能與 =old= 和 =new= 同時使用"
+msgstr "編碼失敗 - =type= 不能與 =old= 和 =new= 同時使用 "
 
 #: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
@@ -1329,7 +1329,7 @@ msgstr "編碼失敗 - 必須同時指定 =old= 和 =new="
 
 #: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "編碼失敗 - 符號 '%PARAM1%' 在 =old= 中重複"
+msgstr "編碼失敗 - 符號 '%PARAM1%' 在 =old= 中重複 "
 
 #: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1415,7 +1415,7 @@ msgstr "電子信箱"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "本網站不開放電子郵件使用。"
+msgstr "本 Foswiki 網站不開放電子郵件使用。"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Enlarge edit box"
@@ -1703,7 +1703,7 @@ msgstr "我忘記密碼"
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
-msgstr "請<a href='%2'>回饋</a>有關 %1 的建議、需求及問題。"
+msgstr "有關 %1 的建議、需求及問題？請<a href='%2'>回饋</a>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -2070,7 +2070,7 @@ msgstr "無子網或名稱不符"
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
-msgstr "修改搜尋:"
+msgstr "修改搜尋"
 
 #: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
@@ -2174,7 +2174,7 @@ msgstr "新郵件地址 (用空白區隔的清單)"
 #: MailerContrib/templates/mailnotify.tmpl:83
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
-msgstr "自 %2 起，%1 中新的或變更過的主題"
+msgstr "自 %2 起，%1 中新的或變更過的主題:"
 
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
@@ -2234,7 +2234,7 @@ msgstr "無主題更新。"
 
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:530
 msgid "No username specified"
-msgstr "未指定使用者。"
+msgstr "未指定使用者"
 
 #: core/templates/messages.tmpl:236
 msgid "No users to reset passwords for."
@@ -2504,11 +2504,11 @@ msgstr "設定"
 
 #: core/templates/validate.tmpl:42
 msgid "Press Cancel otherwise."
-msgstr "其他請按「取消」。"
+msgstr "其他，按「取消」。"
 
 #: core/templates/validate.tmpl:41
 msgid "Press OK to confirm that this change was intentional."
-msgstr "按「好」確認修改。"
+msgstr "按「好」確認此修改是故意的。"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
@@ -2552,9 +2552,7 @@ msgstr "訂閱 RSS"
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
-msgstr ""
-"閱讀 %1 可快速了解本合作平臺的概念。進一步資料可以參考相同連結的 "
-"TwentyMinuteTutorial 。"
+msgstr "閱讀 %1 可快速對本合作平臺有個概念。想進一步瞭解，可以參考相同連結的 TwentyMinuteTutorial 。"
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2566,7 +2564,7 @@ msgstr "最近更新的主題"
 
 #: core/data/System/SiteChanges.txt:5
 msgid "Recently changed topics in %1 Web"
-msgstr "最近 %1 子網更新的主題"
+msgstr "%1 子網最近更新的主題"
 
 #: core/data/System/SiteChanges.txt:6
 msgid "Recently changed topics in all Webs"
@@ -2592,7 +2590,7 @@ msgstr "註冊者"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr "目前登入者的註冊電子信箱"
+msgstr "目前登入者註冊的電子信箱"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:6
 msgid "Registration"
@@ -2985,7 +2983,7 @@ msgstr "顯示說明"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "顯示版本 %1 - %2 (出自 %3)"
+msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3031,16 +3029,16 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
-msgstr "抱歉，暫時禁用註冊。"
+msgstr "抱歉，暫時禁止註冊"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr "抱歉，目前密碼系統是唯讀，請聯繫 %1"
+msgstr "抱歉，目前密碼系統唯讀，請聯繫 %1"
 
 #: core/data/System/WebSearch.txt:158
 msgid "Sort results by:"
-msgstr "結果排序依："
+msgstr "結果排序依:"
 
 #: core/templates/messages.tmpl:415
 msgid "Spaces are replaced by underscores"
@@ -3204,7 +3202,7 @@ msgstr "系統管理員禁止新用戶註冊。"
 
 #: core/templates/messages.tmpl:176
 msgid "The Administrator has disabled password changes."
-msgstr "管理員禁止密碼變更。"
+msgstr "系統管理員已禁止密碼變更。"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3260,12 +3258,12 @@ msgstr ""
 
 #: core/templates/messages.tmpl:335
 msgid "The e-mail address for this account has been rejected."
-msgstr "此帳號的電子郵件被退件。"
+msgstr "這個帳號的電子郵件已被拒絕。"
 
 #: core/templates/messages.tmpl:343
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "此帳號的電子郵件已被另一個使用者註冊。"
+msgstr "這個帳號的電子郵件已被另一使用者註冊。"
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3382,7 +3380,7 @@ msgstr "必須有一行包含 %1，參考 %2 (或 %3)"
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "加入 %2 群組時發生錯誤。%1"
+msgstr "加入群組 %2 時發生錯誤。%1 "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3402,9 +3400,7 @@ msgid ""
 "registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
-msgstr ""
-"用本表單修改註冊電子信箱。系統會發送郵件至您的註冊信箱，包括：密碼變更通知。"
-"表中的註冊電子信箱將會被隱藏，並 *不會* 顯示於網站的其他網頁內。"
+msgstr "用本表單修改註冊郵件地址。系統會發送郵件至您的註冊郵箱，包括：密碼變更通知。表中的註冊郵件地址將會隱藏保密，並*不會*顯示於網站的其他網頁內。"
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
@@ -3684,7 +3680,7 @@ msgstr "群組主題更新"
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
-msgstr "群組主題更新…"
+msgstr "更新群組主題…"
 
 #: core/templates/messages.tmpl:523
 msgid "Upgraded group"
@@ -3698,7 +3694,7 @@ msgstr "上傳檔案"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
 msgid "Upload multiple attachments in one zip file"
-msgstr "上傳多個檔案於一個 zip 檔中"
+msgstr "上傳多個檔案到一個 zip 檔"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
