@@ -12,8 +12,8 @@ use Foswiki::Func ();
 our %cache = ();
 our $current;
 
-our $VERSION           = '2.01';
-our $RELEASE           = '18 Dec 2014';
+our $VERSION           = '2.02';
+our $RELEASE           = '25 Jun 2015';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
 our $doneHeader        = 0;

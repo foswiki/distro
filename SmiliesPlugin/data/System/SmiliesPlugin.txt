@@ -126,6 +126,7 @@ You can override the default settings for the plugin by defining the following [
 ---++ Plugin Info
 
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  25 Jun 2015: (2.02) | Foswikitask:Item13475: Restore skull markup.  Released with Foswiki 1.2.0. |
 |  27 Feb 2014: | modernized code and icon set |
 |  05 Oct 2012: | use single quotes to enable use of smilies within Macros |
 |  05 Dec 2011: | Version released with Foswiki 1.1.4. Minor code cleanup. |
