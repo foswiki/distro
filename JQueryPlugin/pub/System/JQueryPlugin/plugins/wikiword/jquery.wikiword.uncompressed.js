@@ -121,8 +121,8 @@ $.wikiword = {
     suffix: '',
     prefix: '',
     initial: '',
-    allowedRegex: '[' + foswiki.upper + foswiki.lower + foswiki.digit + ']+',
-    forbiddenRegex: '[^' + foswiki.upper + foswiki.lower + foswiki.digit + ']+'
+    allowedRegex: '[' + foswiki.RE.alnum + ']+',
+    forbiddenRegex: '[^' + foswiki.RE.alnum + ']+'
   }
 };
 

@@ -275,7 +275,7 @@ sub setDefaultHeaders {
 
 ---++ ObjectMethod printHeaders()
 
-Return a string of all headers, separated by CRLF
+Return a string of all headers, encoded as UTF8 and separated by CRLF
 
 =cut
 
@@ -288,7 +288,8 @@ sub printHeaders {
     $this->{headers}->{Status} = $this->status()
       if ( $this->status() && !defined( $this->headers->{Status} ) );
     foreach my $header ( keys %{ $this->{headers} } ) {
-        $hdr .= $header . ': ' . $_ . $CRLF foreach $this->getHeader($header);
+        $hdr .= $header . ': ' . Foswiki::encode_utf8($_) . $CRLF
+          foreach $this->getHeader($header);
     }
     $hdr .= $CRLF;
     return $hdr;
