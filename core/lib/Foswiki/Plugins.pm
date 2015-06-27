@@ -473,21 +473,26 @@ sub _handleFAILEDPLUGINS {
         else {
             $td = CGI::td( {}, 'none' );
         }
-        my $web = $plugin->topicWeb();
+        my $web     = $plugin->topicWeb();
+        my $modname = '';
+        if ( $SESSION->{users}->isAdmin( $SESSION->{user} ) ) {
+            if ( $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} ) {
+                $modname =
+                  $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} . ' ';
+            }
+            else {
+                $modname = "Foswiki::Plugins::$plugin->{name} _(guessed)_ ";
+            }
+        }
+
         $text .= CGI::Tr(
             { valign => 'top' },
-            CGI::td(
-                {},
-                ' '
+            CGI::td( {},
+                    ' '
                   . ( $web ? "$web." : '!' )
                   . $plugin->{name} . ' '
                   . CGI::br()
-                  . (
-                      $SESSION->{users}->isAdmin( $SESSION->{user} )
-                    ? $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} . ' '
-                    : ''
-                  )
-              )
+                  . $modname )
               . $td
         );
     }

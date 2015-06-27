@@ -95,35 +95,33 @@ sub new {
 
     my $p = $Foswiki::cfg{Plugins}{$name}{Module};
 
-    if ( defined $p ) {
-        eval "use $p";
-        if ($@) {
-            push(
-                @{ $this->{errors} },
-                "$p could not be loaded.  Errors were:\n$@\n----"
-            );
-            $this->{disabled} = 1;
-            $this->{reason}   = 'no_load_plugin';
-        }
-        else {
-            $this->{module} = $p;
-        }
-        my $fn = "${p}::preload";
-        if ( !$this->{disabled} && defined &$fn ) {
-
-            # A preload handler can simply die if it doesn't like what it sees
-            no strict 'refs';
-            &$fn($session);
-            use strict 'refs';
-        }
-    }
-    else {
+    unless ($p) {
+        $p = "Foswiki::Plugins::$name";
         push(
             @{ $this->{errors} },
-"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} defined - re-run configure\n---"
+"$p has been guessed. '\$Foswiki::cfg{Plugins}{$name}{Module}' should be defined in LocalSite.cfg"
+        );
+    }
+
+    eval "use $p";
+    if ($@) {
+        push(
+            @{ $this->{errors} },
+            "$p could not be loaded.  Errors were:\n$@\n----"
         );
         $this->{disabled} = 1;
-        $this->{reason}   = 'no_plugin_module';
+        $this->{reason}   = 'no_load_plugin';
+    }
+    else {
+        $this->{module} = $p;
+    }
+    my $fn = "${p}::preload";
+    if ( !$this->{disabled} && defined &$fn ) {
+
+        # A preload handler can simply die if it doesn't like what it sees
+        no strict 'refs';
+        &$fn($session);
+        use strict 'refs';
     }
 
     return $this;
