@@ -76,11 +76,12 @@ sub viewfile {
 
         # This is a standard path extended by the attachment name e.g.
         # /Web/Topic/Attachment.gif
-        $pathInfo = Foswiki::decode_utf8( $query->path_info() );
+        $pathInfo = $query->path_info();
     }
 
     # If we have path_info but no ?filename=
     if ($pathInfo) {
+        $pathInfo = Foswiki::decode_utf8($pathInfo);
         my @path = split( /\/+/, $pathInfo );
         shift(@path) unless ( $path[0] );    # remove leading empty string
 
@@ -147,9 +148,6 @@ sub viewfile {
             params => ['?']
         );
     }
-
-    # decode filename in case it is urlencoded and/or utf8, see Item9462
-    $fileName = Foswiki::urlDecode($fileName);
 
     # Note that there may be directories below the pub/web/topic, so
     # simply sanitizing the attachment name won't work.
