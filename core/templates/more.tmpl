@@ -30,10 +30,10 @@
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Name of copy"}%</h3>
 <p><input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30" /></p>
-%TMPL:P{"onlywikinamewarning"}%
 </div>
 <div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" value="%MAKETEXT{"Copy topic..."}%" /></p>
+%TMPL:P{"onlywikiname"}%
 </div>
 </div>
 <input type="hidden" name="action" value="create" />
@@ -42,7 +42,6 @@
 <input type="hidden" name="nowysiwyg" value="1" />
 <input type="hidden" name="notemplateexpansion" value="on" />
 <input type="hidden" name="action_save" value="1" />
-%TMPL:P{"onlywikinameallowed"}%
 </form>
 %TMPL:END%
 
