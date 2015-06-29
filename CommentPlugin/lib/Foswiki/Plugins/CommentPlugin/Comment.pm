@@ -15,6 +15,11 @@ use CGI ();
 
 package Foswiki::Plugins::CommentPlugin::Comment;
 
+sub _hidden {
+    my ( $name, $value ) = @_;
+    return "<input type=\"hidden\" name=\"$name\" value=\"$value\" />";
+}
+
 # PUBLIC STATIC convert COMMENT statements to form prompts
 sub prompt {
     my ( $attrs, $web, $topic, $disabled ) = @_;
@@ -122,53 +127,38 @@ sub prompt {
 
         unless ($disabled) {
             my $hiddenFields = "";
-            $hiddenFields .=
-              CGI::hidden( -name => 'topic', -value => "$web.$topic" );
-
-            $hiddenFields .=
-              CGI::hidden( -name => 'comment_action', -value => 'save' );
+            my $s            = "$web.$topic";
+            $hiddenFields .= _hidden( "topic",          "$web.$topic" );
+            $hiddenFields .= _hidden( "comment_action", "save" );
 
             if ($endPointReq) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'redirectto', -value => $endPoint );
+                $hiddenFields .= _hidden( "redirectto", $endPoint );
             }
 
-            $hiddenFields .=
-              CGI::hidden( -name => 'comment_type', -value => $type );
+            $hiddenFields .= _hidden( 'comment_type', $type );
 
             if ( defined( $attrs->{nonotify} ) ) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_nonotify', value => 1 );
+                $hiddenFields .= _hidden( 'comment_nonotify', 1 );
             }
             if ($templatetopic) {
-                $hiddenFields .= CGI::hidden(
-                    -name  => 'comment_templatetopic',
-                    -value => $templatetopic
-                );
+                $hiddenFields .=
+                  _hidden( 'comment_templatetopic', $templatetopic );
             }
             if ( $attrs->{location} ) {
-                $hiddenFields .= CGI::hidden(
-                    -name  => 'comment_location',
-                    -value => $attrs->{location}
-                );
+                $hiddenFields .=
+                  _hidden( 'comment_location', $attrs->{location} );
             }
             elsif ($anchor) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_anchor', -value => $anchor );
+                $hiddenFields .= _hidden( 'comment_anchor', $anchor );
             }
             else {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_index', -value => $idx );
+                $hiddenFields .= _hidden( 'comment_index', $idx );
             }
             if ( $attrs->{nopost} ) {
-                $hiddenFields .= CGI::hidden(
-                    -name  => 'comment_nopost',
-                    -value => $attrs->{nopost}
-                );
+                $hiddenFields .= _hidden( 'comment_nopost', $attrs->{nopost} );
             }
             if ( $attrs->{remove} ) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_remove', -value => $idx );
+                $hiddenFields .= _hidden( 'comment_remove', $idx );
             }
             $input .= $hiddenFields;
         }
