@@ -20,7 +20,7 @@ sub new {
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/SubscribePlugin',
         documentation => "$Foswiki::cfg{SystemWebName}.SubscribePlugin",
         javascript    => ["subscribe_plugin.js"],
-        dependencies  => ['UI']
+        dependencies  => [ 'FOSWIKI', 'UI' ]
     );
 
     return $this;
