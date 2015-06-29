@@ -693,11 +693,8 @@ sub writeCompletePage {
             $this->{response}
               ->cookies( [ $this->{response}->cookies, $valCookie ] );
 
-            # Add the JS module to the page. Note that this is *not*
-            # incorporated into the foswikilib.js because that module
-            # is conditionally loaded under the control of the
-            # templates, and we have to be *sure* it gets loaded.
-            my $src = $this->{prefs}->getPreference('FWSRC') || '';
+            # Add the strikeone JS module to the page.
+            my $src = (DEBUG) ? '.uncompressed' : '';
             $this->addToZone(
                 'script',
                 'JavascriptFiles/strikeone',
