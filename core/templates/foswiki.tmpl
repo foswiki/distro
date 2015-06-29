@@ -27,7 +27,7 @@ but may be used in derived templates.
 ---------------------------------------------------
 }%%TMPL:DEF{"onlywikinameallowed"}%<input type="hidden" name="onlywikiname" value="%URLPARAM{"onlywikiname" default="on"}%" />%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"onlywikiname"}%%IF{"$HIDE_NON_WIKI_WORD_WARNINGS!='on'" then="$percntTMPL:P{$quotonlywikinamewarning$quot}$percnt" else="$percntTMPL:P{$quotonlywikinameallowed$quot}$percnt"}%%TMPL:END%%{
+}%%TMPL:DEF{"onlywikiname"}%%TMPL:P{"onlywikinamewarning"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html>
 <html lang="%LANG%">%TMPL:END%%{

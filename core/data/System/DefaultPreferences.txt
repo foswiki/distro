@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435589524" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -48,8 +48,6 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and [[%SYSTEMWEB%.ACRONYM][acronyms]] (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
       * Set NOAUTOLINK =
       * *Note:* Use the =[<nop>[...][...]]= syntax to link topics in case you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
-   * If you use non !WikiWords for topic names (for example "Expenses" or "Mighty1") and if you use bracket notation to link to those topics, it is useful to *turn of all warnings* (like: "WARNING: This topic name is not recommended because it will not be linked automatically") and checkboxes ("Allow non !WikiWord for the new topic name"). Can be overwritten by web preferences. Set to =on= to activate:
-      * Set HIDE_NON_WIKI_WORD_WARNINGS =
 
    * Warn if =%<nop>INCLUDE{}%= of topic fails: Fail silently if empty or =off=. Output warning message (defined in templates/oopsalerts.tmpl) if set to =on=. Otherwise output specific text (use =$topic= for topic). You can override this in web preferences, or by using a =warn="..."= parameter with =%<nop>INCLUDE{}%= :
       * Set INCLUDEWARNING = on

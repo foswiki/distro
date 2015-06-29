@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434387485" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435589524" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2.0 Beta 2
 
@@ -66,7 +66,11 @@ Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
    * Perl 5.8.8 is the minimum perl version. The newer the better. There are know issues with international characters and Perl 5.16.x   See [[%BUGS%/Item13424][Item13424]]. For international character set support, Perl 5.18+ is recommended.
 </div>
 
----++ Deprecation
+---++ Deprecation and removals
+
+---+++ Setting HIDE_NON_WIKI_WORD_WARNINGS has been removed
+This setting was used to hide the checkbox for controlling whether or not non-WikiWord topic names are permitted. The checkbox is now always visible.
+The recommended replacement is to use a SKIN setting to override foswiki.tmpl.
 
 ---+++ Space delimited square bracket links have been removed.
 The long-deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
