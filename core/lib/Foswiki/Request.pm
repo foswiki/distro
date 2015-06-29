@@ -478,20 +478,6 @@ sub param {
 
 =begin TML
 
----++ ObjectMethod unicode_param( $name ) -> $firstValue
-
-Special case of param() which takes care of decoding the parameter with
-name $name from utf8 to unicode.
-
-=cut
-
-sub unicode_param {
-    my ( $this, $key ) = @_;
-    return Foswiki::decode_utf8( $this->param($key) );
-}
-
-=begin TML
-
 ---++ ObjectMethod cookie($name [, $value, $path, $secure, $expires]) -> $value
 
    * If called  without parameters returns a list of cookie names.

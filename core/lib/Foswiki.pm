@@ -2174,7 +2174,7 @@ sub new {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = decode_utf8( $query->path_info() || '' );
+    my $webtopic      = $query->path_info() || '';
     my $topicOverride = '';
     my $topic         = $query->param('topic');
     if ( defined $topic ) {
@@ -2962,9 +2962,6 @@ sub urlEncode {
 ---++ StaticMethod urlDecode( $string ) -> decoded string
 
 Reverses the encoding done in urlEncode.
-
-Works on both UTF-8 encoded binary strings, and internal perl character
-strings.
 
 =cut
 

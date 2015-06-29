@@ -81,7 +81,6 @@ sub viewfile {
 
     # If we have path_info but no ?filename=
     if ($pathInfo) {
-        $pathInfo = Foswiki::decode_utf8($pathInfo);
         my @path = split( /\/+/, $pathInfo );
         shift(@path) unless ( $path[0] );    # remove leading empty string
 
