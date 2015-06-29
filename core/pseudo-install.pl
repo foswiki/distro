@@ -1057,20 +1057,23 @@ sub generateAlternateVersion {
     if ( $found && $compress ) {
         trace "...compressing $file to create $file.gz";
         if ($internal_gzip) {
-            open( my $if, '<', _cleanPath($file) )
-              or die "Failed to open $file to read: $!";
-            local $/ = undef;
-            my $text = <$if>;
-            close($if);
+            if ( open( my $if, '<', _cleanPath($file) ) ) {
+                local $/ = undef;
+                my $text = <$if>;
+                close($if);
 
-            $text = Compress::Zlib::memGzip($text);
+                $text = Compress::Zlib::memGzip($text);
 
-            open( my $of, '>', _cleanPath($file) . ".gz" )
-              or die "Failed to open $file.gz to write: $!";
-            binmode $of;
-            print $of $text;
-            close($of);
-            $generated_files{$moduleDir}{"$file.gz"} = 1;
+                open( my $of, '>', _cleanPath($file) . ".gz" )
+                  or die "Failed to open $file.gz to write: $!";
+                binmode $of;
+                print $of $text;
+                close($of);
+                $generated_files{$moduleDir}{"$file.gz"} = 1;
+            }
+            else {
+                warn "Failed to open $file to read: $!";
+            }
         }
         else {
 

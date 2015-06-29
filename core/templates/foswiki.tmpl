@@ -3,34 +3,13 @@ This is the "master template" file for Foswiki. The definitions are used in
 other templates, such as view.tmpl, which in turn define a number of macros
 that are instantiated at the end of this file.
 ---------------------------------------------------
-Handy macro for including JS from system paths
+Handy macro for including JS from system paths. Not used in base templates,
+but may be used in derived templates.
 }%%TMPL:DEF{"LIBJS"}%%ADDTOZONE{
  "script"
  id="%id%"
  text="<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/%id%%FWSRC%.js\"></script>"
  requires="%requires%"}%%TMPL:END%%{
----------------------------------------------------
-Requires for each of the foswiki library JS components. These are not used by
-the base templates, but are provided for fancier skins.
-JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikilib"}%%{
-}%<!-- ERROR: foswikilib is deprecated -->%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiString"}%
-%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiString"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiStringUnicodeChars"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStringUnicodeChars" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiString"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiPref"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiPref" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiForm"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiForm" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiString"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswiki_edit"}%%{
-}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_edit" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiPref"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:INCLUDE{"css"}%%{
 ---------------------------------------------------
