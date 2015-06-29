@@ -55,7 +55,7 @@
 <meta name="robots" content="noindex" />%HTTP_EQUIV_ON_VIEW%
 <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->%TMPL:END%
 
-%TMPL:DEF{"head:script"}%%TMPL:P{"LIBSJS" id="JavascriptFiles/foswikiString" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:P{"LIBSJS" id="JavascriptFiles/foswikiPref" requires="JavascriptFiles/foswikiString"}%%TMPL:P{"LIBSJS" id="JavascriptFiles/foswikiForm" requires="JavascriptFiles/foswikiString"}%%TMPL:P{"LIBJS" id="PatternSkin/pattern" requires="JavascriptFiles/foswikiPref,JavascriptFiles/foswikiForm"}%%TMPL:END%
+%TMPL:DEF{"head:script"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiString" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiPref" requires="JavascriptFiles/foswikiString"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiForm" requires="JavascriptFiles/foswikiString"}%%TMPL:P{"LIBJS" id="PatternSkin/pattern" requires="JavascriptFiles/foswikiPref,JavascriptFiles/foswikiForm"}%%TMPL:END%
 
 %TMPL:DEF{"head:css"}%%TMPL:P{"defaultstyle"}%%TMPL:END%
 
