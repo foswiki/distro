@@ -221,7 +221,7 @@ sub handleRequest {
 
     if ( $dispatcher->{package} && !$isInitialized{ $dispatcher->{package} } ) {
         eval qq(use $dispatcher->{package});
-        die $@ if $@;
+        die Foswiki::encode_utf8($@) if $@;
         $isInitialized{ $dispatcher->{package} } = 1;
     }
 
