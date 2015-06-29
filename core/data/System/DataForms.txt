@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434988360" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435550482" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -121,7 +121,7 @@ The name of the form field.
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
    * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use =[<nop>[...]]= double bracket links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field.
-   * If you want the Field name to include embedded spaces, use the format =[&lt;nop&gt;[FieldName][Descriptive human-friendly Field Name]]=.
+   * If you want the Field name to include embedded spaces, use the format =[<nop>[FieldName][Descriptive human-friendly Field Name]]=.
    * Leading and trailing spaces do not matter.
    
 
