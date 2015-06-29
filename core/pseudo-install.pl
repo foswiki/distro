@@ -9,6 +9,9 @@ use File::Copy();
 use File::Spec();
 use FindBin();
 use Cwd();
+use Carp;
+use Error;
+$Error::Debug = 1;
 
 my $usagetext = <<'EOM';
 pseudo-install extensions into a SVN (or git) checkout
@@ -25,28 +28,29 @@ by default). The default path includes current working directory & its parent.
 
 Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
               developer|<module>|git://a.git/url, a@g.it:/url etc.]
+  -A[utoconf]  - make a simplistic LocalSite.cfg, using just the defaults in
+                 lib/Foswiki.spec
   -C[onfig]    - path to config file (default $HOME/.buildcontrib, or envar
                                               $FOSWIKI_PSEUDOINSTALL_CONFIG)
-  -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
-  -f[orce]     - force an action to complete even if there are warnings
-  -e[nable]    - automatically enable installed plugins in LocalSite.cfg
   -E<c> <extn> - include extra configuration values into LocalSite.cfg. <c>.cfg
                  file must exist in the same dir as <extn>'s Config.spec file
-  -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
-  -l[ink]      - create links %linkByDefault%
+  -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
+  -L[ist]      - list all the foswiki extensions that could be installed by asking
+                 all the extension repositories that are known from the .buildcontrib
+  -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
   -c[opy]      - copy instead of linking %copyByDefault%
+  -d[ebug]     - print an activity trace
+  -e[nable]    - automatically enable installed plugins in LocalSite.cfg
+  -f[orce]     - force an action to complete even if there are warnings
+  -l[ink]      - create links %linkByDefault%
+  -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
   -u[ninstall] - self explanatory (doesn't remove dirs)
   core         - install core (create and link derived objects)
   all          - install core + all extensions (big job)
   default      - install core + extensions listed in lib/MANIFEST
   developer    - core + default + key developer environment
   <module>...  - one or more extensions to install (by name or git URL)
-  -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in
-                 lib/Foswiki.spec
-  -[L]ist      - list all the foswiki extensions that could be installed by asking
-                 all the extension repositories that are known from the .buildcontrib
-  -[s]vn       - Create subversion connections for git-svn usage
-  -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
+  -s[vn]       - Create subversion connections for git-svn usage
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -91,6 +95,7 @@ my $do_genconfig;
 my @extensions_path;
 my %extensions_extra_config;
 my $autoenable     = 0;
+my $debug          = 0;
 my $githooks       = 1;
 my $svnconnect     = 0;
 my $installing     = 1;
@@ -114,6 +119,9 @@ my %arg_dispatch   = (
     '-u' => sub {
         $install    = \&uninstall;
         $installing = 0;
+    },
+    '-d' => sub {
+        $debug = 1;
     },
     '-e' => sub {
         $autoenable = 1;
@@ -354,7 +362,7 @@ sub error {
 
 sub trace {
 
-    #warn "...", @_, "\n";
+    warn "...", @_, "\n" if $debug;
 
     return;
 }
@@ -805,11 +813,16 @@ sub installFromMANIFEST {
             my $found = -f File::Spec->catfile( $moduleDir, $file );
 
             unless ($found) {
+
+                # Generate alternate version *in the $moduleDir*
                 $found = generateAlternateVersion( $moduleDir, $dir, $file,
                     $CAN_LINK );
+                if ($found) {
+                    $install->( $moduleDir, $dir, $file, $ignoreBlock );
+                }
             }
             unless ($found) {
-                warn 'WARNING: Cannot find source file for '
+                warn 'WARNING: Cannot find or generate source file for '
                   . File::Spec->catfile( $moduleDir, $file ) . "\n";
             }
         }
@@ -1006,7 +1019,7 @@ sub linkOrCopy {
         $srcfile = _cleanPath($srcfile);
         $dstfile = _cleanPath($dstfile);
         symlink( $srcfile, $dstfile )
-          or die "Failed to link $srcfile as $dstfile: $!";
+          or carp "Failed to link $srcfile as $dstfile: $!";
         print "Linked $source as $target\n";
         $generated_files{$basedir}{$target} = 1;
     }
@@ -1022,73 +1035,78 @@ sub linkOrCopy {
     return;
 }
 
-# Tries to find out alternate versions of a file
-# So that file.js.gz and file.uncompressed.js get created
+# The source of a file listed in the MANIFEST was not found
+# Try to find a source or alternate, using file naming rules.
+# X.gz can be generated from X
+# X.Y can be linked to any of
+#    X.uncompressed.Y
+#    X_src.Y
+#    X.compressed.Y
+#    X.min.Y
+#    X.Y
+# (preference in that order)
+# $file is the file being looked for e.g. blah.js.gz
+# return 1 if the file was able to be generated
 sub generateAlternateVersion {
     my ( $moduleDir, $dir, $file, $link ) = @_;
-    my $found    = 0;
-    my $compress = 0;
-    trace( File::Spec->catfile( $moduleDir, $file ) . ' not found' );
 
-    if ( !$found && $file =~ /(.*)\.gz$/ ) {
-        $file     = $1;
-        $found    = ( -f File::Spec->catfile( $moduleDir, $1 ) );
-        $compress = 1;
-    }
-    if (  !$found
-        && $file =~ /^(.+)(\.(?:un)?compressed|_src|\.min)(\..+)$/
-        && -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
-    {
-        linkOrCopy $moduleDir, $file, $1 . $3, $link;
-        $found++;
-    }
-    elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/ ) {
-        my ( $src, $ext ) = ( $1, $2 );
-        for my $kind (qw( .uncompressed .compressed _src .min )) {
-            my $srcfile = $src . $kind . $ext;
+    trace( File::Spec->catfile( $moduleDir, $file )
+          . ' not found, trying to generate alternate' );
 
-            if ( -f File::Spec->catfile( $moduleDir, $srcfile ) ) {
-                linkOrCopy $moduleDir, $srcfile, $file, $link;
-                $found++;
-                last;
-            }
+    if ( $file =~ /(.*)\.gz$/ ) {
+        my $zource = $1;
+        unless ( -f File::Spec->catfile( $moduleDir, $zource )
+            || generateAlternateVersion( $moduleDir, $dir, $zource, $link ) )
+        {
+            # Failed
+            return 0;
         }
-    }
-    if ( $found && $compress ) {
-        trace "...compressing $file to create $file.gz";
+        $zource =
+          untaint( _cleanPath( File::Spec->catfile( $moduleDir, $zource ) ) );
+        trace "...compressing $zource to create $file";
         if ($internal_gzip) {
-            if ( open( my $if, '<', _cleanPath($file) ) ) {
-                local $/ = undef;
-                my $text = <$if>;
-                close($if);
+            open( my $if, '<', $zource )
+              or die "Failed to open $zource to zip: $!";
+            local $/ = undef;
+            my $text = <$if>;
+            close($if);
 
-                $text = Compress::Zlib::memGzip($text);
+            $text = Compress::Zlib::memGzip($text);
 
-                open( my $of, '>', _cleanPath($file) . ".gz" )
-                  or die "Failed to open $file.gz to write: $!";
-                binmode $of;
-                print $of $text;
-                close($of);
-                $generated_files{$moduleDir}{"$file.gz"} = 1;
-            }
-            else {
-                warn "Failed to open $file to read: $!";
-            }
+            my $dezt =
+              untaint( _cleanPath( File::Spec->catfile( $moduleDir, $file ) ) );
+            open( my $of, '>', $dezt )
+              or die "Failed to open $dezt to write: $!";
+            binmode $of;
+            print $of $text;
+            close($of);
         }
         else {
 
             # Try gzip as a backup, if Compress::Zlib is not available
-            my $command =
-                "gzip -c "
-              . _cleanPath($file) . " > "
-              . _cleanPath($file) . ".gz";
+            my $command = "gzip -c $file > $file.gz";
             local $ENV{PATH} = untaint( $ENV{PATH} );
-            trace `$command`;
-            $generated_files{$moduleDir}{"$file.gz"} = 1;
+            trace $command . ' -> ' . `$command`;
+        }
+
+        $generated_files{$moduleDir}{$file} = 1;
+        return 1;
+    }
+
+    # otherwise, try and link to a matching .uncompressed, .min etc
+    if ( $file =~ /^(.+?)(.uncompressed|_src|.min|.compressed|)(\.[^.]+)$/ ) {
+        my ( $root, $mid, $ext ) = ( $1, $2 || '', $3 );
+        foreach my $type ( grep { $_ ne $mid }
+            ( '.uncompressed', '_src', '.min', '' ) )
+        {
+            if ( -f File::Spec->catfile( $moduleDir, "$root$type$ext" ) ) {
+                linkOrCopy $moduleDir, "$root$type$ext", $file, $link;
+                return 1;
+            }
         }
     }
 
-    return $found;
+    return 0;
 }
 
 # See also: just_link
