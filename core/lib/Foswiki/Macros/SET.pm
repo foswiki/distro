@@ -17,7 +17,6 @@ sub SET {
     my ( $this, $params, $topicObject ) = @_;
 
     my $name = $params->{_DEFAULT} || $params->{name};
-    ASSERT($name) if DEBUG;
 
     return '' unless defined $name;
 
