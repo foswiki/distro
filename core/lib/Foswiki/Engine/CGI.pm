@@ -147,7 +147,7 @@ sub preparePath {
     # Clean up PATH_INFO problems, e.g.  Support.CobaltRaqInstall.  A valid
     # PATH_INFO is '/Main/WebHome', i.e. the text after the script name;
     # invalid PATH_INFO is often a full path starting with '/cgi-bin/...'.
-    my $pathInfo = Foswiki::decode_utf8( $ENV{PATH_INFO} || '' );
+    my $pathInfo = $ENV{PATH_INFO} || '';
 
     if ( $pathInfo =~ m/['"]/g ) {
         $pathInfo = substr( $pathInfo, 0, ( ( pos $pathInfo ) - 1 ) );

@@ -2940,7 +2940,7 @@ sub entityDecode {
 
 =begin TML
 
----++ StaticMethod urlEncode( $string ) -> encoded string
+---++ StaticMethod urlEncode( $perlstring ) -> $bytestring
 
 Encode by converting characters that are reserved in URLs to
 their %NN equivalents. This method is used for encoding
@@ -2963,7 +2963,6 @@ encodes *all* characters except 0-9a-zA-Z-_.:~!*#/
 sub urlEncode {
     my $text = shift;
 
-    # URLs work quite happily with %-encoded utf-8 characters
     $text = encode_utf8($text);
     $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
 
@@ -2972,7 +2971,7 @@ sub urlEncode {
 
 =begin TML
 
----++ StaticMethod urlDecode( $string ) -> decoded string
+---++ StaticMethod urlDecode( $bytestring ) -> $perlstring
 
 Reverses the encoding done in urlEncode.
 
