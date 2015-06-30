@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435707825" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. Delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access.
 
-%X% you cannot rename an attachment in the current Foswiki release.
+%T% you cannot directly rename an attachment in the current Foswiki release, but you can move it to a different name in the same topic, effectively renaming it.
 
 Different [[Skins][skins]] have different ways to do this. The default PatternSkin has a 'manage' link in the FileAttachment table, that then gives you the option to Delet the attachment.
 

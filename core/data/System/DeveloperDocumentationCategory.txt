@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435707485" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Category"}%
 ---+ Developer Documentation
  List of documents for application developers as well as developers of skins and extensions.
@@ -30,7 +30,7 @@ Topics for normal users that want to develop Foswiki applications.
    $ [[AutoViewTemplatePlugin]] : This plugin enables using special view and edit templates depending on the data form used on the topics
    $ [[CommentPlugin]] : Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle. The comment forms can be customized and form very advanced user interface for application development
    $ [[CommentPluginTemplate]] : This topic is used by the CommentPlugin as a template file
-   $ [[EditTablePlugin]] : Edit tables using edit fields, date pickers and drop down boxes
+   $ [[EditRowPlugin]] : Edit tables using edit fields, date pickers and drop down boxes
    $ [[JSCalendarContrib]] : Enables smart Javascript calender for text entry fields. Users can add calendar directly in their own hand-built forms, without having to write any code. 
    $ [[PlainSkin]] : The plain skin is used to get the rendered topic text without any page decoration such as side, top or bottom bars. The text is shown without any markup styles. It can be used to display topic content inside an IFRAME.
 
@@ -78,7 +78,6 @@ Topics for programmers that which to design new skins and develop new extensions
    $ [[PatternSkinCssCookbook]] : Cookbook for how to alter the appearance of !PatternSkin using CSS. This includes how to change the color scheme, hide the left bar, change the height of the top bar, removing the top bar, etc.
    $ [[PatternSkinCustomization]] : How to customize the apperance of PatternSkin using templates. This includes how to change the site logos, how to change the features of the top and side bars, and how to hide certain user interface elements depending who the user is.
    $ [[PatternSkinElements]] : This topic shows the most common elements that you can change in the PatternSkin. Use this topic to see the result of your changes to CSS.
-   $ [[PatternSkinWebCreateNewTopicTemplate]] : This is a template topic that defines the design and look of the page you use to create a new topic in PatternSkin
    $ [[PrintSkin]] : The print skin, used for printable pages with a small footer. Other skins, such as PatternSkin, may introduce their own print skin. 
 
 ---+++ Other
