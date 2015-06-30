@@ -166,7 +166,7 @@ sub early_line {
     # There may be several on the line (yuck)
     my $ok = 0;
     while ( $line =~ /%(TABLE|$this->{macro})(\{.*?\})?%/s ) {
-        $ok ||= $this->_early_line( $line, $1 );
+        $ok = 1 if $this->_early_line( $line, $1 );
     }
     push( @{ $this->{waiting} }, $line ) if $ok && length($line);
     return $ok;
