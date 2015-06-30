@@ -54,7 +54,7 @@ msgstr "%1"
 msgid "%1 %2 Page %3 of %4 %5 %6"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:83
+#: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr "%1 е преместен(а) от %2 на %3 от %4"
 msgid "&Cancel"
 msgstr "Отказ"
 
-#: core/templates/foswiki.tmpl:159
+#: core/templates/foswiki.tmpl:138
 msgid "&History"
 msgstr "История"
 
@@ -416,12 +416,12 @@ msgstr ""
 "коментараът показан срещу историята на пртурката  ще си остане същия както е "
 "бил при качваненто на файла."
 
-#: core/data/System/WikiSyntaxSummary.txt:8
+#: core/data/System/WikiSyntaxSummary.txt:11
 #, fuzzy
 msgid "*Formatting help:*"
 msgstr "Още помощ при форматиране"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:448
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -452,11 +452,11 @@ msgstr ""
 "могат да бъдат променени без да се качва файл като щракнете върху  \"Change "
 "Properties only\"; вижте %1."
 
-#: core/data/System/WikiSyntaxSummary.txt:9
+#: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr "*удебелено* сложете звездички около думата/израза: =<nop>*думи*="
 
-#: core/data/System/WikiSyntaxSummary.txt:10
+#: core/data/System/WikiSyntaxSummary.txt:13
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
@@ -464,7 +464,7 @@ msgstr ""
 "*списък с водачи* 3 паузи, звездичка, 1 пауза: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "вашия текст="
 
-#: core/data/System/WikiSyntaxSummary.txt:14
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
@@ -472,27 +472,27 @@ msgstr ""
 "*външни връзки* =http://yahoo.com= или =[<nop>[http://yahoo.com/][връзка към "
 "Yahoo]]="
 
-#: core/data/System/WikiSyntaxSummary.txt:11
+#: core/data/System/WikiSyntaxSummary.txt:14
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
 "*заглавия* 3 тирета, 1 до 6 плюса, 1 пауза: =---++&&nbsp;Вашето Заглавие="
 
-#: core/data/System/WikiSyntaxSummary.txt:12
+#: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
 "*италичен* поставете думата/фразата между подчертавки: =_<nop>вашите думи_="
 
-#: core/data/System/WikiSyntaxSummary.txt:15
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
 "*шрифт с фиксирана ширина*  сложете знак за равенство около думата/израза: "
 "=<nop>=вашите думи=="
 
-#: core/data/System/WikiSyntaxSummary.txt:16
+#: core/data/System/WikiSyntaxSummary.txt:19
 msgid "*paragraphs* separate with blank line"
 msgstr "*абзаци* разделете с празен ред"
 
-#: core/data/System/WikiSyntaxSummary.txt:13
+#: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 "*връзки в сайта* използвайте име на страница: =%1= или =[<nop>[%1][вашата "
@@ -502,35 +502,35 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/data/System/SiteChanges.txt:29
+#: core/data/System/SiteChanges.txt:30
 msgid "1 hour ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:34
+#: core/data/System/SiteChanges.txt:35
 msgid "1 week ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:31
+#: core/data/System/SiteChanges.txt:32
 msgid "12 hours ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:35
+#: core/data/System/SiteChanges.txt:36
 msgid "2 weeks ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:32
+#: core/data/System/SiteChanges.txt:33
 msgid "24 hours ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:33
+#: core/data/System/SiteChanges.txt:34
 msgid "3 days ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:36
+#: core/data/System/SiteChanges.txt:37
 msgid "4 weeks ago"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:30
+#: core/data/System/SiteChanges.txt:31
 msgid "6 hours ago"
 msgstr ""
 
@@ -546,11 +546,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "страници, <a href='%7' rel='nofollow'>всички промени</a>"
 
-#: core/templates/more.tmpl:91
+#: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
 msgstr "само <em>в раздел %1</em>"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:88
 msgid "<em>in all public webs</em>"
 msgstr "<em>във всички общодостъпни раздели</em>"
 
@@ -566,7 +566,7 @@ msgid ""
 "been denied"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:319
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 #, fuzzy
 msgid "<nop>WikiName:"
 msgstr "Име на страницата"
@@ -776,7 +776,7 @@ msgstr ""
 msgid "All public webs"
 msgstr "Всички публични рздели"
 
-#: core/templates/foswiki.tmpl:45
+#: core/templates/foswiki.tmpl:24
 #, fuzzy
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "Разреши не-<nop>WikiWord в името на новата страница"
@@ -940,7 +940,7 @@ msgstr "Налични шаблони в Раздел %1 :"
 msgid "Back to topic"
 msgstr "Обратно в страницата"
 
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "Обратни връзки"
 
@@ -1025,9 +1025,9 @@ msgstr "Няма e-mail-адрес за %1 (задължителен за нул
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:177
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:43
-#: NatEditPlugin/templates/edit.natedit.tmpl:58
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
@@ -1036,7 +1036,7 @@ msgstr "Няма e-mail-адрес за %1 (задължителен за нул
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:130
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:109
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Отказ"
@@ -1195,7 +1195,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Отметнатите страници ще бъдат обновени да сочат към новото  име на раздела."
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:204
 msgid "Child topics in %1 web"
 msgstr "Подстраници в раздел %1"
 
@@ -1270,11 +1270,11 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:150
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Сравняване на версиите"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 #, fuzzy
 msgid "Confirm password:"
 msgstr "Вашата парола:"
@@ -1337,7 +1337,7 @@ msgstr ""
 msgid "Copy topic"
 msgstr "Копиране на страница"
 
-#: core/templates/more.tmpl:36
+#: core/templates/more.tmpl:35
 #, fuzzy
 msgid "Copy topic..."
 msgstr "Копиране на страница"
@@ -1351,7 +1351,7 @@ msgstr ""
 "материали по тази платформа за сътрудничество са собственост на "
 "сътрудничещите автори."
 
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/WebPreferences.txt:33
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
@@ -1375,7 +1375,7 @@ msgstr "Търсенето е невъзможно. Грешката беше: %
 msgid "Could not save %1."
 msgstr "Неуспешен запис на %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:426
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
 #, fuzzy
 msgid "Country:"
 msgstr "Страна:"
@@ -1388,7 +1388,7 @@ msgstr "Страна:"
 msgid "Create New Topic"
 msgstr "Нова Страница"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:12
+#: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:13
 msgid "Create New Topic in %1 Web"
 msgstr "Създаване на нова страница в Раздел %1"
 
@@ -1440,14 +1440,14 @@ msgstr "Създаване на личен страничен панел"
 msgid "Create the topic"
 msgstr "Създаване на Страницата"
 
-#: core/data/System/DefaultPreferences.txt:399
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
+#: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicComponents.txt:154
 #: core/lib/Foswiki/Render.pm:70
 msgid "Create this topic"
 msgstr "Създаване на тази Страница"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:107
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:108
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1482,17 +1482,17 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Уважаеми %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Дебъг"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:119
-#: NatEditPlugin/templates/edit.natedit.tmpl:155
+#: NatEditPlugin/templates/edit.natedit.tmpl:120
+#: NatEditPlugin/templates/edit.natedit.tmpl:156
 #, fuzzy
 msgid "Default"
 msgstr "Шаблон по подразбиране"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:145
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:145
 msgid "Default template"
 msgstr "Шаблон по подразбиране"
 
@@ -1509,11 +1509,11 @@ msgstr "Изтриване"
 msgid "Delete attachment %1"
 msgstr "Изтриване на притурка"
 
-#: core/templates/more.tmpl:51
+#: core/templates/more.tmpl:50
 msgid "Delete topic"
 msgstr "Изтриване на страница"
 
-#: core/templates/more.tmpl:61
+#: core/templates/more.tmpl:60
 msgid "Delete topic..."
 msgstr "Изтриване на страница..."
 
@@ -1561,7 +1561,7 @@ msgstr "Разлика:"
 msgid "Difference:"
 msgstr "Разлика:"
 
-#: core/data/System/WebPreferences.txt:12
+#: core/data/System/WebPreferences.txt:11
 msgid "Discover the details, and how to start your own site with Foswiki"
 msgstr ""
 
@@ -1662,11 +1662,12 @@ msgid "Each preference has the syntax"
 msgstr "Всяка настройка има синтаксисът"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
+#: core/data/System/VarMAKETEXT.txt:12
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Редактиране"
 
-#: core/data/System/VarMAKETEXT.txt:61
+#: core/data/System/VarMAKETEXT.txt:42
 #, fuzzy
 msgid "Edit %*(%1,file)"
 msgstr "%*(%1,минута) "
@@ -1732,10 +1733,10 @@ msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
 msgstr ""
-"Не сте предоставили име за файла или файла, който се опитвате да качите"
-"( %1 ) е празен. Не може да качите празен файл."
+"Не сте предоставили име за файла или файла, който се опитвате да "
+"качите( %1 ) е празен. Не може да качите празен файл."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:333
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 #, fuzzy
 msgid "Email address:"
 msgstr "E-mail адрес:"
@@ -1762,7 +1763,7 @@ msgid "Enter a new username and password to change identity"
 msgstr ""
 "Въведете ново потребителско име и парола, за да промените идентичността си"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:142
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:142
 #, fuzzy
 msgid "Enter parent name"
 msgstr "Нов родителски раздел:"
@@ -1771,7 +1772,7 @@ msgstr "Нов родителски раздел:"
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Въведете Wiki Администратор потребител или влезте както е указано в %1"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:108
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
 
@@ -1830,7 +1831,7 @@ msgstr "Грешка при запис на страницата"
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:125
 msgid "Everybody"
 msgstr ""
 
@@ -1864,7 +1865,7 @@ msgstr "Неуспешно включване на URL %1"
 msgid "Fields marked %1 are required"
 msgstr "Полетата, маркирани с %1 са задължителни"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:131
 #, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Полетата, маркирани с %1 са задължителни"
@@ -1881,12 +1882,12 @@ msgstr "Файлът бе качен с различно име"
 msgid "Find similar topics"
 msgstr "Търсене на подобни страници"
 
-#: core/templates/more.tmpl:206
+#: core/templates/more.tmpl:205
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Намери страници, които имат връзки към %1 ..."
 
-#: core/templates/more.tmpl:88 core/templates/more.tmpl:90
+#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Намери страници, които имат връзки към %1 ..."
 
@@ -1895,7 +1896,7 @@ msgstr "Намери страници, които имат връзки към %
 msgid "First"
 msgstr "Име:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:305
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:306
 #, fuzzy
 msgid "First name:"
 msgstr "Име:"
@@ -2002,7 +2003,7 @@ msgstr "Уведомяване за промени в това търсене"
 msgid "Globe"
 msgstr "Затваряне"
 
-#: core/templates/foswiki.tmpl:134 core/templates/messages.tmpl:324
+#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:324
 #: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Обратно"
@@ -2090,11 +2091,11 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:165
+#: core/templates/foswiki.tmpl:144
 msgid "Hello %1!"
 msgstr "Здравей %1!"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:85
+#: NatEditPlugin/templates/edit.natedit.tmpl:86
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
 #: NatEditPlugin/templates/settings.natedit.tmpl:21
 #: NatEditPlugin/templates/settings.natedit.tmpl:24
@@ -2173,7 +2174,7 @@ msgid "Icon"
 msgstr ""
 
 #: core/data/System/DefaultPreferences.txt:40
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
 "Идеи, заявки, проблеми, свързани с %1? <a href='%2'>Вашите впечатления</a>"
@@ -2191,7 +2192,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:100
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
@@ -2247,7 +2248,7 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:116
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:117
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Ако имате въпроси относно регистрацията, изпратете e-mail до %1."
 
@@ -2258,7 +2259,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Ако имате някакви въпроси, моля свържете се с %1"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:23
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Ако имате въпроси, моля свържате се с %1."
@@ -2501,7 +2502,7 @@ msgid ""
 "check with %1 first."
 msgstr ""
 
-#: core/templates/foswiki.tmpl:47
+#: core/templates/foswiki.tmpl:26
 #, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
@@ -2546,8 +2547,8 @@ msgstr "Възстанови страницата до тази версия:"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:134
-#: NatEditPlugin/templates/edit.natedit.tmpl:165
+#: NatEditPlugin/templates/edit.natedit.tmpl:135
+#: NatEditPlugin/templates/edit.natedit.tmpl:166
 msgid "Just me"
 msgstr ""
 
@@ -2571,11 +2572,11 @@ msgstr "Фамилия:"
 msgid "Last edited by"
 msgstr "Последен редактор"
 
-#: core/data/System/SiteChanges.txt:64 core/data/System/WebSearch.txt:169
+#: core/data/System/SiteChanges.txt:65 core/data/System/WebSearch.txt:169
 msgid "Last editor"
 msgstr "Последен редактор"
 
-#: core/data/System/SiteChanges.txt:64
+#: core/data/System/SiteChanges.txt:65
 #, fuzzy
 msgid "Last modified"
 msgstr "Последна промяна"
@@ -2584,12 +2585,12 @@ msgstr "Последна промяна"
 msgid "Last modified time"
 msgstr "Последна промяна"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:312
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:313
 #, fuzzy
 msgid "Last name:"
 msgstr "Фамилия:"
 
-#: core/templates/more.tmpl:180
+#: core/templates/more.tmpl:179
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(версия %1)"
@@ -2631,7 +2632,7 @@ msgid "Literal search"
 msgstr "Буквално търсене"
 
 #: core/data/System/CompleteDocumentation.txt:9
-#: core/data/System/SiteChanges.txt:10
+#: core/data/System/SiteChanges.txt:11
 msgid "Load content"
 msgstr ""
 
@@ -2652,11 +2653,11 @@ msgid "Log on to %1"
 msgstr ""
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:148
-#: core/templates/foswiki.tmpl:41
+#: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Вход"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:327
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 #, fuzzy
 msgid "Login username:"
 msgstr "Име за вход %1"
@@ -2665,7 +2666,7 @@ msgstr "Име за вход %1"
 msgid "Logon"
 msgstr "Вход"
 
-#: core/templates/foswiki.tmpl:43
+#: core/templates/foswiki.tmpl:22
 msgid "Logout"
 msgstr "Изход"
 
@@ -2685,7 +2686,7 @@ msgstr "Изпрати до"
 msgid "Make search:"
 msgstr "Търси:"
 
-#: core/data/System/SiteChanges.txt:73
+#: core/data/System/SiteChanges.txt:74
 msgid "Maximum %1 items per web"
 msgstr ""
 
@@ -2725,7 +2726,7 @@ msgstr "Още действия за страница %1"
 msgid "More character formats"
 msgstr "в суров текстов формат"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:20
 msgid "More formatting help"
 msgstr "Още помощ при форматиране"
 
@@ -2742,7 +2743,7 @@ msgstr "Преместване или изтриване на притурка"
 msgid "More tools"
 msgstr ""
 
-#: core/data/System/TopicsAndWebs.txt:52
+#: core/data/System/TopicsAndWebs.txt:54
 #, fuzzy
 msgid "More topic actions"
 msgstr "Още действия..."
@@ -2876,7 +2877,7 @@ msgstr "Нова парола"
 msgid "New topic name %1 is not a %2"
 msgstr "Името на новата страница %1 не е %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:102
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Регистрацията на нови потребители е изключена"
@@ -2885,7 +2886,7 @@ msgstr "Регистрацията на нови потребители е из�
 msgid "New web name:"
 msgstr "Име на новия раздел:"
 
-#: core/templates/more.tmpl:156
+#: core/templates/more.tmpl:155
 msgid "Newer revision:"
 msgstr "По-нова версия:"
 
@@ -2908,7 +2909,7 @@ msgstr "(връзки \"назад\" във всички раздели)"
 msgid "No backlinks in this web"
 msgstr "(обратни връзки в раздел %1)"
 
-#: core/data/System/SiteChanges.txt:69
+#: core/data/System/SiteChanges.txt:70
 #, fuzzy
 msgid "No changes"
 msgstr "(промени)"
@@ -2936,7 +2937,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "нямате права да видите %1"
 
-#: core/templates/more.tmpl:198
+#: core/templates/more.tmpl:197
 msgid "No previous revision exists."
 msgstr "Не съществува предна версия."
 
@@ -2958,8 +2959,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "Няма потребители, чиито пароли да бъдат променени."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:139
-#: NatEditPlugin/templates/edit.natedit.tmpl:170
+#: NatEditPlugin/templates/edit.natedit.tmpl:140
+#: NatEditPlugin/templates/edit.natedit.tmpl:171
 msgid "Nobody"
 msgstr ""
 
@@ -2997,10 +2998,6 @@ msgid ""
 "this is where to look first."
 msgstr ""
 
-#: core/data/System/VarMAKETEXT.txt:16
-msgid "Notes:"
-msgstr "Бележки:"
-
 #: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
 msgstr "Помощ за уведомяване"
@@ -3014,7 +3011,7 @@ msgstr "Помощ за уведомяване"
 msgid "Notifications"
 msgstr "Уведомяване"
 
-#: core/data/System/SiteChanges.txt:81
+#: core/data/System/SiteChanges.txt:82
 msgid "Number of changes for each Web"
 msgstr ""
 
@@ -3042,7 +3039,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:132 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:111 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:318
 #: core/templates/registermessages.tmpl:326
@@ -3059,7 +3056,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:156
+#: core/templates/more.tmpl:155
 msgid "Older revision:"
 msgstr "По-стара версия"
 
@@ -3084,7 +3081,7 @@ msgstr "Само членовете на %1 могат да извършват �
 msgid "Only members or admins may update group."
 msgstr ""
 
-#: core/templates/more.tmpl:57 core/templates/more.tmpl:74
+#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "Подстраници в раздел %1"
@@ -3112,17 +3109,17 @@ msgstr "Може да въведете различно име на страни
 msgid "Optionally enter a different topic name:"
 msgstr "Може да въведете различно име на страница:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
 #, fuzzy
 msgid "Options"
 msgstr "Действие"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:412
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Име на организацията"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:419
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Име на организацията"
@@ -3176,8 +3173,8 @@ msgstr "Паролите не съвпадат"
 msgid "Pending registration not found"
 msgstr "Регистрация на нови потребители не се поддържа"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:101
-#: NatEditPlugin/templates/edit.natedit.tmpl:99
+#: NatEditPlugin/templates/edit.natedit.tmpl:100
+#: NatEditPlugin/templates/edit.natedit.tmpl:102
 #, fuzzy
 msgid "Permissions"
 msgstr "Версии"
@@ -3200,7 +3197,7 @@ msgstr "Място за изхвърлени прикачени файлове"
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:287
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
 #, fuzzy
 msgid "Please confirm your password."
 msgstr "Вашата парола:"
@@ -3219,26 +3216,26 @@ msgstr "Моля свържете се с %1 ако имате някакви в
 msgid "Please contact %1."
 msgstr "Моля свържете се с %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:273
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 #, fuzzy
 msgid "Please enter a WikiName."
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
 #, fuzzy
 msgid "Please enter a login username."
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #, fuzzy
 msgid "Please enter a password."
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:277
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #, fuzzy
 msgid "Please enter a valid email address."
 msgstr "невалиден адрес за електронна поща"
@@ -3247,17 +3244,17 @@ msgstr "невалиден адрес за електронна поща"
 msgid "Please enter the Wiki admin password"
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
 #, fuzzy
 msgid "Please enter the same password as above."
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
 #, fuzzy
 msgid "Please enter your first name."
 msgstr "Моля, въведете администраторската парола за Wiki."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:272
 #, fuzzy
 msgid "Please enter your last name."
 msgstr "Моля, въведете администраторската парола за Wiki."
@@ -3312,7 +3309,7 @@ msgstr ""
 "Съобщението не може да бъде доставено. Моля уведомете вашия %1 "
 "администратор, %2"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:55
+#: NatEditPlugin/templates/edit.natedit.tmpl:56
 msgid "Please validate"
 msgstr ""
 
@@ -3323,7 +3320,7 @@ msgstr ""
 "Моля, посетете %1, за да промените паролата си на нещо по-запомнящо се за "
 "вас."
 
-#: core/lib/Foswiki/Plugins.pm:500
+#: core/lib/Foswiki/Plugins.pm:505
 msgid "Plugin handlers"
 msgstr ""
 
@@ -3423,12 +3420,12 @@ msgstr "Целият текст"
 msgid "Recently changed topics"
 msgstr "Последно променяни страници"
 
-#: core/data/System/SiteChanges.txt:19
+#: core/data/System/SiteChanges.txt:20
 #, fuzzy
 msgid "Recently changed topics in %1 Web"
 msgstr "Последно променяни страници"
 
-#: core/data/System/SiteChanges.txt:20
+#: core/data/System/SiteChanges.txt:21
 #, fuzzy
 msgid "Recently changed topics in all Webs"
 msgstr "Последно променяни страници"
@@ -3449,8 +3446,8 @@ msgstr "Презареждане"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:442
-#: core/templates/foswiki.tmpl:167
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: core/templates/foswiki.tmpl:146
 msgid "Register"
 msgstr "Регистрация"
 
@@ -3458,13 +3455,13 @@ msgstr "Регистрация"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:129
-#: NatEditPlugin/templates/edit.natedit.tmpl:160
+#: NatEditPlugin/templates/edit.natedit.tmpl:130
+#: NatEditPlugin/templates/edit.natedit.tmpl:161
 #, fuzzy
 msgid "Registered users"
 msgstr "Регистрация"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:76
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:77
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -3490,7 +3487,7 @@ msgstr "Кодовете за регистрация могат да се пол
 msgid "Registration has been denied"
 msgstr "Кодовете за регистрация могат да се ползват само по веднъж."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:98
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:99
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3508,9 +3505,9 @@ msgstr ""
 "Съобщението не може да бъде доставено. Моля уведомете вашия %1 "
 "администратор, %2"
 
-#: core/data/System/SiteTools.txt:150
+#: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
-#: core/data/System/UserAuthentication.txt:307
+#: core/data/System/UserAuthentication.txt:301
 #, fuzzy
 msgid "Related Topics:"
 msgstr "Подобни"
@@ -3522,7 +3519,7 @@ msgstr "Подобни"
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:689
 #: core/data/System/FormattedSearch.txt:400
-#: core/data/System/GlossaryOfTerms.txt:25
+#: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
 msgid "Related topics:"
@@ -3584,11 +3581,11 @@ msgstr "Грешка при преименуването"
 msgid "Rename or move %1"
 msgstr "Преименувай тази страница"
 
-#: core/templates/more.tmpl:70
+#: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Преименувай тази страница"
 
-#: core/templates/more.tmpl:78
+#: core/templates/more.tmpl:77
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "Преименувай тази страница"
@@ -3636,12 +3633,12 @@ msgstr "Нулиране на Парола"
 msgid "Reset password"
 msgstr "Нулиране на Парола"
 
-#: core/data/System/DefaultPreferences.txt:206
+#: core/data/System/DefaultPreferences.txt:205
 msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:187
+#: core/templates/more.tmpl:186
 #, fuzzy
 msgid "Restore"
 msgstr "Възстановяване"
@@ -3660,19 +3657,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Възстанови страница:"
 
-#: core/templates/more.tmpl:168
+#: core/templates/more.tmpl:167
 msgid "Restore topic"
 msgstr "Възстанови страница:"
 
-#: core/templates/more.tmpl:184
+#: core/templates/more.tmpl:183
 msgid "Restore topic to revision:"
 msgstr "Възстанови страница до версия:"
 
-#: core/templates/more.tmpl:187
+#: core/templates/more.tmpl:186
 msgid "Restore topic to this revision"
 msgstr "Възстанови страницата до тази версия:"
 
-#: core/templates/more.tmpl:173
+#: core/templates/more.tmpl:172
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3680,7 +3677,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:178
+#: core/templates/more.tmpl:177
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3740,7 +3737,7 @@ msgstr "Версия"
 msgid "Revision history of %1"
 msgstr "История на версиите на %1"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:135
 msgid "Revisions"
 msgstr "Версии"
 
@@ -3757,7 +3754,7 @@ msgstr "S = Запис, Q = Тих запис, K = Запис и нататък,
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:57
+#: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
 #, fuzzy
 msgid "Save"
@@ -3815,7 +3812,7 @@ msgid "Search all webs"
 msgstr "Търсене във всички раздели"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:87
 msgid "Search all webs for topics that link to here"
 msgstr "Търсене във всички раздели за връзки, които сочат насам"
 
@@ -3856,12 +3853,12 @@ msgstr "(резултати от търсенето)"
 msgid "Search string"
 msgstr "Низ за търсене"
 
-#: core/templates/more.tmpl:206
+#: core/templates/more.tmpl:205
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Търсене в Раздел %1 за страници, които сочат насам"
 
-#: core/templates/more.tmpl:90
+#: core/templates/more.tmpl:89
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Търсене в Раздел %1 за страници, които сочат насам"
 
@@ -3913,7 +3910,7 @@ msgstr "Вижте също"
 msgid "See below for help in editing this page."
 msgstr "Вижте по-долу за помощ при редактирането на тази страница."
 
-#: core/data/System/SiteChanges.txt:27
+#: core/data/System/SiteChanges.txt:28
 #, fuzzy
 msgid "See changes since:"
 msgstr "Преглед на последните промени в:"
@@ -3939,7 +3936,7 @@ msgstr "Избор на всичко"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "Избери родителска страница:"
@@ -3949,12 +3946,12 @@ msgstr "Избери родителска страница:"
 msgid "Select members to remove from this group:"
 msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:393
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "Избери родителска страница:"
 
-#: core/templates/more.tmpl:101
+#: core/templates/more.tmpl:100
 #, fuzzy
 msgid "Select topic parent"
 msgstr "Избери родителска страница:"
@@ -3968,7 +3965,7 @@ msgstr ""
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:84
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:85
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Регистрация на нови потребители не се поддържа"
@@ -3977,7 +3974,7 @@ msgstr "Регистрация на нови потребители не се п
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "Последователно"
 
@@ -3985,11 +3982,11 @@ msgstr "Последователно"
 msgid "Set all"
 msgstr "Отбелязване на всички"
 
-#: core/templates/more.tmpl:105
+#: core/templates/more.tmpl:104
 msgid "Set new parent"
 msgstr "Задай нов родител"
 
-#: core/templates/more.tmpl:97
+#: core/templates/more.tmpl:96
 msgid "Set new topic parent"
 msgstr "Задай нов родител на страницата"
 
@@ -4016,7 +4013,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Смали кутийката за редакция"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:159
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr ""
 
@@ -4055,7 +4052,7 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
@@ -4088,12 +4085,12 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr "паузите се заместват с подчертавки"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:144
-#: NatEditPlugin/templates/edit.natedit.tmpl:175
+#: NatEditPlugin/templates/edit.natedit.tmpl:145
+#: NatEditPlugin/templates/edit.natedit.tmpl:176
 msgid "Specific users/groups"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:92
+#: core/data/System/SiteChanges.txt:93
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
@@ -4122,8 +4119,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:30
-#: JQueryPlugin/data/System/VarBUTTON.txt:39
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -4221,7 +4218,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "Шаблон %1 не съществува"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:82
+#: NatEditPlugin/templates/edit.natedit.tmpl:83
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:105
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:133
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:91
@@ -4307,7 +4304,7 @@ msgstr ""
 msgid "The Administrator has disabled password changes."
 msgstr ""
 
-#: core/data/System/WebPreferences.txt:12
+#: core/data/System/WebPreferences.txt:11
 msgid "The Free and Open Source Wiki."
 msgstr ""
 
@@ -4509,7 +4506,7 @@ msgid ""
 "characters matching this filter will invalidate the username."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
 msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
@@ -4560,7 +4557,7 @@ msgstr "%1 е преместен(а) от %2 на %3 от %4"
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
 msgid "This WikiName is already in use."
 msgstr ""
 
@@ -4618,7 +4615,7 @@ msgstr ""
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 #, fuzzy
 msgid "This is not a valid WikiName."
 msgstr "'%1' е невалидно %2 "
@@ -4639,12 +4636,12 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 #, fuzzy
 msgid "This must be a unique WikiName."
 msgstr "'%1' е невалидно %2 "
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
 #, fuzzy
 msgid "This must be a valid login username."
 msgstr "'%1' е невалидно %2 "
@@ -4690,7 +4687,7 @@ msgstr ""
 msgid "This topic:"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
 msgid "This username is already in use."
 msgstr ""
 
@@ -4709,7 +4706,7 @@ msgid ""
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:76
+#: NatEditPlugin/templates/edit.natedit.tmpl:77
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 #, fuzzy
 msgid "Title:"
@@ -4780,7 +4777,7 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:119
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:69
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:87
-#: core/data/System/SiteChanges.txt:64
+#: core/data/System/SiteChanges.txt:65
 #, fuzzy
 msgid "Topic"
 msgstr "Към страница:"
@@ -4823,11 +4820,11 @@ msgstr "Теми в раздел %1"
 msgid "Topic name"
 msgstr "Име на страницата"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:53
+#: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:54
 msgid "Topic name:"
 msgstr "Име на страницата:"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:61
+#: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "Topic parent:"
 msgstr ""
 
@@ -4853,7 +4850,7 @@ msgstr "Заглавие на страницата"
 msgid "Topic was merged"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicComponents.txt:107
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:107
 msgid "Topic will be named: "
 msgstr "Страницат ще бъде именувана: "
 
@@ -4942,7 +4939,7 @@ msgstr ""
 msgid "Unsupported [[%1][username]]"
 msgstr "Невярно %1.WikiИмена:"
 
-#: core/data/System/SiteChanges.txt:43 core/data/System/SiteChanges.txt:96
+#: core/data/System/SiteChanges.txt:44 core/data/System/SiteChanges.txt:97
 #, fuzzy
 msgid "Update"
 msgstr "Връзки за обновяване"
@@ -5004,7 +5001,7 @@ msgstr "Каченият файл е твърде голям"
 msgid "Use %1 instead."
 msgstr "Използвай %1 вместо това."
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:68
+#: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:69
 msgid "Use template:"
 msgstr "Използване на шаблон"
 
@@ -5016,7 +5013,7 @@ msgid ""
 "reference manual]]."
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:13
+#: core/data/System/SiteChanges.txt:14
 msgid ""
 "Use this button to load the content.%BR% *Caution* the search on this topic "
 "can be very resource intensive. Only load the content if you really need it, "
@@ -5089,11 +5086,11 @@ msgstr ""
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:152
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:116
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "Users who may view:"
 msgstr ""
 
@@ -5119,11 +5116,11 @@ msgstr "История на версиите"
 msgid "Version history of %1"
 msgstr "История на версиите на %1"
 
-#: core/data/System/SiteChanges.txt:64
+#: core/data/System/SiteChanges.txt:65
 msgid "View"
 msgstr "Виж"
 
-#: core/templates/foswiki.tmpl:159
+#: core/templates/foswiki.tmpl:138
 #, fuzzy
 msgid "View complete topic history"
 msgstr "Изглед на цялата история на страницата"
@@ -5132,7 +5129,7 @@ msgstr "Изглед на цялата история на страницата"
 msgid "View difference"
 msgstr "Виж разлики"
 
-#: core/templates/more.tmpl:162
+#: core/templates/more.tmpl:161
 #, fuzzy
 msgid "View differences"
 msgstr "Виж разлики"
@@ -5147,7 +5144,7 @@ msgstr "Виж шаблоните"
 msgid "View later"
 msgstr "Виж шаблоните"
 
-#: core/templates/more.tmpl:137
+#: core/templates/more.tmpl:136
 msgid "View previous topic revision"
 msgstr "Виж предната версия на страницата"
 
@@ -5155,12 +5152,12 @@ msgstr "Виж предната версия на страницата"
 msgid "View raw text without formatting"
 msgstr "Преглед в суров текстов формат"
 
-#: core/templates/more.tmpl:144
+#: core/templates/more.tmpl:143
 #, fuzzy
 msgid "View revision"
 msgstr "Виж версия"
 
-#: core/templates/more.tmpl:141
+#: core/templates/more.tmpl:140
 msgid "View revision:"
 msgstr "Виж версия"
 
@@ -5170,7 +5167,7 @@ msgstr "Виж версия"
 msgid "View sequential topic history"
 msgstr "Изглед на цялата история на страницата"
 
-#: core/data/System/WebCreateNewTopicComponents.txt:149
+#: PatternSkin/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
 msgstr "Виж шаблоните"
 
@@ -5246,13 +5243,13 @@ msgstr "Внимание: 'include' страница не съществува"
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Внимание: 'include' страница не съществува"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5260,7 +5257,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:115
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:83
-#: core/data/System/SiteChanges.txt:64
+#: core/data/System/SiteChanges.txt:65
 #, fuzzy
 msgid "Web"
 msgstr "Раздели"
@@ -5270,7 +5267,7 @@ msgid "Web Changes notification service"
 msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:10
-#: core/data/System/SiteChanges.txt:90
+#: core/data/System/SiteChanges.txt:91
 msgid "Webs"
 msgstr "Раздели"
 
@@ -5522,7 +5519,7 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5530,7 +5527,7 @@ msgstr ""
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "Your name as displayed by %1."
 msgstr ""
 
@@ -5547,13 +5544,13 @@ msgstr ""
 msgid "Your password has not been changed."
 msgstr "Паролата не може да бъде променена"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:290
 #, fuzzy
 msgid "Your password must be at least %1 characters long."
 msgstr "Паролата не може да бъде променена"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
 msgid "Your password:"
 msgstr "Вашата парола:"
@@ -5661,7 +5658,7 @@ msgstr "достъпът до раздела е забранен"
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:20
 msgid "and"
 msgstr "и"
 
@@ -5669,7 +5666,7 @@ msgstr "и"
 msgid "by %1 "
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:75
+#: core/data/System/SiteChanges.txt:76
 msgid "change display options"
 msgstr ""
 
@@ -5677,18 +5674,18 @@ msgstr ""
 msgid "change, update, previous revisions, move, delete..."
 msgstr "промяна, обновяване, предишни версии, преместване, изтриване"
 
-#: core/data/System/SiteChanges.txt:76
+#: core/data/System/SiteChanges.txt:77
 #, fuzzy
 msgid "close display options"
 msgstr "Още действия..."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:118
+#: NatEditPlugin/templates/edit.natedit.tmpl:154
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "Формата трябва да е дефинирана в страницата %1"
 
-#: core/data/System/SiteChanges.txt:63
+#: core/data/System/SiteChanges.txt:64
 msgid "diff"
 msgstr ""
 
@@ -5722,7 +5719,7 @@ msgstr "полета са задължителни."
 msgid "help"
 msgstr "помощ"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
 msgstr "съвети за добър стил"
 
@@ -5730,7 +5727,7 @@ msgstr "съвети за добър стил"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:141
+#: core/templates/more.tmpl:140
 msgid "in raw text format"
 msgstr "в суров текстов формат"
 
@@ -5743,7 +5740,7 @@ msgstr "Указва задължителни полета"
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:63
+#: core/data/System/SiteChanges.txt:64
 #, fuzzy
 msgid "last change"
 msgstr "Последно променяни страници"
@@ -5765,7 +5762,7 @@ msgid "now %1"
 msgstr "сега %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:167
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:146
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
@@ -5777,7 +5774,7 @@ msgstr "или"
 msgid "preview"
 msgstr "преглед"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:122
+#: NatEditPlugin/templates/edit.natedit.tmpl:123
 #, fuzzy
 msgid "public view access"
 msgstr "Всички публични рздели"
@@ -5792,16 +5789,16 @@ msgstr "Възстановяване"
 msgid "restore form"
 msgstr "Възстанови страница:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:132
-#: NatEditPlugin/templates/edit.natedit.tmpl:163
+#: NatEditPlugin/templates/edit.natedit.tmpl:133
+#: NatEditPlugin/templates/edit.natedit.tmpl:164
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:128
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:158
+#: NatEditPlugin/templates/edit.natedit.tmpl:159
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5821,20 +5818,20 @@ msgstr "(версия %1)"
 msgid "set preferences"
 msgstr "(настройки)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:142
-#: NatEditPlugin/templates/edit.natedit.tmpl:173
+#: NatEditPlugin/templates/edit.natedit.tmpl:143
+#: NatEditPlugin/templates/edit.natedit.tmpl:174
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:138
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:168
+#: NatEditPlugin/templates/edit.natedit.tmpl:169
 msgid "strictly deny write access to this topic"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:37
+#: core/data/System/SiteChanges.txt:38
 msgid "the beginning"
 msgstr ""
 
@@ -5973,6 +5970,9 @@ msgstr "виж"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Notes:"
+#~ msgstr "Бележки:"
 
 #, fuzzy
 #~ msgid "Move or Delete %1:"
@@ -6367,13 +6367,15 @@ msgstr ""
 #~ msgstr "&WYSIWYG"
 
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow"
-#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
-#~ "more information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
+#~ "files."
 #~ msgstr ""
-#~ "Моля вижте <a target='Macros' onclick=\"return launchWindow"
-#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> за "
-#~ "повече информация относно прикрепване на файлове."
+#~ "Моля вижте <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> за повече информация относно "
+#~ "прикрепване на файлове."
 
 #~ msgid "WYSIWYG"
 #~ msgstr "WYSIWYG"
