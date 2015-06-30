@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
@@ -31,7 +31,7 @@ This site is running Foswiki version *%WIKIVERSION%*, Release *%WIKIRELEASE%*,  
    * [[%SCRIPTURL{configure}%][configure]], the Foswiki configuration tool
    * [[Admin Documentation Category]] has links to documentation for administrators
    * [[AdminToolsCategory][Admin Tools]] - gateway to tools used by administrators
-   * [[ReleaseNotes01x01][Release Notes for 1.1]] - describes what's new in this release
+   * [[ReleaseNotes02x00][Release Notes for 2.0]] - describes what's new in this release
    * [[Instant Enhancements]] - some ideas for simple customisation of new installs
 
 ---++ <nop>%WEB% Web Utilities

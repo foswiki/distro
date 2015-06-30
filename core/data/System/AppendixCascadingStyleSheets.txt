@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -48,7 +48,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTabs=                  | Container for tabs (styled bullet list, =.foswikiTabs ul=) |
 |=li.foswikiActiveTab=           | Active tab |
 |=.foswikiTabContent=            | Container for content below tabs |
-|=#foswikiLogo=                  | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiMain"}% |
+|=#foswikiLogo=                  | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiMain"}% |
 |=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |</sticky>
 
 ---+++ General appearance
@@ -160,11 +160,11 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiSearchResultCount=        | Search results count |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below |
 |=.foswikiWebSearchForm=            | Container around the search form |
-|=.foswikiSearchResult=             | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItem"}% |
-|=.foswikiSearchResultImage=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemImage"}% |
-|=.foswikiSearchResultTitle=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemTitle"}% |
-|=.foswikiSearchResultContents=     | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemContents"}% |
-|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemMeta"}% |</sticky>
+|=.foswikiSearchResult=             | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItem"}% |
+|=.foswikiSearchResultImage=        | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemImage"}% |
+|=.foswikiSearchResultTitle=        | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemTitle"}% |
+|=.foswikiSearchResultContents=     | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemContents"}% |
+|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemMeta"}% |</sticky>
 
 ---+++ Other elements
 <sticky>
@@ -179,7 +179,7 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
 |=.foswikiIcon=                     | Icon image; span around image or the image itself |
-|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2"}% - indicator for each form step (see =.foswikiFormStep=)  |</sticky>
+|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0"}% - indicator for each form step (see =.foswikiFormStep=)  |</sticky>
 
 ---+++ History
 <sticky>

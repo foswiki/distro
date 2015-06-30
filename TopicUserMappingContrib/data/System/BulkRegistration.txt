@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -34,7 +34,7 @@ Below are the details.
 
 This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below. If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
 
-If the =Password= field is not included, then use the BulkResetPasswlrd topic to assign new passwords.   If a password is included, it must be a valid password (&gt; minimum length, etc.)
+If the =Password= field is not included, then use the BulkResetPassword topic to assign new passwords.   If a password is included, it must be a valid password (&gt; minimum length, etc.)
 ---+++ Example format
 
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
@@ -103,7 +103,7 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 
 ---++ <nop>%REGISTERTOPIC%
 
-%INCLUDE{"%REGISTERTOPIC%" warn="%X% Topic does not exist"}%
+%INCLUDE{"%REGISTERTOPIC%" warn="Topic does not exist"}%
 
 ---++ <nop>%LOGTOPIC%
 
