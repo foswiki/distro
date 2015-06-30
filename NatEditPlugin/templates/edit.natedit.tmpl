@@ -45,7 +45,7 @@
 <input type="hidden" name="action_checkpoint" value="" />
 <input type="hidden" name="action_preview" value="" />
 <input type="hidden" name="action_replaceform" value="" />
-<input type="hidden" name="editaction" value=%IF{"$'action'='form'" then="form" else=""}% />
+<input type="hidden" name="editaction" value="%IF{"$'action'='form'" then="form" else=""}%" />
 <input type="hidden" name="action_save" value="" />%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" data-min-height="300" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%

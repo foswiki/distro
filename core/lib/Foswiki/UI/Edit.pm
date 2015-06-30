@@ -53,7 +53,9 @@ sub init_edit {
 
     # empty means edit both form and text, "form" means edit form only,
     # "text" means edit text only
-    my $editaction = lc( $query->param('action') || '' );
+    my $editaction = $query->param('action') || '';
+    $editaction =~ m/^(form|text)$/i;
+    $editaction = lc( $1 || '' );
 
     my $adminCmd   = $query->param('cmd')        || '';
     my $redirectTo = $query->param('redirectto') || '';
