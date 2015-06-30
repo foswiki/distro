@@ -263,7 +263,7 @@ exceptions handled by =Foswiki::UI= (for example, =Foswiki::OopsException=).
 ---++ initializeUserHandler( $loginName, $url, $pathInfo )
    * =$loginName= - login name recovered from $ENV{REMOTE_USER}
    * =$url= - request url
-   * =$pathInfo= - pathinfo from the CGI query
+   * =$path_info= - path_info from the Foswiki::Request
 Allows a plugin to set the username. Normally Foswiki gets the username
 from the login manager. This handler gives you a chance to override the
 login manager.
@@ -277,7 +277,7 @@ This handler is called very early, immediately after =earlyInitPlugin=.
 =cut
 
 #sub initializeUserHandler {
-#    my ( $loginName, $url, $pathInfo ) = @_;
+#    my ( $loginName, $url, $path_info ) = @_;
 #}
 
 =begin TML

@@ -56,7 +56,8 @@ sub initializeUserHandler {
 
     # we don't know the user at this point so can only set up the
     # site wide default
-    my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
+    my $path_info =
+      Foswiki::urlDecode( $Foswiki::Plugins::SESSION->{request}->path_info() );
 
     return
       unless ( ( $path_info eq '' or $path_info eq '/' )

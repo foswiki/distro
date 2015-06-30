@@ -126,7 +126,7 @@ sub rest {
         "computing REST for $session->{webName}.$session->{topicName}")
       if Foswiki::PageCache::TRACE();
 
-    my $pathInfo = $req->path_info();
+    my $pathInfo = Foswiki::urlDecode( $req->path_info() );
 
     # Foswiki rest invocations are defined as having a subject (pluginName)
     # and verb (restHandler in that plugin). Make sure the path_info is

@@ -194,6 +194,9 @@ fallback for distributed topics (such as those in System) when content is not
 held in the store itself (e.g. if the store doesn't recognise the web it
 can call SUPER::getAttachmentURL)
 
+As required by RFC3986, the returned URL may only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+
 =cut
 
 sub getAttachmentURL {

@@ -76,7 +76,7 @@ sub viewfile {
 
         # This is a standard path extended by the attachment name e.g.
         # /Web/Topic/Attachment.gif
-        $pathInfo = $query->path_info();
+        $pathInfo = Foswiki::urlDecode( $query->path_info() );
     }
 
     # If we have path_info but no ?filename=

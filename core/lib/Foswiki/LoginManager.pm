@@ -632,7 +632,7 @@ sub redirectToLoggedOutUrl {
     );
 
     #TODO: consider if we should risk passing on the urlparams on logout
-    my $path_info = $session->{request}->path_info();
+    my $path_info = Foswiki::urlDecode( $session->{request}->path_info() );
     if ( my $topic = $session->{request}->param('topic') )
     {    #we should at least respect the ?topic= request
         my $topicRequest = Foswiki::Sandbox::untaintUnchecked($topic);
@@ -644,6 +644,8 @@ sub redirectToLoggedOutUrl {
     if ( $path_info =~ m/['"]/ ) {
         $path_info = substr( $path_info, 0, ( ( pos $path_info ) - 1 ) );
     }
+
+    $path_info = Foswiki::urlEncode($path_info);
 
     my $redirectUrl;
     if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {

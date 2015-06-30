@@ -673,8 +673,8 @@ sub _processTableRow {
                     my $nRows = scalar(@curTable);
                     my $rspan = $rowspan[$col] + 1;
                     if ( $rspan > 1 ) {
-                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan}
-                          = $rspan;
+                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan} =
+                          $rspan;
                     }
                     undef( $rowspan[$col] );
                 }
@@ -1895,8 +1895,6 @@ sub handler {
         $url = $cgi->url( -absolute => 1, -path => 1 ) . '?';
         my $queryString = $cgi->query_string();
         if ($queryString) {
-            $queryString = Foswiki::decode_utf8($queryString)
-              if $Foswiki::UNICODE;
             $url .= $queryString . ';';
         }
 

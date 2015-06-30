@@ -1485,7 +1485,11 @@ sub getSkin {
 Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
 "http://host/foswiki/bin/$script/$web/$topic".
-   * =...= - an arbitrary number of name,value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
+   * =...= - an arbitrary number of name,value parameter pairs that will
+be url-encoded and added to the url. The special parameter name '#' is
+reserved for specifying an anchor. e.g.
+=getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)= will give
+=.../view/x/y?a=1&b=2#XXX=
 
 If $absolute is set, generates an absolute URL. $absolute is advisory only;
 Foswiki can decide to generate absolute URLs (for example when run from the
@@ -1500,6 +1504,9 @@ when running from the command line, or when generating rss). If
 $script is not given, absolute URLs will always be generated.
 
 If either the web or the topic is defined, will generate a full url (including web and topic). Otherwise will generate only up to the script name. An undefined web will default to the main web name.
+
+As required by RFC3986, the returned URL will only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
 
 =cut
 
@@ -1554,8 +1561,8 @@ sub getScriptUrl {
 =begin TML
 
 ---++ StaticMethod make_params(...)
-Generate a URL parameters string from parameters given. A parameter named '#' will
-generate an anchor.
+Generate a URL parameters string from parameters given. A parameter
+named '#' will generate a fragment identifier.
 
 =cut
 
@@ -1610,6 +1617,9 @@ command-line) then =absolute= will automatically be set.
 Note: for compatibility with older plugins, which use %PUBURL*% with
 a constructed URL path, do not use =*= unless =web=, =topic=, and
 =attachment= are all specified.
+
+As required by RFC3986, the returned URL will only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
 
 =cut
 
@@ -2164,17 +2174,20 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-# The web/topic can be provided by either the query path_info,  or by URL Parameters
-# urlparams  topic:       Specifies web.topic or topic.   Overrides the path given in the URL
-#            defaultweb:  Overrides the default web, for use when topic= does not provide a web.
-# path_info  web/topic    Always provdes a web,   if topic not provided, defaults to the Home topic
+    # The web/topic can be provided by either the query path_info,
+    # or by URL Parameters:
+    # topic:       Specifies web.topic or topic.
+    #              Overrides the path given in the URL
+    # defaultweb:  Overrides the default web, for use when topic=
+    #              does not provide a web.
+    # path_info    Defaults to the Users web Home topic
 
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = $query->path_info() || '';
+    my $webtopic      = urlDecode( $query->path_info() || '' );
     my $topicOverride = '';
     my $topic         = $query->param('topic');
     if ( defined $topic ) {
@@ -2191,8 +2204,8 @@ sub new {
         }
     }
 
-# SMELL Scripts like rest, jsonrpc,  don't use web/topic path.  so this ends up all bogus
-# but doesn't do any harm.
+    # SMELL Scripts like rest, jsonrpc,  don't use web/topic path.
+    # So this ends up all bogus, but doesn't do any harm.
 
     ( my $web, $topic ) =
       $this->_parsePath( $webtopic, $defaultweb, $topicOverride );

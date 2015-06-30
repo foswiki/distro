@@ -171,6 +171,11 @@ Called without parameters returns current pathInfo.
 
 There is a =path_info()= alias for compatibility with CGI.
 
+Note that the string returned is a *URL encoded byte string*
+i.e. it will only contain characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+If you intend to analyse it, you will probably have to
+Foswiki::urlDecode it first.
+
 =cut
 
 *path_info = \&pathInfo;
@@ -211,6 +216,11 @@ sub uri {
 Returns query_string part of request uri, if any.
 
 =query_string()= alias provided for compatibility with CGI.
+
+Note that the string returned is a *URL encoded byte string*
+i.e. it will only contain characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+If you intend to analyse it, you will probably have to
+Foswiki::urlDecode it first.
 
 =cut
 
