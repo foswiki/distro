@@ -591,21 +591,34 @@ sub delRev {
     _saveDamage($meta);
 
     my @revs;
-    my $rev = _numRevisions( \@revs, $meta );
-    if ( $rev <= 1 ) {
+    _loadRevs( \@revs, _historyDir($meta) );
+    if ( !scalar(@revs) ) {
         die 'PlainFile: Cannot delete initial revision of '
           . $meta->web . '.'
           . $meta->topic;
     }
+    my $rev;
+    if ( _latestIsNewer( \@revs, $meta ) ) {
 
-    my $hf = _historyFile( $meta, undef, $rev );
-    _unlink($hf);
+        # If _latestIsNewer, simply overwrite the .txt
+        $rev = $revs[0] + 1;
+    }
+    elsif ( scalar(@revs) == 1 ) {
+        die 'PlainFile: Cannot delete only version of '
+          . $meta->web . '.'
+          . $meta->topic;
+    }
+    else {
+        $rev = $revs[0];
+        my $hf = _historyFile( $meta, undef, shift @revs );
+        _unlink($hf);
+        _unlink("$hf.m");
+    }
 
     # Get the new top rev - which may or may not be -1, depending if
     # the history is complete or not
-    @revs = ();
-    my $cur = _numRevisions( \@revs, $meta );
-    $hf = _historyFile( $meta, undef, $cur );
+    my $cur = $revs[0] || -1;
+    my $hf = _historyFile( $meta, undef, $cur );
     my $thf = _latestFile($meta);
 
     # Copy it up to the latest file, then refresh the time on the history
