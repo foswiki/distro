@@ -19,6 +19,7 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
   <input type="hidden" name="settingstopic" value=""> \
   <input type="hidden" name="templatetopic" value=""> \
   <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="hidden" name="skin" value="pattern"> \
   <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =save= | =action= = =save= Should redirect to view | <form name="save1" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
   <input type="hidden" name="action" value="save"> \
