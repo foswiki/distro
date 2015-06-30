@@ -270,7 +270,7 @@ sub current_user {
 # Sven is not entirely sure it really worked, but the replacement for the listeners makes more
 # sense - it would move the MetaCache into the Store itself, allowing us to cache loaded topics
 # before ACL's are evaluated. however, I suspect this will require adding the readonly hash support
-# to Meta, which requires the Data::Foswiki work (post 1.2.0)
+# to Meta, which requires the Data::Foswiki work (post 2.0)
 
 sub DISABLED_insert {
     my ( $self, %args ) = @_;

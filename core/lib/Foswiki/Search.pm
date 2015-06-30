@@ -374,7 +374,7 @@ sub searchWeb {
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
 
-#NOTE: as of Jun2011 foswiki 1.2/2.0's query() returns a result set filtered by ACL and paged to $showpage
+#NOTE: as of Jun2011 foswiki 2.0's query() returns a result set filtered by ACL and paged to $showpage
 #TODO: work out if and how to avoid it
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 

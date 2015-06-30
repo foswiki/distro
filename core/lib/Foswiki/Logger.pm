@@ -189,9 +189,9 @@ m/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
 
 This utility routine converts the new style hash calling convention into
 the older parameter list calling convention.   Use it in an old logger
-to work with the new style calls in Foswiki 1.2.
+to work with the new style calls in Foswiki 2.
 
-In Foswiki 1.1 and earlier, event logs were "filtered" by the core.  With Foswiki 1.2,
+In Foswiki 1.1 and earlier, event logs were "filtered" by the core.  With Foswiki 2,
 the logger is responsible for filtering.  This routine implements the 1.1 filter and
 returns undef if the record should not be logged.
 

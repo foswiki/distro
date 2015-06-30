@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434341853" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -42,7 +42,7 @@ Developers note: this contrib is tested using the standard store unit tests.
 
 ---+++ Foswiki < 1.2
 
-The =tools/bulk_copy.pl= script (part of the Foswiki 1.2.0 release package, or available from [[https://raw.githubusercontent.com/foswiki/distro/master/core/tools/bulk_copy.pl][github]] or ) allows you to move between different store implementations. *Do not* share data areas between different store implementations.
+The =tools/bulk_copy.pl= script (part of the Foswiki 2.0 release package, or available from [[https://raw.githubusercontent.com/foswiki/distro/master/core/tools/bulk_copy.pl][github]] or ) allows you to move between different store implementations. *Do not* share data areas between different store implementations.
 
 ---++ Developer Notes
 Testing is performed using the standard system tests. Because some
@@ -66,7 +66,7 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Change History: | |
-|  1.40   (14 Jun 2015) | Released with Foswiki 1.2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
+|  1.40   (14 Jun 2015) | Released with Foswiki 2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
                           Foswikitask:Item13455: Don't encode filenames read from directories<br />\
                           Foswikitask:Item13432: Character encoding<br />\
                           Foswikitask:Item13423: Perl 5.22 deprecations<br /> |

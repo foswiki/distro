@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -9,7 +9,7 @@ One line description, required for extensions repository catalog.
 
 %TOC%
 
-*Foswiki 1.2.0 and later only*
+*Foswiki 2.0 and later only*
 
 This is the modern implementation of the classic Foswiki RCS based store. It has been moved into a contrib as other store implementations have emerged, and the RCS store's status as "the one and only" store implementation has been eroded.
 

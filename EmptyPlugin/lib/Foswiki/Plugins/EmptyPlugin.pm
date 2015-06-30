@@ -234,7 +234,7 @@ exception. You can do this using a =die=, which will result in a
 =text/plain= response being sent to the client. More sophisticated
 implementations can use =Foswiki::OopsException= to craft a response.
 
-*Since:* Foswiki 1.2.0
+*Since:* Foswiki 2.0
 
 =cut
 

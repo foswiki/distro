@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434338491" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -64,7 +64,7 @@ It's a part of the default distribution of the Foswiki Core.
 
 |  Contrib Author(s): | Copyright (C) 2007-2015 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  4.51 (14 Jun 2015) | Released with Foswiki 1.2.0<br />\
+|  4.51 (14 Jun 2015) | Released with Foswiki 2.0<br />\
                         Foswikitask:Item13423: Perl 5.22 deprecations.<br />\
                         Foswikitask:Item13323: Use /usr/bin/perl in scripts<br />\
                         Foswikitask:Item13294: Improvements in translation strings <br />\

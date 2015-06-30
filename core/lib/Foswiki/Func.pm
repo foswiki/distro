@@ -243,12 +243,12 @@ Get pub URL path/attachment URL
 Return: with no parameters, returns the URL path of the root of
 all attachments.
 
-Prior to Foswiki 1.2, URLs to attachments had to be constructed by the caller.
+Prior to Foswiki 2, URLs to attachments had to be constructed by the caller.
 For example, =%<nop>PUBURL%/Main/JohnSmith/picture.gif=
 This method of constructing URLs causes many problems, and is
 *strongly* discouraged.
 
-Since Foswiki 1.2 this function accepts parameters as follows:
+Since Foswiki 2 this function accepts parameters as follows:
    * =$web= - name of web
    * =$topic= - name of topic (ignored if =web= is not given)
    * =$attachment= - name of attachment (ignored if =web= or =topic= not given)
@@ -690,13 +690,13 @@ attacks, or used for phishing.
    * =authenticate= - use this boolean option to require authentication for the
      handler. If this is set, then an authenticated session must be in place
      or the REST call will be rejected with a 401 (Unauthorized) status code.
-     As of Foswiki 1.2, authenticate defaults to true.  If the handler being
+     As of Foswiki 2, authenticate defaults to true.  If the handler being
      registered is usable by guests, and does its own checking, pass
      authenticate => 0 to remove the requirement for an authenticated session.
    * =validate= - use this boolean option to require validation of any requests
      made to this handler. Validation is the process by which a secret key
      is passed to the server so it can identify the origin of the request.
-     As of Foswiki 1.2, validate will default to true.  If your handler is
+     As of Foswiki 2, validate will default to true.  If your handler is
      typically invoked multipe times on a page, or doesn not need protection
      from CSRF attacks, set validate => 0.
    * =http_allow= use this option to specify that the HTTP methods that can
@@ -706,7 +706,7 @@ attacks, or used for phishing.
      Together with authentication this is an important security tool.
      Handlers that can be invoked using GET are vulnerable to being called
      in the =src= parameter of =img= tags, a common method for cross-site
-     request forgery (CSRF) attacks. As of Foswiki 1.2, this option will
+     request forgery (CSRF) attacks. As of Foswiki 2, this option will
      default to http_allow => 'POST'.   If your handler does not update,
      then explicitly set this to http_allow => 'GET,POST'
    * =description= => 'handler information'   This is a completely optional
@@ -2458,7 +2458,7 @@ in Foswiki 2.0:
 These additional fields
 
 If you are writing an extension that requires compatibility with
-Foswiki < 1.2 only the =more=, =revision=, =time=, =topic= and =user=
+Foswiki < 2 only the =more=, =revision=, =time=, =topic= and =user=
 can be assumed.
 
 =cut
@@ -2483,7 +2483,7 @@ given topic.
    * =$nrev= - later rev (may be undef for the latest)
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs. if false will generate a summary suitable for use in plain text (mail, for example)
 Generate a (max 3 line) summary of the differences between the revs.
-   * =$nochecks= if true, will suppress access control checks. (*Since* 1.2.0)
+   * =$nochecks= if true, will suppress access control checks. (*Since* 2.0)
 
 If there is only one rev, a topic summary will be returned.
 

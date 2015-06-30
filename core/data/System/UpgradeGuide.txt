@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1435015534" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1435678839" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -24,7 +24,7 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 1.2.0). A re-installation is recommended.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
 
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
@@ -95,8 +95,8 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
    * Case 1: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
-      1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 1.2. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 1.2.0 ={Store}{Encoding}=. We recommend you leave 1.2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
-      2. Set the 1.2 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 1.2 unmodified.
+      1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 2.0. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 2.0 ={Store}{Encoding}=. We recommend you leave 2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
+      2. Set the 2.0 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 2.0 unmodified.
    * Case 2: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
       * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_. Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based upon their content. *This is rather unpredictable and may require manual intervention.*
       * *We *strongly* recommend that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The recommended =bulk_copy.pl= script does not modify existing topics.
@@ -138,12 +138,12 @@ Test your newly-installed Foswiki site and ensure that its basic functionality w
 Once topic history has been created with the wrong store, it has to either be removed, or old data should be migrated with =bulk_copy.pl=.
 If Foswiki encounters mixed RCS and !PlainFile topic history, it will "die" to prevent topic history corruption.</div>
 
-<div class="foswikiHelp">If you want to run Foswiki 1.2 in parallel with Foswiki 1.1.9, you can do this safely if the following conditions are met:
+<div class="foswikiHelp">If you want to run Foswiki 2.0 in parallel with Foswiki 1.1.9, you can do this safely if the following conditions are met:
    * The RCS store is used on both installations. (RCSWrap and RCSLite are compatible.
-   * The 1.2.0 ={Store}{Encoding}= must match the 1.1.9 ={Site}{CharSet}=
-   * The 1.2.0 ={AccessControlACL}{EnableDeprecatedEmptyDeny}= setting should be enabled.
-   * The 1.2.0 ={Htpasswd}{CharacterEncoding}= should match your 1.1.9 ={Site}{CharSet}=
-   * The 1.2.0 ={RCS}{TabularChangeFormat}= should be enabled for compatible .changes file format.
+   * The 2.0 ={Store}{Encoding}= must match the 1.1.9 ={Site}{CharSet}=
+   * The 2.0 ={AccessControlACL}{EnableDeprecatedEmptyDeny}= setting should be enabled.
+   * The 2.0 ={Htpasswd}{CharacterEncoding}= should match your 1.1.9 ={Site}{CharSet}=
+   * The 2.0 ={RCS}{TabularChangeFormat}= should be enabled for compatible .changes file format.
 </div>
 To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic. By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 

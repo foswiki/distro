@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434340042" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -187,7 +187,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
                &copy; 2008-2015 Foswiki Contributors |
 |  Change History: | |  
-|  1.31   (14 Jun 2015) | Released with Foswiki 1.2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
+|  1.31   (14 Jun 2015) | Released with Foswiki 2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
                           Foswikitask:Item13423: Perl 5.22 deprecations<br />\
                           Foswikitask:Item13390: Don't link escaped square bracket links<br />\
                           Foswikitask:Item13323: Update scripts to use /usr/bin/env perl<br />\
@@ -264,7 +264,7 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1434340042" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1435678839" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]], Foswiki Contributors"}%

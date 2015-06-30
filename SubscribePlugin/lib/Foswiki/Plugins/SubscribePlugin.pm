@@ -181,7 +181,7 @@ sub _getNonce {
         return Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
     }
     else {
-        # Pre 1.2.0 compatibility
+        # Pre 2.0 compatibility
         my $html = Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
         return $1 if ( $html =~ m/value=['"]\?(.*?)['"]/ );
         die "Internal Error";

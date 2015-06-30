@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435154344" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -268,7 +268,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
                         Foswikitask:Item11737: Change hardcoded Main to =%<nop>USERSWEB%= Replace Sandbox with =%<nop>SANDBOXWEB%= <br />\
                         Foswikitask:Item12900: Implement some session handling improvements |
 |  2.2 (26 Sep 2014) | Foswikitask:Item12931: add a highlight to JS-added comments; fix no-JS comments |
-|  2.1 (25 Apr 2014) | Foswikitask:Item10191: Recoded REST as a proper JQuery plugin, with correctly formatted insertions. Note that the old =location= parameter has been *removed*, as it never worked properly, could cause damage to topics, and could not work with client comments. If you were using it, apologies, but it had to go. Correct use of validation and authentication. Ready for 1.2.0. |
+|  2.1 (25 Apr 2014) | Foswikitask:Item10191: Recoded REST as a proper JQuery plugin, with correctly formatted insertions. Note that the old =location= parameter has been *removed*, as it never worked properly, could cause damage to topics, and could not work with client comments. If you were using it, apologies, but it had to go. Correct use of validation and authentication. Ready for 2.0. |
 |  2.0.3 (22 Feb 2012) | Foswikitask:Item11448 - Implement {GuestCanComment}. If enabled, guests can comment on topics that they can not edit. |
 |  2.0.2 (30 Jan 2012) 12887 | Foswikitask:Item11447 - "noform" examples not working - add comment_target parameter.|
 |  2.0.1 (15 Jan 2012) | Foswikitask:Item11443 - better handling if target topic or web do not exist. |
@@ -301,8 +301,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" user="ProjectContributor" date="1435154344" size="5134" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1435154344" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" user="ProjectContributor" date="1435154344" size="70" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1435154344" size="70" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1435154344" size="5134" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5134" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1435678839" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="70" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="70" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5134" version="1"}%

@@ -1183,7 +1183,7 @@ sub stringify {
 Get/set root
 
 <blockquote class="tml">%X% This method (and the =root= attribute generally)
-may be removed before we release Foswiki 1.2/2.0. We would rather use web => '/'
+may be removed before we release Foswiki 2.0. We would rather use web => '/'
 </blockquote>
 
 =cut

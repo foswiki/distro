@@ -1260,7 +1260,7 @@ sub recordChange {
     #    my ( $meta, $cUID, $rev, $more ) = @_;
     #    $more ||= '';
 
-    # Support for Foswiki < 1.2
+    # Support for Foswiki < 2.0
 
     my $web = $args{path};
     if ( $web =~ m/\./ ) {

@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435589524" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2.0 RC 1
+---+!! Foswiki Release 2.0 RC 1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -44,7 +44,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * Foswiki 1.2.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
+   * Foswiki 2.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
 
 ---++ Pre-installed Extensions
 
@@ -470,7 +470,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item9452][Item9452]] | Remove the VIEW_TEMPLATE setting from NewUserTemplate, and let AutoViewPlugin handle it. |
 | [[%BUGS%/Item9568][Item9568]] | CommentPlugin::commonTagsHandler has wrong signature |
 | [[%BUGS%/Item9601][Item9601]] | CommentPlugin forces uprev each time you save |
-| [[%BUGS%/Item9725][Item9725]] | Release more modern SlideShowPlugin in 1.2.0 |
+| [[%BUGS%/Item9725][Item9725]] | Release more modern SlideShowPlugin in 2.0 |
 | [[%BUGS%/Item9734][Item9734]] | CALC's expansion behaviour should be more consistent with other macros when no table cells are addressed |
 | [[%BUGS%/Item9741][Item9741]] | CommentPlugin not honoring the "redirectto" parameter.  Doesn't redirect after saving a comment. |
 | [[%BUGS%/Item9752][Item9752]] | Document Foswiki  page cache options. |
@@ -768,7 +768,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item9592][Item9592]] | Add JQuery/AJAX example to the CommentPlugin. |
 | [[%BUGS%/Item9697][Item9697]] | Enhance i18n infrastructure to support translation of extensions. |
 | [[%BUGS%/Item9698][Item9698]] | Re-organise the info cache slightly to abstract the result set iterator from the implementation. |
-| [[%BUGS%/Item9715][Item9715]] | Enable dynamic subclassing of the selected Store (expert feature for 1.2.0). |
+| [[%BUGS%/Item9715][Item9715]] | Enable dynamic subclassing of the selected Store (expert feature for 2.0). |
 | [[%BUGS%/Item9816][Item9816]] | Add support for Simulate, and No Dependencies options to configure  Extensions Installer UI. |
 | [[%BUGS%/Item9856][Item9856]] | Configure host match warning can suggest a fix. |
 | [[%BUGS%/Item9935][Item9935]] | Detect and resolve umask issues in Foswiki core. |
@@ -816,7 +816,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item11772][Item11772]] | Replace edit table plugin with the more modern edit row plugin. |
 | [[%BUGS%/Item11783][Item11783]] | Enhance INCLUDE to support a list of topics to try to include. |
 | [[%BUGS%/Item11834][Item11834]] | Hide the details in the extension installation report. |
-| [[%BUGS%/Item11878][Item11878]] | require perl 5.8.8 for 1.2.0. |
+| [[%BUGS%/Item11878][Item11878]] | require perl 5.8.8 for 2.0. |
 | [[%BUGS%/Item11879][Item11879]] | Development.MeasureAndReportScriptTiming. |
 | [[%BUGS%/Item11883][Item11883]] | Add =align= param to TOC. |
 | [[%BUGS%/Item11901][Item11901]] | Implement CancelButtonsShouldUseViewScript.  |

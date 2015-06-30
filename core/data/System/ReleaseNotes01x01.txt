@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.9
@@ -108,7 +108,7 @@ Any data internally stored by Foswiki or extensions using a perl hash array will
 ---++ Important changes in Foswiki 1.1.8
 
 Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
-  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 2.0
 
 Release 1.1.8 also includes a configuration checker that will report an error if a vulnerable version of Locale::Maketext is installed.
 
@@ -117,7 +117,7 @@ See [[#Rel01x01x08Details]]
 ---++ Important changes in Foswiki 1.1.7
 
 Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
-A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 2.0
 
 Release 1.1.7 also includes a security fix for configure that reduces exposure of important passwords in confirmation and log messages.
 

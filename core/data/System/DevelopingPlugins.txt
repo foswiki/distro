@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419142127" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -327,7 +327,7 @@ All types can be followed by a comma-separated list of _attributes_.
 | =5x80= | means "use a 5 row, 80 column textarea". Can be used with any text entry field type, such as STRING, COMMAND, PERL etc. However the UI may not support it. |
 Any of the boolean attributes can be preceded with =NO= to invert the meaning e.g. =NOHIDDEN= (however since this is the default state for these options, it's of limited use!)
 
-As of Foswiki 1.2.0 you can also use the =ENHANCE= type to enhance the documentation for an already-existing =$Foswiki::cfg= value. For example:
+As of Foswiki 2.0 you can also use the =ENHANCE= type to enhance the documentation for an already-existing =$Foswiki::cfg= value. For example:
 <verbatim>
 # **ENHANCE {Store}{Implementation}**
 # Documentation for a new store implementation here

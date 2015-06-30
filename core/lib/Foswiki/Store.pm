@@ -760,7 +760,7 @@ for that topic (since the topic name was first used) will be iterated.
 Each change is returned as a reference to a hash containing the fields
 documented for =recordChange()=.
 
-Store implementors should note that if compatibility with Foswiki < 1.2 is
+Store implementors should note that if compatibility with Foswiki < 2 is
 required, the following additional fields must be returned:
    * =topic= - name of the topic the change occurred to
    * =user= - wikiname of the changing user

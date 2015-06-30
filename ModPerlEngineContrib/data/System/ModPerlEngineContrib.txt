@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434337224" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -123,7 +123,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 ---++ Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  14 Jun 2015 (1.00) | Released with Foswiki 1.2.0.<br />\
+|  14 Jun 2015 (1.00) | Released with Foswiki 2.0.<br />\
                         Foswikitask:Item13378: Foswikitask:Item13405: Update for UNICODE core<br />\
                         Foswikitask:Item13228: Fix JSON operation with ApacheRequest2<br />\
                         Foswikitask:Item13125: CGI updates<br />\

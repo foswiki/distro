@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434337798" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
 
@@ -38,7 +38,7 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 ---++ Contrib Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  14 Jun 2015: (1.21) | Released with Foswiki 1.2.0. Foswikitask:Item12864: use simple decimal version strings.<br />\
+|  14 Jun 2015: (1.21) | Released with Foswiki 2.0. Foswikitask:Item12864: use simple decimal version strings.<br />\
                   Foswikitask:Item9693: Documentation improvements. <br />\
                   Foswikitask:Item12888: Use preference variables, not topic explicit topic names. |
 |  28 Nov 2012: (1.2.0) | Version released with Foswiki 1.1.6. Convert to perl version strings. |

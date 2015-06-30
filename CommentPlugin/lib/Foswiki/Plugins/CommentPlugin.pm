@@ -201,7 +201,7 @@ sub _restSave {
                             $context, 1 );
                     }
                     else {
-                        # Pre 1.2.0 compatibility
+                        # Pre 2.0 compatibility
                         my $html = Foswiki::Validation::addValidationKey( $cgis,
                             $context, 1 );
                         $nonce = $1 if ( $html =~ m/value=['"]\?(.*?)['"]/ );

@@ -55,7 +55,7 @@ sub getOptions {
 
     unless ( $this->{valueMap} ) {
 
-        # 1.2.0 does the value map for you in the superclass.
+        # 2.0 does the value map for you in the superclass.
         if ( $this->{type} =~ m/\+values/ ) {
             $this->{valueMap} = ();
             $this->{_options} = ();

@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
-| *Name* | *First Published* | *Comment* |
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+| *Name* | *First Foswiki Version* | *Comment* |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]] | 1.1.5 | Parameter passing for custom macros |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Request][Foswiki::Request]] | 1.1.5 | URL parameters |
@@ -8,9 +8,9 @@
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]] | 1.1.5 | Exception used raise an access control violation. |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]] | 1.1.5 | Exception used to raise a request to output a preformatted page. |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]] | 1.1.5 | |
-| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::AggregateIterator][Foswiki::AggregateIterator]] | 1.2.0 | |
-| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]] | 1.2.0 | |
-| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]] | 1.2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::AggregateIterator][Foswiki::AggregateIterator]] | 2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]] | 2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]] | 2.0 | |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Plugins][Foswiki::Plugins]] | 1.1.5 | Just to access $SESSION and $VERSION |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Time][Foswiki::Time]] | 1.1.5 | Time handling functions. |
-| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Validation][Foswiki::Validation]] | 1.2.0 | The key validation methods here are useful to plugins - can we facade these via Func before 1.2.0 release? |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Validation][Foswiki::Validation]] | 2.0 | The key validation methods here are useful to plugins |

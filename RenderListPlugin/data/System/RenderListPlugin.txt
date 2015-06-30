@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434328810" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Render List Plugin
 
@@ -340,7 +340,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  14 Jun 2015: | 2.27: Foswiki 1.2.0 release. Foswikitask:Item12864: Use simple decimal versions.  Foswikitask:Item13423: Perl 5.22 deprecations. |
+|  14 Jun 2015: | 2.27: Foswiki 2.0 release. Foswikitask:Item12864: Use simple decimal versions.  Foswikitask:Item13423: Perl 5.22 deprecations. |
 |  28 Nov 2012: | 2.2.7: Foswiki 1.1.6 release.  Item11267: Convert to perl version string. |
 |  06 Apr 2012: | 2.2.6: Foswiki 1.1.5 release.  Item11453: convert to preRenderingHandler. |
 |  05 Dec 2011: | 2.2.5: Foswiki 1.1.4 release.  Minor code and topic cleanup. |
@@ -370,32 +370,32 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="empty.gif" attr="h"  date="1434328810" size="100" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="email.gif" attr="h"  date="1434328810" size="183" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="xls.gif" attr="h"  date="1434328810" size="918" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="file.gif" attr="h"  date="1434328810" size="151" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="person.gif" attr="h"  date="1434328810" size="153" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="doc.gif" attr="h"  date="1434328810" size="922" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h"  date="1434328810" size="160" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualperson.gif" attr="h"  date="1434328810" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="group.gif" attr="h"  date="1434328810" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ur.gif" attr="h"  date="1434328810" size="106" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ppt.gif" attr="h"  date="1434328810" size="921" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pdf.gif" attr="h"  date="1434328810" size="938" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_udr.gif" attr="h"  date="1434328810" size="109" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="persons.gif" attr="h"  date="1434328810" size="164" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sound.gif" attr="h"  date="1434328810" size="166" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="home.gif" attr="h"  date="1434328810" size="172" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folder.gif" attr="h"  date="1434328810" size="903" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="zip.gif" attr="h"  date="1434328810" size="940" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="image.gif" attr="h"  date="1434328810" size="943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="see.gif" attr="h"  date="1434328810" size="81" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="trend.gif" attr="h"  date="1434328810" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ud.gif" attr="h"  date="1434328810" size="108" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualhome.gif" attr="h"  date="1434328810" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="globe.gif" attr="h"  date="1434328810" size="1024" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folders.gif" attr="h"  date="1434328810" size="913" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="files.gif" attr="h"  date="1434328810" size="907" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="empty.gif" attr="h"  date="1435678839" size="100" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="email.gif" attr="h"  date="1435678839" size="183" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="xls.gif" attr="h"  date="1435678839" size="918" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="file.gif" attr="h"  date="1435678839" size="151" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="person.gif" attr="h"  date="1435678839" size="153" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="doc.gif" attr="h"  date="1435678839" size="922" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h"  date="1435678839" size="160" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualperson.gif" attr="h"  date="1435678839" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="group.gif" attr="h"  date="1435678839" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ur.gif" attr="h"  date="1435678839" size="106" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ppt.gif" attr="h"  date="1435678839" size="921" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pdf.gif" attr="h"  date="1435678839" size="938" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_udr.gif" attr="h"  date="1435678839" size="109" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="persons.gif" attr="h"  date="1435678839" size="164" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound.gif" attr="h"  date="1435678839" size="166" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="home.gif" attr="h"  date="1435678839" size="172" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folder.gif" attr="h"  date="1435678839" size="903" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="zip.gif" attr="h"  date="1435678839" size="940" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image.gif" attr="h"  date="1435678839" size="943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="see.gif" attr="h"  date="1435678839" size="81" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="trend.gif" attr="h"  date="1435678839" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ud.gif" attr="h"  date="1435678839" size="108" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualhome.gif" attr="h"  date="1435678839" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="globe.gif" attr="h"  date="1435678839" size="1024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folders.gif" attr="h"  date="1435678839" size="913" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="files.gif" attr="h"  date="1435678839" size="907" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%

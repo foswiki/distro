@@ -1073,7 +1073,7 @@ Each element of the iterator is a reference to a hash:
    * =minor= - boolean true if this change is flagged as minor
    * =comment= - descriptive text
 
-Stores must return the following fields if compatibility with Foswiki < 1.2
+Stores must return the following fields if compatibility with Foswiki < 2
 is required.
    * =topic= - name of the topic the change occurred to
    * =more= - formatted string indicating if the change was minor or not

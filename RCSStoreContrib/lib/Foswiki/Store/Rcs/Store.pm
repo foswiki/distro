@@ -545,7 +545,7 @@ sub recordChange {
 
     my $web = $args{path};
 
-    # Support for Foswiki < 1.2
+    # Support for Foswiki < 2
     my $topic = '.';
     if ( $web =~ /\./ ) {
         ( $web, $topic ) = Foswiki->normalizeWebTopicName( undef, $web );

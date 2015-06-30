@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434334699" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
@@ -78,7 +78,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 <!-- Warning Do not merge trunk version of this contrib to release branch. It is currently not compatible. -->
 
 | Change History: | |
-| 14 Jun 2015 (1.55) | Released with Foswiki 1.2.0, copyright updates, minor doc updates. |
+| 14 Jun 2015 (1.55) | Released with Foswiki 2.0, copyright updates, minor doc updates. |
 | 18 Dec 2014 (1.54) | Foswikitask:Item13099: fixed img button of date formfield, Delegated the PUBURL implementation to the store<br />\
                        Foswikitask:Item12583: Convert back to simple decimal version strings. |
 |  13 Mar 2014 | Foswikitask:Item12070: fixed too many calls to =expandTML= |
@@ -122,66 +122,66 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25TOPIC%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25TOPIC%25"}%
-%META:FILEATTACHMENT{name="calendar-system_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5707" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-2.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="833" version="1"}%
-%META:FILEATTACHMENT{name="index.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="12637" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="353" version="1"}%
-%META:FILEATTACHMENT{name="test-position.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="1491" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" user="ProjectContributor" date="1434334699" size="1266" version="1"}%
-%META:FILEATTACHMENT{name="calendar_src.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="50394" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" autoattached="1" comment="" date="1434334699" size="9363" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="README" attr="h" comment="" user="ProjectContributor" date="1434334699" size="910" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-2.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="833" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" user="ProjectContributor" date="1434334699" size="68" version="1"}%
-%META:FILEATTACHMENT{name="calendar-brown.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="2829" version="1"}%
-%META:FILEATTACHMENT{name="calendar.js.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="9385" version="1"}%
-%META:FILEATTACHMENT{name="calendar-tas_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5309" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-1_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5782" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-2.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3970" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-2_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5986" version="1"}%
-%META:FILEATTACHMENT{name="dayinfo.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3039" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4830" version="1"}%
-%META:FILEATTACHMENT{name="calendar-green.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="828" version="1"}%
-%META:FILEATTACHMENT{name="calendar-setup_stripped.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4919" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-1.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="832" version="1"}%
-%META:FILEATTACHMENT{name="calendar_stripped.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="34315" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue2.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="869" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-2_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5986" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="2888" version="1"}%
-%META:FILEATTACHMENT{name="calendar-green.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="2851" version="1"}%
-%META:FILEATTACHMENT{name="calendar-setup.js.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="1207" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue2_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5006" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="828" version="1"}%
-%META:FILEATTACHMENT{name="simple-2.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3738" version="1"}%
-%META:FILEATTACHMENT{name="release-notes.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="18436" version="1"}%
-%META:FILEATTACHMENT{name="calendar-large.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="903" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="702" version="1"}%
-%META:FILEATTACHMENT{name="calendar-large.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3032" version="1"}%
-%META:FILEATTACHMENT{name="test.php" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3279" version="1"}%
-%META:FILEATTACHMENT{name="calendar-system.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="887" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-2.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3970" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow2.gif" attr="h" comment="" user="ProjectContributor" date="1434334699" size="49" version="1"}%
-%META:FILEATTACHMENT{name="calendar-tas.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3363" version="1"}%
-%META:FILEATTACHMENT{name="calendar-large_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5119" version="1"}%
-%META:FILEATTACHMENT{name="calendar.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="34222" version="1"}%
-%META:FILEATTACHMENT{name="calendar-setup.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3922" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-1.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="851" version="1"}%
-%META:FILEATTACHMENT{name="calendar-brown.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="810" version="1"}%
-%META:FILEATTACHMENT{name="calendar-blue2.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3048" version="1"}%
-%META:FILEATTACHMENT{name="calendar-setup_src.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="8786" version="1"}%
-%META:FILEATTACHMENT{name="ChangeLog" attr="h" comment="" user="ProjectContributor" date="1434334699" size="25100" version="1"}%
-%META:FILEATTACHMENT{name="simple-3.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4486" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow3.gif" attr="h" comment="" user="ProjectContributor" date="1434334699" size="1101" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-cold-1.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3790" version="1"}%
-%META:FILEATTACHMENT{name="simple-1.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="9448" version="1"}%
-%META:FILEATTACHMENT{name="calendar-green_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4781" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-1_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="5986" version="1"}%
-%META:FILEATTACHMENT{name="calendar-system.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3764" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_src.js" attr="h" comment="" user="ProjectContributor" date="1434334699" size="1167" version="1"}%
-%META:FILEATTACHMENT{name="calendar-tas.css.gz" attr="h" comment="" user="ProjectContributor" date="1434334699" size="942" version="1"}%
-%META:FILEATTACHMENT{name="calendar-brown_src.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4716" version="1"}%
-%META:FILEATTACHMENT{name="calendar-win2k-1.css" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3970" version="1"}%
-%META:FILEATTACHMENT{name="calendar.php" attr="h" comment="" user="ProjectContributor" date="1434334699" size="4490" version="1"}%
-%META:FILEATTACHMENT{name="bugtest-hidden-selects.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="3993" version="1"}%
-%META:FILEATTACHMENT{name="multiple-dates.html" attr="h" comment="" user="ProjectContributor" date="1434334699" size="2929" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1434334699" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="calendar-system_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5707" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-2.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="833" version="1"}%
+%META:FILEATTACHMENT{name="index.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="12637" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="353" version="1"}%
+%META:FILEATTACHMENT{name="test-position.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1491" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1266" version="1"}%
+%META:FILEATTACHMENT{name="calendar_src.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="50394" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" autoattached="1" comment="" date="1435678839" size="9363" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="README" attr="h" comment="" user="ProjectContributor" date="1435678839" size="910" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-2.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="833" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" user="ProjectContributor" date="1435678839" size="68" version="1"}%
+%META:FILEATTACHMENT{name="calendar-brown.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="2829" version="1"}%
+%META:FILEATTACHMENT{name="calendar.js.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="9385" version="1"}%
+%META:FILEATTACHMENT{name="calendar-tas_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5309" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-1_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5782" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-2.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3970" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-2_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5986" version="1"}%
+%META:FILEATTACHMENT{name="dayinfo.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3039" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4830" version="1"}%
+%META:FILEATTACHMENT{name="calendar-green.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="828" version="1"}%
+%META:FILEATTACHMENT{name="calendar-setup_stripped.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4919" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-1.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="832" version="1"}%
+%META:FILEATTACHMENT{name="calendar_stripped.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="34315" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue2.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="869" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-2_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5986" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="2888" version="1"}%
+%META:FILEATTACHMENT{name="calendar-green.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="2851" version="1"}%
+%META:FILEATTACHMENT{name="calendar-setup.js.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1207" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue2_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5006" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="828" version="1"}%
+%META:FILEATTACHMENT{name="simple-2.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3738" version="1"}%
+%META:FILEATTACHMENT{name="release-notes.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="18436" version="1"}%
+%META:FILEATTACHMENT{name="calendar-large.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="903" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="702" version="1"}%
+%META:FILEATTACHMENT{name="calendar-large.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3032" version="1"}%
+%META:FILEATTACHMENT{name="test.php" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3279" version="1"}%
+%META:FILEATTACHMENT{name="calendar-system.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="887" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-2.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3970" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow2.gif" attr="h" comment="" user="ProjectContributor" date="1435678839" size="49" version="1"}%
+%META:FILEATTACHMENT{name="calendar-tas.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3363" version="1"}%
+%META:FILEATTACHMENT{name="calendar-large_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5119" version="1"}%
+%META:FILEATTACHMENT{name="calendar.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="34222" version="1"}%
+%META:FILEATTACHMENT{name="calendar-setup.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3922" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-1.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="851" version="1"}%
+%META:FILEATTACHMENT{name="calendar-brown.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="810" version="1"}%
+%META:FILEATTACHMENT{name="calendar-blue2.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3048" version="1"}%
+%META:FILEATTACHMENT{name="calendar-setup_src.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="8786" version="1"}%
+%META:FILEATTACHMENT{name="ChangeLog" attr="h" comment="" user="ProjectContributor" date="1435678839" size="25100" version="1"}%
+%META:FILEATTACHMENT{name="simple-3.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4486" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow3.gif" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1101" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-cold-1.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3790" version="1"}%
+%META:FILEATTACHMENT{name="simple-1.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="9448" version="1"}%
+%META:FILEATTACHMENT{name="calendar-green_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4781" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-1_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="5986" version="1"}%
+%META:FILEATTACHMENT{name="calendar-system.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3764" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_src.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1167" version="1"}%
+%META:FILEATTACHMENT{name="calendar-tas.css.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="942" version="1"}%
+%META:FILEATTACHMENT{name="calendar-brown_src.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4716" version="1"}%
+%META:FILEATTACHMENT{name="calendar-win2k-1.css" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3970" version="1"}%
+%META:FILEATTACHMENT{name="calendar.php" attr="h" comment="" user="ProjectContributor" date="1435678839" size="4490" version="1"}%
+%META:FILEATTACHMENT{name="bugtest-hidden-selects.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3993" version="1"}%
+%META:FILEATTACHMENT{name="multiple-dates.html" attr="h" comment="" user="ProjectContributor" date="1435678839" size="2929" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1435678839" size="1343" user="ProjectContributor" version="1"}%
