@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Foswiki Greek Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-02-24 20:02+0200\n"
-"Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
+"PO-Revision-Date: 2015-06-30 14:03+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Greek <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/el/>\n"
 "Language: el\n"
@@ -3724,7 +3724,7 @@ msgstr "Αυτή η ιστοσελίδα λειτουργεί από το Foswik
 #: core/templates/messages.tmpl:321
 msgid "This site requires at least %1 character passwords"
 msgstr ""
-"Αυτό το site αυτό απαιτεί κωδικούς πρόσβασης με τουλάχιστον %1 χαρακτήρες "
+"Αυτό το site αυτό απαιτεί κωδικούς πρόσβασης με τουλάχιστον %1 χαρακτήρες"
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
@@ -3904,7 +3904,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:223
 msgid "Total matches"
-msgstr "Συνολικά όμοια "
+msgstr "Συνολικά όμοια"
 
 #: core/templates/oopsleaseconflict.tmpl:17
 msgid "Try Again"
