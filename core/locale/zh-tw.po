@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-25 12:23+0200\n"
+"PO-Revision-Date: 2015-06-30 17:28+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -3726,7 +3726,7 @@ msgstr "使用者 ％1 無 %2 的變更權限。"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
-msgstr "使用者 %1 不在群組中，無法被移除"
+msgstr "使用者 %1 不在群組中，無法移除"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3791,11 +3791,11 @@ msgstr "檢視差異"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View earlier"
-msgstr "看更早的"
+msgstr "檢視較早的版本"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View later"
-msgstr "看之後的"
+msgstr "檢視較晚的版本"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3887,7 +3887,7 @@ msgstr "警告: \\'include\\' 的主題不存在！"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "警告: \\'include\\' 主題 ％1的表格定義不存在！"
+msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4005,7 +4005,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:683
 msgid "You are trying to access an attachment that does not exist."
-msgstr "附件不存在。"
+msgstr "您試著要取得的附件不存在。"
 
 #: core/templates/messages.tmpl:671
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4180,7 +4180,7 @@ msgstr "您的密碼已改成 %1。"
 
 #: core/templates/messages.tmpl:180
 msgid "Your password has not been changed."
-msgstr "您的密碼未改變。"
+msgstr "您的密碼已變更。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
@@ -4404,7 +4404,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='編輯主題' accesskey='w'>編輯(&w)"
+msgstr "title='編輯 Wiki 格式' accesskey='w'>編輯 &wiki 格式"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4412,7 +4412,7 @@ msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='交織' accesskey='i'>交織(&i)"
+msgstr "title='交織' accesskey='i'>&interwoven 交織"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4436,15 +4436,15 @@ msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='並列瀏覽' accesskey='s'>並列(&s)"
+msgstr "title='並列瀏覽' accesskey='s'>&s 並列"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='訂閱主題' accesskey='s'>訂閱(&S)"
+msgstr "title='訂閱主題' accesskey='s'>&S 訂閱"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='退訂主題' accesskey='s' >退訂(&s)"
+msgstr "title='退訂主題' accesskey='s' >&s 退訂"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4458,7 +4458,7 @@ msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='檢視源碼' accesskey='v'>檢視源碼(&V)"
+msgstr "title='檢視源碼' accesskey='v'>&V 檢視源碼"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:31
 msgid "user list truncated"
