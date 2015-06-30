@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-25 12:23+0200\n"
+"PO-Revision-Date: 2015-06-30 17:30+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -3815,7 +3815,7 @@ msgstr "選 =全= 代表所有子網，或以逗號分隔的子網清單： %1"
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Start presentation"
-msgstr ""
+msgstr "開始簡報"
 
 #: NatEditPlugin/templates/workflowedit.natedit.tmpl:3
 msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
@@ -4727,27 +4727,24 @@ msgstr ""
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
 #: core/lib/Foswiki/UserMapping.pm:371
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 至少需加入一個群組，無法刪除"
+msgstr "使用者 %1 不在群組中，無法移除"
 
 #: core/templates/registermessages.tmpl:353
 msgid "User Account %1 Deleted"
 msgstr "刪除用戶帳號 %1"
 
 #: core/templates/registermessages.tmpl:341
-#, fuzzy
 msgid "User Account was not supplied"
-msgstr "刪除用戶帳號 %1"
+msgstr "使用者帳號未提供"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
 msgstr "用戶手冊"
 
 #: core/templates/oopsregister.tmpl:6
-#, fuzzy
 msgid "User Registration"
-msgstr "註冊"
+msgstr "使用者註冊"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:287
 msgid ""
@@ -4761,14 +4758,12 @@ msgid "Username"
 msgstr "用戶名"
 
 #: core/templates/mailresetpassword.tmpl:13
-#, fuzzy
 msgid "Username %1."
-msgstr "用戶名"
+msgstr "用戶名 %1。"
 
 #: core/templates/login.tmpl:47
-#, fuzzy
 msgid "Username or email address"
-msgstr "電子郵件地址錯誤"
+msgstr "用戶名或電子郵件地址"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -4820,7 +4815,6 @@ msgid "View"
 msgstr "瀏覽"
 
 #: core/templates/foswiki.tmpl:159
-#, fuzzy
 msgid "View complete topic history"
 msgstr "檢視主題完整修訂史"
 
@@ -4829,19 +4823,16 @@ msgid "View difference"
 msgstr "檢視差異"
 
 #: core/templates/more.tmpl:162
-#, fuzzy
 msgid "View differences"
 msgstr "檢視差異"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "檢視範本"
+msgstr "檢視較早的版本"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "檢視範本"
+msgstr "檢視較晚的版本"
 
 #: core/templates/more.tmpl:137
 msgid "View previous topic revision"
@@ -4852,9 +4843,8 @@ msgid "View raw text without formatting"
 msgstr "檢視源碼"
 
 #: core/templates/more.tmpl:144
-#, fuzzy
 msgid "View revision"
-msgstr "檢視修訂版:"
+msgstr "檢視修訂版"
 
 #: core/templates/more.tmpl:141
 msgid "View revision:"
@@ -4862,9 +4852,8 @@ msgstr "檢視修訂版:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:20
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:21
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "檢視主題完整修訂史"
+msgstr "依序檢視主題歷史紀錄"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
@@ -4881,9 +4870,8 @@ msgstr "檢視主題完整修訂史"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:25
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:26
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "檢視源碼"
+msgstr "檢視源碼 (v)"
 
 #: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
@@ -4907,9 +4895,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主題%1. %2"
 
 #: core/templates/messages.tmpl:359
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "警告: 找不到主題%1. %2"
+msgstr "警告: 找不到子網 %1 中的主題 %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1277
 msgid "Warning: Could not send confirmation email"
@@ -4928,14 +4915,12 @@ msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:439
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "警告: \\'include\\' 的主題不存在！"
+msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "警告: \\'include\\' 的主題不存在！"
+msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:109
 msgid ""
@@ -4952,7 +4937,6 @@ msgstr ""
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:115
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:83
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "Web"
 msgstr "子網"
 
@@ -4996,9 +4980,8 @@ msgid "Whole page"
 msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
-#, fuzzy
 msgid "Why am I being asked to confirm?"
-msgstr "為何您被要求確認"
+msgstr "為何我被要求確認？"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid ""
@@ -5007,9 +4990,8 @@ msgid ""
 msgstr ""
 
 #: core/data/System/WebSearch.txt:189
-#, fuzzy
 msgid "Word search"
-msgstr "修改搜尋:"
+msgstr "文字搜尋"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
@@ -5024,19 +5006,15 @@ msgid "You"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
-msgstr ""
-"您 *必須* 至少有 1 個有效的註冊電子郵件才能重設密碼。若您忘記密碼且註冊用的郵"
-"件地址已失效，後請聯繫 %1。"
+msgstr "您 *必須* 至少有一個有效的註冊電子郵件才能重設密碼。若您忘記密碼且註冊的郵件地址已失效，後請聯繫 %1。"
 
 #: core/templates/registermessages.tmpl:193
-#, fuzzy
 msgid "You are already registered."
-msgstr "您已註冊"
+msgstr "您已註冊。"
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
@@ -5075,9 +5053,8 @@ msgstr ""
 "文字母及數字。"
 
 #: core/templates/messages.tmpl:470
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "%1 的附件不存在。"
+msgstr "您試著要取得的附件不存在。"
 
 #: core/templates/messages.tmpl:456
 msgid "You are trying to create a topic from a template that does not exist."
@@ -5124,11 +5101,10 @@ msgid ""
 msgstr ""
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
-msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
+msgstr "您不能變更使用者名稱: 您必須聯絡管理員為您進行這個工作。"
 
 #: core/templates/messages.tmpl:493
 msgid ""
@@ -5213,9 +5189,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "不正確的 %1.WikiNames"
+msgstr "您的 [[%1][使用者名稱]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5231,9 +5206,8 @@ msgid "Your email address will be kept confidential."
 msgstr ""
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "您的密碼已改成 %1。"
+msgstr "您的語言已改成 %1。[[%2][點擊繼續]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "Your name as displayed by %1."
@@ -5248,18 +5222,15 @@ msgid "Your password has been changed to %1."
 msgstr "您的密碼已改成 %1。"
 
 #: core/templates/registermessages.tmpl:133
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "您的密碼已改成 %1。"
+msgstr "您的密碼已變更。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
-#, fuzzy
 msgid "Your password must be at least %1 characters long."
-msgstr "本站的密碼至少要 %1 個字元"
+msgstr "您的密碼至少要 %1 個字元長。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:342
-#, fuzzy
 msgid "Your password:"
 msgstr "您的密碼:"
 
@@ -5384,15 +5355,13 @@ msgid "change, update, previous revisions, move, delete..."
 msgstr "變更，更新，前一個版本，移動，刪除..."
 
 #: core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "close display options"
-msgstr "更多瀏覽選項:"
+msgstr "關閉顯示選項"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
-#, fuzzy
 msgid "default as defined in the %1"
-msgstr "主題 %1 內應定義此表單"
+msgstr "預設定義於 %1 內"
 
 #: core/data/System/SiteChanges.txt:63
 msgid "diff"
@@ -5415,9 +5384,8 @@ msgstr "編輯"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "edit form"
-msgstr "(編輯表單)"
+msgstr "編輯自"
 
 #: core/templates/messages.tmpl:170
 msgid "fields are required."
@@ -5450,9 +5418,8 @@ msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:63
-#, fuzzy
 msgid "last change"
-msgstr "最近更新的主題"
+msgstr "最近更新"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -5484,19 +5451,16 @@ msgid "preview"
 msgstr "預覽"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
-#, fuzzy
 msgid "public view access"
-msgstr "所有公開的子網"
+msgstr "公開瀏覽"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
-#, fuzzy
 msgid "restore"
-msgstr "還原…"
+msgstr "還原"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "restore form"
-msgstr "還原主題"
+msgstr "還原自"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:132
 #: NatEditPlugin/templates/edit.natedit.tmpl:163
@@ -5518,14 +5482,12 @@ msgid "retrieved at %1"
 msgstr "自 %1 找出"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(修訂版 %1)"
+msgstr "修訂版 %1"
 
 #: core/templates/settings.tmpl:3
-#, fuzzy
 msgid "set preferences"
-msgstr "(設定屬性)"
+msgstr "設定屬性"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:142
 #: NatEditPlugin/templates/edit.natedit.tmpl:173
@@ -5549,9 +5511,8 @@ msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr "title='為這個主題增加圖片或檔案' accesskey='a'>增加附件(&A)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
-#, fuzzy
 msgid "title='Attach an image or document to this topic'>Attach"
-msgstr "title='為這個主題增加圖片或檔案' accesskey='a'>增加附件(&A)"
+msgstr "title='為這個主題增加圖片或檔案'>增加附件"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -5566,23 +5527,20 @@ msgstr ""
 "(&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
+msgstr "title='編輯 Wiki 格式' accesskey='w'>編輯 &wiki 格式"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
-#, fuzzy
 msgid "title='Edit this topic text' >Edit"
-msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
+msgstr "title='編輯主題內容'>編輯"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
+msgstr "title='交織' accesskey='i'>&interwoven 交織"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -5605,25 +5563,21 @@ msgid ""
 msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜尋(&B)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
+msgstr "title='並列瀏覽' accesskey='s'>&s 並列"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
+msgstr "title='訂閱主題' accesskey='s'>&S 訂閱"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='列印本主題' accesskey='p' >列印(&P)"
+msgstr "title='退訂主題' accesskey='s' >&s 退訂"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
-#, fuzzy
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
+msgstr "title='瀏覽完整主題歷史' accesskey='h'>&H 歷史"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:12
@@ -5631,9 +5585,8 @@ msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
-#, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='檢視源碼' accesskey='r'>檢視源碼(&V)"
+msgstr "title='檢視源碼' accesskey='v'>&V 檢視源碼"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
