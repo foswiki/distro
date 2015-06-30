@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-19 08:58+0200\n"
+"PO-Revision-Date: 2015-06-30 13:56+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -2168,6 +2168,8 @@ msgstr ""
 #: core/templates/messages.tmpl:222
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr ""
+"tlheghvam tu&&#39;be&&#39;lu&&#39;chugh, vaj <nop>bIngDaq _upgrade_ "
+"&&#39;ay&&#39; <nop>yIbuS"
 
 #: core/templates/messages.tmpl:216
 msgid "If this topic is missing create it, otherwise check it for errors."
@@ -2929,6 +2931,9 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
+"<nop>HaStavam <nop>DajuSmeH <nop>chabHommey, Javascript je "
+"luchu&&#39;lu&&#39; net poQ. roD Qap janmeyvam, &&#39;ach qay&&#39;chugh "
+"vay&&#39; vaj <nop>leQmeyvetlh tI&&#39;ol."
 
 #: core/data/System/VarMAKETEXT.txt:16
 msgid "Notes:"
@@ -3219,6 +3224,9 @@ msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
 "If you get stuck, please contact %2."
 msgstr ""
+"[[%1][lo&&#39;wI&&#39; pong]] <nop>DaghItlhchu&&#39;ta&&#39; &&#39;e&&#39; "
+"yI&&#39;ol &&#39;ej <nop>yInIDqa&&#39;. Qapbe&&#39;taHchugh vaj %2 "
+"yIrI&&#39;."
 
 #: core/templates/messages.tmpl:491
 msgid "Please notify your %1 administrator."
@@ -4224,6 +4232,8 @@ msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
+"[[%1][&&#39;elmeH lo&&#39;wI&&#39; pong]] (%2) chaw&&#39;be&&#39;lu&&#39;. "
+"muvmeH mIw lajHa&&#39;lu&&#39;."
 
 #: core/templates/registermessages.tmpl:212
 msgid ""
