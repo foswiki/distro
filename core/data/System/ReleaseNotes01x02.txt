@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1435589524" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.2.0 Beta 2
+---+!! Foswiki Release 1.2.0 RC 1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -44,9 +44,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * Foswiki 1.2.0 Beta 1 was built on 02 Apr 2015. It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
-   * Foswiki 1.2.0 Beta 2 was built on 15 Jun 2015. It is a release that contains more than 480 checkins since Beta 1,
-
+   * Foswiki 1.2.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
 
 ---++ Pre-installed Extensions
 
@@ -197,6 +195,11 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
 should review the existing data and determine if migration to utf-8 should be performed.
 See the Foswiki:System.UpgradeGuide for more details.
+
+Due to the extensive internal changes, extensions may require changes for
+compatibility with this release.
+   * See Foswiki:Support.Utf8MigrationConsiderations for guidance on upgrading local extensions
+   * See Foswiki:Tasks.Item13483 for known extensions compatibility issues.
 </div>
 
 ---+++ Perl libraries and paths
@@ -430,456 +433,479 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[Foswiki:Development.Use401ForCookieAuth][Use401ForCookieAuth]] | Return 401 instead of 200 for auth failures |
 
 ---+++ Fixes
-
 <noautolink>
-| [[%BUGS%/Item658][Item658]] | Localize SlideShowPlugin graphics |
-| [[%BUGS%/Item801][Item801]] | Configure needs to more reliably set the grep program path, and handle configuration issues |
-| [[%BUGS%/Item1664][Item1664]] | oops not generated on non existent topic |
-| [[%BUGS%/Item2257][Item2257]] | remove unnecessary fields from System.BulkResetPassword |
-| [[%BUGS%/Item2292][Item2292]] | System topics authored by WikiGuest instead of ProjectContributor |
-| [[%BUGS%/Item2409][Item2409]] | Some topics lack a proper page title |
-| [[%BUGS%/Item2450][Item2450]] | Unable to subscribe to Web/SubWeb.* |
-| [[%BUGS%/Item2595][Item2595]] | extender.pl fails if plugins are misbehaving |
-| [[%BUGS%/Item2638][Item2638]] | Edit/Attach keyboard shortcuts not working in Firefox |
-| [[%BUGS%/Item5897][Item5897]] | If COMMENT specifies target and target is missing, content disappears |
+| [[%BUGS%/Item438][Item438]] | replace horrid UTF8 regex's and replace with Encode. |
+| [[%BUGS%/Item625][Item625]] | Uploaded filename stripped if special character. |
+| [[%BUGS%/Item658][Item658]] | Localize SlideShowPlugin graphics. |
+| [[%BUGS%/Item759][Item759]] | Search was compromised in UTF-8 environment. |
+| [[%BUGS%/Item801][Item801]] | Configure needs to more reliably set the grep & rcs program path, and handle configuration issues. |
+| [[%BUGS%/Item882][Item882]] | Foswiki::Render::makeTopicSummary breaks UTF-8. |
+| [[%BUGS%/Item1115][Item1115]] | Numbered lists behave different for numbers and characters.  Document as a restriction. |
+| [[%BUGS%/Item1330][Item1330]] | Wikiwords with Umlauts arent detected. |
+| [[%BUGS%/Item1664][Item1664]] | Oops not generated on non existent topic. |
+| [[%BUGS%/Item2257][Item2257]] | Remove unnecessary fields from System.BulkResetPassword. |
+| [[%BUGS%/Item2292][Item2292]] | System topics authored by WikiGuest instead of ProjectContributor. |
+| [[%BUGS%/Item2450][Item2450]] | Unable to subscribe to Web/SubWeb.*. |
+| [[%BUGS%/Item2595][Item2595]] | extender.pl fails if plugins are misbehaving. |
+| [[%BUGS%/Item2638][Item2638]] | Edit/Attach keyboard shortcuts not working in Firefox. |
+| [[%BUGS%/Item3679][Item3679]] | User with I18N UserName and latin LoginName can not get his password. |
+| [[%BUGS%/Item4077][Item4077]] | Invalid quoted-printable encoding in mail subject lines. |
+| [[%BUGS%/Item4419][Item4419]] | I18N: Non latin characters in field names break forms. |
+| [[%BUGS%/Item5103][Item5103]] | TMCE replaces non-breaking space with normal space. |
+| [[%BUGS%/Item5133][Item5133]] | Can't save multibyte char names. |
+| [[%BUGS%/Item5437][Item5437]] | UTF-8 fixes for Foswiki 2.0 (was Foswiki 1.1 but deferred, was Foswiki 1.0 but deferred, was T4.2 but deferred). |
+| [[%BUGS%/Item5566][Item5566]] | WikiWords such as VirksomhedskulturÆrø does not work in UTF-8. |
+| [[%BUGS%/Item5661][Item5661]] | If form have cyrillic chars in name column can not save data for this row.  |
+| [[%BUGS%/Item5897][Item5897]] | If COMMENT specifies target and target is missing, content disappears. |
+| [[%BUGS%/Item6025][Item6025]] | Twiki  encode topic twice to UTF8 for mailresetpassword.tmpl and changeform.tmpl. |
 | [[%BUGS%/Item8095][Item8095]] | Any topic with Subscribe tag fails to load if there is a problem with WebNotify topic. |
-| [[%BUGS%/Item8232][Item8232]] | macros within ACTIONSEARCH |
-| [[%BUGS%/Item8237][Item8237]] | comma and CALC |
-| [[%BUGS%/Item8417][Item8417]] | When using CALC in search, CALC in format will not be executed |
-| [[%BUGS%/Item8948][Item8948]] | if a restHandler throws an Error::Simple, we still return 200 |
-| [[%BUGS%/Item9290][Item9290]] | excludetopic in SEARH does not exclude a topic with non A-ZA-z0-9 in it. |
+| [[%BUGS%/Item8232][Item8232]] | Macros within ACTIONSEARCH not possible due to SpreadSheetPlugin processing order. |
+| [[%BUGS%/Item8237][Item8237]] | Comma, newline and parenthesis supported using new tripple-quote syntax. |
+| [[%BUGS%/Item8414][Item8414]] | Iso-latin-1 characters in users' wikinames break. |
+| [[%BUGS%/Item8417][Item8417]] | When using CALC in search, CALC in format will not be executed. |
+| [[%BUGS%/Item8520][Item8520]] | Localization; bad charset definitions for non english pages (in header and meta). |
+| [[%BUGS%/Item8948][Item8948]] | If a restHandler throws an Error::Simple, we still return 200. |
+| [[%BUGS%/Item9290][Item9290]] | Excludetopic in SEARH does not exclude a topic with non A-ZA-z0-9 in it. |
+| [[%BUGS%/Item9448][Item9448]] | Japanese Characters Used as Data FormField names get garbled. |
 | [[%BUGS%/Item9452][Item9452]] | Remove the VIEW_TEMPLATE setting from NewUserTemplate, and let AutoViewPlugin handle it. |
 | [[%BUGS%/Item9568][Item9568]] | CommentPlugin::commonTagsHandler has wrong signature |
 | [[%BUGS%/Item9601][Item9601]] | CommentPlugin forces uprev each time you save |
 | [[%BUGS%/Item9725][Item9725]] | Release more modern SlideShowPlugin in 1.2.0 |
 | [[%BUGS%/Item9734][Item9734]] | CALC's expansion behaviour should be more consistent with other macros when no table cells are addressed |
 | [[%BUGS%/Item9741][Item9741]] | CommentPlugin not honoring the "redirectto" parameter.  Doesn't redirect after saving a comment. |
+| [[%BUGS%/Item9752][Item9752]] | Document Foswiki  page cache options. |
 | [[%BUGS%/Item9764][Item9764]] | 1.1. configure page doesn't work in older and even newer Konqueror browsers |
 | [[%BUGS%/Item9814][Item9814]] | Default SEARCH result order includes an implicit sort on the web= parameter |
 | [[%BUGS%/Item9855][Item9855]] | Debug log written to bin or not written at all if DebugFileName not set |
 | [[%BUGS%/Item9879][Item9879]] | =configure= needs to fit on 1024 pixel wide screen without horizontal scrolling |
+| [[%BUGS%/Item9889][Item9889]] | viewfile script fails for attachments on topics with names containing special characters |
+| [[%BUGS%/Item9946][Item9946]] | Topic was merged information links to diff between same revision. |
+| [[%BUGS%/Item9955][Item9955]] | Problem in UserRegistration with generating a WikiName from FirstName and LastName when they include umlaute. |
 | [[%BUGS%/Item10003][Item10003]] | Improve access control checking in "More topic actions" panel. |
 | [[%BUGS%/Item10107][Item10107]] | WYSIWYG editor protects macros inside tags by inserting spans, which then breaks the enclosing tag. |
-| [[%BUGS%/Item10111][Item10111]] | When creating a new web, pub is not copied from the template web |
-| [[%BUGS%/Item10182][Item10182]] | IE8 related error in jquery.superfish example |
-| [[%BUGS%/Item10230][Item10230]] | non-ASCII chars in HTML tag attributes incorrectly de-encoded (need to stay URI-escaped) |
+| [[%BUGS%/Item10111][Item10111]] | When creating a new web, pub is not copied from the template web. |
+| [[%BUGS%/Item10182][Item10182]] | IE8 related error in jquery.superfish example. |
+| [[%BUGS%/Item10230][Item10230]] | Non-ASCII chars in HTML tag attributes incorrectly de-encoded (need to stay URI-escaped). |
 | [[%BUGS%/Item10240][Item10240]] | Extension installer fails from shell if $Foswiki::cfg{ScriptDir} contains $Foswiki::cfg variables. |
-| [[%BUGS%/Item10252][Item10252]] | Warn users they cannot register if either JavaScript or cookies are off |
-| [[%BUGS%/Item10264][Item10264]] | Change template-js-css logic from foswikiJs to foswikiNoJs |
+| [[%BUGS%/Item10242][Item10242]] | Exclamation mark does not work the same as the HTML nop when parenthesis are involved. |
+| [[%BUGS%/Item10252][Item10252]] | Warn users they cannot register if either javascript or cookies are unavailable. |
+| [[%BUGS%/Item10264][Item10264]] | Change template-js-css logic from foswikiJs to foswikiNoJs. |
 | [[%BUGS%/Item10287][Item10287]] | Meta should only store registered element names without a leading underscore (_). |
-| [[%BUGS%/Item10325][Item10325]] | Document the new INT query operator; Returns integer portion of a value. |
 | [[%BUGS%/Item10399][Item10399]] | Tolerate malformed regex in QUERY and SEARCH match operator gracefully. |
-| [[%BUGS%/Item10453][Item10453]] | Improve performance of the Foswiki Page Cache. |
 | [[%BUGS%/Item10474][Item10474]] | Foswiki::Func inline examples are not valid examples usable with copy/paste. |
-| [[%BUGS%/Item10475][Item10475]] | Foswiki::Func::readAttachment( $web, $topic, undef ); returns the topic text |
+| [[%BUGS%/Item10475][Item10475]] | Foswiki::Func::readAttachment( $web, $topic, undef ); returns the topic text. |
 | [[%BUGS%/Item10510][Item10510]] | WikiGroups suggests you can only add 1 member at a time |
 | [[%BUGS%/Item10538][Item10538]] | Add missing logo foswiki-poweredby.gif for better compatilbility with older releases. |
-| [[%BUGS%/Item10609][Item10609]] | User registration JavaScript broken when jQuery in noconflict mode. |
-| [[%BUGS%/Item10694][Item10694]] | Complex regular subexpression recursion limit (32766) exceeded in Render.pm |
+| [[%BUGS%/Item10609][Item10609]] | User registration javascript broken when jQuery in noconflict mode. |
+| [[%BUGS%/Item10635][Item10635]] | Wrong international character display. |
+| [[%BUGS%/Item10694][Item10694]] | Complex regular subexpression recursion limit (32766) exceeded in Render.pm. |
 | [[%BUGS%/Item10717][Item10717]] | Improved bin script code that finds the executable script on the path. |
-| [[%BUGS%/Item10764][Item10764]] | PlainFile logger needs to open files in proper encoding to avoid "Wide character in print" |
+| [[%BUGS%/Item10764][Item10764]] | PlainFile logger needs to open files in proper encoding to avoid "Wide character in print". |
 | [[%BUGS%/Item10825][Item10825]] | Using save in a rest call destroys character encoding. |
-| [[%BUGS%/Item10890][Item10890]] | Template parser makes it impossible to override some .tmpl templates with TopicTemplates |
-| [[%BUGS%/Item10907][Item10907]] | Whitespace effecting delayed CALC in search results unexpectedly |
-| [[%BUGS%/Item10933][Item10933]] | MAKETEXT silently returns incorrect strings when running from the cmdline |
+| [[%BUGS%/Item10890][Item10890]] | Template parser makes it impossible to override some .tmpl templates with TopicTemplates. |
+| [[%BUGS%/Item10907][Item10907]] | Whitespace effecting delayed CALC in search results unexpectedly. |
+| [[%BUGS%/Item10933][Item10933]] | MAKETEXT silently returns incorrect strings when running from the cmdline. |
 | [[%BUGS%/Item10949][Item10949]] | INCLUDE macro does not honor NOAUTOLINK setting when expanding included topic. |
-| [[%BUGS%/Item10967][Item10967]] | documentation topic for DefaultPreference %CLEAR% |
+| [[%BUGS%/Item10967][Item10967]] | Documentation topic for DefaultPreference %CLEAR%. |
+| [[%BUGS%/Item10995][Item10995]] | Wysiwyg destroys umlaute in text. |
 | [[%BUGS%/Item11003][Item11003]] | Spreadsheet TIME* functions do not work properly with dates before 1970. |
-| [[%BUGS%/Item11015][Item11015]] | Need better docs, and examples of %SUBSCRIBE format option |
+| [[%BUGS%/Item11015][Item11015]] | Need better docs, and examples of %SUBSCRIBE format option. |
 | [[%BUGS%/Item11050][Item11050]] | System.SiteChanges crashes when accessing the 2nd page. |
-| [[%BUGS%/Item11056][Item11056]] | Do not insert &nbsp; into empty attachment comments. |
-| [[%BUGS%/Item11085][Item11085]] | Uninstalling an extension keeps enabled state, resulting in error on configure screen |
-| [[%BUGS%/Item11092][Item11092]] | &nbsp; in attachment size makes it impossible to use inside MAKETEXT |
-| [[%BUGS%/Item1115][Item1115]] | Numbered lists behave different for numbers and characters.  Document as a restriction. |
-| [[%BUGS%/Item11159][Item11159]] | RcsLite doesn't handle missing revs |
+| [[%BUGS%/Item11056][Item11056]] | Do not insert   into empty attachment comments. |
+| [[%BUGS%/Item11085][Item11085]] | Uninstalling an extension keeps enabled state, resulting in error on configure screen. |
+| [[%BUGS%/Item11092][Item11092]] | =&amp;nbsp;= in attachment size makes it impossible to use inside MAKETEXT. |
+| [[%BUGS%/Item11159][Item11159]] | RcsLite doesn't handle missing revs. |
 | [[%BUGS%/Item11186][Item11186]] | Improve operation of {Site}{CharSet} and {UseLocale}. Better international character support. |
 | [[%BUGS%/Item11206][Item11206]] | SlideshowPlugin does not work on fastcgi/modperl; does not initialize the slides correctly. |
-| [[%BUGS%/Item11264][Item11264]] | create UpdatesPlugin |
 | [[%BUGS%/Item11308][Item11308]] | Foswiki time functions can't parse dates earlier than 1970. |
 | [[%BUGS%/Item11326][Item11326]] | SubscribePlugin is extremely slow with large complex WebNotify topics. |
-| [[%BUGS%/Item11353][Item11353]] | HTML commented out heading shows in TOC |
-| [[%BUGS%/Item11417][Item11417]] | CommentPlugin does not work with default text set |
+| [[%BUGS%/Item11336][Item11336]] | WebAtom should support the same URLPARAM's as WebRss. |
+| [[%BUGS%/Item11353][Item11353]] | HTML commented out heading shows in TOC. |
+| [[%BUGS%/Item11417][Item11417]] | CommentPlugin does not work with default text set. |
 | [[%BUGS%/Item11454][Item11454]] | RcsLite performance is bad on topics with long histories. |
-| [[%BUGS%/Item11465][Item11465]] | Install and Update Extensions table is set too wide |
-| [[%BUGS%/Item11476][Item11476]] | Improve RcsLite worst-case performance and use it as default ={Store}{Implementation}= |
-| [[%BUGS%/Item11482][Item11482]] | links with spaces not listed in backlinks |
-| [[%BUGS%/Item11595][Item11595]] | SubscribePlugin updates without using Strikeone |
-| [[%BUGS%/Item11641][Item11641]] | Instant enhancements says goto patternskin customisations for instructions on customising a left bar  |
-| [[%BUGS%/Item11668][Item11668]] | Clarify how TRACE works when debugging SkinTemplates |
+| [[%BUGS%/Item11465][Item11465]] | Install and Update Extensions table is set too wide. |
+| [[%BUGS%/Item11476][Item11476]] | Improve RcsLite worst-case performance. |
+| [[%BUGS%/Item11482][Item11482]] | Links with spaces not listed in backlinks. |
+| [[%BUGS%/Item11595][Item11595]] | SubscribePlugin updates without using Strikeone. |
+| [[%BUGS%/Item11641][Item11641]] | Instant enhancements says goto patternskin customisations for instructions on customising a left bar. |
 | [[%BUGS%/Item11671][Item11671]] | Improve SPACEOUT with consecutive Capitals and Number/Letter combinations. |
 | [[%BUGS%/Item11693][Item11693]] | configure lets you install an extension before you set admin pwd, then fails. |
 | [[%BUGS%/Item11705][Item11705]] | Bulk registration crashes with uninitialized variable if Password column provided, and other failures. |
-| [[%BUGS%/Item11718][Item11718]] | System.AccessControl should note {AuthScripts} affects access control. |
-| [[%BUGS%/Item11729][Item11729]] | Issues with WikiGroups topic loading on sites with many groups |
-| [[%BUGS%/Item11735][Item11735]] | missing dependency does not create error in configure |
-| [[%BUGS%/Item11736][Item11736]] | Block rename of the System or Users web |
-| [[%BUGS%/Item11737][Item11737]] | Direct references to Main, Sandbox and System have crept into the default webs |
-| [[%BUGS%/Item11738][Item11738]] | PatternSkinElements has references to TWikiAjaxContrib |
-| [[%BUGS%/Item11766][Item11766]] | templatetopics  seems to go awry when there is another nested SECTION |
+| [[%BUGS%/Item11729][Item11729]] | Issues with WikiGroups topic loading on sites with many groups. |
+| [[%BUGS%/Item11735][Item11735]] | Missing dependency does not create error in configure. |
+| [[%BUGS%/Item11736][Item11736]] | Block rename of the System or Users web. |
+| [[%BUGS%/Item11737][Item11737]] | Direct references to Main, Sandbox and System have crept into the default webs. |
+| [[%BUGS%/Item11738][Item11738]] | PatternSkinElements has references to TWikiAjaxContrib. |
+| [[%BUGS%/Item11766][Item11766]] | Templatetopics  seems to go awry when there is another nested SECTION. |
 | [[%BUGS%/Item11820][Item11820]] | In some cases the Extension installation fails and the screen is remains blank without feedback. |
-| [[%BUGS%/Item11833][Item11833]] | FORMFIELD does not render a field using =renderForDisplay= whereas SEARCH does |
+| [[%BUGS%/Item11833][Item11833]] | FORMFIELD does not render a field using =renderForDisplay= whereas SEARCH does. |
 | [[%BUGS%/Item11835][Item11835]] | Assume that grep, fgrep are found on the search path, don't hardcode location in LocalSite.cfg. |
-| [[%BUGS%/Item11866][Item11866]] | HompagePagePlugin redirects to malformed targets |
-| [[%BUGS%/Item11907][Item11907]] | Use of uninitialized value in regexp compilation |
-| [[%BUGS%/Item11908][Item11908]] | Foswiki::Form doesn't cope with undefined values very well |
-| [[%BUGS%/Item11953][Item11953]] | {Site}{Locale} and tainted mode can't be used together.  Ship with taint checking disabled. |
+| [[%BUGS%/Item11866][Item11866]] | HompagePagePlugin redirects to malformed targets. |
+| [[%BUGS%/Item11907][Item11907]] | Use of uninitialized value in regexp compilation. |
+| [[%BUGS%/Item11908][Item11908]] | Foswiki::Form doesn't cope with undefined values very well. |
+| [[%BUGS%/Item11953][Item11953]] | ={Site}{Locale}= and tainted mode can't be used together.  Ship with taint checking disabled. |
+| [[%BUGS%/Item11960][Item11960]] | CLI scrips ignore the =topic= param due to HomePagePlugin bug. |
 | [[%BUGS%/Item11966][Item11966]] | Add a Default column to DataForms, specify default value for fields. |
-| [[%BUGS%/Item11983][Item11983]] | prevent excessive calls into the revision system |
+| [[%BUGS%/Item11983][Item11983]] | Prevent excessive calls into the revision system. |
 | [[%BUGS%/Item12001][Item12001]] | Configure installs extension multiple times. |
-| [[%BUGS%/Item12027][Item12027]] | statistics/logfile iterator: not respecting SiteCharset |
-| [[%BUGS%/Item12050][Item12050]] | UNC Links are corrupted by render when they contain embedded spaces |
-| [[%BUGS%/Item12070][Item12070]] | too many calls to renderTML |
-| [[%BUGS%/Item12093][Item12093]] | ship foswiki using the new logo |
+| [[%BUGS%/Item12027][Item12027]] | Statistics/logfile iterator: not respecting SiteCharset. |
+| [[%BUGS%/Item12050][Item12050]] | UNC Links are corrupted by render when they contain embedded spaces. |
+| [[%BUGS%/Item12070][Item12070]] | Too many calls to renderTML. |
+| [[%BUGS%/Item12093][Item12093]] | Ship foswiki using the new logo. |
 | [[%BUGS%/Item12097][Item12097]] | NatEdit in foswiki trunk allows a user to see and edit the AUTOINC topic name - can we conditionally hide that? |
 | [[%BUGS%/Item12103][Item12103]] | Simplify CSS, remove foswikiRequiresChangePermission span, add it to a class on the link. |
 | [[%BUGS%/Item12122][Item12122]] | The UserRegistration form is not disabled when user registration is disabled. |
-| [[%BUGS%/Item12144][Item12144]] | colors.css takes out background image of hovered links |
-| [[%BUGS%/Item12148][Item12148]] | EditRowPlugin improvements |
+| [[%BUGS%/Item12144][Item12144]] | =colors.css= takes out background image of hovered links. |
+| [[%BUGS%/Item12148][Item12148]] | EditRowPlugin improvements. |
 | [[%BUGS%/Item12162][Item12162]] | Disable the reset password form when email is disabled. |
-| [[%BUGS%/Item12175][Item12175]] | implement %SET |
-| [[%BUGS%/Item12177][Item12177]] | MacroToListInstalledFormFieldTypes feature |
-| [[%BUGS%/Item12181][Item12181]] | Update TMCE to 3.5.11 |
-| [[%BUGS%/Item12200][Item12200]] | Deprecate EDITBOXSTYLE and EDITBOXWIDTH |
-| [[%BUGS%/Item12202][Item12202]] | DST shift marks old RSS feed items as new / value of isotz must be date dependant |
-| [[%BUGS%/Item12203][Item12203]] | Help tab shows raw editing help |
-| [[%BUGS%/Item12239][Item12239]] | Dependencies missing from "Perl modules used by Foswiki", in configure screen |
-| [[%BUGS%/Item12261][Item12261]] | add developer section to System.PageCaching : rest requests, URL attributes to suppress caching |
-| [[%BUGS%/Item12287][Item12287]] | Configure dies on buggy extensions with UserInterfaceInternationalisation enabled |
-| [[%BUGS%/Item12306][Item12306]] | Foswiki::Store::saveAttachment doesn't handle attachment attributes |
-| [[%BUGS%/Item12316][Item12316]] | redirectdenied template assumes redirect was due to rename.  Message is too specific |
-| [[%BUGS%/Item12319][Item12319]] | ASSERTs not eliminated by optimization |
-| [[%BUGS%/Item12322][Item12322]] | WysiwygPlugin should remove useless spans etc |
+| [[%BUGS%/Item12177][Item12177]] | MacroToListInstalledFormFieldTypes feature. |
+| [[%BUGS%/Item12181][Item12181]] | Update TMCE to 3.5.11. |
+| [[%BUGS%/Item12200][Item12200]] | Deprecate EDITBOXSTYLE and EDITBOXWIDTH. |
+| [[%BUGS%/Item12202][Item12202]] | DST shift marks old RSS feed items as new / value of isotz must be date dependant. |
+| [[%BUGS%/Item12203][Item12203]] | Help tab shows raw editing help. |
+| [[%BUGS%/Item12239][Item12239]] | Dependencies missing from "Perl modules used by Foswiki", in configure screen. |
+| [[%BUGS%/Item12246][Item12246]] | Documentation for System.PageCaching is out of date. |
+| [[%BUGS%/Item12261][Item12261]] | Add developer section to System.PageCaching : rest requests, URL attributes to suppress caching. |
+| [[%BUGS%/Item12287][Item12287]] | Configure dies on buggy extensions with UserInterfaceInternationalisation enabled. |
+| [[%BUGS%/Item12316][Item12316]] | =redirectdenied= template assumes redirect was due to rename.  Message is too specific. |
+| [[%BUGS%/Item12319][Item12319]] | ASSERTs not eliminated by optimization. |
+| [[%BUGS%/Item12322][Item12322]] | WysiwygPlugin should remove useless spans etc. |
 | [[%BUGS%/Item12326][Item12326]] | ICON macro breaks rendering due to change to single quotes.  Enhance ICON macro to allow quote type to be specified. |
 | [[%BUGS%/Item12341][Item12341]] | WysiwygPlugin identifies spans inside protected macros with TMLhtml, but fails to remove the class during save. |
-| [[%BUGS%/Item12342][Item12342]] | compare is not generating visible differences on trunk using interleave format. |
-| [[%BUGS%/Item12359][Item12359]] | Func::eachEventSince can leak file descriptors |
+| [[%BUGS%/Item12342][Item12342]] | =bin/compare= is not generating visible differences on trunk using interleave format. |
+| [[%BUGS%/Item12359][Item12359]] | Func::eachEventSince can leak file descriptors. |
 | [[%BUGS%/Item12361][Item12361]] | Default loggers eachEventSince should return records containing newlines as a single record. |
-| [[%BUGS%/Item12372][Item12372]] | Configure "Initial configuration" issues on trunk |
+| [[%BUGS%/Item12372][Item12372]] | Configure "Initial configuration" issues on trunk. |
+| [[%BUGS%/Item12381][Item12381]] | Configure UI and help text review. |
 | [[%BUGS%/Item12384][Item12384]] | Logger issues causes statistics crash. |
 | [[%BUGS%/Item12402][Item12402]] | UpdatesPlugin incorrectly reporting updates needed on pseudo-installed system. |
-| [[%BUGS%/Item12407][Item12407]] | compare script deescapes character entities |
-| [[%BUGS%/Item12411][Item12411]] | rest validates the request even if validation disabled in core. |
-| [[%BUGS%/Item12438][Item12438]] | Trunk statistics script only processes the Main web by default |
-| [[%BUGS%/Item12447][Item12447]] | Handle international topic names |
-| [[%BUGS%/Item12450][Item12450]] | Remove TWiki references in installation instructions |
-| [[%BUGS%/Item12472][Item12472]] | $loadedRev undefined in VC::Store for RcsLite |
-| [[%BUGS%/Item12475][Item12475]] | Move =lib/CPAN/lib= modules to a separate CpanContrib |
-| [[%BUGS%/Item12477][Item12477]] | Spurious entries being added to .changes |
-| [[%BUGS%/Item12513][Item12513]] | can't change alignment of table headers |
-| [[%BUGS%/Item12541][Item12541]] | CALC macro doesn't support mulit-line function calls |
-| [[%BUGS%/Item12544][Item12544]] | META:TOPICPARENT parsing overly picky |
-| [[%BUGS%/Item12581][Item12581]] | lighttpd.pl erroneously lowercases names on Mac OS X |
+| [[%BUGS%/Item12407][Item12407]] | =bin/compare= script deescapes character entities. |
+| [[%BUGS%/Item12411][Item12411]] | =bin/rest= validates the request even if validation disabled in core. |
+| [[%BUGS%/Item12438][Item12438]] | Trunk statistics script only processes the Main web by default. |
+| [[%BUGS%/Item12447][Item12447]] | Handle international topic names. |
+| [[%BUGS%/Item12450][Item12450]] | Remove T®wiki ref in installation instructions. |
+| [[%BUGS%/Item12472][Item12472]] | $loadedRev undefined in VC::Store for RcsLite. |
+| [[%BUGS%/Item12475][Item12475]] | Move =lib/CPAN/lib= modules to a separate CpanContrib. |
+| [[%BUGS%/Item12477][Item12477]] | Spurious entries being added to .changes. |
+| [[%BUGS%/Item12513][Item12513]] | Can't change alignment of table headers. |
+| [[%BUGS%/Item12541][Item12541]] | CALC macro doesn't support mulit-line function calls. |
+| [[%BUGS%/Item12544][Item12544]] | META:TOPICPARENT parsing overly picky. |
+| [[%BUGS%/Item12581][Item12581]] | =tools/lighttpd.pl= erroneously lowercases names on Mac OS X. |
 | [[%BUGS%/Item12582][Item12582]] | Clarify linking to subwebs and topics of same name. |
-| [[%BUGS%/Item12591][Item12591]] | VIEW_TEMPLATE needs fully qualified topic name |
-| [[%BUGS%/Item12612][Item12612]] | VarQUERYPARAMS does not appear to render multiple-value params |
-| [[%BUGS%/Item12618][Item12618]] | Search ordering is not predictable on Perl 5.18.1 and later |
+| [[%BUGS%/Item12591][Item12591]] | VIEW_TEMPLATE needs fully qualified topic name. |
+| [[%BUGS%/Item12612][Item12612]] | VarQUERYPARAMS does not appear to render multiple-value params. |
+| [[%BUGS%/Item12618][Item12618]] | Search ordering is not predictable on Perl 5.18.1 and later. |
 | [[%BUGS%/Item12650][Item12650]] | Improve configure's handling of deprecated and removed JQuery plugins. |
-| [[%BUGS%/Item12659][Item12659]] | NAMEFILTER setting in jQuery.extend causes invalid XHTML |
-| [[%BUGS%/Item12675][Item12675]] | normalizeWebTopicName taints its result if UseLocale=1 |
-| [[%BUGS%/Item12685][Item12685]] | use jquery means to initiate the editor properly |
-| [[%BUGS%/Item12688][Item12688]] | html error generating inline alerts loading unknown jquery modules |
-| [[%BUGS%/Item12689][Item12689]] | modernize click semantics of the jquery.buttons module |
-| [[%BUGS%/Item12690][Item12690]] | jquery.wikiword module is missing a dependency on jquery.metadata |
-| [[%BUGS%/Item12691][Item12691]] | upgrade slimbox lightshow with upstream version |
-| [[%BUGS%/Item12695][Item12695]] | strikeone.js not loaded in correct order sometimes |
-| [[%BUGS%/Item12700][Item12700]] | HTML2TML crashes if square brackets inserted into a link |
-| [[%BUGS%/Item12705][Item12705]] | Verbatim blocks are corrupted on save by Wysiwyg editor if $Foswiki::cfg{Site}{Locale} = 'utf-8'; (hotfix available) |
-| [[%BUGS%/Item12712][Item12712]] | Foswiki loggers should obtain file lock before writing |
-| [[%BUGS%/Item12719][Item12719]] | exiting subroutine via next in ListFieldDefinition |
-| [[%BUGS%/Item12734][Item12734]] | add jquery-1.11, jquery-2.1, jquery-ui.1.10.4 |
-| [[%BUGS%/Item12741][Item12741]] | Formatting parameters not passed on the referenced scripts |
-| [[%BUGS%/Item12747][Item12747]] | modal dialog vanishes when dragging it with the viewport being scrolled down |
-| [[%BUGS%/Item12753][Item12753]] | WebSearch does not pass topic parameter  |
-| [[%BUGS%/Item12776][Item12776]] | put package declaration into preamble rather inside the code |
-| [[%BUGS%/Item12780][Item12780]] | Remove core dependency on Sort::Maker |
-| [[%BUGS%/Item12786][Item12786]] | Mailnotify matches topic prefixes by default |
+| [[%BUGS%/Item12659][Item12659]] | NAMEFILTER setting in jQuery.extend causes invalid XHTML. |
+| [[%BUGS%/Item12675][Item12675]] | =normalizeWebTopicName= taints its result if UseLocale=1. |
+| [[%BUGS%/Item12685][Item12685]] | Use jquery means to initiate the editor properly. |
+| [[%BUGS%/Item12688][Item12688]] | HTML error generating inline alerts loading unknown jquery modules. |
+| [[%BUGS%/Item12689][Item12689]] | Modernize click semantics of the jquery.buttons module. |
+| [[%BUGS%/Item12690][Item12690]] | =jquery.wikiword= module is missing a dependency on jquery.metadata. |
+| [[%BUGS%/Item12691][Item12691]] | Upgrade slimbox lightshow with upstream version. |
+| [[%BUGS%/Item12695][Item12695]] | =strikeone.js= not loaded in correct order sometimes. |
+| [[%BUGS%/Item12700][Item12700]] | HTML2TML crashes if square brackets inserted into a link. |
+| [[%BUGS%/Item12705][Item12705]] | Verbatim blocks are corrupted on save by Wysiwyg editor if $Foswiki::cfg{Site}{Locale} = 'utf-8';. |
+| [[%BUGS%/Item12712][Item12712]] | Foswiki loggers should obtain file lock before writing. |
+| [[%BUGS%/Item12719][Item12719]] | Exiting subroutine via next in ListFieldDefinition. |
+| [[%BUGS%/Item12734][Item12734]] | Add jquery-1.11, jquery-2.1, jquery-ui.1.10.4. |
+| [[%BUGS%/Item12741][Item12741]] | Formatting parameters not passed on the referenced scripts. |
+| [[%BUGS%/Item12747][Item12747]] | Modal dialog vanishes when dragging it with the viewport being scrolled down. |
+| [[%BUGS%/Item12753][Item12753]] | WebSearch does not pass topic parameter.  |
+| [[%BUGS%/Item12776][Item12776]] | Put package declaration into preamble rather inside the code. |
+| [[%BUGS%/Item12780][Item12780]] | Remove core dependency on Sort::Maker. |
+| [[%BUGS%/Item12785][Item12785]] | IE11 loses icons for Raw Text Edit Bar. |
+| [[%BUGS%/Item12786][Item12786]] | Mailnotify matches topic prefixes by default. |
 | [[%BUGS%/Item12814][Item12814]] | All tables get edit controls if one table uses the EDITTABLE macro. |
-| [[%BUGS%/Item12816][Item12816]] | WebTopicCreator on trunk has the "Allow non-wikiword" button reversed |
-| [[%BUGS%/Item12823][Item12823]] | Mark auto-generated emails according to RFC 3834 |
-| [[%BUGS%/Item12824][Item12824]] | A Wiki-style link to an attached file, which has spaces in its filename, gets broken under WYSIWYG editing |
-| [[%BUGS%/Item12832][Item12832]] | Unhelpful error message for app using save script |
-| [[%BUGS%/Item12835][Item12835]] | http status code not properly set under certain conditions |
-| [[%BUGS%/Item12839][Item12839]] | REST scripts should individually assert their security requirements |
-| [[%BUGS%/Item12842][Item12842]] | TOC links to headings containing !-escaped WikiWords or nop-escaped macros not properly filtered |
-| [[%BUGS%/Item12846][Item12846]] | Unexpected indention for bullet copy-paste |
-| [[%BUGS%/Item12868][Item12868]] | SEARCH newline parameter does not apply to $formfield content |
-| [[%BUGS%/Item12871][Item12871]] | Support StrikeOne validation and rest authentication |
-| [[%BUGS%/Item12872][Item12872]] | Add StrikeOne validation |
-| [[%BUGS%/Item12875][Item12875]] | Add controls on some debugging options |
-| [[%BUGS%/Item12882][Item12882]] | More aggressive encoding of query parameters required |
-| [[%BUGS%/Item12893][Item12893]] | Nested DEFAULT default Macro parameter expansion  |
-| [[%BUGS%/Item12896][Item12896]] | pub suggested htaccess file php_flag |
-| [[%BUGS%/Item12902][Item12902]] | The JQueryAjaxHelper Query fetcher section is broken |
-| [[%BUGS%/Item12910][Item12910]] | CLI not executed as admin when AllowLoginName enabled |
+| [[%BUGS%/Item12816][Item12816]] | WebTopicCreator on trunk has the "Allow non-wikiword" button reversed. |
+| [[%BUGS%/Item12823][Item12823]] | Mark auto-generated emails according to RFC 3834. |
+| [[%BUGS%/Item12824][Item12824]] | A Wiki-style link to an attached file, which has spaces in its filename, gets broken under WYSIWYG editing. |
+| [[%BUGS%/Item12832][Item12832]] | Unhelpful error message for app using save script. |
+| [[%BUGS%/Item12835][Item12835]] | HTTP status code not properly set under certain conditions. |
+| [[%BUGS%/Item12839][Item12839]] | REST scripts should individually assert their security requirements. |
+| [[%BUGS%/Item12842][Item12842]] | TOC links to headings containing !-escaped WikiWords or nop-escaped macros not properly filtered. |
+| [[%BUGS%/Item12846][Item12846]] | Unexpected indention for bullet copy-paste. |
+| [[%BUGS%/Item12855][Item12855]] | Audit core DEPENDENCIES. |
+| [[%BUGS%/Item12868][Item12868]] | SEARCH newline parameter does not apply to $formfield content. |
+| [[%BUGS%/Item12871][Item12871]] | Support StrikeOne validation and rest authentication. |
+| [[%BUGS%/Item12872][Item12872]] | Add StrikeOne validation. |
+| [[%BUGS%/Item12875][Item12875]] | Add controls on some debugging options. |
+| [[%BUGS%/Item12882][Item12882]] | More aggressive encoding of query parameters required. |
+| [[%BUGS%/Item12893][Item12893]] | Nested DEFAULT default Macro parameter expansion. |
+| [[%BUGS%/Item12896][Item12896]] | =pub= suggested htaccess file php_flag. |
+| [[%BUGS%/Item12902][Item12902]] | The JQueryAjaxHelper Query fetcher section is broken. |
+| [[%BUGS%/Item12910][Item12910]] | CLI not executed as admin when AllowLoginName enabled. |
 | [[%BUGS%/Item12931][Item12931]] | CommentPlugin on trunk Tasks web doesn't sign comments,  and fails to clear entry form after post. |
 | [[%BUGS%/Item12934][Item12934]] | Configure email auto-configure can't proceed if SSL is unavailable. |
-| [[%BUGS%/Item12935][Item12935]] | The NatEditPlugin settings tab is confusing |
-| [[%BUGS%/Item12937][Item12937]] | Foswiki  issues with  Perl 5.20.0 |
+| [[%BUGS%/Item12935][Item12935]] | The NatEditPlugin settings tab is confusing. |
+| [[%BUGS%/Item12937][Item12937]] | Foswiki  issues with  Perl 5.20.0. |
 | [[%BUGS%/Item12943][Item12943]] | MailerContrib notify REST handler crashes with array ref issue. |
-| [[%BUGS%/Item12947][Item12947]] | Remove the Deprecated AllowInlineScript code |
-| [[%BUGS%/Item12948][Item12948]] | jquery.cycle renders a black background for captions in chrome |
-| [[%BUGS%/Item12951][Item12951]] | Stopwords are treated as regex in search which can cause confusion |
-| [[%BUGS%/Item12952][Item12952]] | Move Configure into a Contrib |
-| [[%BUGS%/Item12953][Item12953]] | header parameter does not work when using row as fieldtype |
+| [[%BUGS%/Item12945][Item12945]] | Words starting Uppercase and have an umlaut will render to garbage like looking wikiwords. |
+| [[%BUGS%/Item12947][Item12947]] | Remove the Deprecated AllowInlineScript code. |
+| [[%BUGS%/Item12948][Item12948]] | =jquery.cycle= renders a black background for captions in chrome. |
+| [[%BUGS%/Item12951][Item12951]] | Stopwords are treated as regex in search which can cause confusion. |
+| [[%BUGS%/Item12952][Item12952]] | Move Configure into a Contrib. |
+| [[%BUGS%/Item12953][Item12953]] | header parameter does not work when using row as fieldtype. |
 | [[%BUGS%/Item12954][Item12954]] | Table gets broken when editing via edit button and inserting a new row. |
-| [[%BUGS%/Item12955][Item12955]] | Related Topics search in System.FAQForm |
+| [[%BUGS%/Item12955][Item12955]] | Related Topics search in System.FAQForm. |
 | [[%BUGS%/Item12956][Item12956]] | Unitialized variable crash after using back button to return to edit, and save. |
-| [[%BUGS%/Item12958][Item12958]] | HTML in a label can break the editor |
-| [[%BUGS%/Item12960][Item12960]] | dirtyareas not removed in any case |
-| [[%BUGS%/Item12961][Item12961]] | Firefox does not send an accept-encoding in a http-2.0 (aka spdy) connection |
-| [[%BUGS%/Item12963][Item12963]] | i18n for datepicker not loaded |
+| [[%BUGS%/Item12958][Item12958]] | HTML in a label can break the editor. |
+| [[%BUGS%/Item12960][Item12960]] | =dirtyareas= not removed in any case. |
+| [[%BUGS%/Item12961][Item12961]] | Firefox does not send an accept-encoding in a http-2.0 (aka spdy) connection. |
+| [[%BUGS%/Item12963][Item12963]] | I18N for datepicker not loaded. |
 | [[%BUGS%/Item12964][Item12964]] | UserMapping::isInGroup() iterates uselessly over member lists. |
-| [[%BUGS%/Item12965][Item12965]] | Cache misses can create deadlocks if there is a collision |
-| [[%BUGS%/Item12969][Item12969]] | UI::Rest should only validate  POST type requests  |
-| [[%BUGS%/Item12987][Item12987]] | Foswiki returns "detected an internal error" with code 200,  not 500 |
-| [[%BUGS%/Item12993][Item12993]] | htmldoctype needs to change |
-| [[%BUGS%/Item12997][Item12997]] | use of uninitialized value in Assert gear |
-| [[%BUGS%/Item13019][Item13019]] | WebTopicCreator on trunk broken "pick from list" |
-| [[%BUGS%/Item13021][Item13021]] | "use strict" is removed when minifying the code |
-| [[%BUGS%/Item13027][Item13027]] | Regex error results in "Unspecified error" failure in =Foswiki::UI= |
-| [[%BUGS%/Item13040][Item13040]] | Foswiki 1.2  issues on Nginx  |
-| [[%BUGS%/Item13041][Item13041]] | Checker for {Htpasswd}{Encoding} reports unnecessary errors |
-| [[%BUGS%/Item13048][Item13048]] | Security issues with Windows and attachment name extensions |
-| [[%BUGS%/Item13059][Item13059]] | Wysiwyg corrupts wiki markup in definition list terms |
-| [[%BUGS%/Item13065][Item13065]] | jsonrpc script doesn't log events to the Foswiki event log. |
-| [[%BUGS%/Item13075][Item13075]] | Only one validation token per page makes multiple forms awkward |
-| [[%BUGS%/Item13082][Item13082]] | Cache fetch is case insensitive in MySQL, but topic names are case sensitive |
-| [[%BUGS%/Item13083][Item13083]] | Document the behavior that left bar contains webs regardless of NOSEARCHALL = on for Admins |
-| [[%BUGS%/Item13096][Item13096]] | CommentPlugin generates "Invalid validation code" REST error when trying to add comment in Firefox |
-| [[%BUGS%/Item13099][Item13099]] | PUBURL has two implementations |
-| [[%BUGS%/Item13105][Item13105]] | ease SEARCH apps in System web |
-| [[%BUGS%/Item13108][Item13108]] | Trunk edit strips manually added META ACLs on the next save |
-| [[%BUGS%/Item13124][Item13124]] | Documentation updates to support Apache 2.4 |
-| [[%BUGS%/Item13125][Item13125]] | CGI::param called in list context from package Foswiki::Engine::CGI line 222, |
-| [[%BUGS%/Item13126][Item13126]] | MailerContrib fails to generate diff correctly on view restricted webs |
-| [[%BUGS%/Item13133][Item13133]] | keep calls to numRevisions to a minimum |
-| [[%BUGS%/Item13146][Item13146]] | add a way to identify elements added to head |
-| [[%BUGS%/Item13164][Item13164]] | add support for gzip compression of http response |
-| [[%BUGS%/Item13165][Item13165]] | perl warning using an experimental feature |
-| [[%BUGS%/Item13171][Item13171]] | SITEMAPLIST does not hide webs on the SiteMap |
+| [[%BUGS%/Item12965][Item12965]] | Cache misses can create deadlocks if there is a collision. |
+| [[%BUGS%/Item12969][Item12969]] | UI::Rest should only validate  POST type requests.  |
+| [[%BUGS%/Item12987][Item12987]] | Foswiki returns "detected an internal error" with code 200,  not 500. |
+| [[%BUGS%/Item12993][Item12993]] | =htmldoctype= needs to change. |
+| [[%BUGS%/Item12997][Item12997]] | Use of uninitialized value in Assert gear. |
+| [[%BUGS%/Item13019][Item13019]] | WebTopicCreator on trunk broken "pick from list". |
+| [[%BUGS%/Item13021][Item13021]] | "use strict" is removed when minifying the code. |
+| [[%BUGS%/Item13027][Item13027]] | Regex error results in "Unspecified error" failure in =Foswiki::UI=. |
+| [[%BUGS%/Item13040][Item13040]] | Foswiki 1.2  issues on Nginx.  |
+| [[%BUGS%/Item13041][Item13041]] | Checker for {Htpasswd}{Encoding} reports unnecessary errors. |
+| [[%BUGS%/Item13048][Item13048]] | Security issues with Windows and attachment name extensions. |
+| [[%BUGS%/Item13058][Item13058]] | =statistics= script can not create statistics for subwebs. |
+| [[%BUGS%/Item13059][Item13059]] | Wysiwyg corrupts wiki markup in definition list terms. |
+| [[%BUGS%/Item13065][Item13065]] | =bin/jsonrpc= script doesn't log events to the Foswiki event log. |
+| [[%BUGS%/Item13075][Item13075]] | Only one validation token per page makes multiple forms awkward. |
+| [[%BUGS%/Item13082][Item13082]] | Cache fetch is case insensitive in MySQL, but topic names are case sensitive. |
+| [[%BUGS%/Item13083][Item13083]] | Document the behavior that left bar contains webs regardless of NOSEARCHALL = on for Admins. |
+| [[%BUGS%/Item13096][Item13096]] | CommentPlugin generates "Invalid validation code" REST error when trying to add comment in Firefox. |
+| [[%BUGS%/Item13099][Item13099]] | PUBURL has two implementations. |
+| [[%BUGS%/Item13105][Item13105]] | Ease SEARCH apps in System web. |
+| [[%BUGS%/Item13108][Item13108]] | Trunk edit strips manually added META ACLs on the next save. |
+| [[%BUGS%/Item13124][Item13124]] | Documentation updates to support Apache 2.4. |
+| [[%BUGS%/Item13125][Item13125]] | CGI::param called in list context from package Foswiki::Engine::CGI line 222. |
+| [[%BUGS%/Item13126][Item13126]] | MailerContrib fails to generate diff correctly on view restricted webs. |
+| [[%BUGS%/Item13133][Item13133]] | Keep calls to numRevisions to a minimum. |
+| [[%BUGS%/Item13146][Item13146]] | Add a way to identify elements added to head. |
+| [[%BUGS%/Item13164][Item13164]] | Add support for gzip compression of http response. |
+| [[%BUGS%/Item13165][Item13165]] | perl warning using an experimental feature. |
+| [[%BUGS%/Item13171][Item13171]] | SITEMAPLIST does not hide webs on the SiteMap. |
 | [[%BUGS%/Item13178][Item13178]] | TinyMCEPlugin permanently expands tags in some square bracket links. |
-| [[%BUGS%/Item13182][Item13182]] | FW doesn't ignore ! within style tags |
-| [[%BUGS%/Item13188][Item13188]] | WysiwygPlugin upload rest handler is missing - Upload fails with 404 |
-| [[%BUGS%/Item13189][Item13189]] | WYSIWYG editor breaks double-bracketed links with some macros in url section |
-| [[%BUGS%/Item13190][Item13190]] | SiteChanges cause a high load on the server  |
-| [[%BUGS%/Item13193][Item13193]] | deprecate jquery.gradient |
-| [[%BUGS%/Item13198][Item13198]] | SlideShowPlugin cannot find default template |
-| [[%BUGS%/Item13207][Item13207]] | wiki markup not rendered the line before a table |
+| [[%BUGS%/Item13182][Item13182]] | FW doesn't ignore ! within style tags. |
+| [[%BUGS%/Item13188][Item13188]] | WysiwygPlugin upload rest handler is missing - Upload fails with 404. |
+| [[%BUGS%/Item13189][Item13189]] | WYSIWYG editor breaks double-bracketed links with some macros in url section. |
+| [[%BUGS%/Item13190][Item13190]] | SiteChanges cause a high load on the server.  |
+| [[%BUGS%/Item13193][Item13193]] | Deprecate jquery.gradient. |
+| [[%BUGS%/Item13198][Item13198]] | SlideShowPlugin cannot find default template. |
+| [[%BUGS%/Item13207][Item13207]] | Wiki markup not rendered the line before a table. |
 | [[%BUGS%/Item13212][Item13212]] | Process to add a filetype icon to the attachment table is not documented. |
-| [[%BUGS%/Item13213][Item13213]] | can't save+continue multiple times / duplicate x-foswiki-nonce http header |
-| [[%BUGS%/Item13219][Item13219]] | deprecate jquery.corner and jquery.simplemodal |
+| [[%BUGS%/Item13213][Item13213]] | Can't save+continue multiple times / duplicate x-foswiki-nonce http header. |
+| [[%BUGS%/Item13219][Item13219]] | Deprecate jquery.corner and =jquery.simplemodal=. |
 | [[%BUGS%/Item13225][Item13225]] | Wysiwyg defaults to double quotes when generating HTML tags. |
-| [[%BUGS%/Item13227][Item13227]] | Bootstrap fails under Mod_Perl |
-| [[%BUGS%/Item13231][Item13231]] | lighttpd.pl test script changes for Foswiki 1.2 |
-| [[%BUGS%/Item13237][Item13237]] | Foswiki.pm calls Users::loadSession with tainted ENV{PATH} |
-| [[%BUGS%/Item13247][Item13247]] | Some VarXXX topics do not consistently link to other entries in Macros |
-| [[%BUGS%/Item13269][Item13269]] | Dependency crashes when extracting version from mod_perl |
-| [[%BUGS%/Item13272][Item13272]] | upgrade to latest superfish and hoverIntent |
-| [[%BUGS%/Item13286][Item13286]] | regular expressions encoded in a string loose their backslashes |
-| [[%BUGS%/Item13291][Item13291]] | Wysiwyg swaps oder of query parameters and #anchor |
-| [[%BUGS%/Item13300][Item13300]] | EditRowPlugin alters the headings formatting of tables and the way the user interacts with non-editable tables in the same topic |
+| [[%BUGS%/Item13227][Item13227]] | Bootstrap fails under mod_perl. |
+| [[%BUGS%/Item13231][Item13231]] | =tools/lighttpd.pl= test script changes for Foswiki 1.2. |
+| [[%BUGS%/Item13237][Item13237]] | Foswiki.pm calls Users::loadSession with tainted ENV{PATH}. |
+| [[%BUGS%/Item13247][Item13247]] | Some VarXXX topics do not consistently link to other entries in Macros. |
+| [[%BUGS%/Item13269][Item13269]] | Dependency crashes when extracting version from mod_perl. |
+| [[%BUGS%/Item13272][Item13272]] | Upgrade to latest superfish and hoverIntent. |
+| [[%BUGS%/Item13286][Item13286]] | Regular expressions encoded in a string loose their backslashes. |
+| [[%BUGS%/Item13291][Item13291]] | Wysiwyg swaps oder of query parameters and #anchor. |
+| [[%BUGS%/Item13300][Item13300]] | EditRowPlugin alters the headings formatting of tables and the way the user interacts with non-editable tables in the same topic. |
 | [[%BUGS%/Item13301][Item13301]] | Single quotes are incorrectly encoded in query params.  Breaks WebSearch and other pages. |
-| [[%BUGS%/Item13302][Item13302]] | CGI-4.11, 4.12, 4.13 breaks utf8 byte strings in data forms |
-| [[%BUGS%/Item13303][Item13303]] | add weba, webm, and webp to mime types |
-| [[%BUGS%/Item13308][Item13308]] | WebCreateNewTopic, defaults to create itself,    has performance issues:  loads parent list  |
-| [[%BUGS%/Item13318][Item13318]] | Shipped topics are missing attachment metadata, and TOPICINFO |
+| [[%BUGS%/Item13302][Item13302]] | CGI-4.11, 4.12, 4.13 breaks utf8 byte strings in data forms. |
+| [[%BUGS%/Item13303][Item13303]] | Add weba, webm, and webp to mime types. |
+| [[%BUGS%/Item13308][Item13308]] | WebCreateNewTopic, defaults to create itself,    has performance issues:  loads parent list.  |
+| [[%BUGS%/Item13318][Item13318]] | Shipped topics are missing attachment metadata, and TOPICINFO. |
 | [[%BUGS%/Item13319][Item13319]] | RCS Store AutoAttachPubFiles feature converts all attachments into autoattached files. |
 | [[%BUGS%/Item13320][Item13320]] | Backlinks fails when is an number in the topic name |
-| [[%BUGS%/Item13335][Item13335]] | Configure does not load defaults from a Plugin.spec file |
-| [[%BUGS%/Item13345][Item13345]] | "any" pragma is deprecated in CGI-4.14 |
+| [[%BUGS%/Item13327][Item13327]] | Deep recursion at wrong web rename. |
+| [[%BUGS%/Item13330][Item13330]] | Web create fails to throw error when invalid (utf-8) characters are in the webname. |
+| [[%BUGS%/Item13331][Item13331]] | Wrong encoding in "View WikiText"  when utf8. |
+| [[%BUGS%/Item13335][Item13335]] | Configure does not load defaults from a Plugin.spec file. |
+| [[%BUGS%/Item13345][Item13345]] | "any" pragma is deprecated in CGI-4.14. |
 | [[%BUGS%/Item13346][Item13346]] | Pattern skin default fonts are too low contrast, especially Raw view. |
-| [[%BUGS%/Item13347][Item13347]] | istopic returns TRUE for an empty string |
-</noautolink>
+| [[%BUGS%/Item13347][Item13347]] | =istopic= returns TRUE for an empty string. |
+| [[%BUGS%/Item13354][Item13354]] | Statistics and WikiUsers links shown even when the topics don't exist. |
+| [[%BUGS%/Item13355][Item13355]] | Formfield titles not expanding macros. |
+| [[%BUGS%/Item13370][Item13370]] | Configure warns that working/README files are not writable, but MANIFEST has permission 0444. |
+| [[%BUGS%/Item13375][Item13375]] | Invalid content encoding using firefox http/2. |
+| [[%BUGS%/Item13378][Item13378]] | Incorrect rendering utf8 WikiWords in the Form's default text. |
+| [[%BUGS%/Item13381][Item13381]] | Deleting a topic redirects to wrong place afterwards. |
+| [[%BUGS%/Item13385][Item13385]] | Form is corrupted by escaped column separator. |
+| [[%BUGS%/Item13386][Item13386]] | ={LoginManager} = 'none'= applies ACL checks, locks user out of configure, and faults if =bin/login= accessed. |
+| [[%BUGS%/Item13388][Item13388]] | The !%QUERY{...}% regex searches - fails on utf8 texts. |
+| [[%BUGS%/Item13390][Item13390]] | WysiwygPlugin inserts extra space into escaped square bracket links. |
+| [[%BUGS%/Item13391][Item13391]] | CLI extension installer fails with =Can't call method "addChild" on an undefined value=. |
+| [[%BUGS%/Item13393][Item13393]] | Simplify implementation not having to use JSON and HTML::encode_entities on the serverside. |
+| [[%BUGS%/Item13397][Item13397]] | Foswiki::Serialise::Json uses JSON::Any, which generates UNICODE. |
+| [[%BUGS%/Item13398][Item13398]] | Lighttpd doesn't detect perlbrew perl, or the system PATH. |
+| [[%BUGS%/Item13400][Item13400]] | Logout fails to consider {ForceDefaultUrlHost} when redirecting after logout. |
+| [[%BUGS%/Item13404][Item13404]] | HtPasswd AuthRealm changed for all users when one user is updated. |
+| [[%BUGS%/Item13409][Item13409]] | Table sort by date is incorrect in Testcases/TestCaseUtf8Errors. |
+| [[%BUGS%/Item13415][Item13415]] | 'onlywikiname' and 'nonwikiword' inconsistency. |
+| [[%BUGS%/Item13419][Item13419]] | Broken EDITTABLE (EditRowPlugin 3.31, FW 1.1.9) in some cases. |
+| [[%BUGS%/Item13422][Item13422]] | Opening "More topic actions" is obscenely slow. |
+| [[%BUGS%/Item13423][Item13423]] | Perl 5.22 deprecates unescaped left brace in Regular Expressions. |
+| [[%BUGS%/Item13427][Item13427]] | Remove ApacheHtpasswdUser from Foswiki 1.2. |
+| [[%BUGS%/Item13431][Item13431]] | Eliminate the auto redirect from the change language template. |
+| [[%BUGS%/Item13440][Item13440]] | Deprecate BITXOR(string) spreadsheet function.  Document that it does not work due to utf-8 changes. |
+| [[%BUGS%/Item13449][Item13449]] | Some tarfiles fail to expand due to ././@LongLink triggers. |
+| [[%BUGS%/Item13460][Item13460]] | JQICON FontAwesome icons are not working. |
+| [[%BUGS%/Item13463][Item13463]] | TOC is not respecting ho tags inserted by INCLUDE. |
+| [[%BUGS%/Item13474][Item13474]] | CommentPlugin fails with Wide character print error for utf-8 comments. |
 
 ---++ Enhancements
 
-<noautolink>
-| [[%BUGS%/Item184][Item184]] | Plugins don't report dependancies (or missing ones) in configure |
-| [[%BUGS%/Item810][Item810]] | SpreadSheetPlugin doesn't allow breaking formulea over multiple lines |
-| [[%BUGS%/Item1764][Item1764]] | Access denied does not tell you who you are or allow you to login as someone else  |
-| [[%BUGS%/Item2206][Item2206]] | might be nice to have a JS based filter on the configure extensions list |
-| [[%BUGS%/Item2207][Item2207]] | would be nice if configure gave a little info wrt dependencies for things |
-| [[%BUGS%/Item2250][Item2250]] | after enabling or installing a plugin/contrib, add a link to the installedplugins topic |
-| [[%BUGS%/Item2258][Item2258]] | SubscribePlugin should offer appropriate templates |
-| [[%BUGS%/Item2466][Item2466]] | Improve $token handling in core macros: support standard escapes  |
-| [[%BUGS%/Item2516][Item2516]] | Add new TML syntax to support indented paragraphs |
-| [[%BUGS%/Item4021][Item4021]] | add a configure checker that tests the install |
-| [[%BUGS%/Item5935][Item5935]] | attach.pm enhancement: add time processing to code |
-| [[%BUGS%/Item8430][Item8430]] | registerRESTHandler default authenticate option is insecure |
-| [[%BUGS%/Item8796][Item8796]] | Implement MakeUserRegistrationAsLeanAsPossible |
-| [[%BUGS%/Item9225][Item9225]] | Improve URL parsing, and detection of SubWeb vs. Topic name in path |
-| [[%BUGS%/Item9591][Item9591]] | Eliminate use of =commonTagsHandler= in CommentPlugin |
-| [[%BUGS%/Item9592][Item9592]] | Add JQuery/AJAX example to the CommentPlugin |
-| [[%BUGS%/Item9697][Item9697]] | Enhance i18n infrastructure |
-| [[%BUGS%/Item9698][Item9698]] | Re-organise the info cache slightly to abstract the result set iterator from the implementation |
-| [[%BUGS%/Item9715][Item9715]] | Enable dynamic subclassing of the selected Store (expert feature for 1.2.0) |
-| [[%BUGS%/Item9816][Item9816]] | Add support for Simulate, and No Dependencies options to configure  Extensions Installer UI |
-| [[%BUGS%/Item9856][Item9856]] | configure host match warning can suggest a fix |
-| [[%BUGS%/Item9935][Item9935]] | Detect and resolve umask issues in Foswiki core |
+| [[%BUGS%/Item184][Item184]] | Plugins don't report dependancies (or missing ones) in configure. |
+| [[%BUGS%/Item810][Item810]] | SpreadSheetPlugin doesn't allow breaking formulea over multiple lines. |
+| [[%BUGS%/Item1764][Item1764]] | Access denied does not tell you who you are or allow you to login as someone else.  |
+| [[%BUGS%/Item2206][Item2206]] | Might be nice to have a JS based filter on the configure extensions list. |
+| [[%BUGS%/Item2207][Item2207]] | Would be nice if configure gave a little info wrt dependencies for things. |
+| [[%BUGS%/Item2250][Item2250]] | After enabling or installing a plugin/contrib, add a link to the installedplugins topic. |
+| [[%BUGS%/Item2258][Item2258]] | SubscribePlugin should offer appropriate templates. |
+| [[%BUGS%/Item2466][Item2466]] | Improve $token handling in core macros: support standard escapes.  |
+| [[%BUGS%/Item2516][Item2516]] | Add new TML syntax to support indented paragraphs. |
+| [[%BUGS%/Item4021][Item4021]] | Add a configure checker that tests the install. |
+| [[%BUGS%/Item5935][Item5935]] | =Attach.pm= enhancement: add time processing to code. |
+| [[%BUGS%/Item8430][Item8430]] | =registerRESTHandler= default authenticate option is insecure. |
+| [[%BUGS%/Item8796][Item8796]] | Implement MakeUserRegistrationAsLeanAsPossible. |
+| [[%BUGS%/Item9225][Item9225]] | Improve URL parsing, and detection of SubWeb vs. Topic name in path. |
+| [[%BUGS%/Item9334][Item9334]] | Configure more extensions has no visual cue for what repository a row comes from. |
+| [[%BUGS%/Item9591][Item9591]] | Eliminate use of =commonTagsHandler= in CommentPlugin. |
+| [[%BUGS%/Item9592][Item9592]] | Add JQuery/AJAX example to the CommentPlugin. |
+| [[%BUGS%/Item9697][Item9697]] | Enhance i18n infrastructure to support translation of extensions. |
+| [[%BUGS%/Item9698][Item9698]] | Re-organise the info cache slightly to abstract the result set iterator from the implementation. |
+| [[%BUGS%/Item9715][Item9715]] | Enable dynamic subclassing of the selected Store (expert feature for 1.2.0). |
+| [[%BUGS%/Item9816][Item9816]] | Add support for Simulate, and No Dependencies options to configure  Extensions Installer UI. |
+| [[%BUGS%/Item9856][Item9856]] | Configure host match warning can suggest a fix. |
+| [[%BUGS%/Item9935][Item9935]] | Detect and resolve umask issues in Foswiki core. |
 | [[%BUGS%/Item10009][Item10009]] | Deprecate get/setEmbeddedStoreForm, to make space for generic serialisers / non-embedded stores. |
 | [[%BUGS%/Item10129][Item10129]] | Add @ operator to QUERY, support query across topic revisions. |
 | [[%BUGS%/Item10191][Item10191]] | CommentPlugin REST handlers rewritten to use a JQuery REST implementation. |
-| [[%BUGS%/Item10203][Item10203]] | Add inline form validation to registration form |
-| [[%BUGS%/Item10221][Item10221]] | Update attachment counter to use with QUERY macro rather than JavaScript counter. |
-| [[%BUGS%/Item10260][Item10260]] | Make registration page easier to understand and change |
-| [[%BUGS%/Item10294][Item10294]] | FORMFIELD clumsy rendering multi-line content, missing =$formfield()= 's linebreak features from SEARCH |
+| [[%BUGS%/Item10203][Item10203]] | Add inline form validation to registration form. |
+| [[%BUGS%/Item10221][Item10221]] | Update attachment counter to use with QUERY macro rather than javascript counter. |
+| [[%BUGS%/Item10260][Item10260]] | Make registration page easier to understand and change. |
+| [[%BUGS%/Item10294][Item10294]] | FORMFIELD clumsy rendering multi-line content, missing =$formfield()= 's linebreak features from SEARCH. |
+| [[%BUGS%/Item10325][Item10325]] | Document the new INT query operator; Returns integer portion of a value. |
 | [[%BUGS%/Item10344][Item10344]] | Cache parsed / loaded topics in the MetaCache. Only load from disk and parse the topic format once per session. |
 | [[%BUGS%/Item10376][Item10376]] | Implement  Feature: Development.TopicAddressing.   Adds new Foswiki::Address class. |
-| [[%BUGS%/Item10461][Item10461]] | SEARCH Speedup: ACL checks (and Paging) using iterator filters that can be optimized by Store implemetations |
+| [[%BUGS%/Item10453][Item10453]] | Improve performance of the Foswiki Page Cache. |
+| [[%BUGS%/Item10461][Item10461]] | SEARCH Speedup: ACL checks (and Paging) using iterator filters that can be optimized by Store implemetations. |
 | [[%BUGS%/Item10490][Item10490]] | Document how to use Foswiki::Func::saveTopic to create a new topic.  |
-| [[%BUGS%/Item10678][Item10678]] | Allow SEARCH on CREATEINFO |
+| [[%BUGS%/Item10520][Item10520]] | QuerySearch for \"SomeText\" ONLY refers to a FieldName, and no longer also a FormName. |
+| [[%BUGS%/Item10678][Item10678]] | Allow SEARCH on CREATEINFO. |
 | [[%BUGS%/Item10684][Item10684]] | Allow default skin to also have famfamfam topic actions in top bar. |
 | [[%BUGS%/Item10686][Item10686]] | Report the registered restHandlers to command-line when rest called with a unknown handler. |
-| [[%BUGS%/Item10741][Item10741]] | Enhance GROUPINFO to handle Main.GroupName  |
-| [[%BUGS%/Item10770][Item10770]] | EditRowPlugin - Cannot update via double click cells with macros  |
-| [[%BUGS%/Item10824][Item10824]] | HEAD requests should return early |
-| [[%BUGS%/Item10830][Item10830]] | Make SubscribePlugin a default extension |
+| [[%BUGS%/Item10741][Item10741]] | Enhance GROUPINFO to handle Main.GroupName. |
+| [[%BUGS%/Item10770][Item10770]] | EditRowPlugin - Cannot update via double click cells with macros. |
+| [[%BUGS%/Item10824][Item10824]] | HEAD requests should return early. |
+| [[%BUGS%/Item10830][Item10830]] | Make SubscribePlugin a default extension. |
 | [[%BUGS%/Item10939][Item10939]] | Pluggable Access Control: Add AdminOnlyAccess and ReadOnlyAccess plugins. |
-| [[%BUGS%/Item11093][Item11093]] | Make attachment file size more meaningful |
-| [[%BUGS%/Item11094][Item11094]] | Add sortable file size to attachment template tokens |
-| [[%BUGS%/Item11095][Item11095]] | Add sortable date to attachment template tokens  |
+| [[%BUGS%/Item11093][Item11093]] | Make attachment file size more meaningful. |
+| [[%BUGS%/Item11094][Item11094]] | Add sortable file size to attachment template tokens. |
+| [[%BUGS%/Item11095][Item11095]] | Add sortable date to attachment template tokens. |
+| [[%BUGS%/Item11107][Item11107]] | Add user name to attachment template tokens. |
+| [[%BUGS%/Item11264][Item11264]] | Create UpdatesPlugin, notify admin of available extension updates. |
 | [[%BUGS%/Item11317][Item11317]] | Enhance INCLUDE to increase/decrease header levels using "headingoffset" parameter. |
-| [[%BUGS%/Item11389][Item11389]] | Change named anchor links to target IDs |
-| [[%BUGS%/Item11400][Item11400]] | Add default param values to TMPL:DEF |
-| [[%BUGS%/Item11411][Item11411]] | Implement proposal: HTML attributes should use single quotes |
-| [[%BUGS%/Item11448][Item11448]] | Implement {GuestCanComment} feature |
-| [[%BUGS%/Item11507][Item11507]] | Internationalisation of the mailnotify script |
-| [[%BUGS%/Item11515][Item11515]] | Return HTTP 401 + login page instead of redirect when authentication is required |
-| [[%BUGS%/Item11527][Item11527]] | Expand %MACROs in WEBFORMS pref when displayed in the add/change form UI |
+| [[%BUGS%/Item11389][Item11389]] | Change named anchor links to target IDs. |
+| [[%BUGS%/Item11400][Item11400]] | Add default param values to TMPL:DEF. |
+| [[%BUGS%/Item11411][Item11411]] | Implement proposal: HTML attributes should use single quotes. |
+| [[%BUGS%/Item11448][Item11448]] | Implement {GuestCanComment} feature. |
+| [[%BUGS%/Item11507][Item11507]] | Internationalisation of the mailnotify script. |
+| [[%BUGS%/Item11515][Item11515]] | Return HTTP 401 + login page instead of redirect when authentication is required. |
+| [[%BUGS%/Item11527][Item11527]] | Expand %MACROs in WEBFORMS pref when displayed in the add/change form UI. |
 | [[%BUGS%/Item11549][Item11549]] | Rewrite of page cache, improved performance, better page dependency capture. |
 | [[%BUGS%/Item11579][Item11579]] | Implement an AdminToggle button to simplify joining and leaving the AdminGroup. |
-| [[%BUGS%/Item11637][Item11637]] | add 119 geosilk icons to foswiki |
-| [[%BUGS%/Item11648][Item11648]] | Add NatEditPlugin to core |
-| [[%BUGS%/Item11681][Item11681]] | Add a validation handler for registration |
-| [[%BUGS%/Item11761][Item11761]] | Add HomePagePlugin to core |
+| [[%BUGS%/Item11637][Item11637]] | Add 119 geosilk icons to foswiki. |
+| [[%BUGS%/Item11648][Item11648]] | Add NatEditPlugin to core. |
+| [[%BUGS%/Item11681][Item11681]] | Add a validation handler for registration. |
+| [[%BUGS%/Item11761][Item11761]] | Add HomePagePlugin to core. |
 | [[%BUGS%/Item11772][Item11772]] | Replace edit table plugin with the more modern edit row plugin. |
 | [[%BUGS%/Item11783][Item11783]] | Enhance INCLUDE to support a list of topics to try to include. |
-| [[%BUGS%/Item11878][Item11878]] | require perl 5.8.8 for 1.2.0 |
-| [[%BUGS%/Item11879][Item11879]] | Development.MeasureAndReportScriptTiming |
-| [[%BUGS%/Item11901][Item11901]] | Implement CancelButtonsShouldUseViewScript  |
-| [[%BUGS%/Item11902][Item11902]] | Implement Development.LinksInPreview |
+| [[%BUGS%/Item11834][Item11834]] | Hide the details in the extension installation report. |
+| [[%BUGS%/Item11878][Item11878]] | require perl 5.8.8 for 1.2.0. |
+| [[%BUGS%/Item11879][Item11879]] | Development.MeasureAndReportScriptTiming. |
+| [[%BUGS%/Item11883][Item11883]] | Add =align= param to TOC. |
+| [[%BUGS%/Item11901][Item11901]] | Implement CancelButtonsShouldUseViewScript.  |
+| [[%BUGS%/Item11902][Item11902]] | Implement Development.LinksInPreview. |
 | [[%BUGS%/Item11968][Item11968]] | Add topic=" " parameter to META macro.  Specify where to obtain the data. |
 | [[%BUGS%/Item11969][Item11969]] | Add default value for parameters passed to STARTSECTION macro. |
-| [[%BUGS%/Item11971][Item11971]] | Add defaultweb= Param To All Cgi Scripts |
-| [[%BUGS%/Item11980][Item11980]] | add topic: param to jqLoader  |
-| [[%BUGS%/Item11994][Item11994]] | upgrade query-ui  |
+| [[%BUGS%/Item11971][Item11971]] | Add defaultweb= Param To All Cgi Scripts. |
+| [[%BUGS%/Item11980][Item11980]] | Add topic: param to jqLoader.  |
+| [[%BUGS%/Item11994][Item11994]] | Upgrade query-ui.  |
 | [[%BUGS%/Item12035][Item12035]] | Add new data type to configure: BOOLGROUP for a group of checkboxes. |
-| [[%BUGS%/Item12041][Item12041]] | Implement admin approval of registrations |
+| [[%BUGS%/Item12041][Item12041]] | Implement admin approval of registrations. |
 | [[%BUGS%/Item12057][Item12057]] | Allow TemplateLogin with user's email address (in addition to the username). |
-| [[%BUGS%/Item12060][Item12060]] | INCLUDE macros "warn" attribute does not accept dollar-escapes |
+| [[%BUGS%/Item12060][Item12060]] | INCLUDE macros "warn" attribute does not accept dollar-escapes. |
 | [[%BUGS%/Item12104][Item12104]] | Redesign the Foswiki Logger API. More compatible with Log4J / Log4Perl conventions. |
-| [[%BUGS%/Item12120][Item12120]] | Deprecate Apache Htpasswd Module as its unloved and only partially implemented |
-| [[%BUGS%/Item12130][Item12130]] | Add support for encrypted private key files in S/MIME |
+| [[%BUGS%/Item12120][Item12120]] | Deprecate Apache Htpasswd Module as its unloved and only partially implemented. |
+| [[%BUGS%/Item12130][Item12130]] | Add support for encrypted private key files in S/MIME. |
 | [[%BUGS%/Item12133][Item12133]] | Implement configuration setting to force email addresses to be stored in User topic. |
 | [[%BUGS%/Item12135][Item12135]] | New expert configuration setting,  override "Cache-Control: max-age"  for configured webs. |
-| [[%BUGS%/Item12176][Item12176]] | improve editing lists |
-| [[%BUGS%/Item12180][Item12180]] | Implementation for AJAXOnDemandCheckersForConfigure |
-| [[%BUGS%/Item12185][Item12185]] | Implement SupportShorterACRONYMS |
-| [[%BUGS%/Item12189][Item12189]] | Implement ControlFoswikiTemporaryFileLocations |
-| [[%BUGS%/Item12207][Item12207]] | Implement OneStepUserDeletion |
+| [[%BUGS%/Item12175][Item12175]] | Implement !%SET% macro - Setting And Getting Variables Using Macros. |
+| [[%BUGS%/Item12169][Item12169]] | Improve CSS for tab buttons without tab pane to prevent box inside box. |
+| [[%BUGS%/Item12170][Item12170]] | Remove tab pane box around search form. |
+| [[%BUGS%/Item12172][Item12172]] | Add row display options to attachtables template. |
+| [[%BUGS%/Item12176][Item12176]] | Improve editing lists. |
+| [[%BUGS%/Item12180][Item12180]] | Implementation for AJAXOnDemandCheckersForConfigure. |
+| [[%BUGS%/Item12185][Item12185]] | Implement SupportShorterACRONYMS. |
+| [[%BUGS%/Item12189][Item12189]] | Implement ControlFoswikiTemporaryFileLocations. |
+| [[%BUGS%/Item12192][Item12192]] | PatternSkin fixes and enhancements for Foswiki 1.2. |
+| [[%BUGS%/Item12207][Item12207]] | Implement OneStepUserDeletion. |
+| [[%BUGS%/Item12209][Item12209]] | Rename DefaultUserRegistration =js.js= to =validate.js=. |
 | [[%BUGS%/Item12210][Item12210]] | Add generic TYPE based checkers to configure field definitions. |
-| [[%BUGS%/Item12229][Item12229]] | improve transliteration of free-form input to non-unicode chars wiki words |
-| [[%BUGS%/Item12237][Item12237]] | Implement EscapeTMLInEditor |
-| [[%BUGS%/Item12282][Item12282]] | Enhancements to .spec file syntax |
-| [[%BUGS%/Item12299][Item12299]] | don't rewrite the parameter list of named sections in template topics |
-| [[%BUGS%/Item12362][Item12362]] | parseTime can't handle seconds in a Foswiki format time |
-| [[%BUGS%/Item12392][Item12392]] | Add a "preload" plugin handler to the Foswiki plugin API.   |
-| [[%BUGS%/Item12494][Item12494]] | Break out RCS stores into a stand-alone contrib; include it in the release by default |
-| [[%BUGS%/Item12515][Item12515]] | Create a new ConfigurePlugin |
-| [[%BUGS%/Item12664][Item12664]] | rework jquery.natedit |
-| [[%BUGS%/Item12666][Item12666]] | add font-awesome to JQueryPlugin |
-| [[%BUGS%/Item12686][Item12686]] | add tmpl REST handler to load jquery.tmpl asyonchronously |
-| [[%BUGS%/Item12692][Item12692]] | upgrade jquery.media module with upstream version |
-| [[%BUGS%/Item12693][Item12693]] | rewrite jquery.debug module to make use of modern browsers' console.log properly |
-| [[%BUGS%/Item12694][Item12694]] | default to fast animation speed |
+| [[%BUGS%/Item12229][Item12229]] | Improve transliteration of free-form input to non-unicode chars wiki words. |
+| [[%BUGS%/Item12237][Item12237]] | Implement EscapeTMLInEditor. |
+| [[%BUGS%/Item12282][Item12282]] | Enhancements to .spec file syntax. |
+| [[%BUGS%/Item12299][Item12299]] | Don't rewrite the parameter list of named sections in template topics. |
+| [[%BUGS%/Item12306][Item12306]] | Enhance Foswiki::Store::saveAttachment to support attachment attributes. |
+| [[%BUGS%/Item12362][Item12362]] | =parseTime= can't handle seconds in a Foswiki format time. |
+| [[%BUGS%/Item12392][Item12392]] | Add a "preload" plugin handler to the Foswiki plugin API. |
+| [[%BUGS%/Item12494][Item12494]] | Break out RCS stores into a stand-alone contrib; include it in the release by default. |
+| [[%BUGS%/Item12515][Item12515]] | Create a new ConfigurePlugin. |
+| [[%BUGS%/Item12664][Item12664]] | Rework jquery.natedit. |
+| [[%BUGS%/Item12666][Item12666]] | Add font-awesome to JQueryPlugin. |
+| [[%BUGS%/Item12686][Item12686]] | Add tmpl REST handler to load jquery.tmpl asyonchronously. |
+| [[%BUGS%/Item12692][Item12692]] | Upgrade jquery.media module with upstream version. |
+| [[%BUGS%/Item12693][Item12693]] | Rewrite jquery.debug module to make use of modern browsers' console.log properly. |
+| [[%BUGS%/Item12694][Item12694]] | Default to fast animation speed. |
 | [[%BUGS%/Item12699][Item12699]] | Removing a user should also remove any cgisess files to kill current sessions. |
-| [[%BUGS%/Item12711][Item12711]] | Configure could report if dependencies are part of Perl core |
-| [[%BUGS%/Item12717][Item12717]] | inconsistencies in template expansion of mailnotify |
-| [[%BUGS%/Item12759][Item12759]] | modernize code and icon set |
-| [[%BUGS%/Item12777][Item12777]] | syntax error in sqlite adapter of page cache |
-| [[%BUGS%/Item12787][Item12787]] | default to empty string instead of 0 if rating is undecoded |
-| [[%BUGS%/Item12811][Item12811]] | nicer stars for rating  |
-| [[%BUGS%/Item12819][Item12819]] | Pass Interwiki links through expandCommonVariables |
-| [[%BUGS%/Item12837][Item12837]] | Implement Development.AddENDINCLUDEandSTOPSECTION |
-| [[%BUGS%/Item12849][Item12849]] | Implement Development.RemoveDeprecatedEmptyDENYRule |
-| [[%BUGS%/Item12869][Item12869]] | Restructure SpreadSheetPlugin |
-| [[%BUGS%/Item12878][Item12878]] | improvements to foswiki jquery-ui theme |
-| [[%BUGS%/Item12900][Item12900]] | Improve session management,   optional sessions for guests |
-| [[%BUGS%/Item12906][Item12906]] | jquery.wikiword: don't add prefix / suffix if already present in source |
-| [[%BUGS%/Item12933][Item12933]] | Make filtered characters configurable in JQueryWikiWord |
-| [[%BUGS%/Item12936][Item12936]] | Tighten up default restrictions on WikiGuest a bit further  |
-| [[%BUGS%/Item13018][Item13018]] | switching tabs is slow |
+| [[%BUGS%/Item12711][Item12711]] | Configure could report if dependencies are part of Perl core. |
+| [[%BUGS%/Item12717][Item12717]] | Inconsistencies in template expansion of mailnotify. |
+| [[%BUGS%/Item12739][Item12739]] | Add recent TWiki SpreadSheetPlugin features to Foswiki,  and resolve "undefined" errors. |
+| [[%BUGS%/Item12759][Item12759]] | Modernize code and icon set. |
+| [[%BUGS%/Item12777][Item12777]] | Syntax error in sqlite adapter of page cache. |
+| [[%BUGS%/Item12787][Item12787]] | Default to empty string instead of 0 if rating is undecoded. |
+| [[%BUGS%/Item12810][Item12810]] | JQuery needs to fallback to an available version if misconfigured. |
+| [[%BUGS%/Item12811][Item12811]] | Nicer stars for rating.  |
+| [[%BUGS%/Item12819][Item12819]] | Pass Interwiki links through expandCommonVariables. |
+| [[%BUGS%/Item12837][Item12837]] | Implement Development.AddENDINCLUDEandSTOPSECTION. |
+| [[%BUGS%/Item12849][Item12849]] | Implement Development.RemoveDeprecatedEmptyDENYRule. |
+| [[%BUGS%/Item12869][Item12869]] | Restructure SpreadSheetPlugin. |
+| [[%BUGS%/Item12878][Item12878]] | Improvements to foswiki jquery-ui theme. |
+| [[%BUGS%/Item12881][Item12881]] | Add a preference to set the default number of revisions to show in topic history. |
+| [[%BUGS%/Item12900][Item12900]] | Improve session management,   optional sessions for guests. |
+| [[%BUGS%/Item12906][Item12906]] | =jquery.wikiword:= don't add prefix / suffix if already present in source. |
+| [[%BUGS%/Item12933][Item12933]] | Make filtered characters configurable in JQueryWikiWord. |
+| [[%BUGS%/Item12936][Item12936]] | Tighten up default restrictions on WikiGuest a bit further.  |
+| [[%BUGS%/Item13018][Item13018]] | Switching tabs is slow. |
 | [[%BUGS%/Item13034][Item13034]] | JsonRpcContrib is a default extension in 1.2. |
-| [[%BUGS%/Item13045][Item13045]] | Implement Development.InterwikiPluginMacroExpansionCustomURLs |
-| [[%BUGS%/Item13060][Item13060]] | "Toggle All" button for BulkResetPassword |
-| [[%BUGS%/Item13106][Item13106]] | Replace =blockquote= with =div= unless it is for a block of quoted text |
-| [[%BUGS%/Item13109][Item13109]] | add mousewheel and sprintf |
-| [[%BUGS%/Item13123][Item13123]] | More topic actions should use Ajax to pick parent topic |
-| [[%BUGS%/Item13132][Item13132]] | tabpane depends on easing for animated tab switching |
-| [[%BUGS%/Item13138][Item13138]] | deprecate jquery.rating in favor of jquery.stars |
-| [[%BUGS%/Item13194][Item13194]] | add makefile system to ease common js tasks |
-| [[%BUGS%/Item13205][Item13205]] | update to jquery-1.11.2 / jquery-2.1.3 |
-| [[%BUGS%/Item13238][Item13238]] | content-type should be application/json |
-| [[%BUGS%/Item13251][Item13251]] | toolbar not shown when tinymce has been loaded ... but not used |
-| [[%BUGS%/Item13268][Item13268]] | add styles for the horizontal navigation menu |
-| [[%BUGS%/Item13298][Item13298]] | jquery.wikiword not backwards compatible |
-</noautolink>
-
----++ Changes since Beta 1
-
-<noautolink>
-| [[%BUGS%/Item801][Item801]] | Don't hardcode rcs program paths in Configure. |
-| [[%BUGS%/Item11834][Item11834]] | Hide the details in the Extension installation report. |
-| [[%BUGS%/Item13294][Item13294]] | Numerous string changes to improve translation quality. |
-| [[%BUGS%/Item13309][Item13309]] | Errors in the EditRowPlugin backwards compatibility. |
-| [[%BUGS%/Item13313][Item13313]] | Improvements to the migrate store script.  |
-| [[%BUGS%/Item13315][Item13315]] | Improve new user experience with Configure. |
-| [[%BUGS%/Item13327][Item13327]] | Prevent moving a web to a subweb of itself. |
-| [[%BUGS%/Item13331][Item13331]] | Fix utf-8 encoding issues on older CGI. |
-| [[%BUGS%/Item13345][Item13345]] | Fix compatibility issues with newer versions of CGI. |
-| [[%BUGS%/Item13349][Item13349]] | Improve performance installing large extensions. |
-| [[%BUGS%/Item13351][Item13351]] | Remove debug code from convertTopicSettings. |
-| [[%BUGS%/Item13352][Item13352]] | Don't crash due to unbalanced verbatim tag in topic. |
-| [[%BUGS%/Item13353][Item13353]] | make sure PLUGIN_MODULE checker invokes any explicit checker than might be present for {Enabled} or {Module} keys. |
-| [[%BUGS%/Item13355][Item13355]] | Expand macros in Formfield titles. |
-| [[%BUGS%/Item13357][Item13357]] | Configure issues installing older extensions. |
-| [[%BUGS%/Item13360][Item13360]] | Undefined variables when uninstall extension. |
-| [[%BUGS%/Item13363][Item13363]] | EditRowPlugin issues.|
-| [[%BUGS%/Item13364][Item13364]] | Improve user experience with configure. |
-| [[%BUGS%/Item13365][Item13365]] | Force new revision is not working. |
-| [[%BUGS%/Item13367][Item13367]] | Extension report in configure is corrupted. |
-| [[%BUGS%/Item13368][Item13368]] | Add "NODEPS" option to the CLI extension installer |
-| [[%BUGS%/Item13369][Item13369]] | WYSIWYG corrupts entities in macros. |
-| [[%BUGS%/Item13370][Item13370]] | Don't check that README files are writable |
-| [[%BUGS%/Item13371][Item13371]] | Encoding issues when utf-8 characters are in a verbatim block during edit. |
-| [[%BUGS%/Item13372][Item13372]] | Encoding issues with utf-8 in arguments of %MACRO parameters during edit. |
-| [[%BUGS%/Item13375][Item13375]] | Fixed setting the content-encoding in HTTP/2 headers. |
-| [[%BUGS%/Item13378][Item13378]] | Fix broken UTF82SiteCharset. |
-| [[%BUGS%/Item13381][Item13381]] | Deleting a topic redirects to the wrong place. |
-| [[%BUGS%/Item13382][Item13382]] | Configure checker should permit user & pass in proxy URL. |
-| [[%BUGS%/Item13383][Item13383]] | Crash in configure if no results returned. |
-| [[%BUGS%/Item13386][Item13386]] | Improve support for LoginManger none. |
-| [[%BUGS%/Item13389][Item13389]] | Datepicker initializaiton problem. |
-| [[%BUGS%/Item13390][Item13390]] | Don't link escaped ![[squarebracket]] when editing topic. |
-| [[%BUGS%/Item13391][Item13391]] | CLI extension installer rewritten to use tools/configure |
-| [[%BUGS%/Item13392][Item13392]] | Add extensions to PERLDEPENDENCYREPORT. |
-| [[%BUGS%/Item13393][Item13393]] | Simplify implementation of SubscribePlugin, avoid utf-8 encoding issues. |
-| [[%BUGS%/Item13398][Item13398]] | Lighttpd configuration enhancements. Pass through PATH and Perl version. |
-| [[%BUGS%/Item13400][Item13400]] | Redirect after logout fails to honor ={ForceDefaultUrlHost}= setting. |
-| [[%BUGS%/Item13415][Item13415]] | Rename script =nonwikiword= parameter renamed to =onlywikiword=. |
-| [[%BUGS%/Item13422][Item13422]] | More Topic Actions page is extremely slow due to embedded searches. |
-| [[%BUGS%/Item13423][Item13423]] | Perl 5.22 deprcates unescaped { and } within regular expressions. |
-| [[%BUGS%/Item13427][Item13427]] | =ApacheHtpasswdUser= password manager has been removed from Foswiki. |
-| [[%BUGS%/Item13431][Item13431]] | Removed auto-redirect on language change. |
-| [[%BUGS%/Item13438][Item13438]] | Errors when encoding a JSON string. |
-| [[%BUGS%/Item13440][Item13440]] | Remove the SpreadSheetPlugin =$BITXOR(string)= functionality. |
-| [[%BUGS%/Item13441][Item13441]] | EditRowPlugin truncates displayed table under some conditions. |
-| [[%BUGS%/Item13449][Item13449]] | Some tar files fail to expand using Archive::Tar. |
-| [[%BUGS%/Item13454][Item13454]] | SubscribePlugin should be backwards compatible to 1.1.9 |
-| [[%BUGS%/Item13455][Item13455]] | PlainFileStore fails to remove utf-8 filenames from store. |
-| [[%BUGS%/Item13456][Item13456]] | Admin password should support non-latin characters. |
-| [[%BUGS%/Item13457][Item13457]] | Extension installer doesn't find local archives or installers. |
-
+| [[%BUGS%/Item13045][Item13045]] | Implement Development.InterwikiPluginMacroExpansionCustomURLs. |
+| [[%BUGS%/Item13051][Item13051]] | Cannot do anything useful with a $pattern that contains a quote ("). |
+| [[%BUGS%/Item13052][Item13052]] | ModPerlEngineContrib: APREQ2_ReadLimit directive (needed for Downloads >64M) missing in documentation. |
+| [[%BUGS%/Item13060][Item13060]] | "Toggle All" button for BulkResetPassword. |
+| [[%BUGS%/Item13106][Item13106]] | Replace =blockquote= with =div= unless it is for a block of quoted text. |
+| [[%BUGS%/Item13109][Item13109]] | Add mousewheel and sprintf. |
+| [[%BUGS%/Item13123][Item13123]] | More topic actions should use Ajax to pick parent topic. |
+| [[%BUGS%/Item13132][Item13132]] | Tabpane depends on easing for animated tab switching. |
+| [[%BUGS%/Item13138][Item13138]] | Deprecate jquery.rating in favor of jquery.stars. |
+| [[%BUGS%/Item13194][Item13194]] | Add makefile system to ease common js tasks. |
+| [[%BUGS%/Item13205][Item13205]] | Update to jquery-1.11.2 / jquery-2.1.3. |
+| [[%BUGS%/Item13238][Item13238]] | =content-type= should be =application/json=. |
+| [[%BUGS%/Item13241][Item13241]] | Improve the email Auto-configure flow and operation. |
+| [[%BUGS%/Item13251][Item13251]] | Toolbar not shown when tinymce has been loaded ... but not used. |
+| [[%BUGS%/Item13268][Item13268]] | Add styles for the horizontal navigation menu. |
+| [[%BUGS%/Item13281][Item13281]] | Add print support to the SlideShowPlugin. |
+| [[%BUGS%/Item13298][Item13298]] | =jquery.wikiword= not backwards compatible. |
+| [[%BUGS%/Item13323][Item13323]] | Now that Taint mode removed,  switch from =/usr/bin/perl=  to =/usr/bin/env perl=. |
+| [[%BUGS%/Item13343][Item13343]] | Add CLI access to the PERLDEPENDENCYREPORT macro. |
+| [[%BUGS%/Item13389][Item13389]] | Datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field. |
+| [[%BUGS%/Item13392][Item13392]] | Add Extensions to the PERLDEPENDENCYREPORT. |
+| [[%BUGS%/Item13462][Item13462]] | Guess the {Plugins}{...extension...}{Module} setting if missing. |
+| [[%BUGS%/Item13480][Item13480]] | Remove setting for HIDE_NON_WIKI_WORD_WARNINGs. |
 
 </noautolink>
 
