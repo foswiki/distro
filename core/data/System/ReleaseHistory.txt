@@ -7,13 +7,9 @@ History of Foswiki
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
----++ Foswiki Release 2.0 Beta 2 - 15 Jun 2015
+---++ Foswiki Release 2.0 - 30 Jun 2015
 
-Foswiki 2.0 Beta 2 was built on 15 Jun 2015. It is a release that contains more than 480 checkins since Beta 1,
-
----++ Foswiki Release 2.0 Beta 1 - 02 Apr 2015
-
-Foswiki 2.0 Beta 1 was built on 02 Apr 2015.  It is a release that contains more than 257 bug fixes relative to 1.1.9,  and adds more than 129 enhancements.
+Foswiki 2.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
 
 ---++ Foswiki Release 1.1.9 - 19 Nov 2013
 

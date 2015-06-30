@@ -14,7 +14,7 @@ Foswiki is a wiki: fundamentally, a website with editable web pages. It looks li
 
 Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is backwards compatible with content generated on all previous Foswiki versions, and even content and many plugins from TWiki installations (Foswiki 1.2 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work in Foswiki. TWiki<sup>&reg;</sup> is a registered trademark of Peter Thoeny.)
+Foswiki is backwards compatible with content generated on all previous Foswiki versions, and even content and many plugins from TWiki installations (Foswiki ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work in Foswiki. TWiki<sup>&reg;</sup> is a registered trademark of Peter Thoeny.)
 
 Foswiki is released under the GNU General Public License.
 
@@ -44,11 +44,11 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * Foswiki 2.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
+   * Foswiki 2.0.0 RC 1 was built on 30 Jun 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.2 is shipped with the following: ( __New to Foswiki 1.2__ )
+Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
 <noautolink>
    * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
    * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, __FastCGIEngineContrib__, __JEditableContrib__, JSCalendarContrib, __JsonRpcContrib__, MailerContrib, __ModPerlEngineContrib__, __PlainFileStoreContrib__, __RCSStoreContrib__, TipsContrib, TopicUserMappingContrib
@@ -89,15 +89,15 @@ You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}
 section under the _Access control_ tab.
 </div>
 
-With release 1.2 of Foswiki, a new ACL rule, the asterisk,  is used as a
+With release 2.0 of Foswiki, a new ACL rule, the asterisk,  is used as a
 wildcard to match *any* user, including the guest user, !WikiGuest. Prior to
-Foswiki 1.2,  a topic could be made accessible to everyone by coding
+Foswiki 2.0,  a topic could be made accessible to everyone by coding
 an empty =DENYTOPIC&lt;action&gt;= rule.   This rule is no longer active by
 default.
 
 A conversion tool is available in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
    * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding =ALLOWTOPIC&lt;action&gt;= *=
-   * Optionally convert inline ACLs into META settings. This is recommended for Foswiki 1.2
+   * Optionally convert inline ACLs into META settings. This is recommended for Foswiki 2.0
    * Optionally convert __all__ inline settings into META settings.
 
 For additional information run =perl tools/convertTopicSettings.pl -help=
@@ -172,7 +172,7 @@ concept of obfuscating string data by flipping the bits is not compatible.
 
 =$BITXOR(string)= is treated as =$BITXOR()= and returns zero.
 
----++ Important changes in Foswiki 1.2
+---++ Important changes in Foswiki 2.0
 ---+++ Installation process has changed significantly!
 You should not visit 'bin/configure' as your first access.  After extracting
 the Foswiki code and preparing your web server:
@@ -182,7 +182,7 @@ the Foswiki code and preparing your web server:
 
 ---++++ Improvements in International Character Set support
 
-Foswiki 1.2 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
+Foswiki 2.0 has improved support for =utf-8= based character sets. Topics and data forms can use utf-8 characters.  They will be properly rendered and
 preserved during edit.   The Foswiki core has been fully converted to utf-8 and unicode. All encoding / decoding is done "at the edge", when reading from
 / writing to the Foswiki store.
 
@@ -221,7 +221,7 @@ copy using the updated =foswiki/bin/LocalLib.cfg.txt= <sticky>&nbsp;</sticky> (N
 Users now have the option to authenticate via 'TemplateLogin' using their email address. This feature is optional, and is enabled in the _Security and Authentication_ section, _Login_ tab of configure. Enable ={TemplateLogin}{AllowLoginUsingEmailAddress}=.  If more than one user shares an email address, the user with the matching password will be selected during login.
 ---++++ REST Script default security has changed:
 
-Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket
+Foswiki 2.0 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket
 security for =rest=, each handler is now responsible to set its individual requirements for 3 options:
 <i>authentication</i>, _validation_ and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
@@ -249,14 +249,14 @@ not block access.
 ---++++ CGI Related changes
 ---+++++ Session ID Security improvements.
 
-In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
+In Foswiki 2.0, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
 This is not believed to have any negative impact, however there is a race condition if the user uses multiple browser tabs, and authenticates in one
 tab while the other tabs are interacting with the server (for ex. a long running attachment upload in one tab, followed by a _internal admin_ login in another tab.
 The session ID in use for the upload will be deleted because of the _internal admin_ login and results are unpredictable.
 
 This change is important for security purposes and cannot be disabled.
 ---+++++ Sessions and Roaming or Mobile Users
-In Foswiki 1.2, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
+In Foswiki 2.0, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
 reducing the exposure to certain session hijack attacks.  However it can be disruptive to mobile users.  It is also of limited use when
 users access the wiki through a proxy or other devices that might cause multiple users to share the same IP address.
 
@@ -269,7 +269,7 @@ you need to disable the ={Sessions}{UseIPMatching}= option in your configuration
 
 ---+++++ Optional Sessions for Guest users
 
-_EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
+_EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 2.0, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
 However if guests are permitted to update, for example by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%][configure =Security and Authentication= tab]] interface for more information.
 
@@ -350,7 +350,7 @@ quotes delimiters.  See %SYSTEMWEB%.VarICON for more details.
 
 ---+++ Major changes to the Foswiki Store subsystem.
 
-The Foswiki Store has been restructured into separate pluggable store implementations.  Foswiki 1.2 ships with two store backends:
+The Foswiki Store has been restructured into separate pluggable store implementations.  Foswiki 2.0 ships with two store backends:
    * RCSStoreContrib: This implements the RCSWrap and RCSLite "Revision Control System" based stores, compatible with prior versions of Foswiki and TWiki.
    * PlainFileStoreContrib: A new plain file store that saves topic and attachment as time-stamped copies instead of the "diff" based RCS store. This implementation can use more disk space but is expected to be _much higher performing_ than the RCS store. Existing topics can be migrated to the new store. *Store formats may not be mixed*. One store must be selected.
 
@@ -379,7 +379,7 @@ As of this release,
 For more details on translation status,  see Foswiki:Community.TranslationTeam and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
 Foswiki thanks the Translators for their efforts.  If you are interesting in helping with the translation, please contact foswiki-translations@lists.sourceforge.net.
 
----++ Foswiki Release 1.2 Details
+---++ Foswiki Release 2.0 Details
 ---+++ New Features
 | *Feature* | *Summary* |
 | [[Foswiki:Development.AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels |
@@ -424,7 +424,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[Foswiki:Development.RemoveTaintCheckingFromFoswiki][RemoveTaintCheckingFromFoswiki]] | Remove the -T flag from the foswiki scripts |
 | [[Foswiki:Development.ReplaceEditTablePluginWithEditRowPlugin][ReplaceEditTablePluginWithEditRowPlugin]] | replace edit table plugin with edit row plugin |
 | [[Foswiki:Development.RequirePerl588][RequirePerl588]] | Move to 5.8.8 for various reasons |
-| [[Foswiki:Development.ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the Foswiki:Extensions.SubscribePlugin with Foswiki 1.2 |
+| [[Foswiki:Development.ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the Foswiki:Extensions.SubscribePlugin with Foswiki 2.0 |
 | [[Foswiki:Development.SpecFileSyntaxEnhancements][SpecFileSyntaxEnhancements]] | Simplify and extend the syntax of Config.spec files |
 | [[Foswiki:Development.SupportBlockquoteAndIndenting][SupportBlockquoteAndIndenting]] | Support =&lt;blockquote&gt;= and paragraph indenting in Foswiki:Extensions.TinyMCEPlugin |
 | [[Foswiki:Development.SupportShorterACRONYMS][SupportShorterACRONYMS]] | We need support in my company for two letter ACRONYMS |
@@ -662,7 +662,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13019][Item13019]] | WebTopicCreator on trunk broken "pick from list". |
 | [[%BUGS%/Item13021][Item13021]] | "use strict" is removed when minifying the code. |
 | [[%BUGS%/Item13027][Item13027]] | Regex error results in "Unspecified error" failure in =Foswiki::UI=. |
-| [[%BUGS%/Item13040][Item13040]] | Foswiki 1.2  issues on Nginx.  |
+| [[%BUGS%/Item13040][Item13040]] | Foswiki 2.0  issues on Nginx.  |
 | [[%BUGS%/Item13041][Item13041]] | Checker for {Htpasswd}{Encoding} reports unnecessary errors. |
 | [[%BUGS%/Item13048][Item13048]] | Security issues with Windows and attachment name extensions. |
 | [[%BUGS%/Item13058][Item13058]] | =statistics= script can not create statistics for subwebs. |
@@ -696,7 +696,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13219][Item13219]] | Deprecate jquery.corner and =jquery.simplemodal=. |
 | [[%BUGS%/Item13225][Item13225]] | Wysiwyg defaults to double quotes when generating HTML tags. |
 | [[%BUGS%/Item13227][Item13227]] | Bootstrap fails under mod_perl. |
-| [[%BUGS%/Item13231][Item13231]] | =tools/lighttpd.pl= test script changes for Foswiki 1.2. |
+| [[%BUGS%/Item13231][Item13231]] | =tools/lighttpd.pl= test script changes for Foswiki 2.0. |
 | [[%BUGS%/Item13237][Item13237]] | Foswiki.pm calls Users::loadSession with tainted ENV{PATH}. |
 | [[%BUGS%/Item13247][Item13247]] | Some VarXXX topics do not consistently link to other entries in Macros. |
 | [[%BUGS%/Item13269][Item13269]] | Dependency crashes when extracting version from mod_perl. |
@@ -739,7 +739,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13419][Item13419]] | Broken EDITTABLE (EditRowPlugin 3.31, FW 1.1.9) in some cases. |
 | [[%BUGS%/Item13422][Item13422]] | Opening "More topic actions" is obscenely slow. |
 | [[%BUGS%/Item13423][Item13423]] | Perl 5.22 deprecates unescaped left brace in Regular Expressions. |
-| [[%BUGS%/Item13427][Item13427]] | Remove ApacheHtpasswdUser from Foswiki 1.2. |
+| [[%BUGS%/Item13427][Item13427]] | Remove ApacheHtpasswdUser from Foswiki 2.0. |
 | [[%BUGS%/Item13431][Item13431]] | Eliminate the auto redirect from the change language template. |
 | [[%BUGS%/Item13440][Item13440]] | Deprecate BITXOR(string) spreadsheet function.  Document that it does not work due to utf-8 changes. |
 | [[%BUGS%/Item13449][Item13449]] | Some tarfiles fail to expand due to ././@LongLink triggers. |
@@ -843,7 +843,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12180][Item12180]] | Implementation for AJAXOnDemandCheckersForConfigure. |
 | [[%BUGS%/Item12185][Item12185]] | Implement SupportShorterACRONYMS. |
 | [[%BUGS%/Item12189][Item12189]] | Implement ControlFoswikiTemporaryFileLocations. |
-| [[%BUGS%/Item12192][Item12192]] | PatternSkin fixes and enhancements for Foswiki 1.2. |
+| [[%BUGS%/Item12192][Item12192]] | PatternSkin fixes and enhancements for Foswiki 2.0. |
 | [[%BUGS%/Item12207][Item12207]] | Implement OneStepUserDeletion. |
 | [[%BUGS%/Item12209][Item12209]] | Rename DefaultUserRegistration =js.js= to =validate.js=. |
 | [[%BUGS%/Item12210][Item12210]] | Add generic TYPE based checkers to configure field definitions. |
@@ -882,7 +882,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12933][Item12933]] | Make filtered characters configurable in JQueryWikiWord. |
 | [[%BUGS%/Item12936][Item12936]] | Tighten up default restrictions on WikiGuest a bit further.  |
 | [[%BUGS%/Item13018][Item13018]] | Switching tabs is slow. |
-| [[%BUGS%/Item13034][Item13034]] | JsonRpcContrib is a default extension in 1.2. |
+| [[%BUGS%/Item13034][Item13034]] | JsonRpcContrib is a default extension in 2.0. |
 | [[%BUGS%/Item13045][Item13045]] | Implement Development.InterwikiPluginMacroExpansionCustomURLs. |
 | [[%BUGS%/Item13051][Item13051]] | Cannot do anything useful with a $pattern that contains a quote ("). |
 | [[%BUGS%/Item13052][Item13052]] | ModPerlEngineContrib: APREQ2_ReadLimit directive (needed for Downloads >64M) missing in documentation. |
