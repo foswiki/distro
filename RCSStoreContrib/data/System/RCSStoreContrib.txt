@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -30,7 +30,7 @@ The RCSStoreContrib implements two versions of RCS based stores:
    It works well when working with small revision histories. However very large histories, such as created with large binary attachments, or topics like !WebStatistics which can have a high volume of changes can be extremely
    slow due to RCSLite loading the revision history into memory.
 
-Each of the RCS implementations have their own strengths, but neither is ideal. Foswiki 1.2 now ships with a new PlainFileStoreContrib. This is the default
+Each of the RCS implementations have their own strengths, but neither is ideal. Foswiki 2.0 now ships with a new PlainFileStoreContrib. This is the default
 for new Foswiki sites, and comes with migration tools to convert away from RCS based stores.
 
 ---+++ !RcsLite

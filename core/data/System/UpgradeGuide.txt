@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1435678839" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1435689678" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
 
-This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2
+This guide covers upgrading from a previous version of Foswiki to Foswiki 2.0
 
 <!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
 
@@ -12,7 +12,7 @@ This guide covers upgrading from a previous version of Foswiki to Foswiki 1.2
 ---++ Overview
 
 Foswiki is a fork from TWiki 4.2.3. (TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.)
-Note that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred. Foswiki 1.2 diverges significantly in some areas.
+Note that newer versions of Foswiki have not directly tracked newer versions of TWiki, and some divergence has occurred. Foswiki 2.0 diverges significantly in some areas.
 
 If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.UpgradingFromOlderTWikiReleases.
 
@@ -64,7 +64,7 @@ The =configure= page mentioned in this document is accessible via your web brows
 
 *Managing caches of static =.js=, =.css= files*:
 
-If you are using Expires tags, (you should be!) it is very important to take the longest expiration time into consideration. Clients will locally cache !JavaScript and CSS until the time expires, unless they clear their cache. *There are significant changes to the !JavaScript and CSS files shipped with Foswiki 1.2. Clients using locally cached data will not operate correctly.*
+If you are using Expires tags, (you should be!) it is very important to take the longest expiration time into consideration. Clients will locally cache !JavaScript and CSS until the time expires, unless they clear their cache. *There are significant changes to the !JavaScript and CSS files shipped with Foswiki 2.0. Clients using locally cached data will not operate correctly.*
 
    * Prior to the upgrade, reduce the Expires tags to a short duration, for example 1 hour.
       * Examine your Apache configuration for statements like: =ExpiresDefault "access plus 11 days"=, change it to =ExpiresDefault "access plus 1 hour"=
@@ -78,7 +78,7 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Download the Foswiki distribution* from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
 
-*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 1.2 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
+*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 2.0 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
 *Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
    * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
@@ -86,12 +86,12 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Check that all the extensions (plugins, contribs, skins) used by your old installation are available with the new release.* Familiarize yourself with any new behaviour that you will have to adapt to or any configuration changes you will have to perform.
 
-   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 1.2.* It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
+   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 2.0.* It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
    * *Review the deprecated jQuery javascript plugins.* The !JQueryPlugin has several changes in available jQuery !JavaScript plugins. Determine if any of these will impact your !JavaScript enabled topics.
 
 *Choose the character encoding to be used in your site.*
    * Previous versions of Foswiki defaulted to =iso-8859-1= encoding (The "Latin Alphabet 1, intended for US and Western European languages).
-   * Foswiki 1.2 defaults to =UTF-8= encoding, which provides better support for international character sets.
+   * Foswiki 2.0 defaults to =UTF-8= encoding, which provides better support for international character sets.
 
 You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
    * Case 1: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
@@ -236,7 +236,7 @@ Make sure the data and pub directories, as well as the files within them, are re
 
 ---+++ Convert empty DENY ACLs to ALLOW * wildcards
 
-By default, empty =DENYTOPIC= rules will be ignored by Foswiki 1.2.  You must change them to the equivalent =ALLOWTOPIC *= rules.  The =tools/convertTopicSettings.pl= utility will scan the Webs & Topics, and will perform several optional conversions on the topics.
+By default, empty =DENYTOPIC= rules will be ignored by Foswiki 2.0.  You must change them to the equivalent =ALLOWTOPIC *= rules.  The =tools/convertTopicSettings.pl= utility will scan the Webs & Topics, and will perform several optional conversions on the topics.
    $ Get help text for =convertTopicSettings=: =perl tools/convertTopicSettings.pl -help=
    $ Scan all webs / topics, report any topics with empty DENY rules: =perl tools/convertTopicSettings.pl=
    $ Replace all empty DENY rules with ALLOW * wildcards: =perl tools/convertTopicSettings.pl -fixdeny -update=

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434479616" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -102,7 +102,7 @@ Foswiki is installed by default supporting standard CGI scripts as well as CLI a
 | Fast CGI | [[FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
 | mod_perl | [[ModPerlEngineContrib]] | supports the apache mod_perl extension |
 %X% *Caution*
-   * Foswiki 1.2 can be "bootstrapped" with either of these accelerators active, however it is often simpler to initially configure Foswiki using CGI.
+   * Foswiki 2.0 can be "bootstrapped" with either of these accelerators active, however it is often simpler to initially configure Foswiki using CGI.
    * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
    * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
    * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
@@ -169,7 +169,7 @@ To change the copyright statement, perform the following steps:
 
 In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit wiki text_ link is available for those who prefer to edit the topic markup language (TML) directly.
 
-There are actually two different _wiki text_ editors available now on Foswiki 1.2:
+There are actually two different _wiki text_ editors available now on Foswiki 2,0:
    $ _NatEdit_, The "Natural Editor": This is the new !JavaScript enabled _wiki text_ editor.  This editor allows the user to directly edit the TML, but provide a !JavaScript assist, to help in learning TML.
    $ _raw editor_:  This is the original _wiki text editor_ included with Foswiki 1.0 and 1.1.  It can be used without !JavaScript, provided that _Security & Authentication_ Validation tab is configured for _embedded_ or _none_.     The _raw editor_ can be enabled per user by overriding the SKIN, and removing =natedit= from the default setting =natedit, pattern= in their user topic:  =   * Set SKIN = pattern=
 

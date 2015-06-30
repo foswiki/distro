@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -371,7 +371,7 @@ $Foswiki::cfg{foobar} = 'some archaic root-level setting';
 #LinkingToConfigure
 ---+++ Linking to =configure=
 
-(As of Foswiki 1.2, it is no longer possible to directly link into Configure tabs.
+(As of Foswiki 2.0, it is no longer possible to directly link into Configure tabs.
 
 
 #MaintainPlugins

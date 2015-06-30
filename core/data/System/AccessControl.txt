@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434713255" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -159,14 +159,14 @@ You can also use an asterisk (*) in any of these settings to match all possible 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also need to be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
 <div class='foswikiHelp'>
-%X% If your site started out life using an earlier version of Foswiki, you might have seen that from Foswiki 1.2 onwards, *the empty DENY has been removed*. This rule has been replaced by =*= wildcards in the ALLOW and DENY rules.
+%X% If your site started out life using an earlier version of Foswiki, you might have seen that from Foswiki 2.0 onwards, *the empty DENY has been removed*. This rule has been replaced by =*= wildcards in the ALLOW and DENY rules.
 
 The previous documentation said:
    * ==Set <nop>ALLOWTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
    * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means the same as not setting it at all.
-As of Foswiki 1.2, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
+As of Foswiki 2.0, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
 
-| | *Before Foswiki 1.2* | *Foswiki 1.2 and newer* |
+| | *Before Foswiki 2.0* | *Foswiki 2.0 and newer* |
 | Allow ALL users | Set DENY to an empty string | Set ALLOW to * |
 | Allow All logged-in users | <p>Set DENY to %USERSWEB%.WikiGuest</p> <p>Leave ALLOW un-set</p> | &lt;no change from before&gt; |
 | Deny all access | Set ALLOW to NobodyGroup | <p>Set ALLOW to NobodyGroup </p> <p>-or- Set DENY to *</p> |

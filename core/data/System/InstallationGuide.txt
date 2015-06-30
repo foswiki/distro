@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435069084" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -129,7 +129,7 @@ In details:
    * For security purposes, it's important to check that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. All three of the approaches described above (Foswiki:Support.ApacheConfigGenerator, the sample =foswiki_httpd_conf.txt= file included in the distribution, or =.htaccess= files) should provide for this but it should be confirmed by using web browser to confirm that direct access to the other directories is blocked.
    * Also for security purposes, be sure to turn off any kind of PHP, Perl, Python, Server Side Includes, or other software execution mechanisms supported by your web server in the =pub= directory. Again, the three approaches described above all provide for this. However, different script execution mechanisms are disabled in different ways so refer see your web server configuration and documentation for more details.
    * The configuration shipped with Foswiki is for Apache 2.2 or earlier. Apache 2.4 has changed the syntax of the configuration file. Ensure that =mod_access_compat= is enabled for backwards compatibility when using Apache 2.4, or use the updated Foswiki:Support.ApacheConfigGenerator24 config generator.
-   * %X% *New with Foswiki 1.2* The =configure= script no longer needs any special protection within the Apache configuration.</div>
+   * %X% *New with Foswiki 2.0* The =configure= script no longer needs any special protection within the Apache configuration.</div>
 
 #ConfigureFoswiki
 ---+++ Step 5: Bootstrap your configuration
@@ -258,7 +258,7 @@ To more easily debug access control issues, you may want to have a regular Foswi
 
 #WaysToProtectConfigure
 ---++++ Options to Protect the Configure Script
-Foswiki 1.2 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
+Foswiki 2.0 has changed how configure is protected. You no longer need to establish special protections within the web server configuration.
 
 There are now several choices for how to protect configure:
    * *Option 1* Restrict configure to members of the !AdminGroup:
@@ -283,7 +283,7 @@ close your browser, you have to have a usable id to run configure or you'll need
 
 %T% *Don't log in with the wikiname* *AdminUser, and never register or set a password for AdminUser*.
 
-There is an optional _internal admin_ (%IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminUser in your installation" else="[[$percntUSERSWEB$percnt.AdminUser]]"}%) which is accessed by logging in with user =admin= and a password set in the configuration. Foswiki 1.2 no longer enables the _internal admin_ by default.
+There is an optional _internal admin_ (%IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminUser in your installation" else="[[$percntUSERSWEB$percnt.AdminUser]]"}%) which is accessed by logging in with user =admin= and a password set in the configuration. Foswiki 2.0 no longer enables the _internal admin_ by default.
    * *Setting password from =bin/configure= interface:* The password can be set in configure, in the "Security and Authentication" -&gt; "Passwords" tab.  Enter the password in plain text.  It will be automatically hashed when saved, and cannot be recovered.
    * *Setting the password from the command line:*  The password can also be set via command line configuration tool, using the following command: <verbatim>
 tools/configure -save -set {Password}='adminpass'</verbatim>
@@ -319,7 +319,7 @@ Note that the password databases for both of these authentication mechanisms are
 #ConfiguringFoswikiManually
 ---+++ Configuring Foswiki manually (without using the =configure= page)
 
-Foswiki 1.2 includes a shell based configuration tool that can be run from a
+Foswiki 2.0 includes a shell based configuration tool that can be run from a
 server command-line login.  It will bootstrap the configuration, and prompt
 for settings as required.   Here is an example of using it for an interactive
 command line bootstrap:

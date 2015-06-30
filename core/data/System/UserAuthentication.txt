@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -241,12 +241,12 @@ when the session was initially created.
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
 There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab.
 
-This option is enabled by default in Foswiki 1.2.  It should be disabled if mobile users encounter issues due to frequent IP address changes.  It is of
+This option is enabled by default in Foswiki 2.0.  It should be disabled if mobile users encounter issues due to frequent IP address changes.  It is of
 limited value if the users access Foswiki via a proxy or other device that causes multiple users to share the same IP address.
 
 ---++++ Optional Sessions for Guest users
 
-_EXPERIMENTAL feature:_ In Foswiki version 1.2, sessions can be suppressed for guest users.   This is generally safe if guests have no ability to update.
+_EXPERIMENTAL feature:_ In Foswiki version 2.0, sessions can be suppressed for guest users.   This is generally safe if guests have no ability to update.
 However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, (See VarSESSIONVAR) then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab for more information.
 
