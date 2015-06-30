@@ -746,6 +746,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13460][Item13460]] | JQICON FontAwesome icons are not working. |
 | [[%BUGS%/Item13463][Item13463]] | TOC is not respecting ho tags inserted by INCLUDE. |
 | [[%BUGS%/Item13474][Item13474]] | CommentPlugin fails with Wide character print error for utf-8 comments. |
+| [[%BUGS%/Item13478][Item13478]] | Multiple issues with viewfile and utf-8 topics and attachments. |
 
 ---++ Enhancements
 
