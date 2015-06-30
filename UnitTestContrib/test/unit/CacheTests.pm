@@ -312,7 +312,7 @@ sub verify_utf8_topic {
     $meta->text($topic);
     $meta->save();
 
-    $this->check( Encode::encode_utf8("/$web/$topic") );
+    $this->check("/$web/$topic");
 }
 
 1;
