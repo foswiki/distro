@@ -349,7 +349,7 @@ Convert inline topic settings into META settings.
  tools/convertTopicSettings.pl [-update] [-fixdeny] [-convert] [-all] [-verbose] [-debug] [WEB ...]
 
 This tool should be run after a Foswiki site is upgraded to
-Foswiki 1.2.0 or newer.  It can also be used on a Foswik 1.1.x
+Foswiki 2.0 or newer.  It can also be used on a Foswik 1.1.x
 installation if the PatchItem12849Contrib is installed
 
 It performs several tasks, depending up on the selected options:

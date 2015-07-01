@@ -38,12 +38,11 @@ use Getopt::Long ();
 use Pod::Usage   ();
 use File::Spec   ();
 use JSON         ();
-use Encode       ();
 
 use version;
 our $VERSION = version->declare("v1.0");
 
-our $json = JSON->new->allow_nonref->convert_blessed(1);
+our $json = JSON->new->utf8(1)->allow_nonref->convert_blessed(1);
 our $session;
 
 our %control = (
@@ -53,64 +52,99 @@ our %control = (
     xtopic     => [], # List of topics to exclude
     latest     => [], # List of topics for which only the latest is to be copied
     quiet      => 0,  # shhhh
+    debug      => 0,  # OMG
     check_only => 0,  # If true, don't copy, just check
 );
 
-# Charset used on this site (sender and receiver may differ)
-our $site_charset;
+sub debug {
+    print STDERR "$Foswiki::VERSION: ", @_, "\n" if $control{debug};
+}
 
 #######################################################################
 # Sender
 
 sub announce {
-    print shift . "\n"
-      unless $control{quiet};
+    print @_, "\n" unless $control{quiet} && !$control{debug};
 }
 
-# Decode parameters from the site charset. Recurses into arrays
-# and hashes, and maps references to scalars to the undecoded scalar
-# value.
-sub decode_cs {
-    my $item = shift;
+# Convert a structure to/from the site charset. Recurses into arrays
+# and hashes. To support binary data, it maps references to scalars
+# to the *unconverted* scalar. Only required for Foswiki < 2
+# $item - the thing to convert
+# $action='from_unicode' - will convert a unicode structure to {Site}{CharSet}
+# $action='to_unicode' - will convert a {Site}{CharSet} structure to unicode
+# return the converted structure
+sub convert {
+    my ( $item, $action ) = @_;
+
     my $res;
     if ( ref($item) eq 'HASH' ) {
         $res = {};
         while ( my ( $k, $v ) = each %$item ) {
-            $res->{ decode_cs($k) } = decode_cs($v);
+            $res->{ convert( $k, $action ) } = convert( $v, $action );
         }
     }
     elsif ( ref($item) eq 'ARRAY' ) {
         $res = [];
         foreach my $e (@$item) {
-            push( @$res, decode_cs($e) );
+            push( @$res, convert( $e, $action ) );
         }
     }
-    elsif ( ref($item) ) {
+    elsif ( ref($item) eq 'SCALAR' ) {
+
+        # reference to scalar
         $res = $$item;
     }
-    elsif ( !$Foswiki::UNICODE ) {
-        eval {
-            $res = Encode::decode( $site_charset, $item, Encode::FB_CROAK );
-        };
-        Carp::confess("$site_charset $@") if $@;
+    elsif ( ref($item) ) {
+
+        # CODE, REF, GLOB, LVALUE, FORMAT, IO, VSTRING, Regexp
+        Carp::confess "Don't know how to convert a " . ref($item);
     }
     else {
-        $res = $item;
+        my $site_charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
+        eval {
+            require Encode;
+            if ( $action eq 'from_unicode' ) {
+
+                # Encoding in a site charset that may not support the
+                # source character. Map to HTML entities, as that is the
+                # most appropriate for .txt
+                $res =
+                  Encode::encode( $site_charset, $item, Encode::FB_HTMLCREF );
+            }
+            else {
+                # $action eq 'to_unicode'
+                $res = Encode::decode( $site_charset, $item, Encode::FB_CROAK );
+            }
+        };
+        Carp::confess("$site_charset $@") if $@;
     }
     return $res;
 }
 
-# RPC call to a function in the receiver. Scalar parameters are
-# unencoded from the site charset. Other parameters are left
-# untouched.
+# RPC to a function in the receiver.
 sub call {
-    my $p         = decode_cs( \@_ );
+    my $p = \@_;
+
+    # Decode from {Site}{CharSet} to unicode, if necessary
+    $p = convert( $p, 'to_unicode' ) unless $Foswiki::UNICODE;
+
+    # Encode to utf8-encoded JSON
     my $json_text = $json->encode($p);
-    print TO_B Encode::encode_utf8($json_text) . "\n";
+
+    print TO_B "$json_text\n";
+
     $/ = "\n";
     my $response = <FROM_B>;
     return undef unless defined $response;
-    return $json->decode($response);
+
+    # Response is utf8-encoded JSON
+    $response = $json->decode($response);
+
+    # Convert to {Site}{CharSet}, if necessary
+    $response = convert( $response, 'from_unicode' ) unless $Foswiki::UNICODE;
+
+    return $response;
 }
 
 # Copy all matched webs. This is all webs in the install, filtered
@@ -273,28 +307,34 @@ sub copy_topic {
 
 # Dispatch a function call in the receiver
 sub dispatch {
-    my $json_text = shift;
-    my $data      = $json->decode($json_text);
+    my $message = shift;    # a utf8-encoded JSON string
 
+    $message =~ /^(.*)$/;   # untaint
+    my $data = $json->decode($1);
+
+    # $data is a structure containing unicode strings
     return 0 unless $data;
-    my $fn = shift(@$data);
-    my @p;
-    eval {
-        @p = map {
-            ref($_)
-              ? $_
-              : Encode::encode( $site_charset, $_, Encode::FB_HTMLCREF )
-        } @$data;
-    };
-    if ($@) {
-    }
+
+    # Convert to {Site}{Charset}, if necessary
+    $data = convert( $data, 'from_unicode' ) unless $Foswiki::UNICODE;
+    return 0 unless $data;
+
+    my $fn = shift(@$data);    # function name
+
     no strict 'refs';
-    my $response = &$fn(@p);
+    my $response = &$fn(@$data);
     use strict 'refs';
     $response = 0 unless defined $response;
 
-    #print STDERR "$fn(".join(',', @$data).") -> $response\n";
-    print TO_A $json->encode($response) . "\n";
+    # Convert response to unicode (if necessary)
+    $response = convert( $response, 'to_unicode' ) if $Foswiki::UNICODE;
+
+    $response = $json->encode($response);
+    debug "$fn(", join( ', ', @$data ), ") -> $response";
+
+    # JSON encode and print
+    print TO_A "$response\n";
+
     return 1;
 }
 
@@ -359,7 +399,7 @@ sub saveTopicRev {
         dontlog          => 1,
         minor            => 1,
 
-        # Don't call handlers (works on 1.2+ only)
+        # Don't call handlers (works on 2+ only)
         nohandlers => 1
     );
 }
@@ -381,7 +421,7 @@ sub saveAttachmentRev {
         forcedate     => $info->{date},
         stream        => $fh,
 
-        # Don't call handlers (works on 1.2+ only)
+        # Don't call handlers (works on 2+ only)
         nohandlers => 1
     );
 }
@@ -435,6 +475,7 @@ Getopt::Long::GetOptions(
     'xtopic=s@' => $control{xtopic},
     'latest=s@' => $control{latest},
     'quietly'   => sub { $control{quiet} = 1 },
+    'debug'     => sub { $control{debug} = 1 },
     'check'     => sub { $control{check_only} = 1 },
     'help'      => sub {
         Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
@@ -490,11 +531,6 @@ if ( my $pid = fork() ) {
 
     $session = Foswiki->new();
 
-    $site_charset =
-      $Foswiki::UNICODE
-      ? 'utf-8'
-      : ( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1' );
-
     copy_webs();
 
     print TO_B "0\n";
@@ -521,14 +557,9 @@ else {
 
     $session = Foswiki->new();
 
-    $site_charset =
-      $Foswiki::UNICODE
-      ? 'utf-8'
-      : ( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1' );
-
     $/ = "\n";
     while ( my $message = <FROM_A> ) {
-        last unless dispatch( Encode::decode_utf8($message) );
+        last unless dispatch($message);
         $/ = "\n";
     }
 
@@ -562,7 +593,7 @@ It is assumed that:
     necessary for reading/writing data to both installs (recommended that you
     run it as the web user e.g. www-data)
 
-=item B<4.> If the target installation is older than 1.2, then any plugins
+=item B<4.> If the target installation is older than Foswiki 2, then any plugins
     that implement before- or after- Save/Edit handlers have been disabled.
 
 =back
@@ -606,6 +637,8 @@ be reported but not copied.
 =head1 OPTIONS
 
 =head2 Selecting Webs and Topics
+
+=over
 
 =item B<--iweb> web
 
@@ -651,11 +684,19 @@ be reported but not copied.
     any other file that has many auto-generated versions that don't
     really need to be kept.)
 
+=back
+
 =head2 Miscellaneous
+
+=over
 
 =item B<--quietly>
 
     Run quietly, without printing progress messages
+
+=item B<--debug>
+
+    Print extra debugging information (very noisy!)
 
 =item B<--check>
 
@@ -671,18 +712,20 @@ be reported but not copied.
 
     Outputs the version number of this script.
 
+=back
+
 =head1 CHANGING STORES
 
 The main purpose of this script is to support transferring Foswiki database
 content between different store implementations. You might use it when
 when transferring from an existing RCS-based store to a new PlainFile based
 store, for example. We will use the example of upgrading an existing
-Foswiki-1.1.9 installation (which uses an RCS store) to a new Foswiki-1.2.0
+Foswiki-1.1.9 installation (which uses an RCS store) to a new Foswiki-2.0.0
 installation (which uses PlainFile).
 
 First, set up your two installations, so that they do not share any data
 areas. You don't have to make them web-accessible. Let's say they are in
-'/var/www/foswiki/Foswiki-1.1.9/bin' and '/var/www/foswiki/Foswiki-1.2.0/bin'.
+'/var/www/foswiki/Foswiki-1.1.9/bin' and '/var/www/foswiki/Foswiki-2.0.0/bin'.
 
 Now, decide what webs need to be transferred. As a general guide, you should
 *not* copy the System web, otherwise you may overwrite topics
@@ -695,4 +738,3 @@ Note that only topics and attachments that do not exist in the destination
 system can be copied this way. If you want to merge revisions in different
 installations together, you will have to do that manually.
 
-=back
