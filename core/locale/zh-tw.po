@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-30 17:28+0200\n"
+"PO-Revision-Date: 2015-07-01 09:07+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -3210,7 +3210,7 @@ msgstr "自由且開源的 Wiki。"
 
 #: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
-msgstr "啟動碼 %1 不正確。"
+msgstr "啟動碼 %1 無效。"
 
 #: core/templates/moveattachment.tmpl:48
 msgid "The attachment and any history will be moved to the new topic."
@@ -3232,7 +3232,7 @@ msgstr "若目標主題中已有相同檔名 '%FILENAME%' 的附件，本附件�
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
-msgstr "攻擊者試著利用您的權限，像是網站管理者權限。"
+msgstr "攻擊者試著利用您的權限取得東西，像是本站的管理者權限。"
 
 #: core/templates/messages.tmpl:588
 msgid ""
