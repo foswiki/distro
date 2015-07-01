@@ -1,0 +1,2 @@
+die "Not compatible with Foswiki 1.1.x" if ($Foswiki::VERSION < 1.999);
+return 'Installation continuing';
