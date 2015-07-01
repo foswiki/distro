@@ -498,7 +498,8 @@ HERE
         $reporter->WARN(
 "Don't forget to save your configuration to complete installation of "
               . join( ', ', keys %plugins ) )
-          if ( scalar( keys %{ $reporter->changes() } ) );
+          if ( $reporter->changes()
+            && scalar( keys %{ $reporter->changes() } ) );
     }
 
     $reporter->NOTE( "> Installation "
