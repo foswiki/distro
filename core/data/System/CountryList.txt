@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435754086" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! Country list
 
@@ -7,7 +7,7 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | *Name* |
 | |
 | Afghanistan |
-| Åland Islands |
+| &Aring;land Islands |
 | Albania |
 | Algeria |
 | American Samoa |
@@ -60,10 +60,10 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Congo, the Democratic Republic of the |
 | Cook Islands |
 | Costa Rica |
-| Côte d'Ivoire |
+| C&ocirc;te d'Ivoire |
 | Croatia |
 | Cuba |
-| Curaçao |
+| Cura&ccedil;ao |
 | Cyprus |
 | Czech Republic |
 | Denmark |
@@ -186,11 +186,11 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Portugal |
 | Puerto Rico |
 | Qatar |
-| Réunion |
+| R&eacute;union |
 | Romania |
 | Russian Federation |
 | Rwanda |
-| Saint Barthélemy |
+| Saint Barth&eacute;lemy |
 | Saint Helena, Ascension and Tristan da Cunha |
 | Saint Kitts and Nevis |
 | Saint Lucia |

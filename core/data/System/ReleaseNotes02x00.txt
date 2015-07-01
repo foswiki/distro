@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435754086" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0 RC 1
 
@@ -454,7 +454,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item5103][Item5103]] | TMCE replaces non-breaking space with normal space. |
 | [[%BUGS%/Item5133][Item5133]] | Can't save multibyte char names. |
 | [[%BUGS%/Item5437][Item5437]] | UTF-8 fixes for Foswiki 2.0 (was Foswiki 1.1 but deferred, was Foswiki 1.0 but deferred, was T4.2 but deferred). |
-| [[%BUGS%/Item5566][Item5566]] | WikiWords such as VirksomhedskulturÆrø does not work in UTF-8. |
+| [[%BUGS%/Item5566][Item5566]] | WikiWords do not work in UTF-8. |
 | [[%BUGS%/Item5661][Item5661]] | If form have cyrillic chars in name column can not save data for this row.  |
 | [[%BUGS%/Item5897][Item5897]] | If COMMENT specifies target and target is missing, content disappears. |
 | [[%BUGS%/Item6025][Item6025]] | Twiki  encode topic twice to UTF8 for mailresetpassword.tmpl and changeform.tmpl. |
@@ -583,7 +583,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12411][Item12411]] | =bin/rest= validates the request even if validation disabled in core. |
 | [[%BUGS%/Item12438][Item12438]] | Trunk statistics script only processes the Main web by default. |
 | [[%BUGS%/Item12447][Item12447]] | Handle international topic names. |
-| [[%BUGS%/Item12450][Item12450]] | Remove T®wiki ref in installation instructions. |
+| [[%BUGS%/Item12450][Item12450]] | Remove old project reference in installation instructions. |
 | [[%BUGS%/Item12472][Item12472]] | $loadedRev undefined in VC::Store for RcsLite. |
 | [[%BUGS%/Item12475][Item12475]] | Move =lib/CPAN/lib= modules to a separate CpanContrib. |
 | [[%BUGS%/Item12477][Item12477]] | Spurious entries being added to .changes. |
