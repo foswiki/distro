@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435757231" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -128,7 +128,7 @@ Put the section of the pattern that matches the text you want to keep in parenth
 
 Do not use =.*= _inside_ the parentheses, e.g. =$extract(.*foo(.*)bar.*)= does not work. You can however use =.*?= thus =$extract(.*foo(.*?)bar.*)=
 
-Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag. =$extract= will automatically escape ="&lt;&gt;&amp;%$= characters so that the string matched by the pattern doesn't break any macros that are wrapped around it. =$pattern= does not do this, and should be used with care. =$extract= is only available in Foswiki 1.2 and later.
+Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag. =$extract= will automatically escape ="&lt;&gt;&amp;%$= characters so that the string matched by the pattern doesn't break any macros that are wrapped around it. =$pattern= does not do this, and should be used with care. =$extract= is only available in Foswiki 2.0 and later.
 
 ---++ Examples
 

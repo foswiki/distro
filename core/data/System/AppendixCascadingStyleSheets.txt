@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435757231" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -6,7 +6,7 @@
 Listing of CSS class names emitted from Foswiki core code and standard extensions.
 
 <div class='foswikiNotification'>
-With Foswiki 1.2 a number of classes have been deprecated. These are marked DEPRECATED below.
+With Foswiki 2.0 a number of classes have been deprecated. These are marked DEPRECATED below.
 </div>
 
 %TOC%
@@ -169,9 +169,9 @@ See also: [[#HtmlFormElements][HTML form elements]]
 ---+++ Other elements
 <sticky>
 %TABLE{databg="#fff"}%
-|=.foswikiButtonGroup=              | Group of buttons. Introduced with Foswiki 1.2. |
-|=.foswikiToolbar=                  | Container for controls. Introduced with Foswiki 1.2. |
-|=.foswikiToolbarHeader=            | Header in =foswikiToolbar=. Introduced with Foswiki 1.2. |
+|=.foswikiButtonGroup=              | Group of buttons. Introduced with Foswiki 2.0. |
+|=.foswikiToolbar=                  | Container for controls. Introduced with Foswiki 2.0. |
+|=.foswikiToolbarHeader=            | Header in =foswikiToolbar=. Introduced with Foswiki 2.0. |
 |=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |
 |=.foswikiAccessKey=                | Access key demarkation |
 |=.foswikiSeparator=                | Separator element between sequential elements; usually a pipe character |
@@ -206,7 +206,7 @@ See also: [[#HtmlFormElements][HTML form elements]]
 <sticky>
 %TABLE{databg="#fff"}%
 Markers to invoke behaviour with unobtrusive !JavaScript.
-|=.foswikiFocus=                         | Behaviour marker so a field can be given input focus. As of Foswiki 1.2 this also requires to add =%<nop>JQREQUIRE{"focus"}%= to the page. |
+|=.foswikiFocus=                         | Behaviour marker so a field can be given input focus. As of Foswiki 2.0 this also requires to add =%<nop>JQREQUIRE{"focus"}%= to the page. |
 |=.foswikiChangeFormButton=              | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |
 |=input[type="text"].foswikiDefaultText= | Behaviour marker so the field will contain default text that disappears when clicked into. The visual style is set with =foswikiInputFieldBeforeFocus= and =foswikiInputFieldFocus=. The default text is provided by the =title= attribute of the form field. |
