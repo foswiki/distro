@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435757868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -126,11 +126,11 @@ Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to 
 <!-- %JQREQUIRE{"chili"}% -->
 
 <div class="foswikiHelp"> *Deprecation warning*.  The setting used in
-this example, EDITBOXHEIGHT, is being deprecated and will be remove from
-Foswiki 1.2.  Note that if the edit box size is changed using the javascript
+this example, EDITBOXHEIGHT, is being deprecated and will be removed from
+Foswiki 2.0  Note that if the edit box size is changed using the javascript
 controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
 </div>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1434484983" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1435757868" size="52064" user="ProjectContributor" version="1"}%
 
