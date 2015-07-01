@@ -104,7 +104,7 @@ msgstr "%1 är en lista över andra Foswiki-användare"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 är nu registrerad med e-postadressen %2"
 
-#: core/templates/messages.tmpl:332
+#: core/templates/messages.tmpl:331
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -138,11 +138,11 @@ msgstr "%1 är inte ett tillåtet namn på en ny avdelning"
 msgid "%1 is currently logged in"
 msgstr "%1 är inloggad just nu"
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:299
 msgid "%1 is currently set to %2"
 msgstr "%1 är för närvarande satt till %2"
 
-#: core/templates/messages.tmpl:330
+#: core/templates/messages.tmpl:329
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 redigerar [[%2][%3]] just nu."
 
@@ -162,7 +162,7 @@ msgstr "%1 är inte ett giltigt värde för parametern %2"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 är standardsidan för borttagna bifogade filer."
 
-#: core/templates/messages.tmpl:339
+#: core/templates/messages.tmpl:338
 msgid "%1 may still be editing %2."
 msgstr "%1 redigerar eventuellt fortfarande %2."
 
@@ -200,7 +200,7 @@ msgstr "%1 för att anpassa inställningar specifika för en avdelning"
 msgid "%1 to start working on the new web"
 msgstr "%1 för att börja arbeta med den nya avdelningen"
 
-#: core/templates/messages.tmpl:449 core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:448 core/templates/messages.tmpl:461
 msgid "%1 topic does not exist"
 msgstr "sidan %1 finns inte"
 
@@ -310,7 +310,7 @@ msgstr "(ta bort bifogad fil)"
 msgid "(delete)"
 msgstr "(ta bort)"
 
-#: core/templates/messages.tmpl:509
+#: core/templates/messages.tmpl:508
 #, fuzzy
 msgid "(disabled)"
 msgstr "Redigera tabell"
@@ -582,7 +582,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Av säkerhetsskäl läggs ändelsen =.txt= till några filnamn"
 
-#: core/templates/messages.tmpl:419 core/templates/messages.tmpl:430
+#: core/templates/messages.tmpl:418 core/templates/messages.tmpl:429
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -603,7 +603,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Ett e-postmeddelande med bekräftelse har sänts till %1"
 
-#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:422 core/templates/messages.tmpl:433
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -613,7 +613,7 @@ msgstr ""
 "avdelningens namn inte är felstavat på föregående sida och rätta länken vid "
 "behov."
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:376
 #, fuzzy
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
@@ -650,7 +650,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Åtkomst nekad"
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:389
 msgid "Access check on %1 failed"
 msgstr "Åtkomstkontroll till %1 misslyckades"
 
@@ -668,7 +668,7 @@ msgstr "Tangentbordsgenvägar:"
 msgid "Action"
 msgstr "Åtgärd"
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:391
 #, fuzzy
 msgid "Action %1: %2 by user %3."
 msgstr "Åtgärd %1: %2."
@@ -857,7 +857,7 @@ msgstr "Bifoga en ny fil"
 msgid "Attachment"
 msgstr "Bifogad fil"
 
-#: core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:468
 msgid "Attachment '%1' does not exist"
 msgstr "Den bifogade filen '%1' finns inte"
 
@@ -1004,11 +1004,11 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:373 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:372 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
 msgstr "Hittar inte användaren %1"
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:374
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Hittar inte e-postadressen för %1 (nödvändig för lösenordsnollställning)"
@@ -1171,7 +1171,7 @@ msgstr "Senaste ändringar"
 msgid "Changes from r%1 to r%2"
 msgstr "Ändringar från r%1 till r%2"
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:295
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr "Kontrollera din konfiguration för {TemplateDir} och {TemplatePath}."
 
@@ -1286,10 +1286,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:396 core/templates/messages.tmpl:403
-#: core/templates/messages.tmpl:408 core/templates/messages.tmpl:445
-#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:465
-#: core/templates/messages.tmpl:474 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:395 core/templates/messages.tmpl:402
+#: core/templates/messages.tmpl:407 core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:457 core/templates/messages.tmpl:464
+#: core/templates/messages.tmpl:473 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Om du har frågor så kontakta %1."
 
@@ -1305,7 +1305,7 @@ msgstr ""
 msgid "Context"
 msgstr "Kontext:"
 
-#: core/templates/messages.tmpl:288
+#: core/templates/messages.tmpl:287
 msgid "Continue and try to rename web?"
 msgstr "Fortsätt och försök döpa om avdelningen?"
 
@@ -1357,11 +1357,11 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Kunde inte skapa den nya avdelningen %1"
 
-#: core/templates/messages.tmpl:294
+#: core/templates/messages.tmpl:293
 msgid "Could not find template"
 msgstr "Kunde inte hitta mallen"
 
-#: core/templates/messages.tmpl:383
+#: core/templates/messages.tmpl:382
 msgid "Could not perform search. Error was: %1"
 msgstr "Kunde inte utföra sökningen. Felet var: %1"
 
@@ -1427,7 +1427,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Skapa en personlig sidomeny"
 
-#: core/templates/messages.tmpl:443
+#: core/templates/messages.tmpl:442
 msgid "Create the topic"
 msgstr "Skapa sidan"
 
@@ -1611,7 +1611,7 @@ msgstr ""
 "Vid flytt av den bifogade filen %1 till %2 upptäcktes ett fel. Informera din "
 "%3-administratör."
 
-#: core/templates/messages.tmpl:264 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:263 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1623,27 +1623,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-postadress ändrad!"
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:476
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:478
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:480
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:486
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:482
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:484
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1719,7 +1719,7 @@ msgstr ""
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
 
-#: core/templates/messages.tmpl:253
+#: core/templates/messages.tmpl:252
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1773,7 +1773,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "Ta bort användaren från gruppen/grupperna %1 först."
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:496
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1785,15 +1785,15 @@ msgstr "Fel vid registrering av ny användare"
 msgid "Error registering user %1"
 msgstr "Fel vid registrering av användaren %1"
 
-#: core/templates/messages.tmpl:263
+#: core/templates/messages.tmpl:262
 msgid "Error saving topic"
 msgstr "Fel vid försök att spara sidan"
 
-#: core/templates/messages.tmpl:353
+#: core/templates/messages.tmpl:352
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Fel: Den bifogade filen på sidan %1, %2 finns inte"
 
-#: core/templates/messages.tmpl:357
+#: core/templates/messages.tmpl:356
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1801,7 +1801,7 @@ msgstr ""
 "Fel: Innehållstyp (content type) som inte stöds: %1 (Måste vara =text/html=, "
 "=text/plain= eller =text/css=)"
 
-#: core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:354
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Fel: Protokoll som inte stöds (måste vara 'http://domän/...')"
 
@@ -1848,7 +1848,7 @@ msgstr ""
 msgid "Failed to add user: "
 msgstr ""
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:378
 msgid "Failed to include URL %1"
 msgstr "Kunde inte inkludera URLen %1"
 
@@ -1995,8 +1995,8 @@ msgstr "Bli informerad om ändringar i den här sökningen"
 msgid "Globe"
 msgstr "Stäng"
 
-#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:324
-#: core/templates/messages.tmpl:472 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:323
+#: core/templates/messages.tmpl:471 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Gå tillbaka"
 
@@ -2007,11 +2007,11 @@ msgid ""
 "saving again"
 msgstr "Gå tillbaka i din webbläsare och fyll i alla obligatoriska fält."
 
-#: core/templates/messages.tmpl:270 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:269 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "Gå tillbaka i din webbläsare och spara dina ändringar lokalt."
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:493
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2194,7 +2194,7 @@ msgid ""
 "users to this site using %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:298
+#: core/templates/messages.tmpl:297
 #, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
@@ -2212,7 +2212,7 @@ msgstr "Om denna rad inte syns, se _uppgraderingsavsnittet_ nedanför"
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Skapa sidan om den inte finns, eller kontrollera det finns fel på den."
 
-#: core/templates/messages.tmpl:315
+#: core/templates/messages.tmpl:314
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -2225,7 +2225,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Om du är osäker på vad detta betyder, läs:"
 
-#: core/templates/messages.tmpl:421 core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:420 core/templates/messages.tmpl:431
 msgid "If you came here by clicking on a question mark link"
 msgstr "Om du kom hit genom att klicka på en frågetecken-länk"
 
@@ -2269,7 +2269,7 @@ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Om du inte valt ett lösenord ännu eller vill nollställa det så gå till: %1"
 
-#: core/templates/messages.tmpl:313
+#: core/templates/messages.tmpl:312
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -2277,7 +2277,7 @@ msgstr ""
 "Om du mottog en länk till denna sida per e-post eller bara vill titta på "
 "sidan så  [[%1][avbryt sparandet]] och gå till %2."
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:441
 msgid "If you want to create the topic"
 msgstr "Om du vill skapa sidan"
 
@@ -2287,7 +2287,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:436
 msgid "If you would like to create this web"
 msgstr "Om du vill skapa denna avdelning"
 
@@ -2376,7 +2376,7 @@ msgstr "Felaktigt %1.WikiNames:"
 msgid "Incorrect [[%1][username]]"
 msgstr "Felaktigt %1.WikiNames:"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:310
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Felaktiga parametrar till skriptet =%1="
 
@@ -2462,14 +2462,6 @@ msgstr ""
 msgid "Insert your signature"
 msgstr ""
 
-#: core/templates/messages.tmpl:246
-msgid ""
-"International (8-bit) characters are removed (replaced by US-ASCII "
-"equivalents for Latin-1)"
-msgstr ""
-"Internationella (8-bitars) tecken tas bort (ersätts med motsvarigheter i US-"
-"ASCII för Latin-1)"
-
 #: core/templates/registermessages.tmpl:79
 msgid "Invalid Activation Code"
 msgstr "Felaktig aktiveringskod"
@@ -2491,7 +2483,7 @@ msgstr "Ogiltig e-postadress"
 msgid "Invalid topic name."
 msgstr "Enbart sidnamn"
 
-#: core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:333
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2708,7 +2700,7 @@ msgstr "Fält som saknas"
 msgid "Missing action command"
 msgstr "Tangentbordskommandon som saknas"
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:414
 msgid "Missing or illegal web name"
 msgstr ""
 
@@ -2938,7 +2930,7 @@ msgstr "Lägg till användare"
 msgid "No pending registration was found for the verification code %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:351
+#: core/templates/messages.tmpl:350
 msgid "No permission to view %1"
 msgstr "Inga rättigheter att se %1"
 
@@ -2956,7 +2948,7 @@ msgstr "Flytta sida till avdelning:"
 msgid "No topics to update."
 msgstr "Flytta sida till avdelning:"
 
-#: core/templates/messages.tmpl:320 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:319 core/templates/registermessages.tmpl:399
 msgid "No username specified"
 msgstr ""
 
@@ -3079,7 +3071,7 @@ msgstr "När du registrerat dig kan du logga in med ditt %1 och lösenord."
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Bara medlemmar av %1 får göra detta."
 
-#: core/templates/messages.tmpl:406
+#: core/templates/messages.tmpl:405
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Bara medlemmar av %1 får göra detta."
 
@@ -3272,7 +3264,7 @@ msgstr "Ange administratörsanvändarnamn och lösenord"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "Gå _bakåt_ i webbläsaren och välj ett nytt namn."
 
-#: core/templates/messages.tmpl:254
+#: core/templates/messages.tmpl:253
 msgid "Please go back in your browser and check again."
 msgstr "Gå tillbaka i webbläsaren och försök igen."
 
@@ -3316,7 +3308,7 @@ msgstr ""
 "Kontrollera att du stavat %1 korrekt och försök igen. Om du kör fast så "
 "skicka e-post till %2."
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:490
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3337,11 +3329,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:506
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:498
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3433,7 +3425,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Läs mer"
 
-#: core/data/Sandbox/WebHome.txt:52
+#: core/data/Sandbox/WebHome.txt:53
 msgid "Recently changed topics"
 msgstr "Senast ändrade sidor"
 
@@ -3536,7 +3528,7 @@ msgstr "Relaterade sidor"
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:398 core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:397 core/templates/messages.tmpl:410
 msgid "Related topics:"
 msgstr "Relaterade sidor:"
 
@@ -4242,7 +4234,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:454
 msgid "Template %1 does not exist"
 msgstr "Mallen %1 finns inte"
 
@@ -4300,7 +4292,7 @@ msgstr "Användaren har redan aktiverats"
 msgid "The %1 topic already exists"
 msgstr "Sidan %1 finns redan"
 
-#: core/templates/messages.tmpl:429
+#: core/templates/messages.tmpl:428
 msgid "The %1 web does not exist"
 msgstr "Avdelningen %1 finns inte"
 
@@ -4331,7 +4323,7 @@ msgstr "Avdelningen %1 finns inte"
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "Avdelningen %1 på Foswiki - den fria wikin baserad på öppen källkod."
 
-#: core/templates/messages.tmpl:307
+#: core/templates/messages.tmpl:306
 msgid "The =%1= script can only be called with POST method."
 msgstr "Skriptet =%1= kan endast kallas med metoden POST."
 
@@ -4349,7 +4341,7 @@ msgstr "Administratören har stängt av registrering av nya användare."
 msgid "The Free and Open Source Wiki."
 msgstr "Avdelningen %1 på Foswiki - den fria wikin baserad på öppen källkod."
 
-#: core/templates/messages.tmpl:417
+#: core/templates/messages.tmpl:416
 #, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
@@ -4405,7 +4397,7 @@ msgid ""
 "the site."
 msgstr ""
 
-#: core/templates/messages.tmpl:343
+#: core/templates/messages.tmpl:342
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -4460,7 +4452,7 @@ msgid ""
 "used internally by Foswiki."
 msgstr ""
 
-#: core/templates/messages.tmpl:371
+#: core/templates/messages.tmpl:370
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Posten för användarnamnet %1 fanns inte i lösenordsystemet."
 
@@ -4468,17 +4460,17 @@ msgstr "Posten för användarnamnet %1 fanns inte i lösenordsystemet."
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Filen laddades upp och bifogades till sidan %1."
 
-#: core/templates/messages.tmpl:278
+#: core/templates/messages.tmpl:277
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "Följande sidor är låsta eftersom de redigeras och kan inte flyttas:"
 
-#: core/templates/messages.tmpl:284
+#: core/templates/messages.tmpl:283
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "Följande sidor refererar till sidor på denna avdelning med håller på att "
 "redigeras:"
 
-#: core/templates/messages.tmpl:281
+#: core/templates/messages.tmpl:280
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -4490,7 +4482,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "Formuläret skall definieras på sidan %1"
 
-#: core/templates/messages.tmpl:341
+#: core/templates/messages.tmpl:340
 msgid "The lease on this topic expired %1 ago."
 msgstr "Låset på denna sida gick ut för %1 sedan."
 
@@ -4577,7 +4569,7 @@ msgid ""
 "request to your server, using your browser and your identity."
 msgstr ""
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:273
 msgid "There are problems with renaming this web:"
 msgstr "Det finns problem med att döpa om denna avdelning:"
 
@@ -4754,7 +4746,7 @@ msgstr "På denna webbplats måste lösenord vara minst %1 tecken långa"
 msgid "This system is configured to use usernames."
 msgstr "%1 är inte ett giltigt formulärnamn"
 
-#: core/templates/messages.tmpl:385
+#: core/templates/messages.tmpl:384
 msgid "This system is not configured to support user login. Return to [[%1]]."
 msgstr ""
 
@@ -4818,7 +4810,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "För att ändå redigera sidan, klicka "
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:393
 msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
@@ -4844,7 +4836,7 @@ msgstr "Till avdelning:"
 msgid "To web:"
 msgstr "Till avdelning:"
 
-#: core/templates/messages.tmpl:490
+#: core/templates/messages.tmpl:489
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -5000,7 +4992,7 @@ msgstr "Okänt användarnamn och/eller lösenord"
 msgid "Unrecognized action command %1"
 msgstr "Okänt tangentbordskommando %1"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:400
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5074,11 +5066,11 @@ msgstr "Uppdatera den bifogade filen %1 på sidan %2"
 msgid "Upload up to %1 KB."
 msgstr "Filer upp till %1 kB kan laddas upp."
 
-#: core/templates/messages.tmpl:259
+#: core/templates/messages.tmpl:258
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Den uppladdade filen %1 överskrider gränsen på %2 kB"
 
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:257
 msgid "Uploaded file is too big"
 msgstr "Den uppladdade filen är för stor"
 
@@ -5278,28 +5270,28 @@ msgstr "Visa källtext utan formatering"
 msgid "Warning! Confirmation required"
 msgstr "Varning! Bekräftelse nödvändig"
 
-#: core/templates/messages.tmpl:365
+#: core/templates/messages.tmpl:364
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Varning: Kan inte INKLUDERA sidan %1 igen eftersom sidan är redan "
 "inkluderad. %2"
 
-#: core/templates/messages.tmpl:367
+#: core/templates/messages.tmpl:366
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Varning: Kan inte INKLUDERA '%1'. Sökvägen är tom eller innehåller otillåtna "
 "tecken."
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:362
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Varning: Kan inte hitta avsnitt med namnet %3 på sidan %1.%2"
 
-#: core/templates/messages.tmpl:361
+#: core/templates/messages.tmpl:360
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varning: Kan inte hitta sidan %1.%2"
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:358
 #, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varning: Kan inte hitta sidan %1.%2"
@@ -5314,7 +5306,7 @@ msgstr ""
 "Varning: Kunde inte skicka bekräftelse med e-post eftersom e-postfunktionen "
 "är avstängd"
 
-#: core/templates/messages.tmpl:381
+#: core/templates/messages.tmpl:380
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
@@ -5439,11 +5431,11 @@ msgstr "Du är redan registrerad"
 msgid "You are also listed in the %1 topic"
 msgstr "Du är också listad på sidan %1"
 
-#: core/templates/messages.tmpl:275
+#: core/templates/messages.tmpl:274
 msgid "You are denied access to the following topics in the web:"
 msgstr "Du nekas tillträde till följande sidor på denna avdelning:"
 
-#: core/templates/messages.tmpl:345
+#: core/templates/messages.tmpl:344
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -5474,27 +5466,27 @@ msgstr ""
 "(som bara används för att skapa andra avdelningar) så välj ett namn som "
 "börjar med understreck och har bara alfanumeriska tecken."
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:469
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Du försöker utföra %1 på en bifogad fil som inte existerar."
 
-#: core/templates/messages.tmpl:456
+#: core/templates/messages.tmpl:455
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Du försöker at skapa en sida från en mall som inte existerar."
 
-#: core/templates/messages.tmpl:450
+#: core/templates/messages.tmpl:449
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 "Du försöker utföra en handling på en sida som inte existerar (handling '%1')."
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:462
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Du försöker döpa om en sida som inte existerar."
 
-#: core/templates/messages.tmpl:438
+#: core/templates/messages.tmpl:437
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5534,7 +5526,7 @@ msgid ""
 "for you."
 msgstr "Du måste förmodligen fråga din administratör, %1, för att göra detta."
 
-#: core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:492
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5558,7 +5550,7 @@ msgstr ""
 msgid "You have *not* been registered."
 msgstr "Du har *inte* blivit registrerad"
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:246
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -5589,7 +5581,7 @@ msgstr ""
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:321
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
@@ -5817,11 +5809,11 @@ msgstr "Formuläret skall definieras på sidan %1"
 msgid "diff"
 msgstr ""
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:301
 msgid "don't forget to check your Topic Settings"
 msgstr "glöm inte att kontrollera dina sidinställningar"
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:504
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -5864,7 +5856,7 @@ msgstr "i källtext-format"
 msgid "indicates mandatory fields"
 msgstr "anger obligatoriska fält"
 
-#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:502
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -6103,6 +6095,13 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Internationella (8-bitars) tecken tas bort (ersätts med motsvarigheter i "
+#~ "US-ASCII för Latin-1)"
 
 #~ msgid "Notes:"
 #~ msgstr "Observera:"

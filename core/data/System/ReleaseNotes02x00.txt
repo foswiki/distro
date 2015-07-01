@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435754086" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435760426" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0 RC 1
 
@@ -194,7 +194,9 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
 should review the existing data and determine if migration to utf-8 should be performed.
-See the Foswiki:System.UpgradeGuide for more details.
+See the Foswiki:System.UpgradeGuide for more details. Note that the topic and
+attachment name filters no longer filter international characters, so migration to utf-8 is
+strongly recommended.
 
 Due to the extensive internal changes, extensions may require changes for
 compatibility with this release.
