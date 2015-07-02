@@ -108,7 +108,8 @@ sub exitDir {
     my $depth = scalar @{$dirs} - 1;
 
     return if $depth > 1 || $depth == 1 && !$data->{leaves}[1]{'.git'};
-    print "Exit: $node\n";
+
+    #print "Exit: $node\n";
 
     my $location =
       File::Spec->catdir( @{$dirs}[ 0 .. $depth ] )

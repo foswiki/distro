@@ -14,7 +14,7 @@ use Error;
 $Error::Debug = 1;
 
 my $usagetext = <<'EOM';
-pseudo-install extensions into a SVN (or git) checkout
+pseudo-install extensions into a git checkout
 
 This is done by a link or copy of the files listed in the MANIFEST for the
 extension. The installer script is *not* called. It should be almost equivalent
@@ -56,19 +56,11 @@ Examples:
   softlink and enable FirstPlugin and SomeContrib
       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
 
-  Check out a new trunk, create a default LocalSite.cfg, install and enable
-  all the plugins for the default distribution (and then run the unit tests)
-      svn co http://svn.foswiki.org/trunk
-      cd trunk/core
-      ./pseudo-install.pl -A developer
-      cd test/unit
-      ../bin/TestRunner.pl -clean FoswikiSuite.pm
-
   Create a git-repo-per-extension checkout: start by cloning core,
       git clone git://github.com/foswiki/core.git
       cd core
+      cd trunk/core
   Then, install extensions (missing modules automatically cloned & configured
-  for git-svn against svn.foswiki.org; 'master' branch is svn's trunk, see [1]):
       ./pseudo-install.pl developer
   Install & enable an extension from an abritrary git repo without enabling hooks
       ./pseudo-install.pl -e -N git@github.com:/me/MyPlugin.git
@@ -1412,15 +1404,13 @@ sub run {
     for my $arg (@ARGV) {
         if ( $arg eq 'all' ) {
             push( @modules, 'core' );
-            foreach my $dir (@extensions_path) {
-                opendir my $d, $dir or next;
-                push @modules, map { untaint($_) }
-                  grep {
-                    /(?:Tag|Plugin|Contrib|Skin|AddOn)$/
-                      && -d File::Spec->catdir( $dir, $_ )
-                  } readdir $d;
-                closedir $d;
-            }
+            require JSON;
+            my $page = 1;
+            print "Getting list of Foswiki extensions\n";
+            my $list = do_commands(
+                "curl -# http://foswiki.org/Extensions/JsonReport?skin=text");
+            $list = JSON::decode_json($list);
+            push @modules, map { $_->{name} } @$list;
         }
         elsif ( $arg eq 'default' || $arg eq 'developer' ) {
             open my $f, '<', File::Spec->catfile( 'lib', 'MANIFEST' )
