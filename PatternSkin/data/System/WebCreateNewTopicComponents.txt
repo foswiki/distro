@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435577872" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -139,7 +139,7 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
 
 %STARTSECTION{"topicparent"}%
 %JQREQUIRE{"ui::autocomplete"}%
-%INCLUDE{"System.JQueryAjaxHelper" section="topicselector" INPUT_VALUE="%URLPARAM{"topicparent" default=""}%" INPUT_NAME="topicparent" EXCLUDE="%TOPIC%" PLACEHOLDER="%MAKETEXT{"Enter parent name"}%" }%
+%INCLUDE{"%SYSTEMWEB%.JQueryAjaxHelper" section="topicselector" INPUT_VALUE="%URLPARAM{"topicparent" default=""}%" INPUT_NAME="topicparent" EXCLUDE="%TOPIC%" PLACEHOLDER="%MAKETEXT{"Enter parent name"}%" }%
 %ENDSECTION{"topicparent"}%
 
 %STARTSECTION{"templatetopic"}%<select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" excludetopic="*EditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'>%POPUPWINDOW{

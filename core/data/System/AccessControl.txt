@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -169,7 +169,7 @@ As of Foswiki 2.0, the empty DENY setting is now meaningless, _unless explicitly
 | | *Before Foswiki 2.0* | *Foswiki 2.0 and newer* |
 | Allow ALL users | Set DENY to an empty string | Set ALLOW to * |
 | Allow All logged-in users | <p>Set DENY to %USERSWEB%.WikiGuest</p> <p>Leave ALLOW un-set</p> | &lt;no change from before&gt; |
-| Deny all access | Set ALLOW to NobodyGroup | <p>Set ALLOW to NobodyGroup </p> <p>-or- Set DENY to *</p> |
+| Deny all access | Set ALLOW to %USERSWEB%.NobodyGroup | <p>Set ALLOW to %USERSWEB%.NobodyGroup </p> <p>-or- Set DENY to *</p> |
 | Allow selected users | Set ALLOW to desired users/groups | Set ALLOW to desired users/groups |
 | Deny selected users | Set DENY to desired users/groups | Set DENY to desired users/groups |
 

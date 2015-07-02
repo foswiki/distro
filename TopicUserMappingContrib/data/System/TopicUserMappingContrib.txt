@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -72,7 +72,7 @@ It's a part of the default distribution of the Foswiki Core.
                         Foswikitask:Item13287: Improvements in regular expressions<br />\
                         Foswikitask:Item2257: Improve performance of BulkResetPassword<br />\
                         Note: This version is *Not compatible with Foswiki 1.1.x* |
-|  4.50 (18 Dec 2014)  | Foswikitask:Item13060: Add toggle-all action to the BulkPasswordReset page<br />\
+|  4.50 (18 Dec 2014)  | Foswikitask:Item13060: Add toggle-all action to the BulkResetPassword page<br />\
                          Foswikitask:Item13106: removed blockquote where possible<br />\
                          Foswikitask:Item13027: Most try..catch clauses were catching Error::Simple, which is effective only for catching Foswiki-specific exceptions<br />\
                          Foswikitask:Item12952: remove non-existent Config.spec<br />\

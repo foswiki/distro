@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
@@ -16,7 +16,7 @@ This site is running Foswiki version *%WIKIVERSION%*, Release *%WIKIRELEASE%*,  
       * [[WikiCulture][What is a Wiki?]] and what's different about Foswiki
       * [[Main Features]] of Foswiki, on a single page
    * Quick intro
-      * [[System.BeginnersStartHere?slideshow=on;cover=slideshow#GoSlide1][Beginners Start Here]] slideshow presentation
+      * [[%SYSTEMWEB%.BeginnersStartHere?slideshow=on;cover=slideshow#GoSlide1][Beginners Start Here]] slideshow presentation
    * More detail
       * [[Twenty Minute Tutorial]] for hands-on learning
    * [[Frequently Asked Questions]]

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PUBURLPATH -- generate a relative URL for an attachment
 Generate a relative URL for an attachment, or for a web or topic within the attachment database.
@@ -13,15 +13,15 @@ Generate a relative URL for an attachment, or for a web or topic within the atta
 ---++ Examples
    * =%<nop>PUBURLPATH%= expands to =%PUBURLPATH%=
    * =%<nop>PUBURLPATH{"icon_plus.png"}%= expands to ==%<nop>PUBURLPATH{"icon_plus.png"}%=
-   * =%<nop>PUBURLPATH{web="System"}%= expands to =%PUBURLPATH{web="System"}%=
-   * =%<nop>PUBURLPATH{topic="System.MainFeatures"}%= expands to =%PUBURLPATH{topic="System.MainFeatures"}%=
-   * =%<nop>PUBURLPATH{web="System" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="System" topic="MainFeatures"}%=
-   * =%<nop>PUBURLPATH{topic="System.MainFeatures" "icon_plus.png"}%= expands to =%PUBURLPATH{topic="System.MainFeatures" "icon_plus.png"}%=
+   * =%<nop>PUBURLPATH{web="%SYSTEMWEB%"}%= expands to =%PUBURLPATH{web="%SYSTEMWEB%"}%=
+   * =%<nop>PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures"}%= expands to =%PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures"}%=
+   * =%<nop>PUBURLPATH{web="%SYSTEMWEB%" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="%SYSTEMWEB%" topic="MainFeatures"}%=
+   * =%<nop>PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures" "icon_plus.png"}%= expands to =%PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures" "icon_plus.png"}%=
    * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implements to select specific attachment versions. However simple file-based stores do not normally support them.
 <div class="foswikiHelp">
 %X% This macro will only generate a relative URL if the store supports them, and the context allows it. Otherwise it will generate the same as =[[VarPUBURL][PUBURL]]=
 
-%H% The 'old' way of building URLs using =PUBURLPATHPATH= involved concatenating the web and topic names to the =PUBURLPATH= e.g. =%<nop>PUBURLPATH%/%<nop>WEB%/%<nop>TOPIC%=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURLPATH%{topic="System.MainFeatures"}%=, which will handle URL encoding for you.
+%H% The 'old' way of building URLs using =PUBURLPATHPATH= involved concatenating the web and topic names to the =PUBURLPATH= e.g. =%<nop>PUBURLPATH%/%<nop>WEB%/%<nop>TOPIC%=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>PUBURLPATH%{topic="%SYSTEMWEB%.MainFeatures"}%=, which will handle URL encoding for you.
 
 %I% [[VarATTACHURLPATH][ATTACHURLPATH]] provides a shorter way to refer to the attachments on the current topic.
 

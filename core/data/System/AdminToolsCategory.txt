@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1434484983" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Category"}%
 ---+ Admin tools
 
 List of tools available to the Foswiki administrator
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
-   * %ICON{wrench}% [[Site Tools]]: %WIKIPREFSTOPIC%, InterWikis, [[System.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
+   * %ICON{wrench}% [[Site Tools]]: %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
    * %ICON{gear}% Server operation: [[%SCRIPTURLPATH{"configure"}%][Configure]], [[InstalledPlugins][Extensions & Diagnostics]], [[PerlDependencyReport][Perl Dependencies]]. [[FoswikiServerInformation][Server execution details]]
    * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword, ChangeEmailAddress
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]]

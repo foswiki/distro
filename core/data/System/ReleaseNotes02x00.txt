@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435760426" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0 RC 1
 
@@ -445,7 +445,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item1115][Item1115]] | Numbered lists behave different for numbers and characters.  Document as a restriction. |
 | [[%BUGS%/Item1330][Item1330]] | Wikiwords with Umlauts arent detected. |
 | [[%BUGS%/Item1664][Item1664]] | Oops not generated on non existent topic. |
-| [[%BUGS%/Item2257][Item2257]] | Remove unnecessary fields from System.BulkResetPassword. |
+| [[%BUGS%/Item2257][Item2257]] | Remove unnecessary fields from %SYSTEMWEB%.BulkResetPassword. |
 | [[%BUGS%/Item2292][Item2292]] | System topics authored by WikiGuest instead of ProjectContributor. |
 | [[%BUGS%/Item2450][Item2450]] | Unable to subscribe to Web/SubWeb.*. |
 | [[%BUGS%/Item2595][Item2595]] | extender.pl fails if plugins are misbehaving. |
@@ -512,7 +512,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item10995][Item10995]] | Wysiwyg destroys umlaute in text. |
 | [[%BUGS%/Item11003][Item11003]] | Spreadsheet TIME* functions do not work properly with dates before 1970. |
 | [[%BUGS%/Item11015][Item11015]] | Need better docs, and examples of %SUBSCRIBE format option. |
-| [[%BUGS%/Item11050][Item11050]] | System.SiteChanges crashes when accessing the 2nd page. |
+| [[%BUGS%/Item11050][Item11050]] | %SYSTEMWEB%.SiteChanges crashes when accessing the 2nd page. |
 | [[%BUGS%/Item11056][Item11056]] | Do not insert   into empty attachment comments. |
 | [[%BUGS%/Item11085][Item11085]] | Uninstalling an extension keeps enabled state, resulting in error on configure screen. |
 | [[%BUGS%/Item11092][Item11092]] | =&amp;nbsp;= in attachment size makes it impossible to use inside MAKETEXT. |
@@ -566,8 +566,8 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12202][Item12202]] | DST shift marks old RSS feed items as new / value of isotz must be date dependant. |
 | [[%BUGS%/Item12203][Item12203]] | Help tab shows raw editing help. |
 | [[%BUGS%/Item12239][Item12239]] | Dependencies missing from "Perl modules used by Foswiki", in configure screen. |
-| [[%BUGS%/Item12246][Item12246]] | Documentation for System.PageCaching is out of date. |
-| [[%BUGS%/Item12261][Item12261]] | Add developer section to System.PageCaching : rest requests, URL attributes to suppress caching. |
+| [[%BUGS%/Item12246][Item12246]] | Documentation for %SYSTEMWEB%.PageCaching is out of date. |
+| [[%BUGS%/Item12261][Item12261]] | Add developer section to %SYSTEMWEB%.PageCaching : rest requests, URL attributes to suppress caching. |
 | [[%BUGS%/Item12287][Item12287]] | Configure dies on buggy extensions with UserInterfaceInternationalisation enabled. |
 | [[%BUGS%/Item12316][Item12316]] | =redirectdenied= template assumes redirect was due to rename.  Message is too specific. |
 | [[%BUGS%/Item12319][Item12319]] | ASSERTs not eliminated by optimization. |
@@ -649,7 +649,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12952][Item12952]] | Move Configure into a Contrib. |
 | [[%BUGS%/Item12953][Item12953]] | header parameter does not work when using row as fieldtype. |
 | [[%BUGS%/Item12954][Item12954]] | Table gets broken when editing via edit button and inserting a new row. |
-| [[%BUGS%/Item12955][Item12955]] | Related Topics search in System.FAQForm. |
+| [[%BUGS%/Item12955][Item12955]] | Related Topics search in %SYSTEMWEB%.FAQForm. |
 | [[%BUGS%/Item12956][Item12956]] | Unitialized variable crash after using back button to return to edit, and save. |
 | [[%BUGS%/Item12958][Item12958]] | HTML in a label can break the editor. |
 | [[%BUGS%/Item12960][Item12960]] | =dirtyareas= not removed in any case. |

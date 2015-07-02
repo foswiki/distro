@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435068785" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -317,7 +317,7 @@ User data is passed in 0 or more parameters of the format =FwkNname= where =Fwk=
 | =Fwk1LoginName= | New user's login username | _required_ |
 | =Fwk1Password= | New user's password | |
 | =Fwk0Confirm= | Password confirmation (if enabled) | |
-| =Fwk0Name= | User's name. Defaults to =FirstName LastName= | |
+| =Fwk0Name= | User's name. Defaults to =FirstName !LastName= | |
 | =Fwk0AddToGroups= | Accepts a comma-separated list of group names to add the new user to. | |
 
 Any additional =Fwk= parameters will be written to the user topic (_except_ 
