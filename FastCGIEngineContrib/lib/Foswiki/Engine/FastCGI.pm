@@ -15,7 +15,7 @@ package Foswiki::Engine::FastCGI;
 use strict;
 use warnings;
 
-use Foswiki ();
+use Foswiki          ();
 use Foswiki::Sandbox ();
 use Foswiki::Engine::CGI;
 our @ISA = qw( Foswiki::Engine::CGI );
@@ -187,11 +187,7 @@ sub preparePath {
 }
 
 sub write {
-    if ($Foswiki::UNICODE) {
-        syswrite STDOUT, Foswiki::encode_utf8($_[1]);
-    } else {
-        syswrite STDOUT, $_[1];
-    }
+    syswrite STDOUT, $_[1];
 }
 
 sub closeSocket {
