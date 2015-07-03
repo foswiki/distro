@@ -310,17 +310,11 @@ sub _populateVars {
     local $Foswiki::Plugins::WysiwygPlugin::recursionBlock =
       1;                 # block calls to beforeCommonTagshandler
 
-    # Item9973: We call CGI::unescape() on the expanded value, because the
-    # content of the src attribute on an img tag is received from WYSIWYG that
-    # way. Without this expandVarsInURL can only match webs, topics, attachments
-    # named with ascii characters (international characters fail match).
     my @exp = split(
         /\0/,
-        CGI::unescape(
-            Foswiki::Func::expandCommonVariables(
-                join( "\0", @VARS ),
-                $opts->{topic}, $opts->{web}
-            )
+        Foswiki::Func::expandCommonVariables(
+            join( "\0", @VARS ),
+            $opts->{topic}, $opts->{web}
         )
     );
 
