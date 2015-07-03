@@ -295,8 +295,10 @@ use vars qw( @VARS );
     '%PUBURL%',
     '%PUBURLPATH%',
     '%SCRIPTURLPATH{"view"}%',
+    '%SCRIPTURLPATH{"viewfile"}%',
     '%SCRIPTURLPATH%',
     '%SCRIPTURL{"view"}%',
+    '%SCRIPTURL{"viewfile"}%',
     '%SCRIPTURL%',
     '%SCRIPTSUFFIX%',    # bit dodgy, this one
 );
