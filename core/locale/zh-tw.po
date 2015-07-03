@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-01 10:59+0200\n"
+"PO-Revision-Date: 2015-07-03 17:01+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4262,7 +4262,7 @@ msgstr ""
 msgid ""
 "There is no _internal admin_ password set.  See [[%1][Installation Guide "
 "section on the internal admin]] for further help."
-msgstr ""
+msgstr "未設定 _內部管理員_ 密碼。請見 [[%1][安裝指引的內部管理員部分]]尋求協助。"
 
 #: core/templates/messages.tmpl:221
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -4278,7 +4278,7 @@ msgstr "將 %1 自 %2 群組移除時發生錯誤。"
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
-msgstr ""
+msgstr "這些步驟可能不適用於您的系統。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
 msgid "This WikiName is already in use."
@@ -4304,7 +4304,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
-msgstr ""
+msgstr "這個群組不應有使用者。"
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -4325,7 +4325,7 @@ msgstr ""
 msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
-msgstr ""
+msgstr "這是您新評論的一個臨時存放點。請刷新主題來看實際的意見。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
