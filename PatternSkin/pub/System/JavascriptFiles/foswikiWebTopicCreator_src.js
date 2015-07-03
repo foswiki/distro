@@ -159,7 +159,7 @@
                 foswiki.webTopicCreator.canSubmit($form, true);
             });
 
-            $('input[name=nonwikiword]', $form).change(function () {
+            $('input[name=onlywikiname]', $form).change(function () {
                 foswiki.webTopicCreator.canSubmit($form, false);
             }).mouseup(function () {
                 foswiki.webTopicCreator.canSubmit($form, false);
