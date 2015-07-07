@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436234283" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -42,8 +42,9 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =libalgorithm-diff-perl= | |
+| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =libarchive-tar-perl= | |
-| Authen::SASL | =libauthen-sasl-perl= | note, broken on Ubuntu 11.10 x64. Install using CPAN! |
+| Authen::SASL | =libauthen-sasl-perl= | |
 | CGI | =libcgi-pm-perl= | |
 | CGI::Session | =libcgi-session-perl= | |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
@@ -83,6 +84,7 @@ Install apache2, rcs, and perl-CPAN
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =perl-Algorithm-Diff= | |
+| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
 | Authen::SASL | =perl-Authen-SASL= | |
 | CGI | =perl-CGI=  | |
@@ -118,6 +120,7 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
+| Apache2::Request | =www-apache/libapreq2= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
 | Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
 | CGI | =perl-core/CGI= | |

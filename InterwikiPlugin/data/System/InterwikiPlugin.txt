@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434325977" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436234283" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -101,7 +101,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 |  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2015 %SYSTEMWEB%.ProjectContributor"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny"}%
