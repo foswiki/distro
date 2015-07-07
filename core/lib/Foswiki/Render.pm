@@ -15,6 +15,7 @@ use Assert;
 use Error qw(:try);
 use CGI ();
 
+use Foswiki                  ();
 use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
