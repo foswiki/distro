@@ -66,7 +66,7 @@ sub recover_form {
     my $sawn = 0;
 
     while ( $_[0] =~
-s/(^|\n)%META:FIELD{name="([^"]*?)"[^}]*?value="([^"]*?)"[^}]*?}%(\n|$)/$1/s
+s/(^|\n)%META:FIELD\{name="([^"]*?)"[^}]*?value="([^"]*?)"[^}]*?}%(\n|$)/$1/s
       )
     {
         my $name = $2;
@@ -81,7 +81,7 @@ s/(^|\n)%META:FIELD{name="([^"]*?)"[^}]*?value="([^"]*?)"[^}]*?}%(\n|$)/$1/s
         }
         $sawn++;
     }
-    $_[0] =~ s/(^|\n)%META:FORM{name=[^}]*?}%(\n|$)/$1/s;
+    $_[0] =~ s/(^|\n)%META:FORM\{name=[^}]*?}%(\n|$)/$1/s;
 
     return $sawn;
 }
