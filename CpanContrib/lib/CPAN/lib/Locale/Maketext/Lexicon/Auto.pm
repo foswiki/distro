@@ -1,11 +1,29 @@
 package Locale::Maketext::Lexicon::Auto;
-$Locale::Maketext::Lexicon::Auto::VERSION = '0.10';
-
+$Locale::Maketext::Lexicon::Auto::VERSION = '1.00';
 use strict;
+
+# ABSTRACT: Auto fallback lexicon for Maketext
+
+
+sub parse {
+    +{ _AUTO => 1 };
+}
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Lexicon::Auto - Auto fallback lexicon for Maketext
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -31,14 +49,6 @@ If the key to C<-E<gt>maketext> begins with a C<_>, C<Locale::Maketext>
 will still throw an exception.  See L<Locale::Maketext/CONTROLLING LOOKUP
 FAILURE> for how to prevent it.
 
-=cut
-
-sub parse {
-    +{ _AUTO => 1 };
-}
-
-1;
-
 =head1 SEE ALSO
 
 L<Locale::Maketext>, L<Locale::Maketext::Lexicon>
@@ -49,7 +59,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004, 2007 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002 - 2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -72,5 +82,27 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
 
 =cut

@@ -1,11 +1,102 @@
 package Locale::Maketext::Lexicon::Msgcat;
-$Locale::Maketext::Lexicon::Msgcat::VERSION = '0.03';
-
+$Locale::Maketext::Lexicon::Msgcat::VERSION = '1.00';
 use strict;
+
+# ABSTRACT: Msgcat catalog parser Maketext
+
+
+sub parse {
+    my $set = 0;
+    my $msg = undef;
+    my ( $qr, $qq, $qc ) = ( qr//, '', '' );
+    my @out;
+
+    # Set up the msgcat handler
+    {
+        no strict 'refs';
+        no warnings 'once';
+        *{Locale::Maketext::msgcat} = \&_msgcat;
+    }
+
+    # Parse *.m files; Locale::Msgcat objects and *.cat are not yet supported.
+    foreach (@_) {
+        s/[\015\012]*\z//;    # fix CRLF issues
+
+        /^\$set (\d+)/
+            ? do {            # set_id
+            $set = int($1);
+            push @out, $1, "[msgcat,$1,_1]";
+            }
+            :
+
+            /^\$quote (.)/
+            ? do {            # quote character
+            $qc = $1;
+            $qq = quotemeta($1);
+            $qr = qr/$qq?/;
+            }
+            :
+
+            /^(\d+) ($qr)(.*?)\2(\\?)$/
+            ? do {            # msg_id and msg_str
+            local $^W;
+            push @out, "$set," . int($1);
+            if ($4) {
+                $msg = $3;
+            }
+            else {
+                push @out, unescape( $qq, $qc, $3 );
+                undef $msg;
+            }
+            }
+            :
+
+            ( defined $msg and /^($qr)(.*?)\1(\\?)$/ )
+            ? do {    # continued string
+            local $^W;
+            if ($3) {
+                $msg .= $2;
+            }
+            else {
+                push @out, unescape( $qq, $qc, $msg . $2 );
+                undef $msg;
+            }
+            }
+            : ();
+    }
+
+    push @out, '' if defined $msg;
+
+    return {@out};
+}
+
+sub _msgcat {
+    my ( $self, $set_id, $msg_id, @args ) = @_;
+    return $self->maketext( int($set_id) . ',' . int($msg_id), @args );
+}
+
+sub unescape {
+    my ( $qq, $qc, $str ) = @_;
+    $str =~ s/(\\([ntvbrf\\$qq]))/($2 eq $qc) ? $qc : eval qq("$1")/e;
+    $str =~ s/([\~\[\]])/~$1/g;
+    return $str;
+}
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Lexicon::Msgcat - Msgcat catalog parser Maketext
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -33,86 +124,6 @@ All special characters (C<[>, C<]> and C<~>) in catalogs will be
 escaped so they lose their magic meanings.  That means C<-E<gt>maketext>
 calls to this lexicon will I<not> take any additional arguments.
 
-=cut
-
-sub parse {
-    my $set = 0;
-    my $msg = undef;
-    my ( $qr, $qq, $qc ) = ( qr//, '', '' );
-    my @out;
-
-    # Set up the msgcat handler
-    {
-        no strict 'refs';
-        *{Locale::Maketext::msgcat} = \&_msgcat;
-    }
-
-    # Parse *.m files; Locale::Msgcat objects and *.cat are not yet supported.
-    foreach (@_) {
-        s/[\015\012]*\z//;    # fix CRLF issues
-
-        /^\$set (\d+)/
-          ? do {              # set_id
-            $set = int($1);
-            push @out, $1, "[msgcat,$1,_1]";
-          }
-          :
-
-          /^\$quote (.)/
-          ? do {              # quote character
-            $qc = $1;
-            $qq = quotemeta($1);
-            $qr = qr/$qq?/;
-          }
-          :
-
-          /^(\d+) ($qr)(.*?)\2(\\?)$/
-          ? do {              # msg_id and msg_str
-            local $^W;
-            push @out, "$set," . int($1);
-            if ($4) {
-                $msg = $3;
-            }
-            else {
-                push @out, unescape( $qq, $qc, $3 );
-                undef $msg;
-            }
-          }
-          :
-
-          ( defined $msg and /^($qr)(.*?)\1(\\?)$/ )
-          ? do {    # continued string
-            local $^W;
-            if ($3) {
-                $msg .= $2;
-            }
-            else {
-                push @out, unescape( $qq, $qc, $msg . $2 );
-                undef $msg;
-            }
-          }
-          : ();
-    }
-
-    push @out, '' if defined $msg;
-
-    return {@out};
-}
-
-sub _msgcat {
-    my ( $self, $set_id, $msg_id, @args ) = @_;
-    return $self->maketext( int($set_id) . ',' . int($msg_id), @args );
-}
-
-sub unescape {
-    my ( $qq, $qc, $str ) = @_;
-    $str =~ s/(\\([ntvbrf\\$qq]))/($2 eq $qc) ? $qc : eval qq("$1")/e;
-    $str =~ s/([\~\[\]])/~$1/g;
-    return $str;
-}
-
-1;
-
 =head1 SEE ALSO
 
 L<Locale::Maketext>, L<Locale::Maketext::Lexicon>
@@ -123,7 +134,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004, 2007 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -146,5 +157,27 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
 
 =cut

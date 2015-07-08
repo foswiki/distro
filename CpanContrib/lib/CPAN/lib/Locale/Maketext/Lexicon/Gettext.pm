@@ -1,11 +1,254 @@
 package Locale::Maketext::Lexicon::Gettext;
-$Locale::Maketext::Lexicon::Gettext::VERSION = '0.17';
-
+$Locale::Maketext::Lexicon::Gettext::VERSION = '1.00';
 use strict;
+
+# ABSTRACT: PO and MO file parser for Maketext
+
+
+my ( $InputEncoding, $OutputEncoding, $DoEncoding );
+
+sub input_encoding  {$InputEncoding}
+sub output_encoding {$OutputEncoding}
+
+sub parse {
+    my $self = shift;
+    my ( %var, $key, @ret );
+    my @metadata;
+    my @comments;
+    my @fuzzy;
+
+    $InputEncoding = $OutputEncoding = $DoEncoding = undef;
+
+    use Carp;
+    Carp::cluck "Undefined source called\n" unless defined $_[0];
+
+    # Check for magic string of MO files
+    return parse_mo( join( '', @_ ) )
+        if ( $_[0] =~ /^\x95\x04\x12\xde/ or $_[0] =~ /^\xde\x12\x04\x95/ );
+
+    local $^W;    # no 'uninitialized' warnings, please.
+
+    require Locale::Maketext::Lexicon;
+    my $KeepFuzzy = Locale::Maketext::Lexicon::option('keep_fuzzy');
+    my $UseFuzzy  = $KeepFuzzy
+        || Locale::Maketext::Lexicon::option('use_fuzzy');
+    my $AllowEmpty = Locale::Maketext::Lexicon::option('allow_empty');
+    my $process    = sub {
+        if ( length( $var{msgstr} ) and ( $UseFuzzy or !$var{fuzzy} ) ) {
+            push @ret, ( map transform($_), @var{ 'msgid', 'msgstr' } );
+        }
+        elsif ($AllowEmpty) {
+            push @ret, ( transform( $var{msgid} ), '' );
+        }
+        if ( $var{msgid} eq '' ) {
+            push @metadata, parse_metadata( $var{msgstr} );
+        }
+        else {
+            push @comments, $var{msgid}, $var{msgcomment};
+        }
+        if ( $KeepFuzzy && $var{fuzzy} ) {
+            push @fuzzy, $var{msgid}, 1;
+        }
+        %var = ();
+    };
+
+    # Parse PO files
+    foreach (@_) {
+        s/[\015\012]*\z//;    # fix CRLF issues
+
+        /^(msgid|msgstr) +"(.*)" *$/
+            ? do {            # leading strings
+            $var{$1} = $2;
+            $key = $1;
+            }
+            :
+
+            /^"(.*)" *$/
+            ? do {            # continued strings
+            $var{$key} .= $1;
+            }
+            :
+
+            /^# (.*)$/
+            ? do {            # user comments
+            $var{msgcomment} .= $1 . "\n";
+            }
+            :
+
+            /^#, +(.*) *$/
+            ? do {            # control variables
+            $var{$_} = 1 for split( /,\s+/, $1 );
+            }
+            :
+
+            /^ *$/ && %var
+            ? do {            # interpolate string escapes
+            $process->($_);
+            }
+            : ();
+
+    }
+
+    # do not silently skip last entry
+    $process->() if keys %var != 0;
+
+    push @ret, map { transform($_) } @var{ 'msgid', 'msgstr' }
+        if length $var{msgstr};
+    push @metadata, parse_metadata( $var{msgstr} )
+        if $var{msgid} eq '';
+
+    return wantarray
+        ? ( { @metadata, @ret }, {@comments}, {@fuzzy} )
+        : ( { @metadata, @ret } );
+
+}
+
+sub parse_metadata {
+    return map {
+              (/^([^\x00-\x1f\x80-\xff :=]+):\s*(.*)$/)
+            ? ( $1 eq 'Content-Type' )
+                ? do {
+                    my $enc = $2;
+                    if ( $enc =~ /\bcharset=\s*([-\w]+)/i ) {
+                        $InputEncoding = $1 || '';
+                        $OutputEncoding
+                            = Locale::Maketext::Lexicon::encoding()
+                            || '';
+                        $InputEncoding = 'utf8'
+                            if $InputEncoding =~ /^utf-?8$/i;
+                        $OutputEncoding = 'utf8'
+                            if $OutputEncoding =~ /^utf-?8$/i;
+                        if (Locale::Maketext::Lexicon::option('decode')
+                            and ( !$OutputEncoding
+                                or $InputEncoding ne $OutputEncoding )
+                            )
+                        {
+                            require Encode::compat if $] < 5.007001;
+                            require Encode;
+                            $DoEncoding = 1;
+                        }
+                    }
+                    ( "__Content-Type", $enc );
+                }
+                : ( "__$1", $2 )
+            : ();
+    } split( /\r*\n+\r*/, transform(pop) );
+}
+
+sub transform {
+    my $str = shift;
+
+    if ( $DoEncoding and $InputEncoding ) {
+        $str
+            = ( $InputEncoding eq 'utf8' )
+            ? Encode::decode_utf8($str)
+            : Encode::decode( $InputEncoding, $str );
+    }
+
+    $str =~ s/\\([0x]..|c?.)/qq{"\\$1"}/eeg;
+
+    if ( $DoEncoding and $OutputEncoding ) {
+        $str
+            = ( $OutputEncoding eq 'utf8' )
+            ? Encode::encode_utf8($str)
+            : Encode::encode( $OutputEncoding, $str );
+    }
+
+    return _gettext_to_maketext($str);
+}
+
+sub _gettext_to_maketext {
+    my $str = shift;
+    $str =~ s{([\~\[\]])}{~$1}g;
+    $str =~ s{
+        ([%\\]%)                        # 1 - escaped sequence
+    |
+        %   (?:
+                ([A-Za-z#*]\w*)         # 2 - function call
+                    \(([^\)]*)\)        # 3 - arguments
+            |
+                ([1-9]\d*|\*)           # 4 - variable
+            )
+    }{
+        $1 ? $1
+           : $2 ? "\[$2,"._unescape($3)."]"
+                : "[_$4]"
+    }egx;
+    $str;
+}
+
+sub _unescape {
+    join( ',',
+        map { /\A(\s*)%([1-9]\d*|\*)(\s*)\z/ ? "$1_$2$3" : $_ }
+            split( /,/, $_[0] ) );
+}
+
+# This subroutine was derived from Locale::Maketext::Gettext::readmo()
+# under the Perl License; the original author is Yi Ma Mao (IMACAT).
+sub parse_mo {
+    my $content = shift;
+    my $tmpl = ( substr( $content, 0, 4 ) eq "\xde\x12\x04\x95" ) ? 'V' : 'N';
+
+    # Check the MO format revision number
+    # There is only one revision now: revision 0.
+    return if unpack( $tmpl, substr( $content, 4, 4 ) ) > 0;
+
+    my ( $num, $offo, $offt );
+
+    # Number of strings
+    $num = unpack $tmpl, substr( $content, 8, 4 );
+
+    # Offset to the beginning of the original strings
+    $offo = unpack $tmpl, substr( $content, 12, 4 );
+
+    # Offset to the beginning of the translated strings
+    $offt = unpack $tmpl, substr( $content, 16, 4 );
+
+    my ( @metadata, @ret );
+    for ( 0 .. $num - 1 ) {
+        my ( $len, $off, $stro, $strt );
+
+        # The first word is the length of the string
+        $len = unpack $tmpl, substr( $content, $offo + $_ * 8, 4 );
+
+        # The second word is the offset of the string
+        $off = unpack $tmpl, substr( $content, $offo + $_ * 8 + 4, 4 );
+
+        # Original string
+        $stro = substr( $content, $off, $len );
+
+        # The first word is the length of the string
+        $len = unpack $tmpl, substr( $content, $offt + $_ * 8, 4 );
+
+        # The second word is the offset of the string
+        $off = unpack $tmpl, substr( $content, $offt + $_ * 8 + 4, 4 );
+
+        # Translated string
+        $strt = substr( $content, $off, $len );
+
+        # Hash it
+        push @metadata, parse_metadata($strt) if $stro eq '';
+        push @ret, ( map transform($_), $stro, $strt ) if length $strt;
+    }
+
+    return { @metadata, @ret };
+}
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Lexicon::Gettext - PO and MO file parser for Maketext
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -83,239 +326,6 @@ value to the C<_allow_empty> option:
         _allow_empty => 1,
     };
 
-=cut
-
-my ( $InputEncoding, $OutputEncoding, $DoEncoding );
-
-sub input_encoding  { $InputEncoding }
-sub output_encoding { $OutputEncoding }
-
-sub parse {
-    my $self = shift;
-    my ( %var, $key, @ret );
-    my @metadata;
-    my @comments;
-    my @fuzzy;
-
-    $InputEncoding = $OutputEncoding = $DoEncoding = undef;
-
-    use Carp;
-    Carp::cluck "Undefined source called\n" unless defined $_[0];
-
-    # Check for magic string of MO files
-    return parse_mo( join( '', @_ ) )
-      if ( $_[0] =~ /^\x95\x04\x12\xde/ or $_[0] =~ /^\xde\x12\x04\x95/ );
-
-    local $^W;    # no 'uninitialized' warnings, please.
-
-    require Locale::Maketext::Lexicon;
-    my $KeepFuzzy = Locale::Maketext::Lexicon::option('keep_fuzzy');
-    my $UseFuzzy  = $KeepFuzzy
-      || Locale::Maketext::Lexicon::option('use_fuzzy');
-    my $AllowEmpty = Locale::Maketext::Lexicon::option('allow_empty');
-    my $process    = sub {
-        if ( length( $var{msgstr} ) and ( $UseFuzzy or !$var{fuzzy} ) ) {
-            push @ret, ( map transform($_), @var{ 'msgid', 'msgstr' } );
-        }
-        elsif ($AllowEmpty) {
-            push @ret, ( transform( $var{msgid} ), '' );
-        }
-        if ( $var{msgid} eq '' ) {
-            push @metadata, parse_metadata( $var{msgstr} );
-        }
-        else {
-            push @comments, $var{msgid}, $var{msgcomment};
-        }
-        if ( $KeepFuzzy && $var{fuzzy} ) {
-            push @fuzzy, $var{msgid}, 1;
-        }
-        %var = ();
-    };
-
-    # Parse PO files
-    foreach (@_) {
-        s/[\015\012]*\z//;    # fix CRLF issues
-
-        /^(msgid|msgstr) +"(.*)" *$/
-          ? do {              # leading strings
-            $var{$1} = $2;
-            $key = $1;
-          }
-          :
-
-          /^"(.*)" *$/
-          ? do {              # continued strings
-            $var{$key} .= $1;
-          }
-          :
-
-          /^# (.*)$/
-          ? do {              # user comments
-            $var{msgcomment} .= $1 . "\n";
-          }
-          :
-
-          /^#, +(.*) *$/
-          ? do {              # control variables
-            $var{$_} = 1 for split( /,\s+/, $1 );
-          }
-          :
-
-          /^ *$/ && %var
-          ? do {              # interpolate string escapes
-            $process->($_);
-          }
-          : ();
-
-    }
-
-    # do not silently skip last entry
-    $process->() if keys %var != 0;
-
-    push @ret, map { transform($_) } @var{ 'msgid', 'msgstr' }
-      if length $var{msgstr};
-    push @metadata, parse_metadata( $var{msgstr} )
-      if $var{msgid} eq '';
-
-    return wantarray
-      ? ( { @metadata, @ret }, {@comments}, {@fuzzy} )
-      : ( { @metadata, @ret } );
-
-}
-
-sub parse_metadata {
-    return map {
-            (/^([^\x00-\x1f\x80-\xff :=]+):\s*(.*)$/)
-          ? ( $1 eq 'Content-Type' )
-              ? do {
-                  my $enc = $2;
-                  if ( $enc =~ /\bcharset=\s*([-\w]+)/i ) {
-                      $InputEncoding = $1 || '';
-                      $OutputEncoding = Locale::Maketext::Lexicon::encoding()
-                        || '';
-                      $InputEncoding = 'utf8'
-                        if $InputEncoding =~ /^utf-?8$/i;
-                      $OutputEncoding = 'utf8'
-                        if $OutputEncoding =~ /^utf-?8$/i;
-                      if (
-                          Locale::Maketext::Lexicon::option('decode')
-                          and ( !$OutputEncoding
-                              or $InputEncoding ne $OutputEncoding )
-                        )
-                      {
-                          require Encode::compat if $] < 5.007001;
-                          require Encode;
-                          $DoEncoding = 1;
-                      }
-                  }
-                  ( "__Content-Type", $enc );
-              }
-              : ( "__$1", $2 )
-          : ();
-    } split( /\r*\n+\r*/, transform(pop) );
-}
-
-sub transform {
-    my $str = shift;
-
-    if ( $DoEncoding and $InputEncoding ) {
-        $str =
-          ( $InputEncoding eq 'utf8' )
-          ? Encode::decode_utf8($str)
-          : Encode::decode( $InputEncoding, $str );
-    }
-
-    $str =~ s/\\([0x]..|c?.)/qq{"\\$1"}/eeg;
-
-    if ( $DoEncoding and $OutputEncoding ) {
-        $str =
-          ( $OutputEncoding eq 'utf8' )
-          ? Encode::encode_utf8($str)
-          : Encode::encode( $OutputEncoding, $str );
-    }
-
-    return _gettext_to_maketext($str);
-}
-
-sub _gettext_to_maketext {
-    my $str = shift;
-    $str =~ s{([\~\[\]])}{~$1}g;
-    $str =~ s{
-        ([%\\]%)                        # 1 - escaped sequence
-    |
-        %   (?:
-                ([A-Za-z#*]\w*)         # 2 - function call
-                    \(([^\)]*)\)        # 3 - arguments
-            |
-                ([1-9]\d*|\*)           # 4 - variable
-            )
-    }{
-        $1 ? $1
-           : $2 ? "\[$2,"._unescape($3)."]"
-                : "[_$4]"
-    }egx;
-    $str;
-}
-
-sub _unescape {
-    join( ',',
-        map { /\A(\s*)%([1-9]\d*|\*)(\s*)\z/ ? "$1_$2$3" : $_ }
-          split( /,/, $_[0] ) );
-}
-
-# This subroutine was derived from Locale::Maketext::Gettext::readmo()
-# under the Perl License; the original author is Yi Ma Mao (IMACAT).
-sub parse_mo {
-    my $content = shift;
-    my $tmpl = ( substr( $content, 0, 4 ) eq "\xde\x12\x04\x95" ) ? 'V' : 'N';
-
-    # Check the MO format revision number
-    # There is only one revision now: revision 0.
-    return if unpack( $tmpl, substr( $content, 4, 4 ) ) > 0;
-
-    my ( $num, $offo, $offt );
-
-    # Number of strings
-    $num = unpack $tmpl, substr( $content, 8, 4 );
-
-    # Offset to the beginning of the original strings
-    $offo = unpack $tmpl, substr( $content, 12, 4 );
-
-    # Offset to the beginning of the translated strings
-    $offt = unpack $tmpl, substr( $content, 16, 4 );
-
-    my ( @metadata, @ret );
-    for ( 0 .. $num - 1 ) {
-        my ( $len, $off, $stro, $strt );
-
-        # The first word is the length of the string
-        $len = unpack $tmpl, substr( $content, $offo + $_ * 8, 4 );
-
-        # The second word is the offset of the string
-        $off = unpack $tmpl, substr( $content, $offo + $_ * 8 + 4, 4 );
-
-        # Original string
-        $stro = substr( $content, $off, $len );
-
-        # The first word is the length of the string
-        $len = unpack $tmpl, substr( $content, $offt + $_ * 8, 4 );
-
-        # The second word is the offset of the string
-        $off = unpack $tmpl, substr( $content, $offt + $_ * 8 + 4, 4 );
-
-        # Translated string
-        $strt = substr( $content, $off, $len );
-
-        # Hash it
-        push @metadata, parse_metadata($strt) if $stro eq '';
-        push @ret, ( map transform($_), $stro, $strt ) if length $strt;
-    }
-
-    return { @metadata, @ret };
-}
-
-1;
-
 =head1 SEE ALSO
 
 L<Locale::Maketext>, L<Locale::Maketext::Lexicon>
@@ -326,7 +336,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004, 2007 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -349,5 +359,27 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
 
 =cut

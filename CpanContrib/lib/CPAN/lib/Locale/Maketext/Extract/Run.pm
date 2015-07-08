@@ -1,20 +1,11 @@
 package Locale::Maketext::Extract::Run;
-$Locale::Maketext::Lexicon::Extract::Run::VERSION = '0.34';
-
+$Locale::Maketext::Extract::Run::VERSION = '1.00';
 use strict;
 use vars qw( @ISA @EXPORT_OK );
 use File::Spec::Functions qw(catfile);
 
-=head1 NAME
+# ABSTRACT: Module interface to xgettext.pl
 
-Locale::Maketext::Extract::Run - Module interface to xgettext.pl
-
-=head1 SYNOPSIS
-
-    use Locale::Maketext::Extract::Run 'xgettext';
-    xgettext(@ARGV);
-
-=cut
 
 use Cwd;
 use Config ();
@@ -62,16 +53,18 @@ sub run {
 
     foreach my $dir ( @{ $opts{D} || [] } ) {
         File::Find::find(
-            {
-                wanted => sub {
+            {   wanted => sub {
                     if (-d) {
-                        $File::Find::prune =
-                          /^(\.svn|blib|autogen|var|m4|local|CVS)$/;
+                        $File::Find::prune
+                            = /^(\.svn|blib|autogen|var|m4|local|CVS|\.git)$/;
                         return;
                     }
+
+                    # Only extract from non-binary, normal files
+                    return unless ( -f or -s ) and -T;
                     return
-                      if (/\.po$|\.bak$|~|,D|,B$/i)
-                      || (/^[\.#]/);
+                        if (/\.pot?$|\.bak$|~|,D|,B$/i)
+                        || (/^[\.#]/);
                     push @ARGV, $File::Find::name;
                 },
                 follow => HAS_SYMLINK,
@@ -101,10 +94,11 @@ sub _parse_extract_options {
     my $opts = shift;
 
     # If a list of plugins is specified, then we use those modules
-    # plus their default list of file extensionse
+    # plus their default list of file extensions
     # and warnings enabled by default
 
-    my %extract_options = ( verbose => $opts->{v}, wrap => $opts->{W} || 0 );
+    my %extract_options
+        = ( verbose => $opts->{v}, wrap => $opts->{W} || 0 );
 
     if ( my $plugin_args = $opts->{P} ) {
 
@@ -112,10 +106,10 @@ sub _parse_extract_options {
         my %plugins;
 
         foreach my $param (@$plugin_args) {
-            my ( $plugin, $args ) =
-              ( $param =~ /^([a-z_]\w+(?:::\w+)*)(?:=(.+))?$/i );
+            my ( $plugin, $args )
+                = ( $param =~ /^([a-z_]\w+(?:::\w+)*)(?:=(.+))?$/i );
             die "Couldn't understand plugin option '$param'"
-              unless $plugin;
+                unless $plugin;
             my @extensions;
             if ($args) {
                 foreach my $arg ( split /,/, $args ) {
@@ -125,7 +119,7 @@ sub _parse_extract_options {
                     }
                     my ($extension) = ( $arg =~ /^\.?(\w+(?:\.\w+)*)$/ );
                     die "Couldn't understand '$arg' in plugin '$param'"
-                      unless defined $extension;
+                        unless defined $extension;
                     push @extensions, $extension;
                 }
             }
@@ -153,9 +147,28 @@ sub help {
 
 1;
 
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Locale::Maketext::Extract::Run - Module interface to xgettext.pl
+
+=head1 VERSION
+
+version 1.00
+
+=head1 SYNOPSIS
+
+    use Locale::Maketext::Extract::Run 'xgettext';
+    xgettext(@ARGV);
+
 =head1 COPYRIGHT
 
-Copyright 2003-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2003-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -178,5 +191,27 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
 
 =cut

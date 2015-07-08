@@ -1,12 +1,109 @@
 package Locale::Maketext::Extract::Plugin::Base;
-
+$Locale::Maketext::Extract::Plugin::Base::VERSION = '1.00';
 use strict;
 
 use File::Basename qw(fileparse);
 
+# ABSTRACT: Base module for format parser plugins
+
+
+sub new {
+    my $class = shift;
+    my $self = bless { entries => [], }, $class;
+
+    $self->_compile_file_types(@_);
+    return $self;
+}
+
+
+sub add_entry {
+    my $self = shift;
+    push @{ $self->{entries} }, [@_];
+}
+
+
+#===================================
+sub entries {
+#===================================
+    my $self = shift;
+    return $self->{entries};
+}
+
+
+#===================================
+sub clear {
+#===================================
+    my $self = shift;
+    $self->{entries} = [];
+}
+
+
+sub file_types {
+    die "Please override sub file_types() to return "
+        . "a list of recognised file extensions, or regexes";
+}
+
+
+sub extract {
+    die "Please override sub extract()";
+}
+
+sub _compile_file_types {
+    my $self = shift;
+    my @file_types
+        = ref $_[0] eq 'ARRAY'
+        ? @{ shift @_ }
+        : @_;
+    @file_types = $self->file_types
+        unless @file_types;
+
+    my @checks;
+    if ( grep { $_ eq '*' } @file_types ) {
+        $self->{file_checks} = [ sub {1} ];
+        return;
+    }
+    foreach my $type (@file_types) {
+        if ( ref $type eq 'CODE' ) {
+            push @checks, $type;
+            next;
+        }
+        else {
+            my $regex
+                = ref $type
+                ? $type
+                : qr/^.*\.\Q$type\E$/;
+            push @checks, sub { $_[0] =~ m/$regex/ };
+        }
+    }
+    $self->{file_checks} = \@checks;
+}
+
+
+sub known_file_type {
+    my $self = shift;
+    my ( $name, $path ) = fileparse( shift @_ );
+    foreach my $check ( @{ $self->{file_checks} } ) {
+        return 1 if $check->( $name, $path );
+    }
+    return 0;
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::Base - Base module for format parser plugins
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -19,7 +116,6 @@ Locale::Maketext::Extract::Plugin::Base - Base module for format parser plugins
 
     sub extract {
         my $self = shift;
-        my $filename = shift;
         local $_ = shift;
 
         my $line = 1;
@@ -50,56 +146,19 @@ as shown above.
         @file_types         # Optionally specify a list of recognised file types
     )
 
-=cut
-
-sub new {
-    my $class = shift;
-    my $self = bless { entries => [], }, $class;
-
-    $self->_compile_file_types(@_);
-    return $self;
-}
-
 =item add_entry()
 
     $plugin->add_entry($str,$line,$vars)
 
-=cut
-
-sub add_entry {
-    my $self = shift;
-    push @{ $self->{entries} }, [@_];
-}
-
 =item C<entries()>
 
     $entries = $plugin->entries;
-
-=cut
-
-#===================================
-sub entries {
-
-    #===================================
-    my $self = shift;
-    return $self->{entries};
-}
 
 =item C<clear()>
 
     $plugin->clear
 
 Clears all stored entries.
-
-=cut
-
-#===================================
-sub clear {
-
-    #===================================
-    my $self = shift;
-    $self->{entries} = [];
-}
 
 =item file_types()
 
@@ -127,13 +186,6 @@ Each file type can be one of:
 
 =back
 
-=cut
-
-sub file_types {
-    die "Please override sub file_types() to return "
-      . "a list of recognised file extensions, or regexes";
-}
-
 =item extract()
 
     $plugin->extract($filecontents);
@@ -157,42 +209,6 @@ IMPORTANT: a single plugin instance is used for all files, so if you plan
 on storing state information in the C<$plugin> object, this should be cleared
 out at the beginning of C<extract()>
 
-=cut
-
-sub extract {
-    die "Please override sub extract()";
-}
-
-sub _compile_file_types {
-    my $self = shift;
-    my @file_types =
-      ref $_[0] eq 'ARRAY'
-      ? @{ shift @_ }
-      : @_;
-    @file_types = $self->file_types
-      unless @file_types;
-
-    my @checks;
-    if ( grep { $_ eq '*' } @file_types ) {
-        $self->{file_checks} = [ sub { 1 } ];
-        return;
-    }
-    foreach my $type (@file_types) {
-        if ( ref $type eq 'CODE' ) {
-            push @checks, $type;
-            next;
-        }
-        else {
-            my $regex =
-              ref $type
-              ? $type
-              : qr/^.*\.\Q$type\E$/;
-            push @checks, sub { $_[0] =~ m/$regex/ };
-        }
-    }
-    $self->{file_checks} = \@checks;
-}
-
 =item known_file_type()
 
     if ($plugin->known_file_type($filename_with_path)) {
@@ -200,19 +216,8 @@ sub _compile_file_types {
     }
 
 Determines whether the current file should be handled by this parser, based
-either on the list of file_types speficied when this object was created,
+either on the list of file_types specified when this object was created,
 or the default file_types specified in the module.
-
-=cut
-
-sub known_file_type {
-    my $self = shift;
-    my ( $name, $path ) = fileparse( shift @_ );
-    foreach my $check ( @{ $self->{file_checks} } ) {
-        return 1 if $check->( $name, $path );
-    }
-    return 0;
-}
 
 =back
 
@@ -251,7 +256,7 @@ Clinton Gormley [DRTECH] E<lt>clinton@traveljury.comE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -275,6 +280,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

@@ -1,11 +1,115 @@
 package Locale::Maketext::Extract::Plugin::YAML;
-
+$Locale::Maketext::Extract::Plugin::YAML::VERSION = '1.00';
 use strict;
 use base qw(Locale::Maketext::Extract::Plugin::Base);
+
+# ABSTRACT: YAML format parser
+
+
+sub file_types {
+    return qw( yaml yml conf );
+}
+
+sub extract {
+    my $self = shift;
+    my $data = shift;
+
+    my $y = Locale::Maketext::Extract::Plugin::YAML::Extractor->new();
+    $y->load($data);
+
+    foreach my $entry ( @{ $y->found } ) {
+        $self->add_entry(@$entry);
+    }
+
+}
+
+package Locale::Maketext::Extract::Plugin::YAML::Extractor;
+$Locale::Maketext::Extract::Plugin::YAML::Extractor::VERSION = '1.00';
+use base qw(YAML::Loader);
+
+#===================================
+sub new {
+#===================================
+    my $class = shift;
+    my $self  = $class->SUPER::new(@_);
+    $self->{found} = [];
+    return $self;
+}
+
+#===================================
+sub check_scalar {
+#===================================
+    my $self = shift;
+    my $node = $_[0];
+    if ( defined $node && !ref $node && $node =~ /^__?(["'])(.+)\1$/s ) {
+        my $string = $2;
+        my $line   = $_[1];
+        push @{ $self->{found} }, [ $string, $line ];
+    }
+    return $node;
+}
+
+sub _parse_node {
+    my $self = shift;
+    my $line = $self->{_start_line}
+        ||= length( $self->preface ) ? $self->line - 1 : $self->line;
+    my $node = $self->SUPER::_parse_node(@_);
+    $self->{start_line} = 0;
+    return $self->check_scalar( $node, $line );
+}
+
+sub _parse_inline_seq {
+    my $self = shift;
+    my $line = $self->{_start_line} ||= $self->line;
+    my $node = $self->SUPER::_parse_inline_seq(@_);
+    foreach (@$node) {
+        $self->check_scalar( $_, $line );
+    }
+    $self->{start_line} = 0;
+    return $node;
+}
+
+sub _parse_inline_mapping {
+    my $self = shift;
+    my $line = $self->{_start_line} ||= $self->line;
+    my $node = $self->SUPER::_parse_inline_mapping(@_);
+    foreach ( values %$node ) {
+        $self->check_scalar( $_, $line );
+    }
+    $self->{start_line} = 0;
+    return $node;
+}
+
+#===================================
+sub _parse_next_line {
+#===================================
+    my $self = shift;
+    $self->{_start_line} = $self->line
+        if $_[0] == YAML::Loader::COLLECTION;
+    $self->SUPER::_parse_next_line(@_);
+}
+
+sub found {
+    my $self = shift;
+    return $self->{found};
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::YAML - YAML format parser
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -91,99 +195,6 @@ again with C<--verbose --verbose> (twice) enabled, so that you can see if
 the fault lies with YAML.  If it does, either correct the YAML source file,
 or use the file_types to exclude that file.
 
-=cut
-
-sub file_types {
-    return qw( yaml yml conf );
-}
-
-sub extract {
-    my $self = shift;
-    my $data = shift;
-
-    my $y = Locale::Maketext::Extract::Plugin::YAML::Extractor->new();
-    $y->load($data);
-
-    foreach my $entry ( @{ $y->found } ) {
-        $self->add_entry(@$entry);
-    }
-
-}
-
-package Locale::Maketext::Extract::Plugin::YAML::Extractor;
-
-use base qw(YAML::Loader);
-
-#===================================
-sub new {
-
-    #===================================
-    my $class = shift;
-    my $self  = $class->SUPER::new(@_);
-    $self->{found} = [];
-    return $self;
-}
-
-#===================================
-sub check_scalar {
-
-    #===================================
-    my $self = shift;
-    my $node = $_[0];
-    if ( defined $node && !ref $node && $node =~ /^__?(["'])(.+)\1$/s ) {
-        my $string = $2;
-        my $line   = $_[1];
-        push @{ $self->{found} }, [ $string, $line ];
-    }
-    return $node;
-}
-
-sub _parse_node {
-    my $self = shift;
-    my $line = $self->{_start_line} ||=
-      length( $self->preface ) ? $self->line - 1 : $self->line;
-    my $node = $self->SUPER::_parse_node(@_);
-    $self->{start_line} = 0;
-    return $self->check_scalar( $node, $line );
-}
-
-sub _parse_inline_seq {
-    my $self = shift;
-    my $line = $self->{_start_line} ||= $self->line;
-    my $node = $self->SUPER::_parse_inline_seq(@_);
-    foreach (@$node) {
-        $self->check_scalar( $_, $line );
-    }
-    $self->{start_line} = 0;
-    return $node;
-}
-
-sub _parse_inline_mapping {
-    my $self = shift;
-    my $line = $self->{_start_line} ||= $self->line;
-    my $node = $self->SUPER::_parse_inline_mapping(@_);
-    foreach ( values %$node ) {
-        $self->check_scalar( $_, $line );
-    }
-    $self->{start_line} = 0;
-    return $node;
-}
-
-#===================================
-sub _parse_next_line {
-
-    #===================================
-    my $self = shift;
-    $self->{_start_line} = $self->line
-      if $_[0] == YAML::Loader::COLLECTION;
-    $self->SUPER::_parse_next_line(@_);
-}
-
-sub found {
-    my $self = shift;
-    return $self->{found};
-}
-
 =head1 SEE ALSO
 
 =over 4
@@ -219,7 +230,7 @@ Clinton Gormley E<lt>clint@traveljury.comE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -243,6 +254,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

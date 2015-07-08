@@ -1,11 +1,73 @@
 package Locale::Maketext::Extract::Plugin::Generic;
-
+$Locale::Maketext::Extract::Plugin::Generic::VERSION = '1.00';
 use strict;
 use base qw(Locale::Maketext::Extract::Plugin::Base);
+
+# ABSTRACT: Generic template parser
+
+
+sub file_types {
+    return qw( * );
+}
+
+sub extract {
+    my $self = shift;
+    local $_ = shift;
+
+    my $line = 1;
+
+    # Generic Template:
+    $line = 1;
+    pos($_) = 0;
+    while (m/\G(.*?(?<!\{)\{\{(?!\{)(.*?)\}\})/sg) {
+        my ( $vars, $str ) = ( '', $2 );
+        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
+        $self->add_entry( $str, $line, $vars );
+    }
+
+    my $quoted
+        = '(\')([^\\\']*(?:\\.[^\\\']*)*)(\')|(\")([^\\\"]*(?:\\.[^\\\"]*)*)(\")';
+
+    # Comment-based mark: "..." # loc
+    $line = 1;
+    pos($_) = 0;
+    while (m/\G(.*?($quoted)[\}\)\],;]*\s*\#\s*loc\s*$)/smog) {
+        my $str = substr( $2, 1, -1 );
+        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
+        $str =~ s/\\(["'])/$1/g;
+        $self->add_entry( $str, $line, '' );
+    }
+
+    # Comment-based pair mark: "..." => "..." # loc_pair
+    $line = 1;
+    pos($_) = 0;
+    while (m/\G(.*?(\w+)\s*=>\s*($quoted)[\}\)\],;]*\s*\#\s*loc_pair\s*$)/smg)
+    {
+        my $key = $2;
+        my $val = substr( $3, 1, -1 );
+        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
+        $key =~ s/\\(["'])/$1/g;
+        $val =~ s/\\(["'])/$1/g;
+        $self->add_entry( $val, $line, '' );
+    }
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::Generic - Generic template parser
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -35,53 +97,6 @@ Strings inside {{...}} are extracted.
 =item All file types
 
 =back
-
-=cut
-
-sub file_types {
-    return qw( * );
-}
-
-sub extract {
-    my $self = shift;
-    local $_ = shift;
-
-    my $line = 1;
-
-    # Generic Template:
-    $line = 1;
-    pos($_) = 0;
-    while (m/\G(.*?(?<!\{)\{\{(?!\{)(.*?)\}\})/sg) {
-        my ( $vars, $str ) = ( '', $2 );
-        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
-        $self->add_entry( $str, $line, $vars );
-    }
-
-    my $quoted =
-      '(\')([^\\\']*(?:\\.[^\\\']*)*)(\')|(\")([^\\\"]*(?:\\.[^\\\"]*)*)(\")';
-
-    # Comment-based mark: "..." # loc
-    $line = 1;
-    pos($_) = 0;
-    while (m/\G(.*?($quoted)[\}\)\],;]*\s*\#\s*loc\s*$)/smog) {
-        my $str = substr( $2, 1, -1 );
-        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
-        $str =~ s/\\(["'])/$1/g;
-        $self->add_entry( $str, $line, '' );
-    }
-
-    # Comment-based pair mark: "..." => "..." # loc_pair
-    $line = 1;
-    pos($_) = 0;
-    while (m/\G(.*?(\w+)\s*=>\s*($quoted)[\}\)\],;]*\s*\#\s*loc_pair\s*$)/smg) {
-        my $key = $2;
-        my $val = substr( $3, 1, -1 );
-        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
-        $key =~ s/\\(["'])/$1/g;
-        $val =~ s/\\(["'])/$1/g;
-        $self->add_entry( $val, $line, '' );
-    }
-}
 
 =head1 SEE ALSO
 
@@ -116,7 +131,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -140,6 +155,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

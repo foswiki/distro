@@ -1,12 +1,124 @@
 package Locale::Maketext::Extract::Plugin::PPI;
-
+$Locale::Maketext::Extract::Plugin::PPI::VERSION = '1.00';
 use strict;
 use base qw(Locale::Maketext::Extract::Plugin::Base);
 use PPI();
 
+# ABSTRACT: Perl format parser
+
+
+sub file_types {
+    return qw( pm pl cgi );
+}
+
+my %subnames = map { $_ => 1 } qw (translate maketext gettext l loc x __);
+
+#===================================
+sub extract {
+#===================================
+    my $self = shift;
+    my $text = shift;
+
+    my $doc = PPI::Document->new( \$text, index_locations => 1 );
+
+    foreach my $statement ( @{ $doc->find('PPI::Statement') } ) {
+        my @children = $statement->schildren;
+
+        while ( my $child = shift @children ) {
+            next
+                unless @children
+                && ( $child->isa('PPI::Token::Word')
+                && $subnames{ $child->content }
+                || $child->isa('PPI::Token::Magic')
+                && $child->content eq '_' );
+
+            my $list = shift @children;
+            next
+                unless $list->isa('PPI::Structure::List')
+                && $list->schildren;
+
+            $self->_check_arg_list($list);
+        }
+    }
+}
+
+#===================================
+sub _check_arg_list {
+#===================================
+    my $self = shift;
+    my $list = shift;
+    my @args = ( $list->schildren )[0]->schildren;
+
+    my $final_string = '';
+    my ( $line, $mode );
+
+    while ( my $string_el = shift @args ) {
+        return
+            unless $string_el->isa('PPI::Token::Quote')
+            || $string_el->isa('PPI::Token::HereDoc');
+        $line ||= $string_el->location->[0];
+        my $string;
+        if ( $string_el->isa('PPI::Token::HereDoc') ) {
+            $string = join( '', $string_el->heredoc );
+            $mode
+                = $string_el->{_mode} eq 'interpolate'
+                ? 'double'
+                : 'literal';
+        }
+        else {
+            $string = $string_el->string;
+            $mode
+                = $string_el->isa('PPI::Token::Quote::Literal') ? 'literal'
+                : (    $string_el->isa('PPI::Token::Quote::Double')
+                    || $string_el->isa('PPI::Token::Quote::Interpolate') )
+                ? 'double'
+                : 'single';
+        }
+
+        if ( $mode eq 'double' ) {
+            return
+                if !!( $string =~ /(?<!\\)(?:\\\\)*[\$\@]/ );
+            $string = eval qq("$string");
+        }
+        elsif ( $mode eq 'single' ) {
+            $string =~ s/\\'/'/g;
+        }
+
+        #    $string =~ s/(?<!\\)\\//g;
+        $string =~ s/\\\\/\\/g;
+
+        #        unless $mode eq 'literal';
+
+        $final_string .= $string;
+
+        my $next_op = shift @args;
+        last
+            unless $next_op
+            && $next_op->isa('PPI::Token::Operator')
+            && $next_op->content eq '.';
+    }
+    return unless $final_string;
+
+    my $vars = join( '', map { $_->content } @args );
+    $self->add_entry( $final_string, $line, $vars );
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::PPI - Perl format parser
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -23,7 +135,6 @@ Does exactly the same thing as the L<Locale::Maketext::Extract::Plugin::Perl>
 parser, but more accurately, and more slowly. Considerably more slowly! For this
 reason it isn't a built-in plugin.
 
-
 =head1 SHORT PLUGIN NAME
 
     none - the module must be specified in full
@@ -39,6 +150,8 @@ Valid localization function names are:
 =item maketext
 
 =item gettext
+
+=item l
 
 =item loc
 
@@ -61,106 +174,6 @@ Valid localization function names are:
 =item .cgi
 
 =back
-
-=cut
-
-sub file_types {
-    return qw( pm pl cgi );
-}
-
-my %subnames = map { $_ => 1 } qw (translate maketext gettext loc x __);
-
-#===================================
-sub extract {
-
-    #===================================
-    my $self = shift;
-    my $text = shift;
-
-    my $doc = PPI::Document->new( \$text, index_locations => 1 );
-
-    foreach my $statement ( @{ $doc->find('PPI::Statement') } ) {
-        my @children = $statement->schildren;
-
-        while ( my $child = shift @children ) {
-            next
-              unless @children
-                  && (   $child->isa('PPI::Token::Word')
-                      && $subnames{ $child->content }
-                      || $child->isa('PPI::Token::Magic')
-                      && $child->content eq '_' );
-
-            my $list = shift @children;
-            next
-              unless $list->isa('PPI::Structure::List')
-                  && $list->schildren;
-
-            $self->_check_arg_list($list);
-        }
-    }
-}
-
-#===================================
-sub _check_arg_list {
-
-    #===================================
-    my $self = shift;
-    my $list = shift;
-    my @args = ( $list->schildren )[0]->schildren;
-
-    my $final_string = '';
-    my ( $line, $mode );
-
-    while ( my $string_el = shift @args ) {
-        return
-          unless $string_el->isa('PPI::Token::Quote')
-              || $string_el->isa('PPI::Token::HereDoc');
-        $line ||= $string_el->location->[0];
-        my $string;
-        if ( $string_el->isa('PPI::Token::HereDoc') ) {
-            $string = join( '', $string_el->heredoc );
-            $mode =
-              $string_el->{_mode} eq 'interpolate'
-              ? 'double'
-              : 'literal';
-        }
-        else {
-            $string = $string_el->string;
-            $mode =
-              $string_el->isa('PPI::Token::Quote::Literal') ? 'literal'
-              : (    $string_el->isa('PPI::Token::Quote::Double')
-                  || $string_el->isa('PPI::Token::Quote::Interpolate') )
-              ? 'double'
-              : 'single';
-        }
-
-        if ( $mode eq 'double' ) {
-            return
-              if !!( $string =~ /(?<!\\)(?:\\\\)*[\$\@]/ );
-            $string = eval qq("$string");
-        }
-        elsif ( $mode eq 'single' ) {
-            $string =~ s/\\'/'/g;
-        }
-
-        #    $string =~ s/(?<!\\)\\//g;
-        $string =~ s/\\\\/\\/g;
-
-        #        unless $mode eq 'literal';
-
-        $final_string .= $string;
-
-        my $next_op = shift @args;
-        last
-          unless $next_op
-              && $next_op->isa('PPI::Token::Operator')
-              && $next_op->content eq '.';
-    }
-    return unless $final_string;
-
-    my $vars = join( '', map { $_->content } @args );
-    $self->add_entry( $final_string, $line, $vars );
-}
 
 =head1 SEE ALSO
 
@@ -197,7 +210,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -221,6 +234,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

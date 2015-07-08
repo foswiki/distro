@@ -1,14 +1,71 @@
 package Locale::Maketext::Extract::Plugin::TextTemplate;
-
+$Locale::Maketext::Extract::Plugin::TextTemplate::VERSION = '1.00';
 use strict;
 use base qw(Locale::Maketext::Extract::Plugin::Base);
-use vars qw($VERSION);
 
-$VERSION = '0.31';
+# ABSTRACT: Text::Template format parser
+
+
+sub file_types {
+    return qw( * );
+}
+
+sub extract {
+    my $self = shift;
+    local $_ = shift;
+
+    my $line = 1;
+    pos($_) = 0;
+
+    # Text::Template
+    if ( $_ =~ /^STARTTEXT$/m and $_ =~ /^ENDTEXT$/m ) {
+        require HTML::Parser;
+        require Lingua::EN::Sentence;
+
+        {
+
+            package Locale::Maketext::Extract::Plugin::TextTemplate::Parser;
+$Locale::Maketext::Extract::Plugin::TextTemplate::Parser::VERSION = '1.00';
+our @ISA = 'HTML::Parser';
+            *{'text'} = sub {
+                my ( $self, $str, $is_cdata ) = @_;
+                my $sentences = Lingua::EN::Sentence::get_sentences($str)
+                    or return;
+                $str =~ s/\n/ /g;
+                $str =~ s/^\s+//;
+                $str =~ s/\s+$//;
+                $self->add_entry( $str, $line );
+            };
+        }
+
+        my $p = Locale::Maketext::Extract::Plugin::TextTemplate::Parser->new;
+        while (m/\G((.*?)^(?:START|END)[A-Z]+$)/smg) {
+            my ($str) = ($2);
+            $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
+            $p->parse($str);
+            $p->eof;
+        }
+        $_ = '';
+    }
+
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::TextTemplate - Text::Template format parser
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -38,51 +95,6 @@ Sentences between STARTxxx and ENDxxx are extracted individually.
 =item All file types
 
 =back
-
-=cut
-
-sub file_types {
-    return qw( * );
-}
-
-sub extract {
-    my $self = shift;
-    local $_ = shift;
-
-    my $line = 1;
-    pos($_) = 0;
-
-    # Text::Template
-    if ( $_ =~ /^STARTTEXT$/m and $_ =~ /^ENDTEXT$/m ) {
-        require HTML::Parser;
-        require Lingua::EN::Sentence;
-
-        {
-
-            package Locale::Maketext::Extract::Plugin::TextTemplate::Parser;
-            our @ISA = 'HTML::Parser';
-            *{'text'} = sub {
-                my ( $self, $str, $is_cdata ) = @_;
-                my $sentences = Lingua::EN::Sentence::get_sentences($str)
-                  or return;
-                $str =~ s/\n/ /g;
-                $str =~ s/^\s+//;
-                $str =~ s/\s+$//;
-                $self->add_entry( $str, $line );
-            };
-        }
-
-        my $p = Locale::Maketext::Extract::Plugin::TextTemplate::Parser->new;
-        while (m/\G((.*?)^(?:START|END)[A-Z]+$)/smg) {
-            my ($str) = ($2);
-            $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
-            $p->parse($str);
-            $p->eof;
-        }
-        $_ = '';
-    }
-
-}
 
 =head1 SEE ALSO
 
@@ -117,7 +129,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -141,6 +153,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

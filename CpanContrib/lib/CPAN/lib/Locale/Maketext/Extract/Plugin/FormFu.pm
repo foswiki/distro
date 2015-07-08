@@ -1,64 +1,10 @@
 package Locale::Maketext::Extract::Plugin::FormFu;
-
+$Locale::Maketext::Extract::Plugin::FormFu::VERSION = '1.00';
 use strict;
 use base qw(Locale::Maketext::Extract::Plugin::Base);
 
-=head1 NAME
+# ABSTRACT: FormFu format parser
 
-Locale::Maketext::Extract::Plugin::FormFu - FormFu format parser
-
-=head1 SYNOPSIS
-
-    $plugin = Locale::Maketext::Extract::Plugin::FormFu->new(
-        $lexicon            # A Locale::Maketext::Extract object
-        @file_types         # Optionally specify a list of recognised file types
-    )
-
-    $plugin->extract($filename,$filecontents);
-
-=head1 DESCRIPTION
-
-HTML::FormFu uses a config-file to generate forms, with built in support
-for localizing errors, labels etc.
-
-=head1 SHORT PLUGIN NAME
-
-    formfu
-
-=head1 VALID FORMATS
-
-We extract the text after any key which ends in C<_loc>:
-
-    content_loc: this is the string
-
-=head1 KNOWN FILE TYPES
-
-=over 4
-
-=item .yaml
-
-=item .yml
-
-=item .conf
-
-=back
-
-=head1 REQUIRES
-
-L<YAML>
-
-=head1 NOTES
-
-The docs for the YAML module describes it as alpha code. It is not as tolerant
-of errors as L<YAML::Syck>. However, because it is pure Perl, it is easy
-to hook into.
-
-I have seen it enter endless loops, so if xgettext.pl hangs, try running it
-again with C<--verbose --verbose> (twice) enabled, so that you can see if
-the fault lies with YAML.  If it does, either correct the YAML source file,
-or use the file_types to exclude that file.
-
-=cut
 
 sub file_types {
     return qw( yaml yml conf );
@@ -78,13 +24,12 @@ sub extract {
 }
 
 package Locale::Maketext::Extract::Plugin::FormFu::Extractor;
-
+$Locale::Maketext::Extract::Plugin::FormFu::Extractor::VERSION = '1.00';
 use base qw(YAML::Loader);
 
 #===================================
 sub new {
-
-    #===================================
+#===================================
     my $class = shift;
     my $self  = $class->SUPER::new(@_);
     $self->{found} = [];
@@ -93,21 +38,28 @@ sub new {
 
 #===================================
 sub _check_key {
-
-    #===================================
+#===================================
     my $self = shift;
     my ( $key, $value, $line ) = @_;
-    if ( $key && $key =~ /_loc$/ && defined $value && !ref $value ) {
-        push @{ $self->{found} }, [ $value, $line ];
+    my ( $str, $vars );
+    if ( ref $value ) {
+        return if ref $value ne 'ARRAY';
+        $str = shift @$value;
+        $vars = join( ', ', @$value );
     }
-
-    return;
+    else {
+        $str = $value;
+    }
+    return
+           unless $key
+        && $key =~ /_loc$/
+        && defined $str;
+    push @{ $self->{found} }, [ $str, $line, $vars ];
 }
 
 #===================================
 sub _parse_mapping {
-
-    #===================================
+#===================================
     my $self     = shift;
     my ($anchor) = @_;
     my $mapping  = {};
@@ -164,8 +116,7 @@ sub _parse_mapping {
 
 #===================================
 sub _parse_inline_mapping {
-
-    #===================================
+#===================================
     my $self       = shift;
     my ($anchor)   = @_;
     my $node       = {};
@@ -174,11 +125,11 @@ sub _parse_inline_mapping {
     $self->anchor2node->{$anchor} = $node;
 
     $self->die('YAML_PARSE_ERR_INLINE_MAP')
-      unless $self->{inline} =~ s/^\{\s*//;
+        unless $self->{inline} =~ s/^\{\s*//;
     while ( not $self->{inline} =~ s/^\s*\}// ) {
         my $key = $self->_parse_inline();
         $self->die('YAML_PARSE_ERR_INLINE_MAP')
-          unless $self->{inline} =~ s/^\: \s*//;
+            unless $self->{inline} =~ s/^\: \s*//;
         my $value = $self->_parse_inline();
         if ( exists $node->{$key} ) {
             $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY');
@@ -189,15 +140,14 @@ sub _parse_inline_mapping {
         }
         next if $self->inline =~ /^\s*\}/;
         $self->die('YAML_PARSE_ERR_INLINE_MAP')
-          unless $self->{inline} =~ s/^\,\s*//;
+            unless $self->{inline} =~ s/^\,\s*//;
     }
     return $node;
 }
 
 #===================================
 sub _parse_next_line {
-
-    #===================================
+#===================================
     my $self = shift;
     $self->{_start_line} = $self->line;
     $self->SUPER::_parse_next_line(@_);
@@ -205,11 +155,79 @@ sub _parse_next_line {
 
 #===================================
 sub found {
-
-    #===================================
+#===================================
     my $self = shift;
     return $self->{found};
 }
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Locale::Maketext::Extract::Plugin::FormFu - FormFu format parser
+
+=head1 VERSION
+
+version 1.00
+
+=head1 SYNOPSIS
+
+    $plugin = Locale::Maketext::Extract::Plugin::FormFu->new(
+        $lexicon            # A Locale::Maketext::Extract object
+        @file_types         # Optionally specify a list of recognised file types
+    )
+
+    $plugin->extract($filename,$filecontents);
+
+=head1 DESCRIPTION
+
+HTML::FormFu uses a config-file to generate forms, with built in support
+for localizing errors, labels etc.
+
+=head1 SHORT PLUGIN NAME
+
+    formfu
+
+=head1 VALID FORMATS
+
+We extract the text after any key which ends in C<_loc>:
+
+    content_loc: this is the string
+    message_loc: ['Max length [_1]', 10]
+
+=head1 KNOWN FILE TYPES
+
+=over 4
+
+=item .yaml
+
+=item .yml
+
+=item .conf
+
+=back
+
+=head1 REQUIRES
+
+L<YAML>
+
+=head1 NOTES
+
+The docs for the YAML module describes it as alpha code. It is not as tolerant
+of errors as L<YAML::Syck>. However, because it is pure Perl, it is easy
+to hook into.
+
+I have seen it enter endless loops, so if xgettext.pl hangs, try running it
+again with C<--verbose --verbose> (twice) enabled, so that you can see if
+the fault lies with YAML.  If it does, either correct the YAML source file,
+or use the file_types to exclude that file.
 
 =head1 SEE ALSO
 
@@ -248,7 +266,7 @@ Clinton Gormley E<lt>clint@traveljury.comE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -272,6 +290,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut

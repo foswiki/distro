@@ -1,12 +1,167 @@
 package Locale::Maketext::Extract::Plugin::Perl;
-
+$Locale::Maketext::Extract::Plugin::Perl::VERSION = '1.00';
 use strict;
 
 use base qw(Locale::Maketext::Extract::Plugin::Base);
 
+# ABSTRACT: Perl format parser
+
+
+use constant NUL  => 0;
+use constant BEG  => 1;
+use constant PAR  => 2;
+use constant HERE => 10;
+use constant QUO1 => 3;
+use constant QUO2 => 4;
+use constant QUO3 => 5;
+use constant QUO4 => 6;
+use constant QUO5 => 7;
+use constant QUO6 => 8;
+use constant QUO7 => 9;
+
+sub file_types {
+    return qw( pm pl cgi );
+}
+
+sub extract {
+    my $self = shift;
+    local $_ = shift;
+
+    local $SIG{__WARN__} = sub { die @_ };
+
+    # Perl code:
+    my ( $state, $line_offset, $str, $str_part, $vars, $quo, $heredoc )
+        = ( 0, 0 );
+    my $orig = 1 + ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
+
+PARSER: {
+        $_ = substr( $_, pos($_) ) if ( pos($_) );
+        my $line = $orig - ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
+
+        # various ways to spell the localization function
+        $state == NUL
+            && m/\b(translate|maketext|gettext|__?|loc(?:ali[sz]e)?|l|x)/gc
+            && do { $state = BEG; redo };
+        $state == BEG && m/^([\s\t\n]*)/gc && redo;
+
+        # begin ()
+        $state == BEG
+            && m/^([\S\(])\s*/gc
+            && do { $state = ( ( $1 eq '(' ) ? PAR : NUL ); redo };
+
+        # concat
+        $state == PAR
+            && defined($str)
+            && m/^(\s*\.\s*)/gc
+            && do { $line_offset += ( () = ( ( my $__ = $1 ) =~ /\n/g ) ); redo };
+
+        # str_part
+        $state == PAR && defined($str_part) && do {
+            if ( ( $quo == QUO1 ) || ( $quo == QUO5 ) ) {
+                $str_part =~ s/\\([\\'])/$1/g
+                    if ($str_part);    # normalize q strings
+            }
+            elsif ( $quo != QUO6 ) {
+                $str_part =~ s/(\\(?:[0x]..|c?.))/"qq($1)"/eeg
+                    if ($str_part);    # normalize qq / qx strings
+            }
+            $str .= $str_part;
+            undef $str_part;
+            undef $quo;
+            redo;
+        };
+
+        # begin or end of string
+        $state == PAR && m/^(\')/gc && do { $state = $quo = QUO1; redo };
+        $state == QUO1 && m/^([^'\\]+)/gc   && do { $str_part .= $1; redo };
+        $state == QUO1 && m/^((?:\\.)+)/gcs && do { $str_part .= $1; redo };
+        $state == QUO1 && m/^\'/gc && do { $state = PAR; redo };
+
+        $state == PAR && m/^\"/gc && do { $state = $quo = QUO2; redo };
+        $state == QUO2 && m/^([^"\\]+)/gc   && do { $str_part .= $1; redo };
+        $state == QUO2 && m/^((?:\\.)+)/gcs && do { $str_part .= $1; redo };
+        $state == QUO2 && m/^\"/gc && do { $state = PAR; redo };
+
+        $state == PAR && m/^\`/gc && do { $state = $quo = QUO3; redo };
+        $state == QUO3 && m/^([^\`]*)/gc && do { $str_part .= $1; redo };
+        $state == QUO3 && m/^\`/gc && do { $state = PAR; redo };
+
+        $state == PAR && m/^qq\{/gc && do { $state = $quo = QUO4; redo };
+        $state == QUO4 && m/^([^\}]*)/gc && do { $str_part .= $1; redo };
+        $state == QUO4 && m/^\}/gc && do { $state = PAR; redo };
+
+        $state == PAR && m/^q\{/gc && do { $state = $quo = QUO5; redo };
+        $state == QUO5 && m/^([^\}]*)/gc && do { $str_part .= $1; redo };
+        $state == QUO5 && m/^\}/gc && do { $state = PAR; redo };
+
+        # find heredoc terminator, then get the
+        #heredoc and go back to current position
+        $state == PAR
+            && m/^<<\s*\'/gc
+            && do { $state = $quo = QUO6; $heredoc = ''; redo };
+        $state == QUO6 && m/^([^'\\\n]+)/gc && do { $heredoc .= $1; redo };
+        $state == QUO6 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
+        $state == QUO6
+            && m/^\'/gc
+            && do { $state = HERE; $heredoc =~ s/\\\'/\'/g; redo };
+
+        $state == PAR
+            && m/^<<\s*\"/gc
+            && do { $state = $quo = QUO7; $heredoc = ''; redo };
+        $state == QUO7 && m/^([^"\\\n]+)/gc && do { $heredoc .= $1; redo };
+        $state == QUO7 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
+        $state == QUO7
+            && m/^\"/gc
+            && do { $state = HERE; $heredoc =~ s/\\\"/\"/g; redo };
+
+        $state == PAR
+            && m/^<<(\w*)/gc
+            && do { $state = HERE; $quo = QUO7; $heredoc = $1; redo };
+
+        # jump ahead and get the heredoc, then s/// also
+        # resets the pos and we are back at the current pos
+        $state == HERE
+            && m/^.*\r?\n/gc
+            && s/\G(.*?\r?\n)$heredoc(\r?\n)//s
+            && do { $state = PAR; $str_part .= $1; $line_offset++; redo };
+
+        # end ()
+        #
+
+        $state == PAR && m/^\s*[\)]/gc && do {
+            $state = NUL;
+            $vars =~ s/[\n\r]//g if ($vars);
+            $self->add_entry( $str,
+                $line - ( () = $str =~ /\n/g ) - $line_offset, $vars )
+                if $str;
+            undef $str;
+            undef $vars;
+            undef $heredoc;
+            $line_offset = 0;
+            redo;
+        };
+
+        # a line of vars
+        $state == PAR && m/^([^\)]*)/gc && do { $vars .= "$1\n"; redo };
+    }
+}
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 Locale::Maketext::Extract::Plugin::Perl - Perl format parser
+
+=head1 VERSION
+
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -42,6 +197,8 @@ Valid localization function names are:
 
 =item gettext
 
+=item l
+
 =item loc
 
 =item x
@@ -63,147 +220,6 @@ Valid localization function names are:
 =item .cgi
 
 =back
-
-=cut
-
-use constant NUL  => 0;
-use constant BEG  => 1;
-use constant PAR  => 2;
-use constant HERE => 10;
-use constant QUO1 => 3;
-use constant QUO2 => 4;
-use constant QUO3 => 5;
-use constant QUO4 => 6;
-use constant QUO5 => 7;
-use constant QUO6 => 8;
-use constant QUO7 => 9;
-
-sub file_types {
-    return qw( pm pl cgi );
-}
-
-sub extract {
-    my $self = shift;
-    local $_ = shift;
-
-    local $SIG{__WARN__} = sub { die @_ };
-
-    # Perl code:
-    my ( $state, $line_offset, $str, $str_part, $vars, $quo, $heredoc ) =
-      ( 0, 0 );
-    my $orig = 1 + ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
-
-  PARSER: {
-        $_ = substr( $_, pos($_) ) if ( pos($_) );
-        my $line = $orig - ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
-
-        # various ways to spell the localization function
-        $state == NUL
-          && m/\b(translate|maketext|gettext|__?|loc(?:ali[sz]e)?|x)/gc
-          && do { $state = BEG; redo };
-        $state == BEG && m/^([\s\t\n]*)/gc && redo;
-
-        # begin ()
-        $state == BEG
-          && m/^([\S\(])\s*/gc
-          && do { $state = ( ( $1 eq '(' ) ? PAR : NUL ); redo };
-
-        # concat
-        $state == PAR
-          && defined($str)
-          && m/^(\s*\.\s*)/gc
-          && do { $line_offset += ( () = ( ( my $__ = $1 ) =~ /\n/g ) ); redo };
-
-        # str_part
-        $state == PAR && defined($str_part) && do {
-            if ( ( $quo == QUO1 ) || ( $quo == QUO5 ) ) {
-                $str_part =~ s/\\([\\'])/$1/g
-                  if ($str_part);    # normalize q strings
-            }
-            elsif ( $quo != QUO6 ) {
-                $str_part =~ s/(\\(?:[0x]..|c?.))/"qq($1)"/eeg
-                  if ($str_part);    # normalize qq / qx strings
-            }
-            $str .= $str_part;
-            undef $str_part;
-            undef $quo;
-            redo;
-        };
-
-        # begin or end of string
-        $state == PAR && m/^(\')/gc && do { $state = $quo = QUO1; redo };
-        $state == QUO1 && m/^([^'\\]+)/gc   && do { $str_part .= $1; redo };
-        $state == QUO1 && m/^((?:\\.)+)/gcs && do { $str_part .= $1; redo };
-        $state == QUO1 && m/^\'/gc && do { $state = PAR; redo };
-
-        $state == PAR && m/^\"/gc && do { $state = $quo = QUO2; redo };
-        $state == QUO2 && m/^([^"\\]+)/gc   && do { $str_part .= $1; redo };
-        $state == QUO2 && m/^((?:\\.)+)/gcs && do { $str_part .= $1; redo };
-        $state == QUO2 && m/^\"/gc && do { $state = PAR; redo };
-
-        $state == PAR && m/^\`/gc && do { $state = $quo = QUO3; redo };
-        $state == QUO3 && m/^([^\`]*)/gc && do { $str_part .= $1; redo };
-        $state == QUO3 && m/^\`/gc && do { $state = PAR; redo };
-
-        $state == PAR && m/^qq\{/gc && do { $state = $quo = QUO4; redo };
-        $state == QUO4 && m/^([^\}]*)/gc && do { $str_part .= $1; redo };
-        $state == QUO4 && m/^\}/gc && do { $state = PAR; redo };
-
-        $state == PAR && m/^q\{/gc && do { $state = $quo = QUO5; redo };
-        $state == QUO5 && m/^([^\}]*)/gc && do { $str_part .= $1; redo };
-        $state == QUO5 && m/^\}/gc && do { $state = PAR; redo };
-
-        # find heredoc terminator, then get the
-        #heredoc and go back to current position
-        $state == PAR
-          && m/^<<\s*\'/gc
-          && do { $state = $quo = QUO6; $heredoc = ''; redo };
-        $state == QUO6 && m/^([^'\\\n]+)/gc && do { $heredoc .= $1; redo };
-        $state == QUO6 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
-        $state == QUO6
-          && m/^\'/gc
-          && do { $state = HERE; $heredoc =~ s/\\\'/\'/g; redo };
-
-        $state == PAR
-          && m/^<<\s*\"/gc
-          && do { $state = $quo = QUO7; $heredoc = ''; redo };
-        $state == QUO7 && m/^([^"\\\n]+)/gc && do { $heredoc .= $1; redo };
-        $state == QUO7 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
-        $state == QUO7
-          && m/^\"/gc
-          && do { $state = HERE; $heredoc =~ s/\\\"/\"/g; redo };
-
-        $state == PAR
-          && m/^<<(\w*)/gc
-          && do { $state = HERE; $quo = QUO7; $heredoc = $1; redo };
-
-        # jump ahaid and get the heredoc, then s/// also
-        # resets the pos and we are back at the current pos
-        $state == HERE
-          && m/^.*\r?\n/gc
-          && s/\G(.*?\r?\n)$heredoc(\r?\n)//s
-          && do { $state = PAR; $str_part .= $1; $line_offset++; redo };
-
-        # end ()
-        #
-
-        $state == PAR && m/^\s*[\)]/gc && do {
-            $state = NUL;
-            $vars =~ s/[\n\r]//g if ($vars);
-            $self->add_entry( $str,
-                $line - ( () = $str =~ /\n/g ) - $line_offset, $vars )
-              if $str;
-            undef $str;
-            undef $vars;
-            undef $heredoc;
-            $line_offset = 0;
-            redo;
-        };
-
-        # a line of vars
-        $state == PAR && m/^([^\)]*)/gc && do { $vars .= "$1\n"; redo };
-    }
-}
 
 =head1 SEE ALSO
 
@@ -240,7 +256,7 @@ Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
+Copyright 2002-2013 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 This software is released under the MIT license cited below.
 
@@ -264,6 +280,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-=cut
+=head1 AUTHORS
 
-1;
+=over 4
+
+=item *
+
+Clinton Gormley <drtech@cpan.org>
+
+=item *
+
+Audrey Tang <cpan@audreyt.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Audrey Tang.
+
+This is free software, licensed under:
+
+  The MIT (X11) License
+
+=cut
