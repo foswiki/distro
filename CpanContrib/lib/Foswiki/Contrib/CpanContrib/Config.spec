@@ -1,3 +1,0 @@
-# ---+ Extensions
-# ---++ CpanContrib
-1;
