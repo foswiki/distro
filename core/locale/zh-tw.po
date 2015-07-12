@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-03 17:01+0200\n"
+"PO-Revision-Date: 2015-07-12 13:00+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -1605,7 +1605,7 @@ msgstr "電子信箱:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "本 Foswiki 網站不開放電子郵件使用。"
+msgstr "本 Foswiki 網站禁止使用電子郵件"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -1684,7 +1684,7 @@ msgstr "移除群組使用者錯誤"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Escape markup"
-msgstr "標記取消"
+msgstr "轉義標記"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:125
 msgid "Everybody"
@@ -3364,9 +3364,7 @@ msgstr "請求驗證"
 msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
-msgstr ""
-"請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或"
-"更新。"
+msgstr "請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或更新"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -3532,7 +3530,7 @@ msgstr "搜尋"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
-msgstr "只搜尋 %1 子網 "
+msgstr "只搜尋 %1 子網"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
@@ -3541,7 +3539,7 @@ msgstr "搜尋 && 取代"
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Search all webs"
-msgstr "搜尋所有子網 "
+msgstr "搜尋所有子網"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
 #: core/templates/more.tmpl:87
@@ -3700,7 +3698,7 @@ msgstr "設定所有"
 
 #: core/templates/more.tmpl:104
 msgid "Set new parent"
-msgstr "設定新父主題 "
+msgstr "設定新的父主題"
 
 #: core/templates/more.tmpl:96
 msgid "Set new topic parent"
@@ -4329,7 +4327,7 @@ msgstr "這是您新評論的一個臨時存放點。請刷新主題來看實際
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "這就是跨站偽請求，或 CSRF。"
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:82
@@ -4362,7 +4360,7 @@ msgstr "這是本對話被禁止的原因："
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
-msgstr ""
+msgstr "這是您名字的 !WikiWord ，例如: !JohnSmith 。 若無帳戶請 [[%1] [註冊]] 。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "This must be a unique WikiName."
@@ -4382,11 +4380,11 @@ msgstr "名稱已選定，所以不會和其他 %1 內的主題衝突。"
 msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
-msgstr ""
+msgstr "本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻擊。"
 
 #: PatternSkin/templates/view.pattern.tmpl:72
 msgid "This page was cached on %1."
-msgstr ""
+msgstr "本頁的暫存在 %1 。"
 
 #: core/templates/messages.tmpl:226
 msgid "This requires the form definition to be present."
@@ -4406,7 +4404,7 @@ msgstr "系統設定使用使用者名稱。"
 
 #: core/templates/messages.tmpl:384
 msgid "This system is not configured to support user login. Return to [[%1]]."
-msgstr ""
+msgstr "本系統並不支援用戶登入。回到 [[%1]]。"
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
@@ -4432,6 +4430,8 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
+"雖然日常很少使用，你可以使用 !Wikinames 加上特殊的 ==%<nop>USERSWEB%== [[%1.Macros][巨集]] 前綴，例如 "
+"==%<nop>USERSWEB%.%WIKINAME%== 。"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
 #: core/data/System/FrequentlyAskedQuestions.txt:65
@@ -4458,15 +4458,15 @@ msgstr "要將上面的檢索結果顯示於文章內，請複製並貼上下面
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
-msgstr "強制編輯本主題，請按"
+msgstr "強制編輯本主題，請按 "
 
 #: core/templates/messages.tmpl:393
 msgid "To login as another user please do so [[%1][here]]."
-msgstr ""
+msgstr "以另一個使用者登入，請點 [[%1][這裡]]。"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
-msgstr "檢查 %1 是否已編輯完畢，請按"
+msgstr "檢查 %1 是否已編輯完畢，請按 "
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
@@ -4486,7 +4486,7 @@ msgstr "到子網:"
 
 #: core/templates/messages.tmpl:489
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "解析模板 %1 時出現過多遞迴"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -4571,7 +4571,7 @@ msgstr "合併主題"
 
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:107
 msgid "Topic will be named: "
-msgstr "主題將改名為:"
+msgstr "主題將改名為: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -4606,15 +4606,15 @@ msgstr "再試一次"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "網址"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
 msgid "Unchanged sections before and after each change"
-msgstr ""
+msgstr "每個更改前後的不變段落"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:44
 msgid "Underline"
-msgstr ""
+msgstr "底線"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
 msgid "Undo last change"
@@ -4622,7 +4622,7 @@ msgstr "回復最近的改變"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Unescape markup"
-msgstr ""
+msgstr "反轉義標記"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -4636,21 +4636,21 @@ msgstr "無法識別的功能 %1"
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
-msgstr ""
+msgstr "拒絕不安全的轉址至 %1。被請求的主機不是 %2，且不在 {PermittedRedirectHostUrls} 。"
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
-msgstr ""
+msgstr "退訂"
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
-msgstr ""
+msgstr "退訂本主題"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
-msgstr ""
+msgstr "退訂這（些）主題"
 
 #: core/templates/registermessages.tmpl:204
 msgid "Unsupported [[%1][username]]"
@@ -4672,7 +4672,7 @@ msgstr "更新連結"
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
-msgstr ""
+msgstr "升級"
 
 #: core/data/Main/GroupViewTemplate.txt:172
 msgid "Upgrade group topic..."
@@ -4724,6 +4724,8 @@ msgid ""
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
 msgstr ""
+"使用此按鈕載入內容。 %BR% *注意* 內容非常多，載入它將使瀏覽器負載變大。若您要列印內容才載入內容 - "
+"否則使用[[ReferenceManual][線上參考手冊]]。"
 
 #: core/data/System/SiteChanges.txt:14
 msgid ""
@@ -4731,11 +4733,12 @@ msgid ""
 "can be very resource intensive. Only load the content if you really need it, "
 "otherwise review the WebChanges topic from each web."
 msgstr ""
+"使用此按鈕載入內容。 %BR% *注意* 搜尋這主題可能耗費極多資源。只有您真的需要時才載入內容，否則請參考各子網的 WebChanges 主題。"
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "使用者 ％1 無變更 %2 的權限。"
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
@@ -4764,7 +4767,7 @@ msgid ""
 "User exists in the Password Manager,  and the password you provided is "
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
-msgstr ""
+msgstr "使用者在密碼管理員中，且您提供的密碼是與使用者目前的密碼不同。您不能同時增加使用者和改變密碼。"
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -4786,20 +4789,20 @@ msgstr "用戶"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "使用者無法加入 %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "使用者無法自 ％1 移除"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "Users who may edit:"
-msgstr ""
+msgstr "能編輯的使用者:"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "Users who may view:"
-msgstr ""
+msgstr "能瀏覽的使用者:"
 
 #: core/templates/registermessages.tmpl:316
 msgid ""
@@ -4809,7 +4812,7 @@ msgstr "使用自動產生密碼的用戶應立刻[[%1][修改成易記的密碼
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "逐字"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
@@ -4917,7 +4920,7 @@ msgstr "警告: 無法寄送確認郵件"
 
 #: core/lib/Foswiki/UI/Register.pm:1289
 msgid "Warning: Could not send confirmation email, email has been disabled"
-msgstr "警告: 無法寄送確認郵件，郵件已禁用。"
+msgstr "警告: 無法寄送確認郵件，郵件已禁用"
 
 #: core/templates/messages.tmpl:380
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
@@ -4925,7 +4928,7 @@ msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
 msgid "Warning: Updates found for %1 extension(s)."
-msgstr ""
+msgstr "警告: 找到擴充 %1 的更新。"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:439
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
@@ -4939,13 +4942,13 @@ msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
-msgstr ""
+msgstr "我們發現您停用 !Javascript。若您想註冊請開啟 !Javascript。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
-msgstr ""
+msgstr "我們發現您停用 cookies。若您想註冊請開啟 cookies。"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:115
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:83
@@ -4955,7 +4958,7 @@ msgstr "子網"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "子網更新通知服務"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:10
 #: core/data/System/SiteChanges.txt:91
@@ -4964,11 +4967,11 @@ msgstr "子網"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "網站 <em>使用 Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "歡迎來到 %1 …與站上朋友相會"
 
 #: core/data/Main/WebHome.txt:2 core/data/Sandbox/WebHome.txt:2
 #: core/data/System/WebHome.txt:2 core/data/Trash/WebHome.txt:2
@@ -4986,11 +4989,11 @@ msgstr "誰"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "到底是誰提出這個要求？"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
-msgstr ""
+msgstr "全頁"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
@@ -5000,7 +5003,7 @@ msgstr "為何我被要求確認？"
 msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
-msgstr ""
+msgstr "Wiki 管理者必讀有關 [[%1][Foswiki.org 上安全功能的主題]]。"
 
 #: core/data/System/WebSearch.txt:189
 msgid "Word search"
@@ -5012,11 +5015,11 @@ msgstr "您喜歡去:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:50
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "你"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 msgid ""
@@ -5113,7 +5116,7 @@ msgstr "您能為本子網改名。"
 #: core/templates/registermessages.tmpl:413
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
-msgstr ""
+msgstr "你不能為遺失的群組增加使用者，除非設定建立選項。"
 
 #: core/data/System/UserName.txt:15
 msgid ""
@@ -5125,7 +5128,7 @@ msgstr "您不能變更使用者名稱: 您必須聯絡管理員為您進行這�
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
-msgstr ""
+msgstr "您無法繼續因為您的瀏覽器未啟用 Cookies 或 !JavaScript。"
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
@@ -5136,7 +5139,7 @@ msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
-msgstr ""
+msgstr "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請尋找像這樣的一行設定:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
@@ -5167,19 +5170,19 @@ msgstr "您必須輸入主題名稱。"
 
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
-msgstr ""
+msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
-msgstr ""
+msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
 #: core/templates/messages.tmpl:321
 msgid "You need to specify a valid member to add to a group."
-msgstr ""
+msgstr "您必須指定有效的使用者才能加入群組。"
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
-msgstr ""
+msgstr "您必須指定有效的使用者才能移出一個群組。"
 
 #: core/templates/registerconfirm.tmpl:12
 msgid ""
@@ -5195,11 +5198,11 @@ msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "當您的註冊被批准，將收到一封電子郵件。"
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "您的 [[%1][維基名]] 是 %2 且你的使用者名是 =%3= 。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
@@ -5218,7 +5221,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "您的電子信箱將被視為機密。"
 
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
@@ -5226,11 +5229,11 @@ msgstr "您的語言已改成 %1。[[%2][點擊繼續]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "Your name as displayed by %1."
-msgstr ""
+msgstr "您的名字由 %1 顯示。"
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
-msgstr ""
+msgstr "您的名字，通常您的名與姓連在一起且中間沒有空格。"
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
@@ -5253,7 +5256,7 @@ msgstr "您的密碼:"
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
-msgstr "您在 %2 內的個人 %1 主題。可按您的習慣修改。 "
+msgstr "您在 %2 的個人主題 %1 。可依您的喜好修改:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
@@ -5269,11 +5272,11 @@ msgstr "您的註冊郵件地址已更新為 <noautolink>%1</noautolink> 。"
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
-msgstr ""
+msgstr "系統會將郵件寄到您註冊的電子信箱，包括：密碼變更通知。"
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
-msgstr ""
+msgstr "您的註冊尚需等待系統管理者確認。"
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
@@ -5298,12 +5301,12 @@ msgstr "您的系統可能不支援變更 Foswiki 密碼，請聯絡管理者。
 #: core/templates/registermessages.tmpl:29
 msgid ""
 "Your user registration failed because it did not pass the validation tests."
-msgstr ""
+msgstr "您的註冊失敗，因為無法通過驗證測試。"
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
-msgstr ""
+msgstr "建立本站有效用戶名稱的指引請[[%1][點這裡]]。"
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
@@ -5311,7 +5314,7 @@ msgstr "[[%1][主題內文除錯]]。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][使用者名]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:29
 #: core/templates/settings.tmpl:27
@@ -5359,11 +5362,11 @@ msgstr "和"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "靠 %1"
 
 #: core/data/System/SiteChanges.txt:76
 msgid "change display options"
-msgstr ""
+msgstr "改變顯示選項"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -5380,7 +5383,7 @@ msgstr "預設定義於 %1 內"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "diff"
-msgstr ""
+msgstr "不同"
 
 #: core/templates/messages.tmpl:301
 msgid "don't forget to check your Topic Settings"
@@ -5388,7 +5391,7 @@ msgstr "別忘了檢查您的主題設定"
 
 #: core/templates/messages.tmpl:504
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "早期 InitPlugin 失敗。見以下錯誤。"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
@@ -5417,7 +5420,7 @@ msgstr "優良格式的提示"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
-msgstr ""
+msgstr "忽略大小寫"
 
 #: core/templates/more.tmpl:140
 msgid "in raw text format"
@@ -5430,7 +5433,7 @@ msgstr "指出必填欄位"
 
 #: core/templates/messages.tmpl:500 core/templates/messages.tmpl:502
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin 並未定義。見以下錯誤。"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "last change"
@@ -5446,7 +5449,7 @@ msgstr "更多..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "新"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -5480,15 +5483,15 @@ msgstr "還原自"
 #: NatEditPlugin/templates/edit.natedit.tmpl:133
 #: NatEditPlugin/templates/edit.natedit.tmpl:164
 msgid "restrict access to %1"
-msgstr ""
+msgstr "限制使用至 %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:128
 msgid "restrict read access to users that have an account on this site"
-msgstr ""
+msgstr "限制閱讀權限於有本站帳號的使用者"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:159
 msgid "restrict write access to users that have an account on this site"
-msgstr ""
+msgstr "限制寫入權限於有本站帳號的使用者"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5507,19 +5510,19 @@ msgstr "設定屬性"
 #: NatEditPlugin/templates/edit.natedit.tmpl:143
 #: NatEditPlugin/templates/edit.natedit.tmpl:174
 msgid "specify a list of users and/or groups"
-msgstr ""
+msgstr "指定一個使用者與/或群組清單"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:138
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "嚴格禁止訪問本主題"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:169
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "嚴格禁止編輯本主題"
 
 #: core/data/System/SiteChanges.txt:38
 msgid "the beginning"
-msgstr ""
+msgstr "開始"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
