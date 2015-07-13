@@ -87,7 +87,8 @@ sub FORMFIELD {
             $name, $format,
             {
                 showhidden => 1,
-                usetitle   => $field->{title}
+                usetitle   => $field->{title},
+                newline    => '$n'
             }
         );
         $text = $default unless length($text);

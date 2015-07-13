@@ -30,6 +30,7 @@ sub _createTopic {
 | Marjorie  | text   | 30     |
 | Priscilla | text   | 30     |
 | Daphne | text   | 30     |
+| Summary | textarea | 100 |
 FORM
     $formTopicObject->save();
     $formTopicObject->finish();
@@ -41,6 +42,13 @@ FORM
         { name => "Priscilla", title => "String", value => "" } );
     $topicObject->putKeyed( 'FIELD',
         { name => "Daphne", title => "String", value => "<nop>ElleBelle" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Summary", title => "Area", value => <<DONE} );
+
+---++!! Highlights of this release
+   * Major new Foswiki release
+   * Hundreds enhancements relative to 1.1.9
+DONE
     $topicObject->save();
 }
 
@@ -58,6 +66,19 @@ sub test_FORMFIELD_byname {
     my ($topicObject) = $this->{test_topicObject};
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '99', $result );
+}
+
+sub test_FORMFIELD_Item13520 {
+    my $this = shift;
+
+    my ($topicObject) = $this->{test_topicObject};
+    my $result = $topicObject->expandMacros('%FORMFIELD{"Summary"}%');
+    $this->assert_str_equals( <<DONE, $result );
+
+---++!! Highlights of this release
+   * Major new Foswiki release
+   * Hundreds enhancements relative to 1.1.9
+DONE
 }
 
 # default="..." Text shown when no value is defined for the field
