@@ -29,7 +29,7 @@
       async = options.async;
     }
 
-    $.ajax({
+    return $.ajax({
       type: 'POST',
       dataType: 'json',
       url: url,

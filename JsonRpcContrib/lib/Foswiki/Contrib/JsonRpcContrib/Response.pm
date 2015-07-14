@@ -60,6 +60,7 @@ sub print {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
         require Compress::Zlib;
+        $text       = Encode::encode_utf8($text);
         $text       = Compress::Zlib::memGzip($text);
         $compressed = 1;
     }

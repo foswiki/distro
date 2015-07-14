@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436885200" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -219,6 +219,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 -->
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jul 2015: (2.23) | fixed encoding of compressed responses Foswikitask:Item13521 |
 |  14 Jun 2015: (2.22) | Release with Foswiki 2.0.<br />\
                   Foswikitask:Item13378: Implement UNICODE support,<br />\
                   Foswikitask:Item13323: Use /usr/bin/env perl.<br />\
@@ -251,10 +252,3 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1713" version="1"}%
-%META:FILEATTACHMENT{name="json2.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="3388" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.js.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="458" version="1"}%
-%META:FILEATTACHMENT{name="json2.js.gz" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1343" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1435678839" size="136" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="1099" version="1"}%
-%META:FILEATTACHMENT{name="json2.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1435678839" size="17409" version="1"}%
