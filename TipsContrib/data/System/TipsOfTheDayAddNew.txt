@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Add New Tip Of The Day
 
@@ -48,7 +48,7 @@ If you are a Plugin author you can ship your Plugin Package with one (or more) t
 <input type="hidden" name="templatetopic" value="TipsOfTheDayTemplate" />
 New Plugin Tip: 
 <input type="text" name="topic" value="TipTopicForMyPlugin" size="30" class="foswikiInputField" />
-<input type="submit" value="Create" class="foswikiSubmit" /> (replace =MyPlugin= with the name of your Plugin, without the Plugin suffix (i.e, =TipTopicForSpreadsheet= if it was for the SpreadsheetPlugin))
+<input type="submit" value="Create" class="foswikiSubmit" /> (replace =MyPlugin= with the name of your Plugin, without the Plugin suffix (i.e, =TipTopicForSpreadSheet= if it was for the SpreadSheetPlugin))
 </form>
 
 ---
