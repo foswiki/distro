@@ -1,9 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Preference settings
 
 Foswiki has several levels of preferences settings. See PreferenceSettings for a full list and more information:
-   1 Site-level settings: %WIKIPREFSTOPIC%
+   1 Default settings: %WIKIPREFSTOPIC%  (__never edit this topic__)
+      * Site name, proxy settings, access control, skin
+   1 Customized site settings: %LOCALSITEPREFS%
       * Site name, proxy settings, access control, skin
    1 Web-level settings: located in each Web, e.g. %WEBPREFSTOPIC% topic
       * Web specific access control, navigation links, colors
