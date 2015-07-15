@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1435689678" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1436923901" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -94,10 +94,11 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
    * Foswiki 2.0 defaults to =UTF-8= encoding, which provides better support for international character sets.
 
 You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
-   * Case 1: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
+   * Case 1: Your existing site is already using =utf-8= encoding.  *Character set conversion is not needed*.  Proceed to chosing your store.
+   * Case 2: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
       1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 2.0. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 2.0 ={Store}{Encoding}=. We recommend you leave 2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
       2. Set the 2.0 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 2.0 unmodified.
-   * Case 2: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
+   * Case 3: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
       * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_. Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based upon their content. *This is rather unpredictable and may require manual intervention.*
       * *We *strongly* recommend that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The recommended =bulk_copy.pl= script does not modify existing topics.
 
