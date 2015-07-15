@@ -2,13 +2,13 @@
 Link for a "subscribe" request. Note that REST parameters are encoded in
 data-subscribe
 }%
-%TMPL:DEF{sp:subscribe}%
+%TMPL:DEF{spt:subscribe}%
 <a href="#" class="subscribe_link" data-topic="$topic" data-subscriber="$subscriber" data-remove="$remove" data-validation-key="?$nonce" rel="nofollow" title="%MAKETEXT{"Subscribe to this topic"}%" >%MAKETEXT{"Subscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------
 Link for an "unsubscribe" request. Note that REST parameters are encoded in
 data-subscribe
-}%%TMPL:DEF{sp:unsubscribe}%
+}%%TMPL:DEF{spt:unsubscribe}%
 <a href="#" class="subscribe_link" data-topic="$topic" data-subscriber="$subscriber" data-remove="$remove" data-validation-key="?$nonce" rel="nofollow" title="%MAKETEXT{"Unsubscribe from this topic"}%" >%MAKETEXT{"Unsubscribe"}%</a>
 %TMPL:END%
 %{----------------------------------------

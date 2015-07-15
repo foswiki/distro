@@ -35,7 +35,17 @@ jQuery(function($) {
             data: params,
             url: url,
             success: function(response) {
-                $this.text(response.message);
+            /**
+             * famfamfam skin uses an icon instead of a text button
+             * so don't overlay the image with text if it didn't start
+             * out as text.  change the title .
+             */
+                if  ($this.text() == "\n" ) {
+                  $this.attr("title",response.message);
+                }
+                else {
+                   $this.text(response.message);
+                }
                 params.remove = response.remove;
             },
             error: function(jqXHR) {

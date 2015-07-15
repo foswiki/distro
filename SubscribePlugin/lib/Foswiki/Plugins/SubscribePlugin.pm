@@ -72,7 +72,8 @@ sub _SUBSCRIBE {
       unless ( Foswiki::Func::getContext()->{'SubscribePluginAllowed'} );
 
     my $cur_user = Foswiki::Func::getWikiName();
-    my $who = $params->{who} || $cur_user;
+    my $who      = $params->{who} || $cur_user;
+    my $render   = $params->{render} || 'text';    # Rendering icon or text link
 
     # Guest user cannot subscribe
     return '' if ( $who eq $Foswiki::cfg{DefaultUserWikiName} );
@@ -88,7 +89,8 @@ sub _SUBSCRIBE {
             $topic ) ) ? 1 : 0;
     my $doUnsubscribe = Foswiki::isTrue($unsubscribe);
 
-    my $tmpl = _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe' );
+    my $tmpl =
+      _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe', $render );
 
     my $action =
       $session->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
@@ -190,8 +192,14 @@ sub _getNonce {
 
 sub _template_text {
     my $def = shift;
+    my $t   = '';
+
+    if ( $_[0] =~ m/^(text|icon)$/ ) {
+        $t = substr( $_[0], 0, 1 );
+    }
+
     $tmpls = Foswiki::Func::loadTemplate('subscribe') unless defined $tmpls;
-    $def = "sp:$def";
+    $def = "sp$t:$def";
 
     my $text = Foswiki::Func::expandTemplate($def);
 
