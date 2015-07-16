@@ -547,6 +547,7 @@ HERE
                   . Foswiki::Configure::Reporter::uneval($val) );
         }
         else {
+            return 1 if ( eval("exists \$Foswiki::cfg$node->{keys}") );
             eval("\$Foswiki::cfg$node->{keys}=\$val");
             ASSERT( !$@, $@ ) if DEBUG;
             $this->{reporter}->CHANGED( $node->{keys} );
