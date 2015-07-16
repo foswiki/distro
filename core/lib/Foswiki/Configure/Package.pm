@@ -47,6 +47,9 @@ use Foswiki::Configure::FileUtil   ();
 use Foswiki::Configure::Root       ();
 use Foswiki::Plugins               ();
 
+our $FALSE = 0;
+our $TRUE  = 1;
+
 ############# GENERIC METHODS #############
 
 =begin TML
@@ -973,7 +976,8 @@ sub _install {
 
                 # Also load it into the rootspec, so the caller has
                 # access to the value definition
-                Foswiki::Configure::LoadSpec::parse( $target, $rootspec );
+                Foswiki::Configure::LoadSpec::parse( $target, $rootspec,
+                    $reporter );
             }
         }
         $reporter->NOTE("> ${simulated}Installed:  $file as $target") if DEBUG;
