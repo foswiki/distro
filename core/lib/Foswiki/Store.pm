@@ -559,7 +559,7 @@ from an input stream =$stream=.
    * =comment= - a comment associated with the save
 Returns the number of the revision saved.
 
-Note: =\%options= was added in Foswiki 1.2
+Note: =\%options= was added in Foswiki 2.0
 
 =cut
 

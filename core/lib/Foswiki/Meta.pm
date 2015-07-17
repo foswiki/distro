@@ -2480,7 +2480,7 @@ sub replaceMostRecentRevision {
 ---++ ObjectMethod getRevisionHistory([$attachment]) -> $iterator
 
 Get an iterator over the range of version identifiers (just the identifiers,
-not the content).
+not the content) starting with the most recent revision.
 
 The iterator will be empty ($iterator->hasNext() will be false) if the object
 does not exist.
