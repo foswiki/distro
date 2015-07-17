@@ -152,6 +152,7 @@ sub finish {
     undef $this->{web};
     undef $this->{topic};
     undef $this->{attachment};
+    undef $this->{cache};
 }
 
 # Used in subclasses for late initialisation during object creation
@@ -1113,6 +1114,9 @@ sub saveFile {
     close($fh)
       or throw Error::Simple(
         'Rcs::Handler: failed to close file ' . $name . ': ' . $! );
+
+    $this->{cache}{$name} = undef;
+
     return;
 }
 
@@ -1120,7 +1124,10 @@ sub saveFile {
 sub readFile {
     my ( $this, $name ) = @_;
     ASSERT($name) if DEBUG;
-    my $data;
+
+    my $data = $this->{cache}{$name};
+    return $data if defined $data;
+
     my $IN_FILE;
 
     # Note: no IO layer; we want to trap encoding errors
@@ -1130,6 +1137,9 @@ sub readFile {
         $data = <$IN_FILE>;
         close($IN_FILE);
     }
+
+    $this->{cache}{$name} = $data;
+
     return $data;
 }
 
