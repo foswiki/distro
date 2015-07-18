@@ -387,8 +387,10 @@ lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
 lib/Foswiki/Configure/Checkers/FormTypes.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/CharacterEncoding.pm 0444
+lib/Foswiki/Configure/Checkers/Htpasswd/DetectModification.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
+lib/Foswiki/Configure/Checkers/Htpasswd/GlobalCache.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/LockFileName.pm 0444
 lib/Foswiki/Configure/Checkers/HttpCompress.pm 0444
 lib/Foswiki/Configure/Checkers/LanguageFileCompression.pm 0444
