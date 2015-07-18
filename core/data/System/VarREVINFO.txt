@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437230349" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ REVINFO -- revision information of current topic
 =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
@@ -24,7 +24,7 @@ Supported formatting tokens:
      | =$date= | Revision date. Actual date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] |
      | =$time= | Revision time |
      | =$iso= | Revision date in ISO date format |
-     !| =$min=, =$sec=, etc. | Same date format qualifiers as [[VarGMTIME][GMTIME{"format"}]] |
+     | =$min=, =$sec=, etc. | Same date format qualifiers as [[VarGMTIME][GMTIME{"format"}]] |
 ---++ Examples
    * <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
    * To get the latest revision, even when looking at an older revision: <verbatim class="tml">%REVINFO{"$rev" rev="-1"}%</verbatim>

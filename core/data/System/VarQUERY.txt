@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437230349" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERY -- get the value of meta-data
 Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data from one specified topic.
@@ -48,5 +48,5 @@ Only some configuration settings are available via QUERY: %FORMAT{"%QUERY{"{Acce
 
 %STOPINCLUDE%
 ---++ Related
- [[VarMETA][META]] [[!QuerySearch][QuerySearch]]
+ [[VarMETA][META]] [[QuerySearch][QuerySearch]]
 <!--%JQREQUIRE{"chili"}%-->
