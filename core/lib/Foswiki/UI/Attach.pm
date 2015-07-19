@@ -57,11 +57,11 @@ sub attach {
     my $args = $topicObject->get( 'FILEATTACHMENT', $fileName );
     $args = {
         name    => $fileName,
-        attr    => '',
         path    => '',
         comment => ''
       }
       unless ($args);
+    $args->{attr} ||= '';
 
     my $isHideChecked = ( $args->{attr} =~ m/h/ ) ? 'checked' : '';
 

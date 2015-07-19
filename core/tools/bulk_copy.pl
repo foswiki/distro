@@ -28,8 +28,9 @@
 # The processes communicate with each other through anonymous pipes, using
 # utf-8 JSON encoded messages.
 #
-# The API used for manipulation is the Foswiki::Meta API. This API
-# shelters the script from the details of the store implementation.
+# The APIs used for manipulation are Foswiki::Meta and (to a minimal
+# extent) Foswiki::Store. Use of these APIs shelters the script from
+# the details of the store implementation.
 #
 use strict;
 use warnings;
@@ -42,6 +43,8 @@ use JSON         ();
 use version;
 our $VERSION = version->declare("v1.0");
 
+# JSON is used for communication between two peer processes, sender
+# and receiver.
 our $json = JSON->new->utf8(1)->allow_nonref->convert_blessed(1);
 our $session;
 
@@ -157,8 +160,7 @@ sub copy_webs {
     my $rootMO = Foswiki::Meta->new($session);
     my $wit    = $rootMO->eachWeb(1);
     while ( $wit->hasNext() ) {
-        my $web = $wit->next();
-
+        my $web    = $wit->next();
         my $forced = scalar( @{ $control{iweb} } );
         if ( $forced && !grep( $web =~ /^$_([\/.]|$)/, @{ $control{iweb} } ) ) {
             announce "- Skipping not-iweb $web";
@@ -459,7 +461,7 @@ sub saveTopicRev {
 
     my $info = $mo->get('TOPICINFO');
 
-#announce "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
+ #debug "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
     return 0 if $control{check_only};
 
     # When saving over existing revs of a topic, must make sure we

@@ -43,34 +43,33 @@ use POSIX qw(locale_h);
 use locale;
 
 die "Not at the root of a conventional Foswiki install"
-    unless -d "data" && -d "pub";
+  unless -d "data" && -d "pub";
 
 our $old_locale = setlocale(LC_CTYPE);
 die "Could not determine locale"
-    unless ($old_locale && $old_locale =~ /^(.*?)\.(.*)$/);
+  unless ( $old_locale && $old_locale =~ /^(.*?)\.(.*)$/ );
 
-our ($lang, $old_encoding) = ($1, $2);
+our ( $lang, $old_encoding ) = ( $1, $2 );
 
 our $source_encoding = $ARGV[0] || $old_encoding;
-our $dest_encoding = $ARGV[1] || $source_encoding;
-our $time = 1422748800;
+our $dest_encoding   = $ARGV[1] || $source_encoding;
+our $time            = 1422748800;
 
 sub recode {
     my $s = shift;
-    return Encode::encode(
-        $old_encoding,
-        Encode::decode($source_encoding, $s, Encode::FB_CROAK));
+    return Encode::encode( $old_encoding,
+        Encode::decode( $source_encoding, $s, Encode::FB_CROAK ) );
 }
 
 sub report {
-    my $s = join(' ', @_);
+    my $s = join( ' ', @_ );
     return unless $s =~ /\S/;
     $s =~ s/\s*$//s;
-    print recode($s)."\n";
+    print recode($s) . "\n";
 }
 
 our $locale = "$lang.$source_encoding";
-our $setlocale = POSIX::setlocale(LC_CTYPE, $locale);
+our $setlocale = POSIX::setlocale( LC_CTYPE, $locale );
 die "Failed to set locale $locale. Is locale installed?" unless $setlocale;
 report "Source encoding is $source_encoding";
 report "Destination encoding is $dest_encoding";
@@ -82,15 +81,17 @@ my %classes = (
     'lower' => '',
     'alnum' => '',
     'ascii' => '',
-    'digit' => '' );
+    'digit' => ''
+);
 my %rex = map { $_ => "[:$_:]" } keys %classes;
 
 report "Exploring character sets... $source_encoding";
-for ($chlim = 0; $chlim < 65536; $chlim++) {
+for ( $chlim = 0 ; $chlim < 65536 ; $chlim++ ) {
     my $uch = chr($chlim);
     eval {
         my $uuch = $uch;
-        my $octets = Encode::encode($source_encoding, $uuch, Encode::FB_CROAK);
+        my $octets =
+          Encode::encode( $source_encoding, $uuch, Encode::FB_CROAK );
     };
     if ($@) {
         print "SKIP $chlim\n" if $chlim < 256;
@@ -101,43 +102,42 @@ for ($chlim = 0; $chlim < 65536; $chlim++) {
     }
 }
 report "...can use $chlim characters";
-foreach my $c (keys %classes) {
-    report "......", length($classes{$c}), $c;
+foreach my $c ( keys %classes ) {
+    report "......", length( $classes{$c} ), $c;
 }
 
 # Make N characters in the source encoding
 sub make_chars {
-    my $n = shift;
-    my $chs = join('', map { $classes{$_} } @_);
-    my $l = length($chs);
+    my $n   = shift;
+    my $chs = join( '', map { $classes{$_} } @_ );
+    my $l   = length($chs);
     my $rex = quotemeta($chs);
     $n ||= 1;
     my $tries = 0;
-    my $str = '';
-    while (length($str) < $n) {
+    my $str   = '';
+    while ( length($str) < $n ) {
         $tries++;
-        my $codepoint = 
-        my $uch = substr($chs, int(rand($l)), 1);
+        my $codepoint = my $uch = substr( $chs, int( rand($l) ), 1 );
+
         # Avoid ASCII until we've tried lots of other things
-        if ($uch =~ /[[:ascii:]]/) {
+        if ( $uch =~ /[[:ascii:]]/ ) {
+
             #report "$tries:",ord($uch),"$uch isascii";
             next unless $tries > $l;
-            report "forced to pick", ord($uch),"$uch isascii";
+            report "forced to pick", ord($uch), "$uch isascii";
         }
-        $str .= Encode::encode(
-                $source_encoding,
-                $uch,
-                Encode::FB_CROAK);
+        $str .= Encode::encode( $source_encoding, $uch, Encode::FB_CROAK );
     }
     return $str;
 }
 
 # Make a 4-character wikiword
 sub make_wikiword {
-    return make_chars(1, 'upper')
-        . make_chars(1, 'lower', 'digit')
-        . make_chars(1, 'upper')
-        . make_chars(1, 'alnum');
+    return
+        make_chars( 1, 'upper' )
+      . make_chars( 1, 'lower', 'digit' )
+      . make_chars( 1, 'upper' )
+      . make_chars( 1, 'alnum' );
 }
 
 sub ci {
@@ -146,7 +146,7 @@ sub ci {
     report `ci -q -mcomment -f -t-none -wProjectContributor $path`;
     report `rm -f $path`;
     report `co -q -l $path`;
-    chmod(0644, $path);
+    chmod( 0644, $path );
 }
 
 # Make a valid web name that incorporates dodgy chars. This doesn't work
@@ -160,12 +160,13 @@ our $web = "Testbulkcopy";
 report "Web name is $web";
 
 our @made;
+
 sub make_topic {
-    my ($name, $text, $rev) = @_;
+    my ( $name, $text, $rev ) = @_;
     my $path = "data/$web/$name";
-    push(@made, "topic $name version $rev ");
-    open(F, ">:encoding($source_encoding)", "$path.txt")
-        || die recode("Failed",$path,$!);
+    push( @made, "topic $name version $rev " );
+    open( F, ">:encoding($source_encoding)", "$path.txt" )
+      || die recode( "Failed", $path, $! );
     print F <<THIS;
 %META:TOPICINFO{author="ProjectContributor" date="$time" format="1.1" version="$rev"}%
 $text
@@ -176,54 +177,54 @@ THIS
 }
 
 sub make_attachment {
-    my ($topic, $name, $data, $rev) = @_;
+    my ( $topic, $name, $data, $rev ) = @_;
     mkdir "pub/$web/$topic";
     my $path = "pub/$web/$topic/$name";
-    open(F, ">", $path) || die recode("Failed",$path,$!);
+    open( F, ">", $path ) || die recode( "Failed", $path, $! );
     binmode(F);
     print F $data;
     close(F);
     ci($path);
-    push(@made, "attachment $path:$rev");
+    push( @made, "attachment $path:$rev" );
 }
 
 mkdir "data/$web";
 mkdir "pub/$web";
-make_topic("WebPreferences", "REV 1", 1);
+make_topic( "WebPreferences", "REV 1", 1 );
 
 # Make a topic that has no history
-make_topic("NoHistory", 'REV 4', 4);
+make_topic( "NoHistory", 'REV 4', 4 );
 
 # Make a history that has no topic
-make_topic("NoTopic", 'History only, no cache', 4);
+make_topic( "NoTopic", 'History only, no cache', 4 );
 unlink "data/$web/NoTopic.txt";
 
 # Make a history that has out-of-sequence TOPICINFO
-make_topic("RevHistory", "REV 1", 3);
-make_topic("RevHistory", "REV 2", 2);
-make_topic("RevHistory", "REV 3", 1);
+make_topic( "RevHistory", "REV 1", 3 );
+make_topic( "RevHistory", "REV 2", 2 );
+make_topic( "RevHistory", "REV 3", 1 );
 
 # Make a topc with attachments
-my $att_name = make_chars(5, 'alnum').'.att';
-make_topic("HasAttachments", <<CONTENT, 1);
+my $att_name = make_chars( 5, 'alnum' ) . '.att';
+make_topic( "HasAttachments", <<CONTENT, 1 );
 %META:FILEATTACHMENT{name="$att_name" comment="logo" user="ProjectContributor" version="1" date="$time"}%
 REV 1
 CONTENT
 $time++;
 
-make_topic("HasAttachments", <<CONTENT, 2);
+make_topic( "HasAttachments", <<CONTENT, 2 );
 REV 2
 %META:FILEATTACHMENT{name="$att_name" comment="logo" user="ProjectContributor" version="4" date="$time"}%
 CONTENT
 $time++;
 
-make_attachment("HasAttachments", $att_name, 'REV 1', 1);
-make_attachment("HasAttachments", $att_name, 'REV 2', 2);
-make_attachment("HasAttachments", $att_name, 'REV 3', 3);
-make_attachment("HasAttachments", $att_name, 'REV 4', 4);
+make_attachment( "HasAttachments", $att_name, 'REV 1', 1 );
+make_attachment( "HasAttachments", $att_name, 'REV 2', 2 );
+make_attachment( "HasAttachments", $att_name, 'REV 3', 3 );
+make_attachment( "HasAttachments", $att_name, 'REV 4', 4 );
 
-my $made = join("\n", map { "   * $_" } @made);
-make_topic("WebHome", <<DATA, 1);
+my $made = join( "\n", map { "   * $_" } @made );
+make_topic( "WebHome", <<DATA, 1 );
 This is an automatically generated test web, designed to test the
 ools/bulk_copy.pl script. It contains topic histories stored using RCS,
 and targets particular types of damage that can occur.
