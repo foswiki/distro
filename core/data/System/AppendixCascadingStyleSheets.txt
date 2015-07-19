@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435757231" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437331638" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -40,7 +40,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiContentFooter=         | Optional container around text placed below topic text  |
 |=.foswikiFooterNote=            | Text below topic text; for instance with parent or "topic moved" message |
 |=#foswikiLogin=                 | Login box |
-|=.foswikiLogo=                  | Logo |
+|=#foswikiLogo=                  | Logo |
 |=.foswikiPreviewArea=           | Container around topic preview |
 |=.foswikiTopicActions=          | Topic Actions list |
 |=.foswikiTopicInfo=             | Topic Info section containing REVINFO |
@@ -48,7 +48,6 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTabs=                  | Container for tabs (styled bullet list, =.foswikiTabs ul=) |
 |=li.foswikiActiveTab=           | Active tab |
 |=.foswikiTabContent=            | Container for content below tabs |
-|=#foswikiLogo=                  | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiMain"}% |
 |=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |</sticky>
 
 ---+++ General appearance
@@ -63,7 +62,6 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiToc=               | Table of Contents block |
 |=.foswikiTocTitle=          | Title text of Table of Contents  |
 |=.foswikiHidden=            | Hidden elements |
-|=.foswikiActual=            | Font size of body text (if that font size is set in pixels) |
 |=.foswikiSmall=             | Small text |
 |=.foswikiSmallish=          | Somewhat less smaller text; in-between normal and small |
 |=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
@@ -116,7 +114,8 @@ See also: [[#HtmlFormElements][HTML form elements]]
 ---+++ HTML form elements
 <sticky>
 %TABLE{databg="#fff"}%
-|=.foswikiForm=                   | Container for data form in topic, including header |
+|=.foswikiForm=                  | Container for data form in topic, including header |
+|=.foswikiActionFormStepSign=    | Indicator for each form step (see =foswikiFormStep=) |
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
 |=.foswikiFormStep=              | Form step row |
 |=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
@@ -142,12 +141,13 @@ See also: [[#HtmlFormElements][HTML form elements]]
 ---+++ Search and lists
 <sticky>
 %TABLE{databg="#fff"}%
+|=.foswikiSearchResult=             | Container around image and contents |
+|=.foswikiSearchResultContents=     | Search result content, such as title, summary, author |
+|=.foswikiSearchResultCount=        | Search results count |
+|=.foswikiSearchResultImage=        | Container around image (=img= tag) in Search results |
+|=.foswikiSearchResultMeta=         | Search result meta data such as author name, date |
+|=.foswikiSearchResultTitle=        | Search result title  |
 |=.foswikiSearchResults=            | List of search results |
-|=.foswikiListItem=                 | Container around list item |
-|=.foswikiListItemImage=            | Container around image (=img= tag) in list item |
-|=.foswikiListItemTitle=            | List item title |
-|=.foswikiListItemContents=         | List item content, such as summary and =foswikiListItemMeta= |
-|=.foswikiListItemMeta=             | List item meta data such as author name, date |
 |=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
 |=.foswikiSearchResultsPager=       | Search results pagination |
 |=.foswikiSummary=                  | Topic or list item summary  |
@@ -157,14 +157,8 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiBottomRow=                | Last row in search results |
 |=.foswikiSRRev=                    | Revision number in search results listing |
 |=.foswikiSRAuthor=                 | Author in search results listing |
-|=.foswikiSearchResultCount=        | Search results count |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below |
-|=.foswikiWebSearchForm=            | Container around the search form |
-|=.foswikiSearchResult=             | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItem"}% |
-|=.foswikiSearchResultImage=        | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemImage"}% |
-|=.foswikiSearchResultTitle=        | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemTitle"}% |
-|=.foswikiSearchResultContents=     | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemContents"}% |
-|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0" alternative=".foswikiListItemMeta"}% |</sticky>
+|=.foswikiWebSearchForm=            | Container around the search form |</sticky>
 
 ---+++ Other elements
 <sticky>
@@ -178,8 +172,7 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiEditboxStyleMono=         | Gives the edit textarea monospaced font (not used with WYSWIWYG) |
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
-|=.foswikiIcon=                     | Icon image; span around image or the image itself |
-|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="2.0"}% - indicator for each form step (see =.foswikiFormStep=)  |</sticky>
+|=.foswikiIcon=                     | Icon image; span around image or the image itself |</sticky>
 
 ---+++ History
 <sticky>
