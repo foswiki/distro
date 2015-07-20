@@ -301,7 +301,7 @@ sub enable {
             push(
                 @{ $plugin->{errors} },
                 $plugin->{name} . ' has been disabled'
-            );
+            ) if DEBUG;
         }
         else {
             $plugin->registerHandlers($this);

@@ -28,8 +28,9 @@
 # The processes communicate with each other through anonymous pipes, using
 # utf-8 JSON encoded messages.
 #
-# The API used for manipulation is the Foswiki::Meta API. This API
-# shelters the script from the details of the store implementation.
+# The APIs used for manipulation are Foswiki::Meta and (to a minimal
+# extent) Foswiki::Store. Use of these APIs shelters the script from
+# the details of the store implementation.
 #
 use strict;
 use warnings;
@@ -42,6 +43,8 @@ use JSON         ();
 use version;
 our $VERSION = version->declare("v1.0");
 
+# JSON is used for communication between two peer processes, sender
+# and receiver.
 our $json = JSON->new->utf8(1)->allow_nonref->convert_blessed(1);
 our $session;
 
@@ -136,13 +139,17 @@ sub call {
 
     $/ = "\n";
     my $response = <FROM_B>;
-    return undef unless defined $response;
+    die "Bad response from peer" unless defined $response;
+    ( my $status, $response ) = split( ':', $response, 2 );
+    die "Bad response from peer" unless $status =~ /^\d+$/;
 
     # Response is utf8-encoded JSON
     $response = $json->decode($response);
 
     # Convert to {Site}{CharSet}, if necessary
     $response = convert( $response, 'from_unicode' ) unless $Foswiki::UNICODE;
+
+    die $response if $status;
 
     return $response;
 }
@@ -153,8 +160,7 @@ sub copy_webs {
     my $rootMO = Foswiki::Meta->new($session);
     my $wit    = $rootMO->eachWeb(1);
     while ( $wit->hasNext() ) {
-        my $web = $wit->next();
-
+        my $web    = $wit->next();
         my $forced = scalar( @{ $control{iweb} } );
         if ( $forced && !grep( $web =~ /^$_([\/.]|$)/, @{ $control{iweb} } ) ) {
             announce "- Skipping not-iweb $web";
@@ -219,11 +225,34 @@ sub copy_web {
 }
 
 # Copy a single topic and all it's attachments.
+# Transferring attachments is trickier than it should be, because
+# the way attachments are stored and managed in RCS means that
+# there isn't a 1:1 correspondence between attachment versions
+# mentioned in the META:FILEATTACHMENT and the attachments actually
+# present in the history. So we establish the maximum rev number
+# for each attachment as and when we encounter it in the topic history.
+# At that time we also interrogate the store to determine the maximum
+# number of revs of the attachment that are available in the attachment
+# history. Then as we replay the history from the oldest topic version
+# forwards, we are able to run the attachment version up to the version
+# encountered in the topic.
+#
+# There are a number of ways revision histories of attachments can
+# get mangled.
+# 1. The topic can reference a revision that doesn't exist in the
+#    attachment history.
+# 2. The topic can reference a revision that is *newer* than the
+#    revision in a newer version of the topic e.g.
+#    Topic rev 1 references attachment rev 2
+#    Topic rev 2 reference attachment rev 1
+# 3. Attachments may not be referenced in topics at all.
 sub copy_topic {
     my ( $web, $topic ) = @_;
 
     announce "Copy topic $web.$topic";
     my $topicMO = Foswiki::Meta->new( $session, $web, $topic );
+
+    # The revision list is sorted starting with the most recent revision
     my @rev_list = $topicMO->getRevisionHistory()->all();
     if ( grep { $topic =~ /^$_$/ } @{ $control{latest} } ) {
         announce "\t-only latest";
@@ -233,7 +262,7 @@ sub copy_topic {
     }
     my %att_tx;
 
-    # Replay history
+    # Replay history, *oldest* rev first
     while ( my $tv = pop @rev_list ) {
 
         $topicMO->unload();
@@ -259,47 +288,95 @@ sub copy_topic {
         # embeds in $data, which may not be wise.
         call( 'saveTopicRev', $web, $topic, $data );
 
-        # Transfer attachments. We use eachAttachment rather than
-        # META:FILEATTACHMENT because it won't stumble over deleted
-        # attachments. An attachment, and its history, can be
-        # completely removed from some stores, leaving
-        # META:FILEATTACHMENT still in older revs of the topic.
+        # Transfer attachments.
         my $tri;
         my $att_it = $topicMO->eachAttachment();
         while ( $att_it->hasNext() ) {
             my $att_name = $att_it->next();
-            my $att_info = $topicMO->get( 'FILEATTACHMENT', $att_name );
+            $att_tx{$att_name} ||= 0;
 
             # Is there info about this attachment in this rev of the
             # topic? If not, we can't do anything useful.
-            next unless $att_info;
+            my $att_info = $topicMO->get( 'FILEATTACHMENT', $att_name );
+            next unless ($att_info);
+
             my $att_version = $att_info->{version};
-            unless ( $att_info->{version} ) {
+            unless ($att_version) {
                 announce
-"- $web.$topic\[$tv\]:$att_name has corrupt FILEATTACHMENT meta-data - cannot copy";
+                  "  Attachment $att_name has corrupt meta-data - cannot copy";
                 next;
             }
-            next if $att_tx{"$att_name:$att_info->{version}"};
-            $att_tx{"$att_name:$att_version"} = 1;
-            unless ( $att_info->{author} ) {
-                unless ($tri) {
-                    $tri = $topicMO->getRevisionInfo();
-                }
-                $att_info->{author} = $tri->{user};
+
+            # Already copied?
+            next if $att_version == $att_tx{$att_name};
+
+            announce "  Attachment $att_name:$att_version ";
+
+            # Check if the attachment history is mangled
+            if ( $att_version < $att_tx{$att_name} ) {
+                announce
+"   - version $att_version is behind one that has already been copied ($att_tx{$att_name}) - cannot copy";
+                next;
             }
-            my $fh =
-              $topicMO->openAttachment( $att_name, '<',
-                version => $att_info->{version} );
 
-            # TODO: chunked transfer
-            local $/ = undef;
-            my $att_data = <$fh>;
+            unless ( $att_info->{author} ) {
+                require Foswiki::Users::BaseUserMapping;
+                $att_info->{author} =
+                  $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+            }
 
-            announce "    Attach $att_name\[$att_info->{version}\]";
-            call( 'saveAttachmentRev',
-                $web, $topic, $att_name, $att_info, \$att_data );
+            # Copy hidden intermediates up to and including the version
+            # referenced.
+            while ( $att_tx{$att_name} < $att_version ) {
+                $att_tx{$att_name}++;
+                $att_info->{version} = $att_tx{$att_name};
+                copy_attachment_version( $topicMO, $att_info );
+            }
         }
     }
+
+    # Any attachments that are seen by the store but haven't been
+    # copied are never referenced in any topic version. Copy all
+    # their revs.
+    while ( my ( $att_name, $rev ) = each %att_tx ) {
+        next if $rev;
+        announce " Copy hidden attachment $att_name";
+        require Foswiki::Users::BaseUserMapping;
+        my %att_info = (
+            name   => $att_name,
+            author => $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
+            date   => 0
+        );
+        my @revs = $topicMO->getRevisionHistory($att_name)->all();
+        while ( my $rev = pop(@revs) ) {
+            $att_info{version} = $rev;
+            copy_attachment_version( $topicMO, \%att_info );
+        }
+    }
+}
+
+sub copy_attachment_version {
+    my ( $meta, $att_info ) = @_;
+    my $att_name = $att_info->{name};
+    my $att_ver  = $att_info->{version};
+
+    my $fh = $meta->openAttachment( $att_name, '<', version => $att_ver );
+
+    # Write data into temp file
+    my $tfh = File::Temp->new( UNLINK => 0, SUFFIX => '.dat' );
+
+    # Temp file will be unlinked in receiver
+    binmode $tfh;
+    local $/ = undef;
+    my $data = <$fh>;
+    print $tfh $data;
+    close($tfh);
+    my $tfn = $tfh->filename();
+
+    # $tfn passed by reference to block encoding
+    my $rev =
+      call( 'saveAttachmentRev', $meta->web, $meta->topic, $att_info, \$tfn );
+    announce "   Attached $att_ver as $rev";
 }
 
 #######################################################################
@@ -321,10 +398,17 @@ sub dispatch {
 
     my $fn = shift(@$data);    # function name
 
-    no strict 'refs';
-    my $response = &$fn(@$data);
-    use strict 'refs';
-    $response = 0 unless defined $response;
+    my $response;
+    eval {
+        no strict 'refs';
+        $response = &$fn(@$data);
+        use strict 'refs';
+    };
+    my $status = 0;
+    if ($@) {
+        $status   = 1;
+        $response = $@;
+    }
 
     # Convert response to unicode (if necessary)
     $response = convert( $response, 'to_unicode' ) if $Foswiki::UNICODE;
@@ -333,7 +417,7 @@ sub dispatch {
     debug "$fn(", join( ', ', @$data ), ") -> $response";
 
     # JSON encode and print
-    print TO_A "$response\n";
+    print TO_A "$status:$response\n";
 
     return 1;
 }
@@ -360,7 +444,7 @@ sub saveWeb {
     my $web = shift;
     return '' if $session->webExists($web);
     my $mo = Foswiki::Meta->new( $session, $web );
-    return 0 if $control{check_only};
+    return '' if $control{check_only};
     $mo->populateNewWeb();
 
     # Return the name of the web preferences topic, as it was just created
@@ -377,7 +461,7 @@ sub saveTopicRev {
 
     my $info = $mo->get('TOPICINFO');
 
-#announce "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
+ #debug "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
     return 0 if $control{check_only};
 
     # When saving over existing revs of a topic, must make sure we
@@ -407,23 +491,32 @@ sub saveTopicRev {
 # Given revision info and data for the attachment
 # save this rev.
 sub saveAttachmentRev {
-    my ( $web, $topic, $attachment, $info, $data ) = @_;
+    my ( $web, $topic, $info, $fname ) = @_;
     my $mo = Foswiki::Meta->new( $session, $web, $topic );
-    my $fh;
-    open( $fh, '<', $data );    # Open string for input
-    return 0 if $control{check_only};
-    $mo->attach(
-        name          => $attachment,
-        dontlog       => 1,
-        notopicchange => 1,
-        author        => $info->{author},
-        filedate      => $info->{date},
-        forcedate     => $info->{date},
-        stream        => $fh,
+    my $rev = $info->{version};
+    unless ( $control{check_only} ) {
 
-        # Don't call handlers (works on 2+ only)
-        nohandlers => 1
-    );
+        # Can't use $mo->attach because it updates the FILEATTACHMENT
+        # metadata, and we've already written that when transferring
+        # the topic. So we have to kick under it to the
+        # Store::saveAttachment method - which is OK because it's part
+        # of the (relatively stable) store API.
+        my $fh;
+        open( $fh, '<', $fname ) || die "Failed to open $fname";
+        $rev = $mo->session->{store}->saveAttachment(
+            $mo,
+            $info->{name},
+            $fh,
+            $info->{author},
+            {    # Only works for Foswiki 2.0
+                forcedate => $info->{date},
+                comment   => $info->{comment}
+            }
+        );
+        close($fh);
+    }
+    unlink($fname);
+    return $rev;
 }
 
 # convert * and ? to regex, and quotemeta other re chars
@@ -633,6 +726,10 @@ path to the bin directory for the target installation.
 By default all webs, topics and attachments will be copied. Where a
 topic or attachment already exists in the target installation, it will
 be reported but not copied.
+
+Note that while all attachments are copied, only attachment revisions that
+are explicitly listed in topic revisions are copied. Intermediate attachment
+versions (e.g. those created by processes outside of Foswiki) are not copied.
 
 =head1 OPTIONS
 

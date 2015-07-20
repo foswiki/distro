@@ -1,6 +1,7 @@
 !noci
 templates/icons.tmpl 0444
 templates/view.famfamfam.tmpl 0444
+templates/subscribe.famfamfam.tmpl 0444
 
 data/System/DocumentGraphics.txt 0644 Documentation
 data/System/FamFamFamContrib.txt 0644 Documentation

@@ -1102,7 +1102,13 @@ sub _saveDamage {
     my $latest = _latestFile( $meta, $attachment );
     return unless ( _e $latest );
 
-    if ( _e "$latest,v" && !$Foswiki::inUnitTestMode ) {
+    if (   $Foswiki::cfg{Extensions}{PlainFileStoreContrib}{CheckForRCS}
+        && !$Foswiki::inUnitTestMode
+        && _e("$latest,v") )
+    {
+        my $path =
+          Encode::encode_utf8( $Foswiki::cfg{DataDir} ) . "/"
+          . $meta->getPath();
         die <<DONE;
 PlainFileStore is selected but you have ,v files present in the directory tree, Save aborted to avoid loss of topic history.
 Did you remember to convert the store?  The administrator should review tools/bulk_copy.pl,  or select an RCS based store.
