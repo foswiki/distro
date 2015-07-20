@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426984193" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437433720" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Javascript
 
@@ -30,52 +30,52 @@ installing the Foswiki:Extensions.SafeWikiPlugin to control it.
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 -->
 
-%META:FILEATTACHMENT{name="foswikiHTML_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="8145" version="1"}%
-%META:FILEATTACHMENT{name="foswikiArray_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="2985" version="1"}%
-%META:FILEATTACHMENT{name="foswikiHTML.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="8145" version="1"}%
-%META:FILEATTACHMENT{name="foswikiString.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="9042" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_renamebase.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="756" version="1"}%
-%META:FILEATTACHMENT{name="foswikiDate_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="4323" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWindow_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="5003" version="1"}%
-%META:FILEATTACHMENT{name="foswikiArray.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="2985" version="1"}%
-%META:FILEATTACHMENT{name="foswikiString_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="9042" version="1"}%
-%META:FILEATTACHMENT{name="foswikiEvent_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="1756" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="5818" version="1"}%
-%META:FILEATTACHMENT{name="foswikiDate.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1533" version="1"}%
-%META:FILEATTACHMENT{name="foswikiCSS_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="3763" version="1"}%
-%META:FILEATTACHMENT{name="strikeone.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11027" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWebTopicCreator.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1944" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_renamebase_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="1279" version="1"}%
-%META:FILEATTACHMENT{name="foswikiPref.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="3430" version="1"}%
-%META:FILEATTACHMENT{name="foswikiCSS.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="3763" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1991" version="1"}%
-%META:FILEATTACHMENT{name="foswikiHTML.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="2109" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStyles.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="860" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="18636" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStyles_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="860" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_renamebase.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="1279" version="1"}%
-%META:FILEATTACHMENT{name="foswikiForm_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="10334" version="1"}%
-%META:FILEATTACHMENT{name="foswikiForm.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="2790" version="1"}%
-%META:FILEATTACHMENT{name="foswikiString.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="2553" version="1"}%
-%META:FILEATTACHMENT{name="foswikiCSS.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1336" version="1"}%
-%META:FILEATTACHMENT{name="foswikiDate.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="4323" version="1"}%
-%META:FILEATTACHMENT{name="foswikiPref_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11392" version="1"}%
-%META:FILEATTACHMENT{name="foswikilib.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="2413" version="1"}%
-%META:FILEATTACHMENT{name="foswikilib.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="6086" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWindow.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1860" version="1"}%
-%META:FILEATTACHMENT{name="foswikiArray.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1258" version="1"}%
-%META:FILEATTACHMENT{name="foswikiEvent.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="1756" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStringUnicodeChars.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11385" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStringUnicodeChars.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="4564" version="1"}%
-%META:FILEATTACHMENT{name="foswikiForm.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="10334" version="1"}%
-%META:FILEATTACHMENT{name="strikeone.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="3727" version="1"}%
-%META:FILEATTACHMENT{name="foswikiPref.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11392" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStringUnicodeChars_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11385" version="1"}%
-%META:FILEATTACHMENT{name="strikeone_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="11027" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWebTopicCreator_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="7650" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWindow.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="5003" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="5818" version="1"}%
-%META:FILEATTACHMENT{name="foswikilib_src.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="6086" version="1"}%
-%META:FILEATTACHMENT{name="foswikiEvent.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="884" version="1"}%
-%META:FILEATTACHMENT{name="foswikiWebTopicCreator.js" attr="" comment="" user="ProjectContributor" date="1426984193" size="7650" version="1"}%
-%META:FILEATTACHMENT{name="foswikiStyles.js.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="527" version="1"}%
+%META:FILEATTACHMENT{name="foswikiCSS.js" attr="h"  date="1437433720" size="1174" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiEvent.js.gz" attr="h"  date="1437433720" size="183" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiCSS_src.js" attr="h"  date="1437433720" size="3763" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_renamebase_src.js" attr="h"  date="1437433720" size="1279" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWebTopicCreator.js.gz" attr="h"  date="1437433720" size="1133" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiString.js" attr="h"  date="1437433720" size="2359" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikilib_src.js" attr="h"  date="1437433720" size="6086" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiHTML.js" attr="h"  date="1437433720" size="2416" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="strikeone.js" attr="h"  date="1437433720" size="4917" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiArray.js.gz" attr="h"  date="1437433720" size="306" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStringUnicodeChars.js.gz" attr="h"  date="1437433720" size="20" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWebTopicCreator.js" attr="h"  date="1437433720" size="3826" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiForm.js" attr="h"  date="1437433720" size="3044" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiDate_src.js" attr="h"  date="1437433720" size="4323" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiPref_src.js" attr="h"  date="1437433720" size="11392" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiArray.js" attr="h"  date="1437433720" size="671" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStyles.js" attr="h"  date="1437433720" size="0" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikilib.js" attr="h"  date="1437433720" size="1426" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiPref.js" attr="h"  date="1437433720" size="3661" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiEvent.js" attr="h"  date="1437433720" size="368" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiCSS.js.gz" attr="h"  date="1437433720" size="382" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWindow.js" attr="h"  date="1437433720" size="1911" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiForm_src.js" attr="h"  date="1437433720" size="10334" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit.js.gz" attr="h"  date="1437433720" size="918" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="strikeone.js.gz" attr="h"  date="1437433720" size="1871" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiEvent_src.js" attr="h"  date="1437433720" size="1756" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="h"  date="1437433720" size="18636" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiDate.js" attr="h"  date="1437433720" size="2499" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_renamebase.js" attr="h"  date="1437433720" size="192" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiHTML_src.js" attr="h"  date="1437433720" size="8145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStyles_src.js" attr="h"  date="1437433720" size="860" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_src.js" attr="h"  date="1437433720" size="5818" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStringUnicodeChars.js" attr="h"  date="1437433720" size="0" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiPref.js.gz" attr="h"  date="1437433720" size="1044" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWindow.js.gz" attr="h"  date="1437433720" size="669" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_renamebase.js.gz" attr="h"  date="1437433720" size="157" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStringUnicodeChars_src.js" attr="h"  date="1437433720" size="61" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiStyles.js.gz" attr="h"  date="1437433720" size="20" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="strikeone.uncompressed.js" attr="h"  date="1437433720" size="11027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit.js" attr="h"  date="1437433720" size="2718" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiString_src.js" attr="h"  date="1437433720" size="7090" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikilib.js.gz" attr="h"  date="1437433720" size="637" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWebTopicCreator_src.js" attr="h"  date="1437433720" size="7618" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiArray_src.js" attr="h"  date="1437433720" size="2985" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiHTML.js.gz" attr="h"  date="1437433720" size="570" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiWindow_src.js" attr="h"  date="1437433720" size="5003" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiDate.js.gz" attr="h"  date="1437433720" size="890" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiString.js.gz" attr="h"  date="1437433720" size="746" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswikiForm.js.gz" attr="h"  date="1437433720" size="974" user="ProjectContributor" version="1"}%
