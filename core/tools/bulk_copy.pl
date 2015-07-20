@@ -39,6 +39,8 @@ use Getopt::Long ();
 use Pod::Usage   ();
 use File::Spec   ();
 use JSON         ();
+use Error;
+$Error::Debug = 1;    # verbose stack traces, please
 
 use version;
 our $VERSION = version->declare("v1.0");
@@ -103,6 +105,11 @@ sub convert {
         # CODE, REF, GLOB, LVALUE, FORMAT, IO, VSTRING, Regexp
         Carp::confess "Don't know how to convert a " . ref($item);
     }
+    elsif ($Foswiki::UNICODE) {
+
+        # Everything is unicode, only need to deref scalars
+        $res = $item;
+    }
     else {
         my $site_charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
         eval {
@@ -130,7 +137,7 @@ sub call {
     my $p = \@_;
 
     # Decode from {Site}{CharSet} to unicode, if necessary
-    $p = convert( $p, 'to_unicode' ) unless $Foswiki::UNICODE;
+    $p = convert( $p, 'to_unicode' );
 
     # Encode to utf8-encoded JSON
     my $json_text = $json->encode($p);
@@ -147,7 +154,7 @@ sub call {
     $response = $json->decode($response);
 
     # Convert to {Site}{CharSet}, if necessary
-    $response = convert( $response, 'from_unicode' ) unless $Foswiki::UNICODE;
+    $response = convert( $response, 'from_unicode' );
 
     die $response if $status;
 
@@ -393,7 +400,7 @@ sub dispatch {
     return 0 unless $data;
 
     # Convert to {Site}{Charset}, if necessary
-    $data = convert( $data, 'from_unicode' ) unless $Foswiki::UNICODE;
+    $data = convert( $data, 'from_unicode' );
     return 0 unless $data;
 
     my $fn = shift(@$data);    # function name
@@ -411,7 +418,7 @@ sub dispatch {
     }
 
     # Convert response to unicode (if necessary)
-    $response = convert( $response, 'to_unicode' ) if $Foswiki::UNICODE;
+    $response = convert( $response, 'to_unicode' );
 
     $response = $json->encode($response);
     debug "$fn(", join( ', ', @$data ), ") -> $response";
@@ -619,6 +626,8 @@ if ( my $pid = fork() ) {
     require Foswiki;
     die $@ if $@;
 
+    binmode( STDOUT, ':utf8' ) if $Foswiki::UNICODE;
+
     announce
       "Copying from $Foswiki::VERSION ($Foswiki::cfg{Store}{Implementation})";
 
@@ -644,6 +653,8 @@ else {
     # setlib.cfg declares package Foswiki, so the next line won't fail
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
     require Foswiki;
+
+    binmode( STDOUT, ':utf8' ) if $Foswiki::UNICODE;
 
     announce
       "Copying to $Foswiki::VERSION ($Foswiki::cfg{Store}{Implementation})";

@@ -8,28 +8,34 @@ Single-file implementation of =Foswiki::Store= that uses normal
 files in a standard directory structure to store versions.
 
    * Webs map to directories; webs only "exist" if they contain a
-     preferences topic.
-   * Topics are in data/.../topic.txt. If there is no .txt for a topic,
-     the topic does not exist, even if there is a history.
-   * Topic histories are in data/.../topic,pfv/
+     WebPreferences topic.
+   * Latest revs for topics are in data/.../TopicName.txt. If there
+     is no .txt for a topic, the topic does not exist, even if there
+     is a history.
+   * Topic histories are in data/.../TopicName,pfv/
       * Each rev of the topic has a numbered file containing the text of that
-        rev (1 2 3 etc) each with a corresponding metafile 1.m 2.m etc.
-   * Attachment histories are in data/.../topic,pfv/ATTACHMENTS/attachmentname/
-      * Each rev of an attachment has a numbered file containing the data for
-        that rev (same as a topic), each with a corresponding metafile
-        (same as a topic)
-   * The latest rev always has a history file (note: this means that
-    large attachments are stored at least twice; same as in the RCS stores)
+        rev (1 2 .. N), each with a corresponding metafile 1.m 2.m .. N.m
+   * Latest attachments are in pub/.../TopicName/attach.ment
+      * Attachment histories are in
+        data/.../topic,pfv/ATTACHMENTS/attach.ment/
+      * Same as a topic, each rev of an attachment has a numbered file
+        containing the data for that rev, each with a corresponding
+        metafile N.m
+      * The latest rev of an attachment always has a history file
+        (note: this means that all attachments are stored at least
+         twice; same as in the RCS stores)
    * 'date' always comes from the file modification date
    * 'author' and 'comment' come from the metafile
-   * 'version' comes from the name of the version file
+   * 'version' comes from the *name* of the version file
 
-A note on character encodings. This module is designed to work best when
-data is stored using UTF-8, but can also use an alternate encoding by
+Note that .m metafiles currently only contain the CUID of the contributor.
+Other metadata is stored embedded in topic text.
+
+A note on character encodings. This store is designed to work best when
+data is stored using UTF-8, but you can also use an alternate encoding by
 setting {Store}{Encoding}. Conversion to/from the alternate
 encoding is done at the lowest possible level - before calling file-level
-operations - so in general, strings can be assumed to be UTF-8 encoded
-byte strings.
+operations.
 
 NOTE: Perl's low-level file operations treat file names as sequences of
 bytes. When a function such as 'open' is called and is passed a unicode

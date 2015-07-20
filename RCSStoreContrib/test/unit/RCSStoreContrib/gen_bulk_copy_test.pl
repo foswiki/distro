@@ -163,10 +163,11 @@ our @made;
 
 sub make_topic {
     my ( $name, $text, $rev ) = @_;
-    my $path = "data/$web/$name";
+    my $path = "data/$web/"
+      . Encode::encode( $source_encoding, $name, Encode::FB_CROAK );
     push( @made, "topic $name version $rev " );
     open( F, ">:encoding($source_encoding)", "$path.txt" )
-      || die recode( "Failed", $path, $! );
+      || die recode("Failed $path $!");
     print F <<THIS;
 %META:TOPICINFO{author="ProjectContributor" date="$time" format="1.1" version="$rev"}%
 $text
@@ -178,9 +179,12 @@ THIS
 
 sub make_attachment {
     my ( $topic, $name, $data, $rev ) = @_;
-    mkdir "pub/$web/$topic";
-    my $path = "pub/$web/$topic/$name";
-    open( F, ">", $path ) || die recode( "Failed", $path, $! );
+    my $path = "pub/$web/"
+      . Encode::encode( $source_encoding, $topic, Encode::FB_CROAK );
+    mkdir $path;
+    my $path =
+      $path . Encode::encode( $source_encoding, $name, Encode::FB_CROAK );
+    open( F, ">", $path ) || die recode("Failed $path $!");
     binmode(F);
     print F $data;
     close(F);
@@ -204,7 +208,20 @@ make_topic( "RevHistory", "REV 1", 3 );
 make_topic( "RevHistory", "REV 2", 2 );
 make_topic( "RevHistory", "REV 3", 1 );
 
-# Make a topc with attachments
+# Make a web with an evil name
+my $evil =
+    substr( $classes{upper}, -10, 5 )
+  . substr( $classes{lower}, -5 )
+  . substr( $classes{upper}, -5 );
+mkdir "data/$web/$evil";
+make_topic( "$evil/WebPreferences", 'REV 1', 1 );
+
+# Make a topic with the same name
+make_topic( "$evil/$evil", $evil, 1 );
+
+# Make a web with the same name
+
+# Make a topic with attachments
 my $att_name = make_chars( 5, 'alnum' ) . '.att';
 make_topic( "HasAttachments", <<CONTENT, 1 );
 %META:FILEATTACHMENT{name="$att_name" comment="logo" user="ProjectContributor" version="1" date="$time"}%
@@ -231,6 +248,9 @@ and targets particular types of damage that can occur.
 
 The contents should be:
 $made
+
+The evil subweb is called $evil
+
 DATA
 
 1;
