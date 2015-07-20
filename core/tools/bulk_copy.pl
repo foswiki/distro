@@ -376,7 +376,8 @@ sub copy_attachment_version {
     binmode $tfh;
     local $/ = undef;
     my $data = <$fh>;
-    print $tfh $data;
+    announce "  Attachment $att_name is empty" unless length($data);
+    print $tfh $data if length($data);
     close($tfh);
     my $tfn = $tfh->filename();
 
