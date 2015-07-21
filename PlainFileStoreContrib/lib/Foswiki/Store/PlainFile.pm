@@ -249,10 +249,12 @@ sub copyAttachment {
             _latestFile( $oldTopicObject, $oldAtt ),
             _latestFile( $newTopicObject, $newAtt )
         );
-        _copyFile(
-            _historyDir( $oldTopicObject, $oldAtt ),
-            _historyDir( $newTopicObject, $newAtt )
-        );
+        if ( -e _historyDir( $oldTopicObject, $oldAtt ) ) {
+            _copyFile(
+                _historyDir( $oldTopicObject, $oldAtt ),
+                _historyDir( $newTopicObject, $newAtt )
+            );
+        }
         if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
             $this->recordChange(
                 cuid       => $cUID,
