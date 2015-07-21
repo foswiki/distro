@@ -531,6 +531,11 @@ sub verify_eachAttachment {
         comment => "a comment"
     );
 
+    # Create a directory, it should not be returned as an attacment
+    # See Item13541
+    my $path = "$Foswiki::cfg{PubDir}/$this->{t_web}/$this->{t_topic}/";
+    mkdir $path . "bogusempty";
+
     $meta->finish();
 
     $meta =

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435678839" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437433720" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -78,13 +78,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Compatibility" title="Compatibility" value="2.0"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk %25BR%25 &copy; 2008-2014 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" autoattached="1" comment="" date="1435678839" size="21246" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" autoattached="1" comment="" date="1435678839" size="1343" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h"  date="1437433720" size="713" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h"  date="1437433720" size="21246" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h"  date="1437433720" size="2378" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h"  date="1437433720" size="1343" user="ProjectContributor" version="1"}%

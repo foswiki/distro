@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1436923901" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437357433" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -101,6 +101,7 @@ You _must_ match the prior encoding, or convert old data to the new encoding if 
    * Case 3: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
       * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_. Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based upon their content. *This is rather unpredictable and may require manual intervention.*
       * *We *strongly* recommend that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The recommended =bulk_copy.pl= script does not modify existing topics.
+      * Note that it's possible that some data cannot be cleanly converted, for ex,  if the Charset encoding was changed, so that different topic revisions use different encoding. In this case you may need to remove the topic history.
 
 *Choose your desired Store.* Foswiki ships with two native stores.
    * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki.
@@ -187,8 +188,14 @@ cd /var/www/f120/tools
 perl bulk_copy.pl --xweb System --xweb _default --xweb _empty --latest '*.WebStatistics' /var/www/f119/bin /var/www/f120/bin
 </verbatim>
 
-This will copy all webs, topics and attachments except for the contents of the
-System web. This is the recommended solution.
+This will copy all webs, topics and attachments __except for the contents of the System web.__ This is the recommended solution.
+
+Note that =bulk_copy.pl= has limitations. It uses the Foswiki Store API to copy topic and attachments.  If the store doesn't recognize a topic or attachment, it won't be copied.
+   * Files in pub that are not associated with a topic attachment META are not copied. (ex. files manually copied into the pub directories).
+      * Auto attachments are not copied if the ={RCS}{AutoAttachPubFiles}= feature is not enabled.
+      * Auto attached files in the RCS store will be converted to regular attachments in the PlainFile store. The PlainFile store does not support auto attachments..
+   * Files in _subdirectories_ of topic attachments are not copied. (ex. image caches, javascript & css subdirectories, etc.)
+   * All topic revisions must have the same encoding.  If ={Site}{CharSet}= was changed after history exists, the history will not convert correctly and the copy may fail.
 
 ---+++ Manual copy steps (not recommended)
 These steps can be used to manually migrate data when not changing the Store
