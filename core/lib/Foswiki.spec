@@ -978,7 +978,7 @@ $Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp
 # include paths and skin names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
-$Foswiki::cfg{NameFilter} = '[\\s\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
+$Foswiki::cfg{NameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
 
 # **BOOLEAN LABEL="Force unsafe Regular Expressions" EXPERT**
 # If this is set, then the search module will use more relaxed
