@@ -2237,15 +2237,16 @@ sub _workingDays {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2001-2014 Peter Thoeny, peter@thoeny.org and
-TWiki Contributors.
+&copy; 2001-2015 Peter Thoeny, [[http://twiki.org/][TWiki.org]]
+&copy; 2008-2015 TWiki:TWiki.TWikiContributor
+&copy; 2015 Wave Systems Corp.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
