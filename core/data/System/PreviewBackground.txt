@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Background Image for Preview
 
@@ -12,7 +12,7 @@ Remarks:
 ---
 *Related Topics:* AdminDocumentationCategory
 
-%META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="970534080" path="blankltgraybg.gif" size="878" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="970534080" path=blankwhitebg.gif" size="878" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="previewbg.gif" attr="" comment="Slanted PREVIEW watermark" date="970533960" path="previewbg.gif" size="1821" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="preview2bg.gif" attr="" comment="Slanted PREVIEW, 3D" date="1030259095" path="preview2bg.gif" size="1881" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="previewbg.gif" attr="" comment="Slanted PREVIEW watermark" date="1437500521" size="1821" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="1437500521" size="878" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="preview2bg.gif" attr="" comment="Slanted PREVIEW, 3D" date="1437500521" size="1881" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="1437500521" size="878" user="ProjectContributor" version="1"}%

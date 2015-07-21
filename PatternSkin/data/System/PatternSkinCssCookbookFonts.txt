@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Font variation
 
@@ -13,4 +13,4 @@ You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, in %W
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="fonts.css" attachment="fonts.css" attr="" comment="" date="1421599902" path="fonts.css" size="240" stream="fonts.css" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fonts.css" attr="h" comment="" date="1437500521" size="585" user="ProjectContributor" version="1"}%

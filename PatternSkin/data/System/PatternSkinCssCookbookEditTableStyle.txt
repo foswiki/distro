@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: [[Foswiki:Extensions.EditTablePlugin][EditTable]] style
 
@@ -24,4 +24,4 @@ You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="edittable.css" attachment="edittable.css" attr="" comment="" date="1421599902" path="edittable.css" size="388" stream="edittable.css" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1437500521" size="198" user="ProjectContributor" version="1"}%

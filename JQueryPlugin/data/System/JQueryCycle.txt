@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315479654" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"cycle"
@@ -182,6 +182,6 @@ Use these in the =fx= option.
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1258379674" path="beach1.jpg" size="20327" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach2.jpg" attachment="beach2.jpg" attr="" comment="" date="1258379694" path="beach2.jpg" size="21480" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach3.jpg" attachment="beach3.jpg" attr="" comment="" date="1258379707" path="beach3.jpg" size="22629" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach1.jpg" attr="h" comment="" date="1437500521" size="20327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach2.jpg" attr="h" comment="" date="1437500521" size="21480" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach3.jpg" attr="h" comment="" date="1437500521" size="22629" user="ProjectContributor" version="1"}%

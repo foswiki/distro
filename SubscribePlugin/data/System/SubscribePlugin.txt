@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437433720" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -86,7 +86,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h"  date="1437433720" size="713" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h"  date="1437433720" size="21246" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h"  date="1437433720" size="2378" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h"  date="1437433720" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h" comment="" date="1437500521" size="713" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h" comment="" date="1437500521" size="2378" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1437500521" size="21246" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%

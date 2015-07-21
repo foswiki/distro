@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1427079357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -175,11 +175,11 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="styles.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="6120" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="74611" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1427079357" size="64487" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="46229" version="1"}%
-%META:FILEATTACHMENT{name="styles.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="4869" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427079357" size="139" version="1"}%
-%META:FILEATTACHMENT{name="styles.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1754" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="11955" version="1"}%
+%META:FILEATTACHMENT{name="styles.uncompressed.css" attr="h" comment="" date="1437500521" size="6120" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="styles.css" attr="h" comment="" date="1437500521" size="4869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1437500521" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="139" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.natedit.uncompressed.js" attr="h" comment="" date="1437500521" size="74611" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="styles.css.gz" attr="h" comment="" date="1437500521" size="1754" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.natedit.js" attr="h" comment="" date="1437500521" size="46229" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.natedit.js.gz" attr="h" comment="" date="1437500521" size="11955" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434333981" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 ---+!! !%TOPIC%
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -36,5 +36,5 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JEditableContrib"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/JEditableContrib"}%
-%META:FILEATTACHMENT{name="jquery.jeditable_src.js" attr="h" comment="" user="ProjectContributor" date="1434333981" size="24351" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jeditable.js" attr="h" comment="" user="ProjectContributor" date="1434333981" size="7945" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jeditable.js" attr="h" comment="" date="1437500521" size="7945" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.jeditable_src.js" attr="h" comment="" date="1437500521" size="24351" user="ProjectContributor" version="1"}%

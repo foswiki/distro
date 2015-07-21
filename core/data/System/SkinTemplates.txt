@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426984193" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -326,12 +326,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="default.css" attr="" comment="" user="ProjectContributor" date="1426984193" size="11093" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="" comment="" user="ProjectContributor" date="1426984193" size="11093" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="" comment="" user="ProjectContributor" date="1426984193" size="1994" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="2927" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="" comment="" user="ProjectContributor" date="1426984193" size="3464" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="" comment="" user="ProjectContributor" date="1426984193" size="3205" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="" comment="" user="ProjectContributor" date="1426984193" size="6780" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="" comment="" user="ProjectContributor" date="1426984193" size="6780" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="" comment="" user="ProjectContributor" date="1426984193" size="1818" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1437500521" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1437500521" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1437500521" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1437500521" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1437500521" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1437500521" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1437500521" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1437500521" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1437500521" size="8209" user="ProjectContributor" version="1"}%

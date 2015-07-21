@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Print Skin
 
@@ -11,5 +11,5 @@ This skin is part of every distribution.
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=print][Preview with this topic]] |
 |  Base Name: | print |
 
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1090916727" path="screenshot.gif" size="4040" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1090916872" path="fullscreen.gif" size="12968" user="ProjectContributor" version="1.2"}%
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1437500521" size="9835" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1437500521" size="28752" user="ProjectContributor" version="1"}%

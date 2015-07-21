@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315258999" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"slimbox"
@@ -29,4 +29,4 @@ Surround a set of image links with a container that has got the class name ==jqS
 %IMAGE{"IMG_1190.JPG"}%
 </div>
 
-%META:FILEATTACHMENT{name="IMG_1190.JPG" attachment="IMG_1190.JPG" attr="h" comment="" date="1259755424" path="IMG_1190.JPG" size="46155" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="IMG_1190.JPG" attr="h" comment="" date="1437500521" size="46155" user="ProjectContributor" version="1"}%

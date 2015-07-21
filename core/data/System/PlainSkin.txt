@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Plain Skin
 
@@ -10,5 +10,5 @@ This skin is part of every distribution.
 |  Screenshot: | <a href="%ATTACHURL%/fullscreen.gif"><img src="%ATTACHURL%/screenshot.gif" alt="Click for full screen image" width="600" height="130" /></a> |
 |  Base Name: | plain |
 
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1090796589" path="screenshot.gif" size="8683" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1090796600" path="fullscreen.gif" size="21130" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1437500521" size="10333" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1437500521" size="16267" user="ProjectContributor" version="1"}%
