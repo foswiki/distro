@@ -678,13 +678,18 @@ sub _renameWeb {
         shift->throw();    # propagate
     }
     catch Error with {
-        my $e = shift;
+        $session->logger->log( 'error', shift->{-text} );
         throw Foswiki::OopsException(
             'attention',
             web    => $oldWeb,
             topic  => '',
             def    => 'rename_web_err',
-            params => [ $e->{-text}, $newWeb ]
+            params => [
+                $session->i18n->maketext(
+                    'Operation [_1] failed with an internal error', 'move'
+                ),
+                $newWeb
+            ],
         );
     }
 
@@ -809,12 +814,21 @@ sub _moveTopicOrAttachment {
             shift->throw();    # propagate
         }
         catch Error with {
+            $session->logger->log( 'error', shift->{-text} );
             throw Foswiki::OopsException(
                 'attention',
                 web    => $from->web,
                 topic  => $from->topic,
                 def    => 'move_err',
-                params => [ $to->web, $to->topic, $attachment, shift->{-text} ]
+                params => [
+                    $to->web,
+                    $to->topic,
+                    $attachment,
+                    $session->i18n->maketext(
+                        'Operation [_1] failed with an internal error',
+                        'moveAttachment'
+                    )
+                ]
             );
         };
     }
@@ -826,13 +840,19 @@ sub _moveTopicOrAttachment {
             shift->throw();    # propagate
         }
         catch Error with {
-            my $e = shift;
+            $session->logger->log( 'error', shift->{-text} );
             throw Foswiki::OopsException(
                 'attention',
                 web    => $from->web,
                 topic  => $from->topic,
                 def    => 'rename_err',
-                params => [ $e->{-text}, $to->web, $to->topic ]
+                params => [
+                    $session->i18n->maketext(
+                        'Operation [_1] failed with an internal error', 'move'
+                    ),
+                    $to->web,
+                    $to->topic
+                ]
             );
         };
 

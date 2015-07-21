@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-07-12 14:49+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -254,7 +254,7 @@ msgstr "(=所有= 顯示所有主題)"
 msgid "(Children in %1 Web)"
 msgstr "(%1 子網中的子頁)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -334,10 +334,10 @@ msgstr "(移動附件)"
 msgid "(no parent, orphaned topic)"
 msgstr "(無父主題，孤立主題)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -376,7 +376,7 @@ msgstr "(單字元名字)"
 msgid "(single character last name)"
 msgstr "(單字元姓氏)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(忽略)"
 
@@ -1230,7 +1230,7 @@ msgstr "繼續編輯"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1337,7 +1337,7 @@ msgstr "建立主題"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "建立這個主題"
 
@@ -1615,7 +1615,7 @@ msgstr "嵌入外部物件"
 msgid "Emoticon"
 msgstr "表情"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "放大編輯框"
 
@@ -2606,7 +2606,7 @@ msgstr "移到子網: %1"
 msgid "Move topic to web:"
 msgstr "移動主題到子網:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "移動/更名"
 
@@ -2875,6 +2875,21 @@ msgstr "只更新 %1 子網中的連結"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr "抱歉：無法辨識您，請再試一次或 [[%1][重設密碼]] 。"
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
@@ -3172,7 +3187,7 @@ msgstr ""
 "閱讀 %1 可快速對本合作平臺有個概念。想進一步瞭解，可以參考相同連結的 "
 "TwentyMinuteTutorial 。"
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "閱讀"
 
@@ -3198,7 +3213,7 @@ msgstr "重做前入改變"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "更新"
 
@@ -3364,7 +3379,9 @@ msgstr "請求驗證"
 msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
-msgstr "請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或更新"
+msgstr ""
+"請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或"
+"更新"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -3721,7 +3738,7 @@ msgstr "顯示說明"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
@@ -3764,7 +3781,9 @@ msgstr ""
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
-msgstr "某些人將它變成個人的入口網站，內容包括最喜歡的連結、目前的工作、他們喜歡的事，等等。"
+msgstr ""
+"某些人將它變成個人的入口網站，內容包括最喜歡的連結、目前的工作、他們喜歡的"
+"事，等等。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
 msgid "Sorry, registration has been temporarily disabled."
@@ -3863,10 +3882,12 @@ msgstr "訂閱"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 msgid "Subscribe to this topic"
 msgstr "訂閱這個主題"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "Subscribe to this topic (s)"
@@ -3896,7 +3917,7 @@ msgstr "摘要"
 msgid "Superscript"
 msgstr "上標"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Switch to monotype or proportional font"
 msgstr "切換到等寬或等比的字體"
 
@@ -3917,8 +3938,8 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 文字 =\"web service\"=，但不包含 =\"shampoo\"=  "
-"的主題:"
+"技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 文字 =\"web service\"=，但不包含 ="
+"\"shampoo\"=  的主題:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
@@ -3985,7 +4006,8 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"子網 %1 是個測試用的沙盤，歡迎任何人增加或刪除內容。建議先看 %2 以快速熟悉 %3 的工具。在頁面底端加上您的 %4 及簽名和日期是個好習慣。"
+"子網 %1 是個測試用的沙盤，歡迎任何人增加或刪除內容。建議先看 %2 以快速熟悉 "
+"%3 的工具。在頁面底端加上您的 %4 及簽名和日期是個好習慣。"
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -4257,7 +4279,8 @@ msgstr ""
 msgid ""
 "There is no _internal admin_ password set.  See [[%1][Installation Guide "
 "section on the internal admin]] for further help."
-msgstr "未設定 _內部管理員_ 密碼。請見 [[%1][安裝指引的內部管理員部分]]尋求協助。"
+msgstr ""
+"未設定 _內部管理員_ 密碼。請見 [[%1][安裝指引的內部管理員部分]]尋求協助。"
 
 #: core/templates/messages.tmpl:221
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -4349,7 +4372,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -4357,7 +4380,8 @@ msgstr "這是本對話被禁止的原因："
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
-msgstr "這是您名字的 !WikiWord ，例如: !JohnSmith 。 若無帳戶請 [[%1] [註冊]] 。"
+msgstr ""
+"這是您名字的 !WikiWord ，例如: !JohnSmith 。 若無帳戶請 [[%1] [註冊]] 。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "This must be a unique WikiName."
@@ -4377,7 +4401,9 @@ msgstr "名稱已選定，所以不會和其他 %1 內的主題衝突。"
 msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
-msgstr "本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻擊。"
+msgstr ""
+"本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻"
+"擊。"
 
 #: PatternSkin/templates/view.pattern.tmpl:72
 msgid "This page was cached on %1."
@@ -4427,8 +4453,8 @@ msgid ""
 "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for example, =="
 "%<nop>USERSWEB%.%WIKINAME%==."
 msgstr ""
-"雖然日常很少使用，你可以使用 !Wikinames 加上特殊的 ==%<nop>USERSWEB%== [[%1.Macros][巨集]] 前綴，例如 "
-"==%<nop>USERSWEB%.%WIKINAME%== 。"
+"雖然日常很少使用，你可以使用 !Wikinames 加上特殊的 ==%<nop>USERSWEB%== [[%1."
+"Macros][巨集]] 前綴，例如 ==%<nop>USERSWEB%.%WIKINAME%== 。"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
 #: core/data/System/FrequentlyAskedQuestions.txt:65
@@ -4633,17 +4659,21 @@ msgstr "無法識別的功能 %1"
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
-msgstr "拒絕不安全的轉址至 %1。被請求的主機不是 %2，且不在 {PermittedRedirectHostUrls} 。"
+msgstr ""
+"拒絕不安全的轉址至 %1。被請求的主機不是 %2，且不在 "
+"{PermittedRedirectHostUrls} 。"
 
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #: SubscribePlugin/templates/subscribe.tmpl:36
 msgid "Unsubscribe"
 msgstr "退訂"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr "退訂本主題"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
@@ -4721,8 +4751,8 @@ msgid ""
 "if you are going to print it - otherwise use the [[ReferenceManual][online "
 "reference manual]]."
 msgstr ""
-"使用此按鈕載入內容。 %BR% *注意* 內容非常多，載入它將使瀏覽器負載變大。若您要列印內容才載入內容 - "
-"否則使用[[ReferenceManual][線上參考手冊]]。"
+"使用此按鈕載入內容。 %BR% *注意* 內容非常多，載入它將使瀏覽器負載變大。若您要"
+"列印內容才載入內容 - 否則使用[[ReferenceManual][線上參考手冊]]。"
 
 #: core/data/System/SiteChanges.txt:14
 msgid ""
@@ -4730,7 +4760,8 @@ msgid ""
 "can be very resource intensive. Only load the content if you really need it, "
 "otherwise review the WebChanges topic from each web."
 msgstr ""
-"使用此按鈕載入內容。 %BR% *注意* 搜尋這主題可能耗費極多資源。只有您真的需要時才載入內容，否則請參考各子網的 WebChanges 主題。"
+"使用此按鈕載入內容。 %BR% *注意* 搜尋這主題可能耗費極多資源。只有您真的需要時"
+"才載入內容，否則請參考各子網的 WebChanges 主題。"
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
@@ -4764,7 +4795,9 @@ msgid ""
 "User exists in the Password Manager,  and the password you provided is "
 "different from the users current password.   You cannot add a user and "
 "change the password at the same time."
-msgstr "使用者在密碼管理員中，且您提供的密碼是與使用者目前的密碼不同。您不能同時增加使用者和改變密碼。"
+msgstr ""
+"使用者在密碼管理員中，且您提供的密碼是與使用者目前的密碼不同。您不能同時增加"
+"使用者和改變密碼。"
 
 #: core/templates/login.tmpl:48
 msgid "Username"
@@ -5136,7 +5169,9 @@ msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
-msgstr "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請尋找像這樣的一行設定:"
+msgstr ""
+"您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請"
+"尋找像這樣的一行設定:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189

@@ -270,7 +270,7 @@ msgstr "(=全て= 全てのトピックを表示します)"
 msgid "(Children in %1 Web)"
 msgstr "( %1 ウェッブの中のバックリンク)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(このメッセージは自動に取り去れます。)"
 
@@ -351,10 +351,10 @@ msgstr "(添付ファイルを移動します)"
 msgid "(no parent, orphaned topic)"
 msgstr "(親トピックのない独立のトピック)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -394,7 +394,7 @@ msgstr "(シングルキャラクター名前)"
 msgid "(single character last name)"
 msgstr "(シングルキャラクター名字)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(スキップ)"
 
@@ -1320,7 +1320,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1440,7 +1440,7 @@ msgstr "トピックを作成します"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "このトピックを作成します"
 
@@ -1743,7 +1743,7 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "編集枠を拡大します"
 
@@ -2804,7 +2804,7 @@ msgstr "ウェブに移動します:"
 msgid "Move topic to web:"
 msgstr "トピックをウェブに移動します："
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
@@ -3089,6 +3089,21 @@ msgstr "%1ウェブの中の子トピック"
 #: core/templates/login.tmpl:8
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
+msgstr ""
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
 msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
@@ -3416,7 +3431,7 @@ msgstr ""
 "%1を読んで、このコラボレーションプラットフォームを大まかに理解してください。"
 "もっと沢山見たい場合は、%SYSTEMWEB%.TwentyMinuteTutorialを参照してください。"
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "読みます"
 
@@ -3446,7 +3461,7 @@ msgstr "変更をプレビューします"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr ""
 
@@ -4012,7 +4027,7 @@ msgstr "ヘルプを表示します"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
@@ -4158,11 +4173,13 @@ msgstr "サブスクリプトテキスト"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "購読/購読の取消"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #, fuzzy
 msgid "Subscribe to this topic"
 msgstr "このトピックを作成します"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 #, fuzzy
@@ -4197,7 +4214,7 @@ msgstr "概要"
 msgid "Superscript"
 msgstr "スーパースクリプトテキスト"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Switch to monotype or proportional font"
 msgstr ""
 
@@ -4668,7 +4685,7 @@ msgstr ""
 "これはごみ箱です。ここでトピックをオンデリートすることができます。削除された"
 "添付ファイルは TrashAttachment にあります"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4977,10 +4994,12 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"

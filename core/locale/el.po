@@ -260,7 +260,7 @@ msgstr "(=all= για να εμφανίσεις όλα τα θέματα)"
 msgid "(Children in %1 Web)"
 msgstr "(εισερχόμενοι σύνδεσμοι στον Ιστό %1)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -340,10 +340,10 @@ msgstr "(μετακίνησε συννημένο)"
 msgid "(no parent, orphaned topic)"
 msgstr "(χωρίς γονέα, ορφανό θέμα)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -383,7 +383,7 @@ msgstr "(μονός χαρακτήρας μικρού ονόματος)"
 msgid "(single character last name)"
 msgstr "(μονός χαρακτήρας επιθέτου)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(παρελήφθει)"
 
@@ -1329,7 +1329,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "Συνέχεια για τη δημιουργία της νέας σελίδας"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1448,7 +1448,7 @@ msgstr "Δημιουργήστε το θέμα"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "Δημιουργήστε αυτό το θέμα"
 
@@ -1758,7 +1758,7 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Μεγένθυση πλαίσιου επεξεργασίας"
 
@@ -2830,7 +2830,7 @@ msgstr "Μετακίνηση στον ιστό:"
 msgid "Move topic to web:"
 msgstr "Μετακινήστε το θέμα στον ιστό:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "Μετακίνηση / Μετονομασία"
 
@@ -3119,6 +3119,21 @@ msgid ""
 msgstr ""
 "Ώπ!: δεν μπορέσαμε να σας αναγνωρίσουμε. Δοκιμάστε ξανά ή  [[%1][επανατάξτε "
 "τον κωδικό σας]]."
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 #, fuzzy
@@ -3451,7 +3466,7 @@ msgstr ""
 "συνεργασίας. To learn more, study the TwentyMinuteTutorial, which is "
 "accessible from the same link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "Διαβάστε κι άλλο"
 
@@ -3479,7 +3494,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "Ενημέρωση"
 
@@ -4042,7 +4057,7 @@ msgstr "Εμφάνιση βοήθειας"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "Μείωσε το πλαίσιο επεξεργασίας"
 
@@ -4190,11 +4205,13 @@ msgstr ""
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Συνδρομή / Διαγφραφή Συνδρομής σε:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #, fuzzy
 msgid "Subscribe to this topic"
 msgstr "Εκτύπωση αυτού του θέματος"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 #, fuzzy
@@ -4225,7 +4242,7 @@ msgstr "Περιλήψεις"
 msgid "Superscript"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Αλλαγή σε μονοτυπία ή αναλογική γραμματοσειρά"
@@ -4719,7 +4736,7 @@ msgstr ""
 "Αυτό είναι το Trash. Here you can undelete topics; deleted attachments are "
 "in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -5037,11 +5054,13 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 #, fuzzy
 msgid "Unsubscribe from this topic"
 msgstr "Εκτύπωση αυτού του θέματος"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"
