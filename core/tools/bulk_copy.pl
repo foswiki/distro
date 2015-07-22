@@ -166,6 +166,17 @@ sub call {
 sub copy_webs {
     my $rootMO = Foswiki::Meta->new($session);
     my $wit    = $rootMO->eachWeb(1);
+
+    if (
+        !grep( $Foswiki::cfg{SystemWebName} =~ /^$_([\/.]|$)/,
+            @{ $control{iweb} } )
+        && !grep( $Foswiki::cfg{SystemWebName} =~ /^$_([\/.]|$)/,
+            @{ $control{xweb} } )
+      )
+    {
+        announce "Adding $Foswiki::cfg{SystemWebName} to list of excluded webs";
+        push @{ $control{xweb} }, $Foswiki::cfg{SystemWebName};
+    }
     while ( $wit->hasNext() ) {
         my $web    = $wit->next();
         my $forced = scalar( @{ $control{iweb} } );
@@ -179,6 +190,7 @@ sub copy_webs {
             announce "- Skipping xweb $web";
             next;
         }
+
         my $exists = call( "webExists", $web );
         if ($exists) {
             announce "- Web '$web' already exists in target";
@@ -188,6 +200,9 @@ sub copy_webs {
             }
             announce "\t- will copy missing topics";
         }
+        announce(
+"*** CAUTION *** Copying $Foswiki::cfg{SystemWebName} web - this is NOT recommended."
+        ) if ( $web eq $Foswiki::cfg{SystemWebName} );
         copy_web($web);
     }
 }
@@ -587,6 +602,8 @@ Getopt::Long::GetOptions(
     }
 );
 
+announce "Running in check mode, no data will be copied"
+  if ( $control{check_only} );
 announce "iweb: " . join( ',', @{ $control{iweb} } )
   if ( scalar( @{ $control{iweb} } ) );
 announce "xweb: " . join( ',', @{ $control{xweb} } )
@@ -838,8 +855,11 @@ areas. You don't have to make them web-accessible. Let's say they are in
 
 Now, decide what webs need to be transferred. As a general guide, you should
 *not* copy the System web, otherwise you may overwrite topics
-that are shipped with the release. You should also add a --latest option to
-exclude statistics topics.
+that are shipped with the release. If the System web is not explicitly listed
+in the --iwebs option, it will be added to the --xwebs list by default to avoid
+possible damage.
+
+You should also add a --latest option to exclude statistics topics.
 
 perl bulk_copy.pl --xweb System --latest '*.WebStatistics' 
 
@@ -847,3 +867,8 @@ Note that only topics and attachments that do not exist in the destination
 system can be copied this way. If you want to merge revisions in different
 installations together, you will have to do that manually.
 
+Note that this tool *only* copies topics and attachments that are visible
+to the Foswiki Store API. Subdirectories of attachments, commonly used
+in the System directory for JavaScript, CSS, and some image caches, will 
+NOT be copied. If the System web is copied, you may be left with a 
+non-operational system.
