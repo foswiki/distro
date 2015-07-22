@@ -1436,28 +1436,21 @@ sub synchroniseAttachmentsList {
 
 =begin TML
 
----++ ObjectMethod getAttachmentList( $incDir ) -> @list
+---++ ObjectMethod getAttachmentList() -> @list
 
 Get list of attachment names actually stored for topic.
-
-$incDir, if true, will cause subdirectories of the pub attachment directory
-to be included in the list.  This is used by change_store to report
-sub-directories that were not copied into the new store. This is not used in
-normal Foswiki operation.
 
 =cut
 
 sub getAttachmentList {
     my $this = shift;
-    my $incDir =
-      shift;    # Internal flag for change_store, returns directory names.
     my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
     my $ed = _encode($dir);
     opendir( $dh, $ed ) || return ();
     my @files =
       map { _decode($_) }
-      grep { !/^[.*_]/ && !/,v$/ && ( $incDir || -f "$ed/$_" ) } readdir($dh);
+      grep { !/^[.*_]/ && !/,v$/ && -f "$ed/$_" } readdir($dh);
     closedir($dh);
     return @files;
 }

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434329709" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -175,15 +175,15 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1434329709" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1434329709" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors,  2008-2015 All Rights Reserved"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FILEATTACHMENT{name="interweave.png" attr="h" comment="" date="1437500521" size="28786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attr="h" comment="" date="1437500521" size="48991" user="ProjectContributor" version="1"}%

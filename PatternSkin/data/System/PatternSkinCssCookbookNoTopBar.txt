@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Hide the top bar
 
@@ -12,4 +12,4 @@ This line loads the extra style definition:
 You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic or on a single page.
 </div>
 
-%META:FILEATTACHMENT{name="notopbar.css" attachment="notopbar.css" attr="" comment="" date="1421599902" path="notopbar.css" size="395" stream="notopbar.css" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="notopbar.css" attr="h" comment="" date="1437500521" size="467" user="ProjectContributor" version="1"}%

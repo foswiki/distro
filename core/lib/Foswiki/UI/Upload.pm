@@ -217,12 +217,17 @@ sub _upload {
         shift->throw();    # propagate
     }
     catch Error with {
+        $session->logger->log( 'error', shift->{-text} );
         throw Foswiki::OopsException(
             'attention',
             def    => 'save_error',
             web    => $web,
             topic  => $topic,
-            params => [ shift->{-text} ]
+            params => [
+                $session->i18n->maketext(
+                    'Operation [_1] failed with an internal error', 'save'
+                )
+            ],
         );
     };
     close($stream) if $stream;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424657010" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Hide action buttons
 
@@ -60,5 +60,5 @@ CSS sets the opacity to 50%, and disables the button.
 </verbatim>
 
 
-%META:FILEATTACHMENT{name="hideunauthaction.css" attachment="hideunauthaction.css" attr="" comment="" date="1424657010" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hideguestaction.css" attachment="hideguestaction.css" attr="" comment="" date="1424657010" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideguestaction.css" attr="h" comment="" date="1437500521" size="336" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideunauthaction.css" attr="h" comment="" date="1437500521" size="221" user="ProjectContributor" version="1"}%

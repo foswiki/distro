@@ -239,10 +239,17 @@ sub _action_createweb {
         shift->throw();    # propagate
     }
     catch Error with {
+        $session->logger->log( 'error', shift->{-text} );
         throw Foswiki::OopsException(
             'attention',
             def    => 'web_creation_error',
-            params => [ $newWeb, shift->{-text} ]
+            params => [
+                $newWeb,
+                $session->i18n->maketext(
+                    'Operation [_1] failed with an internal error',
+                    'populateNewWeb'
+                )
+            ]
         );
     };
 
@@ -544,12 +551,17 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
             shift->throw();    # propagate
         }
         catch Error with {
+            $session->logger->log( 'error', shift->{-text} );
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'save_error',
                 web    => $web,
                 topic  => $topic,
-                params => [ shift->{-text} ]
+                params => [
+                    $session->i18n->maketext(
+                        'Operation [_1] failed with an internal error', 'save'
+                    )
+                ],
             );
         };
     }

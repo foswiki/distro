@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426067961" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH% \logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
@@ -645,15 +645,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 See the repository for full change history.
 
+
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
 %META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="Support" value="http://foswiki.org/Support/BuildContrib"}%
-
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="logo" path="logo.gif" user="ProjectContributor" version="1" date="1426067961"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" user="ProjectContributor" version="1" date="1426067961"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1437500521" size="14169" user="ProjectContributor" version="1"}%

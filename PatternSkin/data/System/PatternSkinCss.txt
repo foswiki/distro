@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1301018910" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! CSS elements in !PatternSkin
 
@@ -114,4 +114,4 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---
 *Related Topics:* [[Skins]], AdminDocumentationCategory
 
-%META:FILEATTACHMENT{name="CSS_element_layout_view.pattern.tmpl.png" attr="h" comment="" date="1092634624" path="CSS_element_layout_view.pattern.tmpl.png" size="37359" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="CSS_element_layout_view.pattern.tmpl.png" attr="h" comment="" date="1437500521" size="43899" user="ProjectContributor" version="1"}%

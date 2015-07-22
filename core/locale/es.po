@@ -252,7 +252,7 @@ msgstr "(=all= para mostrar todos los temas)"
 msgid "(Children in %1 Web)"
 msgstr "(enlaces entrantes en Web %1)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Este mensaje será eliminado automáticamente)"
 
@@ -333,10 +333,10 @@ msgstr "(mover archivo adjunto)"
 msgid "(no parent, orphaned topic)"
 msgstr "(sin tema padre, tema huérfano)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -376,7 +376,7 @@ msgstr "(letra inicial del nombre)"
 msgid "(single character last name)"
 msgstr "(letra inicial del apellido)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(obviado)"
 
@@ -1314,7 +1314,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "Continuar a crear la página nueva"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1432,7 +1432,7 @@ msgstr "Crear el tema"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "Crear este tema"
 
@@ -1745,7 +1745,7 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Ampliar caja de edición"
 
@@ -2813,7 +2813,7 @@ msgstr "Mover a la web:"
 msgid "Move topic to web:"
 msgstr "Mover tema a la web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "Mover/Renombrar"
 
@@ -3101,6 +3101,21 @@ msgid ""
 msgstr ""
 "Oops: no l@ pudimos reconocer. Inténtelo nuevamente o [[%1][cambie su "
 "contraseña]]."
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
@@ -3431,7 +3446,7 @@ msgstr ""
 "aprender más, estudie el TwentyMinuteTutorial, el cual está accesible por el "
 "mismo enlace."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "Seguir leyendo"
 
@@ -3461,7 +3476,7 @@ msgstr "Revisar cambios recientes en:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "Recargar"
 
@@ -4029,7 +4044,7 @@ msgstr "Mostrar ayuda"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Revisiones %1 - %2 (de %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "Empequeñecer campo de edición"
 
@@ -4178,11 +4193,13 @@ msgstr "Editar texto"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Subscribir / Cancelar subscripción en:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #, fuzzy
 msgid "Subscribe to this topic"
 msgstr "Crear este tema"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 #, fuzzy
@@ -4217,7 +4234,7 @@ msgstr "Resúmenes"
 msgid "Superscript"
 msgstr "Aviso de seguridad:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Cambiar a monotipo o tipo de letra proporcional"
@@ -4718,7 +4735,7 @@ msgstr ""
 "Esta es la basura. Aquí usted puede recuperar temas; los archivos adjuntos "
 "están en TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Esto es por qué la conversación fue deshabilitada:"
 
@@ -5035,10 +5052,12 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"

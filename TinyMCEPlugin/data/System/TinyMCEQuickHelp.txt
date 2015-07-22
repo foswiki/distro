@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---+!! !TinyMCE Editor Help Summary 
 <!--%STARTSECTION{"CSS"}%<style type="text/css" media="all">
@@ -114,14 +114,14 @@
 </div>
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="anchor.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="autosave.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="chili_formatting.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="clear_formatting.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="Format_Drop_Down.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="fullscreen.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="indent.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="link.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="outdent.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="table_contextmenu.png" version="1" user="ProjectContributor" date="1421672966"}%
-%META:FILEATTACHMENT{name="unlink.png" version="1" user="ProjectContributor" date="1421672966"}%
+%META:FILEATTACHMENT{name="autosave.png" attr="h" comment="" date="1437500521" size="655" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="indent.png" attr="h" comment="" date="1437500521" size="327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chili_formatting.png" attr="h" comment="" date="1437500521" size="12756" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="h" comment="" date="1437500521" size="6515" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="unlink.png" attr="h" comment="" date="1437500521" size="426" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="outdent.png" attr="h" comment="" date="1437500521" size="324" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table_contextmenu.png" attr="h" comment="" date="1437500521" size="9076" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="link.png" attr="h" comment="" date="1437500521" size="385" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="anchor.png" attr="h" comment="" date="1437500521" size="397" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clear_formatting.png" attr="h" comment="" date="1437500521" size="459" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.png" attr="h" comment="" date="1437500521" size="384" user="ProjectContributor" version="1"}%

@@ -253,7 +253,7 @@ msgstr "(=all= for at vise alle sider)"
 msgid "(Children in %1 Web)"
 msgstr "(referencer i %1-webbet)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Denne besked vil automatisk blive fjernet)"
 
@@ -333,10 +333,10 @@ msgstr "(flyt vedhæftet fil)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen forælder, forældreløs side)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -375,7 +375,7 @@ msgstr "(første bogstav i fornavn)"
 msgid "(single character last name)"
 msgstr "(første bogstav i efternavn)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(skippet)"
 
@@ -1290,7 +1290,7 @@ msgstr "Fortsæt editering"
 msgid "Continue to create the new page"
 msgstr "Fortsæt med at oprette den nye side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1403,7 +1403,7 @@ msgstr "Opret siden"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "Opret denne side"
 
@@ -1699,7 +1699,7 @@ msgstr "Indlejr eksternt objekt"
 msgid "Emoticon"
 msgstr "Humørikon"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Forstør edit-boks"
 
@@ -2738,7 +2738,7 @@ msgstr "Flyt til web: %1"
 msgid "Move topic to web:"
 msgstr "Flyt side til web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
@@ -3017,6 +3017,21 @@ msgid ""
 msgstr ""
 "Hovsa. Vi kunne ikke genkende dig. Forsøg igen eller [[%1][nulstil din "
 "adgangskode]]."
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
@@ -3323,7 +3338,7 @@ msgstr ""
 "få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, som "
 "kan nås fra samme link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "Læs mere"
 
@@ -3349,7 +3364,7 @@ msgstr "Gendan forrige ændring"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "Genopfrisk"
 
@@ -3891,7 +3906,7 @@ msgstr "Vis hjælp"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "Formindsk edit boks"
 
@@ -4039,10 +4054,12 @@ msgstr "Abonnér"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnér / afmeld i:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 msgid "Subscribe to this topic"
 msgstr "Abonner på denne side"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "Subscribe to this topic (s)"
@@ -4072,7 +4089,7 @@ msgstr "Sammendrag"
 msgid "Superscript"
 msgstr "Hævet"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Skift til monospace eller proportional skrift"
@@ -4578,7 +4595,7 @@ msgstr ""
 "Dette er skraldespanden (Trash webbet). Her kan du gendanne slettede sider; "
 "slettede vedhæftede filer findes på siden TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
@@ -4888,10 +4905,12 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr "Slet abonnement"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr "Slet abonnement fra denne side"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"

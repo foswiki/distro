@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1424695107" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437500521" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"superfish"
@@ -340,4 +340,4 @@ Requires Foswiki:Extensions.TreePlugin
    * Set NOWYSIWYG = 1
 -->
 
-%META:FILEATTACHMENT{name="example.js" attachment="example.js" attr="" comment="" date="1424695107" path="example.js" size="250" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example.js" attr="h" comment="" date="1437500521" size="384" user="ProjectContributor" version="1"}%

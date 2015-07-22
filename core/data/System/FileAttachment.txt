@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -262,5 +262,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1434484983" path="Sample.txt" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1434484983" path="Smile.gif" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1437500521" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1437500521" size="94" user="ProjectContributor" version="1"}%

@@ -272,7 +272,7 @@ msgstr "(=所有= 显示所有主题)"
 msgid "(Children in %1 Web)"
 msgstr "(%1 子网中的反向连结)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -354,10 +354,10 @@ msgstr "(移动附件)"
 msgid "(no parent, orphaned topic)"
 msgstr "(无父主题，孤立主题)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -397,7 +397,7 @@ msgstr "(单字元名字)"
 msgid "(single character last name)"
 msgstr "(单字元姓氏)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(忽略)"
 
@@ -1289,7 +1289,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "继续建立新页面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1405,7 +1405,7 @@ msgstr "建立主题"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "建立这个主题"
 
@@ -1697,7 +1697,7 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "放大编辑框"
 
@@ -2737,7 +2737,7 @@ msgstr "移动到子网:"
 msgid "Move topic to web:"
 msgstr "移动主题到子网:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "移动/更名"
 
@@ -3022,6 +3022,21 @@ msgstr "在%1子网中的子主题"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr "抱歉：无法辨识您，请再试一次或 [[%1][重设密码]] 。"
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 #, fuzzy
@@ -3346,7 +3361,7 @@ msgstr ""
 "快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 "
 "%SYSTEMWEB%.TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "阅读"
 
@@ -3374,7 +3389,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "更新"
 
@@ -3934,7 +3949,7 @@ msgstr "显示说明"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "缩小编辑框"
 
@@ -4079,11 +4094,13 @@ msgstr ""
 msgid "Subscribe / Unsubscribe in:"
 msgstr "订阅/退订:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 #, fuzzy
 msgid "Subscribe to this topic"
 msgstr "建立这个主题"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 #, fuzzy
@@ -4116,7 +4133,7 @@ msgstr "摘要"
 msgid "Superscript"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "切换到等宽或等比的字体"
@@ -4579,7 +4596,7 @@ msgid ""
 msgstr ""
 "这是垃圾区。您可以在这里还回删除的主题；删除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4883,10 +4900,12 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr ""
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1427043013" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -78,8 +78,8 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427043013" size="127" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427043013" size="4313" version="1"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" autoattached="1" comment="" date="1427043013" size="53676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" user="ProjectContributor" date="1427043013" size="2322" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" user="ProjectContributor" date="1427043013" size="786" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1437500521" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1437500521" size="2322" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1437500521" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1437500521" size="4313" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="127" user="ProjectContributor" version="1"}%

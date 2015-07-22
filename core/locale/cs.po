@@ -243,7 +243,7 @@ msgstr "(=all= pro všechny články)"
 msgid "(Children in %1 Web)"
 msgstr "(zpětné odkazy v %1 Webu)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:593
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Tato zpráva bude automaticky odstraněna)"
 
@@ -323,10 +323,10 @@ msgstr "(přesun přílohy)"
 msgid "(no parent, orphaned topic)"
 msgstr "(bez rodiče, osiřelý článek)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1104 core/lib/Foswiki/UI/Rename.pm:1120
-#: core/lib/Foswiki/UI/Rename.pm:1177 core/lib/Foswiki/UI/Rename.pm:1180
-#: core/lib/Foswiki/UI/Rename.pm:1183 core/lib/Foswiki/UI/Rename.pm:1218
-#: core/lib/Foswiki/UI/Rename.pm:1241 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
+#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
+#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
+#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -365,7 +365,7 @@ msgstr "(první písmeno křestního jména)"
 msgid "(single character last name)"
 msgstr "(první písmeno přijmení)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1092
+#: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(přeskočeno)"
 
@@ -1271,7 +1271,7 @@ msgstr "Pokračuj v editaci"
 msgid "Continue to create the new page"
 msgstr "Pokračuj ve vytváření nové stránky"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1383,7 +1383,7 @@ msgstr "Vytvořit článek"
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:154
 #: core/data/System/DefaultPreferences.txt:408
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/lib/Foswiki/Render.pm:70
+#: core/lib/Foswiki/Render.pm:71
 msgid "Create this topic"
 msgstr "Vytvořit tento článek"
 
@@ -1674,7 +1674,7 @@ msgstr "Vlož externí objekt"
 msgid "Emoticon"
 msgstr "Emotikon"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Zvětšit editovací prostor"
 
@@ -2709,7 +2709,7 @@ msgstr "Přesun do:"
 msgid "Move topic to web:"
 msgstr "Přesun článku do:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1190
+#: core/lib/Foswiki/UI/Rename.pm:1210
 msgid "Move/Rename"
 msgstr "Přesunout/Přejmenovat"
 
@@ -2988,6 +2988,21 @@ msgid ""
 msgstr ""
 "Chybička se vloudila: nepoznáváme Tě. Zkus to znovu nebo [[%1][resetuj "
 "heslo]]."
+
+#. ('populateNewWeb')
+#. ('save')
+#. ('move')
+#. ('moveAttachment')
+#. ('delRev')
+#. ('repRev')
+#. ('copyAttachment')
+#: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
+#: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
+#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
+#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+msgid "Operation %1 failed with an internal error"
+msgstr ""
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
@@ -3291,7 +3306,7 @@ msgstr ""
 "spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
 "odtud přístupný."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
 msgid "Read on"
 msgstr "Pročtěte si"
 
@@ -3317,7 +3332,7 @@ msgstr "Opakuj předchozí změnu"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1189
+#: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
 msgstr "Obnov"
 
@@ -3859,7 +3874,7 @@ msgstr "Ukaž nápovědu"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
@@ -4007,10 +4022,12 @@ msgstr "Přihlásit k odběru"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
 #: SubscribePlugin/templates/subscribe.tmpl:6
 msgid "Subscribe to this topic"
 msgstr "Přihlásit k odběru tohoto článku"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "Subscribe to this topic (s)"
@@ -4040,7 +4057,7 @@ msgstr "Shrnutí"
 msgid "Superscript"
 msgstr "Horní index"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:84
+#: PatternSkin/templates/foswiki.pattern.tmpl:83
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Použijte monotype nebo proporcionální font"
@@ -4532,7 +4549,7 @@ msgid ""
 msgstr ""
 "Toto je Koš. Zde můžete obnovit články; smazané přílohy jsou v koši příloh."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Toto je důvod vypnuté konverze:"
 
@@ -4843,10 +4860,12 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr "Odhlášení odběru"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
 #: SubscribePlugin/templates/subscribe.tmpl:12
 msgid "Unsubscribe from this topic"
 msgstr "Odhlášení z odběru tohoto článku"
 
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
 msgid "Unsubscribe from this topic (s)"

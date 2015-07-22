@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424348938" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Sidebar background color
 To see if the background color really extends beyond the body, we make the body contents longer than the sidebar.
@@ -121,4 +121,4 @@ dummy content to make this page longer
 dummy content to make this page longer
 
 <!-- %JQREQUIRE{"chili"}% -->
-%META:FILEATTACHMENT{name="sidebar.css" attr="" user="ProjectContributor" comment="css to give the sidebar a background color" date="1424348978" version="1"}%
+%META:FILEATTACHMENT{name="sidebar.css" attr="" comment="css to give the sidebar a background color" date="1437500521" size="102" user="ProjectContributor" version="1"}%

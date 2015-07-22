@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1427079357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -536,16 +536,16 @@ You can override some default settings in the plugin by setting the following [[
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1275" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" user="ProjectContributor" date="1427079357" size="181" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="33" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="10828" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="20" version="1"}%
-%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="47" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="0" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="7676" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="4439" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" user="ProjectContributor" date="1427079357" size="4857" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" user="ProjectContributor" date="1427079357" size="1125" version="1"}%
-%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="27" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" user="ProjectContributor" date="1427079357" size="0" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" date="1437500521" size="27" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" date="1437500521" size="33" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" date="1437500521" size="1125" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" date="1437500521" size="7676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" date="1437500521" size="20" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" date="1437500521" size="4857" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" date="1437500521" size="1275" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" date="1437500521" size="4439" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" date="1437500521" size="0" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" date="1437500521" size="47" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" date="1437500521" size="10828" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="181" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" date="1437500521" size="0" user="ProjectContributor" version="1"}%

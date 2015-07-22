@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426723599" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Why am I being asked to confirm?"}%
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">
@@ -257,5 +257,5 @@
 }
 </style>"}%
 
-%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attachment="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1426723599" size="91581" user="ProjectContributor" version="1"}%
 
+%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1437500521" size="91581" user="ProjectContributor" version="1"}%
