@@ -194,7 +194,7 @@ sub _template_text {
     my $def = shift;
     my $t   = '';
 
-    if ( $_[0] =~ m/^(text|icon)$/ ) {
+    if ( $_[0] && $_[0] =~ m/^(text|icon)$/ ) {
         $t = substr( $_[0], 0, 1 );
     }
 
