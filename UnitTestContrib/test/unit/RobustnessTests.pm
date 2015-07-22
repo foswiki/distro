@@ -137,8 +137,17 @@ sub test_sanitizeAttachmentName {
         $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
     }
 
-    #$this->assert_num_equals(80, length($crap));
-    $this->assert_num_equals( 51, length($crap) );
+    my $hex = '';
+    foreach my $ch ( split( //, $crap ) ) {
+        $hex .=
+          ( $ch lt "\x20" || $ch gt "\x7e" ) ? '\x' . unpack( "H2", $ch ) : $ch;
+    }
+
+    my $expecthex =
+'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*;<>?@[\]^`|~';
+    $this->assert_str_equals( $expecthex, $hex,
+        "Expected: ($expecthex)\n     Got: ($hex)\nHas {NameFilter} changed?" );
+    $this->assert_num_equals( 52, length($crap) );
     my $x = $crap =~ m/ / ? '_' : '';
     $this->assert_str_equals( "pick_me${x}pick_me",
         _sanitize("pick me${crap}pick me") );
