@@ -367,7 +367,7 @@ CHECKBOXES
                 # pseudo-installed
                 $status = ' _is pseudo-installed_ ';
             }
-            elsif ( $ext->compare_versions( '<', $ext->{release} ) ) {
+            elsif ( $ext->compare_versions( '<', $ext->{version} ) ) {
 
                 # Installed version is < available version
 
