@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421598394" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437654744" format="1.1" version="1"}%
 ---+!! %TOPIC%
 
 %ICON{"help"}% 
@@ -39,8 +39,7 @@ Customize your top bar background image and color
 ---++ Finalisation
 =FINALPREFERENCES= locks site-level preferences that are *not* allowed to be overridden by [[%WEBPREFSTOPIC%]] or user preferences:
 
-   * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIHOMEURL, ALLOWROOTCHANGE, DENYROOTCHANGE, USERSWEB, SYSTEMWEB, DOCWEB
-
+   * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIHOMEURL, ALLOWROOTCHANGE, DENYROOTCHANGE, DOCWEB
    
 <!-- Keep this as a security measure:
 
