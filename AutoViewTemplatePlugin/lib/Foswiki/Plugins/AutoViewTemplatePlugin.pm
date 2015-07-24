@@ -5,8 +5,8 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-our $VERSION           = '1.20';
-our $RELEASE           = '2014-12-18';
+our $VERSION           = '1.21';
+our $RELEASE           = '2015-07-24';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -75,6 +75,20 @@ sub initPlugin {
 
     # only set the view template if there is anything to set
     return 1 unless $templateName;
+
+    my $tryname = $templateName;
+    $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
+
+# SMELL:  See task Item13554: Template.pm silently ignores templates containing non-ASCII characters.
+    if ( $tryname ne $templateName ) {
+        Foswiki::Func::setPreferencesValue( 'FLASHNOTE',
+"${pluginName}: Invalid template name ($templateName) - contains non-ASCII characters."
+        );
+        Foswiki::Func::writeDebug(
+"- ${pluginName}: Template name ($templateName) ignored - contains non-ASCII characters."
+        );
+        return 1;
+    }
 
     # in edit mode, try to read the template to check if it exists
     if ( $isEditAction && !Foswiki::Func::readTemplate($templateName) ) {
