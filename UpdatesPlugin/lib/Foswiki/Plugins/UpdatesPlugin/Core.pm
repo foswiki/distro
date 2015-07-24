@@ -170,6 +170,8 @@ sub getAvailable {
 
                     # Refresh the cache
                     foreach my $ext (@$data) {
+
+                        #print STDERR Data::Dumper::Dumper( \$ext );
                         my $text = JSON::to_json($ext);
                         $found{ $ext->{topic} } = 1;
                         if (
@@ -247,8 +249,13 @@ sub getInstalled {
             eval "require $mod";
             unless ($@) {
 
-                my $release = eval "\$Foswiki::Contrib::${mn}::RELEASE"
+                my $release = eval "\$Foswiki::Contrib::${mn}::VERSION"
                   || '0';
+
+                # Convert version objects back to a simple string
+                if ( $release && ref($release) eq 'version' ) {
+                    $release = $release->stringify();
+                }
 
     #print STDERR "found extension $mn, release = $release\n" if $this->{debug};
 
@@ -264,7 +271,7 @@ sub getInstalled {
               if defined $this->{excludePattern}
               && $plugin->{name} =~ /$this->{excludePattern}/;
 
-            my $release = eval "\$$plugin->{module}::RELEASE" || '%$RELEASE';
+            my $release = eval "\$$plugin->{module}::VERSION" || '%$VERSION';
 
 #print STDERR "found plugin $plugin->{name}, release = $release\n" if $this->{debug};
 
