@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437776554" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -178,8 +178,6 @@ PatternSkin has a notification message display using the variable =FLASHNOTE=. F
 
 See the alert at the top of this topic.
 
-While this feature is not yet used by the system, it might be a good idea to already prepare your skin.
-
 ---+++ Attachment Tables
 
 Controlling the look and feel of attachment tables is a little bit more complex than for the rest of a skin. By default, the attachment table is a standard Foswiki table, and the look is controlled in the same way as other tables. In a very few cases you may want to change the _content_ of the table as well.
@@ -302,4 +300,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1437500521" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1437776554" size="178" user="ProjectContributor" version="1"}%
