@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437763021" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -254,6 +254,7 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | |
+|  2.6 (24 Jul 2015) | Foswikitask:Item13502: Expand macros when returning an inline Ajax response. |
 |  2.5 (24 Jun 2015) | Foswikitask:Item13474: Unicode fix |
 |  2.4 (14 Jun 2015) | Foswikitask:Item13423: Perl 5.20 deprecations<br />\
                         Foswikitask:Item13345: CGI deprecations<br />\
@@ -301,8 +302,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1437500521" size="70" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1437500521" size="1931" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1437500521" size="60" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1437500521" size="5134" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1437763021" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1437763021" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1437763021" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1437763021" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437763021" size="1343" user="ProjectContributor" version="1"}%
