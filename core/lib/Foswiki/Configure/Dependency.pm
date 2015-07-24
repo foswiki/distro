@@ -299,12 +299,12 @@ sub compare_versions {
     my $this = shift;
     if ( $this->{type} eq 'perl' ) {
 
-        #print STDERR "Comparing TYPE PERL\n";
+       #print STDERR "Comparing TYPE PERL $this->{module}\n" if $this->{module};
         return $this->_compare_extension_versions(@_);
     }
     else {
 
-        #print STDERR "Comparing TYPE cpan\n";
+        #print STDERR "Comparing TYPE cpan $this->{module}\n";
         return $this->_compare_cpan_versions(@_);
     }
 }
@@ -461,24 +461,6 @@ sub _compare_extension_versions {
     my $baseType = '';    # Type of version/release string for this module
     my $reqType  = '';    # Type of version/release string requested
 
-    if ( defined $aRELEASE ) {
-
-        #print STDERR "Release $aRELEASE defined\n";
-        ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
-    }
-    elsif ( defined $aVERSION ) {
-
-        # for some reason, no Release defined, fall back to the Version.
-        #print STDERR "Version $aVERSION defined\n";
-        ( $baseType, @atuple ) =
-          _decodeReleaseString($aVERSION);    # if defined $aVERSION;
-    }
-    else {
-
-        #print STDERR "Neither RELEASE or VERSION defined\n";
-        return 0;
-    }
-
     unless ( defined $reqVer ) {
 
         #print STDERR "Comparison not defined\n";
@@ -486,6 +468,53 @@ sub _compare_extension_versions {
     }
 
     ( $reqType, @btuple ) = _decodeReleaseString($reqVer);
+
+    #print STDERR "WANT TO COMPARE TO $reqType\n";
+
+    # Try version first.   If it's a svn string,  then need to try release
+    if ( defined $aVERSION ) {
+
+        #print STDERR "Version $aVERSION defined\n";
+        ( $baseType, @atuple ) =
+          _decodeReleaseString($aVERSION);    # if defined $aVERSION;
+    }
+
+    #print STDERR "VERSION decoded to $baseType\n" if ($baseType);
+    unless ( defined $aVERSION ) {
+        if ( defined $aRELEASE ) {
+
+            #print STDERR "Version undef, $aRELEASE defined\n";
+            ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
+        }
+    }
+    if ( $baseType eq 'svn' ) {
+        unless ( $reqType eq 'svn' ) {
+
+            # Inconsistent VERSION, so try RELEASE
+            if ( defined $aRELEASE ) {
+
+                #print STDERR "Release $aRELEASE defined\n";
+                ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
+            }
+        }
+    }
+
+    if ( $reqType eq 'date' ) {
+        unless ( $baseType eq 'date' ) {
+
+            # Inconsistent VERSION, so try RELEASE
+            if ( defined $aRELEASE ) {
+
+                #print STDERR "Release $aRELEASE defined\n";
+                ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
+            }
+        }
+    }
+    unless ($baseType) {
+
+        #print STDERR "Unable to determine what to compare.\n";
+        return 0;
+    }
 
     #print STDERR "EXPECT $baseType $string_op BEXPECT $reqType \n";
 
@@ -546,7 +575,7 @@ sub _compare_extension_versions {
     my $comparison = "'$a' $string_op '$b'";
     my $result     = eval($comparison);
 
-    #print "[$comparison]->$result\n";
+    #print STDERR "[$comparison]->$result\n";
     return $result;
 }
 

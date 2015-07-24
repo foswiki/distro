@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437654744" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -459,7 +459,9 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
 The following macros are declared final to protect them as read only. These are system macros that should
 never be attempted set or altered in any preference topic or topic settings.
 
-   * Set FINALPREFERENCES = WEB, TOPIC
+   * Set FINALPREFERENCES = WEB, TOPIC, BASEWEB, BASETOPIC, ENCODE, ENV, IF, QUERYPARAMS, QUERYSTRING, URLENCODE, URLPARAM, SCRIPTURL, SCRIPTURLPATH, SCRIPTSUFFIX, ATTACHURL, ATTACHURLPATH, PUBURL, PUBURLPATH, USERSWEB, SYSTEMWEB, SANDBOXWEB, MAKETEXT, GMTIME
+
+
 
 ---++ Related Topics
 
