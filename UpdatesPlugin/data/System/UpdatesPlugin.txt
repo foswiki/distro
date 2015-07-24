@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437761267" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -14,20 +14,20 @@ tool, or delay it until later.
 
 ---++ Usage
 
-Click below button to force checking foswiki.org for
-extension updates. If your wiki requires updating, a message will be displayed
-at the top of the page.
+Click below button to force checking foswiki.org for extension updates. A message will be displayed
+at the top of the page.  Normally it is displayed only when updates are required, but clicking this button will always display the banner.
+Note: The search for updates can take a while, depending upon the responsiveness of Foswiki.org.  Please be patient.
 
 %BUTTON{"%MAKETEXT{"Search for updates"}%" id="forceCheck" icon="bricks"}%
 
 <literal>
 <script>
 jQuery(function($) {
-  $("#forceCheck").click(function() {
-    $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
-    window.location.href = '%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%';
-    return false;
-  });
+    $(document).on("click", "#forceCheck", function() {
+      //console.log("click #forceCheck calling loadPluginInfo.");
+      $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
+      $(document).trigger("forceRefresh");
+    });
 });
 </script>
 </literal>
@@ -66,6 +66,8 @@ to prevent disclosing them to the outside world.
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.01 (24 Jul 2015) | Foswikitask:Item13555: Compare VERSION not RELEASE strings.<br/>\
+                       Foswikitask:Item13524: Plugin reports "0 extensions need update - too noisy |
 |  Dependencies: | %$DEPENDENCIES% |
 
 
@@ -78,8 +80,8 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1437500521" size="53676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1437500521" size="2322" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1437500521" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1437500521" size="4313" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="127" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1437761267" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1437761267" size="2322" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1437761267" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1437761267" size="4313" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437761267" size="127" user="ProjectContributor" version="1"}%

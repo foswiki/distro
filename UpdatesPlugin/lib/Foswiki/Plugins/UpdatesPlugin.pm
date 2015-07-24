@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011-2014 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2015 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,8 +20,8 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION           = '1.00';
-our $RELEASE           = '1.00';
+our $VERSION           = '1.01';
+our $RELEASE           = '1.01';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
