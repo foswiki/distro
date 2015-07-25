@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1436234283" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437799448" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -47,6 +47,10 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | Authen::SASL | =libauthen-sasl-perl= | |
 | CGI | =libcgi-pm-perl= | |
 | CGI::Session | =libcgi-session-perl= | |
+| DBI | =libdbi-perl= | Used for the Foswiki Page cache |
+| DBD::mysql | =libdbd-mysql-perl= | Used for !MySQL based Page Cache |
+| DBD::Pg | =libdbd-pg-perl= | Used for !PostgreSQL based Page Cache |
+| DBD::SQLite | =libdbd-sqlite3-perl= | Used for SQLite based Page Cache |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
 | Digest::SHA | =libdigest-sha-perl= | *First shipped in perl 5.9.3 |
 | Encode | =libencode-perl= | |
@@ -90,6 +94,10 @@ Install apache2, rcs, and perl-CPAN
 | CGI | =perl-CGI=  | |
 | CGI::Session | =perl-CGI-Session= | |
 | Crypt::PasswdMD5 | =perl-Crypt-PasswdMD5= | |
+| DBI | | Used for the Foswiki Page cache |
+| DBD::mysql | | Used for !MySQL based Page Cache |
+| DBD::Pg | | Used for !PostgreSQL based Page Cache |
+| DBD::SQLite | | Used for SQLite based Page Cache |
 | Digest::SHA | =perl-Digest-SHA= | *First shipped in perl 5.9.3 |
 | Encode | =perl-Encode=  | |
 | Error | =perl-Error= | |
@@ -126,6 +134,10 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | CGI | =perl-core/CGI= | |
 | CGI::Session | =dev-perl/CGI-Session= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
+| DBI | | Optional - Used for the Foswiki Page cache |
+| DBD::mysql | | Optional - Used for MySQL based Page Cache |
+| DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
+| DBD::SQLite | | Optional - Used for SQLite based Page Cache |
 | Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
 | Error | =dev-perl/Error= | |
 | Encode | =perl-core/Encode= | |
@@ -156,7 +168,7 @@ If run as root, the modules will be installed in the System perl.   Otherwise th
 
 <verbatim>
 curl -L http://cpanmin.us | perl - App::cpanminus    (optional - install cpanminus if not available )
-cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI
+cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 DBI DBD::mysql DBD::Pg DBD::SQLite Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI
 </verbatim>
 
 If you want to install the dependendencies into a specified location, add the ="-l"= option to cpanm, and add the lib path to =bin/LocalLib.cfg=.   The dependencies will be installed under the specified location, in the =lib/perl5= subdirectory.
