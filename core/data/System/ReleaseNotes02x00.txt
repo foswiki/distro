@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437968037" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438012719" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1 RC1 
 
@@ -360,6 +360,12 @@ The Foswiki Store has been restructured into separate pluggable store implementa
 The utility to migrate between stores is =tools/bulk_copy.pl=. Be sure to backup everything before running the conversion. For information on how to run the tool, run:
 <verbatim>cd foswiki/tools
 perl -I ../lib bulk_copy.pl --help</verbatim>
+
+<div class="foswikiHelp">%X% *Caution:*  There are known limitations to
+=bulk_copy.pl=.  See the Foswiki:System.UpgradeGuide for details. Hidden files
+(filenames with underscore (_) or dot (.) prefix) will not be copied.
+If your installation contains these types of files, then =bulk_copy.pl= should
+not be used!</div>
 
 ---+++ New "Natural Editor", !NatEditPlugin replaces the old !WikiText editor
 The !NatEditPlugin, a component of the optional !NatSkin, is now the default
