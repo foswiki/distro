@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1436025347" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437956296" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0 RC 1
 
@@ -909,6 +909,36 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13392][Item13392]] | Add Extensions to the PERLDEPENDENCYREPORT. |
 | [[%BUGS%/Item13462][Item13462]] | Guess the {Plugins}{...extension...}{Module} setting if missing. |
 | [[%BUGS%/Item13480][Item13480]] | Remove setting for HIDE_NON_WIKI_WORD_WARNINGs. |
+
+---++ Foswiki Release 2.0.1 Details
+---+++ Fixes
+
+| [[%BUGS%/Item13450][Item13450]] | SubscribePlugin with famfamfam skin breaks styling when button switches state. |
+| [[%BUGS%/Item13508][Item13508]] | Cache passwords should also enable check timestamps by default,  or at least warn if not enabled. |
+| [[%BUGS%/Item13510][Item13510]] | Configure is incorrectly applying =$FALSE= and =$TRUE= defaults from Config.spec files. |
+| [[%BUGS%/Item13512][Item13512]] | PreferencesPlugin errors when processing SitePreferences. Issue in Foswiki::Render. |
+| [[%BUGS%/Item13513][Item13513]] | Configure extension installer overlays extension settings with defaults when upgrading an extension. |
+| [[%BUGS%/Item13516][Item13516]] | =bulk_copy.pl= fails to copy some webs, crashes copyng attachment revisions.  Unusable. |
+| [[%BUGS%/Item13518][Item13518]] | Extra scrollbar in NatEditPlugin + PatternSkin. |
+| [[%BUGS%/Item13520][Item13520]] | FORMFIELD macro fails to return text in a format that can be rendered. Workaround available. |
+| [[%BUGS%/Item13521][Item13521]] | Wrong encoding in compressed responses. |
+| [[%BUGS%/Item13524][Item13524]] | UpdatesPlugin reports zero extension(s) need updating. |
+| [[%BUGS%/Item13538][Item13538]] | Setting DISABLEDPLUGINS causes very noisy error log. |
+| [[%BUGS%/Item13539][Item13539]] | Review CSS deprecations documented as part of stalled BaseSkin effort. |
+| [[%BUGS%/Item13541][Item13541]] | =eachAttachment= returns directory names with PlainFileStore, breaks bulk_copy.pl. |
+| [[%BUGS%/Item13547][Item13547]] | =bulk_copy.pl= attempts to copy history of attachments without history. |
+| [[%BUGS%/Item13548][Item13548]] | Finalize some settings that can disable topic view. |
+| [[%BUGS%/Item13549][Item13549]] | Filter backslash from Topic and Attachment names. |
+| [[%BUGS%/Item13551][Item13551]] | Configure "Review installed extensions" doesn't flag all available updates. |
+| [[%BUGS%/Item13554][Item13554]] | AutoViewTemplatePlugin: warn if non-ASCII template name derived from Form. |
+| [[%BUGS%/Item13555][Item13555]] | UpdatesPlugin doesn't correctly find all available extensions. |
+| [[%BUGS%/Item13558][Item13558]] | Syntax error in style_src.css file. |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item13502][Item13502]] | CommentPlugin could expand variables on returned results when in AJAX mode. |
+| [[%BUGS%/Item13526][Item13526]] | TipsContrib needs optimizations. |
+| [[%BUGS%/Item13545][Item13545]] | bulk_copy.pl should omit System web by default.   |
 
 </noautolink>
 
