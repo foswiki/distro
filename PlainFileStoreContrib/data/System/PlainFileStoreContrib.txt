@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437970011" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -66,6 +66,10 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Change History: | |
+|  1.41   (27 Jul 2015) | Released with Foswiki 2.0.1<br/>\
+                          Foswikitask:Item13516: Correct issues with attachment transfer, and when source store is Foswiki 2.0<br />\
+                          Foswikitask:Item13541: Don't return directory names when listing attachments<br />\
+                          Foswikitask:Item13547: Crash when copying an attachment without history |
 |  1.40   (14 Jun 2015) | Released with Foswiki 2.0  Foswikitask:Item13405: Foswikitask:Item13378: utf-8 support<br />\
                           Foswikitask:Item13455: Don't encode filenames read from directories<br />\
                           Foswikitask:Item13432: Character encoding<br />\

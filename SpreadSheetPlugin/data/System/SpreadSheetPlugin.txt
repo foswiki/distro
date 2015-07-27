@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432867135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437970011" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 
@@ -995,6 +995,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 ---++ Info
 
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  27 Jul 2015: (1.20) | Copyright update, released with Foswiki 2.0.1 |
 |  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.<br />\
                   Foswikitask:Item13440: Document issues with BITXOR.  Foswiki unicode core won't support a simple byte based xor of strings. |
 |  02 Jan 2015: (1.18) | Foswikitask:Item12739: fixed use of uninitialized value, Add triple-quote for escaped strings,  Add RANDSTRING() function.<br />\

@@ -13,8 +13,8 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 # Please use major.minor
-our $VERSION = '2.5';
-our $RELEASE = '24 Jun 2015';
+our $VERSION = '2.6';
+our $RELEASE = '24 Jul 2015';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -222,7 +222,8 @@ sub _restSave {
                   . $output
                   . "\n</div>";
                 my $comment =
-                  Foswiki::Func::renderText( $output, $web, $topic );
+                  Foswiki::Func::expandCommonVariables(
+                    Foswiki::Func::renderText( $output, $web, $topic ) );
                 $response->print($comment);
             }
         }

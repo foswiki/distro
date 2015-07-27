@@ -1383,7 +1383,7 @@ pre ul:last-child,
 .foswikiButton.foswikiActive,
 .foswikiButtonSmall.foswikiActive,
 .foswikiButtonLarge.foswikiActive,
-.foswikiButtonMini.foswikiActive,
+.foswikiButtonMini.foswikiActive {
   color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #e6e6e6;
@@ -1410,7 +1410,7 @@ pre ul:last-child,
 .foswikiButton.foswikiActive .foswikiIcon,
 .foswikiButtonSmall.foswikiActive .foswikiIcon,
 .foswikiButtonLarge.foswikiActive .foswikiIcon,
-.foswikiButtonMini.foswikiActive .foswikiIcon,
+.foswikiButtonMini.foswikiActive .foswikiIcon {
   color: #484848;
 }
 .foswikiButton:hover .foswikiCaret,
@@ -1420,7 +1420,7 @@ pre ul:last-child,
 .foswikiButton.foswikiActive .foswikiCaret,
 .foswikiButtonSmall.foswikiActive .foswikiCaret,
 .foswikiButtonLarge.foswikiActive .foswikiCaret,
-.foswikiButtonMini.foswikiActive .foswikiCaret,
+.foswikiButtonMini.foswikiActive .foswikiCaret {
   border-top-color: rgba(72, 72, 72, 0.4);
 }
 .foswikiButton .foswikiAccessKey,

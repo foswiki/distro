@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437799448" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Page Caching
 How to get the best from HTML Caching.
@@ -83,9 +83,9 @@ Firstly, the main page will be cached with asynchronously computed fragments tak
 the main page will have less dependencies on additional content and is less likely to be invalidated from
 the page cache.
 
-Sencond, each fragment requested via an ajax call and inserted into the main page dynamically is computed
+Second, each fragment requested via an ajax call and inserted into the main page dynamically is computed
 and cached separately, each with its own set of dependencies. So when one fragment's dependency is fired (one of
-its ingredience has been updated), then only this single fragment and not the complete page nor the other fragments
+its ingredients has been updated), then only this single fragment and not the complete page nor the other fragments
 need recomputation.
 
 The general pattern for asynchronously loaded page fragments looks like this:
@@ -206,7 +206,8 @@ At the same time these expressions are the candidates that benefit the most from
 are the most expensive ones.
 
 ---+++ Caching REST results (Developers)
-If a function called to service a =rest= script returns it's result using =return=, then the result will be cached. If the function returns an empty result or undef, then the function is totally responsible for its own output, and there is no caching.
+If a function called to service a =rest= script returns it's result using =return=, then the result will be cached.
+If the function returns an empty result or undef, then the function is totally responsible for its own output, and there is no caching.
 
 ---++ Configuring the Cache
 ---+++ Choosing a database engine
@@ -215,6 +216,66 @@ It offers a set of standard connectors, i.e. using the perl DBI interface, to st
 pages in a database. For larger sites in production use, you should choose either =Foswiki::PageCache::DBI::MySQL=
 or =Foswiki::PageCache::DBI::PostgreSQL=. For smaller sites and personal wikis, =Foswiki::PageCache::DBI::SQLite=
 is approriate as well.
+
+---++++ SQLite
+
+SQLite can be used with no special configuration.   The page cache will be
+indexed by =working/sqllite.db=, and topics are cached in the =working/cache=
+directory.  There is one configuration parameter that can be changed:
+   * ={Cache}{DBI}{SQLite}{Filename} = '$Foswiki::cfg{WorkingDir}/sqlite.db';=
+
+---++++ !MySQL
+
+Before Foswiki is able to use !MySQL for caching, several conditions must be met:
+   * The mysql server and the perl DBI / DBD modules for !MySQL must be installed.
+   * A database, must be created.
+   * The user needs to be created, and appropriate permissions granted.  <verbatim>
+   foswikihost: ~ $ mysql -u root -p
+   Enter password:  ........
+   Welcome to the MySQL monitor.  Commands end with ; or \g.
+
+   mysql> create database foswiki;
+   Query OK, 1 row affected (0.00 sec)
+
+   mysql>  grant usage on *.* to foswiki@localhost identified by 'foswikipass';
+   Query OK, 0 rows affected (0.00 sec)
+
+   mysql> grant all privileges on foswiki.* to foswiki@localhost ;
+   Query OK, 0 rows affected (0.00 sec)
+   </verbatim>
+   * Foswiki must be configured with the database, user and password information.  For example:
+      * ={Cache}{DBI}{MySQL}{Database} = 'foswiki';=
+      * ={Cache}{DBI}{MySQL}{Host} = 'localhost';=
+      * ={Cache}{DBI}{MySQL}{Password} = 'foswikipass';=
+      * ={Cache}{DBI}{MySQL}{Port} = '';=
+      * ={Cache}{DBI}{MySQL}{Username} = 'foswiki';=
+
+---++++ !PostgreSQL
+
+Before Foswiki is able to use !PostgreSQL for caching, several conditions must be met:
+   * The !PostgreSQL server and the perl DBI / DBD modules for !PostgreSQL must be installed.
+   * A database, must be created.
+   * The user needs to be created, and appropriate permissions granted.  <verbatim>
+   user@server: sudo su -- postgres
+   postgres@server:/root$ createuser foswiki --pwprompt
+
+   postgres@server:/root$ psql
+   psql (9.4.4)
+   Type "help" for help.
+
+   postgres=# alter user foswiki with password 'foswikipass';
+   ALTER ROLE
+   postgres=# create database foswiki;
+   CREATE DATABASE
+
+   \q
+   </verbatim>
+   * Foswiki must be configured with the database, user and password information.  For example:
+      * ={Cache}{DBI}{PostgreSQL}{Database} = 'foswiki';=
+      * ={Cache}{DBI}{PostgreSQL}{Host} = 'localhost';=
+      * ={Cache}{DBI}{PostgreSQL}{Password} = 'foswikipass';=
+      * ={Cache}{DBI}{PostgreSQL}{Port} = '';=
+      * ={Cache}{DBI}{PostgreSQL}{Username} = 'foswiki';=
 
 See the <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::PageCache">Foswiki::PageCache</a>
 documentation for more detailed information.

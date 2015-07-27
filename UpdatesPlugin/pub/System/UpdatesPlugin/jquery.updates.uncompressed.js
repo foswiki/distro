@@ -1,7 +1,7 @@
 /*
  * jquery.updates plugin 0.30
  *
- * Copyright (c) 2011-2014 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2015 Foswiki Contributors http://foswiki.org
  *
  * http://www.gnu.org/licenses/gpl.html
  *
@@ -29,7 +29,7 @@
     }
 
     self.init();
-    self.loadPluginInfo();
+    self.loadPluginInfo(0);
 
     return self;
   };
@@ -37,6 +37,7 @@
   // init method
   FoswikiUpdates.prototype.init = function() {
     var self = this;
+    //console.log("init FoswikiUpdates");
 
     if (typeof(self.options.configureUrl) === 'undefined') {
       self.options.configureUrl = foswiki.getPreference("UPDATESPLUGIN::CONFIGUREURL");
@@ -48,20 +49,24 @@
 
     // events
     $(document).bind("refresh.foswikiUpdates", function() {
-      self.loadPluginInfo();
+      //console.log("BIND refresh.foswikiUpdates calling loadPluginInfo.");
+      self.loadPluginInfo(0);
     });
 
     $(document).bind("forceRefresh.foswikiUpdates", function() {
+      //console.log("BIND forceRefresh.foswikiUpdates calling loadPluginInfo.");
       $.cookie(self.options.cookieName, null, {expires: -1, path:'/'});
-      self.loadPluginInfo();
+      self.loadPluginInfo(1);
     });
 
     $(document).bind("display.foswikiUpdates", function() {
-      self.displayPluginInfo();
+      //console.log("BIND display.foswikiUpdates calling loadPluginInfo.");
+      self.displayPluginInfo(0);
     });
-      
+
     $(document).on("click", "#foswikiUpdatesIgnore", function() {
       // setting the cookie to zero...means ignore and don't search again
+      //console.log("BIND click entered ");
       $.cookie(self.options.cookieName, 0, {
         expires: self.options.cookieExpires, 
         path: "/"
@@ -72,10 +77,10 @@
   };
 
   // pull info from f.o and refresh internal state
-  FoswikiUpdates.prototype.loadPluginInfo = function() {
+  FoswikiUpdates.prototype.loadPluginInfo = function(forced) {
     var self = this, key, version;
 
-    //console.log("called loadPluginInfo");
+    //console.log("called loadPluginInfo forced: " + forced );
     self.numberOutdatedPlugins = $.cookie(self.options.cookieName);
 
     if (typeof(self.numberOutdatedPlugins) === 'undefined') {
@@ -98,7 +103,10 @@
               path: "/"
             });
 
-            $(document).trigger("display.foswikiUpdates");
+            //console.log("Forced: " + forced);
+            if (self.numberOutdatedPlugins > 0 || forced) {
+                $(document).trigger("display.foswikiUpdates");
+            }
           },
           error: function(xhr, msg, status) {
             //console.log("got an error: status=",status,"msg=",msg)
