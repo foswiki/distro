@@ -195,7 +195,7 @@ This will copy all webs, topics and attachments __except for the contents of the
    * Files in pub that are "hidden" from the store are not copied.
       * Any filename beginning with an understore.  Frequently used by extensions as cache type files.  Could also have been directly uploaded.
       * Any filename beginning with a dot.  For ex. =.htaccess= files.
-      * Any filename beginnign with an asterisk. (This appears to be historical, with no common use).
+      * Any filename beginning with an asterisk. (This appears to be historical, with no common use).
    * Files in pub that are not associated with a topic attachment META are not copied. (ex. files manually copied into the pub directories).
       * Auto attachments are not copied if the ={RCS}{AutoAttachPubFiles}= feature is not enabled.
       * Auto attached files in the RCS store will be converted to regular attachments in the PlainFile store. The PlainFile store does not support auto attachments..
