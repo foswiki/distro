@@ -229,7 +229,7 @@ sub getRenderedVersion {
     $text = Foswiki::takeOutBlocks( $text, 'verbatim',  $removed );
     $text = Foswiki::takeOutBlocks( $text, 'literal',   $removed );
     $text = Foswiki::takeOutBlocks( $text, 'dirtyarea', $removed )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
 
     $text =
       $this->_takeOutProtected( $text, qr/<\?([^?]*)\?>/s, 'comment',
@@ -557,7 +557,7 @@ sub getRenderedVersion {
     Foswiki::putBackBlocks( \$text, $removed, 'literal', '' );
     $this->_putBackProtected( \$text, 'literal', $removed );
     Foswiki::putBackBlocks( \$text, $removed, 'dirtyarea' )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
     $this->_putBackProtected( \$text, 'comment',  $removed );
     $this->_putBackProtected( \$text, 'head',     $removed );
     $this->_putBackProtected( \$text, 'textarea', $removed );
