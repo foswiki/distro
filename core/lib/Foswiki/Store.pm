@@ -60,6 +60,7 @@ use Assert;
 
 use Foswiki          ();
 use Foswiki::Sandbox ();
+use HTML::Entities   ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -274,7 +275,7 @@ sub encode {
     return $_[0] unless defined $_[0];
     my $s = $_[0];
     return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-        $s, Encode::FB_CROAK );
+        $s, sub { HTML::Entities::encode_entities( chr(shift) ) } );
 }
 
 1;
