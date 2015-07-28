@@ -235,6 +235,9 @@ sub cachePage {
       ( $data =~ m/<dirtyarea[^>]*?>/ )
       ? 1
       : 0;    # SMELL: only for textual content type
+
+    Foswiki::Func::writeDebug("isDirty=$isDirty") if TRACE;
+
     my $etag         = '';
     my $lastModified = '';
     my $time         = time();
@@ -381,7 +384,7 @@ sub isCacheable {
     my $isCacheable = $this->{isCacheable}{$webTopic};
     return $isCacheable if defined $isCacheable;
 
-    Foswiki::Func::writeDebug("... checking") if TRACE;
+    #Foswiki::Func::writeDebug("... checking") if TRACE;
 
     # by default we try to cache as much as possible
     $isCacheable = 1;
@@ -406,7 +409,7 @@ sub isCacheable {
 
     # TODO: give plugins a chance - create a callback to intercept cacheability
 
-    Foswiki::Func::writeDebug("isCacheable=$isCacheable") if TRACE;
+    #Foswiki::Func::writeDebug("isCacheable=$isCacheable") if TRACE;
     $this->{isCacheable}{$webTopic} = $isCacheable;
     return $isCacheable;
 }
@@ -602,7 +605,7 @@ retrieving it again.
 sub renderDirtyAreas {
     my ( $this, $text ) = @_;
 
-    Foswiki::Func::writeDebug("renderDirtyAreas called text=$$text") if TRACE;
+    Foswiki::Func::writeDebug("called renderDirtyAreas") if TRACE;
 
     my $session = $Foswiki::Plugins::SESSION;
     $session->enterContext('dirtyarea');
@@ -626,16 +629,16 @@ s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea(
     $$text =~ s/<\/?dirtyarea>//g;
 
     $session->leaveContext('dirtyarea');
-
-    Foswiki::Func::writeDebug("done renderDirtyAreas") if TRACE;
 }
 
 # called by renderDirtyAreas() to process each dirty area in isolation
 sub _handleDirtyArea {
     my ( $this, $args, $text, $topicObj ) = @_;
 
-    Foswiki::Func::writeDebug("_handleDirtyArea($args) called in text='$text'")
+    Foswiki::Func::writeDebug("called _handleDirtyArea($args)")
       if TRACE;
+
+    #Foswiki::Func::writeDebug("in text=$text") if TRACE;
 
     # add dirtyarea params
     my $params  = new Foswiki::Attrs($args);
@@ -653,7 +656,7 @@ sub _handleDirtyArea {
         $prefs->popTopicContext();
     };
 
-    Foswiki::Func::writeDebug("out text='$text'") if TRACE;
+    #Foswiki::Func::writeDebug("out text='$text'") if TRACE;
     return $text;
 }
 
