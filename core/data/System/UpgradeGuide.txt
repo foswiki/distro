@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437357433" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1438012719" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -177,8 +177,8 @@ This is the most common data that should be copied. Review other non-default ext
 #CopyDataFromOldInstallation
 ---+++ Copy the data using =tools/bulk_copy.pl=
 
-This is the recommended way to migrate your system. Assume that you have the
-following setup:
+This is the recommended way to migrate your system. Note cautions below about
+hidden files! Assume that you have the following setup:
    * Existing: =/var/www/f119=
    * New: =/var/www/f120=
 Use the =bulk_copy.pl= tool to migrate your data:
@@ -190,16 +190,27 @@ perl bulk_copy.pl --xweb System --xweb _default --xweb _empty --latest '*.WebSta
 
 This will copy all webs, topics and attachments __except for the contents of the System web.__ This is the recommended solution.
 
-Note that =bulk_copy.pl= has limitations. It uses the Foswiki Store API to copy topic and attachments.  If the store doesn't recognize a topic or attachment, it won't be copied.
+<div class="foswikiHelp">
+*Note that =bulk_copy.pl= has limitations!* It uses the Foswiki Store API to copy topic and attachments.  If the store doesn't recognize a topic or attachment, it won't be copied.
+   * Files in pub that are "hidden" from the store are not copied.
+      * Any filename beginning with an understore.  Frequently used by extensions as cache type files.  Could also have been directly uploaded.
+      * Any filename beginning with a dot.  For ex. =.htaccess= files.
+      * Any filename beginning with an asterisk. (This appears to be historical, with no common use).
    * Files in pub that are not associated with a topic attachment META are not copied. (ex. files manually copied into the pub directories).
       * Auto attachments are not copied if the ={RCS}{AutoAttachPubFiles}= feature is not enabled.
       * Auto attached files in the RCS store will be converted to regular attachments in the PlainFile store. The PlainFile store does not support auto attachments..
-   * Files in _subdirectories_ of topic attachments are not copied. (ex. image caches, javascript & css subdirectories, etc.)
+   * Files in _subdirectories_ of topic attachments are not copied. (ex. image caches, javascript & css subdirectories, etc.) This is common in the System web.
    * All topic revisions must have the same encoding.  If ={Site}{CharSet}= was changed after history exists, the history will not convert correctly and the copy may fail.
+</div>
+
+Before proceeding with conversion, verify that the above limitations are not
+applicable to your installation.   If they are,  you will currently need to:
+   * Stay on the RCS style store
+   * Use CharsetConverterContrib to change encoding if desired.
 
 ---+++ Manual copy steps (not recommended)
 These steps can be used to manually migrate data when not changing the Store
-type or encoding.
+type or encoding. This is currently the only way to deal with hidden files.
 
 %TWISTY{showlink="Show manual migration steps"}%
 <div class="foswikiHelp">%X% Content should be copied using the =tools/bulk_copy.pl= script. This will allow conversion to =utf-8= and the !PlainFile Store. Only proceed with this step if you will be remaining on the RCS store with your existing character encoding.</div>
