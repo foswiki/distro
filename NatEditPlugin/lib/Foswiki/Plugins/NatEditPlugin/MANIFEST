@@ -1,8 +1,8 @@
 data/System/NatEditHelpText.txt 0644
 data/System/NatEditPlugin.txt 0644
 data/System/NatEditWordHelpText.txt 0644
-lib/Foswiki/Plugins/NatEditPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/NatEditPlugin/Config.spec 0644
+lib/Foswiki/Plugins/NatEditPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormList.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/NATEDIT.pm 0644
@@ -11,6 +11,7 @@ lib/Foswiki/Plugins/NatEditPlugin/RestAttachments.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/RestSave.pm 0644
 locale/NatEditPlugin/de.po 0644
 locale/NatEditPlugin/Foswiki.pot 0644
+pub/System/NatEditHelpText/wikitext.png 0644
 pub/System/NatEditPlugin/jquery.natedit.js 0644
 pub/System/NatEditPlugin/jquery.natedit.js.gz 0644
 pub/System/NatEditPlugin/jquery.natedit.uncompressed.js 0644
