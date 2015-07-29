@@ -262,6 +262,9 @@ $.NatEditor = function(txtarea, opts) {
   if (self.opts.autoMaxExpand) {
     $txtarea.addClass("ui-natedit-autoexpand");
     self.autoMaxExpand();
+
+    // disabled height property in parent container
+    self.container.parent().css("cssText", "height: auto !important");
   }
 
   /* establish auto expand */
@@ -1577,9 +1580,10 @@ $.NatEditor.prototype.insertLink = function(opts) {
 
       if (typeof(opts.text) !== 'undefined' && opts.text != '') {
         markup += "["+opts.text+"]";
-      } 
+      } else {
+        markup += "["+opts.file+"]";
+      }
       markup += "]";
-
     }
 
   } else {

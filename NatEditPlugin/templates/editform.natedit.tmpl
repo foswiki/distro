@@ -1,4 +1,4 @@
 %TMPL:INCLUDE{"edit"}%
 %TMPL:DEF{"title"}%%TMPL:P{"topictitle"}% (%MAKETEXT{"edit form"}%) - %WIKITOOLNAME%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%IF{"defined 'rev'" then="%MAKETEXT{"restore form"}%" else="%MAKETEXT{"edit form"}%"}%%TMPL:END%
-%TMPL:DEF{"firsttab"}%<textarea class="natedit foswikiHidden" data-show-toolbar="false"></textarea>%TMPL:END%
+%TMPL:DEF{"firsttab"}%<textarea class="natedit foswikiHidden" data-show-toolbar="false" name="text">%TEXT%</textarea>%TMPL:END%

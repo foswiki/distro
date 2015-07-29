@@ -43,7 +43,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name          => 'NatEdit',
-            version       => '4.00',
+            version       => '4.01',
             author        => 'Michael Daum',
             homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',

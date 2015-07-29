@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1438175794" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,6 +56,7 @@ is sufficient.
 
 |  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
+|  29 Jul 2015 | added missing image in documentation |
 |  06 Mar 2015 | fixed permissions editor |
 |  25 Sep 2014 | move templating to new jsrender replacing deprecated jquery.tmpl |
 |  12 Dec 2013 | rewrite all of the js code; make it themable using jquery-ui |
@@ -175,11 +176,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="styles.uncompressed.css" attr="h" comment="" date="1437500521" size="6120" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="styles.css" attr="h" comment="" date="1437500521" size="4869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1437500521" size="64487" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="139" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.uncompressed.js" attr="h" comment="" date="1437500521" size="74611" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="styles.css.gz" attr="h" comment="" date="1437500521" size="1754" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.js" attr="h" comment="" date="1437500521" size="46229" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.natedit.js.gz" attr="h" comment="" date="1437500521" size="11955" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1438175794" size="64487" user="ProjectContributor" version="1"}%

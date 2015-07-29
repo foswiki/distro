@@ -1,7 +1,8 @@
 %TMPL:INCLUDE{"settings"}%
 %TMPL:INCLUDE{"settingstoolbar"}%
 
-%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%<form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
+%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%<div class="ui-natedit-container">
+<form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
 <input type="submit" style="display:none" />
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
@@ -16,7 +17,7 @@
 <textarea class="foswikiTextArea natedit" name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
 %ENDTAB%
 %TMPL:P{"helptab"}%%ENDTABPANE%
-%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%</form>%TMPL:END%
+%TMPL:P{"bottomtopicactions"}%</form></div>%TMPL:END%
 
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"settingshelp"}% %ENDTAB%%TMPL:END%
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1438175794" format="1.1" version="1"}%
 %META:TOPICPARENT{name="NatEditPlugin"}%
 ---+ %TOPIC%
 Help text for the NatEditPlugin editor
@@ -19,3 +19,4 @@ Note that you can still enter <nop>TML into the WYSIWYG editor,  but you must us
 
 <h3 >Wiki markup editing shorthands</h3>
 %INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%%ENDSECTION{"default"}%
+%META:FILEATTACHMENT{name="wikitext.png" attachment="wikitext.png" attr="h" comment="" date="1438175794" size="1777" user="ProjectContributor" version="1"}%
