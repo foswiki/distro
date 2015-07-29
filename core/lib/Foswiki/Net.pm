@@ -767,7 +767,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geis;
         "====== Sending to $mailer ======\n$header\n======EOM======" );
 
     my $MAIL;
-    open( $MAIL, '|-', $mailer )
+    open( $MAIL, '|-:encoding(utf-8)', $mailer )
       || $this->_logMailError( 'die', "Can't send mail using $mailer" );
     print $MAIL $text;
     close($MAIL);
