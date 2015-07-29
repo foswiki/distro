@@ -100,7 +100,7 @@ sub new {
         push(
             @{ $this->{errors} },
 "$p has been guessed. '\$Foswiki::cfg{Plugins}{$name}{Module}' should be defined in LocalSite.cfg"
-        );
+        ) if DEBUG;
     }
 
     eval "use $p";
