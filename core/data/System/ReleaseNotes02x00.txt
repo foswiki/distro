@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438012719" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438198562" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1 RC1 
 
@@ -57,6 +57,22 @@ Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
    * *Compatibility support* - TWikiCompatibilityPlugin
 </noautolink>
 #Release02x00Changes
+
+---++ Important changes in 2.0.1
+
+Foswiki 2.0.1 has changed how the =working/tmp/cgisess_*= files are stored.
+This is needed to better accommodate user names with international
+characters. If old files exist and users still have a matching session cookie,
+then their access attempts will fail with a 500 internal server error.
+
+<div class="foswikiHelp">%X% *ACTION REQUIRED:*  After applying the changes in
+Foswiki 2.0.1, *you must delete all =cgisess_*= files from the =working/tmp= directory.* </div>
+
+If you are unable to access the server to do this, users will have to clear
+their cookies to gain access to Foswiki.
+
+This change addresses [[%BUGS%/Item13563][Item13563]]
+
 ---++ Changes in requirements
 
 <div class='foswikiHelp'>
