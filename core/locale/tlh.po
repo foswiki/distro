@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-30 13:56+0200\n"
+"PO-Revision-Date: 2015-07-30 20:22+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -3035,7 +3035,7 @@ msgstr ""
 #: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
 #: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
-msgstr ""
+msgstr "Qaghmo&&#39; Qapbe&&#39; %1 Qu&&#39;"
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
