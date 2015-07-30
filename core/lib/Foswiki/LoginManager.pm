@@ -54,6 +54,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki::Sandbox ();
+use CGI::Session     ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -73,6 +74,8 @@ our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
 our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
 use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
+
+use constant CGIDRIVER => 'driver:File;serializer:Storable';
 
 # GusestSessions should default to enabled, since much of Foswiki depends on
 # having a valid session.
@@ -1095,8 +1098,11 @@ sub _loadCreateCGISession {
         oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
           oct(777) );
 
-    my $newsess = Foswiki::LoginManager::Session->new(
-        undef, $sid,
+    my $newsess;
+
+    $newsess = Foswiki::LoginManager::Session->new(
+        CGIDRIVER,
+        $sid,
         {
             Directory => $sessionDir,
             UMask     => $Foswiki::cfg{Session}{filePermission}
@@ -1562,24 +1568,26 @@ sub removeUserSessions {
     ASSERT($user) if DEBUG;
 
     my $msg = '';
-
-    opendir( my $tmpdir, "$Foswiki::cfg{WorkingDir}/tmp" ) || return '';
-    foreach my $fn ( grep( /^cgisess_/, readdir($tmpdir) ) ) {
-        my ($file) = $fn =~ m/^(cgisess_.*)$/;
-
-        open my $sessfile, '<', "$Foswiki::cfg{WorkingDir}/tmp/$file"
-          or next;
-        while (<$sessfile>) {
-            if (m/'AUTHUSER' => '$user'/) {
-                close $sessfile;
-                unlink "$Foswiki::cfg{WorkingDir}/tmp/$file";
-                $msg .= $file . ', ';
-                last;
-            }
+    CGI::Session->find(
+        CGIDRIVER,
+        sub { purge_user( @_, $user, $msg ) },
+        {
+            Directory => "$Foswiki::cfg{WorkingDir}/tmp",
+            UMask     => $Foswiki::cfg{Session}{filePermission},
         }
-        close $sessfile if $sessfile;
+    );
+
+    sub purge_user {
+
+        #my ($session, $user, $msg) = @_;
+        next if $_[0]->is_empty;    # <-- already expired?!
+        if ( $_[0]->param('AUTHUSER') && $_[0]->param('AUTHUSER') eq $_[1] ) {
+            $_[2] .= 'cgisess_' . $_[0]->id() . ',';
+            $_[0]->delete();
+            $_[0]->flush()
+              ;    # Recommended practice says use flush() after delete().
+        }
     }
-    closedir $tmpdir;
     return $msg;
 }
 
@@ -1587,7 +1595,7 @@ sub removeUserSessions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
