@@ -5,6 +5,7 @@ package RequestCacheTests;
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
+use utf8;
 use Foswiki::Request;
 use Foswiki::Request::Cache;
 use File::Temp;
@@ -60,6 +61,46 @@ sub test_simpleparams {
     $this->assert_str_equals( "BURP",      $req->method() );
     $this->assert_str_equals( "/bad/wolf", $req->path_info() );
     $this->assert_str_equals( "puke",      $req->action() );
+}
+
+# Test that utf8 parameters are cached
+sub test_simpleparams_utf8 {
+    my $this = shift;
+    my %init = (
+        'posvětit'  => 'vústěnív',
+        'vústění' => ['měnívat'],
+        multi        => [qw(vú mě)],
+        'undef'      => undef,
+        multi_undef  => [],
+    );
+
+    #my $pathinfo = Foswiki::urlEncode("/vústění/posvětit");
+    my $pathinfo = Encode::encode_utf8("/vústění/posvětit");
+    my $req      = new Foswiki::Request( \%init );
+    $req->method("BURP");
+    $req->path_info($pathinfo);
+    $req->action("puke");
+    my $cache = new Foswiki::Request::Cache();
+    my $uid   = $cache->save($req);
+    $this->assert($uid);
+    $req = new Foswiki::Request('');
+    $cache->load( $uid, $req );
+    my @values = $req->multi_param('multi');
+    $this->assert_str_equals( 2,     scalar @values, 'Wrong number of values' );
+    $this->assert_str_equals( 'vú', $values[0],     'Wrong parameter value' );
+    $this->assert_str_equals( 'mě', $values[1],     'Wrong parameter value' );
+
+    # Item12956: undef parameters are written out as "empty".
+    $this->assert_str_equals(
+        '',
+        scalar $req->param('undef'),
+        'Wrong parameter value'
+    );
+    @values = $req->multi_param('multi_undef');
+    $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
+    $this->assert_str_equals( "BURP",    $req->method() );
+    $this->assert_str_equals( $pathinfo, $req->path_info() );
+    $this->assert_str_equals( "puke",    $req->action() );
 }
 
 # Test that file uploads are cached
