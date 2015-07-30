@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438294756" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -167,7 +167,7 @@ Outgoing e-mail is required for Foswiki to send registration confirmations, noti
  <div class='foswikiHelp'>If auto-configure fails to complete, you can use the "Advanced settings" tab to manually configure the e-mail server. You will also need to configure the basic information tab.
 Although outgoing email is necessary for user registration, it is not _required_ for Foswiki to run otherwise, so if you are setting up a test installation or don't plan on enabling user registration, you can skip this step.</div>
 
-#StepSeven
+#FirstUser
 ---+++ Step 7: Check Authentication and Register Yourself
 
 Authentication of users means their activity can be tracked, and access to your site can be controlled. *This is particularly important for sites that are publicly accessible on the web.*  Foswiki is pre-configured with a flexible and user-friendly authentication set-up that fits most common use-cases. To learn more about this set-up and available alternatives, see [[#AuthenticationOfUsers][User Authentication Options]]. You can also revisit this later and switch to an alternative authentication set-up.
@@ -180,17 +180,19 @@ If there are problems, see [[#TestingAuthentication][authentication trouble-shoo
 
 #ProtectConfigure
 ---+++ Step 8: Establish an Administrator user 
-
 The last step in your configuration is to create and user with administration rights.
 
 <div class='foswikiHelp'>%T% The steps outlined below are recommended for initial configuration. *You should complete this before closing the browser after the bootstrap process.* Once you close the browser you will lose your temporary admin status. Later on, you can review the further notes below regarding [[#AboutAdminUsers][about administrators]] and [[#WaysToProtectConfigure][options to protect configure]] and consider one of the more restrictive options.</div>
-
-Once the Foswiki bootstrap process is completed and you've logged out, configure will be restricted to Foswiki's "AdminGroup".  Add the user you just registered to the administrators group:
-   1 Go to %IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminGroup in your installation" else="$percntUSERSWEB$percnt.AdminGroup"}%.
-   1 Scroll down to the "Administration" section and click on "Add Members"
-   1 Enter your %IF{"$skin = 'plain'" then="$quot<nop>WikiName$quot" else="$percntSYSTEMWEB$percnt.WikiName"}% as defined when you registered yourself in Step 7.
+Once the Foswiki bootstrap process is completed and you've logged out, configure will be restricted to Foswiki's "AdminGroup".  Therefor you must add the user you just registered to the administrators group.
+%STARTSECTION{"addadmin"}%
+If you have not yet registered your first user, return to [[%TOPIC%#FirstUser]] and follow the steps to register a user.  Once that is completed, return to %IF{"'%BASETOPIC%'='InstallationGuide'" then="
+   1 Go to %IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminGroup in your installation" else="[[%USERSWEB%.AdminGroup]] (Theses instructions will be there as well)"}%." else="[[%USERSWEB%.AdminGroup]]"}%
+   1 Scroll down to the "Administration" section and click on "Add Members" link.
+      * If you do not see the Admistration section, then you don't have authorization to change this group. See %IF{"$skin = 'plain'" then="[[#InternalAdmin]]" else="[[%TOPIC%#InternalAdmin]]"}% for instructions on establishing an _internal admin_ user.
+   1 Enter your %IF{"$skin = 'plain'" then="$quot<nop>WikiName$quot" else="[[%SYSTEMWEB%.WikiName][WikiName]]"}% as defined when you registered yourself%IF{"'%BASETOPIC%'='%TOPIC%'" then=" in Step 7"}%.
    1 Click the Add Member button
    1 Return to the <nop>AdminGroup by clicking the group name on the confirmation page and look under "Members" to confirm you have been added.
+%ENDSECTION{"addadmin"}%
 
 <div class="foswikiHelp">Foswiki provides multiple ways to protect configure. See [[#AboutAdminUsers]] for more details on how to protect your configuration.</div>
 
