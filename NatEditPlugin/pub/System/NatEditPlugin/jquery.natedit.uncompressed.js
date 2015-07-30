@@ -2360,7 +2360,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
       if (typeof(item.label) !== "undefined") {
         return $("<li></li>")
           .data("item.autocomplete", item)
-          .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
+          .append("<a><table width='100%'><tr>"+(typeof(item.img) !== 'undefined' ? "<td width='60px'><img width='50' src='"+item.img+"' /></td>":"")+"<td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
           .appendTo(ul);
       }
     };

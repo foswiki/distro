@@ -487,18 +487,6 @@ sub saveTopicRev {
  #debug "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
     return 0 if $control{check_only};
 
-    # When saving over existing revs of a topic, must make sure we
-    # fully delete the existing data
-    if ( $session->topicExists( $web, $topic ) ) {
-        my $demo = Foswiki::Meta->new( $session, $web, $topic );
-        $demo->removeFromStore();
-
-        $mo = Foswiki::Meta->new( $session, $web, $topic );
-        $mo->setEmbeddedStoreForm($data);
-
-        $info = $mo->get('TOPICINFO');
-    }
-
     $mo->save(
         author           => $info->{author},
         forcenewrevision => 1,
