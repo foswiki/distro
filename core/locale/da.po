@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-06 14:48+0200\n"
-"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"PO-Revision-Date: 2015-07-30 20:23+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2851,7 +2851,6 @@ msgid "No group name specified"
 msgstr "Intet gruppenavn angivet"
 
 #: core/data/Main/GroupViewTemplate.txt:52
-#, fuzzy
 msgid "No members"
 msgstr "Ingen medlemmer"
 
