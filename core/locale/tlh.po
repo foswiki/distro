@@ -1603,7 +1603,7 @@ msgstr "Qagh EXPAND - mIwHom tu&&#39;lu&&#39;be&&#39;"
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "Qagh EXPAND - Hutlh ghItlh '%PARAM1%'"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:26
+#: NatEditPlugin/templates/settings.natedit.tmpl:27
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "ngoqvetlh ghaj Hoch lISmeH <nop>DuH"
@@ -1934,7 +1934,7 @@ msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
 msgid "Get help on attaching files"
 msgstr "tep chelmeH mIw yIyajqu&&#39;choH"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:32
+#: NatEditPlugin/templates/settings.natedit.tmpl:33
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
 msgstr "ghItlh <nop>DuHmey lISmeH mIw yajqu&&#39;choH"
@@ -2045,8 +2045,8 @@ msgstr "nuqneH, %1?"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:86
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
-#: NatEditPlugin/templates/settings.natedit.tmpl:21
-#: NatEditPlugin/templates/settings.natedit.tmpl:24
+#: NatEditPlugin/templates/settings.natedit.tmpl:22
+#: NatEditPlugin/templates/settings.natedit.tmpl:25
 #: PatternSkin/data/System/PatternSkinElements.txt:631
 #: PatternSkin/data/System/PatternSkinElements.txt:645
 #: PatternSkin/data/System/PatternSkinElements.txt:659
@@ -3265,7 +3265,7 @@ msgstr ""
 msgid "Plugins"
 msgstr "Pluginmey"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:15
+#: NatEditPlugin/templates/settings.natedit.tmpl:16
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
 #: PatternSkin/data/System/PatternSkinNavigation.txt:67
@@ -3336,7 +3336,7 @@ msgid ""
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
 msgid "Read on"
 msgstr "latlh laD"
 
@@ -5577,7 +5577,7 @@ msgstr "[[%1][ghItlh mu&&#39;mey QaghHa&&#39:choH]]."
 msgid "[[%1][username]]:"
 msgstr "[[%1][lo&&#39;wI&&#39; pong]]:"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:29
+#: NatEditPlugin/templates/settings.natedit.tmpl:30
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"

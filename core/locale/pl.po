@@ -1648,7 +1648,7 @@ msgstr ""
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:26
+#: NatEditPlugin/templates/settings.natedit.tmpl:27
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "Składnia ustawień jest następująca:"
@@ -1982,7 +1982,7 @@ msgstr ""
 msgid "Get help on attaching files"
 msgstr "ma więcej informacji o dodawaniu załączników."
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:32
+#: NatEditPlugin/templates/settings.natedit.tmpl:33
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
 msgstr ""
@@ -2089,8 +2089,8 @@ msgstr "Witaj %1!"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:86
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
-#: NatEditPlugin/templates/settings.natedit.tmpl:21
-#: NatEditPlugin/templates/settings.natedit.tmpl:24
+#: NatEditPlugin/templates/settings.natedit.tmpl:22
+#: NatEditPlugin/templates/settings.natedit.tmpl:25
 #: PatternSkin/data/System/PatternSkinElements.txt:631
 #: PatternSkin/data/System/PatternSkinElements.txt:645
 #: PatternSkin/data/System/PatternSkinElements.txt:659
@@ -3372,7 +3372,7 @@ msgstr ""
 msgid "Plugins"
 msgstr "Wtyczki"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:15
+#: NatEditPlugin/templates/settings.natedit.tmpl:16
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
 #: PatternSkin/data/System/PatternSkinNavigation.txt:67
@@ -3449,7 +3449,7 @@ msgstr ""
 "Przejdź na stronę %1 w celu zapoznania się z platformą Foswiki. Więcej "
 "informacji jest dostępnych na stronie TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
 msgid "Read on"
 msgstr "Przeczytaj"
 
@@ -5777,7 +5777,7 @@ msgstr "Kliknij [[%1][Wyszukaj błędy na stronie]]."
 msgid "[[%1][username]]:"
 msgstr ""
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:29
+#: NatEditPlugin/templates/settings.natedit.tmpl:30
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
