@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-07-22 20:32+0200\n"
 "Last-Translator: Oliver Krüger <foswiki@oliverkrueger.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1619,7 +1619,7 @@ msgstr "EXPAND fehlgeschlagen – kein Makro"
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND fehlgeschlagen – Topic '%PARAM1%' existiert nicht"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:26
+#: NatEditPlugin/templates/settings.natedit.tmpl:27
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "Jede Einstellung hat die Syntax"
@@ -1951,7 +1951,7 @@ msgstr ""
 msgid "Get help on attaching files"
 msgstr "Mehr erfahren über das Anhängen von Dateien"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:32
+#: NatEditPlugin/templates/settings.natedit.tmpl:33
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
 msgstr "Mehr erfahren über das Setzen von Topic-Einstellungen"
@@ -2059,8 +2059,8 @@ msgstr "Hallo %1!"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:86
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
-#: NatEditPlugin/templates/settings.natedit.tmpl:21
-#: NatEditPlugin/templates/settings.natedit.tmpl:24
+#: NatEditPlugin/templates/settings.natedit.tmpl:22
+#: NatEditPlugin/templates/settings.natedit.tmpl:25
 #: PatternSkin/data/System/PatternSkinElements.txt:631
 #: PatternSkin/data/System/PatternSkinElements.txt:645
 #: PatternSkin/data/System/PatternSkinElements.txt:659
@@ -3296,7 +3296,7 @@ msgstr ""
 msgid "Plugins"
 msgstr "Plugins"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:15
+#: NatEditPlugin/templates/settings.natedit.tmpl:16
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
 #: PatternSkin/data/System/PatternSkinNavigation.txt:67
@@ -3369,7 +3369,7 @@ msgstr ""
 "Lesen Sie %1, um einen schnellen Überblick über die Kollaborations-Plattform "
 "zu bekommen. Für mehr Informationen lesen Sie das TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
 msgid "Read on"
 msgstr "Weiter lesen"
 
@@ -5721,7 +5721,7 @@ msgstr "[[%1][Topic-Text testen]]."
 msgid "[[%1][username]]:"
 msgstr "[[%1][Benutzername]]:"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:29
+#: NatEditPlugin/templates/settings.natedit.tmpl:30
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"

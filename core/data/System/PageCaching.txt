@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437799448" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438296596" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Page Caching
 How to get the best from HTML Caching.
@@ -223,6 +223,24 @@ SQLite can be used with no special configuration.   The page cache will be
 indexed by =working/sqllite.db=, and topics are cached in the =working/cache=
 directory.  There is one configuration parameter that can be changed:
    * ={Cache}{DBI}{SQLite}{Filename} = '$Foswiki::cfg{WorkingDir}/sqlite.db';=
+
+The SQLite database will grow over time and should be cleaned on occasion to
+reclaim space and defragment the data. Clearing the cache with the
+=?refresh=all= url option does not reclaim space.
+
+Reclaim space by using the sqlite3 =vacuum= command. Be sure to run it as the
+web-server user:
+
+<verbatim>
+ cd /path/to/foswiki/working
+ sudo -u www-data sqlite3 sqlite.db "VACUUM;"
+</verbatim>
+
+*%X% Caution:* This can run a long time and can be disruptive to the wiki.
+
+You can also manually clear the cache by:
+   * Removing the =working/sqlite.db= file
+   * and removing all files in =working/cache= directory
 
 ---++++ !MySQL
 

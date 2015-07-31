@@ -1,18 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421366007" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438294756" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
 
-%IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="<!--"}%
+%IF{"(NOT defined GROUP) OR $GROUP = ''" then='
 <sticky><div class="foswikiNotification"></sticky>
 *How to add the first administrator* %BR%
-If you haven't previously set up an administrator, follow these steps:
-   * *Note:* This help text will disappear once you have added a user to this group, so read it all before adding your first user.
-%INCLUDE{"%SYSTEMWEB%.InstallationGuide" section="addadmin"}%
-<sticky></div></sticky>
-%IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
+If you haven\'t previously set up an administrator, follow these steps: (*Note:* This help text will disappear once you have added a user to this group.)
+$percntINCLUDE{"%SYSTEMWEB%.InstallationGuide" section="addadmin"}$percnt
+<sticky></div></sticky>'}%
 
-Information on Administrators, and on how to use the AdminGroup is found in the [[%SYSTEMWEB%.InstallationGuide#DefineAdminUser][Installation Guide]]
+More information on Administrators, and on how to use the AdminGroup is found in the [[%SYSTEMWEB%.InstallationGuide#DefineAdminUser][Installation Guide]]
 
 You can edit this topic to add a description to the AdminGroup
 

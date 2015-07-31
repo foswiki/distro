@@ -1611,7 +1611,7 @@ msgstr "EXPAND a échoué - pas de macro"
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:26
+#: NatEditPlugin/templates/settings.natedit.tmpl:27
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "Chaque paramètre a la syntaxe"
@@ -1936,7 +1936,7 @@ msgstr "Obtenir une version actualisée <a href='%1' rel='nofollow'>ici</a>."
 msgid "Get help on attaching files"
 msgstr "Obtenir de l'aide à propos des fichiers attachés"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:32
+#: NatEditPlugin/templates/settings.natedit.tmpl:33
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
 msgstr "Aide sur le paramétrage des options de page"
@@ -2045,8 +2045,8 @@ msgstr "Bonjour, %1 !"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:86
 #: NatEditPlugin/templates/edithelp.natedit.tmpl:2
-#: NatEditPlugin/templates/settings.natedit.tmpl:21
-#: NatEditPlugin/templates/settings.natedit.tmpl:24
+#: NatEditPlugin/templates/settings.natedit.tmpl:22
+#: NatEditPlugin/templates/settings.natedit.tmpl:25
 #: PatternSkin/data/System/PatternSkinElements.txt:631
 #: PatternSkin/data/System/PatternSkinElements.txt:645
 #: PatternSkin/data/System/PatternSkinElements.txt:659
@@ -3290,7 +3290,7 @@ msgstr ""
 msgid "Plugins"
 msgstr "Plugins"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:15
+#: NatEditPlugin/templates/settings.natedit.tmpl:16
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
 #: PatternSkin/data/System/PatternSkinNavigation.txt:67
@@ -3364,7 +3364,7 @@ msgstr ""
 "apprendre plus, lisez le tutoriel (TwentyMinuteTutorial), qui est disponible "
 "sur la même page."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:21
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
 msgid "Read on"
 msgstr "Continuer à lire"
 
@@ -5739,7 +5739,7 @@ msgstr "Consultez les [[%1][informations de débogage de la page]]."
 msgid "[[%1][username]]:"
 msgstr "[[%1][nom de connexion]] :"
 
-#: NatEditPlugin/templates/settings.natedit.tmpl:29
+#: NatEditPlugin/templates/settings.natedit.tmpl:30
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
