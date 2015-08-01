@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437799448" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438435033" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -88,7 +88,7 @@ Install apache2, rcs, and perl-CPAN
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =perl-Algorithm-Diff= | |
-| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
+| Apache2::Request | =perl-libapreq2= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
 | Authen::SASL | =perl-Authen-SASL= | |
 | CGI | =perl-CGI=  | |
