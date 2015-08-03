@@ -144,6 +144,14 @@ sub removeMeta {
 sub addMeta {
     my ( $this, $web, $topic, $meta ) = @_;
 
+    my $user = $this->current_user();
+
+    # If the cache is already populated, return it, don't add it again
+    if ( $this->hasCached( $web, $topic ) ) {
+        print STDERR "Cache hit for $web.$topic for $user\n" if (TRACE);
+        return $this->{cache}->{$user}{$web}{$topic}->{tom};
+    }
+
     if ( not defined($meta) ) {
         $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     }
@@ -159,8 +167,6 @@ sub addMeta {
     else {
         return;
     }
-
-    my $user = $this->current_user();
 
     unless ( $this->{cache}->{$user}{$web} ) {
         $this->{cache}->{$user}{$web} = {};
