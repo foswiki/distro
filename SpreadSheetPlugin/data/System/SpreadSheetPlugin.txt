@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437970011" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438572634" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 
@@ -1071,7 +1071,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2014 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2015 Peter Thoeny, TWiki.org, &copy; 2008-2015 TWiki:TWiki.TWikiContributor, &copy; 2015 Wave Systems Corp. &copy; 2008-2015 Foswiki Contributors "}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
