@@ -899,9 +899,12 @@ sub _install {
         my $perms = $manifest->{$file}->{perms};    # File permissions
 
         # Topic files in the data directory needing Checkin
-        # SMELL
+        # SMELL: This only can checkin when a SESSION exists. This won't
+        # work in CLI environment, so we are forced to skip this and just
+        # copy the file directly.
         if (
             $file =~ m/^data/    # File for the data directory
+            && $Foswiki::Plugins::SESSION
             && (
                 -e "$target,v"         # rcs history file exists
                 || -e "$target,pfv"    # pfv versions directory exists
@@ -944,7 +947,7 @@ sub _install {
                     next;
                 }
 
-                if ( $contents && $Foswiki::Plugins::SESSION ) {
+                if ($contents) {
                     $reporter->NOTE(
                         "> ${simulated}Checked in: $file  as $tweb.$ttopic")
                       if DEBUG;
