@@ -391,6 +391,9 @@ sub isCacheable {
 
     my $session = $Foswiki::Plugins::SESSION;
 
+    # check for errors parsing the url path
+    $isCacheable = 0 if $session->{invalidWeb} || $session->{invalidTopic};
+
     # POSTs and HEADs aren't cacheable
     my $method = $session->{request}->method;
     $isCacheable = 0 if $method && $method =~ m/^(?:POST|HEAD)$/;
