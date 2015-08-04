@@ -364,6 +364,8 @@ sub _maintainUsersTopic {
         );
 
         $usersTopicObject->copyFrom($templateTopicObject);
+        $usersTopicObject->put( "TOPICPARENT",
+            { name => $Foswiki::cfg{HomeTopicName} } );
     }
 
     my $entry = "   * $wikiname - ";
