@@ -506,17 +506,17 @@ $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 
 #---++ User mapping
-# This section contains only expert options.
 # The user mapping is used to map login names used with external
 # authentication systems to Foswiki user identities.
 
-# **SELECTCLASS Foswiki::Users::*UserMapping LABEL="User Mapping Manager" EXPERT**
+# **SELECTCLASS Foswiki::Users::*UserMapping LABEL="User Mapping Manager" **
 # By default only two mappings are available, though other mappings *may*
-# be installed to support other authentication providers.
-#    * Foswiki::Users::TopicUserMapping - uses Foswiki user and group topics to
+# be installed to support other authentication providers.  The following mappers
+# are shipped by default:
+#    * =Foswiki::Users::TopicUserMapping= - uses Foswiki user and group topics to
 #      determine user information, and group memberships.
-#    * Foswiki::Users::BaseUserMapping - has only pseudo users such as
-#      {AdminUser} and {DefaultUserWikiName}, with the Admins login and
+#    * =Foswiki::Users::BaseUserMapping= - has only pseudo users such as
+#      ={AdminUser}= and ={DefaultUserWikiName}=, with the Admins login and
 #      password being set from configure.
 #      *Does not support User registration*, and only works with TemplateLogin.
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
