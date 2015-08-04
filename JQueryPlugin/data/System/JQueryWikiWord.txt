@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1402036889" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438699584" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -19,13 +19,14 @@ to derive a topic name from a free-form topic title text.
 ---++ Foswiki integration
 
 Add the =jqWikiWord= to an html input field and specify the source from which
-to derive the !WikiWord using metadata of the following format:
+to derive the !WikiWord using HTML5 meta data:
 <verbatim class="js">
 {
   source:'selector', /* e.g. '#projectTitle' */
   initial:'initial value', /* e.g. 'Project...' */
   prefix:'string to be prefixed to the wiki word', /* e.g. 'Project' */
   suffix:'string to be appended to the wiki word', /* e.g. 'AUTOINC0' */
+  transliterate: true,
   allow:'characters that are allowed in a wiki word' /* e.g. 'a-zA-Z\\d' */
 }
 </verbatim>
@@ -53,7 +54,7 @@ to derive the !WikiWord using metadata of the following format:
   </div>
   <div class="foswikiFormStep">
     <h3>Project topic:</h3>
-    <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord {source:'#prjTitle, #prjYear', prefix:'Project', initial:'Project...', suffix:'AUTOINC0', allow:'a-zA-Z\\d\-_'}" />
+    <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord" data-source="#prjTitle, #prjYear" data-prefix="Project" data-initial="Project..." data-suffix="AUTOINC0" data-transliterate="true" />
   </div>
   <div class="foswikiFormStep foswikiFormLast">
     %BUTTON{"Submit" icon="tick" type="submit"}%
