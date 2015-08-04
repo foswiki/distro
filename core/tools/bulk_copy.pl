@@ -39,6 +39,7 @@ use Getopt::Long ();
 use Pod::Usage   ();
 use File::Spec   ();
 use JSON         ();
+use Encode       ();
 use Error;
 $Error::Debug = 1;    # verbose stack traces, please
 
