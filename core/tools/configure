@@ -406,7 +406,14 @@ if ($action) {
         }
     }
     else {
-        print STDERR "No configuration changes made by $action\n";
+        if ( $action =~ /(?:::getcfg|::getspec|search)$/  ) {
+            my $out = Data::Dumper::Dumper( \$response );
+            $out =~ s/^\$VAR1 = \\/          /;
+            print STDERR $out;
+        }
+        else {
+            print STDERR "No configuration changes made by $action\n";
+        }
     }
 }
 
