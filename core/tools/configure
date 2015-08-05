@@ -76,7 +76,7 @@ require Foswiki::Configure::Query;
     sub WARN {
         my $this = shift;
         $this->{warnings}++;
-        print "Warning: ";
+        print "WARNING: ";
         $this->NOTE(@_);
     }
 
@@ -158,6 +158,7 @@ my $result = Getopt::Long::GetOptions(
     #    $params->{set}->{$_[1]} = Encode::decode_utf8($_[2]);
     #    },
     'trace'    => \&_scalar,
+    'verbose'  => \&_scalar,
     'wizard=s' => \&_scalar,
     'expert'   => \&_scalar,
     'args=s%'  => sub {
@@ -250,14 +251,6 @@ sub _prompt {
 # Initialise
 if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
     $Foswiki::cfg{isVALID} = 1;
-}
-
-if (   $params->{method} ne 'check_current_value'
-    && $action eq 'check_current_value' )
-{
-    $action = 'wizard';
-    $params->{verbose} = 1;
-    $params->{keys} = $params->{keys}[0] if ref( $params->{keys} ) eq 'ARRAY';
 }
 
 my $root     = Foswiki::Configure::Root->new();
@@ -355,7 +348,7 @@ if ( $reporter->has_level('errors') ) {
 
 _set_logger($params);
 
-# There are three possible action paths:
+# There are three possible action paths for Checkers and Wizards:
 #  - Query::check_current_value()
 #    * $params->{keys} is an array of configure keys
 #    * $params->{method} is also check_current_value
@@ -367,6 +360,13 @@ _set_logger($params);
 #    * $params->{wizard} - undefined
 #    * $params->{keys} is a scalar value - identifies the checker module
 #    * method is the checker method to be called
+
+if (   $params->{method} ne 'check_current_value'
+    && $action eq 'check_current_value' )
+{
+    $action = 'wizard';
+    $params->{keys} = $params->{keys}[0] if ref( $params->{keys} ) eq 'ARRAY';
+}
 
 if ($action) {
     $action = "Foswiki::Configure::Query::$action";
@@ -389,16 +389,16 @@ if ($action) {
             #print STDERR Data::Dumper::Dumper( \$response->{changes} );
         }
     }
-    else {
-        if ( $action =~ /(?:::getcfg|::getspec|search)$/  ) {
-            my $out = Data::Dumper::Dumper( \$response );
-            $out =~ s/^\$VAR1 = \\/          /;
-            print STDERR $out;
-        }
-        else {
-            print STDERR "No configuration changes made by $action\n";
-        }
+
+    if ( $action =~ /(?:::getcfg|::getspec|search)$/ ) {
+        my $out = Data::Dumper::Dumper( \$response );
+        $out =~ s/^\$VAR1 = \\/          /;
+        print STDERR $out;
     }
+    elsif ( $action =~ /::check_current_value/ ) {
+        _printResponse( $response, $params->{verbose} );
+    }
+
 }
 
 if ( $actions{save} ) {
@@ -412,7 +412,30 @@ if ( $actions{save} ) {
     $params->{wizard} = 'Save';
     $params->{method} = 'save';
     my $response = Foswiki::Configure::Query::wizard( $params, $reporter );
+}
 
+sub _printResponse {
+    my $reparray = shift;
+    my $verbose  = shift;
+    foreach my $entry (@$reparray) {
+        my $report = $entry->{reports};
+        my $keys   = $entry->{keys};
+        my $path   = $entry->{path};
+
+        my $header = 0;
+        foreach my $msg (@$report) {
+            next if ( $msg->{level} eq 'notes' && !$verbose );
+            if ( !$header ) {
+                print STDERR "\nChecking:"
+                  . join( ' -> ', @$path )
+                  . ":  $keys\n";
+                $header = 1;
+            }
+            print 'WARNING: '    if $msg->{level} eq 'warnings';
+            print '#### ERROR: ' if $msg->{level} eq 'errors';
+            print '   ' . $msg->{text} . "\n";
+        }
+    }
 }
 
 # This code copied from Foswiki.pm, with changes.
