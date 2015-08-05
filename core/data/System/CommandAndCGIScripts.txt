@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438746314" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -643,6 +643,7 @@ Note: if you need to pass in international characters, it needs to be run with t
 | Check a setting or section of settings. | =tools/configure -check Internationalisation= |
 | Run a wizard | =tools/configure -wizard Email -method send_test_email= |
 | Set admin password that contains international characters | =perl -CA tools/configure -save -set {Password}='tajemstv&iacute;'= |
+| Display one or more settings | =tools/configure -getcfg {SMTP} -getcfg {PubDir}= |
 
 For full help, run =tools/configure -help=.
 

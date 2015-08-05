@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438294756" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1438746314" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -382,6 +382,15 @@ tools/configure -save -set {SMTP}{Username}='userid'
 tools/configure -save -set {SMTP}{Password}='password'
 tools/configure -save -wizard AutoConfigureEmail -method autoconfigure</verbatim>
 
+And the configuration can then be checked, with optional verbose output:
+(Without -verbose, only errors and warnings are reported.)
+<verbatim class='bash'>
+tools/configure -check -verbose</verbatim>
+
+Configuration settings can be searched and queried as well:
+<verbatim class='bash'>
+tools/configure -search Umask
+tools/configure -getcfg {Store}</verbatim>
 ---+++ TWiki Compatibility
 
 Foswiki is 100% backwards compatible with TWiki<sup>&trade;</sup> markup up to and including TWiki 4.2.4. Existing TWiki webs, topics and attachments can be used with Foswiki without requiring any changes.
