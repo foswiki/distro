@@ -40,6 +40,9 @@ use lib "$FindBin::Bin/../bin";
 
 require 'setlib.cfg';
 
+# require, not use.  The libpath is resolved by setlib.cfg,
+# so "use SomeModule;" will fail.
+
 require Assert;
 
 require Foswiki::Configure::Root;
@@ -265,6 +268,14 @@ if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
     $Foswiki::cfg{isVALID} = 1;
 }
 
+if (   $params->{method} ne 'check_current_value'
+    && $action eq 'check_current_value' )
+{
+    $action = 'wizard';
+    $params->{verbose} = 1;
+    $params->{keys} = $params->{keys}[0] if ref( $params->{keys} ) eq 'ARRAY';
+}
+
 my $root     = Foswiki::Configure::Root->new();
 my $reporter = Foswiki::Configure::ShellReporter->new( $params->{verbose} );
 
@@ -360,7 +371,18 @@ if ( $reporter->has_level('errors') ) {
 
 _set_logger($params);
 
-# Perform the action
+# There are three possible action paths:
+#  - Query::check_current_value()
+#    * $params->{keys} is an array of configure keys
+#    * $params->{method} is also check_current_value
+#  - query::wizard() -   Wizards:: modules
+#    * $params->{wizard} - undefined
+#    * $params->{keys} is a scalar value - identifies the checker module
+#    * method is the checker routine to be called
+#  - query::wizard() -   Checker:: modules
+#    * $params->{wizard} - undefined
+#    * $params->{keys} is a scalar value - identifies the checker module
+#    * method is the checker method to be called
 
 if ($action) {
     $action = "Foswiki::Configure::Query::$action";
@@ -459,7 +481,7 @@ default serialised perl format.
 
 Call checkers for the given key or section.
 No key|section means check all keys. You can have as many B<-check>
-options as you want.
+options as you want when doing basic checking.
 
 =item B<-expert>
 
@@ -484,8 +506,7 @@ Only the last B<-getspec> option will be processed.
 If B<-wizard> is given, this is the name of the
 wizard method to call (defaults to execute()). If B<-wizard> is not
 given then B<-method> is interpreted as the name of a checker
-method to call. The method will be called on all keys passed
-using B<-check>.
+method to call. The method will be called only on a single key.
 
 =item B<-noprompt>
 
@@ -521,7 +542,8 @@ and stored as the hashed $apr1 value.
 =item B<-trace>
 
 Switch on limited tracing (mainly for debugging, traces are added to
-reports)
+reports).  This is also useful when running a full -verbose -check
+of the configuration, as it lists each key checked.
 
 =item B<-verbose>
 
@@ -540,20 +562,18 @@ Wizard to call. You can only call a single wizard.
  $ configure  -save -set {Password}='mypass'
 
 will set the "sudo" admin password to mypass and save the
-hashed / encoded value into a new configuration.
+hashed / encoded value into a new configuration. You can include multiple
+-set options.
 
  $ configure -check {PubDir} -method validate_permissions
 
-will call validate_permissions() for the {PubDir} checker.
+will call validate_permissions() for the {PubDir} checker. You may
+only check a single key when a method is specified.
 
- $ configure -check Extensions
+ $ configure -check Extensions -verbose
 
 will call check_current_value() for all keys under the Extensions section.
-
- $ configure -method check_current_value
-
-will call the check_current_value() method for all leaf items
-in the .spec.
+Verbose reporting will be used.
 
  $ configure -wizard GuessSSLCaLocations -save
 
