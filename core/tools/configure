@@ -37,7 +37,6 @@ $FindBin::Bin =~ /^(.*)$/;
 my $bin = $1;
 
 use lib "$FindBin::Bin/../bin";
-
 require 'setlib.cfg';
 
 # require, not use.  The libpath is resolved by setlib.cfg,
@@ -58,48 +57,34 @@ require Foswiki::Configure::Query;
     our @ISA = ('Foswiki::Configure::Reporter');
 
     sub new {
-        my ( $class, $verbose ) = @_;
-
-        my $this = bless( { verbose => $verbose, }, $class );
-        return $this;
-    }
-
-    sub _cleanMsg {
-
-        # Take out block formatting tags
-        $_[0] =~ s/<\/?verbatim>//g;
-
-        # Take out active elements
-        $_[0] =~ s/<(button|select|option|textarea).*?<\/\1>//g;
-        return;
+        return bless( {}, $_[0] );
     }
 
     sub NOTE {
         my $this = shift;
         my $text = join( "\n", @_ ) . "\n";
-        _cleanMsg($text);
-
         $this->{notes}++;
-        print $text if ( $this->{verbose} );
 
+        # Take out block formatting tags
+        $text =~ s/<\/?verbatim>//g;
+
+        # Take out active elements
+        $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
+        print $text;
     }
 
     sub WARN {
         my $this = shift;
-        my $text = join( "\n", @_ ) . "\n";
-        _cleanMsg($text);
-
         $this->{warnings}++;
-        print "Warning:  $text";
+        print "Warning: ";
+        $this->NOTE(@_);
     }
 
     sub ERROR {
         my $this = shift;
-        my $text = join( "\n", @_ ) . "\n";
-        _cleanMsg($text);
-
         $this->{errors}++;
-        print "#### ERROR: $text";
+        print "#### ERROR: ";
+        $this->NOTE(@_);
     }
 
     sub CHANGED {
@@ -173,7 +158,6 @@ my $result = Getopt::Long::GetOptions(
     #    $params->{set}->{$_[1]} = Encode::decode_utf8($_[2]);
     #    },
     'trace'    => \&_scalar,
-    'verbose'  => \&_scalar,
     'wizard=s' => \&_scalar,
     'expert'   => \&_scalar,
     'args=s%'  => sub {
@@ -277,7 +261,7 @@ if (   $params->{method} ne 'check_current_value'
 }
 
 my $root     = Foswiki::Configure::Root->new();
-my $reporter = Foswiki::Configure::ShellReporter->new( $params->{verbose} );
+my $reporter = Foswiki::Configure::ShellReporter->new();
 
 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
 if ( $reporter->has_level('errors') ) {
@@ -473,7 +457,7 @@ Use -check, -wizard and -method to perform actions.
 
 Use -save to save a new configuration.
 
-Use -json, -trace and -verbose to control the output of this script.
+Use -json and -trace to control the output of this script.
 
 =head1 OPTIONS
 
@@ -551,11 +535,6 @@ and stored as the hashed $apr1 value.
 Switch on limited tracing (mainly for debugging, traces are added to
 reports).  This is also useful when running a full -verbose -check
 of the configuration, as it lists each key checked.
-
-=item B<-verbose>
-
-Switch on reporting of all notes issued by configuration checkers. Otherwise
-only errors and warnings are reported.
 
 =item B<-wizard> name
 
