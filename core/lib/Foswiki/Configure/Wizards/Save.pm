@@ -521,7 +521,8 @@ sub _generateLSC {
             $d = $vs->{saving_value};
         }
         else {
-            $d = Foswiki::Configure::Reporter::uneval($datum);
+            $d = Foswiki::Configure::Reporter::uneval( $datum, 2 );
+            chomp $d;
         }
         push( @dump, "\$Foswiki::cfg$keys = $d;\n" );
     }
