@@ -319,8 +319,7 @@ sub check_current_value {
 
     my @report;
 
-    # If passed a reporter, use it, otherwise create a new one.
-    my $reporter = ($frep) ? $frep : Foswiki::Configure::Reporter->new();
+    my $reporter = Foswiki::Configure::Reporter->new();
 
     # Apply "set" values to $Foswiki::cfg
     eval { _getSetParams( $params, $root, $frep ); };
