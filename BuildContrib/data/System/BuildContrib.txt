@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1438970857" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH% \logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
@@ -33,6 +33,7 @@ __Notes__
 
 ---++ Fast Start
 If you don't like reading documentation, and just want a fast route to creating a new extension, then:
+   1 Start with a running installation, configured either with =bin/configure=, =tools/configure= or =pseudo-install -A=
    1 Install the contrib using the instructions below
    1 =cd= to the root of your git =foswiki/distro= checkout
    1 =perl core/create_new_extension.pl= <i>extension_name</i>
@@ -109,10 +110,20 @@ While development in a git checkout is *strongly* recommended, it is also possib
 
 ---++ Setting up for Development
 
+You should configure Foswiki and ensure that it's operational before proceeding with development.  You'll want this anyway to test your extensions.
+A "minimal" configuration can be done with =pseudo-install.pl -A=,  but if you want to access your development environment from the web,  then
+=bin/configure= or =tools/configure= to build a configuration custom to your requirements.
+
 See Foswiki:Development.HowToStartExtensionDevelopmentInGit for further
 details on how to build your development environment.
 
 ---+++ Environment Variables
+
+The build tools require 3 environment variables:
+
+   * =FOSWIKI_HOME= points to the directory above lib, bin, data, ...  Generally =/path/to/foswiki/distro/core=
+   * =FOSWIKI_LIBS= points to the lib directory, usually =&lt;FOSWIKI_HOME&gt;/lib= and =&lt;FOSWIKI_HOME&gt;/lib/CPAN/lib=
+   * =PERL5LIB= should point to the =BuildContrib/lib= directory so that a consistent set of perltidy rules are used.
 
 Your build script has to know how to find the Foswiki libraries, so it can
 pick up the components of the build system. Set =FOSWIKI_LIBS= (which is a
@@ -120,7 +131,9 @@ path, same as =PERL5LIB=) to point to your =lib= directory in your development
 Foswiki. =$FOSWIKI_LIBS= is used to extend @INC _for the duration of the build
 only_, so it won't mask problems during testing.
 
-The approach we _recommend_ is to set =FOSWIKI_LIBS= in your login script (e.g. =.login=, =.csh=, =.profile= depending on what shell you prefer).
+The approach we _recommend_ is to set =PERL5LIB=, =FOSWIKI_HOME= and =FOSWIKI_LIBS= in your login script (e.g. =.login=, =.csh=, =.profile= depending on what shell you prefer).
+
+See Foswiki:Development.BuildContribCookbook for more information about setting these variables.
 
 <div class="foswikiHelp">
 %X% *EXPERTS*: =build.pl= does *not* read =bin/setlib.cfg=. It uses =$FOSWIKI_LIBS= only to find the modules for the !BuildContrib.
@@ -655,5 +668,5 @@ See the repository for full change history.
 %META:FIELD{name="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="Support" value="http://foswiki.org/Support/BuildContrib"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1437500521" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1438970857" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1438970857" size="14169" user="ProjectContributor" version="1"}%
