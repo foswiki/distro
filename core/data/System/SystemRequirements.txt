@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438435033" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1439226079" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -37,25 +37,21 @@ perl tools/dependencies
 
 %TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
 
+---++++!! Minimum requirements
+
 Install apache and rcs: ==apt-get install apache2 rcs==
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =libalgorithm-diff-perl= | |
-| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =libarchive-tar-perl= | |
 | Authen::SASL | =libauthen-sasl-perl= | |
 | CGI | =libcgi-pm-perl= | |
 | CGI::Session | =libcgi-session-perl= | |
-| DBI | =libdbi-perl= | Used for the Foswiki Page cache |
-| DBD::mysql | =libdbd-mysql-perl= | Used for !MySQL based Page Cache |
-| DBD::Pg | =libdbd-pg-perl= | Used for !PostgreSQL based Page Cache |
-| DBD::SQLite | =libdbd-sqlite3-perl= | Used for SQLite based Page Cache |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
 | Digest::SHA | =libdigest-sha-perl= | *First shipped in perl 5.9.3 |
 | Encode | =libencode-perl= | |
 | Error | =liberror-perl= | |
-| FCGI | =libfcgi-perl= | Optional, needed for fastcgi / fcgi apache modules |
 | File::Copy::Recursive | =libfile-copy-recursive-perl= | |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Tree | =libhtml-tree-perl= | |
@@ -70,11 +66,25 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 
 Note: to install all the above: =apt-get install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}% 
 
+---++++!! Optional dependencies
+
+Install as needed.
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
+| DBI | =libdbi-perl= | Used for the Foswiki Page cache |
+| DBD::mysql | =libdbd-mysql-perl= | Used for !MySQL based Page Cache |
+| DBD::Pg | =libdbd-pg-perl= | Used for !PostgreSQL based Page Cache |
+| DBD::SQLite | =libdbd-sqlite3-perl= | Used for SQLite based Page Cache |
+| FCGI | =libfcgi-perl= | Optional, needed for fastcgi / fcgi apache modules |
+
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
 
 Apache user should issue the following commands:
-   $ =a2enmod cgi=: Enables CGI
+   $ =a2enmod rewrite=: Enables mod_rewrite
+   $ =a2enmod cgi= OR =a2enmod cgid=: Enables CGI.  May need cgid if using a threaded mpm.
    $ =a2enmod access_compat=: Apache 2.4: Enables compatibility with foswiki example apache configurations.
 
 %ENDTWISTY{}%
@@ -83,21 +93,18 @@ Apache user should issue the following commands:
 
 %TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
 
+---++++!! Minimum requirements
+
 Install apache2, rcs, and perl-CPAN
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorithm::Diff | =perl-Algorithm-Diff= | |
-| Apache2::Request | =perl-libapreq2= | Required if using Apache 2 and mod_perl |
 | Archive::Tar | =perl-Archive-Tar= | *First shipped in perl 5.9.3 |
 | Authen::SASL | =perl-Authen-SASL= | |
 | CGI | =perl-CGI=  | |
 | CGI::Session | =perl-CGI-Session= | |
 | Crypt::PasswdMD5 | =perl-Crypt-PasswdMD5= | |
-| DBI | | Used for the Foswiki Page cache |
-| DBD::mysql | | Used for !MySQL based Page Cache |
-| DBD::Pg | | Used for !PostgreSQL based Page Cache |
-| DBD::SQLite | | Used for SQLite based Page Cache |
 | Digest::SHA | =perl-Digest-SHA= | *First shipped in perl 5.9.3 |
 | Encode | =perl-Encode=  | |
 | Error | =perl-Error= | |
@@ -110,9 +117,21 @@ Install apache2, rcs, and perl-CPAN
 | Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =perl-libwww-perl= | |
-| version | =perl-Perl-Version= | Must be version 0.77 or newer |
-| Digest::SHA | =perl-Digest-SHA= | |
 | URI | =perl-URI= | |
+| version | =perl-Perl-Version= | Must be version 0.77 or newer |
+
+---++++!! Optional dependencies
+
+Install as needed.
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Apache2::Request | =perl-libapreq2= | Required if using Apache 2 and mod_perl |
+| DBI | | Used for the Foswiki Page cache |
+| DBD::mysql | | Used for !MySQL based Page Cache |
+| DBD::Pg | | Used for !PostgreSQL based Page Cache |
+| DBD::SQLite | | Used for SQLite based Page Cache |
+
 After expanding the Foswiki archive, change the ownership of the files:
    * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
    * Suse: =chown -R wwwrun:www /path/to/foswiki=
@@ -122,6 +141,8 @@ After expanding the Foswiki archive, change the ownership of the files:
 ---+++!! Gentoo (ebuild) based distributions
 
 %TWISTY{ showlink="Show Gentoo details" hidelink="Hide Gentoo details"}%
+
+---++++!! Minimum requirements
 
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 
@@ -134,10 +155,6 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | CGI | =perl-core/CGI= | |
 | CGI::Session | =dev-perl/CGI-Session= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
-| DBI | | Optional - Used for the Foswiki Page cache |
-| DBD::mysql | | Optional - Used for MySQL based Page Cache |
-| DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
-| DBD::SQLite | | Optional - Used for SQLite based Page Cache |
 | Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
 | Error | =dev-perl/Error= | |
 | Encode | =perl-core/Encode= | |
@@ -153,6 +170,18 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
 | URI | =dev-perl/URI= | |
 * Packages in =perl-core/= generally are installed with perl. May be directly installed if updated versions are available.
+
+---++++!! Optional dependencies
+
+Install as needed.
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
+| DBI | | Optional - Used for the Foswiki Page cache |
+| DBD::mysql | | Optional - Used for MySQL based Page Cache |
+| DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
+| DBD::SQLite | | Optional - Used for SQLite based Page Cache |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
