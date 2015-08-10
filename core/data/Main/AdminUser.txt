@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1439232550" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Wiki Administrator User
 
@@ -22,13 +22,13 @@ _internal admin_ password..
 %ENDSECTION{"sudo_login"}%
 
 ---+++ Prerequisites
-   * =Security Setup : Sessions : {UserClientSession}= needs to be enabled in configure
-   * a configure password (otherwise the Admin login is automatically disabled.)
+   * =Security and Authentication -&gt; Sessions : Use Client Sessions:= must be enabled in configure (this is the default)
+   * =Security and Authentication, -&gt; Passwords : Internal Admin Password:=  must be set otherwise the _internal admin user_ is automatically disabled.   A password is _not_ set by default.
    * If your Foswiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
    
 <blockquote class="foswikiAlert">
 %X% Do not add =AdminUser= to your =.htpasswd= file or other authentication system.  You should only access the =AdminUser= by logging in
-with the special user and password set in the first save in the =bin/configure= script. Use the =sudo= login link on this page, or log in directly with
+with the the _internal admin user_ __admin__  using the password set under the Passwords tab in =bin/configure= script. Use the login link on this page, or log in directly with
 Template Login. Logging in with the =AdminUser= !WikiName through the normal authentication process will not work, and will not acquire admin rights.
 </blockquote>
 
