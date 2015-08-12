@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-30 20:22+0200\n"
+"PO-Revision-Date: 2015-08-12 13:32+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -196,7 +196,7 @@ msgstr "QIn Quv %2 lo&&#39;taHvIS muv &&#39;e&&#39; nID %1"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render/Moved.pm:67
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%3 %2vo&&#39; %1Daq pongqa&&#39; pagh vIHmoHta&&#39; %4"
+msgstr "%3 %2vo&#39; %1Daq pongqa&#39; pagh vIHmoHta&#39; %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
