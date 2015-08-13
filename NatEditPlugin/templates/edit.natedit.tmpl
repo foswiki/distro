@@ -19,7 +19,7 @@
 %TMPL:DEF{"windowtitle"}%<title>(%TMPL:P{"titleaction"}%) <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%BASETOPIC%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%FORMFIELD{"TopicTitle" alttext="%BASETOPIC%" default="%BASETOPIC%"}%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
