@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1439434052" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -192,6 +192,12 @@ Extensions can be installed using any of several different methods:
       * Or by manually expanding the archive into the installation.
 To update an extension, simply re-run the installer. If prompted, tell it to download fresh copies from the repository.
 
+<div class='foswikiHelp'>%X% If the extensions installer is not run, (for example, installing using unzip, or a git clone), you must run the Plugins
+merge wizard and save the configuration.
+   * From the configure web interface, a warning message should be generated under Extensions tab,  click the =Merge extension settings= button.
+   * From the CLI, run =tools/configure -wizard Plugins -method merge -save=
+</div>
+
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
 
 The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
@@ -227,17 +233,14 @@ The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extension
    * The =[SomeExtension]_installer= package must be run from the root directory of the Foswiki installation.
       * =perl [SomeExtension]_installer install -o=
    * Be sure to include the =-o= option to prevent the installer from downloading any dependencies.
-   * When the =[SomeExtension]_installer= is run, it will install the Extension similar to the =configure= interface except that you will be given the option to use local archives. 
+   * When the =[SomeExtension]_installer= is run, it will install the Extension similar to the =configure= interface except that you will be given the option to use local archives.
    * Plugins will be automatically enabled and the configuration saved. Add the =-noenable= option to save the configuration with the plugin(s) disabled.
 
 ---+++++ Manual installation
    * Most extensions can have their archives expanded from the root of the foswiki installation.
    * If web and topic names are non-standard, files will need to be manually copied.
    * If scripts are included, the "shebang" line might need to be adjusted.
-   * The !LocalSite.cfg file will need to be manually updated with:
-      * =$Foswiki::cfg{Plugins}{SomePlugin}{Module}=
-      * =$Foswiki::cfg{Plugins}{SomePlugin}{Enable}=
-      * ... and any settings copied from the extension's =Config.spec= file.
+   * Run the Extension merge wizard: =tools/configure -wizard Plugins -method merge -save=
 
 ---+++++!! When using either the web or shell installation tools:
    * The =[SomeExtension]_installer= module is saved in =working/configure/pkgdata=.

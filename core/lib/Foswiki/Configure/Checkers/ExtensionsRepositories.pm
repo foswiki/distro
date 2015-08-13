@@ -8,6 +8,7 @@ require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 use Foswiki::Configure::Checkers::URL ();
+use Foswiki::Configure::Load          ();
 
 # Checks the Extensions repository list.
 # Syntax:
@@ -58,6 +59,12 @@ sub check_current_value {
             authtype => ['hostip'],
             pass     => [1],
         );
+    }
+
+    if ( $Foswiki::pluginModuleInconsistencies
+        || Foswiki::Configure::Load::specChanged() )
+    {
+        $reporter->WARN("Merge of extension settings recommended.");
     }
 }
 

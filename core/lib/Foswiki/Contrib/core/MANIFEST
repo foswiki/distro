@@ -467,6 +467,7 @@ lib/Foswiki/Configure/Wizard.pm 0444
 lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm 0444
 lib/Foswiki/Configure/Wizards/ExploreExtensions.pm 0444
 lib/Foswiki/Configure/Wizards/InstallExtensions.pm 0444
+lib/Foswiki/Configure/Wizards/Plugins.pm 0444
 lib/Foswiki/Configure/Wizards/Save.pm 0444
 lib/Foswiki/Configure/Wizards/ScriptHash.pm 0444
 lib/Foswiki/Configure/Wizards/SendTestEmail.pm 0444

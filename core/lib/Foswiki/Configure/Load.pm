@@ -863,11 +863,55 @@ sub findDependencies {
     return $deps;
 }
 
+=begin TML
+
+---++ StaticMethod specChanged -> $boolean
+
+Find all the Spec files (Config.spec and Foswiki.spec) and return
+true if any Spec file is newer than LocalSite.cfg.
+=cut
+
+sub specChanged {
+
+    my $latest    = 0;
+    my $localsite = 0;
+
+    foreach my $dir (@INC) {
+
+        my $file = $dir . '/LocalSite.cfg';
+        if ( -e $file && !$localsite ) {
+            $localsite = ( stat($file) )[9];
+        }
+
+        $file = $dir . '/Foswiki.spec';
+        if ( -e $file ) {
+            my $ts = ( stat($file) )[9];
+            $latest = $ts if ( $ts > $latest );
+        }
+
+        foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
+            my $d;
+            next unless opendir( $d, "$dir/$subdir" );
+            my %read;
+            foreach my $extension ( grep { !/^\./ && !/^Empty/ } readdir $d ) {
+                next if $read{$extension};
+                $extension =~ m/(.*)/;    # untaint
+                $file = "$dir/$subdir/$1/Config.spec";
+                next unless -e $file;
+                my $ts = ( stat($file) )[9];
+                $latest = $ts if ( $ts > $latest );
+            }
+            closedir($d);
+        }
+    }
+    return ( $latest > $localsite );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -67,11 +67,15 @@ function _id_ify(id) {
         return set;
     }
 
-    function update_save_button() {
+    function update_save_button(force) {
         var count = $('.value_modified').length,
             mess = (count == 1) ? "1 change"
             : (count > 0) ? count + " changes" : '';
 
+        if ( force ) {
+            count++;
+            mess  = '(required)'
+        }
         $('#saveButton').button('option', 'label', 'Save ' + mess);
         if ( $('#bootstrap_warning').length > 0 ) {
             count++;
@@ -446,6 +450,9 @@ function _id_ify(id) {
                 update_save_button();
             }
         });
+        if ( results.requireSave ) {
+            update_save_button(1);
+        }
         wizard_finished(params);
 
         $dlg = $('<div id="report_dialog"></div>');

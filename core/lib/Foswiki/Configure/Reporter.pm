@@ -163,6 +163,24 @@ sub has_level {
 
 =begin TML
 
+---++ ObjectMethod require_save( $boolean ) -> $boolean
+
+Return true if the reporter has flagged to require a save.
+This is done to trigger merge of Spec files, etc.
+
+=cut
+
+sub require_save {
+    my ( $this, $save ) = @_;
+
+    if ( defined $save && $save ) {
+        $this->{require_save} = 1;
+    }
+    return $this->{require_save};
+}
+
+=begin TML
+
 ---++ ObjectMethod clear() -> $this
 
 Clear all contents from the reporter.
@@ -172,8 +190,9 @@ Returns the reporter to allow chaining.
 
 sub clear {
     my $this = shift;
-    $this->{messages} = [];
-    $this->{changes}  = {};
+    $this->{messages}     = [];
+    $this->{changes}      = {};
+    $this->{require_save} = 0;
     return $this;
 }
 

@@ -55,7 +55,14 @@ sub construct {
         # ignore EmptyPlugin
         next if ( $plugin eq 'EmptyPlugin' );
 
-        # Add {Enabled} key
+# Flag to the checkers that a merge is recommended if Module definition is missing.
+        unless ( ref( $Foswiki::cfg{Plugins}{$plugin} )
+            && exists $Foswiki::cfg{Plugins}{$plugin}{Module} )
+        {
+            $Foswiki::pluginModuleInconsistencies = 1;
+        }
+
+        # Plugin is already configured,  add keys to spec
         push(
             @$settings,
             Foswiki::Configure::Value->new(
@@ -79,9 +86,6 @@ sub construct {
                 EXPERT  => 1
             )
         );
-
-        $Foswiki::pluginModuleInconsistencies = 1
-          unless ( $Foswiki::cfg{Plugins}{$plugin}{Module} );
 
 # Set the module name in the configuration, and tell save via the BOOTSTRAP
 # list that keys have been discovered and should be saved in the new configuration

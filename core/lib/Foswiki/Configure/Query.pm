@@ -556,8 +556,9 @@ sub wizard {
     }
 
     return {
-        changes  => \%new_values,
-        messages => $reporter->messages()
+        changes     => \%new_values,
+        messages    => $reporter->messages(),
+        requireSave => $reporter->require_save()
     };
 }
 

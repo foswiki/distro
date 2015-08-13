@@ -37,7 +37,7 @@ sub check_current_value {
     goto &verify;
 }
 
-sub repair {
+sub merge {
     return verify( @_, 1 );
 }
 
@@ -125,10 +125,15 @@ sub verify {
         }
     }
 
+    if ( Foswiki::Configure::Load::specChanged() ) {
+        $reporter->WARN("Merge of spec files required.");
+        $changes++;
+        $reporter->require_save(1) if ($repair);
+    }
+
     if ($changes) {
-        $reporter->WARN(
-"Configuration changes required.  Run the wizard repair method with the -save option to add missing module definitions and disable plugins without modules."
-        );
+        $reporter->WARN("Configuration changes required.");
+        $reporter->require_save(1) if ($repair);
     }
     else {
         $reporter->NOTE("No changes to the configuration needed.");
