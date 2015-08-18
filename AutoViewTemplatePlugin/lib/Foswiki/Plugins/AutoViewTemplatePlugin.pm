@@ -5,8 +5,8 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-our $VERSION           = '1.21';
-our $RELEASE           = '2015-07-24';
+our $VERSION           = '1.22';
+our $RELEASE           = '2015-08-18';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -142,7 +142,7 @@ sub _getTemplateFromSectionInclude {
 # SMELL: This can be done much faster, if the formdefinition topic is read directly
     my $sectionName = $isEditAction ? 'edittemplate' : 'viewtemplate';
     my $templateName =
-      "%INCLUDE{ \"$formweb.$formtopic\" section=\"$sectionName\"}%";
+"%INCLUDE{ \"$formweb.$formtopic\" section=\"$sectionName\" warn=\"off\"}%";
     $templateName =
       Foswiki::Func::expandCommonVariables( $templateName, $topic, $web );
 
@@ -174,7 +174,7 @@ __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
