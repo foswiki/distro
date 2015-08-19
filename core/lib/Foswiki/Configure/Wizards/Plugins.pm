@@ -24,6 +24,20 @@ our @ISA = ('Foswiki::Configure::Wizard');
 
 =begin TML
 
+---++ WIZARD merge
+
+Called when a module may have been installed outside the scope of
+=configure. In this case, we need to both verify *and* repair the
+configuration as necessary to include the new module's Config.spec
+
+=cut
+
+sub merge {
+    return verify( @_, 1 );
+}
+
+=begin TML
+
 ---++ WIZARD verify
 
 Verify the plugin module configuration:
@@ -35,10 +49,6 @@ Verify the plugin module configuration:
 
 sub check_current_value {
     goto &verify;
-}
-
-sub merge {
-    return verify( @_, 1 );
 }
 
 sub verify {
@@ -66,7 +76,9 @@ sub verify {
             $reporter->NOTE("  $module duplicate of  $modules{$pluginName} ");
         }
 
-        $reporter->NOTE("Module $module is not referenced in the configuration")
+        $reporter->NOTE(
+"Module $module was found on the path, but is not referenced in the configuration."
+          )
           unless ( defined $Foswiki::cfg{Plugins}{$pluginName}{Module}
             && $Foswiki::cfg{Plugins}{$pluginName}{Module} eq $module );
 
@@ -105,9 +117,10 @@ sub verify {
         }
     }
 
-# SMELL:  The Pluggables::Plugins function will auto-define all missing plugins, and
-# adds them to the BOOTSTRAP variable.  This really is only functional during the initial
-# bootstrap process.  So report them here:
+    # SMELL:  The Pluggables::Plugins function will auto-define
+    # all missing plugins, and add them to the BOOTSTRAP variable.
+    # This really is only functional during the initial bootstrap
+    # process.  So report them here:
 
     foreach my $plugin ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
         $plugin =~ m/\{Plugins\}\{([^}]+)\}.*/;
@@ -126,15 +139,16 @@ sub verify {
         }
     }
 
-    if ( Foswiki::Configure::Load::specChanged() ) {
-        $reporter->WARN("Merge of spec files required.");
+    foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
+        $reporter->WARN(
+"The Config.spec for $ext is more recent than the latest configuration. 'merge extension settings' is required."
+        );
         $changes++;
-        $reporter->require_save(1) if ($repair);
     }
 
     if ($changes) {
-        $reporter->WARN("Configuration changes required.");
-        $reporter->require_save(1) if ($repair);
+        $reporter->WARN("Configuration changes are required.");
+        $reporter->hint( "require_save", 1 ) if ($repair);
     }
     else {
         $reporter->NOTE("No changes to the configuration needed.");

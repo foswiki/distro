@@ -745,10 +745,12 @@ $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
 # **PASSWORD LABEL="Internal Admin Password" CHECK_ON_CHANGE="{FeatureAccess}{Configure}" CHECK="also:{FeatureAccess}{Configure}" ONSAVE**
-# If set, this password # permits use of the _internal admin_ login, and the sudo facility.
-# *As it is a "shared password", this is no longer recommended per good security practices.*
-# Clear this field to disable use of the internal admin login.
-#
+# If set, this password permits use of the _internal admin_ login, and the
+# sudo facility. *As it is a "shared password", this is no longer
+# recommended per good security practices. Clear this field to disable use
+# of the internal admin login.
+# NOTE: this field is encrypted, and the value can only be set using the
+# =configure= interface.
 $Foswiki::cfg{Password} = '';
 
 #---++ Registration

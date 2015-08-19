@@ -468,7 +468,8 @@ sub check_current_value {
             {
                 keys    => $spec->{keys},
                 path    => [@path],
-                reports => $reporter->messages()
+                reports => $reporter->messages(),
+                hints   => $reporter->hints()
             }
         );
     }
@@ -550,15 +551,16 @@ sub wizard {
     # Value's encoder.
     my %new_values;
     foreach my $k ( keys %{ $reporter->{changes} } ) {
+        next if $k =~ /\{EmptyPlugin\}/;
         my $v = $root->getValueObject($k);
         ASSERT( $v, "$k missing from Config.spec $method" ) if DEBUG;
         $new_values{$k} = $v->encodeValue( eval("\$Foswiki::cfg$k") );
     }
 
     return {
-        changes     => \%new_values,
-        messages    => $reporter->messages(),
-        requireSave => $reporter->require_save()
+        changes  => \%new_values,
+        messages => $reporter->messages(),
+        hints    => $reporter->hints()
     };
 }
 

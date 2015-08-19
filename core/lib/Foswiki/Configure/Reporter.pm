@@ -50,7 +50,14 @@ ERROR message.
 sub new {
     my ($class) = @_;
 
-    my $this = bless( {}, $class );
+    my $this = bless(
+        {
+            messages => [],
+            changes  => {},
+            hints    => {}
+        },
+        $class
+    );
     $this->clear();
     return $this;
 }
@@ -163,20 +170,29 @@ sub has_level {
 
 =begin TML
 
----++ ObjectMethod require_save( $boolean ) -> $boolean
+---++ ObjectMethod hint( $hint [, $value] ) -> $value
 
-Return true if the reporter has flagged to require a save.
-This is done to trigger merge of Spec files, etc.
+Get/set a hint in the report
+
+Supported hints are:
+   1 =require_save= - true if the reporter has hintged to require a save.
+     This is done to trigger merge of Spec files, etc.
+   2 =reset_may_repair= - true if resetting the value of the key to the
+     default may repair the error.
+
+=undef= is returned if the hint is not set.
+If =$value= is given, the previous value is returned.
 
 =cut
 
-sub require_save {
-    my ( $this, $save ) = @_;
+sub hint {
+    my ( $this, $hint, $value ) = @_;
 
-    if ( defined $save && $save ) {
-        $this->{require_save} = 1;
+    my $curval = $this->{$hint};
+    if ( defined $value ) {
+        $this->{hints}{$hint} = $value;
     }
-    return $this->{require_save};
+    return $curval;
 }
 
 =begin TML
@@ -190,9 +206,9 @@ Returns the reporter to allow chaining.
 
 sub clear {
     my $this = shift;
-    $this->{messages}     = [];
-    $this->{changes}      = {};
-    $this->{require_save} = 0;
+    $this->{messages} = [];
+    $this->{changes}  = {};
+    $this->{hints}    = {};
     return $this;
 }
 
@@ -230,6 +246,21 @@ sub changes {
     my ($this) = @_;
 
     return $this->{changes};
+}
+
+=begin TML
+
+---++ ObjectMethod hints() -> \%hints
+
+Get the content of the hints hash. Flags are used to supply hints to the
+UI as to how errors may be resolved.
+
+=cut
+
+sub hints {
+    my ($this) = @_;
+
+    return $this->{hints};
 }
 
 =begin TML

@@ -69,7 +69,6 @@ sub construct {
                 'BOOLEAN',
                 LABEL   => $plugin,
                 keys    => "{Plugins}{$plugin}{Enabled}",
-                CHECKER => 'PLUGIN_MODULE',
                 default => '0',                             # Not enabled
                 EXPERT  => $expert{$plugin}
             )
@@ -78,7 +77,7 @@ sub construct {
             @$settings,
             Foswiki::Configure::Value->new(
                 'STRING',
-                checker => 'PLUGIN_MODULE',
+                CHECKER => 'PLUGIN_MODULE',
                 LABEL   => "$plugin Module",
                 keys    => "{Plugins}{$plugin}{Module}",
                 opts => 'CHECK="undefok"',    # Undef when extension is removed.

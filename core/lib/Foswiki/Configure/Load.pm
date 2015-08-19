@@ -812,6 +812,7 @@ Any requests made to this Foswiki will be treated as requests made by an adminis
 Your temporary administrator rights will "stick" until you've logged out from this session.
 BOOTS
 
+    #'
     return ( $system_message || '' );
 }
 
@@ -865,28 +866,29 @@ sub findDependencies {
 
 =begin TML
 
----++ StaticMethod specChanged -> $boolean
+---++ StaticMethod specChanged -> @list
 
 Find all the Spec files (Config.spec and Foswiki.spec) and return
-true if any Spec file is newer than LocalSite.cfg.
+a list of extensions with Spec files newer than LocalSite.cfg.
+
 =cut
 
 sub specChanged {
 
-    my $latest    = 0;
-    my $localsite = 0;
+    my $lsc_m = 0;
+    my @list;
 
     foreach my $dir (@INC) {
 
         my $file = $dir . '/LocalSite.cfg';
-        if ( -e $file && !$localsite ) {
-            $localsite = ( stat($file) )[9];
+        if ( -e $file && !$lsc_m ) {
+            $lsc_m = ( stat($file) )[9];
         }
 
         $file = $dir . '/Foswiki.spec';
         if ( -e $file ) {
-            my $ts = ( stat($file) )[9];
-            $latest = $ts if ( $ts > $latest );
+            my $fw_m = ( stat($file) )[9];
+            push( @list, 'the core' ) if ( $fw_m > $lsc_m );
         }
 
         foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
@@ -898,13 +900,13 @@ sub specChanged {
                 $extension =~ m/(.*)/;    # untaint
                 $file = "$dir/$subdir/$1/Config.spec";
                 next unless -e $file;
-                my $ts = ( stat($file) )[9];
-                $latest = $ts if ( $ts > $latest );
+                my $ext_m = ( stat($file) )[9];
+                push( @list, $extension ) if ( $ext_m > $lsc_m );
             }
             closedir($d);
         }
     }
-    return ( $latest > $localsite );
+    return @list;
 }
 
 1;

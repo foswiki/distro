@@ -262,8 +262,10 @@ function _id_ify(id) {
             $('.warnings' + id).each(function() {
                 forget_checker_reports($(this), 'warnings', id);
             });
+            var $node = $('#' + id + '_block');
+
             // Remove the class that suppresses hidden_di and hidden_expert
-            $('#' + id + '_block')
+            $node
                 .removeClass('errors')
                 .removeClass('warnings')
                 .removeClass('notes');
@@ -284,6 +286,13 @@ function _id_ify(id) {
                     $whine.addClass(id + '_report');
                     $whine.addClass('message_block');
                     $reports.append($whine);
+                    if (r.hints && r.hints.reset_may_repair) {
+                        // try resetting it, it might help
+                        $node.data("value_handler").restoreDefaultValue();
+                        // add modified flag
+                        $node.addClass("value_modified");
+                        update_save_button();
+                    }
                 }
                 // If the key block isn't loaded yet,
                 // bubble_checker_reports will annotate
@@ -423,8 +432,8 @@ function _id_ify(id) {
 
                     handler.useVal(value);
                     spotted = true;
-                    // Fire off checker
                     check_current_value($node, true);
+                    $node.addClass("value_modified");
                 });
             if (!spotted) {
                 // It's not loaded yet, so record it for when it is
@@ -447,12 +456,11 @@ function _id_ify(id) {
                     }
                 };
                 $pending.data('value_handler', handler);
-                update_save_button();
             }
         });
-        if ( results.requireSave ) {
-            update_save_button(1);
-        }
+
+        update_save_button(results.hints.require_save);
+
         wizard_finished(params);
 
         $dlg = $('<div id="report_dialog"></div>');

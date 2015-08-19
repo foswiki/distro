@@ -162,7 +162,9 @@ sub save {
     # SMELL: this *should* be a NOP, if the wizards did their job correctly,
     # though if an extension was installed from the shell when we weren't
     # looking it might be required.
-    Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root, \%Foswiki::cfg );
+    my %added;
+    Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root, \%Foswiki::cfg,
+        \%added );
 
     my ( $old_content, $backup, @backups ) =
       _backupCurrentContent( $lsc, $reporter );
@@ -210,10 +212,12 @@ sub save {
 
     my %save;
 
-# Clear out the configuration and re-initialize it either
-# with or without the .spec expansion.  This also clears the {Engine} and {isBOOTSTRAPPING}
-# settings, but they should not be saved to the file, so that's desired behavior.  This
-# also prevents any other config settings from being modified by checkers or other code.
+    # Clear out the configuration and re-initialize it either
+    # with or without the .spec expansion.  This also clears the
+    # {Engine} and {isBOOTSTRAPPING} settings, but they should not
+    # be saved to the file, so that's desired behavior.  This
+    # also prevents any other config settings from being modified
+    # by checkers or other code.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
             eval("(\$save$key)=\$Foswiki::cfg$key=~m/^(.*)\$/");
@@ -359,9 +363,18 @@ sub save {
         }
 
         if (%orig_content) {
-            $reporter->NOTE('| *Key* | *Old* | *New* |');
-            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, $reporter,
+            my @report;
+            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, \@report,
                 $logger, '' );
+            if ( scalar @report ) {
+                $reporter->NOTE( "| *Key* | *Old* | *New* |", @report );
+            }
+            if ( scalar keys %added > 0 ) {
+                $reporter->NOTE('| *Added Key* | *Value* |');
+                foreach my $k ( sort keys %added ) {
+                    $reporter->NOTE("| $k | $added{$k} |");
+                }
+            }
         }
     }
     else {
@@ -374,7 +387,7 @@ sub save {
 # $reporter is set to undef when recursing into a hash below the
 # Foswiki::Configure::Value level
 sub _compareConfigs {
-    my ( $spec, $o, $n, $reporter, $logger, $keypath ) = @_;
+    my ( $spec, $o, $n, $report, $logger, $keypath ) = @_;
 
     my $old = Foswiki::Configure::Reporter::uneval($o);
     my $new = Foswiki::Configure::Reporter::uneval($n);
@@ -390,7 +403,7 @@ sub _compareConfigs {
                 $new = '_[redacted]_';
             }
             $old = "($vs->{default})" if $old eq 'undef' && $vs->{default};
-            _logAndReport( $reporter, $logger, $keypath, $old, $new );
+            _logAndReport( $report, $logger, $keypath, $old, $new );
             return 0;
         }
         return 1;
@@ -400,7 +413,7 @@ sub _compareConfigs {
     if ( $o && $n && ref($o) ne ref($n) ) {
 
         # Both set, but different types. Stop the recursion here.
-        _logAndReport( $reporter, $logger, $keypath, $old, $new );
+        _logAndReport( $report, $logger, $keypath, $old, $new );
         return 0;
     }
 
@@ -416,7 +429,7 @@ sub _compareConfigs {
                     $spec,
                     $o->{$k},
                     $n->{$k},
-                    $reporter,
+                    $report,
                     $logger,
                     $keypath . '{'
                       . Foswiki::Configure::LoadSpec::protectKey($k) . '}'
@@ -433,18 +446,18 @@ sub _compareConfigs {
         $o = [] unless defined $o;
         $n = [] unless defined $n;
         if ( scalar(@$o) != scalar(@$n) ) {
-            _logAndReport( $reporter, $logger, $keypath, $old, $new );
+            _logAndReport( $report, $logger, $keypath, $old, $new );
             return 0;
         }
         for ( my $i = 0 ; $i < scalar(@$o) ; $i++ ) {
             unless (
                 _compareConfigs(
-                    $spec,     $o->[$i], $n->[$i],
-                    $reporter, $logger,  "$keypath\[$i\]"
+                    $spec,   $o->[$i], $n->[$i],
+                    $report, $logger,  "$keypath\[$i\]"
                 )
               )
             {
-                _logAndReport( $reporter, $logger, $keypath, $old, $new );
+                _logAndReport( $report, $logger, $keypath, $old, $new );
                 return 0;
             }
         }
@@ -455,7 +468,7 @@ sub _compareConfigs {
         || ( defined $o && !defined $n )
         || $o ne $n )
     {
-        _logAndReport( $reporter, $logger, $keypath, $old, $new );
+        _logAndReport( $report, $logger, $keypath, $old, $new );
         return 0;
     }
 
@@ -463,7 +476,7 @@ sub _compareConfigs {
 }
 
 sub _logAndReport {
-    my ( $reporter, $logger, $keypath, $old, $new ) = @_;
+    my ( $report, $logger, $keypath, $old, $new ) = @_;
 
     $logger->log(
         {
@@ -479,12 +492,12 @@ sub _logAndReport {
     $old = Foswiki::Configure::Reporter::ellipsis( $old, CHANGE_LIMIT );
     $new = Foswiki::Configure::Reporter::ellipsis( $new, CHANGE_LIMIT );
 
-    # Encode vertcal bars, so that the TML table isn't corrupted.
+    # Encode vertical bars, so that the TML table isn't corrupted.
     $old =~ s/\|/&#124;/g;
     $new =~ s/\|/&#124;/g;
 
-    if ($reporter) {
-        $reporter->NOTE("| $keypath | $old | $new |");
+    if ($report) {
+        push( @$report, "| $keypath | $old | $new |" );
     }
 }
 

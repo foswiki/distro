@@ -559,10 +559,11 @@ sub protectKey {
 
 =begin TML
 
----++ StaticMethod addSpecDefaultsToCfg($spec, \%cfg)
+---++ StaticMethod addSpecDefaultsToCfg($spec, \%cfg, \%added)
 
    * =$spec= - ref to a Foswiki::Configure::Item
    * =\%cfg= ref to a cfg hash e.g. Foswiki::cfg
+   * =\%added= (optional) ref to a hash to receive keys that were added
 
 For each key in the $spec missing from the %cfg passed, add the
 default (unexpanded) from the spec to the %cfg, if it exists.
@@ -570,7 +571,7 @@ default (unexpanded) from the spec to the %cfg, if it exists.
 =cut
 
 sub addSpecDefaultsToCfg {
-    my ( $spec, $cfg ) = @_;
+    my ( $spec, $cfg, $added ) = @_;
 
     if ( $spec->{children} ) {
         foreach my $child ( @{ $spec->{children} } ) {
@@ -586,6 +587,7 @@ sub addSpecDefaultsToCfg {
             print STDERR "Defaulting $spec->{keys}\n" if TRACE;
             my $value = eval( $spec->{default} );
             eval("\$cfg->$spec->{keys}=$spec->{default}");
+            $added->{ $spec->{keys} } = $spec->{default} if $added;
         }
     }
 }

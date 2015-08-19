@@ -25,12 +25,16 @@ sub check_current_value {
     my $key  = $2;
     my $mod  = $Foswiki::cfg{Plugins}{$plug}{Module};
 
+    # Don't check it if it's not enabled
+    return unless $Foswiki::cfg{Plugins}{$plug}{Enabled};
+
     unless ($mod) {
-        $reporter->WARN("$plug has no {Plugins}{$plug}{Module}");
+        $reporter->ERROR(
+"$plug has no {Plugins}{$plug}{Module}. It has been reset to the default value - this change must be saved."
+        );
+        $reporter->hint( 'reset_may_repair', 1 );
         return;
     }
-
-    return unless $Foswiki::cfg{Plugins}{$plug}{Enabled};
 
     my @plugpath = split( '::', $mod );
     my $enabled  = shift @plugpath;

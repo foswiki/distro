@@ -61,10 +61,16 @@ sub check_current_value {
         );
     }
 
-    if ( $Foswiki::pluginModuleInconsistencies
-        || Foswiki::Configure::Load::specChanged() )
-    {
-        $reporter->WARN("Merge of extension settings recommended.");
+    if ($Foswiki::pluginModuleInconsistencies) {
+        $reporter->WARN(
+"Plugin module inconsistencies detected - merge of extension settings recommended."
+        );
+    }
+
+    foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
+        $reporter->WARN(
+"The Config.spec for $ext is more recent than the latest configuration. 'merge extension settings' is required."
+        );
     }
 }
 
