@@ -97,7 +97,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # You may need to set this if your webserver requires an extension.
 #$Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH LABEL="Script Url Path for View" CHECK='undefok emptyok notrail' FEEDBACK="label='Verify';wizard='ScriptHash';method='verify';auth=1" **
+# **URLPATH LABEL="Script Url Path for View" CHECK='undefok emptyok notrail' FEEDBACK="icon='ui-icon-check';label='Verify';wizard='ScriptHash';method='verify';auth=1" **
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script,
 # including any suffix.
@@ -132,38 +132,38 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # ---++ File System Paths
 # Configure the file system locations of key Foswiki directories here.  These are usually guessed 
 # correctly during bootstrap. Other file locations are configured within their related sections.
-# **PATH LABEL="Script Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# **PATH LABEL="Script Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **PATH LABEL="Pub Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
+# **PATH LABEL="Pub Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH LABEL="Data Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
+# **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH LABEL="Tools Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Tools Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH LABEL="Template Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Template Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH LABEL="Locales Directory" FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Locales Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH LABEL="Working Directory" ONSAVE FEEDBACK="label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
+# **PATH LABEL="Working Directory" ONSAVE FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -1749,10 +1749,10 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **EMAILADDRESS 30 LABEL="Webmaster Email"\
-#         FEEDBACK="label='Auto-configure Email';\
+#         FEEDBACK="icon='ui-icon-mail-open  ';\
 #                   title='Long running: Probes the possible email servers to find most secure connection';\
 #                   wizard='AutoConfigureEmail'; method='autoconfigure'"\
-#         FEEDBACK="label='Send Test Email';wizard='SendTestEmail'; method='send'"**
+#         FEEDBACK="icon='ui-icon-mail-closed';label='Send Test Email';wizard='SendTestEmail'; method='send'"**
 # Wiki administrator (webmaster) e-mail address, used as the sender address
 # in emails sent by Foswiki. For example =webmaster@example.com=
 # Must be a single valid email address.
@@ -1762,7 +1762,7 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 $Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30 LABEL="SMTP Host"\
-#         FEEDBACK="label='Auto-configure Email';\
+#         FEEDBACK="icon='ui-icon-mail-closed';label='Auto-configure Email';\
 #                   title='Long running: Probes the possible email servers to find most secure connection';\
 #                   wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Optional mail host for outgoing mail, required if Net::SMTP is being used.
@@ -1788,7 +1788,7 @@ $Foswiki::cfg{SMTP}{MAILHOST} = '';
 $Foswiki::cfg{SMTP}{Username} = '';
 
 # **PASSWORD 30 LABEL="SMTP Password" DISPLAY_IF="{SMTP}{MAILHOST}!=''"\
-#         FEEDBACK="label='Auto-configure Email';\
+#         FEEDBACK="icon='ui-icon-mail-closed';label='Auto-configure Email';\
 #                   title='Long running: Probes the possible email servers to find most secure connection';\
 #                   wizard='AutoConfigureEmail'; method='autoconfigure'"**
 # Password for your {SMTP}{Username}.
@@ -1862,7 +1862,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
 # **PATH EXPERT LABEL="Certificate Authorities Filename" \
-#               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
+#               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
@@ -1872,7 +1872,7 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 $Foswiki::cfg{Email}{SSLCaFile} = '';
 
 # **PATH LABEL="Certificate Authorities Directory" EXPERT \
-#               FEEDBACK="label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
+#               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
 #               that the contents look like certificates/and/or CRLs"' \
@@ -1967,17 +1967,17 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # section must be completed for CSR's to work correctly.
 #
 # **BOOLEAN LABEL="Enabe S/MIME"\
-#   FEEDBACK="label='Generate S/MIME Certificate';span=2; \
+#   FEEDBACK="icon='ui-icon-play';label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
 #                    This allows immediate use of signed email.'; \
 #             wizard='SMIMECertificate'; method='generate_cert'"\
-#   FEEDBACK="label='Generate S/MIME CSR';col=1;\
+#   FEEDBACK="icon='ui-icon-play';label='Generate S/MIME CSR';col=1;\
 #             title='Generate a Certificate Signing Request for the \
 #                    WebMaster. This request must be signed by a \
 #                    Certificate Authority to create a certificate, \
 #                    then installed.';\
 #             wizard='SMIMECertificate'; method='request_cert'"\
-#   FEEDBACK="label='Cancel CSR';\
+#   FEEDBACK="icon='ui-icon-closethick';label='Cancel CSR';\
 #             title='Cancel a pending Certificate Signing request. \
 #                    This destroys the private key associated with \
 #                    the request.';\
@@ -2379,10 +2379,10 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePl
 
 #---+++ Install, Update or Remove extensions
 # **STRING 80 LABEL="Extensions Repositories"\
-#          FEEDBACK="label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"\
-#          FEEDBACK="label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'"\
-#          FEEDBACK="label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"\
-#          FEEDBACK="label='Merge extension settings';wizard='Plugins'; method='merge'"**
+#          FEEDBACK="icon='ui-icon-arrowrefresh-1-n';label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"\
+#          FEEDBACK="icon='ui-icon-search';label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'"\
+#          FEEDBACK="icon='ui-icon-star';label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"\
+#          FEEDBACK="icon='ui-icon-arrowthickstop-1-n';label='Import extension settings';wizard='Plugins'; method='merge'"**
 # Extensions Repositories Search List.
 # Foswiki extension repositories are just Foswiki webs that are organised in the
 # same way as the Extensions web on Foswiki.org. The 'Search for extensions'

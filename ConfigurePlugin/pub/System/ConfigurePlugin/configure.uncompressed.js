@@ -555,6 +555,10 @@ function _id_ify(id) {
             if (fb.title) {
                 $button.attr('title', fb.title);
             }
+            var icon = fb.icon;
+            if (!icon) {
+                icon = "ui-icon-pencil";
+            }
             $button.click(function() {
                 if (fb.auth == 1) {
                     auth_action = function() {
@@ -570,7 +574,7 @@ function _id_ify(id) {
                 }
             }).button({
               icons: {
-                  primary: "ui-icon-lightbulb"
+                  primary: icon
               }
             });
             $node.find(".button_box").append($button);
