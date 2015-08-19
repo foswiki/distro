@@ -75,7 +75,8 @@ sub verify {
         if ( !defined $Foswiki::cfg{Plugins}{$pluginName}{Module} ) {
             $changes++;
             if ($repair) {
-                _setEnable( $spec, $reporter, $pluginName, 0 );
+                _setEnable( $spec, $reporter, $pluginName,
+                    $Foswiki::cfg{Plugins}{$pluginName}{Enabled} );
                 _setModule( $spec, $reporter, $pluginName,
                     "Foswiki::Plugins::$pluginName" );
             }
