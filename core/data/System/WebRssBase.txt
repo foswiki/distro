@@ -1,14 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1440080166" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ RSS News Feeds
+%JQREQUIRE{"chili"}%
 
 ---++ Find out What's New
 
 There are several ways to find out what's new in each web:
-   1. Visit WebChanges to see recent changes
-   1. Subscribe in WebNotify to get notified of recent changes by e-mail
+   1. Visit [[WebChanges]] to see recent changes
+   1. Subscribe in [[WebNotify]] to get notified of recent changes by e-mail
    1. Use a news reader such as Foswiki:Extensions/HeadlinesPlugin to display the recent changes
-      * The source can be an RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
+      * The source can be an RSS 1.0 feed ([[WebRss]]) or ATOM 1.0 feed ([[WebAtom]])
 
 ---++ RSS Feed Usage
 
@@ -18,9 +19,9 @@ There are several ways to find out what's new in each web:
 
 ---++ RSS Feed Internals
 
-Each web has a WebRss topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the RSS feed and generates an RSS 1.0 feed.
+Each web has a [[WebRss]] topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the RSS feed and generates an RSS 1.0 feed.
 
-The WebRss topic in each web contains the following text:
+The [[WebRss]] topic in each web contains the following text:
 
 -----
 <pre>
@@ -40,7 +41,7 @@ The part below is included by each <nop>WebRss topic:
 
 
 -----
-<verbatim>
+<verbatim class="tml">
 %STARTINCLUDE%<image rdf:resource="%WIKILOGOIMG%" />
   <dc:language>en-us</dc:language>
   <dc:rights>%WEBRSSCOPYRIGHT%</dc:rights>
@@ -50,19 +51,18 @@ The part below is included by each <nop>WebRss topic:
   <items>
     <rdf:Seq>
 %SEARCH{
-  "%URLPARAM{"search" 
-  encode="quote" default=".*" }%" 
-  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%" 
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%" 
-  type="%URLPARAM{"type" encode="quote" default="regex" }%" 
-  nosearch="on" 
-  order="modified" 
-  reverse="on" 
-  nototal="on" 
-  limit="%URLPARAM{"limit" encode="quote" default="16" }%" 
-  scope="%URLPARAM{"scope" encode="quote" default="text" }%" 
-  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%" 
-  date="%URLPARAM{"date" encode="quote" default="" }%" 
+  "%URLPARAM{"search" encode="quote" default=".*" }%"
+  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  nosearch="on"
+  order="modified"
+  reverse="on"
+  nototal="on"
+  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
+  date="%URLPARAM{"date" encode="quote" default="" }%"
   format="      <rdf:li rdf:resource=\"%SCRIPTURL{"view"}%/$web/$topic\" />"
  }%
     </rdf:Seq>
@@ -74,22 +74,22 @@ The part below is included by each <nop>WebRss topic:
   <url>%WIKILOGOIMG%</url>
 </image>
 %SEARCH{
-  "%URLPARAM{"search" encode="quote" default=".*" }%" 
-  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%" 
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%" 
-  type="%URLPARAM{"type" encode="quote" default="regex" }%" 
-  nosearch="on" 
-  order="modified" 
-  reverse="on" 
-  nototal="on" 
-  limit="%URLPARAM{"limit" encode="quote" default="16" }%" 
-  scope="%URLPARAM{"scope" encode="quote" default="text" }%" 
-  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%" 
-  date="%URLPARAM{"date" encode="quote" default="" }%" 
+  "%URLPARAM{"search" encode="quote" default=".*" }%"
+  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  nosearch="on"
+  order="modified"
+  reverse="on"
+  nototal="on"
+  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
+  date="%URLPARAM{"date" encode="quote" default="" }%"
   format="<item rdf:about=\"%SCRIPTURL{"view"}%/$web/$topic\">$n  <title>$topic</title>$n  <link>%SCRIPTURL{"view"}%/$web/$topic</link>$n  <description>$summary (last changed by <nop>$wikiname)</description>$n  <dc:date>$isodate</dc:date>$n  <dc:contributor>$n    <rdf:Description link=\"%SCRIPTURL{"view"}%?topic=$wikiusername\">$n      <rdf:value>$username</rdf:value>$n    </rdf:Description>$n  </dc:contributor>$n</item>"
 }%
 %STOPINCLUDE%
 </verbatim>
 -----
 
-*See also*: WebAtomBase
+*See also*: [[WebAtomBase]]
