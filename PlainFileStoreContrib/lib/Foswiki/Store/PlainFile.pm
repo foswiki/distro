@@ -1428,12 +1428,7 @@ sub _moveFile {
     _mkPathTo($to);
     my $ok;
     my $efrom = _encode($from);
-    if ( -d $efrom ) {
-        $ok = File::Copy::Recursive::dirmove( $efrom, _encode($to) );
-    }
-    elsif ( -e $efrom ) {
-        $ok = File::Copy::move( $efrom, _encode($to) );
-    }
+    $ok = File::Copy::Recursive::rmove( $efrom, _encode($to) );
     $ok or die "PlainFile: move $from to $to failed: $!";
 }
 
