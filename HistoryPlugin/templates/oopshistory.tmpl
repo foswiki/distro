@@ -21,23 +21,10 @@ This version is tested with Foswiki in IE6, IE7 and FF3.
 %TMPL:DEF{"diffbin_compare"}%compare%TMPL:END%
 
 
-%TMPL:DEF{"historytable"}%%TMPL:P{context="RevCommentPluginEnabled" then="historytable_rcp_enabled" else="historytable_rcp_disabled"}%%TMPL:END%
-
-
-%TMPL:DEF{"historytable_rcp_enabled"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
-<tr>
-<th colspan="3">%MAKETEXT{"Revision"}%</th>
-<th>%MAKETEXT{"Changed on"}%</th>
-<th>%MAKETEXT{"Last edited by"}%</th>
-<th>%MAKETEXT{"Comment"}%</th>
-</tr>
-%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td><td><div class="historyRevComment">%REVCOMMENT[$rev]%</div></td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
-
-
 %TMPL:DEF{"historytable:navigation"}%$next{'%MAKETEXT{"Jump to latest revision ([_1])" args="%HISTORY_MAXREV%"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"View later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"View earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"Jump to first revision"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}"}%%TMPL:END%
 
 
-%TMPL:DEF{"historytable_rcp_disabled"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
+%TMPL:DEF{"historytable"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
 <tr>
 <th colspan="3">%MAKETEXT{"Revision"}%</th>
 <th>%MAKETEXT{"Changed on"}%</th>
@@ -59,15 +46,6 @@ table.historySelectTable th {
 	background:#fff;
 	padding-left:.7em;
 	padding-right:.7em;
-}
-.historyRevComment ul {
-	list-style:none;
-	padding:0;
-	margin:0 0 0 1em;
-}
-.historyRevComment li {
-	padding:0;
-	margin:0;
 }
 table.foswikiDiffOptions {
 	margin:.5em 0;

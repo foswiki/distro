@@ -89,12 +89,6 @@
   container=".natEditHelp"
 }%%TMPL:P{"edithelp"}%%ENDTAB%%TMPL:END%
 
-%TMPL:DEF{"revCommentPluginOptions"}%%IF{ 
-  "context RevCommentPluginEnabled" 
-  then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiEditComment foswikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" 
-  else=""
-}%%TMPL:END%
-
 %TMPL:DEF{"selectedtab"}%%URLPARAM{"selectedtab"}%%TMPL:END%
 
 %TMPL:DEF{"permissionstab"}%%TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%

@@ -18,8 +18,6 @@
 <form name="main" id="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
 
 
-%TMPL:DEF{"revCommentPluginOptions"}%<hr /><div class='foswikiFormStep revComment'><label for='comment'>Summary of changes</label> <input class='foswikiInputField' type='text' style='width:50%' name='comment' id='comment' /> %POPUPWINDOW{"%SYSTEMWEB%.RevComment" label="%MAKETEXT{"help"}%"}%</div>%TMPL:END%
-
 %TMPL:DEF{"forcerevisioncheckbox"}%<div class="foswikiFormStep"><input type="checkbox" class="foswikiCheckbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %IF{"'%URLPARAM{"forcenewrevision" default="%FORCENEWREVISIONCHECKBOX%"}%'=~'1|on|yes|checked'" then="checked"}% /><label for="forcenewrevision">%MAKETEXT{"Force new revision"}%</label> %POPUPWINDOW{"%SYSTEMWEB%.ForceNewRevision" label="%MAKETEXT{"help"}%"}%</div>%TMPL:END%
 
 
@@ -37,7 +35,7 @@
 %TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% />%TMPL:END%
 
 
-%TMPL:DEF{"topicinfo"}%%TMPL:P{context="RevCommentPluginEnabled" then="revCommentPluginOptions"}%<hr /><div class="patternTopicActions foswikiFormStep clear"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%</div></div>%TMPL:P{"forcerevisioncheckbox"}%%TMPL:END%
+%TMPL:DEF{"topicinfo"}%<hr /><div class="patternTopicActions foswikiFormStep clear"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%</div></div>%TMPL:P{"forcerevisioncheckbox"}%%TMPL:END%
 
 
 %TMPL:DEF{"textarea"}%%IF{"{Validation}{Method}='strikeone'" then="<noscript>$percentTMPL:P{enable_js}$percent</noscript>"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
