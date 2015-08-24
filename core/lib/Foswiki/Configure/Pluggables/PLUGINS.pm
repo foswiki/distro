@@ -80,7 +80,9 @@ sub construct {
                 CHECKER => 'PLUGIN_MODULE',
                 LABEL   => "$plugin Module",
                 keys    => "{Plugins}{$plugin}{Module}",
-                opts => 'CHECK="undefok"',    # Undef when extension is removed.
+
+                # Note: as tempting as it may seem, DO NOT set
+                # undefok. Otherwise hints will be invisible.
                 default => "$modules{$plugin}",
                 EXPERT  => 1
             )
