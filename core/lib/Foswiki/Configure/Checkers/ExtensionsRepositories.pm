@@ -62,8 +62,9 @@ sub check_current_value {
     }
 
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
+        my $specfile = ( $ext eq 'the core' ) ? 'Foswiki.spec' : 'Config.spec';
         $reporter->WARN(
-"The Config.spec for $ext is more recent than the latest configuration. click 'Import extension settings' to merge in any new settings."
+"The $specfile for $ext is more recent than the latest configuration. 'save of extension settings' is required."
         );
     }
 }
