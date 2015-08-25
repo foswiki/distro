@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-22 06:57+0200\n"
+"PO-Revision-Date: 2015-08-25 18:27+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,22 +25,22 @@ msgstr "!NomeWiki"
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
 msgid "%*(%1,day) "
-msgstr "%*(%1,giorno) "
+msgstr "%*(%1,giorno,giorni) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:444
 msgid "%*(%1,hour) "
-msgstr "%*(%1,ora) "
+msgstr "%*(%1,ora,ore) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:447
 msgid "%*(%1,minute) "
-msgstr "%*(%1,minuto) "
+msgstr "%*(%1,minuto,minuti) "
 
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:450
 msgid "%*(%1,second) "
-msgstr "%*(%1,secondo) "
+msgstr "%*(%1,secondo,secondi) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
@@ -1622,7 +1622,7 @@ msgstr "Modifica"
 
 #: core/data/System/VarMAKETEXT.txt:42
 msgid "Edit %*(%1,file)"
-msgstr "Modifica %*(%1,file)"
+msgstr "Modifica %*(%1,file,file)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
