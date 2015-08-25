@@ -72,6 +72,8 @@ sub check_current_value {
 sub validate_permissions {
     my ( $this, $reporter ) = @_;
 
+    use filetest 'access';
+
     my $path = eval("\$Foswiki::cfg$this->{item}->{keys}");
 
     my $fileCount   = 0;

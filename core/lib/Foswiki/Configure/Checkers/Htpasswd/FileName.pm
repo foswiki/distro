@@ -10,6 +10,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    use filetest 'access';
+
     #NOTE:  If there are any other PasswordManagers that require .htpasswd,
     #       they should be added to this list.
     return

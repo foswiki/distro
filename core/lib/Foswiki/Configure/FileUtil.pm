@@ -208,6 +208,8 @@ Returns a message if the check fails or undef if the check passed.
 sub checkCanCreateFile {
     my ($name) = @_;
 
+    use filetest 'access';
+
     if ( -e $name ) {
 
         # if the file exists just check perms and return
@@ -446,6 +448,8 @@ sub checkTreePerms {
 sub _buildRWXMessageString {
     my ( $perms, $path ) = @_;
     my $message = '';
+
+    use filetest 'access';
 
     if ( $perms =~ m/r/ && !-r $path ) {
         $message .= ' not readable';

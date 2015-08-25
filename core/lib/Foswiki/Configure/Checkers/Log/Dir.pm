@@ -12,6 +12,8 @@ use Foswiki::Configure::Load ();
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    use filetest 'access';
+
     unless ( $Foswiki::cfg{Log}{Dir} ) {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
     }
