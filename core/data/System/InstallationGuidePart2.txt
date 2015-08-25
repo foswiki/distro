@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1439434052" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1440462484" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -192,10 +192,9 @@ Extensions can be installed using any of several different methods:
       * Or by manually expanding the archive into the installation.
 To update an extension, simply re-run the installer. If prompted, tell it to download fresh copies from the repository.
 
-<div class='foswikiHelp'>%X% If the extensions installer is not run, (for example, installing using unzip, or a git clone), you must run the Plugins
-merge wizard and save the configuration.
-   * From the configure web interface, a warning message should be generated under Extensions tab,  click the =Merge extension settings= button.
-   * From the CLI, run =tools/configure -wizard Plugins -method merge -save=
+<div class='foswikiHelp'>%X% If the extensions installer is not run, (for example, installing using unzip, debian/RPM packages or git clone), you must run the =Plugins= wizard to import and save the new configuration settings.
+   * From the configure web interface, a warning message should be generated under Extensions tab,  click the =Import extension settings= button.
+   * *or* from the CLI, run =tools/configure -wizard Plugins -save=
 </div>
 
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.

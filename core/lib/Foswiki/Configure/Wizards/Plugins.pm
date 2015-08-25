@@ -14,33 +14,18 @@ use warnings;
 
 use Assert;
 
-use JSON ();
-
-use Foswiki::Configure::Dependency ();
-use Foswiki::Configure::Load       ();
+use Foswiki::Configure::Load ();
 
 require Foswiki::Configure::Wizard;
 our @ISA = ('Foswiki::Configure::Wizard');
 
 =begin TML
 
----++ WIZARD merge
+---++ WIZARD import
 
 Called when a module may have been installed outside the scope of
 =configure. In this case, we need to both verify *and* repair the
-configuration as necessary to include the new module's Config.spec
-
-=cut
-
-sub merge {
-    return verify( @_, 1 );
-}
-
-=begin TML
-
----++ WIZARD verify
-
-Verify the plugin module configuration:
+configuration as necessary to import the new module's Config.spec
    * All plugins found on path are defined in the configuration
    * No duplicate modules are found in the @INC path
    * All plugins defined in the configuration exist on the path.
@@ -48,11 +33,11 @@ Verify the plugin module configuration:
 =cut
 
 sub check_current_value {
-    goto &verify;
+    goto &import;
 }
 
-sub verify {
-    my ( $this, $reporter, $spec, $repair ) = @_;
+sub import {
+    my ( $this, $reporter, $spec ) = @_;
 
     my $changes = 0;    # Set if repair applicable.
 
@@ -86,12 +71,8 @@ sub verify {
 
         if ( !defined $Foswiki::cfg{Plugins}{$pluginName}{Module} ) {
             $changes++;
-            if ($repair) {
-                _setEnable( $spec, $reporter, $pluginName,
-                    $Foswiki::cfg{Plugins}{$pluginName}{Enabled} );
-                _setModule( $spec, $reporter, $pluginName,
-                    "Foswiki::Plugins::$pluginName" );
-            }
+            _setModule( $spec, $reporter, $pluginName,
+                "Foswiki::Plugins::$pluginName" );
         }
 
         # only add the first instance of any plugin, as only
@@ -109,12 +90,13 @@ sub verify {
         my $module = $Foswiki::cfg{Plugins}{$pluginName}{Module} || 'undefined';
         if ( $Foswiki::cfg{Plugins}{$pluginName}{Enabled} ) {
             $reporter->WARN(" - Module $module is Enabled.");
+            _setEnable( $spec, $reporter, $pluginName, 0 );
+            $changes++;
         }
-        $changes++;
-        if ($repair) {
-            _setEnable( $spec, $reporter, $pluginName );
-            _setModule( $spec, $reporter, $pluginName );
-        }
+
+        #$changes++;
+        # SMELL: Cannot undef / delete the Module.  Save will abort.
+        #_setModule( $spec, $reporter, $pluginName );
     }
 
     # SMELL:  The Pluggables::Plugins function will auto-define
@@ -133,22 +115,21 @@ sub verify {
 "Plugin $pluginName - Module detected $pluginModule is not configured."
         );
         $changes++;
-        if ($repair) {
-            _setEnable( $spec, $reporter, $pluginName, 0 );
-            _setModule( $spec, $reporter, $pluginName, $pluginModule );
-        }
+        _setModule( $spec, $reporter, $pluginName, $pluginModule );
     }
 
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
         $reporter->WARN(
-"The Config.spec for $ext is more recent than the latest configuration. 'merge extension settings' is required."
+"The Config.spec for $ext is more recent than the latest configuration. 'save of extension settings' is required."
         );
         $changes++;
     }
 
     if ($changes) {
         $reporter->WARN("Configuration changes are required.");
-        $reporter->hint( "require_save", 1 ) if ($repair);
+        $reporter->NOTE(
+            "You should save your settings after running this wizard.");
+        $reporter->hint( "require_save", 1 );
     }
     else {
         $reporter->NOTE("No changes to the configuration needed.");
@@ -223,7 +204,7 @@ sub _setModule {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

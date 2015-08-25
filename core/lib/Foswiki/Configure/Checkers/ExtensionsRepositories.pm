@@ -61,15 +61,9 @@ sub check_current_value {
         );
     }
 
-    if ($Foswiki::pluginModuleInconsistencies) {
-        $reporter->WARN(
-"Plugin module inconsistencies detected - merge of extension settings recommended."
-        );
-    }
-
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
         $reporter->WARN(
-"The Config.spec for $ext is more recent than the latest configuration. 'merge extension settings' is required."
+"The Config.spec for $ext is more recent than the latest configuration. click 'Import extension settings' to merge in any new settings."
         );
     }
 }
@@ -80,7 +74,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2012-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2012-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

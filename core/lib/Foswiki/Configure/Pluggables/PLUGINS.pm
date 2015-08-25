@@ -55,13 +55,6 @@ sub construct {
         # ignore EmptyPlugin
         next if ( $plugin eq 'EmptyPlugin' );
 
-# Flag to the checkers that a merge is recommended if Module definition is missing.
-        unless ( ref( $Foswiki::cfg{Plugins}{$plugin} )
-            && exists $Foswiki::cfg{Plugins}{$plugin}{Module} )
-        {
-            $Foswiki::pluginModuleInconsistencies = 1;
-        }
-
         # Plugin is already configured,  add keys to spec
         push(
             @$settings,

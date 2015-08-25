@@ -2382,7 +2382,7 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePl
 #          FEEDBACK="icon='ui-icon-arrowrefresh-1-n';label='Review installed extensions';wizard='ExploreExtensions';method='get_installed_extensions'"\
 #          FEEDBACK="icon='ui-icon-search';label='Search for extension';wizard='ExploreExtensions';method='find_extension_1'"\
 #          FEEDBACK="icon='ui-icon-star';label='All available extensions';wizard='ExploreExtensions';method='get_other_extensions'"\
-#          FEEDBACK="icon='ui-icon-arrowthickstop-1-n';label='Import extension settings';wizard='Plugins'; method='merge'"**
+#          FEEDBACK="icon='ui-icon-arrowthickstop-1-n';label='Import extension settings';wizard='Plugins'; method='import'"**
 # Extensions Repositories Search List.
 # Foswiki extension repositories are just Foswiki webs that are organised in the
 # same way as the Extensions web on Foswiki.org. The 'Search for extensions'
