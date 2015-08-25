@@ -356,6 +356,7 @@ sub test_compare_extension_versions {
     # and the fifth value is the version/release to compare.
     my @comparisons = (
 
+        #[ R IR IV ? RV ]
         # Plain integer versions
         [ 1, 2, undef, '<',  10 ],
         [ 1, 2, undef, '<=', 10 ],
@@ -597,6 +598,26 @@ sub test_compare_extension_versions {
         # Mmmmmm yyyy - not supported, always false
         [ 0, 'November 2007', undef, '<', '1.2.3' ],
         [ 0, 'November 2007', undef, '>', '1.2.3' ],
+
+        #[ R IR IV ? RV ]
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', '6156 (2010-01-27)' ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', ' 6156 (2010-01-27) ' ],
+        [ 1, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', ' 6152 (2010-01-27) ' ],
+        [
+            0, '$Rev: 6156 (2010-01-27) $',
+            '1.9.1', '>', '  $Rev: 6156 (2010-01-27) $ '
+        ],
+        [
+            1, '$Rev: 6156 (2010-01-27) $',
+            '1.9.1', '>', '  $Rev: 6152 (2010-01-27) $ '
+        ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '<', ' 6152 (2010-01-27) ' ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '<', '6152' ],
+        [ 1, '$Rev: 6156 (2010-01-27) $', '1.9.1', '<', '6157' ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', ' 1.9.2 ' ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', '1.9.2' ],
+        [ 1, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', '1.9.0' ],
+        [ 0, '$Rev: 6156 (2010-01-27) $', '1.9.1', '>', '6156 (2010-01-27)' ],
     );
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
@@ -682,6 +703,13 @@ sub test_compare_cpan_versions {
         [ 1, ' 2',  '=', ' 2 ' ],
         [ 1, '2 ',  '=', ' 2 ' ],
         [ 1, ' 2 ', '=', ' 2 ' ],
+
+        # SVN-style revision numbers should be treated like integers
+        [ 1, '$Rev: 2 $', '<',  10 ],    #42
+        [ 1, '$Rev: 2 $', '<=', 10 ],
+        [ 0, '$Rev: 2 $', '>',  10 ],
+        [ 0, '$Rev: 2 $', '>=', 10 ],
+        [ 0, '$Rev: 2 $', '=',  10 ],
 
         # SVN-style revision numbers should be treated like integers
         [ 1, '$Rev: 2 $', '<',  10 ],    #42

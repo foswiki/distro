@@ -479,7 +479,7 @@ sub _compare_extension_versions {
           _decodeReleaseString($aVERSION);    # if defined $aVERSION;
     }
 
-    #print STDERR "VERSION decoded to $baseType\n" if ($baseType);
+    #print STDERR "VERSION $aVERSION  decoded to $baseType\n" if ($baseType);
     unless ( defined $aVERSION ) {
         if ( defined $aRELEASE ) {
 
@@ -487,9 +487,10 @@ sub _compare_extension_versions {
             ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
         }
     }
-    if ( $baseType eq 'svn' ) {
-        unless ( $reqType eq 'svn' ) {
+    if ( $reqType eq 'svn' ) {
+        unless ( $baseType eq 'svn' ) {
 
+            #print STDERR "Try a different comparison\n";
             # Inconsistent VERSION, so try RELEASE
             if ( defined $aRELEASE ) {
 
@@ -598,6 +599,8 @@ sub _compare_extension_versions {
 sub _decodeReleaseString {
 
     my ($rel) = @_;
+
+    #print STDERR "_decodeReleaseString called with ($rel)\n";
     my $form;
     my @tuple;
 
@@ -626,31 +629,44 @@ sub _decodeReleaseString {
     elsif ( $rel =~ m/^r([0-9]{1,6})$/ ) {
 
         # svn rev, a 1-6 digit number prefixed by 'r'
+        #print STDERR "matching a svn r VERSION\n";
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ m/^\$Rev: (\d+)\s*\(.*\)$/ ) {
+
+        # $Rev: 1234 (7 Aug 2009)
+        # $Rev: 1234 (2009-08-07)
+        #print STDERR "matching a svn \$Rev:  VERSION\n";
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ m/^(\d+)\s*\(.*\)$/ ) {
+
+        # 1234 (7 Aug 2009)
+        # 1234 (2009-08-07)
+        #print STDERR "matching a svn nnnn (date)  VERSION\n";
         @tuple = ($1);
         $form  = 'svn';
     }
     elsif ( $rel =~ m/^V?(\d+([-_.]\d+)*).*?$/i ) {
 
      # tuple e.g. 1.23.4   Note that a simple tuple could also be a low SVN rev.
+     #print STDERR "matching a tuple with optional V prefix\n";
         @tuple = split( /[-_.]/, $1 );
         $form = 'tuple';
-    }
-    elsif ( $rel =~ m/^\$Rev: (\d+)\s*\(.*\)$/ ) {
-
-        # 1234 (7 Aug 2009)
-        # 1234 (2009-08-07)
-        @tuple = ($1);
-        $form  = 'svn';
     }
     elsif ( $rel =~ m/^\$Rev: (\d+).*\$$/ ) {
 
         # $Rev: 1234$
+        # print STDERR "matching a \$Rev: nnn\$ svn\n";
         @tuple = ($1);
         $form  = 'svn';
     }
     elsif ( $rel =~ m/^\$Rev:?\s*\$.*$/ ) {
 
         # $Rev$
+        #print STDERR "matching a \$Rev: \$ undefined svn revision\n";
         @tuple = ($MAXINT);
         $form  = 'svn';
     }
@@ -661,6 +677,8 @@ sub _decodeReleaseString {
         $form  = 'tuple';
     }
     elsif ( $rel =~ m/^Foswiki-(\d+([-_.]\d+)*).*?$/i ) {
+
+        #print STDERR "matching a Foswiki- version string\n";
         @tuple = split( /[-_.]/, $1 );
         $form = 'tuple';
     }
