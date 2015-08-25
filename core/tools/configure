@@ -584,19 +584,13 @@ only check a single key when a method is specified.
 will call check_current_value() for all keys under the Extensions section.
 Verbose reporting will be used.
 
- $ configure -wizard GuessSSLCaLocations -save
+ $ configure -wizard SendTestEmail -method send
 
-will call execute() from Foswiki::Configure::Wizards::GuessSSLCaLocations
-and save the resulting Foswiki::cfg.
+will send a test message to the {WebMasterEmail} address.  Email does not need to be enabled.
 
- $ configure -wizard Email -method send_test_email
+ $ configure -set {ScriptSuffix}="" -set {UsersWebName}="Users" -save
 
-will call send_test_email() from Foswiki::Configure::Wizards::Email
-and report the results.
-
- $ configure -set {ScriptSuffix}="'.pl'" -set {MainWebName}="'Users'" -save
-
-will set the values of {ScriptSuffix} and {MainWebName} and save a new
+will set the values of {ScriptSuffix} and {UsersWebName} and save a new
 configuration.
 
 =head2 NOTES
@@ -608,3 +602,104 @@ run the command with the perl -CA option.
 
 will cause perl to treat the command line options as utf-8 strings and correctly
 encode international characters.
+
+=head1 WIZARDS
+
+The following wizards are shipped with the Foswiki distribution:
+
+=over 2
+
+=item B<AutoConfigureEmail>
+
+Implements method B<autoconfigure>.
+
+Probes the email servers to determine the protocols and methods implemented by the server and set the required configuration.
+Use with the B<-save> option to save changes discovered by AutoConfigure. 
+
+ * {WebMasterEmail} must always be set.
+
+If direct connection to an email server using SMTP is required, the following settings are also needed.
+
+ * {SMTP}{MAILHOST} must be set to the server name.
+
+ * {SMPT}{Username} and {SMTP}{Password} are required if the server will require authentication.
+
+Example:  Configure a gmail connection, but don't save the changes:
+
+ $ configure -set {WebMasterEmail}='someuser@gmail.com' -set {SMTP}{MAILHOST}='smtp.gmail.com' -set {SMTP}{Username}='someuser@gmail.com' -set {SMTP}{Password}='mypassword' -wizard AutoConfigureEmail -method autoconfigure
+
+=item B<ExploreExtensions>
+Needs documentation
+
+=item B<InstallExtensions>
+
+Implements method B<add>, and method B<remove>
+
+Installs an extension into the system. Named arguments are used to pass parameters to the installer.
+
+=over 4
+
+=item -args B<ExtensionName>=RepositoryName
+
+Specifies the named extension that should be installed from the named repository (configured in {ExtensionsRepositories}
+Multiple extensions can be installed by repeating the -args option.
+
+=item -args B<USELOCAL>=0/1
+
+Set to 1 to use locally found extension archives, otherwise a fresh copy will be downloaded from the repository.
+
+=item -args B<SIMULATE>=0/1
+
+Set to 1 to simulate the installation. Nothing will be installed into the system.
+
+=item -args B<NODEPS>=0/1
+
+Set to 1 to bypass installing any other extensions that are listed of dependencies of the extension. (CPAN module dependencies are never installed).
+
+=item -args B<ENABLE>=0/1
+
+Set to 1 to enable the extension.
+
+=back
+
+Examples:
+
+ $ configure -wizard InstallExtensions -method add -args TreePlugin=Foswiki.org -args SIMULATE=1 -args ENABLE=1
+
+ $ configure -wizard InstallExtensions -method add -save -args TreePlugin=Foswiki.org -args USELOCAL=1 -args ENABLE=1
+
+=item B<Plugins>
+
+Implements method B<import>. (This is the default)
+
+Examines the Plugins and Extensions configuration.  Detects if a save is required to import new or changed .spec files.
+Sets any missing {Module} definitions.
+
+Example:  Import new settings after installation of an extension using unzip
+
+ $ configure -save -wizard Plugins
+
+=item B<SendTestEmail>
+
+Implements method B<send>. 
+
+Sends a test email to the {WebMasterEmail} address.  Requires email be configured. Used to test the email configuration before enabling email.
+
+Example:
+
+ $ configure -wizard SendTestEmail -method send
+
+=item B<SMIMECertificate>
+
+Needs documentation. 
+
+=item B<SSLCertificates>
+
+Needs documentation.
+
+=item B<StudyWebserver>
+
+Not currently operational
+
+=back 
+
