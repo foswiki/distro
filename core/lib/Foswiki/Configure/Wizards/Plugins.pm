@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Assert;
+use Foswiki;
 
 use Foswiki::Configure::Load ();
 
@@ -38,6 +39,18 @@ sub check_current_value {
 
 sub import {
     my ( $this, $reporter, $spec ) = @_;
+
+    my $enable;
+
+    my $args = $this->param('args');
+    while ( my ( $opt, $val ) = each %$args ) {
+        if ( $opt eq 'ENABLE' ) {
+            $enable = Foswiki::isTrue($val);
+            next;
+        }
+        $reporter->ERROR("Unknown parameter ($opt)");
+        return '';
+    }
 
     my $changes = 0;    # Set if repair applicable.
 
@@ -73,6 +86,12 @@ sub import {
             $changes++;
             _setModule( $spec, $reporter, $pluginName,
                 "Foswiki::Plugins::$pluginName" );
+        }
+        if (  !defined $Foswiki::cfg{Plugins}{$pluginName}{Enabled}
+            && defined $enable )
+        {
+            $changes++;
+            _setEnable( $spec, $reporter, $pluginName, $enable );
         }
 
         # only add the first instance of any plugin, as only
@@ -116,6 +135,8 @@ sub import {
         );
         $changes++;
         _setModule( $spec, $reporter, $pluginName, $pluginModule );
+        _setEnable( $spec, $reporter, $pluginName, $enable )
+          if ( defined $enable );
     }
 
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {

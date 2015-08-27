@@ -614,7 +614,7 @@ The following wizards are shipped with the Foswiki distribution:
 Implements method B<autoconfigure>.
 
 Probes the email servers to determine the protocols and methods implemented by the server and set the required configuration.
-Use with the B<-save> option to save changes discovered by AutoConfigure. 
+Use with the B<-save> option to save changes discovered by AutoConfigure.
 
  * {WebMasterEmail} must always be set.
 
@@ -673,15 +673,24 @@ Examples:
 Implements method B<import>. (This is the default)
 
 Examines the Plugins and Extensions configuration.  Detects if a save is required to import new or changed .spec files.
-Sets any missing {Module} definitions.
+Sets any missing {Module} definitions.  Named arguments are used to pass parameters to the installer.
 
-Example:  Import new settings after installation of an extension using unzip
+=over 4
 
- $ configure -save -wizard Plugins
+=item -args B<ENABLE>=0/1
+
+Set to 1 to enable the extension.  Note that if the C<{Plugins}{someplugin}{Enabled}> is already defined, it will not be changed.
+Unless this argument is provided to specify a default, the C<{Enabled}> setting will be left undefined.
+
+=back
+
+Example:  Import new settings after installation of an extension using unzip. Enable any discovered plugins.
+
+ $ configure -save -wizard Plugins -args ENABLE=1
 
 =item B<SendTestEmail>
 
-Implements method B<send>. 
+Implements method B<send>.
 
 Sends a test email to the {WebMasterEmail} address.  Requires email be configured. Used to test the email configuration before enabling email.
 
@@ -691,7 +700,7 @@ Example:
 
 =item B<SMIMECertificate>
 
-Needs documentation. 
+Needs documentation.
 
 =item B<SSLCertificates>
 
@@ -701,5 +710,5 @@ Needs documentation.
 
 Not currently operational
 
-=back 
+=back
 
