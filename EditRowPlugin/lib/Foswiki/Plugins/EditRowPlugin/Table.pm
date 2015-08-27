@@ -50,7 +50,7 @@ sub new {
     }
 
     # If there's no EDITTABLE tag, we just want a conventional table
-    return new Foswiki::Table($specs) unless $attrs;
+    return new Foswiki::Tables::Table($specs) unless $attrs;
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ( $attrs->{headerislabel} && !defined( $attrs->{headerrows} ) ) {
