@@ -51,8 +51,7 @@ to new_row as well.
 Close the currently open table.
 
 ---+++ =line($line)=
-Called for any line that is not part of a table and is not caught by
-an =early_line= event handler returning true.
+Called for any line that is not part of a table.
 
 ---+++ =open_tr($before)=
 Called on each row in an open table (including the header and footer rows)
@@ -81,18 +80,25 @@ An additional event is provided for those seeking to perform special
 processing of certain lines, including rewriting them.
 
 ---+++ =early_line($line) -> $integer=
-Mainly provided for handling lines other than TML content that may
+Provided for handling lines other than TML content that may
 interact with tables during a static parse e.g. special macros such
 as %EDITTABLE.
-The first result should be 0 to continue normal processing of the line,
-1 to skip further processing of this line.
+
+If early_line returns a positive result, then the parser will open a
+table on the next line, whether or not it is a table line,
+and any non-whitespace left in $line will be inserted as text.
+
+If it returns a negative result, then any non-whitespace left in
+$line will be inserted as text, but no other processing will be performed.
+
+Otherwise the line is processed normally.
 
 Note that =early_line= operates on the internal representation of the
 line in the parser. Certain constructs, such as verbatim blocks, are
 specially marked in this content. =early_line= can be used to rewrite
-the line in place, but only with *great care*. Caveat emptor.
+the $line in place, but only with *great care*. Caveat emptor.
 
-The =early_line= fired for all lines that may be part of
+The =early_line= handler is fired for all lines that may be part of
 a table (i.e. not verbatim or literal lines).
 
 =cut
@@ -100,11 +106,20 @@ a table (i.e. not verbatim or literal lines).
 sub parse {
     my ( $text, $dispatch ) = @_;
 
-    # SMELL: Should this be a flag in the call, rathern than caller magic
-    my $procform = ( (caller)[0] eq 'Foswiki::Form' );
+    # Are we parsing a form definition? These have subtle syntactic
+    # differences (legacy)
+    # SMELL: Should this be a flag in the call, rather than caller magic
+    my $parsing_formdef = ( (caller)[0] eq 'Foswiki::Form' );
 
+    # Are we defining a table already?
     my $in_table = 0;
+
+    # Are we to create a table even if the next line isn't a table line?
+    my $always_create_table = 0;
+
+    # Depth of tag scopes
     my %scope = ( verbatim => 0, literal => 0, include => 0 );
+
     my $openRow;
     my @comments;
 
@@ -130,7 +145,7 @@ sub parse {
             $openRow = undef;
         }
 
-        unless ( _balanced($line) ) {
+        unless ( _macros_are_balanced($line) ) {
 
             # Unclosed %MACRO{
             print STDERR "unbalanced % in $line\n" if TRACE;
@@ -138,32 +153,56 @@ sub parse {
             next LINE;
         }
 
-        # Call the per-line event
-        if ( _enabled( \%scope ) ) {
+        if ( !_in_blocking_scope( \%scope ) ) {
             print STDERR "Processing $line\n" if TRACE;
-            if ( &$dispatch( 'early_line', $line, $in_table ) ) {
-                print STDERR "early_line returned 1\n" if TRACE;
-                if ($in_table) {
-                    print STDERR "Close TABLE\n" if TRACE;
 
-                    # close any open table
-                    $in_table = 0;
-                    &$dispatch('close_table');
+            # Call the per-line event. This handles macros.
+            my $analysis = &$dispatch( 'early_line', $line, $in_table );
+            if ($analysis) {
+
+                print STDERR "early_line returned $analysis\n" if TRACE;
+
+                if ( $analysis > 0 ) {
+
+                    # If early_line returns 1, then a new table is to be
+                    # created even if the next line isn't a table line
+                    # (delimited by ||). This is so EDITTABLE and
+                    # equivalent can either latch on to a following table
+                    # or create a new table just by virtue of the macro
+                    # being present.
+
+                    $always_create_table = 1;
+
+                    # New table is being forced. Close any open table first.
+                    if ($in_table) {
+                        print STDERR "Close TABLE\n" if TRACE;
+
+                        # close any open table
+                        $in_table = 0;
+                        &$dispatch('close_table');
+                    }
+
                 }
 
-                # an EDITTABLE macro starts a new table
-                # this allows us to create new tables from
-                # just an EDITTABLE macro
-                print STDERR "Open TABLE\n" if TRACE;
-                &$dispatch('open_table');
-                $in_table = 1;
+                # If early_line returns a negative result, then any
+                # non-whitespace left in the line will be inserted as
+                # text, but no other processing will be performed.
+                # This is what happens when a TABLE macro is seen.
 
+                if ( $line =~ /\S/ ) {
+                    print STDERR "Dispatch $line\n" if TRACE;
+                    &$dispatch( 'line', _rewrite( $line, \@comments ) );
+                }
                 next LINE;
             }
 
             if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
 
                 print STDERR "Tablerow $line\n" if TRACE;
+
+                # A table has been encountered, we don't need to
+                # force it.
+                $always_create_table = 0;
 
                 if ( $line =~ s/\\$// ) {
 
@@ -199,14 +238,16 @@ sub parse {
 
                     my $rowlen = scalar @cols;
                     for ( my $i = 0 ; $i < $rowlen ; $i++ ) {
-                        if (   $procform
+                        if (   $parsing_formdef
                             && $i == 3
                             && ( substr( $cols[$i], -1 ) eq '\\' )
                             && $i < $rowlen )
                         {
-# Form definitions allow use of \| escapes in the initial values colunn - column 4
-# So this code removes the "splits" from within the initial values
-# But only when processing a form.  See Item13385
+                            # Form definitions allow use of \| escapes in
+                            # the initial values column - column 4
+                            # So this code removes the "splits" from within
+                            # the initial values. But only when processing
+                            # a form definition.  See Item13385
                             print STDERR "Merging Form values column.\n"
                               if TRACE;
                             chop $cols[$i];
@@ -235,7 +276,11 @@ sub parse {
                 &$dispatch('close_tr');
 
                 next LINE;
+
             }
+        }
+        elsif (TRACE) {
+            print STDERR "blocked: $line\n";
         }
         if ($in_table) {
 
@@ -246,6 +291,16 @@ sub parse {
 
             # fall through to allow dispatch of line event
         }
+        if ($always_create_table) {
+
+            # Something encountered by the early_line handler
+            # requires the immediate creation of a new table.
+            print STDERR "*Force* Open TABLE\n" if TRACE;
+            &$dispatch('open_table');
+            &$dispatch('close_table');
+            $always_create_table = 0;
+        }
+
         print STDERR "Dispatch $line\n" if TRACE;
         &$dispatch( 'line', _rewrite( $line, \@comments ) );
 
@@ -297,9 +352,9 @@ sub split_cell {
     return ( $prec, $main, $postc, $ish );
 }
 
-sub _enabled {
+sub _in_blocking_scope {
     my $scope = shift;
-    return $scope->{verbatim} + $scope->{literal} == 0;
+    return $scope->{verbatim} != 0 || $scope->{literal} != 0;
 }
 
 sub _rewrite {
@@ -309,7 +364,7 @@ sub _rewrite {
 }
 
 # Return false unless TML macro brackets are balanced
-sub _balanced {
+sub _macros_are_balanced {
     my $line = shift;
     my $n    = 0;
 

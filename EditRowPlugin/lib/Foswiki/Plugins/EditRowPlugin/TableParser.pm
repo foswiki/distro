@@ -95,7 +95,7 @@ sub parse {
 # Called from the early_line handler to adjust default attributes based
 # on what is in the URL params.
 sub adjustSpec {
-    my ( $this, $attrs ) = @_;
+    my ( $this, $macro, $attrs ) = @_;
 
     # Signal that the following table is editable to the table
     # accretion code
@@ -119,6 +119,8 @@ sub adjustSpec {
             $attrs->{footerrows} = $this->{params}->{"$pf}_footerrows"};
         }
     }
+
+    return $macro eq 'EDITTABLE' ? 1 : -1;
 }
 
 1;

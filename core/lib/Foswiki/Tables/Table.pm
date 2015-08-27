@@ -43,14 +43,17 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new($spec, $attrs)
+---++ ClassMethod new($spec)
 Constructor
-   * =$spec= - string representation of the macro parameters that apply to
-     this table. Only required so that the table can be accurately serialised
-     to TML (including controlling macro).
-     Pass undef if the table will never be serialised.
-   * =$attrs= - Foswiki::Attrs of any controlling tag, if the parser found one.
-The following entries in attrs are supported:
+   * =$specs= - array of macro spec hashes for the macros that may
+     affect this table. Each spec is defined as follows:
+      * =raw= is the string representation of the macro that
+        apply to this table. Only required so that the table can be
+        accurately serialised to TML.
+      * =tag= - simple string name of the tag
+      * =attrs= - Foswiki::Attrs for the tag. Note that these may have been
+        heavily modified due to expansion of =include= parameters.
+The following entries in attrs are used:
    * =format= - The format of the cells in a row of the table. The format is
      defined like a table row, where the cell data specify the type for each
      cell. For example, =format="| text,16 | label |"=. Cells can be any of
@@ -75,37 +78,29 @@ The following entries in attrs are supported:
 =cut
 
 sub new {
-    my ( $class, $spec, $attrs ) = @_;
+    my ( $class, $specs ) = @_;
     my $this = bless(
         {
-            spec   => $spec,
             rows   => [],
             number => undef,
-            TABLE  => $attrs->{TABLE}    # remember TABLE attributes
+            specs  => $specs
         },
         $class
     );
-    if ( $attrs->{format} ) {
-        $this->{colTypes} = $this->parseFormat( $attrs->{format} );
-    }
-    else {
-        $this->{colTypes} = [];
-    }
 
-    # Can inherit headerrows/footerrows from a %TABLE, or override
-    # them in the %EDITTABLE
-    if ( defined $attrs->{headerrows} ) {
-        $this->{headerrows} = $attrs->{headerrows};
-    }
-    elsif ( $attrs->{TABLE} && defined $attrs->{TABLE}->{headerrows} ) {
-        $this->{headerrows} = $attrs->{TABLE}->{headerrows};
-    }
+    $this->{colTypes} = [];
+    foreach my $spec ( @{ $this->{specs} } ) {
+        if ( $spec->{attrs}->{format} ) {
+            $this->{colTypes} = $this->parseFormat( $spec->{attrs}->{format} );
+        }
 
-    if ( defined $attrs->{footerrows} ) {
-        $this->{footerrows} = $attrs->{footerrows};
-    }
-    elsif ( $attrs->{TABLE} && defined $attrs->{TABLE}->{footerrows} ) {
-        $this->{footerrows} = $attrs->{TABLE}->{footerrows};
+        if ( defined $spec->{attrs}->{headerrows} ) {
+            $this->{headerrows} = $spec->{attrs}->{headerrows};
+        }
+
+        if ( defined $spec->{attrs}->{footerrows} ) {
+            $this->{footerrows} = $spec->{attrs}->{footerrows};
+        }
     }
 
     return $this;
@@ -135,14 +130,16 @@ sub _renumber {
 
 =begin TML
 
----++ ClassMethod getMacro() -> $macroname
-The macro name for additional attributes for this table class e.g
-'EDITTABLE'.
+---++ ClassMethod getMacros() -> @macronames
+Get a list of the macro names for additional attributes for tables e.g
+'EDITTABLE'. These macros will be processed and combined onto the first
+recognisable table that follows the macro. Subclasses can choose to
+override this to ignore TABLE tags, or call SUPER and add their own tags.
 
 =cut
 
-sub getMacro {
-    return 'TABLE';
+sub getMacros {
+    return ('TABLE');
 }
 
 =begin TML
@@ -284,7 +281,7 @@ table.
 
 sub getID {
     my $this = shift;
-    return $this->getMacro() . '_' . $this->number;
+    return 'TABLE_' . $this->number;
 }
 
 =begin TML

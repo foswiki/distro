@@ -13,7 +13,7 @@ use Foswiki::Plugins::EditRowPlugin           ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 
-use constant TRACE => 0;
+use constant TRACE => 1;
 
 use constant {
 
@@ -35,17 +35,22 @@ use constant {
 # Foswiki/Plugins/EditRowPlugin/Editor/*.pm
 our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 
-# $spec - full spec of the table (e.g. the complete edittable)
-# $attrs - Foswiki::Attrs of the relevant %EDITTABLE plus optional TABLE
+# Parameters are defined in Foswiki::Table
 # See EditRowPlugin.txt for a description of the attributes supported,
 # plus the following undocumented attributes:
 #    =require_js= - compatibility, true maps to =js='assumed'=,
 #                   false to =js='preferred'=
 
 sub new {
-    my ( $class, $spec, $attrs ) = @_;
+    my ( $class, $specs ) = @_;
 
-    ASSERT( $attrs->isa('Foswiki::Attrs') ) if DEBUG;
+    my $attrs;
+    foreach my $spec (@$specs) {
+        $attrs = $spec->{attrs} if ( $spec->{tag} eq 'EDITTABLE' );
+    }
+
+    # If there's no EDITTABLE tag, we just want a conventional table
+    return new Foswiki::Table($specs) unless $attrs;
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ( $attrs->{headerislabel} && !defined( $attrs->{headerrows} ) ) {
@@ -53,7 +58,7 @@ sub new {
           Foswiki::isTrue( $attrs->{headerislabel} ) ? 1 : 0;
     }
 
-    my $this = $class->SUPER::new( $spec, $attrs );
+    my $this = $class->SUPER::new($specs);
     $this->{editable} = $attrs->{isEditable};
 
     # EditTablePlugin compatibility; headerrows trumps headerislabel
@@ -105,9 +110,11 @@ sub row_class {
 }
 
 # Override Foswiki::Tables::Table
-sub getMacro {
-    return $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
-      || 'EDITTABLE';
+sub getMacros {
+    my $this = shift;
+    my @list = $this->SUPER::getMacros();
+    push( @list, $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' );
+    return @list;
 }
 
 sub getWeb {
