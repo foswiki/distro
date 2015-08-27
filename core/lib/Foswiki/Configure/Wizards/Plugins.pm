@@ -149,9 +149,19 @@ sub import {
 
     if ($changes) {
         $reporter->WARN("Configuration changes are required.");
-        $reporter->NOTE(
-            "You should save your settings after running this wizard.");
         $reporter->hint( "require_save", 1 );
+        if ( defined $Foswiki::cfg{Engine}
+            && $Foswiki::cfg{Engine} !~ /(CLI|Legacy)$/ )
+        {
+            $reporter->WARN(
+"You should save the configuration, and reload =$Foswiki::cfg{ScriptUrlPath}/configure= to verify any new settings."
+            );
+        }
+        else {
+            $reporter->WARN(
+"If you did not include the -save option, you should rerun this wizard, specifying -save."
+            );
+        }
     }
     else {
         $reporter->NOTE("No changes to the configuration needed.");
