@@ -13,7 +13,7 @@ use Foswiki::Plugins::EditRowPlugin           ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 use constant {
 
