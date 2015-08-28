@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1440762818" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
@@ -82,7 +82,7 @@ view
             %SYSTEMWEB%.WebBottomBar or %SYSTEMWEB%.WebBottomBarExample
 </verbatim>
 
-Note that =WebTopBar= is not used per web, but it's either pulled from %IF{"istopic 'WebTopBar'" else="!"}WebTopBar, or, if it doesn't exist, from %SYSTEMWEB%.WebTopBarExample.
+Note that =WebTopBar= is not used per web, but it's either pulled from %IF{"istopic 'WebTopBar'" else="!"}%WebTopBar, or, if it doesn't exist, from %SYSTEMWEB%.WebTopBarExample.
 
 ---++ Logo
 
