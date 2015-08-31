@@ -22,13 +22,11 @@ use strict;
 
 use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 
-$VERSION = '$Rev$';
+$VERSION = '1.007';
 
-$RELEASE = '1.007 (18 Aug 2010)';
+$RELEASE = '18 Aug 2010';
 
-$REVISION =
-  '1.007';  #Paul Harvey# fix plugin code to only require JSCalendarContrib once
-
+#$REVISION = '1.007'; #Paul Harvey# fix plugin code to only require JSCalendarContrib once
 #$REVISION = '1.006'; #Paul Harvey# added redirectto parameter
 #$REVISION = '1.005'; #Daniel Rohde# fixed performance problem
 #$REVISION = '1.004'; #Kenneth Lavrsen# Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar.
