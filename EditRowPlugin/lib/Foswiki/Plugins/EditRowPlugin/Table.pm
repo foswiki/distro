@@ -12,6 +12,7 @@ use Foswiki::Func                             ();
 use Foswiki::Plugins::EditRowPlugin           ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
+use Foswiki::Tables::Table                    ();
 
 use constant TRACE => 0;
 
@@ -48,9 +49,6 @@ sub new {
     foreach my $spec (@$specs) {
         $attrs = $spec->{attrs} if ( $spec->{tag} eq 'EDITTABLE' );
     }
-
-    # If there's no EDITTABLE tag, we just want a conventional table
-    return new Foswiki::Tables::Table($specs) unless $attrs;
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ( $attrs->{headerislabel} && !defined( $attrs->{headerrows} ) ) {

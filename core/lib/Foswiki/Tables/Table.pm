@@ -15,7 +15,7 @@ a block of (ediatble) body rows, and a block of (uneditable) footer rows.
 Any of these blocks may be empty.
 
 A Table object has the following public fields:
-   * ={spec}= - if given, the =$spec= passed to the constructor (string)
+   * ={specs}= - if given, the =$specs= passed to the constructor (array)
    * ={rows}= - array of =Foswiki::Tables::Row= objects (or a subclass thereof)
    * ={number}= - an identifier for this table in the sequence of tables in the topic. =undef= until set by some external agency (e.g. the parser).
    * ={colTypes}= - each column format is stored in the {colTypes} array. Entries in this array have the following fields:
@@ -237,8 +237,8 @@ sub stringify {
     my $this = shift;
 
     my $s = '';
-    if ( $this->{spec} ) {
-        $s .= "$this->{spec}\n";
+    foreach my $spec ( @{ $this->{specs} } ) {
+        $s .= "$spec->{raw}\n";
     }
     foreach my $row ( @{ $this->{rows} } ) {
         $s .= $row->stringify() . "\n";

@@ -50,15 +50,15 @@ INPUT
 LL    * Set ENDCOLOR = </span></verbatim>
 LL %RED%Some red text%ENDCOLOR%
 LL 
-EDITTABLE_0:
+TABLE_0:
 | A | B |
-EDITTABLE_1:
+TABLE_1:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
 | A | B |
 LL 
-EDITTABLE_2:
+TABLE_2:
 | A | B |
 EXPECTED
 }
@@ -89,15 +89,15 @@ INPUT
         }
     }
     $this->assert_equals( <<'EXPECTED', $data );
-EDITTABLE_0:
+TABLE_0:
 | A | B |
-EDITTABLE_1:
+TABLE_1:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
 | A | B |
 LL 
-EDITTABLE_2:
+TABLE_2:
 | A | B |
 EXPECTED
 }
@@ -131,23 +131,23 @@ INPUT
     my $f = $1;
     $f =~ s/action=(["']).*?\1/action="valid"/;
     $this->assert_html_equals( <<HTML, "$f</form>" );
-<form method="POST" action="valid" name="erp_form_EDITTABLE_0"></form>
+<form method="POST" action="valid" name="erp_form_TABLE_0"></form>
 HTML
 
     # anchor
-    $this->assert( $in =~ s/^<a name=(['"])erp_EDITTABLE_0\1><\/a>\s*//s, $in );
+    $this->assert( $in =~ s/^<a name=(['"])erp_TABLE_0\1><\/a>\s*//s, $in );
 
     # edit button
-    $this->assert( $in =~ s/(<a name=(['"])erp_EDITTABLE_0\2>.*)$//s, $in );
+    $this->assert( $in =~ s/(<a name=(['"])erp_TABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
-        erp_table => "EDITTABLE_0",
+        erp_table => "TABLE_0",
         erp_row   => -1,
-        '#'       => "erp_EDITTABLE_0"
+        '#'       => "erp_TABLE_0"
     );
     my $expected = <<EXPECTED;
-<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_EDITTABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
+<a name='erp_TABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_TABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
 EXPECTED
     $this->assert_html_equals( $expected, $1 );
     $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
@@ -156,16 +156,16 @@ EXPECTED
         "EditRowPlugin", "get", "rest",
         erp_version => "VERSION",
         erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_0",
+        erp_table   => "TABLE_0",
         erp_row     => 0,
         erp_col     => 0
     );
     $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
-        erp_table => "EDITTABLE_0",
+        erp_table => "TABLE_0",
         erp_row   => 0,
-        '#'       => "erp_EDITTABLE_0_0"
+        '#'       => "erp_TABLE_0_0"
     );
     $this->assert( $in =~ s/(data-erp-tabledata)=(["'])(.*?)\2/$1/, $in );
     my $a_tabledata = JSON::from_json( HTML::Entities::decode_entities($3) );
@@ -175,15 +175,14 @@ EXPECTED
     my $a_celldata = JSON::from_json( HTML::Entities::decode_entities($3) );
 
     $expected = <<EXPECTED;
-|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil' title="Edit this row">edit</a>| <div class="erpJS_cell" data-erp-data="data-erp-data" data-erp-trdata="data-erp-trdata" data-erp-tabledata="data-erp-tabledata"> A </div> <a name="erp_EDITTABLE_0_0"></a> |
+|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil' title="Edit this row">edit</a>| <div class="erpJS_cell" data-erp-data="data-erp-data" data-erp-trdata="data-erp-trdata" data-erp-tabledata="data-erp-tabledata"> A </div> <a name="erp_TABLE_0_0"></a> |
 EXPECTED
     $this->assert_html_equals( $expected, $in );
 
     my $e_tabledata = {
         version => $a_tabledata->{version} || "VERSION",
         topic   => "$this->{test_web}.$this->{test_topic}",
-        table   => "EDITTABLE_0",
-        TABLE => { '_RAW' => '' }
+        table   => "TABLE_0"
     };
 
     my $e_trdata = { row => 0 };
@@ -198,7 +197,6 @@ EXPECTED
         col  => 0,
         size => 20
     };
-
     $this->assert_deep_equals( $e_tabledata, $a_tabledata );
     $this->assert_deep_equals( $e_trdata,    $a_trdata );
     $this->assert_deep_equals( $e_celldata,  $a_celldata );
@@ -235,23 +233,23 @@ INPUT
     my $f = $1;
     $f =~ s/action=(["']).*?\1/action="valid"/;
     $this->assert_html_equals( <<HTML, "$f</form>" );
-<form method="POST" action="valid" name="erp_form_EDITTABLE_0"></form>
+<form method="POST" action="valid" name="erp_form_TABLE_0"></form>
 HTML
 
     # anchor
-    $this->assert( $in =~ s/^<a name=(["'])erp_EDITTABLE_0\1><\/a>\s*//s, $in );
+    $this->assert( $in =~ s/^<a name=(["'])erp_TABLE_0\1><\/a>\s*//s, $in );
 
     # edit button
-    $this->assert( $in =~ s/(<a name=(['"])erp_EDITTABLE_0\2>.*)$//s, $in );
+    $this->assert( $in =~ s/(<a name=(['"])erp_TABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
-        erp_table => "EDITTABLE_0",
+        erp_table => "TABLE_0",
         erp_row   => -1,
-        '#'       => "erp_EDITTABLE_0"
+        '#'       => "erp_TABLE_0"
     );
     my $expected = <<EXPECTED;
-<a name='erp_EDITTABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_EDITTABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
+<a name='erp_TABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_TABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
 EXPECTED
     $this->assert_html_equals( $expected, $1 );
     $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
@@ -268,7 +266,7 @@ sub test_edit_view_default {
     my $query = Unit::Request->new(
         {
             erp_topic => "$this->{test_web}.$this->{test_topic}",
-            erp_table => 'EDITTABLE_0'
+            erp_table => 'TABLE_0'
         }
     );
     $this->{session} =
@@ -292,21 +290,21 @@ INPUT
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
-        erp_table => "EDITTABLE_0",
+        erp_table => "TABLE_0",
         erp_row   => -1,
-        '#'       => "erp_EDITTABLE_0"
+        '#'       => "erp_TABLE_0"
     );
     my $saveurl = Foswiki::Func::getScriptUrl(
         "EditRowPlugin", "save", "rest",
         erp_version => "VERSION",
         erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_0"
+        erp_table   => "TABLE_0"
     );
     my $expected = <<EXPECTED;
-<form method="POST" action="$saveurl" name="erp_form_EDITTABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="EDITTABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
-<a name='erp_EDITTABLE_0'></a>
-<input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
+<form method="POST" action="$saveurl" name="erp_form_TABLE_0">
+<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<a name='erp_TABLE_0'></a>
+<input type="hidden" name="erp_TABLE_0_format" value=""  />
 | #REF0# |
 <input type="hidden" name="erp_action" value=""  />
 <button type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erp-button" />
@@ -327,7 +325,7 @@ sub test_edit_view_no_js {
     my $query = Unit::Request->new(
         {
             erp_topic => "$this->{test_web}.$this->{test_topic}",
-            erp_table => 'EDITTABLE_0'
+            erp_table => 'TABLE_0'
         }
     );
     $this->{session} =
@@ -351,22 +349,22 @@ INPUT
     my $viewurl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, "view",
         erp_topic => "$this->{test_web}.$this->{test_topic}",
-        erp_table => "EDITTABLE_0",
+        erp_table => "TABLE_0",
         erp_row   => -1,
-        '#'       => "erp_EDITTABLE_0"
+        '#'       => "erp_TABLE_0"
     );
     my $saveurl = Foswiki::Func::getScriptUrl(
         "EditRowPlugin", "save", "rest",
         erp_version => "VERSION",
         erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_0"
+        erp_table   => "TABLE_0"
     );
     Foswiki::Plugins::EditRowPlugin::postRenderingHandler($in);
     my $expected = <<EXPECTED;
-<form method="POST" action="$saveurl" name="erp_form_EDITTABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="EDITTABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
-<a name='erp_EDITTABLE_0'></a>
-<input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
+<form method="POST" action="$saveurl" name="erp_form_TABLE_0">
+<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<a name='erp_TABLE_0'></a>
+<input type="hidden" name="erp_TABLE_0_format" value=""  />
 | #REF0# |
 <input type="hidden" name="erp_action" value=""  />
 <button class="ui-icon ui-icon-disk erp-button" name="erp_action" title="Save" type="submit" value="saveTableCmd"/>
@@ -386,7 +384,7 @@ sub gettit {
     my %qd = (
         erp_version => "VERSION",
         erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_$t"
+        erp_table   => "TABLE_$t"
     );
     $qd{erp_row} = $r if defined $r;
     $qd{erp_col} = $c if defined $c;
@@ -459,7 +457,7 @@ INPUT
         erp_row     => 0,
         erp_version => "VERSION",
         erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "EDITTABLE_1",
+        erp_table   => "TABLE_1",
         noredirect  => 1,                                         # for AJAX
     );
     my $query = Unit::Request->new( \%qd );
@@ -505,7 +503,7 @@ INPUT
         }
     }
     $this->assert_equals( <<'EXPECTED', $data );
-EDITTABLE_0:
+TABLE_0:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%

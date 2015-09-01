@@ -310,6 +310,12 @@ sub parse {
         print STDERR "Close TABLE (mop-up)\n" if TRACE;
         &$dispatch('close_table');    #
     }
+    if ($always_create_table) {
+
+        print STDERR "*Force* Open TABLE (mop-up)\n" if TRACE;
+        &$dispatch('open_table');
+        &$dispatch('close_table');
+    }
     &$dispatch('end_of_input');
 }
 
