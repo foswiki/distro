@@ -1,12 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="c12179" comment="reprev" date="1441296263" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros Quick Reference
 
+See [[Macros]] for a detailed description of how to use Macros
+
 ---++ Predefined Macros
 
 %SEARCH{
-    "parent.name='Macros'"
+    "1"
     type="query"
     topic="Var*"
     web="%SYSTEMWEB%"
@@ -56,3 +58,5 @@ For example, =%<nop>CARET%= will appear as =%CARET%=
 }%
 ---
 *Related Topics:* [[Macros]], PreferenceSettings, UserDocumentationCategory
+
+%META:REVCOMMENT{ncomments="0"}%
