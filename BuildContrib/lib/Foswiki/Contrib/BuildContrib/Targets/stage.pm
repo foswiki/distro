@@ -27,6 +27,11 @@ sub form_repair {
         sub {
             my ( $this, $text ) = @_;
 
+            if ( $text =~ m/([^[:ascii:]])/ ) {
+                print STDERR
+                  "WARNING: Non-ASCII character ($1) detected in $from\n";
+            }
+
             # Don't replace existing form
             return $text if $text =~ /^\%META:FORM\{/m;
 
@@ -42,11 +47,10 @@ sub form_repair {
                 Support    => 'http://foswiki.org/Support/%$ROOTMODULE%',
                 Repository => 'https://github.com/foswiki/%$ROOTMODULE%'
             );
-            use Data::Dumper;
-            print STDERR Data::Dumper::Dumper( \$text );
             my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
             foreach my $field ( sort keys %data ) {
-                print STDERR "Looking for $field\n";
+
+                #print STDERR "Looking for $field\n";
                 if (
                     $text =~ s{
                           \n\|\s*                                 # Start of table row
@@ -66,7 +70,8 @@ sub form_repair {
                     $data{$field} = $1;
                     $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
                 }
-                print STDERR "FIELD $field DATA $data{$field}\n";
+
+                #print STDERR "FIELD $field DATA $data{$field}\n";
                 $form .= "\%META:FIELD{name=\"$field\" ";
                 $form .= "title=\"$field\" value=\"$data{$field}\"}%\n";
             }
