@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="c12179" comment="reprev" date="1441296263" format="1.1" reprev="2" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1441296766" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros Quick Reference
@@ -58,5 +58,3 @@ For example, =%<nop>CARET%= will appear as =%CARET%=
 }%
 ---
 *Related Topics:* [[Macros]], PreferenceSettings, UserDocumentationCategory
-
-%META:REVCOMMENT{ncomments="0"}%
