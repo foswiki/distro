@@ -42,15 +42,31 @@ sub form_repair {
                 Support    => 'http://foswiki.org/Support/%$ROOTMODULE%',
                 Repository => 'https://github.com/foswiki/%$ROOTMODULE%'
             );
+            use Data::Dumper;
+            print STDERR Data::Dumper::Dumper( \$text );
             my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
             foreach my $field ( sort keys %data ) {
-                if ( $text =~
-s/\n\|\s*(?:Plugin\s+)?$field(?:\(s\))?:?\s*\|\s*(.*?)\s*\|\n/\n/i
+                print STDERR "Looking for $field\n";
+                if (
+                    $text =~ s{
+                          \n\|\s*                                 # Start of table row
+                          (?:Plugin\s+)?                          # Optional plugin prefix
+                          $field                                  # The field being searched
+                             (?:\(?s\)?)?                         # Possible plural: eg. Authors / Author(s)
+                             (?:\s?\&copy;)?                      # Copyright symbol (Copyright &copy;)
+                             (?:\s?\(C\))?                        #  - or Copyright (C)
+                             :?                                   # optional colon :
+                          \s*\|\s*                                # Table delimiter
+                            (.*?)                                 # Capture the data
+                          \s*\|\n                                 # End of table row
+                          }
+                          {\n}ix    # Remove the data - copy to the form
                   )
                 {
                     $data{$field} = $1;
                     $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
                 }
+                print STDERR "FIELD $field DATA $data{$field}\n";
                 $form .= "\%META:FIELD{name=\"$field\" ";
                 $form .= "title=\"$field\" value=\"$data{$field}\"}%\n";
             }
