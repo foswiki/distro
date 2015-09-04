@@ -1577,6 +1577,12 @@ table.ui-datepicker-inline {
   box-shadow:none;
 }
 
+.ui-datepicker-trigger,
+.ui-datepicker-trigger:active {
+  border-width:1px 1px 1px 0;
+  border-radius:0 3px 3px 0;
+}
+
 /* jqGrid 
 ----------------------------------*/
 .ui-jqgrid.ui-widget-content {
