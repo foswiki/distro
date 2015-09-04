@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 2.00
+ * jQuery Loader plugin 2.10
  *
  * Copyright (c) 2011-2015 Foswiki Contributors http://foswiki.org
  *
@@ -19,9 +19,11 @@ jQuery(function($) {
     topic: undefined,
     section: undefined,
     select: undefined,
+    minHeight: 0,
     effect: 'fade', // show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
     effectspeed: 500,
     effectopts: {},
+    reloadAfter: 0,
     delay: 0,
     onload: function() {},
     finished: function() {},
@@ -40,7 +42,7 @@ jQuery(function($) {
     self.options = $.extend({}, defaults, options);
 
     self.init();
-    
+
     if (self.options.mode === 'auto') {
       if (self.options.delay) {
         // delayed loading 
@@ -86,6 +88,16 @@ jQuery(function($) {
       });
     }
 
+    // add auto-reloader
+    if (self.options.reloadAfter) {
+      $elem.bind("finished.jqloader", function() {
+        window.setTimeout(function() {
+            self.load();
+          }, self.options.reloadAfter
+        );
+      });
+    }
+
     self.prepareContainer();
   };
 
@@ -96,8 +108,8 @@ jQuery(function($) {
         $placeholder;
 
 
-    if (typeof(self.options.placeholder) !== 'undefined') {
-      $placeholder = $(self.options.placeholder).hide();
+    if (typeof(self.options.placeholder) !== 'undefined' && self.options.placeholder !== '') {
+      $placeholder = $(decodeURI(self.options.placeholder)).hide();
       $placeholder.insertBefore($elem);
 
       // listen to beforeload event to show the placeholder
@@ -116,7 +128,7 @@ jQuery(function($) {
           $elem.trigger("refresh.jqloader", self);
         });
       }
-    }
+    } 
   };
 
   // load method
@@ -142,42 +154,58 @@ jQuery(function($) {
 
     if (self.options.url) {
 
+      if (typeof(self.container) === 'undefined') {
+        self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
+
+        // apply min height
+        if (self.options.minHeight) {
+          self.container.css("min-height", self.options.minHeight);
+          $(window).trigger("resize");
+        }
+      }
 
       $.get(
-        self.options.url, 
+        self.options.url,
         params,
         function(data) {
-        if (typeof(self.container) !== 'undefined') {
-          self.container.remove();
-        }
-        if (typeof(self.options.select) !== 'undefined') {
-          data = $(data).find(self.options.select);
-        }
-        data = 
-        self.container = $("<div class='jqLoaderContainer' />").append(data).insertAfter($elem);
-    
-        $elem.trigger("onload.jqloader", self);
-
-        // effect
-        if (typeof(self.options.effect) !== 'undefined' && self.options.effect !== 'show') {
-          self.container.hide();
-          if (self.options.effect === 'fade') {
-            self.container.fadeIn(self.options.effectspeed, function() {
-              // trigger finished
-              $elem.trigger("finished.jqloader", self);
-            });
-          } else {
-            self.container.show(self.options.effect, self.options.effectopts, self.options.effectspeed, function() {
-              // trigger finished
-              $elem.trigger("finished.jqloader", self);
-            });
+          if (typeof(self.options.select) !== 'undefined') {
+            data = $(data).find(self.options.select);
           }
-        } else {
-          // trigger finished
-          $elem.trigger("finished.jqloader", self);
-        }
 
-      }, 'html');
+          self.container.remove();
+          self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
+
+          // apply min height
+          if (self.options.minHeight) {
+            self.container.css("min-height", self.options.minHeight);
+            $(window).trigger("resize");
+          }
+
+          // insert data
+          self.container.append(data);
+
+          $elem.trigger("onload.jqloader", self);
+
+          // effect
+          if (typeof(self.options.effect) !== 'undefined' && self.options.effect !== 'show') {
+            self.container.hide();
+            if (self.options.effect === 'fade') {
+              self.container.fadeIn(self.options.effectspeed, function() {
+                // trigger finished
+                $elem.trigger("finished.jqloader", self);
+              });
+            } else {
+              self.container.show(self.options.effect, self.options.effectopts, self.options.effectspeed, function() {
+                // trigger finished
+                $elem.trigger("finished.jqloader", self);
+              });
+            }
+          } else {
+            // trigger finished
+            $elem.trigger("finished.jqloader", self);
+          }
+
+        }, 'html');
     } else {
       throw("error: no url");
     }
@@ -197,8 +225,7 @@ jQuery(function($) {
   // register css class 
   $(".jqLoader:not(.jqLoaderInited)").livequery(function() {
     var $this = $(this),
-        opts = $.extend({}, $this.metadata());
-
+        opts = $.extend({}, $this.metadata(), $this.data());
     $this.addClass("jqLoaderInited").jqLoader(opts);
   });
 });
