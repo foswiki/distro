@@ -50,7 +50,7 @@ sub init {
 
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
-      || "jquery-2.1.0";
+      || "jquery-2.1.4";
 
     # test for the jquery library to be present
     unless ( -e $Foswiki::cfg{PubDir} . '/'
@@ -62,13 +62,13 @@ sub init {
         Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
         );
-        $jQuery = "jquery-2.1.3";
+        $jQuery = "jquery-2.1.4";
     }
 
     $jQuery .= ".uncompressed" if $debug;
 
     my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
-    $jQueryIE = "jquery-1.11.2" unless defined $jQueryIE;
+    $jQueryIE = "jquery-1.11.3" unless defined $jQueryIE;
 
     my $code;
     if ($jQueryIE) {
@@ -83,7 +83,7 @@ sub init {
             Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQueryIE not found. please fix the {JQueryPlugin}{JQueryVersionForOldIEs} settings."
             );
-            $jQuery = "jquery-1.11.2";
+            $jQueryIE = "jquery-1.11.3";
         }
 
         $jQueryIE .= ".uncompressed" if $debug;
