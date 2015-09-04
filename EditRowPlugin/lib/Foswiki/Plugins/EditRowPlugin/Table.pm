@@ -47,7 +47,9 @@ sub new {
 
     my $attrs;
     foreach my $spec (@$specs) {
-        $attrs = $spec->{attrs} if ( $spec->{tag} eq 'EDITTABLE' );
+        $attrs = $spec->{attrs}
+          if ( $spec->{tag} eq
+            ( $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' ) );
     }
 
     # if headerislabel true but no headerrows, set headerrows = 1
