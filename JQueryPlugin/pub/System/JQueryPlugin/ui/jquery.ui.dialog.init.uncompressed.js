@@ -3,6 +3,7 @@ jQuery(function($) {
 
   var dialogDefaults = {
     width: 300,
+    cached:false,
     autoOpen:false,
     draggable:false,
     resizable:false,
@@ -17,14 +18,10 @@ jQuery(function($) {
   // dialog
   $(".jqUIDialog").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, dialogDefaults, $this.metadata()),
+        opts = $.extend({}, dialogDefaults, $this.metadata(), $this.data()),
         buttons = [];
 
-    if ($this.data("autoOpen")) {
-      opts.autoOpen = true;
-    }
-
-    if (!$this.data("cached")) {
+    if (!opts.cached) {
       opts.close = function() {
         $this.dialog("destroy");
         $this.remove();

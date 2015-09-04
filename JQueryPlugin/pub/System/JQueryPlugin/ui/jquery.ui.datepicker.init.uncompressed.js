@@ -3,12 +3,14 @@ jQuery(function($) {
   
   var datepickerDefaults = {
     dateFormat:'d M yy',
-    firstDay: 1
+    firstDay: 1,
+    showOn: 'button',
+    buttonText: "<i class='fa fa-calendar'></i>"
   };
 
   $(".jqUIDatepicker").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, datepickerDefaults, $this.data(), $this.metadata()),
+        opts = $.extend({}, datepickerDefaults, $this.metadata(), $this.data()),
         maxZIndex = 1;
 
     $this.parents().each(function() {

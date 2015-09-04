@@ -13082,21 +13082,14 @@ $.widget( "ui.spinner", {
  */
 (function( $, undefined ) {
 
-var tabId = 0,
-	rhash = /#.*$/;
+var tabId = 0;
 
 function getNextTabId() {
 	return ++tabId;
 }
 
 function isLocal( anchor ) {
-	// support: IE7
-	// IE7 doesn't normalize the href property when set via script (#9317)
-	anchor = anchor.cloneNode( false );
-
-	return anchor.hash.length > 1 &&
-		decodeURIComponent( anchor.href.replace( rhash, "" ) ) ===
-			decodeURIComponent( location.href.replace( rhash, "" ) );
+        return $(anchor).attr("href")[0] === '#';
 }
 
 $.widget( "ui.tabs", {
