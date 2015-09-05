@@ -37,12 +37,11 @@ sub form_repair {
 
             # Extract form data from text
             my %data = (
-                Author    => "ProjectContributor",
-                Release   => '%$RELEASE%',
-                Version   => '%$VERSION%',
-                Copyright => 'Foswiki Contributors, All Rights Reserved',
-                License =>
-'GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])',
+                Author     => "ProjectContributor",
+                Release    => '%$RELEASE%',
+                Version    => '%$VERSION%',
+                Copyright  => '',
+                License    => '',
                 Home       => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
                 Support    => 'http://foswiki.org/Support/%$ROOTMODULE%',
                 Repository => 'https://github.com/foswiki/%$ROOTMODULE%'
@@ -72,6 +71,10 @@ sub form_repair {
                 }
 
                 #print STDERR "FIELD $field DATA $data{$field}\n";
+                print STDERR "WARNING: no Copyright set in the PackageForm.\n"
+                  if ( $field eq 'Copyright' && !$data{$field} );
+                print STDERR "WARNING: no License set in the PackageForm.\n"
+                  if ( $field eq 'License' && !$data{$field} );
                 $form .= "\%META:FIELD{name=\"$field\" ";
                 $form .= "title=\"$field\" value=\"$data{$field}\"}%\n";
             }
