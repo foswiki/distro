@@ -70,9 +70,9 @@ sub test_parser {
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
-| A | B |
+| C | D |
 
-| A | B |
+| E | F |
 INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
@@ -95,10 +95,10 @@ TABLE_1:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
-| A | B |
+| C | D |
 LL 
 TABLE_2:
-| A | B |
+| E | F |
 EXPECTED
 }
 

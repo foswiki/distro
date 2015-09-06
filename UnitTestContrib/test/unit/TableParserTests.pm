@@ -25,11 +25,11 @@ sub skip {
 
 sub early_line {
     my $this = shift;
-    if ( $_[0] =~ s/EARLY_LINE_TRAP// ) {
+    if ( $_[0] =~ s/CREATE_A_TABLE// ) {
         $this->{out} .= "EL $_[0]\n";
         return 1;
     }
-    if ( $_[0] =~ s/EARLY_LINE_EXCISE// ) {
+    if ( $_[0] =~ s/NO_TABLE// ) {
         $this->{out} .= "ELE\n";
         return -1;
     }
@@ -225,19 +225,19 @@ sub test_early_line {
 
     my $in = <<'IN';
 Testing testing 1 2 3
-Spot EARLY_LINE_TRAP the dog
-Hugh EARLY_LINE_EXCISE Pugh
+Spot CREATE_A_TABLE the dog
+Hugh NO_TABLE Pugh
 Barney McGrew
 IN
     Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
     $this->assert_html_equals( <<EXPECTED, $this->{out} );
 LL 'Testing testing 1 2 3'
 EL Spot  the dog
+<table>
+</table>
 LL 'Spot  the dog'
 ELE
 LL 'Hugh  Pugh'
-<table>
-</table>
 LL 'Barney McGrew'
 EOF
 EXPECTED

@@ -173,8 +173,8 @@ sub _early_line {
     my $args = Foswiki::Attrs::findFirstOccurenceAttrs( $macro, $line );
     return 0 unless defined $args;    # whoops
 
-    # Remember leading junk, keep trailing for further processing
-    unless ( $_[1] =~ s/^(.*?)(\%$macro(?:\Q{$args}\E)?%)//s ) {
+    # Remember leading and trailing
+    unless ( $_[1] =~ s/^(.*?)(\%$macro(?:\Q{$args}\E)?%)/$1/s ) {
         ASSERT( 0, "$macro in $line" ) if DEBUG;
     }
 

@@ -15,7 +15,15 @@ sub test_construct_table {
     my $this = shift;
 
     my $attrs = Foswiki::Attrs->new($spec);
-    my $table = Foswiki::Tables::Table->new( 'SPEC', $attrs );
+    my $table = Foswiki::Tables::Table->new(
+        [
+            {
+                tag   => 'SPEC',
+                raw   => 'SPEC',
+                attrs => $attrs
+            }
+        ]
+    );
     $this->assert_num_equals( 0, $table->totalRows() );
     $this->assert_num_equals( 2, $table->{headerrows} );
     $this->assert_num_equals( 2, $table->getHeaderRows() );
@@ -47,7 +55,15 @@ sub test_construct_table {
     $this->assert_num_equals( 3, $table->totalRows() );
 
     $attrs = Foswiki::Attrs->new('');
-    $table = Foswiki::Tables::Table->new( 'SPEC', $attrs );
+    $table = Foswiki::Tables::Table->new(
+        [
+            {
+                tag   => 'SPEC',
+                raw   => 'SPEC',
+                attrs => $attrs
+            }
+        ]
+    );
     $this->assert_null( $table->{headerrows} );
     $this->assert_num_equals( 0, $table->getHeaderRows() );
     $this->assert_null( $table->{footerrows} );
@@ -77,7 +93,15 @@ sub _check_rows {
 sub test_basic_table_operations {
     my $this  = shift;
     my $attrs = Foswiki::Attrs->new('');
-    my $table = Foswiki::Tables::Table->new( 'SPEC', $attrs );
+    my $table = Foswiki::Tables::Table->new(
+        [
+            {
+                tag   => 'SPEC',
+                raw   => 'SPEC',
+                attrs => $attrs
+            }
+        ]
+    );
     $this->assert( !$table->deleteRow(0) );
     my $row = $table->addRow(1);
     $this->assert_num_equals( 1, $table->totalRows() );

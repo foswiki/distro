@@ -21,9 +21,9 @@ sub test_reader {
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
-| A | B |
+| C | D |
 
-| A | B |
+| E | F |
 INPUT
     $this->assert( !$@, $@ );
     my $r = Foswiki::Tables::Reader->new();
@@ -49,10 +49,10 @@ TABLE_1:
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
-| A | B |
+| C | D |
 LL 
 TABLE_2:
-| A | B |
+| E | F |
 EXPECTED
 }
 
@@ -90,17 +90,13 @@ INPUT
     # the early_line handler can't rewrite the input stream. The best we
     # can do is make sure nothing is lost.
     $this->assert_equals( <<'EXPECTED', $data );
-LL rubbish
-LL junk
+LL rubbishjunk
 TABLE_0:
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
 | A | B |
-LL tripe
-LL garbage
-TABLE_1:
-%TABLE%
+LL tripegarbage
 LL tommyrot
 EXPECTED
 }
