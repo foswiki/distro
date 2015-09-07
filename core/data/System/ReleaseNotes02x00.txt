@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438574275" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1441641880" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1
 
@@ -57,6 +57,12 @@ Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
    * *Compatibility support* - TWikiCompatibilityPlugin
 </noautolink>
 #Release02x00Changes
+
+---++ Important changes in 2.0.2
+
+*API CHANGE*: Attention plugin authors:  The default behaviour of =Foswiki::Func::saveFile()= and =Foswiki::Func::readFile()=
+has been reverted to Foswiki 1.x behavior. Data is written and read as raw bytes. utf-8 encoding is not applied.
+A new optional flag can be set which will tell the API to add the utf-8 encoding layer.  See [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func#Plugin_45specific_file_handling]] for more details.
 
 ---++ Important changes in 2.0.1
 

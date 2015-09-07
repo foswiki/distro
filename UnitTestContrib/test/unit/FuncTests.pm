@@ -153,13 +153,44 @@ sub write_file {
 
 sub test_saveFile_readFile {
     my $this = shift;
+    my $text = <<ASCII;
+Now is the time for all
+Jack and Jill went up the hill.
+ASCII
+    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    Foswiki::Func::saveFile( $f, $text );
+    my $newtext = Foswiki::Func::readFile($f);
+    $this->assert_equals( length($text), length($newtext) );
+    $this->assert_str_equals( $text, $newtext );
+    unlink($f);
+
+    # Test with missing file
+    $newtext = Foswiki::Func::readFile('File does not exist');
+    $this->assert_equals( 0, length($newtext) );
+}
+
+sub test_saveFile_readFile_Binary {
+    my $this = shift;
+    my $data = Foswiki::Func::readFile(
+        "$Foswiki::cfg{PubDir}/System/ProjectLogos/foswiki-logo.png");
+    $this->assert( length($data) );    # make sure we actually get something
+    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    Foswiki::Func::saveFile( $f, $data );
+    my $newdata = Foswiki::Func::readFile($f);
+    $this->assert_equals( length($data), length($newdata) );
+    $this->assert_str_equals( $data, $newdata );
+    unlink($f);
+}
+
+sub test_saveFile_readFile_Unicode {
+    my $this = shift;
     my $text = <<POWETRY;
 Dolorěṁ dêḻêcťůṡ iľļó áńįṁị îpşaṁ auṫ. Sapìëňte possiṁuś ratìoňe ļaboŕįõsām ĥįc ṗariatúř ëť. Rerụṁ ìṫaqūė excēpțuři ńeṁọ vọḻuṗťaś volŭṗtaş aüteṁ ratiòne ńéṡcîuṉț. Mødí qúø veḻîṫ saèpe ŕēpelĺènḋuś eť. Culṗă ṗraēsēńtium vero äb ödïo. Vero ċőrṗöŕīŝ doļőŕ ḋůċimus ḻàḃorum ódio paríatur quia. Reịçîêndįṡ eț pāřiatūr omṅis. Consěqúatůr íṁpedįť ćòṅsēquatuř quăși. Cöňseqųaṫùr dīștinçtío nëṁó ịste.
 Voḻŭṗťas illo rèćusandaė ęt dįcťã nôṉ qųaŝ qui pørŕo. Iṗsűm ñọn iŝte võłůpṫáțųṁ. Unde qùo űť cumque ṗerḟeŕenḋiš ďiĝnisšįmoş et. Vọľuptațèṁ ňịĥil ďọļôr doloř ešť verītátïş. Uńdē ĥìc ēūm viṫae ut oṁñịș ďọloř. Dọlõrėm ṗerfërêndìș miňus řąťìọnë exṗlićåḃo. Temṗọrá nôbîs teṁpore pariaṫůr et. Voľuptáțê ṫenetur omniš est áụt eĺigendi. Quí vèlit ea moĺlìṫiā qụişqüãṁ möĺeštîaë đebitîṡ veĺit năṁ.
 POWETRY
     my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
-    Foswiki::Func::saveFile( $f, $text );
-    my $newtext = Foswiki::Func::readFile($f);
+    Foswiki::Func::saveFile( $f, $text, 1 );
+    my $newtext = Foswiki::Func::readFile( $f, 1 );
     $this->assert_str_equals( $text, $newtext );
     unlink($f);
 }
@@ -2793,7 +2824,7 @@ NONNY
     #'
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
     my $rawtext = Foswiki::Func::readFile(
-        $Foswiki::cfg{DataDir} . '/' . $this->{test_web} . "/$topic.txt" );
+        $Foswiki::cfg{DataDir} . '/' . $this->{test_web} . "/$topic.txt", 1 );
     $this->assert_str_not_equals( $origtext, $rawtext );
 
     my $readtext = Foswiki::Func::readTopicText( $this->{test_web}, $topic );

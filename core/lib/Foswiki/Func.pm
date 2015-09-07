@@ -2878,23 +2878,32 @@ sub getWorkArea {
 
 =begin TML
 
----+++ readFile( $filename ) -> $text
+---+++ readFile( $filename, $unicode ) -> $text
 
 Read file, low level. Used for Plugin workarea.
    * =$filename= - Full path name of file
+   * =$unicode= - Specify that file contains unicode text  *New with Foswiki 2.0*
 Return: =$text= Content of file, empty if not found
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
 
-Text is decoded from utf-8 during the read.
+Foswiki 2.0 APIs generally all use UNICODE strings, and all data is properly decoded from/to utf-8 at the edge.  *This API is an exception!*
+Because this API can be used to retrieve data of any type including binary data, it is *not* decoded to unicode by default.
+By default, data is read as raw bytes, without any encoding layer.
+
+If you are using this API to read topic originated data, topic names, etc. then you should set the =$unicode= flag so that the data returned is a valid perl character string.
 
 =cut
 
 sub readFile {
-    my $name = shift;
+    my ( $name, $unicode ) = @_;
     my $data = '';
     my $IN_FILE;
-    open( $IN_FILE, '<:encoding(utf-8)', $name ) || return '';
+    open( $IN_FILE, '<', $name ) || return '';
+
+    if ($unicode) {
+        binmode $IN_FILE, ':encoding(utf-8)';
+    }
     local $/ = undef;    # set to read to EOF
     $data = <$IN_FILE>;
     close($IN_FILE);
@@ -2904,24 +2913,36 @@ sub readFile {
 
 =begin TML
 
----+++ saveFile( $filename, $text )
+---+++ saveFile( $filename, $text, $unicode )
 
 Save file, low level. Used for Plugin workarea.
    * =$filename= - Full path name of file
    * =$text=     - Text to save
+   * =$unicode=  - Flag indicates that $text string should be saved as utf-8. *New with Foswiki 2.0*
+
 Return:                none
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
 
-Text is encoded using utf-8 before saving.
+Foswiki 2.0 APIs generally all use UNICODE strings, and all data is properly decoded from/to utf-8 at the edge.  *This API is an exception!*
+Because this API can be used to save data of any type including binary data, it is *not* decoded to unicode by default.
+By default, data is written as raw bytes, without any encoding layer.
+
+If you are using this API to write topic data, topic names, etc. then you should set the =$unicode= flag so that the data returned as a valid perl character string.
+
+Failure to set the =$unicode= flag when required will result in perl "Wide character in print" errors.
 
 =cut
 
 sub saveFile {
-    my ( $name, $text ) = @_;
+    my ( $name, $text, $unicode ) = @_;
     my $FILE;
-    unless ( open( $FILE, '>:encoding(utf-8)', $name ) ) {
+    unless ( open( $FILE, '>', $name ) ) {
         die "Can't create file $name - $!\n";
+    }
+
+    if ($unicode) {
+        binmode $FILE, ':encoding(utf-8)';
     }
     print $FILE $text;
     close($FILE);
