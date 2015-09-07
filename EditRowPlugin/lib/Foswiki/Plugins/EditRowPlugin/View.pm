@@ -115,8 +115,7 @@ sub process {
             my $active_row = $urps->{erp_row};
 
             my $saveUrl =
-              Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest',
-                $_->getParams('erp_') );
+              Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest' );
             $line .= "<form action='$saveUrl' method='POST' name='erp_form_"
               . $table->getID() . "'>";
 

@@ -296,9 +296,11 @@ INPUT
     );
     my $saveurl = Foswiki::Func::getScriptUrl(
         "EditRowPlugin", "save", "rest",
-        erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "TABLE_0"
+
+        # SMELL: Item13672 - POST with querystring duplicates the Form input
+        #        erp_version => "VERSION",
+        #        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        #        erp_table   => "TABLE_0"
     );
     my $expected = <<EXPECTED;
 <form method="POST" action="$saveurl" name="erp_form_TABLE_0">
@@ -355,9 +357,11 @@ INPUT
     );
     my $saveurl = Foswiki::Func::getScriptUrl(
         "EditRowPlugin", "save", "rest",
-        erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
-        erp_table   => "TABLE_0"
+
+        # SMELL: Item13672 - POST with querystring duplicates the Form input
+        #       erp_version => "VERSION",
+        #       erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        #       erp_table   => "TABLE_0"
     );
     Foswiki::Plugins::EditRowPlugin::postRenderingHandler($in);
     my $expected = <<EXPECTED;
