@@ -2985,7 +2985,9 @@ The =\%options= hash may contain the following options:
    * =web= - The web/s to search in - string can have the same form as the =web= param of SEARCH (if not specified, defaults to BASEWEB)
    * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per 
-     topic, excludetopic and other params as per SEARCH
+   * topic, excludetopic and other params as per SEARCH)
+   * =includeTopics= - Seach only in this topic, a topic with asterisk wildcards, or a list of topics separated by comma
+   * =excludeTopics= - Exclude search in this topic, a topic with asterisk wildcards, or a list of topics separated by comma
 
 To iterate over the returned topics use:
 <verbatim>
