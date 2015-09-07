@@ -61,11 +61,27 @@ sub check_current_value {
         );
     }
 
+    my $specChanged;
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
         my $specfile = ( $ext eq 'the core' ) ? 'Foswiki.spec' : 'Config.spec';
+        $specChanged = 1;
         $reporter->WARN(
-"The $specfile for $ext is more recent than the latest configuration. You should run 'import extension settings' and then save the configuration."
+"The $specfile for $ext is more recent than the latest configuration."
         );
+    }
+    if ($specChanged) {
+        if ( defined $Foswiki::cfg{Engine}
+            && $Foswiki::cfg{Engine} !~ /(CLI|Legacy)$/ )
+        {
+            $reporter->WARN(
+"You should run 'import extension settings' and then save the configuration."
+            );
+            4;
+        }
+        else {
+            $reporter->WARN(
+                "You should run 'tools/configure -wizard Plugins -save'. ");
+        }
     }
 }
 
