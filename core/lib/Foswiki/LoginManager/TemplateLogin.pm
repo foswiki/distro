@@ -22,6 +22,7 @@ use Assert;
 
 use Foswiki::LoginManager ();
 our @ISA = ('Foswiki::LoginManager');
+use Encode ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -173,9 +174,10 @@ sub login {
     my $topic  = $session->{topicName};
     my $web    = $session->{webName};
 
-# CAUTION:  LoginManager::userLoggedIn() will delete and recreate the CGI Session.
-# Do not make a local copy of $this->{_cgisession}, or it will point to a deleted
-# session once the user has been logged in.
+    # CAUTION:  LoginManager::userLoggedIn() will delete and recreate
+    # the CGI Session.
+    # Do not make a local copy of $this->{_cgisession}, or it will point
+    # to a deleted session once the user has been logged in.
 
     $this->{_cgisession}->param( 'REMEMBER', $remember )
       if $this->{_cgisession};
@@ -199,7 +201,7 @@ sub login {
             && ( $loginName =~ $Foswiki::regex{emailAddrRegex} ) )
         {
 
-            #try email addresses if it is one
+            # try email addresses if it is one
             my $cuidList = $users->findUserByEmail($loginName);
             foreach my $cuid (@$cuidList) {
                 my $login = $users->getLoginName($cuid);
@@ -209,9 +211,6 @@ sub login {
                     $loginName = $login;
                     last;
                 }
-
-#this might reveal someone else's username, so using the original failure message
-#$error = $users->passwordError();
             }
         }
 
@@ -321,7 +320,7 @@ sub login {
         # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
         # but decided against it as the path_info might have been rewritten
         # from the original env var.
-        PATH_INFO => $path_info,
+        PATH_INFO => Foswiki::urlEncode( Encode::decode_utf8($path_info) ),
         BANNER    => $banner,
         NOTE      => $note,
         ERROR     => $error
@@ -338,7 +337,7 @@ sub login {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 
