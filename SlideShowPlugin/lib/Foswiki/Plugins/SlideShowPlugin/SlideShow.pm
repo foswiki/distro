@@ -285,6 +285,8 @@ sub _htmlAlert {
 
 sub _urlEncode {
     my $text = shift;
+
+    $text = Encode::encode_utf8($text) if $Foswiki::UNICODE;
     $text =~ s/([^0-9a-zA-Z-_.:~!*'()\/%])/'%'.sprintf('%02x',ord($1))/ge;
     $text =~ s/\%20/+/g;
     return $text;
@@ -302,7 +304,7 @@ Additional copyrights apply to some or all of the code in this
 file as follows:
 
 Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
-Copyright (C) 2008-2009 Eugen Mayer, Arthur Clemens, Foswiki Contributors
+Copyright (C) 2008-2015 Eugen Mayer, Arthur Clemens, Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

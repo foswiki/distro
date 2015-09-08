@@ -19,6 +19,9 @@ html {
   -webkit-box-sizing:border-box; 
      -moz-box-sizing:border-box;
           box-sizing:border-box;
+  overflow-x:hidden;
+  overflow-y:auto;
+  background-color:#fff;
 }
 .slideText {
   font-size:1.5em;
@@ -36,11 +39,12 @@ html {
   margin-left:0.5em;
 }
 .slideShowFooter {
-  position:absolute;
+  position:fixed;
   padding:0;
   bottom:0;
   left:0;
   width:100%;
+  background-color:#fff;
 }
 .slideShowFirstSlide .slideShowFirst,
 .slideShowFirstSlide .slideShowPrev,
@@ -49,6 +53,10 @@ html {
   filter:     alpha(opacity=50); /* IE 6,7,8 */
   -ms-filter: "alpha(opacity=50)"; /* IE 8 */
   opacity:0.5;
+}
+
+.slideShowCurrentSlide .slideShowFooter {
+  z-index:1000;
 }
 
 /* pattern fixes */

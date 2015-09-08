@@ -12,7 +12,8 @@
 
 %TMPL:DEF{"content"}%%TEXT%
 #TopicEnd
-%ADDTOZONE{"script" id="SLIDESHOWPLUGIN::JS" text="%TMPL:P{"slideshow::js"}%"}%
+%JQREQUIRE{"scrollto"}%
+%ADDTOZONE{"script" id="SLIDESHOWPLUGIN::JS" text="%TMPL:P{"slideshow::js"}%" requires="JQUERYPLUGIN::SCROLLTO"}%
 %ADDTOZONE{"head" id="SLIDESHOWPLUGIN::CSS" text="%TMPL:P{"slideshow::css"}%"}%
 %TMPL:END%
 
