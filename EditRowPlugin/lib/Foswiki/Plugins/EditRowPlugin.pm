@@ -32,8 +32,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '3.310';
-our $RELEASE           = '11 Apr 2015';
+our $VERSION           = '3.311';
+our $RELEASE           = '8 Sep 2015';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -123,7 +123,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2008-2014 Foswiki Contributors
+Copyright (c) 2008-2015 Foswiki Contributors
 Copyright (c) 2007 WindRiver Inc.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.

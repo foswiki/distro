@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1441729129" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -68,6 +68,7 @@ eg
 |  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
 |  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner, Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Sep 2015 (1.8) | Foswikitask:Item13504: Correct minor typos and documentation issues. |
 |  14 Jun 2015 (1.7) | Foswikitask:Item13393: SubscribePlugin changes to FamFamFam templates. |
 |  18 Dec 2014 (1.6) | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
                        Foswikitask:Item12913: Fix some MANIFEST issues<br />\
@@ -109,9 +110,9 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1437500521" size="169896" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1437500521" size="24969" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1437500521" size="13799" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1437500521" size="3242" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1437500521" size="14996" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1437500521" size="22024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1441729129" size="169896" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1441729129" size="24969" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1441729129" size="13799" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1441729129" size="3242" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1441729129" size="14996" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1441729129" size="22024" user="ProjectContributor" version="1"}%
