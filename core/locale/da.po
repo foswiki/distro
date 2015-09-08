@@ -79,7 +79,7 @@ msgstr "%1 tilføjet til %2 gruppen."
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr "%1 kunne ikke fjernes fra %2"
 
@@ -217,7 +217,7 @@ msgstr "&Fortryd"
 msgid "&History"
 msgstr "&Historik"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Sekventiel"
 
@@ -649,7 +649,7 @@ msgid "Access check on %1 failed"
 msgstr "Adgangs-tjek til %1 fejlede"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "Tastatur-genveje"
 
@@ -709,7 +709,7 @@ msgstr "Tilføjer en %1 indstilling til WebPreferences"
 msgid "Admin Foswiki User Authentication"
 msgstr "Foswiki Administrator-bruger login"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "Administrative emner"
 
@@ -975,12 +975,12 @@ msgstr ""
 "=ALLOWWEBVIEW= begrænsningen i WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr "CHANGE ikke tilladt af %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "CHANGE ikke tilladt for %1 af %2"
 
@@ -1014,7 +1014,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Fortryd"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Fortryd editering og annullér ændringer"
@@ -1043,7 +1043,7 @@ msgstr "Kan ikke omdøbe %1 til %2, da siden allerede eksisterer."
 msgid "Case sensitive"
 msgstr "Case-sensitiv søgning (forskel på STORE og små bogstaver)"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Kategorier"
 
@@ -1122,7 +1122,6 @@ msgid "Changed by:"
 msgstr "Ændret af:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Ændret den"
 
@@ -1213,7 +1212,6 @@ msgstr "Kolonner"
 msgid "Come on in"
 msgstr "Velkommen ind"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1235,7 +1233,7 @@ msgstr "Ikke muligt at kommentere før man er logget ind"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentarer er slået fra kørende fra kommandolinjen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Sammenlign versioner"
 
@@ -1274,7 +1272,7 @@ msgstr ""
 "Kontakt <a href=\\'mailto:%1\\'>sidens administrator</a> for yderligere "
 "hjælp."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontekst"
 
@@ -1441,12 +1439,12 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kære %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Debug"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 msgid "Default"
 msgstr "Standard"
 
@@ -1774,7 +1772,7 @@ msgstr "Fejl ved at fjerne medlemmer fra grupper"
 msgid "Escape markup"
 msgstr "Undgå markup"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr "Alle"
 
@@ -1782,7 +1780,7 @@ msgstr "Alle"
 msgid "Evil person"
 msgstr "Ond person"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr "Afslut"
 
@@ -1832,7 +1830,7 @@ msgstr "Find sider der refererer til %1 ..."
 msgid "Find topics that link to %1 ..."
 msgstr "Find sider der refererer til %1 ..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "First"
 msgstr "Første"
 
@@ -1854,7 +1852,7 @@ msgstr ""
 "giver, se [[%1][the Cross-site request forgery artikel på Wikipedia]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Gennemtving ny version"
 
@@ -1978,7 +1976,7 @@ msgstr "GodStil"
 msgid "Group"
 msgstr "Gruppe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
@@ -1987,7 +1985,7 @@ msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
 msgid "Group name"
 msgstr "Gruppenavn"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr "Gruppenavne skal ende med Group"
 
@@ -2487,16 +2485,16 @@ msgstr "Sammenføj %1"
 msgid "Jump"
 msgstr "Gå til"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Gå til første version"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Gå til nyeste version (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr "Kun mig"
 
@@ -2508,12 +2506,11 @@ msgstr "Begrund tekst"
 msgid "Keyword search"
 msgstr "Nøgleordssøgning"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr "Sidste"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Sidst opdateret af"
 
@@ -2819,7 +2816,7 @@ msgstr "Nyt web-navn:"
 msgid "Newer revision:"
 msgstr "Nyere version:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Næste"
@@ -2882,8 +2879,8 @@ msgstr "Intet brugernavn angivet"
 msgid "No users to reset passwords for."
 msgstr "Ingen brugere at nulstille adgangskoder for."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr "Ingen"
 
@@ -3048,7 +3045,7 @@ msgstr "Benyt eventuelt et andet navn til vedhæftet fil (valgfrit):"
 msgid "Optionally enter a different topic name:"
 msgstr "Benyt eventuelt et andet sidenavn (valgfrit):"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Options"
 msgstr "Valgmuligheder"
 
@@ -3105,8 +3102,8 @@ msgstr "Adgangskoder stemmer ikke overens"
 msgid "Pending registration not found"
 msgstr "Eksisterende brugerregistrering ikke fundet"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 msgid "Permissions"
 msgstr "Rettigheder"
 
@@ -3294,7 +3291,7 @@ msgstr "Forhåndsvisning"
 msgid "Preview your changes"
 msgstr "Gennemse dine ændringer"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Forrige"
@@ -3361,7 +3358,7 @@ msgstr "Redirigering nægtet"
 msgid "Redo previous change"
 msgstr "Gendan forrige ændring"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3378,8 +3375,8 @@ msgstr "Registrér dig"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Registrerede e-mail-adresser for den nuværende bruger"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Registered users"
 msgstr "Registrerede brugere"
 
@@ -3437,7 +3434,7 @@ msgstr "Relaterede sider:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3514,7 +3511,7 @@ msgstr "Omdøb, flyt eller slet dette web"
 msgid "Rename/Move"
 msgstr "Omdøb/flyt"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Visningsstil"
 
@@ -3636,7 +3633,6 @@ msgid "Review recent changes in:"
 msgstr "Senest ændrede sider i:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Version"
@@ -3653,7 +3649,7 @@ msgstr "Versioner"
 msgid "S = Save, C = Cancel"
 msgstr "S = Gem (Save), C = Fortryd (Cancel)"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3831,7 +3827,7 @@ msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 msgid "Select all topics"
 msgstr "Vælg alle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Vælg en tidligere (venstre) and en senere (højre) version at sammenligne"
@@ -3855,7 +3851,7 @@ msgstr "Vælg den gruppe som skal tilmeldes:"
 msgid "Select topic parent"
 msgstr "Vælg side-forælder"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Markér (triple-klik i feltet), og copy/paste din signatur til siden"
 
@@ -3871,7 +3867,7 @@ msgstr "Selv registrering er ikke supporteret på denne Wiki."
 msgid "Send mail"
 msgstr "Send e-mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "Sekventiel"
 
@@ -3887,7 +3883,7 @@ msgstr "Vælg ny forælder"
 msgid "Set new topic parent"
 msgstr "Vælg ny side-forælder"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Vis version %1 op til version %2"
 
@@ -3901,7 +3897,7 @@ msgstr "Hjælp til vedhæftede filer"
 msgid "Show help"
 msgstr "Vis hjælp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
@@ -3909,7 +3905,7 @@ msgstr "Viser versionerne %1 - %2 (ud af %3)"
 msgid "Shrink edit box"
 msgstr "Formindsk edit boks"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -3988,8 +3984,8 @@ msgstr "Sortér valgte linjer stigende"
 msgid "Spaces are replaced by underscores"
 msgstr "Et mellemrum bliver erstattet af et understregningstegn ( _ )"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr "Specifikke brugere/grupper"
 
@@ -3999,7 +3995,7 @@ msgstr ""
 "Angiv =all= for alle webs, eller en kommasepareret liste af webs fra: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Start præsentation"
 
@@ -4783,7 +4779,6 @@ msgid "Topic data"
 msgstr "Sidedata"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Side-historik"
 
@@ -4867,7 +4862,7 @@ msgstr "Forsøg igen"
 msgid "URL"
 msgstr "URL"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Uændrede afsnit før og efter hver ændring"
 
@@ -5002,12 +4997,12 @@ msgstr ""
 "ellers kig på WebChanges siden for hvert web."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Brugeren %1 har ikke CHANGE rettigheder til %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Brugeren %1 er ikke medlem af gruppen og kan ikke fjernes"
@@ -5059,7 +5054,7 @@ msgstr "Brugere"
 #   $date,
 #   $by)
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr "Brugere kan ikke tilføjes til %1"
 
@@ -5067,15 +5062,15 @@ msgstr "Brugere kan ikke tilføjes til %1"
 #   $date,
 #   $by)
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr "Brugere kan ikke fjernes fra %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr "Brugere som må redigere:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr "Brugere som må kigge:"
 
@@ -5119,11 +5114,11 @@ msgstr "Vis forskel"
 msgid "View differences"
 msgstr "Vis forskelle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Vis tidligere"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Vis senere"
 
@@ -5157,7 +5152,7 @@ msgstr "Se skabeloner"
 msgid "View topic"
 msgstr "Vis side"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Vis komplet historik for siden"
 
@@ -5278,7 +5273,7 @@ msgstr "Hvem"
 msgid "Who is requesting this, actually?"
 msgstr "Hvem beder rent faktisk om dette?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Hele siden"
 
@@ -5614,7 +5609,7 @@ msgid ""
 "mail system."
 msgstr "Din bekræftelses-email er enten fejlet eller i kø i mail systemet."
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "Din signatur til kopier/indsæt"
 
@@ -5713,8 +5708,8 @@ msgstr "ændre, opdatér, se tidligere versioner, flyt, slet..."
 msgid "close display options"
 msgstr "luk visningsindstillinger"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
 msgstr "standard som defineret i %1"
 
@@ -5747,7 +5742,6 @@ msgid "fields are required."
 msgstr "feltet / felterne er obligatoriske."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "hjælp"
 
@@ -5805,7 +5799,7 @@ msgstr "eller"
 msgid "preview"
 msgstr "vis udkast"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "public view access"
 msgstr "adgang for offentlig visning"
 
@@ -5817,16 +5811,16 @@ msgstr "gendan"
 msgid "restore form"
 msgstr "gendan formular"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr "begræns adgang til %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr "begræns adgang til brugere som har en konto på denne side"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr "begræns skriveadgang til brugere som har en konto på denne side"
 
@@ -5844,16 +5838,16 @@ msgstr "version %1"
 msgid "set preferences"
 msgstr "sæt præferencer"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr "specificer en liste af brugere og/eller grupper"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr "nægte al adgang til denne side"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr "nægte skriveadgang til denne side"
 
@@ -5942,7 +5936,7 @@ msgstr "title='Stop abonnement af denne side' accesskey='s'>&Stop abonnement"
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='Vis komplet side historik' accesskey='h'>&Historik"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
@@ -5955,7 +5949,7 @@ msgstr "title='Vis uden formatering' accesskey='v'>&Vis wikitekst"
 msgid "user list truncated"
 msgstr "brugerliste afkortet"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Fortryd (Cancel)' accesskey='c'"
 
@@ -5963,19 +5957,19 @@ msgstr "value='Fortryd (Cancel)' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Fortryd (Discard)' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Vis udkast' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Gem stille' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Gem og fortsæt' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='Gem' accesskey='s'"
 

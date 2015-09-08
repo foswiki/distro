@@ -74,7 +74,7 @@ msgid "%1 added to the %2 group."
 msgstr "%2 ghomvaD %1 chellu&&#39;."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr "%2vo&&#39; %1 teqlaHbe&&#39; vay&&#39;"
 
@@ -206,7 +206,7 @@ msgstr "&qIl"
 msgid "&History"
 msgstr "qun"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "tlha&&#39;taH"
 
@@ -642,7 +642,7 @@ msgid "Access check on %1 failed"
 msgstr "%1 naw&&#39; lajHa&&#39;lu&&#39;"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "ghunmeH leQmey"
 
@@ -702,7 +702,7 @@ msgstr "WebPreferencesDaq %1 <nop>DuH chellI&&#39;"
 msgid "Admin Foswiki User Authentication"
 msgstr "Foswiki loHwI&&#39; lo&&#39;wI&&#39; &&#39;olwI&&#39;"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "loHwI&&#39; <nop>SeHlaw"
 
@@ -969,12 +969,12 @@ msgstr ""
 "[WebPreferencesDaq]] tuchbogh =ALLOWWEBVIEW= yIteq."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr "choHmey (CHANGE) chaw&&#39;be&&#39; %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
 
@@ -1007,7 +1007,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "qIl"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "choH &&#39;e&&#39; mev &&#39;ej choHmey woD"
@@ -1036,7 +1036,7 @@ msgstr "taHqu&&#39; mo&&#39; %1, %2vaD &&#39;oH vIpongqa&&#39;laHbe&&#39;."
 msgid "Case sensitive"
 msgstr "potlh <nop>DeghHom/Degh&&#39;a&&#39;"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Seghmey"
 
@@ -1115,7 +1115,6 @@ msgid "Changed by:"
 msgstr "choHta&&#39;:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "choHlu&&#39;"
 
@@ -1206,7 +1205,6 @@ msgstr "tutmey"
 msgid "Come on in"
 msgstr "yI&&#39;el"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1230,7 +1228,7 @@ msgstr "bI&&#39;elta&&#39;be&&#39;taHvIS vaj Qapbe&&#39; <nop>QInHommey"
 msgid "Commenting is disabled while running from the command line"
 msgstr "ra&&#39;wI&&#39; tlheghDaq Qapbe&&#39; <nop>QInHommey"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Dotlhmey &&#39;ol"
 
@@ -1269,7 +1267,7 @@ msgstr ""
 "QaH <nop>DapoQchugh vaj <a href=\\'mailto:%1\\'>Daqvam loHwI&&#39;</a> "
 "yIrI&&#39;."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "latlhpu&&#39;"
 
@@ -1439,12 +1437,12 @@ msgstr "<nop>HovpoH"
 msgid "Dear %1"
 msgstr "yIqIm, %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "<nop>QaghHa&&#39;moH"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 msgid "Default"
 msgstr "motlh"
 
@@ -1778,7 +1776,7 @@ msgstr "Qagh ghomvo&&#39; <nop>jeSwI&&#39;pu&&#39; teqmeH mIw"
 msgid "Escape markup"
 msgstr "ngoq meS"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr "Hoch"
 
@@ -1786,7 +1784,7 @@ msgstr "Hoch"
 msgid "Evil person"
 msgstr "vum"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr "bup"
 
@@ -1837,7 +1835,7 @@ msgstr "%1 puq ghItlhmey Sam ..."
 msgid "Find topics that link to %1 ..."
 msgstr "%1Daq Qeqbogh ghItlhmey Sam ..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "First"
 msgstr "wa&&#39;DIch"
 
@@ -1861,7 +1859,7 @@ msgstr ""
 "wIqIpeDIya' [[%1][Cross-site request forgery ghItlh]] yIlaD."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Dotlh chu&&#39; raD"
 
@@ -1987,7 +1985,7 @@ msgstr "ghItlhmeH pab"
 msgid "Group"
 msgstr "ghom"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1998,7 +1996,7 @@ msgstr ""
 msgid "Group name"
 msgstr "ghom pong"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr "ghom pong tlhuQDaq \"Group\" ghItlhnISlu&&#39;"
 
@@ -2490,16 +2488,16 @@ msgstr "%1 muv"
 msgid "Jump"
 msgstr "Sup"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Dotlh <nop>wa'DIchDaq Sup"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Dotlh <nop>chu'Daq Sup (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr "<nop>jIH <nop>neH"
 
@@ -2511,12 +2509,11 @@ msgstr "meyrI&&#39; rurmoH"
 msgid "Keyword search"
 msgstr "mu&&#39;na&&#39; nejwI&&#39;"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr "Qav"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "choHpu&&#39;"
 
@@ -2823,7 +2820,7 @@ msgstr "mIch pong chu&&#39;:"
 msgid "Newer revision:"
 msgstr "Dotlh chu&&#39;:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Duv"
@@ -2887,8 +2884,8 @@ msgstr "pagh lo&&#39;wI&&#39; wIvlu&&#39;"
 msgid "No users to reset passwords for."
 msgstr "chaw&&#39; ngoq choHmeH lo&&#39;wI&&#39; tu&&#39;lu&&#39;be&&#39;."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr "pagh"
 
@@ -3053,7 +3050,7 @@ msgstr "latlh tep pong <nop>DaghItlhlaH je:"
 msgid "Optionally enter a different topic name:"
 msgstr "latlh ghItlh pong <nop>DaghItlhlaH je:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Options"
 msgstr "<nop>DuHmey"
 
@@ -3110,8 +3107,8 @@ msgstr "nIbbe&&#39; chaw&&#39; ngoqmey"
 msgid "Pending registration not found"
 msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 msgid "Permissions"
 msgstr "chaw&&#39;mey"
 
@@ -3296,7 +3293,7 @@ msgstr "bej"
 msgid "Preview your changes"
 msgstr "choHmeylIj &&#39;ol"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "<nop>HeD"
@@ -3360,7 +3357,7 @@ msgstr "rarqa&&#39;wI&&#39; lajHa&&#39;lu&&#39;"
 msgid "Redo previous change"
 msgstr "nungbogh choH ta&&#39;qa&&#39;"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3379,8 +3376,8 @@ msgstr ""
 "DaH &&#39;elta&&#39;bogh lo&&#39;wI&&#39; QIn Quvmey&&#39;e&&#39; Sovlu&&#39;"
 "bogh"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Registered users"
 msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 
@@ -3437,7 +3434,7 @@ msgstr "rurbogh ghItlhmey:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3516,7 +3513,7 @@ msgstr "mIchvam ghItlh pongqa&&#39;, polHa&&#39; pagh vIHmoH"
 msgid "Rename/Move"
 msgstr "pongqa&&#39;/vIHmoH"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "&&#39;angmeH mIw"
 
@@ -3644,7 +3641,6 @@ msgid "Review recent changes in:"
 msgstr "naDev choHmey chu&&#39; legh:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Dotlh"
@@ -3661,7 +3657,7 @@ msgstr "Dotlhmey"
 msgid "S = Save, C = Cancel"
 msgstr "S = pol, C = qIl"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3837,7 +3833,7 @@ msgstr "tep chu&&#39;moHmeH De&&#39;wI&&#39;lIjDaq De&&#39; chu&&#39; yIwIv"
 msgid "Select all topics"
 msgstr "Hoch ghItlhmey wIv"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "choHmey <nop>DaleghmeH, Dotlh qan (poS) Dotlh chu&&#39; (nIH) yIwIv"
 
@@ -3857,7 +3853,7 @@ msgstr "muvmeH ghom yIwIv:"
 msgid "Select topic parent"
 msgstr "ghItlh qup wIv"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "qI&&#39;meH ponglIj yIwIv, yIwoH &&#39;ej ghItlh bIngDaq yIroQ"
 
@@ -3874,7 +3870,7 @@ msgstr "patvamDaq bImuv&&#39;eghmoHlaHbe&&#39;."
 msgid "Send mail"
 msgstr "QIn ngeH"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "bIngDaq"
 
@@ -3890,7 +3886,7 @@ msgstr "qup chu&&#39; jom"
 msgid "Set new topic parent"
 msgstr "ghItlh qup chu&&#39; wIv"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "%1 Dotlhmey &&#39;ang. %2 &&#39;oH Dotlh <nop>HochDIch&&#39;e&&#39;"
 
@@ -3903,7 +3899,7 @@ msgstr "tep <nop>QaH &&#39;ang"
 msgid "Show help"
 msgstr "<nop>QaH &&#39;ang"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
 
@@ -3911,7 +3907,7 @@ msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
 msgid "Shrink edit box"
 msgstr "choHmeH vey machmoH"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "retlhDaq"
 
@@ -3992,8 +3988,8 @@ msgstr "tlheghmey luwIvlu&&#39;bogh ghIrmoH"
 msgid "Spaces are replaced by underscores"
 msgstr "Deghmey chIm qa&&#39; bIng tlheghHommey"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr "ghommey/lo&&#39;<nop>wI&&#39; le&&#39;"
 
@@ -4004,7 +4000,7 @@ msgstr ""
 "wavbogh <nop>DoDmey tetlh yIchenmoH: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "much tagh"
 
@@ -4752,7 +4748,6 @@ msgid "Topic data"
 msgstr "ghItlh De'"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "ghItlh qun"
 
@@ -4833,7 +4828,7 @@ msgstr "nIDqa&&#39;"
 msgid "URL"
 msgstr "URL"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 "nungbogh &&#39;ej tlha&&#39;bogh &&#39;ay&&#39;mey luchoHbe&&#39;lu&&#39;bogh"
@@ -4963,12 +4958,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
@@ -5016,20 +5011,20 @@ msgid "Users"
 msgstr "lo&&#39;wI&&#39;pu&&#39;"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr "%1Daq lo&&#39;wI&&#39; chellaHbe&&#39; vay&&#39;"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr "%1vo&&#39; lo&&#39;wI&&#39; teqlaHbe&&#39; vay&&#39;"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr "choHlaHbogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr "leghlaHbogh lo&&#39;wI&&#39;pu&&#39;:"
 
@@ -5071,11 +5066,11 @@ msgstr "Doch pIm &&#39;angmeH:"
 msgid "View differences"
 msgstr "Dochmey pIm &&#39;ang"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "De&&#39; &&#39;eq &&#39;ang"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "De&&#39; paS &&#39;ang"
 
@@ -5109,7 +5104,7 @@ msgstr "ghantoHmey &&#39;ang"
 msgid "View topic"
 msgstr "ghItlh bej"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "ghItlh qun naQ &&#39;ang"
 
@@ -5231,7 +5226,7 @@ msgstr "labwI&&#39;"
 msgid "Who is requesting this, actually?"
 msgstr "tlhobtaH &&#39;Iv jay&&#39;?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "nav naQ"
 
@@ -5543,7 +5538,7 @@ msgid ""
 "mail system."
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "qI&&#39;meH ponglIj woH/roQ"
 
@@ -5636,8 +5631,8 @@ msgstr "choH, chu&&#39;moH, Dotlhmey, vIHmoH, polHa&&#39;..."
 msgid "close display options"
 msgstr "<nop>HaSta <nop>DuHmey <nop>SoQmoH"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
 msgstr "%1Daq lISlu&&#39;bogh DuHmey motlh"
 
@@ -5670,7 +5665,6 @@ msgid "fields are required."
 msgstr "De&&#39;vetlh <nop>poQlu&&#39;."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "<nop>QaH"
 
@@ -5728,7 +5722,7 @@ msgstr "pagh"
 msgid "preview"
 msgstr "ghItlh &&#39;ol"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "public view access"
 msgstr "leghlaH Hoch"
 
@@ -5740,18 +5734,18 @@ msgstr "polqa&&#39;"
 msgid "restore form"
 msgstr "Form polqa&&#39;"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr "%1 naw&&#39; SoQmoH"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 "chaw&&#39; choH: laDlaH patvamDaq ta ghajbogh lo&&#39;wI&&#39;pu&&#39;&&#39;"
 "e&&#39; neH"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 "chaw&&#39; choH: ghItlhlaH patvamDaq ta ghajbogh lo&&#39;wI&&#39;pu&&#39;"
@@ -5771,16 +5765,16 @@ msgstr "Dotlh %1"
 msgid "set preferences"
 msgstr "<nop>DuHmey lIS"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr "ghom, lo&&#39;wI&&#39; tetlh ghap lIS"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr "ghItlhvam naw&&#39; lajHa&&#39;chu&&#39;"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr "ghItlhvam choHmeH chaw&&#39; lajHa&&#39;chu&&#39;"
 
@@ -5869,7 +5863,7 @@ msgstr ""
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='ghItlh qun &&#39;ang' accesskey='h'>qun"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='ghItlh &&#39;ang' accesskey='v'>ghItlh &&#39;ang (&v)"
@@ -5884,7 +5878,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr "lo&&#39;wI&&#39; tetlh poD"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='qIl' accesskey='c'"
 
@@ -5892,19 +5886,19 @@ msgstr "value='qIl' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='polbe&&#39;' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='&&#39;ol' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='tam &&#39;ej pol' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='pol &&#39;ej ruch' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='pol' accesskey='s'"
 
